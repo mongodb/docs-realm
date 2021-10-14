@@ -32,22 +32,23 @@ field-level permissions:
   apply to, which means that a user may have read or write access to only a
   subset of the entire document.
 
-What are Role-based Permissions?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What are Roles?
+~~~~~~~~~~~~~~~
 
-A **role** is a named set of permissions that a user may have in a given
-context. A user may play at most one role per document in a given request. Realm
-assigns the user a role for each document and only commits operations that a
-user has permission to do based on their role.
+A **role** is a named set of permissions that a user may have for documents in a
+MongoDB collection. Each role represents a possible relationship between a user
+and an individual document and a user may play at most one role per document in
+a request.
 
-Every role represents a possible relationship between a user and a document,
-which means a user may have different roles for some documents in the same
-request or for the same document between different requests.
+You define the roles a user can play and Realm automatically assigns them to the
+user at request time. Each role includes an Apply When :ref:`expression
+<expressions>` that determines when Realm should assign the role to a user as
+well as a set of document-level and field-level permissions that apply to the
+role.
 
-You define roles for individual collections in your linked cluster. Each role
-includes an Apply When :ref:`expression <expressions>` that determines when
-Realm should assign the role to a user as well as a set of document-level and
-field-level permissions that apply to the role.
+Realm only commits operations that a user is authorized to do based on their
+assigned roles. Realm prevents unauthorized write operations and transparently
+omits documents and fields that a role does not have permission to read.
 
 For example, consider a collection of employee data where each employee has
 their own document with all of their employment data. This collection might have
@@ -61,8 +62,8 @@ two roles: **Employee** and **Manager**.
   ``manages`` arrays, their role is **Manager**. A manager can read and write
   their direct reports' data and can create and delete their documents.
 
-- If a user is neither an **Employee** or **Manager** for a document then they
-  have no role and cannot read, write, or search that document.
+- If a user is neither an **Employee** nor a **Manager** for a given document
+  then they have no role and cannot read, write, or search that document.
 
 .. tabs::
    
@@ -102,15 +103,16 @@ two roles: **Employee** and **Manager**.
    
    .. tab:: Employee Documents
       :tabid: documents
-
+      
       .. code-block:: json
+         
          {
            "_id": ObjectId(...),
            "employeeId": "0528",
            "name": "Phylis Lapin",
            "team": "sales",
            "email": "phylis.lapin@dundermifflin.com",
-           "manages": [],
+           "manages": []
          }
          {
            "_id": ObjectId(...),
@@ -118,7 +120,7 @@ two roles: **Employee** and **Manager**.
            "name": "Stanley Hudson",
            "team": "sales",
            "email": "stanley.hudson@dundermifflin.com",
-           "manages": [],
+           "manages": []
          }
          {
            "_id": ObjectId(...),
@@ -129,22 +131,20 @@ two roles: **Employee** and **Manager**.
            "manages": [
               "phylis.lapin@dundermifflin.com",
               "stanley.hudson@dundermifflin.com"
-           ],
+           ]
          }
 
 Why Define a Role?
 ~~~~~~~~~~~~~~~~~~
 
 A role carries a specific set of permissions that you might expose to your app's
-users. Every user plays exactly one role for each document so each distinct set
-of permissions that you need requires you to define a named role that
-encapsulates those permissions.
+users. A user may play at most one role for each document so each distinct set of
+permissions that you need requires you to define a named role that encapsulates
+those permissions.
 
 The exact roles and permissions that you define will vary based on your app's
-data and requirements. To determine good roles, consider data from the
-perspective of your app's users and what it might mean to them. This is
-especially important when you add features or significantly update your data
-model.
+data and requirements. To determine good roles for a collection, consider your
+data from the perspective of your app's users and what it might mean to them.
 
 For example, in addition to ``Employee`` and ``Manager`` roles, you might add a
 ``Teammate`` role to your employees collection to represent that a user is on
@@ -168,18 +168,36 @@ Teammates can read each other's data but cannot modify it.
      }
    }
 
-How Realm Evaluates Roles
--------------------------
+How Realm Assigns Roles
+-----------------------
 
-When Realm receives a MongoDB request, it assigns the user a role for each
-document that the request matches. Realm evaluates the roles for a collection
-individually and in order until it either finds a role that applies to the
-current document or runs out of roles to evaluate.
+Realm dynamically assigns roles for every request. A user may play different
+roles between documents in the same request and their role for a given document
+may differ between requests.
+
+When Realm receives a MongoDB request, it applies :ref:`filters <filters>` to
+the request and then runs the filtered request query. Realm evaluates and
+assigns roles individually for each document that this query matches and
+returns.
+
+For example, the following request would cause Realm to evaluate a role for
+every document in the collection where the ``city`` field is set to "Chicago":
+
+.. code-block:: javascript
+   
+   db.restaurants.updateMany(
+     { "city": "Chicago" },
+     { "$set": { "city": "Chicago, IL" } }
+   );
 
 A role applies to a given document if its Apply When :ref:`expression
-<expressions>` evaluates to ``true`` for the document. If no roles apply to a
-document then Realm prevents the user from reading, writing, or searching the
-document in any way.
+<expressions>` evaluates to ``true`` when run against the document.
+
+- If one or more roles apply to a given document, Realm assigns only the first
+  matching role based on the order in which the roles are defined.
+
+- If no roles apply to a document then Realm prevents the user from reading,
+  writing, or searching the document in any way.
 
 Role Configuration
 ------------------
