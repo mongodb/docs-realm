@@ -55,6 +55,7 @@ in-CPU vector operations.
 {+client-database+} uses a :wikipedia:`zero-copy <Zero-copy>` design to
 make queries faster than an ORM, and often faster than raw SQLite.
 
+
 Realm Files
 ~~~~~~~~~~~
 
@@ -99,12 +100,25 @@ this a ref. As {+client-database+} uses memory mapping to read and
 write data, database operations translate these refs from offsets to
 memory pointers when navigating database structures.
 
+Copy-on-Write: the Secret Sauce of Data Versioning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 {+client-database+} uses a technique called **copy-on-write**, which
 copies data to a new location on disk for every write operation instead
 of overwriting older data on disk. Once the new copy of data is fully
 written, the database updates existing references to that data. Older
 data is only garbage collected when it is no longer referenced or
 actively in use by a client application.
+
+Because of copy-on-write, older copies of data remain valid, since all
+of the references in those copies still point to other valid data.
+{+client-database+} leverages this fact to offer multiple versions of
+data simultaneously to different threads in client applications. Most
+applications tie data refreshes to the repaint cycle of the looper
+thread that controls the UI, since data only needs to refresh as often
+as the UI does. Longer-running procedures on background threads,
+such as large write operations, can work with a single version of data
+for a longer period of time before committing their changes.
 
 Memory Mapping
 ~~~~~~~~~~~~~~
