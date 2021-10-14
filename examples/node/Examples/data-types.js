@@ -95,7 +95,8 @@ describe("Node.js Data Types", () => {
     // query for all Person objects
     const persons = realm.objects("Person");
 
-    // run the `.filtered()` method on all the returned persons to find the house with the address "Summerhill St."
+    // run the `.filtered()` method on all the returned persons to 
+    // find the house with the address "Summerhill St."
     const summerHillHouse = persons.filtered(
       `home['address'] = "Summerhill St."`
     )[0].home;
@@ -417,8 +418,8 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-specific-item-from-set
     realm.write(() => {
-      // remove the compass from playerOne's inventory by calling `delete()` method 
-      // of the Realm Set object within a write transaction
+      // remove the compass from playerOne's inventory by calling the 
+      // `delete()` method of the Realm Set object within a write transaction
       playerOne.inventory.delete("compass");
     });
 
@@ -427,8 +428,8 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-all-items-from-set
     realm.write(() => {
-      // clear all data from the inventory slot of playerTwo by calling `clear()` 
-      // method of the Realm Set object in a write transaction
+      // clear all data from the inventory slot of playerTwo by calling 
+      // the `clear()` method of the Realm Set object in a write transaction
       playerTwo.inventory.clear();
     });
     // :code-block-end:
