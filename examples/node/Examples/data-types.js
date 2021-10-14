@@ -406,17 +406,19 @@ describe("Node.js Data Types", () => {
     expect(playerOne.levelsCompleted.size).toBe(3);
 
     // :code-block-start: check-if-set-has-items
-    // check if the playerTwo has completed level 3 by calling the `set.has()` method
+    // check if playerTwo has completed level 3 by calling the `has()` method 
+    // on the Realm Set object
     const playerTwoHasCompletedLevelThree = playerTwo.levelsCompleted.has(3);
     console.log(
-      `Is level three completed by the playerTwo: ${playerTwoHasCompletedLevelThree}`
+      `Is level three completed by playerTwo: ${playerTwoHasCompletedLevelThree}`
     );
     // :code-block-end:
     expect(playerTwoHasCompletedLevelThree).toBe(false);
 
     // :code-block-start: remove-specific-item-from-set
     realm.write(() => {
-      // remove the compass from playerOne's inventory by calling `set.delete()` within a write transaction
+      // remove the compass from playerOne's inventory by calling `delete()` method 
+      // of the Realm Set object within a write transaction
       playerOne.inventory.delete("compass");
     });
 
@@ -425,15 +427,17 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-all-items-from-set
     realm.write(() => {
-      // clear all data from the inventory slot of the playerTwo by calling `set.clear()` in a write transaction
+      // clear all data from the inventory slot of playerTwo by calling `clear()` 
+      // method of the Realm Set object in a write transaction
       playerTwo.inventory.clear();
     });
     // :code-block-end:
 
     // :code-block-start: check-set-size
-    // check how many items the playerTwo has in his inventory through the `set.size` property
+    // check how many items playerTwo has in his inventory through the `size` 
+    // property of the Realm Set object
     const playerTwoInventorySize = playerTwo.inventory.size;
-    console.log(`The playerTwo has ${playerTwoInventorySize} inventory items`);
+    console.log(`playerTwo has ${playerTwoInventorySize} inventory items`);
     // :code-block-end:
     expect(playerTwo.inventory.size).toBe(0);
 

@@ -1,3 +1,4 @@
-// check how many items the playerTwo has in his inventory through the `set.size` property
+// check how many items playerTwo has in his inventory through the `size` 
+// property of the Realm Set object
 const playerTwoInventorySize = playerTwo.inventory.size;
-console.log(`The playerTwo has ${playerTwoInventorySize} inventory items`);
+console.log(`playerTwo has ${playerTwoInventorySize} inventory items`);
