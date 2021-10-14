@@ -1,9 +1,9 @@
 {+client-database+} is a reactive, object-oriented, cross-platform,
 mobile database. It is an alternative to SQLite and Core Data.
 
-- **Reactive**: you can both query the current state of data
-  and subscribe to state changes like the result of a query (or even a
-  single object).
+- **Reactive**: query the current state of data
+  and subscribe to state changes like the result of a query, or even
+  changes to a single object.
 
 - **Object-oriented**: stores data as objects, rather than rows,
   documents, or columns.
@@ -16,21 +16,22 @@ mobile database. It is an alternative to SQLite and Core Data.
 
 This page explains some of the implementation details and inner workings
 of {+client-database+} and {+sync+}. It is intended for developers
-interested in learning more about their database of choice, and as a
-point of comparison against competing databases.
+interested in learning more about {+client-database+}, and as a
+point of comparison with competing databases.
 
 Database Internals
 ------------------
 
-{+client-database+} is a database, not a wrapper around an underlying
-database engine.
+{+client-database+} uses a completely unique database engine,
+file format, and design. This section describes some of the high-level
+details of those choices.
 
 Native Database Engine
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Instead of building on top of an underlying database
-engine like SQLite, {+client-database+} is written from
-scratch in C++. {+client-database+}'s underlying storage layer uses
+{+client-database+} is an entire database written from
+scratch in C++, instead of building on top of an underlying database
+engine like SQLite. {+client-database+}'s underlying storage layer uses
 :wikipedia:`B+ trees <B%2B_tree>` to organize objects. As a result,
 {+client-database+} controls optimizations from the storage level all
 the way up to the access level.
@@ -38,17 +39,69 @@ the way up to the access level.
 {+client-database+} stores data in **{+realm+}s**: collections of
 heterogeneous {+realm+} objects. You can think of each {+realm+} as a
 database. Each object in that {+realm+} is equivalent to a row
-in a SQL database table. Unlike SQL, {+realm+}s do not separate different
-object types into individual tables.
+in a SQL database table or a MongoDB document. Unlike SQL, {+realm+}s do
+not separate different object types into individual tables.
 
-Column-based storage saves objects as groups of field values. This means
-that queries or writes for individual objects can be slower than
-row-based storage equivalents when unindexed, but fetching multiple
-objects can be much faster due to spatial locality and in-CPU vector
-operations.
+{+client-database+} stores objects as groups of property values. We call
+this column-based storage. This means that queries or writes for
+individual objects can be slower than row-based storage equivalents when
+unindexed, but querying a single field across multiple objects or
+fetching multiple objects can be much faster due to spatial locality and
+in-CPU vector operations.
 
 {+client-database+} uses a :wikipedia:`zero-copy <Zero-copy>` design to
 make queries faster than an ORM, and often faster than raw SQLite.
+
+Realm Files
+~~~~~~~~~~~
+
+{+client-database+} persists data in files saved on device
+storage. The database only uses two kinds of file:
+
+- **realm files**, suffixed with "realm", e.g. ``default.realm``.
+- **lock files**, suffixed with "lock", e.g. ``default.realm.lock``.
+
+Lock files keep track of which versions of data in a {+realm+} are
+actively in use. This prevents {+realm+} from reclaiming storage space
+that is still in use in a client application. Realm files contain object
+data with the following data structures: Groups, Tables, Cluster Trees,
+and Clusters. {+client-database+} organizes these data structures into a
+tree structure with the following form:
+
+- The top level, known as a Group, stores object metadata, a transaction
+  log, and a collection of Tables.
+
+- Each class in the {+realm+} schema corresponds to a Table within the
+  top-level Group.
+
+- Each Table contains a Cluster Tree, a B+ tree.
+
+- Leaves on the Cluster Tree are called Clusters. Each contains a range
+  of objects.
+
+- Clusters store objects as collections of columns.
+
+- Each column contains data for a single property for multiple instances
+  of a given object. Columns are arrays of data with uniformly sized
+  values.
+
+- Columns store data in one of the following sizes: 1, 2, 4, 8, 16, 32,
+  or 64 bits. Each column uses one value size, determined by the largest
+  value.
+
+Since pointers refer to memory addresses, objects written to persistent
+files cannot store references as pointers. Instead, {+realm+} files
+refer to data using the offset from the beginning of the file. We call
+this a ref. As {+client-database+} uses memory mapping to read and
+write data, database operations translate these refs from offsets to
+memory pointers when navigating database structures.
+
+{+client-database+} uses a technique called **copy-on-write**, which
+copies data to a new location on disk for every write operation instead
+of overwriting older data on disk. Once the new copy of data is fully
+written, the database updates existing references to that data. Older
+data is only garbage collected when it is no longer referenced or
+actively in use by a client application.
 
 Memory Mapping
 ~~~~~~~~~~~~~~
@@ -63,41 +116,6 @@ is memory-mapped as read-only to prevent accidental writes.
 operating system to implement memory mapping and persistence better than
 a single library could on its own.
 
-Realm Files
-~~~~~~~~~~~
-
-{+client-database+} persists data in {+realm+} files saved on device
-storage. These files organize data as a tree structure:
-
-- The top level, known as a Group, stores object metadata, a transaction
-  log, and a collection of Tables.
-
-- Each class in the {+realm+} schema corresponds to a Table.
-
-- Tables contain a Cluster Tree, a B+ tree.
-
-- Leaves on the Cluster Tree are called Clusters. Each contains a range
-  of objects.
-
-- Objects are stored in columns. Each column contains data for a single
-  property for multiple instances of a given object. Columns are
-  arrays of data, with values of size 1, 2, 4, 8, 16, 32, or 64 bits.
-  Each column uses one value size, determined by the largest value.
-
-Since pointers refer to memory addresses, objects written to persistent
-files cannot store references as pointers. Instead, {+realm+} files
-refer to data using the offset from the beginning of the file. We call
-this a ref. Since {+client-database+} uses memory mapping to read and
-write data, database operations translate these refs from offsets to
-memory pointers when navigating database structures.
-
-{+client-database+} uses a technique called **copy-on-write**, which
-copies data to a new location on disk for every write operation instead
-of overwriting older data on disk. Once the new copy of data is fully
-written, the database updates existing references to that data. Older
-data is only garbage collected when it is no longer referenced or
-actively in use by a client application through an SDK.
-
 Compaction
 ~~~~~~~~~~
 
@@ -109,9 +127,9 @@ space and decrease file size if possible.
 
 You should compact your {+realm+}s occasionally to keep them at an
 optimal size. You can do this manually, or by configuring your
-{+realm+}s to compact on launch. However, {+client-database+} will
-reclaim unused space for future writes, so compaction is just an
-optimization.
+{+realm+}s to compact on launch. However, {+client-database+}
+reclaims unused space for future writes, so compaction is only an
+optimization to conserve space on-device.
 
 ACID Compliance
 ~~~~~~~~~~~~~~~
@@ -119,10 +137,11 @@ ACID Compliance
 {+client-database+} guarantees that transactions are :wikipedia:`ACID
 <ACID>` compliant. This means that all committed write
 operations are guaranteed to be valid and that clients don't
-see transient states in the event of a system crash.
+see transient states in the event of a system crash. {+client-database+}
+complies with ACID with the following design choices:
 
-- :wikipedia:`Atomicity <Atomicity_(database_systems)>`: by grouping
-  operations in transactions and rolling back all operations in a
+- :wikipedia:`Atomicity <Atomicity_(database_systems)>`: groups
+  operations in transactions and rolls back all operations in a
   transaction if any of them fail.
 
 - :wikipedia:`Consistency <Consistency_(database_systems)>`: avoids
@@ -160,7 +179,7 @@ Indexes
 
 Indexes are implemented as trees containing values of a given property
 instead of a unique internal object key. This means that indexes only
-support one column at a time.
+support one column, and thus only one property, at a time.
 
 Schemas
 ~~~~~~~
@@ -180,7 +199,9 @@ Persistent or In-Memory Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use {+client-database+} to store data persistently on disk, or
-ephemerally in memory.
+ephemerally in memory. This can be useful in situations where you don't
+need to persist data between application instances, such as when a user
+works in a temporary workspace.
 
 Realm Sync
 ----------
