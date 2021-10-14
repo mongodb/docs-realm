@@ -1,8 +1,8 @@
 .. _create-a-realm-app:
 
-=============================
-Create a Realm App (Realm UI)
-=============================
+================================
+Create a Realm App with Realm UI
+================================
 
 .. default-domain:: mongodb
 
@@ -21,7 +21,7 @@ backend instance for your mobile or web application.
 
 Prerequisites
 -------------
-Before you begin, you must be a ``Project Owner`` in a 
+Before you begin, you must be logged in as a ``Project Owner`` in a 
 `{+atlas+} <https://cloud.mongodb.com/user/register?tck=docs_realm>`_ account.
 You can learn more about creating an |atlas| account in the
 :atlas:`Atlas Getting Started </getting-started>`
@@ -29,97 +29,5 @@ documentation.
 
 Procedure
 ---------
-A. Log on to Atlas
-~~~~~~~~~~~~~~~~~~
 
-To use {+service+}, you must be logged into `{+atlas-short+}
-<https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_.
-
-B. Create an Atlas Cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To create an Atlas cluster to use with your {+app+}, following these steps:
-
-1. In the {+leftnav+}, click :guilabel:`Clusters`, and then
-   click the :guilabel:`Build New Cluster` button. The :guilabel:`Create
-   New Cluster` page opens.
-
-2. Choose your preferred provider and region, tier, and additional
-   settings. As you build your cluster, {+atlas-short+} displays the
-   associated costs at the bottom of the page.
-
-   Be sure to select MongoDB version 4.4 for your cluster if you wish to
-   use :term:`sync`!
-
-   .. note::
-
-      {+atlas-short+} provides a Free Tier M0 replica set as well as paid M10+
-      clusters. Free Tier deployments have restrictions as compared to
-      paid M10+ deployments but will work for the purposes of the
-      tutorials we offer. For complete documentation on these
-      restrictions, see :atlas:`Atlas M0 (Free Tier), M2, and M5 Limitations
-      </reference/free-shared-limitations/>`.
-
-3. The default cluster name is :guilabel:`Cluster0`. If you wish to
-   change the name, do so now, as cluster names cannot be changed once
-   configured.
-
-4. Click the :guilabel:`Create Cluster` button to save your changes.
-
-   .. note::
-
-      For detailed information about the options available when creating
-      an {+atlas-short+} cluster, see
-      :atlas:`Create a New Cluster </create-new-cluster/>`.
-
-   .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
-
-C. Add a Realm App
-~~~~~~~~~~~~~~~~~~~
-
-1. In {+atlas-short+}, select the :guilabel:`Realm` tab.
-
-#. If you are creating your first {+app+} in this {+atlas-short+}
-   project, you will be shown all the :ref:`template apps <template-apps>`
-   available for you to start with, and an option to start without a template 
-   (:guilabel:`Build your own App`). 
-   
-   .. figure:: /images/template-apps.png
-      :alt: Modal showing all available template apps to start building from.
-      :figwidth: 600px
-      :width: 600px
-
-   If you have already created at least one {+app+}
-   in this {+atlas-short+} project, you can choose to use a template for your
-   new app or start without one.
-   
-   1. Click the :guilabel:`Create App from Template` button in the top right of the screen
-      to see a dropdown menu with all the template apps and pick one that suits your needs. 
-
-   2. Click the :guilabel:`Create a New App` button in the top right of the screen 
-      to start without a template.
-     
-      .. figure:: /images/template-apps-dropdown.png
-         :alt: Dropdown menu showing all available template apps to start building from.
-         :figwidth: 600px
-         :width: 600px
-
-#. You will be shown a dialog where you can configure your {+app+}, including the: 
-   
-   - :guilabel:`Application Name`. 
-     
-     .. include:: /includes/note-app-name-limitations.rst
-   
-   - Linked {+atlas-short+} cluster. {+service+} will automatically create a
-     :ref:`MongoDB service <mongodb-service>` linked to this cluster with
-     the name "mongodb-atlas".
-   
-   - :ref:`Deployment model <realm-deployment-models>`. 
-   
-   - :ref:`Deployment region <realm-regions>`. 
-
-#. Click :guilabel:`Create Realm Application`.
-
-Upon creation of your {+app+}, you will be redirected to the
-{+service+} console. Your {+app+} is created with a
-MongoDB service named :guilabel:`mongodb-atlas`.
+.. include::/includes/steps/ui-create.rst

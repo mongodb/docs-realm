@@ -43,11 +43,11 @@ content: |
         If you want to create an app from a :ref:`template <template-apps>`, you must also 
         include the following in the request body:
             
-        - The ``template_id`` field with one of the following values: web.graphql.todo, 
-          web.mql.todo, triggers, ios.swift.todo, android.kotlin.todo, react-native.todo, 
-          xamarin.todo.
-        - Either a ``data_source`` field with information about an existing Atlas cluster or 
-          ``"create_cluster" : true`` if you do not have one set up already.
+        - The ``template_id`` field with one of the following values:
+          
+          .. include:: /includes/template-app-ids.rst
+        
+        - The ``data_source`` field with information about an existing Atlas cluster.
         
         .. code-block:: shell
 

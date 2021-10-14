@@ -18,33 +18,30 @@ Overview
 You can get up and running with a {+app+} using one of our premade template apps. 
 Template Realm apps bring together many of the building blocks available in {+service+}
 and start you off with a prebuilt {+app+} that you can customize. You can create a 
-template app in the :ref:`{+ui+} <create-a-realm-app>` or :ref:`{+cli+} <create-app-cli>`
-or :ref:`Admin API <create-app-api>`. 
+template app in the :ref:`{+ui+} <create-a-realm-app>`, with :ref:`{+cli+} <create-app-cli>`,
+or the :ref:`Admin API <create-app-api>`. 
+
+
+Create a Template App
+---------------------
 
 .. tabs::
    
    .. tab:: Realm UI
       :tabid: ui
       
-      If you already have a {+app+} in your project, click the 
-      :guilabel:`Create App from Template` button in the top right of the screen
-      to see a dropdown menu with all the template apps and pick one that suits your needs. 
-
-      If you do not have a {+app+} in your project yet, opening the :guilabel:`Realm` tab
-      will bring up a screen with all of the template app options for you to choose from.
-
-      .. seealso::
-         
-         :ref:`Create a Realm App with Realm UI <create-a-realm-app>` 
+      Follow the procedure described in the 
+      :ref:`Create a Realm App with Realm UI <create-a-realm-app>` guide, making sure to choose
+      the :guilabel:`Create App from Template` tab in the :guilabel:`Create a new Realm App` step. 
 
    .. tab:: {+cli-bin+}
       :tabid: cli
 
       Follow the procedure described in the 
       :ref:`Create a Realm App with Realm CLI <create-app-cli>` guide and include
-      the ``template`` flag followed by one of the allowed values: web.graphql.todo, 
-      web.mql.todo, triggers, ios.swift.todo, android.kotlin.todo, react-native.todo, 
-      xamarin.todo.
+      the ``template`` flag followed by one of the allowed values: 
+
+      .. include:: /includes/template-app-ids.rst
       
       .. code-block:: shell
          
@@ -72,17 +69,28 @@ or :ref:`Admin API <create-app-api>`.
             }
          }
          
+Explore a Template App
+----------------------
+
 When you create a template app, you get certain functionality included, the 
 specifics differ depending on the specific app you choose. a list of what is included can 
 be seen in the :guilabel:`Welcome to Your Application` section that shows up when you 
-navigate to your template app. You can:
+navigate to your template app in the {+ui+}. You can:
 
 1. Learn more about what your chosen template app includes.
 
 2. Follow on screen guides for customizing your app.
 
-3. Download the code for your app to build the frontend (if one is included) and interact
-   with the {+app+} through the cli. 
+3. Use the {+cli-bin+} to download the code for your app so you can build the frontend 
+   (if one is included) and interact with the {+app+} through the cli. 
+
+   If you already have {+cli-bin+} set up, you can use the {+cli-bin+} 
+   :ref:`pull command <realm-cli-pull>` to download the code. Otherwise, click the 
+   :guilabel:`CLI` button in the welcome section and follow the instructions that pop up.
+
+   .. code-block:: shell
+      
+      realm-cli pull --remote <App ID> --template <Template ID>
 
    .. note::
       All the template apps except Database Triggers come with a frontend that uses
