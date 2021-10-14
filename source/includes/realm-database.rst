@@ -101,7 +101,7 @@ form:
 - Each Table contains a Cluster Tree, an implementation of a B+ tree.
 
 - Leaves on the Cluster Tree are called Clusters. Each contains a range
-  of objects.
+  of objects sorted by key value.
 
 - Clusters store objects as collections of columns.
 
