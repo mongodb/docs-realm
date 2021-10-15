@@ -79,7 +79,7 @@ Configure your ``OpenRealmBehaviorConfiguration`` with the following field value
 - ``timeOut``: <time in milliseconds>
 - ``timeOutBehavior``: 'openLocalRealm'
 
-These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded -- whichever comes first. 
+These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded, whichever comes first. 
 If the {+realm+} doesn't finish downloading before the timeout, the initial realm sync continues in the background. For example: 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
