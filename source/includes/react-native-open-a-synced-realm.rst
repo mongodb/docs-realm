@@ -4,7 +4,7 @@ object, which must include the ``sync`` property defining a
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
 
 When opening a synced {+realm+}, the configuration you use depends on the behavior you want
-for how the client to sync with the server. On a high level, the ways to connect 
+for syncing the client with the server. The ways to connect 
 to a synced {+realm+} are: 
 
 - :ref:`Syncing all data before returning <react-native-sync-all-data-before-returning>`

@@ -34,8 +34,9 @@ Open a Synced Realm
    don't include these properties, ``Realm.open()`` continues trying
    to connect to the server indefinitely without opening. 
    
-   Refer to the :ref:`Open a Synced Realm with Background Sync <react-native-open-a-synced-realm-with-background-sync>`
-   documentation for more information about connecting to your offline {+realm+}. 
+   Refer to the :ref:`Open Immediately with Background Sync <react-native-open-a-synced-realm-with-background-sync>`
+   documentation for more information about connecting to your synced {+realm+} 
+   while offline. 
 
 .. _react-native-sync-all-data-before-returning:
 
@@ -67,9 +68,9 @@ the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealm
 
 Configure your ``OpenRealmBehaviorConfiguration`` with the following field values:
 
-- ``type``: 'downloadBeforeOpen'
+- ``type``: "downloadBeforeOpen"
 - ``timeOut``: <time in milliseconds>
-- ``timeOutBehavior``: 'openLocalRealm'
+- ``timeOutBehavior``: "openLocalRealm"
 
 These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded, whichever comes first. 
 If the {+realm+} doesn't finish downloading before the timeout, the initial realm sync continues in the background. For example: 
@@ -108,7 +109,7 @@ connected.
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
-``type`` to ``"openImmediately"``. This configuration opens a local {+realm+} 
+``type: "openImmediately"``. This configuration opens a local {+realm+} 
 immediately without attempting to sync with the server. The client continues  
 attempting to connect with the server in the background.
 
