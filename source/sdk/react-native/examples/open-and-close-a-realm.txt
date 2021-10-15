@@ -39,7 +39,7 @@ object, which must include the ``sync`` property defining a
 Sync All Data Before Returning
 ``````````````````````````````
 
-The default behavior for {+realm+} is to sync all data from the server before returning. 
+By default, {+service-short+} syncs all data from the server before returning. 
 In the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
 you must include include the ``user`` and ``partitionValue``.
 
@@ -62,10 +62,13 @@ If you don't need to sync all data before before returning, configure your SyncC
 to include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
 the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.  
 
-Set the OpenRealmBehaviorConfiguration to have ``type: 'downloadBeforeOpen'``, 
-``timeOut: <time in milliseconds>`` and ``timeOutBehavior: 'openLocalRealm'``.
-These properties make ``Realm.open()`` return at the end of the ``timeOut`` period, and open a local {+realm+}. 
-Syncing between local data and the server continues in the background. For example: 
+Configure your ``OpenRealmBehaviorConfiguration`` with the following field values:
+
+- ``type``: 'downloadBeforeOpen'
+- ``timeOut``: <time in milliseconds>
+- ``timeOutBehavior``: 'openLocalRealm'
+These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded -- whichever comes first. 
+If the {+realm+} doesn't finish downloading before the timeout, the initial realm sync continues in the background. For example: 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
   :language: javascript
@@ -90,7 +93,7 @@ even if the it never connects to the server.
 
 .. warning:: 
 
-   If you are attempting to synchronize a {+realm+} while not connected to 
+   When attempting to synchronize a {+realm+} while not connected to 
    the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
    object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
    don't include these properties, ``Realm.open()`` continues trying
@@ -128,7 +131,7 @@ the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
       :language: javascript
 
-Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
+Finally, call :js-sdk:`Realm.open() <Realm.html#.open>`
 to open the local {+realm+} and attempt syncing with the server in the background. 
 
 
