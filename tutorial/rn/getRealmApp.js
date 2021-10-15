@@ -1,30 +1,17 @@
 import Realm from "realm";
 
-let app;
 
 // :code-block-start: get-realm-app
-// Returns the shared instance of the Realm app.
-export function getRealmApp() {
-  if (app === undefined) {
-    // :state-start: final
-    // :replace-start: {
-    //   "terms": { "tasktracker-qczfq": "<your Realm app ID here>" }
-    // }
-    const appId = "tasktracker-qczfq"; // Set Realm app ID here.
-    // :replace-end:
-    const appConfig = {
-      id: appId,
-      timeout: 10000,
-      app: {
-        name: "default",
-        version: "0",
-      },
-    };
-    app = new Realm.App(appConfig);
-    // :state-end: :state-uncomment-start: start
-    //// TODO: Create a Realm App instance with your Realm app ID.
-    // :state-uncomment-end:
-  }
-  return app;
-}
+// Invokes the shared instance of the Realm app.
+// :state-start: final
+// :replace-start: {
+//   "terms": { "tasktracker-qczfq": "<your Realm app ID here>" }
+// }
+const app = new Realm.App({id: "tasktracker-qczfq"}); // Set Realm app ID here.
+// :replace-end:
+// :state-end: :state-uncomment-start: start
+//// TODO: Create a Realm App instance with your Realm app ID.
+// :state-uncomment-end:
 // :code-block-end:
+export default app;
+
