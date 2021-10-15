@@ -1,5 +1,12 @@
-When opening a synced {+realm+}, the configuration you use depends on whether 
-or not the user's device is connected to the Internet. Learn how to handle different
-connection states in the :ref:`Open a Synced Realm While Online <react-native-open-a-synced-realm-while-online>` 
-and :ref:`Open a Synced Realm While Offline <react-native-open-a-synced-realm-while-offline>` 
-sections.
+To open a synced {+realm+}, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
+object, which must include the ``sync`` property defining a 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+
+When opening a synced {+realm+}, the configuration you use depends on the behavior you want
+for how the client to sync with the server. On a high level, the ways to connect 
+to a synced {+realm+} are: 
+
+- :ref:`Syncing all data before returning <react-native-sync-all-data-before-returning>`
+- :ref:`Returning after a timeout with background sync <react-native-return-after-timeout-with-background-sync>`
+- :ref:`Opening immediately with background sync <react-native-open-immediately-with-background-sync>`
