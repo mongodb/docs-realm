@@ -60,12 +60,11 @@ Return After Timeout with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you don't need to sync all data before before returning the {+realm+}, configure the
-``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of your
+``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of your
 SyncConfiguration to automatically open the realm after a timeout period elapses. You
-can use a single :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`for both
-``newRealmFileBehavior`` and ``existingRealmFileBehavior`` that contains the following
-field values:  
+can use a single :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
+for both ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+that contains the following property values:  
 
 - ``type``: "downloadBeforeOpen"
 - ``timeOut``: <time in milliseconds>
@@ -101,21 +100,22 @@ Open Immediately With Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you want to connect to the {+realm+} immediately and sync data from the server 
-in the background, you must use  a a :js-sdk:`OpenRealmBehaviorConfiguration
+in the background, you must use  a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
-fields. This configuration is useful if a user's device is not connected to the Internet or you're not certain if it's 
+properties. This configuration is useful if a user's device is not connected to the Internet or you're not certain if it's 
 connected. 
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set the
-``type`` field to a value of "openImmediately". This configuration opens a local {+realm+} 
+``type`` property to a value of "openImmediately". This configuration opens a local {+realm+} 
 immediately without attempting to sync with the server. The client continues  
 attempting to connect with the server in the background. 
+
 Then create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
-``OpenRealmBehaviorConfiguration`` object as the value for
-the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+OpenRealmBehaviorConfiguration object as the value for
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of the
 ``SyncConfiguration``. 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
