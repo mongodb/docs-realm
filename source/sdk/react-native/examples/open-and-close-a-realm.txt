@@ -35,7 +35,7 @@ Open a Synced Realm
    to connect to the server indefinitely without opening. 
    
    For more information about connecting to your synced {+realm+} 
-   while offline, see :ref:`Open Immediately with Background Sync <react-native-open-a-synced-realm-with-background-sync>`.
+   while offline, see :ref:`Open Immediately with Background Sync <react-native-open-immediately-with-background-sync>`.
 
 .. _react-native-sync-all-data-before-returning:
 
@@ -43,8 +43,6 @@ Sync All Data Before Returning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, {+service-short+} syncs all data from the server before returning. 
-In the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
-you must include include the ``user`` and ``partitionValue``.
 
 .. example:: 
 
@@ -62,7 +60,7 @@ Return After Timeout with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you don't need to sync all data before before returning the {+realm+}, configure the
-``newRealmFileBehavior`` and ``existingRealmFileBehavior``fields of your
+``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of your
 SyncConfiguration to automatically open the realm after a timeout period elapses. You
 can use a single :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`for both
@@ -112,24 +110,16 @@ Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set the
 ``type`` field to a value of "openImmediately". This configuration opens a local {+realm+} 
 immediately without attempting to sync with the server. The client continues  
-attempting to connect with the server in the background.
-
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
-      :language: javascript
-
-Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+attempting to connect with the server in the background. 
+Then create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
 ``OpenRealmBehaviorConfiguration`` object as the value for
 the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
 ``SyncConfiguration``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
       :language: javascript
-
-Finally, call :js-sdk:`Realm.open() <Realm.html#.open>`
-to open the local {+realm+} and attempt syncing with the server in the background. 
-
 
 .. _react-native-close-a-realm:
 

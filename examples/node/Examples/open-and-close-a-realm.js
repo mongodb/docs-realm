@@ -152,4 +152,47 @@ describe("Open and Close a Realm", () => {
     nock.cleanAll();
     nock.enableNetConnect();
   });
+
+  test.skip("Should open and close a realm with background sync", async () => {
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+      },
+    };
+
+    const app = new Realm.App({ id: "demo_app-cicfi" });
+
+    try {
+      await app.logIn(new Realm.Credentials.anonymous());
+    } catch (err) {
+      console.error("failed to login user", err.message);
+    }
+    // :code-block-start: open-synced-realm-with-background-sync
+    const OpenRealmBehaviorConfiguration = {
+      type: "openImmediately",
+    };
+
+    const config = {
+      schema: [Car], // predefined schema
+      sync: {
+        user: app.currentUser,
+        partitionValue: "myPartition",
+        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+      },
+    };
+    // :code-block-end:
+
+    try {
+      const realm = await Realm.open(config);
+
+      realm.close();
+      expect(realm.isClosed).toBe(true);
+    } catch (err) {
+      console.error("failed to open realm", err.message);
+    }
+  });
 });
