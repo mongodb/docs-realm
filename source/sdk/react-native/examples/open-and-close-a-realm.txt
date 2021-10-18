@@ -30,7 +30,7 @@ Open a Synced Realm
 
    When attempting to synchronize a {+realm+} while not connected to 
    the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
-   object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
+   object that contains the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties. If you 
    don't include these properties, ``Realm.open()`` continues trying
    to connect to the server indefinitely without opening. 
    
@@ -77,15 +77,13 @@ If the {+realm+} doesn't finish downloading before the timeout, the initial real
   :language: javascript
 
 This configuration is also useful if you're attempting to sync in an environment 
-where it's uncertain if the user has an Internet connection. The client attempts 
-to sync until the end of the the ``timeOut`` period, and then opens the local {+realm+},
-even if the it never connects to the server. 
+where it's uncertain if the user has an Internet connection.
 
 .. example::
   
   The following example shows opening a synced {+realm+} with a 
   ``Configuration`` object using a predefined ``Car`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-  the currently logged in user, a partition value of "MyPartition", and a 
+  the currently logged in user, a partition value of "myPartition", and a 
   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
   ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
   to work with the local {+realm+} if the device is doesn't fully sync within the ``timeOut``
