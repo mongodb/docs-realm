@@ -114,9 +114,9 @@ layer.
 
 MongoDB Realm automatically generates a :ref:`GraphQL API <intro-web-graphql>`
 and the Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>`
-that uses standard Query API to access and modify documents in
-Atlas. You can use either or both of these APIs to declaratively work with your
-application's data.
+that uses the :manual:`Query API </tutorial/query-documents>` to access and modify 
+documents in {+atlas-short+}. You can use either or both of these APIs to 
+declaratively work with your application's data.
 
 Realm secures data with server-side rules that dynamically return and withhold
 data depending on the user that issued a query. Rules consist of one or more
@@ -170,10 +170,10 @@ them behind another API layer, such as :wikipedia:`REST
 and lacks the flexibility of directly querying a database.
 
 MongoDB Realm includes a built-in MongoDB service that allows you to use the
-Query API, a powerful, idiomatic API that naturally fits the
-MongoDB document model, anywhere in your application. You can query MongoDB
-Atlas as if you were using a database driver and Realm will enforce :ref:`data
-access rules <intro-web-schema>` for all requests.
+:manual:`Query API </tutorial/query-documents>`, a powerful, idiomatic API that 
+naturally fits the MongoDB document model, anywhere in your application. You can 
+query MongoDB Atlas as if you were using a database driver and {+service-short+} 
+will enforce :ref:`data access rules <intro-web-schema>` for all requests.
 
 To learn more about the built-in MongoDB service, see :doc:`MongoDB Atlas
 </mongodb>`.
