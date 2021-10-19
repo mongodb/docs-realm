@@ -31,7 +31,7 @@
 
    * - | ``name``
        | string
-     - The name of the role. Role names are identify and distinguish between
+     - The name of the role. Role names identify and distinguish between
        roles in the same collection. Limited to 100 characters or fewer.
 
    * - | ``apply_when``
