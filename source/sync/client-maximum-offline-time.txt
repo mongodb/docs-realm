@@ -1,0 +1,30 @@
+.. _client-maximum-offline-time:
+.. _backend-compaction:
+
+===========================
+Client Maximum Offline Time
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service-short+} keeps a history of changes to underlying data, similar
+to the :manual:`MongoDB oplog <core/replica-set-oplog/>`, to synchronize
+data stored in client {+client-database+} instances. When a client does
+not check in for a long period of time, the data stored on that client
+can predate the beginning of the history of changes stored in the backend.
+When that happens, the client must complete a :ref:`client reset
+<client-resets>` to resume synchronizing data. The
+**client maximum offline time** of your {+app+} controls how many days
+of history your app maintains. As a result, any clients who have not
+synchronized data in *more than client maximum offline time days* must
+perform a client reset, and any local changes on that client will be
+lost unless manually backed up and restored after the client reset.
