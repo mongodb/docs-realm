@@ -201,21 +201,24 @@ The resolver uses the following configuration:
           exports = async function averageSaleForMonth({ month, year }) {
             const cluster = context.services.get("mongodb-atlas");
             const sales = cluster.db("corp").collection("sales");
-          
             const averageSalePayload = await sales
               .aggregate([
                 { $match: { month: month, year: year } },
                 {
                   $group: {
-                    _id: "$month",
-                    month: "$month",
-                    year: "$year",
+                    _id: { month: "$month", year: "$year" },
                     averageSale: { $avg: "$saleTotal" },
-                  },
+                  }
                 },
+                {
+                  $project: {
+                    month: "$_id.month",
+                    year: "$_id.year",
+                    averageSale: 1
+                  }
+                }
               ])
               .next();
-            
             return averageSalePayload;
           };
 
