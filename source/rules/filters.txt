@@ -51,53 +51,55 @@ Consider using filters if you want a centralized system to:
 
 - Omit sensitive data or unused fields
 
-For example, in a voting app where some users have agreed to anonymously share
-their vote, you could use the following filter to constrain all queries to an
-anonymous subset of the existing data:
-
-.. tabs::
+.. example::
    
-   .. tab:: Filter
-      :tabid: filters
-      
-      .. code-block:: json
-         
-         {
-           "name": "AnonymizeVotes",
-           "apply_when": true,
-           "query": {
-             "shareVoteAnonymous": true
-           },
-           "project": {
-             "_id": 0,
-             "age": 1,
-             "vote": 1
-           }
-         }
+   In a voting app where some users have agreed to anonymously share their vote,
+   you could use the following filter to constrain all queries to an anonymous
+   subset of the existing data:
    
-   .. tab:: Unfiltered Collection
-      :tabid: unfiltered-collection
+   .. tabs::
       
-      .. code-block:: json
+      .. tab:: Filter
+         :tabid: filters
          
-         { "_id": ObjectId(...), "name": "sarah", age: 42, "vote": "yes", "shareVoteAnonymous": true }
-         { "_id": ObjectId(...), "name": "andy", age: 22, "vote": "no", "shareVoteAnonymous": true }
-         { "_id": ObjectId(...), "name": "jennifer", age: 37, "vote": "yes", "shareVoteAnonymous": false }
-         { "_id": ObjectId(...), "name": "rick", age: 43, "vote": "no", "shareVoteAnonymous": true }
-         { "_id": ObjectId(...), "name": "tom", age: 64, "vote": "yes", "shareVoteAnonymous": false }
-         { "_id": ObjectId(...), "name": "bob", age: 67, "vote": "yes", "shareVoteAnonymous": true }
-   
-   .. tab:: Filtered Collection
-      :tabid: filtered-collection
+         .. code-block:: json
+            
+            {
+              "name": "AnonymizeVotes",
+              "apply_when": true,
+              "query": {
+                "shareVoteAnonymous": true
+              },
+              "project": {
+                "_id": 0,
+                "age": 1,
+                "vote": 1
+              }
+            }
       
-      .. code-block:: json
+      .. tab:: Unfiltered Collection
+         :tabid: unfiltered-collection
          
-         { age: 42, "vote": "yes" }
-         { age: 22, "vote": "no" }
-         { age: 37, "vote": "yes" }
-         { age: 43, "vote": "no" }
-         { age: 64, "vote": "yes" }
-         { age: 67, "vote": "yes" }
+         .. code-block:: json
+            
+            { "_id": ObjectId(...), "name": "sarah", age: 42, "vote": "yes", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "andy", age: 22, "vote": "no", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "jennifer", age: 37, "vote": "yes", "shareVoteAnonymous": false }
+            { "_id": ObjectId(...), "name": "rick", age: 43, "vote": "no", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "tom", age: 64, "vote": "yes", "shareVoteAnonymous": false }
+            { "_id": ObjectId(...), "name": "bob", age: 67, "vote": "yes", "shareVoteAnonymous": true }
+      
+      .. tab:: Filtered Collection
+         :tabid: filtered-collection
+         
+         .. code-block:: json
+            
+            { age: 42, "vote": "yes" }
+            { age: 22, "vote": "no" }
+            { age: 37, "vote": "yes" }
+            { age: 43, "vote": "no" }
+            { age: 64, "vote": "yes" }
+            { age: 67, "vote": "yes" }
 
 .. _filter-enforcement:
 
