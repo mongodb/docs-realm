@@ -18,8 +18,9 @@ Overview
 What is a Filter?
 ~~~~~~~~~~~~~~~~~
 
-A **filter** dynamically modifies an incoming MongoDB query by conditionally
-adding query parameters and projections *before* MongoDB runs the query.
+A **filter** modifies an incoming MongoDB query to return only a subset of the
+results matched by the query. Filters add additional query parameters and omit
+fields from query results *before* Realm runs the query.
 
 Every filter has three components:
 
@@ -33,7 +34,7 @@ Every filter has three components:
   syntax and merges with the existing query of any request the filter applies
   to.
 
-- An optional project document, which uses standard MongoDB projection
+- An optional projection document, which uses standard MongoDB projection
   syntax and merges with the existing projection of any request the filter
   applies to.
 

@@ -37,102 +37,107 @@ What are Roles?
 
 A **role** is a named set of permissions that a user may have for documents in a
 MongoDB collection. Each role represents a possible relationship between a user
-and an individual document and a user may play at most one role per document in
+and an individual document. A user may play at most one role per document in
 a request.
 
-You define the roles a user can play and Realm automatically assigns them to the
-user at request time. Each role includes an Apply When :ref:`expression
-<expressions>` that determines when Realm should assign the role to a user as
-well as a set of document-level and field-level permissions that apply to the
-role.
+You define the roles a user can play for the documents in a collection. Realm
+automatically assigns roles to the user at request time. Each role includes an
+Apply When :ref:`expression <expressions>` that determines when Realm should
+assign the role to a user as well as a set of document-level and field-level
+permissions that apply to the role.
 
 Realm only commits operations that a user is authorized to do based on their
-assigned roles. Realm prevents unauthorized write operations and transparently
-omits documents and fields that a role does not have permission to read.
+assigned roles. If a role does not have permission to read a document or some of
+its fields, Realm omits the document or fields from the results.
 
-For example, consider a collection of employee data where each employee has
-their own document with all of their employment data. This collection might have
-two roles: **Employee** and **Manager**.
+.. example::
 
-- If a user requests their own document, their role is **Employee**. An employee
-  can read and write their own data but can't create or delete their own
-  documents.
+   Consider a collection of employee data where each employee has their own
+   document with all of their employment data. This collection might have two
+   roles: **Employee** and **Manager**.
 
-- If a user requests a document for someone whose name is listed in the user's
-  ``manages`` arrays, their role is **Manager**. A manager can read and write
-  their direct reports' data and can create and delete their documents.
+   - If a user requests their own document, their role is **Employee**. An
+     employee can read and write their own data but can't create or delete their
+     own documents.
 
-- If a user is neither an **Employee** nor a **Manager** for a given document,
-  then they have no role and cannot read, write, or search that document.
+   - If a user requests a document for someone whose name is listed in the
+     user's ``manages`` arrays, their role is **Manager**. A manager can read
+     and write their direct reports' data and can create and delete their
+     documents.
 
-.. tabs::
+   - If a user is neither an **Employee** nor a **Manager** for a given
+     document, then they have no role and cannot read, write, or search that
+     document.
    
-   .. tab:: Roles
-      :tabid: roles
+   .. tabs::
       
-      .. code-block:: json
+      .. tab:: Roles
+         :tabid: roles
          
-         {
-           "name": "Employee",
-           "apply_when": { "email": "%%user.data.email" },
-           "insert": false,
-           "delete": false,
-           "read": true,
-           "write": true,
-           "search": true,
-           "fields": {},
-           "additional_fields": {
-             "read": true,
-             "write": true
-           }
-         }
-         {
-           "name": "Manager",
-           "apply_when": { "email": "%%user.custom_data.manages" },
-           "insert": true,
-           "delete": true,
-           "read": true,
-           "write": true,
-           "search": true,
-           "fields": {},
-           "additional_fields": {
-             "read": true,
-             "write": true
-           }
-         }
-   
-   .. tab:: Employee Documents
-      :tabid: documents
+         .. code-block:: json
+            
+            
+            {
+              "name": "Manager",
+              "apply_when": { "email": "%%user.custom_data.manages" },
+              "insert": true,
+              "delete": true,
+              "read": true,
+              "write": true,
+              "search": true,
+              "fields": {},
+              "additional_fields": {
+                "read": true,
+                "write": true
+              }
+            }
+            {
+              "name": "Employee",
+              "apply_when": { "email": "%%user.data.email" },
+              "insert": false,
+              "delete": false,
+              "read": true,
+              "write": true,
+              "search": true,
+              "fields": {},
+              "additional_fields": {
+                "read": true,
+                "write": true
+              }
+            }
       
-      .. code-block:: json
+      .. tab:: Employee Documents
+         :tabid: documents
          
-         {
-           "_id": ObjectId(...),
-           "employeeId": "0528",
-           "name": "Phylis Lapin",
-           "team": "sales",
-           "email": "phylis.lapin@dundermifflin.com",
-           "manages": []
-         }
-         {
-           "_id": ObjectId(...),
-           "employeeId": "0713",
-           "name": "Stanley Hudson",
-           "team": "sales",
-           "email": "stanley.hudson@dundermifflin.com",
-           "manages": []
-         }
-         {
-           "_id": ObjectId(...),
-           "employeeId": "0865",
-           "name": "Andy Bernard",
-           "team": "sales",
-           "email": "andy.bernard@dundermifflin.com",
-           "manages": [
-              "phylis.lapin@dundermifflin.com",
-              "stanley.hudson@dundermifflin.com"
-           ]
-         }
+         .. code-block:: json
+            
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0528",
+              "name": "Phylis Lapin",
+              "team": "sales",
+              "email": "phylis.lapin@dundermifflin.com",
+              "manages": []
+            }
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0713",
+              "name": "Stanley Hudson",
+              "team": "sales",
+              "email": "stanley.hudson@dundermifflin.com",
+              "manages": []
+            }
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0865",
+              "name": "Andy Bernard",
+              "team": "sales",
+              "email": "andy.bernard@dundermifflin.com",
+              "manages": [
+                "phylis.lapin@dundermifflin.com",
+                "stanley.hudson@dundermifflin.com"
+              ]
+            }
 
 Why Define a Role?
 ~~~~~~~~~~~~~~~~~~
@@ -146,27 +151,29 @@ The exact roles and permissions that you define will vary based on your app's
 data and requirements. To determine good roles for a collection, consider your
 data from the perspective of your app's users and what it might mean to them.
 
-For example, in addition to ``Employee`` and ``Manager`` roles, you might add a
-``Teammate`` role to your employees collection to represent that a user is on
-the same team as the document's employee to meet a new business requirement.
-Teammates can read each other's data but cannot modify it.
-
-.. code-block:: json
+.. example::
    
-   {
-     "name": "Teammate",
-     "apply_when": { "team": "%%user.data.team" },
-     "insert": false,
-     "delete": false,
-     "read": true,
-     "write": false.,
-     "search": true,
-     "fields": {},
-     "additional_fields": {
-       "read": true,
-       "write": false
-     }
-   }
+   In addition to **Employee** and **Manager** roles, you might add a **Teammate**
+   role to your employees collection to represent that a user is on the same team
+   as the document's employee to meet a new business requirement. Teammates can
+   read each other's data but cannot modify it.
+   
+   .. code-block:: json
+      
+      {
+        "name": "Teammate",
+        "apply_when": { "team": "%%user.data.team" },
+        "insert": false,
+        "delete": false,
+        "read": true,
+        "write": false.,
+        "search": true,
+        "fields": {},
+        "additional_fields": {
+          "read": true,
+          "write": false
+        }
+      }
 
 How Realm Assigns Roles
 -----------------------
@@ -180,15 +187,17 @@ the request and then runs the filtered request query. Realm evaluates and
 assigns roles individually for each document that this query matches and
 returns.
 
-For example, the following request would cause Realm to evaluate a role for
-every document in the collection where the ``city`` field is set to "Chicago":
-
-.. code-block:: javascript
+.. example::
    
-   db.restaurants.updateMany(
-     { "city": "Chicago" },
-     { "$set": { "city": "Chicago, IL" } }
-   );
+   This request would cause Realm to evaluate a role for every document in the
+   ``restaurants`` collection where the ``city`` field is set to ``"Chicago"``:
+   
+   .. code-block:: javascript
+      
+      db.restaurants.updateMany(
+        { "city": "Chicago" },
+        { "$set": { "city": "Chicago, IL" } }
+      );
 
 A role applies to a given document if its Apply When :ref:`expression
 <expressions>` evaluates to ``true`` when run against the document.
@@ -198,6 +207,39 @@ A role applies to a given document if its Apply When :ref:`expression
 
 - If no roles apply to a document, then Realm prevents the user from reading,
   writing, or searching the document in any way.
+
+.. example::
+   
+   An employee will always be on their own team, so both the **Employee** and
+   **Teammate** roles apply to them for their own document. However, they can
+   only one play one role, so we want to use **Employee** because it's more
+   specific.
+   
+   To configure this, specify **Employee** earlier than **Teammate** in the
+   collection's role definitions:
+   
+   .. tabs-realm-admin-interfaces:: 
+      
+      .. tab::
+         :tabid: ui
+         
+         .. figure:: /images/role-assignment-ordered.png
+            :alt: Role definitions that specify Manager first, Employee second, and Teammate third.
+      
+      .. tab::
+         :tabid: cli
+         
+         .. code-block:: json
+            
+            {
+              "database": "<Database Name>",
+              "collection": "<Collection Name>",
+              "roles": [
+                { "name": "Manager", ... },
+                { "name": "Employee", ... },
+                { "name": "Teammate", ... }
+              ]
+            }
 
 Role Configuration
 ------------------
