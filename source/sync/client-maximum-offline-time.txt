@@ -21,13 +21,13 @@ remain offline between synchronization sessions with the {+backend+}
 backend. Clients that exceed the client maximum offline time will
 experience a :ref:`client reset <client-resets>`.
 
-Background
-----------
+Key Concepts
+------------
 
-{+service-short+} keeps a history of changes to underlying data, similar
-to the :manual:`MongoDB oplog </core/replica-set-oplog/>`. This history
-is used to synchronize data between client {+client-database+} instances
-and the {+backend+} backend.
+{+service-short+} keeps a history of :ref:`changes to underlying data
+<changesets>`, similar to the :manual:`MongoDB oplog
+</core/replica-set-oplog/>`. This history is used to synchronize data
+between client {+client-database+} instances and the {+backend+} backend.
 
 When a client does not check in for a long period of time, the data
 stored on that client can predate the beginning of the history of
