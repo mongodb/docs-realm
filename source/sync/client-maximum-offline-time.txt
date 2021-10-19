@@ -26,24 +26,42 @@ Key Concepts
 
 {+service-short+} keeps a history of :ref:`changes to underlying data
 <changesets>`, similar to the :manual:`MongoDB oplog
-</core/replica-set-oplog/>`. This history is used to synchronize data
-between client {+client-database+} instances and the {+backend+} backend.
+</core/replica-set-oplog/>`. Client {+client-database+} instances and
+the {+backend+} backend use this history to synchronize data as changes
+occur on distributed clients.
 
-When a client does not check in for a long period of time, the data
-stored on that client can predate the beginning of the history of
-changes stored in the backend. In order to converge at the same end state
-as the backend and all other clients, the client requires the full
-history of changes beginning immediately after the client's last
-synchronization session. When the client does not have access to that
-entire history, it cannot synchronize.
+In order for synchronization to converge at the same end state
+as the backend and all other clients, a synchronization client requires
+the full history of changes beginning immediately after the client's last
+synchronization session. When a client does not check in for a long
+period of time, the history stored on that client can predate the beginning
+of the history of changes stored in the backend. When the client does
+not have access to that entire history, it cannot synchronize.
 
 As a result, the client must complete a client reset before it can
 resume synchronization. In a client reset scenario, the client deletes
 the client-local copy of a {+realm+} and downloads the current state of
 that {+realm+} from the backend. Synchronization then resumes from that
-point in time as other clients synchronize changes.
+point in time.
 
 The client maximum offline time of your {+app+} controls the number of
-days of history your app maintains. As a result, any clients who have not
-synchronized data in *more than client maximum offline time days* must
-perform a client reset.
+days of changeset history your app maintains. As a result, any clients
+who have not synchronized data in *more than client maximum offline time
+days* must perform a client reset.
+
+Set the Client Maximum Offline Time
+-----------------------------------
+
+1. Select the :guilabel:`Sync` menu in the sidebar.
+
+2. Click the :guilabel:`Client Maximum Offline Time (Optional)` dropdown
+   in the "Configuration" tab.
+
+   .. figure:: /images/client-maximum-offline-time.png
+     :width: 750px
+     :alt: The client maximum offline time configuration in a disabled state.
+
+3. Click the :guilabel:`Enable Max Offline Time` toggle.
+
+4. Enter a number greater than or equal to 1 specifying a number of
+   days for your application's client maximum offline time.
