@@ -173,10 +173,12 @@ Define a client reset handler:
   handler when you open each synced realm with an SDK.
 
 Define a client maximum offline time:
-  {+service-short+} uses a history of changes to underlying data to
-  synchronize clients. Configure a :ref:`client maximum offline time
+  The {+service-short+} backend uses a history of changes to underlying
+  data to synchronize clients. Configure a :ref:`client maximum offline time
   <client-maximum-offline-time>` to control the number of days of
-  history stored by your {+app+}.
+  history stored by your {+app+}. Clients that have not synchronized in
+  more than that number of days must perform a client reset the next
+  time they connect to the backend.
 
 Deployment model and geographic regions:
   Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>`

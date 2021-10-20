@@ -24,8 +24,8 @@ experience a :ref:`client reset <client-resets>`.
 Key Concepts
 ------------
 
-{+service-short+} keeps a history of :ref:`changes to underlying data
-<changesets>`, similar to the :manual:`MongoDB oplog
+The {+service-short+} backend keeps a history of :ref:`changes to
+underlying data <changesets>`, similar to the :manual:`MongoDB oplog
 </core/replica-set-oplog/>`. Client {+client-database+} instances and
 the {+backend+} backend use this history to synchronize data as changes
 occur on distributed clients.
@@ -47,7 +47,8 @@ point in time.
 The client maximum offline time of your {+app+} controls the number of
 days of changeset history your app maintains. As a result, any clients
 who have not synchronized data in *more than client maximum offline time
-days* must perform a client reset.
+days* must perform a client reset the next time they connect with the
+backend.
 
 Set the Client Maximum Offline Time
 -----------------------------------
