@@ -508,32 +508,29 @@ describe("Node.js Data Types", () => {
         inventory: "string<>",
       },
     };
-
+    // :code-block-start: make-array-with-insertion-order-from-set
     let levelsCompletedInOrder = [];
     async function onCharacterChange(character, changes) {
-      console.log("changes are", changes);
-      console.log("character is", character.name);
       if (
         !changes.deleted &&
-        changes.changedProperties &&
-        changes.changedProperties.includes("levelsCompleted")
+        changes.changedProperties?.includes("levelsCompleted")
       ) {
         for (let level of character["levelsCompleted"]) {
-          console.log("level is", level);
+          console.log("level is", level); // :remove:
           if (!levelsCompletedInOrder.includes(level)) {
-            console.log("hola");
             levelsCompletedInOrder.push(level);
+            console.log("levels in order", levelsCompletedInOrder); // :remove:
           }
         }
-        console.log("levels in order", levelsCompletedInOrder);
       }
     }
+
+    let playerOne, realm;
     try {
-      const realm = await Realm.open({
+      realm = await Realm.open({
         schema: [characterSchema],
       });
 
-      let playerOne;
       await realm.write(() => {
         playerOne = realm.create("Character", {
           _id: new BSON.ObjectId(),
@@ -551,19 +548,26 @@ describe("Node.js Data Types", () => {
         playerOne.levelsCompleted.add(12);
       });
       await realm.write(() => {
-        playerOne.levelsCompleted.add(1);
+        playerOne.levelsCompleted.add(2);
       });
-      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 1]);
-      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([1, 5, 12]);
+
+      console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 1]
+      console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 1]
+    } catch (err) {
+      console.error(err);
+    } finally {
+      // :remove-start:
+      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2]);
+      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 12]);
 
       // delete the object specifically created in this test to keep tests idempotent
       await realm.write(() => {
         realm.delete(playerOne);
       });
+      // :remove-end:
       // close the realm
       realm.close();
-    } catch (err) {
-      console.error(err);
     }
+    // :code-block-end:
   });
 });
