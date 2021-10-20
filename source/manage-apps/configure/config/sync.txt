@@ -40,7 +40,8 @@ Configuration
          "write": { <JSON Expression> }
        }
      },
-     "last_disabled": <Number>
+     "last_disabled": <Number>,
+     "client_max_offline_days": <Number>
    }
 
 .. list-table::
@@ -118,3 +119,9 @@ Configuration
      - The date and time that sync was last paused or disabled, represented by
        the number of seconds since the Unix epoch (January 1, 1970, 00:00:00
        UTC).
+
+   * - | ``client_max_offline_days``
+       | Number
+     - Controls how long the :ref:`backend compaction <optimize-sync-atlas-usage>`
+       process waits before aggressively pruning metadata that some clients
+       require to synchronize from an old version of a {+realm+}.
