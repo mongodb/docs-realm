@@ -1,5 +1,5 @@
-val config = RealmConfiguration(schema = setOf(Task::class))
-val realm = Realm(config)
+val config = RealmConfiguration.with(schema = setOf(Task::class))
+val realm = Realm.open(config)
 
 // fetch objects from a realm as Flowables
 CoroutineScope(Dispatchers.Main).launch {
