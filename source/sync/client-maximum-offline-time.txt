@@ -52,17 +52,49 @@ days* must perform a client reset.
 Set the Client Maximum Offline Time
 -----------------------------------
 
-1. Select the :guilabel:`Sync` menu in the sidebar.
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      1. Select the :guilabel:`Sync` menu in the sidebar.
 
-2. Click the :guilabel:`Client Maximum Offline Time (Optional)` dropdown
-   in the "Configuration" tab.
+      2. Click the :guilabel:`Client Maximum Offline Time (Optional)` dropdown
+         in the "Configuration" tab.
 
-   .. figure:: /images/client-maximum-offline-time.png
-     :width: 750px
-     :alt: The client maximum offline time configuration in a disabled state.
+         .. figure:: /images/client-maximum-offline-time.png
+           :width: 750px
+           :alt: The client maximum offline time configuration in a disabled state.
 
-3. Click the :guilabel:`Enable Max Offline Time` toggle.
+      3. Click the :guilabel:`Enable Max Offline Time` toggle.
 
-4. Enter a number greater than or equal to 1 specifying a number of
-   days for your application's client maximum offline time. The default
-   value is 30 days.
+      4. Enter a number greater than or equal to 1 specifying a number of
+         days for your application's client maximum offline time. The default
+         value is 30 days.
+   
+   .. tab::
+      :tabid: cli
+      
+      1. Pull a local copy of the latest version of your app with the
+         following:
+
+         .. code-block:: bash
+
+            realm-cli pull --remote="<Your App ID>"
+
+      2. You can configure the number of days for your application's
+         client maximum offline time with the ``client_max_offline_days``
+         property in your app's ``sync/config.json`` file:
+
+         .. code-block:: json
+            :caption: sync/config.json
+           
+            {
+               "client_max_offline_days": 42,
+            }
+
+      3. Deploy the updated app configuration with the following:
+
+         .. code-block:: bash
+
+            realm-cli push --remote="<Your App ID>"
