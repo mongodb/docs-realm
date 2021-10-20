@@ -30,54 +30,45 @@ Open a Synced Realm
 
    When attempting to synchronize a {+realm+} while not connected to 
    the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
-   object with ``newRealmFileBehavior`` and ``existingRealmFileBehavior``. If you 
+   object that contains the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties. If you 
    don't include these properties, ``Realm.open()`` continues trying
    to connect to the server indefinitely without opening. 
    
-   Refer to the :ref:`Open a Synced Realm While Offline <react-native-open-a-synced-realm-while-offline>`
-   documentation for more information about connecting to your offline {+realm+}. 
+   For more information about connecting to your synced {+realm+} 
+   while offline, see :ref:`Open Immediately with Background Sync <react-native-open-immediately-with-background-sync>`.
 
-.. _react-native-open-a-synced-realm-while-online:
-
-Open a Synced Realm While Online
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To open a synced {+realm+} while online, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
-object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+.. _react-native-sync-all-data-before-returning:
 
 Sync All Data Before Returning
-``````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, {+service-short+} syncs all data from the server before returning. 
-In the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
-you must include include the ``user`` and ``partitionValue``.
 
 .. example:: 
 
    The following example shows how to open a synced {+realm+} with with a 
    ``SyncConfiguration`` object that uses a predefined
    ``CarSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-   the currently logged in user, and a partition value of "MyPartition".
+   the currently logged in user, and a partition value of "myPartition".
 
    .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
       :language: javascript
 
-.. _react-native-open-synced-realm-config:
+.. _react-native-return-after-timeout-with-background-sync:
 
 Return After Timeout with Background Sync
-`````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you don't need to sync all data before before returning the {+realm+}, configure your SyncConfiguration
-to include ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` each with
-the same :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`.  
+If you don't need to sync all data before before returning the {+realm+}, configure the
+``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of your
+SyncConfiguration to automatically open the realm after a timeout period elapses. You
+can use a single :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
+for both ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+that contains the following property values:  
 
-Configure your ``OpenRealmBehaviorConfiguration`` with the following field values:
-
-- ``type``: 'downloadBeforeOpen'
+- ``type``: "downloadBeforeOpen"
 - ``timeOut``: <time in milliseconds>
-- ``timeOutBehavior``: 'openLocalRealm'
+- ``timeOutBehavior``: "openLocalRealm"
 
 These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded, whichever comes first. 
 If the {+realm+} doesn't finish downloading before the timeout, the initial realm sync continues in the background. For example: 
@@ -86,15 +77,13 @@ If the {+realm+} doesn't finish downloading before the timeout, the initial real
   :language: javascript
 
 This configuration is also useful if you're attempting to sync in an environment 
-where it's uncertain if the user has an Internet connection. The client attempts 
-to sync until the end of the the ``timeOut`` period, and then opens the local {+realm+},
-even if the it never connects to the server. 
+where it's uncertain if the user has an Internet connection.
 
 .. example::
   
   The following example shows opening a synced {+realm+} with a 
   ``Configuration`` object using a predefined ``Car`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-  the currently logged in user, a partition value of "MyPartition", and a 
+  the currently logged in user, a partition value of "myPartition", and a 
   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
   ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
   to work with the local {+realm+} if the device is doesn't fully sync within the ``timeOut``
@@ -103,38 +92,32 @@ even if the it never connects to the server.
   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-offline-with-car-schema.js
     :language: javascript
 
-.. _react-native-open-a-synced-realm-while-offline:
+.. _react-native-open-immediately-with-background-sync:
 
-Open a Synced Realm While Offline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open Immediately With Background Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If a user's device is not connected to the Internet or you're not certain if it's 
-connected, you must use  a a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
-properties. 
+When you want to connect to the {+realm+} immediately and sync data from the server 
+in the background, you must use  a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
+properties. This configuration is useful if a user's device is not connected to the Internet or you're not certain if it's 
+connected. 
 
 Create a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
-``type`` to ``"openImmediately"``. This configuration opens a local {+realm+} 
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set the
+``type`` property to a value of "openImmediately". This configuration opens a local {+realm+} 
 immediately without attempting to sync with the server. The client continues  
-attempting to connect with the server in the background.
+attempting to connect with the server in the background. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
-      :language: javascript
-
-Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+Then create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
 include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>` object. Set this
-``OpenRealmBehaviorConfiguration`` object as the value for
-the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+OpenRealmBehaviorConfiguration object as the value for
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of the
 ``SyncConfiguration``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
       :language: javascript
-
-Finally, call :js-sdk:`Realm.open() <Realm.html#.open>`
-to open the local {+realm+} and attempt syncing with the server in the background. 
-
 
 .. _react-native-close-a-realm:
 
