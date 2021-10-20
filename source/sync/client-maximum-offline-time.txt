@@ -35,15 +35,15 @@ In order for synchronization to converge at the same end state
 as the backend and all other clients, a synchronization client requires
 the full history of changes beginning immediately after the client's last
 synchronization session. When a client does not check in for a long
-period of time, the history stored on that client can predate the beginning
-of the history of changes stored in the backend. When the client does
-not have access to that entire history, it cannot synchronize.
+period of time, the end of history stored on that client can predate
+the beginning of the history of changes stored in the backend. When the
+client does not have access to the entire history, it cannot synchronize.
 
 As a result, the client must complete a client reset before it can
 resume synchronization. In a client reset scenario, the client deletes
 the client-local copy of a {+realm+} and downloads the current state of
 that {+realm+} from the backend. Synchronization then resumes from that
-point in time.
+moment.
 
 The client maximum offline time of your {+app+} controls the number of
 days of changeset history your app maintains. As a result, any clients
