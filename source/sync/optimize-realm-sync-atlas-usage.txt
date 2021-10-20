@@ -1,0 +1,216 @@
+.. _optimize-realm-sync-atlas-usage:
+
+===============================
+Optimize Realm Sync Atlas Usage
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+sync+} uses space in your app's synced Atlas cluster to store utility
+data for sync. This page explains how {+service+} minimizes that space
+usage, and how to optimize Atlas space usage even further to suit your
+specific application needs.
+
+History
+-------
+
+The {+service-short+} backend keeps a history of :ref:`changes to
+underlying data <changesets>`, similar to the :manual:`MongoDB oplog
+</core/replica-set-oplog/>`. Client {+client-database+} instances and
+the {+backend+} backend use this history to synchronize data as changes
+occur on distributed clients. {+service-short+} stores this history in
+your synced Atlas cluster to enable {+sync+}.
+
+.. _backend-compaction:
+
+Backend Compaction
+------------------
+
+**Backend compaction** is a maintenance process that automatically
+runs for all {+app+}s. During backend compaction, {+service-short+}
+runs through history of changes used for synchronization. Compaction
+removes changes that are superseded by later changes. Consider the
+following example history:
+
+.. code-block::
+
+   CREATE table1.object1
+   UPDATE table1.object1.x = 4
+   UPDATE table1.object1.x = 10
+   UPDATE table1.object1.x = 42
+
+The following history would also converge to the same state:
+
+.. code-block::
+
+   CREATE table1.obj1
+   UPDATE table1.obj1.x = 42
+
+Compaction removes unnecessary steps from history to reduce space
+usage in your Atlas cluster, where {+service-short+} stores the history.
+Additionally, compaction reduces the time and over-the-wire data usage
+of synchronization on client devices, since clients have to download
+fewer historical steps to converge on the same result.
+
+Some historical operations are harder to compact, though, since they
+rely on awareness of client sync states. Consider the following:
+
+.. code-block::
+
+   CREATE table2.object2
+   CREATE table1.obj1
+   DELETE table2.object2
+
+The following history would also converge on the same state:
+
+.. code-block::
+
+   CREATE table1.obj1
+
+Because ``object2`` is created, then deleted, clients don't need to know
+that ``object2`` ever existed. However, if any client synchronized the
+CREATE operation before the DELETE operation occurred, they'll still
+need the DELETE operation to converge at the same point in history. So
+instead, the compacted history looks like this:
+
+.. code-block::
+
+   CREATE table1.obj1
+   DELETE table2.object2
+
+In practice, compaction removes any instruction whose effect is
+overwritten by a future instruction. {+service-short+} is aware of
+client sync states, and can also use that awareness to optimize
+compaction. For instance, when {+service-short+} knows that no client
+has synced a CREATE operation (and any subsequent UPDATE operations)
+later overwritten by a DELETE operation, compaction can even
+remove the "trailing deletes" seen in the last example.
+
+Compaction runs regularly on all synced clusters as part of {+sync+}.
+
+.. _client-maximum-offline-time:
+
+Client Maximum Offline Time
+---------------------------
+
+The **client maximum offline time** controls how much change history
+your {+backend+} backend stores in Atlas. This indirectly controls how
+long a client can remain offline between synchronization sessions with
+the {+backend+} backend. Clients that do not synchronize with the
+backend for more than the specified number of days must perform a
+:ref:`client reset <client-resets>` the next time they connect with the
+backend.
+
+The lower the client maximum offline time, the less space {+sync+} uses
+to store that history in your synced Atlas clusters.
+
+Key Concepts
+~~~~~~~~~~~~
+
+In order for synchronization to converge at the same end state
+as the backend and all other clients, a synchronization client requires
+the full history of changes beginning immediately after the client's last
+synchronization session. When a client does not check in for a long
+period of time, the end of history stored on that client can predate
+the beginning of the history of changes stored in the backend. When the
+client does not have access to the entire history, it cannot synchronize.
+
+Consider the following example demonstrating a gap between backend
+history and client history:
+
+.. code-block::
+
+   BACKEND HISTORY:
+   2020/05/10: CREATE object111
+   2020/05/12: CREATE object112
+   2020/05/13: UPDATE object111.field1 = "cellar door"
+   2020/05/20: UPDATE object112.field1 = "octopi"
+
+   CLIENT HISTORY:
+   2020/04/20: CREATE object77
+   2020/04/29: UPDATE object77.field1 = "spaghetti"
+   2020/05/02: CREATE object78
+
+In this example, the backend has a history dating back to 2020/05/10.
+The client last synchronized on 2020/05/02. There is no information about
+the changes to data that happened between 2020/05/02 and 2020/05/10.
+There is no way for the client to use the history to converge at the
+same state as the backend and all other clients. 
+
+As a result, the client must complete a client reset before it can
+resume synchronization. In a client reset scenario, the client deletes
+the client-local copy of a {+realm+} and downloads the current state of
+that {+realm+} from the backend. Synchronization then resumes using the
+new copy of the {+realm+}.
+
+The client maximum offline time of your {+app+} controls the number of
+days of changeset history your app maintains. As a result, any clients
+who have not synchronized data in *more than client maximum offline time
+days* must perform a client reset the next time they connect with the
+backend.
+
+Applications that do not specify the client maximum offline time never
+remove changeset history, no matter how old. This means that clients can
+connect after any period of time offline -- weeks, months, or even years
+-- and synchronize changes from the backend. After a long period of time,
+there may be a large number of changes for {+realm+}s with frequent
+edits, so synchronization could take a large amount of time and data.
+
+Set the Client Maximum Offline Time
+-----------------------------------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      1. Select the :guilabel:`Sync` menu in the sidebar.
+
+      2. Click the :guilabel:`Client Maximum Offline Time (Optional)` dropdown
+         in the "Configuration" tab.
+
+         .. figure:: /images/client-maximum-offline-time.png
+           :width: 750px
+           :alt: The client maximum offline time configuration in a disabled state.
+
+      3. Click the :guilabel:`Enable Max Offline Time` toggle.
+
+      4. Enter a number greater than or equal to 1 specifying a number of
+         days for your application's client maximum offline time. The default
+         value is 30 days.
+   
+   .. tab::
+      :tabid: cli
+      
+      1. Pull a local copy of the latest version of your app with the
+         following:
+
+         .. code-block:: bash
+
+            realm-cli pull --remote="<Your App ID>"
+
+      2. You can configure the number of days for your application's
+         client maximum offline time with the ``client_max_offline_days``
+         property in your app's ``sync/config.json`` file:
+
+         .. code-block:: json
+            :caption: sync/config.json
+           
+            {
+               "client_max_offline_days": 42,
+            }
+
+      3. Deploy the updated app configuration with the following:
+
+         .. code-block:: bash
+
+            realm-cli push --remote="<Your App ID>"
