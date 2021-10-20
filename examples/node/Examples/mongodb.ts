@@ -1,7 +1,7 @@
 import Realm from "realm";
 import BSON from "bson";
 
-const ObjectId = (value: string) => new BSON.ObjectId(value);
+const ObjectId = (value: string) => new Realm.BSON.ObjectId(value);
 
 // :code-block-start: plant-document-type
 type Plant = {
@@ -17,15 +17,15 @@ type Plant = {
 // prettier-ignore
 const PLANTS = [
   // :code-block-start: plants-collection-documents
-  { _id: ObjectId("5f87976b7b800b285345a8b4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
-  { _id: ObjectId("5f87976b7b800b285345a8b8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
+  { _id: new BSON.ObjectId("5f87976b7b800b285345a8b4"), name: "venus flytrap", sunlight: "full", color: "white", type: "perennial", _partition: "Store 42" },
+  { _id: new BSON.ObjectId("5f87976b7b800b285345a8b5"), name: "sweet basil", sunlight: "partial", color: "green", type: "annual", _partition: "Store 42" },
+  { _id: new BSON.ObjectId("5f87976b7b800b285345a8b6"), name: "thai basil", sunlight: "partial", color: "green", type: "perennial", _partition: "Store 42" },
+  { _id: new BSON.ObjectId("5f87976b7b800b285345a8b7"), name: "helianthus", sunlight: "full", color: "yellow", type: "annual", _partition: "Store 42" },
+  { _id: new BSON.ObjectId("5f87976b7b800b285345a8b8"), name: "petunia", sunlight: "full", color: "purple", type: "annual", _partition: "Store 47" }
   // :code-block-end:
 ];
 
-const app = Realm.App.getApp("example-testers-kvjdy");
+let app: Realm.App;
 
 async function getPlantsCollection() {
   if (!app.currentUser) {
@@ -45,11 +45,11 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  const anon = await app.logIn(Realm.Credentials.anonymous());
+  app = new Realm.App({ id: "example-testers-kvjdy" });
+  await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
   await plants.insertMany(PLANTS);
-  await anon.logOut();
 });
 
 beforeEach(async () => {

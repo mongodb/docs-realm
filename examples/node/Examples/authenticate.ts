@@ -28,15 +28,16 @@ describe("user authentication", () => {
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
     const username = "joe.jasper" + randomInt.toString() + "@example.com";
-    await app.emailPasswordAuth.registerUser(username, "passw0rd")
+    await app.emailPasswordAuth.registerUser(username, "passw0rd");
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
       // :hide-start:
       username,
-      // :replace-with: /*
-      "joe.jasper@example.com",
-      // :hide-end: */
+      // :hide-end:
+      // :uncomment-start:
+      // "joe.jasper@example.com",
+      // :uncomment-end:
       "passw0rd"
     );
     try {
@@ -71,7 +72,6 @@ describe("user authentication", () => {
     }
     // :code-block-end:
   });
-
 
   test("custom function login", async () => {
     // :code-block-start: custom-function-login
@@ -135,9 +135,7 @@ describe("user authentication", () => {
       username: "mongolover",
     });
     try {
-      const emailPasswordUser = await app.logIn(
-        emailPasswordCredentials
-      );
+      const emailPasswordUser = await app.logIn(emailPasswordCredentials);
       const functionUser = await app.logIn(functionCredentials);
       expect(functionUser.id).toBe(app.currentUser?.id);
 

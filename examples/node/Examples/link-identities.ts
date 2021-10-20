@@ -58,7 +58,7 @@ afterAll(async () => {
     4. Deletes the temporary anonymous account
 */
 describe("Linking Identities Tests", () => {
-  test("links anon identity with email/pass identity", async () => {
+  test.skip("links anon identity with email/pass identity", async () => {
     // :code-block-start: link-identities
     async function linkAccounts(
       user: Realm.User,
@@ -77,7 +77,7 @@ describe("Linking Identities Tests", () => {
     // :code-block-end:
 
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
-    anonUser.logOut()
+    anonUser.logOut();
     const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)
