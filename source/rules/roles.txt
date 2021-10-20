@@ -52,7 +52,7 @@ its fields, Realm omits the document or fields from the results.
 
 .. example::
 
-   Consider a collection of employee data where each employee has their own
+   Consider a collection named ``employees`` where each employee has their own
    document with all of their employment data. This collection might have two
    roles: **Employee** and **Manager**.
 
@@ -153,10 +153,10 @@ data from the perspective of your app's users and what it might mean to them.
 
 .. example::
    
-   In addition to **Employee** and **Manager** roles, you might add a **Teammate**
-   role to your employees collection to represent that a user is on the same team
-   as the document's employee to meet a new business requirement. Teammates can
-   read each other's data but cannot modify it.
+   In addition to **Employee** and **Manager** roles, you might add a
+   **Teammate** role to the ``employees`` collection to represent a user on the
+   same team as the document's employee. Teammates can read each other's data
+   but cannot modify it.
    
    .. code-block:: json
       
