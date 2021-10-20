@@ -118,7 +118,7 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     // the following assertion tests both creation of a dictionary + querying a dictionary
-    expect(peopleWithHousesWithAListedPrice.length).toBe(1); // there should only be one house with a listed price
+    expect(peopleWithHousesWithAListedPrice[0].name).toBe("John Doe"); // John Doe should have a house with a listed price
     expect(redHouse.doors).toBe(3); // the red house should have 3 doors
 
     let dictionaryListenerHasBeenCalled = false;
@@ -133,8 +133,8 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: update-a-dictionary
     realm.write(() => {
-      // use the `put()` method to update a field of a dictionary
-      summerHillHouse.put({ price: 400100 });
+      // use the `set()` method to update a field of a dictionary
+      summerHillHouse.set({ price: 400100 });
       // alternatively, update a field of a dictionary through dot notation
       summerHillHouse.color = "brown";
       // update a dictionary by adding a field
@@ -161,6 +161,7 @@ describe("Node.js Data Types", () => {
     // expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
 
     // delete the objects to keep the test idempotent
+
     realm.write(() => {
       realm.delete(johnDoe);
       realm.delete(janeSmith);
