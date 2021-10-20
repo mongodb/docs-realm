@@ -1,3 +1,3 @@
 realm.writeBlocking {
-    tasks[0].delete()
+    findLatest(tasks[0])?.delete()
 }

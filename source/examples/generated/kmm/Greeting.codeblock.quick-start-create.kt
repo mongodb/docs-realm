@@ -1,5 +1,5 @@
 realm.writeBlocking {
-    this.copyToRealm(Task().apply {
+    copyToRealm(Task().apply {
         name = "Do work"
         status = "Open"
     })
