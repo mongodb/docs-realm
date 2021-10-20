@@ -16,19 +16,18 @@ Overview
 --------
 
 {+sync+} uses space in your app's synced Atlas cluster to store utility
-data for sync. This page explains how {+service+} minimizes that space
-usage, and how to optimize Atlas space usage even further to suit your
-specific application needs.
+data for sync. {+service+} minimizes that space usage via backend
+compaction. You can optimize further by specifying a client maximum
+offline time.
 
 History
 -------
 
 The {+service-short+} backend keeps a history of :ref:`changes to
 underlying data <changesets>`, similar to the :manual:`MongoDB oplog
-</core/replica-set-oplog/>`. Client {+client-database+} instances and
-the {+backend+} backend use this history to synchronize data as changes
-occur on distributed clients. {+service-short+} stores this history in
-your synced Atlas cluster to enable {+sync+}.
+</core/replica-set-oplog/>`. {+service-short+} uses this history to
+synchronize data between backend and clients. {+service-short+} stores
+this history in your synced Atlas cluster to enable {+sync+}.
 
 .. _backend-compaction:
 
@@ -52,8 +51,8 @@ The following history would also converge to the same state:
 
 .. code-block::
 
-   CREATE table1.obj1
-   UPDATE table1.obj1.x = 42
+   CREATE table1.object1
+   UPDATE table1.object1.x = 42
 
 Compaction removes unnecessary steps from history to reduce space
 usage in your Atlas cluster, where {+service-short+} stores the history.
@@ -67,7 +66,7 @@ rely on awareness of client sync states. Consider the following:
 .. code-block::
 
    CREATE table2.object2
-   CREATE table1.obj1
+   CREATE table1.object1
    DELETE table2.object2
 
 The following history would also converge on the same state:
@@ -84,16 +83,15 @@ instead, the compacted history looks like this:
 
 .. code-block::
 
-   CREATE table1.obj1
+   CREATE table1.object1
    DELETE table2.object2
 
 In practice, compaction removes any instruction whose effect is
 overwritten by a future instruction. {+service-short+} is aware of
 client sync states, and can also use that awareness to optimize
-compaction. For instance, when no client has synced a CREATE operation
-(and any subsequent UPDATE operations) that is
-later overwritten by a DELETE operation, compaction can even
-remove the "trailing deletes" seen in the last example.
+compaction. For instance, every client has synced a DELETE operation,
+compaction can even remove the "trailing deletes" seen in the last
+example.
 
 Compaction runs regularly on all synced clusters as part of {+sync+}.
 
