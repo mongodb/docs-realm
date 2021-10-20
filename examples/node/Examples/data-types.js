@@ -464,14 +464,29 @@ describe("Node.js Data Types", () => {
     expect(playerTwo.inventory.size).toBe(0);
 
     // convert set to array.
+    const additions = ["zombie", "dog", "map", "apple", "envelope"];
     realm.write(() => {
-      playerTwo.inventory.add("gatling gun");
-      playerTwo.inventory.add("ray gun");
-      playerTwo.inventory.add("space laser");
+      playerTwo.inventory.add(additions[0]);
+      playerTwo.inventory.add(additions[1]);
+      playerTwo.inventory.add(additions[2]);
+      playerTwo.inventory.add(additions[3]);
+      playerTwo.inventory.add(additions[4]);
     });
     console.log(playerTwo.inventory.values());
 
-    expect(playerTwo.inventory.size).toBe(3);
+    // size property counts number of items in set
+    expect(playerTwo.inventory.size).toBe(5);
+
+    // convert to array with Array.from()
+    const setAsArr = Array.from(playerTwo.inventory);
+    expect(Array.isArray(setAsArr)).toBe(true);
+
+    // also convert to array with [...set]
+    const setAsArrAlt = [...playerTwo.inventory];
+    expect(setAsArr).toStrictEqual(setAsArrAlt);
+
+    // conversion to array **does't** guarantee insertion order
+    expect(setAsArr).not.toStrictEqual(additions);
 
     // delete the object specifically created in this test to keep tests idempotent
     realm.write(() => {
@@ -480,5 +495,75 @@ describe("Node.js Data Types", () => {
     });
     // close the realm
     realm.close();
+  });
+
+  test("should convert set to array with insertion order", async () => {
+    const characterSchema = {
+      name: "Character",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        levelsCompleted: "int<>",
+        inventory: "string<>",
+      },
+    };
+
+    let levelsCompletedInOrder = [];
+    async function onCharacterChange(character, changes) {
+      console.log("changes are", changes);
+      console.log("character is", character.name);
+      if (
+        !changes.deleted &&
+        changes.changedProperties &&
+        changes.changedProperties.includes("levelsCompleted")
+      ) {
+        for (let level of character["levelsCompleted"]) {
+          console.log("level is", level);
+          if (!levelsCompletedInOrder.includes(level)) {
+            console.log("hola");
+            levelsCompletedInOrder.push(level);
+          }
+        }
+        console.log("levels in order", levelsCompletedInOrder);
+      }
+    }
+    try {
+      const realm = await Realm.open({
+        schema: [characterSchema],
+      });
+
+      let playerOne;
+      await realm.write(() => {
+        playerOne = realm.create("Character", {
+          _id: new BSON.ObjectId(),
+          name: "PlayerOne",
+          inventory: ["potion", "wand", "spell book"],
+          levelsCompleted: [],
+        });
+      });
+      playerOne.addListener(onCharacterChange);
+
+      await realm.write(() => {
+        playerOne.levelsCompleted.add(5);
+      });
+      await realm.write(() => {
+        playerOne.levelsCompleted.add(12);
+      });
+      await realm.write(() => {
+        playerOne.levelsCompleted.add(1);
+      });
+      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 1]);
+      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([1, 5, 12]);
+
+      // delete the object specifically created in this test to keep tests idempotent
+      await realm.write(() => {
+        realm.delete(playerOne);
+      });
+      // close the realm
+      realm.close();
+    } catch (err) {
+      console.error(err);
+    }
   });
 });
