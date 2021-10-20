@@ -1,6 +1,8 @@
 import Realm from "realm";
 import BSON from "bson";
 
+let realm;
+
 // :code-block-start: define-embedded-objects
 const AddressSchema = {
   name: "Address",
@@ -45,13 +47,19 @@ const PetOwnerSchema = {
       type: "list",
       objectType: "string", // this could also be a Realm object:
       // objectType: "Pet",
-      optional: false //null values are not allowed
+      optional: false, //null values are not allowed
     },
   },
 };
 // :code-block-end:
 
 describe("Node.js Data Types", () => {
+  afterEach(() => {
+    if (realm != null) {
+      realm.close();
+      realm = null;
+    }
+  });
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
     const PersonSchema = {
@@ -63,7 +71,7 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-end:
 
-    const realm = await Realm.open({
+    realm = await Realm.open({
       schema: [PersonSchema],
     });
 
@@ -95,7 +103,7 @@ describe("Node.js Data Types", () => {
     // query for all Person objects
     const persons = realm.objects("Person");
 
-    // run the `.filtered()` method on all the returned persons to 
+    // run the `.filtered()` method on all the returned persons to
     // find the house with the address "Summerhill St."
     const summerHillHouse = persons.filtered(
       `home['address'] = "Summerhill St."`
@@ -171,7 +179,7 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-end:
 
-    const realm = await Realm.open({
+    realm = await Realm.open({
       schema: [DogSchema],
     });
 
@@ -223,7 +231,7 @@ describe("Node.js Data Types", () => {
     realm.close();
   });
   test("should create and read and delete an embedded object", async () => {
-    const realm = await Realm.open({
+    realm = await Realm.open({
       schema: [AddressSchema, ContactSchema],
     });
 
@@ -266,7 +274,7 @@ describe("Node.js Data Types", () => {
   });
   // update and delete an embedded object
   test("should update and overwrite an embedded object", async () => {
-    const realm = await Realm.open({
+    realm = await Realm.open({
       schema: [AddressSchema, ContactSchema],
     });
     const harryAddress = {
@@ -329,7 +337,14 @@ describe("Node.js Data Types", () => {
         name: "string",
       },
     };
-    const realm = await Realm.open({
+
+    // :hide-start:
+    realm = await Realm.open({
+      // realm = await Realm.open({
+      // :hide-end:
+      // :uncomment-start:
+      // const realm = await Realm.open({
+      // :uncomment-end:
       schema: [ProfileSchema],
     });
     realm.write(() => {
@@ -371,7 +386,7 @@ describe("Node.js Data Types", () => {
       },
     };
     // :code-block-end:
-    const realm = await Realm.open({
+    realm = await Realm.open({
       schema: [characterSchema],
     });
 
@@ -407,7 +422,7 @@ describe("Node.js Data Types", () => {
     expect(playerOne.levelsCompleted.size).toBe(3);
 
     // :code-block-start: check-if-set-has-items
-    // check if playerTwo has completed level 3 by calling the `has()` method 
+    // check if playerTwo has completed level 3 by calling the `has()` method
     // on the Realm Set object
     const playerTwoHasCompletedLevelThree = playerTwo.levelsCompleted.has(3);
     console.log(
@@ -418,7 +433,7 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-specific-item-from-set
     realm.write(() => {
-      // remove the compass from playerOne's inventory by calling the 
+      // remove the compass from playerOne's inventory by calling the
       // `delete()` method of the Realm Set object within a write transaction
       playerOne.inventory.delete("compass");
     });
@@ -428,14 +443,14 @@ describe("Node.js Data Types", () => {
 
     // :code-block-start: remove-all-items-from-set
     realm.write(() => {
-      // clear all data from the inventory slot of playerTwo by calling 
+      // clear all data from the inventory slot of playerTwo by calling
       // the `clear()` method of the Realm Set object in a write transaction
       playerTwo.inventory.clear();
     });
     // :code-block-end:
 
     // :code-block-start: check-set-size
-    // check how many items playerTwo has in his inventory through the `size` 
+    // check how many items playerTwo has in his inventory through the `size`
     // property of the Realm Set object
     const playerTwoInventorySize = playerTwo.inventory.size;
     console.log(`playerTwo has ${playerTwoInventorySize} inventory items`);
