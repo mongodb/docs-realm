@@ -1,10 +1,8 @@
-.. _mongodb-permissions:
-.. _data-access-permissions:
-.. _mongodb-roles:
+.. _rule-examples:
 
-===========
-Query Roles
-===========
+=========================
+Rule Templates & Examples
+=========================
 
 .. default-domain:: mongodb
 
@@ -14,67 +12,28 @@ Query Roles
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
-A MongoDB service **role** is a group of document-level and field-level
-CRUD permissions that {+backend+} evaluates and enforces for each document
-that matches an incoming request.
-
-Roles define what the user who issued a query is allowed to do with a
-particular document, including which fields they can read and write to
-and whether or not they can insert or delete entire documents. Every
-role is associated with a specific collection in a
-:term:`linked cluster`, and any collection can include multiple roles.
-
-Role Evaluation Process
-~~~~~~~~~~~~~~~~~~~~~~~
-
-When {+backend+} receives a query request, it determines which documents in the
-collection the query applies to and evaluates a separate role for each document.
-To assign a role to a document, {+backend+} steps through each role definition
-in order and evaluates the :guilabel:`Apply When` :ref:`expression
-<expressions>` that you defined for the role. If a role's :guilabel:`Apply When`
-expression evaluates to ``true``, {+backend+} assigns the role to the current
-document and moves on to the next document. If the expression evaluates to
-``false``, {+backend+} evaluates the next role definition. If no roles apply to
-a document, {+backend+} withholds the entire document and prevents any
-modifications.
-
-.. _query-role-config:
-
-Query Role Configuration
-------------------------
-
-.. include:: /mongodb/tables/query-role-configuration.rst
-
-Role Templates
---------------
-
-This section demonstrates patterns for common use cases that
-you might encounter when you define roles for your collection.
-
 Apply When Expressions
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 {+backend+} determines if a role applies to a given document by evaluating the
-:guilabel:`Apply When` :ref:`expression <expressions>` that you define for
-each role.
+Apply When :ref:`expression <expressions>` that you define for each
+role.
 
-This section contains :guilabel:`Apply When` templates for common
-scenarios. To apply an expression to a role, find the scenario that most
-closely matches your use case and then copy and paste the provided
-template into the :guilabel:`Apply When` field of the role. You may need
-to modify placeholder values (denoted by ``<angle brackets>``) in the
-template to match your collection.
+This section contains examples of Apply When expressions for common scenarios.
+
+To apply an expression to a role, find the scenario that most closely matches
+your use case and then copy and paste the provided template into the role. You
+may need to modify placeholder values (denoted by ``<angle brackets>``) in the
+template to match your collection or otherwise adapt the template to fit your
+needs.
 
 .. note::
 
-   You can use the :guilabel:`Apply When` expressions on this page for
-   :doc:`external services </services>` as well as in MongoDB roles.
+   You can also use the Apply When expressions on this page for
+   :doc:`external services </services>` and :ref:`sync rules <sync-rules>`.
 
 The User Is the Document Owner
-++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user's unique ``id``
 value matches the value of the specified field.
@@ -86,7 +45,7 @@ value matches the value of the specified field.
    }
 
 An Array Field Contains the User's ID
-+++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user's unique ``id``
 value matches one or more values in the specified array field.
@@ -98,7 +57,7 @@ value matches one or more values in the specified array field.
    }
 
 The User Has An Email Address
-+++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user has any email
 address listed in their internal :doc:`user object </authentication>`.
@@ -110,7 +69,7 @@ address listed in their internal :doc:`user object </authentication>`.
    }
 
 The User Has A Specific Email Address
-+++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user's email address
 matches the specified email address.
@@ -122,10 +81,10 @@ matches the specified email address.
    }
 
 A Field Contains the User's Email Address
-+++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user's email address
-matches the value the specified field.
+matches the value of the specified field.
 
 .. code-block:: javascript
 
@@ -134,7 +93,7 @@ matches the value the specified field.
    }
 
 An Array Field Contains the User's Email Address
-++++++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the active user's email address
 matches one or more string values in the specified array field.
@@ -146,7 +105,7 @@ matches one or more string values in the specified array field.
    }
 
 A Field Satisfies a Complex Condition
-+++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This expression evaluates to ``true`` if the :doc:`Function
 </functions>` ``isAuthorizedUser`` returns ``true`` when passed the
@@ -171,7 +130,7 @@ active user's id value.
 .. _mongodb-crud-permissions:
 
 CRUD Permissions
-~~~~~~~~~~~~~~~~
+----------------
 
 {+service+} uses a role's permissions configuration to determine if the
 active user can insert or delete a document as well as which fields in
@@ -187,7 +146,7 @@ any placeholder values (denoted by ``<angle brackets>``) in the template
 to match your needs.
 
 The Role Can Read All Fields but Cannot Write
-+++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow a role to read any field, set the document-level ``read`` field
 to ``true``.
@@ -210,7 +169,7 @@ to ``true``.
           }
 
 The Role Can Read & Write All Fields
-++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow a role to read or write any field, set the document-level
 ``write`` field to ``true``. Document-level writes require read
@@ -234,7 +193,7 @@ permission, so the role will be able to read all fields.
           }
 
 The Role Can Read All Fields & Write to Specific Fields
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow a role to read all fields, set the document-level ``read``
 field to ``true``. To specify a field that the role can write to, set
@@ -263,7 +222,7 @@ which is embedded in the ``fields`` document.
           }
 
 The Role Can Read & Write All Fields but Cannot Insert New Documents
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow a role to read or write any field, set the document-level
 ``write`` field to ``true``. Document-level writes require read
@@ -294,7 +253,7 @@ To prevent the role from inserting new documents, set the document-level
           }
 
 The Role Cannot Write to Specific Fields
-++++++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow a role to write to any field except for those you specify, set
 the corresponding field-level ``write`` fields to ``false`` in the
