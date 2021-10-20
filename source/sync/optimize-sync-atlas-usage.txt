@@ -90,8 +90,8 @@ instead, the compacted history looks like this:
 In practice, compaction removes any instruction whose effect is
 overwritten by a future instruction. {+service-short+} is aware of
 client sync states, and can also use that awareness to optimize
-compaction. For instance, when {+service-short+} knows that no client
-has synced a CREATE operation (and any subsequent UPDATE operations)
+compaction. For instance, when no client has synced a CREATE operation
+(and any subsequent UPDATE operations) that is
 later overwritten by a DELETE operation, compaction can even
 remove the "trailing deletes" seen in the last example.
 
