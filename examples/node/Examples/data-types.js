@@ -348,6 +348,7 @@ describe("Node.js Data Types", () => {
       // :uncomment-end:
       schema: [ProfileSchema],
     });
+
     realm.write(() => {
       realm.create("Profile", {
         name: "John Doe.",
@@ -364,12 +365,16 @@ describe("Node.js Data Types", () => {
       .objects("Profile")
       .filtered("name = 'John Doe.'")[0];
 
+    const timDoeProfile = realm
+      .objects("Profile")
+      .filtered("name = 'Tim Doe.'")[0];
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
 
     // delete the objects to keep the tests idempotent
     realm.write(() => {
       realm.delete(johnDoeProfile);
+      realm.delete(timDoeProfile);
     });
     // close the realm
     realm.close();
