@@ -17,8 +17,8 @@ Rule Expressions
 Overview
 --------
 
-Rule expressions are JSON documents that you use to configure data access in
-your application. For example, you can write a rule expression to control
+A **rule expression** is a JSON document that you use to configure data access
+in your application. For example, you can write a rule expression to control
 whether a user can read or write to a given document or synced partition.
 
 {+service-short+} evaluates expressions to boolean values and uses the result to
@@ -303,7 +303,7 @@ user that initiated a request or action.
 
 .. example::
 
-   The following is a MongoDB role's :guilabel:`Apply When` expression
+   The following is a MongoDB role's Apply When expression
    that evaluates to ``true`` only if a document's ``owner_id`` and
    ``owner_name`` values match the values of ``%%user.id`` and
    ``%%user.data.name``:

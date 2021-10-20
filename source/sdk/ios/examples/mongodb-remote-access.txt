@@ -133,7 +133,7 @@ Read Documents
 --------------
 
 These code snippets demonstrate how to read data stored in a MongoDB collection
-from a mobile application. Read operations use :manual:`query filters
+from a mobile application. Read operations use a standard :manual:`query syntax
 </core/document/#document-query-filter>` to specify which documents to return 
 from the database. Read operations return a result that that resolves to
 either a single matched document (in the case of ``findOneDocument()``), a 
@@ -204,7 +204,7 @@ Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can count documents in a collection using :swift-sdk:`collection.count() <Extensions/MongoCollection.html#/s:So18RLMMongoCollectionC10RealmSwiftE5count6filter7Combine6FutureCySis5Error_pGSDySSAC7AnyBSONOSgG_tF>`.
-You can specify an optional query filter and limit to determine which
+You can specify an optional query and limit to determine which
 documents to count. If you don't specify a query, the action counts all 
 documents in the collection.
 
@@ -228,7 +228,7 @@ Update Documents
 ----------------
 
 These code snippets demonstrate how to update data stored in a MongoDB 
-collection from a mobile application. Update operations use query filters to 
+collection from a mobile application. Update operations use queries to 
 specify which documents to update, and :manual:`update operators
 </reference/operator/update>` to desribe how to mutate documents that match 
 the query. Update operations return a result that resolves to an 
@@ -292,14 +292,14 @@ that matches the update query by setting the ``upsert`` option to
 
 The following snippet updates a document in a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>`. If no document matches the query filter, it 
+<ios-mongodb-example-dataset>`. If no document matches the query, it 
 inserts a new document if no document. This operation queries for documents 
 where the ``name`` field has a value of "Bean of the Day", and 
 the ``partition`` field has a value of "Store 55". 
 
 Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
-both the query filter and specified updates:
+both the query and specified updates:
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.upsert.swift
    :language: swift
@@ -317,7 +317,7 @@ Delete Documents
 
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
-Delete operations use a query filter to specify which documents to delete
+Delete operations use a query to specify which documents to delete
 and return results that resolve to an ``Int`` count of deleted documents 
 or ``Error``.
 
@@ -352,7 +352,7 @@ You can delete multiple items from a collection using :swift-sdk:`collection.del
 
 This snippet deletes all documents in a :ref:`collection of documents 
 that describe coffee drinks for sale in a group of stores 
-<ios-mongodb-example-dataset>` that match the query filter for documents
+<ios-mongodb-example-dataset>` that match the query for documents
 whose ``name`` field contains the value "Caramel Latte":
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.delete-many.swift
@@ -390,7 +390,7 @@ Filter Documents
 
 You can use the :manual:`$match
 </reference/operator/aggregation/match/>` stage to filter
-documents according to a standard :manual:`query filter
+documents using standard MongoDB :manual:`query syntax
 </tutorial/query-documents>`:
 
 This ``$match`` stage filters documents to include only those where the 

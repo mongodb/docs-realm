@@ -241,7 +241,7 @@ Count Documents in the Collection
 
 You can count documents in a collection using
 :js-sdk:`collection.count() <Realm.MongoDBCollection.html#count>`.
-You can specify an optional query filter to
+You can specify an optional query to
 determine which documents to count. If you don't specify a query, the
 action counts all documents in the collection.
 
@@ -286,7 +286,7 @@ Update Documents
 ----------------
 
 These code snippets demonstrate how to update data stored in a MongoDB
-collection from a mobile application. Update operations use query filters to
+collection from a mobile application. Update operations use queries to
 specify which documents to update and :manual:`update operators
 </reference/operator/update>` to describe how to mutate documents that match the
 query. Update operations return a :mdn:`Promise
@@ -396,7 +396,7 @@ that matches the update query by setting the ``upsert`` option to
 The following snippet updates a document in a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>` or inserts a
-new document if no document matches the query filter. This operation
+new document if no document matches the query. This operation
 queries for documents where:
 
 - the ``sunlight`` field has a value of "full"
@@ -406,7 +406,7 @@ queries for documents where:
 
 Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
-both the query filter and specified updates:
+both the query and specified updates:
 
 .. tabs-realm-languages::
    
@@ -446,7 +446,7 @@ Delete Documents
 
 These code snippets demonstrate how to delete documents that
 are stored in a MongoDB collection from a mobile application.
-Delete operations use a query filter to specify which documents to delete
+Delete operations use a query to specify which documents to delete
 and return a :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`
 that resolves to an object that contains the results of the execution
 of the operation.
@@ -584,8 +584,8 @@ Watch for Changes in a Collection with a Filter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To watch for specific changes in a collection, call :js-sdk:`collection.watch()
-<Realm.MongoDBCollection.html#watch>` with a query filter that specifies
-specific change event values to watch:
+<Realm.MongoDBCollection.html#watch>` with a query that specifies change event
+values to watch:
 
 .. tabs-realm-languages::
    
