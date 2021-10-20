@@ -4,6 +4,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.delete
+import io.realm.objects
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +22,8 @@ class Greeting {
     }
 
     fun getDogs(): String {
-        val configuration = RealmConfiguration(schema = setOf(Person::class, Dog::class))
-        val realm = Realm(configuration)
+        val configuration = RealmConfiguration.with(schema = setOf(Person::class, Dog::class))
+        val realm = Realm.open(configuration)
 
         // plain old kotlin object
         val person = Person().apply {
@@ -32,7 +33,7 @@ class Greeting {
 
         // persist it in a transaction
         realm.writeBlocking {
-            val managedPerson = this.copyToRealm(person)
+            val managedPerson = copyToRealm(person)
         }
 
         // All Persons
@@ -50,13 +51,13 @@ class Greeting {
             ?.also { personWithoutDog ->
                 // Add a dog in a transaction
                 realm.writeBlocking {
-                    personWithoutDog.dog = Dog().apply { name = "Laika"; age = 3 }
+                    findLatest(personWithoutDog)?.dog = Dog().apply { name = "Laika"; age = 3 }
                 }
             }
 
         // delete all Dogs
         realm.writeBlocking {
-            realm.objects<Dog>().delete()
+            objects<Dog>().delete()
         }
 
         return ""
@@ -64,23 +65,23 @@ class Greeting {
 
     fun query() {
         // :code-block-start: landing-page-query
-        val config = RealmConfiguration(schema = setOf(Frog::class))
-        val realm = Realm(config)
+        val config = RealmConfiguration.with(schema = setOf(Frog::class))
+        val realm = Realm.open(config)
         val frogsQuery = realm.objects<Frog>()
         val numTadpoles = frogsQuery.query("age > $0", 2).count()
-        print("Tadpoles: $numTadpoles")
+        println("Tadpoles: $numTadpoles")
         val numFrogsNamedJasonFunderburker = frogsQuery.query("name == $0", "Jason Funderburker").count()
-        print("Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
+        println("Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
         val numFrogsWithoutOwners = frogsQuery.query("owner == null").count()
-        print("Frogs without owners: $numFrogsWithoutOwners")
+        println("Frogs without owners: $numFrogsWithoutOwners")
         // :code-block-end:
     }
 
     fun update() {
-        val configSetup = RealmConfiguration(schema = setOf(Frog::class))
-        val realmSetup = Realm(configSetup)
+        val configSetup = RealmConfiguration.with(schema = setOf(Frog::class))
+        val realmSetup = Realm.open(configSetup)
         realmSetup.writeBlocking {
-            this.copyToRealm(Frog().apply {
+            copyToRealm(Frog().apply {
                 name = "Benjamin Franklin"
                 age = 12
                 species = "bullfrog"
@@ -88,12 +89,12 @@ class Greeting {
             })
         }
         // :code-block-start: landing-page-update
-        val config = RealmConfiguration(schema = setOf(Frog::class))
-        val realm = Realm(config)
+        val config = RealmConfiguration.with(schema = setOf(Frog::class))
+        val realm = Realm.open(config)
         // start a write transaction
         realm.writeBlocking {
             // get a frog from the database to update
-            val frog = this.objects<Frog>()
+            val frog = objects<Frog>()
                 .query("name == $0 LIMIT(1)", "Benjamin Franklin")
             // change the frog's name
             frog[0].name = "George Washington"
@@ -107,12 +108,12 @@ class Greeting {
     fun quickStart() {
         // :code-block-start: quick-start
         // :code-block-start: quick-start-open-a-realm
-        val config = RealmConfiguration(schema = setOf(Task::class))
-        val realm = Realm(config)
+        val config = RealmConfiguration.with(schema = setOf(Task::class))
+        val realm = Realm.open(config)
         // :code-block-end:
         // :code-block-start: quick-start-create
         realm.writeBlocking {
-            this.copyToRealm(Task().apply {
+            copyToRealm(Task().apply {
                 name = "Do work"
                 status = "Open"
             })
@@ -124,17 +125,17 @@ class Greeting {
         // :code-block-end:
         // :code-block-start: quick-start-read-filtered
         // all tasks in the realm
-        val tasksThatBeginWIthD = realm.objects<Task>().query("name BEGINSWITH $0'", "D")
+        val tasksThatBeginWIthD = realm.objects<Task>().query("name BEGINSWITH $0", "D")
         val openTasks = realm.objects<Task>().query("status == $0", "Open")
         // :code-block-end:
         // :code-block-start: quick-start-update
         realm.writeBlocking {
-            openTasks[0].status = "In Progress"
+            findLatest(openTasks[0])?.status = "In Progress"
         }
         // :code-block-end:
         // :code-block-start: quick-start-delete
         realm.writeBlocking {
-            tasks[0].delete()
+            findLatest(tasks[0])?.delete()
         }
         // :code-block-end:
         // :code-block-end:
@@ -142,12 +143,12 @@ class Greeting {
 
     fun changeListeners() {
         // :code-block-start: change-listeners
-        val config = RealmConfiguration(schema = setOf(Task::class))
-        val realm = Realm(config)
+        val config = RealmConfiguration.with(schema = setOf(Task::class))
+        val realm = Realm.open(config)
 
         // fetch objects from a realm as Flowables
         CoroutineScope(Dispatchers.Main).launch {
-            val flow: Flow<RealmResults<Task>> = realm.objects(Task::class).observe()
+            val flow: Flow<RealmResults<Task>> = realm.objects<Task>().observe()
             flow.collect { task ->
                 println("Task: $task")
             }
@@ -156,7 +157,7 @@ class Greeting {
         // write an object to the realm in a coroutine
         CoroutineScope(Dispatchers.Main).launch {
             realm.write {
-                this.copyToRealm(Task().apply { name = "my task"; status = "Open"})
+                copyToRealm(Task().apply { name = "my task"; status = "Open"})
             }
         }
         // :code-block-end:

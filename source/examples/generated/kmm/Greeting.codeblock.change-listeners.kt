@@ -1,9 +1,9 @@
-val config = RealmConfiguration(schema = setOf(Task::class))
-val realm = Realm(config)
+val config = RealmConfiguration.with(schema = setOf(Task::class))
+val realm = Realm.open(config)
 
 // fetch objects from a realm as Flowables
 CoroutineScope(Dispatchers.Main).launch {
-    val flow: Flow<RealmResults<Task>> = realm.objects(Task::class).observe()
+    val flow: Flow<RealmResults<Task>> = realm.objects<Task>().observe()
     flow.collect { task ->
         println("Task: $task")
     }
@@ -12,6 +12,6 @@ CoroutineScope(Dispatchers.Main).launch {
 // write an object to the realm in a coroutine
 CoroutineScope(Dispatchers.Main).launch {
     realm.write {
-        this.copyToRealm(Task().apply { name = "my task"; status = "Open"})
+        copyToRealm(Task().apply { name = "my task"; status = "Open"})
     }
 }
