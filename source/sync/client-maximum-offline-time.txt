@@ -51,6 +51,13 @@ who have not synchronized data in *more than client maximum offline time
 days* must perform a client reset the next time they connect with the
 backend.
 
+Applications that do not specify the client maximum offline time never
+remove changeset history, no matter how old. This means that clients can
+connect after any period of time offline -- weeks, months, or even years
+-- and synchronize changes from the backend. After a long period of time,
+there may be a large number of changes for {+realm+}s with frequent
+edits, so synchronization could take a large amount of time and data.
+
 Set the Client Maximum Offline Time
 -----------------------------------
 
