@@ -47,6 +47,7 @@ instruction.
    Consider the following {+realm+} history:
 
    .. code-block::
+      :caption: Original History
 
       CREATE table1.object1
       UPDATE table1.object1.x = 4
@@ -57,6 +58,7 @@ instruction.
    without unneeded interim changes:
 
    .. code-block::
+      :caption: Compacted History
 
       CREATE table1.object1
       UPDATE table1.object1.x = 42
@@ -87,7 +89,7 @@ advanced backend compaction only occurs for history older than the
    Consider the following {+realm+} history:
 
    .. code-block::
-      :caption: Not Compacted
+      :caption: Original History
 
       CREATE table2.object2
       CREATE table1.object1
@@ -99,7 +101,7 @@ advanced backend compaction only occurs for history older than the
    not the DELETE:
 
    .. code-block::
-      :caption: Compacted
+      :caption: Compacted History
 
       CREATE table1.object1
       DELETE table2.object2
@@ -115,7 +117,7 @@ advanced backend compaction only occurs for history older than the
    the same state with even fewer steps:
 
    .. code-block::
-      :caption: Advanced Compacted
+      :caption: Advanced Compacted History
 
       CREATE table1.obj1
 
@@ -147,6 +149,13 @@ The lower the client maximum offline time, the sooner compaction can
 apply advanced backend compaction to history. The resulting optimizations
 usually result in less storage usage in the synced Atlas cluster.
 
+.. warning:: Client Maximum Offline Time Causes Permanent Changes to History
+
+   Client maximum offline time enables advanced backend compaction for
+   older history. This kind of compaction permanently changes affected
+   history, and can cause client resets in the future even after
+   disabling the feature. Use caution before enabling.
+
 Key Concepts
 ~~~~~~~~~~~~
 
@@ -164,6 +173,7 @@ such a client cannot synchronize.
    ``table2.object2``:
 
    .. code-block::
+      :caption: Original History
 
       CREATE table2.object2
       CREATE table1.object1
@@ -174,6 +184,7 @@ such a client cannot synchronize.
    following:
 
    .. code-block::
+      :caption: Advanced Compacted History
 
       CREATE table1.obj1
 
@@ -181,6 +192,7 @@ such a client cannot synchronize.
    the CREATE operation for ``table2.object2``:
 
    .. code-block::
+      :caption: Partial Client History
 
       CREATE table2.object2
       CREATE table1.object1
@@ -206,9 +218,29 @@ after any period of time offline -- weeks, months, or even years --
 and synchronize changes. As time passes, frequently-edited {+realm+}s
 accumulate many changes. With a large changeset, synchronization
 requires more time and data usage.
+   
+Client Maximum Offline Time Does Not Immediately Influence Client Resets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Advanced backend compaction causes permanent, irreversible changes to
+history. As a result, increasing the client maximum offline time does
+not *immediately* change the length of time before clients experience a
+client reset. Existing history has already been changed by advanced compaction,
+requiring a client reset. New history needs time to accumulate up to
+the new client maximum offline time.
+
+Disabling the client maximum offline time feature stops additional
+advanced backend compaction, but history that has already been changed by
+advanced compaction will permanently cause client resets in clients.
+
+Decreasing client maximum offline time also does not *immediately*
+change the length of time before clients experience a client reset.
+Client resets begin taking place earlier once the regularly scheduled
+compaction job applies advanced backend compaction to the newly
+eligible history.
 
 Set the Client Maximum Offline Time
------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs-realm-admin-interfaces::
 
@@ -240,6 +272,7 @@ Set the Client Maximum Offline Time
          following :ref:`pull command <realm-cli-pull>`:
 
          .. code-block:: bash
+            :caption: Pull
 
             realm-cli pull --remote="<Your App ID>"
 
@@ -248,7 +281,7 @@ Set the Client Maximum Offline Time
          property in your app's ``sync/config.json`` file:
 
          .. code-block:: json
-            :caption: sync/config.json
+            :caption: ``sync/config.json``
            
             {
                "client_max_offline_days": 42,
@@ -258,6 +291,7 @@ Set the Client Maximum Offline Time
          :ref:`push command <realm-cli-push>`:
 
          .. code-block:: bash
+            :caption: Push
 
             realm-cli push --remote="<Your App ID>"
 
