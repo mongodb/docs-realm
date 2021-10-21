@@ -510,7 +510,8 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-start: make-array-with-insertion-order-from-set
     let levelsCompletedInOrder = [];
-    async function onCharacterChange(character, changes) {
+    function onCharacterChange(character, changes) {
+      console.log("char set lvls completed", [...character.levelsCompleted]);
       if (
         !changes.deleted &&
         changes.changedProperties?.includes("levelsCompleted")
@@ -531,7 +532,7 @@ describe("Node.js Data Types", () => {
         schema: [characterSchema],
       });
 
-      await realm.write(() => {
+      realm.write(() => {
         playerOne = realm.create("Character", {
           _id: new BSON.ObjectId(),
           name: "PlayerOne",
@@ -541,27 +542,39 @@ describe("Node.js Data Types", () => {
       });
       playerOne.addListener(onCharacterChange);
 
-      await realm.write(() => {
+      realm.write(() => {
+        console.log("ADDITION OF", 5);
         playerOne.levelsCompleted.add(5);
       });
-      await realm.write(() => {
+      realm.write(() => {
+        console.log("ADDITION OF", 12);
         playerOne.levelsCompleted.add(12);
       });
-      await realm.write(() => {
+      realm.write(() => {
+        console.log("ADDITION OF", 2);
         playerOne.levelsCompleted.add(2);
+      });
+      realm.write(() => {
+        console.log("ADDITION OF", 7);
+        playerOne.levelsCompleted.add(7);
       });
 
       console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 1]
       console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 1]
     } catch (err) {
-      console.error(err);
+      console.error("error is", err);
     } finally {
       // :remove-start:
-      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2]);
-      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 12]);
+      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
+      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([
+        2,
+        5,
+        7,
+        12,
+      ]);
 
       // delete the object specifically created in this test to keep tests idempotent
-      await realm.write(() => {
+      realm.write(() => {
         realm.delete(playerOne);
       });
       // :remove-end:
