@@ -225,13 +225,13 @@ Client Maximum Offline Time Does Not Immediately Influence Client Resets
 Advanced backend compaction causes permanent, irreversible changes to
 history. As a result, increasing the client maximum offline time does
 not *immediately* change the length of time before clients experience a
-client reset. Existing history has already been advanced compacted,
+client reset. Existing history has already been changed by advanced compaction,
 requiring a client reset. New history needs time to accumulate up to
 the new client maximum offline time.
 
 Disabling the client maximum offline time feature stops additional
-advanced backend compaction, but already advanced compacted history
-will permanently cause client resets in clients.
+advanced backend compaction, but history that has already been changed by
+advanced compaction will permanently cause client resets in clients.
 
 Decreasing client maximum offline time also does not *immediately*
 change the length of time before clients experience a client reset.
