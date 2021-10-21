@@ -15,10 +15,10 @@ Realm App Environments
 Environments in Realm
 --------------------- 
 
-In {+service+}, an environment represents a specific collection of 
-environment values that corresponds with a stage in your development 
-process. For example, many organizations use different environment values 
-for Development versus Production.
+In {+service+}, an environment represents a collection of 
+:ref:`environment values <environment-values>` that corresponds with a stage 
+in your development process. For example, many organizations use different 
+environment values for Development and Production.
 
 When you :ref:`deploy <application-deployment>` a {+app+}, you can 
 :ref:`specify the environment <change-environments>` that this application 
@@ -31,6 +31,16 @@ of three {+app+}s at any given time; ``Development``, ``Testing``, and
 ``Production``. If you use unique applications to test different feature 
 branches, you might have many versions of ``Development`` and ``Testing`` 
 apps -- one for each branch.
+
+.. tip::
+
+   Setting your {+app+}'s environment tells {+service+} which 
+   :ref:`environment values <environment-values>` to use. When you change the 
+   environment, this changes the environment values that the {+app+} uses. 
+   This is distinct from the more general :ref:`values <app-value>`, which do 
+   not change when you change the app environment. 
+
+.. supported-environments::
 
 Supported Environments
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -45,7 +55,7 @@ Environment Values
 You can :ref:`define environment values <define-environment-values>` directly 
 in the {+ui+}. You can also import :ref:`environment configuration files
 <appconfig-environment>` with :ref:`{+cli+} <deploy-cli>` or :ref:`GitHub
-<deploy-github>`. In these files, you define environment values as ``.json``
+<deploy-github>`. In these files, you define environment values as JSON
 objects. 
 
 These values are specific to the environment that the app represents. For 

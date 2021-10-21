@@ -28,23 +28,23 @@ content: |
 title: Update Your Environment
 ref: update-your-environment
 content: |
-  Go to the ``realm_config.json`` file at the root of the app you 
-  exported, and update the ``environment`` property to reflect the 
-  environment your app represents. For example, ``development``.
+  Open the ``realm_config.json`` file at the root of the exported app, 
+  and update the ``environment`` property to one of the :ref:`supported 
+  environments <supported-environments>`.
 
   .. code-block:: javascript
-   :caption: /realm_config.json
-   :emphasize-lines: 5
+     :caption: /realm_config.json
+     :emphasize-lines: 5
 
-   {
-     "app_id": "<Realm Application ID>",
-     "name": "<Realm Application Name>",
-     "config_version": "<Version Number>",
-     "environment": "development",
-     "allowed_request_origins": ["<Origin URL>", "..."],
-     "deployment_model": "<Deployment Model Type>",
-     "location": "<Deployment Cloud Region Name>"
-   }
+     {
+       "app_id": "<Realm Application ID>",
+       "name": "<Realm Application Name>",
+       "config_version": "<Version Number>",
+       "environment": "development",
+       "allowed_request_origins": ["<Origin URL>", "..."],
+       "deployment_model": "<Deployment Model Type>",
+       "location": "<Deployment Cloud Region Name>"
+     }
 ---
 title: Deploy the Updated App
 ref: deploy-the-updated-app
