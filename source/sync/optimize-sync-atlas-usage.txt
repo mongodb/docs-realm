@@ -47,7 +47,7 @@ instruction.
    Consider the following {+realm+} history:
 
    .. code-block::
-      :caption: History
+      :caption: Original History
 
       CREATE table1.object1
       UPDATE table1.object1.x = 4
@@ -89,7 +89,7 @@ advanced backend compaction only occurs for history older than the
    Consider the following {+realm+} history:
 
    .. code-block::
-      :caption: Not Compacted
+      :caption: Original History
 
       CREATE table2.object2
       CREATE table1.object1
@@ -101,7 +101,7 @@ advanced backend compaction only occurs for history older than the
    not the DELETE:
 
    .. code-block::
-      :caption: Compacted
+      :caption: Compacted History
 
       CREATE table1.object1
       DELETE table2.object2
@@ -117,7 +117,7 @@ advanced backend compaction only occurs for history older than the
    the same state with even fewer steps:
 
    .. code-block::
-      :caption: Advanced Compacted
+      :caption: Advanced Compacted History
 
       CREATE table1.obj1
 
@@ -166,7 +166,7 @@ such a client cannot synchronize.
    ``table2.object2``:
 
    .. code-block::
-      :caption: History
+      :caption: Original History
 
       CREATE table2.object2
       CREATE table1.object1
