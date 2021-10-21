@@ -149,6 +149,13 @@ The lower the client maximum offline time, the sooner compaction can
 apply advanced backend compaction to history. The resulting optimizations
 usually result in less storage usage in the synced Atlas cluster.
 
+.. warning:: Client Maximum Offline Time Causes Permanent Changes to History
+
+   Client maximum offline time enables advanced backend compaction for
+   older history. This kind of compaction permanently changes affected
+   history, and can cause client resets in the future even after
+   disabling the feature. Use caution before enabling.
+
 Key Concepts
 ~~~~~~~~~~~~
 
@@ -221,6 +228,10 @@ not *immediately* change the length of time before clients experience a
 client reset. Existing history has already been advanced compacted,
 requiring a client reset. New history needs time to accumulate up to
 the new client maximum offline time.
+
+Disabling the client maximum offline time feature will prevent future
+advanced backend compaction, but already advanced compacted history
+will permanently cause client resets in clients.
 
 Decreasing client maximum offline time also does not *immediately*
 change the length of time before clients experience a client reset.
