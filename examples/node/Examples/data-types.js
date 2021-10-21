@@ -1,5 +1,6 @@
 import Realm from "realm";
 import BSON from "bson";
+import EventEmitter from "events";
 
 let realm;
 
@@ -498,6 +499,26 @@ describe("Node.js Data Types", () => {
   });
 
   test("should convert set to array with insertion order", async () => {
+    const TARGET_EVENTS_LEN = 4;
+    const events = [];
+    class MyEmitter extends EventEmitter {}
+    const myEmitter = new MyEmitter();
+
+    myEmitter.on("resolution_of_cb", () => {
+      events.push(true);
+      if (events.length === TARGET_EVENTS_LEN) {
+        console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 1]
+        console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 1]
+        expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
+        expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([
+          2,
+          5,
+          7,
+          12,
+        ]);
+      }
+    });
+
     const characterSchema = {
       name: "Character",
       primaryKey: "_id",
@@ -510,28 +531,26 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-start: make-array-with-insertion-order-from-set
     let levelsCompletedInOrder = [];
-    function onCharacterChange(character, changes) {
+    async function onCharacterChange(character, changes) {
       console.log("char set lvls completed", [...character.levelsCompleted]);
       if (
         !changes.deleted &&
         changes.changedProperties?.includes("levelsCompleted")
       ) {
-        for (let level of character["levelsCompleted"]) {
-          console.log("level is", level); // :remove:
+        character.levelsCompleted.forEach((level) => {
           if (!levelsCompletedInOrder.includes(level)) {
             levelsCompletedInOrder.push(level);
-            console.log("levels in order", levelsCompletedInOrder); // :remove:
+            myEmitter.emit('resolution_of_cb')
           }
-        }
+        });
       }
     }
 
-    let playerOne;
+    let playerOne, realm;
     try {
       realm = await Realm.open({
         schema: [characterSchema],
       });
-
       realm.write(() => {
         playerOne = realm.create("Character", {
           _id: new BSON.ObjectId(),
@@ -541,38 +560,22 @@ describe("Node.js Data Types", () => {
         });
       });
       playerOne.addListener(onCharacterChange);
-
       realm.write(() => {
-        console.log("ADDITION OF", 5);
         playerOne.levelsCompleted.add(5);
       });
       realm.write(() => {
-        console.log("ADDITION OF", 12);
         playerOne.levelsCompleted.add(12);
       });
       realm.write(() => {
-        console.log("ADDITION OF", 2);
         playerOne.levelsCompleted.add(2);
       });
       realm.write(() => {
-        console.log("ADDITION OF", 7);
         playerOne.levelsCompleted.add(7);
       });
-
-      console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 1]
-      console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 1]
     } catch (err) {
       console.error("error is", err);
     } finally {
       // :remove-start:
-      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
-      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([
-        2,
-        5,
-        7,
-        12,
-      ]);
-
       // delete the object specifically created in this test to keep tests idempotent
       realm.write(() => {
         realm.delete(playerOne);
