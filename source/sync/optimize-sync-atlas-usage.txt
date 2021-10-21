@@ -211,16 +211,6 @@ after any period of time offline -- weeks, months, or even years --
 and synchronize changes. As time passes, frequently-edited {+realm+}s
 accumulate many changes. With a large changeset, synchronization
 requires more time and data usage.
-
-.. note:: Changes to Maximum Offline Time
-
-   Once history experiences advanced backend compaction, clients
-   can no longer resume sync from a moment in that history. Increasing
-   the client maximum offline time prevents advanced backend compaction
-   from optimizing future changes until those changes become older than
-   the new client maximum offline time. However, increases to the client
-   maximum offline time do not immediately take effect, because new
-   not advanced backend compacted history needs time to accumulate.
    
 .. note: Increases to Client Maximum Offline Time do not Immediately Take Effect
 
