@@ -50,9 +50,16 @@ title: Deploy the Updated App
 ref: deploy-the-updated-app
 content: |
   Once you've updated your app's configuration file, :ref:`push <realm-cli-push>` 
-  to your remote app. {+cli+} immediately deploys the updated configurations 
+  to your remote app. {+cli+} immediately deploys the updated configurations
   on push.
   
   .. code-block:: bash
      
      realm-cli push --remote="<Your App ID>"
+  
+  .. tip::
+     
+     If you have :ref:`deployment drafts <deployment-draft>` 
+     enabled, you'll be prompted to review and confirm your changes in the 
+     terminal. When you approve, {+cli+} immediately deploys the updated 
+     configurations.
