@@ -62,7 +62,7 @@ check out the SDK docs:
 - :ref:`.NET SDK <dotnet-intro>`
 - :ref:`Node.js SDK <node-intro>`
 - :ref:`React Native SDK <react-native-intro>`
-- :ref:`Kotlin Multiplatform SDK <kotlin-multiplatform-intro>`
+- :ref:`Kotlin Multiplatform SDK (Alpha) <kotlin-multiplatform-intro>`
 - :ref:`Flutter SDK (Preview) <flutter-intro>`
 
 .. note::
@@ -154,6 +154,16 @@ Once you have defined a data model and corresponding access rules, you can
 enable sync for your app. For a walkthrough of how to turn on sync, see
 :ref:`Define Sync Rules <sync-rules>`.
 
+Optimize Sync Data Usage
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sync stores some utility data in your synced cluster to help synchronize
+data with clients. {+service-short+} has optimizations built-in to reduce
+the amount of utility data stored in synced clusters. If you'd like to
+reduce the amount of utility data further to suit your use case, see
+our guide to :ref:`Optimize Realm Sync Atlas Usage
+<optimize-sync-atlas-usage>`.
+
 Best Practices
 --------------
 
@@ -171,6 +181,14 @@ Define a client reset handler:
   To recover from a serious error conditions where the client and server
   histories diverge, you should define a :ref`client reset <client-resets>`
   handler when you open each synced realm with an SDK.
+
+Define a client maximum offline time:
+  The {+service-short+} backend uses a history of changes to underlying
+  data to synchronize clients. Configure a :ref:`client maximum offline time
+  <client-maximum-offline-time>` to control the number of days of
+  history stored by your {+app+}. Clients that have not synchronized in
+  more than that number of days must perform a client reset the next
+  time they connect to the backend.
 
 Deployment model and geographic regions:
   Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>`
