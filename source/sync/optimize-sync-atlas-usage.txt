@@ -61,14 +61,15 @@ instruction.
       CREATE table1.object1
       UPDATE table1.object1.x = 42
 
-Compaction:
+Backend compaction:
 
 - reduces space usage in your Atlas cluster, since your history contains
   fewer instructions.
 - reduces the time and data usage of sync, since clients can converge
   on the same result with fewer instructions.
 
-Compaction runs regularly on all synced clusters as part of {+sync+}.
+Backend compaction runs regularly on all synced clusters as part of
+{+sync+}.
 
 .. _advanced-backend-compaction:
 
