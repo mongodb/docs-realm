@@ -56,11 +56,21 @@ The following history would also converge to the same state:
 
 Compaction removes unnecessary steps from history to reduce its space
 usage in your Atlas cluster. Additionally, compaction reduces the time
-and data usage of client devices sync. Clients must download
-fewer historical steps to converge on the same result.
+and data usage of sync. Clients must download fewer historical steps to
+converge on the same result.
 
-Compacting some historical operations depends on awareness of client
-sync states. Consider the following:
+Compaction removes any instruction that is later
+overwritten by a future instruction. Compaction runs regularly on all
+synced clusters as part of {+sync+}.
+
+.. _advanced-backend-compaction:
+
+Advanced Backend Compaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Advanced backend compaction** uses client sync states to optimize
+history beyond the level of normal compaction. Consider the following
+{+realm+} history:
 
 .. code-block::
 
@@ -68,39 +78,46 @@ sync states. Consider the following:
    CREATE table1.object1
    DELETE table2.object2
 
-The following history would also converge on the same state:
-
-.. code-block::
-
-   CREATE table1.obj1
-
-Because the history creates and then deletes ``object2``, clients don't
-need to know that ``object2`` ever existed. However, if any client
-synchronized the CREATE operation before the DELETE operation occurred,
-they'll still need the DELETE operation to converge at the same point in
-history. So instead, the compacted history includes a "trailing delete":
+Because there is a gap in time between the CREATE and DELETE operations
+for ``table2.object2``, any client could have synchronized the CREATE
+operation, but not the DELETE operation. As a result, compaction can
+remove the CREATE operation, but not the DELETE operation:
 
 .. code-block::
 
    CREATE table1.object1
    DELETE table2.object2
 
-Compaction removes any instruction that is later
-overwritten by a future instruction. {+service-short+} is aware of
-client sync states, and can also use that awareness to optimize
-compaction. For instance, when a DELETE operation has been seen by all
-clients, compaction can even remove the "trailing deletes" seen in the last
-example.
+This guarantees client convergence. If the history didn't include the
+DELETE operation, clients that synced the CREATE operation would never
+delete ``table2.object2``, but other clients would never create that
+object in the first place. Instead, all clients get a command to
+delete that object, and any clients who never created ``table2.object2``
+in the first place ignore the DELETE.
 
-Compaction runs regularly on all synced clusters as part of {+sync+}.
+The following history uses advanced backend compaction to converge on
+the same state:
+
+.. code-block::
+
+   CREATE table1.obj1
+
+Because the history creates and then deletes ``object2``, clients don't
+need to know that ``object2`` ever existed. However, this optimization
+can prevent convergence for clients who saw some, but not all, of this
+section of history. As a result, advanced backend compaction only
+occurs for history older than the client maximum offline time.
+
+Advanced backend compaction only runs on clusters with a
+client maximum offline time.
 
 .. _client-maximum-offline-time:
 
 Client Maximum Offline Time
 ---------------------------
 
-The **client maximum offline time** controls when compaction can prune
-extra history metadata, such as "trailing deletes," from history.
+The **client maximum offline time** controls when compaction can apply
+:ref:`advanced-backend-compaction <advanced-backend-compaction>`.
 This indirectly changes how long a client can remain offline between
 synchronization sessions with the backend. Clients that do not
 synchronize for more than the specified number of days
@@ -108,8 +125,8 @@ may experience a :ref:`client reset <client-resets>` the next time they
 connect with the backend.
 
 The lower the client maximum offline time, the sooner compaction can
-prune the extra metadata on old history. Less metadata means less storage
-usage in your synced Atlas cluster.
+apply advanced optimizations to older history. Less metadata means less
+storage usage in your synced Atlas cluster.
 
 Key Concepts
 ~~~~~~~~~~~~
@@ -118,7 +135,7 @@ In order for synchronization to converge at the same end state
 as the backend and all other clients, a synchronization client requires
 the full history of changes beginning immediately after the client's last
 synchronization session. When a client does not check in for a long
-period of time, compaction's metadata pruning can alter the history in
+period of time, advanced backend compaction can alter the history in
 ways that prevent the client from converging on a common result. Since
 synchronization relies on all clients converging on a common result,
 the client cannot synchronize.
@@ -133,8 +150,7 @@ DELETE for ``table2.object2``:
    CREATE table1.object1
    DELETE table2.object2
 
-Compaction pruned metadata older than the client maximum offline time
-to produce the following history on the backend:
+Advanced backend compaction produced the following history on the backend:
 
 .. code-block::
 
@@ -148,9 +164,8 @@ However, a client contains this subset of history:
    CREATE table1.object1
 
 Since compaction pruned the DELETE operation for ``table2.object2``, the
-client never deletes that object. There is no way for the client to use
-the pruned history to converge at the same state as the backend and all
-other clients.
+client never deleted that object. The client cannot converge to the same
+state as the backend and all other clients.
 
 As a result, the client must complete a client reset before it can
 resume synchronization. In a client reset scenario, the client deletes
@@ -158,15 +173,14 @@ the client-local copy of a {+realm+} and downloads the current state of
 that {+realm+} from the backend. Synchronization then resumes using the
 new copy of the {+realm+}.
 
-The client maximum offline time of your {+app+} controls how long
-compaction preserves the full history of data changes in a {+realm+}.
-As a result, any clients who have not synchronized data in
-*more than client maximum offline time days* must perform a client reset
-the next time they connect with the backend.
+The client maximum offline time controls how long your backend waits
+before applying advanced backend compaction. After the specified number
+of days without syncing, clients experience a client reset the next time
+they connect with the backend.
 
-Applications that do not specify the client maximum offline time always
-preserve the full history, no matter how old. This means that clients can
-connect after any period of time offline -- weeks, months, or even years
+Applications that do not specify the client maximum offline time never
+apply advanced backend compaction to any history. This means that clients
+can connect after any period of time offline -- weeks, months, or even years
 -- and synchronize changes from the backend. After a long period of time,
 there may be a large number of changes for {+realm+}s with frequent
 edits, so synchronization could take a large amount of time and data.
