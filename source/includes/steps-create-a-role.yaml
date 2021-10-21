@@ -1,0 +1,231 @@
+title: Create a New Role
+ref: create-a-new-role
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        To define a role for a linked collection, click :guilabel:`Rules` in the
+        {+leftnav+} and then select the collection from the list in the rules
+        editor. 
+        
+        Ensure that the :guilabel:`Rules` tab is selected and then click the
+        :guilabel:`New Role` button.
+     
+     .. tab::
+        :tabid: cli
+        
+        You define roles for a linked collection in the collection's
+        ``rules.json`` :ref:`configuration file <config-collection-rules>`. Add
+        a new object to the ``roles`` array for the role you are creating.
+        
+        .. code-block:: json
+           :emphasize-lines: 5
+           
+           {
+             "database": "<Database Name>",
+             "collection": "<Collection Name>",
+             "roles": [
+               { "name": "<Role Name>", ... }
+             ]
+           } 
+---
+title: Name the Role
+ref: name-the-role
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Enter a unique :guilabel:`Name` for the new role on the role configuration
+        screen.
+        
+        .. figure:: /images/create-a-role-name.png
+           :alt: The role name input box
+     
+     .. tab::
+        :tabid: cli
+        
+        Set a unique name for the new role in the ``name`` field:
+        
+        .. code-block:: json
+           
+           {
+             "name": "Owner"
+           }
+---
+title: Specify an Apply When Expression
+ref: specify-an-apply-when-expression
+content: |
+  A role's Apply When :ref:`expression <expressions>` evaluates to ``true`` when
+  a user may play the role for a given document. You can use variables like
+  :json-expansion:`%%user`, :json-expansion:`%%request`, and
+  :json-expansion:`%%root` to create a dynamic expression that evaluates
+  differently based on the context.
+  
+  For examples of expressions that apply to common scenarios, see
+  :ref:`rule-examples`.
+  
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Specify the expression in the role's :guilabel:`Apply When` input:
+        
+        .. figure:: /images/create-a-role-apply-when.png
+           :alt: The apply when expression input box
+  
+     .. tab::
+        :tabid: cli
+        
+        Specify the expression in the role's ``apply_when`` field:
+  
+        .. code-block:: json
+           :emphasize-lines: 3-5
+           
+           {
+             "name": "Owner",
+             "apply_when": {
+               "owner_id": "%%user.id"
+             }
+           }
+---
+title: Specify Document-Level Permissions
+ref: specify-document-level-permissions
+content: |
+  A role's document-level permissions apply to an entire document. These
+  permissions determine a user's ability to insert, delete, read, modify, and/or
+  search for the document.
+  
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        .. figure:: /images/create-a-role-document-level-permissions.png
+           :alt: The role's document level permissions
+     
+     .. tab::
+        :tabid: cli
+        
+        .. code-block:: json
+           :emphasize-lines: 6-10
+           
+           {
+             "name": "Owner",
+             "apply_when": {
+               "owner_id": "%%user.id"
+             },
+             "insert": true,
+             "delete": true,
+             "read": true,
+             "write": true,
+             "search": true
+           }
+---
+title: Specify Field-Level Permissions
+ref: specify-field-level-permissions
+content: |
+  A role's field-level permissions apply to individual fields within each
+  document. These permissions determine a user's ability to read or write the
+  value of a given field.
+  
+  For each field, specify the role's read & write permissions. You can also
+  specify default permissions for unconfigured fields in the role's additional
+  fields property.
+  
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        .. figure:: /images/create-a-role-field-level-permissions.png
+           :alt: The role's field-level permissions.
+     
+     .. tab::
+        :tabid: cli
+        
+        .. code-block:: json
+           :emphasize-lines: 11-15
+           
+           {
+             "name": "Owner",
+             "apply_when": {
+               "owner_id": "%%user.id"
+             },
+             "insert": true,
+             "delete": true,
+             "read": true,
+             "write": true,
+             "search": true,
+             "fields": {
+               "name": { "read": true, "write": true, fields: {} },
+               "owner_id": { "read": true, "write": true, fields: {} }
+             },
+             "additional_fields": { "read": true, "write": true }
+           }
+        
+        .. tip::
+           
+           You can define rules for the fields of an embedded object in the
+           ``fields`` property of the object's parent field.
+---
+title: Specify a Position
+ref: specify-a-position
+content: |
+  Realm evaluates roles for a collection in a pre-defined order and assigns a
+  user the first role that applies to them.
+
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Realm evaluates roles from left to right in the UI. Click the arrows
+        above the role to change its position:
+        
+        .. figure:: /images/create-a-role-position.png
+           :alt: Three roles with ordered positions and arrow buttons to move them.
+     
+     .. tab::
+        :tabid: cli
+        
+        Realm evaluates roles in the order that they're defined in the ``roles``
+        array. To evaluate a role earlier, move it closer to the front of the
+        array:
+        
+        .. code-block:: json
+           :emphasize-lines: 4-8
+           
+           {
+             "database": "<Database Name>",
+             "collection": "<Collection Name>",
+             "roles": [
+               { name: "First", ... },
+               { name: "Second", ... },
+               { name: "Third", ... }
+             ]
+           }
+---
+title: Save the Role
+ref: save-the-role
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Click :guilabel:`Save` and then :ref:`deploy your app <deploy-ui>`.
+     
+     .. tab::
+        :tabid: cli
+        
+        Save the file & deploy your changes.
+        
+        .. code-block:: bash
+           
+           realm-cli push --remote=<App ID>
+...
