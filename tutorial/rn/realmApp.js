@@ -1,7 +1,7 @@
 import Realm from "realm";
 
 
-// :code-block-start: get-realm-app
+// :code-block-start: instantiate-realm-app
 // Invokes the shared instance of the Realm app.
 // :state-start: final
 // :replace-start: {
