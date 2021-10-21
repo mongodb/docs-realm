@@ -212,14 +212,13 @@ and synchronize changes. As time passes, frequently-edited {+realm+}s
 accumulate many changes. With a large changeset, synchronization
 requires more time and data usage.
    
-.. note: Increases to Client Maximum Offline Time do not Immediately Take Effect
+.. note:: Increases to Client Maximum Offline Time Do Not Immediately Effect Client Resets
 
-   Advanced backend compaction causes permanent, irreversible changes to
-   history. As a result, increasing the client maximum offline time does
-   not immediately change the length of time before clients experience a
-   client reset. Existing history has already been advanced compacted,
-   and new history needs time to accumulate up to the new client maximum
-   offline time.
+   When you set client maximum offline time, you enable advanced compaction.
+   This process makes permanent, irreversible changes to history. Increasing
+   client maximum offline time does not immediately extend the time until client
+   reset. Existing changes from advanced compaction necessitate a client reset.
+   New, unmodified history must accumulate before the time to client reset extends.
 
 Set the Client Maximum Offline Time
 -----------------------------------
