@@ -25,13 +25,6 @@ When you :ref:`deploy <application-deployment>` a {+app+}, you can
 represents. If you do not specify the environment, the {+app+} defaults to 
 ``No Environment``. 
 
-Each {+app+} represents a single environment in your development process.
-This means that a typical development process is likely to have a minimum 
-of three {+app+}s at any given time; ``Development``, ``Testing``, and 
-``Production``. If you use unique applications to test different feature 
-branches, you might have many versions of ``Development`` and ``Testing`` 
-apps -- one for each branch.
-
 .. tip::
 
    Setting your {+app+}'s environment tells {+service+} which 
@@ -65,8 +58,23 @@ example, you'd store your ``Production`` environment values in a
 you specify the environment for your {+app+}, {+service-short+} uses the
 corresponding environment values.
 
-Use Environments in CI/CD
+.. _environments-in-workflows:
+
+Environments in Workflows
 -------------------------
+
+Each {+app+} represents a single environment in your development process.
+This means that a typical development process is likely to have a minimum 
+of three {+app+}s at any given time; ``Development``, ``Testing``, and 
+``Production``. If you use unique applications to test different feature 
+branches, you might have many versions of ``Development`` and ``Testing`` 
+apps -- one for each branch.
+
+.. figure:: /images/realm-app-environments-in-workflow.png
+   :alt: Diagram showing different Realm apps for each branch
+
+Use Environments in CI/CD
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use environments in your CI/CD pipeline. You might create an
 automated process to generate a new ``Testing`` app when a developer on
