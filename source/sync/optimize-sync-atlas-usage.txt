@@ -37,24 +37,27 @@ Backend Compaction
 **Backend compaction** is a maintenance process that automatically
 runs for all {+app+}s. During backend compaction, {+service-short+}
 runs through history of changes used for synchronization. Compaction
-removes changes that other changes later overwrite. Consider the
-following example history:
+removes changes that other changes later overwrite.
 
-.. code-block::
+.. example::
 
-   CREATE table1.object1
-   UPDATE table1.object1.x = 4
-   UPDATE table1.object1.x = 10
-   UPDATE table1.object1.x = 42
+   Consider the following {+realm+} history:
 
-The following history would also converge to the same state:
+   .. code-block::
 
-.. code-block::
+      CREATE table1.object1
+      UPDATE table1.object1.x = 4
+      UPDATE table1.object1.x = 10
+      UPDATE table1.object1.x = 42
 
-   CREATE table1.object1
-   UPDATE table1.object1.x = 42
+   The following history would also converge to the same state:
 
-Compaction removes unnecessary steps from history to reduce its space
+   .. code-block::
+
+      CREATE table1.object1
+      UPDATE table1.object1.x = 42
+
+Compaction removes unnecessary steps from history to reduce space
 usage in your Atlas cluster. Additionally, compaction reduces the time
 and data usage of sync. Clients must download fewer historical steps to
 converge on the same result.
@@ -69,46 +72,50 @@ Advanced Backend Compaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Advanced backend compaction** uses client sync states to optimize
-history beyond the level of normal compaction. Consider the following
-{+realm+} history:
-
-.. code-block::
-
-   CREATE table2.object2
-   CREATE table1.object1
-   DELETE table2.object2
-
-Because there is a gap in time between the CREATE and DELETE operations
-for ``table2.object2``, any client could have synchronized the CREATE
-operation, but not the DELETE operation. As a result, compaction can
-remove the CREATE operation, but not the DELETE operation:
-
-.. code-block::
-
-   CREATE table1.object1
-   DELETE table2.object2
-
-This guarantees client convergence. If the history didn't include the
-DELETE operation, clients that synced the CREATE operation would never
-delete ``table2.object2``, but other clients would never create that
-object in the first place. Instead, all clients get a command to
-delete that object, and any clients who never created ``table2.object2``
-in the first place ignore the DELETE.
-
-The following history uses advanced backend compaction to converge on
-the same state:
-
-.. code-block::
-
-   CREATE table1.obj1
-
-Because the history creates and then deletes ``object2``, clients don't
-need to know that ``object2`` ever existed. However, this optimization
+history even more than normal compaction. However, this optimization
 can prevent convergence for clients who saw some, but not all, of this
 section of history. As a result, advanced backend compaction only
 occurs for history older than the client maximum offline time.
 
-Advanced backend compaction only runs on clusters with a
+.. example::
+
+   Consider the following {+realm+} history:
+
+   .. code-block::
+
+      CREATE table2.object2
+      CREATE table1.object1
+      DELETE table2.object2
+
+   Because there is a gap in time between the CREATE and DELETE operations
+   for ``table2.object2``, a client could have synchronized the CREATE,
+   but not the DELETE. As a result, compaction can remove the CREATE, but
+   not the DELETE:
+
+   .. code-block::
+
+      CREATE table1.object1
+      DELETE table2.object2
+
+   This guarantees client convergence. If the history didn't include the
+   DELETE, clients that synced the CREATE would never
+   delete ``table2.object2``, but other clients would never create that
+   object in the first place. Instead, all clients get a command to
+   delete that object, and any clients who never created ``table2.object2``
+   in the first place ignore the DELETE.
+
+   The following history uses advanced backend compaction to converge on
+   the same state:
+
+   .. code-block::
+
+      CREATE table1.obj1
+
+   Because ``object2`` was deleted, it has no impact on the current state
+   of the {+realm+}. As a result, advanced backend compaction can
+   completely remove it from history.
+
+Advanced backend compaction only runs on clusters that specify a
 client maximum offline time.
 
 .. _client-maximum-offline-time:
@@ -125,47 +132,51 @@ may experience a :ref:`client reset <client-resets>` the next time they
 connect with the backend.
 
 The lower the client maximum offline time, the sooner compaction can
-apply advanced optimizations to older history. Less metadata means less
+apply advanced optimizations to history. Less metadata means less
 storage usage in your synced Atlas cluster.
 
 Key Concepts
 ~~~~~~~~~~~~
 
-In order for synchronization to converge at the same end state
-as the backend and all other clients, a synchronization client requires
-the full history of changes beginning immediately after the client's last
-synchronization session. When a client does not check in for a long
+In order for sync to converge at the same end state
+as the backend and all other clients, clients require
+the full history of changes beginning immediately after the last
+sync. When a client does not check in for a long
 period of time, advanced backend compaction can alter the history in
 ways that prevent the client from converging on a common result. Since
 synchronization relies on all clients converging on a common result,
 the client cannot synchronize.
 
-Consider the following example where history is aggressively pruned
-of trailing deletes. The original history contained a CREATE and a
-DELETE for ``table2.object2``:
+.. example::
 
-.. code-block::
+   Consider the following example that contains a CREATE and a DELETE for
+   ``table2.object2``:
 
-   CREATE table2.object2
-   CREATE table1.object1
-   DELETE table2.object2
+   .. code-block::
 
-Advanced backend compaction produced the following history on the backend:
+      CREATE table2.object2
+      CREATE table1.object1
+      DELETE table2.object2
 
-.. code-block::
+   When this history becomes older than the client maximum offline time,
+   advanced backend compaction optimizes the backend history into the
+   following:
 
-   CREATE table1.obj1
+   .. code-block::
 
-However, a client contains this subset of history:
+      CREATE table1.obj1
 
-.. code-block::
+   However, a client contains this subset of history, containing only
+   the CREATE operation for ``table2.object2``:
 
-   CREATE table2.object2
-   CREATE table1.object1
+   .. code-block::
 
-Since compaction pruned the DELETE operation for ``table2.object2``, the
-client never deleted that object. The client cannot converge to the same
-state as the backend and all other clients.
+      CREATE table2.object2
+      CREATE table1.object1
+
+   Since compaction pruned the DELETE operation for ``table2.object2``, the
+   client never deletes that object. The client cannot converge to the same
+   state as the backend and all other clients.
 
 As a result, the client must complete a client reset before it can
 resume synchronization. In a client reset scenario, the client deletes
