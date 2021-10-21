@@ -16,18 +16,20 @@ Overview
 --------
 
 {+sync+} uses space in your app's synced Atlas cluster to store utility
-data for sync. {+service+} minimizes that space usage via backend
-compaction. You can optimize further by specifying a client maximum
-offline time.
+data for sync, including a history of changes to each {+realm+}.
+{+service+} minimizes that space usage via backend
+compaction, which runs automatically. You can optimize further by
+specifying a client maximum offline time, which enables advanced backend
+compaction.
 
 History
 -------
 
 The {+service-short+} backend keeps a history of :ref:`changes to
-underlying data <changesets>`, similar to the :manual:`MongoDB oplog
-</core/replica-set-oplog/>`. {+service-short+} uses this history to
-synchronize data between backend and clients. {+service-short+} stores
-this history in your synced Atlas cluster to enable {+sync+}.
+underlying data <changesets>` for each {+realm+}, similar to the
+:manual:`MongoDB oplog </core/replica-set-oplog/>`. {+service-short+}
+uses this history to synchronize data between the backend and clients.
+{+service-short+} stores history in your synced Atlas cluster.
 
 .. _backend-compaction:
 
@@ -36,8 +38,8 @@ Backend Compaction
 
 **Backend compaction** is a maintenance process that automatically
 runs for all {+app+}s. During backend compaction, {+service-short+}
-runs through history of changes used for synchronization. Compaction
-removes changes that other changes later overwrite.
+runs through a {+realm+}'s history. Compaction
+removes changes whose effects are later overwritten by other changes.
 
 .. example::
 
@@ -50,7 +52,8 @@ removes changes that other changes later overwrite.
       UPDATE table1.object1.x = 10
       UPDATE table1.object1.x = 42
 
-   The following history would also converge to the same state:
+   The following history would also converge to the same state, but
+   without unneeded interim changes:
 
    .. code-block::
 
@@ -73,8 +76,8 @@ Advanced Backend Compaction
 
 **Advanced backend compaction** uses client sync states to optimize
 history even more than normal compaction. However, this optimization
-can prevent convergence for clients who saw some, but not all, of this
-section of history. As a result, advanced backend compaction only
+can prevent convergence for clients who saw some, but not all, of certain
+subsets of history. As a result, advanced backend compaction only
 occurs for history older than the client maximum offline time.
 
 .. example::
@@ -123,8 +126,8 @@ client maximum offline time.
 Client Maximum Offline Time
 ---------------------------
 
-The **client maximum offline time** controls when compaction can apply
-:ref:`advanced-backend-compaction <advanced-backend-compaction>`.
+The **client maximum offline time** controls the age limit of history
+optimized with :ref:`advanced backend compaction <advanced-backend-compaction>`.
 This indirectly changes how long a client can remain offline between
 synchronization sessions with the backend. Clients that do not
 synchronize for more than the specified number of days
@@ -132,20 +135,19 @@ may experience a :ref:`client reset <client-resets>` the next time they
 connect with the backend.
 
 The lower the client maximum offline time, the sooner compaction can
-apply advanced optimizations to history. Less metadata means less
-storage usage in your synced Atlas cluster.
+apply advanced backend compaction to history. The resulting optimizations
+usually result in less storage usage in the synced Atlas cluster.
 
 Key Concepts
 ~~~~~~~~~~~~
 
-In order for sync to converge at the same end state
-as the backend and all other clients, clients require
-the full history of changes beginning immediately after the last
-sync. When a client does not check in for a long
-period of time, advanced backend compaction can alter the history in
-ways that prevent the client from converging on a common result. Since
+Sync should always converge at the same end state on all clients. In
+order to converge during a sync, clients require the full history of
+changes beginning immediately after their last sync. When a client does
+not sync for a long period of time, advanced backend compaction can
+alter the history in ways that prevent the client from converging. Since
 synchronization relies on all clients converging on a common result,
-the client cannot synchronize.
+such a client cannot synchronize.
 
 .. example::
 
@@ -175,7 +177,7 @@ the client cannot synchronize.
       CREATE table1.object1
 
    Since compaction pruned the DELETE operation for ``table2.object2``, the
-   client never deletes that object. The client cannot converge to the same
+   client will never delete that object. The client cannot converge to the same
    state as the backend and all other clients.
 
 As a result, the client must complete a client reset before it can
