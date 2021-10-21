@@ -526,7 +526,7 @@ describe("Node.js Data Types", () => {
       }
     }
 
-    let playerOne, realm;
+    let playerOne;
     try {
       realm = await Realm.open({
         schema: [characterSchema],
