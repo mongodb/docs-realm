@@ -16,7 +16,7 @@ Overview
 --------
 
 {+sync+} uses space in your app's synced Atlas cluster to store utility
-data for sync, including a history of changes to each {+realm+}.
+data for sync. This includes a history of changes to each {+realm+}.
 {+service+} minimizes that space usage via backend
 compaction, which runs automatically. You can optimize further by
 specifying a client maximum offline time, which enables advanced backend
@@ -37,9 +37,10 @@ Backend Compaction
 ------------------
 
 **Backend compaction** is a maintenance process that automatically
-runs for all {+app+}s. During backend compaction, {+service-short+}
-runs through a {+realm+}'s history. Compaction
-removes changes whose effects are later overwritten by other changes.
+runs for all {+app+}s. During compaction, the backend optimizes a
+{+realm+}'s history by removing unneeded changesets. The process
+removes any instruction whose effect is later overwritten by a newer
+instruction.
 
 .. example::
 
@@ -60,31 +61,32 @@ removes changes whose effects are later overwritten by other changes.
       CREATE table1.object1
       UPDATE table1.object1.x = 42
 
-Compaction removes unnecessary steps from history to reduce space
-usage in your Atlas cluster. Additionally, compaction reduces the time
-and data usage of sync. Clients must download fewer historical steps to
-converge on the same result.
+Compaction:
 
-Compaction removes any instruction that is later
-overwritten by a future instruction. Compaction runs regularly on all
-synced clusters as part of {+sync+}.
+- reduces space usage in your Atlas cluster, since your history contains
+  fewer instructions.
+- reduces the time and data usage of sync, since clients can converge
+  on the same result with fewer instructions.
+
+Compaction runs regularly on all synced clusters as part of {+sync+}.
 
 .. _advanced-backend-compaction:
 
 Advanced Backend Compaction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Advanced backend compaction** uses client sync states to optimize
-history even more than normal compaction. However, this optimization
-can prevent convergence for clients who saw some, but not all, of certain
-subsets of history. As a result, advanced backend compaction only
-occurs for history older than the client maximum offline time.
+**Advanced backend compaction** uses client sync states to further
+optimize a changeset. However, this optimization can prevent convergence
+for clients that have only seen a subset of history. As a result,
+advanced backend compaction only occurs for history older than the
+:ref:`client maximum offline time <client-maximum-offline-time>`.
 
 .. example::
 
    Consider the following {+realm+} history:
 
    .. code-block::
+      :caption: Not Compacted
 
       CREATE table2.object2
       CREATE table1.object1
@@ -96,6 +98,7 @@ occurs for history older than the client maximum offline time.
    not the DELETE:
 
    .. code-block::
+      :caption: Compacted
 
       CREATE table1.object1
       DELETE table2.object2
@@ -108,18 +111,23 @@ occurs for history older than the client maximum offline time.
    in the first place ignore the DELETE.
 
    The following history uses advanced backend compaction to converge on
-   the same state:
+   the same state with even fewer steps:
 
    .. code-block::
+      :caption: Advanced Compacted
 
       CREATE table1.obj1
 
-   Because ``object2`` was deleted, it has no impact on the current state
-   of the {+realm+}. As a result, advanced backend compaction can
-   completely remove it from history.
+   Because ``table2.object2`` was deleted, it has no impact on the end
+   state of the {+realm+}. As a result, advanced backend compaction can
+   completely remove *both* the CREATE and the DELETE operations for
+   ``table2.object2`` from history. However, any clients that synchronized
+   the CREATE operation but not the DELETE operation will not be able
+   to converge to a common end state.
 
-Advanced backend compaction only runs on clusters that specify a
-client maximum offline time.
+Advanced backend compaction only runs on {+app+}s that specify a
+client maximum offline time. Only history older than the client maximum
+offline time experiences advanced backend compaction.
 
 .. _client-maximum-offline-time:
 
@@ -188,15 +196,15 @@ new copy of the {+realm+}.
 
 The client maximum offline time controls how long your backend waits
 before applying advanced backend compaction. After the specified number
-of days without syncing, clients experience a client reset the next time
-they connect with the backend.
+of days without syncing, clients may experience a client reset the next
+time they connect with the backend.
 
 Applications that do not specify the client maximum offline time never
-apply advanced backend compaction to any history. This means that clients
-can connect after any period of time offline -- weeks, months, or even years
--- and synchronize changes from the backend. After a long period of time,
-there may be a large number of changes for {+realm+}s with frequent
-edits, so synchronization could take a large amount of time and data.
+apply advanced backend compaction. This means that clients can connect
+after any period of time offline -- weeks, months, or even years --
+and synchronize changes. As time passes, frequently-edited {+realm+}s
+accumulate many changes. With a large changeset, synchronization
+requires more time and data usage.
 
 Set the Client Maximum Offline Time
 -----------------------------------
@@ -217,15 +225,18 @@ Set the Client Maximum Offline Time
 
       3. Click the :guilabel:`Enable Max Offline Time` toggle.
 
-      4. Enter a number greater than or equal to 1 specifying a number of
-         days for your application's client maximum offline time. The default
-         value is 30 days.
+      4. Specify a number of days for your application's client maximum
+         offline time. The default value is 30 days. The minimum value is
+         1.
+
+      5. Click the :guilabel:`Update Offline Time` button to confirm your
+         changes.
    
    .. tab::
       :tabid: cli
       
       1. Pull a local copy of the latest version of your app with the
-         following:
+         following :ref:`pull command <realm-cli-pull>`:
 
          .. code-block:: bash
 
@@ -242,8 +253,18 @@ Set the Client Maximum Offline Time
                "client_max_offline_days": 42,
             }
 
-      3. Deploy the updated app configuration with the following:
+      3. Deploy the updated app configuration with the following
+         :ref:`push command <realm-cli-push>`:
 
          .. code-block:: bash
 
             realm-cli push --remote="<Your App ID>"
+
+Summary
+-------
+
+- {+sync+} uses space in your synced Atlas cluster to store change history.
+- Backend compaction reduces the space usage of this history.
+- Advanced backend compaction reduces the space usage of this history even
+  more, but can cause client resets for clients who have not connected
+  to the backend in more than the client maximum offline time (in days).
