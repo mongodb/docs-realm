@@ -1,0 +1,44 @@
+.. _import-realm-app:
+
+====================================
+Import an Existing Realm Application
+====================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can import and deploy an existing {+app+}. You might want to import an
+application when:
+
+- You use feature branches for development. Use a unique copy of the 
+  {+app+} for each feature branch to avoid conflicts.
+- You use a fresh copy of the {+app+} when running tests to ensure start state.
+- You deploy the same app to clusters across regions using a :ref:`local 
+  deployment model <realm-local-deployment>`.
+- You prefer to develop locally when making {+app+} configuration changes.
+
+How to Import a Realm Application
+---------------------------------
+
+In {+service+}, importing an application's :ref:`configuration files 
+<app-configuration>` is tightly coupled with deploying the new application 
+configuration. The process to import a {+app+} deploys it. When importing an 
+application:
+
+- If you want to import an application's configuration files into a different 
+  app, you must remove the ``app_id`` from the ``realm_config.json`` at the 
+  root of the application directory.
+- You must import the complete application structure. You can't do a partial 
+  import of only one file or a single field if you're only making a small change.
+- Even if you're using :ref:`deployment drafts <deployment-draft>`, importing
+  a {+app+}'s configuration files deploys the app. It isn't possible to 
+  import updated configuration files without deploying the application.
+
+You can import and deploy your application's configuration files via the 
+:ref:`Realm CLI <deploy-cli>` or :ref:`GitHub <deploy-github>`.
