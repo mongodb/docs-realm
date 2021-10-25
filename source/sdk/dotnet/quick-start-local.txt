@@ -47,6 +47,12 @@ Your application's :ref:`object model <dotnet-objects>` defines
 the data that you can store within {+client-database+}. You define an object 
 model by creating a C# class that inherits from the ``RealmObject`` class.
 
+Add the following ``using`` statement at the top of your C# file:
+
+.. code-block:: csharp
+
+   using MongoDB.Bson;
+
 The following code shows how to define an object model for a ``Guitar`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, and marked the 
 ``Make`` and ``Model`` properties as "Required". Note that the ``Id`` is of type 
