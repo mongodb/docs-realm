@@ -81,11 +81,11 @@
 @end 
 // :code-block-end:
 
-@interface MultipleUsers : XCTestCase
+@interface MultipleUsersObjc : XCTestCase
 
 @end
 
-@implementation MultipleUsers
+@implementation MultipleUsersObjc
 
 - (void)tearDown {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Remove anonymous user from device"];
