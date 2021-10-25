@@ -1,9 +1,8 @@
 let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
 
-// :code-block-start: complete-swiftui-combine-quick-start
+// :code-block-start: complete-swiftui-quick-start
 // :code-block-start: imports
 import RealmSwift
-import Combine
 import SwiftUI
 // :code-block-end:
 
