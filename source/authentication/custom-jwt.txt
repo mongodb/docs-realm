@@ -277,6 +277,13 @@ field as the user's display name. {+service-short+} refreshes a user's metadata
 whenever they log in and exposes the fields in the ``data`` object of the 
 :doc:`user object </authentication>`.
 
+.. important:: 2048 Character Limit
+
+   The length of a JWT token increases with the number of metadata fields in the 
+   token and the size of each field. **{+service-short+} limits the length of a 
+   JWT token to 2048 characters.** If you exceed this limit, {+service-short+} 
+   logs an error and the ticket is not processed.
+
 .. tabs-realm-admin-interfaces::
 
    .. tab::
