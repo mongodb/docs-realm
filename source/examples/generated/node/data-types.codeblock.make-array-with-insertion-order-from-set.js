@@ -1,24 +1,18 @@
-let levelsCompletedInOrder = [];
-async function onCharacterChange(character, changes) {
-  if (
-    !changes.deleted &&
-    changes.changedProperties?.includes("levelsCompleted")
-  ) {
-    for (let level of character["levelsCompleted"]) {
-      if (!levelsCompletedInOrder.includes(level)) {
-        levelsCompletedInOrder.push(level);
-      }
-    }
+function updateSetAndOrderedSetArray(set, orderedArray, value) {
+  const oldSize = set.size;
+  set.add(value);
+  if (set.size > oldSize || !set.size) {
+    orderedArray.push(value);
   }
 }
 
 let playerOne, realm;
+let levelsCompletedInOrder = [];
 try {
   realm = await Realm.open({
     schema: [characterSchema],
   });
-
-  await realm.write(() => {
+  realm.write(() => {
     playerOne = realm.create("Character", {
       _id: new BSON.ObjectId(),
       name: "PlayerOne",
@@ -26,23 +20,39 @@ try {
       levelsCompleted: [],
     });
   });
-  playerOne.addListener(onCharacterChange);
-
-  await realm.write(() => {
-    playerOne.levelsCompleted.add(5);
+  realm.write(() => {
+    updateSetAndOrderedSetArray(
+      playerOne.levelsCompleted,
+      levelsCompletedInOrder,
+      5
+    );
   });
-  await realm.write(() => {
-    playerOne.levelsCompleted.add(12);
+  realm.write(() => {
+    updateSetAndOrderedSetArray(
+      playerOne.levelsCompleted,
+      levelsCompletedInOrder,
+      12
+    );
   });
-  await realm.write(() => {
-    playerOne.levelsCompleted.add(2);
+  realm.write(() => {
+    updateSetAndOrderedSetArray(
+      playerOne.levelsCompleted,
+      levelsCompletedInOrder,
+      2
+    );
   });
-
-  console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 1]
-  console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 1]
+  realm.write(() => {
+    updateSetAndOrderedSetArray(
+      playerOne.levelsCompleted,
+      levelsCompletedInOrder,
+      7
+    );
+  });
 } catch (err) {
-  console.error(err);
+  console.error("error is", err);
 } finally {
+  console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 2, 7]
+  console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 2, 7]
   // close the realm
   realm.close();
 }
