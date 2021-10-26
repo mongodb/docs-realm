@@ -20,7 +20,7 @@ beforeAll(async () => {
   }
   async function registerNewAccount(email: string, password: string) {
     await app.emailPasswordAuth
-      .registerUser(email, password)
+      .registerUser({ email, password })
       .catch((err) =>
         console.log(`An error occurred while registering: ${err}`)
       );
@@ -49,7 +49,7 @@ afterAll(async () => {
   }
 });
 
-/* 
+/*
     Steps the app user follows:
     1. Creates an anonymous account to try out the app
     2. Decides to create a more permanent account (email/pass) once they decide they enjoy the app

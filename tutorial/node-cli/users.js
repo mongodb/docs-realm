@@ -13,7 +13,7 @@ const appConfig = {
 
 // :code-block-start: newRealmApp
 const app = new Realm.App(appConfig);
-/*  Change the logLevel to increase or decrease the 
+/*  Change the logLevel to increase or decrease the
     amount of messages you see in the console.
     Valid options are:
     fatal, error, warn, info, detail, debug, and trace
@@ -87,10 +87,10 @@ async function registerUser() {
   ]);
 
   try {
-    await app.emailPasswordAuth.registerUser(
-      input.email,
-      input.password
-    );
+    await app.emailPasswordAuth.registerUser({
+      email: input.email,
+      password: input.password
+    });
     const credentials = Realm.Credentials.emailPassword(
       input.email,
       input.password

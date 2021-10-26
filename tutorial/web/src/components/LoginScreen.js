@@ -53,7 +53,7 @@ export default function LoginScreen() {
       try {
         // Register the user and, if successful, log them in
         // :state-start: final
-        await app.emailPasswordAuth.registerUser(email, password);
+        await app.emailPasswordAuth.registerUser({ email, password });
         // :state-end: :state-uncomment-start: start
         // // TODO: Create new emailPassword credentials by calling the registerUser() method.
         // :state-uncomment-end:
