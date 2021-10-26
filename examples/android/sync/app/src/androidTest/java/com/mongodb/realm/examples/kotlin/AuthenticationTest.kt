@@ -237,7 +237,20 @@ class AuthenticationTest : RealmTest() {
     }
 
     @Test fun testGoogleOAuth() {
-        ActivityScenario.launch(AuthActivity::class.java)
+        val expectation : Expectation = Expectation()
+
+        Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity::class.java).result.toString())
+        activity?.runOnUiThread {
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app: App = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
+
+            Log.v("EXAMPLE", app.currentUser().toString())
+            expectation.fulfill()
+        }
+        expectation.await();
     }
 
     @Test fun testSignInWithApple() {

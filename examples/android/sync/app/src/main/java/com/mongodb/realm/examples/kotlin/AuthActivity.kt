@@ -58,19 +58,24 @@ class AuthActivity : AppCompatActivity() {
 
     fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            val account: GoogleSignInAccount? = completedTask.result
-            val authorizationCode: String? = account?.serverAuthCode
-            val googleCredentials: Credentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE)
-            app.loginAsync(googleCredentials) {
-                if (it.isSuccess) {
-                    Log.v(
-                        "AUTH",
-                        "Successfully logged in to MongoDB Realm using Google OAuth."
-                    )
-                } else {
-                    Log.e("AUTH", "Failed to log in to MongoDB Realm", it.error)
+            if (completedTask.isSuccessful) {
+                val account: GoogleSignInAccount? = completedTask.result
+                val token: String = account?.idToken!!
+                val googleCredentials: Credentials = Credentials.google(token, GoogleAuthType.ID_TOKEN)
+                app.loginAsync(googleCredentials) {
+                    if (it.isSuccess) {
+                        Log.v(
+                            "AUTH",
+                            "Successfully logged in to MongoDB Realm using Google OAuth."
+                        )
+                    } else {
+                        Log.e("AUTH", "Failed to log in to MongoDB Realm", it.error)
+                    }
                 }
+            } else {
+                Log.e("AUTH", "Google Auth failed: ${completedTask.exception}")
             }
+
         } catch (e: ApiException) {
             Log.e("AUTH", "Failed to authenticate using Google OAuth: " + e.message);
         }

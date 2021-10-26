@@ -20,16 +20,20 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
     try {
-        GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-        String authorizationCode = account.getServerAuthCode();
-        Credentials googleCredentials = Credentials.google(authorizationCode, GoogleAuthType.AUTH_CODE);
-        app.loginAsync(googleCredentials, it -> {
-            if (it.isSuccess()) {
-                Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.");
-            } else {
-                Log.e("AUTH", "Failed to log in to MongoDB Realm", it.getError());
-            }
-        });
+        if (completedTask.isSuccessful()) {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String token = account.getIdToken();
+            Credentials googleCredentials = Credentials.google(token, GoogleAuthType.ID_TOKEN);
+            app.loginAsync(googleCredentials, it -> {
+                if (it.isSuccess()) {
+                    Log.v("AUTH", "Successfully logged in to MongoDB Realm using Google OAuth.");
+                } else {
+                    Log.e("AUTH", "Failed to log in to MongoDB Realm: ", it.getError());
+                }
+            });
+        } else {
+            Log.e("AUTH", "Google Auth failed: " + completedTask.getException().toString());
+        }
     } catch (ApiException e) {
         Log.w("AUTH", "Failed to log in with Google OAuth: " + e.getMessage());
     }
