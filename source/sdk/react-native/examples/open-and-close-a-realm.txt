@@ -37,10 +37,10 @@ Open a Synced Realm
    For more information about connecting to your synced {+realm+} 
    while offline, see :ref:`Open Immediately with Background Sync <react-native-open-immediately-with-background-sync>`.
 
-.. _react-native-sync-all-data-before-returning:
+.. _react-native-sync-all-data-before-opening:
 
-Sync All Data Before Returning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sync All Data Before Opening
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, {+service-short+} syncs all data from the server before returning. 
 
@@ -54,10 +54,10 @@ By default, {+service-short+} syncs all data from the server before returning.
    .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
       :language: javascript
 
-.. _react-native-return-after-timeout-with-background-sync:
+.. _react-native-open-after-timeout-with-background-sync:
 
-Return After Timeout with Background Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open After Timeout with Background Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you don't need to sync all data before before returning the {+realm+}, configure the
 ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of your
