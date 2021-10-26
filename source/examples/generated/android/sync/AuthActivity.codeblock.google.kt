@@ -1,6 +1,5 @@
 fun loginWithGoogle() {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestEmail()
         .build()
     val googleSignInClient = GoogleSignIn.getClient(this, gso)
     val signInIntent: Intent = googleSignInClient.signInIntent

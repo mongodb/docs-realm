@@ -41,7 +41,6 @@ public class AuthActivity extends AppCompatActivity {
                 // :replace-with:
                 // .requestIdToken("YOUR GOOGLE SDK APP ID")
                 // :hide-end:
-                .requestEmail()
                 .build();
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
         Intent signInIntent = googleSignInClient.getSignInIntent();

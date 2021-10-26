@@ -39,7 +39,6 @@ class AuthActivity : AppCompatActivity() {
             // :replace-with:
             // .requestIdToken("YOUR GOOGLE SDK APP ID")
             // :hide-end:
-            .requestEmail()
             .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         val signInIntent: Intent = googleSignInClient.signInIntent
