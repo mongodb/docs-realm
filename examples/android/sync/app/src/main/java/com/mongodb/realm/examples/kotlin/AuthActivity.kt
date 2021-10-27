@@ -1,9 +1,10 @@
 package com.mongodb.realm.examples.kotlin;
 
-import android.R.attr
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -19,7 +20,6 @@ import io.realm.mongodb.auth.GoogleAuthType
 
 class AuthActivity : AppCompatActivity() {
     lateinit var app: App
-    private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -43,24 +43,21 @@ class AuthActivity : AppCompatActivity() {
             .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         val signInIntent: Intent = googleSignInClient.signInIntent
-        // RC_SIGN_IN lets onActivityResult identify the result of THIS call
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent()
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
-        }
+        val resultLauncher: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                handleSignInResult(task)
+            }
+        resultLauncher.launch(signInIntent)
     }
 
     fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             if (completedTask.isSuccessful) {
-                val account: GoogleSignInAccount? = completedTask.result
+                val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
                 val token: String = account?.idToken!!
                 val googleCredentials: Credentials =
                     Credentials.google(token, GoogleAuthType.ID_TOKEN)

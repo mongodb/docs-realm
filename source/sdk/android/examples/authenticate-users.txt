@@ -292,24 +292,22 @@ users in your Android application:
    <android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getClient(android.content.Context,%20com.google.android.gms.auth.api.signin.GoogleSignInOptions)>`
 
 #. Use the ``GoogleSignInClient`` to create an ``Intent`` capable of
-   triggering Google Authentication.
+   triggering Google Sign-In.
 
-#. Use :android:`startActivityForResult()
-   <reference/android/app/Activity#startActivityForResult(android.content.Intent,%20int)>`
-   to trigger Google Authentication with the intent. Pass a request code
-   that you can later use in ``onActivityResult()`` to identify the
-   Google Authentication result.
-
-#. In :android:`onActivityResult()
-   <reference/android/app/Activity#onActivityResult(int, int, android.content.Intent)>`,
-   check for the request code you passed in
-   the previous step. Use :google:`GoogleSignIn.getSignedInAccountFromIntent()
+#. Use :android:`registerForActivityResult()
+   <reference/androidx/activity/result/ActivityResultCaller#registerForActivityResult(androidx.activity.result.contract.ActivityResultContract%3CI,O%3E,androidx.activity.result.ActivityResultCallback%3CO%3E)>`
+   to configure a callback. Your callback should use :google:`GoogleSignIn.getSignedInAccountFromIntent()
    <android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getSignedInAccountFromIntent(android.content.Intent)>`
-   to access the result of Google Authentication: a
-   ``Task<GoogleSignInAccount>``.
+   to access the result of Google Sign-In: a ``Task<GoogleSignInAccount>``.
 
-#. Use ``isSuccessful()`` to gracefully handle Google Authentication
-   errors.
+#. Use the :android:`launch()
+   <reference/androidx/activity/result/ActivityResultLauncher#launch(I)>`
+   method of the :android:`ActivityResultLauncher
+   <reference/androidx/activity/result/ActivityResultLauncher>`
+   returned in the previous step to start Google Sign-In. Pass the
+   ``launch()`` method your Google Sign-In ``Intent``.
+
+#. Use ``isSuccessful()`` to handle Google Sign-In errors.
 
 #. Access the result of the task (a :google:`GoogleSignInAccount
    <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`)
