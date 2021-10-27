@@ -23,22 +23,68 @@ application when:
   deployment model <realm-local-deployment>`.
 - You prefer to develop locally when making {+app+} configuration changes.
 
-How to Import a Realm Application
----------------------------------
+Key Concepts
+------------
 
-In {+service+}, importing an application's :ref:`configuration files 
-<app-configuration>` is tightly coupled with deploying the new application 
-configuration. The process to import a {+app+} deploys it. When importing an 
-application:
+In {+service+}, you can import an existing {+app+} by importing the 
+application's :ref:`configuration files <app-configuration>`. The process 
+to import a {+app+} also deploys it, even if you have :ref:`deployment 
+drafts <deployment-draft>` enabled.
+
+When importing an application:
 
 - If you want to import an application's configuration files into a different 
   app, you must remove the ``app_id`` from the ``realm_config.json`` at the 
   root of the application directory.
 - You must import the complete application structure. You can't do a partial 
   import of only one file or a single field if you're only making a small change.
-- Even if you're using :ref:`deployment drafts <deployment-draft>`, importing
-  a {+app+}'s configuration files deploys the app. It isn't possible to 
-  import updated configuration files without deploying the application.
 
-You can import and deploy your application's configuration files via the 
-:ref:`Realm CLI <deploy-cli>` or :ref:`GitHub <deploy-github>`.
+Procedure
+---------
+
+You can import and deploy your application's configuration files in two ways:
+
+- With the :ref:`Realm CLI <deploy-cli>` 
+- When you have enabled :ref:`GitHub deployment <deploy-github>`.
+
+.. tabs::
+
+   .. tab:: 
+      :tabid: Realm CLI
+
+      .. warning::
+
+         If you're using :ref:`Automated GitHub Deploy <deploy-github>`, do not 
+         update :ref:`your {+app+} configuration via the Realm CLI 
+         <deploy-github-make-changes-cli>`. Instead, push your changes to the 
+         linked GitHub repository.
+
+      .. include:: /includes/steps/deploy-cli.rst
+
+   .. tab:: 
+      :tabid: GitHub
+
+      When you have enabled :ref:`GitHub deployment <deploy-github>`, you can
+      import your application by updating the configuration files in the
+      linked GitHub repository. 
+
+      Make any additions, modifications, or deletions to the application 
+      configuration files in the linked repository. Refer to the 
+      :ref:`app-configuration` reference page and individual component
+      reference pages for details on the structure and schema of your 
+      application directory.
+
+      When you are ready to import the app, commit the application 
+      configuration files and then push them to GitHub:
+
+      .. code-block:: sh
+
+        git add -A
+        git commit -m "<commit message>"
+        git push origin <branch name>
+
+      Once you successfully push your changes to GitHub, {+service-short+}
+      immediately deploys a new version of your application that matches the state
+      of the latest commit. Client applications will automatically use the newest
+      version, so make sure that you also update your client code to use the new
+      version.
