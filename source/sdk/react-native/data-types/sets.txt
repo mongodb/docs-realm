@@ -100,7 +100,7 @@ To clear the set, run the ``<Realm.Set>.clear()`` method within a write transact
 
 Traverse a Set
 --------------
-To traverse a set, use a ``<Realm.Set>.forEach()`` loop or alternative :mdn:`iteration method
+To traverse a set, use the ``<Realm.Set>.forEach()`` method or alternative :mdn:`iteration method
 <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>`. 
 
 .. literalinclude:: /examples/generated/node/data-types.codeblock.traverse-a-set.js
@@ -112,8 +112,7 @@ To traverse a set, use a ``<Realm.Set>.forEach()`` loop or alternative :mdn:`ite
    The order of the **{+service-short+} Set** may be different from the order that 
    the items were added.
 
-   If you require an ordered version of your set, you must implement that order yourself. 
-   You can do this by updating an array when a new value is added to the set. For example:
+   You can specify the order this by updating an array when a new value is added to the set. For example:
 
    .. literalinclude:: /examples/generated/node/data-types.codeblock.make-array-with-insertion-order-from-set.js
       :language: javascript
