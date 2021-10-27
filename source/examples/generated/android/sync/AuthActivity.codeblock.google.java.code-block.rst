@@ -7,19 +7,20 @@
                .build();
        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
        Intent signInIntent = googleSignInClient.getSignInIntent();
-       // RC_SIGN_IN lets onActivityResult identify the result of THIS call
-       startActivityForResult(signInIntent, RC_SIGN_IN);
-   }
 
-   @Override
-   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       super.onActivityResult(requestCode, resultCode, data);
+       ActivityResultLauncher<Intent> resultLauncher =
+               registerForActivityResult(
+                       new ActivityResultContracts.StartActivityForResult(),
+               new ActivityResultCallback<ActivityResult>() {
+                   @Override
+                   public void onActivityResult(ActivityResult result) {
+                       Task<GoogleSignInAccount> task =
+                               GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                       handleSignInResult(task);
+                   }
+               });
 
-       // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent()
-       if (requestCode == RC_SIGN_IN) {
-           Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-           handleSignInResult(task);
-       }
+       resultLauncher.launch(signInIntent);
    }
 
    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {

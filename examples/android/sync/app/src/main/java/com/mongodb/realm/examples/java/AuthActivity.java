@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,7 +26,6 @@ import static com.mongodb.realm.examples.CustomApplicationKt.YOUR_APP_ID;
 
 public class AuthActivity extends AppCompatActivity {
     App app;
-    int RC_SIGN_IN = 9001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,19 +48,20 @@ public class AuthActivity extends AppCompatActivity {
                 .build();
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
         Intent signInIntent = googleSignInClient.getSignInIntent();
-        // RC_SIGN_IN lets onActivityResult identify the result of THIS call
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        ActivityResultLauncher<Intent> resultLauncher =
+                registerForActivityResult(
+                        new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Task<GoogleSignInAccount> task =
+                                GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        handleSignInResult(task);
+                    }
+                });
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent()
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
+        resultLauncher.launch(signInIntent);
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
