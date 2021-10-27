@@ -1,6 +1,5 @@
 import Realm from "realm";
 import BSON from "bson";
-import EventEmitter from "events";
 
 let realm;
 
