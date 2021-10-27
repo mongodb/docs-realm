@@ -7,9 +7,10 @@ realm.Write(() =>
     realm.Add<Inventory>(inventory);
 });
 
-// Find all Plants that have "Prickly Pear" in the name
-var pricklyPear = realm.All<Inventory>()
-    .Filter("PlantSet.Name CONTAINS 'Prickly Pear'");
+// convert the Plant Set to an IQueryable and apply a filter
+var pricklyPear = inventory.PlantSet.AsRealmQueryable().Filter("Name == 'Prickly Pear'");
+// Alternatively, apply a filter directly on the Plant Set 
+var pricklyPearPlants = inventory.PlantSet.Filter("Name == 'Prickly Pear'");
 
 // Find all Inventory items that have at least one value in their
 // IntDict that is larger than 5
