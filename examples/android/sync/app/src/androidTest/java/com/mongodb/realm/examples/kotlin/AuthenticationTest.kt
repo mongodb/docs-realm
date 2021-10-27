@@ -239,7 +239,8 @@ class AuthenticationTest : RealmTest() {
     @Test fun testGoogleOAuth() {
         val expectation : Expectation = Expectation()
 
-        Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity::class.java).result.toString())
+        // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS NEXT LINE TO RUN LOCALLY.
+        // Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity::class.java).result.toString())
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
@@ -250,7 +251,7 @@ class AuthenticationTest : RealmTest() {
             Log.v("EXAMPLE", app.currentUser().toString())
             expectation.fulfill()
         }
-        // expectation.await() // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS TO RUN LOCALLY.
+        expectation.await()
     }
 
     @Test fun testSignInWithApple() {

@@ -232,7 +232,8 @@ public class AuthenticationTest extends RealmTest {
     public void testGoogleOAuth() {
         Expectation expectation = new Expectation();
 
-        Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity.class).getResult().toString());
+        // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS NEXT LINE TO RUN LOCALLY.
+        // Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity.class).getResult().toString());
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
@@ -241,7 +242,7 @@ public class AuthenticationTest extends RealmTest {
             Log.v("EXAMPLE", app.currentUser().toString());
             expectation.fulfill();
         });
-        // expectation.await(); // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS TO RUN LOCALLY.
+        expectation.await();
     }
 
     @Test
