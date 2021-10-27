@@ -34,11 +34,11 @@ class AuthActivity : AppCompatActivity() {
     // :code-block-start: google
     fun loginWithGoogle() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            // :hide-start:
+            // :remove-start:
             .requestIdToken("95080929124-rsqtfko567k2stoh0k7cm84t3tgl3270.apps.googleusercontent.com")
-            // :replace-with:
+            // :remove-end: :uncomment-start:
             // .requestIdToken("YOUR GOOGLE SDK APP ID")
-            // :hide-end:
+            // :uncomment-end:
             .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         val signInIntent: Intent = googleSignInClient.signInIntent
