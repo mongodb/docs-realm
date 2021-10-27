@@ -240,7 +240,7 @@ class AuthenticationTest : RealmTest() {
         val expectation : Expectation = Expectation()
 
         // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS NEXT LINE TO RUN LOCALLY.
-        Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity::class.java).result.toString())
+        // Log.v("EXAMPLE", ActivityScenario.launch(AuthActivity::class.java).result.toString())
         activity?.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
