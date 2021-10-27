@@ -136,9 +136,10 @@ namespace Examples
                 realm.Add<PlantInventory>(inventory);
             });
 
-            // Find all Plants that have "Prickly Pear" in the name
-            var pricklyPear = realm.All<PlantInventory>()
-                .Filter("PlantSet.Name CONTAINS 'Prickly Pear'");
+            // convert the Plant Set to an IQueryable and apply a filter
+            var pricklyPear = inventory.PlantSet.AsRealmQueryable().Filter("Name == 'Prickly Pear'");
+            // Alternatively, apply a filter directly on the Plant Set 
+            var pricklyPearPlants= inventory.PlantSet.Filter("Name == 'Prickly Pear'");
 
             // Find all Inventory items that have at least one value in their
             // IntDict that is larger than 5
@@ -147,7 +148,7 @@ namespace Examples
             // :replace-end:
             //:code-block-end:
 
-            Assert.IsNotNull(pricklyPear);
+            Assert.IsNotNull(pricklyPear); 
             Assert.IsNotNull(moreThan100);
         }
         [Test]
