@@ -558,7 +558,7 @@ describe("Node.js Data Types", () => {
     function updateSetAndOrderedSetArray(set, orderedArray, value) {
       const oldSize = set.size;
       set.add(value);
-      if (set.size > oldSize || !set.size) {
+      if (set.size > oldSize) {
         orderedArray.push(value);
       }
     }
