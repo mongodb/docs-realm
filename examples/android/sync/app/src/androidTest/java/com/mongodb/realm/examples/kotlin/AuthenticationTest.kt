@@ -250,7 +250,7 @@ class AuthenticationTest : RealmTest() {
             Log.v("EXAMPLE", app.currentUser().toString())
             expectation.fulfill()
         }
-        expectation.await();
+        // expectation.await() // TODO: WARNING! THIS TEST REQUIRES INTERACTION. UNCOMMENT THIS TO RUN LOCALLY.
     }
 
     @Test fun testSignInWithApple() {
