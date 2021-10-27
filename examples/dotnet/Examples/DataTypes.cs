@@ -148,7 +148,7 @@ namespace Examples
             // :replace-end:
             //:code-block-end:
 
-            Assert.IsNotNull(pricklyPear); 
+            Assert.IsNotNull(pricklyPear);
             Assert.IsNotNull(moreThan100);
         }
         [Test]
