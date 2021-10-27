@@ -1,7 +1,7 @@
 private void signInWithGoogle() {
     GoogleSignInOptions gso = new GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("YOUR GOOGLE SDK APP ID")
+            .requestIdToken("YOUR WEB APPLICATION CLIENT ID FOR GOOGLE AUTH")
             .build();
     GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
     Intent signInIntent = googleSignInClient.getSignInIntent();

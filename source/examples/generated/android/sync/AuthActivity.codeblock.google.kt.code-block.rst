@@ -3,7 +3,7 @@
    fun loginWithGoogle() {
        val gso = GoogleSignInOptions
            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-           .requestIdToken("YOUR GOOGLE SDK APP ID")
+           .requestIdToken("YOUR WEB APPLICATION CLIENT ID FOR GOOGLE AUTH")
            .build()
        val googleSignInClient = GoogleSignIn.getClient(this, gso)
        val signInIntent: Intent = googleSignInClient.signInIntent

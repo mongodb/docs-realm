@@ -40,7 +40,7 @@ public class AuthActivity extends AppCompatActivity {
                 // :remove-start:
                 .requestIdToken("95080929124-rsqtfko567k2stoh0k7cm84t3tgl3270.apps.googleusercontent.com")
                 // :remove-end: :uncomment-start:
-                // .requestIdToken("YOUR GOOGLE SDK APP ID")
+                // .requestIdToken("YOUR WEB APPLICATION CLIENT ID FOR GOOGLE AUTH")
                 // :uncomment-end:
                 .build();
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
