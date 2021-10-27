@@ -251,13 +251,84 @@ Google User
    enable the :ref:`Google authentication provider <google-authentication>` for
    your application.
 
-Follow the official :google:`Google Sign-In for Android Integration Guide
-<identity/sign-in/android/start-integrating>` to set up the authentication flow
-for your application. In the sign-in completion handler, get the logged in
-user's authorization code from the :google:`GoogleSignInAccount
-<android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`
-object. Use the authorization code to create a {+service-short+} Google
-credential and then log the user into your {+service-short+} app.
+To set up your application for Google User authentication:
+
+1. In the `Google Cloud Platform console
+   <https://console.cloud.google.com/apis/credentials>`__, create an
+   OAuth 2.0 client ID of type "Web application".
+
+#. Configure your backend {+app+} to use that client ID and the associated
+   client secret.
+
+#. Enable OpenID Connect on the backend.
+
+Use Google's official :google:`Sign-In for Android <identity/sign-in/android>` to authenticate Google
+users in your Android application:
+
+.. note:: Code Example Below
+
+   For an implementation of these instructions, check out the code block
+   below.
+
+1. Add the Google Sign-In for Android dependency to the ``dependencies``
+   block of your application level ``build.gradle``:
+
+   .. code-block:: groovy
+
+      com.google.android.gms:play-services-auth:19.2.0
+
+#. Create a :google:`GoogleSignInOptions
+   <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions>`
+   with the following builder options:
+
+   - :google:`default sign in
+     <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-builder-googlesigninoptions-googlesigninoptions>`
+   - an :google:`ID token request
+     <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestidtoken-string-serverclientid>`
+     -- pass your OAuth 2.0 client ID as the ``serverClientId``.
+
+#. Use the ``GoogleSignInOptions`` to create a ``GoogleSignInClient``
+   with :google:`GoogleSignIn.getClient()
+   <android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getClient(android.content.Context,%20com.google.android.gms.auth.api.signin.GoogleSignInOptions)>`
+
+#. Use the ``GoogleSignInClient`` to create an ``Intent`` capable of
+   triggering Google Authentication.
+
+#. Use :android:`startActivityForResult()
+   <reference/android/app/Activity#startActivityForResult(android.content.Intent,%20int)>`
+   to trigger Google Authentication with the intent. Pass a request code
+   that you can later use in ``onActivityResult()`` to identify the
+   Google Authentication result.
+
+#. In :android:`onActivityResult()
+   <reference/android/app/Activity#onActivityResult(int, int, android.content.Intent)>`,
+   check for the request code you passed in
+   the previous step. Use :google:`GoogleSignIn.getSignedInAccountFromIntent()
+   <android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getSignedInAccountFromIntent(android.content.Intent)>`
+   to access the result of Google Authentication: a
+   ``Task<GoogleSignInAccount>``.
+
+#. Use ``isSuccessful()`` to gracefully handle Google Authentication
+   errors.
+
+#. Access the result of the task (a :google:`GoogleSignInAccount
+   <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount>`)
+   with ``getResult()``.
+
+#. Access the ID token for the ``GoogleSignInAccount`` with ``getIdToken()``.
+
+#. Create a Realm ``Credentials`` object with :java-sdk:`Credentials.google()
+   <io/realm/mongodb/Credentials.html#google-java.lang.String-io.realm.mongodb.auth.GoogleAuthType->`.
+   Pass the ID token as the first parameter, and :java-sdk:`GoogleAuthType.ID_TOKEN
+   <io/realm/mongodb/auth/GoogleAuthType.html#ID_TOKEN>` as the second parameter.
+
+#. Use the :java-sdk:`app.loginAsync()
+   <io/realm/mongodb/App.html#loginAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback->`
+   or :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`
+   methods to authenticate with the Realm backend using the token.
+
+The following code implements this flow, starting with a method call to
+``loginWithGoogle()``:
 
 .. tabs-realm-languages::
    
@@ -266,14 +337,18 @@ credential and then log the user into your {+service-short+} app.
 
       .. literalinclude:: /examples/generated/android/sync/AuthActivity.codeblock.google.java
          :language: java
-         :emphasize-lines: 26-33
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthActivity.codeblock.google.kt
          :language: kotlin
-         :emphasize-lines: 26-36
+
+.. seealso::
+
+   To learn more about Google Sign-In for Android, check out the
+   official :google:`Google Sign-In for Android Integration Guide
+   <identity/sign-in/android/start-integrating>`.
 
 .. _android-apple-login:
 .. _android-login-apple:
