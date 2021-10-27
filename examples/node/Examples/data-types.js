@@ -563,69 +563,59 @@ describe("Node.js Data Types", () => {
       }
     }
 
-    let playerOne, realm;
+    let playerOne;
     let levelsCompletedInOrder = [];
-    try {
-      realm = await Realm.open({
-        schema: [characterSchema],
+    const realm = await Realm.open({
+      schema: [characterSchema],
+    });
+    realm.write(() => {
+      playerOne = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "PlayerOne",
+        inventory: ["potion", "wand", "spell book"],
+        levelsCompleted: [],
       });
-      realm.write(() => {
-        playerOne = realm.create("Character", {
-          _id: new BSON.ObjectId(),
-          name: "PlayerOne",
-          inventory: ["potion", "wand", "spell book"],
-          levelsCompleted: [],
-        });
-      });
-      realm.write(() => {
-        updateSetAndOrderedSetArray(
-          playerOne.levelsCompleted,
-          levelsCompletedInOrder,
-          5
-        );
-      });
-      realm.write(() => {
-        updateSetAndOrderedSetArray(
-          playerOne.levelsCompleted,
-          levelsCompletedInOrder,
-          12
-        );
-      });
-      realm.write(() => {
-        updateSetAndOrderedSetArray(
-          playerOne.levelsCompleted,
-          levelsCompletedInOrder,
-          2
-        );
-      });
-      realm.write(() => {
-        updateSetAndOrderedSetArray(
-          playerOne.levelsCompleted,
-          levelsCompletedInOrder,
-          7
-        );
-      });
-    } catch (err) {
-      console.error("error is", err);
-    } finally {
-      console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 2, 7]
-      console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 2, 7]
-      // :remove-start:
-      expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([
-        2,
-        5,
-        7,
-        12,
-      ]);
-      expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
-      // delete the object specifically created in this test to keep tests idempotent
-      realm.write(() => {
-        realm.delete(playerOne);
-      });
-      // :remove-end:
-      // close the realm
-      realm.close();
-    }
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        5
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        12
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        2
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        7
+      );
+    });
+    console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 2, 7]
+    console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 2, 7]
+    // :remove-start:
+    expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 7, 12]);
+    expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
+    // delete the object specifically created in this test to keep tests idempotent
+    realm.write(() => {
+      realm.delete(playerOne);
+    });
+    // :remove-end:
+    // close the realm
+    realm.close();
     // :code-block-end:
   });
 });
