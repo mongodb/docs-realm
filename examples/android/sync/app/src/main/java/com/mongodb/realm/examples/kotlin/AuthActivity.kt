@@ -33,7 +33,8 @@ class AuthActivity : AppCompatActivity() {
 
     // :code-block-start: google
     fun loginWithGoogle() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val gso = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             // :remove-start:
             .requestIdToken("95080929124-rsqtfko567k2stoh0k7cm84t3tgl3270.apps.googleusercontent.com")
             // :remove-end: :uncomment-start:
@@ -42,13 +43,14 @@ class AuthActivity : AppCompatActivity() {
             .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         val signInIntent: Intent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN) // RC_SIGN_IN lets onActivityResult identify the result of THIS call
+        // RC_SIGN_IN lets onActivityResult identify the result of THIS call
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent()
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
@@ -60,7 +62,8 @@ class AuthActivity : AppCompatActivity() {
             if (completedTask.isSuccessful) {
                 val account: GoogleSignInAccount? = completedTask.result
                 val token: String = account?.idToken!!
-                val googleCredentials: Credentials = Credentials.google(token, GoogleAuthType.ID_TOKEN)
+                val googleCredentials: Credentials =
+                    Credentials.google(token, GoogleAuthType.ID_TOKEN)
                 app.loginAsync(googleCredentials) {
                     if (it.isSuccess) {
                         Log.v(
@@ -68,7 +71,8 @@ class AuthActivity : AppCompatActivity() {
                             "Successfully logged in to MongoDB Realm using Google OAuth."
                         )
                     } else {
-                        Log.e("AUTH", "Failed to log in to MongoDB Realm", it.error)
+                        Log.e("AUTH",
+                            "Failed to log in to MongoDB Realm", it.error)
                     }
                 }
             } else {
