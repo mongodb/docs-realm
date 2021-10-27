@@ -29,6 +29,23 @@ use to :ref:`update fields <mongodb-update-operators-fields>` or
 
 .. include:: /mongodb/crud-snippets/setup.rst
 
+
+.. _id__baas_transaction:
+
+Temporary _id__baas_transaction Field
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While running update operations, {+backend+} temporarily adds a
+reserved field, ``_id_baas_transaction``, to documents.
+Once a document is successfully updated, {+backend+} removes this
+field. 
+
+If you need to modify data in the linked {+atlas+} data source while
+ensuring the ``_id_baas_transaction`` field isn't persisted, refer to the
+:ref:`Accessing Application Data with Another Tool <accessing-application-data-with-another-tool>`
+documentation. 
+
+
 Methods
 -------
 
