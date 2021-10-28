@@ -37,17 +37,24 @@ Application Users
 -----------------
 
 Secure your {+service+} applications with :ref:`built-in user management 
-<users-and-authentication>`. You can let users log in with:
+<users-and-authentication>`. With {+service-short+}'s built-in user 
+management, only authorized users can access your Realm app. You can 
+:ref:`delete <delete-user>` or :ref:`disable <disable-user>` users, and 
+:ref:`revoke user sessions <revoke-user-sessions>`. Let users log in with:
 
-- Existing provider credentials, such as Facebook, Google, or Apple ID
-- New credentials with email/password, custom JWT, or custom function 
-  authentication 
-- Anonymous authentication if you don't need to store user data
+- Existing provider credentials, such as :ref:`Facebook 
+  <facebook-authentication>`, :ref:`Google <google-authentication>`, or 
+  :ref:`Apple ID <apple-id-authentication>`
+- New credentials with :ref:`email/password <email-password-authentication>`, 
+  :ref:`custom JWT <custom-jwt-authentication>`, or :ref:`custom function 
+  authentication <custom-function-authentication>`
+- :ref:`Anonymous authentication <anonymous-authentication>`, if you don't 
+  need to store user data
 
-Enable one or more authentication providers for your Realm app. You 
-can also link user accounts with client SDKs. With Realm's built-in user 
-management, only authorized users can access your Realm app. You can delete 
-or disable users, and revoke user sessions.
+You can enable one or more :ref:`authentication providers 
+<authentication-providers>` in the {+service-short+} backend, and then 
+implement them in your client code. You can also link user accounts with 
+client SDKs.
 
 .. _security-data-access:
 
@@ -91,15 +98,18 @@ through {+service+}, you can define roles that enable users to read and modify
 data. The :ref:`MongoDB service <mongodb-service>` uses a strict rules system
 that prevents all operations unless they are explicitly enabled.
 
-When you define a role, you create a set of CRUD permissions that {+service+}
-evaluates individually for each document associated with a query. You can set 
-roles to have document-level or field-level access, and you can give roles 
-read or read and write access. {+service-short+} blocks requests from roles 
-that do not have permission to search or read data.
+When you :ref:`define a role <define-roles-and-permissions>`, you create a 
+set of CRUD permissions that {+service+} evaluates individually for each 
+document associated with a query. You can set roles to have document-level 
+or field-level access, and you can give roles read or read and write access. 
+{+service-short+} blocks requests from roles that do not have permission to 
+search or read data.
 
-When you access {+atlas+} through a {+app+} where {+sync+} is enabled, the
-permissions you defined for {+sync-short+} apply. MongoDB does not apply 
-role-based permissions when {+sync+} is enabled.
+.. note::
+
+   When you access {+atlas+} through a {+app+} where {+sync+} is enabled, the
+   permissions you defined for {+sync-short+} apply. MongoDB does not apply 
+   role-based permissions when {+sync+} is enabled.
 
 .. _security-developer-access:
 
@@ -146,6 +156,8 @@ unauthorized access to your data. This includes:
 - Letting you define URLs and IP addresses from which inbound requests 
   may originate
 
+.. _security-tls:
+
 Transport Layer Security (TLS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -156,7 +168,7 @@ to secure all network requests to and from your application, including:
 - Queries and operations on a linked :term:`MongoDB Atlas data source 
   <linked cluster>`. 
   
-The TLS certificate is pre-defined and cannot be customized.
+The TLS certificate is pre-defined and cannot be customized or disabled.
 
 .. _realm-public-ips:
 .. _firewall-configuration:
@@ -218,8 +230,8 @@ IP Access List
 ~~~~~~~~~~~~~~
 
 {+service+} allows client requests from the enabled entries in the app’s
-IP access list. Allowed requests will still use {+service-short+}'s 
-authentication and authorization rules. 
+:ref:`IP access list <manage-ip-access>`. Allowed requests will still use 
+{+service-short+}'s authentication and authorization rules. 
 
 By default, your {+app+} allows access from any client. When you add IP 
 access list entries, {+service-short+} blocks any request originating from 
