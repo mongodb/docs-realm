@@ -1,6 +1,8 @@
-==========================
-Realm Application Security
-==========================
+.. _manage-ip-access:
+
+================
+Manage IP Access
+================
 
 .. default-domain:: mongodb
 
@@ -10,66 +12,17 @@ Realm Application Security
    :depth: 2
    :class: singlecol
 
+Overview
+--------
 
-
-Network Security
-----------------
-
-MongoDB Realm uses `TLS 1.3 <https://datatracker.ietf.org/doc/html/rfc8446>`__ to secure
-all network requests to and from your application, including apps that connect
-from a Realm SDK as well as queries and operations on a linked :term:`MongoDB
-Atlas data source <linked cluster>`. The TLS certificate is pre-defined and
-cannot be customized.
-
-.. _realm-public-ips:
-.. _firewall-configuration:
-
-Firewall Configuration
-----------------------
-
-{+service+} only sends requests from the following IP addresses. You can
-copy this list to an allowlist on your firewall:
-
-.. code-block:: text
-
-   13.236.189.10
-   18.202.2.23
-   18.210.66.32
-   18.211.240.224
-   18.213.24.164
-   52.63.26.53
-   54.203.157.107
-   54.69.74.169
-   54.76.145.131
-   18.192.255.128
-   18.157.138.240
-   18.158.38.156
-   52.220.57.174
-   18.140.123.126
-   13.251.182.174
-   65.0.112.137
-   3.6.231.140
-   13.234.189.107
-
-You can find this information in computer-friendly formats at these
-URLs:
-
-JSON
-  https://docs.mongodb.com/realm-sdks/mongodb/RealmPublicIPs.json
-
-CSV
-  https://docs.mongodb.com/realm-sdks/mongodb/RealmPublicIPs.csv
-
-.. 
-   Note to docs writer: the hosted csv and json files are managed in the
-   docs-realm-sdks repo: https://github.com/10gen/docs-realm-sdks
-
-IP Access List
---------------
 {+service+} allows client requests from the enabled entries in the app’s
-IP access list. Allowed requests will still use {+service-short+}'s authentication and
-authorization rules. By default, your {+app+} allows access from any client.
+IP access list. Allowed requests will still use {+service-short+}'s 
+authentication and authorization rules. 
 
+By default, your {+app+} allows access from any client. When you add an entry
+to the IP access list, your {+app+} *only* allows access from that IP address.
+
+.. _find-ip-address:
 
 Find Your IP Address
 ~~~~~~~~~~~~~~~~~~~~
@@ -79,16 +32,16 @@ Find Your IP Address
    .. tab:: 
       :tabid: Windows
 
-      Read the `Find Your IP Address in Windows
-      <https://support.microsoft.com/en-us/windows/find-your-ip-address-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9>`_
-      Microsoft support guide if you need to find the IP address of a windows
-      machine.
+      Run the :wikipedia:`ipconfig <Ipconfig>` command to find the IP address 
+      of a Windows machine.
 
    .. tab:: 
       :tabid: Linux or Mac
 
-      Run the :wikipedia:`ifconfig <Ifconfig>` command if you need the IP address of a Linux machine or a Mac.
+      Run the :wikipedia:`ifconfig <Ifconfig>` command to find the IP address 
+      of a Linux or Mac machine.
 
+.. _view-ip-access-list-entries:
 
 View IP Access List Entries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,6 +52,8 @@ Navigate to :guilabel:`App Settings` in the {+service+} UI, and then click the
 .. figure:: /images/ip-access-list-settings-realm-ui.png
    :alt: IP Access List Settings
    :figwidth: 750px
+
+.. _create-ip-access-list-entry:
 
 Create an IP Access List Entry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,6 +67,8 @@ You can also specify a comment about the entry.
    :alt: Add IP Access List Entry - modal
    :figwidth: 500px
 
+.. _edit-ip-access-list-entry:
+
 Edit an IP Access List Entry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -123,6 +80,8 @@ also specify a comment about the entry.
 .. figure:: /images/edit-ip-access-entry-realm-ui.png
    :alt: Edit IP Access List Entry - modal
    :figwidth: 500px
+
+.. _delete-ip-access-list-entry:
 
 Delete an IP Access List Entry
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
