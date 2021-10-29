@@ -1,10 +1,9 @@
 .. _services:
-.. _external-services:
 .. _third-party-services:
 
-====================
-Third-Party Services
-====================
+=================================
+Third-Party Services [Deprecated]
+=================================
 
 .. default-domain:: mongodb
 
@@ -51,13 +50,35 @@ Third-Party Services
    GitHub Service Snippets </services/snippets/github>
    Send Mobile Push Notifications </services/send-mobile-push-notifications>
 
+.. important:: Third Party Service Deprecation
+
+   Third party services in {+service+} have been deprecated in favor of creating 
+   HTTP endpoints and by using third-party SDKs by with NPM packages.
+   
+   You can no longer create new third-party services, but existing services will 
+   continue to work. 
+.. for how long???
+
+   This section will remain in the documentation until such time.  
+
 Introduction
 ------------
+Modern applications often use multiple external services to handle complex use 
+cases, such as messaging, analytics, and data management. You can connect to 
+these services through MongoDB Realm by creating and configuring service 
+interfaces.
 
-Modern applications often use multiple external services to handle
-complex use cases, such as messaging, analytics, and data management.
-You can connect to these services through {+service+} by creating and
-configuring service interfaces.
+.. important:: 
+
+   Because third party services are now deprecated, they have been removed by 
+   default from the Realm UI. If you need to manage an existing third party 
+   service, you can re-add the UI by doing the following:
+
+   - In the left navigation, under the :guilabel:`Manage` section, click 
+     :guilabel:`App Settings`.
+    
+   - TODO: Do something else once the UI is updated
+
 
 Service interfaces specify the connection details for a specific
 external service and enable you to define the scope of that service's
