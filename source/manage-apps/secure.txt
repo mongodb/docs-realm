@@ -135,7 +135,7 @@ project role:
    * - Project Owner
      - Full read-write access for all {+app+}s associated with the project.
 
-   * - Project Read Only
+   * - All Other Roles
      - Read-only access for all {+app+}s associated with the project.
 
 .. note::
@@ -231,11 +231,15 @@ IP Access List
 
 {+service+} allows client requests from the enabled entries in the app’s
 :ref:`IP access list <manage-ip-access>`. Allowed requests will still use 
-{+service-short+}'s authentication and authorization rules. 
-
-By default, your {+app+} allows access from any client. When you add IP 
+{+service-short+}'s authentication and authorization rules. When you add IP 
 access list entries, {+service-short+} blocks any request originating from 
 an IP that is not on the access list.
+
+.. important::
+
+   By default, any newly-created {+app+} allows access from any client IP
+   by adding an access list entry for 0.0.0.0/0. If you delete this entry, 
+   no client can access your {+app+} from any IP address. 
 
 .. _security-api-access-list:
 
