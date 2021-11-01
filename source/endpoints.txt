@@ -1,0 +1,202 @@
+.. _http-endpoints:
+
+==============
+HTTP Endpoints
+==============
+
+.. default-domain:: mongodb
+
+Introduction
+------------
+Modern applications often use multiple external services to handle
+complex use cases, such as messaging, analytics, and data management. Many services 
+send data by calling an HTTPS endpoint. {+service+} allows these services 
+to send data through custom endpoints.
+
+Create a New HTTPS Endpoint
+===========================
+To create a new endpoint:
+
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+
+      1. Click :guilabel`HTTPS Endpoints` in the left navigation. 
+
+      2. Click the :guilabel:`Add An Endpoint`.
+
+      3.
+
+   .. tab::
+      :tabid: cli
+
+      To use the {+service+} Command Line Interface ({+cli-bin+}), you first need 
+      to install or update :ref:`to the latest version <realm-cli>`. 
+      
+      With the latest {+cli-bin+} installed, follow these steps:
+
+      1. Pull down the latest version of your app by running the following:
+
+         .. code-block:: bash
+     
+            realm-cli pull --remote="<Your App ID>"
+
+      2. The :ref:`app structure<realm_app_structure>` contains an 
+         ``https_endpoints`` directory that contains all of your app's 
+         HTTPS endpoints.
+         
+         .. note:: 
+        
+            If you have existing webhooks, they are found in the older 
+            ``http_endpoints`` (no ``s`` after the ``http``) directory within the app structure. Be 
+            sure you are working in the correct directory!
+
+      3. Create a ``config.json`` file in the ``https_endpoints`` directory with 
+         the following structure:
+
+         .. .. code-block:: javascript
+            :copyable: true
+         
+            [
+               {
+                  "route": "/httpserv/endpoint0",
+                  "http_method": "POST",
+                  "function_name": "endpoint0_function",
+                  "validation_method": "NO_VALIDATION",
+                  "respond_result": true,
+                  "fetch_custom_user_data": false,
+                  "create_user_on_auth": false,
+                  "disabled": false
+               }
+            ]
+         
+         The following table explains each of the fields in the config file:
+
+         .. list-table::
+            :header-rows: 1
+            :widths: 10 40
+         
+            * - Field
+              - Value
+            * - ``route`` (string)
+              - The full path and name of the endpoint
+            * - ``http_method`` (string)
+              - The HTTP method calling services will use to connect to this 
+                endpoint. Valid values are "POST", TODO
+            * - ``function_name`` (string)
+              - The name of the function that {+service-short+} calls when the 
+                endpoint receives data.
+            * - ``validation_method`` (string)
+              - The method used to validate the data the endpoint has received. 
+            * - ``respond_result`` (boolean)
+              - Specifies if the endpoint will respond to a call.
+            * - ``fetch_custom_user_data`` (boolean)
+              - Specifies whether the endpoint and its function need to 
+                retrieve custom user data.
+            * - ``create_user_on_auth`` (boolean)
+              - Specifies if the endpoint creates a new user account when it 
+                receives validated data.
+            * - ``disabled`` (boolean)
+              - Enables (false) or disables (true) the endpoint.
+          
+
+Migrate Webhooks to Endpoints
+=============================
+
+You should plan to migrate your existing {+service+} webhook to HTTPS 
+endpoints. You can do this through the UI, which provides a single-click, 
+one-time migration, or manually with the {+cli-bin+}.
+
+.. note:: One-Time Migration
+
+   Once your webhooks have been migrated to HTTPS endpoints, you can not 
+   convert them back to webhooks. 
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+
+      1. Click :guilabel`HTTPS Endpoints` in the left navigation. 
+
+      2. Click the :guilabel:`Convert` button.
+
+      3. Click :guilabel:`Confirm`.
+
+      .. figure:: /images/convert-endpoint.png
+         :alt: Convert all Endpoints in UI
+
+   .. tab::
+      :tabid: cli
+
+      To use the {+service+} Command Line Interface ({+cli-bin+}), you first need 
+      to install or update :ref:`to the latest version <realm-cli>`. 
+      
+      With the latest {+cli-bin+} installed, follow these steps:
+
+      1. Pull down the latest version of your app by running the following:
+
+         .. code-block:: bash
+     
+            realm-cli pull --remote="<Your App ID>"
+
+      2. The :ref:`app structure<realm_app_structure>` contains an 
+         ``https_endpoints`` directory that contains all of your app's 
+         HTTPS endpoints.
+         
+         .. note:: 
+        
+            If you have existing webhooks, they are found in the older 
+            ``http_endpoints`` (no ``s`` after the ``http``) directory within the app structure. Be 
+            sure you are working in the correct directory!
+
+      3. Create a ``config.json`` file in the ``https_endpoints`` directory with 
+         the following structure:
+
+         .. .. code-block:: javascript
+            :copyable: true
+         
+            [
+               {
+                  "route": "/httpserv/endpoint0",
+                  "http_method": "POST",
+                  "function_name": "endpoint0_function",
+                  "validation_method": "NO_VALIDATION",
+                  "respond_result": true,
+                  "fetch_custom_user_data": false,
+                  "create_user_on_auth": false,
+                  "disabled": false
+               }
+            ]
+         
+         The following table explains each of the fields in the config file:
+
+         .. list-table::
+            :header-rows: 1
+            :widths: 10 40
+         
+            * - Field
+              - Value
+            * - ``route`` (string)
+              - The full path and name of the endpoint
+            * - ``http_method`` (string)
+              - The HTTP method calling services will use to connect to this 
+                endpoint. Valid values are "POST", TODO
+            * - ``function_name`` (string)
+              - The name of the function that {+service-short+} calls when the 
+                endpoint receives data.
+            * - ``validation_method`` (string)
+              - The method used to validate the data the endpoint has received. 
+            * - ``respond_result`` (boolean)
+              - Specifies if the endpoint will respond to a call.
+            * - ``fetch_custom_user_data`` (boolean)
+              - Specifies whether the endpoint and its function need to 
+                retrieve custom user data.
+            * - ``create_user_on_auth`` (boolean)
+              - Specifies if the endpoint creates a new user account when it 
+                receives validated data.
+            * - ``disabled`` (boolean)
+              - Enables (false) or disables (true) the endpoint.
+         
