@@ -157,7 +157,11 @@ namespace Examples
         public async Task WorkWithLists()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
-            var li = new ListInventory();
+            var li = new ListInventory()
+            {
+                Id = ObjectId.GenerateNewId().ToString()
+            };
+
             li.Plants.Add(new Plant() { Name = "Prickly Pear", Color = PlantColor.Green.ToString() });
             realm.Write(() =>
             {
@@ -169,10 +173,14 @@ namespace Examples
             //  "terms": {
             //   "ListInventory": "Inventory"}
             // }
-            // Find all Inventory items that have a name of "Prickly Pear"
-            var certainCacti = realm.All<ListInventory>().Filter("Plants.Name == 'Prickly Pear'");
+            var firstPlants = realm.All<ListInventory>().ElementAt(0).Plants;
+            // convert the Plant List to an IQueryable and apply a filter to find plants with a name of "Prickly Pear"
+            var certainCacti = firstPlants.AsQueryable().Where(plant => plant.Name == "Prickly Pear");
 
-            // Find all Inventory items that have a name of "Prickly Pear"
+            // Alternatively, apply a filter directly on the plant list
+            var certainCactiPlants = firstPlants.Filter("Name == 'Prickly Pear'");
+
+            // Find all Inventory items that have a green colored plant
             var greenPlants = realm.All<ListInventory>().Filter("Plants.Color CONTAINS[c] 'Green'");
             // :replace-end:
             //:code-block-end:
