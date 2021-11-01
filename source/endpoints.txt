@@ -8,10 +8,11 @@ HTTP Endpoints
 
 Introduction
 ------------
-Modern applications often use multiple external services to handle
-complex use cases, such as messaging, analytics, and data management. Many services 
-send data by calling an HTTPS endpoint. {+service+} allows these services 
-to send data through custom endpoints.
+Many modern applications use multiple external services to handle
+complex use cases, such as messaging, analytics, and data management. Those  
+services often send data back by calling an HTTPS endpoint. You can create 
+HTTPS endpoints in {+service+} for these external services to send data to 
+your app.
 
 Create a New HTTPS Endpoint
 ===========================
@@ -22,7 +23,7 @@ To create a new endpoint:
    .. tab::
       :tabid: ui
 
-      1. Click :guilabel`HTTPS Endpoints` in the left navigation. 
+      1. Click :guilabel:`HTTPS Endpoints` in the left navigation. 
 
       2. Click the :guilabel:`Add An Endpoint`.
 
@@ -49,7 +50,7 @@ To create a new endpoint:
       3. Create a ``config.json`` file in the ``http_endpoints`` directory with 
          the following structure:
 
-         .. .. code-block:: javascript
+         .. code-block:: javascript
             :copyable: true
          
             [
@@ -113,6 +114,7 @@ To create a new endpoint:
             * - ``disabled`` (boolean)
               - Enables (false) or disables (true) the endpoint.
 
+      
       4. Once you've updated your app's configuration files, you push 
          them to your remote app. {+cli+} immediately deploys the updated 
          configurations on push.
