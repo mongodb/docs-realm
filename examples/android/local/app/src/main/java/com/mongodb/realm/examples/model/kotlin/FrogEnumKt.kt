@@ -9,10 +9,10 @@ package com.mongodb.realm.examples.model.kotlin
 import io.realm.RealmObject
 import java.lang.IllegalArgumentException
 
-class FrogEnumKt  // realm-required empty constructor
+open class FrogEnumKt  // realm-required empty constructor
     : RealmObject() {
     var name: String? = null
-    private var state = FrogStateKt.TADPOLE.state
+    private var state: String = FrogStateKt.TADPOLE.state
     var stateEnum: FrogStateKt
         get() {
             // because state is actually a String and another client could assign an invalid value,

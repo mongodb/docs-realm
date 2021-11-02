@@ -3,10 +3,10 @@
    import io.realm.RealmObject
    import java.lang.IllegalArgumentException
 
-   class Frog  // realm-required empty constructor
+   open class Frog  // realm-required empty constructor
        : RealmObject() {
        var name: String? = null
-       private var state = FrogState.TADPOLE.state
+       private var state: String = FrogState.TADPOLE.state
        var stateEnum: FrogState
            get() {
                // because state is actually a String and another client could assign an invalid value,
