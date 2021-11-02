@@ -479,7 +479,7 @@ describe("Node.js Data Types", () => {
 
     // convert to array with Array.from()
     const setAsArr = Array.from(playerTwo.inventory);
-    expect(Array.isArray(setAsArr)).toBe(true);
+    expect(setAsArr.length).toBe(playerTwo.inventory.size);
 
     // also convert to array with [...set]
     const setAsArrAlt = [...playerTwo.inventory];
@@ -531,7 +531,7 @@ describe("Node.js Data Types", () => {
       console.error("error is", err);
     } finally {
       let totItems = 0;
-      playerOne.inventory.forEach((level) => totItems++);
+      playerOne.inventory.forEach((item) => totItems++);
       expect(totItems).toBe(3);
       // delete the object specifically created in this test to keep tests idempotent
       realm.write(() => {
