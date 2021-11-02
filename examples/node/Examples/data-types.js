@@ -485,7 +485,7 @@ describe("Node.js Data Types", () => {
     const setAsArrAlt = [...playerTwo.inventory];
     expect(setAsArr).toStrictEqual(setAsArrAlt);
 
-    // conversion to array **does't** guarantee insertion order
+    // conversion to array **doesn't** guarantee insertion order
     expect(setAsArr).not.toStrictEqual(additions);
 
     // delete the object specifically created in this test to keep tests idempotent
