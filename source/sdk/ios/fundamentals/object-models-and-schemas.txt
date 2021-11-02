@@ -163,6 +163,26 @@ boilerplate query code and capacity for error.
    To learn how to add relationships to your Realm object, see
    :ref:`ios-declare-relationship-properties`.
 
+.. _ios-build-view-models-with-realm:
+
+Build View Models with Realm
+----------------------------
+
+.. versionadded:: 10.?
+
+You can work with a subset of your {+realm+} object's properties by creating 
+a projection. A projection is a class that can pass through or transform 
+some or all of your {+realm+} object's properties. You can query a 
+projection, or observe it for changes. 
+
+Projection enables you to create model abstractions for use in your 
+view models. Projection also :ref:`simplifies testing with {+client-database+} 
+<ios-simplify-testing-with-projections>`.
+
+.. seealso::
+
+   :ref:`Define and Use Projections <ios-define-and-use-projections>`
+
 .. _ios-structs:
 
 Swift Structs

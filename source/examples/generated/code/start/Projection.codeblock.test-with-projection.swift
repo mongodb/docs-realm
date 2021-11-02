@@ -1,0 +1,28 @@
+    func testWithProjection() {
+        let realm = try! Realm()
+        // Create a Realm object, populate it with values
+        let jasonBourne = Person(value: ["firstName": "Jason",
+                                                      "lastName": "Bourne",
+                                                      "address": [
+                                                        "city": "Zurich",
+                                                        "country": "Switzerland"]])
+        try! realm.write {
+            realm.add(jasonBourne)
+        }
+        
+        // Retrieve the Realm object as a projection
+        let person = realm.objects(PersonProjection.self).first(where: { $0.firstName == "Jason" })!
+        // Verify that we have the correct PersonProjection
+        XCTAssert(person.firstName == "Jason")
+        // See that `homeCity` exists as a projection property
+        // Although it is not on the object model
+        XCTAssert(person.homeCity == "Zurich")
+        
+        // Change a value on the projection
+        try! realm.write {
+            person.firstName = "David"
+        }
+
+        // Verify that the projected value has changed
+        XCTAssert(person.firstName == "David")
+    }

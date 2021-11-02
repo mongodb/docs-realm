@@ -1,0 +1,149 @@
+.. _ios-define-and-use-projections:
+
+====================================
+Define and Use Projections - iOS SDK
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+.. versionadded:: 10.?
+
+A projection is a class that passes through or transforms some or all of your
+{+realm+} object's properties. Projection enables you to build view models 
+that use an abstraction of your object model. This simplifies using and testing
+{+client-database+} objects in your application.
+
+With projection, you can use a subset of your object's properties in the UI, 
+or change them into another form before displaying them. When you use a 
+projection for this, you get all the benefits of {+client-database+}'s live 
+objects:
+
+- The projected object live updates
+- You can observe it for changes
+- You can do derived queries on top of results
+- You can apply changes directly to the properties in write transactions
+
+.. _ios-projection-object-model:
+
+About These Examples
+--------------------
+
+The examples in this page use a simple data set. The two Realm object 
+types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
+a first and last name, an optional ``Address``, and a list of friends 
+consisting of other ``Person`` objects. An ``Address`` has a city and country.
+
+See the schema for these two classes, ``Person`` and ``Address``, below:
+
+.. literalinclude:: /examples/generated/code/start/Projection.codeblock.models.swift
+   :language: swift
+
+.. _ios-define-a-projection:
+
+Define a Projection
+-------------------
+
+Define a projection by creating a class of type ``Projection``. Specify
+the :swift-sdk:`Object <Extensions/Object.html>` or 
+:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>` base that the
+projection should derive from. Use the ``@Projected`` property wrapper to 
+declare a property that you want to derive from a ``@Persisted`` property
+on the base object.
+
+.. literalinclude:: /examples/generated/code/start/Projection.codeblock.declare-projection.swift
+   :language: swift
+
+When you define a projection, you can transform the original ``@Persisted``
+property in several ways:
+
+- Passthrough: the property is the same name and type as the original object
+- Rename: the property has the same type as the original object, but a 
+  different name
+- Keypath resolution: use keypath resolution to access properties of the
+  original object, including embedded object properties 
+- Collection mapping: Project :ref:`lists <ios-list-collections>` or 
+  :ref:`mutable sets <ios-mutableset-data-type>` of ``Object`` s or 
+  ``EmbeddedObject`` s as a collection of primitive values
+- Exclusion: when you use a projection, the underlying object's properties
+  that are not ``@Projected`` through the projection are excluded. This
+  enables you to watch for changes to a projection and not see changes
+  for properties that are not part of the projection. 
+
+.. _ios-use-projection-in-a-view:
+
+Use a Projection in a View
+--------------------------
+
+Query for a Projection
+~~~~~~~~~~~~~~~~~~~~~~
+
+To query for projections in a realm, pass the metatype instance 
+``YourProjectionName.self`` to :swift-sdk:`Realm.objects(_:)
+<Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`.
+This returns a :swift-sdk:`Results <Structs/Results.html>` object
+representing all of the projection objects in the realm.
+
+.. literalinclude:: /examples/generated/code/start/Projection.codeblock.retrieve-data-through-projection.swift
+   :language: swift
+
+.. _ios-make-changes-to-projection-properties:
+
+Change Projection Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can make changes to a projection's properties in a write transaction.
+
+.. literalinclude:: /examples/generated/code/start/Projection.codeblock.change-projection-in-a-write.swift
+   :language: swift
+
+.. _ios-use-projection-in-swiftui-view:
+
+Use a Projection in a SwiftUI View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use projection in SwiftUI views. Projection works with SwiftUI
+property wrappers:
+
+- :swift-sdk:`ObservedRealmObject <Structs/ObservedRealmObject.html>`
+- :swift-sdk:`ObservedResults <Structs/ObservedResults.html>`
+
+You can access the projection's properties to populate UI elements.
+
+.. seealso::
+
+   For a complete example of using a projection in a SwiftUI application, 
+   see :github:`the Projections example app 
+   <realm/realm-cocoa/tree/master/examples#projections>`.
+
+.. _ios-react-to-changes-to-a-projection:
+
+React to Changes to a Projection
+--------------------------------
+
+Like other {+realm+} objects, you can :ref:`react to changes <ios-react-to-changes>`
+to a projection. When you register a projection change listener, you see 
+notification for changes made through the projection object directly. 
+You also see notifications for changes to the underlying object's properties 
+that project through the projection object.
+
+Properties on the underlying object that are not ``@Projected`` in the 
+projection do not generate notifications.
+
+This notification block fires for changes in:
+
+- ``Person.firstName`` property of the projection's underlying ``Person`` object,
+  but not changes to ``Person.lastName`` or ``Person.friends``.
+- ``PersonProjection.firstName`` property, but not another projection that uses
+  the same underlying object's property. 
+
+.. literalinclude:: /examples/generated/code/start/Projection.codeblock.register-a-projection-change-listener.swift
+   :language: swift

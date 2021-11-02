@@ -22,18 +22,18 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
-  - Realm (10.17.0):
-    - Realm/Headers (= 10.17.0)
-  - Realm/Headers (10.17.0)
-  - RealmSwift (10.17.0):
-    - Realm (= 10.17.0)
+  - Realm (10.18.0):
+    - Realm/Headers (= 10.18.0)
+  - Realm/Headers (10.18.0)
+  - RealmSwift (10.18.0):
+    - Realm (= 10.18.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - FBSDKLoginKit (= 8.1.0)
   - GoogleSignIn
-  - Realm (= 10.17.0)
-  - RealmSwift (= 10.17.0)
+  - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `py/projection`)
+  - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `py/projection`)
   - SwiftLint
 
 SPEC REPOS:
@@ -44,9 +44,23 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
-    - Realm
-    - RealmSwift
     - SwiftLint
+
+EXTERNAL SOURCES:
+  Realm:
+    :branch: py/projection
+    :git: https://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :branch: py/projection
+    :git: https://github.com/realm/realm-cocoa.git
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: 8b82d3b15990f35d3748b04becdfc761ed2b71f0
+    :git: https://github.com/realm/realm-cocoa.git
+  RealmSwift:
+    :commit: 8b82d3b15990f35d3748b04becdfc761ed2b71f0
+    :git: https://github.com/realm/realm-cocoa.git
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -55,10 +69,10 @@ SPEC CHECKSUMS:
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  Realm: 9533276bd76f66aa2fd0d3ffe700c1f6023dcab6
-  RealmSwift: 57f5d59aa29852587aad1e861989e7af139894b5
+  Realm: b8b0a36bf48c39c50fd8cee7ac34005e6d887ddd
+  RealmSwift: fe2f33d731f47aaf4c3618930f9f7cf7b935c33f
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: a9a120e7b769d77e0905ae7c9f84f32403fa88f5
+PODFILE CHECKSUM: 00a16846980b051bc7f3b2dfc22b42eb9d6921be
 
 COCOAPODS: 1.10.1
