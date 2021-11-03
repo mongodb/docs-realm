@@ -354,3 +354,26 @@ token is no longer in the cluster oplog, the Trigger begins listening to
 new events but does not process any missed past events. You can adjust
 your oplog size to keep the resume token around for more time after a
 suspension.
+
+.. _last-cluster-time-processed:
+
+Last Cluster Time Processed
+---------------------------
+
+All Triggers keep track of the last time the Trigger executed, known as
+the **latest execution** in the {+ui+}. Database Triggers also keep track
+of the **last cluster time processed**: the last time the change stream
+backing that Trigger emitted an event.
+
+The difference between the latest execution and the last cluster time
+processed represents the latency between when an event occurs in your
+database, and when the Trigger finishes responding to that event. If
+latency is consistently large, you can reduce it with the following
+mitigations:
+
+- Optimize the Trigger's Linked Function to speed up execution.
+
+- If your Trigger uses Event Ordering, consider switching ordering off
+  to reduce latency.
+
+- Add resources by upgrading your {+atlas+} cluster.
