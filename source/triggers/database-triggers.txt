@@ -363,7 +363,9 @@ Last Cluster Time Processed
 All Triggers keep track of the last time the Trigger executed, known as
 the **latest execution** in the {+ui+}. Database Triggers also keep track
 of the **last cluster time processed**: the last time the change stream
-backing that Trigger emitted an event.
+backing that Trigger emitted an event. You can access these timestamps
+in the list of Triggers that displays when you first navigate to the
+:guilabel:`Triggers` section from the sidebar.
 
 The difference between the latest execution and the last cluster time
 processed represents the latency between when an event occurs in your
