@@ -2,7 +2,6 @@ import Realm from "realm";
 import BSON from "bson";
 
 let realm;
-
 // :code-block-start: define-embedded-objects
 const AddressSchema = {
   name: "Address",
@@ -55,10 +54,10 @@ const PetOwnerSchema = {
 
 describe("Node.js Data Types", () => {
   afterEach(() => {
-    if (realm != null) {
-      realm.close();
-      realm = null;
-    }
+    realm?.write(() => {
+      realm.deleteAll();
+    });
+    realm?.close();
   });
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
@@ -159,15 +158,6 @@ describe("Node.js Data Types", () => {
 
     // expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
     // expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
-
-    // delete the objects to keep the test idempotent
-
-    realm.write(() => {
-      realm.delete(johnDoe);
-      realm.delete(janeSmith);
-    });
-    // close the realm to avoid memory leaks
-    realm.close();
   });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
@@ -228,8 +218,6 @@ describe("Node.js Data Types", () => {
       realm.delete(Euclid);
       realm.delete(Pythagoras);
     });
-    // close the realm
-    realm.close();
   });
   test("should create and read and delete an embedded object", async () => {
     realm = await Realm.open({
@@ -270,8 +258,6 @@ describe("Node.js Data Types", () => {
       );
     });
     // :code-block-end:
-    // close the realm
-    realm.close();
   });
   // update and delete an embedded object
   test("should update and overwrite an embedded object", async () => {
@@ -320,12 +306,6 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     expect(harryPotter.address.city).toBe("London");
-    // delete the object specifically created in this test to keep tests idempotent
-    realm.write(() => {
-      realm.delete(harryPotter);
-    });
-    // close the realm
-    realm.close();
   });
   test("should work with UUID", async () => {
     // :code-block-start: work-with-uuid
@@ -370,14 +350,6 @@ describe("Node.js Data Types", () => {
       .filtered("name = 'Tim Doe.'")[0];
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
-
-    // delete the objects to keep the tests idempotent
-    realm.write(() => {
-      realm.delete(johnDoeProfile);
-      realm.delete(timDoeProfile);
-    });
-    // close the realm
-    realm.close();
   });
   test("should work with the Set data type", async () => {
     // :code-block-start: define-set-objects
@@ -463,12 +435,144 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
     expect(playerTwo.inventory.size).toBe(0);
 
-    // delete the object specifically created in this test to keep tests idempotent
+    // convert set to array.
+    const additions = ["zombie", "dog", "map", "apple", "envelope"];
     realm.write(() => {
-      realm.delete(playerOne);
-      realm.delete(playerTwo);
+      playerTwo.inventory.add(additions[0]);
+      playerTwo.inventory.add(additions[1]);
+      playerTwo.inventory.add(additions[2]);
+      playerTwo.inventory.add(additions[3]);
+      playerTwo.inventory.add(additions[4]);
     });
+    console.log(playerTwo.inventory.values());
+
+    // size property counts number of items in set
+    expect(playerTwo.inventory.size).toBe(5);
+
+    // convert to array with Array.from()
+    const setAsArr = Array.from(playerTwo.inventory);
+    expect(setAsArr.length).toBe(playerTwo.inventory.size);
+
+    // also convert to array with [...set]
+    const setAsArrAlt = [...playerTwo.inventory];
+    expect(setAsArr).toStrictEqual(setAsArrAlt);
+
+    // conversion to array **doesn't** guarantee insertion order
+    expect(setAsArr).not.toStrictEqual(additions);
+  });
+
+  test("should traverse a set", async () => {
+    const characterSchema = {
+      name: "Character",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        levelsCompleted: "int<>",
+        inventory: "string<>",
+      },
+    };
+
+    let playerOne;
+    try {
+      realm = await Realm.open({
+        schema: [characterSchema],
+      });
+      realm.write(() => {
+        playerOne = realm.create("Character", {
+          _id: new BSON.ObjectId(),
+          name: "PlayerOne",
+          inventory: ["potion", "wand", "spell book"],
+          levelsCompleted: [],
+        });
+      });
+      // :code-block-start: traverse-a-set
+      playerOne.inventory.forEach((item) => {
+        console.log(item);
+      });
+      // :code-block-end:
+    } catch (err) {
+      console.error("error is", err);
+    }
+    let totItems = 0;
+    playerOne.inventory.forEach((item) => totItems++);
+    expect(totItems).toBe(3);
+  });
+
+  test("should convert set to array with insertion order", async () => {
+    const characterSchema = {
+      name: "Character",
+      primaryKey: "_id",
+      properties: {
+        _id: "objectId",
+        name: "string",
+        levelsCompleted: "int<>",
+        inventory: "string<>",
+      },
+    };
+    // :code-block-start: make-array-with-insertion-order-from-set
+    function updateSetAndOrderedSetArray(set, orderedArray, value) {
+      const oldSize = set.size;
+      set.add(value);
+      if (set.size > oldSize) {
+        orderedArray.push(value);
+      }
+    }
+
+    let playerOne;
+    let levelsCompletedInOrder = [];
+    // :uncomment-start:
+    // const realm = await Realm.open({
+    // :uncomment-end:
+    realm = await Realm.open({ // :remove:
+      schema: [characterSchema],
+    });
+    realm.write(() => {
+      playerOne = realm.create("Character", {
+        _id: new BSON.ObjectId(),
+        name: "PlayerOne",
+        inventory: ["potion", "wand", "spell book"],
+        levelsCompleted: [],
+      });
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        5
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        12
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        2
+      );
+    });
+    realm.write(() => {
+      updateSetAndOrderedSetArray(
+        playerOne.levelsCompleted,
+        levelsCompletedInOrder,
+        7
+      );
+    });
+    console.log("set ordered", Array.from(playerOne.levelsCompleted)); // not necessarily [5, 12, 2, 7]
+    console.log("insert ordered", levelsCompletedInOrder); // [5, 12, 2, 7]
+    // :remove-start:
+    expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 7, 12]);
+    expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
+    // :remove-end:
     // close the realm
-    realm.close();
+    // :uncomment-start:
+    // realm.close();
+    // :uncomment-end:
+    // :code-block-end:
   });
 });
