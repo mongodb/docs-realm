@@ -18,14 +18,13 @@ Overview
 .. versionadded:: 10.?
 
 A projection is a class that passes through or transforms some or all of your
-{+realm+} object's properties. Projection enables you to build view models 
-that use an abstraction of your object model. This simplifies using and testing
-{+client-database+} objects in your application.
+{+client-database+} object's properties. Projection enables you to build 
+view models that use an abstraction of your object model. This simplifies 
+using and testing {+client-database+} objects in your application.
 
-With projection, you can use a subset of your object's properties in the UI, 
-or change them into another form before displaying them. When you use a 
-projection for this, you get all the benefits of {+client-database+}'s live 
-objects:
+With projection, you can use a subset of your object's properties directly 
+in the UI or transform them. When you use a projection for this, you get 
+all the benefits of {+client-database+}'s live objects:
 
 - The projected object live updates
 - You can observe it for changes
@@ -54,10 +53,10 @@ Define a Projection
 
 Define a projection by creating a class of type ``Projection``. Specify
 the :swift-sdk:`Object <Extensions/Object.html>` or 
-:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>` base that the
-projection should derive from. Use the ``@Projected`` property wrapper to 
-declare a property that you want to derive from a ``@Persisted`` property
-on the base object.
+:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>` base whose
+properties you want to use in the projection. Use the ``@Projected`` property 
+wrapper to declare a property that you want to project from a ``@Persisted`` 
+property on the base object.
 
 .. literalinclude:: /examples/generated/code/start/Projection.codeblock.declare-projection.swift
    :language: swift
@@ -131,7 +130,7 @@ React to Changes to a Projection
 
 Like other {+realm+} objects, you can :ref:`react to changes <ios-react-to-changes>`
 to a projection. When you register a projection change listener, you see 
-notification for changes made through the projection object directly. 
+notifications for changes made through the projection object directly. 
 You also see notifications for changes to the underlying object's properties 
 that project through the projection object.
 

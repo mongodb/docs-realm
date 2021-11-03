@@ -60,6 +60,7 @@ class ProjectionExample: XCTestCase {
         let realm = try! Realm()
 
         // :code-block-start: retrieve-data-through-projection
+        // Retrieve all projections of the given type `PersonProjection`
         let people = realm.objects(ProjectionExample_PersonProjection.self)
         // Use projection data in your view
         print(people.first?.firstName)
@@ -67,7 +68,9 @@ class ProjectionExample: XCTestCase {
         print(people.first?.firstFriendsName)
         // :code-block-end:
         // :code-block-start: change-projection-in-a-write
-        // Query for a PersonProjection where the firstName is Jason
+        // Retrieve all projections of the given type `PersonProjection`
+        // and filter for the first projection where the `firstName` property
+        // value is "Jason"
         let person = realm.objects(ProjectionExample_PersonProjection.self).first(where: { $0.firstName == "Jason" })!
         // :hide-start:
         XCTAssert(person.firstName == "Jason")
@@ -93,7 +96,9 @@ class ProjectionExample: XCTestCase {
             realm.add(jasonBourne)
         }
 
-        // Retrieve the Realm object as a projection
+        // Retrieve all projections of the given type `PersonProjection`
+        // and filter for the first projection where the `firstName` property
+        // value is "Jason"
         let person = realm.objects(ProjectionExample_PersonProjection.self).first(where: { $0.firstName == "Jason" })!
         // Verify that we have the correct PersonProjection
         XCTAssert(person.firstName == "Jason")

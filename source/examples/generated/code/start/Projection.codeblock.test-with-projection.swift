@@ -10,7 +10,9 @@ func testWithProjection() {
         realm.add(jasonBourne)
     }
 
-    // Retrieve the Realm object as a projection
+    // Retrieve all projections of the given type `PersonProjection`
+    // and filter for the first projection where the `firstName` property
+    // value is "Jason"
     let person = realm.objects(PersonProjection.self).first(where: { $0.firstName == "Jason" })!
     // Verify that we have the correct PersonProjection
     XCTAssert(person.firstName == "Jason")
