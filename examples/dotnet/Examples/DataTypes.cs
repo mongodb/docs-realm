@@ -151,21 +151,22 @@ namespace Examples
             //:code-block-end:
 
             Assert.IsNotNull(pricklyPear);
+            Assert.IsNotNull(pricklyPearPlants);
             Assert.IsNotNull(moreThan100);
         }
         [Test]
         public async Task WorkWithLists()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
-            var li = new ListInventory()
+            var listInventory = new ListInventory()
             {
                 Id = ObjectId.GenerateNewId().ToString()
             };
 
-            li.Plants.Add(new Plant() { Name = "Prickly Pear", Color = PlantColor.Green.ToString() });
+            listInventory.Plants.Add(new Plant() { Name = "Prickly Pear", Color = PlantColor.Green.ToString() });
             realm.Write(() =>
             {
-                realm.Add<ListInventory>(li);
+                realm.Add<ListInventory>(listInventory);
             });
 
             //:code-block-start:query-lists
@@ -174,18 +175,20 @@ namespace Examples
             //   "ListInventory": "Inventory"}
             // }
             var firstPlants = realm.All<ListInventory>().ElementAt(0).Plants;
-            // convert the Plant List to an IQueryable and apply a filter to find plants with a name of "Prickly Pear"
-            var certainCacti = firstPlants.AsQueryable().Where(plant => plant.Name == "Prickly Pear");
+            // convert the Plant List to an IQueryable and apply a filter
+            // to find plants with a name of "Prickly Pear"
+            var pricklyPearCacti = firstPlants.AsQueryable().Where(plant => plant.Name == "Prickly Pear");
 
             // Alternatively, apply a filter directly on the plant list
-            var certainCactiPlants = firstPlants.Filter("Name == 'Prickly Pear'");
+            var pricklyPearCactiCactiPlants = firstPlants.Filter("Name == 'Prickly Pear'");
 
             // Find all Inventory items that have a green colored plant
             var greenPlants = realm.All<ListInventory>().Filter("Plants.Color CONTAINS[c] 'Green'");
             // :replace-end:
             //:code-block-end:
 
-            Assert.IsNotNull(certainCacti);
+            Assert.IsNotNull(pricklyPearCacti);
+            Assert.IsNotNull(pricklyPearCactiCactiPlants);
             Assert.AreEqual(1, greenPlants.Count());
         }
 
