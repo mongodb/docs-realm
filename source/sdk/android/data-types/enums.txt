@@ -14,7 +14,7 @@ Enumerations - Android SDK
 
 Enumerations, also known as enums, are not supported natively in the
 Android SDK. However, you can use Java and Kotlin enums in your
-{+service-short+} objects if you follow a few simple steps.
+{+service-short+} objects if you follow these steps.
 
 Usage
 -----
@@ -27,7 +27,6 @@ the underlying value and the enum type. You can use the Java's built-in
 <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html#valueOf(java.lang.Class,%20java.lang.String)>`__
 method to convert from the underlying type to the enum type.
 
-
 .. tabs-realm-languages::
    
    .. tab::
@@ -35,21 +34,27 @@ method to convert from the underlying type to the enum type.
 
        .. literalinclude:: /examples/generated/android/local/FrogStateKt.codeblock.complete.kt
           :language: kotlin
+          :caption: Enum Class
 
        .. literalinclude:: /examples/generated/android/local/FrogEnumKt.codeblock.complete.kt
           :language: kotlin
+          :caption: Realm Object
 
        .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmenum.kt
           :language: kotlin
+          :caption: Usage
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/local/FrogState.codeblock.complete.java
           :language: kotlin
+          :caption: Enum Class
 
        .. literalinclude:: /examples/generated/android/local/FrogEnum.codeblock.complete.java
           :language: java
+          :caption: Realm Object
 
        .. literalinclude:: /examples/generated/android/local/DataTypesTest.codeblock.realmenum.java
           :language: java
+          :caption: Usage

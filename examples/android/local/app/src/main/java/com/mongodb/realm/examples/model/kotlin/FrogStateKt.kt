@@ -2,7 +2,7 @@ package com.mongodb.realm.examples.model.kotlin
 // :code-block-start: complete
 // :replace-start: {
 //    "terms": {
-//       "FrogEnumKt": "Frog"
+//       "FrogStateKt": "FrogState"
 //    }
 // }
 enum class FrogStateKt(val state: String) {
