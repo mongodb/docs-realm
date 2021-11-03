@@ -2494,7 +2494,32 @@ components:
         name:
           type: string
           description: Can only contain ASCII letters, numbers, underscores, and hyphens.
-      required: [name]
+        template_id:
+          type: string
+          description: Name of :ref:`supported template app <template-apps>` to serve as base template.
+        data_source: 
+            $ref: '#/components/schemas/DataSource'
+      required:
+        - name
+    DataSource: 
+      type: object
+      properties: 
+        name: 
+          type: string
+          description: Should be `"mongodb-atlas"`.
+        type: 
+          type: string
+          description: Should be `"mongodb-atlas"`.
+        config:
+          type: object
+          properties:
+            clusterName: 
+              type: string
+              description: Name of {+atlas-short+} cluster associated with the {+app+}. 
+      required:
+        - name
+        - type
+        - config
     Service:
       properties:
         _id: {type: string}
