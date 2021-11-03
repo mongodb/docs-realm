@@ -2,7 +2,6 @@ import Realm from "realm";
 import BSON from "bson";
 
 let realm;
-
 // :code-block-start: define-embedded-objects
 const AddressSchema = {
   name: "Address",
