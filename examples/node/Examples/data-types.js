@@ -55,10 +55,10 @@ const PetOwnerSchema = {
 
 describe("Node.js Data Types", () => {
   afterEach(() => {
-    if (realm != null) {
-      realm.close();
-      realm = null;
-    }
+    realm?.write(() => {
+      realm.deleteAll();
+    });
+    realm?.close();
   });
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
@@ -159,15 +159,6 @@ describe("Node.js Data Types", () => {
 
     // expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
     // expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
-
-    // delete the objects to keep the test idempotent
-
-    realm.write(() => {
-      realm.delete(johnDoe);
-      realm.delete(janeSmith);
-    });
-    // close the realm to avoid memory leaks
-    realm.close();
   });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
@@ -228,8 +219,6 @@ describe("Node.js Data Types", () => {
       realm.delete(Euclid);
       realm.delete(Pythagoras);
     });
-    // close the realm
-    realm.close();
   });
   test("should create and read and delete an embedded object", async () => {
     realm = await Realm.open({
@@ -270,8 +259,6 @@ describe("Node.js Data Types", () => {
       );
     });
     // :code-block-end:
-    // close the realm
-    realm.close();
   });
   // update and delete an embedded object
   test("should update and overwrite an embedded object", async () => {
@@ -320,12 +307,6 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     expect(harryPotter.address.city).toBe("London");
-    // delete the object specifically created in this test to keep tests idempotent
-    realm.write(() => {
-      realm.delete(harryPotter);
-    });
-    // close the realm
-    realm.close();
   });
   test("should work with UUID", async () => {
     // :code-block-start: work-with-uuid
@@ -370,14 +351,6 @@ describe("Node.js Data Types", () => {
       .filtered("name = 'Tim Doe.'")[0];
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
-
-    // delete the objects to keep the tests idempotent
-    realm.write(() => {
-      realm.delete(johnDoeProfile);
-      realm.delete(timDoeProfile);
-    });
-    // close the realm
-    realm.close();
   });
   test("should work with the Set data type", async () => {
     // :code-block-start: define-set-objects
@@ -487,14 +460,6 @@ describe("Node.js Data Types", () => {
 
     // conversion to array **doesn't** guarantee insertion order
     expect(setAsArr).not.toStrictEqual(additions);
-
-    // delete the object specifically created in this test to keep tests idempotent
-    realm.write(() => {
-      realm.delete(playerOne);
-      realm.delete(playerTwo);
-    });
-    // close the realm
-    realm.close();
   });
 
   test("should traverse a set", async () => {
@@ -509,7 +474,7 @@ describe("Node.js Data Types", () => {
       },
     };
 
-    let playerOne, realm;
+    let playerOne;
     try {
       realm = await Realm.open({
         schema: [characterSchema],
@@ -529,17 +494,10 @@ describe("Node.js Data Types", () => {
       // :code-block-end:
     } catch (err) {
       console.error("error is", err);
-    } finally {
-      let totItems = 0;
-      playerOne.inventory.forEach((item) => totItems++);
-      expect(totItems).toBe(3);
-      // delete the object specifically created in this test to keep tests idempotent
-      realm.write(() => {
-        realm.delete(playerOne);
-      });
-      // close the realm
-      realm.close();
     }
+    let totItems = 0;
+    playerOne.inventory.forEach((item) => totItems++);
+    expect(totItems).toBe(3);
   });
 
   test("should convert set to array with insertion order", async () => {
@@ -564,7 +522,10 @@ describe("Node.js Data Types", () => {
 
     let playerOne;
     let levelsCompletedInOrder = [];
-    const realm = await Realm.open({
+    // :uncomment-start:
+    // const realm = await Realm.open({
+    // :uncomment-end:
+    realm = await Realm.open({ // :remove:
       schema: [characterSchema],
     });
     realm.write(() => {
@@ -608,13 +569,11 @@ describe("Node.js Data Types", () => {
     // :remove-start:
     expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 7, 12]);
     expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
-    // delete the object specifically created in this test to keep tests idempotent
-    realm.write(() => {
-      realm.delete(playerOne);
-    });
     // :remove-end:
     // close the realm
-    realm.close();
+    // :uncomment-start:
+    // realm.close();
+    // :uncomment-end:
     // :code-block-end:
   });
 });
