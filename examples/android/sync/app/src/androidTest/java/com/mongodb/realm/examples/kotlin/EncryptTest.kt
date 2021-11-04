@@ -171,7 +171,8 @@ class EncryptTest : RealmTest() {
                 "realm_key",
                 KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7) // :hide-start:
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                // :hide-start:
                 // TODO: (but not a todo) -- keys should require user auth, but we skip that in test
                 // :hide-end:
                 // :uncomment-start:
