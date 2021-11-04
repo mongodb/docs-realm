@@ -1,0 +1,88 @@
+title: Add a Collection Namespace
+ref: add-a-collection-namespace
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        To configure a new collection in a linked MongoDBB cluster, click
+        :guilabel:`Rules` in the {+leftnav+}. Click :guilabel:`Add Collection`
+        or the :guilabel:`+` next to the cluster name.
+        
+        On the configuration screen, fill in the :guilabel:`Database Name` and
+        :guilabel:`Collection Name` inputs.
+        
+        .. figure:: /images/collection-namespace-config-values.png
+           :alt: Collection namespace inputs.
+        
+        .. note::
+           
+           You can choose to apply a rule template to the collection to simplify
+           the process of configuring role-based permissions. Each template is a
+           pre-configured set of roles that represents a common use case and
+           data access pattern. You can customize each template to match your
+           data model or select :guilabel:`No Template` to start with a single
+           default role.
+     
+     .. tab::
+        :tabid: cli
+        
+        You configure collections in namespaced directories within a
+        :ref:`linked cluster configuration <appconfig-data_sources>`.
+        
+        To scaffold the configuration files for a new collection, run the
+        following:
+        
+        .. code-block:: bash
+           
+           # Create the namespaced collection directory
+           mkdir -p data_sources/<service>/<db>/<collection>
+           # Create the collection configuration files
+           echo '{}' >> data_sources/<service>/<db>/<collection>/schema.json
+           echo '{}' >> data_sources/<service>/<db>/<collection>/relationships.json
+           echo '{}' >> data_sources/<service>/<db>/<collection>/rules.json
+---
+title: Define a Schema
+ref: define-a-schema-and-rules
+content: |
+  A :ref:`collection schema <schemas>` controls the contents of documents
+  in the collection. While not required for all use cases, Realm services
+  including Sync and GraphQL rely on collection schemas.
+  
+  To learn how to define a schema, see :ref:`enforce-a-schema`.
+---
+title: Define Rules
+ref: define-rules
+content: |
+  A collection's :ref:`rules <rules>` control each user's ability to
+  create, read, modify, and search data in the collection. You can use
+  rules to reshape and omit data as well as enforce role-based permissions
+  for entire documents and individual fields within each document.
+  
+  To learn how to define rules, see :ref:`roles` and :ref:`filters`.
+  
+  .. important:: Sync Rules
+     
+     Synced clusters use Realm's partition-based read & write rules instead of
+     role-based access permissions. For more information, see :ref:`sync-rules`.
+---
+title: Save the Collection
+ref: save-the-collection
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Click :guilabel:`Save` and then :ref:`deploy your app <deploy-ui>`.
+     
+     .. tab::
+        :tabid: cli
+        
+        Save the file & deploy your changes.
+        
+        .. code-block:: bash
+           
+           realm-cli push --remote=<App ID>
+...
