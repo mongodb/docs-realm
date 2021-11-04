@@ -1,0 +1,180 @@
+title: Create a New Filter
+ref: create-a-new-filter
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        To define a filter for a linked collection, click :guilabel:`Rules` in the
+        {+leftnav+} and then select the collection from the list in the rules
+        editor. 
+        
+        Select the :guilabel:`Filters` tab and then click the :guilabel:`New
+        Filter` button.
+     
+     .. tab::
+        :tabid: cli
+        
+        You define filters for a linked collection in the collection's
+        ``rules.json`` :ref:`configuration file <config-collection-rules>`. Add
+        a new object to the ``filters`` array for the filter you are creating.
+        
+        .. code-block:: json
+           :emphasize-lines: 5
+           
+           {
+             "database": "<Database Name>",
+             "collection": "<Collection Name>",
+             "filters": [
+               { "name": "<Filter Name>", ... }
+             ]
+           } 
+---
+title: Name the Filter
+ref: name-the-filter
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Enter a unique :guilabel:`Name` for the new filter.
+        
+        .. figure:: /images/create-a-filter-name.png
+           :alt: The filter name input box
+     
+     .. tab::
+        :tabid: cli
+        
+        Set a unique name for the new filter in the ``name`` field:
+        
+        .. code-block:: json
+           
+           {
+             "name": "TODO"
+           }
+---
+title: Specify an Apply When Expression
+ref: specify-an-apply-when-expression
+content: |
+  A filter's Apply When :ref:`expression <expressions>` evaluates to ``true``
+  when Realm should add it to an incoming query. You can use variables like
+  :json-expansion:`%%user` and :json-expansion:`%%request` to create a dynamic
+  expression that evaluates differently based on the context.
+  
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Specify the expression in the filter's :guilabel:`Apply When` input:
+        
+        .. figure:: /images/create-a-filter-apply-when.png
+           :alt: The apply when expression input box
+  
+     .. tab::
+        :tabid: cli
+        
+        Specify the expression in the filter's ``apply_when`` field:
+  
+        .. code-block:: json
+           :emphasize-lines: 3
+           
+           {
+             "name": "TODO",
+             "apply_when": { "owner_id": "%%user.id" }
+           }
+---
+title: Specify a Query Filter
+ref: specify-a-query-filter
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        In the :guilabel:`Query` input box, specify a document that contains
+        additional query predicates to merge into the incoming query when the
+        filter applies. For example, a filter that withholds documents that
+        have a ``score`` below ``20`` could use the following filter query:
+        
+        .. code-block:: shell
+        
+           { "score": { "$gt": 20 } }
+        
+        .. figure:: /images/filters-query.png
+           :alt: A filter's query filter input
+     
+     .. tab::
+        :tabid: cli
+        
+        In the ``query`` field, specify a MongoDB query filter to add to
+        filtered incoming queries. If you do not want to add additional query
+        predicates, specify an empty object ``{}``.
+        
+        .. code-block:: json
+           :emphasize-lines: 4
+           
+           {
+             "name": "TODO",
+             "apply_when": { "owner_id": "%%user.id" },
+             "query": { "score": { "$gt": 20 } }
+           }
+---
+title: Specify a Projection
+ref: specify-a-projection
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        In the :guilabel:`Projection` input box, specify a MongoDB
+        :manual:`projection </tutorial/project-fields-from-query-results>` add
+        to filtered incoming queries. If you do not want to add or omit fields
+        from the query results, specify an empty object ``{}``.
+        
+        .. figure:: /images/filters-projection.png
+           :alt: A filter's projection input
+     
+     .. tab::
+        :tabid: cli
+        
+        In the ``projection`` field, specify a MongoDB :manual:`projection
+        </tutorial/project-fields-from-query-results>` to add to filtered
+        incoming queries. If you do not want to add or omit fields from the
+        query results, specify an empty object ``{}``.
+        
+        .. code-block:: json
+           :emphasize-lines: 5-8
+           
+           {
+             "name": "TODO",
+             "apply_when": { "owner_id": "%%user.id" },
+             "query": { "score": { "$gt": 20 } },
+             "projection": {
+               "career_stats": 0,
+               "personal": 0
+             }
+           }
+---
+title: Save the Filter
+ref: save-the-filter
+content: |
+  .. tabs-realm-admin-interfaces::
+     
+     .. tab::
+        :tabid: ui
+        
+        Click :guilabel:`Save` and then :ref:`deploy your app <deploy-ui>`.
+     
+     .. tab::
+        :tabid: cli
+        
+        Save the file & deploy your changes.
+        
+        .. code-block:: bash
+           
+           realm-cli push --remote=<App ID>
+...

@@ -17,41 +17,28 @@ content: |
 title: Evaluate A Role For Each Document
 ref: evaluate-a-role-for-each-document
 content: |
-  {+backend+} evaluates a **Role** with specific read and write
-  permissions for each document that matches the filtered query. You
-  define the roles for each collection, including the permissions they
-  have and the conditions under which they apply.
-
-  .. note:: Roles
-     
-     To learn how to configure :ref:`role-based permissions <roles>` for a
-     collection, see :doc:`Define Roles and Permissions
-     </mongodb/define-roles-and-permissions>`.
-     
-     To learn more about roles, explore the :ref:`roles <roles>` reference page.
-     There you'll find more information, including configuration parameters,
-     use-case examples, and details on how {+backend+} assigns roles to
-     documents.
+  {+backend+} evaluates a **Role** with specific read and write permissions for
+  each document that matches the filtered query. You define the roles for each
+  collection, including the permissions they have and the conditions under which
+  they apply.
+  
+  To learn more about roles, including what they control, when they apply, and
+  how to set them up, see :ref:`roles`.
 ---
 title: Run The Query With The Assigned Roles
 ref: run-the-query-with-the-assigned-roles
 content: |
-  Once {+backend+} has evaluated a role for each document, it runs the
-  filtered query and prevents reads and writes on each document unless
-  the document's role allows them. If no role applies to a specific
-  document, {+backend+} withholds that document entirely and prevents the
-  query from reading or writing any fields.
+  Once {+backend+} has evaluated a role for each document, it runs the filtered
+  query and prevents reads and writes on each document unless the document's
+  role allows them. If no role applies to a specific document, {+backend+}
+  withholds that document entirely and prevents the query from reading or
+  writing any fields.
 ---
 title: Validate The Document Schema
 ref: validate-the-document-schema
 content: |
-  If the query was a write operation, {+backend+} checks each affected
-  document to ensure that they conform to the collection's **Document
-  Schema**. If any document does not match the schema, {+backend+} rolls back
-  the operation and rejects the query.
-
-  .. seealso::
-     
-     - :ref:`schemas`
-     - :ref:`enforce-a-schema`
+  If the query was a write operation, {+backend+} checks each affected document
+  to ensure that they conform to the collection's :ref:`schema <schemas>`. If
+  any document does not match the schema, {+backend+} rolls back the operation
+  and rejects the query.
 ...
