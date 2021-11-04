@@ -2494,13 +2494,12 @@ components:
         name:
           type: string
           description: Can only contain ASCII letters, numbers, underscores, and hyphens.
+          required: true
         template_id:
           type: string
           description: Name of :ref:`supported template app <template-apps>` to serve as base template.
         data_source: 
-            $ref: '#/components/schemas/DataSource'
-      required:
-        - name
+          $ref: '#/components/schemas/DataSource'
     DataSource: 
       type: object
       properties: 
@@ -2510,22 +2509,22 @@ components:
           example: mongodb-atlas
           enum: 
             - mongodb-atlas
+          required: true
         type: 
           type: string
           description: Should be `"mongodb-atlas"`.
           example: mongodb-atlas
           enum: 
             - mongodb-atlas
+          required: true
         config:
           type: object
           properties:
             clusterName: 
               type: string
-              description: Name of {+atlas-short+} cluster associated with the {+app+}. 
-      required:
-        - name
-        - type
-        - config
+              description: Name of {+atlas-short+} cluster associated with the {+app+}.
+              required: true
+          required: true
     Service:
       properties:
         _id: {type: string}
