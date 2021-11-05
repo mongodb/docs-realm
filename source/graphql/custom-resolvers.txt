@@ -52,7 +52,7 @@ The resolvers all reference ``Sale`` documents, which have the following schema:
            year: String!
            month: String!
            saleTotal: Float!
-           notes: [String]
+           notes: [String!]
          }
    
    .. tab:: JSON Schema
@@ -336,7 +336,7 @@ The resolver uses the following configuration:
                   year: String!
                   month: String!
                   saleTotal: Float!
-                  notes: [String]
+                  notes: [String!]
                 }
           
           .. tab:: JSON Schema
@@ -427,8 +427,8 @@ adds the resolver to its parent type, ``Sale``:
      year: String!
      month: String!
      saleTotal: Float!
-     notes: [String]
-     customerSupportCases: [CustomerSupportCase]
+     notes: [String!]
+     customerSupportCases: [CustomerSupportCase!]
    }
    
    type CustomerSupportCase {
@@ -497,8 +497,8 @@ The resolver uses the following configuration:
                   year: String!
                   month: String!
                   saleTotal: Float!
-                  notes: [String]
-                  customerSupportCases: [CustomerSupportCase]
+                  notes: [String!]
+                  customerSupportCases: [CustomerSupportCase!]
                 }
 
    * - :guilabel:`Function`
