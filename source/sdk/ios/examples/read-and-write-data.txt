@@ -105,13 +105,25 @@ Filter Queries Based on Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A filter selects a subset of results based on the value(s) of one or
-more object properties. Realm Database provides a full-featured query
-engine that you can use to define filters.
+more object properties. {+client-database+} provides a full-featured 
+:ref:`query engine <ios-client-query-engine>` that you can use to define filters.
 
-.. tabs-realm-languages::
+.. tabs::
    
-   .. tab::
+   .. tab:: Realm Swift Query API
       :tabid: swift
+
+      .. versionadded:: 10.19.0
+
+      To use the :ref:`{+client-db-short+} Swift Query API <ios-realm-swift-query-api>`, 
+      call :swift-sdk:`.where <Structs/Query.html>` with a closure that 
+      contains a query expression as an argument.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.where.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
 
       To filter, call :swift-sdk:`Results.filter(_:)
       <Structs/Results.html#/s:10RealmSwift7ResultsV6filteryACyxGSo11NSPredicateCF>`
@@ -120,7 +132,7 @@ engine that you can use to define filters.
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.filter.swift
          :language: swift
 
-   .. tab::
+   .. tab:: Objective C
       :tabid: objective-c
 
       To filter, call :objc-sdk:`-[RLMResults objectsWhere:]
@@ -152,14 +164,33 @@ properties. Avoid comparing
 :swift-sdk:`ObjectId <Classes/ObjectId.html>` properties to strings, as
 {+client-database+} does not automatically convert strings to ObjectIds.
 
-The following example shows the correct and incorrect way to write a
-query with an ObjectId given the following Realm object:
+.. tabs::
 
-.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
-   :language: swift
+   .. tab:: Realm Swift Query API
+      :tabid: swift
 
-.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-object-id.swift
-   :language: swift
+      .. versionadded:: 10.19.0
+
+      The following example shows the correct and incorrect way to write a
+      query with an ObjectId given the following {+client-db-short+} object:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
+         :language: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-object-id.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
+
+      The following example shows the correct and incorrect way to write a
+      query with an ObjectId given the following {+client-db-short+} object:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
+         :language: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-object-id.swift
+         :language: swift
 
 .. _ios-sort-query-results:
 
@@ -256,15 +287,23 @@ Aggregate Data
 You can use Realm's aggregation operators for sophisticated queries
 against list properties.
 
-.. tabs-realm-languages::
+.. tabs::
    
-   .. tab::
+   .. tab:: Realm Swift Query API
       :tabid: swift
+
+      .. versionadded:: 10.19.0
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-aggregate.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
       
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.swift
          :language: swift
 
-   .. tab::
+   .. tab:: Objective C
       :tabid: objective-c
 
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
@@ -285,15 +324,23 @@ query.
    To get a result set for tan dogs, and tan dogs whose names start with
    ‘B’, chain two queries like this:
 
-   .. tabs-realm-languages::
-       
-      .. tab::
+   .. tabs::
+
+      .. tab:: Realm Swift Query API
          :tabid: swift
-          
+
+         .. versionadded:: 10.19.0
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-chain-query.swift
+            :language: swift
+
+      .. tab:: Swift NSPredicate
+         :tabid: swift-nspredicate
+         
          .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.swift
             :language: swift
 
-      .. tab::
+      .. tab:: Objective C
          :tabid: objective-c
 
          .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.m
@@ -595,10 +642,23 @@ Delete an Object
 Delete Multiple Objects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. tabs-realm-languages::
+.. tabs::
    
-   .. tab::
+   .. tab:: Realm Swift Query API
       :tabid: swift
+
+      .. versionadded:: 10.19.0
+
+      To delete a collection of objects from a realm, pass the
+      collection to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-delete-collection.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
 
       To delete a collection of objects from a realm, pass the
       collection to :swift-sdk:`Realm.delete(_:)
@@ -608,7 +668,7 @@ Delete Multiple Objects
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-collection.swift
          :language: swift
 
-   .. tab::
+   .. tab:: Objective C
       :tabid: objective-c
 
       To delete a collection of objects from a realm, pass the

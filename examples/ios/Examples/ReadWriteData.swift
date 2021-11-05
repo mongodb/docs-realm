@@ -242,6 +242,21 @@ class ReadWriteData: XCTestCase {
         // :code-block-end:
     }
 
+    func testTypeSafeQueryDeleteCollection() {
+        // :code-block-start: tsq-delete-collection
+        let realm = try! Realm()
+        try! realm.write {
+            // Find dogs younger than 2 years old.
+            let puppies = realm.objects(ReadWriteDataExamples_Dog.self).where {
+                $0.age < 2
+            }
+
+            // Delete the objects in the collection from the realm.
+            realm.delete(puppies)
+        }
+        // :code-block-end:
+    }
+
     func testObjects() {
         // :code-block-start: objects
         let realm = try! Realm()
@@ -284,6 +299,32 @@ class ReadWriteData: XCTestCase {
         print(dogsWhoLikeTennisBalls.count)
     }
 
+    func testWhere() {
+        // :code-block-start: where
+        let realm = try! Realm()
+        // Access all dogs in the realm
+        let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
+
+        // Query by age
+        let puppies = dogs.where {
+            $0.age < 2
+        }
+
+        // Query by person
+        let dogsWithoutFavoriteToy = dogs.where {
+            $0.favoriteToy == nil
+        }
+
+        // Query by person's name
+        let dogsWhoLikeTennisBalls = dogs.where {
+            $0.favoriteToy.name == "Tennis ball"
+        }
+        // :code-block-end:
+        print(puppies.count)
+        print(dogsWithoutFavoriteToy.count)
+        print(dogsWhoLikeTennisBalls.count)
+    }
+
     func testQueryObjectId() {
         // :code-block-start: query-object-id
         let realm = try! Realm()
@@ -298,6 +339,23 @@ class ReadWriteData: XCTestCase {
         // users.filter("id = %@", "11223344556677889900aabb") // not ok
         // :code-block-end:
         print("\(specificUser ?? ReadWriteDataExamples_User())")
+    }
+
+    func testTypeSafeQueryObjectId() {
+        // :code-block-start: tsq-object-id
+        let realm = try! Realm()
+
+        let users = realm.objects(ReadWriteDataExamples_User.self)
+
+        // Get specific user by ObjectId id
+        let specificUser = users.where {
+            $0.id == ObjectId("11223344556677889900aabb")
+        }
+
+        // WRONG: Realm will not convert the string to an object id
+        // users.where { $0.id == "11223344556677889900aabb" } // not ok
+        // :code-block-end:
+        print("\(specificUser)")
     }
 
     func testTransaction() {
@@ -401,6 +459,39 @@ class ReadWriteData: XCTestCase {
         // :code-block-end:
     }
 
+    func testTypeSafeQueryAggregate() {
+        // :code-block-start: tsq-aggregate
+        let realm = try! Realm()
+
+        let people = realm.objects(ReadWriteDataExamples_Person.self)
+
+        // People whose dogs' average age is 5
+        people.where {
+            $0.dogs.age.avg == 5
+        }
+
+        // People with older dogs
+        people.where {
+            $0.dogs.age.min > 5
+        }
+
+        // People with younger dogs
+        people.where {
+            $0.dogs.age.max < 2
+        }
+
+        // People with many dogs
+        people.where {
+            $0.dogs.count > 2
+        }
+
+        // People whose dogs' ages combined > 10 years
+        people.where {
+            $0.dogs.age.sum > 10
+        }
+        // :code-block-end:
+    }
+
     func testCopyToAnotherRealm() {
         // :code-block-start: copy-to-another-realm
         let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "first realm"))
@@ -447,6 +538,18 @@ class ReadWriteData: XCTestCase {
         let realm = try! Realm()
         let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).filter("color = 'tan'")
         let tanDogsWithBNames = tanDogs.filter("name BEGINSWITH 'B'")
+        // :code-block-end:
+    }
+
+    func testTypeSafeChainQuery() {
+        // :code-block-start: tsq-chain-query
+        let realm = try! Realm()
+        let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).where {
+            $0.color == "tan"
+        }
+        let tanDogsWithBNames = tanDogs.where {
+            $0.name.starts(with: "B")
+        }
         // :code-block-end:
     }
 
