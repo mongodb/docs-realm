@@ -35,16 +35,24 @@ The app is a task tracker that allows users to:
 
 This tutorial should take around 30 minutes.
 
-.. TODO(Ben): update the below note with information reflecting the fact that the 
-.. code does now do dynamic updates, but not using the JS Sync stuff, just alternate 
-.. means to the same end.
 
-.. important:: Realm Web SDK and Sync
-   
+.. note:: Reacting to database updates 
+
    The Realm Web SDK does not support :ref:`sync <sync>`, so the app you'll
-   build in this tutorial won't update in real time when data changes. However,
-   data that you create from the web app will automatically sync to any of the
+   build in this tutorial uses other means to get live updates on data changes 
+   from the backend. However, data that you create from the web app will automatically sync to any of the
    other :ref:`task tracker tutorial apps <tutorial>` that use Realm Database.
+
+   This tutorial covers two ways to synchronize data between the Web SDK and the server:
+
+   - The ``watch()`` method as used in the :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section.
+   - :apollo:`Apollo GraphQL client polling <docs/react/data/queries/#polling>` as used 
+     in the :ref:`Define the GraphQL Schema & Operations<define-the-graphql-schema-and-operations>` section. 
+   
+   
+   You could also implement client-server synchronization with the Web SDK using 
+   alternative means like :apollo:`Apollo GraphQL client subscriptions<docs/react/data/subscriptions/>`. 
+
 
 Prerequisites
 -------------
@@ -173,6 +181,8 @@ to create a ``emailPassword`` credential.
 .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleRegistrationAndLogin.js
 
 
+.. _define-the-graphql-schema-and-operations: 
+
 D. Define the GraphQL Schema & Operations
 -----------------------------------------
 
@@ -249,6 +259,8 @@ connect to your app's GraphQL API.
 
 .. include:: /includes/steps/task-tracker-web-apollo.rst
 
+.. _web-tutorial-implement-the-project-list:
+
 F. Implement the Projects List
 ------------------------------
 
@@ -257,18 +269,14 @@ of a ``User`` document. This means that we can use :doc:`custom user data
 </users/enable-custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
-.. TODO(Ben): here we need to refactor this section's content so that it discusses 
-.. the new implementation which uses watch()
+To  update the app if other users' adding the current user to the project, we use the 
+:ref:```collection.watch()`` <web-mongodb-watch>` method. 
 
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
 current user's projects:
 
 .. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
    :language: javascript
-
-.. TODO(Ben): add a note stating that it's also very possible to do the same implementation 
-.. using GraphQL and and polling (as above) or other change listener implementations 
-.. supported by GraphQL.
 
 G. Use Realm functions
 ----------------------
