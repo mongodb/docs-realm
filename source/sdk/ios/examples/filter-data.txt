@@ -23,9 +23,9 @@ To filter data in your {+realm+}, you can leverage
 
 The :ref:`Realm Swift Query API <ios-realm-swift-query-api>` offers an 
 idiomatic way for Swift developers to query data. Use Swift-style syntax 
-to query {+client-database+}, with the benefits of auto-completion and 
-type safety. This is an additive query API using a new query method that 
-provides an alternative to NSPredicate queries.
+to query {+client-database+} with the benefits of auto-completion and 
+type safety. The Realm Swift Query API does not replace the NSPredicate
+Query API in newer SDK versions; instead, you can use either.
 
 For SDK versions prior to 10.19.0, or for Objective-C developers, 
 {+client-database+}'s query engine supports :ref:`NSPredicate Query
@@ -95,9 +95,13 @@ This query API constructs an :ref:`NSPredicate <ios-nspredicate-query>`
 to perform the query. It gives developers a type-safe idiomatic API to 
 use directly, and abstracts away the NSPredicate construction.
 
-The ``.where`` API takes a callback that evaluates to true or false. In
-the examples on this page, we use the ``$0`` shorthand to reference the 
-variable's members.
+The ``.where`` API takes a callback that evaluates to true or false. The
+callback receives an instance of the type being queried, and you can 
+leverage the compiler to statically check that you are creating valid queries
+that reference valid properties. 
+
+In the examples on this page, we use the ``$0`` shorthand to reference 
+the variable passed into the callback.
 
 Subqueries
 ~~~~~~~~~~
@@ -304,12 +308,9 @@ to a single value.
 Set Operators
 `````````````
 
-The NSPredicate Query API supports using these :ref:`set operators 
-<ios-nspredicate-set-operators>` to evaluate objects in a collection:
-
-- ``ALL``
-- ``ANY``/``SOME``
-- ``NONE``
+The NSPredicate Query API supports using :ref:`set operators 
+<ios-nspredicate-set-operators>` to evaluate objects in a collection: 
+``ALL``, ``ANY``/``SOME``, ``NONE``.
 
 These **set operators** use specific rules to determine whether
 to pass each input collection object to the output

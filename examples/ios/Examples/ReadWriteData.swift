@@ -351,9 +351,6 @@ class ReadWriteData: XCTestCase {
         let specificUser = users.where {
             $0.id == ObjectId("11223344556677889900aabb")
         }
-
-        // WRONG: Realm will not convert the string to an object id
-        // users.where { $0.id == "11223344556677889900aabb" } // not ok
         // :code-block-end:
         print("\(specificUser)")
     }

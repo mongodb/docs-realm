@@ -21,7 +21,8 @@ class QueryEngineExamples_Project: Object {
 }
 // :code-block-end:
 
-class QueryEngine_NSPredicate: XCTestCase {
+// This is the NSPredicate version of the QueryEngine tests
+class QueryEngineForNSPredicate: XCTestCase {
     override func tearDown() {
         let realm = try! Realm()
         try! realm.write {
@@ -125,7 +126,8 @@ class QueryEngine_NSPredicate: XCTestCase {
     }
 }
 
-class QueryEngine_TypeSafeQuery: XCTestCase {
+// This is the type-safe query version of the QueryEngine tests
+class QueryEngineForTypeSafeQuery: XCTestCase {
     override func tearDown() {
         let realm = try! Realm()
         try! realm.write {
@@ -243,13 +245,6 @@ class QueryEngine_TypeSafeQuery: XCTestCase {
             $0.tasks.progressMinutes.sum > 100
         }
         print("Long running projects: \(longRunningProjects.count)")
-        // :code-block-end:
-
-        // :code-block-start: tsq-subquery
-        let subquery = projects.where {
-            ($0.tasks.isComplete == false && $0.tasks.assignee == "Alex").count > 0
-        }
-        print("Projects with incomplete tasks assigned to Alex: \(subquery.count)")
         // :code-block-end:
     }
 }
