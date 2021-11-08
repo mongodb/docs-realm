@@ -35,6 +35,10 @@ The app is a task tracker that allows users to:
 
 This tutorial should take around 30 minutes.
 
+.. TODO(Ben): update the below note with information reflecting the fact that the 
+.. code does now do dynamic updates, but not using the JS Sync stuff, just alternate 
+.. means to the same end.
+
 .. important:: Realm Web SDK and Sync
    
    The Realm Web SDK does not support :ref:`sync <sync>`, so the app you'll
@@ -182,6 +186,11 @@ well as a set of CRUD query and mutation resolvers for each type.
    You can use `graphql-codegen <https://graphql-code-generator.com/>`__ to
    generate TypeScript types based on your app's GraphQL schema.
 
+.. TODO(Ben): add small section about creating the useAllTasksInProject hook in 
+.. useTasks.js, line 17
+.. will also require Bluehawking the code  
+.. and be sure to note the part about the `pollInterval: 300`
+
 Open ``src/graphql/useTaskMutations.js`` and find the ``TODO`` mutation
 definitions. These are all of the mutations that the app uses to create and
 modify ``User`` and ``Task`` documents.
@@ -248,11 +257,18 @@ of a ``User`` document. This means that we can use :doc:`custom user data
 </users/enable-custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
+.. TODO(Ben): here we need to refactor this section's content so that it discusses 
+.. the new implementation which uses watch()
+
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
 current user's projects:
 
 .. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
    :language: javascript
+
+.. TODO(Ben): add a note stating that it's also very possible to do the same implementation 
+.. using GraphQL and and polling (as above) or other change listener implementations 
+.. supported by GraphQL.
 
 G. Use Realm functions
 ----------------------
