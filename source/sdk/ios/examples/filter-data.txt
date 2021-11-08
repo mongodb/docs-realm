@@ -95,56 +95,17 @@ This query API constructs an :ref:`NSPredicate <ios-nspredicate-query>`
 to perform the query. It gives developers a type-safe idiomatic API to 
 use directly, and abstracts away the NSPredicate construction.
 
-Expressions
-~~~~~~~~~~~
-
-Filters consist of **expressions**. An expression consists of
-one of the following:
-
-- The name (keypath) of a property of the object currently being evaluated,
-  prefaced by ``$0``.
-- An operator and up to two argument expression(s).
-- A value, such as a string (``'hello'``) or a number (``5``). You can pass
-  a variable with a value of the appropriate type, or a literal value.
-
-Dot Notation
-~~~~~~~~~~~~
-
-When referring to an object property, you can use **dot notation** to refer
-to child properties of that object. You can even refer to the properties of
-:ref:`embedded objects <ios-embedded-objects>` and :ref:`relationships
-<ios-client-relationships>` with dot notation.
-
-For example, consider a query on an object with a ``workplace`` property that
-refers to a Workplace object. The Workplace object has an embedded object
-property, ``address``. You can chain dot notations to refer to the zipcode
-property of that address: 
-
-.. code-block:: swift
-
-   workplace.address.zipcode == 10012
+The ``.where`` API takes a callback that evaluates to true or false. In
+the examples on this page, we use the ``$0`` shorthand to reference the 
+variable's members.
 
 Subqueries
 ~~~~~~~~~~
 
-You can iterate through a collection property with another query using a 
-subquery. To form a subquery, you must wrap the expression in parenthesis
-and immediately follow it with the ``.count`` aggregator. 
-
-.. code-block:: swift
-
-   (<variableName>, <query expression>).count > n
-
-If the expression does not produce a valid subquery, you'll get an 
-exception at runtime.
-
-.. example::
-
-   Running the following filter on a ``projects`` collection returns projects
-   with tasks that have not been completed by a user named Alex.
-
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-subquery.swift
-      :language: swift
+It's possible to iterate through a collection property with another query.
+The :ref:`NSPredicate Query API <ios-nspredicate-subquery>` gives you the 
+ability to do this using the ``SUBQUERY()`` predicate function. The Realm 
+Swift Query API does not have a direct analog. 
 
 .. _ios-where-operators:
 
@@ -161,35 +122,8 @@ Database includes the object in the results collection.
 Comparison Operators
 ````````````````````
 
-The {+client-db-short+} Swift Query API supports these comparison operators:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 30 70
-
-   * - Operator
-     - Description
-
-   * - | ``==``
-     - Evaluates to ``true`` if the left-hand expression is equal to the right-hand expression.
-
-   * - | ``!=``
-     - Evaluates to ``true`` if the left-hand expression is not equal to the right-hand expression.
-
-   * - | ``>``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than the right-hand date.
-
-   * - | ``>=``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is later than or the same as the right-hand date.
-
-   * - | ``<``
-     - Evaluates to ``true`` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than the right-hand date.
-
-   * - | ``<=``
-     - Evaluates to ``true`` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to ``true`` if the left-hand date is earlier than or the same as the right-hand date.
-
-   * - ``.contains(_ range:)``
-     - Evaluates to ``true`` if the property referenced by the expression contains a value that is within the range. 
+You can use Swift comparison operators with the Realm Swift 
+Query API (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``).
 
 .. example::
 
@@ -233,23 +167,8 @@ You can search for individual values by element, or search within a range.
 Logical Operators
 `````````````````
 
-You can make compound queries using Swift logical operators.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 30 70
-
-   * - Operator
-     - Description
-
-   * - | ``&&``
-     - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
-
-   * - | ``!``
-     - Negates the result of the given expression.
-
-   * - | ``||``
-     - Evaluates to ``true`` if either expression returns ``true``.
+You can make compound queries using Swift logical operators (``&&``, ``!``, 
+``||``).
 
 .. example::
 
@@ -398,27 +317,7 @@ collection by applying a given query expression to every element of
 a given :ref:`list <ios-list-collections>` property of
 the object.
 
-The Realm Swift Query API does not explicitly support these set operators.
-Instead, you'll observe this behavior when operating on collections:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 30 70
-
-   * - Operator
-     - Description
-
-   * - ``ALL``
-     - Most operations in collections implicitly use ``ALL``.
-
-   * - ``ANY``/``SOME``
-     - There is no way to achieve ``ANY`` or ``SOME`` when operating on 
-       collections in the Realm Swift Query API. Operations that are not 
-       collection operations implicitly use ``ANY``.
-
-   * - ``NONE``
-     - You can use ``!`` to implicitly achieve ``NONE``.
-
+The Realm Swift Query API does not explicitly support these set operators. 
 If you need to explicitly use any of these set operators in your filters, use 
 :ref:`the NSPredicate Query API with set operators 
 <ios-nspredicate-set-operators>`.
@@ -492,6 +391,8 @@ You can use the following substitutions in your predicate format strings:
 
       .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
          :language: objectivec
+
+.. _ios-nspredicate-subquery:
 
 Subqueries
 ~~~~~~~~~~
