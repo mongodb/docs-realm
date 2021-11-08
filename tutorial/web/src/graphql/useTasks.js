@@ -25,7 +25,10 @@ function useAllTasksInProject(project) {
         }
       }
     `,
-    { variables: { partition: project.partition } }
+    { 
+      variables: { partition: project.partition },
+      pollInterval: 300
+    }
   );
   if (error) {
     throw new Error(`Failed to fetch tasks: ${error.message}`);
