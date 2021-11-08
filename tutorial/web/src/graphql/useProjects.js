@@ -17,38 +17,18 @@ export default function useProjects() {
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const users = mongodb.db("tracker").collection("User");
 
-  React.useEffect( () => { 
+  React.useEffect(() => { 
     (async () => {
       for await (const change of users.watch()) {
-        switch (change.operationType) {
-          case "insert": {
-            setProjectsFromChange(change, setProjects);
-            break;
-          }
-          case "update": {
-            setProjectsFromChange(change, setProjects);
-            break;
-          }
-          case "replace": {
-            setProjectsFromChange(change, setProjects);
-            break;
-          }
-          case "delete": {
-            setProjectsFromChange(change, setProjects);
-            break;
-          }
-          default: {
-            break;
-          }
-        }
+        setProjectsFromChange(change, setProjects);
       }
-    })()
+    })();
   });
+  return projects;
   // :state-end: 
   // :state-uncomment-start: start
-  // // TODO: Retrieve the current user's projects and assign it to `projects`.
-  // const projects;
+  // // TODO: Retrieve the current user's projects and assign it to `projects` 
+  // // with refresh when their project list is updated.
   // :state-uncomment-end:
-  return projects;
 }
 // :code-block-end:
