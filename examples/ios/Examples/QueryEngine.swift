@@ -140,9 +140,13 @@ class QueryEngine_TypeSafeQuery: XCTestCase {
             let project = QueryEngineExamples_Project()
             project.name = "New Project"
             let task = QueryEngineExamples_Task()
+            let task2 = QueryEngineExamples_Task()
             task.assignee = "Alex"
-            task.priority = 5
+            task.priority = 10
+            task2.assignee = "Ali"
+            task2.priority = 9
             project.tasks.append(task)
+            project.tasks.append(task2)
             realm.add(project)
             // ...
         }
@@ -152,13 +156,6 @@ class QueryEngine_TypeSafeQuery: XCTestCase {
         let realmSwiftQuery = projects.where {
             ($0.tasks.progressMinutes > 1) && ($0.tasks.assignee == "Ali")
         }
-        // :code-block-end:
-
-        // :code-block-start: tsq-substitutions
-//        let substitution = projects.where {
-//
-//        }
-        // NSPredicate(format: "%K > %@ AND %K == %@", "progressMinutes", NSNumber(1), "name", "Ali")
         // :code-block-end:
 
         // :code-block-start: tsq-comparison-operators
@@ -246,18 +243,6 @@ class QueryEngine_TypeSafeQuery: XCTestCase {
             $0.tasks.progressMinutes.sum > 100
         }
         print("Long running projects: \(longRunningProjects.count)")
-        // :code-block-end:
-
-        // :code-block-start: tsq-set-operators
-        let noCompleteTasks = projects.where {
-            $0.tasks.isComplete != true
-        }
-        print("Projects with no complete tasks: \(noCompleteTasks.count)")
-
-        let anyTopPriorityTasks = projects.where {
-            $0.tasks.priority == 10
-        }
-        print("Projects with any top priority tasks: \(anyTopPriorityTasks.count)")
         // :code-block-end:
 
         // :code-block-start: tsq-subquery

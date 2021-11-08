@@ -101,9 +101,11 @@ Expressions
 Filters consist of **expressions**. An expression consists of
 one of the following:
 
-- The name (keypath) of a property of the object currently being evaluated.
+- The name (keypath) of a property of the object currently being evaluated,
+  prefaced by ``$0``.
 - An operator and up to two argument expression(s).
-- A value, such as a string (``'hello'``) or a number (``5``).
+- A value, such as a string (``'hello'``) or a number (``5``). You can pass
+  a variable with a value of the appropriate type, or a literal value.
 
 Dot Notation
 ~~~~~~~~~~~~
@@ -122,29 +124,23 @@ property of that address:
 
    workplace.address.zipcode == 10012
 
-Substitutions
-~~~~~~~~~~~~~
-
-You can use the following substitutions in your queries:
-
-- ``.values`` to specify values
-- ``.keys`` to specify `keypaths <https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#grammar_key-path-expression>`_
-
-.. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-substitutions.swift
-   :language: swift
-
 Subqueries
 ~~~~~~~~~~
 
 You can iterate through a collection property with another query using a 
-subquery.
+subquery. To form a subquery, you must wrap the expression in parenthesis
+and immediately follow it with the ``.count`` aggregator. 
 
-// TODO: Get an explanation of subquery in .where API that maps to NSPredicate
-// explanation
+.. code-block:: swift
+
+   (<variableName>, <query expression>).count > n
+
+If the expression does not produce a valid subquery, you'll get an 
+exception at runtime.
 
 .. example::
 
-   Running the following filter on a projects collect returns projects
+   Running the following filter on a ``projects`` collection returns projects
    with tasks that have not been completed by a user named Alex.
 
    .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-subquery.swift
@@ -389,17 +385,43 @@ to a single value.
 Set Operators
 `````````````
 
-// TODO: Figure out if it's possible to replicate ALL, ANY, SOME, NONE
+The NSPredicate Query API supports using these :ref:`set operators 
+<ios-nspredicate-set-operators>` to evaluate objects in a collection:
 
-.. example::
+- ``ALL``
+- ``ANY``/``SOME``
+- ``NONE``
 
-   We use the query engine's set operators to find:
+These **set operators** use specific rules to determine whether
+to pass each input collection object to the output
+collection by applying a given query expression to every element of
+a given :ref:`list <ios-list-collections>` property of
+the object.
 
-   - Projects with no complete tasks.
-   - Projects with any top priority tasks.
+The Realm Swift Query API does not explicitly support these set operators.
+Instead, you'll observe this behavior when operating on collections:
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-set-operators.swift
-      :language: swift
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - ``ALL``
+     - Most operations in collections implicitly use ``ALL``.
+
+   * - ``ANY``/``SOME``
+     - There is no way to achieve ``ANY`` or ``SOME`` when operating on 
+       collections in the Realm Swift Query API. Operations that are not 
+       collection operations implicitly use ``ANY``.
+
+   * - ``NONE``
+     - You can use ``!`` to implicitly achieve ``NONE``.
+
+If you need to explicitly use any of these set operators in your filters, use 
+:ref:`the NSPredicate Query API with set operators 
+<ios-nspredicate-set-operators>`.
 
 .. _ios-nspredicate-query:
 
@@ -489,7 +511,7 @@ You can iterate through a collection property with another query using the
 
 .. example::
 
-   Running the following filter on a projects collect returns projects
+   Running the following filter on a ``projects`` collection returns projects
    with tasks that have not been completed by a user named Alex.
 
    .. tabs-realm-languages::
@@ -803,6 +825,7 @@ to a single value.
           .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.swift
              :language: swift
 
+.. _ios-nspredicate-set-operators:
 
 Set Operators
 `````````````
