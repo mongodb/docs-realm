@@ -12,7 +12,6 @@ export default function Sidebar({
   setIsEditingPermissions,
 }) {
   const projects = useProjects();
-  console.log('projects are', projects)
   const app = useRealmApp();
 
   return (

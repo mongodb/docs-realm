@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 
 // :code-block-start: GetAllTasksQuery
 // :state-start: final
-const GetAllTasksQuery = gql `
+const GetAllTasksQuery = gql`
       query GetAllTasksForProject($partition: String!) {
         tasks(query: { _partition: $partition }) {
           _id
