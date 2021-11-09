@@ -198,7 +198,7 @@ well as a set of CRUD query and mutation resolvers for each type.
    You can use `graphql-codegen <https://graphql-code-generator.com/>`__ to
    generate TypeScript types based on your app's GraphQL schema.
 
-Open ``src/graphql/useTaskQueries.js``, and find the ``TODO`` for ``const GetAllTasksQuery  = gql/`/`;``. 
+Open ``src/graphql/useTaskQueries.js``, and find the ``TODO`` for ``const GetAllTasksQuery``. 
 Here you define the query to get all tasks from the database.
 
 Fill in the code with the following query: 
@@ -209,8 +209,9 @@ Fill in the code with the following query:
 
 Now that you've defined the query, you need to create the hook to call it in the application. 
 We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
-In our hook, we'll pass the project as a dynamic variables to the query and 
-refresh every 500 milliseconds so that the data doesn't get stale if another team member 
+In our hook, we'll pass the project as a dynamic variables to the query. We'll also 
+set a :apollo:`pollInterval <docs/react/data/queries/#polling>` to refresh every 
+500 milliseconds so that the data doesn't get stale if another team member 
 adds tasks to the project. 
 
 Fill in the code: 
@@ -296,7 +297,7 @@ of a ``User`` document. This means that we can use :doc:`custom user data
 directly from their ``Realm.User`` object.
 
 To  update the app if other users' adding the current user to the project, we use the 
-:ref:```collection.watch()`` <web-mongodb-watch>` method. 
+:ref:`collection.watch() <web-mongodb-watch>` method. 
 
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
 current user's projects:
