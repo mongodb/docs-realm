@@ -43,7 +43,7 @@ This tutorial should take around 30 minutes.
    from the backend. However, data that you create from the web app will automatically sync to any of the
    other :ref:`task tracker tutorial apps <tutorial>` that use Realm Database.
 
-   This tutorial covers two ways to synchronize data between the Web SDK and the server:
+   This tutorial covers two ways to synchronize data from the server to the Web SDK:
 
    - The ``watch()`` method as used in the :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section.
    - :apollo:`Apollo GraphQL client polling <docs/react/data/queries/#polling>` as used 
@@ -296,7 +296,7 @@ of a ``User`` document. This means that we can use :doc:`custom user data
 </users/enable-custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
-To  update the app if other users' adding the current user to the project, we use the 
+To  update the app if other users add the current user to their project, we use the 
 :ref:`collection.watch() <web-mongodb-watch>` method. 
 
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
