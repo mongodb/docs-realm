@@ -18,16 +18,16 @@ Read a User’s Metadata
 ----------------------
 
 You can read the :ref:`user metadata <user-metadata>` of a
-currently logged in user through that user's ``User`` object. You cannot
+currently logged-in user through that user's ``User`` object. You cannot
 edit user metadata through a ``User`` object. 
 
 To read the data, access the ``profile`` property on the ``User`` object 
-of a logged in user:
+of a logged-in user:
 
 .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.read-user-metadata.swift
    :language: swift
 
-User metadata options vary depending on which provider you're using, and
+User metadata options vary depending on which provider you're using and
 :ref:`which metadata fields you enable <configure-user-metadata-on-the-backend>`. 
 
 .. warning:: User Metadata May Be Stale
@@ -36,8 +36,8 @@ User metadata options vary depending on which provider you're using, and
    user refreshes their :ref:`access token <user-sessions>`, which is used 
    by most SDK operations that contact the {+backend+} back end. If the token 
    is not refreshed before its default 30 minute expiration time, 
-   {+service-short+} refreshes the token on the next call to the backend, so 
-   user metadata could be stale for up to 30 minutes plus the time until 
+   {+service-short+} refreshes the token on the next call to the backend.  
+   User metadata could be stale for up to 30 minutes plus the time until 
    the next SDK call to the backend occurs.
 
 .. _ios-configure-user-metadata:
