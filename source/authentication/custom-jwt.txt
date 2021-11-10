@@ -335,6 +335,11 @@ whenever they log in and exposes the fields in the ``data`` object of the
        an embedded object, use :manual:`dot notation
        </core/document/#dot-notation>`.
 
+       A backslash (``\``) can be used to escape period (``.``) characters in JWT keys. 
+       For example if a JWT contains the following metadata object: 
+       ``{ "valid.json.key": { "nested_key": "nested_value"}``, you could register the ``"nested_key"``
+       in the path as ``valid\.json\.key.nested_key``.
+
    * - | :guilabel:`Field Name`
        | *field_name*
 
