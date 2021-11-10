@@ -106,10 +106,24 @@ the variable passed into the callback.
 Subqueries
 ~~~~~~~~~~
 
-It's possible to iterate through a collection property with another query.
-The :ref:`NSPredicate Query API <ios-nspredicate-subquery>` gives you the 
-ability to do this using the ``SUBQUERY()`` predicate function. The Realm 
-Swift Query API does not have a direct analog. 
+You can iterate through a collection property with another query using a
+subquery. To form a subquery, you must wrap the expression in parenthesis
+and immediately follow it with the ``.count`` aggregator.
+
+.. code-block:: swift
+
+   (<query>).count > n
+
+If the expression does not produce a valid subquery, you’ll get an
+exception at runtime.
+
+.. example::
+
+   Running the following query on a ``projects`` collection returns projects
+   with tasks that have not been completed by a user named Alex.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-subquery.swift
+      :language: swift
 
 .. _ios-where-operators:
 
