@@ -337,18 +337,18 @@ whenever they log in and exposes the fields in the ``data`` object of the
 
        .. note:: Escaping periods in JWT keys
 
-        Use a backslash (``\``) to escape period (``.``) characters in JWT keys. 
-        Take this JSON object for example: 
+          Use a backslash (``\``) to escape period (``.``) characters in JWT keys. 
+          Take this JSON object for example: 
 
-        .. code-block:: json
+          .. code-block:: json
 
-          { "valid.json.key": {
-              "nested_key": "val"
+            { "valid.json.key": {
+                "nested_key": "val"
+              }
             }
-          }
 
-        You could represent the ``"nested_key"`` in the path name as
-        ``valid\.json\.key.nested_key``.
+          You could represent the ``"nested_key"`` in the path name as
+          ``valid\.json\.key.nested_key``.
 
    * - | :guilabel:`Field Name`
        | *field_name*
