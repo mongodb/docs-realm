@@ -51,7 +51,9 @@ func runLocalOnlyExample() {
     }
 
     // You can also filter a collection
-    let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
+    let tasksThatBeginWithA = tasks.where {
+        $0.name.starts(with: "A")
+    }
     print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
 
     // All modifications to a realm must happen in a write block.
@@ -60,7 +62,9 @@ func runLocalOnlyExample() {
         taskToUpdate.status = "InProgress"
     }
 
-    let tasksInProgress = tasks.filter("status = %@", "InProgress")
+    let tasksInProgress = tasks.where {
+        $0.status == "InProgress"
+    }
     print("A list of all tasks in progress: \(tasksInProgress)")
 
     // All modifications to a realm must happen in a write block.

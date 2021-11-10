@@ -65,7 +65,8 @@ pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-ne
 Query Realm Database
 ~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Query <ios-mongodb-data-access>` directly from your client application code.
+:ref:`Query <ios-client-query-engine>` for stored objects using 
+Swift-idiomatic queries.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.query.swift
    :language: swift
@@ -74,7 +75,7 @@ Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
 :ref:`Update <ios-modify-an-object>` objects by updating field values on
-an instance of the object within a transaction:
+an instance of the object within a transaction.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.update-live-objects.swift
    :language: swift
@@ -92,7 +93,7 @@ Always Access the Latest Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Because {+client-database+} objects are **live objects**, they're 
-automatically updated when they're modified:
+automatically updated when they're modified.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.always-access-the-latest-data.swift
    :language: swift

@@ -2,8 +2,12 @@
 let realm = try! Realm()
 
 // Create a couple of references to a single underlying coffee drink object
-let drinkA = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
-let drinkB = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
+let drinkA = realm.objects(CoffeeDrink.self).where {
+    $0.name == "Maple Latte"
+}.first!
+let drinkB = realm.objects(CoffeeDrink.self).where {
+    $0.name == "Maple Latte"
+}.first!
 // Update drink A's name
 try! realm.write {
     drinkA.name = "Maple-iest Latte in Town"
