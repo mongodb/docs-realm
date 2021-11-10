@@ -32,13 +32,12 @@ User metadata options vary depending on which provider you're using and
 
 .. warning:: User Metadata May Be Stale
    
-   {+backend+} fetches the most recent version of user metadata whenever a 
-   user refreshes their :ref:`access token <user-sessions>`, which is used 
-   by most SDK operations that contact the {+backend+} back end. If the token 
-   is not refreshed before its default 30 minute expiration time, 
-   {+service-short+} refreshes the token on the next call to the backend.  
-   User metadata could be stale for up to 30 minutes plus the time until 
-   the next SDK call to the backend occurs.
+   {+backend+} fetches the most recent version of user metadata when a user
+   logs in. If the user changes their email address or profile photo with a 
+   login provider, for example, those changes do not update in user metadata 
+   until the user logs in again. Because we cache credentials and enable you 
+   to bypass the login flow, user metadata may become stale unless you 
+   force the user to log in again.
 
 .. _ios-configure-user-metadata:
 
