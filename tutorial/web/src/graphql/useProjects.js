@@ -3,7 +3,7 @@ import React from 'react';
 
 // :code-block-start: useProjects
 // :state-start: final
-function setProjectsFromChange(change, setProjects){
+function setProjectsFromChange(change, setProjects) {
   const { fullDocument: { memberOf } } = change;
   setProjects(memberOf);
 }
@@ -16,7 +16,8 @@ export default function useProjects() {
   }
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   const users = mongodb.db("tracker").collection("User");
-
+  
+  // set asynchronous event watcher to react to any changes in the users collection
   React.useEffect(() => { 
     (async () => {
       for await (const change of users.watch()) {
