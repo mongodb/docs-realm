@@ -2,14 +2,21 @@ export function useAllTasksInProject(project) {
   const {
     data,
     loading,
-    error
+    error,
+    startPolling,
+    stopPolling
   } = useQuery(GetAllTasksQuery, {
       variables: {
         partition: project.partition
       },
-      pollInterval: 500
     }
   );
+  React.useEffect(() => {
+    // check server for updates every 1000ms
+    startPolling(1000);
+    // stop polling server for data when component unmounts
+    return () => stopPolling();
+  });
   if (error) {
     throw new Error(`Failed to fetch tasks: ${error.message}`);
   }

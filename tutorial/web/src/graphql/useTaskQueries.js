@@ -38,12 +38,12 @@ export function useAllTasksInProject(project) {
   React.useEffect(() => {
     // check server for updates every 1000ms
     startPolling(1000);
-    // stop polling server for data when component unmounts 
+    // stop polling server for data when component unmounts
     return () => stopPolling();
   });
   // :state-end: 
   // :state-uncomment-start: start
-  // // TODO: Use GetAllTasksQuery to fetch the tasks for the project every 500ms
+  // // TODO: Use GetAllTasksQuery to fetch the tasks for the project every 1000ms
   // :state-uncomment-end:
   if (error) {
     throw new Error(`Failed to fetch tasks: ${error.message}`);
@@ -54,7 +54,7 @@ export function useAllTasksInProject(project) {
   const tasks = data?.tasks ?? [];
   return {
     tasks,
-    loading,
+    loading
   };
 }
 // :code-block-end:
