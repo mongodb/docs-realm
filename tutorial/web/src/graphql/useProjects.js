@@ -18,13 +18,19 @@ export default function useProjects() {
   const users = mongodb.db("tracker").collection("User");
   
   // set asynchronous event watcher to react to any changes in the users collection
-  React.useEffect(() => { 
+  React.useEffect(() => {
+    let changeWatcher;
     (async () => {
-      for await (const change of users.watch()) {
+      changeWatcher = users.watch();
+      for await (const change of changeWatcher) {
         setProjectsFromChange(change, setProjects);
       }
     })();
+
+    // close connection when component unmounts
+    return () => changeWatcher.return()
   });
+
   return projects;
 }
 // :state-end: 
