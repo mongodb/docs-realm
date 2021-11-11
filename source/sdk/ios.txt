@@ -10,6 +10,7 @@ MongoDB Realm iOS SDK
    Install Realm for iOS, macOS, tvOS, and watchOS </sdk/ios/install>
    Quick Start </sdk/ios/quick-start>
    Quick Start with Sync </sdk/ios/quick-start-with-sync>
+   Quick Start with SwiftUI </sdk/ios/swiftui>
    Fundamentals </sdk/ios/fundamentals>
    Data Types </sdk/ios/data-types>
    Usage Examples </sdk/ios/examples>
@@ -64,7 +65,8 @@ pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-ne
 Query Realm Database
 ~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Query <ios-mongodb-data-access>` directly from your client application code.
+:ref:`Query <ios-client-query-engine>` for stored objects using 
+Swift-idiomatic queries.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.query.swift
    :language: swift
@@ -73,7 +75,7 @@ Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
 :ref:`Update <ios-modify-an-object>` objects by updating field values on
-an instance of the object within a transaction:
+an instance of the object within a transaction.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.update-live-objects.swift
    :language: swift
@@ -91,7 +93,7 @@ Always Access the Latest Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Because {+client-database+} objects are **live objects**, they're 
-automatically updated when they're modified:
+automatically updated when they're modified.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.always-access-the-latest-data.swift
    :language: swift
@@ -145,6 +147,8 @@ Get Started
        :doc:`Quick Start </sdk/ios/quick-start>`
 
        :doc:`Quick Start with Sync </sdk/ios/quick-start-with-sync>`
+
+       :doc:`Quick Start with SwiftUI </sdk/ios/swiftui>`
 
        :doc:`Upgrade from Stitch to Realm </sdk/ios/upgrade-from-stitch-to-realm>`
    
@@ -200,7 +204,6 @@ Realm Apps
 Integration Guides
 ------------------
 
-- :doc:`SwiftUI & Combine </sdk/ios/integrations/swiftui>`
 - :doc:`Build for tvOS </sdk/ios/integrations/tvos>`
 
 OS Support

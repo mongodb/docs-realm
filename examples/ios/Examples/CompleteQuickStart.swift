@@ -118,7 +118,9 @@ func onRealmOpened(_ realm: Realm) {
     }
 
     // You can also filter a collection
-    let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
+    let tasksThatBeginWithA = tasks.where {
+        $0.name.starts(with: "A")
+    }
     print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
 
     // :code-block-start: modify-write-block
@@ -130,7 +132,9 @@ func onRealmOpened(_ realm: Realm) {
     // :code-block-end:
 
     // :code-block-start: filter
-    let tasksInProgress = tasks.filter("status = %@", "InProgress")
+    let tasksInProgress = tasks.where {
+        $0.status == "InProgress"
+    }
     print("A list of all tasks in progress: \(tasksInProgress)")
     // :code-block-end:
 

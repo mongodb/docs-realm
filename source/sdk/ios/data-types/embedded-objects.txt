@@ -158,15 +158,24 @@ property value:
 
 .. include:: /includes/directly-query-embedded-objects-note.rst
 
-.. tabs-realm-languages::
+.. tabs::
    
-   .. tab::
+
+   .. tab:: Realm Swift Query API
       :tabid: swift
+
+      .. versionadded:: 10.19.0
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.tsq-query-an-embedded-object.swift
+         :language: swift
+
+   .. tab:: NSPredicate Query
+      :tabid: swift-nspredicate
 
       .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.query-an-embedded-object.swift
          :language: swift
 
-   .. tab::
+   .. tab:: Objective C
       :tabid: objective-c
 
       .. literalinclude:: /examples/EmbeddedObjects/QueryEmbeddedObjects.m

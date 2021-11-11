@@ -39,6 +39,7 @@ fun getNewKey(): ByteArray {
             "realm_key",
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
             .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
             .setUserAuthenticationRequired(true)
             .setUserAuthenticationValidityDurationSeconds(
                    AUTH_VALID_DURATION_IN_SECOND)

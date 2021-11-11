@@ -10,20 +10,26 @@ Filter Data - iOS SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Overview
 --------
 
 To filter data in your {+realm+}, you can leverage
-{+client-database+}'s query engine. {+client-database+}'s
-query engine supports common predicates of `NSPredicate
-<https://developer.apple.com/documentation/foundation/nspredicate>`__.
-For an introduction to NSPredicate in general, See Apple’s
-`Predicates Programming Guide
-<https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html>`__.
+{+client-database+}'s query engine. 
 
+.. versionadded:: 10.19.0: Realm Swift Query API
+
+The :ref:`Realm Swift Query API <ios-realm-swift-query-api>` offers an 
+idiomatic way for Swift developers to query data. Use Swift-style syntax 
+to query {+client-database+} with the benefits of auto-completion and 
+type safety. The Realm Swift Query API does not replace the NSPredicate
+Query API in newer SDK versions; instead, you can use either.
+
+For SDK versions prior to 10.19.0, or for Objective-C developers, 
+{+client-database+}'s query engine supports :ref:`NSPredicate Query
+<ios-nspredicate-query>`.
 
 About the Examples on This Page
 -------------------------------
@@ -69,9 +75,272 @@ You can set up the {+realm+} for these examples with the following code:
       .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.m
          :language: objectivec
 
+.. _ios-realm-swift-query-api:
 
-Predicates
-----------
+Realm Swift Query API
+---------------------
+
+.. versionadded:: 10.19.0
+
+   For SDK versions older than 10.19.0, use the :ref:`NSPredicate query API 
+   <ios-nspredicate-query>`.
+
+You can build a filter with Swift-style syntax using the ``.where`` 
+:swift-sdk:`{+client-db-short+} Swift query API <Structs/Query.html>`:
+
+.. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.realm-swift-query.swift
+   :language: swift
+
+This query API constructs an :ref:`NSPredicate <ios-nspredicate-query>` 
+to perform the query. It gives developers a type-safe idiomatic API to 
+use directly, and abstracts away the NSPredicate construction.
+
+The ``.where`` API takes a callback that evaluates to true or false. The
+callback receives an instance of the type being queried, and you can 
+leverage the compiler to statically check that you are creating valid queries
+that reference valid properties. 
+
+In the examples on this page, we use the ``$0`` shorthand to reference 
+the variable passed into the callback.
+
+Subqueries
+~~~~~~~~~~
+
+You can iterate through a collection property with another query using a
+subquery. To form a subquery, you must wrap the expression in parenthesis
+and immediately follow it with the ``.count`` aggregator.
+
+.. code-block:: swift
+
+   (<query>).count > n
+
+If the expression does not produce a valid subquery, you’ll get an
+exception at runtime.
+
+.. example::
+
+   Running the following query on a ``projects`` collection returns projects
+   with tasks that have not been completed by a user named Alex.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-subquery.swift
+      :language: swift
+
+.. _ios-where-operators:
+
+Operators
+~~~~~~~~~
+
+There are several types of operators available to query a
+:ref:`Realm collection <ios-client-collections>`. Queries
+work by **evaluating** an operator expression for every
+:term:`object <Realm object>` in the collection being
+queried. If the expression resolves to ``true``, Realm
+Database includes the object in the results collection.
+
+Comparison Operators
+````````````````````
+
+You can use Swift comparison operators with the Realm Swift 
+Query API (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``).
+
+.. example::
+
+   The following example uses the query engine's
+   comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find long-running tasks by seeing if the ``progressMinutes`` property is at or above a certain value.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-comparison-operators.swift
+      :language: swift
+
+Collections
+```````````
+
+You can query for values within a collection using the ``.contains`` operators.
+You can search for individual values by element, or search within a range.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - | ``.contains(_ element:)``
+     - Equivalent to the ``IN`` operator. Evaluates to ``true`` if the property referenced by the expression contains the value.
+
+   * - ``.contains(_ range:)``
+     - Equivalent to the ``BETWEEN`` operator. Evaluates to ``true`` if the property referenced by the expression contains a value that is within the range.
+
+.. example::
+
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+   - Find tasks where the ``progressMinutes`` property is within a given range of minutes.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections.swift
+      :language: swift
+
+Logical Operators
+`````````````````
+
+You can make compound queries using Swift logical operators (``&&``, ``!``, 
+``||``).
+
+.. example::
+
+   We can use the query language's logical operators to find
+   all of Ali's completed tasks. That is, we find all tasks
+   where the ``assignee`` property value is equal to 'Ali' AND
+   the ``isComplete`` property value is ``true``:
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-logical-operators.swift
+      :language: swift
+
+String Operators
+````````````````
+
+You can compare string values using these string operators.
+Regex-like wildcards allow more flexibility in search.
+
+.. note::
+
+   You can use the following options with string operators:
+
+   - ``.caseInsensitive`` for case insensitivity.
+
+     .. code-block:: swift
+              
+        $0.name.contains("f", options: .caseInsensitive)
+
+   - ``.diacriticInsensitive`` for diacritic insensitivity: Realm treats 
+     special characters as the base character (e.g. ``é`` -> ``e``).
+
+     .. code-block:: swift
+         
+        $0.name.contains("e", options: .diacriticInsensitive)
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``.starts(with value: String)``
+     - Evaluates to ``true`` if the collection contains an element whose value begins with the specified string value.
+
+   * - | ``.contains(_ value: String)``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
+
+   * - | ``.ends(with value: String)``
+     - Evaluates to ``true`` if the collection contains an element whose value ends with the specified string value.
+
+   * - | ``.like(_ value: String)``
+     - Evaluates to ``true`` if the left-hand string expression
+       matches the right-hand string wildcard string
+       expression. A wildcard string expression is a string
+       that uses normal characters with two special wildcard
+       characters:
+
+       - The ``*`` wildcard matches zero or more of any character
+       - The ``?`` wildcard matches any character.
+
+       For example, the wildcard string "d?g" matches "dog",
+       "dig", and "dug", but not "ding", "dg", or "a dog".
+
+   * - | ``==``
+     - Evaluates to ``true`` if the left-hand string is lexicographically equal to the right-hand string.
+
+   * - | ``!=``
+     - Evaluates to ``true`` if the left-hand string is not lexicographically equal to the right-hand string.
+
+.. example::
+
+   The following example uses the query engine's string operators to find:
+
+   - Projects with a name starting with the letter 'e' 
+   - Projects with names that contain 'ie'
+   - Projects with an ``assignee`` property whose value is similar to ``Al?x``
+   - Projects that contain e-like characters with diacritic insensitivity 
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-string-operators.swift
+      :language: swift
+
+.. include:: /includes/string-sort-and-query-limitations-note.rst
+
+Aggregate Operators
+```````````````````
+
+You can apply an aggregate operator to a collection property
+of a Realm object. Aggregate operators traverse a
+:ref:`collection <ios-client-collections>` and reduce it
+to a single value.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - | ``.avg``
+     - Evaluates to the average value of a given numerical property across a collection.
+
+   * - | ``.count``
+     - Evaluates to the number of objects in the given collection. This
+       is currently only supported on :ref:`to-many relationship
+       collections <ios-to-many-relationship>` and not on lists of
+       primitives. In order to use ``.count`` on a list of primitives,
+       consider wrapping the primitives in a :ref:`{+service-short+}
+       object <ios-realm-objects>`.
+
+   * - | ``.max``
+     - Evaluates to the highest value of a given numerical property across a collection.
+
+   * - | ``.min``
+     - Evaluates to the lowest value of a given numerical property across a collection.
+
+   * - | ``.sum``
+     - Evaluates to the sum of a given numerical property across a collection.
+
+.. example::
+
+   We create a couple of filters to show different facets of
+   the data:
+
+   - Projects with average tasks priority above 5.
+   - Projects that contain only low-priority tasks below 5.
+   - Projects where all tasks are high-priority above 5.
+   - Projects that contain more than 5 tasks.
+   - Long running projects.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-aggregate-operators.swift
+      :language: swift
+
+Set Operators
+`````````````
+
+The NSPredicate Query API supports using :ref:`set operators 
+<ios-nspredicate-set-operators>` to evaluate objects in a collection: 
+``ALL``, ``ANY``/``SOME``, ``NONE``.
+
+These **set operators** use specific rules to determine whether
+to pass each input collection object to the output
+collection by applying a given query expression to every element of
+a given :ref:`list <ios-list-collections>` property of
+the object.
+
+The Realm Swift Query API does not explicitly support these set operators. 
+If you need to explicitly use any of these set operators in your filters, use 
+:ref:`the NSPredicate Query API with set operators 
+<ios-nspredicate-set-operators>`.
+
+.. _ios-nspredicate-query:
+
+NSPredicate Queries
+-------------------
 
 You can build a filter with NSPredicate:
 
@@ -138,6 +407,8 @@ You can use the following substitutions in your predicate format strings:
       .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
          :language: objectivec
 
+.. _ios-nspredicate-subquery:
+
 Subqueries
 ~~~~~~~~~~
 
@@ -156,7 +427,7 @@ You can iterate through a collection property with another query using the
 
 .. example::
 
-   Running the following filter on a projects collect returns projects
+   Running the following filter on a ``projects`` collection returns projects
    with tasks that have not been completed by a user named Alex.
 
    .. tabs-realm-languages::
@@ -176,7 +447,7 @@ You can iterate through a collection property with another query using the
 .. _ios-filter-data-operators:
 
 Operators
----------
+~~~~~~~~~
 
 There are several types of operators available to filter a
 :ref:`Realm collection <ios-client-collections>`. Filters
@@ -186,7 +457,7 @@ filtered. If the expression resolves to ``true``, Realm
 Database includes the object in the results collection.
 
 Comparison Operators
-~~~~~~~~~~~~~~~~~~~~
+````````````````````
 
 The most straightforward operation in a search is to compare
 values.
@@ -244,7 +515,7 @@ values.
    comparison operators to:
 
    - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find long-running tasks by seeing if the ``progressMinutes`` property is at or above a certain value.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
@@ -264,7 +535,7 @@ values.
 
 
 Logical Operators
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 You can make compound predicates using logical operators.
 
@@ -310,7 +581,7 @@ You can make compound predicates using logical operators.
 
 
 String Operators
-~~~~~~~~~~~~~~~~
+````````````````
 
 You can compare string values using these string operators.
 Regex-like wildcards allow more flexibility in search.
@@ -414,7 +685,7 @@ Regex-like wildcards allow more flexibility in search.
 .. include:: /includes/string-sort-and-query-limitations-note.rst
 
 Aggregate Operators
-~~~~~~~~~~~~~~~~~~~
+```````````````````
 
 You can apply an aggregate operator to a collection property
 of a Realm object. Aggregate operators traverse a
@@ -470,9 +741,10 @@ to a single value.
           .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.swift
              :language: swift
 
+.. _ios-nspredicate-set-operators:
 
 Set Operators
-~~~~~~~~~~~~~
+`````````````
 
 A **set operator** uses specific rules to determine whether
 to pass each input collection object to the output
