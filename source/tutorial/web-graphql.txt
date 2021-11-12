@@ -35,12 +35,19 @@ The app is a task tracker that allows users to:
 
 This tutorial should take around 30 minutes.
 
-.. important:: Realm Web SDK and Sync
-   
+
+.. note:: Reacting to database updates 
+
    The Realm Web SDK does not support :ref:`sync <sync>`, so the app you'll
-   build in this tutorial won't update in real time when data changes. However,
-   data that you create from the web app will automatically sync to any of the
+   build in this tutorial uses other means to get live updates on data changes 
+   from the backend. However, data that you create from the web app will automatically sync to any of the
    other :ref:`task tracker tutorial apps <tutorial>` that use Realm Database.
+
+   This tutorial covers two ways to synchronize data from the server to the Web SDK:
+
+   - The ``watch()`` method as used in the :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section.
+   - :apollo:`Apollo GraphQL client polling <docs/react/data/queries/#polling>` as used 
+     in the :ref:`Define the GraphQL Schema & Operations<define-the-graphql-schema-and-operations>` section. 
 
 Prerequisites
 -------------
@@ -159,15 +166,19 @@ that you defined to log user in and register new users.
 
 Find the the ``handleLogin`` function and add the following code to process a 
 ``emailPassword`` credential by calling the ``logIn()`` method. 
- 
+
 .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleLogin.js
-  :language: javascript
+   :caption: src/components/LoginScreen.js
+   :language: javascript
 
 Next, find the ``handleRegistrationAndLogin`` function and add the following code 
 to create a ``emailPassword`` credential.
 
 .. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleRegistrationAndLogin.js
+   :caption: src/components/LoginScreen.js
+   :language: javascript
 
+.. _define-the-graphql-schema-and-operations: 
 
 D. Define the GraphQL Schema & Operations
 -----------------------------------------
@@ -182,6 +193,40 @@ well as a set of CRUD query and mutation resolvers for each type.
    You can use `graphql-codegen <https://graphql-code-generator.com/>`__ to
    generate TypeScript types based on your app's GraphQL schema.
 
+Open ``src/graphql/useTaskQueries.js``, and find the ``TODO`` for ``const GetAllTasksQuery``. 
+Here you define the query to get all tasks from the database.
+
+Fill in the code with the following query: 
+
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.codeblock.GetAllTasksQuery.js
+     :caption: src/graphql/useTaskQueries.js
+     :language: javascript
+
+Now that you've defined the query, you need to create the hook to call it in the application. 
+We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
+In our hook, we'll pass the project as a dynamic variable to the query. We'll also
+set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling() <poll interval>) <docs/react/data/queries/#startpolling>` function
+so that the data doesn't get stale if another team member adds tasks to the project.
+We also must call the :apollo:`stopPolling() <docs/react/data/queries/#stoppolling>` function
+when the component unmounts, so there isn't a memory leak.
+
+Fill in the code: 
+
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.codeblock.useAllTasksInProject.js
+     :caption: src/graphql/useTaskQueries.js
+     :language: javascript
+
+.. note:: Polling and Billing
+
+   Every poll request counts as a Realm Request for billing purposes. Refer to the
+   :ref:`Billing documentation <billing-requests>` for more information.
+
+   Using the :ref:`collection.watch() <web-mongodb-watch>` method as is done in the
+   :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section
+   can be more cost effective for queries that receive a high volume of requests.
+
+Now that we've defined the query to fetch tasks by project, we have to define our mutations.
+
 Open ``src/graphql/useTaskMutations.js`` and find the ``TODO`` mutation
 definitions. These are all of the mutations that the app uses to create and
 modify ``User`` and ``Task`` documents.
@@ -191,16 +236,19 @@ Fill in the code with the following mutation definitions:
 * ``AddTaskMutation``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.addTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``UpdateTaskMutation``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.updateTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``DeleteTaskMutation``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.deleteTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 Now that you've defined the mutations, you need to call them in their respective
@@ -214,16 +262,19 @@ your mutation definitions and update them to execute their respective mutations:
 * ``useAddTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``useUpdateTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useUpdateTask.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``useDeleteTask``
 
   .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useDeleteTask.js
+     :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 E. Connect Apollo to the GraphQL API
@@ -240,6 +291,8 @@ connect to your app's GraphQL API.
 
 .. include:: /includes/steps/task-tracker-web-apollo.rst
 
+.. _web-tutorial-implement-the-project-list:
+
 F. Implement the Projects List
 ------------------------------
 
@@ -248,10 +301,14 @@ of a ``User`` document. This means that we can use :doc:`custom user data
 </users/enable-custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
+To  update the app if other users add the current user to their project, we use the 
+:ref:`collection.watch() <web-mongodb-watch>` method. 
+
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
 current user's projects:
 
 .. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
+   :caption: src/graphql/useProjects.js
    :language: javascript
 
 G. Use Realm functions
@@ -277,6 +334,7 @@ Update the ``useTeamMembers()`` hook's return object to include
 email address and pass it their respective server-side functions:
 
 .. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
+   :caption: src/components/EditPermissionsModal.js
    :language: javascript
 
 H. Try It Out Locally
