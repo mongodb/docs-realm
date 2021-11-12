@@ -1,10 +1,8 @@
-.. _configure-your-data-model:
+.. _sync-schema-overview:
 
-=========================
-Configure Your Data Model
-=========================
-
-.. default-domain:: mongodb
+====================
+Sync Schema Overview
+====================
 
 .. contents:: On this page
    :local:
@@ -23,7 +21,7 @@ fields.
 MongoDB Realm allows you to define, synchronize, and enforce your data
 model in two formats: 
 
-- A server-side :ref:`BSON schema <schemas>`, which defines your
+- :doc:`Realm Schema </mongodb/document-schemas>`, which defines your
   data as MongoDB documents to enforce validation and synchronization
   in the cloud.
 
@@ -115,8 +113,8 @@ You can configure the following constraints for a given property:
 
        .. seealso::
 
-          For more information on supported data types, see the documentation on
-          :ref:`Schema Types <schema-types>`.
+          For more information on supported data types, see the
+          documentation on :ref:`Document Schemas <realm-schemas>`.
 
    * - Optional
      - Boolean
@@ -142,38 +140,18 @@ You can configure the following constraints for a given property:
        comparison, such as querying for an object based on the value of
        a property. However, indexes consume additional storage.
 
-Approaches
-----------
-
-There are two alternative approaches to configuring both data models: 
-
-- :ref:`Create a Realm Object Model from a Realm Schema <create-rom-from-schema>`: If you have data in your `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ cluster already, MongoDB generates a Realm Schema by sampling your data. MongoDB Realm can then translate that Realm Schema into a Realm Object Model to use in your mobile application. 
-
-- :ref:`Create a Realm Schema from a Realm Object Model <create-schema-from-rom>`: Alternatively, if you are developing mobile-first and do not already have data in your Atlas cluster, you can translate your Realm Object Model into a Realm Schema for use with Atlas. Regardless of the approach that you take, when you configure both your Atlas cluster and Mobile application to use the respective data model, changes to the data model between the server and client are auto-updated.  
-
-
-.. _create-rom-from-schema:
-
-Create a Realm Object Model from a Realm Schema
------------------------------------------------
-
-.. note:: Link a MongoDB Atlas Data Source
-   
-   Your Realm app must have at least one :doc:`linked Atlas data source
-   </mongodb/link-a-data-source>` in order to define a Realm Data Model.
-
-.. include:: /includes/steps/auto-schema-generation.rst
-
-.. _create-schema-from-rom:
-
-Create a Realm Schema from a Realm Object Model
------------------------------------------------
-
-.. note:: Link a MongoDB Atlas Cluster
-   
-   Sync Schema Overview </sync/data-model/sync-schema-overview>
-   Create a Schema </sync/data-model/create-a-schema>
-   Enable or Disable Development Mode </sync/data-model/development-mode>
-   Generate SDK Object Models </sync/data-model/generate-sdk-object-models>
-   Update a Schema </sync/data-model/update-schema>
-   Make Destructive Schema Changes </sync/data-model/migrate-schema-partner-collection>
+Summary
+-------
+- MongoDB Realm uses two different data models: a Realm Object Model for 
+  mobile and a Realm Schema for Atlas. Changes to one data model match 
+  the other data model. 
+- If you already have data in Atlas, MongoDB Realm creates a Realm Schema 
+  by sampling that data. That Realm Schema can be translated into a Realm 
+  Object Model to be used in your Realm mobile application code. 
+- If you do not have data in Atlas or are developing with a mobile-first 
+  approach, you can turn on :guilabel:`Development Mode` to allow for data 
+  model changes from a Realm mobile client. When you finish developing your 
+  Realm Object Model, you can turn off :guilabel:`Development Mode`, and 
+  your Realm Schema will be auto-updated with your updated data model 
+  configuration. Atlas will begin using this updated data model configuration 
+  for data validation on your cluster immediately. 
