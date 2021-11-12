@@ -231,6 +231,26 @@ class Authenticate: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testReadUserMetadata() {
+        let expectation = XCTestExpectation(description: "login completes")
+        
+        let anonymousCredentials = Credentials.anonymous
+        app.login(credentials: anonymousCredentials) { (result) in
+            switch result {
+            case .failure(let error):
+                print("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                print("Successfully logged in as user \(user)")
+                // :code-block-start: read-user-metadata
+                // First, log in a user. Then, access user metadata
+                print("The logged-in user's email is: \(user.profile.email)")
+                // :code-block-end:
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
     override func tearDown() {
         guard app.currentUser != nil else {
             return
