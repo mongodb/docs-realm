@@ -205,7 +205,7 @@ Fill in the code with the following query:
 Now that you've defined the query, you need to create the hook to call it in the application. 
 We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
 In our hook, we'll pass the project as a dynamic variable to the query. We'll also
-set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling(<poll interval>) <docs/react/data/queries/#startpolling>` function
+set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling() <poll interval>) <docs/react/data/queries/#startpolling>` function
 so that the data doesn't get stale if another team member adds tasks to the project.
 We also must call the :apollo:`stopPolling() <docs/react/data/queries/#stoppolling>` function
 when the component unmounts, so there isn't a memory leak.
@@ -222,7 +222,7 @@ Fill in the code:
    :ref:`Billing documentation <billing-requests>` for more information.
 
    Using the :ref:`collection.watch() <web-mongodb-watch>` method as is done in the
-   :ref:`Implement the Project List<web-tutorial-implement-the-project-list>`
+   :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section
    can be more cost effective for queries that receive a high volume of requests.
 
 Now that we've defined the query to fetch tasks by project, we have to define our mutations.
