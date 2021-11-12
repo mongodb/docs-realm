@@ -48,11 +48,6 @@ This tutorial should take around 30 minutes.
    - The ``watch()`` method as used in the :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section.
    - :apollo:`Apollo GraphQL client polling <docs/react/data/queries/#polling>` as used 
      in the :ref:`Define the GraphQL Schema & Operations<define-the-graphql-schema-and-operations>` section. 
-   
-   
-   You could also implement client-server synchronization with the Web SDK using 
-   alternative means like :apollo:`Apollo GraphQL client subscriptions<docs/react/data/subscriptions/>`. 
-
 
 Prerequisites
 -------------
@@ -209,7 +204,7 @@ Fill in the code with the following query:
 
 Now that you've defined the query, you need to create the hook to call it in the application. 
 We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
-In our hook, we'll pass the project as a dynamic variables to the query. We'll also 
+In our hook, we'll pass the project as a dynamic variable to the query. We'll also
 set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling(<poll interval>) <docs/react/data/queries/#startpolling>` function
 so that the data doesn't get stale if another team member adds tasks to the project.
 We also must call the :apollo:`stopPolling() <docs/react/data/queries/#stoppolling>` function
@@ -220,6 +215,15 @@ Fill in the code:
 .. literalinclude:: /tutorial/generated/code/final/useTaskQueries.codeblock.useAllTasksInProject.js
      :caption: src/graphql/useTaskQueries.js
      :language: javascript
+
+.. note:: Polling and Billing
+
+   Every poll request counts as a Realm Request for billing purposes. Refer to the
+   :ref:`Billing documentation <billing-requests>` for more information.
+
+   Using the :ref:`collection.watch() <web-mongodb-watch>` method as is done in the
+   :ref:`Implement the Project List<web-tutorial-implement-the-project-list>`
+   can be more cost effective for queries that receive a high volume of requests.
 
 Now that we've defined the query to fetch tasks by project, we have to define our mutations.
 

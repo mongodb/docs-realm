@@ -16,7 +16,7 @@ export function useAllTasksInProject(project) {
     startPolling(1000);
     // stop polling server for data when component unmounts
     return () => stopPolling();
-  });
+  }, [startPolling, stopPolling]);
   if (error) {
     throw new Error(`Failed to fetch tasks: ${error.message}`);
   }

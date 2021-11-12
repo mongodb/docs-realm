@@ -5,14 +5,14 @@ import gql from "graphql-tag";
 // :code-block-start: GetAllTasksQuery
 // :state-start: final
 const GetAllTasksQuery = gql`
-      query GetAllTasksForProject($partition: String!) {
-        tasks(query: { _partition: $partition }) {
-          _id
-          name
-          status
-        }
-      }
-    `;
+  query GetAllTasksForProject($partition: String!) {
+    tasks(query: { _partition: $partition }) {
+      _id
+      name
+      status
+    }
+  }
+`;
 // :state-end: 
 // :state-uncomment-start: start
 // // TODO: Add the GraphGL query for fetching all tasks.
@@ -40,7 +40,7 @@ export function useAllTasksInProject(project) {
     startPolling(1000);
     // stop polling server for data when component unmounts
     return () => stopPolling();
-  });
+  }, [startPolling, stopPolling]);
   // :state-end: 
   // :state-uncomment-start: start
   // // TODO: Use GetAllTasksQuery to fetch the tasks for the project every 1000ms
