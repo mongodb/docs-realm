@@ -9,13 +9,13 @@ like React and Angular let developers create web apps that behave like native ap
 However, as the use of web applications grows, so do the demands of maintaining them.
 
 Developers traditionally need to serve data to the browser from a server with a 
-RESTful HTTP API. Developers also must secure the server with features like authentication
-and data validation. A wide variety of libraries and frameworks exist to solve these problems.
+RESTful API. Developers also must secure the server with features like authentication
+and data validation. A wide variety of libraries and frameworks exist to address these scenarios.
 But deciding the set of solutions with the right tradeoffs for your use case can be daunting.
 
 MongoDB Realm is a serverless application backend that streamlines solving these 
 common challenges. Realm comes with configurable functions, integrated data access, and security rules.
-Realm lets you focus on building unique features instead of boilerplate backend code.
+With Realm, you can focus on building unique features instead of boilerplate backend code.
 
 
 .. contents:: On this page
@@ -29,8 +29,7 @@ Realm lets you focus on building unique features instead of boilerplate backend 
 User Authentication and Management
 ----------------------------------
   
-Secure user authentication is essential for most apps. Applications identify each
-user, store their data, and make it available across sessions. Some apps authenticate
+Secure user authentication is essential for most apps. Some apps authenticate
 users with traditional email/password combinations. Others use API keys or third-party
 authentication providers like Facebook and Google. These methods can get complicated,
 and often require a lot of boilerplate code.
@@ -74,7 +73,7 @@ Event-Driven Serverless Functions
 ---------------------------------
 
 Many applications require that some business logic runs on a server. Usually this
-logic deals with sensitive user data or interacts with external services. Apps might
+logic deals with sensitive user data or interacting with external services. Apps might
 also need to respond in real time when something happens in the app or in an external service.
 
 MongoDB Realm lets you define serverless JavaScript functions called Realm Functions.
@@ -92,11 +91,11 @@ To learn more about defining and using serverless functions, see :doc:`Functions
 Secure Client-Side Queries
 --------------------------
 
-Web developers must be able to access their data efficiently and securely. 
+Web developers have to access their data efficiently and securely. 
 If the data is on a server, you need an API to access the data and prevent unauthorized access.
 
-The Realm Web SDK includes a :ref:`secure client <intro-web-mql>` that uses 
-:ref:`GraphQL API <intro-web-graphql>` and the :manual:`Query API </tutorial/query-documents>`
+The Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>` that uses
+:ref:`GraphQL <intro-web-graphql>` and the :manual:`Query API </tutorial/query-documents>`
 to access data in {+atlas+}. Use either or both of these APIs to work with
 your application's data.
 
@@ -111,7 +110,7 @@ GraphQL for MongoDB
 ~~~~~~~~~~~~~~~~~~~
 
 :graphql:`GraphQL <>` is a standard, open-source API architecture that is an
-alternative to REST or other HTTP APIs. It features a query language that lets you 
+alternative to REST and other HTTP APIs. It features a query language that lets you 
 access only the data you need.
 
 
@@ -136,7 +135,7 @@ Client-Side MongoDB Queries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Traditionally developers query the database on the server and access the server
-from the client through a RESTful API. This requires more developer resources and lacks
+from the client through a HTTP API. This requires more developer resources and lacks
 the flexibility of directly querying a database.
 
 MongoDB Realm includes the :manual:`Query API </tutorial/query-documents>`,
@@ -150,8 +149,7 @@ To learn more about the built-in MongoDB service, see :doc:`MongoDB Atlas
 Get Started with MongoDB Realm
 ------------------------------
 
-You can ship your first web app built with MongoDB Realm in just
-minutes.
+You can ship your first web app built with MongoDB Realm in minutes.
 
 To get started, follow the :doc:`Task Tracker application tutorial
 </tutorial/web-graphql>` or :ref:`create a MongoDB Realm
