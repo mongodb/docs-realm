@@ -94,10 +94,10 @@ content: |
      .. tab::
         :tabid: ui
         
-        In the :guilabel:`Query` input box, specify a document that contains
-        additional query predicates to merge into the incoming query when the
-        filter applies. For example, a filter that withholds documents that
-        have a ``score`` below ``20`` could use the following filter query:
+        In the :guilabel:`Query` input box, specify a MongoDB query to
+        merge into incoming queries when the filter applies. For
+        example, a filter that withholds documents that have a ``score``
+        below ``20`` could use the following query:
         
         .. code-block:: shell
         
@@ -109,9 +109,10 @@ content: |
      .. tab::
         :tabid: cli
         
-        In the ``query`` field, specify a MongoDB query filter to add to
-        filtered incoming queries. If you do not want to add additional query
-        predicates, specify an empty object ``{}``.
+        In the ``query`` field, specify a MongoDB query to merge into
+        incoming queries when the filter applies. If you do not want
+        to add additional query predicates, specify an empty object
+        ``{}``.
         
         .. code-block:: json
            :emphasize-lines: 4
@@ -131,9 +132,10 @@ content: |
         :tabid: ui
         
         In the :guilabel:`Projection` input box, specify a MongoDB
-        :manual:`projection </tutorial/project-fields-from-query-results>` add
-        to filtered incoming queries. If you do not want to add or omit fields
-        from the query results, specify an empty object ``{}``.
+        :manual:`projection
+        </tutorial/project-fields-from-query-results>` to add to
+        filtered incoming queries. If you do not want to add or omit
+        fields from the query results, specify an empty object ``{}``.
         
         .. figure:: /images/filters-projection.png
            :alt: A filter's projection input
