@@ -52,7 +52,7 @@ content: |
         .. code-block:: json
            
            {
-             "name": "TODO"
+             "name": "myFilter"
            }
 ---
 title: Specify an Apply When Expression
@@ -82,7 +82,7 @@ content: |
            :emphasize-lines: 3
            
            {
-             "name": "TODO",
+             "name": "myFilter",
              "apply_when": { "owner_id": "%%user.id" }
            }
 ---
@@ -103,7 +103,7 @@ content: |
         
            { "score": { "$gt": 20 } }
         
-        .. figure:: /images/filters-query.png
+        .. figure:: /images/create-a-filter-query.png
            :alt: A filter's query filter input
      
      .. tab::
@@ -118,7 +118,7 @@ content: |
            :emphasize-lines: 4
            
            {
-             "name": "TODO",
+             "name": "myFilter",
              "apply_when": { "owner_id": "%%user.id" },
              "query": { "score": { "$gt": 20 } }
            }
@@ -137,7 +137,7 @@ content: |
         filtered incoming queries. If you do not want to add or omit
         fields from the query results, specify an empty object ``{}``.
         
-        .. figure:: /images/filters-projection.png
+        .. figure:: /images/create-a-filter-projection.png
            :alt: A filter's projection input
      
      .. tab::
@@ -152,7 +152,7 @@ content: |
            :emphasize-lines: 5-8
            
            {
-             "name": "TODO",
+             "name": "myFilter",
              "apply_when": { "owner_id": "%%user.id" },
              "query": { "score": { "$gt": 20 } },
              "projection": {
