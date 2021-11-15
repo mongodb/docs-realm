@@ -151,5 +151,20 @@ class EmbeddedObjects: XCTestCase {
         print("Los Angeles EmbeddedObjectExamples_Contacts: \(losAngelesContacts)")
         // :code-block-end:
     }
+
+    func testTypeSafeQueryEmbeddedObject() {
+        // :code-block-start: tsq-query-an-embedded-object
+        // Open the default realm
+        let realm = try! Realm()
+
+        // Get all contacts in Los Angeles, sorted by street address
+        let losAngelesContacts = realm.objects(EmbeddedObjectExamples_Contact.self)
+            .where {
+                $0.address.city == "Los Angeles"
+            }
+            .sorted(byKeyPath: "address.street")
+        print("Los Angeles EmbeddedObjectExamples_Contacts: \(losAngelesContacts)")
+        // :code-block-end:
+    }
 }
 // :replace-end:

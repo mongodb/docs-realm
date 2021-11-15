@@ -1,6 +1,8 @@
 let realm = try! Realm()
 // Get a maple latte
-let mapleLatte = realm.objects(CoffeeDrink.self).filter("name == 'Maple Latte'").first!
+let mapleLatte = realm.objects(CoffeeDrink.self).where {
+    $0.name == "Maple Latte"
+}.first!
 
 // Open a thread-safe transaction
 try! realm.write {

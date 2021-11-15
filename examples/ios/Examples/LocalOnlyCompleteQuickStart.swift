@@ -69,7 +69,9 @@ func runLocalOnlyExample() {
 
     // :code-block-start: quick-start-local-filter-collection
     // You can also filter a collection
-    let tasksThatBeginWithA = tasks.filter("name beginsWith 'A'")
+    let tasksThatBeginWithA = tasks.where {
+        $0.name.starts(with: "A")
+    }
     print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
     // :code-block-end:
 
@@ -81,7 +83,9 @@ func runLocalOnlyExample() {
     }
     // :code-block-end:
 
-    let tasksInProgress = tasks.filter("status = %@", "InProgress")
+    let tasksInProgress = tasks.where {
+        $0.status == "InProgress"
+    }
     print("A list of all tasks in progress: \(tasksInProgress)")
 
     // :code-block-start: quick-start-local-delete-task

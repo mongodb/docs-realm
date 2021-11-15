@@ -72,13 +72,19 @@ class LandingPageExamples: XCTestCase {
 
         let drinks = realm.objects(LandingPageExamples_CoffeeDrink.self)
 
-        let highlyRatedDrinks = drinks.filter("rating > 6")
+        let highlyRatedDrinks = drinks.where {
+            $0.rating > 6
+        }
         print("Highly-rated drinks: \(highlyRatedDrinks.count)")
 
-        let mapleOrCaramelLattes = drinks.filter("name IN {'Maple Latte', 'Caramel Latte'}")
+        let mapleOrCaramelLattes = drinks.where {
+            $0.name == "Maple Latte" || $0.name == "Caramel Latte"
+        }
         print("Number of maple or caramel lattes: \(mapleOrCaramelLattes.count)")
 
-        let drinkTempNotSpecified = drinks.filter("hotOrCold == nil")
+        let drinkTempNotSpecified = drinks.where {
+            $0.hotOrCold == nil
+        }
         print("No info about drink temp: \(drinkTempNotSpecified.count)")
 
         // :code-block-end:
@@ -90,7 +96,9 @@ class LandingPageExamples: XCTestCase {
         // :code-block-start: update-live-objects
         let realm = try! Realm()
         // Get a maple latte
-        let mapleLatte = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
+        let mapleLatte = realm.objects(LandingPageExamples_CoffeeDrink.self).where {
+            $0.name == "Maple Latte"
+        }.first!
 
         // Open a thread-safe transaction
         try! realm.write {
@@ -155,8 +163,12 @@ class LandingPageExamples: XCTestCase {
         let realm = try! Realm()
 
         // Create a couple of references to a single underlying coffee drink object
-        let drinkA = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
-        let drinkB = realm.objects(LandingPageExamples_CoffeeDrink.self).filter("name == 'Maple Latte'").first!
+        let drinkA = realm.objects(LandingPageExamples_CoffeeDrink.self).where {
+            $0.name == "Maple Latte"
+        }.first!
+        let drinkB = realm.objects(LandingPageExamples_CoffeeDrink.self).where {
+            $0.name == "Maple Latte"
+        }.first!
         // Update drink A's name
         try! realm.write {
             drinkA.name = "Maple-iest Latte in Town"

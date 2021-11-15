@@ -6,7 +6,9 @@ import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
 import com.mongodb.realm.examples.model.java.FrogAny;
 import com.mongodb.realm.examples.model.java.FrogDictionary;
+import com.mongodb.realm.examples.model.java.FrogEnum;
 import com.mongodb.realm.examples.model.java.FrogSet;
+import com.mongodb.realm.examples.model.java.FrogState;
 import com.mongodb.realm.examples.model.java.GroupOfPeople;
 import com.mongodb.realm.examples.model.java.Snack;
 import com.mongodb.realm.examples.model.kotlin.Person;
@@ -100,6 +102,41 @@ public class DataTypesTest extends RealmTest {
                 frog.setBestFriend(RealmAny.valueOf(persons));
                 Log.v("EXAMPLE", "Best friend: " +
                         frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
+                // :code-block-end:
+                // :replace-end:
+                expectation.fulfill();
+            });
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testRealmEnum() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .inMemory()
+                    .name("realmenum-test-java")
+                    .allowQueriesOnUiThread(true)
+                    .allowWritesOnUiThread(true)
+                    .build();
+
+            Realm realm = Realm.getInstance(config);
+
+            realm.executeTransaction(r -> {
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogEnum": "Frog"
+                //    }
+                // }
+                // :code-block-start: realmenum
+                FrogEnum frog = realm.createObject(FrogEnum.class);
+                frog.setName("Jonathan Livingston Applesauce");
+                // set the state using the enum
+                frog.setState(FrogState.FROG);
+
+                // fetching the state returns an enum
+                FrogState currentJonathanState = frog.getState();
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill();

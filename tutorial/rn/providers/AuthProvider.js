@@ -93,7 +93,7 @@ const AuthProvider = ({ children }) => {
   // emailPassword authentication provider to register the user.
   const signUp = async (email, password) => {
     // :state-start: final
-    await app.emailPasswordAuth.registerUser(email, password);
+    await app.emailPasswordAuth.registerUser({ email, password });
     // :state-end: :state-uncomment-start: start
     //// TODO: Pass the email and password to Realm's email password provider to register the user.
     //// Registering only registers and does not log in.

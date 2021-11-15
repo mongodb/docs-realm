@@ -65,7 +65,8 @@ pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-ne
 Query Realm Database
 ~~~~~~~~~~~~~~~~~~~~
 
-:ref:`Query <ios-mongodb-data-access>` directly from your client application code.
+:ref:`Query <ios-client-query-engine>` for stored objects using 
+Swift-idiomatic queries.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.query.swift
    :language: swift
@@ -74,7 +75,7 @@ Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
 :ref:`Update <ios-modify-an-object>` objects by updating field values on
-an instance of the object within a transaction:
+an instance of the object within a transaction.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.update-live-objects.swift
    :language: swift
@@ -92,7 +93,7 @@ Always Access the Latest Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Because {+client-database+} objects are **live objects**, they're 
-automatically updated when they're modified:
+automatically updated when they're modified.
 
 .. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.codeblock.always-access-the-latest-data.swift
    :language: swift
@@ -171,13 +172,13 @@ Get Started
 
      - :doc:`Connect to a Realm Backend App </sdk/ios/examples/connect-to-a-mongodb-realm-backend-app>`
 
-       :doc:`Authenticate Users </sdk/ios/examples/authenticate-users>`
+       :doc:`Authenticate Users </sdk/ios/examples/users/authenticate-users>`
 
        :doc:`Sync Changes Between Devices </sdk/ios/examples/sync-changes-between-devices>`
 
        :doc:`Call a Function </sdk/ios/examples/call-a-function>`
 
-       :doc:`Manage Email/Password Users </sdk/ios/examples/manage-email-password-users>`
+       :doc:`Manage Email/Password Users </sdk/ios/examples/users/manage-email-password-users>`
 
        :doc:`Query MongoDB </sdk/ios/examples/mongodb-remote-access>`
 
@@ -196,9 +197,10 @@ Realm Database
 Realm Apps
 ~~~~~~~~~~
 
-- :doc:`Custom User Data </sdk/ios/advanced-guides/custom-user-data>`
-- :doc:`Multi-User Applications </sdk/ios/advanced-guides/multi-user-applications>`
-- :doc:`Link User Identities </sdk/ios/advanced-guides/link-user-identities>`
+- :doc:`Custom User Data </sdk/ios/examples/users/custom-user-data>`
+- :doc:`User Metadata </sdk/ios/examples/users/user-metadata>`
+- :doc:`Multi-User Applications </sdk/ios/examples/users/multi-user-applications>`
+- :doc:`Link User Identities </sdk/ios/examples/users/link-user-identities>`
 
 Integration Guides
 ------------------

@@ -4,6 +4,8 @@ import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.model.java.FrogAny
+import com.mongodb.realm.examples.model.java.FrogEnum
+import com.mongodb.realm.examples.model.java.FrogState
 import com.mongodb.realm.examples.model.java.GroupOfPeople
 import com.mongodb.realm.examples.model.kotlin.*
 import io.realm.*
@@ -75,6 +77,40 @@ class DataTypesTest : RealmTest() {
                 Log.v("EXAMPLE", "Best friend: " +
                         frog.bestFriend?.asRealmModel(GroupOfPeople::class.java)
                                 ?.people.toString())
+                // :code-block-end:
+                // :replace-end:
+                expectation.fulfill()
+            }
+        }
+        expectation.await()
+    }
+
+    @Test
+    fun testRealmEnum() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+            val config = RealmConfiguration.Builder()
+                .inMemory()
+                .name("realmenum-test-kotlin")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build()
+            val realm = Realm.getInstance(config)
+            realm.executeTransaction { r: Realm? ->
+                // :replace-start: {
+                //    "terms": {
+                //       "FrogEnumKt": "Frog",
+                //       "FrogStateKt": "FrogState"
+                //    }
+                // }
+                // :code-block-start: realmenum
+                val frog = realm.createObject(FrogEnumKt::class.java)
+                frog.name = "Jonathan Livingston Applesauce"
+                // set the state using the enum
+                frog.stateEnum = FrogStateKt.FROG
+
+                // fetching the state returns an enum
+                val currentJonathanState: FrogStateKt = frog.stateEnum
                 // :code-block-end:
                 // :replace-end:
                 expectation.fulfill()

@@ -234,7 +234,9 @@ class Threading: XCTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: use-write-async-extension
         let realm = try! Realm()
-        let readEmails = realm.objects(ThreadingExamples_Email.self).filter("read == true")
+        let readEmails = realm.objects(ThreadingExamples_Email.self).where {
+            $0.read == true
+        }
         realm.writeAsync(readEmails) { (realm, readEmails) in
             guard let readEmails = readEmails else {
                 // Already deleted
