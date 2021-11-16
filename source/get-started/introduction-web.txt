@@ -4,14 +4,11 @@ Introduction to MongoDB Realm for Web Developers
 
 .. default-domain:: mongodb
 
-Modern web applications are more powerful than ever before. Frontend technologies 
-like React and Angular let developers create web apps that behave like native applications. 
-However, as the use of web applications grows, so do the demands of maintaining them.
-
-Developers traditionally need to serve data to the browser from a server with a 
-RESTful API. Developers also must secure the server with features like authentication
-and data validation. A wide variety of libraries and frameworks exist to address these scenarios.
-But deciding on the set of solutions with the right tradeoffs for your use case can be daunting.
+Building a web app usually requires sending data from a server to the browser.
+This comes with all kinds of overhead, such as authentication, and data validation. 
+And then the application has to be scalable and secure. 
+Many libraries and frameworks exist to provide these services.
+Selecting the best ones for your project requires deep understanding of the tradeoffs.
 
 {+backend+} is a serverless application backend that streamlines solving these 
 common challenges. {+backend-short+} comes with configurable functions, integrated data access, and security rules.
@@ -28,18 +25,18 @@ With {+backend-short+}, you can focus on building unique features instead of boi
 
 User Authentication and Management
 ----------------------------------
-  
+
 Secure user authentication is essential for most apps. Some apps authenticate
 users with traditional email/password combinations. Others use API keys or third-party
 authentication providers like Facebook and Google. These methods can get complicated,
 and often require a lot of boilerplate code.
- 
-MongoDB Realm provides built-in user management and authentication methods. These
+
+{+backend+} provides built-in user management and authentication methods. These
 features encapsulate complexity and make it easy to integrate third-party authentication
 providers. You can enable authentication providers in your server-side configuration then immediately log in from any client application using a {+backend-short+} SDK.
 
 
-To learn more about authentication in MongoDB Realm, see :doc:`Users & Authentication </authentication>`.
+To learn more about authentication in {+backend+}, see :doc:`Users & Authentication </authentication>`.
 
 .. _intro-web-schema:
 
@@ -90,7 +87,7 @@ To learn more about defining and using serverless functions, see :doc:`Functions
 Secure Client-Side Queries
 --------------------------
 
-Web developers have to access their data efficiently and securely. 
+Developers need efficient, secure data access.
 If the data is on a server, you need an API to access the data and prevent unauthorized access.
 
 The Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>` to interact with data. It uses
@@ -98,10 +95,10 @@ The Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>` to int
 to access data in {+atlas+}. Use either or both of these APIs to work with
 your application's data.
 
-Realm's server-side rules ensures that users only read and modify permitted documents. 
+{+backend-short+}'s server-side rules ensures that users only read and modify permitted documents. 
 Rules consist of one or more user roles for each collection. A role determines if
-a given user has permission to access and edit a document. Realm determines a role
-for each document in every request and enforces the role's permissions before responding.
+a given user has permission to access and edit a document. {+backend-short+} determines a role
+for each document in every request. It then enforces the role's permissions before responding.
 
 .. _intro-web-graphql:
 
@@ -122,7 +119,7 @@ GraphQL has a couple of primary benefits for web developers:
   You can group your GraphQL queries into a single request to one endpoint instead of
   sending requests to multiple endpoints.
 
-MongoDB Realm generates a GraphQL API for your application based on your :ref:`data model <intro-web-schema>`. 
+{+backend+} generates a GraphQL API for your application based on your :ref:`data model <intro-web-schema>`. 
 The API includes a set of CRUD operations that you can access with a GraphQL client
 or in a HTTP request. You can also create custom resolvers backed by :ref:`functions <intro-web-functions>`.
 
@@ -137,7 +134,7 @@ Traditionally developers query the database on the server and access the server
 from the client through a HTTP API. This requires more developer resources and lacks
 the flexibility of directly querying a database.
 
-MongoDB Realm includes the :manual:`Query API </tutorial/query-documents>`,
+{+backend+} includes the :manual:`Query API </tutorial/query-documents>`,
 a powerful API that lets you access {+atlas+} data from the client.
 You can query {+atlas-short+} like you're using a database driver and {+service-short+} enforces 
 :ref:`data access rules <intro-web-schema>` rules for all requests.
@@ -151,7 +148,7 @@ Get Started with MongoDB Realm
 You can ship your first web app built with MongoDB Realm in minutes.
 
 To get started, follow the :doc:`Task Tracker application tutorial
-</tutorial/web-graphql>` or :ref:`create a MongoDB Realm
+</tutorial/web-graphql>` or :ref:`create a {+backend+}
 application <create-a-realm-app>`.
 
 You can also refer to the :doc:`Web SDK </web>` documentation for TypeScript and
@@ -160,7 +157,7 @@ JavaScript.
 Summary
 -------
 
-- MongoDB Realm is a serverless application platform that makes it easy to deploy
+- {+backend+} is a serverless application platform that makes it easy to deploy
   and scale.
-- You can build a Realm app with custom logic via functions and triggers, 
+- You can build a {+app+} with custom logic via functions and triggers, 
   custom permissions via rules, and authentication via third-party SSO.
