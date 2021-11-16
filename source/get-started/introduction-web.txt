@@ -11,7 +11,7 @@ However, as the use of web applications grows, so do the demands of maintaining 
 Developers traditionally need to serve data to the browser from a server with a 
 RESTful API. Developers also must secure the server with features like authentication
 and data validation. A wide variety of libraries and frameworks exist to address these scenarios.
-But deciding the set of solutions with the right tradeoffs for your use case can be daunting.
+But deciding on the set of solutions with the right tradeoffs for your use case can be daunting.
 
 {+backend+} is a serverless application backend that streamlines solving these 
 common challenges. {+backend-short+} comes with configurable functions, integrated data access, and security rules.
@@ -36,8 +36,7 @@ and often require a lot of boilerplate code.
  
 MongoDB Realm provides built-in user management and authentication methods. These
 features encapsulate complexity and make it easy to integrate third-party authentication
-providers. You can enable authentication providers in your server-side configuration.
-Then immediately log in from any client application using a {+backend-short+} SDK.
+providers. You can enable authentication providers in your server-side configuration then immediately log in from any client application using a {+backend-short+} SDK.
 
 
 To learn more about authentication in MongoDB Realm, see :doc:`Users & Authentication </authentication>`.
@@ -48,7 +47,7 @@ Schema Validation and Data Access Rules
 ---------------------------------------
 
 Modern applications require that data is available using consistent types and formats.
-Data consistency guarantees that all the application's components can work with it.
+Data consistency guarantees that all the application's components can work together.
 It's also important to make sure that any given piece of data is only accessible
 to an authorized user.  For example, you might grant a user access
 to only their own data.
@@ -59,8 +58,8 @@ A {+backend-short+} schema serves as the source of truth for defining data types
 `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ collection.
 
 You can also configure {+backend-short+} to secure data with role-based data access rules.
-These rules dynamically determine each user's access to every document for every
-request. A user can only insert, read, or modify data if both they and the document
+These rules determine each user's access to every document for every request.
+A user can only insert, read, or modify data if both they and the document
 meet pre-defined conditions.
 
 
