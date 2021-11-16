@@ -13,9 +13,9 @@ RESTful API. Developers also must secure the server with features like authentic
 and data validation. A wide variety of libraries and frameworks exist to address these scenarios.
 But deciding the set of solutions with the right tradeoffs for your use case can be daunting.
 
-MongoDB Realm is a serverless application backend that streamlines solving these 
-common challenges. Realm comes with configurable functions, integrated data access, and security rules.
-With Realm, you can focus on building unique features instead of boilerplate backend code.
+{+backend+} is a serverless application backend that streamlines solving these 
+common challenges. {+backend-short+} comes with configurable functions, integrated data access, and security rules.
+With {+backend-short+}, you can focus on building unique features instead of boilerplate backend code.
 
 
 .. contents:: On this page
@@ -35,9 +35,9 @@ authentication providers like Facebook and Google. These methods can get complic
 and often require a lot of boilerplate code.
  
 MongoDB Realm provides built-in user management and authentication methods. These
-features encapsulate complexity, and make it easy to integrate third-party authentication
-providers. You can enable authentication providers with a simple server-side configuration.
-Then immediately log in from any client application using a Realm SDK.
+features encapsulate complexity and make it easy to integrate third-party authentication
+providers. You can enable authentication providers in your server-side configuration.
+Then immediately log in from any client application using a {+backend-short+} SDK.
 
 
 To learn more about authentication in MongoDB Realm, see :doc:`Users & Authentication </authentication>`.
@@ -50,15 +50,15 @@ Schema Validation and Data Access Rules
 Modern applications require that data is available using consistent types and formats.
 Data consistency guarantees that all the application's components can work with it.
 It's also important to make sure that any given piece of data is only accessible
-to an authorized user.  For example, you might only want to let a user have access
-to their own data.
+to an authorized user.  For example, you might grant a user access
+to only their own data.
 
-MongoDB Realm validates data with a Realm schema you define in the `JSON schema <https://json-schema.org/>`__ standard.
-A Realm schema serves as the source of truth for defining data types in your application.
-Realm also uses the schema to map data between your application and a 
+{+backend+} validates data with a {+backend-short+} schema you define in the `JSON schema <https://json-schema.org/>`__ standard.
+A {+backend-short+} schema serves as the source of truth for defining data types in your application.
+{+backend-short+} also uses the schema to map data between your application and a 
 `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ collection.
 
-You can also configure Realm to secure data with role-based data access rules.
+You can also configure {+backend-short+} to secure data with role-based data access rules.
 These rules dynamically determine each user's access to every document for every
 request. A user can only insert, read, or modify data if both they and the document
 meet pre-defined conditions.
@@ -76,7 +76,7 @@ Many applications require that some business logic runs on a server. Usually thi
 logic deals with sensitive user data or interacting with external services. Apps might
 also need to respond in real time when something happens in the app or in an external service.
 
-MongoDB Realm lets you define serverless JavaScript functions called Realm Functions.
+{+backend+} lets you define serverless JavaScript functions called {+backend-short+} Functions.
 You can use Realm Functions for the following common backend use cases:
 
 - Call from client applications with the Realm Web SDK.
@@ -94,12 +94,12 @@ Secure Client-Side Queries
 Web developers have to access their data efficiently and securely. 
 If the data is on a server, you need an API to access the data and prevent unauthorized access.
 
-The Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>` that uses
+The Realm Web SDK includes a :ref:`secure MongoDB client <intro-web-mql>` to interact with data. It uses
 :ref:`GraphQL <intro-web-graphql>` and the :manual:`Query API </tutorial/query-documents>`
 to access data in {+atlas+}. Use either or both of these APIs to work with
 your application's data.
 
-Realm's server-side rules ensures that users only read and modify permitted document. 
+Realm's server-side rules ensures that users only read and modify permitted documents. 
 Rules consist of one or more user roles for each collection. A role determines if
 a given user has permission to access and edit a document. Realm determines a role
 for each document in every request and enforces the role's permissions before responding.
