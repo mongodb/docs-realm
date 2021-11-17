@@ -3,14 +3,39 @@ ref: add-external-dependencies-ui-navigate-to-dependencies
 content: |
   #. Select :guilabel:`Functions` from the {+leftnav+}.
   #. Select the :guilabel:`Dependencies` tab.
-  #. Click the :guilabel:`Upload` button.
+  #. Click the :guilabel:`Add Dependency` button.
+
 ---
 title: Add Dependency Information
 ref: add-external-dependencies-ui-add-dependency-information
 content: |
-  here we discuss pushing dependencies.. just use that flag. 
+  In the :guilabel:`Add Dependency` modal window that pops up from your actions 
+  in the previous step, include the following information: 
+
+  .. list-table::
+    :header-rows: 1
+    :widths: 20 50
+
+    * - Field
+      - Description
+
+    * - Define a Package Name
+      - The name of the `npm <https://www.npmjs.com/>`_ package. 
+
+      * - Package Version
+        - *Optional*. Specific version of the dependency to use.
+          By default, {+service-short+} uses the latest version available. 
+
+  Click the :guilabel:`Add` button to start adding the package. 
+  
+  You can track the status of adding the dependency in the progress tracker 
+  at the bottom of the window. The progress tracker provides a message letting 
+  you know if the package succeeded or failed. Failure messages contain additional 
+  information about why the package could not be added. 
+
 ---
 title: Check Operation Success
 ref: add-external-dependencies-ui-check-operation-success
 content: |
-  talk abt verifying what successfully imported 
+  If {+backend+} successfully adds the dependency, you'll see it on the 
+  list of dependencies in the :guilabel:`Dependencies` tab.

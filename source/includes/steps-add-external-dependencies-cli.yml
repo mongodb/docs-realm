@@ -1,14 +1,33 @@
-title: Create a package.json File
+title: Pull your {+app+}
+ref: add-external-dependencies-cli-pull-your-app
+content: |
+  Pull your {+app+} to your device with the command: 
+
+  .. code-block::
+
+   realm-cli push --include-package-json
+
+---
+title: Create a package.json File with Dependencies
 ref: add-external-dependencies-cli-create-package-json
 content: |
-  yep here we gunna talk about how to create a package.json file 
+  #. Create a ``package.json`` in either the root or ``/functions`` directory of 
+     your {+app+}. You can do this by copying in an existing ``package.json`` file
+     or running ``npm init`` and following the prompts.
+  #. Add dependencies by running ``npm install <dependency-name>``. 
 ---
 title: Push the Dependencies to MongoDB Realm
 ref: add-external-dependencies-cli-push-dependencies
 content: |
-  here we discuss pushing dependencies.. just use that flag. 
+  Push your app with the ``package.json`` file including all the dependencies 
+  used in your {+service-short+} Functions:
+
+  .. code-block::
+
+   realm-cli push --include-package-json
+  
 ---
 title: Check Operation Success
 ref: add-external-dependencies-cli-check-operation-success
 content: |
-  talk abt verifying what successfully imported 
+  TODO(Ben): running into CLI issues
