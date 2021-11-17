@@ -1,6 +1,6 @@
-============================
-Upload External Dependencies
-============================
+=========================
+Add External Dependencies
+=========================
 
 .. default-domain:: mongodb
 
@@ -10,9 +10,6 @@ Upload External Dependencies
    :depth: 2
    :class: singlecol
 
-Overview
---------
-
 You can upload JavaScript modules from the npm registry into your {+app+}
 and use the uploaded :ref:`external dependencies
 <external-dependencies>` in your Functions. This allows your application to
@@ -20,7 +17,7 @@ depend upon external libraries and reuse code.
 
 There are currently two ways to use dependencies in your {+app+}:
 
-- :ref:`Specify the npm packages you want to use <>`
+- :ref:`Specify the npm packages you want to use <specify-npm-packages>`
 - :ref:`Upload a zipped node_modules folder (legacy)<upload-zipped-node-modules>`
 
 .. _specify-npm-packages:
@@ -28,7 +25,8 @@ There are currently two ways to use dependencies in your {+app+}:
 Specify npm Packages
 --------------------
 
-.. TODO(Ben): add intro 
+You can specify npm packages to use in your {+service-short+} Functions and 
+the {+backend+} imports them. You can do this with the {ui+} or {+cli+}. 
 
 .. TODO(Ben): add steps for ui and cli
 
@@ -37,12 +35,12 @@ Specify npm Packages
    .. tab::
       :tabid: {+ui+} 
 
-      .. include:: /includes/steps/use-external-dependencies-ui.rst
+      .. include:: /includes/steps/add-external-dependencies-ui.rst
 
    .. tab::
       :tabid: {+cli+}
 
-      .. include:: /includes/steps/use-external-dependencies-cli.rst
+      .. include:: /includes/steps/add-external-dependencies-cli.rst
 
 .. _upload-zipped-node-modules:
 
