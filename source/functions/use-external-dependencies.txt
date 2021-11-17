@@ -28,14 +28,28 @@ There are currently two ways to use dependencies in your {+app+}:
 Specify npm Packages
 --------------------
 
-.. TODO(Ben): flush out this section
+.. TODO(Ben): add intro 
+
+.. TODO(Ben): add steps for ui and cli
+
+.. tabs::
+
+   .. tab::
+      :tabid: {+ui+} 
+
+      .. include:: /includes/steps/use-external-dependencies-ui.rst
+
+   .. tab::
+      :tabid: {+cli+}
+
+      .. include:: /includes/steps/use-external-dependencies-cli.rst
 
 .. _upload-zipped-node-modules:
 
 Upload Zipped node_modules
 --------------------------
 
-To use external dependencies, you must first upload an archive of an npm
+You must first upload an archive of an npm
 ``node_modules`` folder. {+service+} automatically transpiles uploaded modules to 
 ES5 and supports most built-in modules. You can :doc:`import an uploaded module
 </functions/import-external-dependencies>` in any {+service-short+} Function.
@@ -47,20 +61,21 @@ the {+ui+} under the :guilabel:`Dependencies` tab.
 
    Uploaded ``node_modules`` archive files are subject to a ``10MB`` size cap.
 
-
-
 .. include:: /includes/steps/upload-external-dependencies.rst
 
 Summary
 -------
 
-- External Dependencies can be uploaded through the {+ui+} 
-- Uploaded Dependencies can be used in {+service-short+} Functions
+- Dependencies can be used in {+service-short+} Functions
+- You can use external dependencies by:
+
+  - Pushing a ``package.json`` including dependencies using the {+cli+}.
+  - Selecting packages to be installed with the {+ui+}. 
+  - Pushing a zip file of dependencies with the {+cli+}.
+  - Uploading a zip file of dependencies through the {+ui+}. 
 
 Next Steps
 ----------
 
-- You have installed and archived your external dependencies locally,
-  uploaded them to {+backend+}, and deployed your application. Now you
-  can :doc:`import external dependencies
+- Once you add your dependencies to {+backend+}, you can :doc:`import external dependencies
   </functions/import-external-dependencies>` in a {+service-short+} Function.
