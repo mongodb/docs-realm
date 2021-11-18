@@ -1,3 +1,10 @@
+.. _backend_20211118:
+
+18 November 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Requests blocked by an application's :ref:`IP Access List <manage-ip-access>` no longer count towards billing.
+
 .. _backend_20211006:
 
 06 October 2021 Release
