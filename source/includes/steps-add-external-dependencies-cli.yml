@@ -5,7 +5,7 @@ content: |
 
   .. code-block::
 
-   realm-cli push --include-package-json
+     realm-cli push --include-package-json
 
 ---
 title: Create a package.json File with Dependencies
@@ -19,15 +19,24 @@ content: |
 title: Push the Dependencies to MongoDB Realm
 ref: add-external-dependencies-cli-push-dependencies
 content: |
-  Push your app with the ``package.json`` file including all the dependencies 
-  used in your {+service-short+} Functions:
+  #. Go to the root directory of your {+app+}: 
+  
+     .. code-block::
+
+        cd path/to/MyRealmApp
+  
+  #. To push the latest version of your app with all the dependencies in the ``package.json``, run the command: 
 
   .. code-block::
 
-   realm-cli push --include-package-json
+     realm-cli push --include-package-json
+  
+  #. Follow the CLI prompts to confirm that you want to include the dependencies in your operation.
+     The CLI will start adding the dependencies to your {+app+}. 
   
 ---
 title: Check Operation Success
 ref: add-external-dependencies-cli-check-operation-success
 content: |
-  TODO(Ben): running into CLI issues
+  Once it finishes adding the dependencies, the CLI tells you if all packages 
+  were successfully added. 
