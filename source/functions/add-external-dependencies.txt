@@ -10,11 +10,11 @@ Add External Dependencies
    :depth: 2
    :class: singlecol
 
-You can upload JavaScript modules from the npm registry into your {+app+}
-and use the uploaded :ref:`external dependencies <external-dependencies>` in your Functions. 
-This allows your application to depend upon external libraries and reuse code.
+You can upload JavaScript modules from the `npm <https://www.npmjs.com/>`_ registry into your {+app+}
+and use the uploaded :ref:`external dependencies <external-dependencies>` in your {+service-short+} Functions. 
+This lets your application depend upon external libraries and reuse code.
 
-{+service+} automatically transpiles uploaded modules to 
+{+service+} automatically transpiles added modules to 
 ES5 and supports most built-in modules. You can :doc:`import an uploaded module
 </functions/import-external-dependencies>` in any {+service-short+} Function.
 
@@ -39,7 +39,7 @@ the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}.
    .. tab:: UI
       :tabid: ui 
 
-      .. note:: Overriding existing dependencies
+      .. important:: Overriding Existing Dependencies
 
          When adding a package via the {+ui+}, if the previous dependencies were 
          :ref:`installed via zip file <upload-zipped-node-modules>`,
@@ -51,7 +51,7 @@ the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}.
    .. tab:: CLI
       :tabid: cli
 
-      .. warning:: Pushing from CLI overrides existing dependencies
+      .. important:: Overriding Existing Dependencies
 
          Pushing a ``package.json`` file from the {+cli+} overrides all existing 
          dependencies. Your {+service-short+} Functions only have access to dependencies 
@@ -65,15 +65,12 @@ Upload Zipped node_modules
 --------------------------
 
 You must first upload an archive of an npm ``node_modules`` folder. 
+Uploaded ``node_modules`` archive files are subject to a ``10MB`` size cap.
 
-.. warning:: Uploading zipped node_modules overrides existing dependencies
+.. important:: Overriding Existing Dependencies
 
-   Uploading zipped node_modules overrides all existing dependencies. 
+   Uploading zipped ``node_modules`` overrides all existing dependencies. 
    Your {+service-short+} Functions only have access to uploaded dependencies. 
-
-.. important:: External Dependency Size Constraints
-
-   Uploaded ``node_modules`` archive files are subject to a ``10MB`` size cap.
 
 .. include:: /includes/steps/upload-external-dependencies.rst
 
@@ -83,10 +80,10 @@ Summary
 - Dependencies can be used in {+service-short+} Functions
 - You can use external dependencies by:
 
-  - Pushing a ``package.json`` including dependencies using the {+cli+}.
+  - Pushing a ``package.json`` including dependencies with the {+cli+}.
   - Selecting packages to be installed with the {+ui+}. 
   - Pushing a zip file of dependencies with the {+cli+}.
-  - Uploading a zip file of dependencies through the {+ui+}. 
+  - Uploading a zip file of dependencies with the {+ui+}. 
 
 Next Steps
 ----------
