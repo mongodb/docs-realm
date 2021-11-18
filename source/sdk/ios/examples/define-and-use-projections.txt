@@ -93,6 +93,14 @@ representing all of the projection objects in the realm.
 .. literalinclude:: /examples/generated/code/start/Projection.codeblock.retrieve-data-through-projection.swift
    :language: swift
 
+.. tip::
+
+   Don't do derived queries on top of projection results. Instead, run a 
+   query against the Realm object directly and then project the result. If you 
+   try to do a derived query on top of projection results, querying a field 
+   with the same name and type as the original object works, but querying 
+   a field with a name or type that isn't in the original object fails.
+
 .. _ios-make-changes-to-projection-properties:
 
 Change Projection Properties
