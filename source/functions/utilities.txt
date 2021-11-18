@@ -239,6 +239,9 @@ The ``utils.jwt`` package provides methods for working with
         - Array of Strings
         
         - Optional. Array of accepted signing methods. For example, ``["PS256", "HS256"]``.
+          This argument should be included to prevent against 
+          `known JWT security vulnerabilities 
+          <https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/#RSA-or-HMAC->`_.
    
    :returns:
        If ``returnHeader`` is ``false``, returns the decoded EJSON
@@ -280,7 +283,7 @@ The ``utils.jwt`` package provides methods for working with
          
          exports = function(jwtString) {
            const key = "SuperSecret";
-           return utils.jwt.decode(jwtString, key);
+           return utils.jwt.decode(jwtString, key, false, ["HS512"]);
          }
       
       The function returns the following EJSON representation of the JWT
