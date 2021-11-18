@@ -235,6 +235,10 @@ The ``utils.jwt`` package provides methods for working with
         - If ``true``, return the JWT's `JOSE header
           <https://tools.ietf.org/html/rfc7515#section-4>`__ in addition
           to the decoded payload.
+      * - ``acceptedSigningMethods``
+        - Array of Strings
+        
+        - Optional. Array of accepted signing methods. For example, ``["PS256", "HS256"]``.
    
    :returns:
        If ``returnHeader`` is ``false``, returns the decoded EJSON
