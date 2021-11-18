@@ -11,11 +11,17 @@ Add External Dependencies
    :class: singlecol
 
 You can upload JavaScript modules from the npm registry into your {+app+}
-and use the uploaded :ref:`external dependencies
-<external-dependencies>` in your Functions. This allows your application to
-depend upon external libraries and reuse code.
+and use the uploaded :ref:`external dependencies <external-dependencies>` in your Functions. 
+This allows your application to depend upon external libraries and reuse code.
 
-There are currently two ways to use dependencies in your {+app+}:
+{+service+} automatically transpiles uploaded modules to 
+ES5 and supports most built-in modules. You can :doc:`import an uploaded module
+</functions/import-external-dependencies>` in any {+service-short+} Function.
+
+You can see a list of uploaded packages on the :guilabel:`Functions` screen of
+the {+ui+} under the :guilabel:`Dependencies` tab.
+
+There are currently two ways to add dependencies to your {+app+}:
 
 - :ref:`Specify the npm packages you want to use <specify-npm-packages>`
 - :ref:`Upload a zipped node_modules folder (legacy)<upload-zipped-node-modules>`
@@ -28,21 +34,28 @@ Specify npm Packages
 You can specify npm packages to use in your {+service-short+} Functions and 
 the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}. 
 
-.. TODO(Ben): add steps for ui and cli
-
 .. tabs::
 
    .. tab:: UI
       :tabid: ui 
 
-      hola mundo
+      .. note:: Overriding existing dependencies
+
+         When adding a package via the {+ui+}, if the previous dependencies were 
+         :ref:`installed via zip file <upload-zipped-node-modules>`,
+         the new package overrides the existing dependencies.
+         Otherwise, the package is added to the existing dependencies.
 
       .. include:: /includes/steps/add-external-dependencies-ui.rst
 
    .. tab:: CLI
       :tabid: cli
 
-      hello world
+      .. warning:: Pushing from CLI overrides existing dependencies
+
+         Pushing a ``package.json`` file from the {+cli+} overrides all existing 
+         dependencies. Your {+service-short+} Functions only have access to dependencies 
+         pushed from the CLI.
 
       .. include:: /includes/steps/add-external-dependencies-cli.rst
 
@@ -51,13 +64,12 @@ the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}.
 Upload Zipped node_modules
 --------------------------
 
-You must first upload an archive of an npm
-``node_modules`` folder. {+service+} automatically transpiles uploaded modules to 
-ES5 and supports most built-in modules. You can :doc:`import an uploaded module
-</functions/import-external-dependencies>` in any {+service-short+} Function.
+You must first upload an archive of an npm ``node_modules`` folder. 
 
-You can see a list of uploaded packages on the :guilabel:`Functions` screen of
-the {+ui+} under the :guilabel:`Dependencies` tab.
+.. warning:: Uploading zipped node_modules overrides existing dependencies
+
+   Uploading zipped node_modules overrides all existing dependencies. 
+   Your {+service-short+} Functions only have access to uploaded dependencies. 
 
 .. important:: External Dependency Size Constraints
 
