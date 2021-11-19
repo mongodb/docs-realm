@@ -124,7 +124,9 @@ struct SyncContentView: View {
         if let user = app.currentUser {
             // If there is a logged in user, pass the user ID as the
             // partitionValue to the view that opens a realm.
+            // :code-block-start: partition-value-environment-object
             OpenSyncedRealmView().environment(\.partitionValue, user.id)
+            // :code-block-end:
         } else {
             // If there is no user logged in, show the login view.
             LoginView()
@@ -138,7 +140,9 @@ struct SyncContentView: View {
 struct OpenSyncedRealmView: View {
     // Use AsyncOpen to download the latest changes from
     // your Realm app before opening the realm.
+    // :code-block-start: partition-value-empty-string
     @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+    // :code-block-end:
     
     var body: some View {
         

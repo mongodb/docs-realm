@@ -221,21 +221,28 @@ Here's the code for the SyncContentView:
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
    :language: swift
 
-From here, we pass the logged in user to the OpenSyncedRealmView. This is the 
-view responsible for opening a {+realm+} and working with the data.
+From here, we pass the logged in user's ID to the OpenSyncedRealmView as a 
+``partitionValue`` using an environment object. This is the view responsible 
+for opening a {+realm+} and working with the data. With Sync, we can only
+open the {+realm+} once a user is logged in.
 
-The OpenSyncedRealmView owns an optional :swift-sdk:`realm
-<Structs/Realm.html>` wrapped in a :apple:`@State
-<documentation/swiftui/state>` property wrapper. With Sync, we can only
-open the {+realm+} once a user is logged in. 
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-environment-object.swift
+   :language: swift
 
 Once logged in, we open the realm asynchronously with the :swift-sdk:`AsyncOpen
-<Structs/AsyncOpen.html>` property wrapper. The OpenSyncedRealmView switches 
-on the :swift-sdk:`AsyncOpenState enum<Enums/AsyncOpenState.html>`, which 
-lets us show different views based on the state. In our example, we show a 
-``ProgressView`` while we're connecting to the {+app+} and the {+realm+} 
-is syncing. We then open the {+realm+}, passing the ``group`` to the 
-``ItemsView``, or show an ``ErrorView`` if we can't open the {+realm+}.
+<Structs/AsyncOpen.html>` property wrapper. In this example, we leave the
+``partitionValue`` an empty string since we are getting that value from 
+the environment object passed in from above.
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+   :language: swift
+
+The OpenSyncedRealmView switches on the :swift-sdk:`AsyncOpenState 
+enum<Enums/AsyncOpenState.html>`, which lets us show different views 
+based on the state. In our example, we show a ``ProgressView`` while we're 
+connecting to the {+app+} and the {+realm+} is syncing. We then open the 
+{+realm+}, passing the ``group`` to the ``ItemsView``, or show an ``ErrorView`` 
+if we can't open the {+realm+}.
 
 .. tip::
 
