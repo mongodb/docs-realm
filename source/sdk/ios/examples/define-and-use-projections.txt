@@ -57,6 +57,12 @@ properties you want to use in the projection. Use the ``@Projected`` property
 wrapper to declare a property that you want to project from a ``@Persisted`` 
 property on the base object.
 
+.. note::
+
+   When you use a :ref:`List <ios-list-collections>` or a :ref:`MutableSet 
+   <ios-mutableset-data-type>` in a projection, the type in the projection 
+   should be :swift-sdk:`ProjectedCollection <>`.
+
 .. literalinclude:: /examples/generated/code/start/Projection.codeblock.declare-projection.swift
    :language: swift
 

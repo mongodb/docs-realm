@@ -25,7 +25,7 @@ class ProjectionExample_Address: EmbeddedObject {
 class ProjectionExample_PersonProjection: Projection<ProjectionExample_Person> {
     @Projected(\ProjectionExample_Person.firstName) var firstName // Passthrough from original object
     @Projected(\ProjectionExample_Person.address?.city) var homeCity // Rename and access embedded object property through keypath
-    @Projected(\ProjectionExample_Person.friends.projectTo.firstName) var firstFriendsName: ProjectedList<String> // Collection mapping
+    @Projected(\ProjectionExample_Person.friends.projectTo.firstName) var firstFriendsName: ProjectedCollection<String> // Collection mapping
 }
 // :code-block-end:
 
