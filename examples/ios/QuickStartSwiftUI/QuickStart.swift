@@ -140,6 +140,8 @@ struct SyncContentView: View {
 struct OpenSyncedRealmView: View {
     // Use AsyncOpen to download the latest changes from
     // your Realm app before opening the realm.
+    // Leave the `partitionValue` an empty string to get this
+    // value from the environment object passed in above.
     // :code-block-start: partition-value-empty-string
     @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
     // :code-block-end:
