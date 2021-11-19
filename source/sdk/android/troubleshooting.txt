@@ -62,11 +62,16 @@ the ``REALM_DISABLE_ANALYTICS`` environment variable to ``true``.
 Change Listeners in Android 12 with SDK Versions Below 10.5.1
 -------------------------------------------------------------
 
-Due to an update to Linux kernel 5.x,
+Due to a change in the Linux kernel,
 :ref:`object, collection, and {+realm+} notifications
 <android-client-notifications>` do not work in SDK versions below
-10.5.1 on emulated devices running Android 12. For full functionality
-in Android 12, update to SDK version 10.5.1.
+10.5.1 on certain emulated devices running early versions of
+Android 12.
+
+This change effects Linux kernel versions beginning with `5.5`.
+Linux kernel version `5.14-rc4` fixed the issue. The fix was
+also backported to `LTS 5.10.56` and `LTS 5.13.8`. All mainline
+and LTS Android 12 branches contain the fix or a backport of it.
 
 Configurations Cannot be Different if Used to Open the Same File
 ----------------------------------------------------------------
