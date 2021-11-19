@@ -97,7 +97,7 @@ struct SyncContentView: View {
 
     var body: some View {
         if let user = app.currentUser {
-            // If there is a logged in user, pass the user ID and
+            // If there is a logged in user, pass the user ID as the
             // partitionValue to the view that opens a realm.
             OpenSyncedRealmView().environment(\.partitionValue, user.id)
         } else {
