@@ -1,4 +1,5 @@
 .. code-block:: java
+   :emphasize-lines: 1, 1, 1, 16, 16
 
    String appID = YOUR_APP_ID; // replace this with your App ID
 
@@ -12,8 +13,10 @@
            Log.v("EXAMPLE", "Successfully authenticated anonymously.");
 
            // asset file name should correspond to the name of the bundled file
-           SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
-                   .assetFile("example_bundled.realm")
+           SyncConfiguration config = new SyncConfiguration.Builder(
+                       app.currentUser(),
+                       "PARTITION_YOU_WANT_TO_BUNDLE")
+                   .assetFile("example_bundled.realm") 
                    .build();
 
            Realm.getInstanceAsync(config, new Realm.Callback() {

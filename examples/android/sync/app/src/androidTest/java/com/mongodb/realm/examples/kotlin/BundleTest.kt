@@ -23,7 +23,7 @@ import org.junit.Test
 class BundleTest : RealmTest() {
     @Test
     fun copyARealmFile() {
-        val latch = CountDownLatch(1)
+        val expectation = Expectation()
         activity?.runOnUiThread {
             // :code-block-start: copy-a-realm-file
             val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -66,8 +66,7 @@ class BundleTest : RealmTest() {
 
                                 // always close a realm when you're done using it
                                 realm.close()
-
-                                latch.countDown() // :hide:
+                                expectation.fulfill() // :hide:
                             }
 
                             override fun onError(exception: Throwable) {
@@ -81,19 +80,12 @@ class BundleTest : RealmTest() {
             }
             // :code-block-end:
         }
-
-        // block until the async calls succeed
-        try {
-            Assert.assertTrue(latch.await(10, TimeUnit.SECONDS))
-        } catch (e: InterruptedException) {
-            Log.e("EXAMPLE", e.toString())
-        }
+        expectation.await();
     }
 
     @Test
     fun useABundledRealmFile() {
         val expectation = Expectation()
-        val PARTITION = "PARTITION_YOU_WANT_TO_BUNDLE"
         activity?.runOnUiThread {
             // :code-block-start: use-bundled-realm-file
             val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -105,7 +97,9 @@ class BundleTest : RealmTest() {
 
                     // asset file name should correspond to the name of the bundled file
                     val config =
-                        SyncConfiguration.Builder(app.currentUser(), PARTITION)
+                        SyncConfiguration.Builder(
+                                app.currentUser(),
+                                "PARTITION_YOU_WANT_TO_BUNDLE")
                             .assetFile("example_bundled.realm") // :emphasize:
                             .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {

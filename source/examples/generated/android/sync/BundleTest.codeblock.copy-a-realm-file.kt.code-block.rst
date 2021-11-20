@@ -1,4 +1,5 @@
 .. code-block:: kotlin
+   :emphasize-lines: 17, 24, 34
 
    val appID: String = YOUR_APP_ID // replace this with your App ID
    val app = App(AppConfiguration.Builder(appID).build())
@@ -16,14 +17,14 @@
            handler.post(Thread {
                val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
                    // wait for the realm to download all data from the backend before opening
-                   .waitForInitialRemoteData()
+                   .waitForInitialRemoteData() 
                    .build()
                Realm.getInstanceAsync(config, object : Realm.Callback() {
                    override fun onSuccess(realm: Realm) {
                        Log.v("EXAMPLE", "Successfully opened a realm.")
 
                        // compact the realm to the smallest possible file size before making a copy
-                       Realm.compactRealm(config)
+                       Realm.compactRealm(config) 
 
                        // write a copy of the realm you can manually copy to your production application assets
                        val outputDir = activity!!.applicationContext.cacheDir
@@ -32,15 +33,14 @@
 
                        // cannot write to file if it already exists. Delete the file if already there
                        outputFile.delete()
-                       realm.writeCopyTo(outputFile)
+
+                       realm.writeCopyTo(outputFile) 
 
                        // search for this log line to find the location of the realm copy
-                       Log.i("EXAMPLE",
-                           "Wrote copy of realm to " + outputFile.absolutePath)
+                       Log.i("EXAMPLE", "Wrote copy of realm to " + outputFile.absolutePath)
 
                        // always close a realm when you're done using it
                        realm.close()
-
                    }
 
                    override fun onError(exception: Throwable) {

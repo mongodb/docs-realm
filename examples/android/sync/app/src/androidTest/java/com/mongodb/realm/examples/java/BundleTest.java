@@ -30,10 +30,9 @@ public class BundleTest extends RealmTest {
 
     @Test
     public void copyARealmFile() {
-        // :code-block-start: copy-a-realm-file
-        // waitForInitialRemoteData only works with async calls -- use latch to wait for callback
-        CountDownLatch latch = new CountDownLatch(1);
+        Expectation expectation = new Expectation();
         activity.runOnUiThread (() -> {
+            // :code-block-start: copy-a-realm-file
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -77,9 +76,7 @@ public class BundleTest extends RealmTest {
 
                                 // always close a realm when you're done using it
                                 realm.close();
-
-                                // use the latch to allow this runnable to complete
-                                latch.countDown();
+                                expectation.fulfill(); // :hide:
                             }
 
                             @Override
@@ -92,21 +89,15 @@ public class BundleTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());
                 }
             });
+            // :code-block-end:
         });
 
-        // block until the async calls succeed
-        try {
-            Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
-        } catch (InterruptedException e) {
-            Log.e("EXAMPLE", e.toString());
-        }
-        // :code-block-end:
+        expectation.await();
     }
 
     @Test
     public void useABundledRealmFile() {
         Expectation expectation = new Expectation();
-        String PARTITION = "PARTITION_YOU_WANT_TO_BUNDLE";
 
         activity.runOnUiThread (() -> {
             // :code-block-start: use-bundled-realm-file
@@ -122,7 +113,9 @@ public class BundleTest extends RealmTest {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
 
                     // asset file name should correspond to the name of the bundled file
-                    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
+                    SyncConfiguration config = new SyncConfiguration.Builder(
+                                app.currentUser(),
+                                "PARTITION_YOU_WANT_TO_BUNDLE")
                             .assetFile("example_bundled.realm") // :emphasize:
                             .build();
 
