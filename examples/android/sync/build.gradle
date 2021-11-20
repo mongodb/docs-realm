@@ -4,11 +4,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { // used for realm snapshot releases
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.realm:realm-gradle-plugin:10.8.1"
+        classpath "io.realm:realm-gradle-plugin:10.9.0-SNAPSHOT"
     }
 }
 
@@ -16,6 +19,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { // used for realm snapshot releases
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
 }
 
