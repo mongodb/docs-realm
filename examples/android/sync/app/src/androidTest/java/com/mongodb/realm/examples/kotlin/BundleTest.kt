@@ -96,12 +96,11 @@ class BundleTest : RealmTest() {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
 
                     // asset file name should correspond to the name of the bundled file
-                    val config =
-                        SyncConfiguration.Builder(
-                                app.currentUser(),
-                                "PARTITION_YOU_WANT_TO_BUNDLE")
-                            .assetFile("example_bundled.realm") // :emphasize:
-                            .build()
+                    val config = SyncConfiguration.Builder(
+                            app.currentUser(),
+                            "PARTITION_YOU_WANT_TO_BUNDLE")
+                        .assetFile("example_bundled.realm") // :emphasize:
+                        .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened bundled realm.")

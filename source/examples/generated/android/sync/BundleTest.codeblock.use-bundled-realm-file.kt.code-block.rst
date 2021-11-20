@@ -1,5 +1,5 @@
 .. code-block:: kotlin
-   :emphasize-lines: 1, 1, 1, 13, 13
+   :emphasize-lines: 1, 1, 1, 12, 12
 
    val appID: String = YOUR_APP_ID // replace this with your App ID
    val app = App(AppConfiguration.Builder(appID).build())
@@ -9,12 +9,11 @@
            Log.v("EXAMPLE", "Successfully authenticated anonymously.")
 
            // asset file name should correspond to the name of the bundled file
-           val config =
-               SyncConfiguration.Builder(
-                       app.currentUser(),
-                       "PARTITION_YOU_WANT_TO_BUNDLE")
-                   .assetFile("example_bundled.realm") 
-                   .build()
+           val config = SyncConfiguration.Builder(
+                   app.currentUser(),
+                   "PARTITION_YOU_WANT_TO_BUNDLE")
+               .assetFile("example_bundled.realm") 
+               .build()
            Realm.getInstanceAsync(config, object : Realm.Callback() {
                override fun onSuccess(realm: Realm) {
                    Log.v("EXAMPLE", "Successfully opened bundled realm.")
