@@ -83,7 +83,7 @@ Copy a Realm File
 1. Create a new project with the same data models as your production app. Open 
    the {+realm+} containing the data you wish to bundle.
 
-#. Use the :android-sdk:`writeCopyTo() <io/realm/Realm.html#writeCopyTo-java.io.File->` 
+#. Use the :java-sdk:`writeCopyTo() <io/realm/Realm.html#writeCopyTo-java.io.File->` 
    method to copy the {+realm+} to a new file:
 
    .. tabs-realm-languages::
@@ -131,7 +131,7 @@ Using the Copied Realm File
 ---------------------------
 
 Now that you have a copy of the {+realm+} included with your app, you need to 
-add code to use it. Use the :android-sdk:`assetFile()
+add code to use it. Use the :java-sdk:`assetFile()
 <io/realm/RealmConfiguration.Builder.html#assetFile-java.lang.String->`
 method when configuring your {+realm+} to open the realm using data
 from a bundled file:
