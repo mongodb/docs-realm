@@ -61,27 +61,33 @@ To create and bundle a {+realm+} file with your application:
 1. Build a temporary {+realm+} app that shares the data model of your
    application.
 
-#. Open a {+realm+} and add the data you wish to bundle.
-
-#. If using a synchronized {+realm+}, allow time for the {+realm+} to fully sync.
+#. Open a {+realm+} and add the data you wish to bundle. For synced
+   {+realm+}s, you may not need to insert any data if it already exists
+   in the backend.
 
 #. Make a :ref:`compacted <android-compact-a-realm>` copy of the {+realm+}.
    This reduces the {+realm+} file size, which makes your app lighter to
    download.
 
-#. Bundle the {+realm+} file in the :file:`/<app name>/src/main/assets` folder of your application.
+#. Bundle the {+realm+} file in the :file:`/<app name>/src/main/assets`
+   folder of your production application.
 
-In your production app (the one that will use this bundled {+realm+} when first
-loading), always open the {+realm+} using the asset file as an identifier. For
-synced {+realm+}s, you must also supply the partition key.
+#. In your production application, open the {+realm+} from the bundled asset
+   file. For synced {+realm+}s, you must also supply the partition key.
 
 .. _copy_a_realm_file:
 
 Copy a Realm File
 -----------------
 
-1. Create a new project with the same data models as your production app. Open 
-   the {+realm+} containing the data you wish to bundle.
+1. Build a temporary {+realm+} app that shares the data model of your
+   application.
+
+#. Open a {+realm+} and add the data you wish to bundle. If using a
+   synchronized {+realm+}, allow time for the {+realm+} to fully sync.
+
+#. Compact the {+realm+} with :java-sdk:`Realm.compactRealm()
+   <io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->`.
 
 #. Use the :java-sdk:`writeCopyTo() <io/realm/Realm.html#writeCopyTo-java.io.File->` 
    method to copy the {+realm+} to a new file:
@@ -130,11 +136,11 @@ bundle it with your production application.
 Using the Copied Realm File
 ---------------------------
 
-Now that you have a copy of the {+realm+} included with your app, you need to 
-add code to use it. Use the :java-sdk:`assetFile()
+Now that you have a copy of the {+realm+} included with your production
+application, you need to add code to use it. Use the :java-sdk:`assetFile()
 <io/realm/RealmConfiguration.Builder.html#assetFile-java.lang.String->`
-method when configuring your {+realm+} to open the realm using data
-from a bundled file:
+method when configuring your {+realm+} to open the realm
+from the bundled file:
 
 .. tabs-realm-languages::
 
