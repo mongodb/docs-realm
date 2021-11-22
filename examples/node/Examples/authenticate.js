@@ -28,7 +28,11 @@ describe("user authentication", () => {
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
     const username = "joe.jasper" + randomInt.toString() + "@example.com";
-    await app.emailPasswordAuth.registerUser({ email: username, password: "passw0rd" });
+
+    await app.emailPasswordAuth.registerUser({
+      email: username,
+      password: "passw0rd",
+    });
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(

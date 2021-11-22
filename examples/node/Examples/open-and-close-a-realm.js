@@ -61,6 +61,26 @@ describe("Open and Close a Realm", () => {
     }
   });
 
+  test.skip("should open an in memory realm", async () => {
+    const TaskSchema = {
+      name: "Task",
+      properties: {
+        _id: "int",
+        name: "string",
+        status: "string?",
+      },
+      primaryKey: "_id",
+    };
+    // :code-block-start: open-and-close-an-in-memory-realm-js
+    const realm = await Realm.open({
+      inMemory: true,
+      schema: [TaskSchema],
+    });
+    // :code-block-end:
+    expect(realm.inMemory).toBe(true);
+    realm.close();
+  });
+
   test.skip("should open and close a synced realm with internet", async () => {
     const Car = {
       name: "Car",

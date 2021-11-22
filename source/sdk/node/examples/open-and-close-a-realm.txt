@@ -21,6 +21,19 @@ Open a Local Realm
 
 .. _node-open-a-synced-realm:
 
+Open an In-Memory Realm
+-----------------------
+To create a realm that runs entirely in memory without being written to a file,
+use the inMemory() method when configuring your realm:
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-and-close-an-in-memory-realm-js.js
+   :language: javascript
+
+.. note:: 
+
+   In-memory {+realms+} may use disk space if memory is running low, but files
+   created by an in-memory {+realm+} are deleted when you close the {+realm+}.
+
 Open a Synced Realm
 -------------------
 
