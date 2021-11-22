@@ -71,7 +71,7 @@ describe("Open and Close a Realm", () => {
       },
       primaryKey: "_id",
     };
-    // :code-block-start: open-and-close-an-in-memory-realm-js
+    // :code-block-start: open-and-close-an-in-memory-realm
     const realm = await Realm.open({
       inMemory: true,
       schema: [TaskSchema],
