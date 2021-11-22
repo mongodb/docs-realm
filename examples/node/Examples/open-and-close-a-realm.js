@@ -62,19 +62,18 @@ describe("Open and Close a Realm", () => {
   });
 
   test.skip("should open an in memory realm", async () => {
-    const TaskSchema = {
-      name: "Task",
+    const Car = {
+      name: "Car",
       properties: {
-        _id: "int",
-        name: "string",
-        status: "string?",
+        make: "string",
+        model: "string",
+        miles: "int",
       },
-      primaryKey: "_id",
     };
     // :code-block-start: open-and-close-an-in-memory-realm
     const realm = await Realm.open({
       inMemory: true,
-      schema: [TaskSchema],
+      schema: [Car],
     });
     // :code-block-end:
     expect(realm.inMemory).toBe(true);
