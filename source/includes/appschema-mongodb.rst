@@ -133,9 +133,9 @@ namespace.
      "id": "<Rule ID>",
      "database": "<Database Name>",
      "collection": "<Collection Name>",
-     "roles": [<Query Role>],
+     "roles": [<Role>],
      "schema": <Document Schema>,
-     "filters": [<Query Filter>],
+     "filters": [<Filter>],
    }
 
 .. list-table::
@@ -161,15 +161,15 @@ namespace.
 
    * - | ``roles``
        | Array<Document>
-     - An array of :ref:`Query Role configuration documents
-       <query-role-config>`, which have the following form:
+     - An array of :ref:`Role configuration documents
+       <role-config>`, which have the following form:
        
-       .. include:: /mongodb/tables/query-role-configuration.rst
+       .. include:: /mongodb/tables/role-configuration.rst
 
    * - | ``schema``
        | Document
-     - A :ref:`Document Schema <document-schema-config>`. The root level
-       schema must be an :ref:`object schema <schema-type-objects>`,
+     - A :ref:`document schema <schemas>`. The root level
+       schema must be an :ref:`object schema <schema-type-object>`,
        which has the following form:
 
        .. code-block:: json
@@ -183,7 +183,7 @@ namespace.
 
    * - | ``filters``
        | Array<Document>
-     - An array of :ref:`Query Filter configuration documents
-       <query-filter-config>`, which have the following form:
+     - An array of :ref:`Filter configuration documents
+       <filter-config>`, which have the following form:
 
        .. include:: /mongodb/tables/query-filter-params.rst

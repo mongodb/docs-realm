@@ -82,11 +82,11 @@ content: |
   the role applies to a particular document for the user that issued a
   query.
 
-  Enter a :doc:`JSON Expression </services/json-expressions>` in the
-  role's :guilabel:`Apply When` box. The expression should evaluate to
-  ``true`` when the role applies to a given document.
+  Enter a :ref:`rule expression <expressions>` in the role's :guilabel:`Apply
+  When` box. The expression should evaluate to ``true`` when the role applies to
+  a given document.
 
-  .. figure:: /images/mongodb-role-apply-when.png
+  .. figure:: /images/role-apply-when.png
      :alt: A MongoDB Role's Apply When Expression
 ---
 title: Define Document-Level Permissions
@@ -101,7 +101,7 @@ content: |
   Once you have defined the role's document-level permissions, click
   :guilabel:`Done Editing`.
 
-  .. figure:: /images/mongodb-role-document-level-permissions.png
+  .. figure:: /images/role-document-level-permissions.png
      :alt: A MongoDB Role's Document-Level Permissions
 ---
 title: Define Field-Level Permissions
@@ -124,7 +124,7 @@ content: |
          :guilabel:`Write` boxes to indicate whether the role can read
          or write to the field.
 
-       - .. figure:: /images/mongodb-permissions-all-fields.png
+       - .. figure:: /images/permissions-all-fields.png
             :alt: A role with permission to read and write to specific fields
             :width: 300px
 
@@ -136,7 +136,7 @@ content: |
          :guilabel:`Write` boxes to indicate whether the role can read
          or write to the field.
 
-       - .. figure:: /images/mongodb-permissions-specific-fields.png
+       - .. figure:: /images/permissions-specific-fields.png
             :alt: A role with permission to read and write to specific fields
             :width: 300px
 
@@ -147,7 +147,7 @@ content: |
          write privileges for any fields that aren't specifically
          configured.
 
-       - .. figure:: /images/mongodb-permissions-additional-fields.png
+       - .. figure:: /images/permissions-additional-fields.png
             :alt: A role with permission to read any unspecified fields
             :width: 300px
 ---

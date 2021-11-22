@@ -124,9 +124,9 @@ evaluates to ``true``.
 Service Rules
 ~~~~~~~~~~~~~
 
-A service rule is a :doc:`JSON expression </services/json-expressions>`
-that {+backend+} evaluates to determine whether or not a user can
-execute one or more :ref:`actions <service-actions>` in a service.
+A service rule is an :ref:`expression <expressions>` that {+backend+} evaluates
+to determine whether or not a user can execute one or more :ref:`actions
+<service-actions>` in a service.
 
 For example, you could create a :doc:`Twilio </services/twilio>` rule
 that only lets users send a text message from a specific phone number or
@@ -136,15 +136,14 @@ buckets.
 
 .. note:: Expression Variables
    
-   :doc:`Expression variables </services/expression-variables>` are
-   variables that you can include in service rules to represent dynamic
-   information about your application and an action's execution. You can
-   configure service rules based on the authenticated user that called
-   an action (:json-expansion:`%%user`) and the arguments that they
-   provided (:json-expansion:`%%args`). You can also create complex
-   rules that :ref:`call a Function
-   <call-function-json-expression>` (:json-operator:`%function`) and
-   evaluate based on the Function's return value.
+   :ref:`Expression variables <expressions>` are variables that you can include
+   in service rules to represent dynamic information about your application and
+   an action's execution. You can configure service rules based on the
+   authenticated user that called an action (:json-expansion:`%%user`) and the
+   arguments that they provided (:json-expansion:`%%args`). You can also create
+   complex rules that :ref:`call a Function <call-function-json-expression>`
+   (:json-operator:`%function`) and evaluate based on the Function's return
+   value.
 
 .. _service-webhooks:
 .. _incoming-webhooks:
@@ -266,11 +265,3 @@ Reference Documentation
      - Describes how to verify incoming requests,
        parse a request payload, and send a response in service webhook
        functions.
-
-   * - :doc:`JSON Expressions </services/json-expressions>`
-     - Describes how to construct and compose JSON expressions for use
-       in service rules.
-
-   * - :doc:`Expression Variables </services/expression-variables>`
-     - Includes descriptions and usage examples for variable values in
-       JSON expressions, including service rules.

@@ -60,7 +60,7 @@ content: |
       - Description
 
     * - ``roles``
-      - An array of :ref:`Query Role configuration documents <query-role-config>` that each define a single role's :guilabel:`Apply When` condition and associated CRUD permissions.
+      - An array of :ref:`Role configuration documents <role-config>` that each define a single role's :guilabel:`Apply When` condition and associated CRUD permissions.
       
         .. important::
             
@@ -70,15 +70,15 @@ content: |
             evaluation order.
 
     * - ``filters``
-      - An array of :ref:`Query Filter configuration documents <query-filter-config>` that each define a filter on the collection.
+      - An array of :ref:`Filter configuration documents <filter-config>` that each define a filter on the collection.
       
     * - ``schema``
-      - A :ref:`Document Schema <document-schema-config>` that configures the shape and contents of all documents in the collection.
+      - A :ref:`schema <schemas>` that configures the shape and contents of all documents in the collection.
 
         .. note::
             
             The root of all collection schemas must be an :ref:`object
-            schema document <schema-type-objects>`. You can embed other
+            schema document <schema-type-object>`. You can embed other
             :ref:`schema types <schema-types>` inside the ``properties``
             field of the root schema.
 

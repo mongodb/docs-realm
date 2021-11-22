@@ -52,10 +52,11 @@ Dynamic and responsive:
 Simply secure:
   - Let users log in with familiar :term:`authentication providers
     <authentication provider>` that are built into {+service+}.
-  - Control which users may read and write data on a per-field basis with rules and roles.
-    Define the :ref:`rules and roles <data-access-permissions>` declaratively or with a function.
-  - Enforce data integrity by defining :doc:`validation logic
-    </mongodb/enforce-a-document-schema>` with :term:`{+backend-schema+}`.
+  - Control which users may read and write data on a per-field basis with
+    :ref:`role-based permissions <roles>` that you can define declaratively or
+    with a function.
+  - Enforce data integrity by defining :ref:`validation logic
+    <schemas>` with :term:`{+backend-schema+}`.
 
 Synchronized:
   - Seamlessly sync data across devices with :term:`{+sync+} <{+sync+}>`.
@@ -81,4 +82,4 @@ Summary
 
 - {+service+}'s built-in :doc:`authentication system </authentication>` simplifies user data access.
   You can add users to your app and define :ref:`permissions
-  <mongodb-permissions>` that control who can read and write data.
+  <permissions>` that control who can read and write data.

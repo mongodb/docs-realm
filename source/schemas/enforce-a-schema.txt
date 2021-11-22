@@ -1,0 +1,45 @@
+.. _enforce-a-schema:
+
+================
+Enforce a Schema
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can control the shape and contents of documents in a collection by defining
+a :ref:`schema <schemas>`. Schemas let you require specific fields, control the
+type of a field's value, and validate changes before committing write
+operations.
+
+This guide shows you how to define, configure, and deploy a schema for a linked
+MongoDB Atlas collection.
+
+.. note:: Data Lakes Do Not Support Schemas
+
+   Data Lake data sources :ref:`do not support <data-lake-caveats>` schema
+   validation or data access rules. You can only access a Data Lake data source
+   in a system function.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/enforce-a-schema-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/enforce-a-schema-cli.rst

@@ -157,6 +157,11 @@ enable sync for your app. For a walkthrough of how to turn on sync, see
 Optimize Sync Data Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+{+service-short+} syncs all data from collections with a defined
+:ref:`schema <schemas>` in your :term:`Atlas cluster <linked cluster>`.
+If you do not specify a field in your schema, Realm will not sync that
+field to the clients.
+
 Sync stores some utility data in your synced cluster to help synchronize
 data with clients. {+service-short+} has optimizations built-in to reduce
 the amount of utility data stored in synced clusters. If you'd like to

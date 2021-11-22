@@ -127,10 +127,10 @@ Databases & Collections
 Collection Schema
 ~~~~~~~~~~~~~~~~~
 
-If you want to enforce a :ref:`document schema <document-schema-config>` for a
-collection, you can define a ``schema.json`` configuration file that contains a
-JSON schema for the documents. The root level schema must be an :ref:`object
-schema <schema-type-objects>`, which has the following form:
+If you want to enforce a :ref:`schema <schemas>` for a collection, define a
+``schema.json`` configuration file that contains a JSON schema for the
+documents. The root level schema must be an :ref:`object schema
+<schema-type-object>`, which has the following form:
 
 .. code-block:: json
    :caption: /data_sources/<service>/<database>/<collection>/schema.json
@@ -237,8 +237,8 @@ collection's ``rules.json`` configuration file.
    {
      "database": "<Database Name>",
      "collection": "<Collection Name>",
-     "roles": [<Query Role>],
-     "filters": [<Query Filter>]
+     "roles": [<Role>],
+     "filters": [<Filter>]
    }
 
 .. list-table::
@@ -257,15 +257,27 @@ collection's ``rules.json`` configuration file.
      - The name of the collection.
 
    * - | ``roles``
-       | Array<Document>
-     - An array of :ref:`query role configuration documents
-       <query-role-config>`, which have the following form:
-       
-       .. include:: /mongodb/tables/query-role-configuration.rst
+       | Array<RoleConfiguration>
+     - An array of :ref:`Role <role-config>` configurations.
 
    * - | ``filters``
-       | Array<Document>
-     - An array of :ref:`query filter configuration documents
-       <query-filter-config>`, which have the following form:
+       | Array<FilterConfiguration>
+     - An array of :ref:`Filter <filter-config>` configurations.
 
-       .. include:: /mongodb/tables/query-filter-params.rst
+Rule Configurations
+-------------------
+
+.. _role-config:
+
+Roles
+~~~~~
+
+.. include:: /mongodb/tables/role-configuration.rst
+
+
+.. _filter-config:
+
+Filters
+~~~~~~~
+
+.. include:: /mongodb/tables/query-filter-params.rst

@@ -1,6 +1,6 @@
 Unlike regular Realm objects, which map to their own MongoDB collection,
-embedded objects map to embedded documents in the parent type's
-:ref:`document schema <mongodb-document-schemas>`:
+embedded objects map to embedded documents in the parent type's :ref:`schema
+<schemas>`:
 
 .. code-block:: json
    :emphasize-lines: 8-17

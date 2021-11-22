@@ -1,8 +1,10 @@
-.. _expression-variables:
+.. _expressions:
+.. _json-expressions:
+.. _rule-expressions:
 
-====================
-Expression Variables
-====================
+================
+Rule Expressions
+================
 
 .. default-domain:: mongodb
 
@@ -15,28 +17,123 @@ Expression Variables
 Overview
 --------
 
-You can use special variables in :doc:`JSON expressions
-</services/json-expressions>` to represent dynamic values and
-operations. There are two types of expression variables:
+A **rule expression** is a JSON document that you use to configure data access
+in your application. For example, you can write a rule expression to control
+whether a user can read or write to a given document or synced partition.
 
-- :ref:`Expansions <expansions>`, which represent dynamic values and begin with two percent signs (``%%``).
-- :ref:`Operators <expression-operators>`, which represent runtime operations and begin with one percent sign (``%``).
+{+service-short+} evaluates expressions to boolean values and uses the result to
+control your app's behavior and determine whether or not to allow specific user
+actions.
+
+Expression Syntax
+-----------------
+
+Each field name in an expression must be an :ref:`expansion <expansions>`, a
+string that represents dynamic, runtime information, such as the logged in
+:doc:`user </authentication>` that called an action (:json-expansion:`%%user`)
+or the arguments that were passed the action (:json-expansion:`%%args`).
+
+Expressions documents have the following general format:
+
+.. code-block:: javascript
+
+   {
+     <field1>: <value1|expression1>,
+     <field2>: <value2|expression2>,
+     ...
+   }
+
+.. _embedded-expressions:
+
+Embedded Expressions
+~~~~~~~~~~~~~~~~~~~~
+
+You can embed multiple expression documents in the fields of another expression
+document to handle complex evaluation logic. {+service+} evaluates expressions
+*depth-first, post-order*, i.e. it starts at the bottom of the expression tree
+and works back to the root-level fields by evaluating each expression after all
+of its embedded expressions.
+
+.. example::
+
+   This expression evaluates to ``true`` only if the number provided
+   as the ``someNumber`` argument falls in a specific range.
+
+   .. code-block:: json
+
+      {
+        "%%args.someNumber": {
+           "%and": [
+              { "$gt": 0 },
+              { "$lte": 42 }
+           ]
+        }
+      }
+
+Multi-Field Expressions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+When you have more than one field in an expression, that expression evaluates to
+``true`` if and only if every field in the expression evaluates to true. In
+other words, Realm treats multiple fields in a single expression as an "AND"
+operation.
+
+.. example::
+
+   This third-party service rule expression evaluates to ``true`` only if both
+   the ``url`` argument was provided *and* the ``body.userId`` argument matches
+   the id of the user that called the action.
+
+   .. code-block:: json
+
+      {
+        "%%args.url": { "%exists": true },
+        "%%args.body.userId": "%%user.id"
+      }
+
+Expression Evaluation
+---------------------
+
+{+service+} evaluates expressions by first replacing expansions with their
+runtime values and then evaluating each field of the expanded expression
+document to a boolean expression. If all fields in an expression evaluate to
+``true``, the expression also evaluates to ``true``.
+
+Expression fields evaluate based on the following rules:
+
+- If an expanded field name matches its value, it evaluates to ``true``.
+
+- If a field's value is an embedded expression, it evaluates to the
+  same value as the embedded expression. See :ref:`embedded expressions
+  <embedded-expressions>`.
+
+.. note::
+
+   If a rule does not explicitly use the :json-expansion:`%%args` or
+   :json-expansion:`%%root` expansion, expression field names default to
+   checking for arguments or document fields of the same name. For
+   example, the expression ``{ "url": "https://www.example.com" }``
+   defaults to evaluating the value against ``%%args.url`` in a service
+   rule and ``%%root.url`` in a MongoDB rule.
 
 .. _expansions:
-.. _expression-expansions:
 
-Expansions
-----------
+Expression Expansions
+---------------------
 
-Expansions represent dynamic values that Realm replaces when it
-evaluates an expression. Expansion variables begin with two percent
-signs (``%%``).
+An expression expansion is a variable that represents a dynamic, runtime value
+in your app. Depending on the rule, these might represent the user that issued a
+given request, the metadata for that request, a document that the user is trying
+to access, and more.
+
+Expansion variables are denoted by strings that begin with two percent signs
+(``%%``).
 
 General Logic
 ~~~~~~~~~~~~~
 
-You can use the following expansions in any :doc:`JSON expression
-</services/json-expressions>` to represent boolean values.
+You can use the following expansions in any expression to represent boolean
+values.
 
 .. list-table::
    :header-rows: 1
@@ -63,9 +160,8 @@ You can use the following expansions in any :doc:`JSON expression
 Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can use the following expansions in any :doc:`JSON expression
-</services/json-expressions>` to represent components of your
-application.
+You can use the following expansions in any expression to access components of
+your application.
 
 .. list-table::
    :header-rows: 1
@@ -207,7 +303,7 @@ user that initiated a request or action.
 
 .. example::
 
-   The following is a MongoDB role's :guilabel:`Apply When` expression
+   The following is a MongoDB role's Apply When expression
    that evaluates to ``true`` only if a document's ``owner_id`` and
    ``owner_name`` values match the values of ``%%user.id`` and
    ``%%user.data.name``:
@@ -220,14 +316,12 @@ user that initiated a request or action.
       }
 
 .. _mongodb-expansions:
-.. _expansions-mongodb:
 
 MongoDB Documents
 ~~~~~~~~~~~~~~~~~
 
-You can use the following expansions in :ref:`MongoDB Rules
-<mongodb-rules>` and :ref:`Document Schema <mongodb-schemas>` validation
-expressions:
+You can use the following expansions in :ref:`rule expressions <expressions>`
+and :ref:`schema <schemas>` validation expressions:
 
 .. list-table::
    :header-rows: 1
@@ -270,14 +364,12 @@ expressions:
         ]
       }
 
-
-
 .. _service-expansions:
 
 Service Expansions
 ~~~~~~~~~~~~~~~~~~
 
-You can use the following expansions in :ref:`external service rules
+You can use the following expansions in :ref:`third-party service rules
 <service-rules>`:
 
 .. list-table::
@@ -328,12 +420,16 @@ You can use the following expansions in :ref:`sync rules
 
 .. _expression-operators:
 
-Operators
----------
+Expression Operators
+--------------------
 
-Operators represent runtime operations that Realm executes when it
-evaluates an expression. Operator variables begin with one percent sign
-(``%``).
+An expression operator represents an action or operation that Realm executes
+whenever it evaluates an expression. Operators take in one or more arguments and
+evaluate to a result value. The type and value of the result depends on the
+operator you use and the arguments you pass to it.
+
+Expression operators are denoted by strings that begin with a single percent
+sign (``%``).
 
 EJSON Conversion
 ~~~~~~~~~~~~~~~~
@@ -386,8 +482,7 @@ Application Components
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The following operators allow you access other components of your Realm
-application and are available in all :doc:`JSON expressions
-</services/json-expressions>`:
+application and are available in all expressions:
 
 .. list-table::
    :header-rows: 1
@@ -416,9 +511,8 @@ application and are available in all :doc:`JSON expressions
 Existence Operators
 ~~~~~~~~~~~~~~~~~~~
 
-The following operators allow you to determine if a value exists in a
-given context and are available in all :doc:`JSON expressions
-</services/json-expressions>`:
+The following operators allow you to determine if a value exists in a given
+context and are available in all expressions:
 
 .. list-table::
    :header-rows: 1
@@ -482,9 +576,8 @@ given context and are available in all :doc:`JSON expressions
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
 
-The following operators allow you to compare values, including
-:ref:`expanded <expansions>` values, and are available in all :doc:`JSON
-expressions </services/json-expressions>`:
+The following operators allow you to compare values, including :ref:`expanded
+<expansions>` values, and are available in all expressions:
 
 .. list-table::
    :header-rows: 1
@@ -562,10 +655,3 @@ expressions </services/json-expressions>`:
           .. code-block:: json
 
              { "score": { "%lte": 0 } }
-
-Summary
--------
-
-- You can use expression variables in :doc:`JSON expressions </services/json-expressions>` to represent dynamic values and operations.
-- :ref:`Expansions <expansions>` represent dynamic values and begin with two percent signs (``%%``).
-- :ref:`Operators <expression-operators>` represent runtime operations and begin with one percent sign (``%``).
