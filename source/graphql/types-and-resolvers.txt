@@ -92,7 +92,7 @@ is specified.
      rated: String
      runtime: Int
      director: String
-     cast: [String!]
+     cast: [String]
    }
 
 .. _graphql-field-mapping:
@@ -351,7 +351,7 @@ Comparison operator fields have the following form:
        | ``ObjectId``
        | ``DateTime``
        | ``Array``
-     - ``[<Field Type>!]``
+     - ``[<Field Type>]``
      - Finds documents where the field is equal to any value in the specified
        array. If the field is an ``Array``, this finds all documents where
        any value in the field array is also included in the specified array.
@@ -376,7 +376,7 @@ Comparison operator fields have the following form:
        | ``ObjectId``
        | ``DateTime``
        | ``Array``
-     - ``[<Field Type>!]``
+     - ``[<Field Type>]``
      - Finds documents where the field is not equal to any value in the
        specified array. If the field is an ``Array``, this finds all documents
        where any value in the field array is also in the specified
