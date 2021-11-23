@@ -1,5 +1,5 @@
 import useTaskMutations from "./useTaskMutations";
-import { useAllTasksInProject } from './useTaskQueries';
+import { useAllTasksInProject } from "./useTaskQueries";
 
 const useTasks = (project) => {
   const { tasks, loading } = useAllTasksInProject(project);
