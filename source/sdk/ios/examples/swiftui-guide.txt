@@ -15,7 +15,7 @@ Use Realm Database with SwiftUI
 Overview
 --------
 
-The Realm Swift SDK's offers features to simplify development with SwiftUI.
+The Realm Swift SDK offers features to simplify development with SwiftUI.
 This page provides an overview of those features.
 
 .. seealso::
@@ -77,35 +77,27 @@ Open a Synced Realm
 
 .. versionadded:: 10.12.0
 
-SwiftUI apps can use RealmSwift property wrappers to open {+realms+} and 
-populate views. These property wrappers provide a syntax that integrates 
-with SwiftUI to let developers declare whether their clients should download 
-changesets before opening {+realm+}s or open {+realm+}s with data on the 
-devices.
+These SwiftUI property wrappers open synced {+realms+} and populate views.
+The main difference between these property wrappers is whether the user 
+must be online:
 
-Apps that require up-to-date information from the server, such as game apps 
-with live leaderboards that the user can play on multiple devices, should 
-:ref:`use @AsyncOpen to open a {+realm+}<swiftui-async-open-synced-realm>`. 
-This only works if the user has a network connection when opening the {+realm+}, 
-but ensures the user is never using the app with stale data.
-
-Apps where it's not a problem for the user to work with potentially stale 
-data, such as note-taking apps where users should be able to work with data 
-on the device, should :ref:`use @AutoOpen to open the {+realm+}
-<swiftui-auto-open-synced-realm>`. Like ``@AsyncOpen``, this attempts to 
-download updates before opening the {+realm+}. However, if a network connection 
-is not available, this method instead opens a {+realm+} with data on the 
-device. This property wrapper enables developers to design offline-first 
-capabilities into their apps.
+- To download updates from your {+app+} before opening a {+realm+}, use the 
+  :ref:`@AsyncOpen <swiftui-async-open-synced-realm>` property wrapper. This 
+  requires the user to have a network connection. 
+- To open a synced {+realm+} regardless of whether the user has a network 
+  connection, use the :ref:`@AutoOpen <swiftui-auto-open-synced-realm>` 
+  property wrapper. This property wrapper enables developers to design 
+  offline-first capabilities into their apps.
 
 .. _swiftui-async-open-synced-realm:
 
 Download Changes Before Opening a Synced Realm
 ``````````````````````````````````````````````
 
-To download updates from your {+app+} before opening a {+realm+}, use the 
-:swift-sdk:`@AsyncOpen <Structs/AsyncOpen.html>` property wrapper. This requires
-the user to have a network connection.
+Use the :swift-sdk:`@AsyncOpen <Structs/AsyncOpen.html>` property wrapper 
+for apps that require up-to-date information from the server, such as game 
+apps with live leaderboards that the user can play on multiple devices. This 
+ensures the user is never using the app with stale data.
 
 .. code-block:: swift
 
@@ -167,9 +159,14 @@ which you can use to update the view.
 Open a Synced Realm Offline
 ```````````````````````````
 
-To open a synced {+realm+} regardless of whether the user has a network 
-connection, use the :swift-sdk:`@AutoOpen <Structs/AutoOpen.html>` property 
-wrapper. 
+Like ``@AsyncOpen``, :swift-sdk:`@AutoOpen <Structs/AutoOpen.html>` attempts 
+to download updates before opening the {+realm+}. However, if a network 
+connection is not available, this method instead opens a {+realm+} with 
+data on the device.
+
+Use this property wrapper for apps where it's not a problem for the user 
+to work with potentially stale data, such as note-taking apps where users 
+should be able to work with data on the device
 
 .. code-block:: swift
 
@@ -427,7 +424,7 @@ properties:
   ``isFavorite`` property
 
 When the app user updates those fields in this example, {+client-database+}
-opens an implicit write and saves the new values to the database.
+opens an implicit write transaction and saves the new values to the database.
 
 .. code-block:: swift
 
