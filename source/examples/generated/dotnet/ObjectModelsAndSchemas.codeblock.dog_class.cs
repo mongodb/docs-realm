@@ -21,7 +21,7 @@ public class Person : RealmObject
 
     [Required]
     public string Name { get; set; }
-    //etc...
+    // etc...
 
     /* To add items to the IList<T>:
 
