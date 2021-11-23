@@ -154,6 +154,12 @@ Property Cheat Sheet
 
                 @Persisted var value: AnyRealmValue
            - N/A
+         * - User-defined :swift-sdk:`Object <Extensions/Object.html>`
+           - N/A
+           - .. code-block:: swift
+                :copyable: false
+           
+                @Persisted var myObject: MyClass?
       
       Additionally:
 
@@ -162,6 +168,9 @@ Property Cheat Sheet
 
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
+
+      To use Key-Value Coding with a user-defined object in the ``@Persisted`` 
+      syntax, add the ``@objc`` attribute: ``@Persisted @objc var myObject: MyClass?``
 
       Setting Default Values
       ~~~~~~~~~~~~~~~~~~~~~~
