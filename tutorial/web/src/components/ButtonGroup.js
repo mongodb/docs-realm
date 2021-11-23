@@ -8,6 +8,6 @@ const ButtonGroup = styled.div(
     justify-content: center;
     gap: 8px;
     margin-top: 8px;
-  `
+  `,
 );
 export default ButtonGroup;

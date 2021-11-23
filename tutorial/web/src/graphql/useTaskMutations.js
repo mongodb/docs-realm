@@ -6,7 +6,7 @@ export default function useTaskMutations(project) {
   return {
     addTask: useAddTask(project),
     updateTask: useUpdateTask(project),
-    deleteTask: useDeleteTask(project)
+    deleteTask: useDeleteTask(project),
   };
 }
 
@@ -85,12 +85,12 @@ function useAddTask(project) {
             ...existingTasks,
             cache.writeFragment({
               data: addedTask,
-              fragment: TaskFieldsFragment
-            })
-          ]
-        }
+              fragment: TaskFieldsFragment,
+            }),
+          ],
+        },
       });
-    }
+    },
   });
 
   const addTask = async (task) => {
@@ -101,9 +101,9 @@ function useAddTask(project) {
           _id: new ObjectId(),
           _partition: project.partition,
           status: "Open",
-          ...task
-        }
-      }
+          ...task,
+        },
+      },
       // :state-end: :state-uncomment-start: start
       // // TODO: Use the functions returned from the addTaskMutation hook to execute the
       // // mutation.
@@ -122,7 +122,7 @@ function useUpdateTask(project) {
   // :state-start: final
   const updateTask = async (task, updates) => {
     const { updatedTask } = await updateTaskMutation({
-      variables: { taskId: task._id, updates }
+      variables: { taskId: task._id, updates },
     });
     return updatedTask;
   };
@@ -140,7 +140,7 @@ function useDeleteTask(project) {
   // :state-start: final
   const deleteTask = async (task) => {
     const { deletedTask } = await deleteTaskMutation({
-      variables: { taskId: task._id }
+      variables: { taskId: task._id },
     });
     return deletedTask;
   };

@@ -20,7 +20,7 @@ function useTeamMembers() {
   const {
     addTeamMember,
     removeTeamMember,
-    getMyTeamMembers
+    getMyTeamMembers,
   } = app.currentUser.functions;
   // :state-end: :state-uncomment-start: start
   // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
@@ -56,7 +56,7 @@ function useTeamMembers() {
     removeTeamMember: async (email) => {
       await removeTeamMember(email);
       updateTeamMembers();
-    }
+    },
     // :state-end: :state-uncomment-start: start
     // // TODO: Call the removeTeamMember()
     // :state-uncomment-end:
@@ -66,13 +66,13 @@ function useTeamMembers() {
 
 export default function EditPermissionsModal({
   isEditingPermissions,
-  setIsEditingPermissions
+  setIsEditingPermissions,
 }) {
   const {
     teamMembers,
     errorMessage,
     addTeamMember,
-    removeTeamMember
+    removeTeamMember,
   } = useTeamMembers();
   return (
     <Modal
@@ -188,7 +188,7 @@ const ListItem = styled.li(
     :hover {
       background: ${uiColors.gray.light2};
     }
-  `
+  `,
 );
 const TeamMemberContainer = styled.div`
   display: flex;

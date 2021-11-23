@@ -4,7 +4,7 @@ import {
   ApolloClient,
   HttpLink,
   InMemoryCache,
-  ApolloProvider
+  ApolloProvider,
 } from "@apollo/client";
 
 // Create an ApolloClient that connects to the provided Realm.App's GraphQL API
@@ -28,7 +28,7 @@ const createRealmApolloClient = (app) => {
       // // every request.
       // :state-uncomment-end:
       return fetch(uri, options);
-    }
+    },
   });
 
   const cache = new InMemoryCache();

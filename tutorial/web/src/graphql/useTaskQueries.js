@@ -27,9 +27,9 @@ export function useAllTasksInProject(project) {
     GetAllTasksQuery,
     {
       variables: {
-        partition: project.partition
-      }
-    }
+        partition: project.partition,
+      },
+    },
   );
   React.useEffect(() => {
     // check server for updates every 1000ms
@@ -50,7 +50,7 @@ export function useAllTasksInProject(project) {
   const tasks = data?.tasks ?? [];
   return {
     tasks,
-    loading
+    loading,
   };
 }
 // :code-block-end:

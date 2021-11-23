@@ -8,7 +8,7 @@ const useTasks = (project) => {
     loading,
     tasks,
     updateTask,
-    addTask
+    addTask,
   };
 };
 export default useTasks;

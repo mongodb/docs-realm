@@ -166,7 +166,7 @@ function handleAuthenticationError(err, setError) {
     case "400":
       setError((err) => ({
         ...err,
-        password: "Password must be between 6 and 128 characters."
+        password: "Password must be between 6 and 128 characters.",
       }));
       break;
     default:
