@@ -188,7 +188,7 @@ const ListItem = styled.li(
     :hover {
       background: ${uiColors.gray.light2};
     }
-  `,
+  `
 );
 const TeamMemberContainer = styled.div`
   display: flex;

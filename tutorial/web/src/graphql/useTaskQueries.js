@@ -29,7 +29,7 @@ export function useAllTasksInProject(project) {
       variables: {
         partition: project.partition,
       },
-    },
+    }
   );
   React.useEffect(() => {
     // check server for updates every 1000ms

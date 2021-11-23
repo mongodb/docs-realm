@@ -13,7 +13,7 @@ function setProjectsFromChange(change, setProjects) {
 export default function useProjects() {
   const app = useRealmApp();
   const [projects, setProjects] = React.useState(
-    app.currentUser.customData.memberOf,
+    app.currentUser.customData.memberOf
   );
   if (!app.currentUser) {
     throw new Error("Cannot list projects if there is no logged in user.");
