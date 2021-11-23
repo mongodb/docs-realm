@@ -6,7 +6,7 @@ public class MyRealmValueObject : RealmObject
 
     public RealmValue MyValue { get; set; }
 
-    // A nullable RealmValue preoprtrty is *not supported*
+    // A nullable RealmValue property is *not supported*
     // public RealmValue? NullableRealmValueNotAllowed { get; set; }
 }
 
