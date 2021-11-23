@@ -76,6 +76,8 @@ struct LocalOnlyContentView: View {
     
     var body: some View {
         if let group = groups.first {
+            // Pass the Group objects to a view further
+            // down the hierarchy
             ItemsView(group: group)
         } else {
             // For this small app, we only want one group in the realm.

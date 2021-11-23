@@ -60,10 +60,8 @@ or :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`, these
 property wrappers implicitly open a {+realm+} and retrieve the specified 
 objects or results.
 
-.. code-block:: swift
-
-   // Implicitly use the default realm's objects(Group.self)
-   @ObservedResults(Group.self) var groups
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.implicitly-open-realm.swift
+   :language: swift
 
 When you do not specify a configuration, these property wrappers use the 
 :swift-sdk:`defaultConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`. 
@@ -99,9 +97,8 @@ for apps that require up-to-date information from the server, such as game
 apps with live leaderboards that the user can play on multiple devices. This 
 ensures the user is never using the app with stale data.
 
-.. code-block:: swift
-
-   @AsyncOpen(appId: "app_id", partitionValue: <partition_value>) var asyncOpen
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+   :language: swift
 
 This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
 user. The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
@@ -116,43 +113,8 @@ which you can use to update the view.
    to display an appropriate view. When the {+realm+} opens successfully,
    inject it as an environment value to populate the view.
 
-   .. code-block:: swift
-
-      struct AsyncOpenView: View {
-
-         // @AutoOpen attempts to connect to the server and download remote changes 
-         // before the realm opens, which might take a moment.
-         // We can use an empty string as the partitionValue here because we're 
-         // injecting the user.id as an environment value from the LoginView.
-         @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
-
-         var body: some View {
-            // Switch on the AsyncOpenState enum to update the view
-            // based on AsyncOpen progress.
-            switch asyncOpen {
-            // Starting the Realm.asyncOpen process. 
-            // Show a progress view.
-            case .connecting:
-               ProgressView()
-            // Waiting for a user to be logged in before executing Realm.asyncOpen
-            case .waitingForUser:
-               ProgressView("Waiting for user to log in...")
-            // The realm has been opened and is ready for use. 
-            // Show the content view.
-            case .open(let realm):
-               ListView()
-                  .environment(\.realm, realm)
-            // The realm is currently being downloaded from the server.
-            // Show a progress view.
-            case .progress(let progress):
-               ProgressView(progress)
-            // Opening the Realm failed.
-            // Show an error view.
-            case .error(_):
-               ErrorView()
-            }
-         }
-      }
+   .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.open-synced-realm-view.swift
+      :language: swift
 
 .. _swiftui-auto-open-synced-realm:
 
@@ -246,25 +208,8 @@ wrapper, you implicitly open a {+realm+} and retrieve the specified objects
 or results. You can then pass those objects to a view further down the 
 hierarchy.
 
-.. code-block:: swift
-
-   struct LocalOnlyContentView: View {
-       // Implicitly use the default realm's objects(Group.self)
-       @ObservedResults(Group.self) var groups
-    
-       var body: some View {
-           if let group = groups.first {
-               ItemsView(group: group)
-           } else {
-               // For this small app, we only want one group in the realm.
-               // You can expand this app to support multiple groups.
-               // For now, if there is no group, add one here.
-               ProgressView().onAppear {
-                   $groups.append(Group())
-               }
-           }
-       }
-   }
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
+   :language: swift
 
 .. _ios-swiftui-pass-environment-values:
 
@@ -283,18 +228,15 @@ When you want to pass a synced {+realm+}, you can use environment injection
 to pass the ``.partitionValue`` environment value. Inject this into a view 
 where you perform the ``@AsyncOpen`` or ``@AutoOpen``:
 
-.. code-block:: swift
-
-   AsyncOpenView()
-      .environment(\.partitionValue, user.id)
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-environment-object.swift
+   :language: swift
 
 Then, when you use the property wrapper to open a synced {+realm+}, leave
 the ``partitionValue`` an empty string. The property wrapper populates the 
 value from the environment object passed in from above.
 
-.. code-block:: swift
-   
-   @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+   :language: swift
 
 Inject an Opened Realm
 ``````````````````````
@@ -331,45 +273,8 @@ when an observed object changes. You can use this property wrapper to
 create a view that automatically updates itself when the observed object
 changes, such as a new item being added to a group.
 
-.. code-block:: swift
-
-  struct ItemsView: View {
-      @ObservedRealmObject var group: Group
-
-      /// The button to be displayed on the top left.
-      var leadingBarButton: AnyView?
-
-      var body: some View {
-          NavigationView {
-              VStack {
-                  // The list shows the items in the realm.
-                  List {
-                      ForEach(group.items) { item in
-                          ItemRow(item: item)
-                      }.onDelete(perform: $group.items.remove)
-                      .onMove(perform: $group.items.move)
-                  }.listStyle(GroupedListStyle())
-                      .navigationBarTitle("Items", displayMode: .large)
-                      .navigationBarBackButtonHidden(true)
-                      .navigationBarItems(
-                          leading: self.leadingBarButton,
-                          // Edit button on the right to enable rearranging items
-                          trailing: EditButton())
-
-                  // Action bar at bottom contains Add button.
-                  HStack {
-                      Spacer()
-                      Button(action: {
-                          // The bound collection automatically
-                          // handles write transactions, so we can
-                          // append directly to it.
-                          $group.items.append(Item())
-                      }) { Image(systemName: "plus") }
-                  }.padding()
-              }
-          }
-      }
-  }
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.items-view.swift
+   :language: swift
 
 Search a Realm Collection
 -------------------------
@@ -426,37 +331,8 @@ properties:
 When the app user updates those fields in this example, {+client-database+}
 opens an implicit write transaction and saves the new values to the database.
 
-.. code-block:: swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.quick-write-observed-realm-object.swift
+   :language: swift
 
-   struct ItemDetailsView: View {
-    @ObservedRealmObject var item: Item
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Enter a new name:")
-            // `$item.name` here initiates an implict write
-            // to update the item's name property, and 
-            // `$item.isFavorite` updates the isFavorite bool.
-            TextField("New name", text: $item.name)
-                .navigationBarTitle(item.name)
-                .navigationBarItems(trailing: Toggle(isOn: $item.isFavorite) {
-                    Image(systemName: item.isFavorite ? "heart.fill" : "heart")
-                })
-        }.padding()
-    }
-
-.. code-block:: swift
-
-   @ObservedResults(Group.self) var groups
-
-   var body: some View {
-        if let group = groups.first {
-            AnyView(ItemsView(group: group))
-        } else {
-            AnyView(ProgressView().onAppear {
-                // Use `$` to access the ObservedResults set
-                // and perform a quick write without opening
-                // a transaction block.
-                $groups.append(Group())
-            })
-        }
-   }
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
+   :language: swift
