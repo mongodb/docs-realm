@@ -58,27 +58,22 @@ Overview
 
 To create and bundle a {+realm+} file with your application:
 
-1. Build a temporary {+realm+} app that shares the data model of your
+1. :ref:`Create  a {+realm+} file <create-a-realm-for-bundling>` that
+   contains the data you'd like to bundle.
+
+#. :ref:`Bundle the {+realm+} file <android-bundle-realm-file>` in the
+   :file:`/<app name>/src/main/assets` folder of your production
    application.
 
-#. Open a {+realm+} and add the data you wish to bundle. For synced
-   {+realm+}s, you may not need to insert any data if it already exists
-   in the backend.
+#. In your production application,
+   :ref:`open the {+realm+} from the bundled asset file
+   <android-open-a-realm-from-a-bundled-realm-file>`. For synced
+   {+realm+}s, you must supply the partition key.
 
-#. Make a :ref:`compacted <android-compact-a-realm>` copy of the {+realm+}.
-   This reduces the {+realm+} file size, which makes your app lighter to
-   download.
+.. _android-create-a-realm-for-bundling:
 
-#. Bundle the {+realm+} file in the :file:`/<app name>/src/main/assets`
-   folder of your production application.
-
-#. In your production application, open the {+realm+} from the bundled asset
-   file. For synced {+realm+}s, you must also supply the partition key.
-
-.. _copy_a_realm_file:
-
-Copy a Realm File
------------------
+Create a Realm File for Bundling
+--------------------------------
 
 1. Build a temporary {+realm+} app that shares the data model of your
    application.
@@ -86,7 +81,7 @@ Copy a Realm File
 #. Open a {+realm+} and add the data you wish to bundle. If using a
    synchronized {+realm+}, allow time for the {+realm+} to fully sync.
 
-#. Compact the {+realm+} with :java-sdk:`Realm.compactRealm()
+#. :ref:`Compact <android-compact-a-realm>` the {+realm+} with :java-sdk:`Realm.compactRealm()
    <io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration->`.
 
 #. Use the :java-sdk:`writeCopyTo() <io/realm/Realm.html#writeCopyTo-java.io.File->` 
@@ -110,8 +105,10 @@ Copy a Realm File
       {+realm+}. To create a copy of a local {+realm+}, configure your {+realm+}
       with ``RealmConfiguration`` instead.
 
-Include the Realm File in Your Project
---------------------------------------
+.. _android-bundle-realm-file:
+
+Bundle the Realm File in Your Production Application
+----------------------------------------------------
 
 Now that you have a copy of the {+realm+} that contains the initial data,
 bundle it with your production application.
@@ -133,8 +130,10 @@ bundle it with your production application.
    folder (:file:`<app name>`) in Android Studio and selecting
    :guilabel:`New > Folder > Assets Folder` in the menu.
 
-Using the Copied Realm File
----------------------------
+.. _android-open-a-realm-from-a-bundled-realm-file:
+
+Open a Realm from a Bundled Realm File
+--------------------------------------
 
 Now that you have a copy of the {+realm+} included with your production
 application, you need to add code to use it. Use the :java-sdk:`assetFile()
