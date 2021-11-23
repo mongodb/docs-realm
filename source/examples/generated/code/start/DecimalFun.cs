@@ -6,14 +6,15 @@ using Realms.Sync;
 
 namespace Examples
 {
-    public class DecimalFun
+    public class DecimalExamples
     {
-        public DecimalFun()
+        public DecimalExamples()
         {
         }
     }
 
-    public class MyClassWithDecimals { 
+    public class MyClassWithDecimals
+    {
         [PrimaryKey]
         public ObjectId _id { get; } = ObjectId.GenerateNewId();
 

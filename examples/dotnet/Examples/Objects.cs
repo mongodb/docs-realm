@@ -4,7 +4,7 @@ using System.Linq;
 using MongoDB.Bson;
 using Realms;
 
-namespace ObjectExamples
+namespace ObjectExamples.Models
 {
     // :code-block-start: embedded
     // :replace-start: {
@@ -33,10 +33,10 @@ namespace ObjectExamples
     // :replace-start: {
     //  "terms": {
     //      "PersonA": "Person",
-    //      "DogA": "Dog",
+    //      "DogB": "Dog",
     //      "//[NotPrimaryKey]": "[PrimaryKey]" }
     // }
-    public class DogA : RealmObject
+    public class DogB : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -55,7 +55,7 @@ namespace ObjectExamples
     // :replace-start: {
     //  "terms": {
     //      "PersonA": "Person",
-    //      "DogA": "Dog"}
+    //      "DogB": "Dog"}
     // }
     public class PersonA : RealmObject
     {
@@ -66,7 +66,7 @@ namespace ObjectExamples
         //:hide-end:
         [Required]
         public string Name { get; set; }
-        public IList<DogA> Dogs { get; }
+        public IList<DogB> Dogs { get; }
     }
     //:replace-end:
     // :code-block-end:
@@ -74,9 +74,9 @@ namespace ObjectExamples
     // :code-block-start: default
     // :replace-start: {
     //  "terms": {
-    //      "Person1": "Person" }
+    //      "PersonB": "Person" }
     // }
-    public class Person1 : RealmObject
+    public class PersonB : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -91,10 +91,10 @@ namespace ObjectExamples
     // :code-block-start: index
     // :replace-start: {
     //  "terms": {
-    //      "Person20": "Person",
-    //      "DogA": "Dog"}
+    //      "PersonC": "Person",
+    //      "DogB": "Dog"}
     // }
-    public class Person20 : RealmObject
+    public class PersonC : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -103,7 +103,7 @@ namespace ObjectExamples
         //:hide-end:
         [Indexed]
         public string Name { get; set; }
-        public IList<DogA> Dogs { get; }
+        public IList<DogB> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -111,10 +111,10 @@ namespace ObjectExamples
     // :code-block-start: rel-to-one
     // :replace-start: {
     //     "terms": {
-    //      "Person30": "Person",
-    //      "Dog30": "Dog" }
+    //      "PersonD": "Person",
+    //      "DogC": "Dog" }
     // }
-    public class Dog30 : RealmObject
+    public class DogC : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -122,10 +122,10 @@ namespace ObjectExamples
         public ObjectId ID { get; set; }
         //:hide-end:
         // ... other property declarations
-        public Person30 Owner { get; set; }
+        public PersonD Owner { get; set; }
     }
 
-    public class Person30 : RealmObject
+    public class PersonD : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -141,10 +141,10 @@ namespace ObjectExamples
     // :code-block-start: rel-to-many
     // :replace-start: {
     //  "terms": {
-    //   "Person40": "Person",
-    //   "Dog40" : "Dog" }
+    //   "PersonE": "Person",
+    //   "DogD" : "Dog" }
     // }
-    public class Dog40 : RealmObject
+    public class DogD : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -155,7 +155,7 @@ namespace ObjectExamples
         public string Name { get; set; }
     }
 
-    public class Person40 : RealmObject
+    public class PersonE : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -163,7 +163,7 @@ namespace ObjectExamples
         public ObjectId ID { get; set; }
         //:hide-end:
         // ... other property declarations
-        public IList<Dog40> Dogs { get; }
+        public IList<DogD> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -171,10 +171,10 @@ namespace ObjectExamples
     // :code-block-start: inverse
     //  :replace-start: {
     //  "terms": {
-    //   "Person50": "Person",
-    //   "Dog50":"Dog" }
+    //   "PersonF": "Person",
+    //   "DogE":"Dog" }
     // }
-    class Dog50 : RealmObject
+    class DogE : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -182,10 +182,10 @@ namespace ObjectExamples
         public ObjectId ID { get; set; }
         //:hide-end:
         // To-one relationship from the Dog to its owner
-        public Person50 Owner { get; set; }
+        public PersonF Owner { get; set; }
     }
 
-    class Person50 : RealmObject
+    class PersonF : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -194,8 +194,8 @@ namespace ObjectExamples
         //:hide-end:
         // An inverse relationship that returns all Dog instances that have Dog.Owner set to
         // the current Person.
-        [Backlink(nameof(Dog50.Owner))]
-        public IQueryable<Dog50> Dogs { get; }
+        [Backlink(nameof(DogE.Owner))]
+        public IQueryable<DogE> Dogs { get; }
 
         // To-many relationship, containing a collection of all hobbies the current person enjoys
         public IList<Hobby> Hobbies { get; }
@@ -210,8 +210,8 @@ namespace ObjectExamples
         //:hide-end:
         // An inverse relationship that returns all Person instances that have the current Hobby
         // instance in their Hobbies list.
-        [Backlink(nameof(Person50.Hobbies))]
-        public IQueryable<Person50> PeopleWithThatHobby { get; }
+        [Backlink(nameof(PersonF.Hobbies))]
+        public IQueryable<PersonF> PeopleWithThatHobby { get; }
         // :replace-end:
     }
     // :code-block-end:
@@ -237,9 +237,9 @@ namespace ObjectExamples
         // :code-block-start: rename
         //:replace-start: {
         // "terms": {
-        //   "Person60": "Person"}
+        //   "PersonH": "Person"}
         // }
-        public class Person60 : RealmObject
+        public class PersonH : RealmObject
         {
             //:hide-start:
             [PrimaryKey]
@@ -282,11 +282,11 @@ namespace ObjectExamples
     // :code-block-start: rename-class
     //:replace-start: {
     // "terms": {
-    //   "Person70": "Person",
-    //      "DogA": "Dog"}
+    //   "PersonI": "Person",
+    //      "DogB": "Dog"}
     // }
     [MapTo("Human")]
-    public class Person70 : RealmObject
+    public class PersonI : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -303,7 +303,7 @@ namespace ObjectExamples
     // :code-block-start: subset
     //:replace-start: {
     // "terms": {
-    //      "DogA": "Dog"}
+    //      "DogB": "Dog"}
     // }
     // Declare your schema
     class LoneClass : RealmObject
@@ -325,7 +325,7 @@ namespace ObjectExamples
             config.Schema = new[] { typeof(LoneClass) };
 
             // Or, specify multiple classes to use in the Realm
-            config.Schema = new[] { typeof(DogA), typeof(Cat) };
+            config.Schema = new[] { typeof(DogB), typeof(Cat) };
         }
     }
     // :replace-end:

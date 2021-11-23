@@ -10,7 +10,6 @@ namespace Examples
 {
     public class Writes
     {
-
         Realm realm;
         public Writes()
         {
@@ -28,7 +27,7 @@ namespace Examples
         }
 
         [Test]
-        public void Foo()
+        public void Snippets()
         {
             //TearDown();
             // :code-block-start: transaction

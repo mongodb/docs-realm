@@ -1,6 +1,6 @@
 ﻿using Realms;
 
-namespace dotnet
+namespace Examples.Models
 {
     public class User : RealmObject
     {

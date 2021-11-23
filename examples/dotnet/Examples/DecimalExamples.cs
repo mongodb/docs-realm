@@ -6,13 +6,6 @@ using Realms.Sync;
 
 namespace Examples
 {
-    public class DecimalFun
-    {
-        public DecimalFun()
-        {
-        }
-    }
-
     // :code-block-start: decimal128
     public class MyClassWithDecimals
     {

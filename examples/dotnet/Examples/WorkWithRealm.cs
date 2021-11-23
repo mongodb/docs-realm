@@ -5,9 +5,10 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using Task = dotnet.Task;
+using Task = Examples.Models.Task;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Examples
 {
@@ -182,13 +183,8 @@ namespace Examples
             //:code-block-end:
 
             //:code-block-start:collection-notifications
-            // :replace-start: {
-            //  "terms": {
-            //   "Dog1000": "Dog",
-            //   "Person1000" : "Person" }
-            // }
             // Observe collection notifications. Retain the token to keep observing.
-            var token = realm.All<Dog1000>()
+            var token = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
                 if (error != null)
@@ -226,21 +222,19 @@ namespace Examples
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-            // :replace-end:
             //:code-block-end:
 
 
             realm.Write(() =>
             {
-                realm.Add(new Person1000 { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
+                realm.Add(new PersonN { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
             });
             //:code-block-start:object-notifications
             // :replace-start: {
             //  "terms": {
-            //   "Dog1000": "Dog",
-            //   "Person1000" : "Person" }
+            //   "PersonN": "Person" }
             // }
-            var theKing = realm.All<Person1000>()
+            var theKing = realm.All<PersonN>()
                 .FirstOrDefault(p => p.Name == "Elvis Presley");
 
             theKing.PropertyChanged += (sender, eventArgs) =>
@@ -284,6 +278,30 @@ namespace Examples
                 // Do something with the notification information
             }
             // :code-block-end:
+        }
+
+        public class PersonN : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+        }
+
+        public class Dog : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+
+            public int Age { get; set; }
+            public string Breed { get; set; }
+            public IList<PersonN> Owners { get; }
         }
     }
 }

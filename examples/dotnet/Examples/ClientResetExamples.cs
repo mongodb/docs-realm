@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
+using RealmUser = Realms.Sync.User;
+using User = Examples.Models.User;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
 
@@ -11,7 +13,7 @@ namespace Examples
     public class ClientResetExamples
     {
         App app;
-        User user;
+        RealmUser user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
@@ -25,7 +27,7 @@ namespace Examples
 
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.Schema = new[] { typeof(dotnet.User) };
+            config.Schema = new[] { typeof(User) };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 
