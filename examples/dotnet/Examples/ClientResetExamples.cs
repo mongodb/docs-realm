@@ -19,7 +19,7 @@ namespace Examples
 
 
         [Test]
-        public async Task resetsTheClient()
+        public async Task ResetsTheClient()
         {
             app = App.Create(myRealmAppId);
 

@@ -18,7 +18,7 @@ namespace Examples
         string myRealmAppId = Config.appid;
 
         [Test]
-        public async Task handleErrors()
+        public async Task HandleErrors()
         {
             // :code-block-start: set-log-level
             var appConfig = new AppConfiguration(myRealmAppId)
@@ -48,7 +48,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
             //:hide-start:
-            config.Schema = new[] { typeof(User) };
+            //config.Schema = new[] { typeof(User) };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 

@@ -16,7 +16,6 @@ namespace Examples
     {
         App app;
         App app3;
-        ObjectId testTaskId;
         User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
@@ -30,13 +29,7 @@ namespace Examples
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.Schema = new[]
-            {
-                typeof(Task),
-                typeof(User)
-            };
-
-            // Note: this is so we can have a more "global" instance
+            // Internal Note: this is so we can have a more "global" instance
             // or the realm object but the code snippet can show
             // it being initialized
             Realm realm = Realm.GetInstance(config);
@@ -178,12 +171,6 @@ namespace Examples
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
-            config.Schema = new[]
-            {
-                typeof(Task),
-                typeof(User)
-            };
-            //:hide-end:
             using (var realm = Realm.GetInstance(config))
             {
                 var allTasks = realm.All<Task>();
@@ -192,10 +179,14 @@ namespace Examples
         }
         public class AClassWorthStoring : RealmObject
         {
+            [MapTo("_id")]
+            [PrimaryKey]
             public string Id { get; set; }
         }
         public class AnotherClassWorthStoring : RealmObject
         {
+            [MapTo("_id")]
+            [PrimaryKey]
             public string Id { get; set; }
         }
 

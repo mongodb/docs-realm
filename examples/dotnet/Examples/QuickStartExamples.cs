@@ -9,15 +9,14 @@ using Realms.Sync;
 using Task = Examples.Models.Task;
 using TaskStatus = Examples.Models.TaskStatus;
 using ThreadTask = System.Threading.Tasks.Task;
+using User = Examples.Models.User;
 
 namespace Examples
 {
     public class QuickStartExamples
     {
-        App app;
-        App app3;
         ObjectId testTaskId;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
@@ -25,7 +24,7 @@ namespace Examples
         public async ThreadTask Setup()
         {
             // :code-block-start: initialize-realm
-            app = App.Create(myRealmAppId);
+            App app = App.Create(myRealmAppId);
             // :code-block-end:
 
             user = await app.LogInAsync(
@@ -70,6 +69,7 @@ namespace Examples
         [Test]
         public async ThreadTask GetsSyncedTasks()
         {
+            App app = App.Create(myRealmAppId);
             // :code-block-start: anon-login
             var user = await app.LogInAsync(Credentials.Anonymous());
             // :code-block-end:
@@ -98,6 +98,7 @@ namespace Examples
         [Test]
         public async ThreadTask ModifiesATask()
         {
+            // App app = App.Create(myRealmAppId);
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new[]
@@ -129,6 +130,7 @@ namespace Examples
         [OneTimeTearDown]
         public async ThreadTask TearDown()
         {
+            App app = App.Create(myRealmAppId);
             using (var realm = Realm.GetInstance(config))
             {
                 var myTask = new Task() { Partition = "foo", Name = "foo2", Status = TaskStatus.Complete.ToString() };

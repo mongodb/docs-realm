@@ -32,10 +32,7 @@ namespace Examples
             config = new SyncConfiguration("myPart", user);
             config.Schema = new[]
             {
-                typeof(Task),
-                typeof(MyClass),
-                typeof(User),
-                typeof(CustomGetterSetter)
+                typeof(MyClass)
             };
             return;
         }
