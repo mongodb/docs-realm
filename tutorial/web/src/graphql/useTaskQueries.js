@@ -27,8 +27,8 @@ export function useAllTasksInProject(project) {
     GetAllTasksQuery,
     {
       variables: {
-        partition: project.partition,
-      },
+        partition: project.partition
+      }
     }
   );
   React.useEffect(() => {
@@ -50,7 +50,7 @@ export function useAllTasksInProject(project) {
   const tasks = data?.tasks ?? [];
   return {
     tasks,
-    loading,
+    loading
   };
 }
 // :code-block-end:

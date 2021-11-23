@@ -15,7 +15,7 @@ import Loading from "./Loading";
 export default function ProjectScreen({
   currentProject,
   isEditingPermissions,
-  setIsEditingPermissions,
+  setIsEditingPermissions
 }) {
   return (
     <Container>
@@ -58,7 +58,7 @@ function useDraftTask({ addTask }) {
     createDraftTask,
     deleteDraftTask,
     setDraftTaskName,
-    submitDraftTask,
+    submitDraftTask
   };
 }
 
@@ -73,7 +73,7 @@ function TaskList({ currentProject }) {
     createDraftTask,
     deleteDraftTask,
     setDraftTaskName,
-    submitDraftTask,
+    submitDraftTask
   } = useDraftTask({ addTask });
 
   return loading ? (

@@ -9,7 +9,7 @@ import { uiColors } from "@leafygreen-ui/palette";
 export default function Sidebar({
   currentProject,
   setCurrentProject,
-  setIsEditingPermissions,
+  setIsEditingPermissions
 }) {
   const projects = useProjects();
   const app = useRealmApp();
@@ -67,7 +67,7 @@ const SectionListItem = styled.li(
     :hover {
       background: ${!props.isSelected && uiColors.gray.light1};
     }
-  `,
+  `
 );
 
 function UserDetails({ user, handleLogout, handleEditPermissions }) {
