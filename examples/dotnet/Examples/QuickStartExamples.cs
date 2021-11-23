@@ -34,7 +34,6 @@ namespace Examples
             config.Schema = new[]
             {
                 typeof(Task),
-                typeof(MyClass),
                 typeof(User)
             };
 

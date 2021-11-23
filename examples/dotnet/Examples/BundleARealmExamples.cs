@@ -7,7 +7,7 @@ using Realms;
 
 namespace Examples
 {
-    public class WriteCopy
+    public class BundleARealmExamples
     {
         [Test]
         public void TestWriteCopy()

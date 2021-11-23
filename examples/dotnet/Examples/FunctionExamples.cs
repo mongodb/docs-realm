@@ -70,4 +70,21 @@ namespace Examples
         }
     }
 
+    public class MyClass : RealmObject
+    {
+        [PrimaryKey]
+        [MapTo("_id")]
+        public ObjectId Id { get; set; }
+
+        [MapTo("name")]
+        [Required]
+        public string Name { get; set; }
+
+        public MyClass()
+        {
+            this.Id = ObjectId.GenerateNewId();
+        }
+    }
+
+
 }
