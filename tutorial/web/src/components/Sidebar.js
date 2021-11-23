@@ -67,7 +67,7 @@ const SectionListItem = styled.li(
     :hover {
       background: ${!props.isSelected && uiColors.gray.light1};
     }
-  `
+  `,
 );
 
 function UserDetails({ user, handleLogout, handleEditPermissions }) {

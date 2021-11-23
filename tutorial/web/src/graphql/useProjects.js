@@ -5,7 +5,7 @@ import React from "react";
 // :state-start: final
 function setProjectsFromChange(change, setProjects) {
   const {
-    fullDocument: { memberOf },
+    fullDocument: { memberOf }
   } = change;
   setProjects(memberOf);
 }
