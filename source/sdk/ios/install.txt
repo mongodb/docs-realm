@@ -63,6 +63,24 @@ You can use ``SwiftPM``, ``CocoaPods``, or ``Carthage`` to add the
 
       .. include:: /includes/steps/install-carthage.rst
 
+   .. tab:: Static Framework
+      :tabid: static-framework
+
+      Installing the Realm Swift SDK as a static framework is only available
+      for iOS targets.
+
+      .. include:: /includes/steps/install-swift-static-framework.rst
+       
+      .. tip::
+      
+         If using the Realm Objective-C API within a Swift project, we 
+         recommend you include both Realm Swift and Realm Objective-C in your 
+         project. Within your Swift files, you can access the Swift API and 
+         all required wrappers. Using the RealmSwift API in mixed 
+         Swift/Objective-C projects is possible because the vast majority of 
+         RealmSwift types are directly aliased from their Objective-C 
+         counterparts.
+
 Import Realm
 ------------
 
