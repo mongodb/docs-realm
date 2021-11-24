@@ -17,7 +17,11 @@ function useTeamMembers() {
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
   const app = useRealmApp();
   // :state-start: final
-  const { addTeamMember, removeTeamMember, getMyTeamMembers } = app.currentUser.functions;
+  const {
+    addTeamMember,
+    removeTeamMember,
+    getMyTeamMembers,
+  } = app.currentUser.functions;
   // :state-end: :state-uncomment-start: start
   // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
   // :state-uncomment-end:
