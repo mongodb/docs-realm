@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
 using Realms;
+using static Examples.ObjectModelsAndSchemas;
 
 namespace ObjectExamples.Models
 {
@@ -29,14 +30,16 @@ namespace ObjectExamples.Models
     // :replace-end:
     // :code-block-end:
 
+
+    // STAND-ALONE class; not used elsewhere
     // :code-block-start: primary-key
     // :replace-start: {
     //  "terms": {
-    //      "PersonA": "Person",
-    //      "DogB": "Dog",
+    //      "Person_Required": "Person",
+    //      "Doge": "Dog",
     //      "//[NotPrimaryKey]": "[PrimaryKey]" }
     // }
-    public class DogB : RealmObject
+    public class Doge : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -46,7 +49,7 @@ namespace ObjectExamples.Models
         //[NotPrimaryKey]
         public string Name { get; set; }
         public int Age { get; set; }
-        public PersonA Owner { get; set; }
+        public Person_Required Owner { get; set; }
     }
     //:replace-end:
     // :code-block-end:
@@ -54,10 +57,10 @@ namespace ObjectExamples.Models
     // :code-block-start: required
     // :replace-start: {
     //  "terms": {
-    //      "PersonA": "Person",
-    //      "DogB": "Dog"}
+    //      "Person_Required": "Person",
+    //      "Dog_OMAS": "Dog"}
     // }
-    public class PersonA : RealmObject
+    public class Person_Required : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -66,7 +69,7 @@ namespace ObjectExamples.Models
         //:hide-end:
         [Required]
         public string Name { get; set; }
-        public IList<DogB> Dogs { get; }
+        public IList<Dog_OMAS> Dogs { get; }
     }
     //:replace-end:
     // :code-block-end:
@@ -91,10 +94,10 @@ namespace ObjectExamples.Models
     // :code-block-start: index
     // :replace-start: {
     //  "terms": {
-    //      "PersonC": "Person",
+    //      "Person_Index": "Person",
     //      "DogB": "Dog"}
     // }
-    public class PersonC : RealmObject
+    public class Person_Index : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -103,7 +106,7 @@ namespace ObjectExamples.Models
         //:hide-end:
         [Indexed]
         public string Name { get; set; }
-        public IList<DogB> Dogs { get; }
+        public IList<Dog_OMAS> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -111,10 +114,10 @@ namespace ObjectExamples.Models
     // :code-block-start: rel-to-one
     // :replace-start: {
     //     "terms": {
-    //      "PersonD": "Person",
-    //      "DogC": "Dog" }
+    //      "Person_Rel_One_to_One": "Person",
+    //      "Dog_Rel_One_to_One": "Dog" }
     // }
-    public class DogC : RealmObject
+    public class Dog_Rel_One_to_One : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -122,10 +125,10 @@ namespace ObjectExamples.Models
         public ObjectId ID { get; set; }
         //:hide-end:
         // ... other property declarations
-        public PersonD Owner { get; set; }
+        public Person_Rel_One_to_One Owner { get; set; }
     }
 
-    public class PersonD : RealmObject
+    public class Person_Rel_One_to_One : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -141,10 +144,10 @@ namespace ObjectExamples.Models
     // :code-block-start: rel-to-many
     // :replace-start: {
     //  "terms": {
-    //   "PersonE": "Person",
-    //   "DogD" : "Dog" }
+    //   "Person_Rel_One_to_Many": "Person",
+    //   "Dog_Rel_One_to_Many" : "Dog" }
     // }
-    public class DogD : RealmObject
+    public class Dog_Rel_One_to_Many : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -155,7 +158,7 @@ namespace ObjectExamples.Models
         public string Name { get; set; }
     }
 
-    public class PersonE : RealmObject
+    public class Person_Rel_One_to_Many : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -163,7 +166,7 @@ namespace ObjectExamples.Models
         public ObjectId ID { get; set; }
         //:hide-end:
         // ... other property declarations
-        public IList<DogD> Dogs { get; }
+        public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
     // :replace-end:
     // :code-block-end:
@@ -171,10 +174,10 @@ namespace ObjectExamples.Models
     // :code-block-start: inverse
     //  :replace-start: {
     //  "terms": {
-    //   "PersonF": "Person",
-    //   "DogE":"Dog" }
+    //   "Person_Inverse": "Person",
+    //   "Dog_Inverse":"Dog" }
     // }
-    class DogE : RealmObject
+    class Dog_Inverse : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -182,10 +185,10 @@ namespace ObjectExamples.Models
         public ObjectId ID { get; set; }
         //:hide-end:
         // To-one relationship from the Dog to its owner
-        public PersonF Owner { get; set; }
+        public Person_Inverse Owner { get; set; }
     }
 
-    class PersonF : RealmObject
+    class Person_Inverse : RealmObject
     {
         //:hide-start:
         [PrimaryKey]
@@ -194,8 +197,8 @@ namespace ObjectExamples.Models
         //:hide-end:
         // An inverse relationship that returns all Dog instances that have Dog.Owner set to
         // the current Person.
-        [Backlink(nameof(DogE.Owner))]
-        public IQueryable<DogE> Dogs { get; }
+        [Backlink(nameof(Dog_Inverse.Owner))]
+        public IQueryable<Dog_Inverse> Dogs { get; }
 
         // To-many relationship, containing a collection of all hobbies the current person enjoys
         public IList<Hobby> Hobbies { get; }
@@ -210,8 +213,8 @@ namespace ObjectExamples.Models
         //:hide-end:
         // An inverse relationship that returns all Person instances that have the current Hobby
         // instance in their Hobbies list.
-        [Backlink(nameof(PersonF.Hobbies))]
-        public IQueryable<PersonF> PeopleWithThatHobby { get; }
+        [Backlink(nameof(Person_Inverse.Hobbies))]
+        public IQueryable<Person_Inverse> PeopleWithThatHobby { get; }
         // :replace-end:
     }
     // :code-block-end:
@@ -325,7 +328,7 @@ namespace ObjectExamples.Models
             config.Schema = new[] { typeof(LoneClass) };
 
             // Or, specify multiple classes to use in the Realm
-            config.Schema = new[] { typeof(DogB), typeof(Cat) };
+            config.Schema = new[] { typeof(Dog_OMAS), typeof(Cat) };
         }
     }
     // :replace-end:

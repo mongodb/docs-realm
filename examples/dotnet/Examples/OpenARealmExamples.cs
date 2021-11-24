@@ -15,7 +15,6 @@ namespace Examples
     public class OpenARealmExamples
     {
         App app;
-        App app3;
         User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
@@ -32,6 +31,11 @@ namespace Examples
             // Internal Note: this is so we can have a more "global" instance
             // or the realm object but the code snippet can show
             // it being initialized
+            config.Schema = new[]
+            {
+                typeof(Task),
+                typeof(Examples.Models.User)
+            };
             Realm realm = Realm.GetInstance(config);
             //:hide-end:
             try
@@ -92,25 +96,29 @@ namespace Examples
             {
                 Directory.CreateDirectory(pathToDb);
             }
-            var tempConfig = new RealmConfiguration(pathToDb + "/my.realm")
-            {
-                IsReadOnly = false,
-            };
-            var realm = Realm.GetInstance(tempConfig);
-
-            // :code-block-start: dispose
-            realm.Dispose();
-            // :code-block-end:
 
             // :code-block-start: local-realm
             var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
                 IsReadOnly = true,
             };
+            config.Schema = new[]
+            {
+                typeof(Task),
+                typeof(Examples.Models.User)
+            };
             Realm localRealm;
             try
             {
                 localRealm = Realm.GetInstance(config);
+                // :code-block-start: dispose
+                // :replace-start: {
+                //  "terms": {
+                //   "localRealm": "realm"}
+                // }
+                localRealm.Dispose();
+                // :replace-end:
+                // :code-block-end:
             }
             catch (RealmFileAccessErrorException ex)
             {
@@ -118,9 +126,7 @@ namespace Examples
                     realm file. {ex.Message}");
             }
             // :code-block-end:
-            localRealm = Realm.GetInstance(config);
-            Assert.IsNotNull(localRealm);
-            localRealm.Dispose();
+
             try
             {
                 Directory.Delete(pathToDb, true);
@@ -134,7 +140,7 @@ namespace Examples
         [Test]
         public async ThreadTask OpenIfUserExists()
         {
-            app3 = App.Create(myRealmAppId);
+            app = App.Create(myRealmAppId);
             User user3;
             SyncConfiguration config3;
             Realm realm3;
@@ -146,7 +152,7 @@ namespace Examples
             //   "config3" : "config",
             //   "realm3": "realm" }
             // }
-            if (app3.CurrentUser == null)
+            if (app.CurrentUser == null)
             {
                 // App must be online for user to authenticate
                 user3 = await app.LogInAsync(
@@ -171,6 +177,14 @@ namespace Examples
             // :code-block-start: scope
             config = new SyncConfiguration("myPart", user);
             //:hide-start:
+            config.Schema = new Type[]
+                {
+                    typeof(Task),
+                    typeof(Examples.Models.User),
+                    typeof(AClassWorthStoring),
+                    typeof(AnotherClassWorthStoring)
+                };
+            //:hide-end:
             using (var realm = Realm.GetInstance(config))
             {
                 var allTasks = realm.All<Task>();

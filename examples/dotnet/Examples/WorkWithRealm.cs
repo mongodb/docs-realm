@@ -247,6 +247,7 @@ namespace Examples
             public string Name { get; set; }
         }
 
+        // used only in this class
         public class Dog : RealmObject
         {
             [PrimaryKey]

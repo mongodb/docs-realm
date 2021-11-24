@@ -7,12 +7,14 @@ namespace Examples
 {
     public class ObjectModelsAndSchemas
     {
+        // Used by 3 tests in Objects.cs
+
         // :code-block-start: dog_class
         // :replace-start: {
         //  "terms": {
-        //   "DogA": "Dog" }
+        //   "Dog_OMAS": "Dog" }
         // }
-        public class DogA : RealmObject
+        public class Dog_OMAS : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -25,7 +27,6 @@ namespace Examples
             public string Breed { get; set; }
             public IList<Person> Owners { get; }
         }
-
 
         public class Person : RealmObject
         {
