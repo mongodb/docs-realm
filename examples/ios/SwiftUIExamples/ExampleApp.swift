@@ -1,13 +1,14 @@
+let YOUR_REALM_APP_ID_HERE = "swiftui-tester-rhvvv"
+
 import RealmSwift
 import SwiftUI
-
-// MARK: MongoDB Realm (Optional)
 
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
 // If you don't have a Realm app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
 let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
+
 // MARK: Models
 
 /// Random adjectives for more interesting demo item names
@@ -55,6 +56,7 @@ final class Group: Object, ObjectKeyIdentifiable {
 
 // MARK: Main Views
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
+/// For now, it always displays the LocalOnlyContentView.
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
@@ -71,14 +73,14 @@ struct ContentView: SwiftUI.App {
 
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
-    // Implicitly use the default realm's objects(Group.self)
+    @State var searchFilter: String = ""
     @ObservedResults(Group.self) var groups
     
     var body: some View {
         if let group = groups.first {
             // Pass the Group objects to a view further
             // down the hierarchy
-            ItemsView(group: group)
+            ItemsView(group: group, searchFilter: $searchFilter)
         } else {
             // For this small app, we only want one group in the realm.
             // You can expand this app to support multiple groups.
@@ -110,17 +112,22 @@ struct SyncContentView: View {
 }
 
 /// This view opens a synced realm.
+// :code-block-start: auto-open-synced-realm
 struct OpenSyncedRealmView: View {
-    // Use AsyncOpen to download the latest changes from
-    // your Realm app before opening the realm.
-    // Leave the `partitionValue` an empty string to get this
-    // value from the environment object passed in above.
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+    // @AutoOpen attempts to connect to the server and download remote changes
+    // before the realm opens, which might take a moment. However, if there is
+    // no network connection, AutoOpen will open a realm on the device.
+    // We can use an empty string as the partitionValue here because we're
+    // injecting the user.id as an environment value from the LoginView.
+    @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
+    // :hide-start:
+    @State var searchFilter: String = ""
+    // :hide-end:
     
     var body: some View {
         
-        switch asyncOpen {
-        // Starting the Realm.asyncOpen process.
+        switch autoOpen {
+        // Starting the Realm.autoOpen process.
         // Show a progress view.
         case .connecting:
             ProgressView()
@@ -138,7 +145,7 @@ struct OpenSyncedRealmView: View {
                     }
                 }
                 return realm.objects(Group.self).first!
-            }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
+            }(), searchFilter: $searchFilter, leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
             // The realm is currently being downloaded from the server.
             // Show a progress view.
             case .progress(let progress):
@@ -150,6 +157,7 @@ struct OpenSyncedRealmView: View {
         }
     }
 }
+// :code-block-end:
 
 struct ErrorView: View {
     var error: Error
@@ -222,9 +230,9 @@ struct LogoutButton: View {
 /// The screen containing a list of items in a group. Implements functionality for adding, rearranging,
 /// and deleting items in the group.
 struct ItemsView: View {
-    /// The group is a container for a list of items. Using a group instead of all items
-    /// directly allows us to maintain a list order that can be updated in the UI.
     @ObservedRealmObject var group: Group
+    @ObservedResults(Item.self) var items
+    @Binding var searchFilter: String
 
     /// The button to be displayed on the top left.
     var leadingBarButton: AnyView?
@@ -232,13 +240,22 @@ struct ItemsView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // :code-block-start: searchable
                 // The list shows the items in the realm.
                 List {
-                    ForEach(group.items) { item in
+                    ForEach(items) { item in
                         ItemRow(item: item)
-                    }.onDelete(perform: $group.items.remove)
-                    .onMove(perform: $group.items.move)
-                }.listStyle(GroupedListStyle())
+                    }
+                }
+                .searchable(text: $searchFilter,
+                            collection: $items,
+                            keyPath: \.name) {
+                    ForEach(items) { itemsFiltered in
+                        Text(itemsFiltered.name).searchCompletion(itemsFiltered.name)
+                    }
+                }
+                // :code-block-end:
+                .listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
@@ -293,4 +310,3 @@ struct ItemDetailsView: View {
         }.padding()
     }
 }
-

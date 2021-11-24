@@ -93,11 +93,15 @@ struct ContentView: SwiftUI.App {
 // :code-block-start: local-only-content-view
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
+    // :code-block-start: implicitly-open-realm
     // Implicitly use the default realm's objects(Group.self)
     @ObservedResults(Group.self) var groups
+    // :code-block-end:
     
     var body: some View {
         if let group = groups.first {
+            // Pass the Group objects to a view further
+            // down the hierarchy
             ItemsView(group: group)
         } else {
             // For this small app, we only want one group in the realm.
@@ -316,6 +320,7 @@ struct ItemRow: View {
 }
 
 /// Represents a screen where you can edit the item's name.
+// :code-block-start: quick-write-observed-realm-object
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
 
@@ -331,6 +336,7 @@ struct ItemDetailsView: View {
         }.padding()
     }
 }
+// :code-block-end:
 // :code-block-end:
 
 // :code-block-end:

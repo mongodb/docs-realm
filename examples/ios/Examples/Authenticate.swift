@@ -233,7 +233,7 @@ class Authenticate: XCTestCase {
 
     func testReadUserMetadata() {
         let expectation = XCTestExpectation(description: "login completes")
-        
+
         let anonymousCredentials = Credentials.anonymous
         app.login(credentials: anonymousCredentials) { (result) in
             switch result {

@@ -38,7 +38,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
 
                 // :code-block-start: insert-one
                 // This document represents a CoffeeDrink object
-                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 43"]
+                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
 
                 // Insert the document into the collection
                 collection.insertOne(drink) { result in
@@ -80,7 +80,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
 
         // :code-block-start: async-await-insert
         // This document represents a CoffeeDrink object
-        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 43"]
+        let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
 
         do {
             // Use the async collection method to insert the document
@@ -122,9 +122,9 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 let collection = database.collection(withName: "CoffeeDrinks") // :emphasize:
 
                 // :code-block-start: insert-many
-                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 42"]
-                let drink2: Document = [ "name": "Maple Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "partition": "Store 42"]
-                let drink3: Document = [ "name": "Bean of the Day", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "partition": "Store 47"]
+                let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
+                let drink2: Document = [ "name": "Maple Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "_partition": "Store 42"]
+                let drink3: Document = [ "name": "Bean of the Day", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "_partition": "Store 47"]
 
                 // Insert the documents into the collection
                 collection.insertMany([drink, drink2, drink3]) { result in
@@ -306,7 +306,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 let collection = database.collection(withName: "CoffeeDrinks")
 
                 // :code-block-start: update-one
-                let queryFilter: Document = ["name": "Bean of the Day", "partition": "Store 42"]
+                let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 42"]
                 let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
 
                 collection.updateOneDocument(filter: queryFilter, update: documentUpdate) { result in
@@ -417,8 +417,8 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 let collection = database.collection(withName: "CoffeeDrinks")
 
                 // :code-block-start: upsert
-                let queryFilter: Document = ["name": "Bean of the Day", "partition": "Store 55"]
-                let documentUpdate: Document = ["name": "Bean of the Day", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "false", "partition": "Store 55"]
+                let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 55"]
+                let documentUpdate: Document = ["name": "Bean of the Day", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "false", "_partition": "Store 55"]
 
                 collection.updateOneDocument(filter: queryFilter, update: documentUpdate, upsert: true) { result in
                     switch result {
@@ -482,7 +482,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // duplicate what is visible in the code block, but was at the wrong level
                 // of indent when starting the code block here, so we've declared it again
                 // in the code snippet with a slightly different name.
-                let document: Document = ["name": "Mocha", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "partition": "Store 17"]
+                let document: Document = ["name": "Mocha", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "_partition": "Store 17"]
                 collection.insertOne(document) { result in
                     switch result {
                     case .failure(let error):
@@ -492,7 +492,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         XCTAssertNotNil(objectId)
                         print("Successfully inserted a document with id: \(objectId)")
                         // :code-block-start: delete-one
-                        let queryFilter: Document = ["name": "Mocha", "partition": "Store 17"]
+                        let queryFilter: Document = ["name": "Mocha", "_partition": "Store 17"]
                         collection.deleteOneDocument(filter: queryFilter) { deletedResult in
                             switch deletedResult {
                             case .failure(let error):
@@ -537,9 +537,9 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                let drink: Document = [ "name": "Caramel Latte", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "partition": "Store 22"]
-                let drink2: Document = [ "name": "Caramel Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "partition": "Store 24"]
-                let drink3: Document = [ "name": "Caramel Latte", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "partition": "Store 35"]
+                let drink: Document = [ "name": "Caramel Latte", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 22"]
+                let drink2: Document = [ "name": "Caramel Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "_partition": "Store 24"]
+                let drink3: Document = [ "name": "Caramel Latte", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "_partition": "Store 35"]
 
                 // Insert the example data into the collection
                 collection.insertMany([drink, drink2, drink3]) { result in
