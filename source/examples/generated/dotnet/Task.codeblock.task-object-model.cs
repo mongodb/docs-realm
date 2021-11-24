@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using Realms;
 
-namespace dotnet
+namespace Examples.Models
 {
     public class Task : RealmObject
     {

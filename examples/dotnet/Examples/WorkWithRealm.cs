@@ -5,9 +5,10 @@ using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using Task = dotnet.Task;
+using Task = Examples.Models.Task;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Examples
 {
@@ -119,50 +120,7 @@ namespace Examples
                 //:code-block-end:
             }
         }
-        [Test]
-        public async System.Threading.Tasks.Task MultiUser()
-        {
-            myRealmAppId = Config.appid;
-            var app = App.Create(myRealmAppId);
 
-            {
-                foreach (var user in app.AllUsers)
-                {
-                    await user.LogOutAsync();
-                }
-                Assert.AreEqual(0, app.AllUsers.Count());
-                //:code-block-start:multi-add
-                var aimee = await app.LogInAsync(Credentials.EmailPassword(
-                    "aimee@example.com", "sekrit"));
-                Assert.IsTrue(aimee.Id == app.CurrentUser.Id, "aimee is current user");
-
-                var elvis = await app.LogInAsync(Credentials.EmailPassword(
-                    "elvis@example.com", "sekrit2"));
-                Assert.IsTrue(elvis.Id == app.CurrentUser.Id, "elvis is current user");
-                //:code-block-end:
-
-                //:code-block-start:multi-list
-                foreach (var user in app.AllUsers)
-                {
-                    Console.WriteLine($"User {user.Id} is logged on via {user.Provider}");
-                }
-                Assert.AreEqual(2, app.AllUsers.Count());
-                //:code-block-end:
-                //:code-block-start:multi-switch
-                app.SwitchUser(aimee);
-                Assert.IsTrue(aimee.Id == app.CurrentUser.Id, "aimee is current user");
-                //:code-block-end:
-
-                //:code-block-start:multi-remove
-                await app.RemoveUserAsync(elvis);
-                var noMoreElvis = app.AllUsers.FirstOrDefault(u => u.Id == elvis.Id);
-                Assert.IsNull(noMoreElvis);
-                Console.WriteLine("Elvis has left the application.");
-                //:code-block-end:
-            }
-
-            return;
-        }
 
         [Test]
         public void Notifications()
@@ -182,13 +140,8 @@ namespace Examples
             //:code-block-end:
 
             //:code-block-start:collection-notifications
-            // :replace-start: {
-            //  "terms": {
-            //   "Dog1000": "Dog",
-            //   "Person1000" : "Person" }
-            // }
             // Observe collection notifications. Retain the token to keep observing.
-            var token = realm.All<Dog1000>()
+            var token = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
             {
                 if (error != null)
@@ -226,21 +179,19 @@ namespace Examples
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-            // :replace-end:
             //:code-block-end:
 
 
             realm.Write(() =>
             {
-                realm.Add(new Person1000 { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
+                realm.Add(new PersonN { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
             });
             //:code-block-start:object-notifications
             // :replace-start: {
             //  "terms": {
-            //   "Dog1000": "Dog",
-            //   "Person1000" : "Person" }
+            //   "PersonN": "Person" }
             // }
-            var theKing = realm.All<Person1000>()
+            var theKing = realm.All<PersonN>()
                 .FirstOrDefault(p => p.Name == "Elvis Presley");
 
             theKing.PropertyChanged += (sender, eventArgs) =>
@@ -284,6 +235,31 @@ namespace Examples
                 // Do something with the notification information
             }
             // :code-block-end:
+        }
+
+        public class PersonN : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+        }
+
+        // used only in this class
+        public class Dog : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+
+            public int Age { get; set; }
+            public string Breed { get; set; }
+            public IList<PersonN> Owners { get; }
         }
     }
 }

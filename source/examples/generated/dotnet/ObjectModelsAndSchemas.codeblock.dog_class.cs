@@ -12,7 +12,6 @@ public class Dog : RealmObject
     public IList<Person> Owners { get; }
 }
 
-
 public class Person : RealmObject
 {
     [PrimaryKey]
@@ -21,7 +20,7 @@ public class Person : RealmObject
 
     [Required]
     public string Name { get; set; }
-    //etc...
+    // etc...
 
     /* To add items to the IList<T>:
 

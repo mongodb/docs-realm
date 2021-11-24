@@ -17,11 +17,11 @@ namespace Examples
                 {
                     //:replace-start: {
                     // "terms": {
-                    //   "Person200": "Person",
-                    //   "Person400":"Person"}
+                    //   "PersonK": "Person",
+                    //   "PersonM":"Person"}
                     // }
-                    var oldPeople = migration.OldRealm.DynamicApi.All("Person200");
-                    var newPeople = migration.NewRealm.All<Person400>();
+                    var oldPeople = migration.OldRealm.DynamicApi.All("PersonK");
+                    var newPeople = migration.NewRealm.All<PersonM>();
                     // :replace-end:
 
                     // Migrate Person objects
@@ -59,9 +59,9 @@ namespace Examples
         // :code-block-start: ro1
         //:replace-start: {
         // "terms": {
-        //   "Person100": "Person"}
+        //   "PersonJ": "Person"}
         // }
-        public class Person100 : RealmObject
+        public class PersonJ : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -76,9 +76,9 @@ namespace Examples
         // :code-block-start: ro2
         //:replace-start: {
         // "terms": {
-        //   "Person200": "Person"
+        //   "PersonK": "Person"
         // }}
-        public class Person200 : RealmObject
+        public class PersonK : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -94,9 +94,9 @@ namespace Examples
         // :code-block-start: ro3
         //:replace-start: {
         // "terms": {
-        //   "Person300": "Person"
+        //   "PersonL": "Person"
         // }}
-        public class Person300 : RealmObject
+        public class PersonL : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]
@@ -111,9 +111,9 @@ namespace Examples
         // :code-block-start: ro4
         //:replace-start: {
         // "terms": {
-        //   "Person400": "Person"
+        //   "PersonM": "Person"
         // }}
-        public class Person400 : RealmObject
+        public class PersonM : RealmObject
         {
             [PrimaryKey]
             [MapTo("_id")]

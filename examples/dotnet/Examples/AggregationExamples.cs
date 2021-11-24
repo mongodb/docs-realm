@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 using Examples;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-
+using Examples.Models;
 
 namespace Examples
 {
     public class AggregationExamples
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
