@@ -18,13 +18,14 @@ namespace Examples
         ObjectId testTaskId;
         Realms.Sync.User user;
         SyncConfiguration config;
+        App app;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public async ThreadTask Setup()
         {
             // :code-block-start: initialize-realm
-            App app = App.Create(myRealmAppId);
+            app = App.Create(myRealmAppId);
             // :code-block-end:
 
             user = await app.LogInAsync(

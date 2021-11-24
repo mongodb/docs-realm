@@ -12,7 +12,6 @@ public class Dog : RealmObject
     public IList<Person> Owners { get; }
 }
 
-
 public class Person : RealmObject
 {
     [PrimaryKey]

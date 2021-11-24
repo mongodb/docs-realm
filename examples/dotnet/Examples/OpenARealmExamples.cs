@@ -102,23 +102,17 @@ namespace Examples
             {
                 IsReadOnly = true,
             };
+            // :hide-start:
             config.Schema = new[]
             {
                 typeof(Task),
                 typeof(Examples.Models.User)
             };
+            // :hide-end:
             Realm localRealm;
             try
             {
                 localRealm = Realm.GetInstance(config);
-                // :code-block-start: dispose
-                // :replace-start: {
-                //  "terms": {
-                //   "localRealm": "realm"}
-                // }
-                localRealm.Dispose();
-                // :replace-end:
-                // :code-block-end:
             }
             catch (RealmFileAccessErrorException ex)
             {
@@ -135,6 +129,14 @@ namespace Examples
             {
 
             }
+        }
+
+        public void DisposeCodeSnippet()
+        {
+            Realm realm = Realm.GetInstance();
+            // :code-block-start: dispose
+            realm.Dispose();
+            // :code-block-end:
         }
 
         [Test]

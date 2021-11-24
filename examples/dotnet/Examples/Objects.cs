@@ -95,7 +95,7 @@ namespace ObjectExamples.Models
     // :replace-start: {
     //  "terms": {
     //      "Person_Index": "Person",
-    //      "DogB": "Dog"}
+    //      "Dog_OMAS": "Dog"}
     // }
     public class Person_Index : RealmObject
     {
@@ -306,7 +306,7 @@ namespace ObjectExamples.Models
     // :code-block-start: subset
     //:replace-start: {
     // "terms": {
-    //      "DogB": "Dog"}
+    //      "Dog_OMAS": "Dog"}
     // }
     // Declare your schema
     class LoneClass : RealmObject
