@@ -40,15 +40,14 @@ Procedure
 
 .. important::
    
-   You must define at least one valid schema for a collection in the synced
-   cluster before you can define sync rules and enable sync.
+   You must define at least one valid :ref:`schema <schemas>` for a collection 
+   in the synced cluster before you can define sync rules and enable sync.
    
    At minimum, the schema must define ``_id`` and the field that you intend to
    use as your :term:`partition key`. A partition key field may be a ``string``,
    ``integer``, or ``objectId``.
    
-   For more details on how to define a schema, see :doc:`Enforce a Document
-   Schema </mongodb/enforce-a-document-schema>`.
+   For more details on how to define a schema, see :ref:`enforce-a-schema`.
 
 .. tabs-realm-admin-interfaces::
 
