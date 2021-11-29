@@ -23,13 +23,7 @@ to users on the initial launch of the app. To do this, you:
 
 In your production app (the one that will use this bundled {+realm+} when first 
 loading), you add a few lines of code to extract the {+realm+} and save it in the 
-app data. The following sections provide more information on these steps.
-
-.. important:: Synced Realms Are Not Supported
-
-   For now, bundling a synced {+realm+} is not supported. If you are using Sync, 
-   the local database will be synced when it is initialized.
-   
+app data. The following sections provide more information on these steps.   
 
 .. _copy_a_realm_file:
 
@@ -42,11 +36,29 @@ Copy a Realm File
 #. Use the 
    :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
    method to make a copy of the {+realm+} to a new location and/or name. The 
-   following code demonstrates this:
+   following code demonstrates this. 
 
-   .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.copy_a_realm.cs
-      :language: csharp
+   .. important:: Copying Synced Realms
 
+      When copying a Synced {+realm+}, you must ensure that there are no pending 
+      sync processes. You do this by calling 
+      :dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`
+      and 
+      :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
+
+   .. tabs::
+
+      .. tab:: Local Realm
+         :tabid: copy_local
+
+         .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
+            :language: csharp
+
+      .. tab:: Synced Realm
+         :tabid: copy_sync
+
+         .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_synced_realm.cs
+            :language: csharp
 
 Include the Realm File in Your Project
 --------------------------------------
@@ -97,7 +109,7 @@ add code to use it. The code you add depends on the type of app:
       you can do this during start-up of the app; note that it will only run when no 
       {+realm+} file is found at the specified location.
 
-      .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.extract_and_copy_realm.cs
+      .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.extract_and_copy_realm.cs
          :language: csharp
 
    .. tab:: Unity

@@ -101,11 +101,13 @@ You can check on the status of your current changes by :ref:`waiting for changes
 
 Wait for Changes to be Uploaded or Downloaded
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To asynchronously wait for your changes to be completed, get the sync session by calling `Realms.Sync.GetSession()
-<https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_.
-Then call `session.WaitForUploadAsync()
-<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`_  or `session.WaitForDownloadAsync()
-<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`_.
+To asynchronously wait for your changes to be completed, get the sync session 
+by calling :dotnet-sdk:`Realms.Sync.GetSession()
+<reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`.
+Then call :dotnet-sdk:`session.WaitForUploadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
+:dotnet-sdk:`session.WaitForDownloadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`.
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
    :language: csharp
