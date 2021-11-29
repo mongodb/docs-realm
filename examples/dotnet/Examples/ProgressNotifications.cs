@@ -37,7 +37,7 @@ namespace Examples
 
                 // :uncomment-end:
                 var realm = Realm.GetInstance(config);
-                await realm.GetSession().WaitForDownloadAsync();
+                await realm.SyncSession.WaitForDownloadAsync();
                 // :code-block-end:
                 realm.Dispose();
             }
@@ -59,7 +59,7 @@ namespace Examples
             config = new SyncConfiguration("myPartition", user);
             var realm = Realm.GetInstance(config);
             // :code-block-start: upload-download-progress-notification
-            var session = realm.GetSession();
+            var session = realm.SyncSession;
             var token = session.GetProgressObservable(ProgressDirection.Upload,
                 ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>

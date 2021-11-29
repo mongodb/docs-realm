@@ -67,7 +67,7 @@ namespace Examples
                 }
             };
             // :code-block-end:
-            TestingExtensions.SimulateError(realm.GetSession(),
+            TestingExtensions.SimulateError(realm.SyncSession,
                 ErrorCode.DivergingHistories, "diverging histories!", false);
         }
     }

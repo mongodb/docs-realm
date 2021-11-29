@@ -75,7 +75,7 @@ namespace Examples
                 }
             };
             // :code-block-end:
-            TestingExtensions.SimulateError(realm.GetSession(),
+            TestingExtensions.SimulateError(realm.SyncSession,
             ErrorCode.PermissionDenied, "No permission to work with the Realm", false);
 
             // Close the Realm before doing the reset as it'll need
