@@ -10,16 +10,14 @@ const manageTeam = require("./manageTeam");
 
 // :code-block-start: getProjects
 async function getProjects() {
-  const realm = await index.getRealm(`user=${users.getAuthedUser().id}`);
-  const currentUser = users.getAuthedUser().id;
   // :state-start: final
-  const user = realm.objectForPrimaryKey("User", currentUser);
-  const projects = user.memberOf;
+  const user = users.getAuthedUser();
+  const { memberOf: projects } = await user.refreshCustomData();
   // :state-end: :state-uncomment-start: start
-  // // TODO: Call the objectForPrimaryKey() method to get the current user and assign
-  // // the memberOf property of the user to projects.
+  // // TODO: Call the refreshCustomData() method to get the user's available
+  // projects from custom user data.
   //const user;
-  //const projects;
+  // const projects;
   // :state-uncomment-end:
   return projects;
 }
