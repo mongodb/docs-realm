@@ -42,23 +42,23 @@ Copy a Realm File
 
       When copying a Synced {+realm+}, you must ensure that there are no pending 
       sync processes. You do this by calling 
-      :dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`
+      :dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
       and 
-      :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
+      :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`
 
-   .. tabs::
+.. tabs::
 
-      .. tab:: Local Realm
-         :tabid: copy_local
+   .. tab:: Local Realm
+      :tabid: copy_local
 
-         .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_realm.cs
-            :language: csharp
+      .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.copy_a_realm.cs
+         :language: csharp
 
-      .. tab:: Synced Realm
-         :tabid: copy_sync
+   .. tab:: Synced Realm
+      :tabid: copy_sync
 
-         .. literalinclude:: /examples/generated/dotnet/WriteCopy.codeblock.copy_a_synced_realm.cs
-            :language: csharp
+      .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.copy_a_synced_realm.cs
+         :language: csharp
 
 Include the Realm File in Your Project
 --------------------------------------
