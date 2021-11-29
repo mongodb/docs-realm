@@ -14,7 +14,7 @@ raw: realm/procedures/create-stitch-app -> ${base}/get-started/create-realm-app/
 raw: realm/procedures/create-realm-app -> ${base}/get-started/create-realm-app/
 raw: realm/graphql/graphql-types-and-resolvers/index.html -> ${base}/graphql/types-and-resolvers/
 raw: realm/triggers/overview -> ${base}/triggers/
-raw: realm/sync/overview -> ${base}/sync/
+raw: realm/sync/overview -> ${base}/sync/learn/overview/
 raw: realm/mongodb/service-limitations -> ${base}/reference/service-limitations/
 raw: realm/sdk/android/fundamentals/mongodb-realm-cloud -> ${base}/sdk/android/fundamentals/application-services/
 raw: realm/sdk/ios/fundamentals/mongodb-realm-cloud -> ${base}/sdk/ios/fundamentals/application-services/
@@ -207,7 +207,7 @@ raw: realm/reference/terminating-and-reenabling-realm-sync/ -> ${base}/sync/paus
 raw: realm/values-and-secrets/define-a-secret -> ${base}/values-and-secrets/define-and-manage-secrets/
 
 # Sync Updates (https://jira.mongodb.org/browse/DOCSP-16313)
-raw: realm/sync/partitioning -> ${base}/sync/partitions/
+raw: realm/sync/partitioning -> ${base}/sync/data-access-patterns/partitions/
 
 # Realm CLI V2 (https://jira.mongodb.org/browse/DOCSP-18119)
 raw: realm/deploy/realm-cli-reference -> ${base}/cli/
@@ -244,16 +244,16 @@ raw: realm/deploy/export-realm-app -> ${base}/manage-apps/deploy/export-realm-ap
 raw: realm/deploy/rollback-deployment -> ${base}/manage-apps/deploy/manual/rollback-deployment/
 raw: realm/deploy/sdlc -> ${base}/manage-apps/deploy/automated/sdlc/
 raw: realm/admin/deployment-models-and-regions -> ${base}/manage-apps/deploy/deployment-models-and-regions/
-raw: realm/manage-apps/deploy/export-realm-app/ -> ${base}/manage-apps/configure/export-realm-app/
-raw: realm/security/ -> ${base}/manage-apps/secure/
+raw: realm/manage-apps/deploy/export-realm-app -> ${base}/manage-apps/configure/export-realm-app/
+raw: realm/security -> ${base}/manage-apps/secure/
 
 # Add Work with Users page
-
 raw: realm/sdk/ios/examples/authenticate-users/ -> ${base}/sdk/ios/examples/users/authenticate-users/
 raw: realm/sdk/ios/examples/manage-email-password-users/ -> ${base}/sdk/ios/examples/users/manage-email-password-users/
 raw: realm/sdk/ios/advanced-guides/custom-user-data/ -> ${base}/sdk/ios/examples/users/custom-user-data/
 raw: realm/sdk/ios/advanced-guides/link-user-identities/ -> ${base}/sdk/ios/examples/users/link-user-identities/
 raw: realm/sdk/ios/advanced-guides/multi-user-applications/ -> ${base}/sdk/ios/examples/users/multi-user-applications/
+
 # Separated Schema & Rules Sections
 ## Rules
 raw: realm/services/expression-variables -> ${base}/rules/expressions/
@@ -263,3 +263,23 @@ raw: realm/mongodb/query-filters -> ${base}/rules/filters/
 ## Schemas
 raw: realm/mongodb/document-schemas -> ${base}/schemas/
 raw: realm/mongodb/enforce-a-document-schema -> ${base}/schemas/enforce-a-schema/
+
+# Realm Sync IA Refresh (https://jira.mongodb.org/browse/DOCSP-19671)
+raw: realm/sync/client-resets -> ${base}/sync/error-handling/client-resets/
+raw: realm/sync/configure-your-data-model -> ${base}/sync/data-model/sync-schema-overview/
+raw: realm/sync/conflict-resolution -> ${base}/sync/learn/conflict-resolution/
+raw: realm/sync/development-mode -> ${base}/sync/data-model/development-mode/
+raw: realm/sync/enable-development-mode -> ${base}/sync/data-model/development-mode/
+raw: realm/sync/errors -> ${base}/sync/error-handling/errors/
+raw: realm/sync/generate-sdk-object-models -> ${base}/sync/data-model/generate-sdk-object-models/
+raw: realm/sync/get-started -> ${base}/sync/learn/overview/
+raw: realm/sync/migrate-schema-partner-collection -> ${base}/sync/data-model/migrate-schema-partner-collection/
+raw: realm/sync/optimize-sync-atlas-usage -> ${base}/sync/configure/optimize-sync-atlas-usage/
+raw: realm/sync/partition-strategies -> ${base}/sync/data-access-patterns/partition-strategies/
+raw: realm/sync/partitions -> ${base}/sync/data-access-patterns/partitions/
+raw: realm/sync/pause-or-terminate-sync -> ${base}/sync/configure/pause-or-terminate-sync/
+raw: realm/sync/permissions -> ${base}/sync/data-access-patterns/permissions
+raw: realm/sync/protocol -> ${base}/sync/learn/protocol/
+raw: realm/sync/rules -> ${base}/sync/data-access-patterns/permissions/
+raw: realm/sync/synced-schema-overview -> ${base}/sync/data-model/sync-schema-overview/
+
