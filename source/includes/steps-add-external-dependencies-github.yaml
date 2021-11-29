@@ -1,5 +1,12 @@
+title: Enable Github Automatic Deployment
+ref: add-external-dependencies-github-enable-github
+content: |
+  :ref:`Enable Github Automatic Deployments <deploy-github>` so you can redeploy 
+  your {+app+} whenever you push configuration updates to a specified branch on Github.
+
+---
 title: Pull your {+app+}
-ref: add-external-dependencies-cli-pull-your-app
+ref: add-external-dependencies-github-pull-your-app
 content: |
   Pull your {+app+} to your device with the command: 
 
@@ -16,27 +23,19 @@ content: |
      or running ``npm init`` and following the prompts.
   #. Add dependencies by running ``npm install <dependency-name>``.
 ---
-title: Push the Dependencies to MongoDB Realm
-ref: add-external-dependencies-cli-push-dependencies
+title: Push the Dependencies to Github
+ref: add-external-dependencies-github-push-dependencies
 content: |
-  #. Go to the root directory of your {+app+}:
+  Git Push the latest version of your app with all the dependencies in the ``package.json`` 
+  to Github with a command such as: 
 
-     .. code-block::
+  .. code-block::
 
-        cd path/to/MyRealmApp
-
-  #. Push the latest version of your app with all the dependencies in the ``package.json``: 
-
-     .. code-block::
-
-        realm-cli push --include-package-json
-
-  #. Follow the CLI prompts to confirm that you want to include the dependencies in your operation.
-     The CLI will start adding the dependencies to your {+app+}.
+     git push origin main
 
 ---
 title: Check Operation Success
-ref: add-external-dependencies-cli-check-operation-success
+ref: add-external-dependencies-github-check-operation-success
 content: |
   Once it finishes adding the dependencies, the CLI tells you if all packages 
   were successfully added. 

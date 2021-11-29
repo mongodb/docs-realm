@@ -32,7 +32,8 @@ Specify npm Packages
 --------------------
 
 You can specify npm packages to use in your {+service-short+} Functions and 
-the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}. 
+the {+backend+} imports them. You can do this with the {+ui+}, {+cli+}, and 
+Github Automatic Deployments. 
 
 .. tabs::
 
@@ -58,6 +59,17 @@ the {+backend+} imports them. You can do this with the {+ui+} or {+cli+}.
          pushed from the CLI.
 
       .. include:: /includes/steps/add-external-dependencies-cli.rst
+   
+   .. tab:: Github Auto Deploy
+      :tabid: github
+      
+      .. important:: Overriding Existing Dependencies
+
+         If you've configured Github Automatic Deployments, pushing your {+app+} config with ``package.json`` file to Github overrides all existing 
+         dependencies. Your {+service-short+} Functions only have access to dependencies 
+         pushed to Github.
+      
+      .. include:: /includes/steps/add-external-dependencies-github.rst
 
 .. _upload-zipped-node-modules:
 
