@@ -12,14 +12,24 @@ const manageTeam = require("./manageTeam");
 async function getProjects() {
   // :state-start: final
   const user = users.getAuthedUser();
-  const { memberOf: projects } = await user.refreshCustomData();
+  try {
+    const { memberOf: projects } = await user.refreshCustomData();
+
+    // Make sure that the user object has been created
+    if (!projects) {
+      output.error("The user object hasn't been created yet. Try again soon.");
+      throw new Error("No projects for user");
+    }
+    return projects;
+  } catch (err) {
+    output.error("There was a problem accessing custom user data");
+  }
   // :state-end: :state-uncomment-start: start
   // // TODO: Call the refreshCustomData() method to get the user's available
   // projects from custom user data.
-  //const user;
-  // const projects;
+  //
+  // return projects;
   // :state-uncomment-end:
-  return projects;
 }
 // :code-block-end:
 
