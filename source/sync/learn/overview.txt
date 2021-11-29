@@ -65,6 +65,11 @@ and across all client platforms.
 - :ref:`Live objects <live-objects-overview>`
 - :ref:`Conflict resolution <conflict-resolution-overview>`
 
+.. seealso::
+
+   For a deep dive into how {+sync-short+} works, see: :ref:`Realm Sync 
+   Protocol <sync-protocol>`.
+
 .. _offline-first-overview:
 
 Offline-First
@@ -191,8 +196,8 @@ check out the SDK docs:
    However, it is compatible with apps that use sync through the MongoDB and
    GraphQL APIs.
 
-Define Object Models
-~~~~~~~~~~~~~~~~~~~~
+Define Data Model
+~~~~~~~~~~~~~~~~~
 
 A synced realm uses object models that you define to determine the type of
 objects in the realm. Additionally, Sync requires a server-side document schema
@@ -240,10 +245,11 @@ type:
   your client application and use them the same way you would any regular object
   or struct in your preferred programming language.
 
-Define Data Access Models
--------------------------
+Define Data Access Patterns
+---------------------------
 
-Choose how clients access data. 
+Once you have decided on your app's data model, you can define a data access 
+pattern and access rules for your app's data. 
 
 When you use partition-based Sync, you must:
 
@@ -253,12 +259,6 @@ When you use partition-based Sync, you must:
 
 Partition key values and data access rules determine which users can read or
 write which data in your database.
-
-Configure and Enable Sync
--------------------------
-
-Once you have decided on your app's data model, you can define a partition
-strategy and access rules for your app's data.
 
 Define Data Access Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,12 +281,19 @@ To design effective rules, :ref:`choose a partition strategy
    skip this step for now. However, you should disable development mode and
    define rules before you push your app to production.
 
+Configure and Enable Sync
+-------------------------
+
+Once you have defined a data model and corresponding access rules, you can
+enable sync for your app. You can also optimize sync data usage by
+specifying a client maximum offline time.
+
 Enable Sync
 ~~~~~~~~~~~
 
-Once you have defined a data model and corresponding access rules, you can
-enable sync for your app. For a walkthrough of how to turn on sync, see
-:ref:`Define Sync Rules <sync-rules>`.
+When you enable Sync, you specify how clients can access data in your
+{+app+}. For a walkthrough of how to turn on sync, see :ref:`Define Sync 
+Rules <sync-rules>`.
 
 Optimize Sync Data Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~

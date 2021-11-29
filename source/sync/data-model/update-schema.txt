@@ -83,6 +83,12 @@ schema change, you have two choices: :ref:`terminate sync <terminating-realm-syn
 in the backend and then :ref:`re-enable <enable-sync>` it from the start, or 
 create a **"partner collection"**.
 
+.. warning::
+
+   When you make a destructive change by terminating and re-enabling sync, 
+   client applications must perform a client reset. For more information, 
+   see: :ref:`Client Resets <client-resets>`.
+
 .. _partner_collections:
 
 Partner Collections
