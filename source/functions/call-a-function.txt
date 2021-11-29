@@ -75,7 +75,27 @@ To call a function with :ref:`Realm CLI <realm-cli-quickstart>`, run ``realm-cli
 function run`` and specify the function name and any arguments. The command 
 returns the function result as EJSON as well as any log or error messages.
 
-.. code-block:: bash
+User Functions
+~~~~~~~~~~~~~~
+
+To call a function in the context of a specific user, include their User
+ID in the ``--user`` argument.
+
+.. code-block:: sh
+   
+   realm-cli function run \
+    --function=sum \
+    --user=61a50d82532cbd0de95c7c89 \
+    --args=1 --args=2
+
+System Functions
+~~~~~~~~~~~~~~~~
+
+To call a function in the :ref:`system context <system-functions>`, do
+not include the ``--user`` argument. System functions bypass all rules
+and do not enforce or validate schemas.
+
+.. code-block:: sh
    
    realm-cli function run \
     --function=sum \
