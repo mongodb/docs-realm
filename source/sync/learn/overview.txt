@@ -1,11 +1,11 @@
+.. _what-is-realm-sync:
+.. _sync:
+.. _sync-overview:
 .. _realm-sync-get-started:
-.. _enable-sync:
 
-===================================
-Get Started with MongoDB Realm Sync
-===================================
-
-.. default-domain:: mongodb
+===================
+Realm Sync Overview
+===================
 
 .. contents:: On this page
    :local:
@@ -16,11 +16,136 @@ Get Started with MongoDB Realm Sync
 Overview
 --------
 
-This guide covers the high level steps to add Realm Sync to any app. You will
-learn:
+{+sync+} is a {+app+} feature that synchronizes data on client devices with 
+a data source linked to your {+backend+} back end. {+sync+} handles network 
+access and conflict resolution in a background thread of your application, so 
+your application logic stays the same regardless of network conditions. 
+The :term:`{+service-short+} data model` makes it easy to manage a consistent 
+schema of objects in your database and across all client platforms.
 
-- how to enable and configure Sync in a server-side Realm App
-- how to connect to the Realm App and set up Sync in your client app with a Realm SDK
+Why Use Realm Sync?
+-------------------
+Most mobile apps are data-dependent. Eventually, many apps
+need to share that data with other apps and the outside world. {+sync+} is 
+an out-of-the-box that meets this need.
+
+Consider a few examples:
+
+- A team collaborates in real-time on a shared
+  document across the Internet.
+
+- A front-line worker fills out a report while
+  working somewhere with low or no network connectivity.
+
+- An IoT device uploads its sensor data to the cloud.
+
+Traditionally, mobile app developers use an HTTP client to
+manually communicate with an endpoint. This means that
+every mobile app needs to solve the following problems for every
+client platform:
+
+- serialization
+
+- a consistent schema of objects
+
+- gracefully handling network failures and slowdowns
+
+- resolving conflicts between changes to the same data on different
+  clients
+
+{+sync+} handles network access and conflict resolution in a
+background thread of your application, so your application logic stays
+the same regardless of network conditions. The :term:`{+service-short+} data model`
+makes it easy to manage a consistent schema of objects in your database
+and across all client platforms.
+
+{+sync+} is built on 3 main pillars:
+
+- :ref:`Offline-first functionality <offline-first-overview>`
+- :ref:`Live objects <live-objects-overview>`
+- :ref:`Conflict resolution <conflict-resolution-overview>`
+
+.. seealso::
+
+   For a deep dive into how {+sync-short+} works, see: :ref:`Realm Sync 
+   Protocol <sync-protocol>`.
+
+.. _offline-first-overview:
+
+Offline-First
+~~~~~~~~~~~~~
+
+{+sync+} is built on the assumption that connectivity will
+drop. We call this mentality **offline-first**. After you
+make changes to the local {+realm+} on the client device, the {+service-short+}
+SDK automatically sends the changes to the server as soon
+as possible. Likewise, the {+service-short+} SDK automatically receives
+changes from the server and integrates those changes into
+the local {+realm+}. In effect, you continue to work with the
+local {+realm+} without moment-to-moment concern for network
+connectivity or lack thereof.
+
+The offline-first design leads to one of the main benefits of {+service+}: a 
+seamless user experience. Users interact with local data with zero latency 
+regardless of their moment-to-moment connectivity, and because {+sync+} is 
+built into the {+service-short+} SDK, you do not need to write
+your own synchronization protocol and deal with connectivity issues when 
+synchronizing data. 
+
+The main difficulty with offline-first data is ensuring that devices that are 
+offline for extended periods are able to resolve potential conflicts with 
+changes made to the same data. Ultimately, every client device must
+arrive at the same state when all changes have been synced. This is why {+sync+} 
+includes :ref:`automatic conflict resolution <conflict-resolution-overview>`.
+
+.. _live-objects-overview:
+
+Live Objects
+~~~~~~~~~~~~
+Realm's :term:`Live objects <live objects>` means that you can update data in 
+one place (a mobile app, for example), and that data is updated everywhere. 
+Live objects always reflect the latest data stored in {+client-database+}. 
+This concept extends across devices: updates on one device sync to the corresponding 
+objects on other devices. :term:`Notifications` based on these updates make it 
+easy to update the application UI to react to local and remote changes.
+
+.. _conflict-resolution-overview:
+
+Conflict Resolution
+~~~~~~~~~~~~~~~~~~~
+
+{+service+}'s :term:`sync conflict resolution engine <sync protocol>` is
+deterministic. Changes received out-of-order eventually converge on the
+same state across the server and all clients. As such, {+sync+}
+is :wikipedia:`strongly eventually consistent
+<Eventual_consistency#Strong_eventual_consistency>`.
+
+.. note:: Realm Sync's Internal Conflict Resolution
+
+   From {+service+}'s perspective, changesets may
+   arrive any time that connectivity allows. There is no
+   guarantee that an earlier-timestamped changeset from one
+   client actually arrives before a later-timestamped
+   changeset from another client. As a result, the server
+   has to be able to process events out-of-order. {+service+}
+   keeps a per-{+realm+} transaction history to deal with the
+   out-of-order nature of messages.
+
+In simple terms, {+sync+}'s conflict resolution comes down
+to **last write wins**. {+sync+} also uses more
+sophisticated techniques like :wikipedia:`operational
+transform <Operational_transformation>` to handle, for
+example, insertions into lists.
+
+.. seealso::
+
+   :ref:`Conflict Resolution <conflict-resolution>`
+
+Using {+sync+} in Your App
+-----------------------------------
+
+To sync data across devices, you :ref:`enable {+sync+} <enable-sync>` for your
+{+app+} and then use the sync-related methods and properties in the SDKs.
 
 .. tip:: Check out the tutorial
    
@@ -42,8 +167,8 @@ Before You Start
 - If you don't already have one, :ref:`create a new Realm App
   <create-a-realm-app>` linked to your Atlas cluster.
 
-Define Your Data Model
-----------------------
+Configure Your Data Model
+-------------------------
 
 Choose an SDK
 ~~~~~~~~~~~~~
@@ -71,8 +196,8 @@ check out the SDK docs:
    However, it is compatible with apps that use sync through the MongoDB and
    GraphQL APIs.
 
-Define Object Models
-~~~~~~~~~~~~~~~~~~~~
+Define Data Model
+~~~~~~~~~~~~~~~~~
 
 A synced realm uses object models that you define to determine the type of
 objects in the realm. Additionally, Sync requires a server-side document schema
@@ -120,11 +245,20 @@ type:
   your client application and use them the same way you would any regular object
   or struct in your preferred programming language.
 
-Configure and Enable Sync
--------------------------
+Define Data Access Patterns
+---------------------------
 
-Once you have decided on your app's data model, you can define a partition
-strategy and access rules for your app's data.
+Once you have decided on your app's data model, you can define a data access 
+pattern and access rules for your app's data. 
+
+When you use partition-based Sync, you must:
+
+- Identify a partition strategy
+- Define a partition key 
+- Configure data access rules 
+
+Partition key values and data access rules determine which users can read or
+write which data in your database.
 
 Define Data Access Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,12 +281,19 @@ To design effective rules, :ref:`choose a partition strategy
    skip this step for now. However, you should disable development mode and
    define rules before you push your app to production.
 
+Configure and Enable Sync
+-------------------------
+
+Once you have defined a data model and corresponding access rules, you can
+enable sync for your app. You can also optimize sync data usage by
+specifying a client maximum offline time.
+
 Enable Sync
 ~~~~~~~~~~~
 
-Once you have defined a data model and corresponding access rules, you can
-enable sync for your app. For a walkthrough of how to turn on sync, see
-:ref:`Define Sync Rules <sync-rules>`.
+When you enable Sync, you specify how clients can access data in your
+{+app+}. For a walkthrough of how to turn on sync, see :ref:`Define Sync 
+Rules <sync-rules>`.
 
 Optimize Sync Data Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -168,6 +309,8 @@ the amount of utility data stored in synced clusters. If you'd like to
 reduce the amount of utility data further to suit your use case, see
 our guide to :ref:`Optimize Realm Sync Atlas Usage
 <optimize-sync-atlas-usage>`.
+
+.. _realm-sync-best-practices:
 
 Best Practices
 --------------
@@ -204,3 +347,27 @@ Atlas oplog:
   {+sync+} requires access to the :atlas:`oplog </reference/atlas-oplog>` of
   your synced cluster. For best results, keep 48 hours of oplog for a cluster
   using {+sync-short+}.
+
+Realm Sync Schema Data Consistency
+  If you create or modify {+sync+} documents using another tool, such as the 
+  :binary:`~bin.mongo` shell or {+compass+}, be sure the documents validate 
+  against the Sync object schema. For more information, see 
+  :ref:`Realm Sync Schema Data Consistency <realm-sync-data-consistency>`.
+
+Production Load Testing
+  Measure performance and identify issues in a scaled-up production
+  deployment with :ref:`sync-production-load-testing`.
+
+Summary
+-------
+
+- {+sync+} is the part of {+realm+} that handles data synchronization between 
+  a Realm Database on one or more clients and MongoDB Atlas.
+
+- {+sync+} enables offline-first app development by handling network
+  loss and recovery automatically.
+
+- {+sync+} has a built-in conflict resolution engine that guarantees
+  strong eventual consistency.
+
+- {+sync+} is included in the client SDKs to simplify app development.

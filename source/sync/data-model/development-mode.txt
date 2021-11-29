@@ -1,41 +1,34 @@
+.. _enable-disable-development-mode:
 .. _concept-development-mode:
 
-================
-Development Mode
-================
+==================================
+Enable or Disable Development Mode
+==================================
 
 .. default-domain:: mongodb
 
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
-Overview
---------
+You can design schemas for your {+app+} directly in client code. The objects 
+and relationships that you define in your application become the server-side 
+document schema based on your SDK models. :ref:`Realm SDKs <realm-sdks>` 
+give you language-specific tools to define and work with these objects.
 
-Development mode is a {+sync+} configuration setting for your {+app+}.
-Enable development mode to streamline schema design, but disable it in
-production applications.
+You can infer schemas from your client object models by enabling development 
+mode. Development mode is a {+sync+} configuration setting for your {+app+}.
+When you enable development mode, your {+app+} can create or update your 
+schema by reading your synced {+realm+} files.
+
+Why Use Development Mode?
+-------------------------
 
 {+sync+} development mode enables developers to develop faster, and design
 :ref:`schemas <configure-your-data-model>` directly in client application 
 code.
-
-.. seealso::
-   
-   For a guided walkthrough of how to enable or disable development mode, see:
-   :ref:`Enable/Disable Development Mode <enable-disable-development-mode>`.
-
-Design Schemas in Code
-----------------------
-
-With development mode enabled, you can design schemas directly in client 
-code. The objects and relationships that you define in your application 
-become the server-side document schema based on your SDK models. 
-:ref:`Realm SDKs <realm-sdks>` give you language-specific tools to define 
-and work with these objects.
 
 Create Schemas
 ~~~~~~~~~~~~~~
@@ -124,12 +117,44 @@ or user data.
    will sync to a new ``myapp.Dog`` collection that {+service-short+} will 
    create.
 
-Summary
--------
+.. _enable-development-mode:
 
-- Enable Development Mode to create and update schemas from client code.
-- Sync to a Development Mode Database, where {+service-short+} will 
-  automatically create collections to match your object types.
-- Keep in mind that {+service-short+} does not enforce data access rules 
-  and schema validation while Development Mode is enabled.
-- Do not use Development Mode in production.
+Enable Development Mode
+-----------------------
+
+.. important:: Disable Development Mode for Production Apps
+   
+   Development mode is a development utility that is not suitable for 
+   production use. Make sure that you turn off development mode before you 
+   make your app accessible in a production environment.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/development-mode-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/development-mode-cli.rst
+
+.. _disable-development-mode:
+
+Disable Development Mode
+------------------------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/disable-development-mode-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/note-procedure-uses-cli-v2.rst
+      
+      .. include:: /includes/steps/disable-development-mode-cli.rst
