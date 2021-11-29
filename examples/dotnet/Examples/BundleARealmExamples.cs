@@ -35,18 +35,30 @@ namespace Examples
         [Test]
         public async Task TestWriteCopySynced()
         {
-            var app = App.Create(Config.appid);
-            var user = app.CurrentUser;
+            var appConfig = new AppConfiguration(Config.appid);
+            var app = App.Create(appConfig);
+            var user = app.LogInAsync(Credentials.Anonymous()).Result;
 
             // :code-block-start: copy_a_synced_realm
+
             // open an existing realm
-            var realm = await Realm.GetInstanceAsync();
+            // :uncomment-start:
+            // var existingConfig = new SyncConfiguration("myPartition", user);
+            // :uncomment-end:
+            // :hide-start:
+            var existingConfig = new SyncConfiguration("myPartition", user)
+            {
+                Schema = new[] { typeof(Examples.Models.User) }
+            };
+            // :hide-end:
+            var realm = await Realm.GetInstanceAsync(existingConfig);
 
             // Create a RealmConfiguration for the *copy*
-            var config = new SyncConfiguration("myPart", user, "bundled.realm");
+            // Be sure the partition name matches the original
+            var bundledConfig = new SyncConfiguration("myPartition", user, "bundled.realm");
 
             // Make sure the file doesn't already exist
-            Realm.DeleteRealm(config);
+            Realm.DeleteRealm(bundledConfig);
 
             // IMPORTANT: When copying a Synced realm, you must ensure
             // that there are no pending Sync operations. You do this
@@ -56,10 +68,10 @@ namespace Examples
             await session.WaitForDownloadAsync();
 
             // Copy the realm
-            realm.WriteCopy(config);
+            realm.WriteCopy(bundledConfig);
 
             // Want to know where the copy is?
-            var locationOfCopy = config.DatabasePath;
+            var locationOfCopy = existingConfig.DatabasePath;
             // :code-block-end:
         }
 
