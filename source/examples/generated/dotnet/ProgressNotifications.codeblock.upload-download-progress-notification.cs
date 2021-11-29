@@ -1,4 +1,4 @@
-var session = realm.GetSession();
+var session = realm.SyncSession;
 var token = session.GetProgressObservable(ProgressDirection.Upload,
     ProgressMode.ReportIndefinitely)
     .Subscribe(progress =>

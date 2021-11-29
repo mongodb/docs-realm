@@ -10,7 +10,7 @@ namespace Examples
         public void TestsCustomSetter()
         {
             // :code-block-start: pause-synced-realm
-            var session = realm.GetSession();
+            var session = realm.SyncSession;
             session.Stop();
             //later...
             session.Start();
