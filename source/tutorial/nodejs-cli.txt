@@ -286,8 +286,8 @@ In ``projects.js``:
 * ``getProjects``
   
   As defined by our data model, ``projects`` are an embedded object of the ``users`` object. 
-  To get all projects the user is a part of, we'll have to use the ``objectForPrimaryKey``
-  method to get the current user and then access the current user's ``memberOf`` property.
+  To get all projects the user is a part of, we need to get the current user.
+  Then we'll use the ``refreshCustomData`` method to get the current user's ``memberOf`` property.
 
   .. literalinclude:: /tutorial/generated/node/projects.codeblock.getProjects.js
      :language: javascript
