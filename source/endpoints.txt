@@ -1,0 +1,58 @@
+.. _https-endpoints:
+
+===============
+HTTPS Endpoints
+===============
+
+.. default-domain:: mongodb
+
+=======
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Configure HTTPS Endpoints </endpoints/configure>
+   HTTPS Endpoint Requests and Responses </endpoints/requests-and-responses>
+
+Introduction
+------------
+
+Many modern applications use multiple external services to handle
+complex use cases, such as messaging, analytics, and data management. Those  
+services often send data back by calling an HTTPS endpoint. You can create 
+HTTPS endpoints in {+service+} for these external services to send data to 
+your app.
+
+{+app+} HTTPS endpoints are found at the following URL:
+
+.. code-block::
+
+   https://data.mongodb-api.com/app/<your App ID>/<endpoint route>
+
+Convert Webhooks to Endpoints
+-----------------------------
+
+You should plan to convert your existing {+service+} webhooks to HTTPS 
+endpoints. You do this through the UI, which provides a single-click, 
+one-time migration:
+
+1. Click :guilabel:`HTTPS Endpoints` in the left navigation. 
+
+#. Click the :guilabel:`Convert` button.
+
+.. figure:: /images/confirmation_converting_webhooks.png
+   :alt: Convert all Endpoints in UI
+
+Once your webhooks have been converted to HTTPS endpoints, you cannot 
+convert them back to webhooks. However, conversion does not destroy
+your original webhooks. This means that even after you have already
+converted your webhooks into endpoints, you can still execute the
+webhooks. If you choose to edit your webhooks after running the
+conversion, you can run the conversion again with the "Convert & Override"
+option to propogate those changes to your new endpoints.

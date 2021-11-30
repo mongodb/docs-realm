@@ -6,6 +6,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "RealmKMM"
-include(":androidApp")
+rootProject.name = "RealmKMMApp"
+include(":androidRealmKMMApp")
 include(":shared")

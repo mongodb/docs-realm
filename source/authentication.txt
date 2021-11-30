@@ -131,7 +131,7 @@ with the active user's information.
 
 In most circumstances, the active user is the authenticated
 user that issued a request. You can also configure a
-specific active user for Functions, Triggers, and webhooks
+specific active user for Functions, Triggers, and HTTPS Endpoints
 or choose to use the :ref:`system user <system-user>`
 instead.
 
@@ -142,8 +142,8 @@ System User
 
 The **system user** is an internal user that has advanced
 privileges and automatically bypasses all rules. You can
-configure :doc:`Functions </functions>` and :ref:`incoming
-webhooks <incoming-webhooks>` to run in the context of the
+configure :doc:`Functions </functions>` and :ref:`HTTPS endpoints
+<https-endpoints>` to run in the context of the
 system user instead of the user account that issued a
 request. Triggers always run in the context of the system
 user.
@@ -156,7 +156,7 @@ CRUD and aggregation operations.
 .. important:: Security Warning
 
    Rules do not apply to the system user, which means that
-   Functions and webhooks that run as the :term:`system user`
+   Functions and HTTPS endpoints that run as the :term:`system user`
    can become a security liability. Ensure that you do not expose these
    functions to unauthorized users.
    
@@ -196,7 +196,7 @@ For web browsers, the JavaScript SDK stores these tokens in
 `HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
 In the Android SDK, they are stored in
 `Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
-In the iOS SDK, they are stored in the
+In the Swift SDK, they are stored in the
 `Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.
 
 The access token for a session expires after thirty minutes.

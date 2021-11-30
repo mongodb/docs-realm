@@ -1,0 +1,54 @@
+.. _kotlin-multiplatform-init-appclient:
+.. _kotlin-multiplatform-connect-to-mongodb-realm-backend-app:
+
+=================================================================
+Connect to a MongoDB Realm Backend App - Kotlin Multiplatform SDK
+=================================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+app+} client is the interface to the {+backend+}
+backend. It provides access to the :ref:`authentication
+<kotlin-multiplatform-authenticate>`, and
+:ref:`{+sync+} <android-sync-data>`.
+
+.. _kotlin-multiplatform-access-the-app-client:
+
+Access the App Client
+---------------------
+
+Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
+<find-your-app-id>`.
+
+.. literalinclude:: /examples/generated/kotlin-multiplatform/sync/InitializeTest.codeblock.access-app-client.kt
+   :language: kotlin
+
+.. note::
+
+   You can create multiple ``App`` instances to connect to multiple
+   {+app+}s or to the same {+app+} with different configurations. All
+   ``App`` instances that share the same App ID use the same underlying
+   connection.
+
+.. _kotlin-multiplatform-app-client-configuration:
+
+Configuration
+-------------
+
+For more granular control of the details of your app connection,
+such as custom timeouts for connections and keys for local encryption,
+use the ``AppConfiguration`` Builder to control details of your ``App``:
+
+.. literalinclude:: /examples/generated/kotlin-multiplatform/sync/InitializeTest.codeblock.advanced-access-app-client.kt
+   :language: kotlin
+
+.. note:: 
+
+   For most use cases, you only need your application's App ID to connect
+   to {+service+}. The other settings demonstrated here are optional.

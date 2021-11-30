@@ -18,6 +18,5 @@ public class Project extends RealmObject {
     @Required
     public String name;
     public RealmList<ProjectTask> tasks = new RealmList<>();
-    public String _partition;
 }
 // :code-block-end:

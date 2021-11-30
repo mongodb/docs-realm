@@ -15,13 +15,19 @@ const TaskList = () => {
       // set state to the initial value of your realm objects
       setTasks([...tasks]);
 
+      try{
       // :emphasize-start:
-      tasks.addListener(() => {
-        // update state of tasks to the updated value
-        setTasks([...tasks]);
-      });
+        tasks.addListener(() => {
+          // update state of tasks to the updated value
+          setTasks([...tasks]);
+        });
       // :emphasize-end:
-
+      }
+      catch (error) {
+        console.error(
+          `Unable to update the tasks' state, an exception was thrown within the change listener: ${error}`
+        );
+      }
       realm.write(() => {
         // the following tasks will trigger the change listener and update the UI
         realm.create('Task', {
