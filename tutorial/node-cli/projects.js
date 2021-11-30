@@ -22,7 +22,8 @@ async function getProjects() {
     }
     return projects;
   } catch (err) {
-    output.error("There was a problem accessing custom user data");
+    output.error(err);
+    output.error("There was a problem accessing custom user data.");
   }
   // :state-end: :state-uncomment-start: start
   // // TODO: Call the refreshCustomData() method to get the user's available
