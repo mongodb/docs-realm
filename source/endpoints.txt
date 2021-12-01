@@ -105,11 +105,17 @@ To create a new endpoint:
 
                 - "SECRET_AS_QUERY_PARAM", which requires a secret value in the 
                   query parameters
-                - "VERIFY-PAYLOAD", which requires an "Endpoint-Signature" field 
+                - "VERIFY_PAYLOAD", which requires an "Endpoint-Signature" field 
                   in the header. For example, "Endpoint-Signature::sha256=<hex-encoded-hash>"
                 - "NO_VALIDATION", in which {+service-short+} performs no validation
                   of the incoming request.
-
+                
+                Endpoints that use "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" as their
+                validation method must also specify a ``secret_name``.
+            * - ``secret_name`` (string)
+              - The name of the secret used to validate incoming requests. Required
+                if "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" is used as a validation
+                method.
             * - ``respond_result`` (boolean)
               - Specifies if response contains the result of the associated 
                 function. If set to **false** and the endpoint completes 
@@ -142,15 +148,13 @@ To create a new endpoint:
 Convert Webhooks to Endpoints
 -----------------------------
 
-You should plan to convert your existing {+service+} webhook to HTTPS 
+You should plan to convert your existing {+service+} webhooks to HTTPS 
 endpoints. You do this through the UI, which provides a single-click, 
 one-time migration:
 
 1. Click :guilabel:`HTTPS Endpoints` in the left navigation. 
 
-2. Click the :guilabel:`Convert` button.
-
-3. Click :guilabel:`Confirm`.
+#. Click the :guilabel:`Convert` button.
 
 .. figure:: /images/confirmation_converting_webhooks.png
    :alt: Convert all Endpoints in UI
