@@ -75,9 +75,13 @@ namespace Examples
             // :code-block-end:
         }
 
-        public void ExtractAndLoadRealmFile()
+        [Test]
+        public async Task ExtractAndLoadRealmFile()
         {
+            var appConfig = new AppConfiguration(Config.appid);
+
             // :code-block-start: extract_and_copy_realm
+            // Extract and copy the realm
             var config = RealmConfiguration.DefaultConfiguration;
             if (!File.Exists(config.DatabasePath))
             {
@@ -87,7 +91,24 @@ namespace Examples
                 bundledDbStream.CopyTo(databaseFile);
             }
 
-            var realm = Realm.GetInstance(config);
+            // Then, open the realm
+            // If the realm is not a synced realm:
+            var localRealm = Realm.GetInstance(config);
+
+            // ...or...
+            // If the realm is sycned realm:
+            var app = App.Create(appConfig);
+            var user = app.LogInAsync(Credentials.Anonymous()).Result;
+            // :uncomment-start:
+            // var syncConfig = new SyncConfiguration("myPartition", user);
+            // :uncomment-end:
+            // :hide-start:
+            var syncConfig = new SyncConfiguration("myPartition", user)
+            {
+                Schema = new[] { typeof(Examples.Models.User) }
+            };
+            // :hide-end:
+            var syncedRealm = await Realm.GetInstanceAsync(syncConfig);
             // :code-block-end:
         }
     }

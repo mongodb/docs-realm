@@ -105,9 +105,12 @@ add code to use it. The code you add depends on the type of app:
 
       Before you deploy your app with the bundled {+realm+}, you need to add code to 
       extract the {+realm+} from the embedded resources, save it to the app's data 
-      location, and then use this new copy in the app. The following code shows how 
+      location, and then open this new realm in the app. The following code shows how 
       you can do this during start-up of the app; note that it will only run when no 
-      {+realm+} file is found at the specified location.
+      {+realm+} file is found at the specified location. Also note that the way 
+      you open the realm depends on whether you are working with a synced {+realm+} 
+      or not. For more information, see :ref:`dotnet-open-a-local-realm` and 
+      :ref:`dotnet-open-a-synced-realm`.
 
       .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.extract_and_copy_realm.cs
          :language: csharp
@@ -120,3 +123,27 @@ add code to use it. The code you add depends on the type of app:
 
       .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
+
+Synced Realm Considerations
+---------------------------
+If your {+backend+} application has enabled :ref:`advanced backend compaction
+<advanced-backend-compaction>` by configuring a
+:ref:`client maximum offline time <client-maximum-offline-time>`,
+users could experience a client reset the first time they open the
+bundled {+realm+} file. This can happen if the bundled {+realm+} file was 
+generated more than **client maximum offline time** days before the user syncs 
+the {+realm+} for the first time.
+
+Applications experiencing a client reset will download the full state of the
+{+realm+} from the application {+backend+}. This negates the
+advantages of bundling a {+realm+} file. To prevent client resets and
+preserve the advantages of {+realm+} file bundling:
+
+- Avoid using a client maximum offline time in applications that
+   bundle a synchronized {+realm+}.
+
+- If your application does use a client maximum offline time, ensure
+   that your application download always includes a recently synced
+   {+realm+} file. Generate a new file each application version,
+   and ensure that no version ever stays current for more than
+   **client maximum offline time** number of days.
