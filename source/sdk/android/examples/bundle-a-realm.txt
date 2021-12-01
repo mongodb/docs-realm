@@ -58,7 +58,7 @@ Overview
 
 To create and bundle a {+realm+} file with your application:
 
-1. :ref:`Create  a {+realm+} file <create-a-realm-for-bundling>` that
+1. :ref:`Create a {+realm+} file <android-create-a-realm-for-bundling>` that
    contains the data you'd like to bundle.
 
 #. :ref:`Bundle the {+realm+} file <android-bundle-realm-file>` in the
@@ -95,6 +95,9 @@ Create a Realm File for Bundling
          :tabid: java
 
          .. include:: /examples/generated/android/sync/BundleTest.codeblock.copy-a-realm-file.java.code-block.rst
+
+   ``writeCopyTo()`` automatically compacts your {+realm+} to the smallest
+   possible size before copying.
 
    .. note:: Differences Between Synced Realms and Local-only Realms
 
