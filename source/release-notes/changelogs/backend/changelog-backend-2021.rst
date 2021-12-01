@@ -5,7 +5,7 @@
 
 - Added ability to import dependencies :ref:`from the UI <add-external-dependencies>`.
 - Deprecated :ref:`third party services <third-party-services>`. Third party services will be fully removed on December 1, 2022. 
-- Renamed "Realm Webhooks" to ":ref:`Realm HTTPS Endpoints <http-endpoints>`".
+- Renamed "Webhooks" to ":ref:`HTTPS Endpoints <https-endpoints>`".
 
 .. _backend_20211118:
 
