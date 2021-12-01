@@ -9,12 +9,14 @@ content: |
      realm-cli app create
 
   Follow the CLI prompts to complete app creation.
+
 ---
 title: Set up Github Automatic Deployment
 ref: export-app-github-set-up-github
 content: |
   Follow the :ref:`documentation to set up Github Automatic Deployment <deploy-github>`
   for your {+app+}.
+
 ---
 title: Log In to MongoDB Cloud
 ref: export-app-github-log-in-to-mongodb-cloud
@@ -27,6 +29,7 @@ content: |
   .. code-block:: bash
 
      realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
+
 ---
 title: Pull the Latest Version of Your Exporting App
 ref: export-app-github-pull-the-latest-version-of-your-app
@@ -42,6 +45,7 @@ content: |
 
      You can also download a copy of your application's configuration files from
      the :guilabel:`Deployment > Export App` screen in the {+ui+}.
+
 ---
 title: Copy Exported App Configuration to New App
 ref: export-app-github-copy-exported-app-to-new-app
@@ -70,6 +74,7 @@ content: |
       "location": "US-VA", // copy from exported app
       "deployment_model": "GLOBAL" // copy from exported app
     }
+
 ---
 title: Migrate Secrets to New App
 ref: export-app-github-migrate-secrets
@@ -89,6 +94,7 @@ content: |
   #. Gather the secrets. This cannot be done from within {+service-short+}. 
   #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
     Secrets must be added one at a time.
+
 ---
 title: Push New App to Github
 ref: export-app-github-push-to-github
