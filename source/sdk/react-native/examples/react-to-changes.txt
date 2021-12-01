@@ -33,6 +33,11 @@ To remove a realm listener, pass the callback to the realm's :js-sdk:`removeList
    <react-native-object-listener>` and :ref:`collection listeners
    <react-native-collection-listener>`.
 
+.. tip:: Handling Exceptions Inside a Listener
+
+  To handle exceptions inside a listener, wrap your ``addListener()`` call
+  within a :mdn:`try...catch <Web/JavaScript/Reference/Statements/try...catch>` statement. 
+
 .. literalinclude:: /examples/generated/node/react-to-changes.codeblock.react-to-changes-register-change-listener.js
   :language: javascript
 
