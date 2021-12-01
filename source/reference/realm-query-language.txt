@@ -15,13 +15,13 @@ Realm Query Language
 Overview
 --------
 
-{+service+} supports a string-based query language to constrain searches 
-for a fetch or for in-memory filtering. Queries evaluate an operator 
-expression for every object in the collection being queried. If the 
-expression resolves to ``true``, {+client-database+} includes the object 
-in the results collection.
+{+client-database+} supports a string-based query language to constrain 
+searches when retreiving objects. Queries evaluate a predicate for every 
+object in the collection being queried. If the predicate resolves 
+to ``true``, {+client-database+} includes the object in the results 
+collection.
 
-You can use Realm Query Language in every SDK, with your SDK's filter method.
+You can use Realm Query Language in every SDK with your SDK's filter method.
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
 
@@ -31,7 +31,7 @@ Expressions
 Filters consist of **expressions** in a predicate. An expression consists of
 one of the following:
 
-- The name (keypath) of a property of the object currently being evaluated.
+- The name of a property of the object currently being evaluated.
 - An operator and up to two argument expression(s).
 - A value, such as a string (``'hello'``) or a number (``5``).
 
@@ -65,7 +65,7 @@ You can iterate through a collection property with another query using the
 
    SUBQUERY(<collection>, <variableName>, <predicate>)
 
-- ``collection``: the name of the list property to iterate through
+- ``collection``: the name of the property to iterate through
 - ``variableName``: a variable name of the current element to use in the subquery
 - ``predicate``: a string that contains the subquery predicate. You can use the
   variable name specified by ``variableName`` to refer to the currently-iterated
@@ -131,11 +131,15 @@ You can iterate through a collection property with another query using the
 Operators
 ~~~~~~~~~
 
-There are several types of operators available to filter a
-Realm collection. Filters work by **evaluating** an operator expression 
-for every :term:`object <Realm object>` in the collection being
-filtered. If the expression resolves to ``true``, Realm
-Database includes the object in the results collection.
+There are several types of operators available to query a
+Realm collection. With these operators, you can:
+
+- Compare values
+- Perform logical evaluations
+- Compare string values
+- Aggregate collection properties
+- Evaluate sets
+- Sort and limit results
 
 Comparison Operators
 ````````````````````
@@ -420,16 +424,16 @@ results collection.
      - Description
 
    * - ``SORT``
-     - Specify the key path of the property to compare. You can optionally 
-       specify ascending (``ASC``) or descending (``DSC``) order.
+     - Specify the name of the property to compare. You can optionally 
+       specify ascending (``ASC``) or descending (``DESC``) order.
 
    * - ``DISTINCT``
-     - Specify a key path of the property to compare. Remove duplicates 
-       for that key path in the results collection.
+     - Specify a name of the property to compare. Remove duplicates 
+       for that property in the results collection.
 
    * - ``LIMIT``
      - Limit the results collection to the specified number.
 
    .. code-block:: javascript
 
-      "assignee = 'Ali' SORT(priority) DISTINCT(name) LIMIT(5)"
+      "assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
