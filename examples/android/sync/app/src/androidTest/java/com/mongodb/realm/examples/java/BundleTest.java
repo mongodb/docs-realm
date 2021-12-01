@@ -34,8 +34,7 @@ public class BundleTest extends RealmTest {
         activity.runOnUiThread (() -> {
             // :code-block-start: copy-a-realm-file
             String appID = YOUR_APP_ID; // replace this with your App ID
-            App app = new App(new AppConfiguration.Builder(appID)
-                    .build());
+            App app = new App(appID);
             Credentials anonymousCredentials = Credentials.anonymous();
 
             app.loginAsync(anonymousCredentials, it -> {
@@ -54,36 +53,24 @@ public class BundleTest extends RealmTest {
                                 .waitForInitialRemoteData() // :emphasize:
                                 .build();
 
-                        Realm.getInstanceAsync(config, new Realm.Callback() {
-                            @Override
-                            public void onSuccess(@NonNull Realm realm) {
-                                Log.v("EXAMPLE", "Successfully opened a realm.");
+                        Realm realm = Realm.getInstance(config);
+                        Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                                // compact the realm to the smallest possible file size before making a copy
-                                Realm.compactRealm(config); // :emphasize:
+                        // write a copy of the realm you can manually copy to your production application assets
+                        File outputDir = activity.getApplicationContext().getCacheDir();
+                        File outputFile = new File(outputDir.getPath() + "/" +  PARTITION + "_bundled.realm");
 
-                                // write a copy of the realm you can manually copy to your production application assets
-                                File outputDir = activity.getApplicationContext().getCacheDir();
-                                File outputFile = new File(outputDir.getPath() + "/" +  PARTITION + "_bundled.realm");
+                        // cannot write to file if it already exists. Delete the file if already there
+                        outputFile.delete();
 
-                                // cannot write to file if it already exists. Delete the file if already there
-                                outputFile.delete();
+                        realm.writeCopyTo(outputFile); // :emphasize:
 
-                                realm.writeCopyTo(outputFile); // :emphasize:
+                        // search for this log line to find the location of the realm copy
+                        Log.i("EXAMPLE", "Wrote copy of realm to " + outputFile.getAbsolutePath());
 
-                                // search for this log line to find the location of the realm copy
-                                Log.i("EXAMPLE", "Wrote copy of realm to " + outputFile.getAbsolutePath());
-
-                                // always close a realm when you're done using it
-                                realm.close();
-                                expectation.fulfill(); // :hide:
-                            }
-
-                            @Override
-                            public void onError(Throwable exception) {
-                                Log.e("EXAMPLE", "Failed to open realm: " + exception.toString());
-                            }
-                        });
+                        // always close a realm when you're done using it
+                        realm.close();
+                        expectation.fulfill(); // :hide:
                     }}));
                 } else {
                     Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());
@@ -103,8 +90,7 @@ public class BundleTest extends RealmTest {
             // :code-block-start: use-bundled-realm-file
             String appID = YOUR_APP_ID; // replace this with your App ID
 
-            App app = new App(new AppConfiguration.Builder(appID)
-                    .build());
+            App app = new App(appID);
 
             Credentials anonymousCredentials = Credentials.anonymous();
 
@@ -119,27 +105,19 @@ public class BundleTest extends RealmTest {
                             .assetFile("example_bundled.realm") // :emphasize:
                             .build();
 
-                    Realm.getInstanceAsync(config, new Realm.Callback() {
-                        @Override
-                        public void onSuccess(@NonNull Realm realm) {
-                            Log.v("EXAMPLE", "Successfully opened bundled realm.");
+                    Realm realm = Realm.getInstance(config);
 
-                            // read and write to the bundled realm as normal
-                            realm.executeTransactionAsync(transactionRealm -> {
-                                Frog frog = new Frog(new ObjectId(),
-                                        "Asimov",
-                                        4,
-                                        "red eyed tree frog",
-                                        "Spike");
-                                transactionRealm.insert(frog);
-                                expectation.fulfill();
-                            });
-                        }
+                    Log.v("EXAMPLE", "Successfully opened bundled realm.");
 
-                        @Override
-                        public void onError(Throwable exception) {
-                            Log.e("EXAMPLE", "Realm opening failed: " + exception.toString());
-                        }
+                    // read and write to the bundled realm as normal
+                    realm.executeTransactionAsync(transactionRealm -> {
+                        Frog frog = new Frog(new ObjectId(),
+                                "Asimov",
+                                4,
+                                "red eyed tree frog",
+                                "Spike");
+                        transactionRealm.insert(frog);
+                        expectation.fulfill();
                     });
                 } else {
                     Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());

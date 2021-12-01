@@ -1,8 +1,8 @@
 .. code-block:: kotlin
-   :emphasize-lines: 17, 24, 34
+   :emphasize-lines: 17, 31
 
    val appID: String = YOUR_APP_ID // replace this with your App ID
-   val app = App(AppConfiguration.Builder(appID).build())
+   val app = App(appID)
    val anonymousCredentials = Credentials.anonymous()
    app.loginAsync(anonymousCredentials) { it: App.Result<User?> ->
        if (it.isSuccess) {
@@ -19,34 +19,25 @@
                    // wait for the realm to download all data from the backend before opening
                    .waitForInitialRemoteData() 
                    .build()
-               Realm.getInstanceAsync(config, object : Realm.Callback() {
-                   override fun onSuccess(realm: Realm) {
-                       Log.v("EXAMPLE", "Successfully opened a realm.")
 
-                       // compact the realm to the smallest possible file size before making a copy
-                       Realm.compactRealm(config) 
+               val realm : Realm = Realm.getInstance(config);
+               Log.v("EXAMPLE", "Successfully opened a realm.")
 
-                       // write a copy of the realm you can manually copy to your production application assets
-                       val outputDir = activity!!.applicationContext.cacheDir
-                       val outputFile =
-                           File(outputDir.path + "/" + PARTITION + "_bundled.realm")
+               // write a copy of the realm you can manually copy to your production application assets
+               val outputDir = activity!!.applicationContext.cacheDir
+               val outputFile =
+                   File(outputDir.path + "/" + PARTITION + "_bundled.realm")
 
-                       // cannot write to file if it already exists. Delete the file if already there
-                       outputFile.delete()
+               // cannot write to file if it already exists. Delete the file if already there
+               outputFile.delete()
 
-                       realm.writeCopyTo(outputFile) 
+               realm.writeCopyTo(outputFile) 
 
-                       // search for this log line to find the location of the realm copy
-                       Log.i("EXAMPLE", "Wrote copy of realm to " + outputFile.absolutePath)
+               // search for this log line to find the location of the realm copy
+               Log.i("EXAMPLE", "Wrote copy of realm to " + outputFile.absolutePath)
 
-                       // always close a realm when you're done using it
-                       realm.close()
-                   }
-
-                   override fun onError(exception: Throwable) {
-                       Log.e("EXAMPLE", "Failed to open realm: $exception")
-                   }
-               })
+               // always close a realm when you're done using it
+               realm.close()
            })
        } else {
            Log.e("EXAMPLE", "Failed to authenticate: ${it.error}")

@@ -1,7 +1,6 @@
 String appID = YOUR_APP_ID; // replace this with your App ID
 
-App app = new App(new AppConfiguration.Builder(appID)
-        .build());
+App app = new App(appID);
 
 Credentials anonymousCredentials = Credentials.anonymous();
 
@@ -16,27 +15,19 @@ app.loginAsync(anonymousCredentials, it -> {
                 .assetFile("example_bundled.realm") 
                 .build();
 
-        Realm.getInstanceAsync(config, new Realm.Callback() {
-            @Override
-            public void onSuccess(@NonNull Realm realm) {
-                Log.v("EXAMPLE", "Successfully opened bundled realm.");
+        Realm realm = Realm.getInstance(config);
 
-                // read and write to the bundled realm as normal
-                realm.executeTransactionAsync(transactionRealm -> {
-                    Frog frog = new Frog(new ObjectId(),
-                            "Asimov",
-                            4,
-                            "red eyed tree frog",
-                            "Spike");
-                    transactionRealm.insert(frog);
-                    expectation.fulfill();
-                });
-            }
+        Log.v("EXAMPLE", "Successfully opened bundled realm.");
 
-            @Override
-            public void onError(Throwable exception) {
-                Log.e("EXAMPLE", "Realm opening failed: " + exception.toString());
-            }
+        // read and write to the bundled realm as normal
+        realm.executeTransactionAsync(transactionRealm -> {
+            Frog frog = new Frog(new ObjectId(),
+                    "Asimov",
+                    4,
+                    "red eyed tree frog",
+                    "Spike");
+            transactionRealm.insert(frog);
+            expectation.fulfill();
         });
     } else {
         Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());

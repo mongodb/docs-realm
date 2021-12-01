@@ -1,8 +1,8 @@
 .. code-block:: kotlin
-   :emphasize-lines: 1, 1, 1, 12, 12
+   :emphasize-lines: 1, 1, 12, 12
 
    val appID: String = YOUR_APP_ID // replace this with your App ID
-   val app = App(AppConfiguration.Builder(appID).build())
+   val app = App(appID)
    val anonymousCredentials = Credentials.anonymous()
    app.loginAsync(anonymousCredentials) { it: App.Result<User?> ->
        if (it.isSuccess) {
@@ -14,28 +14,22 @@
                    "PARTITION_YOU_WANT_TO_BUNDLE")
                .assetFile("example_bundled.realm") 
                .build()
-           Realm.getInstanceAsync(config, object : Realm.Callback() {
-               override fun onSuccess(realm: Realm) {
-                   Log.v("EXAMPLE", "Successfully opened bundled realm.")
 
-                   // read and write to the bundled realm as normal
-                   realm.executeTransactionAsync { transactionRealm: Realm ->
-                       val frog = Frog(
-                           ObjectId(),
-                           "Asimov",
-                           4,
-                           "red eyed tree frog",
-                           "Spike"
-                       )
-                       transactionRealm.insert(frog)
-                       expectation.fulfill()
-                   }
-               }
+           val realm: Realm = Realm.getInstance(config)
+           Log.v("EXAMPLE", "Successfully opened bundled realm.")
 
-               override fun onError(exception: Throwable) {
-                   Log.e("EXAMPLE", "Realm opening failed: $exception")
-               }
-           })
+           // read and write to the bundled realm as normal
+           realm.executeTransactionAsync { transactionRealm: Realm ->
+               val frog = Frog(
+                   ObjectId(),
+                   "Asimov",
+                   4,
+                   "red eyed tree frog",
+                   "Spike"
+               )
+               transactionRealm.insert(frog)
+               expectation.fulfill()
+           }
        } else {
            Log.e("EXAMPLE", "Failed to authenticate: ${it.error}")
        }
