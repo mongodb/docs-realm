@@ -1,5 +1,5 @@
 .. code-block:: javascript
-   :emphasize-lines: 3, 12-15, 28-30
+   :emphasize-lines: 3, 13-16, 34-36
 
    const TaskList = () => {
      const [tasks, setTasks] = useState([]);
@@ -12,11 +12,17 @@
          // set state to the initial value of your realm objects
          setTasks([...tasks]);
 
-         tasks.addListener(() => {
-           // update state of tasks to the updated value
-           setTasks([...tasks]);
-         });
-
+         try{
+           tasks.addListener(() => {
+             // update state of tasks to the updated value
+             setTasks([...tasks]);
+           });
+         }
+         catch (error) {
+           console.error(
+             `Unable to update the tasks' state, an exception was thrown within the change listener: ${error}`
+           );
+         }
          realm.write(() => {
            // the following tasks will trigger the change listener and update the UI
            realm.create('Task', {
