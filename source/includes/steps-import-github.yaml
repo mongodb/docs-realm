@@ -47,7 +47,7 @@ title: Copy Exported App Configuration to New App
 ref: export-app-github-copy-exported-app-to-new-app
 content: |
   Delete all the configuration files in the new app except for ``realm_config.json``.
-  We're going to handle ``realm_config.json`` in the next step. 
+  You'll handle ``realm_config.json`` in the next step. 
 
   Copy all the :ref:`configuration files and folders <app-configuration>` of your exported app
   to the imported app folder except for the ``realm_config.json`` file.
@@ -59,9 +59,9 @@ content: |
   In the new app's ``realm_config.json``, replace all the contents except for the 
   ``"app_id"`` and ``"name"``.
 
-  The new app's ``realm_config.json`` should look like: 
+  The new app's ``realm_config.json`` should look something like: 
 
-  .. code-block:: bash
+  .. code-block:: javascript
 
     {
       "app_id": "mynewapp-abcde", // don't change
@@ -82,7 +82,7 @@ content: |
   To add the secrets from another Realm app:
 
   #. Get the names of all the secrets from the exported app by following the 
-    :ref:`view secrets documentation <list-secrets>`.
+     :ref:`view secrets documentation <list-secrets>`.
   #. Save the names of all the secrets to a secure location. You won't have access 
     to the actual secrets, but It'll be useful to have a list of the secret names 
     to add to your imported app.
