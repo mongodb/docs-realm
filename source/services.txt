@@ -50,36 +50,15 @@ Third-Party Services [Deprecated]
    GitHub Service Snippets </services/snippets/github>
    Send Mobile Push Notifications </services/send-mobile-push-notifications>
 
-.. important:: Third Party Service Deprecation
-
-   Third party services in {+service+} have been deprecated in favor of creating 
-   HTTP endpoints that use :ref:`external dependencies <external-dependencies>`.
-   
-   You can no longer create new third-party services, but existing services will 
-   continue to work until December 2022.
-
-   This section will remain in the documentation until such time.  
+.. include:: /includes/note-third-party-services-deprecation.rst
 
 Introduction
 ------------
+
 Modern applications often use multiple external services to handle complex use 
 cases, such as messaging, analytics, and data management. You can connect to 
 these services through {+service+} by creating and configuring service 
 interfaces.
-
-.. important:: 
-
-   Because third party services are now deprecated, they have been removed by 
-   default from the {+ui+}. If you need to manage an existing third party 
-   service, you can re-add the UI by doing the following:
-
-   - In the left navigation, under the :guilabel:`Manage` section, click 
-     :guilabel:`App Settings`.
-    
-   - Enable the toggle switch next to 
-     :guilabel:`Temporarily Re-Enable 3rd Party Services`, and then save your 
-     changes.
-
 
 Service interfaces specify the connection details for a specific
 external service and enable you to define the scope of that service's
