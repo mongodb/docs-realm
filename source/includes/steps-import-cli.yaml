@@ -59,13 +59,13 @@ content: |
 
   .. code-block:: javascript
 
-    {
-      "app_id": "mynewapp-abcde", // don't change
-      "name": "MyNewApp", // don't change
-      "config_version": 20210101, // copy from exported app
-      "location": "US-VA", // copy from exported app
-      "deployment_model": "GLOBAL" // copy from exported app
-    }
+     {
+       "app_id": "mynewapp-abcde", // don't change
+       "name": "MyNewApp", // don't change
+       "config_version": 20210101, // copy from exported app
+       "location": "US-VA", // copy from exported app
+       "deployment_model": "GLOBAL" // copy from exported app
+     }
 
 ---
 title: Migrate Secrets to New App
@@ -81,11 +81,11 @@ content: |
   #. Get the names of all the secrets from the exported app by following the 
      :ref:`view secrets documentation <list-secrets>`.
   #. Save the names of all the secrets to a secure location. You won't have access 
-    to the actual secrets, but It'll be useful to have a list of the secret names 
-    to add to your imported app.
+     to the actual secrets, but it'll be useful to have a list of the secret names 
+     to add to your imported app.
   #. Gather the secrets. This cannot be done from within {+service-short+}. 
   #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
-    Secrets must be added one at a time.
+     Secrets must be added one at a time.
 
 ---
 title: Push New App to Realm
