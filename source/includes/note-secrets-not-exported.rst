@@ -4,5 +4,4 @@
    :ref:`secrets <app-secret>`. 
 
    To import secrets from an exported {+app+}, refer to the documentation on 
-   :ref:`migrating secrets from an exported {+app+}
-   <migrate-secrets-to-imported-realm-app>`.
+   :ref:`importing {+app+}s <import-realm-app>`.

@@ -47,6 +47,9 @@ You can import and deploy your application's configuration files in two ways:
 - With the :ref:`Realm CLI <deploy-cli>` 
 - With :ref:`GitHub deployment <deploy-github>`
 
+If you need to include secrets in your imported +{app+}, refer to the 
+:ref:`secrets migration documentation <migrate-secrets-to-imported-realm-app>`.
+
 .. tabs::
 
    .. tab:: 
@@ -59,7 +62,7 @@ You can import and deploy your application's configuration files in two ways:
          <deploy-github-make-changes-cli>`. Instead, push your changes to the 
          linked GitHub repository.
 
-      .. include:: /includes/steps/deploy-cli.rst
+      .. include:: /includes/steps/import-cli.rst
 
    .. tab:: 
       :tabid: GitHub
@@ -88,17 +91,3 @@ You can import and deploy your application's configuration files in two ways:
       of the latest commit. Client applications will automatically use the newest
       version, so make sure that you also update your client code to use the new
       version.
-
-.. _migrate-secrets-to-imported-realm-app:
-
-Migrate Secrets to Imported Realm App
--------------------------------------
-
-When you :ref:`export your {+app+} <export-realm-app>`, the export does not include the app's 
-:ref:`secrets <app-secret>`. If you want to add the secrets from another Realm app, 
-you must take the following steps:
-
-#. Get all the secrets from the exported app by following the :ref:`list secrets documentation <list-secrets>`.
-#. Save the secrets to a secure location. 
-#. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
-   Secrets must be added one at a time. 
