@@ -1,0 +1,249 @@
+title: Set Up a New Webhook
+ref: set-up-a-new-webhook
+content: |
+  Incoming webhooks are scoped to individual :doc:`services
+  </services>`. You can create and manage a webhook from its associated
+  service page in the Realm UI.
+
+  To create an incoming webhook:
+
+  1. Click :guilabel:`Services` in the {+leftnav+}.
+
+  2. Click the Service for which you want to add an incoming webhook.
+
+  3. Select the :guilabel:`Incoming Webhooks` tab for the service.
+
+  4. Click :guilabel:`Add Incoming Webhook`. Realm will redirect you to
+     the :guilabel:`Settings` screen for the new webhook.
+---
+title: Name the New Webhook
+ref: name-the-new-webhook
+content: |
+  Enter a unique, identifying name for the webhook in the
+  :guilabel:`Webhook Name` field. This name must be distinct from any
+  other webhooks that you've created for the service.
+---
+title: Configure User Authentication
+ref: configure-user-authentication
+content: |
+  Functions in Realm, including webhooks, always execute in
+  the context of a specific application user or as the
+  :ref:`system user <system-user>`, which bypasses rules. To
+  configure the webhook's execution user, specify the type
+  of authentication that Realm should use for the webhook.
+
+  .. list-table::
+     :widths: 20 80
+     :header-rows: 1
+     
+     * - Authentication Type
+       - Description
+     
+     * - Application Authentication
+       - This type of authentication configures a webhook to run in the
+         context of an existing application user specified by each
+         incoming request. Incoming requests must include the user's
+         :doc:`authentication provider </authentication/providers>`
+         credentials in either the request body or the request headers.
+
+         The following examples demonstrate the field names and values
+         for each supported authentication provider:
+
+         .. tabs-realm-auth-providers::
+            
+            .. tab::
+               :tabid: local-userpass
+               
+               .. code-block:: json
+                  
+                  {
+                    "email": "<User's Email Address>",
+                    "password": "<User's Password>"
+                  }
+            
+            .. tab::
+               :tabid: api-key
+               
+               .. code-block:: json
+                     
+                  {
+                    "api-key": "<User's API Key>"
+                  }
+            
+            .. tab::
+               :tabid: custom-token
+               
+               .. code-block:: json
+                     
+                  {
+                    "jwtTokenString": "<User's JWT Token>"
+                  }
+         
+         .. important:: Do Not Use Both Headers and Body Fields
+            
+            If a request includes credentials in both the request
+            headers and the request body, then Realm throws an error
+            and does not execute the function.
+         
+         .. note:: Application Users
+            
+            You can configure a webhook that uses application authentication to
+            perform additional user-related work for each request:
+            
+            - If you enable :guilabel:`Fetch Custom User Data`,
+              {+service-short+} queries the requesting user's :ref:`custom user
+              data <custom-user-data>` and, if it exists, exposes the data as an
+              object on the ``context.user.custom_data`` property.
+            
+            - If you enable :guilabel:`Create User Upon Authentication`,
+              {+service-short+} automatically creates a new user based on the
+              provided user credentials if they don't match an already existing
+              user. The authentication provider that corresponds to the
+              credentials must be enabled at the time of the request to create a
+              new user.
+     
+     * - System
+       - This type of authentication configures a webhook to run as the
+         :ref:`system user <system-user>`, which has full
+         access to MongoDB CRUD and Aggregation APIs and is
+         not affected by any rules, roles, or permissions.
+     
+     * - User ID
+       - This type of authentication configures a webhook to always run
+         as a specific application user.
+     
+     * - Script
+       - This type of authentication configures a webhook to run as a
+         specific application user determined by the result of a
+         custom :doc:`function </functions>` that you define. The
+         function must return a specific user's ``id`` string or can
+         specify a system user by returning ``{ "runAsSystemUser": true
+         }``.
+  
+  .. figure:: /images/webhook-authentication-realm-ui.png
+     :alt: The user authentication type input in the UI
+     :lightbox:
+---
+title: Select the Webhook's HTTP Method
+ref: select-the-webhooks-http-method
+content: |
+  You can require that incoming requests use a specific :mdn:`HTTP
+  method <Web/HTTP/Methods>` or you can accept all HTTP methods and
+  handle each one individually in the webhook function by inspecting the
+  ``httpMethod`` property on the :ref:`context.request
+  <context-request>` object, as in the following example function:
+
+  .. include:: /services/examples/webhook-http-method-handler.rst
+
+  .. figure:: /images/webhook-http-method-dropdown.png
+     :alt: The HTTP method dropdown input in the UI
+---
+title: Configure the Webhook Response
+ref: configure-the-webhook-response
+content: |
+  You can send a configurable :mdn:`HTTP Response
+  <Web/HTTP/Messages#HTTP_Responses>` to external services that call the
+  webhook.
+
+  If you enable :guilabel:`Respond With Result`, the webhook will
+  respond to incoming requests with a basic :mdn:`HTTP 200
+  <Web/HTTP/Status/200>` response that includes the webhook function
+  return value as its ``body`` field. You can configure a custom HTTP
+  response from within the webhook function using the ``response``
+  object that Realm automatically passes as the second argument.
+
+  .. figure:: /images/webhook-respond-with-result-realm-ui.png
+     :alt: The respond with result toggle in the UI
+     :lightbox:
+---
+title: Specify an Authorization Expression
+ref: specify-an-authorization-expression
+content: |
+  You can dynamically authorize requests based on the contents of each request
+  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`. Realm
+  evaluates the expression for every incoming request that the webhook receives.
+  If you do not specify an expression then Realm automatically authorizes all
+  authenticated incoming requests.
+  
+  The expression can expand standard :ref:`expression variables <expressions>`,
+  including the :json-expansion:`%%request` expansion.
+
+  .. figure:: /images/function-can-evaluate-realm-ui.png 
+     :alt: The webhook's Can Evaluate JSON expression input in the UI
+     :lightbox:
+---
+title: Specify the Request Validation Method
+ref: specify-the-request-validation-method
+content: |
+  To validate that a webhook request was sent from a trusted source,
+  some external services require that incoming requests incorporate a
+  secret string in one of several prescribed manners. Other services,
+  like the :doc:`HTTP service </services/http>`, allow you to optionally
+  require request validation.
+
+  If your webhook requires request validation:
+
+  1. Select the :ref:`request validation method <webhook-request-validation>`.
+
+  2. Enter a :guilabel:`Secret` string to use in the request validation
+     process.
+
+  .. figure:: /images/webhook-request-validation-realm-ui.png
+     :alt: The request validation secret input in the UI
+     :lightbox:
+---
+title: Write the Webhook Function
+ref: write-the-webhook-function
+content: |
+  Once you've configured the webhook, all that's left is to write the
+  function that executes when someone calls the webhook. Realm
+  automatically passes two objects as the webhook function's arguments:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 30
+
+     * - Argument
+       - Description
+
+     * - ``payload``
+       - An EJSON representation of the incoming request payload. The
+         contents of the payload document will vary depending on the
+         service and event that caused a webhook to fire. For a
+         description of the ``payload`` object for a specific service,
+         see that service's reference page.
+
+     * - ``response``
+       - An :ref:`HTTP response object <webhook-response-object>` that
+         configures Realm's response to the client that called the
+         webhook. The object has methods that allow you to set the
+         response's headers, body, and status code. Calling any of these
+         methods overrides the default response behavior.
+
+  You can use the following webhook function as a base for your own webhook:
+
+  .. literalinclude:: /includes/webhook-function-example.js
+     :language: javascript
+     :emphasize-lines: 3, 10-11, 14-15
+
+  .. note::
+
+     If you want to debug a webhook function response from the function
+     editor, you must manually provide the HTTP response object when you
+     run the function.
+
+     .. code-block:: javascript
+
+        exports(
+          { body: "This document is the webhook payload" },
+          new HTTPResponse()
+        )
+---
+title: Save the Webhook
+ref: save-the-webhook
+content: |
+  You must save changes to your webhook before they take effect. To do
+  so, click :guilabel:`Save` from either the :guilabel:`Settings` screen
+  or the :guilabel:`Function Editor`.
+
+...
