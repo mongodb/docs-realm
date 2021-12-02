@@ -75,7 +75,6 @@ namespace Examples
             // :code-block-end:
         }
 
-        [Test]
         public async Task ExtractAndLoadRealmFile()
         {
             var appConfig = new AppConfiguration(Config.appid);
