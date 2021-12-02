@@ -75,13 +75,24 @@ namespace Examples
             // :code-block-end:
         }
 
+        [Test]
         public async Task ExtractAndLoadRealmFile()
         {
             var appConfig = new AppConfiguration(Config.appid);
 
             // :code-block-start: extract_and_copy_realm
-            // Extract and copy the realm
+            // If you are using a local Realm
             var config = RealmConfiguration.DefaultConfiguration;
+
+            // ...or...
+            // If the realm is synced realm
+            var app = App.Create(appConfig);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+            // :uncomment-start:
+            // var config = new SyncConfiguration("myPartition", user);
+            // :uncomment-end:
+
+            // Extract and copy the realm
             if (!File.Exists(config.DatabasePath))
             {
                 using var bundledDbStream = Assembly.GetExecutingAssembly()
@@ -91,23 +102,7 @@ namespace Examples
             }
 
             // Then, open the realm
-            // If the realm is not a synced realm:
-            var localRealm = Realm.GetInstance(config);
-
-            // ...or...
-            // If the realm is synced realm:
-            var app = App.Create(appConfig);
-            var user = await app.LogInAsync(Credentials.Anonymous());
-            // :uncomment-start:
-            // var syncConfig = new SyncConfiguration("myPartition", user);
-            // :uncomment-end:
-            // :hide-start:
-            var syncConfig = new SyncConfiguration("myPartition", user)
-            {
-                Schema = new[] { typeof(Examples.Models.User) }
-            };
-            // :hide-end:
-            var syncedRealm = await Realm.GetInstanceAsync(syncConfig);
+            var realm = Realm.GetInstance(config);
             // :code-block-end:
         }
     }
