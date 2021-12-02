@@ -25,6 +25,12 @@ In your production app (the one that will use this bundled {+realm+} when first
 loading), you add a few lines of code to extract the {+realm+} and save it in the 
 app data. The following sections provide more information on these steps.   
 
+.. important:: Synced Realm
+
+   If you are bundling a synced realm, be sure to read the 
+   :ref:`synced_realm_considerations` section below.
+
+
 .. _copy_a_realm_file:
 
 Copy a Realm File
@@ -38,14 +44,6 @@ Copy a Realm File
    method to make a copy of the {+realm+} to a new location and/or name. The 
    following code demonstrates this. 
 
-   .. important:: Copying Synced Realms
-
-      When copying a Synced {+realm+}, you must ensure that there are no pending 
-      sync processes. You do this by calling 
-      :dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
-      and 
-      :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`
-
    .. tabs::
 
       .. tab:: Local Realm
@@ -56,6 +54,15 @@ Copy a Realm File
 
       .. tab:: Synced Realm
          :tabid: copy_sync
+
+         .. important:: Copying Synced Realms
+
+            When copying a Synced {+realm+}, you must ensure that there are no pending 
+            sync processes. You do this by calling 
+            :dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
+            and 
+            :dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`.
+
 
          .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.copy_a_synced_realm.cs
             :language: csharp
@@ -123,9 +130,11 @@ add code to use it. The code you add depends on the type of app:
       .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
 
+.. _synced_realm_considerations:
+
 Synced Realm Considerations
 ---------------------------
-If your {+backend+} application has enabled :ref:`advanced backend compaction
+If your backend application has enabled :ref:`advanced backend compaction
 <advanced-backend-compaction>` by configuring a
 :ref:`client maximum offline time <client-maximum-offline-time>`,
 users could experience a client reset the first time they open the
@@ -134,15 +143,15 @@ generated more than **client maximum offline time** days before the user syncs
 the {+realm+} for the first time.
 
 Applications experiencing a client reset will download the full state of the
-{+realm+} from the application {+backend+}. This negates the
+{+realm+} from the application backend. This negates the
 advantages of bundling a {+realm+} file. To prevent client resets and
 preserve the advantages of {+realm+} file bundling:
 
 - Avoid using a client maximum offline time in applications that
-   bundle a synchronized {+realm+}.
+  bundle a synchronized {+realm+}.
 
 - If your application does use a client maximum offline time, ensure
-   that your application download always includes a recently synced
-   {+realm+} file. Generate a new file each application version,
-   and ensure that no version ever stays current for more than
-   **client maximum offline time** number of days.
+  that your application download always includes a recently synced
+  {+realm+} file. Generate a new file each application version,
+  and ensure that no version ever stays current for more than
+  **client maximum offline time** number of days.

@@ -13,8 +13,8 @@ if (!File.Exists(config.DatabasePath))
 var localRealm = Realm.GetInstance(config);
 
 // ...or...
-// If the realm is sycned realm:
+// If the realm is synced realm:
 var app = App.Create(appConfig);
-var user = app.LogInAsync(Credentials.Anonymous()).Result;
+var user = await app.LogInAsync(Credentials.Anonymous());
 var syncConfig = new SyncConfiguration("myPartition", user);
 var syncedRealm = await Realm.GetInstanceAsync(syncConfig);

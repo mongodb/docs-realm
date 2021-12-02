@@ -37,7 +37,7 @@ namespace Examples
         {
             var appConfig = new AppConfiguration(Config.appid);
             var app = App.Create(appConfig);
-            var user = app.LogInAsync(Credentials.Anonymous()).Result;
+            var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :code-block-start: copy_a_synced_realm
 
@@ -96,9 +96,9 @@ namespace Examples
             var localRealm = Realm.GetInstance(config);
 
             // ...or...
-            // If the realm is sycned realm:
+            // If the realm is synced realm:
             var app = App.Create(appConfig);
-            var user = app.LogInAsync(Credentials.Anonymous()).Result;
+            var user = await app.LogInAsync(Credentials.Anonymous());
             // :uncomment-start:
             // var syncConfig = new SyncConfiguration("myPartition", user);
             // :uncomment-end:
