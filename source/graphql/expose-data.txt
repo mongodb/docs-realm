@@ -56,15 +56,13 @@ schema changes.
    the fields you want to include in your schema and then generate a
    schema based on the mock.
 
-1. Define Relationships to Other Collections
+3. Define Relationships to Other Collections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use a collection schema to define relationships that connect
-each document in the local collection to one or more documents in a
-foreign collection. The foreign collection can be any collection in the
-same :doc:`linked MongoDB Atlas data source
-</mongodb/link-a-data-source>` as the local collection, including the
-local collection itself.
+You can define :ref:`relationships <relationships>`` that connect each
+document in the collection to one or more documents in a foreign
+collection. To learn how to define a relationship, see
+:ref:`define-a-relationship`.
 
 Relationships allow you to fluently reference and query related
 documents in GraphQL read and write operations. For example, you can
@@ -87,166 +85,6 @@ children from the same ``people`` collection:
        }
      }
    }
-
-Realm evaluates which foreign documents are related to a given local
-document based on a foreign key value. For each relationship, the local
-document contains either a single foreign key value or an array of
-foreign key values in a specific field. A document is related to any
-documents in the foreign collection where the value of the foreign key
-field matches a foreign key included in the local field.
-
-.. tabs-realm-admin-interfaces::
-   
-   .. tab::
-      :tabid: ui
-      
-      To define a relationship in the Realm UI, navigate to the :guilabel:`Rules` page
-      for the local collection, click the :guilabel:`Relationships` tab, and enter a
-      relationship definition.
-      
-      Relationship definitions have the following form:
-      
-      .. code-block:: json
-         
-         {
-           "<Local Field Name>": {
-             "ref": "#/realm/<Cluster>/<Database>/<Collection>",
-             "foreign_key": "<Foreign Key Field Name>",
-             "is_list": <Boolean>
-           }
-         }
-   
-   .. tab::
-      :tabid: cli
-      
-      To define a relationship for a local collection using Realm CLI or another
-      code deploy method, add a relationship definition to the ``relationships``
-      field of the collection's :ref:`schema configuration
-      <config-collection-schema>`.
-      
-      .. code-block:: json
-         :caption: /data_sources/<service>/<database>/<collection>/schema.json
-         
-         {
-           ...,
-           relationships: {
-             "<Local Field Name>": {
-               "ref": "#/realm/<Cluster>/<Database>/<Collection>",
-               "foreign_key": "<Foreign Key Field Name>",
-               "is_list": <Boolean>
-             }
-           }
-         }
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 20 60
-   
-   * - Field Name
-     - Type
-     - Description
-   
-   * - ``<Local Field Name>``
-     - String
-     - The name of a field defined in the local collection
-   
-   * - ``ref``
-     - String
-     - A path that specifies the foreign collection that contains the
-       related documents.
-   
-   * - ``foreign_key``
-     - String
-     - The field name that contains the reference value for each
-       document in the foreign collection. A document in the foreign
-       collection is related if its ``foreign_key`` value matches the
-       local field value.
-   
-   * - ``is_list``
-     - Boolean
-     
-     - Indicates whether the relationship is to a single document or
-       multiple documents. If ``true``, the local field contains an
-       array of values. Otherwise, the field contains a single value.
-       
-       A relationship is not valid if ``is_list`` is ``true`` but your
-       schema does not define the field as an array (or vice-versa).
-
-.. example::
-   
-   Consider an application that has two collections:
-   
-   - The ``accounts`` collection contains documents that each describe
-     a customer account.
-     
-     .. code-block:: json
-        :caption: Account Collection Schema
-        :emphasize-lines: 5
-        
-        {
-          "title": "Account",
-          "properties": {
-            "_id": { "bsonType": "objectId" },
-            "account_id": { "bsonType": "string" },
-            "products": {
-              "bsonType": "array",
-              "items": { "bsonType": "string" }
-            },
-            ...
-          }
-        }
-   
-   - The ``customers`` collection contains documents that each describe
-     a single customer that can have one or more accounts. Every
-     document in the ``customers`` collection has an ``accounts`` field
-     that contains an array of every ``account_id`` value from the
-     ``accounts`` collection that applies to the customer.
-     
-     .. code-block:: json
-        :caption: Customer Collection Schema
-        :emphasize-lines: 5-8
-        
-        {
-          "title": "Customer",
-          "properties": {
-            "username": { "bsonType": "string" },
-            "accounts": {
-              "bsonType": "array",
-              "items": { "bsonType": "string" }
-            },
-            ...
-          }
-        }
-   
-   The app defines this relationship on the ``customers`` collection. It
-   points from the array of account id values stored in the ``accounts``
-   field to the ``account_id`` field of each document in the
-   ``accounts`` collection.
-   
-   .. code-block:: json
-      
-      {
-        "accounts": {
-          "ref": "#/realm/mongodb-atlas/sample_analytics/accounts",
-          "foreign_key": "account_id",
-          "is_list": true
-        }
-      }
-   
-   With this relationship defined, Realm can fluidly return a customer
-   and all of their accounts in the same GraphQL query.
-   
-   .. code-block:: text
-      
-      query CustomerAccounts {
-        customer(query: { username: "Elizabeth Ray" }) {
-          username
-          accounts {
-            account_id
-            products
-          }
-        }
-      }
 
 4. Name the Data Type
 ~~~~~~~~~~~~~~~~~~~~~
