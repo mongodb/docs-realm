@@ -1,0 +1,133 @@
+.. _query-based-sync:
+
+================
+Query-Based Sync
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} Query-Based Sync lets you define a query in the client, and 
+sync only the objects that match the query. With client-side subscriptions, 
+client applications can:
+
+- Maintain queries
+- React to changes
+- Add, change, or delete queries
+
+With :ref:`rules and permissions <sync-rules>`, this provides a powerful 
+and flexible way to configure sync around your business logic.
+
+.. _queryable-fields:
+
+Queryable Fields
+----------------
+
+When you configure Query-Based Sync, you specify which fields your client 
+application can query. 
+
+.. example::
+
+   In a task tracker app, you might set ``assignee`` or ``owner`` 
+   as queryable fields. On the client side, you can then query for tasks 
+   whose ``assignee`` or ``owner`` matches the logged-in user. 
+
+Queryable fields apply across all collections in a {+app+}'s Sync Schema.
+You can use :ref:`rules and permissions 
+<query-based-sync-rules-and-permissions>` to configure more granular access 
+control on individual collections.
+
+.. _qbs-eligible-field-types:
+
+Eligible Field Types
+~~~~~~~~~~~~~~~~~~~~
+
+Any top-level primitive field with a scalar type can be a queryable field. 
+Query-Based Sync does not currently support embedded objects or arrays as 
+queryable fields.
+
+Performance and Storage Considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Queryable fields use storage on the backing Atlas cluster. The more 
+queryable fields you configure, the more storage you use on the backing 
+cluster.
+
+You can configure up to 10 queryable fields per application for Query-Based 
+Sync. If you have a large number of collections in an {+app+}, you may need to
+use the same queryable field in multiple collections.
+
+.. example::
+
+   Your {+app+} may contain 20 or 30 collections, but you can only configure
+   10 queryable fields. You must re-use queryable fields across collections 
+   in order to sync objects from every collection.
+
+For best performance, use a broad Sync query, and slice off subqueries
+for working sets as needed. When you configure queryable fields, consider
+the broad queries you use for Sync, and select fewer fields that support 
+those broad queries.
+
+.. example::
+
+   In a task tracker app, prefer broad queries such as ``assignee == currentUser`` 
+   or ``projectName == selectedProject`` for a Sync query. This gives you a 
+   couple of broad fields against which to Sync documents. In the client, you 
+   can further refine your query for things like tasks of a certain prioroity 
+   or completion status to slice off a working set.
+
+Get Started with Query-Based Sync
+---------------------------------
+
+Define a Schema
+~~~~~~~~~~~~~~~
+
+To use Query-Based Sync, :ref:`create a schema 
+<create-schema-for-backend-realm-app>` for your {+app+}. The :ref:`eligible 
+fields <qbs-eligible-field-types>` in your schema become queryable fields
+you can select when you enable Query-Based Sync.
+
+If you're not yet ready to create a schema, you can manually define queryable
+fields with :ref:`Development Mode <concept-development-mode>`.
+
+Select Fields to Query
+~~~~~~~~~~~~~~~~~~~~~~
+
+When you enable Query-Based Sync, you can select queryable fields in two ways:
+
+- If you have defined your schema, you can select queryable fields from 
+  :ref:`eligible fields <qbs-eligible-field-types>` in your schema
+- If you are using :ref:`Development Mode <concept-development-mode>`, you 
+  can type a queryable field name that matches an :ref:`eligible field type 
+  <qbs-eligible-field-types>` in your client application.
+
+You can configure up to 10 queryable fields per {+app+}. These 
+fields apply across all of the collections in your application.
+
+Define Roles
+~~~~~~~~~~~~
+
+When a user submits a query to the {+app+}, Sync determines which role 
+applies for the user. This role applies to 
+
+Enable Sync
+~~~~~~~~~~~
+
+
+
+Create Queries on Your Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With Query-Based Sync enabled, you can then start creating queries on 
+your client application. For information about supported operators, see:
+:ref:`Realm Query Language <realm-query-language>`.
+
+
