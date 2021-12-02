@@ -1,36 +1,36 @@
-title: Set Up a New Webhook
-ref: set-up-a-new-webhook
+title: Set Up a New Endpoint
+ref: set-up-a-new-endpoint
 content: |
-  Incoming webhooks are scoped to individual :doc:`services
-  </services>`. You can create and manage a webhook from its associated
+  Incoming endpoints are scoped to individual :doc:`services
+  </services>`. You can create and manage a endpoint from its associated
   service page in the Realm UI.
 
-  To create an incoming webhook:
+  To create an incoming endpoint:
 
   1. Click :guilabel:`Services` in the {+leftnav+}.
 
-  2. Click the Service for which you want to add an incoming webhook.
+  2. Click the Service for which you want to add an incoming endpoint.
 
-  3. Select the :guilabel:`Incoming Webhooks` tab for the service.
+  3. Select the :guilabel:`Incoming Endpoints` tab for the service.
 
-  4. Click :guilabel:`Add Incoming Webhook`. Realm will redirect you to
-     the :guilabel:`Settings` screen for the new webhook.
+  4. Click :guilabel:`Add Incoming Endpoint`. Realm will redirect you to
+     the :guilabel:`Settings` screen for the new endpoint.
 ---
-title: Name the New Webhook
-ref: name-the-new-webhook
+title: Name the New Endpoint
+ref: name-the-new-endpoint
 content: |
-  Enter a unique, identifying name for the webhook in the
-  :guilabel:`Webhook Name` field. This name must be distinct from any
-  other webhooks that you've created for the service.
+  Enter a unique, identifying name for the endpoint in the
+  :guilabel:`Endpoint Name` field. This name must be distinct from any
+  other endpoints that you've created for the service.
 ---
 title: Configure User Authentication
 ref: configure-user-authentication
 content: |
-  Functions in Realm, including webhooks, always execute in
+  Functions in Realm, including endpoints, always execute in
   the context of a specific application user or as the
   :ref:`system user <system-user>`, which bypasses rules. To
-  configure the webhook's execution user, specify the type
-  of authentication that Realm should use for the webhook.
+  configure the endpoint's execution user, specify the type
+  of authentication that Realm should use for the endpoint.
 
   .. list-table::
      :widths: 20 80
@@ -40,7 +40,7 @@ content: |
        - Description
      
      * - Application Authentication
-       - This type of authentication configures a webhook to run in the
+       - This type of authentication configures a endpoint to run in the
          context of an existing application user specified by each
          incoming request. Incoming requests must include the user's
          :doc:`authentication provider </authentication/providers>`
@@ -87,7 +87,7 @@ content: |
          
          .. note:: Application Users
             
-            You can configure a webhook that uses application authentication to
+            You can configure a endpoint that uses application authentication to
             perform additional user-related work for each request:
             
             - If you enable :guilabel:`Fetch Custom User Data`,
@@ -103,56 +103,56 @@ content: |
               new user.
      
      * - System
-       - This type of authentication configures a webhook to run as the
+       - This type of authentication configures a endpoint to run as the
          :ref:`system user <system-user>`, which has full
          access to MongoDB CRUD and Aggregation APIs and is
          not affected by any rules, roles, or permissions.
      
      * - User ID
-       - This type of authentication configures a webhook to always run
+       - This type of authentication configures a endpoint to always run
          as a specific application user.
      
      * - Script
-       - This type of authentication configures a webhook to run as a
+       - This type of authentication configures a endpoint to run as a
          specific application user determined by the result of a
          custom :doc:`function </functions>` that you define. The
          function must return a specific user's ``id`` string or can
          specify a system user by returning ``{ "runAsSystemUser": true
          }``.
   
-  .. figure:: /images/webhook-authentication-realm-ui.png
+  .. figure:: /images/endpoint-authentication-realm-ui.png
      :alt: The user authentication type input in the UI
      :lightbox:
 ---
-title: Select the Webhook's HTTP Method
-ref: select-the-webhooks-http-method
+title: Select the Endpoint's HTTP Method
+ref: select-the-endpoints-http-method
 content: |
   You can require that incoming requests use a specific :mdn:`HTTP
   method <Web/HTTP/Methods>` or you can accept all HTTP methods and
-  handle each one individually in the webhook function by inspecting the
+  handle each one individually in the endpoint function by inspecting the
   ``httpMethod`` property on the :ref:`context.request
   <context-request>` object, as in the following example function:
 
-  .. include:: /services/examples/webhook-http-method-handler.rst
+  .. include:: /services/examples/endpoint-http-method-handler.rst
 
-  .. figure:: /images/webhook-http-method-dropdown.png
+  .. figure:: /images/endpoint-http-method-dropdown.png
      :alt: The HTTP method dropdown input in the UI
 ---
-title: Configure the Webhook Response
-ref: configure-the-webhook-response
+title: Configure the Endpoint Response
+ref: configure-the-endpoint-response
 content: |
   You can send a configurable :mdn:`HTTP Response
   <Web/HTTP/Messages#HTTP_Responses>` to external services that call the
-  webhook.
+  endpoint.
 
-  If you enable :guilabel:`Respond With Result`, the webhook will
+  If you enable :guilabel:`Respond With Result`, the endpoint will
   respond to incoming requests with a basic :mdn:`HTTP 200
-  <Web/HTTP/Status/200>` response that includes the webhook function
+  <Web/HTTP/Status/200>` response that includes the endpoint function
   return value as its ``body`` field. You can configure a custom HTTP
-  response from within the webhook function using the ``response``
+  response from within the endpoint function using the ``response``
   object that Realm automatically passes as the second argument.
 
-  .. figure:: /images/webhook-respond-with-result-realm-ui.png
+  .. figure:: /images/endpoint-respond-with-result-realm-ui.png
      :alt: The respond with result toggle in the UI
      :lightbox:
 ---
@@ -161,7 +161,7 @@ ref: specify-an-authorization-expression
 content: |
   You can dynamically authorize requests based on the contents of each request
   by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`. Realm
-  evaluates the expression for every incoming request that the webhook receives.
+  evaluates the expression for every incoming request that the endpoint receives.
   If you do not specify an expression then Realm automatically authorizes all
   authenticated incoming requests.
   
@@ -169,35 +169,35 @@ content: |
   including the :json-expansion:`%%request` expansion.
 
   .. figure:: /images/function-can-evaluate-realm-ui.png 
-     :alt: The webhook's Can Evaluate JSON expression input in the UI
+     :alt: The endpoint's Can Evaluate JSON expression input in the UI
      :lightbox:
 ---
 title: Specify the Request Validation Method
 ref: specify-the-request-validation-method
 content: |
-  To validate that a webhook request was sent from a trusted source,
+  To validate that a endpoint request was sent from a trusted source,
   some external services require that incoming requests incorporate a
   secret string in one of several prescribed manners. Other services,
   like the :doc:`HTTP service </services/http>`, allow you to optionally
   require request validation.
 
-  If your webhook requires request validation:
+  If your endpoint requires request validation:
 
-  1. Select the :ref:`request validation method <webhook-request-validation>`.
+  1. Select the :ref:`request validation method <endpoint-request-validation>`.
 
   2. Enter a :guilabel:`Secret` string to use in the request validation
      process.
 
-  .. figure:: /images/webhook-request-validation-realm-ui.png
+  .. figure:: /images/endpoint-request-validation-realm-ui.png
      :alt: The request validation secret input in the UI
      :lightbox:
 ---
-title: Write the Webhook Function
-ref: write-the-webhook-function
+title: Write the Endpoint Function
+ref: write-the-endpoint-function
 content: |
-  Once you've configured the webhook, all that's left is to write the
-  function that executes when someone calls the webhook. Realm
-  automatically passes two objects as the webhook function's arguments:
+  Once you've configured the endpoint, all that's left is to write the
+  function that executes when someone calls the endpoint. Realm
+  automatically passes two objects as the endpoint function's arguments:
 
   .. list-table::
      :header-rows: 1
@@ -209,40 +209,40 @@ content: |
      * - ``payload``
        - An EJSON representation of the incoming request payload. The
          contents of the payload document will vary depending on the
-         service and event that caused a webhook to fire. For a
+         service and event that caused a endpoint to fire. For a
          description of the ``payload`` object for a specific service,
          see that service's reference page.
 
      * - ``response``
-       - An :ref:`HTTP response object <webhook-response-object>` that
+       - An :ref:`HTTP response object <endpoint-response-object>` that
          configures Realm's response to the client that called the
-         webhook. The object has methods that allow you to set the
+         endpoint. The object has methods that allow you to set the
          response's headers, body, and status code. Calling any of these
          methods overrides the default response behavior.
 
-  You can use the following webhook function as a base for your own webhook:
+  You can use the following endpoint function as a base for your own endpoint:
 
-  .. literalinclude:: /includes/webhook-function-example.js
+  .. literalinclude:: /includes/endpoint-function-example.js
      :language: javascript
      :emphasize-lines: 3, 10-11, 14-15
 
   .. note::
 
-     If you want to debug a webhook function response from the function
+     If you want to debug a endpoint function response from the function
      editor, you must manually provide the HTTP response object when you
      run the function.
 
      .. code-block:: javascript
 
         exports(
-          { body: "This document is the webhook payload" },
+          { body: "This document is the endpoint payload" },
           new HTTPResponse()
         )
 ---
-title: Save the Webhook
-ref: save-the-webhook
+title: Save the Endpoint
+ref: save-the-endpoint
 content: |
-  You must save changes to your webhook before they take effect. To do
+  You must save changes to your endpoint before they take effect. To do
   so, click :guilabel:`Save` from either the :guilabel:`Settings` screen
   or the :guilabel:`Function Editor`.
 
