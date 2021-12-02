@@ -191,7 +191,14 @@ options:
        If ``true``, the provider uses :google:`OpenID Connect
        <identity/protocols/oauth2/openid-connect>` to authenticate users.
        
-       .. important:: OpenID Connect Does Not Support Metadata Fields
+       .. important:: OpenID Connect Support Varies by SDK
+
+          Refer to SDK-specific documentation about support for OpenID Connect. 
+          Not all SDK implementations of Google Authentication support OpenID Connect, 
+          while others require it. 
+
+       
+       .. note:: OpenID Connect Does Not Support Metadata Fields
           
           Google supports OpenID as part of their OAuth 2.0 implementation but does
           not provide access to restricted scopes for OpenID authentication. This
