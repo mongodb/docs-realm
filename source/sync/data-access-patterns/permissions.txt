@@ -82,8 +82,8 @@ Key Concepts
 
 .. _sync-read-permissions:
 
-Partition-Based Sync Read Permissions
-`````````````````````````````````````
+Read Permissions
+````````````````
 
 A user with read permissions for a given partition can view all fields of any
 object in the corresponding synced realm. Read permissions do not permit a user
@@ -319,7 +319,7 @@ accidentally leak sensitive information.
   rules.
 
 Roles
-~~~~~
+`````
 
 When a user submits a query to the {+app+}, Sync determines which role 
 applies for the user.
@@ -377,8 +377,8 @@ evaluates a user's permissions at the beginning of each session.
    their request. However, the user can only use expansions that do not 
    refer directly to a document or the document's values. 
 
-Configuring Query-Based Sync Permissions
-````````````````````````````````````````
+Configure Query-Based Sync Permissions
+``````````````````````````````````````
 
 Query-Based Sync rules must be configured on either:
 
@@ -391,8 +391,8 @@ assign the correct role.
 
 .. _qbs-read-permissions:
 
-Query-Based Sync Read Permissions
-`````````````````````````````````
+Read Permissions
+````````````````
 
 A user with read permissions for a given collection can view all fields of any
 object matching the client-side query. Read permissions do not permit a user
@@ -400,8 +400,8 @@ to modify data.
 
 .. _qbs-write-permissions:
 
-Query-Based Sync Write Permissions
-``````````````````````````````````
+Write Permissions
+`````````````````
 
 A user with write permissions for a given collection can modify the value of any
 field of any object matching the client-side query. Write permissions require
