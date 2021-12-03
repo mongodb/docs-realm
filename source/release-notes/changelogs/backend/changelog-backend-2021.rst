@@ -1,3 +1,12 @@
+.. _backend_20211202:
+
+02 December 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Added ability to import dependencies :ref:`from the UI <add-external-dependencies>`.
+- Deprecated :ref:`third party services <third-party-services>`. Third party services will be fully removed on December 1, 2022. 
+- Renamed "Webhooks" to ":ref:`HTTPS Endpoints <https-endpoints>`".
+
 .. _backend_20211118:
 
 18 November 2021 Release
