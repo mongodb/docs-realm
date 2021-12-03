@@ -1,12 +1,12 @@
 title: Export the Latest Version of Your App
-ref: export-app-github-export-the-latest-version-of-your-app
+ref: copy-app-github-export-the-latest-version-of-your-app
 content: |
   Get a local copy of your {+app+} by following the 
   :ref:`documentation to export your <export-realm-app>`.
 
 ---
 title: Create New App
-ref: export-app-github-create-new-app
+ref: copy-app-github-create-new-app
 content: |
   Create a new {+app+}. This is where you'll add the configuration files from 
   the exported app in later steps. Follow the :ref:`UI <create-a-realm-app>`, 
@@ -15,14 +15,14 @@ content: |
 
 ---
 title: Set up Github Automatic Deployment
-ref: export-app-github-set-up-github
+ref: copy-app-github-set-up-github
 content: |
   Follow the :ref:`documentation to set up Github Automatic Deployment <deploy-github>`
   for your {+app+}.
 
 ---
 title: Copy Exported App Configuration to New App
-ref: export-app-github-copy-exported-app-to-new-app
+ref: copy-app-github-copy-exported-app-to-new-app
 content: |
   Delete all the configuration files in the new app except for ``realm_config.json``.
   You'll handle ``realm_config.json`` in the next step. 
@@ -32,7 +32,7 @@ content: |
 
 ---
 title: Configure the New App's ``realm_config.json``
-ref: export-app-github-configure-realm-config-json
+ref: copy-app-github-configure-realm-config-json
 content: |
   In the new app's ``realm_config.json``, replace all the contents except for the 
   ``"app_id"`` and ``"name"``.
@@ -51,7 +51,7 @@ content: |
 
 ---
 title: Migrate Secrets to New App
-ref: export-app-github-migrate-secrets
+ref: copy-app-github-migrate-secrets
 content: |
   When you :ref:`export your {+app+} <export-realm-app>`, the export does not include the app's 
   :ref:`secrets <app-secret>`. As secrets cannot be read once they're defined, 
@@ -71,7 +71,7 @@ content: |
 
 ---
 title: Push New App to Github
-ref: export-app-github-push-to-github
+ref: copy-app-github-push-to-github
 content: |
   When you are ready to import the app, commit the application 
   configuration files and then push them to GitHub:

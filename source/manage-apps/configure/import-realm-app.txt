@@ -7,7 +7,7 @@ Import an Existing Realm Application
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 1
+   :depth: 2
    :class: singlecol
 
 Overview
@@ -49,8 +49,8 @@ You can import and deploy your application's configuration files in two ways:
 
 .. tabs::
 
-   .. tab:: CLI
-      :tabid: cli
+   .. tab:: 
+      :tabid: Realm CLI
 
       .. warning::
 
@@ -59,9 +59,32 @@ You can import and deploy your application's configuration files in two ways:
          <deploy-github-make-changes-cli>`. Instead, push your changes to the 
          linked GitHub repository.
 
-      .. include:: /includes/steps/import-cli.rst
+      .. include:: /includes/steps/deploy-cli.rst
 
-   .. tab:: Github Auto Deploy
-      :tabid: github
+   .. tab:: 
+      :tabid: GitHub
 
-      .. include:: /includes/steps/import-github.rst
+      When you have enabled :ref:`GitHub deployment <deploy-github>`, you can
+      import your application by updating the configuration files in the
+      linked GitHub repository. 
+
+      Make any additions, modifications, or deletions to the application 
+      configuration files in the linked repository. Refer to the 
+      :ref:`app-configuration` reference page and individual component
+      reference pages for details on the structure and schema of your 
+      application directory.
+
+      When you are ready to import the app, commit the application 
+      configuration files and then push them to GitHub:
+
+      .. code-block:: sh
+
+        git add -A
+        git commit -m "<commit message>"
+        git push origin <branch name>
+
+      Once you successfully push your changes to GitHub, {+service-short+}
+      immediately deploys a new version of your application that matches the state
+      of the latest commit. Client applications will automatically use the newest
+      version, so make sure that you also update your client code to use the new
+      version.

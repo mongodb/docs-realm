@@ -1,5 +1,5 @@
 title: Log In to MongoDB Cloud
-ref: export-app-cli-log-in-to-mongodb-cloud
+ref: copy-app-cli-log-in-to-mongodb-cloud
 content: |
   To configure your app with {+cli-bin+}, you must log in to MongoDB Cloud using
   an :atlas:`API key </configure-api-access/#programmatic-api-keys>` scoped to the organization or
@@ -11,7 +11,7 @@ content: |
 
 ---
 title: Pull the Latest Version of Your Exporting App
-ref: export-app-cli-pull-the-latest-version-of-your-app
+ref: copy-app-cli-pull-the-latest-version-of-your-app
 content: |
   You'll need a local copy of the configuration files for the {+app+} you're exporting.
   Pull a local copy of the latest version of your app:
@@ -27,7 +27,7 @@ content: |
 
 ---
 title: Create New App
-ref: export-app-cli-create-new-app
+ref: copy-app-cli-create-new-app
 content: |
   Create a new {+app+}. This is where you'll add the configuration files from 
   the exported app in later steps. To create the app, run: 
@@ -40,7 +40,7 @@ content: |
 
 ---
 title: Copy Exported App Configuration to New App
-ref: export-app-cli-copy-exported-app-to-new-app
+ref: copy-app-cli-copy-exported-app-to-new-app
 content: |
   Delete all the configuration files in the new app except for ``realm_config.json``.
   You'll handle ``realm_config.json`` in the next step. 
@@ -50,7 +50,7 @@ content: |
 
 ---
 title: Configure the New App's ``realm_config.json``
-ref: export-app-cli-configure-realm-config-json
+ref: copy-app-cli-configure-realm-config-json
 content: |
   In the new app's ``realm_config.json``, replace all the contents except for the 
   ``"app_id"`` and ``"name"``.
@@ -69,7 +69,7 @@ content: |
 
 ---
 title: Migrate Secrets to New App
-ref: export-app-cli-migrate-secrets
+ref: copy-app-cli-migrate-secrets
 content: |
   When you :ref:`export your {+app+} <export-realm-app>`, the export does not include the app's 
   :ref:`secrets <app-secret>`. As secrets cannot be read once they're defined, 
@@ -96,7 +96,7 @@ content: |
 
 ---
 title: Push New App to Realm
-ref: export-app-cli-push-to-realm
+ref: copy-app-cli-push-to-realm
 content: |
   Now that the app configuration and secrets are updated, push configuration to your
   remote app. {+cli+} immediately deploys the updated configurations on push.
