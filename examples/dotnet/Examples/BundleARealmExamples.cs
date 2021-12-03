@@ -48,7 +48,7 @@ namespace Examples
             // :hide-start:
             var existingConfig = new SyncConfiguration("myPartition", user)
             {
-                Schema = new[] { typeof(Examples.Models.User) }
+                Schema = new[] { typeof(Models.User) }
             };
             // :hide-end:
             var realm = await Realm.GetInstanceAsync(existingConfig);
@@ -76,24 +76,17 @@ namespace Examples
         }
 
 
-        // [Test] Commented because git builder can't find/save/write the file
+        //[Test]// Commented because git builder can't find/save/write the file
         public async Task ExtractAndLoadRealmFile()
         {
-            var appConfig = new AppConfiguration(Config.appid);
-
             // :code-block-start: extract_and_copy_realm
-            // If you are using a local Realm
-            var config = RealmConfiguration.DefaultConfiguration;
-
-            // ...or...
-            // If the realm is synced realm
-            var app = App.Create(appConfig);
-            var user = await app.LogInAsync(Credentials.Anonymous());
-            // :uncomment-start:
-            // var config = new SyncConfiguration("myPartition", user);
-            // :uncomment-end:
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.appid": "\"myRealmAppId\""}
+            // }
 
             // Extract and copy the realm
+            var config = RealmConfiguration.DefaultConfiguration;
             if (!File.Exists(config.DatabasePath))
             {
                 using var bundledDbStream = Assembly.GetExecutingAssembly()
@@ -102,8 +95,18 @@ namespace Examples
                 bundledDbStream.CopyTo(databaseFile);
             }
 
-            // Then, open the realm
+            // If you are using a local realm
             var realm = Realm.GetInstance(config);
+
+            // If the realm file is a synced realm
+            var app = App.Create(Config.appid);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+            config = new SyncConfiguration("myPartition", user);
+            // :hide-start:
+            config.Schema = new[] { typeof(Examples.Models.User) };
+            // :hide-end:
+            var syncedRealm = await Realm.GetInstanceAsync(config);
+            // :replace-end:
             // :code-block-end:
         }
     }
