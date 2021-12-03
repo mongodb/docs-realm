@@ -163,7 +163,7 @@ delete from the old partition and an insert into the new partition.
 .. _partition-strategies:
 
 Partition Strategy
-~~~~~~~~~~~~~~~~~~
+------------------
 
 A **partition strategy** is a specific partition key and value pattern that you
 use to divide objects into partitions for a particular use case. Realm uses 
@@ -209,7 +209,7 @@ When developing a partition strategy, there are two primary areas to consider:
 .. _partition-strategy-firehose:
 
 Firehose Strategy
------------------
+~~~~~~~~~~~~~~~~~
 
 A firehose partition strategy groups all documents into a single partition so
 that every user syncs all of your app's data to their device. This approach is
@@ -279,7 +279,7 @@ applications or relatively small public data sets.
 .. _partition-strategy-user:
 
 User Strategy
--------------
+~~~~~~~~~~~~~
 
 A user partition strategy groups private documents that belong to a user into a
 partition specific to that user. This approach is effective when each document
@@ -352,7 +352,7 @@ need access to the data.
 .. _partition-strategy-team:
 
 Team Strategy
--------------
+~~~~~~~~~~~~~
 
 A team partition strategy groups private documents shared by a team of users
 (e.g. a store location's employee, a band's members, etc) into a partition
@@ -441,7 +441,7 @@ team's documents.
 .. _partition-strategy-channel:
 
 Channel Strategy
-----------------
+~~~~~~~~~~~~~~~~
 
 A channel partition strategy groups documents relevant to a common topic or
 domain into a partition specific to that area. Users can choose to access or
@@ -529,7 +529,7 @@ list.
 .. _partition-strategy-region:
 
 Region Strategy
----------------
+~~~~~~~~~~~~~~~
 
 A region partition strategy groups documents that are relevant to a specific
 location or region into partitions specific to those areas.
@@ -588,7 +588,7 @@ location or region into partitions specific to those areas.
 .. _partition-strategy-bucket:
 
 Bucket Strategy
----------------
+~~~~~~~~~~~~~~~
 
 A bucket partition strategy groups documents that range along a particular
 dimension into partitions that each contain documents from a discrete subrange.

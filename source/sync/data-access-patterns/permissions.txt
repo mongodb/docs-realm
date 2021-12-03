@@ -10,7 +10,7 @@ Sync Rules and Permissions
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Rules
@@ -63,7 +63,7 @@ don't accidentally leak sensitive information.
   rules.
 
 Partition-Based Sync Permissions
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Realm enforces dynamic, user-specific read and write permissions to secure the
 data in each :ref:`partition <sync-partitions>`. You define permissions with
@@ -78,12 +78,12 @@ a user's permissions every time they open a synced realm.
    determine a user's permissions based on the context of their request.
 
 Key Concepts
-------------
+~~~~~~~~~~~~
 
 .. _sync-read-permissions:
 
-Read Permissions
-~~~~~~~~~~~~~~~~
+Partition-Based Sync Read Permissions
+`````````````````````````````````````
 
 A user with read permissions for a given partition can view all fields of any
 object in the corresponding synced realm. Read permissions do not permit a user
@@ -92,7 +92,7 @@ to modify data.
 .. _sync-write-permissions:
 
 Write Permissions
-~~~~~~~~~~~~~~~~~
+`````````````````
 
 A user with write permissions for a given partition can modify the value of any
 field of any object in the corresponding synced realm. Write permissions require
@@ -102,7 +102,7 @@ before and after it's modified.
 .. _sync-permission-strategies:
 
 Permission Strategies
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 You can structure your read and write permission expressions as a set of
 permission strategies that apply to your :ref:`partition strategy
@@ -110,7 +110,7 @@ permission strategies that apply to your :ref:`partition strategy
 you might take to define sync read and write permissions for your app.
 
 Global Permissions
-~~~~~~~~~~~~~~~~~~
+``````````````````
 
 You can define global permissions that apply to all users for all partitions.
 This is, in essence, a choice to not implement user-specific permissions in
@@ -149,7 +149,7 @@ value.
        same as directly specifying ``true``.
 
 Permissions for Specific Partitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```````````````````````````````````
 
 You can define permissions that apply to a specific partition or a groups of
 partitions by explicitly specifying their partition values.
@@ -182,7 +182,7 @@ partitions by explicitly specifying their partition values.
        for data with any of the specified partition values.
 
 Permissions for Specific Users
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````
 
 You can define permissions that apply to a specific user or a group of users by
 explicitly specifying their ID values.
@@ -216,7 +216,7 @@ explicitly specifying their ID values.
        values has the given access permissions for data in any partition.
 
 Permissions Based on User Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````````````
 
 You can define permissions that apply to users based on specific data defined in
 their :ref:`custom user data <custom-user-data>` document, metadata fields, or
@@ -246,7 +246,7 @@ other data from an authentication provider.
        ``data.writePartitions`` field of their user object.
 
 Function Rules
-~~~~~~~~~~~~~~
+``````````````
 
 You can define complex dynamic permissions by evaluating a :ref:`function
 <functions>` that returns a boolean value. This is useful for permission schemes
@@ -298,10 +298,10 @@ Query-Based Sync Rule Behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Query-Based Sync rules apply on a per-collection basis. They are coupled to 
-your app's data modelby the :term:`queryable field` or user metadata. 
-Consider the following behavior when designing your schemas to ensure that 
-you have appropriate data access granularity and don't accidentally leak 
-sensitive information.
+your app's data modelby the :ref:`queryable field <queryable-fields>` or 
+user metadata. Consider the following behavior when designing your schemas 
+to ensure that you have appropriate data access granularity and don't 
+accidentally leak sensitive information.
 
 - Sync rules apply dynamically based on the value of the queryable field or 
   user metadata. One user may have full read & write access to a document 
@@ -324,15 +324,22 @@ Roles
 When a user submits a query to the {+app+}, Sync determines which role 
 applies for the user.
 
-A role consists of an Apply When :ref:`expression <expressions>`, and 
-a set of :ref:`read <qbs-read-permissions>` and :ref:`write 
-<qbs-write-permissions>` permissions.
+A role consists of:
 
-This role applies for the duration of the session. If you make changes 
-while a user is in the middle of a session, the updated role applies the 
-next time the user starts a session.
+- A name 
+- An Apply When rule :ref:`expression <expressions>`
+- A set of :ref:`read <qbs-read-permissions>` and :ref:`write 
+<qbs-write-permissions>` permissions
 
-Roles apply at the collection level, so a user could have different roles
+A role might also include a collection name, if it is a collection-specific
+role.
+
+A role applies for the duration of the session. If you make changes to an
+applied role while a user is in the middle of a session, {+service-short+}
+does not evaluate the updated role until the next time the user starts a 
+session.
+
+Because roles apply at the collection level, a user could have different roles
 for different collections.
 
 .. example::
@@ -376,7 +383,8 @@ Configuring Query-Based Sync Permissions
 Query-Based Sync rules must be configured on either:
 
 - The values of :ref:`queryable fields <queryable-fields>`
-- User :ref:`metadata <configure-user-metadata-on-the-backend>`
+- User data, including :ref:`metadata <configure-user-metadata-on-the-backend>`
+  and :ref:`custom user data <custom-user-data>`
 
 If you configure rules on anything else, Query-Based Sync cannot 
 assign the correct role.

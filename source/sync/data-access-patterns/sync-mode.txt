@@ -17,9 +17,13 @@ Overview
 
 When you enable {+sync+}, you must specify a {+sync-short+} mode for your 
 {+app+}. The {+sync-short+} mode determines how users can access data 
-from the {+service+} SDK in the client app.
+from the {+service+} SDK in the client app. {+service-short+} offers two 
+{+sync-short+} modes:
 
-You configure and use each type {+sync-short+} mode with different data.
+- Partition-Based Sync
+- Query-Based Sync (beta)
+
+You configure and use each type of {+sync-short+} mode with different data.
 You can't mix Partition-Based Sync and Query-Based Sync within the same 
 {+app+}, so you must decide which type of {+sync+} to use in a given 
 application.
@@ -53,8 +57,23 @@ Choose Partition-Based Sync when:
 Query-Based Sync
 ~~~~~~~~~~~~~~~~
 
+.. include:: /includes/note-qbs-beta.rst
+
 :ref:`Query-Based Sync <query-based-sync>` works best for applications 
-where you need to define permissions on a per-document basis.
+where you need to define permissions on a per-document basis. With 
+Query-Based Sync, you can define a query in the client application, and 
+Sync only the documents that match the query. {+service-short+} translates 
+those documents to objects in the client application, making it easy to
+work with objects in your app.
+
+In Query-Based Sync, you define :ref:`queryable fields <queryable-fields>` 
+that you can query against from the client application. You can then 
+subscribe to queries against those fields from the client application. 
+When a client starts a Sync session, {+service-short+} evaluates :ref:`rules 
+<query-based-sync-rules-and-permissions>` to determine which documents 
+in the query the user can access. Realm maps the documents that a user can 
+access to a synced ``.realm`` file. Each object in a synced realm has a 
+corresponding document in the {+app+}.
 
 Choose Query-Based Sync when:
 
