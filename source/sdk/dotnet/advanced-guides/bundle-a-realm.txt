@@ -1,8 +1,8 @@
 .. _dotnet-bundle-a-realm:
 
-=======================================
-Copy and Bundle a Realm File - .NET SDK
-=======================================
+=============================
+Bundle Realm Files - .NET SDK
+=============================
 
 .. default-domain:: mongodb
 
@@ -33,11 +33,11 @@ app data. The following sections provide more information on these steps.
 
 .. _copy_a_realm_file:
 
-Copy a Realm File
------------------
+Create a Realm File for Bundling
+--------------------------------
 
 1. Create a new project with the same data models as your production app. Open 
-   an existing {+realm+} with the data you wish to bundle.
+   an existing {+realm+} with the data you wish to bundle, or create a new one.
 
 #. Use the 
    :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
@@ -67,8 +67,9 @@ Copy a Realm File
          .. literalinclude:: /examples/generated/dotnet/BundleARealmExamples.codeblock.copy_a_synced_realm.cs
             :language: csharp
 
-Include the Realm File in Your Project
---------------------------------------
+Bundle a Realm File in Your Production Application
+--------------------------------------------------
+
 Now that you have a copy of the {+realm+} with the "seed" data in it, you 
 need to bundle it with your production application. The process of bundling 
 depends on whether you are building a mobile app or Unity app:
@@ -100,8 +101,9 @@ depends on whether you are building a mobile app or Unity app:
    Non-encrypted {+realm+} files are cross-platform compatible, which 
    is why you can bundle the file in the shared project.
 
-Using the Copied Realm File
----------------------------
+Open a Realm from a Bundled Realm File
+--------------------------------------
+
 Now that you have a copy of the {+realm+} included with your app, you need to 
 add code to use it. The code you add depends on the type of app:
 
@@ -132,6 +134,7 @@ add code to use it. The code you add depends on the type of app:
 
       .. literalinclude:: /examples/generated/dotnet/Unity.codeblock.read_a_realm_unity.cs
          :language: csharp
+
 
 .. _synced_realm_considerations:
 
