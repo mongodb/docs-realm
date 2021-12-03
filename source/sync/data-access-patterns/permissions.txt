@@ -346,6 +346,14 @@ for the duration of their session.
 Default Roles
 `````````````
 
+You can create one or more default roles that apply across all collections. 
+If a collection does not have any custom roles defined, role resolution 
+falls through to default roles. 
+
+.. seealso::
+
+   :ref:`qbs-custom-and-default-roles`
+
 Query-Based Sync Permissions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -365,12 +373,12 @@ evaluates a user's permissions at the beginning of each session.
 Configuring Query-Based Sync Permissions
 ````````````````````````````````````````
 
-Query-Based Sync permissions must be configured on either:
+Query-Based Sync rules must be configured on either:
 
 - The values of :ref:`queryable fields <queryable-fields>`
 - User :ref:`metadata <configure-user-metadata-on-the-backend>`
 
-If you configure permissions on anything else, Query-Based Sync cannot 
+If you configure rules on anything else, Query-Based Sync cannot 
 assign the correct role.
 
 .. _qbs-read-permissions:
@@ -485,6 +493,8 @@ own departments; they cannot read documents for other departments.
        ]
      }
    }
+
+.. _qbs-custom-and-default-roles:
 
 Custom and Default Roles
 ````````````````````````

@@ -15,4 +15,51 @@ Choose Your Sync Mode
 Overview
 --------
 
+When you enable {+sync+}, you must specify a {+sync-short+} mode for your 
+{+app+}. The {+sync-short+} mode determines how users can access data 
+from the {+service+} SDK in the client app.
 
+You configure and use each type {+sync-short+} mode with different data.
+You can't mix Partition-Based Sync and Query-Based Sync within the same 
+{+app+}, so you must decide which type of {+sync+} to use in a given 
+application.
+
+Partition-Based Sync
+~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Partition-Based Sync <partition-based-sync>` works best for 
+applications where a subset of the documents in a synced cluster are 
+related in some way and have the same read/write permissions for a given 
+user. Those documents form a **partition**.
+
+In Partition-Based Sync, you define a :ref:`partition key <partition-key>` 
+whose value determines whether the user can read or write a document. 
+{+service+} :ref:`evaluates a set of rules <partition-based-rules-and-permissions>` 
+to determine whether users can read or write to a given partition. Realm 
+directly maps a partition to individual synced ``.realm`` files. Each 
+object in a synced realm has a corresponding document in the partition.
+
+Choose Partition-Based Sync when:
+
+- You don't need to create overlapping result sets
+- Your data structure supports permissions at a partition level
+- You want to release a production app quickly, while Query-Based Sync
+  is still in beta
+
+.. example::
+
+   
+
+Query-Based Sync
+~~~~~~~~~~~~~~~~
+
+:ref:`Query-Based Sync <query-based-sync>` works best for applications 
+where you need to define permissions on a per-document basis.
+
+Choose Query-Based Sync when:
+
+- You need to create overlapping query and result sets
+- You want to apply permissions at the document level
+- You need a flexible permissioning system to apply more granular permissions
+
+.. example::

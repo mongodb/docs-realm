@@ -26,6 +26,16 @@ client applications can:
 With :ref:`rules and permissions <sync-rules>`, this provides a powerful 
 and flexible way to configure sync around your business logic.
 
+When a client makes a query, {+service-short+} searches the server-side 
+data set for documents matching the query. Then, the sync engine applies 
+a set of rules to determine which documents in the query the user should 
+be able to access. {+service-short+} returns only the matching documents 
+where the user has read or read/write access, and assigns the user
+the appropriate permissions.
+
+Client applications can add, update, or remove queries dynamically at 
+run-time from the device.
+
 .. _queryable-fields:
 
 Queryable Fields
@@ -54,8 +64,8 @@ Any top-level primitive field with a scalar type can be a queryable field.
 Query-Based Sync does not currently support embedded objects or arrays as 
 queryable fields.
 
-Performance and Storage Considerations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Performance and Storage
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Queryable fields use storage on the backing Atlas cluster. The more 
 queryable fields you configure, the more storage you use on the backing 
@@ -63,7 +73,9 @@ cluster.
 
 You can configure up to 10 queryable fields per application for Query-Based 
 Sync. If you have a large number of collections in an {+app+}, you may need to
-use the same queryable field in multiple collections.
+use the same queryable field across multiple collections. Combine this with 
+:ref:`rules and permissions <query-based-sync-rules-and-permissions>` for 
+more granular control over who can access which collections.
 
 .. example::
 
@@ -84,22 +96,41 @@ those broad queries.
    can further refine your query for things like tasks of a certain prioroity 
    or completion status to slice off a working set.
 
+.. _get-started-qbs:
+
 Get Started with Query-Based Sync
 ---------------------------------
 
 Define a Schema
 ~~~~~~~~~~~~~~~
 
-To use Query-Based Sync, :ref:`create a schema 
-<create-schema-for-backend-realm-app>` for your {+app+}. The :ref:`eligible 
+To use Query-Based Sync, create a schema for your {+app+}. The :ref:`eligible 
 fields <qbs-eligible-field-types>` in your schema become queryable fields
 you can select when you enable Query-Based Sync.
 
 If you're not yet ready to create a schema, you can manually define queryable
 fields with :ref:`Development Mode <concept-development-mode>`.
 
+.. seealso::
+
+   :ref:`create-schema-for-backend-realm-app`
+
+Enable Sync
+~~~~~~~~~~~
+
+After you have defined a schema, or decided to create your data model client-side
+and use :ref:`Development Mode <concept-development-mode>` to define a schema,
+you can enable Query-Based Sync. 
+
+During the process of enabling Sync, you select queryable fields and 
+define roles that control how users can access your data. 
+
+.. seealso::
+
+   :ref:`enable-sync`
+
 Select Fields to Query
-~~~~~~~~~~~~~~~~~~~~~~
+``````````````````````
 
 When you enable Query-Based Sync, you can select queryable fields in two ways:
 
@@ -113,21 +144,72 @@ You can configure up to 10 queryable fields per {+app+}. These
 fields apply across all of the collections in your application.
 
 Define Roles
-~~~~~~~~~~~~
+````````````
 
 When a user submits a query to the {+app+}, Sync determines which role 
-applies for the user. This role applies to 
+applies for the user. 
 
-Enable Sync
-~~~~~~~~~~~
+Roles consists of:
 
+- A role name
+- A rule for when to apply the role 
+- Read and write permissions for users with the role 
 
+You can define multiple roles to tailor your access permissions for each
+collection. Collections can have more than one role, or none at all. 
 
-Create Queries on Your Client Application
+You can also create default roles, which do not apply to a specific collection.
+Instead, default roles apply when you do not define custom roles for a 
+collection.
+
+.. seealso::
+
+   :ref:`query-based-sync-rules-and-permissions`
+
+Create Queries in Your Client Application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With Query-Based Sync enabled, you can then start creating queries on 
-your client application. For information about supported operators, see:
-:ref:`Realm Query Language <realm-query-language>`.
+With Query-Based Sync enabled, you can start creating queries from 
+your client application. 
 
+The {+service+} SDKs provide methods to create, update, and remove queries 
+from the client application. The SDKs use subscriptions to maintain those 
+queries on the client side. Through these subscriptions, your applications
+sync objects with the backend {+app+} and can watch for and react to changes.
 
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To create queries from the Android Client SDK, see the
+      :ref:`Android SDK guide to Sync Changes Between Devices with 
+      Query-Based Sync <android-sync-changes-between-devices-qbs>`.
+
+   .. tab::
+      :tabid: ios
+
+      To create queries from the iOS Client SDK, see the :ref:`iOS SDK guide 
+      to Sync Changes Between Devices with Query-Based Sync 
+      <ios-sync-changes-between-devices-qbs>`.
+
+   .. tab::
+      :tabid: node
+      
+      To create queries from the Node Client SDK, see the :ref:`Node SDK 
+      guide to Sync Changes Between Devices with Query-Based Sync 
+      <node-sync-changes-between-devices-qbs>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To create queries from the React Native Client SDK, see the :ref:`React 
+      Native SDK guide to Sync Changes Between Devices with Query-Based 
+      Sync <react-sync-changes-between-devices-qbs>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To create queries from the .NET Client SDK, see the :ref:`.NET SDK 
+      guide to Sync Changes Between Devices with Query-Based Sync 
+      <dotnet-sync-changes-between-devices-qbs>`.
