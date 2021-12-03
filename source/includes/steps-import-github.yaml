@@ -1,14 +1,17 @@
+title: Export the Latest Version of Your App
+ref: export-app-github-export-the-latest-version-of-your-app
+content: |
+  Get a local copy of your {+app+} by following the 
+  :ref:`documentation to export your <export-realm-app>`.
+
+---
 title: Create New App
 ref: export-app-github-create-new-app
 content: |
   Create a new {+app+}. This is where you'll add the configuration files from 
-  the exported app in later steps. To create the app, run: 
-
-  .. code-block:: bash
-     
-     realm-cli app create
-
-  Follow the CLI prompts to complete app creation.
+  the exported app in later steps. Follow the :ref:`UI <create-a-realm-app>`, 
+  :ref:`CLI <create-app-cli>` or :ref:`API <create-app-api>` documentation 
+  to create the {+app+}.
 
 ---
 title: Set up Github Automatic Deployment
@@ -16,35 +19,6 @@ ref: export-app-github-set-up-github
 content: |
   Follow the :ref:`documentation to set up Github Automatic Deployment <deploy-github>`
   for your {+app+}.
-
----
-title: Log In to MongoDB Cloud
-ref: export-app-github-log-in-to-mongodb-cloud
-content: |
-  You need to use the {+cli+} as part of app import process.
-  You must log in to MongoDB Cloud  with the {+cli+} using
-  an :atlas:`API key </configure-api-access/#programmatic-api-keys>` scoped to the organization or
-  project that contains the app.
-
-  .. code-block:: bash
-
-     realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
-
----
-title: Pull the Latest Version of Your Exporting App
-ref: export-app-github-pull-the-latest-version-of-your-app
-content: |
-  You'll need a local copy of the configuration files for the {+app+} you're exporting.
-  Pull a local copy of the latest version of your app:
-
-  .. code-block:: bash
-
-     realm-cli pull --remote="<Your Exported App ID>"
-
-  .. tip::
-
-     You can also download a copy of your application's configuration files from
-     the :guilabel:`Deployment > Export App` screen in the {+ui+}.
 
 ---
 title: Copy Exported App Configuration to New App

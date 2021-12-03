@@ -87,11 +87,18 @@ content: |
   #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
      Secrets must be added one at a time.
 
+   .. note:: Add secrets before pushing app
+
+      You should add all secrets before puhsing up the copy of the {+app+} because 
+      {+service-short+} can require that the secrets exist to push the configuration.
+      If the secrets don't exist, the {+cli+} will throw an error when you push the 
+      app in the next step.
+
 ---
 title: Push New App to Realm
 ref: export-app-cli-push-to-realm
 content: |
-  Now that the app configuration and secrets are updated, push them to your
+  Now that the app configuration and secrets are updated, push configuration to your
   remote app. {+cli+} immediately deploys the updated configurations on push.
 
   .. code-block:: bash
