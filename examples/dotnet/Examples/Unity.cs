@@ -14,11 +14,11 @@ public class Cube
         // After copying the above created file to the project folder,
         // we can access it in Application.dataPath:
         //:uncomment-start:
-        //var realmPath = Path.Combine(Application.dataPath, "bundled.realm");
         //var config = RealmConfiguration.DefaultConfiguration;
         //if (!File.Exists(config.DatabasePath))
         //{
-        //    FileUtil.CopyFileOrDirectory(Path.Combine(Application.dataPath, "bundled.realm"), config.DatabasePath);
+        //    FileUtil.CopyFileOrDirectory(Path.Combine(Application.dataPath,
+        //          "bundled.realm"), config.DatabasePath);
         //}
         //
         //// If you are using a local Realm
