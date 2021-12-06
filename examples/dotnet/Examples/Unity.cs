@@ -15,9 +15,25 @@ public class Cube
         // we can access it in Application.dataPath:
         //:uncomment-start:
         //var realmPath = Path.Combine(Application.dataPath, "bundled.realm");
-        // // And then we open it like any other realm:
-        //var realm = await Realm.GetInstanceAsync(realmPath);
+        //var config = RealmConfiguration.DefaultConfiguration;
+        //if (!File.Exists(config.DatabasePath))
+        //{
+        //    FileUtil.CopyFileOrDirectory(Path.Combine(Application.dataPath, "bundled.realm"), config.DatabasePath);
+        //}
+        //
+        //// If you are using a local Realm
+        //var realm = Realm.GetInstance(config);
+        //
+        //// If the realm is synced realm
+        //var app = App.Create("myRealmAppId");
+        //var user = await app.LogInAsync(Credentials.Anonymous());
+        //config = new SyncConfiguration("myPartition", user);
+        //
+        //var realm = await Realm.GetInstanceAsync(config);
         //:uncomment-end:
         // :code-block-end:
+
+
+
     }
 }
