@@ -32,8 +32,5 @@ public class Cube
         //var realm = await Realm.GetInstanceAsync(config);
         //:uncomment-end:
         // :code-block-end:
-
-
-
     }
 }

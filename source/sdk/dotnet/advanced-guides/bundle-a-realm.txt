@@ -35,19 +35,19 @@ app data. The following sections provide more information on these steps.
    generated more than **client maximum offline time** days before the user syncs 
    the {+realm+} for the first time.
 
-   Applications experiencing a client reset will download the full state of the
-   {+realm+} from the application backend. This negates the
-   advantages of bundling a {+realm+} file. To prevent client resets and
+   Applications experiencing a client reset will download the full state of the 
+   {+realm+} from the application backend. This negates the 
+   advantages of bundling a {+realm+} file. To prevent client resets and 
    preserve the advantages of {+realm+} file bundling:
 
    - Avoid using a client maximum offline time in applications that
-   bundle a synchronized {+realm+}.
+     bundle a synchronized {+realm+}.
 
    - If your application does use a client maximum offline time, ensure
-   that your application download always includes a recently synced
-   {+realm+} file. Generate a new file each application version,
-   and ensure that no version ever stays current for more than
-   **client maximum offline time** number of days.
+     that your application download always includes a recently synced
+     {+realm+} file. Generate a new file each application version,
+     and ensure that no version ever stays current for more than
+     **client maximum offline time** number of days.
 
 
 .. _copy_a_realm_file:
