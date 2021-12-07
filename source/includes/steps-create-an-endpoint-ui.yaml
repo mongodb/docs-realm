@@ -1,0 +1,136 @@
+title: Set Up a New HTTPS Endpoint
+ref: set-up-a-new-https-endpoint
+content: |
+  You can create and manage endpoints from the HTTPS Endpoints page in
+  the Realm UI.
+
+  To create an HTTPS endpoint:
+
+  1. Click :guilabel:`HTTPS Endpoints` in the {+leftnav+}.
+
+  #. Click :guilabel:`Add An Endpoint`. Realm will open
+     the configuration screen for the new endpoint.
+---
+title: Name the New HTTPS Endpoint
+ref: name-the-new-https-endpoint
+content: |
+  Enter a unique, identifying route for the endpoint in the
+  :guilabel:`Route` field. The route controls the
+  URI suffix used to access your endpoint.
+---
+title: Select the Endpoint's HTTP Method
+ref: select-the-endpoints-http-method
+content: |
+  You can require that incoming requests use a specific :mdn:`HTTP
+  method <Web/HTTP/Methods>` or you can accept all HTTP methods and
+  handle each one individually in the endpoint function by inspecting the
+  ``httpMethod`` property on the :ref:`context.request
+  <context-request>` object, as in the following example function:
+
+  .. include:: /includes/endpoint-http-method-handler.rst
+
+  .. figure:: /images/endpoint-http-method-dropdown.png
+     :alt: The HTTP method dropdown input in the UI
+---
+title: Configure the Endpoint Response
+ref: configure-the-endpoint-response
+content: |
+  You can send a configurable :mdn:`HTTP Response
+  <Web/HTTP/Messages#HTTP_Responses>` to external services that call the
+  endpoint.
+
+  If you enable :guilabel:`Respond With Result`, the endpoint will
+  respond to incoming requests with a basic :mdn:`HTTP 200
+  <Web/HTTP/Status/200>` response that includes the endpoint function
+  return value as its ``body`` field. You can configure a custom HTTP
+  response from within the endpoint function using the ``response``
+  object that Realm automatically passes as the second argument.
+
+  .. figure:: /images/endpoint-respond-with-result-realm-ui.png
+     :alt: The respond with result toggle in the UI
+     :lightbox:
+---
+title: Write the Endpoint Function
+ref: write-the-endpoint-function
+content: |
+  Next, write the function that executes when someone calls the endpoint.
+  Realm automatically passes two objects as the endpoint function's
+  arguments:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 30
+
+     * - Argument
+       - Description
+
+     * - ``payload``
+       - An EJSON representation of the incoming request payload. The
+         payload document contains:
+
+         - The request query parameters, as an object.
+
+         - The request headers, as an object.
+
+         - The request body, as a binary object. You can access the
+           contents as a string using the ``body.text()`` method.
+
+     * - ``response``
+       - An :ref:`HTTP response object <endpoint-response-object>` that
+         configures Realm's response to the client that called the
+         endpoint. The object has methods that allow you to set the
+         response's headers, body, and status code. Calling any of these
+         methods overrides the default response behavior.
+
+  You can use the following endpoint function as a base for your own endpoint:
+
+  .. literalinclude:: /includes/endpoint-function-example.js
+     :language: javascript
+     :emphasize-lines: 3, 10-11, 14-15
+
+  .. note::
+
+     If you want to debug a endpoint function response from the function
+     editor, you must manually provide the HTTP response object when you
+     run the function.
+
+     .. code-block:: javascript
+
+        exports(
+          { body: "This document is the endpoint payload" },
+          new HTTPResponse()
+        )
+---
+title: Configure Authorization
+ref: configure-authorization
+content: |
+  Choose the authorization method for the endpoint from the following
+  options:
+
+  .. list-table::
+     :widths: 20 80
+     :header-rows: 1
+     
+     * - No Additional Authorization
+       - Does not validate incoming requests.
+     
+     * - Verify Payload Signature
+       - Validates incoming requests through an "Endpoint Signature" field
+         in the request header, e.g. ``Endpoint-Signature::sha256=<hex-encoded-hash>``
+     
+     * - Require Secret
+       - Validates incoming requests using a secret value passed in the
+         request's query parameters.
+  
+  .. figure:: /images/endpoint-authorization-realm-ui.png
+     :alt: The user authorization type input in the UI
+     :lightbox:
+---
+title: Save the Endpoint
+ref: save-the-endpoint
+content: |
+  You must save changes to your endpoint before they take effect. To do
+  so, click :guilabel:`Save` from either the :guilabel:`Settings` screen
+  or the :guilabel:`Function Editor`.
+
+...
