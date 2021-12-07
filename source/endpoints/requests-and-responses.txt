@@ -43,7 +43,7 @@ The :guilabel:`Verify Payload Signature` request validation option
 requires that incoming requests include a hexadecimal-encoded
 :abbr:`HMAC (Hash-based Message Authentication Code)` SHA-256 hash
 generated from the request body and ``secret`` string in the
-``X-Hook-Signature`` header.
+``Endpoint-Signature`` header.
 
 .. _example-payload-signature:
 
@@ -69,12 +69,12 @@ generated from the request body and ``secret`` string in the
       }
       // Returns: "828ee180512eaf8a6229eda7eea72323f68e9c0f0093b11a578b0544c5777862"
 
-   The hash value must be assigned to the ``X-Hook-Signature`` HTTP
+   The hash value must be assigned to the ``Endpoint-Signature`` HTTP
    request header on every request:
 
    .. code-block:: none
 
-      X-Hook-Signature:sha256=<hex-encoded-hash>
+      Endpoint-Signature::sha256=<hex-encoded-hash>
 
    To test that the request was properly signed, we could run the
    following ``curl`` command:
@@ -83,7 +83,7 @@ generated from the request body and ``secret`` string in the
 
       curl -X POST \
         -H "Content-Type: application/json" \
-        -H "X-Hook-Signature:sha256=828ee180512eaf8a6229eda7eea72323f68e9c0f0093b11a578b0544c5777862" \
+        -H "Endpoint-Signature::sha256=828ee180512eaf8a6229eda7eea72323f68e9c0f0093b11a578b0544c5777862" \
         -d '{"message":"MESSAGE"}' \
         <endpoint URL>
 
