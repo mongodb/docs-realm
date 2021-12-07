@@ -96,8 +96,8 @@ types of requests:
 - **GraphQL Requests**, such as when a client application issues a
   GraphQL query operation or calls a custom resolver.
 
-- **Webhook Requests**, such as when an external service sends a notification
-  event or interaction payload to an incoming webhook URL.
+- **HTTPS Requests**, such as when an external service sends a notification
+  event or interaction payload to an incoming webhook or HTTPS endpoint.
 
 - **Sync Operations**, such as when a sync client uploads a :ref:`changeset
   <changesets>`, when {+service-short+} :ref:`resolves a conflict
@@ -109,7 +109,7 @@ types of requests:
 
 **Price:** $2.00 / 1,000,000 requests ($0.000002 / request)
 
-**Formula:** (Function Executions + Trigger Executions + GraphQL/Webhook Requests + Sync Updates) * $0.000002
+**Formula:** (Function Executions + Trigger Executions + GraphQL/Webhook/HTTPS Endpoint Requests + Sync Updates) * $0.000002
 
 **Free Tier Threshold:** 1,000,000 :ref:`requests <billing-requests>` **or** 500
 hours of :ref:`compute <billing-compute>` **or** 10,000 hours of :ref:`sync

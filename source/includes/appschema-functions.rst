@@ -51,8 +51,8 @@ Configuration
    
    * - | ``private``
        | Boolean
-     - If ``true``, this function may only be accessed from incoming
-       webhooks, rules, and named functions.
+     - If ``true``, this function may only be accessed from
+       HTTPS endpoints, rules, and named functions.
    
    * - | ``can_evaluate``
        | Document
