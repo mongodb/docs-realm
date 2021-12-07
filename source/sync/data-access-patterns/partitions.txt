@@ -77,7 +77,7 @@ partition called the *null partition*.
 Consider the following when choosing a partition key:
 
 - Partition keys must have one of the following property types: ``String``,
-  ``ObjectID``, ``Long``, or ``UUID``.
+  ``ObjectID``, ``Int``, ``Long``, or ``UUID``.
 
 - {+service-short+} clients should never modify the partition value directly.
   Any field that clients can modify cannot be used as a partition key.
