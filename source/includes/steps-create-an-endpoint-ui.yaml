@@ -1,128 +1,22 @@
-title: Set Up a New Endpoint
-ref: set-up-a-new-endpoint
+title: Set Up a New HTTPS Endpoint
+ref: set-up-a-new-https-endpoint
 content: |
-  Incoming endpoints are scoped to individual :doc:`services
-  </services>`. You can create and manage a endpoint from its associated
-  service page in the Realm UI.
+  You can create and manage endpoints from the HTTPS Endpoints page in
+  the Realm UI.
 
-  To create an incoming endpoint:
+  To create an HTTPS endpoint:
 
-  1. Click :guilabel:`Services` in the {+leftnav+}.
+  1. Click :guilabel:`HTTPS Endpoints` in the {+leftnav+}.
 
-  2. Click the Service for which you want to add an incoming endpoint.
-
-  3. Select the :guilabel:`Incoming Endpoints` tab for the service.
-
-  4. Click :guilabel:`Add Incoming Endpoint`. Realm will redirect you to
-     the :guilabel:`Settings` screen for the new endpoint.
+  #. Click :guilabel:`Add An Endpoint`. Realm will open
+     the configuration screen for the new endpoint.
 ---
-title: Name the New Endpoint
-ref: name-the-new-endpoint
+title: Name the New HTTPS Endpoint
+ref: name-the-new-https-endpoint
 content: |
-  Enter a unique, identifying name for the endpoint in the
-  :guilabel:`Endpoint Name` field. This name must be distinct from any
-  other endpoints that you've created for the service.
----
-title: Configure User Authentication
-ref: configure-user-authentication
-content: |
-  Functions in Realm, including endpoints, always execute in
-  the context of a specific application user or as the
-  :ref:`system user <system-user>`, which bypasses rules. To
-  configure the endpoint's execution user, specify the type
-  of authentication that Realm should use for the endpoint.
-
-  .. list-table::
-     :widths: 20 80
-     :header-rows: 1
-     
-     * - Authentication Type
-       - Description
-     
-     * - Application Authentication
-       - This type of authentication configures a endpoint to run in the
-         context of an existing application user specified by each
-         incoming request. Incoming requests must include the user's
-         :doc:`authentication provider </authentication/providers>`
-         credentials in either the request body or the request headers.
-
-         The following examples demonstrate the field names and values
-         for each supported authentication provider:
-
-         .. tabs-realm-auth-providers::
-            
-            .. tab::
-               :tabid: local-userpass
-               
-               .. code-block:: json
-                  
-                  {
-                    "email": "<User's Email Address>",
-                    "password": "<User's Password>"
-                  }
-            
-            .. tab::
-               :tabid: api-key
-               
-               .. code-block:: json
-                     
-                  {
-                    "api-key": "<User's API Key>"
-                  }
-            
-            .. tab::
-               :tabid: custom-token
-               
-               .. code-block:: json
-                     
-                  {
-                    "jwtTokenString": "<User's JWT Token>"
-                  }
-         
-         .. important:: Do Not Use Both Headers and Body Fields
-            
-            If a request includes credentials in both the request
-            headers and the request body, then Realm throws an error
-            and does not execute the function.
-         
-         .. note:: Application Users
-            
-            You can configure a endpoint that uses application authentication to
-            perform additional user-related work for each request:
-            
-            - If you enable :guilabel:`Fetch Custom User Data`,
-              {+service-short+} queries the requesting user's :ref:`custom user
-              data <custom-user-data>` and, if it exists, exposes the data as an
-              object on the ``context.user.custom_data`` property.
-            
-            - If you enable :guilabel:`Create User Upon Authentication`,
-              {+service-short+} automatically creates a new user based on the
-              provided user credentials if they don't match an already existing
-              user. The authentication provider that corresponds to the
-              credentials must be enabled at the time of the request to create a
-              new user.
-     
-     * - System
-       - This type of authentication configures a endpoint to run as the
-         :ref:`system user <system-user>`, which has full
-         access to MongoDB CRUD and Aggregation APIs and is
-         not affected by any rules, roles, or permissions.
-     
-     * - User ID
-       - This type of authentication configures a endpoint to always run
-         as a specific application user.
-     
-     * - Script
-       - This type of authentication configures a endpoint to run as a
-         specific application user determined by the result of a
-         custom :doc:`function </functions>` that you define. The
-         function must return a specific user's ``id`` string or can
-         specify a system user by returning ``{ "runAsSystemUser": true
-         }``.
-  
-  .. figure:: /images/endpoint-authentication-realm-ui.png
-     :alt: The user authentication type input in the UI
-     :lightbox:
+  Enter a unique, identifying route for the endpoint in the
+  :guilabel:`Route` field. The route controls the
+  URI suffix used to access your endpoint.
 ---
 title: Select the Endpoint's HTTP Method
 ref: select-the-endpoints-http-method
@@ -156,48 +50,12 @@ content: |
      :alt: The respond with result toggle in the UI
      :lightbox:
 ---
-title: Specify an Authorization Expression
-ref: specify-an-authorization-expression
-content: |
-  You can dynamically authorize requests based on the contents of each request
-  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`. Realm
-  evaluates the expression for every incoming request that the endpoint receives.
-  If you do not specify an expression then Realm automatically authorizes all
-  authenticated incoming requests.
-  
-  The expression can expand standard :ref:`expression variables <expressions>`,
-  including the :json-expansion:`%%request` expansion.
-
-  .. figure:: /images/function-can-evaluate-realm-ui.png 
-     :alt: The endpoint's Can Evaluate JSON expression input in the UI
-     :lightbox:
----
-title: Specify the Request Validation Method
-ref: specify-the-request-validation-method
-content: |
-  To validate that a endpoint request was sent from a trusted source,
-  some external services require that incoming requests incorporate a
-  secret string in one of several prescribed manners. Other services,
-  like the :doc:`HTTP service </services/http>`, allow you to optionally
-  require request validation.
-
-  If your endpoint requires request validation:
-
-  1. Select the :ref:`request validation method <endpoint-request-validation>`.
-
-  2. Enter a :guilabel:`Secret` string to use in the request validation
-     process.
-
-  .. figure:: /images/endpoint-request-validation-realm-ui.png
-     :alt: The request validation secret input in the UI
-     :lightbox:
----
 title: Write the Endpoint Function
 ref: write-the-endpoint-function
 content: |
-  Once you've configured the endpoint, all that's left is to write the
-  function that executes when someone calls the endpoint. Realm
-  automatically passes two objects as the endpoint function's arguments:
+  Next, write the function that executes when someone calls the endpoint.
+  Realm automatically passes two objects as the endpoint function's
+  arguments:
 
   .. list-table::
      :header-rows: 1
@@ -208,10 +66,14 @@ content: |
 
      * - ``payload``
        - An EJSON representation of the incoming request payload. The
-         contents of the payload document will vary depending on the
-         service and event that caused a endpoint to fire. For a
-         description of the ``payload`` object for a specific service,
-         see that service's reference page.
+         payload document contains:
+
+         - The request query parameters, as an object.
+
+         - The request headers, as an object.
+
+         - The request body, as a binary object. You can access the
+           contents as a string using the ``body.text()`` method.
 
      * - ``response``
        - An :ref:`HTTP response object <endpoint-response-object>` that
@@ -238,6 +100,31 @@ content: |
           { body: "This document is the endpoint payload" },
           new HTTPResponse()
         )
+---
+title: Configure Authorization
+ref: configure-authorization
+content: |
+  Choose the authorization method for the endpoint from the following
+  options:
+
+  .. list-table::
+     :widths: 20 80
+     :header-rows: 1
+     
+     * - No Additional Authorization
+       - Does not validate incoming requests.
+     
+     * - Verify Payload Signature
+       - Validates incoming requests through an "Endpoint Signature" field
+         in the request header, e.g. ``Endpoint-Signature::sha256=<hex-encoded-hash>``
+     
+     * - Require Secret
+       - Validates incoming requests using a secret value passed in the
+         request's query parameters.
+  
+  .. figure:: /images/endpoint-authorization-realm-ui.png
+     :alt: The user authorization type input in the UI
+     :lightbox:
 ---
 title: Save the Endpoint
 ref: save-the-endpoint

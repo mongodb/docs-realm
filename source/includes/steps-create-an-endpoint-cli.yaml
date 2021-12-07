@@ -15,180 +15,98 @@ content: |
      You can also download a copy of your application's configuration files from
      the :guilabel:`Deploy > Export App` screen in the {+ui+}.
 ---
-title: Add a Endpoint Configuration Directory
-ref: add-a-endpoint-configuration-directory
+title: Add a Endpoint Configuration Object
+ref: add-a-endpoint-configuration-object
 content: |
-  Create a new subdirectory with the same name as the endpoint in
-  ``/http_endpoints/<service>/incoming_endpoints/``:
+  Create a json object describing the endpoint in the top-level array
+  within the :file:`/http_endpoints/config.json` file.
 
-  .. code-block:: shell
-
-     mkdir -p http_endpoints/<service>/incoming_endpoints/<endpoint name>
----
-title: Add a Endpoint Configuration File
-ref: add-a-endpoint-configuration-file
-content: |
-  Add an :ref:`incoming endpoint configuration file <config-incoming-endpoints>`
-  named ``config.json`` to the new endpoint directory.
-
-  The configuration file should have the following form:
+  The configuration object should have the following form:
 
   .. code-block:: json
-     :caption: http_endpoints/<Service Name>/incoming_endpoints/<Endpoint Name>/config.json
+     :caption: http_endpoints/config.json
      
-     {
-       "name": "<Endpoint Name>",
-       "can_evaluate": { <JSON Expression> },
-       "run_as_authed_user": <Boolean>,
-       "run_as_user_id": "<Realm User ID>",
-       "run_as_user_id_script_source": "<Function Source Code>",
-       "respond_result": <Boolean>,
-       "fetch_custom_user_data": <Boolean>,
-       "create_user_on_auth": <Boolean>,
-       "options": {
-         "httpMethod": "<HTTP Method>",
-         "validationMethod": "<Endpoint Validation Method>",
-         "secret": "<Endpoint Secret>"
+     [
+       {
+          "route": "<Unique Endpoint Route>",
+          "http_method": "<HTTP Method>",
+          "function_name": "<Function Name>",
+          "validation_method": "<Endpoint Validation Method>",
+          "secret_name": "<Secret Name>",
+          "respond_result": <Boolean>,
+          "fetch_custom_user_data": <Boolean>,
+          "create_user_on_auth": <Boolean>,
+          "disabled": <Boolean>
        }
-     }
+     ]
+
+  The following table describes each of the fields in the configuration
+  object:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 40
+ 
+     * - Field
+       - Value
+     * - ``route`` (string)
+       - The full path and name of the endpoint
+     * - ``http_method`` (string)
+       - The HTTP method that calling services can use to connect to this 
+         endpoint. Valid values are "GET", "POST", "PUT", "PATCH", 
+         "DELETE" and "*", the last of which indicates that all methods 
+         are accepted.
+     * - ``function_name`` (string)
+       - The name of the function that {+service-short+} calls when the 
+         endpoint receives data.
+     * - ``validation_method`` (string)
+       - Indicates how the endpoint validates the incoming request. Valid 
+         options are:
+
+         - "SECRET_AS_QUERY_PARAM", which requires a secret value in the 
+           query parameters
+         - "VERIFY_PAYLOAD", which requires an "Endpoint-Signature" field 
+           in the header. For example, "Endpoint-Signature::sha256=<hex-encoded-hash>"
+         - "NO_VALIDATION", in which {+service-short+} performs no validation
+           of the incoming request.
+        
+         Endpoints that use "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" as their
+         validation method must also specify a ``secret_name``.
+     * - ``secret_name`` (string)
+       - The name of the secret used to validate incoming requests. Required
+         if "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" is used as a validation
+         method.
+     * - ``respond_result`` (boolean)
+       - Specifies if response contains the result of the associated 
+         function. If set to **false** and the endpoint completes 
+         successfully, the endpoint returns a ``204`` response with 
+         no data in the body. 
+     * - ``fetch_custom_user_data`` (boolean)
+       - If ``true``, {+service-short+} queries the requesting user's 
+         :ref:`custom user data <custom-user-data>` and, if it exists, 
+         exposes the data as an object on the ``context.user.custom_data`` 
+         property.
+     * - ``create_user_on_auth`` (boolean)
+       - If ``true``, {+service-short+} automatically creates a new user 
+         based on the provided user credentials, if they don't match an 
+         existing user. The authentication provider that corresponds to 
+         the credentials must be enabled at the time of the request to 
+         create the new user.
+     * - ``disabled`` (boolean)
+       - Enables (false) or disables (true) the endpoint.
 ---
 title: Name the New Endpoint
 ref: name-the-new-endpoint
 content: |
-  Enter a name for the endpoint in the configuration file's ``name``
-  field. This name must be distinct from any other endpoints that you've
-  created for the service.
+  Enter a route for the endpoint in the configuration file's ``route``
+  field. Each endpoint must use a unique route and HTTP Method
+  combination. Begin your route with a leading slash ("/").
 
   .. code-block:: json
      
      {
-       "name": "<Unique Endpoint Name>"
+       "route": "/example/endpoint"
      }
----
-title: Configure User Authentication
-ref: configure-user-authentication
-content: |
-  Specify the type of authentication that Realm should use for the
-  endpoint. Realm supports the following endpoint authentication methods:
-
-  .. list-table::
-     :widths: 20 80
-     :header-rows: 1
-     
-     * - Authentication Method
-       - Description
-     
-     * - Application Authentication
-       - This type of authentication configures a endpoint to run in the
-         context of an existing application user specified by each
-         incoming request. Incoming requests must include the user's
-         :doc:`authentication provider </authentication/providers>`
-         credentials in either the request body or the request headers.
-
-         To configure a endpoint to use application authentication, set
-         the value of ``run_as_authed_user`` to ``true``:
-
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": true,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "",
-            }
-
-         .. example::
-         
-            The following examples demonstrate the field names and
-            values that incoming requests should include as body or
-            header fields for each supported authentication provider:
-
-            .. tabs-realm-auth-providers::
-               
-               .. tab::
-                  :tabid: local-userpass
-                  
-                  .. code-block:: json
-                        
-                     {
-                       "email": "<User's Email Address>",
-                       "password": "<User's Password>"
-                     }
-               
-               .. tab::
-                  :tabid: api-key
-                  
-                  .. code-block:: json
-                        
-                     {
-                       "api-key": "<User's API Key>"
-                     }
-               
-               .. tab::
-                  :tabid: custom-token
-                  
-                  .. code-block:: json
-                        
-                     {
-                       "jwtTokenString": "<User's JWT Token>"
-                     }
-            
-            .. important:: Do Not Use Both Headers and Body Fields
-               
-               If a request includes credentials in both the request
-               headers and the request body, then Realm throws an error
-               and does not execute the function.
-     
-     * - System
-       - This type of authentication configures a endpoint to run as the
-         :ref:`system user <system-user>`, which has full
-         access to MongoDB CRUD and Aggregation APIs and is
-         not affected by any rules, roles, or permissions.
-
-         To configure a endpoint to run as a system user, do not set any
-         other authentication fields:
-
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "",
-            }
-     
-     * - User ID
-       - This type of authentication configures a endpoint to always run
-         as a specific application user.
-
-         To configure a endpoint to always run as a specific user, set
-         ``run_as_user_id`` to the user's id:
-
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "<Realm User ID>",
-              "run_as_user_id_script_source": "",
-            }
-     
-     * - Script
-       - This type of authentication configures a endpoint to run as a
-         specific application user determined based on the result of a
-         custom :doc:`function </functions>` that you define. The
-         function must return a specific user's ``id`` string or can
-         specify a system user by returning ``{ "runAsSystemUser":
-         true}``.
-
-         To configure a endpoint to run as a user determined by a
-         function, set ``run_as_user_id_script_source`` to the
-         stringified function code:
-
-         .. code-block:: json
-            
-            {
-              "run_as_authed_user": false,
-              "run_as_user_id": "",
-              "run_as_user_id_script_source": "<Stringified Function>",
-            }
 ---
 title: Specify the Endpoint's HTTP Method
 ref: specify-the-endpoints-http-method
@@ -227,49 +145,12 @@ content: |
   response from within the endpoint function using the ``response``
   object that Realm automatically passes as the second argument.
 ---
-title: Specify an Authorization Expression
-ref: specify-an-authorization-expression
-content: |
-  You can dynamically authorize requests based on the contents of each request
-  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`. Realm
-  evaluates the expression for every incoming request that the endpoint receives.
-  The expression can expand standard :ref:`expression variables <expressions>`,
-  including the :json-expansion:`%%request` expansion.
-
-  To define an authorization expression, set the value of the
-  ``can_evaluate`` field to the expression. If you do not specify an
-  expression then Realm automatically authorizes all authenticated
-  incoming requests.
-
-  .. example::
-     
-     The following expression only authorizes incoming requests if the
-     sender's IP address is not included in the list of addresses.
-
-     .. code-block:: json
-        
-        {
-            "%%request.remoteIPAddress": {
-                "%nin": [
-                    "248.88.57.58",
-                    "19.241.23.116",
-                    "147.64.232.1"
-                ]
-            }
-        }
----
 title: Specify the Request Validation Method
 ref: specify-the-request-validation-method
 content: |
-  To validate that a endpoint request was sent from a trusted source,
-  some external services require that incoming requests incorporate a
-  secret string in one of several prescribed manners. Other services,
-  like the :doc:`HTTP service </services/http>`, allow you to optionally
-  require request validation.
-
   You can configure a endpoint's request authorization method in the
-  ``options`` document of the endpoint configuration. Realm supports the
-  following :ref:`request validation methods
+  ``validation_method`` field of the endpoint configuration. Realm
+  supports the following :ref:`request validation methods
   <endpoint-request-validation>`:
 
   .. list-table::
@@ -286,7 +167,7 @@ content: |
          .. code-block:: json
             
             {
-              "validationMethod": "NO_VALIDATION"
+              "validation_method": "NO_VALIDATION"
             }
        
      * - Verify Payload Signature
@@ -298,8 +179,8 @@ content: |
          .. code-block:: json
             
             {
-              "validationMethod": "VERIFY_PAYLOAD",
-              "secret": "<Secret Value>"
+              "validation_method": "VERIFY_PAYLOAD",
+              "secret_name": "<Secret Name>"
             }
        
      * - Require Secret
@@ -311,16 +192,21 @@ content: |
          .. code-block:: json
             
             {
-              "validationMethod": "SECRET_AS_QUERY_PARAM",
-              "secret": "<Secret Value>"
+              "validation_method": "SECRET_AS_QUERY_PARAM",
+              "secret_name": "<Secret Name>"
             }
 ---
 title: Add the Endpoint Function Source Code
 ref: add-the-endpoint-function-source-code
 content: |
-  Add a file named ``source.js`` to the new endpoint directory. The file
-  should contain a valid function that will execute when the endpoint is
-  called.
+  1. Pick a name for the function you would like to run when the endpoint
+     receives a request. Use that name as the value of the
+     ``function_name`` field in your the endpoint configuration object.
+
+  #. Create a :file:`.js` file with the same name as the function in the
+     functions directory or one of its subdirectories. The file
+     should contain a valid function that will execute when the endpoint is
+     called.
 
   Realm automatically passes two objects as the endpoint function's
   arguments:
@@ -334,10 +220,14 @@ content: |
 
      * - ``payload``
        - An EJSON representation of the incoming request payload. The
-         contents of the payload document will vary depending on the
-         service and event that caused a endpoint to fire. For a
-         description of the ``payload`` object for a specific service,
-         see that service's reference page.
+         payload document contains:
+
+         - The request query parameters, as an object.
+
+         - The request headers, as an object.
+
+         - The request body, as a binary object. You can access the
+           contents as a string using the ``body.text()`` method.
 
      * - ``response``
        - An :ref:`HTTP response object <endpoint-response-object>` that
@@ -352,12 +242,24 @@ content: |
      :language: javascript
      :emphasize-lines: 3, 10-11, 14-15
 
+  .. note::
+
+     If you want to debug a endpoint function response from the function
+     editor, you must manually provide the HTTP response object when you
+     run the function.
+
+     .. code-block:: javascript
+
+        exports(
+          { body: "This document is the endpoint payload" },
+          new HTTPResponse()
+        )
+
 ---
 title: Deploy the Incoming Endpoint Configuration
 ref: deploy-the-incoming-endpoint-configuration
 content: |
-  Once you've set the read preference for the cluster in ``config.json``, you
-  can push the config to your remote app. {+cli+} immediately deploys the
+  Push the config to your remote app. {+cli+} immediately deploys the
   update on push.
 
   .. code-block:: bash
