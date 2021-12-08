@@ -150,6 +150,15 @@ content: |
       you must apply the ``realm-android`` plugin *after* the ``kotlin-kapt``
       plugin if your application uses the Kotlin programming language.
 
+   For Kotlin applications, enable ``viewBinding`` in
+   ``android.buildFeatures``:
+
+   .. code-block:: groovy
+
+      buildFeatures {
+          viewBinding = true
+      }
+
    If your application uses :ref:`sync <sync>`, you must enable the sync
    features of the Android SDK here:
 
@@ -182,6 +191,11 @@ content: |
                   minSdkVersion 21
                   targetSdkVersion 29
                }
+
+               buildFeatures {
+                   viewBinding = true
+               }
+
                compileOptions {
                   sourceCompatibility 1.8
                   targetCompatibility 1.8
@@ -201,11 +215,10 @@ content: |
          :tabid: kotlin
 
          .. code-block:: groovy
-            :emphasize-lines: 4, 5, 22-24
+            :emphasize-lines: 3, 4, 16-18, 26-28
 
             apply plugin: 'com.android.application'
             apply plugin: 'kotlin-android'
-            apply plugin: 'kotlin-android-extensions'
             apply plugin: 'kotlin-kapt'
             apply plugin: 'realm-android'
 
@@ -218,6 +231,11 @@ content: |
                   minSdkVersion 21
                   targetSdkVersion 29
                }
+
+               buildFeatures {
+                   viewBinding = true
+               }
+
                compileOptions {
                   sourceCompatibility 1.8
                   targetCompatibility 1.8

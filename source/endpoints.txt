@@ -13,6 +13,13 @@ HTTPS Endpoints
    :depth: 2
    :class: singlecol
 
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Configure HTTPS Endpoints </endpoints/configure>
+   HTTPS Endpoint Requests and Responses </endpoints/requests-and-responses>
+
 Introduction
 ------------
 
@@ -22,135 +29,11 @@ services often send data back by calling an HTTPS endpoint. You can create
 HTTPS endpoints in {+service+} for these external services to send data to 
 your app.
 
-Create a New HTTPS Endpoint
----------------------------
+{+app+} HTTPS endpoints are found at the following URL:
 
-To create a new endpoint:
+.. code-block::
 
-.. tabs-realm-admin-interfaces::
-
-   .. tab::
-      :tabid: ui
-
-      1. Click :guilabel:`HTTPS Endpoints` in the left navigation. 
-
-      #. Click the :guilabel:`Add An Endpoint` button.
-
-      #. Enter a **route** for your endpoint. The route controls the
-         URI suffix used to access your endpoint.
-      
-      #. Select the HTTP method used by your endpoint.
-      
-      #. Choose the function that your endpoint executes when it receives a request.
-      
-      #. Save the endpoint by clicking the :guilabel:`Save` button.
-      
-      #. Deploy your changes with the :guilabel:`Review Draft & Deploy` button in the draft
-         banner at the top of the page.
-
-      .. figure:: /images/add_endpoint.png
-         :alt: Add an HTTPS Endpoint in the {+ui+}
-
-   .. tab::
-      :tabid: cli
-
-      To use the {+service+} Command Line Interface ({+cli-bin+}), you first need 
-      to install or update :ref:`to the latest version <realm-cli>`. 
-      
-      With the latest {+cli-bin+} installed, follow these steps:
-
-      1. Pull down the latest version of your app by running the following:
-
-         .. code-block:: bash
-     
-            realm-cli pull --remote="<Your App ID>"
-
-      2. The :ref:`app structure <realm_app_structure>` contains an 
-         ``http_endpoints`` directory that contains all of your app's 
-         HTTPS endpoints as well as any pre-existing webhooks.
-
-      3. Create a ``config.json`` file in the ``http_endpoints`` directory with 
-         the following structure:
-
-         .. code-block:: javascript
-            :copyable: true
-         
-            [
-               {
-                  "route": "/httpserv/endpoint0",
-                  "http_method": "POST",
-                  "function_name": "endpoint0_function",
-                  "validation_method": "NO_VALIDATION",
-                  "respond_result": true,
-                  "fetch_custom_user_data": false,
-                  "create_user_on_auth": false,
-                  "disabled": false
-               }
-            ]
-         
-         The following table explains each of the fields in the config file:
-
-         .. list-table::
-            :header-rows: 1
-            :widths: 10 40
-         
-            * - Field
-              - Value
-            * - ``route`` (string)
-              - The full path and name of the endpoint
-            * - ``http_method`` (string)
-              - The HTTP method that calling services can use to connect to this 
-                endpoint. Valid values are "GET", "POST", "PUT", "PATCH", 
-                "DELETE" and "*", the last of which indicates that all methods 
-                are accepted.
-            * - ``function_name`` (string)
-              - The name of the function that {+service-short+} calls when the 
-                endpoint receives data.
-            * - ``validation_method`` (string)
-              - Indicates how the endpoint validates the incoming request. Valid 
-                options are:
-
-                - "SECRET_AS_QUERY_PARAM", which requires a secret value in the 
-                  query parameters
-                - "VERIFY_PAYLOAD", which requires an "Endpoint-Signature" field 
-                  in the header. For example, "Endpoint-Signature::sha256=<hex-encoded-hash>"
-                - "NO_VALIDATION", in which {+service-short+} performs no validation
-                  of the incoming request.
-                
-                Endpoints that use "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" as their
-                validation method must also specify a ``secret_name``.
-            * - ``secret_name`` (string)
-              - The name of the secret used to validate incoming requests. Required
-                if "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" is used as a validation
-                method.
-            * - ``respond_result`` (boolean)
-              - Specifies if response contains the result of the associated 
-                function. If set to **false** and the endpoint completes 
-                successfully, the endpoint returns a ``204`` response with 
-                no data in the body. 
-            * - ``fetch_custom_user_data`` (boolean)
-              - If ``true``, {+service-short+} queries the requesting user's 
-                :ref:`custom user data <custom-user-data>` and, if it exists, 
-                exposes the data as an object on the ``context.user.custom_data`` 
-                property.
-            * - ``create_user_on_auth`` (boolean)
-              - If ``true``, {+service-short+} automatically creates a new user 
-                based on the provided user credentials, if they don't match an 
-                existing user. The authentication provider that corresponds to 
-                the credentials must be enabled at the time of the request to 
-                create the new user.
-            * - ``disabled`` (boolean)
-              - Enables (false) or disables (true) the endpoint.
-
-      
-      4. Once you've updated your app's configuration files, you push 
-         them to your remote app. {+cli+} immediately deploys the updated 
-         configurations on push.
-
-         .. code-block:: bash
-            
-            realm-cli push --remote="<Your App ID>"
-
+   https://data.mongodb-api.com/app/<your App ID>/<endpoint route>
 
 Convert Webhooks to Endpoints
 -----------------------------
