@@ -1,8 +1,9 @@
 .. _import-realm-app:
+.. _update-realm-app:
 
-====================================
-Import an Existing Realm Application
-====================================
+==========================
+Update a Realm Application
+==========================
 
 .. contents:: On this page
    :local:
@@ -13,36 +14,25 @@ Import an Existing Realm Application
 Overview
 --------
 
-You can import and deploy an existing {+app+}. You might want to import an
-application when:
-
-- You use feature branches for development. Use a unique copy of the 
-  {+app+} for each feature branch to avoid conflicts.
-- You use a fresh copy of the {+app+} when running tests to ensure start state.
-- You deploy the same app to clusters across regions using a :ref:`local 
-  deployment model <realm-local-deployment>`.
-- You prefer to develop locally when making {+app+} configuration changes.
+You can update and deploy an existing {+app+}. You might want to update an
+application if you prefer to develop locally when making {+app+} configuration changes.
 
 Key Concepts
 ------------
 
-In {+service+}, you can import an existing {+app+} by importing the 
+In {+service+}, you can update an existing {+app+} by importing the 
 application's :ref:`configuration files <app-configuration>`. The process 
-to import a {+app+} also deploys it, even if you have :ref:`deployment 
+to update a {+app+} also deploys it, even if you have :ref:`deployment 
 drafts <deployment-draft>` enabled.
 
-When importing an application:
-
-- If you want to import an application's configuration files into a different 
-  app, you must remove the ``app_id`` from the ``realm_config.json`` at the 
-  root of the application directory.
-- You must import the complete application structure. You can't do a partial 
-  import of only one file or a single field if you're only making a small change.
+When updating an application you must import the complete application structure. 
+You can't do a partial import of only one file or a single field if you're only
+making a small change.
 
 Procedure
 ---------
 
-You can import and deploy your application's configuration files in two ways:
+You can update and deploy your application's configuration files in two ways:
 
 - With the :ref:`Realm CLI <deploy-cli>` 
 - With :ref:`GitHub deployment <deploy-github>`
@@ -65,7 +55,7 @@ You can import and deploy your application's configuration files in two ways:
       :tabid: GitHub
 
       When you have enabled :ref:`GitHub deployment <deploy-github>`, you can
-      import your application by updating the configuration files in the
+      update your application by modifying the configuration files in the
       linked GitHub repository. 
 
       Make any additions, modifications, or deletions to the application 
@@ -74,7 +64,7 @@ You can import and deploy your application's configuration files in two ways:
       reference pages for details on the structure and schema of your 
       application directory.
 
-      When you are ready to import the app, commit the application 
+      When you are ready to update the app, commit the application 
       configuration files and then push them to GitHub:
 
       .. code-block:: sh
