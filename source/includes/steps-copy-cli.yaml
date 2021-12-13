@@ -13,7 +13,7 @@ content: |
 title: Pull the Latest Version of Your App
 ref: copy-app-cli-pull-the-latest-version-of-your-app
 content: |
-  You'll need a local copy of the configuration files for the {+app+} you're copying.
+  You need a local copy of the configuration files for the {+app+} you're copying.
   Pull a local copy of the latest version of your app:
 
   .. code-block:: bash
@@ -29,7 +29,7 @@ content: |
 title: Create New App
 ref: copy-app-cli-create-new-app
 content: |
-  Create a new {+app+}. This is where you'll add the configuration files from 
+  Create a new {+app+}. This is where you add the configuration files from 
   the exported app in later steps. To create the app, run: 
 
   .. code-block:: bash
@@ -47,7 +47,7 @@ content: |
   You'll handle ``realm_config.json`` in the next step. 
 
   Copy all the :ref:`configuration files and folders <app-configuration>` of your exported app
-  to the imported app folder except for the ``realm_config.json`` file.
+  to the new app folder except for the ``realm_config.json`` file.
 
 ---
 title: Configure the New App's ``realm_config.json``
@@ -82,7 +82,7 @@ content: |
   #. Get the names of all the secrets from the exported app by following the 
      :ref:`view secrets documentation <list-secrets>`.
   #. Save the names of all the secrets to a secure location. You won't have access 
-     to the actual secrets, but it'll be useful to have a list of the secret names 
+     to the actual secrets, but it's useful to have a list of the secret names 
      to add to your imported app.
   #. Gather the secrets. This cannot be done from within {+service-short+}. 
   #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
@@ -90,16 +90,16 @@ content: |
 
   .. note:: Add secrets before pushing app
 
-     You should add all secrets before puhsing up the copy of the {+app+} because 
+     You should add all secrets before pushing up the copy of the {+app+} because 
      {+service-short+} can require that the secrets exist to push the configuration.
-     If the secrets don't exist, the {+cli+} will throw an error when you push the 
+     If the secrets don't exist, the {+cli+} throws an error when you push the 
      app in the next step.
 
 ---
 title: Push New App to Realm
 ref: copy-app-cli-push-to-realm
 content: |
-  Now that the app configuration and secrets are updated, push configuration to your
+  Now that the app configuration and secrets are updated, push the configuration to your
   remote app. {+cli+} immediately deploys the updated configurations on push.
 
   .. code-block:: bash
@@ -109,6 +109,6 @@ content: |
   .. tip::
 
      If you have :ref:`deployment drafts <deployment-draft>` 
-     enabled, you'll be prompted to review and confirm your changes in the 
+     enabled, you get a prompt to review and confirm your changes in the 
      terminal. When you approve, {+cli+} immediately deploys the updated 
      configurations.

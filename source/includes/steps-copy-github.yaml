@@ -8,7 +8,7 @@ content: |
 title: Create New App
 ref: copy-app-github-create-new-app
 content: |
-  Create a new {+app+}. This is where you'll add the configuration files from 
+  Create a new {+app+}. This is where you add the configuration files from 
   the exported app in later steps. Follow the :ref:`UI <create-a-realm-app>`, 
   :ref:`CLI <create-app-cli>` or :ref:`API <create-app-api>` documentation 
   to create the {+app+}.
@@ -62,8 +62,8 @@ content: |
 
   #. Get the names of all the secrets from the exported app by following the 
      :ref:`view secrets documentation <list-secrets>`.
-  #. Save the names of all the secrets to a secure location. You won't have access 
-     to the actual secrets, but it'll be useful to have a list of the secret names 
+  #. Save the names of all the secrets to a secure location. You can't see 
+     to the actual secrets, but it's useful to have a list of the secret names 
      to add to your imported app.
   #. Gather the secrets. This cannot be done from within {+service-short+}. 
   #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
@@ -84,6 +84,6 @@ content: |
 
   Once you successfully push your changes to GitHub, {+service-short+}
   immediately deploys a new version of your application that matches the state
-  of the latest commit. Client applications will automatically use the newest
+  of the latest commit. Client applications automatically use the newest
   version, so make sure that you also update your client code to use the new
   version.
