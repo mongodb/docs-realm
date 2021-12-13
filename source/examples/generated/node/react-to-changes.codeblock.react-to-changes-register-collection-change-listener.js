@@ -21,6 +21,12 @@ function onDogsChange(dogs, changes) {
   });
 }
 // Add the listener callback to the collection of dogs
-dogs.addListener(onDogsChange);
+try {
+  dogs.addListener(onDogsChange);
+} catch (error) {
+  console.error(
+    `An exception was thrown within the change listener: ${error}`
+  );
+}
 // Remember to remove the listener when you're done!
 dogs.removeListener(onDogsChange);

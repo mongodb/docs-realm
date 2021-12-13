@@ -1,0 +1,114 @@
+title: Log In to MongoDB Cloud
+ref: copy-app-cli-log-in-to-mongodb-cloud
+content: |
+  To configure your app with {+cli-bin+}, you must log in to MongoDB Cloud using
+  an :atlas:`API key </configure-api-access/#programmatic-api-keys>` scoped to the organization or
+  project that contains the app.
+
+  .. code-block:: bash
+
+     realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
+
+---
+title: Pull the Latest Version of Your App
+ref: copy-app-cli-pull-the-latest-version-of-your-app
+content: |
+  You need a local copy of the configuration files for the {+app+} you're copying.
+  Pull a local copy of the latest version of your app:
+
+  .. code-block:: bash
+
+     realm-cli pull --remote="<Your App ID>"
+
+  .. tip::
+
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deployment > Export App` screen in the {+ui+}.
+
+---
+title: Create New App
+ref: copy-app-cli-create-new-app
+content: |
+  Create a new {+app+}. This is where you add the configuration files from 
+  the exported app in later steps. To create the app, run: 
+
+  .. code-block:: bash
+     
+     realm-cli app create
+
+  Follow the CLI prompts to complete app creation. This creates a new directory on 
+  your local machine with the new app's config files.
+
+---
+title: Copy App Configuration to New App
+ref: copy-app-cli-copy-exported-app-to-new-app
+content: |
+  Delete all the configuration files in the new app except for ``realm_config.json``.
+  You'll handle ``realm_config.json`` in the next step. 
+
+  Copy all the :ref:`configuration files and folders <app-configuration>` of your exported app
+  to the new app folder except for the ``realm_config.json`` file.
+
+---
+title: Configure the New App's ``realm_config.json``
+ref: copy-app-cli-configure-realm-config-json
+content: |
+  In the new app's ``realm_config.json``, replace all the contents except for the 
+  ``"app_id"`` and ``"name"``.
+
+  The new app's ``realm_config.json`` should look something like: 
+
+  .. code-block:: javascript
+
+     {
+       "app_id": "mynewapp-abcde", // // Use the new app's ID
+       "name": "MyNewApp", // // Use the new app's ID
+       "config_version": 20210101, // copy from exported app
+       "location": "US-VA", // copy from exported app
+       "deployment_model": "GLOBAL" // copy from exported app
+     }
+
+---
+title: Migrate Secrets to New App
+ref: copy-app-cli-migrate-secrets
+content: |
+  When you :ref:`export your {+app+} <export-realm-app>`, the export does not include the app's 
+  :ref:`secrets <app-secret>`. As secrets cannot be read once they're defined, 
+  you must also have access to the secrets outside of {+service-short+} to import 
+  them into a {+app+}. If your app doesn't have any secrets, you can skip this step.
+
+  To add the secrets from another Realm app:
+
+  #. Get the names of all the secrets from the exported app by following the 
+     :ref:`view secrets documentation <list-secrets>`.
+  #. Save the names of all the secrets to a secure location. You don't have access 
+     to the actual secrets, but it's useful to have a list of the secret names 
+     to add to your imported app.
+  #. Gather the secrets. This cannot be done from within {+service-short+}. 
+  #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
+     Secrets must be added one at a time.
+
+  .. note:: Add secrets before pushing app
+
+     You should add all secrets before pushing up the copy of the {+app+} because 
+     {+service-short+} can require that the secrets exist to push the configuration.
+     If the secrets don't exist, the {+cli+} throws an error when you push the 
+     app in the next step.
+
+---
+title: Push New App to Realm
+ref: copy-app-cli-push-to-realm
+content: |
+  Now that the app configuration and secrets are updated, push the configuration to your
+  remote app. {+cli+} immediately deploys the updated configurations on push.
+
+  .. code-block:: bash
+
+     realm-cli push --remote="<Your New App ID>"
+
+  .. tip::
+
+     If you have :ref:`deployment drafts <deployment-draft>` 
+     enabled, you get a prompt to review and confirm your changes in the 
+     terminal. When you approve, {+cli+} immediately deploys the updated 
+     configurations.

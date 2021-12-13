@@ -27,7 +27,13 @@ describe("React to Changes", () => {
       // :hide-end:
     }
     // Add the listener callback to the realm
-    realm.addListener("change", onRealmChange);
+    try {
+      realm.addListener("change", onRealmChange);
+    } catch (error) {
+      console.error(
+        `An exception was thrown within the change listener: ${error}`
+      );
+    }
     // :hide-start:
     realm.write(() => {
       dog = realm.create("Dog", {
@@ -94,7 +100,13 @@ describe("React to Changes", () => {
       });
     }
     // Add the listener callback to the collection of dogs
-    dogs.addListener(onDogsChange);
+    try {
+      dogs.addListener(onDogsChange);
+    } catch (error) {
+      console.error(
+        `An exception was thrown within the change listener: ${error}`
+      );
+    }
     // :hide-start:
 
     realm.write(() => {
@@ -160,7 +172,13 @@ describe("React to Changes", () => {
     });
     // :hide-end:
     // You can define a listener for any Realm object
-    dog.addListener(onDogChange);
+    try {
+      dog.addListener(onDogChange);
+    } catch (error) {
+      console.error(
+        `An exception was thrown within the change listener: ${error}`
+      );
+    }
     // :hide-start:
     realm.write(() => {
       dog.age += 1;
@@ -196,20 +214,23 @@ describe("React to Changes", () => {
       dog = realm.create("Dog", { name: "Winter", age: 3 });
     });
 
-    // realm listener
-    realm.addListener("change", () => {
-      realmHasChanged = true;
-      console.log("foo");
-    });
-    // realm collection listner
-    dogs.addListener(() => {
-      collectionHasChanged = true;
-      console.log("bar");
-    });
-    dog.addListener(() => {
-      realmObjectHasChanged = true;
-      console.log("foh");
-    });
+    try {
+      // realm listener
+      realm.addListener("change", () => {
+        realmHasChanged = true;
+      });
+      // realm collection listner
+      dogs.addListener(() => {
+        collectionHasChanged = true;
+      });
+      dog.addListener(() => {
+        realmObjectHasChanged = true;
+      });
+    } catch (error) {
+      console.error(
+        `An exception was thrown within the change listener: ${error}`
+      );
+    }
 
     // :code-block-start: react-to-changes-remove-all-listeners
     // Remove all listeners from a realm
