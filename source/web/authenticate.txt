@@ -293,24 +293,51 @@ Authenticate with Google One Tap
    
    Google One Tap only supports user authentication through OpenID Connect. To
    log Google users in to your web app, you must :ref:`enable OpenID Connect
-   <openIdConnect>` in the authentication provider configuration.
+   <openIdConnect>` in the {+service-short+} authentication provider configuration.
 
+.. example: Basic Google One Tap Flow
+    
+    This example shows how to set up Google Authentication with Realm in 
+    a very basic web app. The app only contains an ``index.html`` file.
 
-.. code-block:: javascript
+    .. code-block:: html
+      :caption: index.html
 
-    import * as Realm from "realm-web";
-    import googleOneTap from 'google-one-tap';
-
-    const app = new Realm.App("<Your Realm App ID>");
-    const client_id = "<Your Google Client ID>";
-
-    // Open the Google One Tap menu
-    googleOneTap({ client_id }, async (response) => {
-      // Upon successful Google authentication, log in to Realm with the user's credential
-      const credentials = Realm.Credentials.google(response.credential)
-      const user = await app.logIn(credentials);
-      console.log(`Logged in with id: ${user.id}`);
-    });
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <title>Google One Tap Example</title>
+        </head>
+        <body>
+          <h1>Google One Tap Example</h1>
+          <!-- The data-callback HTML attribute sets the callback function that is run 
+            when the user logs in. Here we're calling the handleCredentialsResponse JavaScript 
+            function defined in the below script section to log the user into Realm.       
+          -->
+          <div
+            id="g_id_onload"
+            data-client_id="<your_google_client_id>"
+            data-callback="handleCredentialsResponse"
+          ></div>
+        </body>
+        <!-- Load MongoDB Realm -->
+        <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
+        <!-- Load Google One Tap -->
+        <script src="https://accounts.google.com/gsi/client"></script>
+        <!-- Log in with Realm and Google Authentication -->
+        <script async defer>
+          const app = new Realm.App({
+            id: "<your_realm_app_id>",
+          });
+          // Callback used in `data-callback` to handle response and log user into Realm
+          function handleCredentialsResponse(response) {
+            const credentials = Realm.Credentials.google(response.credential);
+            app
+              .logIn(credentials)
+              .then((user) => alert(`Logged in with id: ${user.id}`));
+          }
+        </script>
+      </html>
 
 .. _web-google-builtin:
 
@@ -319,8 +346,8 @@ Use the Built-In Google OAuth 2.0 Flow
 
 .. note:: Do Not Use OpenID Connect for Built-In Google OAuth 2.0 Flow
 
-   Do not use :ref:`OpenID Connect <openIdConnect>` with {+service-short+}'s 
-   built-in Google OAuth 2.0 flow. It does not work. If you'd like to use 
+  :ref:`OpenID Connect <openIdConnect>` does not work with {+service-short+}'s 
+   built-in Google OAuth 2.0 flow. If you'd like to use 
    OpenID Connect with the Realm Web SDK, use the 
    :ref:`Authentication with Google One Tap <web-google-onetap>` flow.
 
