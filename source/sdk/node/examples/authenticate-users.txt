@@ -216,10 +216,13 @@ authenticate users through a Google project using their existing Google account.
    To authenticate a Google user, you must configure the :doc:`Google
    authentication provider </authentication/google>`.
 
-You can use the :google:`official Google SDK <identity>` to handle the user
-authentication and redirect flow from a client application. Once authenticated,
-the Google SDK returns an access token that you can send to your Node.js app and
-use to finish logging the user in to your app.
+You can use the :google:`official Google OAuth 2.0 APIs <identity/protocols/oauth2/>` to handle the user
+authentication and redirect flow from a client application. There are also 
+a variety of popular open source libraries that help streamline the authentication 
+flow for your given use case. 
+
+Once authenticated, the Google OAuth server returns an access token that you can send to your Node.js app. 
+Use this access token to finish logging the user in to your app.
 
 .. tabs-realm-languages::
    
