@@ -23,9 +23,8 @@ from the {+service+} SDK in the client app. {+service-short+} offers two
 - Partition-Based Sync
 - Query-Based Sync (beta)
 
-You configure and use each type of {+sync-short+} mode with different data.
 You can't mix Partition-Based Sync and Query-Based Sync within the same 
-{+app+}, so you must decide which type of {+sync+} to use in a given 
+{+app+}, so you must decide which {+sync+} mode to use in a given 
 application.
 
 Partition-Based Sync
@@ -33,8 +32,8 @@ Partition-Based Sync
 
 :ref:`Partition-Based Sync <partition-based-sync>` works best for 
 applications where a subset of the documents in a synced cluster are 
-related in some way and have the same read/write permissions for a given 
-user. Those documents form a **partition**.
+related and have the same read/write permissions for a given user. 
+Those documents form a **partition**.
 
 In Partition-Based Sync, you define a :ref:`partition key <partition-key>` 
 whose value determines whether the user can read or write a document. 
@@ -52,7 +51,18 @@ Choose Partition-Based Sync when:
 
 .. example::
 
+   Partition-Based Sync might be a good fit for a store inventory application.
+   If you use ``store_number`` as the partition key, each store can read and 
+   write documents pertaining to its inventory.
    
+   An example of the permissions for this type of app might be:
+
+   .. code-block:: json
+     
+      { "%%partition": "Store 42" }
+
+   The client would have read and write access to documents whose store 
+   number is Store 42.
 
 Query-Based Sync
 ~~~~~~~~~~~~~~~~
@@ -82,3 +92,71 @@ Choose Query-Based Sync when:
 - You need a flexible permissioning system to apply more granular permissions
 
 .. example::
+
+   Query-Based Sync might be a good fit for software to manage a medical 
+   provider's office. The combination of queryable fields and granular 
+   permissions means you could write software where:
+
+   - Physicians have read and write access to a patient's health history, 
+     and can add notes for visits, new medications, and instructions. 
+     However, a physician might not have access to billing data or a 
+     patient's social security number.
+   - Billing specialists have access to a specific subset of patient data, 
+     such as dates and procedure codes, but don't have access to physician's 
+     notes, prescription history, or other patient health data.
+   - Patients have read access to their own history, such as physician 
+     notes, medications, and instructions. They can also view billing 
+     information, such as procedure dates, costs, and payment history.
+     However, a patient would not have write access to any of this data.
+
+   To achieve this level of permission granularity, you might have different 
+   collections storing patient information: 
+   
+   - A ``Patient_History`` collection storing provider notes, medications, 
+     and other patient health data
+   - A ``Billing`` collection storing dates of procedures, billing codes, 
+     insurance information, and other relevant data 
+
+   The permissions for these two collections might look similar to:
+
+   .. code-block:: json
+
+         {
+           "Patient_History": {
+             "roles": [
+               {
+                 name: "provider", 
+                 applyWhen: { "%%user.custom_data.isProvider": true},
+                 read: {} // evaluates to the same as %%true
+                 write: {}
+               },
+               {
+                 name: "self",
+                 applyWhen: {},
+                 read: {"patient_id": "%%user.id"}
+                 write: {}
+               }
+             ]
+           },
+           "Billing": {
+             "roles": [
+               {
+                 name: "billingSpecialist", 
+                 applyWhen: { "%%user.custom_data.isBillingSpecialist": true},
+                 read: {} // evaluates to the same as %%true
+                 write: {}
+               },
+               {
+                 name: "self",
+                 applyWhen: {},
+                 read: {"patient_id": "%%user.id"}
+                 write: {}
+               }
+             ]
+           }
+         }
+
+   The queryable fields might be ``patient_id`` and ``procedure_date``. 
+   This would enable the client application to query for specific patients, 
+   while billing specialists could query for visits within a time window, 
+   such as 30 days.

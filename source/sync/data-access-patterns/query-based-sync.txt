@@ -23,8 +23,9 @@ client applications can:
 - React to changes
 - Add, change, or delete queries
 
-With :ref:`rules and permissions <sync-rules>`, this provides a powerful 
-and flexible way to configure sync around your business logic.
+Together with :ref:`rules and permissions <sync-rules>`, Query-Based Sync 
+provides a powerful and flexible way to configure sync around your 
+business logic.
 
 When a client makes a query, {+service-short+} searches the server-side 
 data set for documents matching the query. Then, the sync engine applies 
@@ -43,7 +44,8 @@ run-time from the device.
 Queryable Fields
 ----------------
 
-When you configure Query-Based Sync, you specify which fields your client 
+When you configure Query-Based Sync, you specify one or more fields 
+from your :ref:`Sync Schema <sync-schema-overview>` that your client 
 application can query. 
 
 .. example::
@@ -161,8 +163,8 @@ You can define multiple roles to tailor your access permissions for each
 collection. Collections can have more than one role, or none at all. 
 
 You can also create default roles, which do not apply to a specific collection.
-Instead, default roles apply when you do not define custom roles for a 
-collection.
+Instead, default roles apply to any collection where you do not define custom 
+roles.
 
 .. seealso::
 
@@ -191,9 +193,9 @@ sync objects with the backend {+app+} and can watch for and react to changes.
    .. tab::
       :tabid: ios
 
-      To create queries from the iOS Client SDK, see the :ref:`iOS SDK guide 
+      To create queries from the Swift Client SDK, see the :ref:`Swift SDK guide 
       to Sync Changes Between Devices with Query-Based Sync 
-      <ios-sync-changes-between-devices-qbs>`.
+      <swift-sync-changes-between-devices-qbs>`.
 
    .. tab::
       :tabid: node
