@@ -346,16 +346,16 @@ for different collections.
 
    
 
-Roles "fall through" until the user's metadata evaluates to ``true`` for 
-a given role. At that point, the user receives the corresponding permissions
-for the duration of their session.
+Roles resolve to a lower level of permissions until the user's metadata 
+evaluates to ``true`` for a given role. At that point, the user receives 
+the corresponding permissions for the duration of their session.
 
 Default Roles
 `````````````
 
 You can create one or more default roles that apply across all collections. 
 If a collection does not have any custom roles defined, role resolution 
-falls through to default roles. 
+reverts to default roles. 
 
 .. seealso::
 
