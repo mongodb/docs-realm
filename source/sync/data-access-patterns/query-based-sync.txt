@@ -87,10 +87,14 @@ more granular control over who can access which collections.
    10 queryable fields. You must re-use queryable fields across collections 
    in order to sync objects from every collection.
 
-For best performance, use a broad Sync query, and slice off subqueries
-for working sets as needed. When you configure queryable fields, consider
-the broad queries you use for Sync, and select fewer fields that support 
-those broad queries.
+For best performance, open a synced {+realm+} with a broad query. Then, add 
+more refined queries to expose targeted sets of data in the client 
+application. Slicing off working sets from a broad query provides
+better performance than opening multiple synced {+realm+}s using more 
+granular queries.
+
+When you configure queryable fields, consider the broad queries you use 
+for Sync, and select fewer fields that support those broad queries.
 
 .. example::
 
