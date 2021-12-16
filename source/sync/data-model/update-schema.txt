@@ -40,6 +40,8 @@ schema, such as:
 
 - adding a class
 - adding an optional (not required) property to an existing class
+- adding a required (not optional) property to an existing class when
+  a default value is defined for the new property
 
 Additive changes apply automatically to synced {+realms+}; you can make these 
 additive schema changes with no additional configuration changes.
@@ -63,8 +65,9 @@ such as:
 
 - Changing a property’s type but keeping the same name
 - Changing a primary key
-- Adding a new property that is required
 - Changing a property from optional to required (or vice-versa)
+- Adding a new required property without a default value. Numbers and
+  strings have the automatic default values of 0 and empty string respectively.
 
 Synchronized {+realms+} only support additive changes to a schema. Therefore,
 attempting to perform a destructive change on a synchronized {+realm+} leads 
