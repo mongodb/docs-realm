@@ -84,19 +84,8 @@ namespace Examples
             //  "terms": {
             //   "Config.appid": "\"myRealmAppId\""}
             // }
-
-            // Extract and copy the realm
-            var config = RealmConfiguration.DefaultConfiguration;
-            if (!File.Exists(config.DatabasePath))
-            {
-                using var bundledDbStream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("bundled.realm");
-                using var databaseFile = File.Create(config.DatabasePath);
-                bundledDbStream.CopyTo(databaseFile);
-            }
-
             // If you are using a local realm
-            var realm = Realm.GetInstance(config);
+            var config = RealmConfiguration.DefaultConfiguration;
 
             // If the realm file is a synced realm
             var app = App.Create(Config.appid);
@@ -105,8 +94,19 @@ namespace Examples
             // :hide-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
             // :hide-end:
-            var syncedRealm = await Realm.GetInstanceAsync(config);
             // :replace-end:
+
+            // Extract and copy the realm
+            if (!File.Exists(config.DatabasePath))
+            {
+                using var bundledDbStream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("bundled.realm");
+                using var databaseFile = File.Create(config.DatabasePath);
+                bundledDbStream.CopyTo(databaseFile);
+            }
+
+            // Open the Realm:
+            var realm = Realm.GetInstance(config);
             // :code-block-end:
         }
     }
