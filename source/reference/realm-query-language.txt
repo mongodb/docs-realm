@@ -16,12 +16,15 @@ Overview
 --------
 
 {+client-database+} supports a string-based query language to constrain 
-searches when retreiving objects. Queries evaluate a predicate for every 
+searches when retrieving objects. Queries evaluate a predicate for every 
 object in the collection being queried. If the predicate resolves 
 to ``true``, {+client-database+} includes the object in the results 
 collection.
 
-You can use Realm Query Language in every SDK with your SDK's filter method.
+You can use Realm Query Language in most Realm SDKs with your SDK's filter 
+or query methods. The Swift SDK is the exception, as it uses the NSPredicate 
+query API.
+
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
 
@@ -32,7 +35,9 @@ Filters consist of **expressions** in a predicate. An expression consists of
 one of the following:
 
 - The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s).
+- An operator and up to two argument expression(s). For example, in the 
+  expression ``A + B``, the entirety of ``A + B`` is an expression, but ``A``
+  and ``B`` are also argument expressions to the operator ``+``. 
 - A value, such as a string (``'hello'``) or a number (``5``).
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.predicate.js
@@ -70,6 +75,12 @@ You can iterate through a collection property with another query using the
   variable name specified by ``variableName`` to refer to the currently-iterated
   element.
 
+A subquery takes a collection, then iterates through each object (as 
+variableName) checking the predicate against that object. Subqueries work well 
+when you have a collection (A) objects, and each object has a collection (B) 
+other objects. Use a subquery if you're trying to filter A based on 2 or more 
+varying attributes of B.
+
 .. example::
 
    Running the following filter on a ``projects`` collection returns projects
@@ -77,6 +88,9 @@ You can iterate through a collection property with another query using the
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.subquery.js
       :language: javascript
+    
+   SUBQUERY(...) returns an array. We need to check if its count > 0 to 
+   return the true or false value predicate expects.
 
 .. note:: About the Examples On This Page
 
@@ -88,42 +102,21 @@ You can iterate through a collection property with another query using the
 
    See the schema for these two classes, ``Project`` and ``Task``, below:
 
-   .. code-block:: json
+   .. code-block:: 
 
-      {
-        "title": "task",
-        "required": [
-          "_id",
-          "name",
-          "isComplete",
-          "priority",
-          "progressMinutes"
-        ],
-        "properties": {
-          "_id": { "bsonType": "objectId" },
-          "name": { "bsonType": "string" },
-          "isComplete": { "bsonType": "bool" },
-          "assignee": { "bsonType": "string" },
-          "priority": { "bsonType": "int" },
-          "progressMinutes": { "bsonType": "int" }
-        }
-      },
-      {
-        "title": "project",
-        "required": [
-          "_id",
-          "name",
-          "tasks"
-        ],
-        "properties": {
-          "_id": { "bsonType": "objectId" },
-          "name": { "bsonType": "string" },
-          "tasks": { "bsonType": "array",
-            "tasks": {
-              "bsonType": "objectId"
-            }
-          }
-        }
+      class Task {
+          ObjectId id;
+          string name;
+          bool isComplete;
+          string? assignee;
+          int priority;
+          int progressMinutes;
+      }
+
+      class Project {
+          ObjectId id;
+          string name;
+          Task[] tasks;
       }
 
 Operators
@@ -215,15 +208,15 @@ You can make compound predicates using logical operators.
    * - Operator
      - Description
 
-   * - | ``and``
+   * - | ``AND``
        | ``&&``
      - Evaluates to ``true`` if both left-hand and right-hand expressions are ``true``.
 
-   * - | ``not``
+   * - | ``NOT``
        | ``!``
      - Negates the result of the given expression.
 
-   * - | ``or``
+   * - | ``OR``
        | ``||``
      - Evaluates to ``true`` if either expression returns ``true``.
 
@@ -398,10 +391,18 @@ results collection.
    * - ``SORT``
      - Specify the name of the property to compare. You can optionally 
        specify ascending (``ASC``) or descending (``DESC``) order.
+       If you specify multiple SORT fields, the query sorts by the first
+       field, and then the second. For example, if you ``SORT (priority, name)``, 
+       the query returns sorted by priority, and then by name when priority
+       value is the same.
 
    * - ``DISTINCT``
      - Specify a name of the property to compare. Remove duplicates 
-       for that property in the results collection.
+       for that property in the results collection. If you specify multiple 
+       DISTINCT fields, the query removes duplicates by the first field, and 
+       then the second. For example, if you ``DISTINCT (name, assignee)``, 
+       the query only removes duplicates where the values of both properties
+       are the same.
 
    * - ``LIMIT``
      - Limit the results collection to the specified number.
@@ -411,7 +412,7 @@ results collection.
    We use the query engine's sort, distinct, and limit operators to find: 
    
    - Tasks where the assignee is Ali
-   
+
      - Sorted by priority in descending order
      - Enforcing uniqueness by name
      - Limiting the results to 5 tasks
