@@ -35,9 +35,8 @@ one of the following:
 - An operator and up to two argument expression(s).
 - A value, such as a string (``'hello'``) or a number (``5``).
 
-.. code-block:: javascript
-
-   "progressMinutes > 1 AND name == %@", "Ali"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.predicate.js
+   :language: javascript
 
 Dot Notation
 ~~~~~~~~~~~~
@@ -76,9 +75,8 @@ You can iterate through a collection property with another query using the
    Running the following filter on a ``projects`` collection returns projects
    with tasks that have not been completed by a user named Alex.
 
-   .. code-block:: javascript
-
-      "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.subquery.js
+   :language: javascript
 
 .. note:: About the Examples On This Page
 
@@ -200,19 +198,9 @@ values.
    - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
    - Find long-running tasks by seeing if the ``progressMinutes`` property is at or above a certain value.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. code-block:: javascript
-
-      "priority > 5"
-
-      "progressMinutes > 120"
-
-      "assignee == nil"
-
-      "assignee IN {'Ali', 'Jamie'}"
-
-      "progressMinutes BETWEEN {30, 60}"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.comparison-operators.js
+   :language: javascript
 
 Logical Operators
 `````````````````
@@ -245,9 +233,8 @@ You can make compound predicates using logical operators.
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
-   .. code-block:: javascript
-
-      "assignee == 'Ali' AND isComplete == true"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.logical-operators.js
+   :language: javascript
 
 
 String Operators
@@ -308,12 +295,8 @@ Regex-like wildcards allow more flexibility in search.
    - Projects with a name starting with the letter 'e'
    - Projects with names that contain 'ie'
 
-   .. code-block:: javascript 
-
-      // Use [c] for case-insensitivity.
-      "name BEGINSWITH[c] 'e'"
-
-      "name CONTAINS 'ie'"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.string-operators.js
+   :language: javascript
 
 Aggregate Operators
 ```````````````````
@@ -359,17 +342,8 @@ collection and reduce it to a single value.
    - Projects with more than 5 tasks.
    - Projects with long-running tasks.
 
-   .. code-block:: javascript
-
-      "tasks.@avg.priority > 5"
-
-      "tasks.@max.priority < 5"
-
-      "tasks.@min.priority > 5"
-
-      "tasks.@count > 5"
-
-      "tasks.@sum.progressMinutes > 100"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.aggregate-operators.js
+   :language: javascript
 
 Set Operators
 `````````````
@@ -404,11 +378,8 @@ the object.
    - Projects with no complete tasks.
    - Projects with any top priority tasks.
 
-   .. code-block:: javascript
-
-      "NONE tasks.isComplete == true"
-
-      "ANY tasks.priority == 10"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.set-operators.js
+   :language: javascript
 
 Sort, Distinct, Limit
 `````````````````````
@@ -434,6 +405,5 @@ results collection.
    * - ``LIMIT``
      - Limit the results collection to the specified number.
 
-   .. code-block:: javascript
-
-      "assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.sort-distinct-limit.js
+   :language: javascript
