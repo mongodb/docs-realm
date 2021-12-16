@@ -262,22 +262,17 @@ to handle the user authentication and redirect flow from a client application.
 
 .. example:: Authenticate with Google on a Node.js Server
 
-   In this example we're going to take a look at how you can use Sign in With Google 
-   to authenticate a user into Realm on a Node.js server. This example uses 
-   `Express <https://expressjs.com/>`_ for routing and the 
+   Refer to `the code for an example Node.js server <https://github.com/mongodb/docs-realm/tree/master/examples/node/Examples/server_google_auth>`_
+   that implements Sign in With Google.
+   All of the Google OAuth 2.0 implementation is in the ``server.js`` file. 
+
+   The example uses `Express <https://expressjs.com/>`_ for routing and the 
    `Google APIs Node.js OAuth 2.0 Client <https://googleapis.dev/nodejs/googleapis/latest/oauth2/index.html>`_ 
    authentication library.
 
    You might want to authenticate with Google on a Node.js server 
    to perform server-side operations on behalf of a user, like call a {+service-short+}
-   Function with a user's credentials. 
-
-   `View the source code for this example here <https://github.com/mongodb/docs-realm/tree/master/examples/node/Examples/server_google_auth>`_.
-   All of the Google OAuth 2.0 implementation is in the ``server.js`` file. 
-
-   .. code-block:: javascript
-
-.. TODO(DOCSP-19945): add express example. 
+   Function with a user's credentials.    
 
 .. _node-apple-login:
 .. _node-login-apple:
