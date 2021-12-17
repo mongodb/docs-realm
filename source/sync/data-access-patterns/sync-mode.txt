@@ -21,9 +21,9 @@ from the {+service+} SDK in the client app. {+service-short+} offers two
 {+sync-short+} modes:
 
 - Partition-Based Sync
-- Query-Based Sync (beta)
+- Flexible Sync (preview)
 
-You can't mix Partition-Based Sync and Query-Based Sync within the same 
+You can't mix Partition-Based Sync and Flexible Sync within the same 
 {+app+}, so you must decide which {+sync+} mode to use in a given 
 application.
 
@@ -46,8 +46,8 @@ Choose Partition-Based Sync when:
 
 - You don't need to create overlapping result sets
 - Your data structure supports permissions at a partition level
-- You want to release a production app quickly, while Query-Based Sync
-  is still in beta
+- You want to release a production app quickly, while Flexible Sync
+  is still in preview
 
 .. example::
 
@@ -64,28 +64,28 @@ Choose Partition-Based Sync when:
    The client would have read and write access to documents whose store 
    number is Store 42.
 
-Query-Based Sync
-~~~~~~~~~~~~~~~~
+Flexible Sync
+~~~~~~~~~~~~~
 
-.. include:: /includes/note-qbs-beta.rst
+.. include:: /includes/note-flexible-sync-preview.rst
 
-:ref:`Query-Based Sync <query-based-sync>` works best for applications 
+:ref:`Flexible Sync <flexible-sync>` works best for applications 
 where you need to define permissions on a per-document basis. With 
-Query-Based Sync, you can define a query in the client application, and 
+Flexible Sync, you can define a query in the client application, and 
 Sync only the documents that match the query. {+service-short+} translates 
 those documents to objects in the client application, making it easy to
 work with objects in your app.
 
-In Query-Based Sync, you define :ref:`queryable fields <queryable-fields>` 
+In Flexible Sync, you define :ref:`queryable fields <queryable-fields>` 
 that you can query against from the client application. You can then 
 subscribe to queries against those fields from the client application. 
 When a client starts a Sync session, {+service-short+} evaluates :ref:`rules 
-<query-based-sync-rules-and-permissions>` to determine which documents 
+<flexible-sync-rules-and-permissions>` to determine which documents 
 in the query the user can access. Realm maps the documents that a user can 
 access to a synced ``.realm`` file. Each object in a synced realm has a 
 corresponding document in the {+app+}.
 
-Choose Query-Based Sync when:
+Choose Flexible Sync when:
 
 - You need to create overlapping query and result sets
 - You want to apply permissions at the document level
@@ -93,7 +93,7 @@ Choose Query-Based Sync when:
 
 .. example::
 
-   Query-Based Sync might be a good fit for software to manage a medical 
+   Flexible Sync might be a good fit for software to manage a medical 
    provider's office. The combination of queryable fields and granular 
    permissions means you could write software where:
 

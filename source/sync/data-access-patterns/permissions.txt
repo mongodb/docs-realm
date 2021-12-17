@@ -289,15 +289,15 @@ cannot express solely in JSON expressions.
        collection and then returns a boolean that indicates if the user can read
        data in the requested partition.
 
-.. _query-based-sync-rules-and-permissions:
+.. _flexible-sync-rules-and-permissions:
 
-Query-Based Sync Rules and Permissions
---------------------------------------
+Flexible Sync Rules and Permissions
+-----------------------------------
 
-Query-Based Sync Rule Behavior
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flexible Sync Rule Behavior
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Query-Based Sync rules apply on a per-collection basis. They are coupled to 
+Flexible Sync rules apply on a per-collection basis. They are coupled to 
 your app's data model by the :ref:`queryable field <queryable-fields>` or 
 user metadata. Consider the following behavior when designing your schemas 
 to ensure that you have appropriate data access granularity and don't 
@@ -328,8 +328,8 @@ A role consists of:
 
 - A name 
 - An Apply When rule :ref:`expression <expressions>`
-- A set of :ref:`read <qbs-read-permissions>` and :ref:`write 
-  <qbs-write-permissions>` permissions
+- A set of :ref:`read <flexible-sync-read-permissions>` and :ref:`write 
+  <flexible-sync-write-permissions>` permissions
 
 A role might also include a collection name, if it is a collection-specific
 role.
@@ -359,10 +359,10 @@ reverts to default roles.
 
 .. seealso::
 
-   :ref:`qbs-custom-and-default-roles`
+   :ref:`flexible-sync-custom-and-default-roles`
 
-Query-Based Sync Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flexible Sync Permissions
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Realm enforces dynamic, user-specific read and write permissions to secure the
 data in each collection and query. You define permissions with :ref:`JSON 
@@ -377,19 +377,19 @@ evaluates a user's permissions at the beginning of each session.
    their request. However, the user can only use expansions that do not 
    refer directly to a document or the document's values. 
 
-Configure Query-Based Sync Permissions
-``````````````````````````````````````
+Configure Flexible Sync Permissions
+```````````````````````````````````
 
-Query-Based Sync rules must be configured on either:
+Flexible Sync rules must be configured on either:
 
 - The values of :ref:`queryable fields <queryable-fields>`
 - User data, including :ref:`metadata <configure-user-metadata-on-the-backend>`
   and :ref:`custom user data <custom-user-data>`
 
-If you configure rules on anything else, Query-Based Sync cannot 
-assign the correct role.
+If you configure rules on anything else, Flexible Sync cannot assign the 
+correct role.
 
-.. _qbs-read-permissions:
+.. _flexible-sync-read-permissions:
 
 Read Permissions
 ````````````````
@@ -398,7 +398,7 @@ A user with read permissions for a given collection can view all fields of any
 object matching the client-side query. Read permissions do not permit a user
 to modify data.
 
-.. _qbs-write-permissions:
+.. _flexible-sync-write-permissions:
 
 Write Permissions
 `````````````````
@@ -408,10 +408,10 @@ field of any object matching the client-side query. Write permissions require
 read permissions, so any user that can modify data can also view that data
 before and after it's modified.
 
-Query-Based Sync Permission Strategies
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Flexible Sync Permission Strategies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These common query-based sync permission strategies rely on role names 
+These common flexible sync permission strategies rely on role names 
 stored in :ref:`custom user data <custom-user-data>`. When a logged-in 
 user's role name matches the name in the ``applyWhen`` rule, the user has 
 the corresponding read and write permissions for that role.
@@ -470,7 +470,7 @@ Global Admin, Department Admin, Department Member
 
 In this permission strategy, users with the ``globalAdmin`` role can read and 
 write to any document. Users with the ``departmentAdmin`` role can read any
-document, but can only write to documents in their department.  Users with
+document, but can only write to documents in their department. Users with
 the ``departmentMember`` role can read any document in their department,
 but can't write to any documents. Members can only read documents in their
 own departments; they cannot read documents for other departments.
@@ -502,7 +502,7 @@ own departments; they cannot read documents for other departments.
      }
    }
 
-.. _qbs-custom-and-default-roles:
+.. _flexible-sync-custom-and-default-roles:
 
 Custom and Default Roles
 ````````````````````````

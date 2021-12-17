@@ -1,8 +1,8 @@
-.. _query-based-sync:
+.. _flexible-sync:
 
-================
-Query-Based Sync
-================
+=============
+Flexible Sync
+=============
 
 .. default-domain:: mongodb
 
@@ -15,7 +15,7 @@ Query-Based Sync
 Overview
 --------
 
-{+service+} Query-Based Sync lets you define a query in the client, and 
+{+service+} Flexible Sync lets you define a query in the client, and 
 sync only the objects that match the query. With client-side subscriptions, 
 client applications can:
 
@@ -23,9 +23,8 @@ client applications can:
 - React to changes
 - Add, change, or delete queries
 
-Together with :ref:`rules and permissions <sync-rules>`, Query-Based Sync 
-provides a powerful and flexible way to configure sync around your 
-business logic.
+Together with :ref:`rules and permissions <sync-rules>`, Flexible Sync 
+provides a powerful way to configure sync around your business logic.
 
 When a client makes a query, {+service-short+} searches the server-side 
 data set for documents matching the query. Then, the sync engine applies 
@@ -37,14 +36,14 @@ the appropriate permissions.
 Client applications can add, update, or remove queries dynamically at 
 run-time from the device.
 
-.. include:: /includes/note-qbs-beta.rst
+.. include:: /includes/note-flexible-sync-preview.rst
 
 .. _queryable-fields:
 
 Queryable Fields
 ----------------
 
-When you configure Query-Based Sync, you specify one or more fields 
+When you configure Flexible Sync, you specify one or more fields 
 from your :ref:`Sync Schema <sync-schema-overview>` that your client 
 application can query. 
 
@@ -56,16 +55,16 @@ application can query.
 
 Queryable fields apply across all collections in a {+app+}'s Sync Schema.
 You can use :ref:`rules and permissions 
-<query-based-sync-rules-and-permissions>` to configure more granular access 
+<flexible-sync-rules-and-permissions>` to configure more granular access 
 control on individual collections.
 
-.. _qbs-eligible-field-types:
+.. _flexible-sync-eligible-field-types:
 
 Eligible Field Types
 ~~~~~~~~~~~~~~~~~~~~
 
 Any top-level primitive field with a scalar type can be a queryable field. 
-Query-Based Sync does not currently support embedded objects or arrays as 
+Flexible Sync does not currently support embedded objects or arrays as 
 queryable fields.
 
 Performance and Storage
@@ -75,10 +74,10 @@ Queryable fields use storage on the backing Atlas cluster. The more
 queryable fields you configure, the more storage you use on the backing 
 cluster.
 
-You can configure up to 10 queryable fields per application for Query-Based 
+You can configure up to 10 queryable fields per application for Flexible 
 Sync. If you have a large number of collections in an {+app+}, you may need to
 use the same queryable field across multiple collections. Combine this with 
-:ref:`rules and permissions <query-based-sync-rules-and-permissions>` for 
+:ref:`rules and permissions <flexible-sync-rules-and-permissions>` for 
 more granular control over who can access which collections.
 
 .. example::
@@ -104,17 +103,17 @@ for Sync, and select fewer fields that support those broad queries.
    can further refine your query for things like tasks of a certain priority 
    or completion status to slice off a working set.
 
-.. _get-started-qbs:
+.. _get-started-flexible-sync:
 
-Get Started with Query-Based Sync
----------------------------------
+Get Started with Flexible Sync
+------------------------------
 
 Define a Schema
 ~~~~~~~~~~~~~~~
 
-To use Query-Based Sync, create a schema for your {+app+}. The :ref:`eligible 
-fields <qbs-eligible-field-types>` in your schema become queryable fields
-you can select when you enable Query-Based Sync.
+To use Flexible Sync, create a schema for your {+app+}. The :ref:`eligible 
+fields <flexible-sync-eligible-field-types>` in your schema become queryable fields
+you can select when you enable Flexible Sync.
 
 If you're not yet ready to create a schema, you can manually define queryable
 fields with :ref:`Development Mode <concept-development-mode>`.
@@ -128,7 +127,7 @@ Enable Sync
 
 After you have defined a schema, or decided to create your data model client-side
 and use :ref:`Development Mode <concept-development-mode>` to define a schema,
-you can enable Query-Based Sync. 
+you can enable Flexible Sync. 
 
 During the process of enabling Sync, you select queryable fields and 
 define roles that control how users can access your data. 
@@ -140,13 +139,13 @@ define roles that control how users can access your data.
 Select Fields to Query
 ``````````````````````
 
-When you enable Query-Based Sync, you can select queryable fields in two ways:
+When you enable Flexible Sync, you can select queryable fields in two ways:
 
 - If you have defined your schema, you can select queryable fields from 
-  :ref:`eligible fields <qbs-eligible-field-types>` in your schema
+  :ref:`eligible fields <flexible-sync-eligible-field-types>` in your schema
 - If you are using :ref:`Development Mode <concept-development-mode>`, you 
   can type a queryable field name that matches an :ref:`eligible field type 
-  <qbs-eligible-field-types>` in your client application.
+  <flexible-sync-eligible-field-types>` in your client application.
 
 You can configure up to 10 queryable fields per {+app+}. These 
 fields apply across all of the collections in your application.
@@ -172,12 +171,12 @@ roles.
 
 .. seealso::
 
-   :ref:`query-based-sync-rules-and-permissions`
+   :ref:`flexible-sync-rules-and-permissions`
 
 Create Queries in Your Client Application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-With Query-Based Sync enabled, you can start creating queries from 
+With Flexible Sync enabled, you can start creating queries from 
 your client application. 
 
 The {+service+} SDKs provide methods to create, update, and remove queries 
@@ -192,32 +191,32 @@ sync objects with the backend {+app+} and can watch for and react to changes.
 
       To create queries from the Android Client SDK, see the
       :ref:`Android SDK guide to Sync Changes Between Devices with 
-      Query-Based Sync <android-sync-changes-between-devices-qbs>`.
+      Flexible Sync <android-sync-changes-between-devices-flexible-sync>`.
 
    .. tab::
       :tabid: ios
 
       To create queries from the Swift Client SDK, see the :ref:`Swift SDK guide 
-      to Sync Changes Between Devices with Query-Based Sync 
-      <swift-sync-changes-between-devices-qbs>`.
+      to Sync Changes Between Devices with Flexible Sync 
+      <swift-sync-changes-between-devices-flexible-sync>`.
 
    .. tab::
       :tabid: node
       
       To create queries from the Node Client SDK, see the :ref:`Node SDK 
-      guide to Sync Changes Between Devices with Query-Based Sync 
-      <node-sync-changes-between-devices-qbs>`.
+      guide to Sync Changes Between Devices with Flexible Sync 
+      <node-sync-changes-between-devices-flexible-sync>`.
 
    .. tab::
       :tabid: react-native
 
       To create queries from the React Native Client SDK, see the :ref:`React 
-      Native SDK guide to Sync Changes Between Devices with Query-Based 
-      Sync <react-sync-changes-between-devices-qbs>`.
+      Native SDK guide to Sync Changes Between Devices with Flexible 
+      Sync <react-sync-changes-between-devices-flexible-sync>`.
 
    .. tab::
       :tabid: dotnet
 
       To create queries from the .NET Client SDK, see the :ref:`.NET SDK 
-      guide to Sync Changes Between Devices with Query-Based Sync 
-      <dotnet-sync-changes-between-devices-qbs>`.
+      guide to Sync Changes Between Devices with Flexible Sync 
+      <dotnet-sync-changes-between-devices-flexible-sync>`.
