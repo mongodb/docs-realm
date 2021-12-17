@@ -1,4 +1,4 @@
-.. warning::
+.. important::
 
    Flexible Sync is currently in *preview*. We encourage you to try
    out the feature and `give feedback

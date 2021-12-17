@@ -24,14 +24,14 @@ client applications can:
 - Add, change, or delete queries
 
 Together with :ref:`rules and permissions <sync-rules>`, Flexible Sync 
-provides a powerful way to configure sync around your business logic.
+provides a powerful way to configure Sync around your business logic.
 
 When a client makes a query, {+service-short+} searches the server-side 
 data set for documents matching the query. Then, the sync engine applies 
-a set of rules to determine which documents in the query the user should 
-be able to access. {+service-short+} returns only the matching documents 
-where the user has read or read/write access, and assigns the user
-the appropriate permissions.
+a set of rules to determine which documents in the results set the user 
+should be able to access. {+service-short+} returns only the matching 
+documents where the user has read or read/write access, and assigns the 
+user the appropriate permissions.
 
 Client applications can add, update, or remove queries dynamically at 
 run-time from the device.
@@ -75,7 +75,7 @@ queryable fields you configure, the more storage you use on the backing
 cluster.
 
 You can configure up to 10 queryable fields per application for Flexible 
-Sync. If you have a large number of collections in an {+app+}, you may need to
+Sync. If you have a large number of collections in a {+app+}, you may need to
 use the same queryable field across multiple collections. Combine this with 
 :ref:`rules and permissions <flexible-sync-rules-and-permissions>` for 
 more granular control over who can access which collections.
@@ -125,9 +125,9 @@ fields with :ref:`Development Mode <concept-development-mode>`.
 Enable Sync
 ~~~~~~~~~~~
 
-After you have defined a schema, or decided to create your data model client-side
-and use :ref:`Development Mode <concept-development-mode>` to define a schema,
-you can enable Flexible Sync. 
+After you have defined a schema, or decided to create your data model on the 
+client side and use :ref:`Development Mode <concept-development-mode>` to 
+define a schema, you can enable Flexible Sync. 
 
 During the process of enabling Sync, you select queryable fields and 
 define roles that control how users can access your data. 
@@ -142,7 +142,7 @@ Select Fields to Query
 When you enable Flexible Sync, you can select queryable fields in two ways:
 
 - If you have defined your schema, you can select queryable fields from 
-  :ref:`eligible fields <flexible-sync-eligible-field-types>` in your schema
+  :ref:`eligible fields <flexible-sync-eligible-field-types>` in your schema.
 - If you are using :ref:`Development Mode <concept-development-mode>`, you 
   can type a queryable field name that matches an :ref:`eligible field type 
   <flexible-sync-eligible-field-types>` in your client application.
@@ -156,7 +156,7 @@ Define Roles
 When a user submits a query to the {+app+}, Sync determines which role 
 applies for the user. 
 
-Roles consists of:
+Roles consist of:
 
 - A role name
 - A rule for when to apply the role 
@@ -191,32 +191,32 @@ sync objects with the backend {+app+} and can watch for and react to changes.
 
       To create queries from the Android Client SDK, see the
       :ref:`Android SDK guide to Sync Changes Between Devices with 
-      Flexible Sync <android-sync-changes-between-devices-flexible-sync>`.
+      Flexible Sync <>`.
 
    .. tab::
       :tabid: ios
 
       To create queries from the Swift Client SDK, see the :ref:`Swift SDK guide 
       to Sync Changes Between Devices with Flexible Sync 
-      <swift-sync-changes-between-devices-flexible-sync>`.
+      <>`.
 
    .. tab::
       :tabid: node
       
       To create queries from the Node Client SDK, see the :ref:`Node SDK 
       guide to Sync Changes Between Devices with Flexible Sync 
-      <node-sync-changes-between-devices-flexible-sync>`.
+      <>`.
 
    .. tab::
       :tabid: react-native
 
       To create queries from the React Native Client SDK, see the :ref:`React 
       Native SDK guide to Sync Changes Between Devices with Flexible 
-      Sync <react-sync-changes-between-devices-flexible-sync>`.
+      Sync <>`.
 
    .. tab::
       :tabid: dotnet
 
       To create queries from the .NET Client SDK, see the :ref:`.NET SDK 
       guide to Sync Changes Between Devices with Flexible Sync 
-      <dotnet-sync-changes-between-devices-flexible-sync>`.
+      <>`.

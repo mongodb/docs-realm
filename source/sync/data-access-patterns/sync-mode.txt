@@ -51,9 +51,9 @@ Choose Partition-Based Sync when:
 
 .. example::
 
-   Partition-Based Sync might be a good fit for a store inventory application.
-   If you use ``store_number`` as the partition key, each store can read and 
-   write documents pertaining to its inventory.
+   Partition-Based Sync might be a good fit for an inventory management 
+   application. If you use ``store_number`` as the partition key, each 
+   store can read and write documents pertaining to its inventory.
    
    An example of the permissions for this type of app might be:
 
@@ -61,8 +61,10 @@ Choose Partition-Based Sync when:
      
       { "%%partition": "Store 42" }
 
-   The client would have read and write access to documents whose store 
+   Store employees could have read and write access to documents whose store 
    number is Store 42.
+
+   Customers, meanwhile, could have read-only access to store inventory.
 
 Flexible Sync
 ~~~~~~~~~~~~~
@@ -127,14 +129,14 @@ Choose Flexible Sync when:
                {
                  name: "provider", 
                  applyWhen: { "%%user.custom_data.isProvider": true},
-                 read: {} // evaluates to the same as %%true
+                 read: {}, // evaluates to the same as %%true
                  write: {}
                },
                {
                  name: "self",
                  applyWhen: {},
-                 read: {"patient_id": "%%user.id"}
-                 write: {}
+                 read: {"patient_id": "%%user.id"},
+                 write: false
                }
              ]
            },
@@ -143,14 +145,14 @@ Choose Flexible Sync when:
                {
                  name: "billingSpecialist", 
                  applyWhen: { "%%user.custom_data.isBillingSpecialist": true},
-                 read: {} // evaluates to the same as %%true
+                 read: {}, // evaluates to the same as %%true
                  write: {}
                },
                {
                  name: "self",
                  applyWhen: {},
-                 read: {"patient_id": "%%user.id"}
-                 write: {}
+                 read: {"patient_id": "%%user.id"},
+                 write: false
                }
              ]
            }
