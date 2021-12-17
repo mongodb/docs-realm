@@ -240,17 +240,17 @@ to handle the user authentication and redirect flow from a Node.js client applic
 
 #. Import the packages into your project. 
 
-   .. literalinclude:: /examples/generated/node/import-npm-packages.codeblock.server.js
+   .. literalinclude:: /examples/generated/node/server.codeblock.import-npm-packages.js
          :language: javascript
 
 #. Create configuration for Google OAuth 2.0 client and Realm. 
 
-   .. literalinclude:: /examples/generated/node/google-oauth-realm-config.codeblock.server.js
+   .. literalinclude:: /examples/generated/node/server.codeblock.google-oauth-realm-config.js
          :language: javascript
 
 #. Generate an OAuth login link, and pass it to the application client. 
 
-   .. literalinclude:: /examples/generated/node/generate-log-in.codeblock.server.js
+   .. literalinclude:: /examples/generated/node/server.codeblock.generate-log-in.js
          :language: javascript
 
 
@@ -258,7 +258,7 @@ to handle the user authentication and redirect flow from a Node.js client applic
    an access code in the query string using the Google OAuth 2.0 client's ``getToken()``
    method. In the callback function, sign in to your Realm using the ``id_token``.
 
-   .. literalinclude:: /examples/generated/node/login-with-token.codeblock.server.js
+   .. literalinclude:: /examples/generated/node/server.codeblock.generate-log-in.js
       :language: javascript
 
 .. _example-auth-google-node-server:
