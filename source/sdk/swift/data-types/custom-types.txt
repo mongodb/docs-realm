@@ -1,0 +1,163 @@
+.. _ios-custom-types:
+
+========================
+Custom Types - Swift SDK
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+.. versionadded:: 10.20.0
+
+Overview
+--------
+
+The Swift SDK supports custom tye mapping between a data type supported by 
+Realm and a type not supported by Realm. This enables developers to use
+custom types as managed properties as though they are supported types.
+
+Declare Custom Types
+--------------------
+
+To use custom types with Realm, you must first mark your type declaration
+as conforming to one of :ref:`Realm's custom type protocols 
+<ios-conform-to-custom-type-protocol>`. Then, you can :ref:`use your custom 
+types in your Realm object model <ios-use-custom-types-in-the-model>`.
+
+.. _ios-conform-to-custom-type-protocol:
+
+Conform to the Custom Type Protocol
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Swift SDK provides two custom type protocols:
+
+- CustomPersistable
+- FailableCustomPersistable
+
+Use ``CustomPersistable`` when there is no chance the conversion can fail.
+
+Use ``FailableCustomPersistable`` when it is possible for the conversion 
+to fail. 
+
+When a ``FailableCustomPersistable`` property is required, these types are 
+force-unwrapped. If you have a value that can't be converted to the custom 
+type, reading that property throws an unwrapped fail exception.
+
+When a ``FailableCustomPersistable`` property is optional, this custom type 
+protocol maps invalid values to ``nil``.
+
+.. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.custom-persistable-protocols.swift
+   :language: swift
+
+.. seealso::
+
+   These are protocols modeled after Swift's built-in :apple:`RawRepresentable 
+   <documentation/swift/rawrepresentable>`.
+
+.. _ios-persisted-types:
+
+Supported PersistedTypes
+````````````````````````
+
+The ``PersistedType`` can use any of the primitive types that the 
+:ref:`Swift SDK supports <ios-supported-property-types>`. It can also use a 
+:ref:`Embedded Object <ios-embedded-objects>` subclass.
+
+``PersistedType`` cannot be an optional, or a :ref:`collection 
+<ios-client-collections>`. However, the mapped type can be used inside
+an optional or collection.
+
+.. _ios-use-custom-types-in-the-model:
+
+Use Custom Types in the Model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A type that conforms to one of the custom type protocols can be used with 
+the ``@Persisted`` property declaration syntax introduced in Swift SDK 
+version 10.10.0. It does not work with the ``@objc dynamic`` syntax.
+
+You can use custom types for:
+
+- Top-level types
+- Optional versions of the type
+- The types for a collection
+
+.. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.use-custom-types-in-objects.swift
+   :language: swift
+
+When your model contains custom types, you can :ref:`create the object 
+<ios-create-a-new-object>` with values using the persisted type, or 
+by assigning to the field properties of an initialized object using the 
+custom-mapped types.
+
+.. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.create-objects-with-custom-mapped-types.swift
+   :language: swift
+
+Custom Types in the Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you declare your type as conforming to the custom type protocol, you
+specify the type that should be persisted in {+realm+}. For example, if 
+you map a custom type ``URL`` to a persisted type of ``String``, a ``URL``
+property appears as a ``String`` in the schema, and dynamic access to the 
+property acts on strings.
+
+The schema does not directly represent mapped types. Changing a property
+from its persisted type to its mapped type, or vice versa, does not require
+a migration.
+
+.. figure:: /images/custom-type-mapping-persisted-types-in-schema.png
+   :alt: Realm Studio screenshot showing the field types using persisted types.
+
+Access Custom Types
+-------------------
+
+When you access custom types in Realm, this access is often based on the 
+persisted type. 
+
+Queries on Realm Objects
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When working with custom types, queries operate on the persisted type. 
+However, you can use the mapped types interchangeably with the persisted 
+types in arguments in most cases. The exception is queries on embedded 
+objects.
+
+.. tip::
+
+   Custom types support :ref:`sorting and aggregates <ios-filter-data>` where 
+   the persisted type supports them.
+
+.. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.query-objects-with-custom-mapped-types.swift
+   :language: swift
+
+Queries on Embedded Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query embedded types on the properties within the object using 
+memberwise equality. However, the you can only query using memberwise 
+equality if *all* the properties in the embedded object are types which 
+you can compare for equality. Memberwise equality-based querying throws an 
+exception if you cannot compare all properties in the embedded object for 
+equality. 
+
+In this case, passing the mapped type and the persisted type could give 
+different results. 
+
+.. insert-code-example-here
+
+Dynamic APIs
+~~~~~~~~~~~~
+
+Because the schema has no concept of custom type mappings, reading data via
+any of the dynamic APIs gives the underlying persisted type. Realm does 
+support writing mapped types via a dynamic API, and converts the custom
+type to the persisted type.
+
+.. insert-code-example-here
