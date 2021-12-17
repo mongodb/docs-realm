@@ -10,7 +10,6 @@ oauth2Client.getToken(authCodeFromQueryString, async function (
     });
     const user = await realmApp.logIn(credential);
     console.log("signed in as Realm user", user.id);
-    return res.render("views/success", { id: user.id });
   } catch (error) {
     errorHandler(error);
   }

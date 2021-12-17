@@ -84,7 +84,7 @@ app.get("/auth/google/callback", function (req, res, errorHandler) {
         });
         const user = await realmApp.logIn(credential);
         console.log("signed in as Realm user", user.id);
-        return res.render("views/success", { id: user.id });
+        return res.render("views/success", { id: user.id }); // :remove:
       } catch (error) {
         errorHandler(error);
       }
