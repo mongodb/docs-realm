@@ -2,13 +2,13 @@
 // * https://dev.to/aidanlovelace/how-to-setup-google-oauth2-login-with-express-2d30
 // * https://developers.google.com/identity/protocols/oauth2/openid-connect?hl=fi#python
 
-// :code-block-start: import-npm-packages
 const express = require("express");
 const methodOverride = require("method-override");
+// :code-block-start: import-npm-packages
 const Realm = require("realm");
 const { google } = require("googleapis");
-require("dotenv").config();
 // :code-block-end:
+require("dotenv").config();
 
 const PORT = process.env.PORT || 5500;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
@@ -32,6 +32,7 @@ const oauthConfig = {
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid",
+    // any other scopes you might require. View all here - https://developers.google.com/identity/protocols/oauth2/scopes
   ],
 };
 const OAuth2 = google.auth.OAuth2;
@@ -40,41 +41,43 @@ const oauth2Client = new OAuth2(
   oauthConfig.client_secret,
   oauthConfig.redirect_uris[0]
 );
-// :code-block-end:
 
-// :code-block-start: additional-server-config
 // Instantiate Realm app
 const realmApp = new Realm.App({
   id: REALM_APP_ID,
 });
+// :code-block-end:
 
 // Create Express application
 const app = express();
 app.set("view engine", "ejs");
 app.set("views", __dirname);
 app.use(methodOverride());
-// :code-block-end:
 
-// :code-block-start: generate-log-in
 app.get("/", function (req, res) {
+  // :code-block-start: generate-log-in
   // generate OAuth 2.0 log in link
   const loginLink = oauth2Client.generateAuthUrl({
     access_type: "offline", // Indicates that we need to be able to access data continuously without the user constantly giving us consent
     scope: oauthConfig.scopes,
   });
+  // :code-block-end:
   res.render("views/index", { loginLink });
 });
-// :code-block-end:
 
-// :code-block-start: login-with-token
-app.get("/auth/google/callback", function (req, res, next) {
+app.get("/auth/google/callback", function (req, res, errorHandler) {
   if (req.query.error) {
     // The user did not give us permission.
-    return next(req.query.error);
+    return errorHandler(req.query.error);
   } else {
+    const authCodeFromQueryString = req.query.code;
+    // :code-block-start: login-with-token
     // Get Google token and use it to sign into Realm
-    oauth2Client.getToken(req.query.code, async function (error, token) {
-      if (error) return next(error);
+    oauth2Client.getToken(authCodeFromQueryString, async function (
+      error,
+      token
+    ) {
+      if (error) return errorHandler(error);
       try {
         const credential = Realm.Credentials.google({
           idToken: token.id_token,
@@ -83,12 +86,12 @@ app.get("/auth/google/callback", function (req, res, next) {
         console.log("signed in as Realm user", user.id);
         return res.render("views/success", { id: user.id });
       } catch (error) {
-        next(error);
+        errorHandler(error);
       }
     });
+    // :code-block-end:
   }
 });
-// :code-block-end:
 
 app.post("/logout", (req, res) => {
   res.redirect("/");
