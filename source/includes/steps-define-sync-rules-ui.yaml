@@ -10,8 +10,8 @@ content: |
      enabled, you can't change your app's sync rules unless you terminate sync
      and re-enable it with new rules.
 ---
-title: Select a Cluster to Sync
-ref: select-a-cluster-to-sync
+title: Select Development Details
+ref: select-development-details
 content: |
   You can enable sync for a single :term:`linked cluster` in your application.
   Determine which cluster you want to use and then select it from the
@@ -21,7 +21,7 @@ content: |
      :width: 750px
      :alt: The cluster selection dropown menu
 ---
-title: Choose a Partition Key
+title: Select Queryable Fiels
 ref: choose-a-partition-key
 content: |
   The sync :term:`partition key` is a field in every synced document that maps
@@ -40,23 +40,6 @@ content: |
     key. We recommend a required partition key unless you want to sync
     pre-existing data with invalid or missing partition values from a
     MongoDB collection.
-
-  Once you have decided which field to use, select it from the :guilabel:`Choose
-  A Partition Key` dropdown menu.
-
-  .. figure:: /images/define-sync-rules-partition-key.png
-     :width: 750px
-     :alt: The partition key selection dropdown menu
-  
-  .. note::
-     
-     The partition key dropdown only lists fields defined in the cluster's
-     schemas that would be valid partition keys.
-     
-     If you don't see the field you want to use as the partition key listed, it
-     probably means that your schema is invalid or that the field is not a
-     ``string``, ``integer``, or ``objectId``. You can check for schema errors
-     on the :guilabel:`Data Models` tab of the :guilabel:`SDKs` screen.
 ---
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
