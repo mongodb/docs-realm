@@ -68,14 +68,14 @@ describe("Realm Query Language Reference", () => {
   test("comparison queries", () => {
     const tasks = realm.objects("Task");
 
-    let highPriorityTasks = tasks.filtered(
+    const highPriorityTasks = tasks.filtered(
       // :code-block-start: comparison-operators
       "priority > 5"
       // :hide-start:
     );
     expect(highPriorityTasks.length).toBe(2);
 
-    let longRunningTasks = tasks.filtered(
+    const longRunningTasks = tasks.filtered(
       // :hide-end:
 
       "progressMinutes > 120"
@@ -83,7 +83,7 @@ describe("Realm Query Language Reference", () => {
     );
     expect(longRunningTasks.length).toBe(1);
 
-    let unassignedTasks = tasks.filtered(
+    const unassignedTasks = tasks.filtered(
       // :hide-end:
 
       "assignee == nil"
@@ -91,7 +91,7 @@ describe("Realm Query Language Reference", () => {
     );
     expect(unassignedTasks.length).toBe(1);
 
-    let progressMinutesRange = tasks.filtered(
+    const progressMinutesRange = tasks.filtered(
       // :hide-end:
 
       "progressMinutes BETWEEN { 30,60 }"
@@ -104,7 +104,7 @@ describe("Realm Query Language Reference", () => {
     const tasks = realm.objects("Task");
     const projects = realm.objects("Project");
 
-    let aliComplete = tasks.filtered(
+    const aliComplete = tasks.filtered(
       // :code-block-start: logical-operators
       "assignee == 'Ali' AND isComplete == true"
       // :code-block-end:
@@ -113,14 +113,14 @@ describe("Realm Query Language Reference", () => {
 
     // :code-block-start: string-operators
     // :hide-start:
-    let startWithE = projects.filtered(
+    const startWithE = projects.filtered(
       // :hide-end:
       "name BEGINSWITH[c] 'e'"
       // :hide-start:
     );
     expect(startWithE.length).toBe(0);
 
-    let containIe = projects.filtered(
+    const containIe = projects.filtered(
       // :hide-end:
 
       "name CONTAINS 'ie'"
@@ -131,14 +131,14 @@ describe("Realm Query Language Reference", () => {
 
   test("aggregate queries", () => {
     const projects = realm.objects("Project");
-    let averageTaskPriorityAbove5 = projects.filtered(
+    const averageTaskPriorityAbove5 = projects.filtered(
       // :code-block-start: aggregate-operators
       "tasks.@avg.priority > 5"
       // :hide-start:
     );
     expect(averageTaskPriorityAbove5.length).toBe(0);
 
-    let allTasksLowerPriority = projects.filtered(
+    const allTasksLowerPriority = projects.filtered(
       // :hide-end:
 
       "tasks.@max.priority < 5"
@@ -146,7 +146,7 @@ describe("Realm Query Language Reference", () => {
     );
     expect(allTasksLowerPriority.length).toBe(0);
 
-    let allTasksHighPriority = projects.filtered(
+    const allTasksHighPriority = projects.filtered(
       // :hide-end:
 
       "tasks.@min.priority > 5"
@@ -154,7 +154,7 @@ describe("Realm Query Language Reference", () => {
     );
     expect(allTasksHighPriority.length).toBe(0);
 
-    let moreThan5Tasks = projects.filtered(
+    const moreThan5Tasks = projects.filtered(
       // :hide-end:
 
       "tasks.@count > 5"
@@ -162,7 +162,7 @@ describe("Realm Query Language Reference", () => {
     );
     expect(moreThan5Tasks.length).toBe(0);
 
-    let longRunningProjects = projects.filtered(
+    const longRunningProjects = projects.filtered(
       // :hide-end:
 
       "tasks.@sum.progressMinutes > 100"
@@ -173,14 +173,14 @@ describe("Realm Query Language Reference", () => {
 
   test("collection queries", () => {
     const projects = realm.objects("Project");
-    let noCompleteTasks = projects.filtered(
+    const noCompleteTasks = projects.filtered(
       // :code-block-start: set-operators
       "NONE tasks.isComplete == true"
       // :hide-start:
     );
     expect(noCompleteTasks.length).toBe(1);
 
-    let anyTopPriorityTasks = projects.filtered(
+    const anyTopPriorityTasks = projects.filtered(
       // :hide-end:
 
       "ANY tasks.priority == 10"
@@ -192,7 +192,7 @@ describe("Realm Query Language Reference", () => {
   test("sort, distinct and limit queries", () => {
     const tasks = realm.objects("Task");
 
-    let sortedUniqueAliTasks = tasks.filtered(
+    const sortedUniqueAliTasks = tasks.filtered(
       // :code-block-start: sort-distinct-limit
       "assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
       // :code-block-end:
@@ -202,7 +202,7 @@ describe("Realm Query Language Reference", () => {
 
   test("subquery queries", () => {
     const projects = realm.objects("Project");
-    let subquery = projects.filtered(
+    const subquery = projects.filtered(
       // :code-block-start: subquery
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
       // :code-block-end:
@@ -213,7 +213,7 @@ describe("Realm Query Language Reference", () => {
   test("predicate substitution", () => {
     const tasks = realm.objects("Task");
 
-    let substitution = tasks.filtered(
+    const substitution = tasks.filtered(
       // :code-block-start: predicate
       "progressMinutes > 1 AND assignee == $0",
       "Ali"
