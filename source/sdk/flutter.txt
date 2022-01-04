@@ -15,7 +15,6 @@ Flutter SDK (Alpha)
    Realm Database </sdk/flutter/realm-database.txt>
    Flutter SDK Reference Manual <https://example.com/>
    Release Notes <https://example.com/>
-   Flutter SDK Preview (Deprecated) </sdk/flutter/preview-version.txt>
    
 .. include:: /includes/note-alpha-sdk.rst
 
@@ -30,49 +29,56 @@ platform to access data stored in local {+realm+}s.
 
 Supported Realm Features
 ------------------------
+
 The alpha version of the SDK supports the following {+realm+} features:
 
-- creating Realm objects
-- retrieving Realm objects
-- updating Realm objects
-- querying, sorting, and filtering Realm objects
-- implementing change notifications
-
-.. _flutter_limitations:
+- Create Realm objects
+- Retrieve Realm objects
+- Update Realm objects
+- Query, sort, and filter Realm objects
+- Implement change notifications
 
 Alpha Limitations
------------------
+~~~~~~~~~~~~~~~~~
+
 Because this is an alpha version of the SDK, functionality is limited and there 
 are specific configuration considerations:
-
-- The alpha version of the SDK requires a custom engine based on Flutter 2.0. 
-  For a :wikipedia:`diff <Diff>` of the changes and additional information, see the 
-  `runtime diff <https://github.com/realm/realm-dart/tree/preview/runtime>`__
-  readme page.
-
-- You cannot use the ``realm_dart`` alpha package with the Dart SDK 2.12 shipped 
-  with Flutter 2.0. Flutter downloads a custom version of the Dart SDK,
-  and this custom version has known problems loading native binaries. Instead, 
-  use an official Dart SDK 2.12 installation and ensure it is in your PATH.
 
 - The alpha version of the SDK enables working with a local-only (on device) 
   Realm database; Realm Sync functionality is not yet implemented.
 
-- Flutter Hot Reload is available when running on the Android x86 Emulator and 
-  iOS Simulator.
+- The SDK doesn't have built-in functionality to interact with 
+  :ref:`{+service+} application services<realm-cloud>`.
 
-- Running on a physical Android device always includes the libraries in 
-  ``release`` mode.
+.. TODO(DOCSP-20174): find out if there are other limitations that need documenting
+.. the below limitations were in the previous version. confirm w the SDK team if 
+.. they're still relevant. 
 
-- New projects for iOS can not be created with ``flutter create``. As a workaround, 
-  use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
-  and modify the sample project ``provider_shopper``.
+.. - Flutter Hot Reload is available when running on the Android x86 Emulator and 
+..   iOS Simulator.
+
+.. - Running on a physical Android device always includes the libraries in 
+..   ``release`` mode.
+
+.. - New projects for iOS can not be created with ``flutter create``. As a workaround, 
+..   use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
+..   and modify the sample project ``provider_shopper``.
 
 Get Started
 -----------
-The `Getting Started <https://pub.dev/packages/realm#getting-started>`__ section 
-of the Realm SDK package provides:
 
-- The steps necessary to import Realm into a Flutter project 
+To start using the {+service+} Flutter SDK
+in your Flutter application, see :ref:`Install Realm for Flutter
+<flutter-install>` to add the Flutter SDK
+dependency and then check out the :ref:`Quick Start
+<flutter-quick-start-local>`.
 
-- Code snippets for writing to and reading from the {+realm+}.
+Flutter SDK Reference
+---------------------
+
+.. TODO(DOCSP-20174): validate that the prod release will be using pub.dev for docs
+
+For generate reference documentation of the Flutter SDK refer to the :flutter-sdk:`reference documentation 
+on pub.dev <>`. This documentation is generated using `dartdoc <https://dart.dev/tools/dartdoc>`__.
+
+.. _flutter_limitations:
