@@ -3,3 +3,166 @@
 =========================
 Quick Start - Flutter SDK
 =========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This page contains information to quickly get {+client-database+}
+integrated into your Flutter app. Before you begin, ensure you have:
+
+- :ref:`Installed the Flutter SDK <flutter-install>`
+
+.. TODO(DOCSP-20150): refactor examples as includes from the examples folder w tests
+
+Define Your Object Model
+------------------------
+
+.. TODO(DOCSP-20150): validate that this is same for new SDK 
+
+Your application's **data model** defines the structure of data
+stored within {+client-database+}.
+You can define your application's data model via Dart
+classes in your application code with
+:ref:`Realm Object Models <create-schema-from-rom>`.
+
+To define your application's data model, add the following class
+definition to your application code:
+
+.. codeblock:: dart
+
+   class _Car {
+     @RealmProperty(primaryKey: true)
+     String make;
+
+     @RealmProperty()
+     String model;
+
+     @RealmProperty(defaultValue: "500", optional: true)
+     int kilometers;
+   }
+
+.. TODO(20150):  link RealmObject to SDK reference and find out where the Car class is generated 
+
+Now generate a RealmObject class ``Car`` from the data model class ``Car``:
+
+.. codeblock::
+   
+   flutter pub run build_runner build
+
+This creates the ``Car`` class ??WHERE??. 
+
+Open a Realm
+------------
+
+Use :flutter-sdk:`Configuration <realm/Configuration-class.html>`
+to control the specifics of the {+realm+} you
+would like to open, including schema.
+
+Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
+to generate an instance of that {+realm+}:
+
+.. codeblock:: dart 
+
+   var config = Configuration();
+   config.schema.add(Car);
+
+   var realm = Realm(config);
+
+You can now use that {+realm+} instance to work with objects in the database.
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once opened, you can create objects within a {+realm+} in a
+:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+
+Create Objects
+~~~~~~~~~~~~~~
+
+To create a new ``Car``, instantiate an instance of the
+``Car`` class and add it to the {+realm+} in a write transaction block:
+
+.. codeblock:: dart
+   
+   realm.write(() {
+     var car = realm.create(Car()..make = "Tesla"..model = "Model Y"..kilometers = 42);
+   });
+
+Retrieve Objects
+~~~~~~~~~~~~~~~~
+
+Retrieve a collection of all objects of a data model in the {+realm+} with the
+:flutter-sdk:`Realm.objects<RealmObject>() <realm/Realm/objects.html>`
+method:
+
+.. codeblock:: dart
+   
+   var cars = realm.objects<Car>();
+   Car myCar = objects[0];
+   print("My car is ${myCar.make} ${myCar.model}");
+
+You can also filter a collection to retrieve a more specific collection
+of objects:
+
+.. codeblock:: dart
+
+   cars = realm.objects<Car>().where("make == 'Tesla'");
+
+.. TODO(DOCSP-20150): validate this is true for flutter. taken from the  kmm docs
+
+.. note:: Realm Query Language
+
+   You can find more information about string {+client-database+} queries in
+   the :ref:`Node SDK Query Guide <node-client-query-engine>`.
+
+Update Objects
+~~~~~~~~~~~~~~
+
+To modify a car, update its properties in a write transaction block:
+
+.. TODO(DOCSP-20150): couldn't find anything in the current docs
+
+.. codeblock:: dart
+
+   // find out how to update
+
+Delete Objects
+~~~~~~~~~~~~~~
+
+Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
+method in a write transaction block:
+
+.. codeblock:: dart
+
+   realm.write(() {
+     realm.delete(myCar);
+   });
+
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
+<realm/Realm/deleteMany.html>` method in a write transaction block. 
+
+.. codeblock:: dart
+
+   realm.write(() {
+     realm.deleteMany(cars);
+   });
+
+
+Complete Example
+----------------
+
+If you're running this project in a fresh KMM template project, you can
+copy and paste into the ``Greeting.greeting()`` method in the
+``commonMain`` module.
+
+.. example:: Flutter SDK Complete Example
+
+   .. codeblock:: dart
+
+      // TODO: add example. might have to be multiple files, wherein link would be to the 
+      // source code in docs-realm repo
