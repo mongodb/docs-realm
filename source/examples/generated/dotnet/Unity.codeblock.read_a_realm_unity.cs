@@ -1,5 +1,17 @@
 // After copying the above created file to the project folder,
-// we can access it in Application.dataPath:
-var realmPath = Path.Combine(Application.dataPath, "bundled.realm");
-// And then we open it like any other realm:
-var realm = await Realm.GetInstanceAsync(realmPath);
+// we can access it in Application.dataPath
+
+// If you are using a local realm
+var config = RealmConfiguration.DefaultConfiguration;
+
+// If the realm is synced realm
+var app = App.Create("myRealmAppId");
+var user = await app.LogInAsync(Credentials.Anonymous());
+config = new SyncConfiguration("myPartition", user);
+
+if (!File.Exists(config.DatabasePath))
+    FileUtil.CopyFileOrDirectory(Path.Combine(Application.dataPath,
+        "bundled.realm"), config.DatabasePath);
+}
+
+var realm = Realm.GetInstance(config);
