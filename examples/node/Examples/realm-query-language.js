@@ -19,38 +19,32 @@ const Task = {
 };
 
 describe("Realm Query Language Reference", () => {
-  test("Query tests should pass", async () => {
-    // open the realm
-    const realm = await Realm.open({
+  let realm;
+  beforeEach(async () => {
+    realm = await Realm.open({
       schema: [Project, Task],
     });
 
-    // remove any objects that may persist from a prior failed run
-    realm.write(() => {
-      realm.deleteAll();
-    });
-
     // populate test objects
-    let project, task1, task2, task3;
     realm.write(() => {
-      project = realm.create("Project", {
+      realm.create("Project", {
         name: "New Project",
       });
-      task1 = realm.create("Task", {
+      realm.create("Task", {
         name: "Write tests",
         isComplete: false,
         assignee: "Alex",
         priority: 5,
         progressMinutes: 125,
       });
-      task2 = realm.create("Task", {
+      realm.create("Task", {
         name: "Run tests",
         isComplete: false,
         assignee: "Ali",
         priority: 9,
         progressMinutes: 10,
       });
-      task3 = realm.create("Task", {
+      realm.create("Task", {
         name: "Bluehawk Tests",
         isComplete: false,
         assignee: null,
@@ -61,9 +55,18 @@ describe("Realm Query Language Reference", () => {
 
     expect(realm.objects("Project")[0].name).toBe("New Project");
     expect(realm.objects("Task")[0].name).toBe("Write tests");
+  });
 
+  afterEach(() => {
+    // After the test, delete the objects and close the realm
+    realm.write(() => {
+      realm.deleteAll();
+    });
+    realm.close();
+  });
+
+  test("comparison queries", () => {
     const tasks = realm.objects("Task");
-    const projects = realm.objects("Project");
 
     let highPriorityTasks = tasks.filtered(
       // :code-block-start: comparison-operators
@@ -95,6 +98,11 @@ describe("Realm Query Language Reference", () => {
       // :code-block-end:
     );
     expect(progressMinutesRange.length).toBe(1);
+  });
+
+  test("logic queries", () => {
+    const tasks = realm.objects("Task");
+    const projects = realm.objects("Project");
 
     let aliComplete = tasks.filtered(
       // :code-block-start: logical-operators
@@ -119,7 +127,10 @@ describe("Realm Query Language Reference", () => {
       // :code-block-end:
     );
     expect(containIe.length).toBe(0);
+  });
 
+  test("aggregate queries", () => {
+    const projects = realm.objects("Project");
     let averageTaskPriorityAbove5 = projects.filtered(
       // :code-block-start: aggregate-operators
       "tasks.@avg.priority > 5"
@@ -158,7 +169,10 @@ describe("Realm Query Language Reference", () => {
       // :code-block-end:
     );
     expect(longRunningProjects.length).toBe(0);
+  });
 
+  test("collection queries", () => {
+    const projects = realm.objects("Project");
     let noCompleteTasks = projects.filtered(
       // :code-block-start: set-operators
       "NONE tasks.isComplete == true"
@@ -173,6 +187,10 @@ describe("Realm Query Language Reference", () => {
       // :code-block-end:
     );
     expect(anyTopPriorityTasks.length).toBe(0);
+  });
+
+  test("sort, distinct and limit queries", () => {
+    const tasks = realm.objects("Task");
 
     let sortedUniqueAliTasks = tasks.filtered(
       // :code-block-start: sort-distinct-limit
@@ -180,25 +198,27 @@ describe("Realm Query Language Reference", () => {
       // :code-block-end:
     );
     expect(sortedUniqueAliTasks.length).toBe(1);
+  });
 
+  test("subquery queries", () => {
+    const projects = realm.objects("Project");
     let subquery = projects.filtered(
       // :code-block-start: subquery
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
       // :code-block-end:
     );
     expect(subquery.length).toBe(0);
+  });
+
+  test("predicate substitution", () => {
+    const tasks = realm.objects("Task");
 
     let substitution = tasks.filtered(
       // :code-block-start: predicate
-      "progressMinutes > 1 AND assignee == $0", "Ali"
+      "progressMinutes > 1 AND assignee == $0",
+      "Ali"
       // :code-block-end:
     );
     expect(substitution.length).toBe(1);
-
-    // After the test, delete the objects and close the realm
-    realm.write(() => {
-      realm.deleteAll();
-    });
-    realm.close();
   });
 });
