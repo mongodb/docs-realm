@@ -5,6 +5,7 @@ const Project = {
   properties: {
     name: "string",
     tasks: "Task[]",
+    quota: "int?",
   },
 };
 const Task = {
@@ -23,33 +24,36 @@ describe("Realm Query Language Reference", () => {
   beforeEach(async () => {
     realm = await Realm.open({
       schema: [Project, Task],
+      inMemory: true,
     });
 
     // populate test objects
     realm.write(() => {
       realm.create("Project", {
         name: "New Project",
-      });
-      realm.create("Task", {
-        name: "Write tests",
-        isComplete: false,
-        assignee: "Alex",
-        priority: 5,
-        progressMinutes: 125,
-      });
-      realm.create("Task", {
-        name: "Run tests",
-        isComplete: false,
-        assignee: "Ali",
-        priority: 9,
-        progressMinutes: 10,
-      });
-      realm.create("Task", {
-        name: "Bluehawk Tests",
-        isComplete: false,
-        assignee: null,
-        priority: 10,
-        progressMinutes: 55,
+        tasks: [
+          {
+            name: "Write tests",
+            isComplete: false,
+            assignee: "Alex",
+            priority: 5,
+            progressMinutes: 125,
+          },
+          {
+            name: "Run tests",
+            isComplete: false,
+            assignee: "Ali",
+            priority: 9,
+            progressMinutes: 10,
+          },
+          {
+            name: "Bluehawk Tests",
+            isComplete: false,
+            assignee: null,
+            priority: 10,
+            progressMinutes: 55,
+          },
+        ],
       });
     });
 
@@ -136,7 +140,7 @@ describe("Realm Query Language Reference", () => {
       "tasks.@avg.priority > 5"
       // :hide-start:
     );
-    expect(averageTaskPriorityAbove5.length).toBe(0);
+    expect(averageTaskPriorityAbove5.length).toBe(1);
 
     const allTasksLowerPriority = projects.filtered(
       // :hide-end:
@@ -168,7 +172,7 @@ describe("Realm Query Language Reference", () => {
       "tasks.@sum.progressMinutes > 100"
       // :code-block-end:
     );
-    expect(longRunningProjects.length).toBe(0);
+    expect(longRunningProjects.length).toBe(1);
   });
 
   test("collection queries", () => {
@@ -186,7 +190,7 @@ describe("Realm Query Language Reference", () => {
       "ANY tasks.priority == 10"
       // :code-block-end:
     );
-    expect(anyTopPriorityTasks.length).toBe(0);
+    expect(anyTopPriorityTasks.length).toBe(1);
   });
 
   test("sort, distinct and limit queries", () => {
@@ -201,13 +205,52 @@ describe("Realm Query Language Reference", () => {
   });
 
   test("subquery queries", () => {
+    realm.write(() => {
+      realm.create("Project", {
+        name: "Project with Quota",
+        quota: 2,
+        tasks: [
+          {
+            name: "Write tests",
+            isComplete: true,
+            assignee: "Alex",
+            priority: 5,
+            progressMinutes: 125,
+          },
+          {
+            name: "Run tests",
+            isComplete: true,
+            assignee: "Ali",
+            priority: 9,
+            progressMinutes: 10,
+          },
+          {
+            name: "Bluehawk Tests",
+            isComplete: false,
+            assignee: null,
+            priority: 10,
+            progressMinutes: 55,
+          },
+        ],
+      });
+    });
     const projects = realm.objects("Project");
     const subquery = projects.filtered(
       // :code-block-start: subquery
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
+      // :hide-start:
+    );
+    expect(subquery.length).toBe(1);
+    expect(subquery[0].name).toBe("New Project");
+
+    const subquery2 = projects.filtered(
+      // :hide-end:
+
+      "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
       // :code-block-end:
     );
-    expect(subquery.length).toBe(0);
+    expect(subquery2.length).toBe(1);
+    expect(subquery2[0].name).toBe("Project with Quota");
   });
 
   test("predicate substitution", () => {

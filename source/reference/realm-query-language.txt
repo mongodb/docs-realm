@@ -80,26 +80,35 @@ predicate against each object in the collection. The predicate may refer
 to the current iterated object with the variable name passed to
 ``SUBQUERY()``.
 
-{+client-database+} only supports the ``@count`` :ref:`aggregate
-operator <rql-aggregate-operator>` on the result of a subquery. This
-allows you to count how many objects in the subquery input collection
-matched the predicate.
+A subquery expression resolves to an array. {+client-database+} only
+supports the ``@count`` :ref:`aggregate operator
+<rql-aggregate-operator>` on this result. This allows you to count how
+many objects in the subquery input collection matched the predicate.
+
+You can use the count of the subquery result as you would any other
+number in a valid expression. In particular, you can compare the count
+with a number literal (such as ``0``) or another property (such as
+``quota``).
 
 .. example::
 
-   Running the following filter on a ``projects`` collection returns projects
-   with tasks that have not been completed by a user named Alex.
+   The following example shows two filters on a ``projects`` collection.
+   
+   - The first returns projects with tasks that have not been completed by a user named Alex.
+   - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.subquery.js
       :language: javascript
 
 .. note:: About the Examples On This Page
 
-   The examples in this page use a simple data set for a task list app. The 
-   two Realm object types are ``Project`` and ``Task``. A ``Task`` has a 
-   name, assignee's name, and completed flag. There is also an arbitrary 
-   number for priority -- higher is more important -- and a count of minutes 
-   spent working on it. A ``Project`` has zero or more ``Tasks``.
+   The examples in this page use a simple data set for a task list app.
+   The two Realm object types are ``Project`` and ``Task``. A ``Task``
+   has a name, assignee's name, and completed flag. There is also an
+   arbitrary number for priority -- higher is more important -- and a
+   count of minutes spent working on it. A ``Project`` has zero or more
+   ``Tasks`` and an optional quota for minimum number of tasks expected
+   to be completed.
 
    See the schema for these two classes, ``Project`` and ``Task``, below:
 
@@ -118,6 +127,7 @@ matched the predicate.
           ObjectId id;
           string name;
           Task[] tasks;
+          int? quota;
       }
 
 Operators
