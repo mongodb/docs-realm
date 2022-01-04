@@ -75,11 +75,20 @@ You can iterate through a collection property with another query using the
   variable name specified by ``variableName`` to refer to the currently-iterated
   element.
 
-A subquery takes a collection, then iterates through each object (as 
-variableName) checking the predicate against that object. Subqueries work well 
-when you have a collection (A) objects, and each object has a collection (B) 
-other objects. Use a subquery if you're trying to filter A based on 2 or more 
-varying attributes of B.
+A subquery iterates through the given collection and checks the given
+predicate against each object in the collection. The predicate can refer
+to the current iterated object with the variable name passed to
+``SUBQUERY()``.
+
+A subquery expression resolves to an array containing the objects in the
+input collection that matched the predicate. Therefore, you can use
+:ref:`aggregate operators <rql-aggregate-operators>` and
+:ref:`collection operators <rql-collection-operators>` on the result of
+a subquery.
+
+Subqueries work well when you have a collection (A) objects, and each
+object has a collection (B) of other objects. Use a subquery if you're
+trying to filter A based on 2 or more varying attributes of B.
 
 .. example::
 
@@ -150,7 +159,8 @@ values.
       "Expected object of type object id for property 'id' on object of type 
       'User', but received: 11223344556677889900aabb (Invalid value)"
    
-   You can compare any numeric type with any other numeric type.
+   You can compare any numeric type with any other numeric type,
+   including decimal, float, and Decimal128.
 
 .. list-table::
    :header-rows: 1
@@ -257,8 +267,11 @@ Regex-like wildcards allow more flexibility in search.
    * - | ``beginsWith``
      - Evaluates to ``true`` if the left-hand string expression begins with the right-hand string expression. This is similar to ``contains``, but only matches if the right-hand string expression is found at the beginning of the left-hand string expression.
 
-   * - | ``contains``, ``in``
+   * - | ``in``
      - Evaluates to ``true`` if the left-hand string expression is found anywhere in the right-hand string expression.
+
+   * - | ``contains``
+     - Evaluates to ``true`` if the right-hand string expression is found anywhere in the left-hand string expression.
 
    * - | ``endsWith``
      - Evaluates to ``true`` if the left-hand string expression ends with the right-hand string expression. This is similar to ``contains``, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
@@ -292,12 +305,14 @@ Regex-like wildcards allow more flexibility in search.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.string-operators.js
       :language: javascript
 
+.. _rql-aggregate-operators:
+
 Aggregate Operators
 ```````````````````
 
-You can apply an aggregate operator to a collection property
-of a Realm object. Aggregate operators traverse a
-collection and reduce it to a single value.
+You can apply an aggregate operator to a collection property of a Realm
+object. Aggregate operators traverse a collection and reduce it to a
+single value.
 
 .. list-table::
    :header-rows: 1
@@ -308,6 +323,7 @@ collection and reduce it to a single value.
 
    * - | ``@avg``
      - Evaluates to the average value of a given numerical property across a collection.
+       If any values are ``null``, they are not counted in the result.
 
    * - | ``@count``
      - Evaluates to the number of objects in the given collection. This
@@ -318,12 +334,15 @@ collection and reduce it to a single value.
 
    * - | ``@max``
      - Evaluates to the highest value of a given numerical property across a collection.
+       ``null`` values are ignored.
 
    * - | ``@min``
      - Evaluates to the lowest value of a given numerical property across a collection.
+       ``null`` values are ignored.
 
    * - | ``@sum``
-     - Evaluates to the sum of a given numerical property across a collection.
+     - Evaluates to the sum of a given numerical property across a collection,
+       excluding ``null`` values.
 
 .. example::
 
@@ -338,6 +357,8 @@ collection and reduce it to a single value.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.aggregate-operators.js
       :language: javascript
+
+.. _rql-collection-operators:
 
 Collection Operators
 ````````````````````
