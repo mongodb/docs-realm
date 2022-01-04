@@ -76,19 +76,14 @@ You can iterate through a collection property with another query using the
   element.
 
 A subquery iterates through the given collection and checks the given
-predicate against each object in the collection. The predicate can refer
+predicate against each object in the collection. The predicate may refer
 to the current iterated object with the variable name passed to
 ``SUBQUERY()``.
 
-A subquery expression resolves to an array containing the objects in the
-input collection that matched the predicate. Therefore, you can use
-:ref:`aggregate operators <rql-aggregate-operators>` and
-:ref:`collection operators <rql-collection-operators>` on the result of
-a subquery.
-
-Subqueries work well when you have a collection (A) objects, and each
-object has a collection (B) of other objects. Use a subquery if you're
-trying to filter A based on 2 or more varying attributes of B.
+{+client-database+} only supports the ``@count`` :ref:`aggregate
+operator <rql-aggregate-operator>` on the result of a subquery. This
+allows you to count how many objects in the subquery input collection
+matched the predicate.
 
 .. example::
 
@@ -97,9 +92,6 @@ trying to filter A based on 2 or more varying attributes of B.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.subquery.js
       :language: javascript
-    
-   SUBQUERY(...) returns an array. We need to check if its count > 0 to 
-   return the true or false value predicate expects.
 
 .. note:: About the Examples On This Page
 
