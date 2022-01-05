@@ -16,6 +16,21 @@ Alter Your Sync Configuration
 Overview
 --------
 
+You may want to alter your sync configuration after you have already
+:ref:`enabled sync <enable-realm-sync>`. 
+
+If you are using Partition-Based Sync, and want to change the ``Partition Key``,
+you can terminate and re-enable sync.
+
+You can also pause sync to prevent clients from accessing your cluster, however
+this will not allow you to make changes to your sync configuration. 
+
+If you are using Flexible Sync and want to add or remove queryable
+fields, you can do so immediately, without terminating sync.
+
+Pause or Terminate Sync
+-----------------------
+
 If you want to disable {+sync+} for your app, you can temporarily pause or 
 permanently terminate it. You can also re-enable {+sync-short+} after 
 disabling it.
@@ -32,7 +47,7 @@ if you want to change your :ref:`{+sync-short+} configuration <appconfig-sync>`.
 .. _pause-sync:
 
 Pause Sync
-----------
+~~~~~~~~~~
 
 You can pause {+sync+} for a period of time without disabling
 it entirely. When you pause {+sync-short+}, you stop syncing changes between 
@@ -96,7 +111,7 @@ Procedure
 .. _resume-sync:
 
 Resume Sync
------------
+~~~~~~~~~~~
 
 After you have paused {+sync+}, you can resume it to begin syncing again for
 all clients. 
@@ -119,7 +134,7 @@ Clients do not need to perform a client reset when reconnecting after a pause.
 .. _terminating-realm-sync:
 
 Terminate Sync
---------------
+~~~~~~~~~~~~~~
 
 If you have :ref:`enabled Realm Sync <enable-sync>`, you may have to 
 terminate and re-enable {+sync+} under a few different circumstances:
@@ -164,8 +179,6 @@ terminate and re-enable {+sync+} under a few different circumstances:
 
       Learn how to perform a :ref:`Client Reset using the .NET SDK <dotnet-client-reset>`.
 
-Procedure
-~~~~~~~~~
 
 Terminate {+sync+} in your {+app+} to stop syncing data across
 devices. 
@@ -175,7 +188,7 @@ devices.
 .. _re-enable-realm-sync:
 
 Re-Enable Sync
---------------
+~~~~~~~~~~~~~~
 
 After you have terminated {+sync+}, you can re-enable it. Re-enabling 
 {+sync-short+} enables your {+app+} to begin syncing changes to Atlas again. 
@@ -183,9 +196,6 @@ After you re-enable {+sync-short+}, your {+app+} begins accepting incoming
 client connections again. However, if a client had previously connected to
 your {+app+} before you terminated {+sync+}, you must perform a manual client 
 reset for that client to enable it to connect to {+service+} again.
-
-Procedure
-~~~~~~~~~
 
 When you pause {+sync-short+}, {+service+} preserves your configuration 
 settings, and you can skip the **Configure Sync** step. 
@@ -220,3 +230,82 @@ perform a manual client reset in your client applications:
       :tabid: dotnet
 
       Learn how to perform a :ref:`Client Reset using the .NET SDK <dotnet-client-reset>`.
+
+.. alter-partition-based-sync-config:
+
+Alter Your Partition-Based Sync Configuration
+---------------------------------------------
+
+You must :ref:`Terminate Sync <terminating-realm-sync>` and :ref:`Re-enable Sync
+<re-enable-realm-sync>` to make changes to your Partition-Based Sync
+Configuration. While you are re-enabling Realm Sync, you can specify a new
+Partition Key, or changes to your Read/Write Permissions. Making changes to your
+sync configuration while terminating and re-enabling sync will trigger a client
+reset. To learn more about handling client resets, read the :ref:`client reset
+<client-resets>` documentation.
+
+
+.. alter-flexible-sync-config:
+
+Alter Your Flexible Sync Configuration
+--------------------------------------
+To alter your Flexible Sync Configuration, you can add or remove fields in the {+ui+} while
+Sync is enabled without terminating and re-enabling sync. 
+
+.. add-a-queryable-field:
+
+Add a Queryable Field
+~~~~~~~~~~~~~~~~~~~~~
+To add a queryable field, navigate to the :guilabel:`Sync` configuration screen
+through the {+leftnav+}. Under the :guilabel:`Select Queryable Fields` heading,
+you can create a new field(s) to construct a query on. Finally, make sure to
+click :guilabel:`Enable Sync` to finish adding your queryable field and enable
+sync.
+
+.. note:: 
+
+   Devices using this new field will only be able to sync on this field once the
+   device has caught up to the point in time in :ref:`Sync History <sync-history>`
+   where the field was added. 
+
+.. image:: /images/FS-add-queryable-field.png
+   :alt: Add a Queryable Field
+
+.. remove-a-queryable-field:
+
+Remove a Queryable Field
+~~~~~~~~~~~~~~~~~~~~~~~~
+To remove a queryable field, navigate to the :guilabel:`Sync` configuration
+screen through the {+leftnav+}. Under the :guilabel:`Select Queryable Fields`
+heading, you can click the :guilabel:`x` button next to the field you wish to
+delete. Finally, make sure to click :guilabel:`Enable Sync` to finish adding
+your queryable field and enable sync.
+
+.. note:: Removing a Queryable Field Triggers a Client Reset on Devices Using That Field
+
+   When you remove a queryable field, any devices still using that field will
+   have their sync session dropped and receive a client reset. To learn more
+   about handling client resets, read the :ref:`client reset <client-resets>`
+   documentation. Clients that are not using this field, will continue syncing
+   data normally without receiving any errors. To avoid triggering a client
+   reset when you remove the queryable field in the :guilabel:`Sync`
+   configuration screen, you should also remove this field on the client-side.
+
+.. image:: /images/FS-remove-queryable-field.png
+   :alt: Remove a Queryable Field
+
+Implicit Permission Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Making changes to permissions, whether implicitly through user metadata, or
+explicitely through changing configuration filters, will trigger a client reset
+and re-download of all sync data with the new permissions applied. 
+
+However, adding a new collection to a sync schema, and defining permissions for
+the new namespace or using default roles, will not trigger a client reset, since
+permissions have not been applied previously. The most simple way to avoid a
+client reset when creating a new collection is to have a default role.
+Alternatively, custom permissions for the new collection will need to be
+deployed in the same draft as the new schema to avoid a client reset. If custom
+permissions for the new collection are deployed after the new schema, the
+default permissions will be applied, and a client reset will be triggered.
+
