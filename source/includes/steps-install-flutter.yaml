@@ -13,14 +13,14 @@ content: |
 
   To add the {+service-short+} Flutter SDK to your project, run the command:
 
-  .. codeblock:: 
+  .. code-block:: 
 
      flutter pub add realm
 
   This downloads the ``realm`` package and adds it to your project. 
   In your ``:caption: src/graphql/useProjects.js`` file, you should see:
 
-  .. codeblock:: yaml
+  .. code-block:: yaml
      :caption: src/graphql/useProjects.js
 
      dependencies:
@@ -34,6 +34,41 @@ content: |
   To use the {+service-short+} Flutter SDK within your app, import the package 
   into files where you will use it:
 
-    .. codeblock:: dart
+  .. code-block:: dart
 
-       import 'package:realm/realm.dart';
+     import 'package:realm/realm.dart';
+
+---
+title: Configure Generation of Realm Objects
+ref: configure-generation-realm-objects
+content: |
+
+  .. _configure-generation-realm-objects:
+
+  To generate {+client-db-short+} Object classes for your app, you also have do
+  additional configuration. 
+
+  Add the `build_runner <https://pub.dev/packages/build_runner>`__ package as a 
+  development dependency:
+
+  .. code-block::
+
+     flutter pub add build_runner --dev
+
+  Enable `realm_generator` by creating a `build.yaml` file with the following contents:
+
+  .. code-block: yaml
+
+     targets:
+      $default:
+          builders:
+              realm_generator|realm_object_builder:
+                  enabled: true
+                  generate_for:
+                      - lib/*.dart 
+
+  Now you can generate Realm RealmObject classes from your :ref:`data model classes <flutter-define-object-model>` by running:
+
+  .. code-block: 
+
+     flutter pub run build_runner build
