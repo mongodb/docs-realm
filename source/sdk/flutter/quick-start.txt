@@ -75,10 +75,10 @@ to generate an instance of that {+realm+}:
 
 You can now use that {+realm+} instance to work with objects in the database.
 
-Create, Read, Update, and Delete Objects
-----------------------------------------
+Work with Realm Objects
+-----------------------
 
-Once opened, you can create objects within a {+realm+} in a
+Once you've opened a {+realm+}, you can create objects within it in a
 :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
 Create Objects
@@ -93,8 +93,19 @@ To create a new ``Car``, instantiate an instance of the
      var car = realm.create(Car()..make = "Tesla"..model = "Model Y"..kilometers = 42);
    });
 
-Retrieve Objects
-~~~~~~~~~~~~~~~~
+Update Objects
+~~~~~~~~~~~~~~
+
+To modify a car, update its properties in a write transaction block:
+
+.. TODO(DOCSP-20150): couldn't find anything in the current docs
+
+.. codeblock:: dart
+
+   // find out how to update
+
+Query for Objects
+~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
 :flutter-sdk:`Realm.objects<RealmObject>() <realm/Realm/objects.html>`
@@ -113,23 +124,14 @@ of objects:
 
    cars = realm.objects<Car>().where("make == 'Tesla'");
 
-.. TODO(DOCSP-20150): validate this is true for flutter. taken from the  kmm docs
+.. TODO(DOCSP-20150): add something about using sort  
+
+.. TODO(DOCSP-20150): validate this note is true for flutter. taken from the  kmm docs
 
 .. note:: Realm Query Language
 
    You can find more information about string {+client-database+} queries in
    the :ref:`Node SDK Query Guide <node-client-query-engine>`.
-
-Update Objects
-~~~~~~~~~~~~~~
-
-To modify a car, update its properties in a write transaction block:
-
-.. TODO(DOCSP-20150): couldn't find anything in the current docs
-
-.. codeblock:: dart
-
-   // find out how to update
 
 Delete Objects
 ~~~~~~~~~~~~~~
@@ -152,13 +154,39 @@ Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>)
      realm.deleteMany(cars);
    });
 
+Listen for Changes to Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO(DOCSP-20150): refactor everything here. this is the roughest of sketches. 
+.. there's little confidence anything here is correct. 
+
+Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
+
+To listen to an entire {+realm+}, use the :flutter-sdk:`Realm.addListener(Event, ListenerCallback) <realm/Realm/addListener.html>` method. 
+
+.. codeblock:: dart
+
+   // TODO(DOCSP-20150): add code example
+
+To listen to an a collection of {+realm+} objects, use the :flutter-sdk:`Results<RealmObject>.addListener(ResultsListenerCallback) <realm/Results/addListener.html>` method. 
+
+.. codeblock:: dart
+
+   // TODO(DOCSP-20150): add code example
+
+To listen to an a single {+realm+} object, use the :flutter-sdk:`RealmObject.addListener(ResultsListenerCallback) <realm/RealmObject/addListener.html>` method. 
+
+.. codeblock:: dart
+
+   // TODO(DOCSP-20150): add code example
 
 Complete Example
 ----------------
 
-If you're running this project in a fresh KMM template project, you can
-copy and paste into the ``Greeting.greeting()`` method in the
-``commonMain`` module.
+.. TODO(DOCSP-20150): build out this section
+
+For a complete example of all the Flutter SDK methods described above, refer to 
+LINK_TO_FULL_EXAMPLE.
 
 .. example:: Flutter SDK Complete Example
 
