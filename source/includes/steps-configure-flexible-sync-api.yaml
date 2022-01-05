@@ -1,14 +1,3 @@
-title: Pull the Latest Version of Your App
-ref: pull-the-latest-version-of-your-app
-content: |
-  To update your app through the CLI, you need an :ref:`up-to-date application
-  directory <application-directory>`. To pull a local copy of the latest version
-  of your app, run the following:
-  
-  .. code-block:: bash
-     
-     realm-cli pull --remote="<Your App ID>"
----
 title: Select a Cluster to Sync
 ref: select-a-cluster-to-sync
 content: |
@@ -17,8 +6,17 @@ content: |
   :ref:`link-a-data-source` guide to link it before
   you continue.
 
-  Determine which cluster you want to use and then open its configuration file.
-  Add the ``config.sync_query`` field with the following template:
+  You'll need the cluster's service configuration file to configure sync. You
+  can find the configuration file by listing all services through the Admin API:
+
+  .. code-block:: shell
+     
+     curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services \
+       -X GET \
+       -h 'Authorization: Bearer <Valid Access Token>'
+
+  Once you have the configuration, add the ``config.sync_query`` field with the
+  following template configuration:
 
   .. code-block:: json
     
@@ -50,7 +48,6 @@ content: |
     The default role applies to any collection where you do not define custom roles. 
     Since there is no custom roles defined in the above example, the default role 
     applies to all collections.
-
 ---
 title: Choose Queryable Fields
 ref: choose-queryable-fields
@@ -61,6 +58,8 @@ content: |
 
   To learn more about queryable fields, read the :ref:`queryable fields
   <queryable-fields>` documentation.
+
+  Add the fields you would like your application to query on to the ``config.sync_query.queryable_fields_names``:
 
   .. code-block:: json
 
@@ -147,8 +146,13 @@ content: |
   permissions, you can deploy your changes to start syncing data and enforcing
   sync rules.
 
-  To deploy your changes, import your app configuration:
+  To deploy your changes, send an Admin API request that updates the cluster
+  configuration with your sync configuration:
 
   .. code-block:: shell
      
-     realm-cli push --remote="<Your App ID>"
+     curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services/{MongoDB_Service_ID}/config \
+       -X PATCH \
+       -h 'Authorization: Bearer <Valid Access Token>' \
+       -h "Content-Type: application/json" 
+       -d @/some/directory/some.json
