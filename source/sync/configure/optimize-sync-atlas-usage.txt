@@ -338,12 +338,6 @@ Summary
 
 - {+sync+} uses space in your synced Atlas cluster to store change history.
 - Backend compaction reduces the space usage of this history.
-- Advanced backend compaction reduces the space usage of this history even
-   more, but can cause client resets for clients who have not connected
-   to the backend in more than the client maximum offline time (in days).
-- Apps that do not specify a client maximum offline time do not apply
-   advanced backend compaction, so clients of any age can sync without
-   experiencing a client reset.
-- Adding additional queryable fields to a flexible sync configuration will
-   increase storage consumed on an Atlas Cluster. Using broad queries and
-   selecting fewer fields that support broad queries decreases storage consumed.
+- Advanced backend compaction reduces the space usage of this history even more, but can cause client resets for clients who have not connected to the backend in more than the client maximum offline time (in days).
+- Apps that do not specify a client maximum offline time do not apply advanced backend compaction, so clients of any age can sync without experiencing a client reset.
+- Adding additional queryable fields to a flexible sync configuration will increase storage consumed on an Atlas Cluster. Using broad queries and selecting fewer fields that support broad queries decreases storage consumed.
