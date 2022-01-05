@@ -1,12 +1,12 @@
 title: Select a Cluster to Sync
 ref: select-a-cluster-to-sync
 content: |
-  You can enable sync for a single :term:`linked cluster` in your application.
+  You can enable {+sync-short+} for a single :term:`linked cluster` in your application.
   If you have not yet linked the cluster to your application, follow the
   :ref:`link-a-data-source` guide to link it before
   you continue.
 
-  You'll need the cluster's service configuration file to configure sync. You
+  You'll need the cluster's service configuration file to configure {+sync-short+}. You
   can find the configuration file by listing all services through the Admin API:
 
   .. code-block:: shell
@@ -91,10 +91,10 @@ content: |
   dynamically evaluates whenever a user opens a realm to determine if the user
   has read or write permissions for data in the document.
 
-  Sync rule expressions have access to :json-expansion:`%%user`, which resolves
+  {+sync-short+} rule expressions have access to :json-expansion:`%%user`, which resolves
   to the user that opened the realm You can also use operators, including
   :json-operator:`%function`, to handle more complex cases. For examples, see
-  :ref:`Sync Permissions <sync-permissions>`.
+  :ref:`{+sync-short+} Permissions <sync-permissions>`.
 
   Once you've determined how to decide a user's read and write permissions for a
   given document, define the corresponding JSON expressions in the
@@ -142,12 +142,12 @@ content: |
 title: Deploy the Sync Configuration
 ref: deploy-the-sync-configuration
 content: |
-  Now that you've defined the sync configuration, including read and write
+  Now that you've defined the {+sync-short+} configuration, including read and write
   permissions, you can deploy your changes to start syncing data and enforcing
-  sync rules.
+  {+sync-short+} rules.
 
   To deploy your changes, send an Admin API request that updates the cluster
-  configuration with your sync configuration:
+  configuration with your {+sync-short+} configuration:
 
   .. code-block:: shell
      
