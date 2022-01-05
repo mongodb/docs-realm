@@ -28,6 +28,11 @@ query API.
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
 
+.. important::
+
+   Flexible Sync supports some, but not all, RQL operators. For details, see:
+   :ref:`Flexible Sync RQL Limitations <flexible-sync-rql-limitations>`.
+
 Expressions
 ~~~~~~~~~~~
 
@@ -440,3 +445,44 @@ results collection.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.sort-distinct-limit.js
       :language: javascript
+
+.. _flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+Flexible Sync has some limitations when using RQL operators.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator Type
+     - Unsupported Operators
+
+   * - Embedded or Linked Objects
+     - Flexible Sync does not support querying on properties in Embedded 
+       Objects or links. For example, ``obj1.field = “foo”``.
+
+   * - Comparison Operators
+     - Flexible Sync does not support BETWEEN. Use range operators for this 
+       type of query, instead. For example, ``field > 100 AND field < 200``.
+    
+   * - Case-Insensitive Queries
+     - Flexible Sync does not support modifiers for case insensitivity.
+
+   * - String Operators
+     - BEGINSWITH, ENDSWITH, CONTAINS, LIKE
+
+   * - Aggregate Operators
+     - Flexible Sync does not support property operators.
+
+   * - Collection Operators
+     - ANY, ALL, NONE
+
+   * - Query Suffixes
+     - DISTINCT, SORT, LIMIT
+
+   * - IN
+     - Flexible Sync does not support the ``IN`` operator, whether using
+       it for comparison or as a string operator.
