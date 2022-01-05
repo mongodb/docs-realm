@@ -13,11 +13,15 @@ Quick Start - Flutter SDK
    :class: singlecol
 
 This page contains information to quickly get {+client-database+}
-integrated into your Flutter app. Before you begin, ensure you have:
+integrated into your Flutter app. 
+
+Before you begin, ensure you have:
 
 - :ref:`Installed the Flutter SDK <flutter-install>`
 
 .. TODO(DOCSP-20150): refactor examples as includes from the examples folder w tests
+
+.. include:: /includes/note-flutter-local-realm-only.rst
 
 Define Your Object Model
 ------------------------
@@ -33,7 +37,7 @@ classes in your application code with
 To define your application's data model, add the following class
 definition to your application code:
 
-.. codeblock:: dart
+.. code-block:: dart
 
    class _Car {
      @RealmProperty(primaryKey: true)
@@ -50,7 +54,7 @@ definition to your application code:
 
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
-.. codeblock::
+.. code-block::
    
    flutter pub run build_runner build
 
@@ -66,7 +70,7 @@ would like to open, including schema.
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
 
-.. codeblock:: dart 
+.. code-block:: dart 
 
    var config = Configuration();
    config.schema.add(Car);
@@ -87,7 +91,7 @@ Create Objects
 To create a new ``Car``, instantiate an instance of the
 ``Car`` class and add it to the {+realm+} in a write transaction block:
 
-.. codeblock:: dart
+.. code-block:: dart
    
    realm.write(() {
      var car = realm.create(Car()..make = "Tesla"..model = "Model Y"..kilometers = 42);
@@ -100,7 +104,7 @@ To modify a car, update its properties in a write transaction block:
 
 .. TODO(DOCSP-20150): couldn't find anything in the current docs
 
-.. codeblock:: dart
+.. code-block:: dart
 
    // find out how to update
 
@@ -111,7 +115,7 @@ Retrieve a collection of all objects of a data model in the {+realm+} with the
 :flutter-sdk:`Realm.objects<RealmObject>() <realm/Realm/objects.html>`
 method:
 
-.. codeblock:: dart
+.. code-block:: dart
    
    var cars = realm.objects<Car>();
    Car myCar = objects[0];
@@ -120,7 +124,7 @@ method:
 You can also filter a collection to retrieve a more specific collection
 of objects:
 
-.. codeblock:: dart
+.. code-block:: dart
 
    cars = realm.objects<Car>().where("make == 'Tesla'");
 
@@ -139,7 +143,7 @@ Delete Objects
 Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
 method in a write transaction block:
 
-.. codeblock:: dart
+.. code-block:: dart
 
    realm.write(() {
      realm.delete(myCar);
@@ -148,7 +152,7 @@ method in a write transaction block:
 Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
 <realm/Realm/deleteMany.html>` method in a write transaction block. 
 
-.. codeblock:: dart
+.. code-block:: dart
 
    realm.write(() {
      realm.deleteMany(cars);
@@ -164,19 +168,19 @@ Listen and respond to changes to an entire {+realm+} database, a collection or a
 
 To listen to an entire {+realm+}, use the :flutter-sdk:`Realm.addListener(Event, ListenerCallback) <realm/Realm/addListener.html>` method. 
 
-.. codeblock:: dart
+.. code-block:: dart
 
    // TODO(DOCSP-20150): add code example
 
 To listen to an a collection of {+realm+} objects, use the :flutter-sdk:`Results<RealmObject>.addListener(ResultsListenerCallback) <realm/Results/addListener.html>` method. 
 
-.. codeblock:: dart
+.. code-block:: dart
 
    // TODO(DOCSP-20150): add code example
 
 To listen to an a single {+realm+} object, use the :flutter-sdk:`RealmObject.addListener(ResultsListenerCallback) <realm/RealmObject/addListener.html>` method. 
 
-.. codeblock:: dart
+.. code-block:: dart
 
    // TODO(DOCSP-20150): add code example
 
@@ -190,7 +194,7 @@ LINK_TO_FULL_EXAMPLE.
 
 .. example:: Flutter SDK Complete Example
 
-   .. codeblock:: dart
+   .. code-block:: dart
 
       // TODO: add example. might have to be multiple files, wherein link would be to the 
       // source code in docs-realm repo
