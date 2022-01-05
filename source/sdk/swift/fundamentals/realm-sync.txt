@@ -15,14 +15,24 @@ Realm Sync - Swift SDK
 Overview
 --------
 
-:ref:`Realm Sync <sync-overview>` automatically synchronizes data between 
-client applications and your backend. When a client device is online, 
+Realm Sync <sync-overview> automatically synchronizes data between 
+client applications and your backend {+app+}. When a client device is online, 
 {+sync-short+} asynchronously synchronizes data in a background thread 
 between the device and your backend {+app+}. 
 
 When you use Sync in your client application, your implementation must match 
-the :ref:`Sync Mode <sync-modes>` you select in your backend {+app+} 
-configuration.
+the Sync Mode you select in your backend {+app+} configuration. The Sync Mode
+options are:
+
+- Partition-Based Sync
+- Flexible Sync
+
+You can only use one Sync Mode for your application. You cannot mix 
+Partition-Based Sync and Flexible Sync within the same {+app+}.
+
+.. seealso::
+
+   [ADD LINK] (Backend app configuration content)
 
 .. _ios-partition-based-sync-fundamentals:
 
