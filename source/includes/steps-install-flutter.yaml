@@ -1,11 +1,14 @@
-title: Create a Flutter App
-ref: create-a-Flutter-app
+title: Create a Flutter Project
+ref: create-a-Flutter-project
 content: |
 
-  TODO... get relevant link here
-  Create a Flutter app. Follow the instructions at the `Flutter documentation
-  <>`__.
+  Create a Flutter project. Follow the instructions at the :flutter:`Flutter documentation
+  <get-started/test-drive?tab=terminal>`.
 
+  .. code-block::
+
+     flutter create <app_name>
+     cd <app_name>
 ---
 title: Add Realm to the Project
 ref: add-realm-to-project
@@ -18,10 +21,10 @@ content: |
      flutter pub add realm
 
   This downloads the ``realm`` package and adds it to your project. 
-  In your ``:caption: src/graphql/useProjects.js`` file, you should see:
+  In your ``pubspec.yaml`` file, you should see:
 
   .. code-block:: yaml
-     :caption: src/graphql/useProjects.js
+     :caption: pubspec.yaml
 
      dependencies:
        realm: ^0.1.0+preview
@@ -57,7 +60,8 @@ content: |
 
   Enable `realm_generator` by creating a `build.yaml` file with the following contents:
 
-  .. code-block: yaml
+  .. code-block:: yaml
+     :caption: build.yaml 
 
      targets:
       $default:
@@ -69,6 +73,6 @@ content: |
 
   Now you can generate Realm RealmObject classes from your :ref:`data model classes <flutter-define-object-model>` by running:
 
-  .. code-block: 
+  .. code-block::
 
      flutter pub run build_runner build
