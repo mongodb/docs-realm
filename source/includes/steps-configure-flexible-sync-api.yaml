@@ -46,7 +46,7 @@ content: |
   .. note::
     
     The default role applies to any collection where you do not define custom roles. 
-    Since there is no custom roles defined in the above example, the default role 
+    Since no custom roles are defined in the above example, the default role 
     applies to all collections.
 ---
 title: Choose Queryable Fields
@@ -54,7 +54,7 @@ ref: choose-queryable-fields
 content: |
   The ``queryable_fields_names`` property allows you to define a set of
   queryable fields for the device should query on. A queryable field can be any
-  top-level primitive field with a scalar type, this excludes embedde objects or arrays.
+  top-level primitive field with a scalar type, excluding embedded objects or arrays.
 
   To learn more about queryable fields, read the :ref:`queryable fields
   <queryable-fields>` documentation.
@@ -87,12 +87,12 @@ content: |
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
 content: |
-  Realm allows you to define :ref:`JSON expressions <expressions>` that it
-  dynamically evaluates whenever a user opens a realm to determine if the user
+  {+service+} allows you to define :ref:`JSON expressions <expressions>` that it
+  dynamically evaluates whenever a user opens a {+realm+} to determine if the user
   has read or write permissions for data in the document.
 
   {+sync-short+} rule expressions have access to :json-expansion:`%%user`, which resolves
-  to the user that opened the realm You can also use operators, including
+  to the user that opened the {+realm+} You can also use operators, including
   :json-operator:`%function`, to handle more complex cases. For examples, see
   :ref:`{+sync-short+} Permissions <sync-permissions>`.
 
