@@ -1,0 +1,78 @@
+title: Create a Flutter Project
+ref: create-a-Flutter-project
+content: |
+
+  Create a Flutter project. Follow the instructions in the 
+  `Flutter documentation <https://docs.flutter.dev/get-started/test-drive?tab=terminal>`__.
+
+  .. code-block::
+
+     flutter create <app_name>
+     cd <app_name>
+---
+title: Add Realm to the Project
+ref: add-realm-to-project
+content: |
+
+  To add the `{+service-short+} Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
+
+  .. code-block:: 
+
+     flutter pub add realm
+
+  This downloads the ``realm`` package and adds it to your project. 
+  In your ``pubspec.yaml`` file, you should see:
+
+  .. code-block:: yaml
+     :caption: pubspec.yaml
+
+     dependencies:
+       realm: <latest_version>
+
+---
+title: Import Realm Package
+ref: import-realm-package
+content: |
+
+  To use the {+service-short+} Flutter SDK within your app, import the package 
+  into files where you will use it:
+
+  .. code-block:: dart
+
+     import 'package:realm/realm.dart';
+
+---
+title: Configure Generation of Realm Objects
+ref: configure-generation-realm-objects
+content: |
+
+  .. _configure-generation-realm-objects:
+
+  To generate {+client-db-short+} Object classes for your app, you also have do
+  additional configuration. 
+
+  Add the `build_runner <https://pub.dev/packages/build_runner>`__ package as a 
+  development dependency:
+
+  .. code-block::
+
+     flutter pub add build_runner --dev
+
+  Enable `realm_generator` by creating a `build.yaml` file with the following contents:
+
+  .. code-block:: yaml
+     :caption: build.yaml 
+
+     targets:
+      $default:
+          builders:
+              realm_generator|realm_object_builder:
+                  enabled: true
+                  generate_for:
+                      - lib/*.dart 
+
+  Now you can generate Realm RealmObject classes from your :ref:`data model classes <flutter-define-object-model>` by running:
+
+  .. code-block::
+
+     flutter pub run build_runner build
