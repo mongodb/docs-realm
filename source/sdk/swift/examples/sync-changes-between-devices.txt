@@ -14,119 +14,46 @@ Sync Changes Between Devices - Swift SDK
 
 .. _ios-open-a-synced-realm:
 
-Overview
---------
+Prerequisites
+-------------
 
-The typical flow for opening a synced {+realm+} involves:
+Before you can access a synced {+realm+} from the client, you must:
 
-1. :ref:`Authenticating the user <ios-authenticate-users>`
-#. Creating a :swift-sdk:`sync configuration <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE13configuration14partitionValueAC0B0V13ConfigurationVx_tAC4BSONRzlF>`
-#. Opening the user's synced {+realm+} with the configuration.
+1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
 
-At authentication, we cache user credentials in a ``sync_metadata.realm`` 
-file on device.
+#. :ref:`Initialize the app <ios-quick-start-init-app>`
 
-When you open a synced {+realm+} after authenticating, you can bypass the 
-login flow and go directly to opening the synced {+realm+}, using the same 
-sync configuration you already created.
+#. :ref:`Authenticate a user <ios-quick-start-authenticate>` in
+  your client project.
 
-With cached credentials, you can:
+#. :ref:`Open a Synced Realm <ios-login-and-open-realm>`
 
-- Open a synced {+realm+} immediately with the data that is on the device.
-  You can use this method offline or online.
-- Open a synced {+realm+} after downloading changes from your {+app+}. 
-  This requires the user to have an active internet connection.
+Sync Data
+---------
 
-Synced Realms vs Local Realms
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The syntax to :ref:`read <ios-read-operations>`, :ref:`write
+<ios-write-operations>`, and
+:ref:`watch for changes <ios-react-to-changes>` on a
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While 
+you work with local data, a background thread efficiently integrates, 
+uploads, and downloads changesets.
 
-Synced {+realms+} differ from local {+client-database+} in a few ways:
+.. important:: When Using Sync, Avoid Writes on the Main Thread
 
-- Synced {+realms+} attempt to sync changes with your backend {+app+},
-  whereas local {+realms+} do not.
-- Synced {+realms+} can be accessed by authenticated users, while local 
-  {+realms+} do not require any concept of users or authentication.
-- With synced {+realms+}, you can :ref:`specify the download behavior 
-  <ios-specify-download-behavior>` to download updates before opening a 
-  {+realm+}. However, this requires users to be online. Local {+realms+} - 
-  with no sync capability - can always be used offline.
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`not to write on the main thread
+   when using {+sync+} <ios-threading-three-rules>`.
 
-You can copy data from a :ref:`local {+client-database+} <ios-open-a-local-realm>` 
-to a synced {+realm+}, but you cannot sync a local {+client-database+}. You
-must initialize a synced {+realm+} with a :swift-sdk:`sync configuration <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE13configuration14partitionValueAC0B0V13ConfigurationVx_tAC4BSONRzlF>`.
+The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. _ios-login-and-open-realm:
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.create-task.swift
+   :language: swift
 
-Open a Synced Realm
--------------------
+.. seealso::
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: swift
-
-      .. versionchanged:: 10.15.0
-
-      .. seealso::
-         
-         This example uses async/await introduced in Swift 5.5 for iOS 15. If you're
-         using an older version of Swift or need to support older platforms, see:
-         :ref:`Legacy Realm Sync Open Methods <ios-realm-open-legacy>`. 
-
-      Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
-      object with the desired :ref:`partition value <partition-value>` to 
-      :swift-sdk:`{+realm+} initializers 
-      <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`.
-
-      You can optionally :ref:`specify whether a {+realm+} should download 
-      changes before opening <ios-specify-download-behavior>`. If you do not
-      specify download behavior, this opens a {+realm+} with data that is on
-      the device, and attempts to sync changes in the background.
-
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.swift
-         :language: swift
-
-   .. tab::
-      :tabid: objective-c
-
-      The first time you log in and open a synced {+realm+}, you'll log in the
-      user, and pass the user's :objc-sdk:`RLMSyncConfiguration 
-      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)syncConfiguration>` 
-      object with the desired :objc-sdk:`partitionValue 
-      <Classes/RLMSyncConfiguration.html#/c:objc(cs)RLMSyncConfiguration(py)partitionValue>` 
-      to :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
-      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`.
-
-      This opens a synced {+realm+} on the device. The {+realm+} 
-      attempts to sync with your {+app+} in the background to check for changes 
-      on the server, or upload changes that the user has made.
-
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.init-synced-realm.m
-         :language: swift
-
-.. _ios-specify-download-behavior:
-
-Download Changes Before Open
-----------------------------
-
-.. versionadded:: 10.15.0
-
-When you open a synced {+realm+} with the Swift SDK, you can pass the 
-``downloadBeforeOpen`` parameter to specify whether to download the 
-changeset from your {+app+} before opening the {+realm+}. This parameter 
-accepts a case from the ``OpenBehavior`` enum:
-
-- ``never``: Immediately open the {+realm+} on the device. Download changes 
-  in the background when the user has internet, but don't block opening
-  the {+realm+}.
-- ``always``: Check for changes every time you open the {+realm+}.
-  Requires the user to have an active internet connection.
-- ``once``: Download data before opening a {+realm+} for the first time, but
-  open it without downloading changes on subsequent opens. This lets you 
-  populate a {+realm+} with initial data, but enables offline-first 
-  functionality on subsequent opens.
-
-.. include:: /examples/generated/code/start/Sync.codeblock.specify-download-behavior.swift.code-block.rst
+   :ref:`Threading <ios-client-threading>`
 
 .. _ios-sync-changes-in-the-background:
 
