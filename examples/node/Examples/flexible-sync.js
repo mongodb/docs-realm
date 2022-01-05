@@ -19,7 +19,7 @@ describe("Flexible Sync Tests", () => {
     const user = await app.logIn(Realm.Credentials.anonymous());
 
     // :code-block-start: open-flexible-sync-realm
-    const realm = Realm.open({
+    const realm = await Realm.open({
       schema: [PersonSchema],
       sync: {
         user: app.currentUser,
