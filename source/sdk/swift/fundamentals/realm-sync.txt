@@ -1,0 +1,118 @@
+.. _ios-realm-sync:
+
+======================
+Realm Sync - Swift SDK
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+:ref:`Realm Sync <sync-overview>` automatically synchronizes data between 
+client applications and your backend. When a client device is online, 
+{+sync-short+} asynchronously synchronizes data in a background thread 
+between the device and your backend {+app+}. 
+
+When you use Sync in your client application, your implementation must match 
+the :ref:`Sync Mode <sync-modes>` you select in your backend {+app+} 
+configuration.
+
+.. _ios-partition-based-sync-fundamentals:
+
+Partition-Based Sync
+--------------------
+
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
+backend {+app+} configuration, your client implementation must include a 
+partition value. This is the value of the :ref:`partition key 
+<partition-key>` field you select when you configure Partition-Based Sync. 
+
+The partition value determines which data the client application can access.
+
+You pass in the partition value when you open a synced realm [ADD LINK].
+
+.. example::
+
+   Partition-Based Sync might be a good fit for an inventory management 
+   application. If you use ``store_number`` as the partition key, each 
+   store can read and write documents pertaining to its inventory.
+
+   In this example, ``Store 42`` would be the partition value your client 
+   application would pass to the backend {+app+}. 
+
+   .. code-block:: swift
+
+      var configuration = user.configuration(partitionValue: "Store 42")
+   
+   You could then configure :ref:`roles <roles>` in your backend to give 
+   read or read and write access to clients who pass in this partition 
+   value. You might give a ``customer`` role in the store inventory 
+   application read-only permission, while an ``employee`` role might have 
+   read and write access to any document whose partition value matches 
+   ``Store 42``.
+
+.. _ios-flexible-sync-fundamentals:
+
+Flexible Sync
+-------------
+
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+} 
+configuration, your client implementation must include subscriptions to 
+queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
+by synchronizing data that matches query subscriptions you maintain in the 
+client application. 
+
+A subscription contains a set of queries. Realm Flexible Sync returns 
+documents matching those queries, where the user has the appropriate 
+:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
+read and write the documents.
+
+You can form queries using Realm Query Language [ADD LINK].
+
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See Realm Query Language: Flexible Sync Supported 
+   Operators [ADD LINK] for details.
+
+Subscription sets are based on a specific type of :ref:`realm object 
+<ios-realm-objects>`. You might have multiple subscription sets if you 
+have many types of realm objects.
+
+.. example::
+
+   Consider an application that has two objects: the ``Dog`` 
+   object and the ``Person`` object from the :ref:`Define a To One 
+   Relationship Property <ios-define-a-to-one-relationship-property>` 
+   example. You might have a subscription set for each object type. 
+
+   .. code-block::
+
+      QuerySubscription<Dog> {
+         $0.breed == "English Springer Spaniel" && $0.age < 2
+      }
+      QuerySubscription<Person> {
+         $0.name == "Kay"
+      }
+
+   This example would allow the client application to sync any document 
+   where a Person's name is "Kay" or a Dog's breed is "English Springer 
+   Spaniel" and its age is less than two years old. 
+   
+   The client can only read or write matching documents where the 
+   :ref:`rules and permissions <flexible-sync-rules-and-permissions>` you've 
+   configured permit them to read or read and write data. This means that if 
+   there are documents that match the query, but the client does not have 
+   the permission to read or write them, they do not sync to the client 
+   application.
+
+To use Flexible Sync in your client application, open a synced realm 
+with a flexible sync configuration [ADD LINK]. Then, manage subscriptions
+to determine which documents to sync [ADD LINK].
