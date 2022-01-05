@@ -68,11 +68,11 @@ This creates the ``Car`` class ??WHERE??.
 Open a Realm
 ------------
 
-Use :flutter-sdk:`Configuration <realm/Configuration-class.html>`
+Use `Configuration <realm/Configuration-class.html>`__
 to control the specifics of the {+realm+} you
 would like to open, including schema.
 
-Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
+Pass your configuration to the `Realm constructor <https://pub.dev/documentation/realm/latest/realm/Realm-class.html>`__
 to generate an instance of that {+realm+}:
 
 .. code-block:: dart 
@@ -88,7 +88,7 @@ Work with Realm Objects
 -----------------------
 
 Once you've opened a {+realm+}, you can create objects within it in a
-:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+`write transaction block <https://pub.dev/documentation/realm/latest/realm/Realm/write.html>`__.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -117,7 +117,7 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-:flutter-sdk:`Realm.objects<RealmObject>() <realm/Realm/objects.html>`
+`Realm.objects<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
 method:
 
 .. code-block:: dart
@@ -145,7 +145,7 @@ of objects:
 Delete Objects
 ~~~~~~~~~~~~~~
 
-Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
+Delete a car by calling the `Realm.delete(RealmObject) <https://pub.dev/documentation/realm/latest/realm/Realm/delete.html>`__
 method in a write transaction block:
 
 .. code-block:: dart
@@ -154,8 +154,8 @@ method in a write transaction block:
      realm.delete(myCar);
    });
 
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
-<realm/Realm/deleteMany.html>` method in a write transaction block. 
+Delete multiple cars with the `Realm.deleteMany(List<RealmObject>) 
+<https://pub.dev/documentation/realm/latest/realm/Realm/deleteMany.html>`__ method in a write transaction block. 
 
 .. code-block:: dart
 
@@ -171,19 +171,19 @@ Listen for Changes to Objects
 
 Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
 
-To listen to an entire {+realm+}, use the :flutter-sdk:`Realm.addListener(Event, ListenerCallback) <realm/Realm/addListener.html>` method. 
+To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
 
 .. code-block:: dart
 
    // TODO(DOCSP-20150): add code example
 
-To listen to an a collection of {+realm+} objects, use the :flutter-sdk:`Results<RealmObject>.addListener(ResultsListenerCallback) <realm/Results/addListener.html>` method. 
+To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
 
 .. code-block:: dart
 
    // TODO(DOCSP-20150): add code example
 
-To listen to an a single {+realm+} object, use the :flutter-sdk:`RealmObject.addListener(ResultsListenerCallback) <realm/RealmObject/addListener.html>` method. 
+To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
 
 .. code-block:: dart
 
