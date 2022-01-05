@@ -451,7 +451,11 @@ results collection.
 Flexible Sync RQL Limitations
 -----------------------------
 
-Flexible Sync has some limitations when using RQL operators.
+Flexible Sync has some limitations when using RQL operators. When you 
+write the :ref:`query subscription <flexible-sync-query-subscription>` 
+that determines which data to sync, the server does not support these
+query operators. However, you can still use the full range of RQL features
+to query the synced data set in the client application.
 
 .. list-table::
    :header-rows: 1
@@ -478,7 +482,7 @@ Flexible Sync has some limitations when using RQL operators.
      - Flexible Sync does not support property operators.
 
    * - Collection Operators
-     - ANY, ALL, NONE
+     - ANY, SOME, ALL, NONE
 
    * - Query Suffixes
      - DISTINCT, SORT, LIMIT
