@@ -37,7 +37,7 @@ namespace Examples
         {
             var appConfig = new AppConfiguration(Config.appid);
             var app = App.Create(appConfig);
-            var user = app.LogInAsync(Credentials.Anonymous()).Result;
+            var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :code-block-start: copy_a_synced_realm
 
@@ -48,7 +48,7 @@ namespace Examples
             // :hide-start:
             var existingConfig = new SyncConfiguration("myPartition", user)
             {
-                Schema = new[] { typeof(Examples.Models.User) }
+                Schema = new[] { typeof(Models.User) }
             };
             // :hide-end:
             var realm = await Realm.GetInstanceAsync(existingConfig);
@@ -75,10 +75,28 @@ namespace Examples
             // :code-block-end:
         }
 
-        public void ExtractAndLoadRealmFile()
+
+        //[Test]// Commented because git builder can't find/save/write the file
+        public async Task ExtractAndLoadRealmFile()
         {
             // :code-block-start: extract_and_copy_realm
+            // :replace-start: {
+            //  "terms": {
+            //   "Config.appid": "\"myRealmAppId\""}
+            // }
+            // If you are using a local realm
             var config = RealmConfiguration.DefaultConfiguration;
+
+            // If the realm file is a synced realm
+            var app = App.Create(Config.appid);
+            var user = await app.LogInAsync(Credentials.Anonymous());
+            config = new SyncConfiguration("myPartition", user);
+            // :hide-start:
+            config.Schema = new[] { typeof(Examples.Models.User) };
+            // :hide-end:
+            // :replace-end:
+
+            // Extract and copy the realm
             if (!File.Exists(config.DatabasePath))
             {
                 using var bundledDbStream = Assembly.GetExecutingAssembly()
@@ -87,6 +105,7 @@ namespace Examples
                 bundledDbStream.CopyTo(databaseFile);
             }
 
+            // Open the Realm:
             var realm = Realm.GetInstance(config);
             // :code-block-end:
         }

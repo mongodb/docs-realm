@@ -1,0 +1,89 @@
+title: Export the Latest Version of Your App
+ref: copy-app-github-export-the-latest-version-of-your-app
+content: |
+  Get a local copy of your {+app+} by following the 
+  :ref:`documentation to export your <export-realm-app>`.
+
+---
+title: Create New App
+ref: copy-app-github-create-new-app
+content: |
+  Create a new {+app+}. This is where you add the configuration files from 
+  the exported app in later steps. Follow the :ref:`UI <create-a-realm-app>`, 
+  :ref:`CLI <create-app-cli>` or :ref:`API <create-app-api>` documentation 
+  to create the {+app+}.
+
+---
+title: Set up Github Automatic Deployment
+ref: copy-app-github-set-up-github
+content: |
+  Follow the :ref:`documentation to set up Github Automatic Deployment <deploy-github>`
+  for your {+app+}.
+
+---
+title: Copy App Configuration to New App
+ref: copy-app-github-copy-app-to-new-app
+content: |
+  Delete all the configuration files in the new app except for ``realm_config.json``.
+  You'll handle ``realm_config.json`` in the next step. 
+
+  Copy all the :ref:`configuration files and folders <app-configuration>` of your app
+  to the imported app folder except for the ``realm_config.json`` file.
+
+---
+title: Configure the New App's ``realm_config.json``
+ref: copy-app-github-configure-realm-config-json
+content: |
+  In the new app's ``realm_config.json``, replace all the contents except for the 
+  ``"app_id"`` and ``"name"``.
+
+  The new app's ``realm_config.json`` should look something like: 
+
+  .. code-block:: javascript
+
+     {
+       "app_id": "mynewapp-abcde", // don't change
+       "name": "MyNewApp", // don't change
+       "config_version": 20210101, // copy from exported app
+       "location": "US-VA", // copy from exported app
+       "deployment_model": "GLOBAL" // copy from exported app
+     }
+
+---
+title: Migrate Secrets to New App
+ref: copy-app-github-migrate-secrets
+content: |
+  When you :ref:`export your {+app+} <export-realm-app>`, the export does not include the app's 
+  :ref:`secrets <app-secret>`. As secrets cannot be read once they're defined, 
+  you must also have access to the secrets outside of {+service-short+} to import 
+  them into a {+app+}. If your app doesn't have any secrets, you can skip this step.
+
+  To add the secrets from another Realm app:
+
+  #. Get the names of all the secrets from the exported app by following the 
+     :ref:`view secrets documentation <list-secrets>`.
+  #. Save the names of all the secrets to a secure location. You don't have access to
+     the actual secrets, but it's useful to have a list of the secret names 
+     to add to your imported app.
+  #. Gather the secrets. This cannot be done from within {+service-short+}. 
+  #. Add all the secrets to the imported app by following the :ref:`define a secret documentation <define-secret>`.
+     Secrets must be added one at a time.
+
+---
+title: Push New App to Github
+ref: copy-app-github-push-to-github
+content: |
+  When you are ready to import the app, commit the application 
+  configuration files and then push them to GitHub:
+
+  .. code-block:: sh
+
+     git add -A
+     git commit -m "<commit message>"
+     git push origin <branch name>
+
+  Once you successfully push your changes to GitHub, {+service-short+}
+  immediately deploys a new version of your application that matches the state
+  of the latest commit. Client applications automatically use the newest
+  version, so make sure that you also update your client code to use the new
+  version.

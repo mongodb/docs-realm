@@ -101,15 +101,19 @@ content: |
           new HTTPResponse()
         )
 ---
-title: Configure Authorization
-ref: configure-authorization
+title: Configure Request Validation
+ref: configure-request-validation
 content: |
-  Choose the authorization method for the endpoint from the following
-  options:
+  You can require every request to include additional information that
+  proves the validity of the request. Choose the request validation
+  method for the endpoint from the following options:
 
   .. list-table::
      :widths: 20 80
      :header-rows: 1
+     
+     * - Method
+       - Description
      
      * - No Additional Authorization
        - Does not validate incoming requests.
@@ -123,7 +127,7 @@ content: |
          request's query parameters.
   
   .. figure:: /images/endpoint-authorization-realm-ui.png
-     :alt: The user authorization type input in the UI
+     :alt: The request validation input in the UI
      :lightbox:
 ---
 title: Save the Endpoint
