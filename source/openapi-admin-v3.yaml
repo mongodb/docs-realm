@@ -824,6 +824,8 @@ paths:
           content:
             application/json:
               schema:
+                type: array 
+                maxItems: 50
                 items:
                   $ref: "#/components/schemas/User"
     post:
@@ -1411,6 +1413,7 @@ paths:
                 properties:
                   logs:
                     type: array
+                    maxItems: 100
                     items:
                       type: object
                       properties:
