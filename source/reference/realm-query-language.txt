@@ -457,6 +457,9 @@ that determines which data to sync, the server does not support these
 query operators. However, you can still use the full range of RQL features
 to query the synced data set in the client application.
 
+Unsupported Query Operators in Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. list-table::
    :header-rows: 1
    :widths: 40 60
@@ -464,29 +467,30 @@ to query the synced data set in the client application.
    * - Operator Type
      - Unsupported Operators
 
-   * - Embedded or Linked Objects
-     - Flexible Sync does not support querying on properties in Embedded 
-       Objects or links. For example, ``obj1.field = “foo”``.
-
    * - Comparison Operators
-     - Flexible Sync does not support BETWEEN. Use range operators for this 
-       type of query, instead. For example, ``field > 100 AND field < 200``.
+     - ``BETWEEN``, ``IN``
     
    * - Case-Insensitive Queries
-     - Flexible Sync does not support modifiers for case insensitivity.
+     - ``[c]``
 
    * - String Operators
-     - BEGINSWITH, ENDSWITH, CONTAINS, LIKE
+     - ``beginsWith``, ``endsWith``, ``contains``, ``like``, ``in``
 
    * - Aggregate Operators
-     - Flexible Sync does not support property operators.
+     - ``@avg``, ``@count``, ``@max``, ``@min``, ``@sum``
 
    * - Collection Operators
-     - ANY, SOME, ALL, NONE
+     - ``ANY``, ``SOME``, ``ALL``, ``NONE``
 
    * - Query Suffixes
-     - DISTINCT, SORT, LIMIT
+     - ``DISTINCT``, ``SORT``, ``LIMIT``
 
-   * - IN
-     - Flexible Sync does not support the ``IN`` operator, whether using
-       it for comparison or as a string operator.
+The recommended workaround for the ``BETWEEN`` comparison operator is to
+combine range operators with ``AND`` for this type of query, instead. For 
+example, ``field > 100 AND field < 200``.
+
+Embedded or Linked Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Flexible Sync does not support querying on properties in Embedded Objects 
+or links. For example, ``obj1.field = “foo”``.
