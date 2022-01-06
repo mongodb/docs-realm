@@ -19,14 +19,14 @@ Overview
 Flexible Sync uses subscriptions and permissions to determine which
 data to sync with your {+app+}.
 
-To use Flexible Sync in an iOS client:
+To use Flexible Sync in an Node.js client:
 
 - Configure Flexible Sync on the backend [LINK TO BACKEND CONFIG PAGE WHEN COMPLETE]
-- :ref:`Initialize the app <ios-quick-start-init-app>`
-- :ref:`Authenticate a user <ios-quick-start-authenticate>` in
+- :ref:`Initialize the app <node-quick-start-init-app>`
+- :ref:`Authenticate a user <node-quick-start-authenticate>` in
   your client project.
-- :ref:`Open the synced Realm with a Flexible Sync configuration <ios-flexible-sync-open-realm>`
-- :ref:`Add subscriptions to the client application <ios-sync-subscribe-to-queryable-fields>`
+- :ref:`Open the synced Realm with a Flexible Sync configuration <node-flexible-sync-open-realm>`
+- :ref:`Add subscriptions to the client application <node-sync-subscribe-to-queryable-fields>`
 
 You can add, update, and remove query subscriptions to determine which data 
 syncs to the client device.
@@ -35,6 +35,36 @@ syncs to the client device.
 
 Subscribe to Queryable Fields
 -----------------------------
+
+When you configure Flexible Sync on the backend, you specify which fields
+your client application can query. In the client application, use the 
+``subscriptions`` API to manage a set of subscriptions to specific queries on 
+queryable fields.
+
+You can:
+
+- Get a list of all subscriptions
+- Check subscription state
+- Update subscriptions with new queries
+- Remove individual subscriptions or all subscriptions of a type
+
+Data matching the subscription, where the user has the appropriate 
+permissions, syncs between devices and the backend application.
+
+.. example::
+
+  In the following example, several queries are created to subscribe to:
+
+  - A filtered list of completed tasks, that have taken over 120 progressMinutes
+  - A filtered list of completed tasks
+
+  Notice that queries that you subscribe to using Flexible Sync are
+  syntactically the same as :ref:`querying a {+realm+} <node-read-operations>`
+  and that the queries below will create an overlapping result set.
+  
+  .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+      :language: javascript
+      
 
 Add a Subscription
 ~~~~~~~~~~~~~~~~~~
