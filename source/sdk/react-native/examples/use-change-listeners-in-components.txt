@@ -27,6 +27,11 @@ component and updating the state variable when that listener fires.
    Failing to update copies of {+service-short+} objects leads to out-of-date data displayed
    in your UI as objects are deleted or changed.
 
+.. tip:: Handling Exceptions Inside a Listener
+
+   To handle exceptions thrown from a change listener, wrap your ``addListener()`` call
+   within a :mdn:`try...catch <Web/JavaScript/Reference/Statements/try...catch>` statement. 
+
 Procedure
 ~~~~~~~~~
 To keep your UI up-to-date with changes to underlying {+service-short+} objects,

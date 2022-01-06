@@ -1,0 +1,80 @@
+.. _import-realm-app:
+.. _update-realm-app:
+
+==========================
+Update a Realm Application
+==========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can update and deploy an existing {+app+}. You might want to update an
+application if you prefer to develop locally when making {+app+} configuration changes.
+
+Key Concepts
+------------
+
+In {+service+}, you can update an existing {+app+} by importing the 
+application's :ref:`configuration files <app-configuration>`. The process 
+to update a {+app+} also deploys it, even if you have :ref:`deployment 
+drafts <deployment-draft>` enabled.
+
+When updating an application you must import the complete application structure. 
+You can't do a partial import of only one file or a single field if you're only
+making a small change.
+
+Procedure
+---------
+
+You can update and deploy your application's configuration files in two ways:
+
+- With the :ref:`Realm CLI <deploy-cli>` 
+- With :ref:`GitHub deployment <deploy-github>`
+
+.. tabs::
+
+   .. tab:: 
+      :tabid: Realm CLI
+
+      .. warning::
+
+         If you're using :ref:`Automated GitHub Deploy <deploy-github>`, do not 
+         update :ref:`your {+app+} configuration with the Realm CLI 
+         <deploy-github-make-changes-cli>`. Instead, push your changes to the 
+         linked GitHub repository.
+
+      .. include:: /includes/steps/deploy-cli.rst
+
+   .. tab:: 
+      :tabid: GitHub
+
+      When you have enabled :ref:`GitHub deployment <deploy-github>`, you can
+      update your application by modifying the configuration files in the
+      linked GitHub repository. 
+
+      Make any additions, modifications, or deletions to the application 
+      configuration files in the linked repository. Refer to the 
+      :ref:`app-configuration` reference page and individual component
+      reference pages for details on the structure and schema of your 
+      application directory.
+
+      When you are ready to update the app, commit the application 
+      configuration files and then push them to GitHub:
+
+      .. code-block:: sh
+
+        git add -A
+        git commit -m "<commit message>"
+        git push origin <branch name>
+
+      Once you successfully push your changes to GitHub, {+service-short+}
+      immediately deploys a new version of your application that matches the state
+      of the latest commit. Client applications will automatically use the newest
+      version, so make sure that you also update your client code to use the new
+      version.

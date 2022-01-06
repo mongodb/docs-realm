@@ -1,0 +1,45 @@
+title: Pull your {+app+}
+ref: add-external-dependencies-cli-pull-your-app
+content: |
+  Pull your {+app+} to your device with the command: 
+
+  .. code-block::
+
+     realm-cli pull
+
+---
+title: Create a package.json File with Dependencies
+ref: add-external-dependencies-cli-create-package-json
+content: |
+  #. Create a ``package.json`` in the ``/functions`` directory of 
+     your {+app+}. You can do this by copying in an existing ``package.json`` file
+     or running ``npm init`` and following the prompts.
+  #. Add dependencies by running ``npm install <dependency-name>``.
+---
+title: Push the Dependencies to MongoDB Realm
+ref: add-external-dependencies-cli-push-dependencies
+content: |
+  #. Go to the root directory of your {+app+}:
+
+     .. code-block::
+
+        cd path/to/MyRealmApp
+
+  #. Push the latest version of your app with all the dependencies in the ``package.json``: 
+
+     .. code-block::
+
+        realm-cli push --include-package-json
+
+  #. Follow the CLI prompts to confirm that you want to include the dependencies in your operation.
+     The CLI will start adding the dependencies to your {+app+}.
+
+---
+title: Check Operation Success
+ref: add-external-dependencies-cli-check-operation-success
+content: |
+  Once it finishes adding the dependencies, the CLI tells you if all packages 
+  were successfully added. 
+
+  If anything fails during the installation, none of the dependencies are installed. 
+  Remove the failing dependencies from the ``package.json`` file and try again.
