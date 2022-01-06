@@ -28,7 +28,7 @@ You can't mix Partition-Based Sync and Flexible Sync within the same
 application.
 
 Partition-Based Sync
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 :ref:`Partition-Based Sync <partition-based-sync>` works best for 
 applications where a subset of the documents in a synced cluster are 
@@ -44,7 +44,8 @@ object in a synced realm has a corresponding document in the partition.
 
 Choose Partition-Based Sync when:
 
-- You don't need to create overlapping result sets
+- You can define a single field and use an equality query to determine which
+  documents to sync
 - Your data structure supports permissions at a partition level
 - You want to release a production app quickly, while Flexible Sync
   is still in preview
@@ -67,29 +68,30 @@ Choose Partition-Based Sync when:
    Customers, meanwhile, could have read-only access to store inventory.
 
 Flexible Sync
-~~~~~~~~~~~~~
+-------------
 
 .. include:: /includes/note-flexible-sync-preview.rst
 
-:ref:`Flexible Sync <flexible-sync>` works best for applications 
-where you need to define permissions on a per-document basis. With 
-Flexible Sync, you can define a query in the client application, and 
-Sync only the documents that match the query. {+service-short+} translates 
-those documents to objects in the client application, making it easy to
-work with objects in your app.
+:ref:`Flexible Sync <flexible-sync>` works best for applications that need 
+to define a query in the client application, and Sync only the documents 
+that match the query. {+service-short+} translates those documents to 
+objects in the client application, making it easy to work with objects 
+in your app. Additionally, it allows permissions to be applied on a 
+per-document basis.
 
-In Flexible Sync, you define :ref:`queryable fields <queryable-fields>` 
-that you can query against from the client application. You can then 
-subscribe to queries against those fields from the client application. 
-When a client starts a Sync session, {+service-short+} evaluates :ref:`rules 
-<flexible-sync-rules-and-permissions>` to determine which documents 
-in the query the user can access. Realm maps the documents that a user can 
-access to a synced ``.realm`` file. Each object in a synced realm has a 
-corresponding document in the {+app+}.
+In Flexible Sync, you define a set of :ref:`queryable fields 
+<queryable-fields>` that you can query from the client application. 
+You can then subscribe to queries on those fields from the client 
+application. When a client starts a Sync session, {+service-short+} 
+evaluates :ref:`rules <flexible-sync-rules-and-permissions>` to determine 
+which documents in the query the user can access. Realm maps the documents 
+that a user can access to a synced ``.realm`` file. Each object in a synced 
+realm gets translated to a corresponding document in {+atlas+}.
 
 Choose Flexible Sync when:
 
-- You need to create overlapping query and result sets
+- You need to create expressive query and result sets using a broad range 
+  of queries on up to 10 fields
 - You want to apply permissions at the document level
 - You need a flexible permissioning system to apply more granular permissions
 
