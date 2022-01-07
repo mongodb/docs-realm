@@ -1,4 +1,4 @@
-.. important::
+.. note::
 
    While Flexible Sync is in *preview*, you cannot use Flexible Sync &
    Partition-Based Sync in the same {+app+}, so you must decide which {+sync+}
