@@ -25,7 +25,7 @@ const TeamSchema = {
 const app = new Realm.App({ id: "flexsyncjstest-smixl" });
 
 describe("Flexible Sync Tests", () => {
-  test.skip("should open a FS realm, get subscriptions, subscribe to Queryable Fields, ", async () => {
+  test.skip("should open a FS realm, get subscriptions, subscribe to Queryable Fields, check state, update a subscription, remove a subscription(s)", async () => {
     await app.logIn(Realm.Credentials.anonymous());
     // :code-block-start: open-flexible-sync-realm
     const realm = await Realm.open({
