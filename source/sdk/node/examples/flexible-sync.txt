@@ -19,7 +19,7 @@ Overview
 Flexible Sync uses subscriptions and permissions to determine which
 data to sync with your {+app+}.
 
-To use Flexible Sync in an Node.js client:
+To use Flexible Sync in a Node.js client:
 
 - Configure Flexible Sync on the backend [LINK TO BACKEND CONFIG PAGE WHEN COMPLETE]
 - :ref:`Initialize the app <node-quick-start-init-app>`
@@ -36,7 +36,7 @@ syncs to the client device.
 Subscribe to Queryable Fields
 -----------------------------
 
-When you configure Flexible Sync on the backend, you specify which fields
+When configuring Flexible Sync on the backend, you specify which fields
 your client application can query. In the client application, use the 
 ``subscriptions`` API to manage a set of subscriptions to specific queries on 
 queryable fields.
@@ -49,13 +49,13 @@ You can:
 - Update a subscription with a new query
 - Remove individual subscriptions or all subscriptions of a type
 
-Data matching the subscription, where the user has the appropriate 
-permissions, syncs between devices and the backend application.
+When data matches the subscription and has appropriate permissions, it syncs
+between devices and the backend application.
 
 A Realm subscription in JavaScript has:
 
 - A created and updated date 
-- A Name
+- A name
 - An object type
 - A query string 
 
@@ -63,15 +63,15 @@ You can specify a string name for your subscription. If you do not give your
 subscription a name, it uses the value of the query as a string name.
 
 When you create a subscription, Realm looks for data matching a query on a
-specific object type. You can have subscriptions on several different object 
-types, or several queries on the same object type, in your Flexible Sync 
-subscriptions.
+specific object type. In your Flexible Sync subscriptions, you can have
+subscriptions on several different object types or several queries on the same
+object type.
 
 .. example::
 
   In the following example, several queries are created to subscribe to:
 
-  - A filtered list of completed tasks, that have taken over 120 progressMinutes
+  - A filtered list of completed tasks that have taken over 120 ``progressMinutes``
   - A filtered list of completed tasks
 
   Notice that queries that you subscribe to using Flexible Sync are
@@ -89,22 +89,28 @@ To get a list of read-only snapshot of subscriptions, call
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
 
-You can use this snapshot to add queries to this list of subscriptions, and
-update existing subscriptions as shown in the examples below.
+You can use this snapshot to add queries to this list of subscriptions and
+update existing subscriptions, as shown in the examples below.
 
 Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+Within a Flexible Sync ``transaction`` you can add queries to your list of subscriptions.
+
 Queries must be added to the list of existing subscriptions within a
-transaction. Create a transaction by passing a callback function ``update()`` on
-the ``subscriptions`` snapshot. Within the callback function call the ``add()``
+``transaction``. Create a transaction by passing a callback function ``update()`` on
+the ``subscriptions`` snapshot. Within the callback function, call the ``add()``
 method on the mutable subscription instance to add a query to the subscription.
 
-The ``mutableSubscriptionsInstance.add()`` method takes a ``query``, and a subscription options
-object. The subscription options consist of a ``name`` string field, and a
-``throwOnUpdate`` boolean field. If ``throwOnUpdate`` is false or not defined,
-adding a subscription with an existing name will replace the existing query with
-the new query. However, if ``throwOnUpdate`` is set to true, adding a
-subscription with an existing name but a different query throws an exception.
+The ``mutableSubscriptionsInstance.add()`` method takes a ``query``, and a
+subscription options object. The subscription options include:
+
+- a ``name`` string field
+- a ``throwOnUpdate`` boolean field.
+
+If ``throwOnUpdate`` is false or not defined, adding a subscription with an
+existing name will replace the existing query with the new query. However, if
+you set ``throwOnUpdate`` to true, adding a subscription with an existing name
+but a different query throws an exception.
 
 You can add a single query, or multiple queries within a ``subscription.update``
 transaction. In the example below, we subscribe to the queries we created
@@ -115,18 +121,17 @@ earlier.
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The state of the subscription details if the server has acknowledged the
-subscription and the data has been downloaded locally.
+The subscription state shows if the server has acknowledged the subscription and
+the device has downloaded the data has locally.
 
 You can use subscription state to:
 
 - Trigger error handling
 - Show if the transaction is pending or has completed
-- Find out when a subscription set is superseded and you should obtain a
+- Find out when a subscription set is superseded, and you should obtain a
   new instance of the subscription set to write a subscription change
 
-To the status of subscriptions, simply log the value of the subscription's
-``state``.
+To the status of subscriptions, log the value of the subscription's ``state``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.log-subscription-state.js 
     :language: javascript
@@ -166,9 +171,9 @@ the client device.
 
 Remove a Subscription by Query
 ``````````````````````````````
-You can remove a specific subscription by query by excecuting a transaction on
-the subscriptions set. Within the transaction, pass the query to the
-``remove()`` method on the mutable subscriptions instance.
+You can remove a specific subscription by query by executing a transaction on
+the subscriptions set. Pass the query to the ``remove()`` method on the mutable
+subscriptions instance within a transaction.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -197,8 +202,8 @@ to the ``removeByObjectType()`` method on the mutable subscriptions instance.
 Remove All Subscriptions
 ````````````````````````
 To remove all subscriptions from the subscriptions set, execute a transaction on
-the subscriptions set. Within the transaction, call the ``removeAll()`` method
-on the mutable subscriptions instance.
+the subscriptions set. Call the ``removeAll()`` method
+on the mutable subscriptions instance within the transaction
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
     :language: javascript
