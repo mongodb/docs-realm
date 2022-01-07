@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  description: ""
+  description: "Admin API for MongoDB Realm"
   version: "3.0"
   title: "MongoDB Realm API"
 servers:
@@ -9,13 +9,13 @@ servers:
 paths:
   /auth/providers:
     get:
-      tags: ['admin']
-      operationId: 'getAdminAuthProviders'
+      tags: ["admin"]
+      operationId: "getAdminAuthProviders"
       summary: >-
         Enumerate available Realm administration authentication providers.
       responses:
-        '200':
-          description: 'Successfully enumerated available authentication providers.'
+        "200":
+          description: "Successfully enumerated available authentication providers."
           content:
             application/json:
               schema:
@@ -27,8 +27,8 @@ paths:
 
   /auth/providers/{provider}/login:
     post:
-      tags: ['admin']
-      operationId: 'adminLogin'
+      tags: ["admin"]
+      operationId: "adminLogin"
       summary: >-
         Authenticate as a Realm administrator. Use
         `GET /auth/providers <{+base-url+}{+admin-api-page+}get-/auth/providers>`_ to list the
@@ -39,11 +39,11 @@ paths:
           application/json:
             schema:
               properties:
-                username: {type: string}
-                apiKey: {type: string}
+                username: { type: string }
+                apiKey: { type: string }
               required: [username, apiKey]
       responses:
-        '200':
+        "200":
           description: "Authentication was successful."
           content:
             application/json:
@@ -73,42 +73,42 @@ paths:
         description: "The authentication provider to use."
         in: path
         required: true
-        schema: {$ref: "#/components/schemas/ProviderType"}
+        schema: { $ref: "#/components/schemas/ProviderType" }
 
   /auth/profile:
     get:
-      tags: ['admin']
+      tags: ["admin"]
       operationId: "getAdminProfile"
       summary: "Get information about the currently logged in user."
       responses:
-        '200':
+        "200":
           description: "The profile was successfully retrieved."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RealmProfile'
+                $ref: "#/components/schemas/RealmProfile"
 
   /auth/session:
     delete:
-      tags: ['admin']
+      tags: ["admin"]
       operationId: adminDeleteSession
       summary: "Delete a Realm access token."
       responses:
-        '401':
+        "401":
           description: "invalid refresh token: incorrect token type"
     post:
-      tags: ['admin']
+      tags: ["admin"]
       operationId: adminCreateSession
       summary: >-
         Obtain a Realm access token.
       responses:
-        '201':
+        "201":
           description: "Successfully created."
           content:
             application/json:
               schema:
                 properties:
-                  access_token: {type: string}
+                  access_token: { type: string }
       security:
         - refreshAuth: []
 
@@ -127,7 +127,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
@@ -151,9 +151,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewApplication'
+              $ref: "#/components/schemas/NewApplication"
       responses:
-        '201':
+        "201":
           description: "The application was successfully created."
           content:
             application/json:
@@ -168,7 +168,7 @@ paths:
       operationId: "adminGetApplication"
       summary: "Retrieve an application definition."
       responses:
-        '200':
+        "200":
           description: "The application was successfully retrieved."
           content:
             application/json:
@@ -179,7 +179,7 @@ paths:
       operationId: "adminDeleteApplication"
       summary: "Delete an application."
       responses:
-        '204':
+        "204":
           description: "The application was successfully deleted."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -191,7 +191,7 @@ paths:
       operationId: "adminExportApplication"
       summary: ":ref:`Export <export-realm-app>` an application as a zip file."
       responses:
-        '200':
+        "200":
           description: "The application was successfully exported."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -214,14 +214,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TriggerRequest'
+              $ref: "#/components/schemas/TriggerRequest"
       responses:
         "201":
           description: "Successfully created."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TriggerResponse'
+                $ref: "#/components/schemas/TriggerResponse"
               example:
                 name: myTrigger
                 type: DATABASE
@@ -274,7 +274,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TriggerRequest'
+              $ref: "#/components/schemas/TriggerRequest"
       responses:
         "204":
           description: "Successfully updated the trigger."
@@ -340,7 +340,7 @@ paths:
       operationId: "adminListValues"
       summary: "List all :doc:`values </values-and-secrets>` defined in an application."
       responses:
-        '200':
+        "200":
           description: ":doc:`values </values-and-secrets>` were successfully enumerated."
           content:
             application/json:
@@ -359,7 +359,7 @@ paths:
             schema:
               $ref: "#/components/schemas/NewValue"
       responses:
-        '201':
+        "201":
           description: "The :doc:`value </values-and-secrets>` was successfully defined."
           content:
             application/json:
@@ -375,7 +375,7 @@ paths:
       operationId: "adminGetValue"
       summary: "Retrieve a :doc:`value </values-and-secrets>` definition from an application."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved the value."
           content:
             application/json:
@@ -386,14 +386,14 @@ paths:
       operationId: "adminDeleteValue"
       summary: "Delete a :doc:`value </values-and-secrets>` defined in an application."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted the value."
     put:
       tags: ["values"]
       operationId: "adminUpdateValue"
       summary: "Update a :doc:`value </values-and-secrets>` definition in an application."
       responses:
-        '200':
+        "200":
           description: "Successfully updated the value."
           content:
             application/json:
@@ -411,7 +411,7 @@ paths:
       operationId: "adminListServices"
       summary: "List all :ref:`services <services>` within an application."
       responses:
-        '200':
+        "200":
           description: "Successfully listed services."
           content:
             application/json:
@@ -423,7 +423,7 @@ paths:
       operationId: "adminCreateService"
       summary: "Create a :ref:`service <services>`."
       responses:
-        '201':
+        "201":
           description: "Successfully created the service."
           content:
             application/json:
@@ -441,7 +441,7 @@ paths:
       operationId: "adminGetService"
       summary: "Retrieve a :ref:`service <services>`."
       responses:
-        '200':
+        "200":
           description: "The service was successfully deleted."
           content:
             application/json:
@@ -452,14 +452,14 @@ paths:
       operationId: "adminDeleteService"
       summary: "Delete a :ref:`service <services>`."
       responses:
-        '204':
+        "204":
           description: "The service was successfully deleted."
     patch:
       tags: ["services"]
       operationId: "adminUpdateService"
       summary: "Update a :ref:`service <services>`."
       responses:
-        '200':
+        "200":
           description: "Successfully updated."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -472,7 +472,7 @@ paths:
       operationId: "adminRunCommand"
       summary: "Run a command associated with a :ref:`service <services>`."
       responses:
-        '200':
+        "200":
           description: "Successfully executed."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -481,17 +481,21 @@ paths:
       - $ref: "#/components/parameters/CommandName"
 
   /groups/{groupId}/apps/{appId}/services/{serviceId}/commands/build_info:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ServiceId"
     get:
       tags: ["services"]
       operationId: "getBuildInfo"
       summary: "Get information about the underlying Atlas mongod."
       responses:
-        '200':
+        "200":
           description: "The build information was successfully retrieved."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BuildInfo'
+                $ref: "#/components/schemas/BuildInfo"
 
   /groups/{groupId}/apps/{appId}/services/{serviceId}/config:
     get:
@@ -499,14 +503,14 @@ paths:
       operationId: "adminGetServiceConfig"
       summary: "Retrieve a :ref:`service's <services>` configuration."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
     patch:
       tags: ["services"]
       operationId: "adminUpdateServiceConfig"
       summary: "Update a :ref:`service's <services>` configuration."
       responses:
-        '200':
+        "200":
           description: "Successfully updated."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -519,12 +523,12 @@ paths:
       operationId: "adminListRules"
       summary: "List :ref:`rules <mongodb-rules>`."
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
               schema:
-                items: {$ref: "#/components/schemas/Rule"}
+                items: { $ref: "#/components/schemas/Rule" }
     post:
       tags: ["services", "rules"]
       operationId: "adminCreateRule"
@@ -537,14 +541,14 @@ paths:
             schema:
               $ref: "#/components/schemas/Rule"
       responses:
-        '201':
+        "201":
           description: "Successfully created."
           content:
             application/json:
               schema:
                 properties:
-                  _id: {type: string}
-                  name: {type: string}
+                  _id: { type: string }
+                  name: { type: string }
         409:
           description: There is already a rule with the given ``name``.
     parameters:
@@ -558,7 +562,7 @@ paths:
       operationId: "adminGetRule"
       summary: "Retrieve a :ref:`rule <mongodb-rules>`."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
@@ -569,7 +573,7 @@ paths:
       operationId: "adminDeleteRule"
       summary: "Delete a :ref:`rule <mongodb-rules>`."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     put:
       tags: ["services", "rules"]
@@ -583,7 +587,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Rule"
       responses:
-        '200':
+        "200":
           description: "Successfully updated."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -614,7 +618,7 @@ paths:
                   type: integer
                   description: The maximum number of documents to include in the sample.
       responses:
-        '200':
+        "200":
           description: "Successfully generated schema"
           content:
             application/json:
@@ -635,12 +639,12 @@ paths:
       operationId: "adminListWebhooks"
       summary: "List :ref:`webhooks <service-webhooks>`."
       responses:
-        '200':
+        "200":
           description: "Successfully listed incoming webhooks."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IncomingWebhook'
+                $ref: "#/components/schemas/IncomingWebhook"
     post:
       tags: ["services", "webhooks"]
       operationId: "adminCreateWebhook"
@@ -651,9 +655,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IncomingWebhook'
+              $ref: "#/components/schemas/IncomingWebhook"
       responses:
-        '201':
+        "201":
           description: "Successfully created."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -666,14 +670,14 @@ paths:
       operationId: "adminGetWebhook"
       summary: "Retrieve a :ref:`webhook <service-webhooks>`."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
     delete:
       tags: ["services", "webhooks"]
       operationId: "adminDeleteWebhook"
       summary: "Delete a :ref:`webhook <service-webhooks>`."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     put:
       tags: ["services", "webhooks"]
@@ -685,9 +689,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IncomingWebhook'
+              $ref: "#/components/schemas/IncomingWebhook"
       responses:
-        '200':
+        "200":
           description: "Successfully updated."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -703,7 +707,7 @@ paths:
       operationId: "adminGetSync"
       summary: "Get sync information for a specific linked MongoDB cluster."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
@@ -725,14 +729,14 @@ paths:
           in: query
           description: Only list notifications with the given state.
           required: false
-          schema: {$ref: "#/components/schemas/MessageState"}
+          schema: { $ref: "#/components/schemas/MessageState" }
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
               schema:
-                items: {$ref: "#/components/schemas/Message"}
+                items: { $ref: "#/components/schemas/Message" }
     post:
       tags: ["notifications"]
       operationId: "adminCreateNotification"
@@ -742,9 +746,9 @@ paths:
         description: The notification to create.
         content:
           application/json:
-            schema: {$ref: "#/components/schemas/NewMessage"}
+            schema: { $ref: "#/components/schemas/NewMessage" }
       responses:
-        '201':
+        "201":
           description: "Successfully created."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -756,28 +760,28 @@ paths:
       operationId: "adminGetMessage"
       summary: "Retrieve a :ref:`push notification <push-notifications>` message."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/Message"}
+              schema: { $ref: "#/components/schemas/Message" }
     delete:
       tags: ["notifications"]
       operationId: "adminDeleteMessage"
       summary: "Delete a :ref:`push notification <push-notifications>` message."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     put:
       tags: ["notifications"]
       operationId: "adminUpdateMessage"
       summary: "Update a :ref:`push notification <push-notifications>` message."
       responses:
-        '200':
+        "200":
           description: "Successfully updated."
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/Message"}
+              schema: { $ref: "#/components/schemas/Message" }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -789,7 +793,7 @@ paths:
       operationId: "adminSetMessageType"
       summary: "Set a :ref:`push notification's <push-notifications>` type."
       responses:
-        '200':
+        "200":
           description: "Successfully set."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -802,7 +806,7 @@ paths:
       operationId: "adminSendMessage"
       summary: "Send a :ref:`push notification <push-notifications>`."
       responses:
-        '200':
+        "200":
           description: "Successfully sent."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -819,14 +823,14 @@ paths:
         - $ref: "#/components/parameters/UsersSort"
         - $ref: "#/components/parameters/UsersDesc"
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
               schema:
-                type: array 
+                type: array
                 maxItems: 50
-                description: At most 50 results per request. 
+                description: At most 50 results per request.
                 items:
                   $ref: "#/components/schemas/User"
     post:
@@ -840,15 +844,15 @@ paths:
           application/json:
             schema:
               properties:
-                email: {type: string}
-                password: {type: string}
+                email: { type: string }
+                password: { type: string }
               required: [email, password]
       responses:
-        '201':
+        "201":
           description: "Successfully created."
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/User"}
+              schema: { $ref: "#/components/schemas/User" }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -865,24 +869,52 @@ paths:
           application/json:
             schema:
               properties:
-                token: {type: string}
+                token: { type: string }
               required: [token]
       responses:
-        '200':
+        "200":
           description: "Success returns this object. A 200 :ref:`may also return token expired<verify-client-access-token-responses>`."
           content:
             application/json:
-              schema: 
+              schema:
                 properties:
-                  sub: {type: string, description: User ID.}
-                  aud: {type: string, description: "Optional; specifies which Resource Servers the JWT is valid for. Omitted if empty."}
-                  exp: {type: integer, description: Unix timestamp after which the JWT expires.}
-                  iat: {type: integer, description: Unix timestamp at which the JWT was issued.}
-                  iss: {type: string, description: The issuer of the JWT.}
-                  custom_user_data: {type: object, description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Only present if the access token is created after custom user data is enabled and configured. Omitted if empty."}
-                  domain_id: {type: string, description: The UID representing the app domain.}
-                  data: {type: string, description: "Optional: any metadata stored with the token. Omitted if empty."}
-                  device_id: {type: string, description: The UID representing the device.}
+                  sub: { type: string, description: User ID. }
+                  aud:
+                    {
+                      type: string,
+                      description: "Optional; specifies which Resource Servers the JWT is valid for. Omitted if empty.",
+                    }
+                  exp:
+                    {
+                      type: integer,
+                      description: Unix timestamp after which the JWT expires.,
+                    }
+                  iat:
+                    {
+                      type: integer,
+                      description: Unix timestamp at which the JWT was issued.,
+                    }
+                  iss: { type: string, description: The issuer of the JWT. }
+                  custom_user_data:
+                    {
+                      type: object,
+                      description: "Optional; contains :ref:`custom user data <custom-user-data>` if it exists for the user. Only present if the access token is created after custom user data is enabled and configured. Omitted if empty.",
+                    }
+                  domain_id:
+                    {
+                      type: string,
+                      description: The UID representing the app domain.,
+                    }
+                  data:
+                    {
+                      type: string,
+                      description: "Optional: any metadata stored with the token. Omitted if empty.",
+                    }
+                  device_id:
+                    {
+                      type: string,
+                      description: The UID representing the device.,
+                    }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -893,7 +925,7 @@ paths:
       operationId: "adminGetUser"
       summary: "Retrieve a :ref:`user <user-accounts>`."
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
@@ -904,7 +936,7 @@ paths:
       operationId: "adminDeleteUser"
       summary: "Delete a :ref:`user <user-accounts>`."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -917,12 +949,12 @@ paths:
       operationId: "adminListDevices"
       summary: "List a user's devices."
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
               schema:
-                items: {type: object}
+                items: { type: object }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -934,7 +966,7 @@ paths:
       operationId: "adminUserLogout"
       summary: "Revoke all of a :ref:`user <user-accounts>`'s sessions."
       responses:
-        '204':
+        "204":
           description: "Successfully revoked."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -947,7 +979,7 @@ paths:
       operationId: "adminEnableUser"
       summary: "Enable a :ref:`user <user-accounts>`."
       responses:
-        '204':
+        "204":
           description: "Successfully enabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -960,7 +992,7 @@ paths:
       operationId: "adminDisableUser"
       summary: "Disable a :ref:`user <user-accounts>`."
       responses:
-        '204':
+        "204":
           description: "Successfully disabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -973,7 +1005,7 @@ paths:
       operationId: "adminDeletePendingUser"
       summary: "Delete a pending :ref:`user <user-accounts>`."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -986,7 +1018,7 @@ paths:
       operationId: "adminSendConfirmationEmail"
       summary: "Send a :doc:`confirmation email </email-password>`."
       responses:
-        '200':
+        "200":
           description: "Successfully sent."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -999,7 +1031,7 @@ paths:
       operationId: "adminConfirmPendingUser"
       summary: "Confirm a pending :ref:`user <user-accounts>`."
       responses:
-        '204':
+        "204":
           description: "Successfully confirmed."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1012,11 +1044,11 @@ paths:
       operationId: "adminRerunPendingUserConfirmation"
       summary: "Re-runs a pending :ref:`user's <user-accounts>` :ref:`confirmation workflow <email-password-authentication-confirmation>`."
       responses:
-        '202':
+        "202":
           description: "Successfully re-ran confirmation workflow."
-        '400':
+        "400":
           description: "User is already confirmed or Email/Password authentication is not enabled."
-        '404':
+        "404":
           description: "User does not exist."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1042,37 +1074,37 @@ paths:
             type: boolean
           required: true
       requestBody:
-          required: true
-          description: The function to execute.
-          content:
-            application/json:
-              schema:
-                properties:
-                  service: 
-                   type: string
-                   description: The service to use when calling this function.
-                  name: 
-                   type: string
-                   description: The name of the function you want to run.
-                  arguments: 
-                   type: array
-                   description: Any arguments that your function needs.
-                   items:
-                     type: string
-                required: [name]
+        required: true
+        description: The function to execute.
+        content:
+          application/json:
+            schema:
+              properties:
+                service:
+                  type: string
+                  description: The service to use when calling this function.
+                name:
+                  type: string
+                  description: The name of the function you want to run.
+                arguments:
+                  type: array
+                  description: Any arguments that your function needs.
+                  items:
+                    type: string
+              required: [name]
       responses:
-        '200':
+        "200":
           description: "Successfully executed."
           content:
             application/json:
               schema:
                 properties:
-                 error: {type: object}
-                 logs: {}
-                 result: {type: object}
-                 stats:
-                  properties:
-                    execution_time: {type: string}
+                  error: { type: object }
+                  logs: {}
+                  result: { type: object }
+                  stats:
+                    properties:
+                      execution_time: { type: string }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -1102,24 +1134,24 @@ paths:
           application/json:
             schema:
               properties:
-                eval_source: 
-                 type: string
-                 description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
-                source: {type: string}
+                eval_source:
+                  type: string
+                  description: This JSON expression must evaluate to ``true`` before the function may run. If this field is blank, it will evaluate to ``true``.
+                source: { type: string }
               required: [source]
       responses:
-        '200':
+        "200":
           description: "Successfully executed."
           content:
             application/json:
               schema:
                 properties:
-                 error: {type: object}
-                 logs: {}
-                 result: {type: object}
-                 stats:
-                  properties:
-                    execution_time: {type: string}
+                  error: { type: object }
+                  logs: {}
+                  result: { type: object }
+                  stats:
+                    properties:
+                      execution_time: { type: string }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -1130,7 +1162,7 @@ paths:
       operationId: "adminListAuthProviders"
       summary: "List :doc:`authentication providers </authentication/providers>` within a Realm app."
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
@@ -1146,14 +1178,13 @@ paths:
         description: ""
         content:
           application/json:
-            schema:
-              {$ref: "#/components/schemas/NewProvider"}
+            schema: { $ref: "#/components/schemas/NewProvider" }
       responses:
-        '201':
+        "201":
           description: "Successfully created."
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/FullProvider"
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1165,17 +1196,17 @@ paths:
       operationId: "adminGetAuthProvider"
       summary: "Retrieve information about one of an application's :doc:`authentication providers </authentication/providers>`"
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
-              schema: {$ref: "#/components/schemas/FullProvider"}
+              schema: { $ref: "#/components/schemas/FullProvider" }
     delete:
       tags: ["authproviders"]
       operationId: "adminDeleteAuthProvider"
       summary: "Delete an :doc:`authentication provider </authentication/providers>`."
       responses:
-        '204':
+        "204":
           description: "Successfully deleted."
     patch:
       tags: ["authproviders"]
@@ -1186,10 +1217,9 @@ paths:
         description: ""
         content:
           application/json:
-            schema:
-              {$ref: "#/components/schemas/FullProvider"}
+            schema: { $ref: "#/components/schemas/FullProvider" }
       responses:
-        '204':
+        "204":
           description: "Successfully updated."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1202,7 +1232,7 @@ paths:
       operationId: "adminDisableAuthProvider"
       summary: "Disable an :doc:`authentication provider </authentication/providers>`."
       responses:
-        '204':
+        "204":
           description: "Successfully disabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1215,7 +1245,7 @@ paths:
       operationId: "adminEnableAuthProvider"
       summary: "Enable an :doc:`authentication provider </authentication/providers>`."
       responses:
-        '204':
+        "204":
           description: "Successfully enabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1230,7 +1260,7 @@ paths:
         List the allowed :mdn:`HTTP origins <Web/HTTP/Headers/Origin>`
         from which MongoDB Realm should allow requests.
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
@@ -1246,7 +1276,7 @@ paths:
       requestBody:
         required: true
         description: >-
-          A list of HTTP origins. 
+          A list of HTTP origins.
         content:
           application/json:
             schema:
@@ -1254,7 +1284,7 @@ paths:
                 description: An HTTP origin. Must be of the form ``<scheme>://<host>[:port]``.
                 type: string
       responses:
-        '204':
+        "204":
           description: "The allowed HTTP origins were successfully set."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1267,24 +1297,33 @@ paths:
       summary: >-
         List the allowed entries in the Access List of your Realm app.
       responses:
-        '200':
+        "200":
           description: ""
           content:
             application/json:
               schema:
                 items:
                   properties:
-                    current_ip: {type: string}
-                    allowed_ips: 
+                    current_ip:
+                      type: string
+                    allowed_ips:
                       type: array
                       items:
                         type: object
                         properties:
-                          _id: {type: ObjectID}
-                          address: {type: string}
-                          ip: {type: net.IP}
-                          network: {type: net.IPNet}
-                          comment: {type: string}
+                          _id:
+                            type: string
+                            format: ObjectID
+                          address:
+                            type: string
+                          ip:
+                            type: string
+                            format: net.IP
+                          network:
+                            type: string
+                            format: net.IPNet
+                          comment:
+                            type: string
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
@@ -1294,49 +1333,60 @@ paths:
       summary: >-
         Create an IP address or CIDR block in the Access List for your {+app+}.
       responses:
-        '201':
+        "201":
           description: ""
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  _id: {type: ObjectID}
-                  address: {type: string}
-                  ip: {type: net.IP}
-                  network: {type: net.IPNet}
-                  comment: {type: string}
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"      
-      
-  /groups/{groupId}/apps/{appId}/security/access_list/{ipId}: 
+                  _id:
+                    type: string
+                    format: ObjectID
+                  address:
+                    type: string
+                  ip:
+                    type: string
+                    format: net.IP
+                  network:
+                    type: string
+                    format: net.IPNet
+                  comment:
+                    type: string
+  /groups/{groupId}/apps/{appId}/security/access_list/{ipId}:
     patch:
       tags: ["security"]
       operationId: "allowedIPAccessListUpdate"
       summary: >-
         Modify an IP address or CIDR block in the Access List of your {+app+}
       responses:
-        '201':
+        "201":
           description: ""
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  _id: {type: ObjectID}
-                  address: {type: string}
-                  ip: {type: net.IP}
-                  network: {type: net.IPNet}
-                  comment: {type: string}
+                  _id:
+                    type: string
+                    format: ObjectID
+                  address:
+                    type: string
+                  ip:
+                    type: string
+                    format: net.IP
+                  network:
+                    type: string
+                    format: net.IPNet
+                  comment: { type: string }
     parameters:
       - $ref: "#/components/parameters/GroupId"
       - $ref: "#/components/parameters/AppId"
-      - name: ip_id
+      - name: ipId
         in: path
         description: The IP address entry denoted by ``ip_id`` with the information given in the request body
-        schema: {type: string}
-        required: True           
+        schema: { type: string }
+        required: True
     delete:
       tags: ["security"]
       operationId: "allowedIPAccessListDelete"
@@ -1345,15 +1395,6 @@ paths:
       responses:
         "404":
           description: "No IP addresses or CIDR blocks to delete"
-    parameters:
-      - $ref: "#/components/parameters/GroupId"
-      - $ref: "#/components/parameters/AppId"
-      - name: ip_id
-        in: path
-        description: The IP address entry denoted by ``ip_id`` with the information given in the request body
-        schema: {type: string}
-        required: True
-
   /groups/{groupId}/apps/{appId}/logs:
     get:
       tags: ["logs"]
@@ -1363,41 +1404,39 @@ paths:
         - name: co_id
           in: query
           description: Return only log messages associated with the given request ID.
-          schema: {type: string}
+          schema: { type: string }
           required: False
         - name: errors_only
           in: query
           description: Whether to only return errors.
-          schema: {type: boolean}
+          schema: { type: boolean }
           required: False
         - name: user_id
           in: query
-          schema: {type: string}
+          schema: { type: string }
           description: Return only log messages associated with the given ``user_id``.
           required: False
         - name: start_date
           in: query
-          schema: {type: string}
+          schema: { type: string }
           description: The date and time in ISO 8601 at which to begin returning results, exclusive.
           required: False
         - name: end_date
           in: query
-          schema: {type: string}
+          schema: { type: string }
           description: The date and time in ISO 8601 at which to cease returning results, inclusive.
           required: False
         - name: skip
           in: query
-          schema: {type: integer}
+          schema: { type: integer }
           description: The offset number of matching log entries to skip before including them in the response.
           required: False
-          default: 0
         - name: limit
           in: query
           schema:
             type: integer
             minimum: 1
             maximum: 100
-          default: 100
           description: >-
             The maximum number of log entries to include in the response. If the
             query matches more than this many logs, it returns documents in
@@ -1405,35 +1444,44 @@ paths:
           required: false
 
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved."
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - nextEndDate
+                  - nextSkip
                 properties:
                   logs:
                     type: array
                     maxItems: 100
-                    description: At most 100 results per request. 
+                    description: At most 100 results per request.
                     items:
                       type: object
                       properties:
-                        _id: {type: string}
-                        co_id: {type: string}
-                        domain_id: {type: string}
-                        app_id: {$ref: "#/components/parameters/AppId"}
-                        group_id: {$ref: "#/components/parameters/GroupId"}
-                        request_url: {type: string}
-                        request_method: {type: string}
-                        started: {type: string}
-                        completed: {type: string}
-                        error: {type: string}
-                        error_code: {type: string}
-                        status: {type: integer}
+                        _id: { type: string }
+                        co_id: { type: string }
+                        domain_id: { type: string }
+                        app_id:
+                          type: string
+                          description: >-
+                            The ObjectID of your application.
+                            :ref:`realm-api-project-and-application-ids` demonstrates how
+                            to find this value.
+                        group_id:
+                          type: string
+                          description: "An |atlas| :atlas:`Project/Group ID </tutorial/manage-projects/>`."
+                        request_url: { type: string }
+                        request_method: { type: string }
+                        started: { type: string }
+                        completed: { type: string }
+                        error: { type: string }
+                        error_code: { type: string }
+                        status: { type: integer }
                   nextEndDate:
                     type: string
-                    required: False
                     description:
                       The end date and time of the next page of log entries in ISO 8601 format.
                       MongoDB Realm paginates the result sets of queries that match more than 100 log
@@ -1442,7 +1490,6 @@ paths:
                       in a subsequent request.
                   nextSkip:
                     type: integer
-                    required: False
                     description:
                       The offset into the next page of log entries in ISO 8601 format.
                       MongoDB Realm paginates the result sets of queries that match more than 100 log
@@ -1461,16 +1508,16 @@ paths:
       operationId: "adminListApiKeys"
       summary: "List :doc:`API keys </authentication/api-key>` associated with a Realm app."
       responses:
-        '200':
+        "200":
           description: "The API keys were successfully listed."
           content:
             application/json:
               schema:
                 items:
                   properties:
-                    _id: {type: string}
-                    name: {type: string}
-                    disabled: {type: boolean}
+                    _id: { type: string }
+                    name: { type: string }
+                    disabled: { type: boolean }
     post:
       tags: ["apikeys"]
       operationId: "adminCreateApiKey"
@@ -1482,10 +1529,10 @@ paths:
           application/json:
             schema:
               properties:
-                name: {type: string}
+                name: { type: string }
               required: [name]
       responses:
-        '201':
+        "201":
           description: "The API key was successfully created."
           content:
             application/json:
@@ -1501,7 +1548,7 @@ paths:
       operationId: "adminGetApiKey"
       summary: "Retrieve information about an :doc:`API key </authentication/api-key>`."
       responses:
-        '200':
+        "200":
           description: "The API key was successfully retrieved."
           content:
             application/json:
@@ -1512,7 +1559,7 @@ paths:
       operationId: "adminDeleteApiKey"
       summary: "Delete an :doc:`API key </authentication/api-key>`."
       responses:
-        '204':
+        "204":
           description: "The API key was successfully deleted."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1525,7 +1572,7 @@ paths:
       operationId: "adminEnableApiKey"
       summary: "Enable an :doc:`API key </authentication/api-key>`."
       responses:
-        '204':
+        "204":
           description: "The API key was successfully enabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1538,7 +1585,7 @@ paths:
       operationId: "adminDisableApiKey"
       summary: "Disable an :doc:`API key </authentication/api-key>`."
       responses:
-        '204':
+        "204":
           description: "The API key was successfully disabled."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1554,15 +1601,15 @@ paths:
       operationId: "adminGetAllSecrets"
       summary: "List :ref:`secrets <define-secret>` associated with a Realm app."
       responses:
-        '200':
+        "200":
           description: "The Secrets were successfully listed."
           content:
             application/json:
               schema:
                 items:
                   properties:
-                    _id: {type: string}
-                    name: {type: string}
+                    _id: { type: string }
+                    name: { type: string }
     post:
       tags: ["secrets"]
       operationId: "adminCreateASecret"
@@ -1574,18 +1621,18 @@ paths:
           application/json:
             schema:
               properties:
-                name: {type: string}
-                value: {type: string}
+                name: { type: string }
+                value: { type: string }
               required: [name, value]
       responses:
-        '201':
+        "201":
           description: "The Secret was successfully created."
           content:
             application/json:
               schema:
-                  properties:
-                    _id: {type: string}
-                    name: {type: string}
+                properties:
+                  _id: { type: string }
+                  name: { type: string }
 
   /groups/{groupId}/apps/{appId}/secrets/{secretId}:
     parameters:
@@ -1603,19 +1650,19 @@ paths:
           application/json:
             schema:
               properties:
-                _id: {type: string}
-                name: {type: string}
-                value: {type: string}
+                _id: { type: string }
+                name: { type: string }
+                value: { type: string }
               required: [name, value]
       responses:
-        '204':
+        "204":
           description: "No body returned for response"
     delete:
       tags: ["secrets"]
       operationId: "adminDeleteSecret"
       summary: "Delete a :doc:`Secret </values-and-secrets/define-and-manage-secrets>` associated with a Realm app."
       responses:
-        '204':
+        "204":
           description: "The Secret was successfully deleted."
 
   /groups/{groupId}/apps/{appId}/functions:
@@ -1624,15 +1671,15 @@ paths:
       operationId: "adminListFunctions"
       summary: "List :ref:`functions <functions>`."
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
               schema:
                 items:
                   properties:
-                    _id: {type: string}
-                    name: {type: string}
+                    _id: { type: string }
+                    name: { type: string }
     post:
       tags: ["functions"]
       operationId: "adminCreateFunction"
@@ -1645,7 +1692,7 @@ paths:
             schema:
               $ref: "#/components/schemas/NewFunction"
       responses:
-        '201':
+        "201":
           description: "The function was successfully created."
           content:
             application/json:
@@ -1661,7 +1708,7 @@ paths:
       operationId: "adminGetFunction"
       summary: "Retrieve a :ref:`function <functions>`."
       responses:
-        '200':
+        "200":
           description: "The function was successfully retrieved."
           content:
             application/json:
@@ -1672,14 +1719,14 @@ paths:
       operationId: "adminDeleteFunction"
       summary: "Delete a :ref:`function <functions>`."
       responses:
-        '204':
+        "204":
           description: "The function was successfully deleted."
     put:
       tags: ["functions"]
       operationId: "adminUpdateFunction"
       summary: "Update a :ref:`function <functions>`."
       responses:
-        '200':
+        "200":
           description: "The function was successfully updated."
           content:
             application/json:
@@ -1696,7 +1743,7 @@ paths:
       operationId: "adminGetAllDependencies"
       summary: "List :ref:`external dependencies <external-dependencies>` uploaded to the Realm app."
       responses:
-        '200':
+        "200":
           description: "The function was successfully retrieved."
           content:
             application/json:
@@ -1713,7 +1760,7 @@ paths:
       summary: >-
         Return the 100 most recent application deployments.
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
@@ -1731,7 +1778,7 @@ paths:
       summary: >-
         Return the current application deployment draft, if applicable.
       responses:
-        '200':
+        "200":
           description: "Successfully listed."
           content:
             application/json:
@@ -1743,13 +1790,13 @@ paths:
       summary: >-
         Create a new application deployment draft, if none exists.
       responses:
-        '200':
+        "200":
           description: "Successfully created draft."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DeploymentDraft"
-        '409':
+        "409":
           description: "Draft already exists"
           content:
             application/json:
@@ -1765,7 +1812,7 @@ paths:
       summary: >-
         Discard the specified application deployment draft.
       responses:
-        '204':
+        "204":
           description: "The draft was successfully discarded."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1778,7 +1825,7 @@ paths:
       summary: >-
         Deploy the specified application deployment draft.
       responses:
-        '201':
+        "201":
           description: "The draft was successfully deployed."
           content:
             application/json:
@@ -1796,7 +1843,7 @@ paths:
         Return a diff between the currently deployed application and the
         specified draft.
       responses:
-        '200':
+        "200":
           description: "Successfully diffed draft."
           content:
             application/json:
@@ -1814,7 +1861,7 @@ paths:
       summary: >-
         List all hosted assets.
       responses:
-        '200':
+        "200":
           description: "Successfully listed hosted files."
           content:
             application/json:
@@ -1854,7 +1901,7 @@ paths:
                     The resource path to which the asset will be copied.
                     Must be used with ``copy_from``.
       responses:
-        '204':
+        "204":
           description: "Successfully moved/copied the hosted asset."
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1870,12 +1917,12 @@ paths:
         - $ref: "#/components/parameters/AssetResourcePath"
         - $ref: "#/components/parameters/AssetResourcePathPrefix"
       responses:
-        '200':
+        "200":
           description: "Successfully retrieved metadata for the hosted file."
           content:
             application/json:
               schema: { $ref: "#/components/schemas/HostedAssetMetadata" }
-        '404':
+        "404":
           description: "Asset not found."
           content:
             application/json:
@@ -1910,9 +1957,9 @@ paths:
                   format: binary
                   description: The asset file to upload (encoded as binary).
       responses:
-        '204':
+        "204":
           description: "Successfully added/replaced the hosted asset."
-        '400':
+        "400":
           description: "Bad Request."
           content:
             application/json:
@@ -1929,9 +1976,9 @@ paths:
       parameters:
         - $ref: "#/components/parameters/AssetResourcePath"
       responses:
-        '204':
+        "204":
           description: "Successfully updated the hosted asset."
-        '400':
+        "400":
           description: "Bad Request."
       requestBody:
         description: >-
@@ -1962,12 +2009,12 @@ paths:
         - name: start
           in: query
           description: The ISO 8601 date and time of the start of the query period. Default is 00:00:00 UTC on the first day of the current month.
-          schema: {type: string}
+          schema: { type: string }
           required: False
         - name: end
           in: query
           description: The ISO 8601 date and time of the end of the query period. Default is 23:59:59 UTC on the the last day of the current month.
-          schema: {type: string}
+          schema: { type: string }
           required: False
         - name: granularity
           in: query
@@ -1977,7 +2024,7 @@ paths:
             enum: ["P31D", "PT1H"]
           required: False
       responses:
-        '200':
+        "200":
           description: "The measurements were successfully returned."
           content:
             application/json:
@@ -2003,12 +2050,13 @@ paths:
                       properties:
                         name:
                           type: string
-                          enum: [request_count, compute_time, data_out, sync_time]
+                          enum:
+                            [request_count, compute_time, data_out, sync_time]
                           description: >-
-                            The usage metric represented by each data point. See :doc:`billing </billing>`. 
+                            The usage metric represented by each data point. See :doc:`billing </billing>`.
                         units:
                           type: string
-                          enum: ['<empty string>', HOURS, GIGABYTES]
+                          enum: ["<empty string>", HOURS, GIGABYTES]
                           description: >-
                             The unit of the ``value`` of each data point.
                         data_points:
@@ -2025,8 +2073,11 @@ paths:
                                 type: number
                                 description: >-
                                   The value at the time in the ``unit`` of the measurement.
-        '400': {$ref: "#/components/responses/ClientErrorResponse"}
-  /groups/{groupId}/apps/{appId}/measurements/:
+        "400": { $ref: "#/components/responses/ClientErrorResponse" }
+  /groups/{groupId}/apps/{appId}/measurements:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
     get:
       tags: ["billing"]
       operationId: "adminAppMeasurements"
@@ -2037,12 +2088,12 @@ paths:
         - name: start
           in: query
           description: The ISO 8601 date and time of the start of the query period. Default is 00:00:00 UTC on the first day of the current month.
-          schema: {type: string}
+          schema: { type: string }
           required: False
         - name: end
           in: query
           description: The ISO 8601 date and time of the end of the query period. Default is 23:59:59 UTC on the the last day of the current month.
-          schema: {type: string}
+          schema: { type: string }
           required: False
         - name: granularity
           in: query
@@ -2052,7 +2103,7 @@ paths:
             enum: ["P31D", "PT1H"]
           required: False
       responses:
-        '200':
+        "200":
           description: "The measurements were successfully returned."
           content:
             application/json:
@@ -2084,12 +2135,25 @@ paths:
                       properties:
                         name:
                           type: string
-                          enum: [request_count, compute_time, data_out, sync_time, mem_usage]
+                          enum:
+                            [
+                              request_count,
+                              compute_time,
+                              data_out,
+                              sync_time,
+                              mem_usage,
+                            ]
                           description: >-
-                            The usage metric represented by each data point. See :doc:`billing </billing>`. 
+                            The usage metric represented by each data point. See :doc:`billing </billing>`.
                         units:
                           type: string
-                          enum: ['<empty string>', HOURS, GIGABYTES, GIGABYTE_SECONDS]
+                          enum:
+                            [
+                              "<empty string>",
+                              HOURS,
+                              GIGABYTES,
+                              GIGABYTE_SECONDS,
+                            ]
                           description: >-
                             The unit of the ``value`` of each data point.
                         data_points:
@@ -2106,7 +2170,7 @@ paths:
                                 type: number
                                 description: >-
                                   The value at the time in the ``unit`` of the measurement.
-        '400': {$ref: "#/components/responses/ClientErrorResponse"}
+        "400": { $ref: "#/components/responses/ClientErrorResponse" }
 components:
   parameters:
     AssetResourcePath:
@@ -2160,10 +2224,9 @@ components:
     UsersDesc:
       name: "desc"
       required: false
-      default: false
       description: >-
-        If ``true``, returns sorted results in descending order. Otherwise,
-        results return in ascending order.
+        If ``true``, returns sorted results in descending order. 
+        If not specified or set to ``false, results return in ascending order.
       in: "query"
       schema:
         type: "boolean"
@@ -2269,15 +2332,15 @@ components:
   schemas:
     ApiKey:
       properties:
-        _id: {type: string}
-        key: {type: string}
-        name: {type: string}
-        disabled: {type: string}
+        _id: { type: string }
+        key: { type: string }
+        name: { type: string }
+        disabled: { type: string }
     ApiKeyResponse:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        disabled: {type: string}
+        _id: { type: string }
+        name: { type: string }
+        disabled: { type: string }
     Application:
       type: object
       properties:
@@ -2298,7 +2361,9 @@ components:
           description: The application's deployment model.
         domain_id:
           type: string
-        group_id: {$ref: "#/components/parameters/GroupId"}
+        group_id:
+          type: string
+          description: "An |atlas| :atlas:`Project/Group ID </tutorial/manage-projects/>`."
     ApplicationSummary:
       type: object
       properties:
@@ -2320,19 +2385,19 @@ components:
         domain_id:
           type: string
           description: The application's associated domain ID.
-        group_id: 
+        group_id:
           type: string
           description: The application's current owner ID.
-        last_used: 
+        last_used:
           type: integer
           description: The time this app was last used.
-        last_modified: 
+        last_modified:
           type: integer
           description: The time this app was last modified.
-        product: 
+        product:
           type: string
           description: The product this app is for.
-        environment: 
+        environment:
           type: string
           description: The environment the app is in.
     BuildInfo:
@@ -2396,15 +2461,15 @@ components:
         last_modified:
           type: integer
           description: >-
-              The time at which the dependencies were uploaded
-              in :wikipedia:`Unix time <Unix_time>` (number of seconds
-              since January 1, 1970 at 00:00 UTC).
+            The time at which the dependencies were uploaded
+            in :wikipedia:`Unix time <Unix_time>` (number of seconds
+            since January 1, 1970 at 00:00 UTC).
         dependencies_list:
           type: array
           description: >-
             An array of documents that each describe a
             dependency uploaded to the application.
-          items: {$ref: "#/components/schemas/Dependency"}
+          items: { $ref: "#/components/schemas/Dependency" }
     Dependency:
       type: object
       properties:
@@ -2502,68 +2567,68 @@ components:
         template_id:
           type: string
           description: Name of :ref:`supported template app <template-apps>` to serve as base template.
-        data_source: 
-          $ref: '#/components/schemas/DataSource'
+        data_source:
+          $ref: "#/components/schemas/DataSource"
       required:
-      - name
-    DataSource: 
+        - name
+    DataSource:
       type: object
-      properties: 
-        name: 
+      properties:
+        name:
           type: string
           description: Should be `"mongodb-atlas"`.
           example: mongodb-atlas
-          enum: 
+          enum:
             - mongodb-atlas
-        type: 
+        type:
           type: string
           description: Should be `"mongodb-atlas"`.
           example: mongodb-atlas
-          enum: 
+          enum:
             - mongodb-atlas
         config:
           type: object
           properties:
-            clusterName: 
+            clusterName:
               type: string
               description: Name of {+atlas-short+} cluster associated with the {+app+}.
           required:
-          - clusterName
+            - clusterName
       required:
-      - name
-      - type
-      - config
+        - name
+        - type
+        - config
     Service:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        type: {type: string}
-        version: {type: integer}
+        _id: { type: string }
+        name: { type: string }
+        type: { type: string }
+        version: { type: integer }
     NewService:
       properties:
-        name: {type: string}
-        type: {type: string}
-        config: {type: object}
+        name: { type: string }
+        type: { type: string }
+        config: { type: object }
       required: [name, type]
     Rule:
       properties:
-        name: {type: string}
+        name: { type: string }
         actions:
-          items: {type: string}
-        when: {type: object}
+          items: { type: string }
+        when: { type: object }
       required:
         - name
         - when
     IncomingWebhook:
       properties:
-        name: {type: string}
-        function_source: {type: string}
-        respond_result: {type: boolean}
+        name: { type: string }
+        function_source: { type: string }
+        respond_result: { type: boolean }
         options:
           type: object
           properties:
-            secret: {type: string}
-            secretAsQueryParam: {type: boolean}
+            secret: { type: string }
+            secretAsQueryParam: { type: boolean }
       required:
         - name
         - function_source
@@ -2571,49 +2636,49 @@ components:
     UserProvider:
       type: object
       properties:
-        id: {type: string}
-        provider_type: {$ref: "#/components/schemas/ProviderType"}
-        provider_id: {type: string}
+        id: { type: string }
+        provider_type: { $ref: "#/components/schemas/ProviderType" }
+        provider_id: { type: string }
     ProviderSummary:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        type: {$ref: "#/components/schemas/ProviderType"}
-        disabled: {type: boolean}
+        _id: { type: string }
+        name: { type: string }
+        type: { $ref: "#/components/schemas/ProviderType" }
+        disabled: { type: boolean }
     FullProvider:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        type: {$ref: "#/components/schemas/ProviderType"}
-        disabled: {type: boolean}
-        config: {type: object}
+        _id: { type: string }
+        name: { type: string }
+        type: { $ref: "#/components/schemas/ProviderType" }
+        disabled: { type: boolean }
+        config: { type: object }
     NewProvider:
       properties:
-        name: {type: string}
-        type: {$ref: "#/components/schemas/ProviderType"}
-        disabled: {type: boolean}
-        config: {type: object}
+        name: { type: string }
+        type: { $ref: "#/components/schemas/ProviderType" }
+        disabled: { type: boolean }
+        config: { type: object }
       required: [name, type, disabled]
     RealmProfile:
       properties:
-        user_id: {type: string}
-        domain_id: {type: string}
+        user_id: { type: string }
+        domain_id: { type: string }
         identities:
           type: array
-          items: {$ref: "#/components/schemas/ProviderSummary"}
+          items: { $ref: "#/components/schemas/ProviderSummary" }
         data:
           type: object
           properties:
-            email: {type: string}
-            name: {type: string}
-        type: {$ref: "#/components/schemas/ProfileType"}
+            email: { type: string }
+            name: { type: string }
+        type: { $ref: "#/components/schemas/ProfileType" }
         roles:
           type: array
           items:
             type: object
             properties:
-              role_name: {type: string}
-              group_id: {type: string}
+              role_name: { type: string }
+              group_id: { type: string }
     NewFunction:
       properties:
         can_evaluate:
@@ -2645,7 +2710,7 @@ components:
       required: [name, private, source, run_as_system]
     Function:
       properties:
-        _id: {type: string}
+        _id: { type: string }
         can_evaluate:
           type: object
           description: >-
@@ -2669,20 +2734,20 @@ components:
             be valid ES6.
     ValueSummary:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        private: {type: boolean}
+        _id: { type: string }
+        name: { type: string }
+        private: { type: boolean }
     NewValue:
       properties:
-        name: {type: string}
-        private: {type: boolean}
+        name: { type: string }
+        private: { type: boolean }
         value: {}
       required: [name, private, value]
     Value:
       properties:
-        _id: {type: string}
-        name: {type: string}
-        private: {type: boolean}
+        _id: { type: string }
+        name: { type: string }
+        private: { type: boolean }
         value: {}
     ProviderType:
       type: string
@@ -2710,10 +2775,10 @@ components:
         - draft
     NewMessage:
       properties:
-        label: {type: string}
-        message: {type: string}
-        topic: {type: string}
-        state: {$ref: "#/components/schemas/MessageState"}
+        label: { type: string }
+        message: { type: string }
+        topic: { type: string }
+        state: { $ref: "#/components/schemas/MessageState" }
       required:
         - label
         - message
@@ -2721,24 +2786,24 @@ components:
         - topic
     Message:
       properties:
-        allowed_ips: {type: string}
-        appID: {type: string}
-        label: {type: string}
-        message: {type: string}
-        topic: {type: string}
-        created: {type: string}
-        sent: {type: string}
-        state: {$ref: "#/components/schemas/MessageState"}
+        allowed_ips: { type: string }
+        appID: { type: string }
+        label: { type: string }
+        message: { type: string }
+        topic: { type: string }
+        created: { type: string }
+        sent: { type: string }
+        state: { $ref: "#/components/schemas/MessageState" }
     User:
       properties:
-        _id: {type: string}
+        _id: { type: string }
         identities:
-          items: {$ref: "#/components/schemas/UserProvider"}
-        type: {type: string}
-        creation_date: {type: integer}
-        last_authentication_date: {type: integer}
-        disabled: {type: boolean}
-        data: {type: object}
+          items: { $ref: "#/components/schemas/UserProvider" }
+        type: { type: string }
+        creation_date: { type: integer }
+        last_authentication_date: { type: integer }
+        disabled: { type: boolean }
+        data: { type: object }
     Partition:
       properties:
         key: { type: string }
@@ -2773,19 +2838,20 @@ components:
           type: boolean
           description: If true, the trigger is disabled and will not fire.
     TriggerRequest:
+      required:
+        - name
+        - type
+        - function_id
       properties:
         name:
           type: string
-          required: true
           description: The name of the trigger.
         type:
           type: string
-          required: true
           description: The type of the trigger.
           enum: ["DATABASE", "AUTHENTICATION", "SCHEDULE"]
         function_id:
           type: string
-          required: true
           description: The ID of the function associated with the trigger.
         disabled:
           type: boolean
@@ -2808,13 +2874,15 @@ components:
               ## It should also use openapi3 ``oneOf`` to distinguish between trigger types.
               ## Unfortunately we don't currently support either of these :(.
               ## This behavior would need to be added to the sphinx-openapi directive.
-              type: array of strings
+              type: array
+              items:
+                type: string
+                enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
               description: >-
                 **Required for Database Triggers** --
                 The :ref:`database event operation types
                 <database-events>` to listen for. This must contain at
                 least one value.
-              enum: ["INSERT", "UPDATE", "REPLACE", "DELETE"]
             operation_type:
               type: string
               description: >-
@@ -2908,7 +2976,7 @@ components:
             An array of documents that each describe a :doc:`metadata
             attribute </hosting/file-metadata-attributes>` that applies
             to the asset.
-          items: {$ref: "#/components/schemas/MetadataAttribute"}
+          items: { $ref: "#/components/schemas/MetadataAttribute" }
         hash:
           type: string
           description: The MD5 checksum hash for the asset
@@ -2938,7 +3006,7 @@ components:
             An array of documents that each describe a :doc:`metadata
             attribute </hosting/file-metadata-attributes>` that applies
             to the asset.
-          items: {$ref: "#/components/schemas/MetadataAttribute"}
+          items: { $ref: "#/components/schemas/MetadataAttribute" }
         hash:
           type: string
           description: The MD5 checksum hash for the hosted asset
