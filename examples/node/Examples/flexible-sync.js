@@ -7,6 +7,7 @@ const TaskSchema = {
     name: "string",
     status: "string?",
     progressMinutes: "int?",
+    owner: "string?",
   },
   primaryKey: "_id",
 };
@@ -45,16 +46,19 @@ describe("Flexible Sync Tests", () => {
     const longRunningTasks = tasks.filtered(
       'status == "completed" && progressMinutes > 120'
     );
-    const completedTasks = tasks.filtered('status == "completed"');
+    const bensTasks = tasks.filtered('owner == "Ben"');
     // :code-block-end:
 
     // :code-block-start: subscribe-to-queryable-fields
     let sub1, sub2, sub3;
     subscriptions.update((mutableSubscriptionsInstance) => {
-      sub1 = mutableSubscriptionsInstance.add(longRunningTasks);
-      sub2 = mutableSubscriptionsInstance.add(completedTasks);
+      sub1 = mutableSubscriptionsInstance.add(longRunningTasks, {
+        name: "longRunningTasksSubscription",
+      });
+      sub2 = mutableSubscriptionsInstance.add(bensTasks);
       sub3 = mutableSubscriptionsInstance.add(realm.objects("Team"), {
-        name: "Developer Education Team",
+        name: "teamsSubscription",
+        throwOnUpdate: true,
       });
     });
     // :code-block-end:
@@ -63,15 +67,40 @@ describe("Flexible Sync Tests", () => {
     console.log(realm.getSubscriptions().state); // log the subscription state
     // :code-block-end:
 
+    // :code-block-start: update-subscriptions
+    subscriptions.update((mutableSubscriptionsInstance) => {
+      mutableSubscriptionsInstance.add(
+        tasks.filtered('status == "completed" && progressMinutes > 180'),
+        {
+          name: "longRunningTasksSubscription",
+        }
+      );
+    });
+    // :code-block-end:
+
     // :code-block-start: remove-single-subscription
     subscriptions.update((mutableSubscriptionsInstance) => {
-      mutableSubscriptionsInstance.remove(longRunningTasks);
+      // remove a subscription with a specific query
+      mutableSubscriptionsInstance.remove(tasks.filtered('owner == "Ben"'));
+    });
+    // :code-block-end:
+
+    // :code-block-start: remove-subscription-by-name
+    subscriptions.update((mutableSubscriptionsInstance) => {
+      // remove a subscription with a specific query
+      mutableSubscriptionsInstance.remove("longRunningTasksSubscription");
     });
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions-of-object-type
     subscriptions.update((mutableSubscriptionsInstance) => {
       mutableSubscriptionsInstance.removeByObjectType("Team");
+    });
+    // :code-block-end:
+
+    // :code-block-start: remove-all-subscriptions
+    subscriptions.update((mutableSubscriptionsInstance) => {
+      mutableSubscriptionsInstance.removeAll();
     });
     // :code-block-end:
   });
