@@ -305,9 +305,10 @@ Set the Client Maximum Offline Time
 Optimizing Performance and Storage When Using Flexible Sync
 -----------------------------------------------------------
 
-Queryable fields use storage on the backing Atlas cluster. The more 
-queryable fields you configure, the more storage you use on the backing 
-cluster.
+For Flexible Sync configuration, the amount of Atlas storage space used is
+directly proportional to the number of queryable fields you have set up.
+Queryable fields use storage on the backing Atlas cluster. The more queryable
+fields you configure, the more storage you use on the backing cluster.
 
 You can configure up to 10 queryable fields per application for Flexible 
 Sync. If you have a large number of collections in a {+app+}, you may need to
