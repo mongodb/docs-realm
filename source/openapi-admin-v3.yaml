@@ -2879,10 +2879,6 @@ components:
             - providers
           properties:
             operation_types:
-              ## This value really should be a proper array per the OpenApi3 spec.
-              ## It should also use openapi3 ``oneOf`` to distinguish between trigger types.
-              ## Unfortunately we don't currently support either of these :(.
-              ## This behavior would need to be added to the sphinx-openapi directive.
               type: array
               items:
                 type: string
