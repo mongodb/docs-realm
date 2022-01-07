@@ -1314,14 +1314,17 @@ paths:
                           _id:
                             type: string
                             format: ObjectID
+                            description: ObjectID
                           address:
                             type: string
                           ip:
                             type: string
                             format: net.IP
+                            description: net.IP
                           network:
                             type: string
                             format: net.IPNet
+                            description: net.IPNet
                           comment:
                             type: string
     parameters:
@@ -1343,14 +1346,17 @@ paths:
                   _id:
                     type: string
                     format: ObjectID
+                    description: ObjectID
                   address:
                     type: string
                   ip:
                     type: string
                     format: net.IP
+                    description: net.IP
                   network:
                     type: string
                     format: net.IPNet
+                    description: net.IPNet
                   comment:
                     type: string
   /groups/{groupId}/apps/{appId}/security/access_list/{ipId}:
@@ -1370,14 +1376,17 @@ paths:
                   _id:
                     type: string
                     format: ObjectID
+                    description: ObjectID
                   address:
                     type: string
                   ip:
                     type: string
                     format: net.IP
+                    description: net.IP
                   network:
                     type: string
                     format: net.IPNet
+                    description: net.IPNet
                   comment: { type: string }
     parameters:
       - $ref: "#/components/parameters/GroupId"
