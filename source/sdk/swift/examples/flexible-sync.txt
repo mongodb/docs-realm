@@ -38,6 +38,35 @@ syncs to the client device.
    general information about using Realm Sync, see: :ref:`Sync Changes 
    Between Devices <ios-sync-changes-between-devices>`.
 
+About the Examples on This Page
+-------------------------------
+   
+The examples in this page use a simple data set for a
+task list app. The two Realm object types are ``Team``
+and ``Task``. A ``Task`` has a ``taskName``, assignee's name, and
+completed flag. There is also an arbitrary number for
+priority -- higher is more important -- and a count of
+minutes spent working on it. A ``Team`` has a ``teamName``, 
+zero or more ``Tasks``, and a list of ``members``.
+
+.. code-block:: swift
+
+   class Task: Object {
+      @Persisted(primaryKey: true) var id: ObjectId
+      @Persisted var taskName: String
+      @Persisted var assignee: String?
+      @Persisted var completed: Bool
+      @Persisted var progressMinutes: Int
+   }
+
+   class Team: Object {
+      @Persisted(primaryKey: true) var id: ObjectId
+      @Persisted var teamName: String
+      @Persisted var tasks: List<Task>
+      @Persisted var members: List<String>
+   }
+
+
 .. _ios-sync-subscribe-to-queryable-fields:
 
 Subscribe to Queryable Fields
@@ -53,13 +82,12 @@ You can:
 - Add subscriptions
 - Check subscription state
 - Update subscriptions with new queries
-- Remove individual subscriptions or all subscriptions of a type
+- Remove individual subscriptions or all subscriptions for an object type
 
 Data matching the subscription, where the user has the appropriate 
 permissions, syncs between devices and the backend application.
 
-You can specify a string name for your subscription. If you do not give your
-subscription a name, Realm uses the query string as the name.
+You can specify an optional a string name for your subscription.
 
 When you create a subscription, Realm looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
@@ -67,23 +95,22 @@ object types. You can also have multiple queries on the same object type.
 
 .. example::
 
-   When you create a subscription with no explicit name, the name becomes
-   a string version of the query. In this example, it's 
-   ``$0.name == "Developer Education"``.
-
-   .. code-block:: swift
-
-      QuerySubscription<Team> {
-         $0.name == "Developer Education"
-      }
-
-   You can also create a subscription with an explicit name. Then, you can
+   You can create a subscription with an explicit name. Then, you can
    search for that subscription by name to update or remove it.
 
    .. code-block:: swift 
 
       QuerySubscription<Task>(name: "long-running-completed") {
-         $0.status == "complete" && $0.progressMinutes > 120
+         $0.complete == true && $0.progressMinutes > 120
+      }
+
+   If you do not specify a ``name`` for a subscription, you can search 
+   for the subscription by the query string.
+
+   .. code-block:: swift
+
+      QuerySubscription<Team> {
+         $0.teamName == "Developer Education"
       }
 
 .. _ios-sync-add-subscription:
@@ -98,14 +125,13 @@ new subscription to the client's Realm subscriptions.
 
    let subscriptions = realm.subscriptions
    if subscriptions.isEmpty {
-      try! await subscriptions.write {
-         try! subscriptions.append {
+      try! subscriptions.write {
+         subscriptions.append {
             QuerySubscription<Team> {
-               $0.name == "Developer Education"
+               $0.teamName == "Developer Education"
             }
          }
       }
-      try! await subscriptions.waitForAsync()
    }
 
 .. _ios-sync-check-subscription-state:
@@ -124,14 +150,14 @@ enum. You can use subscription state to:
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   try! await subscriptions.write {
-      try! subscriptions.remove {
+   try! subscriptions.write {
+      subscriptions.remove {
          QuerySubscription<Task> {
-            $0.owner == "Joe Doe"
+            $0.assignee == "Joe Doe"
          }
       }
    }
-   for await state in subscriptions.state {
+   for state in subscriptions.state {
       // Notify state changes
       print(state)
    }
@@ -148,12 +174,12 @@ subscription with a new query.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   let query = { QuerySubscription<Team> { $0.name == "Developer Education" } }
+   let query = { QuerySubscription<Team> { $0.teamName == "Developer Education" } }
    if let subscription = subscriptions.first(where: query) {
       try! subscriptions.write {
          subscription.update {
             QuerySubscription<Team>(name: "docs-team") {
-               $0.name == "Documentation"
+               $0.teamName == "Documentation"
             }
          }
       }
@@ -182,9 +208,9 @@ name to find the appropriate query subscription to remove.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   if let subscription = subscriptions.first(where: { $0.name == "docs-team" }) {   
+   if let subscription = subscriptions.first(where: { QuerySubscription<Team>  { $0.teamName == "docs-team" }}) {   
       try! subscriptions.write {
-         try! subscriptions.remove(subscription)
+         subscriptions.remove(subscription)
       }
    }
 
@@ -197,7 +223,6 @@ If you want to remove all subscriptions to a specific object type, use the
 .. code-block:: swift
 
    let subscriptions = ream.subscriptions
-   try! await subscriptions.write {
-      try! subscriptions.removeAll(ofType: Team.self)
+   try! subscriptions.write {
+      subscriptions.removeAll(ofType: Team.self)
    }
-   try! await subscriptions.waitforAsync()
