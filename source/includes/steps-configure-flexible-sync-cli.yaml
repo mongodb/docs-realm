@@ -18,13 +18,13 @@ content: |
   you continue.
 
   Determine which cluster you want to use and then open its configuration file.
-  Add the ``config.sync_query`` field with the following template:
+  Add the ``config.flexible_sync`` field with the following template:
 
   .. code-block:: json
     
      {
          "config": {
-             "sync_query": {
+             "flexible_sync": {
                  "state": "enabled",
                  "database_name": "",
                  "permissions": {
@@ -66,7 +66,7 @@ content: |
 
      {
          "config": {
-             "sync_query": {
+             "flexible_sync": {
                  "state": "enabled",
                  "database_name": "",
                  "permissions": {
@@ -110,7 +110,7 @@ content: |
 
      {
        "config": {
-         "sync_query": {
+         "flexible_sync": {
            "state": "enabled",
            "database_name": "test-database",
            "permissions": {

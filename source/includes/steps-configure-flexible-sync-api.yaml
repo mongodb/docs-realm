@@ -15,14 +15,14 @@ content: |
        -X GET \
        -h 'Authorization: Bearer <Valid Access Token>'
 
-  Once you have the configuration, add the ``config.sync_query`` field with the
+  Once you have the configuration, add the ``config.flexible_sync`` field with the
   following template configuration:
 
   .. code-block:: json
     
      {
          "config": {
-             "sync_query": {
+             "flexible_sync": {
                  "state": "enabled",
                  "database_name": "",
                  "permissions": {
@@ -59,13 +59,13 @@ content: |
   To learn more about queryable fields, read the :ref:`queryable fields
   <queryable-fields>` documentation.
 
-  Add the fields you would like your application to query on to the ``config.sync_query.queryable_fields_names``:
+  Add the fields you would like your application to query on to the ``config.flexible_sync.queryable_fields_names``:
 
   .. code-block:: json
 
      {
          "config": {
-             "sync_query": {
+             "flexible_sync": {
                  "state": "enabled",
                  "database_name": "",
                  "permissions": {
@@ -109,7 +109,7 @@ content: |
 
      {
        "config": {
-         "sync_query": {
+         "flexible_sync": {
            "state": "enabled",
            "database_name": "test-database",
            "permissions": {
