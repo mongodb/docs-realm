@@ -15,11 +15,10 @@ Relationships
 Overview
 --------
 
-A relationship is a reference that links individual documents in a
-collection to other documents based on the values that each document
-contain. Relationships allow you to fluently reference and query related
-documents in read and write operations, even if the documents are in
-separate databases or collections.
+A relationship is a connection between two documents. Relationships
+allow you to reference and query related documents in read and write
+operations, even if the documents are in separate databases or
+collections.
 
 You define a relationship for a "source" MongoDB collection and link to
 documents in a "foreign" collection. Realm automatically resolves
@@ -93,8 +92,10 @@ relationships.
         }
       }
    
-   With this relationship defined, Realm can fluidly return a customer
-   and all of their accounts in the same GraphQL query.
+   With this relationship defined, Realm can return a customer and all
+   of their accounts in the same GraphQL query. Without a relationship,
+   the query would return a list of just ``account_id`` values instead
+   of the full ``Account`` objects.
    
    .. code-block:: text
       
@@ -121,7 +122,7 @@ To-One
 ~~~~~~
 
 A to-one relationship links each source document with either a single
-document from the foreign collection.
+document or an array of documents from the foreign collection.
 
 To indicate that a relationship has "to-one" cardinality, set
 ``is_list`` to ``false``:
