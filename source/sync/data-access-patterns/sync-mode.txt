@@ -25,7 +25,9 @@ from the {+service+} SDK in the client app. {+service-short+} offers two
 
 You can't mix Partition-Based Sync and Flexible Sync within the same 
 {+app+}, so you must decide which {+sync+} mode to use in a given 
-application.
+application. If you want to change your application's {+sync+} mode,
+you must :ref:`terminate and re-enable sync <terminating-realm-sync>`, 
+which triggers a :ref:`client reset <client-resets>`.
 
 Partition-Based Sync
 --------------------
@@ -66,6 +68,39 @@ Choose Partition-Based Sync when:
    number is Store 42.
 
    Customers, meanwhile, could have read-only access to store inventory.
+
+In the client, you pass a value for the partition key when opening a synced 
+realm. Realm then syncs objects whose partition key value matches the 
+value passed in from the client application.
+
+.. example::
+
+   Based on the store inventory example above, the SDK might pass in 
+   ``store42`` as the ``partitionValue`` in the sync configuration.
+   This would sync any InventoryItem whose ``partitionValue`` was 
+   ``store42``.
+
+   You can use :ref:`custom user data <custom-user-data>` to indicate 
+   whether a logged-in user is a store employee or a customer. Store 
+   employees would have read and write permission for the ``store42`` 
+   data set, while customers would have only read permission for the 
+   same data set.
+
+   .. code-block:: javascript
+
+      const config = {
+        schema: [InventoryItem], // predefined schema
+        sync: {
+          user: app.currentUser, // already logged in user
+          partitionValue: "store42",
+        },
+      };
+      try {
+        const realm = await Realm.open(config);
+        realm.close();
+      } catch (err) {
+        console.error("failed to open realm", err.message);
+      }
 
 Flexible Sync
 -------------
@@ -164,3 +199,36 @@ Choose Flexible Sync when:
    This would enable the client application to query for specific patients, 
    while billing specialists could query for visits within a time window, 
    such as 30 days.
+
+In the client, you subscribe to a set of queries to determine the data 
+to sync. Realm then syncs objects that match the query, where the 
+logged-in user has permission to read or read and write the data.
+
+.. example::
+
+   Based on the store medical provider's office example above, the SDK 
+   might subscribe to a query on a specific patient's ID and procedure 
+   date range. This would sync any objects that matched the query,
+   where the user has the appropriate permissions.
+
+   You can use :ref:`custom user data <custom-user-data>` to indicate 
+   a logged-in user's role. A ``provider`` would have access to data in 
+   the ``Patient_History`` collection, while a ``billingSpecialist`` would 
+   have access to data in the ``Billing`` collection. The SDK query 
+   subscription doesn't need any knowledge of this; Flexible Sync handles
+   it automatically by applying the permissions to data that matches the 
+   query.
+
+   .. code-block:: javascript
+
+      const patientVisits = realm.objects("Visit");
+      const patientAndTimeWindow = patientVisits.filtered(
+        'id == "507f191e810c19729de860ea" && procedureDate > "Wed Oct 18 2020 12:00:00 GMT+0000 (UTC)"'
+      );
+      
+      const subscriptions = realm.getSubscriptions();
+      subscriptions.update((mutableSubscriptionsInstance) => {
+        mutableSubscriptionsInstance.add(patientAndTimeWindow, {
+          name: "patientAndTimeWindow",
+        });
+      });
