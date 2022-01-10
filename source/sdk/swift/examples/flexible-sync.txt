@@ -34,9 +34,13 @@ syncs to the client device.
 
 .. seealso::
 
-   This page details how to manage subscriptions for Flexible Sync. For 
-   general information about using Realm Sync, see: :ref:`Sync Changes 
-   Between Devices <ios-sync-changes-between-devices>`.
+   This page details how to manage subscriptions for Flexible Sync. 
+   
+   For general information about using Realm Sync with the Swift SDK, 
+   see: :ref:`Sync Changes Between Devices <ios-sync-changes-between-devices>`.
+
+   For information about setting up permissions for Flexible Sync, see:
+   :ref:`Flexible Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
 
 About the Examples on This Page
 -------------------------------
@@ -93,6 +97,10 @@ When you create a subscription, Realm looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
 
+Subscription names must be unique. If you do not explicitly name a 
+subscription, and instead subscribe to the same unnamed query more than
+once, Realm ignores the duplicate query subscriptions.
+
 .. example::
 
    You can create a subscription with an explicit name. Then, you can
@@ -144,8 +152,16 @@ enum. You can use subscription state to:
 
 - Trigger error handling
 - Show a progress indicator while data is downloading
-- Find out when a subscription set is superseded and you should obtain a
-  new instance of the subscription set to write a subscription change
+- Find out when a subscription set becomes superseded
+
+Subscription state is only one component of changing a subscription.
+After the subscription change, the realm syncs to resolve any updates to
+the data as a result of the subscription change. This could mean adding 
+or removing data from the synced realm. You can wait for a synced 
+realm to update data by using the ``waitForDownloads(for: realm)``.
+If you want to react to subscription state changes by redrawing a UI, 
+for example, or taking another action based on changes to the data set,
+wait for the realm to sync after making subscription updates.
 
 .. code-block:: swift
 
@@ -157,10 +173,22 @@ enum. You can use subscription state to:
          }
       }
    }
-   for state in subscriptions.state {
-      // Notify state changes
-      print(state)
+   subscriptions?.observe { state in
+      if case .complete = state {
+            // Do something when state is complete
+      }
    }
+
+   // After the state change, wait for the synced realm to update data
+   waitForDownloads(for: realm)
+
+Superseded
+``````````
+
+``superceded`` is a ``SyncSubscriptionState`` that can occur when another
+thread writes a subscription on a different instance of the 
+subscription set. If the state becomes ``superceded``, you must obtain 
+a new instance of the subscription set before you can write to it.
 
 .. _ios-update-subscriptions-with-new-query:
 
@@ -181,6 +209,22 @@ subscription with a new query.
             QuerySubscription<Team>(name: "docs-team") {
                $0.teamName == "Documentation"
             }
+         }
+      }
+   }
+
+You can also search for a subscription by name. In this example, we 
+search for a subscription by name and then update that subscription with
+a new query.
+
+.. code-block:: swift
+
+   let subscriptions = realm.subscriptions
+   let foundSubscription = subscriptions.first(named: "docs-team")
+   try! subscriptions.write {
+      foundSubscription.update {
+         QuerySubscription<Team>(name: "docs-team") {
+            $0.teamName == "Documentation"
          }
       }
    }
@@ -208,21 +252,33 @@ name to find the appropriate query subscription to remove.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   if let subscription = subscriptions.first(where: { QuerySubscription<Team>  { $0.teamName == "docs-team" }}) {   
-      try! subscriptions.write {
-         subscriptions.remove(subscription)
-      }
+   let foundSubscription = subscriptions.first(named: "docs-team")   
+   try! subscriptions.write {
+      subscriptions.remove(foundSubscription!)
    }
 
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
 
 If you want to remove all subscriptions to a specific object type, use the 
-``removeAll`` method in a subscription write block.
+``removeAll`` method with ``ofType`` in a subscription write block.
 
 .. code-block:: swift
 
-   let subscriptions = ream.subscriptions
+   let subscriptions = realm.subscriptions
    try! subscriptions.write {
       subscriptions.removeAll(ofType: Team.self)
+   }
+
+Remove All Subscriptions
+````````````````````````
+
+To remove all subscriptions from the subscription set, use the ``removeAll``
+method in a subscription write block.
+
+.. code-block:: swift
+
+   let subscriptions = realm.subscriptions
+   try! subscriptions.write {
+      subscriptions.removeAll()
    }
