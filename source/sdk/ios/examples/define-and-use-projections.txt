@@ -15,7 +15,7 @@ Define and Use Projections - iOS SDK
 Overview
 --------
 
-.. versionadded:: 10.?
+.. versionadded:: 10.21.0
 
 A projection is a class that passes through or transforms some or all of your
 {+client-database+} object's properties. Projection enables you to build 
@@ -50,9 +50,9 @@ See the schema for these two classes, ``Person`` and ``Address``, below:
 Define a Projection
 -------------------
 
-Define a projection by creating a class of type ``Projection``. Specify
-the :swift-sdk:`Object <Extensions/Object.html>` or 
-:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>` base whose
+Define a projection by creating a class of type :swift-sdk:`Projection 
+<Classes/Projection.html>`. Specify the :swift-sdk:`Object <Extensions/Object.html>` 
+or :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>` base whose
 properties you want to use in the projection. Use the ``@Projected`` property 
 wrapper to declare a property that you want to project from a ``@Persisted`` 
 property on the base object.
