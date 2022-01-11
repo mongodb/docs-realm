@@ -92,10 +92,10 @@ your queryable field and enable {+sync-short+}.
 Permission Changes
 ~~~~~~~~~~~~~~~~~~
 Making changes to permissions, whether implicitly through user metadata, or
-explicitely through changing configuration filters, will trigger a client reset
+explicitly through changing configuration filters, will trigger a client reset
 and re-download of all {+sync-short+} data with the new permissions applied. 
 
 A client reset will not be triggered under the following cases: 
 
 - Adding a new collection to a {+sync-short+} schema, and defining permissions for the new namespace or using default roles. This will not trigger a client reset because permissions have not been applied previously.
-- Configuring custom permissions for the new collection in the same :ref:`draft <deploy-ui>` as the new schema. Alternatively, deploying a draft with permission changes after you deploy the schema will lead to a client reset, since default permissions were applied in the initial deployment.
+- Configuring custom permissions for the new collection in the same :ref:`draft <deploy-ui>` as the new schema. Conversely, deploying a draft with permission changes after you deploy the schema will lead to a client reset, since default permissions were applied in the initial deployment.
