@@ -85,10 +85,16 @@ tutorial <learn>`.
 Limitations
 -----------
 
-- The GraphQL API can process a maximum of ten resolvers for a given query or
-  mutation. If an operation specifies more than ten resolvers, the entire
-  operation will fail with the error message ``"max number of queries
-  reached"``.
+- The GraphQL API can process a maximum of {+max-graphql-resolvers+}
+  resolvers for a given query or mutation. If an operation specifies
+  more than {+max-graphql-resolvers+} resolvers, the entire operation
+  fails with the error message ``"max number of queries reached"``.
+
+- The GraphQL API can resolve :ref:`relationships <relationships>` to a
+  maximum depth of {+max-graphql-relationship-depth+} for a given query
+  or mutation. If an operation specifies a relationship deeper than
+  {+max-graphql-relationship-depth+} resolvers, the entire operation
+  fails with the error message ``"max relationship depth exceeded"``.
 
 GraphQL Operations
 ------------------
