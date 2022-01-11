@@ -221,7 +221,7 @@ logged-in user has permission to read or read and write the data.
 
       const patientVisits = realm.objects("Visit");
       const patientAndTimeWindow = patientVisits.filtered(
-        'id == "507f191e810c19729de860ea" && procedureDate > "Wed Oct 18 2020 12:00:00 GMT+0000 (UTC)"'
+        'id == "507f191e810c19729de860ea" && procedureDate > new Date("Wed Oct 18 2020 12:00:00 GMT+0000 (UTC)")'
       );
       
       const subscriptions = realm.getSubscriptions();
