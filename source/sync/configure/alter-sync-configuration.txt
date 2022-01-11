@@ -29,14 +29,19 @@ fields, you can do so immediately, without terminating {+sync-short+}.
 Alter Your Partition-Based Sync Configuration
 ---------------------------------------------
 
-You must :ref:`Terminate {+sync-short+} <terminating-realm-sync>` and :ref:`Re-enable {+sync-short+}
-<re-enable-realm-sync>` to make changes to your Partition-Based {+sync-short+}
-Configuration. While you are re-enabling {+sync+}, you can specify a new
-Partition Key, or changes to your Read/Write Permissions. Making changes to your
-{+sync-short+} configuration while terminating and re-enabling {+sync-short+} will trigger a client
-reset. To learn more about handling client resets, read the :ref:`client reset
-<client-resets>` documentation.
+You must :ref:`Terminate {+sync-short+} <terminating-realm-sync>` and
+:ref:`Re-enable {+sync-short+} <re-enable-realm-sync>` to make changes to your
+Partition-Based {+sync-short+} Configuration. While you are re-enabling
+{+sync+}, you can specify a new Partition Key, or changes to your Read/Write
+Permissions. Making changes to your {+sync-short+} configuration while
+terminating and re-enabling {+sync-short+} will trigger a client reset. To learn
+more about handling client resets, read the :ref:`client reset <client-resets>`
+documentation.
 
+
+May also be wokrth talking about schema changes. A change to the schema will
+result in all of the documents for that new schema being found in MongoDB and
+re-inserted into Realm (to pick up new objects / fields)
 
 .. alter-flexible-sync-config:
 

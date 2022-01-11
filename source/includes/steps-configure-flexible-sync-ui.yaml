@@ -3,12 +3,6 @@ ref: navigate-to-the-{+sync-short+}-configuration-screen
 content: |
   To define {+sync-short+} rules and enable {+sync-short+} for your application, navigate to the
   :guilabel:`{+sync-short+}` configuration screen through the {+leftnav+}.
-
-  .. note:: {+sync-short+} Rules Cannot Change
-     
-     You define {+sync-short+} rules at the same time as you enable {+sync-short+}. Once {+sync-short+} is
-     enabled, you can't change your app's {+sync-short+} rules unless you terminate {+sync-short+}
-     and re-enable it with new rules.
 ---
 title: Select Development Details
 ref: select-development-details
@@ -37,8 +31,8 @@ content: |
 title: Select Queryable Fields
 ref: select-queryable-fields
 content: |
-  When configuring Flexible {+sync-short+}, specify one or more fields from your
-  {+sync-short+} Schema that your client application can query. 
+  When configuring Flexible {+sync-short+}, specify one or more :ref:`queryable
+  fields <queryable-fields>` from your {+sync-short+} Schema.
   
   To configure queryable fields for your application, navigate to the
   :guilabel:`Select Queryable Fields` heading. Select up to 10 existing fields
@@ -52,19 +46,12 @@ content: |
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
 content: |
-  The :guilabel:`Define Permissions` section allows you to define :ref:`JSON
-  expressions <expressions>` that {+service+} dynamically evaluates to determine a
-  user's read and write permissions for the data in a given partition.
-  
-  {+sync-short+} rule expressions have access to :json-expansion:`%%user`, which resolves
-  to the user that opened the {+realm+}, and :json-expansion:`%%partition`, which
-  resolves to the partition key value for the {+realm+}. You can also use operators,
-  including :json-operator:`%function`, to handle more complex cases. For
-  examples, see :ref:`{+sync-short+} Permissions <sync-permissions>`.
+  The Define Permissions section allows you to define JSON expressions that
+  Realm dynamically evaluates to determine a user's read and write permissions
+  for the documents being passed through {+sync-short+}.
 
-  Once you've determined how to decide a user's read and write permissions for a
-  given partition, define the corresponding JSON expressions in the
-  :guilabel:`Read` and :guilabel:`Write` inputs.
+  The ``Apply When`` :ref:`expression <expressions>` determines
+  if a role applies to a given document. 
   
   .. figure:: /images/flex-sync-define-permissions.png
      :width: 750px
