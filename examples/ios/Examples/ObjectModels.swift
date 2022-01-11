@@ -200,11 +200,11 @@ class ObjectModels: XCTestCase {
         //        self.collection = collection
         //    }
 
-            let collection: AnyRealmCollection<ObjectModelsExamples_MyModel>
-
-            init<C: RealmCollection>(collection: C) where C.ElementType == ObjectModelsExamples_MyModel {
-                self.collection = AnyRealmCollection(collection)
-            }
+//            let collection: AnyRealmCollection<ObjectModelsExamples_MyModel>
+//
+//            init<C: RealmCollection>(collection: C) where C.ElementType == ObjectModelsExamples_MyModel {
+//                self.collection = AnyRealmCollection(collection)
+//            }
         }
         // :code-block-end:
     }
