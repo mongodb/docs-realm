@@ -1,5 +1,5 @@
-let queryFilter: Document = ["name": "Bean of the Day", "partition": "Store 55"]
-let documentUpdate: Document = ["name": "Bean of the Day", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "false", "partition": "Store 55"]
+let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 55"]
+let documentUpdate: Document = ["name": "Bean of the Day", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "false", "_partition": "Store 55"]
 
 collection.updateOneDocument(filter: queryFilter, update: documentUpdate, upsert: true) { result in
     switch result {

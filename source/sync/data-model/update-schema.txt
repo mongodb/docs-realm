@@ -1,0 +1,114 @@
+.. _synced-schema-overview:
+
+==================
+Update Your Schema
+==================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+When developing an application using {+sync+}, you may need to make changes to
+your schema at some point: you have a new property to add to an already-synced 
+object, you decide to change the type stored in a property, or you now need to 
+make a property *required*, for example. 
+
+The {+service-short+} APIs provide for 
+backward-compatible schema changes to synced realms, allowing old clients to
+sync with newer ones. Destructive schema changes, however, take some planning and 
+work.
+
+The difficulty with implementing a destructive schema changes is that older 
+clients (those that have not been updated to your new code and schema) still 
+need access to the data via the old schema definition, while clients that are 
+updated need to work with the new schema changes.
+
+.. _additive-changes-synced-schema:
+
+Additive Changes
+----------------
+
+Additive changes to a schema are usually optional **additions** to the
+schema, such as:
+
+- adding a class
+- adding a property (required or optional) to an existing class
+
+Additive changes apply automatically to synced {+realms+}; you can make these 
+additive schema changes with no additional configuration changes.
+
+.. note:: Removing a Property from Your Schema Is Considered an Additive Change
+
+   To maintain backward compatibility, removing a property from a schema doesn’t
+   delete the property from the database and instead instructs Realm to ignore that
+   property. New objects retain the removed property, but Realm automatically sets the
+   property's value to ``null``. Realm sets properties that are non-nullable to an
+   appropriate empty value, such as a 0 for integer values or an empty string
+   for string values.
+
+.. _destructive-changes-synced-schema:
+
+Destructive Changes
+-------------------
+
+Destructive changes to a schema are usually **modifications** of existing properties, 
+such as:
+
+- changing a property’s type but keeping the same name
+- changing a primary key
+- changing a property from optional to required (or vice-versa)
+
+Synchronized {+realms+} only support additive changes to a schema. Therefore,
+attempting to perform a destructive change on a synchronized {+realm+} leads 
+to errors like the following:
+
+.. code-block:: shell
+
+   {
+    message: 'The following changes cannot be made in additive-only schema mode:\n' +
+      "- Property 'Task._id' has been changed from 'int' to 'string'.",
+    errorCode: 1
+   }
+
+If you are developing an application using Realm Sync and need to make a destructive
+schema change, you have two choices: :ref:`terminate sync <terminating-realm-sync>` 
+in the backend and then :ref:`re-enable <enable-sync>` it from the start, or 
+create a **"partner collection"**.
+
+.. warning::
+
+   When you make a destructive change by terminating and re-enabling sync, 
+   client applications must perform a client reset. For more information, 
+   see: :ref:`Client Resets <client-resets>`.
+
+.. _partner_collections:
+
+Partner Collections
+~~~~~~~~~~~~~~~~~~~
+
+A partner collection is a collection that contains the same data as
+the original collection, but has the new schema definition in place. Partner
+collections use database triggers to ensure that data flows in both directions,
+meaning that when one collection is written to, the other is also written to 
+(with the data modifications required for the new schema).
+
+To implement a schema change, see :ref:`<migrate-schema-partner-collection>`.
+
+Summary
+-------
+
+- Schema changes on synced {+realms+} are backward compatible, allowing old clients to sync with newer ones.
+- Additive changes to the schema of a synced {+realm+} do not require any additional configuration. 
+- Synchronized {+realms+} only support additive changes to a schema.
+- Destructive changes are modifications to existing properties of a schema.
+- Synchronized {+realms+} do not support destructive changes directly. 
+- To perform destructive schema changes to a synced {+realm+}, create a partner collection with the necessary schema changes and manually copy the data from the first collection to the second collection.
+- To keep partner collections up-to-date with each other, set up database triggers to copy changed data from one collection to its partner.
+

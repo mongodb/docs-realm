@@ -59,8 +59,8 @@ Changes
    * - The MongoDB Data Access API, which contains objects like :java-sdk:`MongoClient <io/realm/mongodb/mongo/MongoClient.html>`, :java-sdk:`MongoDatabase <io/realm/mongodb/mongo/MongoDatabase.html>`, and :java-sdk:`MongoCollection <io/realm/mongodb/mongo/MongoCollection.html>` has changed packages from ``com.mongodb.client`` to ``io.realm.mongodb.mongo``.
      - Refactor all imports of the :ref:`MongoDB Data Access API <android-mongodb-data-access>` to use ``io.realm.mongodb.mongo``.
 
-   * - The BSON package, which contains MongoDB query filters and the ``Document`` data type for reading/writing to MongoDB Atlas has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
+   * - The BSON package, which contains BSON data types and the ``Document`` data type for reading/writing to MongoDB Atlas, has moved from ``com.mongodb.stitch.core.internal.common`` to ``org.bson``.
      - Refactor all imports of the BSON package to use ``io.realm.mongodb.mongo``.
      
    * - The {+service-short+} SDK does not provide an interface for calling services such as :ref:`Twilio <twilio-service>` and :ref:`AWS <aws-service>`.
-     - Convert SDK service API usage in your application to Realm functions using the corresponding npm packages. For more information, see :doc:`Upload External Dependencies </functions/upload-external-dependencies>`.
+     - Convert SDK service API usage in your application to Realm functions using the corresponding npm packages. For more information, see :doc:`Add External Dependencies </functions/add-external-dependencies>`.

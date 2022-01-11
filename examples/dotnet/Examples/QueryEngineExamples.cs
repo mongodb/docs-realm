@@ -29,7 +29,6 @@ namespace Examples
             //:hide-start:
             config.Schema = new[]
             {
-                //typeof(Task),
                 typeof(UserTask),
                 typeof(UserProject)
             };

@@ -1,0 +1,114 @@
+title: Log In to MongoDB Cloud
+ref: log-in-to-mongodb-cloud
+content: |
+  To configure your app with {+cli-bin+}, you must log in to MongoDB Cloud using
+  an :atlas:`API key </reference/api/apiKey>` scoped to the organization or
+  project that contains the app.
+  
+  .. code-block:: bash
+     
+     realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
+---
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
+content: |
+  To define a document schema with {+cli-bin+}, you need a local copy of your
+  application's configuration files.
+  
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Import/Export App` screen in the {+ui+}.
+---
+title: Define the Schema
+ref: define-the-schema
+content: |
+  To define or modify the schema for a collection, open the ``schema.json``
+  configuration file within the collection's configuration directory.
+  
+  .. tip:: Scaffold the Collection
+     
+     If you haven't already defined rules or a schema for the collection, you
+     need to manually create its configuration directory and ``schema.json``:
+
+     .. code-block:: bash
+        
+        # Create the collection's configuration directory
+        mkdir -p data_sources/<service>/<db>/<collection>
+        # Create the collection's schema file
+        echo '{}' >> data_sources/<service>/<db>/<collection>/schema.json
+  
+  The root-level schema for every document must be of type ``object``. You can
+  use additional :ref:`schema <schemas>` to configure specific fields within the
+  ``properties`` array. At a minimum, the schema should resemble the following:
+
+  .. code-block:: javascript
+     :caption: /data_sources/<service>/<db>/<collection>/schema.json
+
+     {
+       "bsonType": "object",
+       "properties": {
+         "<Field Name>": <Schema Document>,
+         ...
+       }
+     }
+---
+title: Define Change Validation
+ref: define-change-validation
+content: |
+  You can validate changes to documents by defining a validation
+  :ref:`expression <expressions>` in the ``validate`` field of a schema.
+  Validation expressions can use the :json-expansion:`%%prev` and
+  :json-expansion:`%%prevRoot` expansions to access a field or document's values
+  *before* the insert or update operation occurred.
+
+  .. example::
+
+     Consider a collection where the document's ``owner_id`` field represents
+     the owner of each document. The business rules for this collection specify
+     that once a document has an owner, the value of ``owner_id`` should never
+     change. We can enforce this constraint with the following validation
+     expression that ensures that update operations do not change the
+     ``owner_id`` value unless its to assign an owner where there was none
+     previously:
+
+     .. code-block:: javascript
+        
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prev": { "%exists": false } },
+              { "%%prev": "%%this" }
+            ]
+          }
+        }
+
+     We could also use the :json-expansion:`%%prevRoot` expansion to create the
+     following equivalent validation expression:
+
+     .. code-block:: javascript
+        
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prevRoot.owner_id": { "%exists": false } },
+              { "%%prevRoot.owner_id": "%%root.owner_id" }
+            ]
+          }
+        }
+---
+title: Deploy the Updated Schema
+ref: deploy-the-updated-schema
+content: |
+  Once you've defined and saved ``schema.json`` you can push the updated config
+  to your remote app. {+cli+} immediately deploys the new schema on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"

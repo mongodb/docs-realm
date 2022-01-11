@@ -20,7 +20,8 @@ in a ``url`` string, or in an :mdn:`Authorization
    The following examples demonstrate three equivalent ways to
    authenticate an HTTP service request using basic authentication. The
    examples all use the username ``MyUser`` and the password
-   ``Mypassw0rd``.
+   ``Mypassw0rd``. You would pass one of these objects as an argument to
+   the given HTTP method.
    
    .. code-block:: json
       :caption: Specify Credentials Directly (Best Method)

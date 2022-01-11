@@ -2,7 +2,7 @@ title: Navigate to the MongoDB Rules Screen
 ref: navigate-to-the-mongodb-rules-screen
 level: 4
 content: |
-  You can create and manage query filters from the MongoDB rules screen in the
+  You can create and manage filters from the MongoDB rules screen in the
   {+ui+}. To get to the rules screen, click :guilabel:`Rules` beneath
   :guilabel:`Data Access` in the {+leftnav+}.
 ---
@@ -19,13 +19,12 @@ title: Specify the Apply When Expression
 ref: specify-the-apply-when-expression
 level: 4
 content: |
-  In the :guilabel:`Apply When` input box, enter a :doc:`JSON expression
-  </services/json-expressions>` that defines when the filter applies to
-  a query. If the expression evaluates to ``true`` for an incoming
-  query, {+service-short+} adds the :guilabel:`Filter Query` parameters to the
-  incoming query.
+  In the :guilabel:`Apply When` input box, enter a :ref:`rule expression
+  <expressions>` that defines when the filter applies to a query. If the
+  expression evaluates to ``true`` for an incoming query, {+service-short+} adds
+  the :guilabel:`Filter Query` parameters to the incoming query.
 
-  .. figure:: /images/mongodb-filters-apply-when.png
+  .. figure:: /images/filters-apply-when.png
      :alt: Filter Apply When Input Screenshot
 
   .. include:: /includes/note-filters-no-mongodb-expansions.rst
@@ -43,7 +42,7 @@ content: |
 
      { "score": { "$gt": 20 } }
 
-  .. figure:: /images/mongodb-filters-query.png
+  .. figure:: /images/filters-query.png
      :alt: Filter Query Input Screenshot
 ---
 title: Specify the Filter Projection
@@ -66,7 +65,7 @@ content: |
        "personal": 0
      }
      
-  .. figure:: /images/mongodb-filters-projection.png
+  .. figure:: /images/filters-projection.png
      :alt: Filter Projection Input Screenshot
 ---
 title: Save the Filter

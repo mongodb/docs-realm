@@ -44,7 +44,7 @@ efficiently integrates, uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.create.cs
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.codeblock.create.cs
    :language: csharp
 
 .. seealso:: 
@@ -80,7 +80,7 @@ method on the paused session, the {+sync-short+} session resumes.
 The following code block demonstrates calling the ``Stop()`` and ``Start()`` 
 methods: 
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.pause-synced-realm.cs
+.. literalinclude:: /examples/generated/dotnet/DataSyncExamples.codeblock.pause-synced-realm.cs
    :language: csharp
 
 .. |pause_func_name| replace:: ``.Stop()``
@@ -101,11 +101,14 @@ You can check on the status of your current changes by :ref:`waiting for changes
 
 Wait for Changes to be Uploaded or Downloaded
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To asynchronously wait for your changes to be completed, get the sync session by calling `Realms.Sync.GetSession()
-<https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_.
-Then call `session.WaitForUploadAsync()
-<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`_  or `session.WaitForDownloadAsync()
-<https://docs.mongodb.com/realm-sdks/dotnet/10.0.0/reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`_.
+To asynchronously wait for your changes to be completed, get the sync session 
+from the :dotnet-sdk:`Realms.Sync.SyncSession
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>`
+property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
+:dotnet-sdk:`session.WaitForDownloadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
+methods.
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
    :language: csharp
@@ -114,8 +117,12 @@ Then call `session.WaitForUploadAsync()
 
 Display a Progress Bar
 ~~~~~~~~~~~~~~~~~~~~~~
-You can use progress notifications to display a progress bar. First, get the sync session by calling `Realms.Sync.GetSession() <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.RealmSyncExtensions.html#Realms_Sync_RealmSyncExtensions_GetSession_Realms_Realm_>`_. Then, add a progress
-notification using the `session.GetProgressObservable() <https://docs.mongodb.com/realm-sdks/dotnet/latest/reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>`_ method.
+You can use progress notifications to display a progress bar. First, get the 
+sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
+progress notification by calling the 
+:dotnet-sdk:`session.GetProgressObservable() <reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
+method.
 
 The ``session.GetProgressObservable`` method takes in the following two parameters:
 

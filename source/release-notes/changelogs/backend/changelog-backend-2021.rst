@@ -1,3 +1,19 @@
+.. _backend_20211202:
+
+02 December 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Added ability to import dependencies :ref:`from the UI <add-external-dependencies>`.
+- Deprecated :ref:`third party services <third-party-services>`. Third party services will be fully removed on December 1, 2022. 
+- Renamed "Webhooks" to ":ref:`HTTPS Endpoints <https-endpoints>`".
+
+.. _backend_20211118:
+
+18 November 2021 Release
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Requests blocked by an application's :ref:`IP Access List <manage-ip-access>` no longer count towards billing.
+
 .. _backend_20211006:
 
 06 October 2021 Release
@@ -17,7 +33,7 @@
 - Increased :ref:`request limit <mongodb-service-limitations-request-traffic>` from 3000 requests per second to 5000 requests per second.
 - Allows users to store non-{+service-short+} files in the {+service-short+}
   :ref:`app structure <app-configuration>`.
-- Updates to documents that do not match an application's :ref:`schema <realm-schemas>`
+- Updates to documents that do not match an application's :ref:`schema <schemas>`
   can now enable {+sync+} for those documents.
 
 

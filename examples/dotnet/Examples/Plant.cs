@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
-namespace Examples
+namespace Examples.Models
 {
     // :code-block-start: plant-class
     public class Plant

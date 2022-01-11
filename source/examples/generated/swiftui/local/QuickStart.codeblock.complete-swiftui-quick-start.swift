@@ -65,14 +65,16 @@ struct LocalOnlyContentView: View {
     
     var body: some View {
         if let group = groups.first {
-            AnyView(ItemsView(group: group))
+            // Pass the Group objects to a view further
+            // down the hierarchy
+            ItemsView(group: group)
         } else {
             // For this small app, we only want one group in the realm.
             // You can expand this app to support multiple groups.
             // For now, if there is no group, add one here.
-            AnyView(ProgressView().onAppear {
+            ProgressView().onAppear {
                 $groups.append(Group())
-            })
+            }
         }
     }
 }

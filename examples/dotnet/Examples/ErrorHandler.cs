@@ -18,7 +18,7 @@ namespace Examples
         string myRealmAppId = Config.appid;
 
         [Test]
-        public async Task handleErrors()
+        public async Task HandleErrors()
         {
             // :code-block-start: set-log-level
             var appConfig = new AppConfiguration(myRealmAppId)
@@ -48,7 +48,7 @@ namespace Examples
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new SyncConfiguration("myPartition", user);
             //:hide-start:
-            config.Schema = new[] { typeof(dotnet.User) };
+            config.Schema = new[] { typeof(Examples.Models.User) };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 
@@ -75,7 +75,7 @@ namespace Examples
                 }
             };
             // :code-block-end:
-            TestingExtensions.SimulateError(realm.GetSession(),
+            TestingExtensions.SimulateError(realm.SyncSession,
             ErrorCode.PermissionDenied, "No permission to work with the Realm", false);
 
             // Close the Realm before doing the reset as it'll need

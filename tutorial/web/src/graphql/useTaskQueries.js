@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
@@ -13,7 +13,7 @@ const GetAllTasksQuery = gql`
     }
   }
 `;
-// :state-end: 
+// :state-end:
 // :state-uncomment-start: start
 // // TODO: Add the GraphGL query for fetching all tasks.
 // const GetAllTasksQuery = gql``;
@@ -23,15 +23,11 @@ const GetAllTasksQuery = gql`
 // :code-block-start: useAllTasksInProject
 export function useAllTasksInProject(project) {
   // :state-start: final
-  const {
-    data,
-    loading,
-    error,
-    startPolling,
-    stopPolling
-  } = useQuery(GetAllTasksQuery, {
+  const { data, loading, error, startPolling, stopPolling } = useQuery(
+    GetAllTasksQuery,
+    {
       variables: {
-        partition: project.partition
+        partition: project.partition,
       },
     }
   );
@@ -41,7 +37,7 @@ export function useAllTasksInProject(project) {
     // stop polling server for data when component unmounts
     return () => stopPolling();
   }, [startPolling, stopPolling]);
-  // :state-end: 
+  // :state-end:
   // :state-uncomment-start: start
   // // TODO: Use GetAllTasksQuery to fetch the tasks for the project every 1000ms
   // :state-uncomment-end:
@@ -54,7 +50,7 @@ export function useAllTasksInProject(project) {
   const tasks = data?.tasks ?? [];
   return {
     tasks,
-    loading
+    loading,
   };
 }
 // :code-block-end:

@@ -1,6 +1,6 @@
 .. note::
 
-   Each operation described on this page uses a **query filter** to
+   Each operation described on this page uses a **query** to
    match certain documents in the collection upon which the operation
    executes. When a filter matches multiple documents in a collection,
    they are returned in an :manual:`indeterminate order
@@ -8,5 +8,5 @@
    specify a sorting parameter. This means that if you do not specify
    a sort for the ``findOne()``, ``updateOne()``, or ``deleteOne()``
    functions, your operation could match *any* document that matches the
-   query filter. For more information on sorting, see
+   query. For more information on sorting, see
    :manual:`cursor.sort() </reference/method/cursor.sort>`.

@@ -112,16 +112,15 @@ content: |
   Specify an Authorization Expression
   ===================================
 
-  You can dynamically authorize requests based on the contents of each
-  request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
-  </services/json-expressions>`. {+backend+} evaluates the expression
-  whenever the function is called. If you do not specify an expression
-  then {+backend+} automatically authorizes all authenticated incoming
-  requests.
+  You can dynamically authorize requests based on the contents of each request
+  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`.
+  {+backend+} evaluates the expression whenever the function is called. If you
+  do not specify an expression then {+backend+} automatically authorizes all
+  authenticated incoming requests.
 
-  The expression can expand standard :doc:`expression variables
-  </services/expression-variables>`, including the
-  :json-expansion:`%%request` and :json-expansion:`%%user` expansions.
+  The expression can expand standard :ref:`expression variables <expressions>`,
+  including the :json-expansion:`%%request` and :json-expansion:`%%user`
+  expansions.
 
   .. example::
      
@@ -148,10 +147,8 @@ content: |
   applications from seeing or calling a function by setting ``private``
   to ``true``.
 
-  You can still call a private function from :doc:`JSON expressions
-  </services/json-expressions>` and other functions, including incoming
-  webhooks and triggers.
-
+  You can call a private function from a :ref:`rule expression <expressions>`
+  or another function, including HTTPS endpoints and triggers.
 ---
 title: Deploy the Function
 ref: deploy-the-function

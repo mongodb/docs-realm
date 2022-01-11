@@ -93,19 +93,23 @@ struct ContentView: SwiftUI.App {
 // :code-block-start: local-only-content-view
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
+    // :code-block-start: implicitly-open-realm
     // Implicitly use the default realm's objects(Group.self)
     @ObservedResults(Group.self) var groups
+    // :code-block-end:
     
     var body: some View {
         if let group = groups.first {
-            AnyView(ItemsView(group: group))
+            // Pass the Group objects to a view further
+            // down the hierarchy
+            ItemsView(group: group)
         } else {
             // For this small app, we only want one group in the realm.
             // You can expand this app to support multiple groups.
             // For now, if there is no group, add one here.
-            AnyView(ProgressView().onAppear {
+            ProgressView().onAppear {
                 $groups.append(Group())
-            })
+            }
         }
     }
 }
@@ -113,59 +117,84 @@ struct LocalOnlyContentView: View {
 
 // :state-start: sync
 // :code-block-start: sync-content-view
-// If using Sync, this view observes the app object.
+/// This view observes the Realm app object.
+/// Either direct the user to login, or open a realm
+/// with a logged-in user.
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
     @ObservedObject var app: RealmSwift.App
 
     var body: some View {
-        // If there is no user logged in, show the login view.
-        if app.currentUser == nil {
-            LoginView(app: app)
+        if let user = app.currentUser {
+            // If there is a logged in user, pass the user ID as the
+            // partitionValue to the view that opens a realm.
+            // :code-block-start: partition-value-environment-object
+            OpenSyncedRealmView().environment(\.partitionValue, user.id)
+            // :code-block-end:
         } else {
-            RealmContentView()
+            // If there is no user logged in, show the login view.
+            LoginView()
         }
     }
 }
 // :code-block-end:
 
-// :code-block-start: realm-content-view
-// The view for opening a realm and setting up a group
-struct RealmContentView: View {
-    
-    // Observe a realm that may be opened after login.
-    @State var realm: Realm?
+// :code-block-start: open-synced-realm-view
+/// This view opens a synced realm.
+struct OpenSyncedRealmView: View {
+    // Use AsyncOpen to download the latest changes from
+    // your Realm app before opening the realm.
+    // Leave the `partitionValue` an empty string to get this
+    // value from the environment object passed in above.
+    // :code-block-start: partition-value-empty-string
+    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+    // :code-block-end:
     
     var body: some View {
         
-        // If there is an existing realm, use it.
-        if let realm = realm {
-            // If logged in and the realm has been opened, then go to the items
-            // screen for the only group in the realm.
-            ItemsView(group: realm.objects(Group.self).first!,
-                      leadingBarButton: AnyView(LogoutButton(app: app!)))
-            // Pass the app to descendents via this environment object.
-        } else {
-            // If logged in but the realm is not open yet, then show a progress spinner
-            // while opening the realm. Realm.asyncOpen() downloads the remote changes before
-            // the realm opens, which might take a moment.
-            ProgressView() // Show the activity indicator while the realm loads
-                .onReceive(Realm.asyncOpen(configuration: app!.currentUser!.configuration(partitionValue: app!.currentUser!.id)).assertNoFailure()) { realm in
-            // Preload one group if it does not exist. This app only ever allows
-            // one group per user partition, but you could expand it to allow many groups.
-            if realm.objects(Group.self).count == 0 {
-                try! realm.write {
-                    realm.add(Group())
+        switch asyncOpen {
+        // Starting the Realm.asyncOpen process.
+        // Show a progress view.
+        case .connecting:
+            ProgressView()
+        // Waiting for a user to be logged in before executing
+        // Realm.asyncOpen.
+        case .waitingForUser:
+            ProgressView("Waiting for user to log in...")
+        // The realm has been opened and is ready for use.
+        // Show the content view.
+        case .open(let realm):
+            ItemsView(group: {
+                if realm.objects(Group.self).count == 0 {
+                    try! realm.write {
+                        realm.add(Group())
+                    }
                 }
-            }
-            // Assign the realm to the state property to trigger a view refresh.
-            self.realm = realm
-            }
+                return realm.objects(Group.self).first!
+            }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
+            // The realm is currently being downloaded from the server.
+            // Show a progress view.
+            case .progress(let progress):
+                ProgressView(progress)
+            // Opening the Realm failed.
+            // Show an error view.
+            case .error(let error):
+                ErrorView(error: error)
         }
     }
 }
 // :code-block-end:
 
+struct ErrorView: View {
+    var error: Error
+        
+    var body: some View {
+        VStack {
+            Text("Error opening the realm: \(error.localizedDescription)")
+        }
+    }
+}
+    
 // MARK: Authentication Views
 // :code-block-start: login-view
 /// Represents the login screen. We will have a button to log in anonymously.
@@ -175,9 +204,6 @@ struct LoginView: View {
     
     // Keep track of whether login is in progress.
     @State var isLoggingIn = false
-    
-    // The Realm app is passed in from above
-    @ObservedObject var app: RealmSwift.App
 
     var body: some View {
         VStack {
@@ -190,7 +216,7 @@ struct LoginView: View {
             Button("Log in anonymously") {
                 // Button pressed, so log in
                 isLoggingIn = true
-                app.login(credentials: .anonymous) { result in
+                app!.login(credentials: .anonymous) { result in
                     isLoggingIn = false
                     if case let .failure(error) = result {
                         print("Failed to log in: \(error.localizedDescription)")
@@ -211,12 +237,11 @@ struct LoginView: View {
 // :code-block-start: logout-button
 /// A button that handles logout requests.
 struct LogoutButton: View {
-    @ObservedObject var app: RealmSwift.App
     @State var isLoggingOut = false
 
     var body: some View {
         Button("Log Out") {
-            guard let user = app.currentUser else {
+            guard let user = app!.currentUser else {
                 return
             }
             isLoggingOut = true
@@ -226,7 +251,7 @@ struct LogoutButton: View {
                 // that the currentUser has changed. Nothing more to do here.
                 print("Logged out")
             }
-        }.disabled(app.currentUser == nil || isLoggingOut)
+        }.disabled(app!.currentUser == nil || isLoggingOut)
     }
 }
 // :code-block-end:
@@ -295,6 +320,7 @@ struct ItemRow: View {
 }
 
 /// Represents a screen where you can edit the item's name.
+// :code-block-start: quick-write-observed-realm-object
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
 
@@ -310,6 +336,7 @@ struct ItemDetailsView: View {
         }.padding()
     }
 }
+// :code-block-end:
 // :code-block-end:
 
 // :code-block-end:

@@ -12,5 +12,4 @@
        @Required
        var name: String = "",
        var tasks: RealmList<ProjectTask> = RealmList(),
-       var _partition: String = ""
    ): RealmObject()

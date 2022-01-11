@@ -1,10 +1,9 @@
 .. _services:
-.. _external-services:
 .. _third-party-services:
 
-====================
-Third-Party Services
-====================
+=================================
+Third-Party Services [Deprecated]
+=================================
 
 .. default-domain:: mongodb
 
@@ -40,7 +39,6 @@ Third-Party Services
    Twilio </services/twilio>
    AWS </services/aws>
    GitHub </services/github>
-   Push Notifications </services/push-notifications>
 
 .. toctree::
    :titlesonly:
@@ -49,15 +47,16 @@ Third-Party Services
    
    AWS S3 Service Snippets </services/snippets/s3>
    GitHub Service Snippets </services/snippets/github>
-   Send Mobile Push Notifications </services/send-mobile-push-notifications>
+
+.. include:: /includes/note-third-party-services-deprecation.rst
 
 Introduction
 ------------
 
-Modern applications often use multiple external services to handle
-complex use cases, such as messaging, analytics, and data management.
-You can connect to these services through {+service+} by creating and
-configuring service interfaces.
+Modern applications often use multiple external services to handle complex use 
+cases, such as messaging, analytics, and data management. You can connect to 
+these services through {+service+} by creating and configuring service 
+interfaces.
 
 Service interfaces specify the connection details for a specific
 external service and enable you to define the scope of that service's
@@ -81,8 +80,8 @@ Concepts
 
 .. _service-clients:
 
-Service Clients
-~~~~~~~~~~~~~~~
+Service Clients [Deprecated]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A service client is an object that connects to a service interface and
 enables you to call :ref:`actions <service-actions>` associated with
@@ -96,8 +95,8 @@ Service Action </services/call-a-service-action>`.
 
 .. _service-actions:
 
-Service Actions
-~~~~~~~~~~~~~~~
+Service Actions [Deprecated]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A service action is a method that handles a specific use
 case for a particular service, such as :doc:`sending a text
@@ -121,12 +120,12 @@ evaluates to ``true``.
 
 .. _service-rules:
 
-Service Rules
-~~~~~~~~~~~~~
+Service Rules [Deprecated]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A service rule is a :doc:`JSON expression </services/json-expressions>`
-that {+backend+} evaluates to determine whether or not a user can
-execute one or more :ref:`actions <service-actions>` in a service.
+A service rule is an :ref:`expression <expressions>` that {+backend+} evaluates
+to determine whether or not a user can execute one or more :ref:`actions
+<service-actions>` in a service.
 
 For example, you could create a :doc:`Twilio </services/twilio>` rule
 that only lets users send a text message from a specific phone number or
@@ -136,21 +135,20 @@ buckets.
 
 .. note:: Expression Variables
    
-   :doc:`Expression variables </services/expression-variables>` are
-   variables that you can include in service rules to represent dynamic
-   information about your application and an action's execution. You can
-   configure service rules based on the authenticated user that called
-   an action (:json-expansion:`%%user`) and the arguments that they
-   provided (:json-expansion:`%%args`). You can also create complex
-   rules that :ref:`call a Function
-   <call-function-json-expression>` (:json-operator:`%function`) and
-   evaluate based on the Function's return value.
+   :ref:`Expression variables <expressions>` are variables that you can include
+   in service rules to represent dynamic information about your application and
+   an action's execution. You can configure service rules based on the
+   authenticated user that called an action (:json-expansion:`%%user`) and the
+   arguments that they provided (:json-expansion:`%%args`). You can also create
+   complex rules that :ref:`call a Function <call-function-json-expression>`
+   (:json-operator:`%function`) and evaluate based on the Function's return
+   value.
 
 .. _service-webhooks:
 .. _incoming-webhooks:
 
-Incoming Webhooks
-~~~~~~~~~~~~~~~~~
+Incoming Webhooks [Deprecated]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An incoming webhook is a custom handler for events that originate from
 an external service, such as when someone opens a new pull request on
@@ -247,11 +245,6 @@ Built-In Services
        adding a webhook to GitHub, and guidance on validating incoming
        requests from GitHub.
 
-   * - :doc:`Push Notifications </services/push-notifications>`
-     - Includes service configuration parameters, arguments available in
-       push notification rules, and directions for integrating push
-       notifications into a mobile client.
-
 Reference Documentation
 -----------------------
 
@@ -266,11 +259,3 @@ Reference Documentation
      - Describes how to verify incoming requests,
        parse a request payload, and send a response in service webhook
        functions.
-
-   * - :doc:`JSON Expressions </services/json-expressions>`
-     - Describes how to construct and compose JSON expressions for use
-       in service rules.
-
-   * - :doc:`Expression Variables </services/expression-variables>`
-     - Includes descriptions and usage examples for variable values in
-       JSON expressions, including service rules.

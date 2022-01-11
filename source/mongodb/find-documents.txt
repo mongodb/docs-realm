@@ -18,7 +18,7 @@ are stored in a MongoDB collection. Read operations use :manual:`query
 filters </core/document/#document-query-filter>` to specify which
 documents to return from the database. This page also covers several
 different :ref:`query patterns <mongodb-query-patterns>` that you can
-use in query filters to precisely match documents.
+use in queries to precisely match documents.
 
 .. include:: /mongodb/crud-snippets/data-model.rst
 
@@ -61,8 +61,8 @@ Count Documents in the Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can count documents in a collection using the
-:method:`collection.count()` action. You can specify a query filter to
-specify which documents to count. If you don't specify a query, the
+:method:`collection.count()` action. You can specify a query to
+control which documents to count. If you don't specify a query, the
 action counts all documents in the collection.
 
 The following :ref:`function <functions>` snippet counts the number of

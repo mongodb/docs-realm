@@ -89,7 +89,7 @@ async function registerUser() {
   try {
     await app.emailPasswordAuth.registerUser({
       email: input.email,
-      password: input.password
+      password: input.password,
     });
     const credentials = Realm.Credentials.emailPassword(
       input.email,

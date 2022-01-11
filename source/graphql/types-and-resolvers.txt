@@ -14,8 +14,8 @@ Overview
 --------
 
 Realm automatically generates a GraphQL schema for any collection that has a
-defined :doc:`collection schema </mongodb/enforce-a-document-schema>`. For each
-collection, Realm generates the following:
+defined :ref:`schema <schemas>`. For each collection, Realm generates the
+following:
 
 - A :ref:`document type <graphql-document-types>` that represents a single
   document in the collection
@@ -92,7 +92,7 @@ is specified.
      rated: String
      runtime: Int
      director: String
-     cast: [String!]
+     cast: [String]
    }
 
 .. _graphql-field-mapping:
@@ -118,10 +118,10 @@ BSON Type Mapping
 ~~~~~~~~~~~~~~~~~
 
 The GraphQL type system is similar but not identical to the BSON types that you
-can use in a :doc:`document schema </mongodb/document-schemas>`. Realm
-automatically attempts to map between the BSON types in your schema and
-supported GraphQL types. If a field type does not have a GraphQL equivalent,
-Realm does not include the field in the generated GraphQL document type.
+can use in a :ref:`schema <schemas>`. Realm automatically attempts to map
+between the BSON types in your schema and supported GraphQL types. If a field
+type does not have a GraphQL equivalent, Realm does not include the field in the
+generated GraphQL document type.
 
 The following table lists BSON types that you can use in a schema and the
 GraphQL types that they map to:
@@ -351,7 +351,7 @@ Comparison operator fields have the following form:
        | ``ObjectId``
        | ``DateTime``
        | ``Array``
-     - ``[<Field Type>!]``
+     - ``[<Field Type>]``
      - Finds documents where the field is equal to any value in the specified
        array. If the field is an ``Array``, this finds all documents where
        any value in the field array is also included in the specified array.
@@ -376,7 +376,7 @@ Comparison operator fields have the following form:
        | ``ObjectId``
        | ``DateTime``
        | ``Array``
-     - ``[<Field Type>!]``
+     - ``[<Field Type>]``
      - Finds documents where the field is not equal to any value in the
        specified array. If the field is an ``Array``, this finds all documents
        where any value in the field array is also in the specified
