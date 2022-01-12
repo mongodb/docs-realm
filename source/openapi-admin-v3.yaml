@@ -13,7 +13,7 @@ paths:
       tags:
         - admin
       operationId: getAdminAuthProviders
-      summary: Enumerate available Realm administration authentication providers.
+      summary: Enumerate available Realm administration authentication providers
       responses:
         "200":
           description: Successfully enumerated available authentication providers.
@@ -30,9 +30,10 @@ paths:
       tags:
         - admin
       operationId: adminLogin
-      summary: |-
-        Authenticate as a Realm administrator. Use [GET
-        /auth/providers](undefinedget-/auth/providers) to list the available
+      summary: Authenticate as a Realm administrator
+      description: |-
+        Authenticate as a Realm administrator. Use `GET
+        /auth/providers` to list the available
         authentication providers.
       requestBody:
         required: true
@@ -62,12 +63,12 @@ paths:
                   refresh_token:
                     type: string
                     description: |-
-                      A refresh token you may provide in the `Authorization` header of [POST
-                      auth/session](undefinedpost-auth/session) to obtain a new `access_token`
+                      A refresh token you may provide in the `Authorization` header of `POST
+                      auth/session` to obtain a new `access_token`
                       for the current user session.
                   user_id:
                     type: string
-                    description: The unique \_id value of the MongoDB Cloud user.
+                    description: The unique `_id` value of the MongoDB Cloud user.
                   device_id:
                     type: string
       security: []
@@ -83,7 +84,7 @@ paths:
       tags:
         - admin
       operationId: getAdminProfile
-      summary: Get information about the currently logged in user.
+      summary: Get information about the currently logged in user
       responses:
         "200":
           description: The profile was successfully retrieved.
@@ -96,7 +97,7 @@ paths:
       tags:
         - admin
       operationId: adminDeleteSession
-      summary: Delete a Realm access token.
+      summary: Delete a Realm access token
       responses:
         "401":
           description: "invalid refresh token: incorrect token type"
@@ -104,7 +105,7 @@ paths:
       tags:
         - admin
       operationId: adminCreateSession
-      summary: Obtain a Realm access token.
+      summary: Obtain a Realm access token
       responses:
         "201":
           description: Successfully created.
@@ -121,7 +122,8 @@ paths:
       tags:
         - apps
       operationId: adminListApplications
-      summary: |-
+      summary: List all Realm apps in an Atlas project/group
+      description: |-
         List all Realm apps within an Atlas
         [project/group](https://docs.atlas.mongodb.com/tutorial/manage-projects/).
       parameters:
@@ -145,7 +147,7 @@ paths:
       tags:
         - apps
       operationId: adminCreateApplication
-      summary: Create a new Realm app.
+      summary: Create a new Realm app
       parameters:
         - name: defaults
           in: query
@@ -174,7 +176,7 @@ paths:
       tags:
         - apps
       operationId: adminGetApplication
-      summary: Retrieve an application definition.
+      summary: Retrieve an application definition
       responses:
         "200":
           description: The application was successfully retrieved.
@@ -186,7 +188,7 @@ paths:
       tags:
         - apps
       operationId: adminDeleteApplication
-      summary: Delete an application.
+      summary: Delete an application
       responses:
         "204":
           description: The application was successfully deleted.
@@ -198,8 +200,9 @@ paths:
       tags:
         - apps
       operationId: adminExportApplication
-      summary: |-
-        [Export](/realm/manage-apps/configure/export-realm-app#std-label-export-realm-app)
+      summary: Export an application as a zip file
+      description: |-
+        [Export](https://docs.mongodb.com/realm/manage-apps/configure/export-realm-app#std-label-export-realm-app)
         an application as a zip file.
       responses:
         "200":
@@ -215,7 +218,7 @@ paths:
       tags:
         - triggers
       operationId: adminCreateTrigger
-      summary: Create a trigger.
+      summary: Create a trigger
       requestBody:
         description: The trigger to create.
         required: true
@@ -249,7 +252,7 @@ paths:
       tags:
         - triggers
       operationId: adminListTriggers
-      summary: List all triggers.
+      summary: List all triggers
       responses:
         "200":
           description: Successfully listed triggers.
@@ -266,7 +269,7 @@ paths:
       tags:
         - triggers
       operationId: adminUpdateTrigger
-      summary: Update a trigger.
+      summary: Update a trigger
       requestBody:
         description: The trigger to update.
         required: true
@@ -287,7 +290,7 @@ paths:
       tags:
         - triggers
       operationId: adminGetTrigger
-      summary: Retrieve the configuration for a specific trigger.
+      summary: Retrieve the configuration for a specific trigger
       responses:
         "200":
           description: Successfully retrieved trigger.
@@ -299,7 +302,7 @@ paths:
       tags:
         - triggers
       operationId: adminDeleteTrigger
-      summary: Delete a trigger.
+      summary: Delete a trigger
       responses:
         "200":
           description: Successfully deleted the trigger.
@@ -316,7 +319,7 @@ paths:
       tags:
         - triggers
       operationId: adminResumeTrigger
-      summary: Resume a suspended trigger.
+      summary: Resume a suspended trigger
       responses:
         "204":
           description: Successfully resumed the trigger.
@@ -334,9 +337,11 @@ paths:
       tags:
         - values
       operationId: adminListValues
-      summary: |-
+      description: |-
         List all [values](https://docs.mongodb.com/realm/values-and-secrets)
         defined in an application.
+      summary: |-
+        List all values defined in an application.
       responses:
         "200":
           description: |-
@@ -351,7 +356,8 @@ paths:
       tags:
         - values
       operationId: adminCreateValue
-      summary: |-
+      summary: Define a Value in an application.
+      description: |-
         Define a [Value](https://docs.mongodb.com/realm/values-and-secrets) in
         an application.
       requestBody:
@@ -379,6 +385,8 @@ paths:
         - values
       operationId: adminGetValue
       summary: |-
+        Retrieve a value definition from an application
+      description: |-
         Retrieve a [value](https://docs.mongodb.com/realm/values-and-secrets)
         definition from an application.
       responses:
@@ -393,6 +401,8 @@ paths:
         - values
       operationId: adminDeleteValue
       summary: |-
+        Delete a value defined in an application.
+      description: |-
         Delete a [value](https://docs.mongodb.com/realm/values-and-secrets)
         defined in an application.
       responses:
@@ -402,7 +412,8 @@ paths:
       tags:
         - values
       operationId: adminUpdateValue
-      summary: |-
+      summary: Update a value definition in an application.
+      description: |-
         Update a [value](https://docs.mongodb.com/realm/values-and-secrets)
         definition in an application.
       responses:
@@ -422,8 +433,9 @@ paths:
       tags:
         - services
       operationId: adminListServices
-      summary: |-
-        List all [services](/realm/services#std-label-services) within an
+      summary: List all services within an application.
+      description: |-
+        List all [services](https://docs.mongodb.com/realm/services#std-label-services) within an
         application.
       responses:
         "200":
@@ -437,7 +449,8 @@ paths:
       tags:
         - services
       operationId: adminCreateService
-      summary: Create a [service](/realm/services#std-label-services).
+      summary: Create a service
+      description: Create a [service](https://docs.mongodb.com/realm/services#std-label-services).
       responses:
         "201":
           description: Successfully created the service.
@@ -455,7 +468,8 @@ paths:
       tags:
         - services
       operationId: adminGetService
-      summary: Retrieve a [service](/realm/services#std-label-services).
+      summary: Retrieve a service
+      description: Retrieve a [service](https://docs.mongodb.com/realm/services#std-label-services).
       responses:
         "200":
           description: The service was successfully deleted.
@@ -467,7 +481,8 @@ paths:
       tags:
         - services
       operationId: adminDeleteService
-      summary: Delete a [service](/realm/services#std-label-services).
+      summary: Delete a service.
+      description: Delete a [service](https://docs.mongodb.com/realm/services#std-label-services).
       responses:
         "204":
           description: The service was successfully deleted.
@@ -475,7 +490,8 @@ paths:
       tags:
         - services
       operationId: adminUpdateService
-      summary: Update a [service](/realm/services#std-label-services).
+      summary: Update a service
+      description: Update a [service](https://docs.mongodb.com/realm/services#std-label-services).
       responses:
         "200":
           description: Successfully updated.
@@ -488,9 +504,10 @@ paths:
       tags:
         - services
       operationId: adminRunCommand
-      summary: |-
+      summary: Run a command associated with a service
+      description: |-
         Run a command associated with a
-        [service](/realm/services#std-label-services).
+        [service](https://docs.mongodb.com/realm/services#std-label-services).
       responses:
         "200":
           description: Successfully executed.
@@ -508,7 +525,7 @@ paths:
       tags:
         - services
       operationId: getBuildInfo
-      summary: Get information about the underlying Atlas mongod.
+      summary: Get information about the underlying Atlas mongod
       responses:
         "200":
           description: The build information was successfully retrieved.
@@ -521,8 +538,9 @@ paths:
       tags:
         - services
       operationId: adminGetServiceConfig
-      summary: |-
-        Retrieve a [service's](/realm/services#std-label-services)
+      summary: Retrieve a service's configuration.
+      description: |-
+        Retrieve a [service's](https://docs.mongodb.com/realm/services#std-label-services)
         configuration.
       responses:
         "200":
@@ -531,7 +549,8 @@ paths:
       tags:
         - services
       operationId: adminUpdateServiceConfig
-      summary: Update a [service's](/realm/services#std-label-services) configuration.
+      summary: Update a service's configuration
+      description: Update a [service's](https://docs.mongodb.com/realm/services#std-label-services) configuration.
       responses:
         "200":
           description: Successfully updated.
@@ -545,7 +564,8 @@ paths:
         - services
         - rules
       operationId: adminListRules
-      summary: List [rules](/realm/rules#std-label-mongodb-rules).
+      summary: List rules
+      description: List [rules](https://docs.mongodb.com/realm/rules#std-label-mongodb-rules).
       responses:
         "200":
           description: Successfully listed.
@@ -559,7 +579,8 @@ paths:
         - services
         - rules
       operationId: adminCreateRule
-      summary: Create a [rule](/realm/rules#std-label-mongodb-rules).
+      summary: Create a rule
+      description: Create a [rule](https://docs.mongodb.com/realm/rules#std-label-mongodb-rules).
       requestBody:
         required: true
         description: The rule to create.
@@ -590,7 +611,8 @@ paths:
         - services
         - rules
       operationId: adminGetRule
-      summary: Retrieve a [rule](/realm/rules#std-label-mongodb-rules).
+      summary: Retrieve a rule
+      description: Retrieve a [rule](https://docs.mongodb.com/realm/rules#std-label-mongodb-rules).
       responses:
         "200":
           description: Successfully retrieved.
@@ -603,7 +625,8 @@ paths:
         - services
         - rules
       operationId: adminDeleteRule
-      summary: Delete a [rule](/realm/rules#std-label-mongodb-rules).
+      summary: Delete a rule
+      description: Delete a [rule](https://docs.mongodb.com/realm/rules#std-label-mongodb-rules).
       responses:
         "204":
           description: Successfully deleted.
@@ -612,7 +635,8 @@ paths:
         - services
         - rules
       operationId: adminUpdateRule
-      summary: Update a [rule](/realm/rules#std-label-mongodb-rules).
+      summary: Update a rule
+      description: Update a [rule](https://docs.mongodb.com/realm/rules#std-label-mongodb-rules).
       requestBody:
         required: true
         description: The new state of the rule.
@@ -633,7 +657,8 @@ paths:
       tags:
         - services
       operationId: adminGenerateSchema
-      summary: Sample a subset of documents in a collection to generate a JSON schema.
+      summary: Generate a JSON schema from sample
+      description: Sample a subset of documents in a collection to generate a JSON schema.
       requestBody:
         required: true
         content:
@@ -677,7 +702,8 @@ paths:
         - services
         - webhooks
       operationId: adminListWebhooks
-      summary: List [webhooks](/realm/services#std-label-service-webhooks).
+      summary: List webhooks
+      description: List [webhooks](https://docs.mongodb.com/realm/services#std-label-service-webhooks).
       responses:
         "200":
           description: Successfully listed incoming webhooks.
@@ -690,7 +716,8 @@ paths:
         - services
         - webhooks
       operationId: adminCreateWebhook
-      summary: Create a [webhook](/realm/services#std-label-service-webhooks).
+      summary: Create a webhook
+      description: Create a [webhook](https://docs.mongodb.com/realm/services#std-label-service-webhooks).
       requestBody:
         description: The webhook to create.
         required: true
@@ -711,7 +738,8 @@ paths:
         - services
         - webhooks
       operationId: adminGetWebhook
-      summary: Retrieve a [webhook](/realm/services#std-label-service-webhooks).
+      summary: Retrieve a webhook
+      description: Retrieve a [webhook](https://docs.mongodb.com/realm/services#std-label-service-webhooks).
       responses:
         "200":
           description: Successfully retrieved.
@@ -720,7 +748,8 @@ paths:
         - services
         - webhooks
       operationId: adminDeleteWebhook
-      summary: Delete a [webhook](/realm/services#std-label-service-webhooks).
+      summary: Delete a webhook
+      description: Delete a [webhook](https://docs.mongodb.com/realm/services#std-label-service-webhooks).
       responses:
         "204":
           description: Successfully deleted.
@@ -729,7 +758,8 @@ paths:
         - services
         - webhooks
       operationId: adminUpdateWebhook
-      summary: Update a [webhook](/realm/services#std-label-service-webhooks).
+      summary: Update a webhook
+      description: Update a [webhook](https://docs.mongodb.com/realm/services#std-label-service-webhooks).
       requestBody:
         required: true
         description: The updated state of the webhook.
@@ -773,9 +803,9 @@ paths:
       tags:
         - notifications
       operationId: adminListNotifications
-      summary: |-
-        List [push
-        notifications](/realm/push-notifications#std-label-push-notifications).
+      summary: List push notifications
+      description: |-
+        List [push notifications](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications).
       parameters:
         - name: state
           in: query
@@ -795,9 +825,10 @@ paths:
       tags:
         - notifications
       operationId: adminCreateNotification
-      summary: |-
+      summary: Create a push notification
+      description: |-
         Create a [push
-        notification](/realm/push-notifications#std-label-push-notifications).
+        notification](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications).
       requestBody:
         required: true
         description: The notification to create.
@@ -816,9 +847,10 @@ paths:
       tags:
         - notifications
       operationId: adminGetMessage
-      summary: |-
+      summary: Retrieve a push notification message
+      description: |-
         Retrieve a [push
-        notification](/realm/push-notifications#std-label-push-notifications)
+        notification](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications)
         message.
       responses:
         "200":
@@ -831,9 +863,10 @@ paths:
       tags:
         - notifications
       operationId: adminDeleteMessage
-      summary: |-
+      summary: Delete a push notification message
+      description: |-
         Delete a [push
-        notification](/realm/push-notifications#std-label-push-notifications)
+        notification](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications)
         message.
       responses:
         "204":
@@ -842,9 +875,10 @@ paths:
       tags:
         - notifications
       operationId: adminUpdateMessage
-      summary: |-
+      summary: Update a push notification
+      description: |-
         Update a [push
-        notification](/realm/push-notifications#std-label-push-notifications)
+        notification](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications)
         message.
       responses:
         "200":
@@ -862,9 +896,10 @@ paths:
       tags:
         - notifications
       operationId: adminSetMessageType
-      summary: |-
+      summary: Set a push notification's type
+      description: |-
         Set a [push
-        notification's](/realm/push-notifications#std-label-push-notifications)
+        notification's](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications)
         type.
       responses:
         "200":
@@ -878,9 +913,10 @@ paths:
       tags:
         - notifications
       operationId: adminSendMessage
-      summary: |-
+      summary: Send a push notification
+      description: |-
         Send a [push
-        notification](/realm/push-notifications#std-label-push-notifications).
+        notification](https://docs.mongodb.com/realm/push-notifications#std-label-push-notifications).
       responses:
         "200":
           description: Successfully sent.
@@ -893,7 +929,8 @@ paths:
       tags:
         - users
       operationId: adminListUsers
-      summary: List [users](/realm/authentication#std-label-user-accounts).
+      summary: List users
+      description: List [users](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       parameters:
         - "$ref": "#/components/parameters/UsersAfter"
         - "$ref": "#/components/parameters/UsersSort"
@@ -913,7 +950,8 @@ paths:
       tags:
         - users
       operationId: adminCreateUser
-      summary: Create a [user](/realm/authentication#std-label-user-accounts).
+      summary: Create a user
+      description: Create a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       requestBody:
         required: true
         description: The user to create
@@ -943,9 +981,10 @@ paths:
       tags:
         - users
       operationId: adminVerifyUserAccessToken
-      summary: |-
+      summary: Verify valid client access token
+      description: |-
         Verify a that a user's [client access
-        token](/realm/reference/authenticate-http-client-requests#std-label-get-client-api-access-token)
+        token](https://docs.mongodb.com/realm/reference/authenticate-http-client-requests#std-label-get-client-api-access-token)
         is valid.
       requestBody:
         required: true
@@ -966,7 +1005,7 @@ paths:
         "200":
           description: |-
             Success returns this object. A 200 [may also return token
-            expired](/realm/reference/authenticate-http-client-requests#std-label-verify-client-access-token-responses).
+            expired](https://docs.mongodb.com/realm/reference/authenticate-http-client-requests#std-label-verify-client-access-token-responses).
           content:
             application/json:
               schema:
@@ -992,7 +1031,7 @@ paths:
                     type: object
                     description: |-
                       Optional; contains [custom user
-                      data](/realm/users/enable-custom-user-data#std-label-custom-user-data)
+                      data](https://docs.mongodb.com/realm/users/enable-custom-user-data#std-label-custom-user-data)
                       if it exists for the user. Only present if the access token is created
                       after custom user data is enabled and configured. Omitted if empty.
                   domain_id:
@@ -1014,7 +1053,8 @@ paths:
       tags:
         - users
       operationId: adminGetUser
-      summary: Retrieve a [user](/realm/authentication#std-label-user-accounts).
+      summary: Retrieve a user
+      description: Retrieve a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "200":
           description: Successfully retrieved.
@@ -1026,7 +1066,8 @@ paths:
       tags:
         - users
       operationId: adminDeleteUser
-      summary: Delete a [user](/realm/authentication#std-label-user-accounts).
+      summary: Delete a user
+      description: Delete a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "204":
           description: Successfully deleted.
@@ -1057,8 +1098,9 @@ paths:
       tags:
         - users
       operationId: adminUserLogout
-      summary: |-
-        Revoke all of a [user](/realm/authentication#std-label-user-accounts)'s
+      summary: Revoke user sessions
+      description: |-
+        Revoke all of a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts)'s
         sessions.
       responses:
         "204":
@@ -1072,7 +1114,8 @@ paths:
       tags:
         - users
       operationId: adminEnableUser
-      summary: Enable a [user](/realm/authentication#std-label-user-accounts).
+      summary: Enable a user
+      description: Enable a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "204":
           description: Successfully enabled.
@@ -1085,7 +1128,8 @@ paths:
       tags:
         - users
       operationId: adminDisableUser
-      summary: Disable a [user](/realm/authentication#std-label-user-accounts).
+      summary: Disable a user
+      description: Disable a [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "204":
           description: Successfully disabled.
@@ -1098,7 +1142,8 @@ paths:
       tags:
         - users
       operationId: adminDeletePendingUser
-      summary: Delete a pending [user](/realm/authentication#std-label-user-accounts).
+      summary: Delete a pending user
+      description: Delete a pending [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "204":
           description: Successfully deleted.
@@ -1111,7 +1156,8 @@ paths:
       tags:
         - email
       operationId: adminSendConfirmationEmail
-      summary: |-
+      summary: Send a confirmation email
+      description: |-
         Send a [confirmation
         email](https://docs.mongodb.com/realm/authentication/email-password).
       responses:
@@ -1126,7 +1172,8 @@ paths:
       tags:
         - email
       operationId: adminConfirmPendingUser
-      summary: Confirm a pending [user](/realm/authentication#std-label-user-accounts).
+      summary: Confirm a pending user
+      description: Confirm a pending [user](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "204":
           description: Successfully confirmed.
@@ -1139,9 +1186,9 @@ paths:
       tags:
         - email
       operationId: adminRerunPendingUserConfirmation
-      summary: |-
-        Re-runs a pending <span class="title-ref">user's \<user-accounts></span>
-        `confirmation workflow </realm/authentication#std-label-user-accounts>`\_.
+      summary: Re-runs a pending user's confirmation workflow
+      description: |-
+        Re-runs a pending user's [confirmation workflow](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "202":
           description: Successfully re-ran confirmation workflow.
@@ -1160,7 +1207,8 @@ paths:
       tags:
         - functions
       operationId: adminExecuteFunction
-      summary: Execute a [function](/realm/functions#std-label-functions) for testing.
+      summary: Execute a function
+      description: Execute a [function](https://docs.mongodb.com/realm/functions#std-label-functions) for testing.
       parameters:
         - name: user_id
           in: query
@@ -1222,8 +1270,9 @@ paths:
       tags:
         - functions
       operationId: adminExecuteFunctionSource
-      summary: |-
-        Execute a [function](/realm/functions#std-label-functions)'s source code
+      summary: Execute a function's source code for testing.
+      description: |-
+        Execute a [function](https://docs.mongodb.com/realm/functions#std-label-functions)'s source code
         for testing.
       parameters:
         - name: user_id
@@ -1282,7 +1331,8 @@ paths:
       tags:
         - authproviders
       operationId: adminListAuthProviders
-      summary: |-
+      summary: List authentication providers in a Realm app.
+      description: |-
         List [authentication
         providers](https://docs.mongodb.com/realm/authentication/providers)
         within a Realm app.
@@ -1298,7 +1348,8 @@ paths:
       tags:
         - authproviders
       operationId: adminCreateAuthProvider
-      summary: |-
+      summary: Create an authentication provider
+      description: |-
         Create an [authentication
         provider](https://docs.mongodb.com/realm/authentication/providers).
       requestBody:
@@ -1323,7 +1374,8 @@ paths:
       tags:
         - authproviders
       operationId: adminGetAuthProvider
-      summary: |-
+      summary: Retrieve information about authentication provider
+      description: |-
         Retrieve information about one of an application's [authentication
         providers](https://docs.mongodb.com/realm/authentication/providers)
       responses:
@@ -1337,7 +1389,8 @@ paths:
       tags:
         - authproviders
       operationId: adminDeleteAuthProvider
-      summary: |-
+      summary: Delete an authentication provider
+      description: |-
         Delete an [authentication
         provider](https://docs.mongodb.com/realm/authentication/providers).
       responses:
@@ -1347,7 +1400,8 @@ paths:
       tags:
         - authproviders
       operationId: adminUpdateAuthProvider
-      summary: |-
+      summary: Update an authentication provider
+      description: |-
         Update an [authentication
         provider](https://docs.mongodb.com/realm/authentication/providers).
       requestBody:
@@ -1369,7 +1423,8 @@ paths:
       tags:
         - authproviders
       operationId: adminDisableAuthProvider
-      summary: |-
+      summary: Disable an authentication provider
+      description: |-
         Disable an [authentication
         provider](https://docs.mongodb.com/realm/authentication/providers).
       responses:
@@ -1384,7 +1439,8 @@ paths:
       tags:
         - authproviders
       operationId: adminEnableAuthProvider
-      summary: |-
+      summary: Enable an authentication provider
+      description: |-
         Enable an [authentication
         provider](https://docs.mongodb.com/realm/authentication/providers).
       responses:
@@ -1399,7 +1455,8 @@ paths:
       tags:
         - security
       operationId: adminListAllowedRequestOrigins
-      summary: |-
+      summary: List allowed HTTP origins
+      description: |-
         List the allowed [HTTP
         origins](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin)
         from which MongoDB Realm should allow requests.
@@ -1415,7 +1472,8 @@ paths:
       tags:
         - security
       operationId: adminSetAllowedRequestOrigins
-      summary: |-
+      summary: Set allowed HTTP origins
+      description: |-
         Set the allowed [HTTP
         origins](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin)
         from which MongoDB Realm should allow requests.
@@ -1439,7 +1497,8 @@ paths:
       tags:
         - security
       operationId: allowedIPAccessListGet
-      summary: List the allowed entries in the Access List of your Realm app.
+      summary: List the allowed entries in the Access List
+      description: List the allowed entries in the Access List of your Realm app.
       responses:
         "200":
           description: ""
@@ -1478,7 +1537,8 @@ paths:
       tags:
         - security
       operationId: allowedIPAccessListCreate
-      summary: |-
+      summary: Create an IP address or CIDR block in the Access List
+      description: |-
         Create an IP address or CIDR block in the Access List for your Realm
         app.
       responses:
@@ -1510,7 +1570,8 @@ paths:
       tags:
         - security
       operationId: allowedIPAccessListUpdate
-      summary:
+      summary: Modify an IP address or CIDR block in the Access List
+      description: |-
         Modify an IP address or CIDR block in the Access List of your Realm
         app
       responses:
@@ -1552,7 +1613,8 @@ paths:
       tags:
         - security
       operationId: allowedIPAccessListDelete
-      summary: |-
+      summary: Delete an IP address or CIDR block from the Access List
+      description: |-
         Delete an IP address or CIDR block from the Access List of your Realm
         app
       responses:
@@ -1563,7 +1625,7 @@ paths:
       tags:
         - logs
       operationId: adminGetLogs
-      summary: Retrieve MongoDB Realm logs.
+      summary: Retrieve MongoDB Realm logs
       parameters:
         - name: co_id
           in: query
@@ -1692,7 +1754,8 @@ paths:
       tags:
         - apikeys
       operationId: adminListApiKeys
-      summary: |-
+      summary: List API keys
+      description: |-
         List [API keys](https://docs.mongodb.com/realm/authentication/api-key)
         associated with a Realm app.
       responses:
@@ -1713,7 +1776,8 @@ paths:
       tags:
         - apikeys
       operationId: adminCreateApiKey
-      summary: |-
+      summary: Create a new API key
+      description: |-
         Create a new [API
         key](https://docs.mongodb.com/realm/authentication/api-key).
       requestBody:
@@ -1742,7 +1806,8 @@ paths:
       tags:
         - apikeys
       operationId: adminGetApiKey
-      summary: |-
+      summary: Retrieve information about an API key
+      description: |-
         Retrieve information about an [API
         key](https://docs.mongodb.com/realm/authentication/api-key).
       responses:
@@ -1756,7 +1821,8 @@ paths:
       tags:
         - apikeys
       operationId: adminDeleteApiKey
-      summary: |-
+      summary: Delete an API key
+      description: |-
         Delete an [API
         key](https://docs.mongodb.com/realm/authentication/api-key).
       responses:
@@ -1771,7 +1837,8 @@ paths:
       tags:
         - apikeys
       operationId: adminEnableApiKey
-      summary: |-
+      summary: Enable an API key
+      description: |-
         Enable an [API
         key](https://docs.mongodb.com/realm/authentication/api-key).
       responses:
@@ -1786,7 +1853,8 @@ paths:
       tags:
         - apikeys
       operationId: adminDisableApiKey
-      summary: |-
+      summary: Disable an API key
+      description: |-
         Disable an [API
         key](https://docs.mongodb.com/realm/authentication/api-key).
       responses:
@@ -1804,9 +1872,9 @@ paths:
       tags:
         - secrets
       operationId: adminGetAllSecrets
-      summary: |-
-        List
-        [secrets](/realm/values-and-secrets/define-and-manage-secrets#std-label-define-secret)
+      summary: List secrets
+      description: |-
+        List [secrets](https://docs.mongodb.com/realm/values-and-secrets/define-and-manage-secrets#std-label-define-secret)
         associated with a Realm app.
       responses:
         "200":
@@ -1825,6 +1893,8 @@ paths:
         - secrets
       operationId: adminCreateASecret
       summary: |-
+        Create a new Secret
+      description: |-
         Create a new
         [Secret](https://docs.mongodb.com/realm/values-and-secrets/define-and-manage-secrets).
       requestBody:
@@ -1861,7 +1931,8 @@ paths:
       tags:
         - secrets
       operationId: adminModifyASecret
-      summary: |-
+      summary: Modify a Secret
+      description: |-
         Modify a
         [Secret](https://docs.mongodb.com/realm/values-and-secrets/define-and-manage-secrets)
         associated with a Realm app.
@@ -1888,7 +1959,8 @@ paths:
       tags:
         - secrets
       operationId: adminDeleteSecret
-      summary: |-
+      summary: Delete a Secret
+      description: |-
         Delete a
         [Secret](https://docs.mongodb.com/realm/values-and-secrets/define-and-manage-secrets)
         associated with a Realm app.
@@ -1900,7 +1972,8 @@ paths:
       tags:
         - functions
       operationId: adminListFunctions
-      summary: List [functions](/realm/functions#std-label-functions).
+      summary: List Functions
+      description: List [Functions](https://docs.mongodb.com/realm/functions#std-label-functions).
       responses:
         "200":
           description: Successfully listed.
@@ -1917,7 +1990,8 @@ paths:
       tags:
         - functions
       operationId: adminCreateFunction
-      summary: Create a new [function](/realm/functions#std-label-functions).
+      summary: Create a new Function
+      description: Create a new [Function](https://docs.mongodb.com/realm/functions#std-label-functions).
       requestBody:
         description: The function to create
         required: true
@@ -1940,7 +2014,8 @@ paths:
       tags:
         - functions
       operationId: adminGetFunction
-      summary: Retrieve a [function](/realm/functions#std-label-functions).
+      summary: Retrieve a Function
+      description: Retrieve a [Function](https://docs.mongodb.com/realm/functions#std-label-functions).
       responses:
         "200":
           description: The function was successfully retrieved.
@@ -1952,7 +2027,8 @@ paths:
       tags:
         - functions
       operationId: adminDeleteFunction
-      summary: Delete a [function](/realm/functions#std-label-functions).
+      summary: Delete a Function
+      description: Delete a [Function](https://docs.mongodb.com/realm/functions#std-label-functions).
       responses:
         "204":
           description: The function was successfully deleted.
@@ -1960,7 +2036,8 @@ paths:
       tags:
         - functions
       operationId: adminUpdateFunction
-      summary: Update a [function](/realm/functions#std-label-functions).
+      summary: Update a Function
+      description: Update a [Function](https://docs.mongodb.com/realm/functions#std-label-functions).
       responses:
         "200":
           description: The function was successfully updated.
@@ -1977,9 +2054,10 @@ paths:
       tags:
         - dependencies
       operationId: adminGetAllDependencies
-      summary: |-
+      summary: List external dependencies
+      description: |-
         List [external
-        dependencies](/realm/functions#std-label-external-dependencies) uploaded
+        dependencies](https://docs.mongodb.com/realm/functions#std-label-external-dependencies) uploaded
         to the Realm app.
       responses:
         "200":
@@ -1996,7 +2074,8 @@ paths:
       tags:
         - deploy
       operationId: adminListDeployments
-      summary: Return the 100 most recent application deployments.
+      summary: List recent deployments
+      description: Return the 100 most recent application deployments.
       responses:
         "200":
           description: Successfully listed.
@@ -2014,7 +2093,8 @@ paths:
       tags:
         - deploy
       operationId: adminListDeploymentDrafts
-      summary: Return the current application deployment draft, if applicable.
+      summary: Return current deployment draft
+      description: Return the current application deployment draft, if applicable.
       responses:
         "200":
           description: Successfully listed.
@@ -2026,7 +2106,8 @@ paths:
       tags:
         - deploy
       operationId: adminCreateDeploymentDraft
-      summary: Create a new application deployment draft, if none exists.
+      summary: Create a new deployment draft
+      description: Create a new application deployment draft, if none exists.
       responses:
         "200":
           description: Successfully created draft.
@@ -2048,7 +2129,8 @@ paths:
       tags:
         - deploy
       operationId: adminDiscardDraft
-      summary: Discard the specified application deployment draft.
+      summary: Discard the specified deployment draft
+      description: Discard the specified application deployment draft.
       responses:
         "204":
           description: The draft was successfully discarded.
@@ -2061,7 +2143,8 @@ paths:
       tags:
         - deploy
       operationId: adminDeployDraft
-      summary: Deploy the specified application deployment draft.
+      summary: Deploy a deployment draft
+      description: Deploy the specified application deployment draft.
       responses:
         "201":
           description: The draft was successfully deployed.
@@ -2078,7 +2161,8 @@ paths:
       tags:
         - deploy
       operationId: adminDeployDraftDiff
-      summary: |-
+      summary: Return a diff between currently deployed application and deployment draft
+      description: |-
         Return a diff between the currently deployed application and the
         specified draft.
       responses:
@@ -2097,7 +2181,7 @@ paths:
       tags:
         - hosting
       operationId: adminGetAllHostedAssets
-      summary: List all hosted assets.
+      summary: List all hosted assets
       responses:
         "200":
           description: Successfully listed hosted files.
@@ -2111,7 +2195,8 @@ paths:
       tags:
         - hosting
       operationId: adminMoveCopyHostedAsset
-      summary: Move or copy a hosted asset to a new resource path.
+      summary: Move or copy a hosted asset
+      description: Move or copy a hosted asset to a new resource path.
       requestBody:
         description: |-
           The hosted asset file and its metadata. (Must use
@@ -2177,7 +2262,8 @@ paths:
       tags:
         - hosting
       operationId: adminUploadHostedAsset
-      summary: Upload or replace an asset at a specific resource path.
+      summary: Upload or replace a hosted asset
+      description: Upload or replace a hosted asset at a specific resource path.
       parameters:
         - "$ref": "#/components/parameters/AssetResourcePath"
       requestBody:
@@ -2198,7 +2284,7 @@ paths:
                     - file
                   description: |-
                     An [asset metadata
-                    document](/realm/admin/api/v3#std-label-asset-metadata-document)
+                    document](https://docs.mongodb.com/realm/admin/api/v3#std-label-asset-metadata-document)
                     (encoded as JSON).
                 file:
                   type: string
@@ -2220,7 +2306,8 @@ paths:
       tags:
         - hosting
       operationId: adminUpdateHostedAsset
-      summary: |-
+      summary: Update the metadata attributes of a hosted asset
+      description: |-
         Update the metadata attributes of a hosted asset at a specific resource
         path.
       parameters:
@@ -2252,7 +2339,8 @@ paths:
       tags:
         - billing
       operationId: adminMeasurements
-      summary: |-
+      summary: List group billing usage in a given period
+      description: |-
         List the request, compute, sync, and data transfer usage in a given
         period for [billing](https://docs.mongodb.com/realm/billing) purposes.
       parameters:
@@ -2362,7 +2450,8 @@ paths:
       tags:
         - billing
       operationId: adminAppMeasurements
-      summary: |-
+      summary: List app billing usage
+      description: |-
         List the request, compute, sync, data transfer, and memory usage of a
         specific app in a given period for
         [billing](https://docs.mongodb.com/realm/billing) purposes.
@@ -2903,7 +2992,7 @@ components:
           type: string
           description: |-
             Name of [supported template
-            app](/realm/manage-apps/create/template-apps#std-label-template-apps) to
+            app](https://docs.mongodb.com/realm/manage-apps/create/template-apps#std-label-template-apps) to
             serve as base template.
         data_source:
           "$ref": "#/components/schemas/DataSource"
@@ -3300,14 +3389,14 @@ components:
                   - DELETE
               description: |-
                 **Required for Database Triggers** -- The [database event operation
-                types](/realm/triggers/database-triggers#std-label-database-events) to
+                types](https://docs.mongodb.com/realm/triggers/database-triggers#std-label-database-events) to
                 listen for. This must contain at least one value.
             operation_type:
               type: string
               description: |-
                 **Required for Authentication Triggers** -- The [authentication
                 operation
-                type](/realm/triggers/authentication-triggers#std-label-authentication-event-operation-types)
+                type](https://docs.mongodb.com/realm/triggers/authentication-triggers#std-label-authentication-event-operation-types)
                 to listen for.
               enum:
                 - LOGIN
@@ -3359,7 +3448,7 @@ components:
                 **Only Available for Database Triggers** -- If true, indicates that the
                 `UPDATE` change event response should include a copy of the modified
                 document from before the update was applied.
-                [Preimages](/realm/mongodb/trigger-preimages#std-label-trigger-preimages)
+                [Preimages](https://docs.mongodb.com/realm/mongodb/trigger-preimages#std-label-trigger-preimages)
                 must be enabled.
             schedule:
               type: string
@@ -3374,7 +3463,7 @@ components:
             is an object that configures its corresponding event processor. The
             following event processors are supported: `AWS_EVENTBRIDGE` For an
             example configuration object, see [Send Trigger Events to AWS
-            EventBridge](/realm/triggers/examples/send-events-aws-eventbridge#std-label-event_processor_example).
+            EventBridge](https://docs.mongodb.com/realm/triggers/examples/send-events-aws-eventbridge#std-label-event_processor_example).
     MetadataAttribute:
       type: object
       properties:
@@ -3446,16 +3535,14 @@ components:
       scheme: bearer
       description: |-
         The authorization token provided in the `access_token` field of the
-        [POST
-        /auth/providers/{provider}/login](undefinedpost-/auth/providers/%7Bprovider%7D/login)
-        and [POST /auth/session](undefinedpost-/auth/session) API endpoints.
+        `POST /auth/providers/{provider}/login`
+        and  `POST /auth/session` API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: |-
         The authorization token provided in the `refresh_token` field of the
-        [POST
-        /auth/providers/{provider}/login](undefinedpost-/auth/providers/%7Bprovider%7D/login)
+        `POST /auth/providers/{provider}/login`
         API endpoint.
   responses:
     ClientErrorResponse:
