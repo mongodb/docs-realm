@@ -66,6 +66,18 @@ describe("Flexible Sync Tests", () => {
     console.log(realm.getSubscriptions().state); // log the subscription state
     // :code-block-end:
 
+    // :code-block-start: wait-for-synchronization
+    try {
+      subscriptions.update((mutableSubscriptionsInstance) => {
+        mutableSubscriptionsInstance.add("Person"); // At this point, data may or may not be downloaded.
+      });
+      await subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
+      // New data is made available
+    } catch (error) {
+      console.log(error);
+    }
+    // :code-block-end:
+
     // :code-block-start: update-subscriptions
     subscriptions.update((mutableSubscriptionsInstance) => {
       mutableSubscriptionsInstance.add(
@@ -86,9 +98,21 @@ describe("Flexible Sync Tests", () => {
 
     // :code-block-start: remove-subscription-by-name
     subscriptions.update((mutableSubscriptionsInstance) => {
-      // remove a subscription with a specific query
-      mutableSubscriptionsInstance.remove("longRunningTasksSubscription");
+      // remove a subscription with a specific name
+      mutableSubscriptionsInstance.removeByName("longRunningTasksSubscription");
     });
+    // :code-block-end:
+
+    // :code-block-start: remove-subscription-by-reference
+    let subscriptionReference;
+    subscriptions.update((mutableSubscriptionsInstance) => {
+      subscriptionReference = mutableSubscriptionsInstance.add(
+        realm.objects("Task")
+      );
+    });
+
+    // later..
+    subscriptions.removeSubscription(subscriptionReference);
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions-of-object-type
