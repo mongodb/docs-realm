@@ -167,11 +167,13 @@ partitions by explicitly specifying their partition values.
    * - .. code-block:: json
      
           {
-            "%%partition": [
-              "PUBLIC (NA)",
-              "PUBLIC (EMEA)",
-              "PUBLIC (APAC)"
-            ]
+            "%%partition": {
+              "$in": [
+                "PUBLIC (NA)",
+                "PUBLIC (EMEA)",
+                "PUBLIC (APAC)"
+              ]
+            }
           }
      
      - This expression means that all users have the given access permissions
@@ -201,11 +203,13 @@ explicitly specifying their ID values.
    * - .. code-block:: json
           
           { 
-            "%%user.id": [
-               "5f4863e4d49bd2191ff1e623",
-               "5f48640dd49bd2191ff1e624",
-               "5f486417d49bd2191ff1e625"
-            ]
+            "%%user.id": {
+              "$in": [
+                "5f4863e4d49bd2191ff1e623",
+                "5f48640dd49bd2191ff1e624",
+                "5f486417d49bd2191ff1e625"
+              ]
+            }
           }
      
      - This expression means that any user with one of the specified user ID
