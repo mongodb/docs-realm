@@ -989,9 +989,8 @@ paths:
       requestBody:
         required: true
         description: |-
-          The user's <span class="title-ref">client access token
-          \<get-client-api-access-token></span>. This is distinct from the
-          `API access token </realm/reference/authenticate-http-client-requests#std-label-get-client-api-access-token>`\_
+          The user's client access token. This is distinct from the
+          [API access token](https://docs.mongodb.com/realm/reference/authenticate-http-client-requests#std-label-get-client-api-access-token)
           you need to authenticate to the admin API.
         content:
           application/json:
@@ -2621,7 +2620,7 @@ components:
       required: false
       description: |-
         If `true`, returns sorted results in descending order. If not specified
-        or set to \`\`false, results return in ascending order.
+        or set to `false`, results return in ascending order.
       in: query
       schema:
         type: boolean
@@ -2888,7 +2887,7 @@ components:
         user_id:
           type: string
           description:
-            The unique \_id value of the MongoDB Cloud user that created
+            The unique `_id` value of the MongoDB Cloud user that created
             the draft.
         app:
           "$ref": "#/components/schemas/Application"
@@ -2900,16 +2899,16 @@ components:
           description: The unique ID of the deployment.
         app_id:
           type: string
-          description: The unique \_id value of the Realm app.
+          description: The unique `_id` value of the Realm app.
         draft_id:
           type: string
           description: |-
-            The unique \_id value of the deployment draft associated with the
+            The unique `_id` value of the deployment draft associated with the
             deployment, if applicable.
         user_id:
           type: string
           description:
-            The unique \_id value of the MongoDB Cloud user that deployed
+            The unique `_id` value of the MongoDB Cloud user that deployed
             the draft.
         deployed_at:
           type: integer
@@ -3003,13 +3002,13 @@ components:
       properties:
         name:
           type: string
-          description: Should be <span class="title-ref">"mongodb-atlas"</span>.
+          description: Should be "mongodb-atlas".
           example: mongodb-atlas
           enum:
             - mongodb-atlas
         type:
           type: string
-          description: Should be <span class="title-ref">"mongodb-atlas"</span>.
+          description: Should be "mongodb-atlas".
           example: mongodb-atlas
           enum:
             - mongodb-atlas
