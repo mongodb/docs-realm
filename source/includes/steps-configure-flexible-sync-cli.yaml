@@ -88,9 +88,10 @@ content: |
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
 content: |
-  Realm allows you to define :ref:`JSON expressions <expressions>` that it
-  dynamically evaluates whenever a user opens a realm to determine if the user
-  has read or write permissions for data in the document.
+  You can define :ref:`JSON expressions <expressions>` to tell {+service+}
+  whether a user has read or write permissions on a given document.
+  {+service-short+} evaluates these expressions for a user when that user opens
+  a {+realm+}.
 
   {+sync-short+} rule expressions have access to :json-expansion:`%%user`, which resolves
   to the user that opened the realm You can also use operators, including

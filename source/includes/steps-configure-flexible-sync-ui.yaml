@@ -46,9 +46,10 @@ content: |
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
 content: |
-  The Define Permissions section allows you to define JSON expressions that
-  Realm dynamically evaluates to determine a user's read and write permissions
-  for the documents being passed through {+sync-short+}.
+  In the :guilabel:`Define Permissions` section, you can define :ref:`JSON
+  expressions <expressions>` to tell {+service+} whether a user has read or
+  write permissions on a given document. {+service-short+} evaluates these
+  expressions for a user when that user opens a {+realm+}.
 
   The ``Apply When`` :ref:`expression <expressions>` determines
   if a role applies to a given document. 
