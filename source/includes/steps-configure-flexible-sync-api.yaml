@@ -8,6 +8,13 @@ content: |
 
   You'll need the cluster's service configuration file to configure {+sync-short+}. You
   can find the configuration file by listing all services through the Admin API:
+  
+  .. note:: Authenticating Your Request with an Access Token
+    
+    To authenticate your request to the Realm Admin API, you need a valid and
+    current authorization token from the MongoDB Cloud API. Read the :ref:`API
+    Authentication <realm-api-authentication>` documentation to learn how to
+    acquire a valid access token.
 
   .. code-block:: shell
      
@@ -147,7 +154,14 @@ content: |
   {+sync-short+} rules.
 
   To deploy your changes, send an Admin API request that updates the cluster
-  configuration with your {+sync-short+} configuration:
+  configuration with your {+sync-short+} configuration.
+
+  .. note:: Authenticating Your Request with an Access Token
+    
+    To authenticate your request to the Realm Admin API, you need a valid and
+    current authorization token from the MongoDB Cloud API. Read the :ref:`API
+    Authentication <realm-api-authentication>` documentation to learn how to
+    acquire a valid access token.
 
   .. code-block:: shell
      
