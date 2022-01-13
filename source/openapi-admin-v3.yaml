@@ -60,7 +60,7 @@ info:
 
     ### Application ID
 
-    To find an Application ID, make a request to the Realm `GET /groups/{groupid}/apps`
+    To find an Application ID, make a request to the Realm [GET /groups/{groupid}/apps](#operation/adminListApplications)
     API endpoint.
 
     This request has the following format, referencing the `access_token`
@@ -123,9 +123,9 @@ paths:
         - admin
       operationId: adminLogin
       summary: Authenticate as a Realm administrator
-      description: |-
-        Authenticate as a Realm administrator. Use `GET
-        /auth/providers` to list the available
+      description: |
+        Authenticate as a Realm administrator. Use [GET
+        /auth/providers](#section/adminGetLogs) to list the available
         authentication providers.
       requestBody:
         required: true
@@ -154,10 +154,10 @@ paths:
                       requests. `realm-api-authentication` demonstrates how to use this token.
                   refresh_token:
                     type: string
-                    description: |-
-                      A refresh token you may provide in the `Authorization` header of `POST
-                      auth/session` to obtain a new `access_token`
-                      for the current user session.
+                    description: |
+                      A refresh token you may provide in the `Authorization` header of 
+                      [POST auth/session](#section/)
+                      to obtain a new `access_token` for the current user session.
                   user_id:
                     type: string
                     description: The unique `_id` value of the MongoDB Cloud user.
@@ -3626,14 +3626,14 @@ components:
       scheme: bearer
       description: |-
         The authorization token provided in the `access_token` field of the
-        `POST /auth/providers/{provider}/login`
-        and  `POST /auth/session` API endpoints.
+        [POST /auth/providers/{provider}/login](#section/adminLogin)
+        and  [POST /auth/session](#section/adminDeleteSession) API endpoints.
     refreshAuth:
       type: http
       scheme: bearer
       description: |-
         The authorization token provided in the `refresh_token` field of the
-        `POST /auth/providers/{provider}/login`
+        [POST /auth/providers/{provider}/login](#section/adminLogin)
         API endpoint.
   responses:
     ClientErrorResponse:
@@ -3710,7 +3710,7 @@ tags:
       Repeat this step to get more pages until the response does not have a
       `nextEndDate` field. This signifies that you have reached the last page.
 
-      For more information, see `GET /groups/{groupId}/apps/{appId}/logs`.
+      For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
     x-displayName: Logging APIs
   - name: notifications
     description: Notifications APIs
