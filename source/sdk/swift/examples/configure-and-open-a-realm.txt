@@ -178,7 +178,7 @@ to open a synced realm.
    let app = App(id: YOUR_APP_ID_HERE)
    let user = try await app.login(credentials: Credentials.emailPassword(email: "email", password: "password"))
    let config = user.flexibleSyncConfiguration()
-   let realm = try await Realm.init(configuration: config, downloadBeforeOpen: .always)
+   let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 
 .. _ios-specify-download-behavior:
 
