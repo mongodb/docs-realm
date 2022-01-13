@@ -31,19 +31,19 @@ content: |
   Your request should include: 
 
   - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
-  
-  - The :ref:`Group ID/Project ID <realm-api-project-and-application-ids>` from step 2.
-  
-  - The :ref:`Application ID <realm-api-application-id>` from step 3.
+
+  - The :doc:`Group ID/Project ID </admin/api/v3/#section/Project-and-Application-IDs>` from step 2.
+
+  - The :doc:`Application ID </admin/api/v3/#section/API-Authentication>` from step 3.
 
   .. code-block:: shell
     
      curl --request DELETE 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps/<ApplicationID>' \
        --header 'Authorization:  Bearer <access_token>' \
        --header 'Content-Type: application/json'
-  
+
   If your application deletes successfully, the {+backend+} returns a ``204`` response.
-  
+
   .. seealso::
     
      :admin-api-endpoint:`API Documentation for the delete endpoint <delete-/groups/%7Bgroupid%7D/apps/%7Bappid%7D>`

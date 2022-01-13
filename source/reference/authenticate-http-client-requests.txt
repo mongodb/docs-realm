@@ -186,8 +186,8 @@ in the administration API.
 This endpoint accepts a ``POST`` request that includes these details:
 
 - the client access token you got using one of the :ref:`above methods <get-client-api-access-token>` for the payload
-- an :ref:`Admin API access token <realm-api-authentication>` ``Authorization`` header
-- the :ref:`{groupId} and {appId} <realm-api-project-and-application-ids>` for your backend {+app+}
+- an :doc:`Admin API access token </admin/api/v3/#section/API-Authentication>` ``Authorization`` header
+- the :doc:`{groupId} and {appId} </admin/api/v3/#section/Project-and-Application-IDs>` for your backend {+app+}
 
 With this information, call this API endpoint to verify that the client access 
 token is valid:
@@ -209,7 +209,7 @@ token is valid:
    with the ``access_token`` value you get after authenticating with the
    Admin API, and ``<Client Access Token>`` with the client access token you
    got using one of the above methods. In the URL, replace {groupId} and {appId}
-   with :ref:`the values for your Realm app <realm-api-project-and-application-ids>`.
+   with :doc:`the values for your Realm app </admin/api/v3/#section/Project-and-Application-IDs>`.
    
    .. code-block:: shell
       :emphasize-lines: 3

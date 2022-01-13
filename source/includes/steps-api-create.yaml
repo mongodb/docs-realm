@@ -20,8 +20,8 @@ content: |
   Your request should include: 
 
   - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
-  
-  - The :ref:`Group ID <realm-api-project-and-application-ids>` from step 2.
+
+  - The :doc:`Group ID </admin/api/v3/#section/Project-and-Application-IDs>` from step 2.
 
   - A name for your new app.
 
@@ -29,9 +29,9 @@ content: |
    
      .. tab:: Blank App
         :tabid: blank
- 
+
         .. code-block:: shell
- 
+
            curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
              --header 'Authorization:  Bearer <AccessToken>' \
              --header 'Content-Type: application/json' \

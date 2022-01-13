@@ -25,4 +25,4 @@ Save the ``access_token``, which you'll use as the Bearer token to authenticate 
 
 .. seealso::
   
-   :ref:`API Authentication Documentation <realm-api-authentication>`
+   :doc:`API Authentication Documentation </admin/api/v3/#section/API-Authentication>`
