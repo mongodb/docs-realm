@@ -1,14 +1,13 @@
 {
+  "root": true,
   "parserOptions": {
-    "ecmaVersion": 11,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 2020
   },
+  "extends": ["eslint:recommended", "prettier", "plugin:react/recommended"],
+  "plugins": ["prettier"],
   "rules": {
-    "comma-dangle": ["always-multiline"]
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:react/recommended"
-  ]
+    "prettier/prettier": "error",
+    "react/prop-types": 0
+  }
 }
