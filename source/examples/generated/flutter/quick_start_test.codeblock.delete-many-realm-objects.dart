@@ -1,0 +1,1 @@
+realm.deleteMany(cars);
