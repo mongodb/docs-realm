@@ -18,7 +18,7 @@ Custom Types - Swift SDK
 Overview
 --------
 
-The Swift SDK supports custom tye mapping between a data type supported by 
+The Swift SDK supports custom type mapping between a data type supported by 
 Realm and a type not supported by Realm. This enables developers to use
 custom types as managed properties as though they are supported types.
 
@@ -51,13 +51,6 @@ when there is no chance the conversion can fail.
 Use :swift-sdk:`FailableCustomPersistable <Protocols/FailableCustomPersistable.html>` 
 when it is possible for the conversion to fail. 
 
-When a ``FailableCustomPersistable`` property is required, these types are 
-force-unwrapped. If you have a value that can't be converted to the custom 
-type, reading that property throws an unwrapped fail exception.
-
-When a ``FailableCustomPersistable`` property is optional, this custom type 
-protocol maps invalid values to ``nil``.
-
 .. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.custom-persistable-protocols.swift
    :language: swift
 
@@ -72,12 +65,30 @@ Supported PersistedTypes
 ````````````````````````
 
 The ``PersistedType`` can use any of the primitive types that the 
-:ref:`Swift SDK supports <ios-supported-property-types>`. It can also use a 
-:ref:`Embedded Object <ios-embedded-objects>` subclass.
+:ref:`Swift SDK supports <ios-supported-property-types>`. It can also be 
+an :ref:`Embedded Object <ios-embedded-objects>`.
 
 ``PersistedType`` cannot be an optional, or a :ref:`collection 
-<ios-client-collections>`. However, the mapped type can be used inside
-an optional or collection.
+<ios-client-collections>`. However you can use the mapped type as an 
+optional or collection property in your object model.
+
+.. code-block:: swift
+   :copyable: false
+
+   extension URL: FailableCustomPersistable {
+      // The `PersistedType` cannot be an optional, so this is not a valid
+      // conformance to the FailableCustomPersistable protocol.
+      public typealias PersistedType = String?
+      ...
+   }
+
+   class Club: Object {
+      @Persisted var id: ObjectId
+      @Persisted var name: String
+      // Although the `PersistedType` cannot be optional, you can use the
+      // custom-mapped type as an optional in your object model.
+      @Persisted var url: URL?
+   }
 
 .. _ios-use-custom-types-in-the-model:
 
@@ -93,6 +104,12 @@ You can use custom types for:
 - Top-level types
 - Optional versions of the type
 - The types for a collection
+
+When using a ``FailableCustomPersistable`` as a property, define it as an
+optional property. When it is optional, the ``FailableCustomPersistable``
+protocol maps invalid values to ``nil``. When it is a required property, it is 
+force-unwrapped. If you have a value that can't be converted to the custom 
+type, reading that property throws an unwrapped fail exception.
 
 .. literalinclude:: /examples/generated/code/start/CustomTypes.codeblock.use-custom-types-in-objects.swift
    :language: swift
@@ -147,13 +164,13 @@ Queries on Embedded Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can query embedded types on the properties within the object using 
-memberwise equality. However, the you can only query using memberwise 
-equality if *all* the properties in the embedded object are types which 
+memberwise equality. However, you can only query using memberwise 
+equality if *all* properties in the embedded object are types which 
 you can compare for equality. Memberwise equality-based querying throws an 
 exception if you cannot compare all properties in the embedded object for 
 equality. 
 
-In this case, passing the mapped type and the persisted type could give 
+In this case, querying on the mapped type and the persisted type could give 
 different results. 
 
 .. insert-code-example-here

@@ -1,32 +1,54 @@
+// :replace-start: {
+//   "terms": {
+//     "CustomType_": ""
+//   }
+// }
+
 import XCTest
 import RealmSwift
 import CoreLocation
 
 // :code-block-start: custom-persistable-protocols
-// Extend a type as a CustomPersistable if the conversion cannot fail.
+// Extend a type as a CustomPersistable if the conversion between
+// the mapped type and the persisted type may not fail.
 extension CLLocationCoordinate2D: CustomPersistable {
     // :hide-start:
+    // This code resolves this error: Extension outside of file declaring struct 'CLLocationCoordinate2D' prevents automatic synthesis of '==' for protocol 'Equatable'
+    // It is hidden because it's not a part of the custom type mapping implementation so I didn't want to confuse readers about what is required to use custom type mapping
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
         lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
     // :hide-end:
+    // Define the storage object that is persisted to the database.
+    // The `PersistedType` must be a type that Realm supports.
+    // In this example, the PersistedType is an embedded object.
     public typealias PersistedType = Location
+    // Construct an instance of the custom-mapped type from the persisted type.
+    // When reading from the database, this converts the persisted type to the mapped type.
     public init(persistedValue: PersistedType) {
         self.init(latitude: persistedValue.latitude, longitude: persistedValue.longitude)
     }
+    // Construct an instance of the persisted type from the custom-mapped type.
+    // When writing to the database, this converts the mapped type to a persistable type.
     public var persistableValue: PersistedType {
         Location(value: [self.latitude, self.longitude])
     }
 }
 
-// Extend a type as a FailableCustomPersistable if conversion can fail.
+// Extend a type as a FailableCustomPersistable if conversion between
+// the mapped type and the persisted type may fail.
 // This returns nil on read if the underlying column contains nil or
 // something that can't be converted to the specified type.
 extension URL: FailableCustomPersistable {
+    // Define the storage object that is persisted to the database.
+    // The `PersistedType` must be a type that Realm supports.
     public typealias PersistedType = String
-
+    // Construct an instance of the custom-mapped type from the persisted type.
+    // When reading from the database, this converts the persisted type to the mapped type.
+    // This must be a failable initilizer when the conversion may fail.
     public init?(persistedValue: String) { self.init(string: persistedValue) }
-
+    // Construct an instance of the persisted type from the custom-mapped type.
+    // When writing to the database, this converts the mapped type to a persistable type.
     public var persistableValue: String { self.absoluteString }
 }
 // :code-block-end:
@@ -40,25 +62,10 @@ class CustomType_Club: Object {
     @Persisted var url: URL?
     // Here, the `location` property maps to an embedded object.
     // We can declare the property as required.
-    // If the underlying field contains nil, this uses
-    // a default-constructed object.
+    // If the underlying field contains nil, this becomes
+    // a default-constructed instance of CLLocationCoordinate
+    // with field values of `0`.
     @Persisted var location: CLLocationCoordinate2D
-    // :hide-start:
-    convenience init(name: String, url: URL) {
-        self.init()
-        self.id = ObjectId()
-        self.name = name
-        self.url = url
-    }
-
-    convenience init(name: String, url: URL, location: CLLocationCoordinate2D) {
-        self.init()
-        self.id = ObjectId()
-        self.name = name
-        self.url = url
-        self.location = location
-    }
-    // :hide-end:
 }
 
 public class Location: EmbeddedObject {
@@ -106,3 +113,4 @@ class CustomTypes: XCTestCase {
         }
     }
 }
+// :replace-end:
