@@ -10,7 +10,7 @@ Enable Realm Sync
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 Overview
@@ -32,11 +32,13 @@ and rules for your {+app+}. If you haven't already decided how you want to
 configure your data model and access {+sync-short+}, see:
 
 - :ref:`Configure Your Data Model <sync-schema-overview>`
-- :ref:`Partitions <sync-partitions>`
+- :ref:`Choose Your Sync Mode <sync-modes>`
 - :ref:`Sync Rules and Permissions <sync-permissions>`
 
-Procedure
----------
+.. _enable-pbs-sync:
+
+Enable Partition-Based Sync
+---------------------------
 
 .. important::
    
@@ -65,3 +67,25 @@ Procedure
       :tabid: api
       
       .. include:: /includes/steps/define-sync-rules-api.rst
+
+.. _enable-flexible-sync:
+
+Enable Flexible Sync
+--------------------
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/configure-flexible-sync-ui.rst
+     
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/configure-flexible-sync-cli.rst
+     
+   .. tab::
+      :tabid: api
+      
+      .. include:: /includes/steps/configure-flexible-sync-api.rst
