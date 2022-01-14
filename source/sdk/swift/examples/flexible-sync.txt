@@ -20,7 +20,7 @@ data to sync with your {+app+}.
 
 To use Flexible Sync in an iOS client:
 
-- Configure Flexible Sync on the backend [LINK TO BACKEND CONFIG PAGE WHEN COMPLETE]
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`
 - :ref:`Initialize the app <ios-quick-start-init-app>`
 - :ref:`Authenticate a user <ios-quick-start-authenticate>` in
   your client project.
@@ -227,9 +227,9 @@ Additionally, you can watch the state of the subscription set with the
 Superseded
 ``````````
 
-``superceded`` is a ``SyncSubscriptionState`` that can occur when another
+``superseded`` is a ``SyncSubscriptionState`` that can occur when another
 thread writes a subscription on a different instance of the 
-subscription set. If the state becomes ``superceded``, you must obtain 
+subscription set. If the state becomes ``superseded``, you must obtain 
 a new instance of the subscription set before you can write to it.
 
 .. _ios-update-subscriptions-with-new-query:
@@ -343,6 +343,12 @@ Remove All Subscriptions
 
 To remove all subscriptions from the subscription set, use the ``removeAll``
 method in a subscription write block.
+
+.. important::
+
+   If you remove all subscriptions and do not add a new one, you'll 
+   get an error. A realm opened with a flexible sync configuration needs
+   at least one subscription to sync with the server.
 
 .. code-block:: swift
 
