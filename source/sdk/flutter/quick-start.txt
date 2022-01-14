@@ -92,7 +92,7 @@ Create Objects
 To create a new ``Car``, instantiate an instance of the
 ``Car`` class and add it to the {+realm+} in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.create-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.create-realm-object.dart
    :language: dart
 
 Update Objects
@@ -102,7 +102,7 @@ To modify a car, update its properties in a write transaction block:
 
 .. TODO(DOCSP-20150): couldn't find anything in the current docs
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.update-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.update-realm-object.dart
    :language: dart
 
 Query for Objects
@@ -112,13 +112,13 @@ Retrieve a collection of all objects of a data model in the {+realm+} with the
 `Realm.objects<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
 method:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.query-all-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
 
 You can also filter a collection to retrieve a more specific collection
 of objects:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.query-realm-objects-with-filter.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
    :language: dart
 
 .. TODO(DOCSP-20150): add something about using sort  
@@ -136,13 +136,13 @@ Delete Objects
 Delete a car by calling the `Realm.delete(RealmObject) <https://pub.dev/documentation/realm/latest/realm/Realm/delete.html>`__
 method in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.delete-one-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
    :language: dart
 
 Delete multiple cars with the `Realm.deleteMany(List<RealmObject>) 
 <https://pub.dev/documentation/realm/latest/realm/Realm/deleteMany.html>`__ method in a write transaction block. 
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.delete-many-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
    :language: dart
 
 Listen for Changes to Objects
@@ -155,17 +155,17 @@ Listen and respond to changes to an entire {+realm+} database, a collection or a
 
 To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.listen-to-entire-realm.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
    :language: dart
 
 To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.listen-to-collection-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
    :language: dart
 
 To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.listen-to-single-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
    :language: dart
 
 Complete Example
