@@ -70,38 +70,13 @@ queryable fields.
 Performance and Storage
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Queryable fields use storage on the backing Atlas cluster. The more 
-queryable fields you configure, the more storage you use on the backing 
-cluster.
+Queryable fields use storage on the backing Atlas cluster. The more queryable
+fields you configure, the more storage you use on the backing cluster. You can
+configure up to 10 queryable fields per application for Flexible Sync.
 
-You can configure up to 10 queryable fields per application for Flexible 
-Sync. If you have a large number of collections in a {+app+}, you may need to
-use the same queryable field across multiple collections. Combine this with 
-:ref:`rules and permissions <flexible-sync-rules-and-permissions>` for 
-more granular control over who can access which collections.
+.. seealso::
 
-.. example::
-
-   Your {+app+} may contain 20 or 30 collections, but you can only configure
-   10 queryable fields. You must re-use queryable fields across collections 
-   in order to sync objects from every collection.
-
-For best performance, open a synced {+realm+} with a broad query. Then, add 
-more refined queries to expose targeted sets of data in the client 
-application. Slicing off working sets from a broad query provides
-better performance than opening multiple synced {+realm+}s using more 
-granular queries.
-
-When you configure queryable fields, consider the broad queries you use 
-for Sync, and select fewer fields that support those broad queries.
-
-.. example::
-
-   In a task tracker app, prefer broad queries such as ``assignee == currentUser`` 
-   or ``projectName == selectedProject`` for a Sync query. This gives you a 
-   couple of broad fields against which to Sync documents. In the client, you 
-   can further refine your query for things like tasks of a certain priority 
-   or completion status to slice off a working set.
+   Learn more about :ref:`optimizing performance and storage when using Flexible Sync <optimizing-performance-and-storage-flexible-sync>`.
 
 .. _get-started-flexible-sync:
 
