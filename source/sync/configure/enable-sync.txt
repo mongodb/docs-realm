@@ -35,21 +35,22 @@ configure your data model and access {+sync-short+}, see:
 - :ref:`Choose Your Sync Mode <sync-modes>`
 - :ref:`Sync Rules and Permissions <sync-permissions>`
 
-.. _enable-pbs-sync:
-
-Enable Partition-Based Sync
----------------------------
-
 .. important::
    
-   You must define at least one valid :ref:`schema <schemas>` for a collection 
-   in the synced cluster before you can define sync rules and enable sync.
+   Before you can define sync rules and enable sync, you must define at least
+   one valid :ref:`schema <schemas>` for a collection in the synced cluster, 
+   unless you are using :ref:`development mode <enable-development-mode>`.
    
    At minimum, the schema must define ``_id`` and the field that you intend to
    use as your :term:`partition key`. A partition key field may be a ``string``,
    ``integer``, or ``objectId``.
    
    For more details on how to define a schema, see :ref:`enforce-a-schema`.
+
+.. _enable-pbs-sync:
+
+Enable Partition-Based Sync
+---------------------------
 
 .. tabs-realm-admin-interfaces::
 
