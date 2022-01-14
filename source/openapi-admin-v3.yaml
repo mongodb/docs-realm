@@ -9,44 +9,6 @@ info:
     use one of the Client SDKs for tasks like authenticating users, calling
     functions, and interacting with services.
 
-    ## API Authentication
-
-    Every request to the Realm Admin API must include a valid and current
-    authorization token from the MongoDB Cloud API as a bearer token in the
-    `Authorization` header. You will need a valid [programmatic API key](https://docs.atlas.mongodb.com/configure-api-access)
-    for MongoDB Atlas to get a token.
-
-    Once you have an API key pair, call the authentication endpoint:
-
-    ```shell
-    curl --request POST \
-      --header 'Content-Type: application/json' \
-      --header 'Accept: application/json' \
-      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
-      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
-    ```
-
-    If authentication succeeds, MongoDB Realm returns an access token as
-    part of the JSON response document:
-
-    ```json
-    {
-      "access_token": "<access_token>",
-      "refresh_token": "<refresh_token>",
-      "user_id": "<user_id>",
-      "device_id": "<device_id>"
-    }
-    ```
-
-    The `access_token` represents a limited-time authorization to interact
-    with the Admin API. To authenticate a request, include the token in a
-    [Bearer token](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
-    `Authorization` header.
-
-    ```http
-    Authorization: Bearer <access_token>
-    ```
-
     ## Project & Application IDs
 
     **Note**: The terms _Project ID_ and _Group ID_ are interchangeable.
@@ -92,6 +54,44 @@ info:
         "environment": ""
       }
     ]
+    ```
+
+    ## Get Authentication Tokens
+
+    Every request to the Realm Admin API must include a valid and current
+    authorization token from the MongoDB Cloud API as a bearer token in the
+    `Authorization` header. You will need a valid [programmatic API key](https://docs.atlas.mongodb.com/configure-api-access)
+    for MongoDB Atlas to get a token.
+
+    Once you have an API key pair, call the authentication endpoint:
+
+    ```shell
+    curl --request POST \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
+      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
+    ```
+
+    If authentication succeeds, MongoDB Realm returns an access token as
+    part of the JSON response document:
+
+    ```json
+    {
+      "access_token": "<access_token>",
+      "refresh_token": "<refresh_token>",
+      "user_id": "<user_id>",
+      "device_id": "<device_id>"
+    }
+    ```
+
+    The `access_token` represents a limited-time authorization to interact
+    with the Admin API. To authenticate a request, include the token in a
+    [Bearer token](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
+    `Authorization` header.
+
+    ```http
+    Authorization: Bearer <access_token>
     ```
 
   version: "3.0"
