@@ -47,6 +47,11 @@ runs for all {+app+}s. During compaction, the backend optimizes a
 removes any instruction whose effect is later overwritten by a newer
 instruction.
 
+.. note:: Using Backend Compaction With Partition-Based Sync.
+
+   Backend Compaction is supported by Partition-Based Sync. {+service-short+}
+   does not currently support using backend compaction with Flexible Sync.
+
 .. example::
 
    Consider the following {+realm+} history:
@@ -153,6 +158,12 @@ connect with the backend.
 The lower the client maximum offline time, the sooner compaction can
 apply advanced backend compaction to history. The resulting optimizations
 usually result in less storage usage in the synced Atlas cluster.
+
+
+.. note:: Using Client Maximum Offline Time With Partition-Based Sync.
+
+   Client Maximum Offline Time is supported by Partition-Based Sync. {+service-short+}
+   does not currently support setting client maximum offline time with Flexible Sync.
 
 .. warning:: Client Maximum Offline Time Causes Permanent Changes to History
 
