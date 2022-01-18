@@ -70,7 +70,7 @@ A Realm subscription in JavaScript has:
 - A query string 
 
 You can specify a string name for your subscription. If you do not give your
-subscription a name, the name returns :mdn:`null
+subscription a name, the name is set to :mdn:`null
 <Web/JavaScript/Reference/Global_Objects/null>`.
 
 When you create a subscription, Realm looks for data matching a query on a
@@ -80,7 +80,7 @@ object type.
 
 .. example::
 
-  In the following example, several queries are created to subscribe to:
+  In the following example, queries are created to subscribe to:
 
   - A filtered list of completed tasks that have taken over 120 ``progressMinutes``
   - A filtered list of completed tasks
@@ -94,8 +94,8 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-To get a list of read-only snapshot of subscriptions, call
-``getSubscriptions()`` method on the {+realm+}. 
+To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
+on the {+realm+}.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
@@ -188,7 +188,7 @@ To remove subscriptions from the subscription set, you can:
 
 - Remove a single subscription with the given query
 - Remove a single subscription with the given name 
-- Remove all subscriptions of a specific type
+- Remove all subscriptions on a specific type
 - Remove all subscriptions
 
 When you remove a subscription query, the server also removes synced data from
@@ -226,9 +226,9 @@ mutable subscriptions instance.
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-reference.js
     :language: javascript
 
-Remove All Subscriptions of an Object Type
+Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
-To remove all subscriptions of a specific object type, execute a transaction on
+To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
 to the ``removeByObjectType()`` method on the mutable subscriptions instance.
 
