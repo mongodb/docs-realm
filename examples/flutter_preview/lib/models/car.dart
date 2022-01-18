@@ -1,8 +1,8 @@
 // :snippet-start: define-model
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // Realm: Import realm
-import 'package:realm/realm.dart';
+import 'package:realm_dart/realm.dart';
 
 // Realm: Declare a part file
 part 'car.g.dart';
