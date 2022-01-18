@@ -100,7 +100,7 @@ source_constants = {
 extlinks = {
     # MongoDB Docs Sites
     # sphinx_openapi doesn't support endpoint refs, so we have to use an extlink instead
-    'admin-api-section': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''),
+    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''),
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s', ''),
     'adl': ('https://docs.mongodb.com/datalake%s', ''),

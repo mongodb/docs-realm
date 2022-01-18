@@ -25,4 +25,4 @@ Save the ``access_token``, which you'll use as the Bearer token to authenticate 
 
 .. seealso::
   
-   :admin-api-section:`API Authentication Documentation <section/API-Authentication>`
+   :admin-api-endpoint:`API Authentication Documentation <section/API-Authentication>`
