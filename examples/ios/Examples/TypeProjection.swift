@@ -23,12 +23,12 @@ extension CLLocationCoordinate2D: CustomPersistable {
     // The `PersistedType` must be a type that Realm supports.
     // In this example, the PersistedType is an embedded object.
     public typealias PersistedType = Location
-    // Construct an instance of the custom-mapped type from the persisted type.
+    // Construct an instance of the mapped type from the persisted type.
     // When reading from the database, this converts the persisted type to the mapped type.
     public init(persistedValue: PersistedType) {
         self.init(latitude: persistedValue.latitude, longitude: persistedValue.longitude)
     }
-    // Construct an instance of the persisted type from the custom-mapped type.
+    // Construct an instance of the persisted type from the mapped type.
     // When writing to the database, this converts the mapped type to a persistable type.
     public var persistableValue: PersistedType {
         Location(value: [self.latitude, self.longitude])
@@ -43,17 +43,17 @@ extension URL: FailableCustomPersistable {
     // Define the storage object that is persisted to the database.
     // The `PersistedType` must be a type that Realm supports.
     public typealias PersistedType = String
-    // Construct an instance of the custom-mapped type from the persisted type.
+    // Construct an instance of the mapped type from the persisted type.
     // When reading from the database, this converts the persisted type to the mapped type.
     // This must be a failable initilizer when the conversion may fail.
     public init?(persistedValue: String) { self.init(string: persistedValue) }
-    // Construct an instance of the persisted type from the custom-mapped type.
+    // Construct an instance of the persisted type from the mapped type.
     // When writing to the database, this converts the mapped type to a persistable type.
     public var persistableValue: String { self.absoluteString }
 }
 // :code-block-end:
 
-// :code-block-start: use-custom-types-in-objects
+// :code-block-start: use-type-projection-in-objects
 class CustomType_Club: Object {
     @Persisted var id: ObjectId
     @Persisted var name: String
@@ -79,13 +79,13 @@ class CustomTypes: XCTestCase {
     func testExample() {
         let realm = try! Realm()
 
-        // :code-block-start: create-objects-with-custom-mapped-types
+        // :code-block-start: create-objects-with-type-projection
         // Initialize objects and assign values
         let club = CustomType_Club(value: ["name": "American Kennel Club", "url": "https://akc.org"])
         let club2 = CustomType_Club()
         club2.name = "Continental Kennel Club"
-        // When assigning the value to a custom typed property, type safety
-        // checks for the custom type you've mapped to a `persistableType`.
+        // When assigning the value to a type-projected property, type safety
+        // checks for the mapped type - not the persisted type.
         club2.url = URL(string: "https://ckcusa.com/")!
         club2.location = CLLocationCoordinate2D(latitude: 40.7509, longitude: 73.9777)
         // :code-block-end:
@@ -95,7 +95,7 @@ class CustomTypes: XCTestCase {
             realm.add(club2)
         }
 
-        // :code-block-start: query-objects-with-custom-mapped-types
+        // :code-block-start: query-objects-with-type-projection
         let akcClub = realm.objects(CustomType_Club.self).where {
             $0.name == "American Kennel Club"
         }.first!
