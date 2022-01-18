@@ -1,6 +1,6 @@
 // :replace-start: {
 //   "terms": {
-//     "CustomType_": ""
+//     "TypeProjection_": ""
 //   }
 // }
 
@@ -54,7 +54,7 @@ extension URL: FailableCustomPersistable {
 // :code-block-end:
 
 // :code-block-start: use-type-projection-in-objects
-class CustomType_Club: Object {
+class TypeProjection_Club: Object {
     @Persisted var id: ObjectId
     @Persisted var name: String
     // Since we declared the URL as a FailableCustomPersistable,
@@ -74,15 +74,15 @@ public class Location: EmbeddedObject {
 }
 // :code-block-end:
 
-class CustomTypes: XCTestCase {
+class TypeProjection: XCTestCase {
 
     func testExample() {
         let realm = try! Realm()
 
         // :code-block-start: create-objects-with-type-projection
         // Initialize objects and assign values
-        let club = CustomType_Club(value: ["name": "American Kennel Club", "url": "https://akc.org"])
-        let club2 = CustomType_Club()
+        let club = TypeProjection_Club(value: ["name": "American Kennel Club", "url": "https://akc.org"])
+        let club2 = TypeProjection_Club()
         club2.name = "Continental Kennel Club"
         // When assigning the value to a type-projected property, type safety
         // checks for the mapped type - not the persisted type.
@@ -96,13 +96,13 @@ class CustomTypes: XCTestCase {
         }
 
         // :code-block-start: query-objects-with-type-projection
-        let akcClub = realm.objects(CustomType_Club.self).where {
+        let akcClub = realm.objects(TypeProjection_Club.self).where {
             $0.name == "American Kennel Club"
         }.first!
         // You can use type-safe expressions to check for equality
         XCTAssert(akcClub.url == URL(string: "https://akc.org")!)
 
-        let clubs = realm.objects(CustomType_Club.self)
+        let clubs = realm.objects(TypeProjection_Club.self)
         // You can use the persisted property type in NSPredicate query expressions
         let akcByUrl = clubs.filter("url == 'https://akc.org'").first!
         XCTAssert(akcByUrl.name == "American Kennel Club")
