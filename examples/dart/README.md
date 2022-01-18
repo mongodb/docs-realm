@@ -12,21 +12,22 @@ Run these commands to setup the application:
 
 1. Disable Realm analytics. Set env variable `REALM_DISABLE_ANALYTICS=exists` either globally ( for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and upload analytics unneccessary.
 
-2. Clone the realm-dart repo:
+2. Initialize the realm-dart submodule:
 
 ```sh
-git clone https://github.com/realm/realm-dart
+git submodule init
+git submodule update
 ```
 
-3. in the `pubspec.yaml` file, update the path for `realm_dart` to be the path where you've git cloned realm-dart. For example:
+3. get the realm-dart dependencies
 
 ```sh
-dependencies:
-  realm_dart:
-    path: /Users/ben.p/projects/realm-dart
+cd realm-dart
+dart pub get
+cd ..
 ```
 
-4. get all packages:
+4. get all packages for the example project:
 
 ```sh
 dart pub get
