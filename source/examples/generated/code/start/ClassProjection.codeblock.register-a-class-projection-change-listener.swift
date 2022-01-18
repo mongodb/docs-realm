@@ -1,5 +1,5 @@
 let realm = try! Realm()
-let projectedPerson = realm.objects(PersonProjection.self).first(where: { $0.firstName == "Jason" })!
+let projectedPerson = realm.objects(ProjectionExample_PersonProjection.self).first(where: { $0.firstName == "Jason" })!
 let token = projectedPerson.observe(keyPaths: ["firstName"], { change in
     switch change {
     case .change(let object, let properties):

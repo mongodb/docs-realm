@@ -45,33 +45,33 @@ created:
 .. literalinclude:: /examples/generated/code/start/TestingAndDebugging.codeblock.test-inject-realm.swift
      :language: swift
 
-.. _ios-simplify-testing-with-projections:
+.. _ios-simplify-testing-with-class-projections:
 
-Simplify Testing with Projections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Simplify Testing with Class Projections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 10.21.0
 
 If you want to work with a subset of an object's properties for testing, 
-you can :ref:`create a projection <ios-define-a-projection>`. A projection is 
-a model abstraction where you can pass through, rename, or exclude {+realm+} 
-object properties. While this feature simplifies view model implementation,
-it also simplifies testing with {+client-database+}.
+you can :ref:`create a class projection <ios-define-a-class-projection>`. 
+A class projection is a model abstraction where you can pass through, rename, 
+or exclude {+realm+} object properties. While this feature simplifies view 
+model implementation, it also simplifies testing with {+client-database+}.
 
 .. example::
 
-   This example uses :ref:`the object models <ios-projection-object-model>`
-   and the :ref:`projection <ios-define-a-projection>` from the :ref:`Define 
-   and Use Projections page <ios-define-and-use-projections>`. 
+   This example uses :ref:`the object models <ios-class-projection-object-model>`
+   and the :ref:`class projection <ios-define-a-class-projection>` from the 
+   :ref:`Define and Use Class Projections page <ios-define-and-use-class-projections>`. 
    
    In this example, we create a {+realm+} object using the full object model. 
-   Then, we view retrieve the object as a projection, working with only a 
-   subset of its properties.
+   Then, we view retrieve the object as a class projection, working with 
+   only a subset of its properties.
 
-   With this projection, we don't need to access or account for properties
-   that we don't need to test.
+   With this class projection, we don't need to access or account for 
+   properties that we don't need to test.
 
-   .. literalinclude:: /examples/generated/code/start/Projection.codeblock.test-with-projection.swift
+   .. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.test-with-class-projection.swift
       :language: swift
 
 .. _ios-test-targets:
