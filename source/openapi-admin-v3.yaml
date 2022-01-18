@@ -824,6 +824,9 @@ paths:
           content:
             application/json:
               schema:
+                type: array 
+                maxItems: 50
+                description: At most 50 results per request. 
                 items:
                   $ref: "#/components/schemas/User"
     post:
@@ -1411,6 +1414,8 @@ paths:
                 properties:
                   logs:
                     type: array
+                    maxItems: 100
+                    description: At most 100 results per request. 
                     items:
                       type: object
                       properties:

@@ -39,7 +39,7 @@ Additive changes to a schema are usually optional **additions** to the
 schema, such as:
 
 - adding a class
-- adding an optional (not required) property to an existing class
+- adding a property (required or optional) to an existing class
 
 Additive changes apply automatically to synced {+realms+}; you can make these 
 additive schema changes with no additional configuration changes.
@@ -61,10 +61,9 @@ Destructive Changes
 Destructive changes to a schema are usually **modifications** of existing properties, 
 such as:
 
-- Changing a property’s type but keeping the same name
-- Changing a primary key
-- Adding a new property that is required
-- Changing a property from optional to required (or vice-versa)
+- changing a property’s type but keeping the same name
+- changing a primary key
+- changing a property from optional to required (or vice-versa)
 
 Synchronized {+realms+} only support additive changes to a schema. Therefore,
 attempting to perform a destructive change on a synchronized {+realm+} leads 

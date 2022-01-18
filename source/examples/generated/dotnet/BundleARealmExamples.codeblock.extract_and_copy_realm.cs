@@ -1,4 +1,12 @@
+// If you are using a local realm
 var config = RealmConfiguration.DefaultConfiguration;
+
+// If the realm file is a synced realm
+var app = App.Create("myRealmAppId");
+var user = await app.LogInAsync(Credentials.Anonymous());
+config = new SyncConfiguration("myPartition", user);
+
+// Extract and copy the realm
 if (!File.Exists(config.DatabasePath))
 {
     using var bundledDbStream = Assembly.GetExecutingAssembly()
@@ -7,4 +15,5 @@ if (!File.Exists(config.DatabasePath))
     bundledDbStream.CopyTo(databaseFile);
 }
 
+// Open the Realm:
 var realm = Realm.GetInstance(config);
