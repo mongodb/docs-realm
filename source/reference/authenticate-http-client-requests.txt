@@ -180,14 +180,14 @@ Verify a Client Access Token
 ----------------------------
 
 If you want to verify that a client access token is valid, you can do so using
-the `verify access token endpoint <{+base-url+}{+admin-api-page+}operation/adminVerifyUserAccessToken>`__ 
+the :admin-api-section:`verify access token endpoint <operation/adminVerifyUserAccessToken>`_ 
 in the administration API.
 
 This endpoint accepts a ``POST`` request that includes these details:
 
 - the client access token you got using one of the :ref:`above methods <get-client-api-access-token>` for the payload
-- an `Admin API access token <{+base-url+}{+admin-api-page+}section/API-Authentication>`_ ``Authorization`` header
-- the `{groupId} and {appId} <{+base-url+}{+admin-api-page+}section/Project-and-Application-IDs>`_ for your backend {+app+}
+- an :admin-api-section:`Admin API access token <section/API-Authentication>` ``Authorization`` header
+- the :admin-api-section:`{groupId} and {appId} <section/Project-and-Application-IDs>` for your backend {+app+}
 
 With this information, call this API endpoint to verify that the client access 
 token is valid:
@@ -209,7 +209,7 @@ token is valid:
    with the ``access_token`` value you get after authenticating with the
    Admin API, and ``<Client Access Token>`` with the client access token you
    got using one of the above methods. In the URL, replace {groupId} and {appId}
-   with `the values for your Realm app <{+base-url+}{+admin-api-page+}section/Project-and-Application-IDs>`_.
+   with :admin-api-section:`the values for your Realm app <section/Project-and-Application-IDs>`.
    
    .. code-block:: shell
       :emphasize-lines: 3

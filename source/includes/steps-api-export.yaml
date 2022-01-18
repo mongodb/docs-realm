@@ -22,10 +22,10 @@ content: |
 title: Export Your Realm App
 ref: app-export-endpoint
 content: |
-  You can export your {+app+} through the :admin-api-endpoint:`export endpoint <get-/groups/%7Bgroupid%7D/apps/%7Bappid%7D/export>`.
+  You can export your {+app+} through the :admin-api-section:`export endpoint <operation/adminDeleteApplication>`.
   Include the access token from the response document of the previous step in a 
   :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header. You will also
-  need your `Group ID <{+base-url+}{+admin-api-page+}section/Project-and-Application-IDs>`_.
+  need your :admin-api-section:`Group ID <section/Project-and-Application-IDs>`.
 
   .. code-block:: shell
 
@@ -39,4 +39,4 @@ content: |
 
   .. seealso::
 
-    :admin-api-endpoint:`API Documentation for the export endpoint <get-/groups/%7Bgroupid%7D/apps/%7Bappid%7D/export>`
+    :admin-api-section:`API Documentation for the export endpoint <operation/adminDeleteApplication>`

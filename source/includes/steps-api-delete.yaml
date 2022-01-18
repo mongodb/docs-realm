@@ -26,15 +26,15 @@ content: |
 title: Delete the Realm App
 ref: app-delete-endpoint
 content: |
-  The API has an :admin-api-endpoint:`endpoint <delete-/groups/%7Bgroupid%7D/apps/%7Bappid%7D>`
+  The API has an :admin-api-section:`endpoint <operation/adminDeleteApplication>`
   through which you can delete an {+app+}. 
   Your request should include: 
 
   - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
 
-  - The `Group ID/Project ID <{+base-url+}{+admin-api-page+}section/Project-and-Application-IDs>`_ from step 2.
+  - The :admin-api-section:`Group ID/Project ID <section/Project-and-Application-IDs>` from step 2.
 
-  - The `Application ID <{+base-url+}{+admin-api-page+}section/API-Authentication>`_ from step 3.
+  - The :admin-api-section:`Application ID <section/API-Authentication>` from step 3.
 
   .. code-block:: shell
     
@@ -46,4 +46,4 @@ content: |
 
   .. seealso::
     
-     :admin-api-endpoint:`API Documentation for the delete endpoint <delete-/groups/%7Bgroupid%7D/apps/%7Bappid%7D>`
+     :admin-api-section:`API Documentation for the delete endpoint <operation/adminDeleteApplication>`
