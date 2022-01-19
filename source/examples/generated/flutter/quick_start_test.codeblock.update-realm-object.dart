@@ -1,3 +1,3 @@
 realm.write(() {
-  car.kilometers = 99;
+  car.miles = 99;
 });

@@ -1,1 +1,1 @@
-var cars = realm.objects<Car>().where("make == 'Tesla'");
+var cars = realm.all<Car>().query('make == "Tesla"');

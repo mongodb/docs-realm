@@ -25,7 +25,7 @@ void main() {
         addedCar = realm.add(car); // :ignore:
         // :uncomment-start:
         // realm.add(car);
-        // :uncommnet-end:
+        // :uncomment-end:
       });
       // :snippet-end:
       expect(addedCar == car, true);

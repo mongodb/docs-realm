@@ -1,7 +1,5 @@
-Car car;
+final car = Car('Tesla', 'Model S', miles: 42);
 realm.write(() {
-  car = realm.create(Car()
-    ..make = 'Tesla'
-    ..model = 'Model Y'
-    ..kilometers = 42);
+  addedCar = realm.add(car); // :ignore:
+  // realm.add(car);
 });

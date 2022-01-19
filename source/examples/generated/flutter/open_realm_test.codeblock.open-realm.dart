@@ -1,3 +1,2 @@
-var config = Configuration();
-config.schema.add(Car);
+var config = Configuration([Car.schema]);
 var realm = Realm(config);

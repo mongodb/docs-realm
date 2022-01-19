@@ -1,1 +1,3 @@
-realm.deleteMany(cars);
+realm.write(() {
+  realm.deleteMany(cars);
+});
