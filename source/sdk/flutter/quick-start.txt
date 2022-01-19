@@ -43,16 +43,19 @@ To define your application's data model, add the following class
 definition to your application code:
 
 .. code-block:: dart
+   :caption: Car.dart
 
+   import 'package:realm/realm.dart';
+
+   part 'Car.g.dart';
+
+   @RealmModel()
    class _Car {
-     @RealmProperty(primaryKey: true)
-     String make;
+      @PrimaryKey()
+      late final String make;
 
-     @RealmProperty()
-     String model;
-
-     @RealmProperty(defaultValue: "500", optional: true)
-     int kilometers;
+      late final String model;
+      late int? miles;
    }
 
 .. TODO(20150):  link RealmObject to SDK reference and find out where the Car class is generated 
@@ -63,7 +66,8 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
    
    flutter pub run build_runner build
 
-This creates the ``Car`` class ??WHERE??. 
+This creates the ``Car`` class in a ``Car.g.dart`` file in the same directory as 
+where you defined the model class. 
 
 Open a Realm
 ------------
@@ -100,8 +104,6 @@ Update Objects
 
 To modify a car, update its properties in a write transaction block:
 
-.. TODO(DOCSP-20150): couldn't find anything in the current docs
-
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.update-realm-object.dart
    :language: dart
 
@@ -109,19 +111,24 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-`Realm.objects<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
+`Realm.query<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/query.html>`__
 method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
 
-You can also filter a collection to retrieve a more specific collection
+Filter a collection to retrieve a more specific collection
 of objects:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
    :language: dart
 
-.. TODO(DOCSP-20150): add something about using sort  
+.. TODO(DOCSP-20150): include more about how sorting works
+
+Sort the results using WHATEVER_SORT_LANGUAGE_IS:
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-sort.dart
+   :language: dart
 
 .. TODO(DOCSP-20150): validate this note is true for flutter. taken from the  kmm docs
 
@@ -149,7 +156,8 @@ Listen for Changes to Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. TODO(DOCSP-20150): refactor everything here. this is the roughest of sketches. 
-.. there's little confidence anything here is correct. 
+.. there's little confidence anything here is correct. it seems that the APIs for these operations 
+.. haven't been finished yet. 
 
 Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
 
@@ -168,17 +176,18 @@ To listen to an a single {+realm+} object, use the `RealmObject.addListener(Resu
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
    :language: dart
 
-Complete Example
+Close a Realm
+-------------
+
+Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.close-realm.dart
+   :language: dart
+
+
+Further Examples
 ----------------
 
-.. TODO(DOCSP-20150): build out this section
+For further examples of all the Flutter SDK methods described above and more, refer to 
+the :github:`Flutter SDK unit test suite <realm/realm-dart/blob/master/test/realm_test.dart>`.
 
-For a complete example of all the Flutter SDK methods described above, refer to 
-LINK_TO_FULL_EXAMPLE.
-
-.. example:: Flutter SDK Complete Example
-
-   .. code-block:: dart
-
-      // TODO: add example. might have to be multiple files, wherein link would be to the 
-      // source code in docs-realm repo
