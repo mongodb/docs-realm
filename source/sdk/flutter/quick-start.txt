@@ -20,18 +20,16 @@ Before you begin, ensure you have:
 
 - :ref:`Installed the Flutter SDK <flutter-install>`
 
-.. TODO(DOCSP-20150): refactor examples as includes from the examples folder w tests
-
 .. include:: /includes/note-flutter-local-realm-only.rst
 
-.. TODO(DOCSP-20150): add this ref. needed in the install flutter steps
+.. TODO(DOCSP-20150): replace the current reference links with new ones, 
+.. once the Alpha SDK reference is out 
+
 
 .. _flutter-define-object-model: 
 
 Define Your Object Model
 ------------------------
-
-.. TODO(DOCSP-20150): validate that this is same for new SDK 
 
 Your application's **data model** defines the structure of data
 stored within {+client-database+}.
@@ -57,8 +55,6 @@ definition to your application code:
       late final String model;
       late int? miles;
    }
-
-.. TODO(20150):  link RealmObject to SDK reference and find out where the Car class is generated 
 
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
@@ -88,7 +84,7 @@ Work with Realm Objects
 -----------------------
 
 Once you've opened a {+realm+}, you can create objects within it in a
-:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+`write transaction block <https://pub.dev/documentation/realm/latest/realm/Realm/write.html>`_.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -111,7 +107,7 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-`Realm.query<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/query.html>`__
+`Realm.query<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
 method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
