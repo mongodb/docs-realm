@@ -1,0 +1,1 @@
+const subscriptions = realm.getSubscriptions();

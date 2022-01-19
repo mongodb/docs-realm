@@ -25,6 +25,8 @@ compaction, which runs automatically. You can optimize further by
 specifying a client maximum offline time, which enables advanced backend
 compaction.
 
+.. _sync-history:
+
 History
 -------
 
@@ -44,6 +46,11 @@ runs for all {+app+}s. During compaction, the backend optimizes a
 {+realm+}'s history by removing unneeded changesets. The process
 removes any instruction whose effect is later overwritten by a newer
 instruction.
+
+.. note:: Using Backend Compaction With Partition-Based Sync.
+
+   Backend Compaction is supported by Partition-Based Sync. {+service-short+}
+   does not currently support using backend compaction with Flexible Sync.
 
 .. example::
 
@@ -151,6 +158,12 @@ connect with the backend.
 The lower the client maximum offline time, the sooner compaction can
 apply advanced backend compaction to history. The resulting optimizations
 usually result in less storage usage in the synced Atlas cluster.
+
+
+.. note:: Using Client Maximum Offline Time With Partition-Based Sync.
+
+   Client Maximum Offline Time is supported by Partition-Based Sync. {+service-short+}
+   does not currently support setting client maximum offline time with Flexible Sync.
 
 .. warning:: Client Maximum Offline Time Causes Permanent Changes to History
 
@@ -298,15 +311,50 @@ Set the Client Maximum Offline Time
 
             realm-cli push --remote="<Your App ID>"
 
+.. _optimizing-performance-and-storage-flexible-sync:
+
+Optimizing Performance and Storage When Using Flexible Sync
+-----------------------------------------------------------
+
+For Flexible Sync configuration, the amount of Atlas storage space used is
+directly proportional to the number of queryable fields you have set up.
+Queryable fields use storage on the backing Atlas cluster. The more queryable
+fields you configure, the more storage you use on the backing cluster.
+
+You can configure up to 10 queryable fields per application for Flexible 
+Sync. If you have a large number of collections in a {+app+}, you may need to
+use the same queryable field across multiple collections. Combine this with 
+:ref:`rules and permissions <flexible-sync-rules-and-permissions>` for 
+more granular control over who can access which collections.
+
+.. example::
+
+   Your {+app+} may contain 20 or 30 collections, but you can only configure
+   10 queryable fields. You must re-use queryable fields across collections 
+   in order to sync objects from every collection.
+
+For best performance, open a synced {+realm+} with a broad query. Then, add 
+more refined queries to expose targeted sets of data in the client 
+application. Slicing off working sets from a broad query provides
+better performance than opening multiple synced {+realm+}s using more 
+granular queries.
+
+When you configure queryable fields, consider the broad queries you use 
+for Sync, and select fewer fields that support those broad queries.
+
+.. example::
+
+   In a task tracker app, prefer broad queries such as ``assignee == currentUser`` 
+   or ``projectName == selectedProject`` for a Sync query. This gives you a 
+   couple of broad fields against which to Sync documents. In the client, you 
+   can further refine your query for things like tasks of a certain priority 
+   or completion status to slice off a working set.
+
 Summary
 -------
 
 - {+sync+} uses space in your synced Atlas cluster to store change history.
 - Backend compaction reduces the space usage of this history.
-- Advanced backend compaction reduces the space usage of this history even
-  more, but can cause client resets for clients who have not connected
-  to the backend in more than the client maximum offline time (in days).
-- Apps that do not specify a client maximum offline time do not apply
-  advanced backend compaction, so clients of any age can sync without
-  experiencing a client reset.
-
+- Advanced backend compaction reduces the space usage of this history even more, but can cause client resets for clients who have not connected to the backend in more than the client maximum offline time (in days).
+- Apps that do not specify a client maximum offline time do not apply advanced backend compaction, so clients of any age can sync without experiencing a client reset.
+- Adding additional queryable fields to a flexible sync configuration will increase storage consumed on an Atlas Cluster. Using broad queries and selecting fewer fields that support broad queries decreases storage consumed.
