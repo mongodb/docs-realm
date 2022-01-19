@@ -16,16 +16,16 @@ content: |
   To delete a {+app+} you will need to find the Application ID of the app.
 
   .. include:: /includes/api-get-application-id.rst
-  
+
   Find the app you want to delete and save the ``_id`` field for the last step.
 ---
 title: Export Your Realm App
 ref: app-export-endpoint
 content: |
-  You can export your {+app+} through the :admin-api-endpoint:`export endpoint <get-/groups/%7Bgroupid%7D/apps/%7Bappid%7D/export>`.
+  You can export your {+app+} through the :admin-api-endpoint:`export endpoint <operation/adminDeleteApplication>`.
   Include the access token from the response document of the previous step in a 
   :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header. You will also
-  need your :ref:`Group ID <realm-api-project-and-application-ids>`.
+  need your :admin-api-endpoint:`Group ID <section/Project-and-Application-IDs>`.
 
   .. code-block:: shell
 
@@ -39,5 +39,4 @@ content: |
 
   .. seealso::
 
-    :admin-api-endpoint:`API Documentation for the export endpoint <get-/groups/%7Bgroupid%7D/apps/%7Bappid%7D/export>`
-
+    :admin-api-endpoint:`API Documentation for the export endpoint <operation/adminDeleteApplication>`

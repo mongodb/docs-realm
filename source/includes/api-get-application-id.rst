@@ -1,5 +1,5 @@
 To find an Application ID, make a request to the {+service-short+}
-`GET /groups/{groupid}/apps <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps>`_ API endpoint.
+:admin-api-endpoint:`GET /groups/{groupid}/apps <operation/adminListApplications>` API endpoint.
 
 This request has the following format, referencing the ``access_token`` and the Group ID:
 
