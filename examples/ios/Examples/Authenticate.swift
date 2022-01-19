@@ -1,9 +1,9 @@
 import XCTest
-import RealmSwift
-import GoogleSignIn
-import FBSDKLoginKit
+ import RealmSwift
+ import GoogleSignIn
+ import FBSDKLoginKit
 
-class Authenticate: XCTestCase {
+ class Authenticate: XCTestCase {
     func testGoogleCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
@@ -140,6 +140,8 @@ class Authenticate: XCTestCase {
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
+        // Delete this user so it doesn't interfere with the DeleteUsers tests
+        app.currentUser?.delete()
     }
 
     func testApiKeyCredentials() {
@@ -266,4 +268,4 @@ class Authenticate: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
-}
+ }
