@@ -12,6 +12,7 @@
            })
            .build();
 
+   // instantiate a realm instance with the flexible sync configuration
    Realm.getInstanceAsync(config, new Realm.Callback() {
        @Override
        public void onSuccess(Realm realm) {

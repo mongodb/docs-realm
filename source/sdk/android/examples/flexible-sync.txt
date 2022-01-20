@@ -163,12 +163,14 @@ data synchronizes to the backend before opening the {+realm+}:
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.kt
          :language: kotlin
+         :emphasize-lines: 11-14
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.java
          :language: java
+         :emphasize-lines: 10
 
 You can also use :java-sdk:`SubscriptionSet.waitForSynchronization()
 <io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronization(java.lang.Long,java.util.concurrent.TimeUnit)>`
@@ -181,7 +183,7 @@ SubscriptionSet.State Enum
 ``````````````````````````
 
 Additionally, you can watch the state of the subscription set with the 
-:java-sdk:`SyncSubscriptionState <io/realm/mongodb/sync/SubscriptionSet.State.html>` enum.
+:java-sdk:`SubscriptionSet.State <io/realm/mongodb/sync/SubscriptionSet.State.html>` enum.
 You can use subscription state to:
 
 - Show a progress indicator while data is downloading

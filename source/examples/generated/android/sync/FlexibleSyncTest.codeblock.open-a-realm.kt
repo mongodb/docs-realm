@@ -11,6 +11,8 @@ app.loginAsync(
 ) { it: App.Result<User?> ->
     if (it.isSuccess) {
         val user = it.get()
+
+        // add an initial subscription to the sync configuration
         val config = SyncConfiguration.Builder(app.currentUser())
             .initialSubscriptions { realm, subscriptions ->
                 subscriptions.add(
@@ -22,6 +24,8 @@ app.loginAsync(
                 ) 
             }
             .build()
+
+        // instantiate a realm instance with the flexible sync configuration
         Realm.getInstanceAsync(config, object : Realm.Callback() {
             override fun onSuccess(realm: Realm) {
                 Log.v("EXAMPLE", "Successfully opened a realm.")

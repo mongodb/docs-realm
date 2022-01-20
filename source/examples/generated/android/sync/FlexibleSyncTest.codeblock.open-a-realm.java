@@ -7,6 +7,7 @@ Credentials credentials = Credentials.anonymous();
 app.loginAsync(credentials, it -> {
     if (it.isSuccess()) {
         User user = it.get();
+        // add an initial subscription to the sync configuration
         SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                 .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                     @Override
@@ -18,6 +19,7 @@ app.loginAsync(credentials, it -> {
                 })
                 .build();
 
+        // instantiate a realm instance with the flexible sync configuration
         Realm.getInstanceAsync(config, new Realm.Callback() {
             @Override
             public void onSuccess(Realm realm) {

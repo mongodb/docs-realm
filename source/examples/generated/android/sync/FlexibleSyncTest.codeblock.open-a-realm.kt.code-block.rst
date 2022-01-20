@@ -1,5 +1,5 @@
 .. code-block:: kotlin
-   :emphasize-lines: 19, 22
+   :emphasize-lines: 21, 24
 
    // instantiate a Realm App connection
    val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -14,6 +14,8 @@
    ) { it: App.Result<User?> ->
        if (it.isSuccess) {
            val user = it.get()
+
+           // add an initial subscription to the sync configuration
            val config = SyncConfiguration.Builder(app.currentUser())
                .initialSubscriptions { realm, subscriptions ->
                    subscriptions.add(
@@ -25,6 +27,8 @@
                    ) 
                }
                .build()
+
+           // instantiate a realm instance with the flexible sync configuration
            Realm.getInstanceAsync(config, object : Realm.Callback() {
                override fun onSuccess(realm: Realm) {
                    Log.v("EXAMPLE", "Successfully opened a realm.")
