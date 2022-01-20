@@ -24,7 +24,8 @@ class DeleteUsers: XCTestCase {
         wait(for: [loginExpectation], timeout: 10)
         // :hide-end:
 
-        // Now we have a user, and the total users in the app = 1
+        // Later, after the user is loggedd in we have a user,
+        // and the total users in the app = 1
         XCTAssertNotNil(syncUser)
         XCTAssertEqual(app.allUsers.count, 1)
 
@@ -32,7 +33,7 @@ class DeleteUsers: XCTestCase {
         let deleteExpectation = XCTestExpectation(description: "User deleted")
         // :hide-end:
         // Call the `delete` method to delete the user
-        syncUser?.delete { (error) in
+        syncUser!.delete { (error) in
             XCTAssertNil(error)
             // :hide-start:
             deleteExpectation.fulfill()

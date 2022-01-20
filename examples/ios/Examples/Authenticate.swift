@@ -1,9 +1,9 @@
 import XCTest
- import RealmSwift
- import GoogleSignIn
- import FBSDKLoginKit
+import RealmSwift
+import GoogleSignIn
+import FBSDKLoginKit
 
- class Authenticate: XCTestCase {
+class Authenticate: XCTestCase {
     func testGoogleCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
@@ -268,4 +268,4 @@ import XCTest
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
- }
+}
