@@ -4,32 +4,27 @@ import static com.mongodb.realm.examples.RealmTestKt.YOUR_APP_ID;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
-import com.mongodb.realm.examples.model.Cat;
 import com.mongodb.realm.examples.model.kotlin.Frog;
 
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
-import io.realm.internal.UnmanagedSubscription;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
 import io.realm.mongodb.User;
-import io.realm.mongodb.sync.ClientResetRequiredError;
 import io.realm.mongodb.sync.MutableSubscriptionSet;
 import io.realm.mongodb.sync.Subscription;
 import io.realm.mongodb.sync.SubscriptionSet;
 import io.realm.mongodb.sync.SyncConfiguration;
-import io.realm.mongodb.sync.SyncSession;
 
 public class FlexibleSyncTest extends RealmTest {
+
+    String YOUR_APP_ID = "android-flexible-rxwsf"; // App ID for flexible sync project, since flexible sync and partition-sync cannot coexist
 
     @Test
     public void openARealm() {

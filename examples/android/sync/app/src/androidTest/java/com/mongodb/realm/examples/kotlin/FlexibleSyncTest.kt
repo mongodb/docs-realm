@@ -3,7 +3,6 @@ package com.mongodb.realm.examples.kotlin
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
-import com.mongodb.realm.examples.YOUR_APP_ID
 import com.mongodb.realm.examples.model.kotlin.Frog
 import io.realm.Realm
 import io.realm.mongodb.App
@@ -16,6 +15,9 @@ import java.util.concurrent.TimeUnit
 import org.junit.Test
 
 class FlexibleSyncTest : RealmTest() {
+
+    var YOUR_APP_ID = "android-flexible-rxwsf" // App ID for flexible sync project, since flexible sync and partition-sync cannot coexist
+
     @Test
     fun openARealm() {
         val expectation = Expectation()
