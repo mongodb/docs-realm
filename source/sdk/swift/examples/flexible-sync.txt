@@ -106,7 +106,7 @@ object types. You can also have multiple queries on the same object type.
    .. code-block:: swift 
 
       QuerySubscription<Task>(name: "long-running-completed") {
-         $0.complete == true && $0.progressMinutes > 120
+         $0.completed == true && $0.progressMinutes > 120
       }
 
    If you do not specify a ``name`` for a subscription, you can search 
@@ -138,10 +138,12 @@ Add a Subscription
 Add a subscription in a subscriptions write block. You append each
 new subscription to the client's Realm subscriptions.
 
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   subscriptions.write {
+   subscriptions.write({
       subscriptions.append {
          QuerySubscription<Team> {
             $0.teamName == "Developer Education"
@@ -153,7 +155,30 @@ new subscription to the client's Realm subscriptions.
       } else {
          // Handle the error
       }
-   }
+   })
+
+You can add multiple subscriptions within a subscription write block, 
+including subscriptions of different object types.
+
+.. code-block:: swift
+
+   let subscriptions = realm.subscriptions
+   subscriptions.write({
+      subscriptions.append {
+         QuerySubscription<Team> {
+            $0.teamName == "Developer Education"
+         }
+         QuerySubscription<Task>(named: "completed-tasks") {
+            $0.completed == true
+         }
+      }
+   }, onComplete: { error in // error is optional
+      if error == nil {
+         // Flexible Sync has updated data to match the subscription
+      } else {
+         // Handle the error
+      }
+   })
 
 .. _ios-sync-check-subscription-state:
 .. _ios-sync-react-to-subscription-changes:
@@ -181,7 +206,7 @@ optional errors that occur during synchronization.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   subscriptions.write {
+   subscriptions.write({
       subscriptions.remove {
          QuerySubscription<Task> {
             $0.assignee == "Joe Doe"
@@ -193,7 +218,7 @@ optional errors that occur during synchronization.
       } else {
          // Handle the error
       }
-   }
+   })
 
 Async/Await
 ```````````
@@ -223,12 +248,16 @@ Additionally, you can watch the state of the subscription set with the
 
 - Show a progress indicator while data is downloading
 - Find out when a subscription set becomes superseded
+- Wait for a subscription that has been persisted locally to sync with
+  the server
+- Watch for errors
+
 
 Superseded
 ``````````
 
-``superseded`` is a ``SyncSubscriptionState`` that can occur when another
-thread writes a subscription on a different instance of the 
+The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
+another thread writes a subscription on a different instance of the 
 subscription set. If the state becomes ``superseded``, you must obtain 
 a new instance of the subscription set before you can write to it.
 
@@ -249,7 +278,7 @@ subscription with a new query.
          $0.teamName == "Developer Education" 
       }
    }
-   subscriptions.write {
+   subscriptions.write({
       foundSubscription?.update {
          QuerySubscription<Team>(name: "docs-team") {
             $0.teamName == "Documentation"
@@ -260,7 +289,7 @@ subscription with a new query.
          // Flexible Sync has updated data to match the subscription
       } else {
          // Handle the error
-   }
+   })
 
 You can also search for a subscription by name. In this example, we 
 search for a subscription by name and then update that subscription with
@@ -270,7 +299,7 @@ a new query.
 
    let subscriptions = realm.subscriptions
    let foundSubscription = subscriptions.first(named: "docs-team")
-   subscriptions.write {
+   subscriptions.write({
       foundSubscription?.update {
          QuerySubscription<Team>(name: "docs-team") {
             $0.teamName == "Documentation"
@@ -282,7 +311,7 @@ a new query.
       } else {
          // Handle the error
       }
-   }
+   })
 
 .. _ios-remove-subscriptions:
 
@@ -308,8 +337,9 @@ name to find the appropriate query subscription to remove.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
+   // Look for a specific subscription, and then remove it
    let foundSubscription = subscriptions.first(named: "docs-team")   
-   subscriptions.write {
+   subscriptions.write({
       subscriptions.remove(foundSubscription!)
    }, onComplete: { error in // error is optional
       if error == nil {
@@ -317,6 +347,11 @@ name to find the appropriate query subscription to remove.
       } else {
          // Handle the error
       }
+   })
+
+   // Or remove a subscription that you know exists without querying for it
+   subscriptions.write {
+      subscriptions.remove(named: "existing-subscription")
    }
 
 Remove All Subscriptions to an Object Type
@@ -328,7 +363,7 @@ If you want to remove all subscriptions to a specific object type, use the
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   subscriptions.write {
+   subscriptions.write({
       subscriptions.removeAll(ofType: Team.self)
    }, onComplete: { error in // error is optional
       if error == nil {
@@ -336,7 +371,7 @@ If you want to remove all subscriptions to a specific object type, use the
       } else {
          // Handle the error
       }
-   }
+   })
 
 Remove All Subscriptions
 ````````````````````````
@@ -353,7 +388,7 @@ method in a subscription write block.
 .. code-block:: swift
 
    let subscriptions = realm.subscriptions
-   subscriptions.write {
+   subscriptions.write({
       subscriptions.removeAll()
    }, onComplete: { error in // error is optional
       if error == nil {
@@ -361,4 +396,4 @@ method in a subscription write block.
       } else {
          // Handle the error
       }
-   }
+   })
