@@ -53,6 +53,8 @@ your client application can query. In the client application, use the
 ``subscriptions`` API to manage a set of subscriptions to specific queries on 
 queryable fields.
 
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
 You can:
 
 - Add subscriptions
@@ -191,9 +193,9 @@ You can access the state of your application's subscription set using
 Superseded
 ``````````
 
-``SUPERCEDED`` is a ``SubscriptionSet.State`` that can occur when another
+``SUPERSEDED`` is a ``SubscriptionSet.State`` that can occur when another
 thread writes a subscription on a different instance of the 
-subscription set. If the state becomes ``SUPERCEDED``, you must obtain 
+subscription set. If the state becomes ``SUPERSEDED``, you must obtain 
 a new instance of the subscription set before you can write to it.
 
 .. _android-update-subscriptions-with-new-query:
@@ -280,8 +282,10 @@ subscription to ``remove()``, or pass the subscription name directly to
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
 
-If you want to remove all subscriptions to a specific object type, use the 
-``removeAll`` method with ``ofType`` in a subscription write block.
+If you want to remove all subscriptions to a specific object type, pass
+an class to the :java-sdk:`removeAll()
+<io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll(java.lang.Class)>`
+method:
 
 .. tabs-realm-languages::
    
@@ -300,8 +304,9 @@ If you want to remove all subscriptions to a specific object type, use the
 Remove All Subscriptions
 ````````````````````````
 
-To remove all subscriptions from the subscription set, use the ``removeAll``
-method in a subscription write block.
+To remove all subscriptions from the subscription set, use the
+:java-sdk:`removeAll <io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll()>`
+method:
 
 .. important::
 
