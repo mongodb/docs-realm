@@ -1,5 +1,5 @@
-// Extend a type as a CustomPersistable if the conversion between
-// the mapped type and the persisted type may not fail.
+// Extend a type as a CustomPersistable if if is impossible for
+// conversion between the mapped type and the persisted type to fail.
 extension CLLocationCoordinate2D: CustomPersistable {
     // Define the storage object that is persisted to the database.
     // The `PersistedType` must be a type that Realm supports.
@@ -17,8 +17,8 @@ extension CLLocationCoordinate2D: CustomPersistable {
     }
 }
 
-// Extend a type as a FailableCustomPersistable if conversion between
-// the mapped type and the persisted type may fail.
+// Extend a type as a FailableCustomPersistable if it is possible for
+// conversion between the mapped type and the persisted type to fail.
 // This returns nil on read if the underlying column contains nil or
 // something that can't be converted to the specified type.
 extension URL: FailableCustomPersistable {

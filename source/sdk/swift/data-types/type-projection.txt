@@ -163,17 +163,13 @@ objects.
 Queries on Embedded Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can query embedded types on the properties within the object using 
-memberwise equality. However, you can only query using memberwise 
-equality if *all* properties in the embedded object are types which 
-you can compare for equality. Memberwise equality-based querying throws an 
-exception if you cannot compare all properties in the embedded object for 
-equality. 
+You can query embedded types on the supported property types within the 
+object using memberwise equality. 
 
-In this case, querying on the mapped type and the persisted type could give 
-different results. 
-
-.. insert-code-example-here
+Object link properties support equality comparisons, but do not support 
+memberwise comparisons. You can query embedded objects for memberwise
+equality on all primitive types. You cannot perform memberwise comparison 
+on objects and collections.
 
 Dynamic APIs
 ~~~~~~~~~~~~
@@ -183,4 +179,7 @@ any of the dynamic APIs gives the underlying persisted type. Realm does
 support writing mapped types via a dynamic API, and converts the projected
 type to the persisted type.
 
-.. insert-code-example-here
+The most common use of the dynamic APIs is migration. You can write projected
+types during migration, and Realm converts the projected type to the persisted
+type. However, reading data during a migration gives the underlying persisted
+type.
