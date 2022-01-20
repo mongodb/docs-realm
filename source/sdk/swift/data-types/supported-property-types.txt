@@ -470,6 +470,17 @@ Property Cheat Sheet
       ``CGFloat`` properties are discouraged, as the type is not
       platform independent.
 
+Type Projection
+---------------
+
+.. versionadded:: 10.20.0
+
+You can :ref:`map unsupported types to supported types <ios-type-projection>` 
+to persist in Realm Database. This enables you to work with Swift types 
+that Realm does not support, but store them as types that Realm does support.
+
+You could store a URL as a ``String``, for example, but read it from 
+Realm and use it in your application as though it were a URL.
 
 Unique Identifiers
 ------------------
