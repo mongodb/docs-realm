@@ -1,12 +1,5 @@
+import '../models/Car.dart';
 import 'package:realm_dart/realm.dart';
-
-part 'myapp.g.dart';
-
-@RealmModel()
-class _Car {
-  @PrimaryKey()
-  late final String make;
-}
 
 void main(List<String> arguments) {
   var config = Configuration([Car.schema]);
@@ -14,9 +7,9 @@ void main(List<String> arguments) {
 
   realm.write(() {
     print('Creating Realm object of type Car');
-    var car = realm.add(Car("Audi"));
+    var car = realm.add(Car("Audi", 'A8'));
     print('The car is ${car.make}');
-    
+
     car.make = "VW";
     print("The car is ${car.make}");
   });
