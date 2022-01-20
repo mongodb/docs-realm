@@ -275,7 +275,8 @@ class FlexibleSyncTest : RealmTest() {
                             expectation.fulfill()
                             // :hide-end:
                             // :code-block-start: update-subscriptions-by-name
-                            realm.subscriptions.update { subscriptions -> // to update a named subscription, create a replacement with
+                            realm.subscriptions.update { subscriptions ->
+                                // to update a named subscription, create a replacement with
                                 // the same name and add it to the subscription set
                                 subscriptions.addOrUpdate(
                                     Subscription.create(
@@ -349,7 +350,8 @@ class FlexibleSyncTest : RealmTest() {
                             expectation.fulfill()
                             // :hide-end:
                             // :code-block-start: update-subscriptions-by-query
-                            realm.subscriptions.update { subscriptions -> // to update an unnamed subscription, remove it from the
+                            realm.subscriptions.update { subscriptions ->
+                                // to update an unnamed subscription, remove it from the
                                 // subscription set, then add your new query to the set
                                 val mySubscription =
                                     subscriptions.find(

@@ -1,7 +1,8 @@
 .. code-block:: kotlin
    :emphasize-lines: 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
-   realm.subscriptions.update { subscriptions -> // to update an unnamed subscription, remove it from the
+   realm.subscriptions.update { subscriptions ->
+       // to update an unnamed subscription, remove it from the
        // subscription set, then add your new query to the set
        val mySubscription =
            subscriptions.find(
