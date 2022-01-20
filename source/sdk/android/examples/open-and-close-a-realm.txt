@@ -267,6 +267,41 @@ that you use to :ref:`open a synced realm while online
 pattern, so cross-platform developers should consult the documentation
 for each SDK to learn more.
 
+.. _android-flexible-sync-open-realm:
+
+Open a Synced Realm with a Flexible Sync Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When your application uses Flexible Sync, call
+the :java-sdk:`initialSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#initialSubscriptions(io.realm.mongodb.sync.SyncConfiguration.InitialFlexibleSyncSubscriptions)>`
+sync configuration builder method
+with an instance of
+:java-sdk:`SyncConfiguration.InitialFlexibleSyncSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.InitialFlexibleSyncSubscriptions.html>`
+to open a synced realm. In the `configure()` method, instantiate
+an `UnmanagedSubscription` with a name and query using
+:java-sdk:`Subscription.create()
+<io/realm/mongodb/sync/Subscription.html#create(java.lang.String,io.realm.RealmQuery)>`.
+Pass your new subscription
+to the `add()` method of the :java-sdk:`MutableSubscriptionSet
+<io/realm/mongodb/sync/MutableSubscriptionSet.html>`
+parameter to add it to your subscriptions:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.open-a-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.open-a-realm.java
+         :language: java
+
 .. _android-close-a-realm:
 
 Close a Realm
