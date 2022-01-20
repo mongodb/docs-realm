@@ -15,13 +15,13 @@ content: |
 title: Create a new Realm App
 ref: app-creation-endpoint
 content: |
-  You can create a new {+app+} through the :admin-api-endpoint:`create endpoint <post-/groups/%7Bgroupid%7D/apps>`.
+  You can create a new {+app+} through the :admin-api-endpoint:`create endpoint <operation/adminCreateApplication>`.
 
   Your request should include: 
 
   - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
-  
-  - The :ref:`Group ID <realm-api-project-and-application-ids>` from step 2.
+
+  - The :admin-api-endpoint:`Group ID <section/Project-and-Application-IDs>` from step 2.
 
   - A name for your new app.
 
@@ -29,9 +29,9 @@ content: |
    
      .. tab:: Blank App
         :tabid: blank
- 
+
         .. code-block:: shell
- 
+
            curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
              --header 'Authorization:  Bearer <AccessToken>' \
              --header 'Content-Type: application/json' \
@@ -70,4 +70,4 @@ content: |
 
   .. seealso::
 
-     :admin-api-endpoint:`API Documentation for the create endpoint <post-/groups/%7Bgroupid%7D/apps>`
+     :admin-api-endpoint:`API Documentation for the create endpoint <operation/adminCreateApplication>`
