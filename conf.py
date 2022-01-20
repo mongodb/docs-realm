@@ -143,6 +143,7 @@ extlinks = {
     'node-driver': ('https://mongodb.github.io/node-mongodb-native/3.6/api/%s', ''),
     'xamarin': ('https://docs.microsoft.com/en-us/xamarin/%s', ''),
     'flutter': ('https://docs.flutter.dev/%s', ''),
+    'flutter-sdk': ('https://pub.dev/documentation/realm/latest/%s', '')
 }
 
 intersphinx_mapping = {}
