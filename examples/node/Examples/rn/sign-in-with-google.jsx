@@ -14,14 +14,15 @@ import Realm from "realm";
 const realm = new Realm.App({
   id: REALM_APP_ID, // :remove:
   // :uncomment-start:
-  // id: <Your App ID>,
+  // id: "<Your App ID>",
   // :uncomment-end:
 });
+
 // Configure Google Auth
 const googleAuthConfig = {
   webClientId: WEB_CLIENT_ID, // :remove:
   // :uncomment-start:
-  // webClientId: <Your Web Client ID>,
+  // webClientId: "<Your Web Client ID>",
   // :uncomment-end:
 };
 GoogleSignin.configure(googleAuthConfig);

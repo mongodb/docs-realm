@@ -8,11 +8,12 @@ import Realm from "realm";
 
 // Instantiate Realm app
 const realm = new Realm.App({
-  id: <Your App ID>,
+  id: "<Your App ID>",
 });
+
 // Configure Google Auth
 const googleAuthConfig = {
-  webClientId: <Your Web Client ID>,
+  webClientId: "<Your Web Client ID>",
 };
 GoogleSignin.configure(googleAuthConfig);
 
