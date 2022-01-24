@@ -119,9 +119,10 @@ class FlexibleSyncTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     val user = it.get()
+                    // :code-block-start: explicitly-named-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
-                            // :code-block-start: explicitly-named-subscription
+                            // add a subscription with a name
                             subscriptions.add(
                                 Subscription.create(
                                     "frogSubscription",
@@ -129,11 +130,6 @@ class FlexibleSyncTest : RealmTest() {
                                         .equalTo("species", "spring peeper")
                                 )
                             )
-
-                            // later, you can look up this subscription by name
-                            val subscription =
-                                subscriptions.find("frogSubscription")
-                            // :code-block-end:
                         }
                         // :hide-start:
                         .inMemory()
@@ -143,12 +139,17 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
+                            // later, you can look up this subscription by name
+                            val subscription =
+                                realm.subscriptions.find("frogSubscription")
+
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()
                             // :hide-end:
                         }
                     })
+                    // :code-block-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -181,6 +182,7 @@ class FlexibleSyncTest : RealmTest() {
                     // :code-block-start: implicitly-named-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
+                            // add a subscription without assigning a name
                             subscriptions.add(
                                 Subscription.create(
                                     // :hide-start:

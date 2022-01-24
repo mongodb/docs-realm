@@ -109,18 +109,15 @@ public class FlexibleSyncTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
+                    // :code-block-start: explicitly-named-subscription
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
                                 public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                                    // :code-block-start: explicitly-named-subscription
+                                    // add a subscription with a name
                                     subscriptions.add(Subscription.create("frogSubscription",
                                             realm.where(Frog.class)
                                                 .equalTo("species", "spring peeper")));
-
-                                    // later, you can look up this subscription by name
-                                    Subscription subscription = subscriptions.find("frogSubscription");
-                                    // :code-block-end:
                                 }
                             })
                             // :hide-start:
@@ -133,12 +130,15 @@ public class FlexibleSyncTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
+                            // later, you can look up this subscription by name
+                            Subscription subscription = realm.getSubscriptions().find("frogSubscription");
                             // :hide-start:
                             realm.close();
                             expectation.fulfill();
                             // :hide-end:
                         }
                     });
+                    // :code-block-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -166,6 +166,7 @@ public class FlexibleSyncTest extends RealmTest {
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
                                 public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                                    // add a subscription without assigning a name
                                     subscriptions.add(Subscription.create(
                                             // :hide-start:
                                             "totallyNotASubscriptionName", // conflicts between unnamed subs -- nasty hack workaround

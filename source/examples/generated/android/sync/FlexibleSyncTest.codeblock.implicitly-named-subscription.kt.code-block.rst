@@ -2,6 +2,7 @@
 
    val config = SyncConfiguration.Builder(app.currentUser())
        .initialSubscriptions { realm, subscriptions ->
+           // add a subscription without assigning a name
            subscriptions.add(
                Subscription.create(
                    realm.where(Frog::class.java)
