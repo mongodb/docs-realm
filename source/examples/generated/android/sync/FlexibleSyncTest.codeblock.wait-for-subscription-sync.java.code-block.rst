@@ -1,13 +1,12 @@
 .. code-block:: java
-   :emphasize-lines: 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 7, 6, 7
 
    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
            .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                @Override
                public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
-                   subscriptions.add(Subscription.create("mySubscription",
-                           realm.where(Frog.class) 
-                                   .equalTo("species", "poison dart"))); 
+                   subscriptions.add(Subscription.create("my subscription",
+                           realm.where(Frog.class)
+                                   .equalTo("species", "poison dart")));
                }
            })
            .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)

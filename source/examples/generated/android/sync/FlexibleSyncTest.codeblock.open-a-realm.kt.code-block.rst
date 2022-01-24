@@ -1,5 +1,4 @@
 .. code-block:: kotlin
-   :emphasize-lines: 21, 24
 
    // instantiate a Realm App connection
    val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -21,10 +20,10 @@
                    subscriptions.add(
                        Subscription.create(
                            "subscriptionName",
-                           realm.where(Frog::class.java) 
+                           realm.where(Frog::class.java)
                                .equalTo("species", "spring peeper")
                        )
-                   ) 
+                   )
                }
                .build()
 

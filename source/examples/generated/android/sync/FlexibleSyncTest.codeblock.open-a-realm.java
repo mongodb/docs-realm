@@ -13,8 +13,8 @@ app.loginAsync(credentials, it -> {
                     @Override
                     public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
                         subscriptions.add(Subscription.create("subscriptionName",
-                                realm.where(Frog.class) 
-                                    .equalTo("species", "spring peeper"))); 
+                                realm.where(Frog.class)
+                                    .equalTo("species", "spring peeper")));
                     }
                 })
                 .build();

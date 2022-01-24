@@ -1,13 +1,12 @@
 .. code-block:: java
-   :emphasize-lines: 6, 7
 
    SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
            .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                @Override
                public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
                    subscriptions.add(Subscription.create("subscriptionName",
-                           realm.where(Frog.class) 
-                               .equalTo("species", "spring peeper"))); 
+                           realm.where(Frog.class)
+                               .equalTo("species", "spring peeper")));
                }
            })
            .build();

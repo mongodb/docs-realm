@@ -2,8 +2,8 @@ val config = SyncConfiguration.Builder(app.currentUser())
     .initialSubscriptions { realm, subscriptions ->
         subscriptions.add(
             Subscription.create(
-                "mySubscription",
-                realm.where(Frog::class.java) 
+                "my subscription",
+                realm.where(Frog::class.java)
                     .equalTo("species", "poison dart")
             )
         )

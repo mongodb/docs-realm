@@ -1,10 +1,22 @@
 .. code-block:: java
-   :emphasize-lines: 1, 1, 1, 1, 1, 1, 2, 3, 2, 3
 
-   subscriptions.add(Subscription.create(null,
-           realm.where(Frog.class) 
-                   .equalTo("species", "spring peeper"))); 
+   SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
+           .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
+               @Override
+               public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
+                   subscriptions.add(Subscription.create(
+                           realm.where(Frog.class)
+                                   .equalTo("species", "spring peeper")));
+               }
+           })
+           .build();
 
-   // later, you can look up this subscription by query
-   Subscription subscription = subscriptions.find(realm.where(Frog.class)
-       .equalTo("species", "spring peeper"));
+   Realm.getInstanceAsync(config, new Realm.Callback() {
+       @Override
+       public void onSuccess(Realm realm) {
+           Log.v("EXAMPLE", "Successfully opened a realm.");
+           // later, you can look up this subscription by query
+           Subscription subscription = realm.getSubscriptions().find(realm.where(Frog.class)
+                   .equalTo("species", "spring peeper"));
+       }
+   });

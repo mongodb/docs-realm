@@ -3,8 +3,10 @@ package com.mongodb.realm.examples.kotlin
 import android.util.Log
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
+import com.mongodb.realm.examples.getRandomPartition
 import com.mongodb.realm.examples.model.kotlin.Frog
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
@@ -12,11 +14,31 @@ import io.realm.mongodb.User
 import io.realm.mongodb.sync.Subscription
 import io.realm.mongodb.sync.SyncConfiguration
 import java.util.concurrent.TimeUnit
+import org.junit.Before
 import org.junit.Test
 
 class FlexibleSyncTest : RealmTest() {
 
     var YOUR_APP_ID = "android-flexible-rxwsf" // App ID for flexible sync project, since flexible sync and partition-sync cannot coexist
+
+    @Before
+    fun before() { // required because otherwise each test after the first will fail because of cached/new config conflicts.
+        // we delete the "default.realm" config (if it exists) and then try to override the default realm name to something else to prevent conflicts.
+        val appID = YOUR_APP_ID // replace this with your App ID
+        activity!!.runOnUiThread {
+            val app = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
+            val defConfig =
+                RealmConfiguration.Builder().name("default.realm").build()
+            Realm.deleteRealm(defConfig)
+            // this seems to be the only way to override the default name ("default.realm") used by flexible sync. Yes, it is not a good way.
+            val overrideDefaultName =
+                RealmConfiguration.Builder().name(getRandomPartition()).build()
+            Realm.setDefaultConfiguration(overrideDefaultName)
+        }
+    }
 
     @Test
     fun openARealm() {
@@ -45,11 +67,15 @@ class FlexibleSyncTest : RealmTest() {
                             subscriptions.add(
                                 Subscription.create(
                                     "subscriptionName",
-                                    realm.where(Frog::class.java) // :emphasize:
+                                    realm.where(Frog::class.java)
                                         .equalTo("species", "spring peeper")
                                 )
-                            ) // :emphasize:
+                            )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
 
                     // instantiate a realm instance with the flexible sync configuration
@@ -57,6 +83,7 @@ class FlexibleSyncTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // :hide-start:
+                            realm.close()
                             expectation.fulfill()
                             // :hide-end:
                         }
@@ -98,21 +125,26 @@ class FlexibleSyncTest : RealmTest() {
                             subscriptions.add(
                                 Subscription.create(
                                     "frogSubscription",
-                                    realm.where(Frog::class.java) // :emphasize:
+                                    realm.where(Frog::class.java)
                                         .equalTo("species", "spring peeper")
                                 )
-                            ) // :emphasize:
+                            )
 
                             // later, you can look up this subscription by name
                             val subscription =
                                 subscriptions.find("frogSubscription")
                             // :code-block-end:
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // :hide-start:
+                            realm.close()
                             expectation.fulfill()
                             // :hide-end:
                         }
@@ -146,36 +178,41 @@ class FlexibleSyncTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     val user = it.get()
+                    // :code-block-start: implicitly-named-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
-                            // :code-block-start: implicitly-named-subscription
                             subscriptions.add(
                                 Subscription.create(
-                                    null,
-                                    realm.where(Frog::class.java) // :emphasize:
+                                    // :hide-start:
+                                    "totallyNotASubscriptionName", // conflicts between unnamed subs -- nasty hack workaround
+                                    // :hide-end:
+                                    realm.where(Frog::class.java)
                                         .equalTo("species", "spring peeper")
                                 )
-                            ) // :emphasize:
-
-                            // later, you can look up this subscription by query
-                            val subscription =
-                                subscriptions.find(
-                                    realm.where(
-                                        Frog::class.java
-                                    )
-                                        .equalTo("species", "spring peeper")
-                                )
-                            // :code-block-end:
+                            )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
+                            // later, you can look up this subscription by query
+                            val subscription =
+                                realm.subscriptions.find(
+                                    realm.where(
+                                        Frog::class.java
+                                    ).equalTo("species", "spring peeper")
+                                )
                             // :hide-start:
+                            realm.close()
                             expectation.fulfill()
                             // :hide-end:
                         }
                     })
+                    // :code-block-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -210,12 +247,15 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "mySubscription",
-                                    realm.where(Frog::class.java) // :emphasize:
+                                    "my subscription",
+                                    realm.where(Frog::class.java)
                                         .equalTo("species", "poison dart")
                                 )
                             )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        // :hide-end:
                         .waitForInitialRemoteData(
                             2112,
                             TimeUnit.MILLISECONDS
@@ -225,6 +265,7 @@ class FlexibleSyncTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // :hide-start:
+                            realm.close()
                             expectation.fulfill()
                             // :hide-end:
                         }
@@ -263,30 +304,34 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "mySubscription",
+                                    "my frog subscription",
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "treefrog")
                                 )
                             )
+                            subscriptions.add(
+                                Subscription.create(
+                                    "other frog subscription",
+                                    realm.where(Frog::class.java)
+                                        .equalTo("species", "cane toad")
+                                )
+                            )
                         }
-                        .waitForInitialRemoteData(
-                            2112,
-                            TimeUnit.MILLISECONDS
-                        )
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
                             // :code-block-start: update-subscriptions-by-name
                             realm.subscriptions.update { subscriptions ->
                                 // to update a named subscription, create a replacement with
                                 // the same name and add it to the subscription set
                                 subscriptions.addOrUpdate(
                                     Subscription.create(
-                                        "mySubscription",
+                                        "my frog subscription",
                                         realm.where(Frog::class.java)
                                             .equalTo(
                                                 "name",
@@ -296,6 +341,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             }
                             // :code-block-end:
+                            // :hide-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :hide-end:
                         }
                     })
                 } else {
@@ -331,30 +380,26 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "mySubscription",
+                                    "my froggy subscription",
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "treefrog")
                                 )
                             )
                             subscriptions.add(
                                 Subscription.create(
-                                    null,
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "cane toad")
                                 )
                             )
                         }
-                        .waitForInitialRemoteData(
-                            2112,
-                            TimeUnit.MILLISECONDS
-                        )
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
                             // :code-block-start: update-subscriptions-by-query
                             realm.subscriptions.update { subscriptions ->
                                 // to update an unnamed subscription, remove it from the
@@ -363,25 +408,27 @@ class FlexibleSyncTest : RealmTest() {
                                     subscriptions.find(
                                         realm.where(
                                             Frog::class.java
+                                        ).equalTo(
+                                            "species",
+                                            "cane toad"
                                         )
-                                            .equalTo(
-                                                "species",
-                                                "cane toad"
-                                            )
                                     )
                                 subscriptions.remove(mySubscription)
                                 subscriptions.addOrUpdate(
                                     Subscription.create(
-                                        "mySubscription",
                                         realm.where(Frog::class.java)
                                             .equalTo(
-                                                "name",
-                                                "Benedict Cumberburger"
+                                                "species",
+                                                "albino cane toad"
                                             )
                                     )
                                 )
                             }
                             // :code-block-end:
+                            // :hide-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :hide-end:
                         }
                     })
                 } else {
@@ -422,14 +469,22 @@ class FlexibleSyncTest : RealmTest() {
                                         .equalTo("species", "treefrog")
                                 )
                             )
+                            subscriptions.add(
+                                Subscription.create(
+                                    "myOtherSubscription",
+                                    realm.where(Frog::class.java)
+                                        .equalTo("species", "milky frog")
+                                )
+                            )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
                             // :code-block-start: remove-single-subscription
                             realm.subscriptions.update { subscriptions ->
                                 val mySubscription =
@@ -437,6 +492,10 @@ class FlexibleSyncTest : RealmTest() {
                                 subscriptions.remove(mySubscription)
                             }
                             // :code-block-end:
+                            // :hide-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :hide-end:
                         }
                     })
                 } else {
@@ -472,19 +531,20 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "mySubscription",
+                                    "my Subscription",
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "treefrog")
                                 )
                             )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
                             // :code-block-start: remove-all-subscriptions-to-an-object-type
                             realm.subscriptions.update { subscriptions ->
                                 subscriptions.removeAll(
@@ -492,6 +552,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             }
                             // :code-block-end:
+                            // :hide-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :hide-end:
                         }
                     })
                 } else {
@@ -527,22 +591,27 @@ class FlexibleSyncTest : RealmTest() {
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
                                 Subscription.create(
-                                    "mySubscription",
+                                    "treefrog sub",
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "treefrog")
                                 )
                             )
                         }
+                        // :hide-start:
+                        .inMemory()
+                        .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
+                        // :hide-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
-                            expectation.fulfill()
-                            // :hide-end:
                             // :code-block-start: remove-all-subscriptions
                             realm.subscriptions.update { subscriptions -> subscriptions.removeAll() }
                             // :code-block-end:
+                            // :hide-start:
+                            realm.close()
+                            expectation.fulfill()
+                            // :hide-end:
                         }
                     })
                 } else {

@@ -1,5 +1,4 @@
 .. code-block:: java
-   :emphasize-lines: 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
    realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
        @Override

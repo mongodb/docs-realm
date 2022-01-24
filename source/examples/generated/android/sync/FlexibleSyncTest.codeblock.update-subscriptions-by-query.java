@@ -9,9 +9,9 @@ realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
         subscriptions.remove(mySubscription);
 
         subscriptions.addOrUpdate(
-                Subscription.create("mySubscription",
+                Subscription.create(
                         realm.where(Frog.class)
-                                .equalTo("name",
-                                        "Benedict Cumberburger")));
+                                .equalTo("species",
+                                        "albino cane toad")));
     }
 });

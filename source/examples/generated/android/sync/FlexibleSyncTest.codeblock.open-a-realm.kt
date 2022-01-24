@@ -18,10 +18,10 @@ app.loginAsync(
                 subscriptions.add(
                     Subscription.create(
                         "subscriptionName",
-                        realm.where(Frog::class.java) 
+                        realm.where(Frog::class.java)
                             .equalTo("species", "spring peeper")
                     )
-                ) 
+                )
             }
             .build()
 

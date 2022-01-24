@@ -16,6 +16,7 @@ import org.junit.BeforeClass
 import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
+import org.junit.After
 
 abstract class RealmTest {
     @JvmField

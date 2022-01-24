@@ -5,20 +5,18 @@ realm.subscriptions.update { subscriptions ->
         subscriptions.find(
             realm.where(
                 Frog::class.java
+            ).equalTo(
+                "species",
+                "cane toad"
             )
-                .equalTo(
-                    "species",
-                    "cane toad"
-                )
         )
     subscriptions.remove(mySubscription)
     subscriptions.addOrUpdate(
         Subscription.create(
-            "mySubscription",
             realm.where(Frog::class.java)
                 .equalTo(
-                    "name",
-                    "Benedict Cumberburger"
+                    "species",
+                    "albino cane toad"
                 )
         )
     )

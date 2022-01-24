@@ -3,7 +3,7 @@ realm.subscriptions.update { subscriptions ->
     // the same name and add it to the subscription set
     subscriptions.addOrUpdate(
         Subscription.create(
-            "mySubscription",
+            "my frog subscription",
             realm.where(Frog::class.java)
                 .equalTo(
                     "name",
