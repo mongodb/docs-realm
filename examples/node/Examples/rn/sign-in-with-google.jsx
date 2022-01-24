@@ -19,13 +19,12 @@ const realm = new Realm.App({
 });
 
 // Configure Google Auth
-const googleAuthConfig = {
+GoogleSignin.configure({
   webClientId: WEB_CLIENT_ID, // :remove:
   // :uncomment-start:
   // webClientId: "<Your Web Client ID>",
   // :uncomment-end:
-};
-GoogleSignin.configure(googleAuthConfig);
+});
 
 export default function GoogleSignInButton() {
   const [signinInProgress, setSigninInProgress] = useState(false);
