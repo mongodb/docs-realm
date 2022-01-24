@@ -24,6 +24,14 @@ content: |
   application. Determine which cluster you want to use and select it from
   the :guilabel:`Select Cluster To {+sync-short+}` dropdown menu.
 
+  .. important:: Ineligible Clusters
+
+     Flexible Sync requires MongoDB 5.0, which is not currently available
+     on shared clusters. Clusters display as gray and not-selectable
+     in the UI when they do not meet the requirements for Flexible Sync. 
+     You currently need a minimum of an M10 cluster running MongoDB 5.0 to 
+     enable Flexible Sync in your Realm application.
+
   .. figure:: /images/flex-sync-select-development-details.png
      :width: 750px
      :alt: Select Development Details Menu
