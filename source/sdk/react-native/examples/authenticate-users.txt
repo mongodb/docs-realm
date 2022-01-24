@@ -209,7 +209,7 @@ Google User
 -----------
 
 The :doc:`Google </authentication/google>` authentication provider allows you to
-authenticate users through a Google project using their existing Google account.
+authenticate users with their existing Google account.
 
 .. note:: Enable the Google Auth Provider
    
@@ -235,7 +235,7 @@ Use that ID token to log into Realm.
 
    // Log the user in to your app
    const credentials = Realm.Credentials.google({ idToken });
-   app.logIn(credentials).then((user: Realm.User) => {
+   app.logIn(credentials).then((user) => {
       console.log(`Logged in with id: ${user.id}`);
    });
 
