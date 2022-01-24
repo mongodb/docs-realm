@@ -1,24 +1,19 @@
-title: Create a Flutter Project
-ref: create-a-Flutter-project
+title: Create a Dart Project
+ref: create-a-dart-project
 content: |
 
-  Create a Flutter project. Follow the instructions in the 
-  `Flutter documentation <https://docs.flutter.dev/get-started/test-drive?tab=terminal>`__.
+  Create a Dart project.
 
-  .. code-block::
-
-     flutter create <app_name>
-     cd <app_name>
 ---
 title: Add Realm to the Project
 ref: add-realm-to-project
 content: |
 
-  To add the `{+service-short+} Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
+  To add the `{+service-short+} Dart SDK <https://pub.dev/packages/realm_dart>`__ to your project, run the command:
 
   .. code-block:: 
 
-     flutter pub add realm
+     dart pub add realm
 
   This downloads the ``realm`` package and adds it to your project. 
   In your ``pubspec.yaml`` file, you should see:
@@ -27,19 +22,19 @@ content: |
      :caption: pubspec.yaml
 
      dependencies:
-       realm: <latest_version>
+       realm_dart: <latest_version>
 
 ---
 title: Import Realm Package
 ref: import-realm-package
 content: |
 
-  To use the {+service-short+} Flutter SDK within your app, import the package 
+  To use the {+service-short+} Dart SDK within your app, import the package 
   into files where you will use it:
 
   .. code-block:: dart
 
-     import 'package:realm/realm.dart';
+     import 'package:realm_dart/realm.dart';
 
 ---
 title: Configure Generation of Realm Objects
@@ -56,7 +51,7 @@ content: |
 
   .. code-block::
 
-     flutter pub add build_runner --dev
+     dart pub add build_runner --dev
 
   Enable ``realm_generator`` by creating a ``build.yaml`` file with the following contents:
 
@@ -75,4 +70,4 @@ content: |
 
   .. code-block::
 
-     flutter run realm generate
+     dart run realm generate
