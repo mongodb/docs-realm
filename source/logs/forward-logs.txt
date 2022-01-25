@@ -324,3 +324,14 @@ log forwarder by name.
       .. code-block:: sh
          
          realm-cli push
+
+Restart a Suspended Log Forwarder
+---------------------------------
+
+A log forwarder may suspend in response to an event that prevents it
+from continuing, such as a network disruption or a change to the
+underlying cluster that stores the logs. Once suspended, a forwarder
+cannot be invoked and does not forward any logs.
+
+You can restart a suspended log forwarder from the :guilabel:`Logs >
+Forwarding` screen of the {+ui+}.
