@@ -1,20 +1,9 @@
 import 'package:test/test.dart';
-import '../models/Car.dart';
+import '../bin/models/Car.dart';
 import 'package:realm_dart/realm.dart';
 
 void main() {
   group('CRUD Operations', () {
-    // setUp(() {
-    //   realm = Realm(config);
-    // });
-    // tearDown(() {
-    //   realm.close();
-    // });
-    // tearDownAll(() {
-    //   // realm.close();
-    //   // Realm.deleteRealm(config.path);
-    // });
-
     test('Create Realm Object', () {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);

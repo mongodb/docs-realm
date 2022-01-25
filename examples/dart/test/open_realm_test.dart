@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import '../models/Car.dart';
+import '../bin/models/Car.dart';
 import 'package:realm_dart/realm.dart';
 
 void main() {
