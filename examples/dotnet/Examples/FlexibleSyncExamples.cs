@@ -4,17 +4,14 @@ using Realms.Sync;
 using MongoDB.Bson;
 using System.Linq;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace Examples
 {
     public class FlexibleSyncExamples
     {
-        public FlexibleSyncExamples()
-        {
-
-        }
         [Test]
-        public async void testUseFlexibleSync()
+        public async Task TestUseFlexibleSync()
         {
             var app = App.Create("dotnet-flexible-wtzwc");
             var user = await app.LogInAsync(Credentials.Anonymous());
@@ -23,21 +20,22 @@ namespace Examples
             var config = new FlexibleSyncConfiguration(app.CurrentUser);
             var realm = Realm.GetInstance(config);
             // :code-block-end:
+    
 
             // :code-block-start: get-subscriptions
             var subscriptions = realm.Subscriptions;
-            // :code-block-end: 
+            // :code-block-end:
 
-            // :code-block-start: update-subscriptions:
+            // :code-block-start: update-subscriptions
             subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
-                var longRunningTasksQuery = realm.All<Task>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 ); 
+                var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 ); 
                 var longRunningTasksSubscriptionOptions = new SubscriptionOptions() { Name = "longRunningTasksSubscription" };
                 var longRunningTasksSubscription = subscriptions.Add(longRunningTasksQuery, longRunningTasksSubscriptionOptions);
 
                 // subscribe to all of Ben's Task objects
-                var bensTasks = subscriptions.Add(realm.All<Task>().Where(t => t.Owner == "Ben"));
+                var bensTasks = subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 var teamsSubscriptionOptions = new SubscriptionOptions() { Name = "teamsSubscription", UpdateExisting = false };
@@ -55,7 +53,7 @@ namespace Examples
             // :code-block-start: update-a-subscription
             subscriptions.Update(() =>
             {
-                var updatedLongRunningTasksQuery = realm.All<Task>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
+                var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
                 var longRunningTasksSubscriptionOptions = new SubscriptionOptions() { Name = "longRunningTasksSubscription" };
                 var longRunningTasksSubscription = subscriptions.Add(updatedLongRunningTasksQuery, longRunningTasksSubscriptionOptions);
             });
@@ -63,7 +61,7 @@ namespace Examples
 
             // :code-block-start: remove-subscription-by-query
             // remove a subscription by it's query
-            var query = realm.All<Task>().Where(t => t.Owner == "Ben");
+            var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
             subscriptions.Remove(query);
             // :code-block-end:
 
@@ -81,7 +79,7 @@ namespace Examples
             // :code-block-end:
         }
     }
-    class Task : RealmObject
+    class MyTask : RealmObject
     {
         [PrimaryKey]
         [MapTo("_id")]
