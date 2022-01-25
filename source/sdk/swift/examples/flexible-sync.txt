@@ -54,23 +54,8 @@ priority -- higher is more important -- and a count of
 minutes spent working on it. A ``Team`` has a ``teamName``, 
 zero or more ``Tasks``, and a list of ``members``.
 
-.. code-block:: swift
-
-   class Task: Object {
-      @Persisted(primaryKey: true) var id: ObjectId
-      @Persisted var taskName: String
-      @Persisted var assignee: String?
-      @Persisted var completed: Bool
-      @Persisted var progressMinutes: Int
-   }
-
-   class Team: Object {
-      @Persisted(primaryKey: true) var id: ObjectId
-      @Persisted var teamName: String
-      @Persisted var tasks: List<Task>
-      @Persisted var members: List<String>
-   }
-
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.flexible-sync-models.swift
+   :language: swift
 
 .. _ios-sync-subscribe-to-queryable-fields:
 
@@ -103,20 +88,14 @@ object types. You can also have multiple queries on the same object type.
    You can create a subscription with an explicit name. Then, you can
    search for that subscription by name to update or remove it.
 
-   .. code-block:: swift 
-
-      QuerySubscription<Task>(name: "long-running-completed") {
-         $0.completed == true && $0.progressMinutes > 120
-      }
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-by-name.swift
+      :language: swift
 
    If you do not specify a ``name`` for a subscription, you can search 
    for the subscription by the query string.
 
-   .. code-block:: swift
-
-      QuerySubscription<Team> {
-         $0.teamName == "Developer Education"
-      }
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-without-name.swift
+      :language: swift
 
 .. note:: Duplicate subscriptions
 
@@ -140,45 +119,14 @@ new subscription to the client's Realm subscriptions.
 
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   subscriptions.write({
-      subscriptions.append {
-         QuerySubscription<Team> {
-            $0.teamName == "Developer Education"
-         }
-      }
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-single-subscription.swift
+   :language: swift
 
 You can add multiple subscriptions within a subscription write block, 
 including subscriptions of different object types.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   subscriptions.write({
-      subscriptions.append {
-         QuerySubscription<Team> {
-            $0.teamName == "Developer Education"
-         }
-         QuerySubscription<Task>(named: "completed-tasks") {
-            $0.completed == true
-         }
-      }
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-multiple-subscriptions.swift
+   :language: swift
 
 .. _ios-sync-check-subscription-state:
 .. _ios-sync-react-to-subscription-changes:
@@ -203,22 +151,8 @@ UI, for example, or taking another action based on changes to the data set,
 take those actions in ``onComplete``. This is also where you can handle 
 optional errors that occur during synchronization.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   subscriptions.write({
-      subscriptions.remove {
-         QuerySubscription<Task> {
-            $0.assignee == "Joe Doe"
-         }
-      }
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-subscription-with-oncomplete.swift
+   :language: swift
 
 Async/Await
 ```````````
@@ -270,48 +204,15 @@ You can update subscriptions using ``update``. In this example, we
 search for a subscription matching our query and then update that 
 subscription with a new query. 
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   let foundSubscription = subscriptions.first {
-      QuerySubscription<Team> { 
-         $0.teamName == "Developer Education" 
-      }
-   }
-   subscriptions.write({
-      foundSubscription?.update {
-         QuerySubscription<Team>(name: "docs-team") {
-            $0.teamName == "Documentation"
-         }
-      }
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription.swift
+   :language: swift
 
 You can also search for a subscription by name. In this example, we 
 search for a subscription by name and then update that subscription with
 a new query.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   let foundSubscription = subscriptions.first(named: "docs-team")
-   subscriptions.write({
-      foundSubscription?.update {
-         QuerySubscription<Team>(name: "docs-team") {
-            $0.teamName == "Documentation"
-         }
-      }
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription-by-name.swift
+   :language: swift
 
 .. _ios-remove-subscriptions:
 
@@ -334,25 +235,8 @@ You can remove a specific subscription query in a subscription write block
 using ``remove``. Specify the query by name or use the query as a string 
 name to find the appropriate query subscription to remove.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   // Look for a specific subscription, and then remove it
-   let foundSubscription = subscriptions.first(named: "docs-team")   
-   subscriptions.write({
-      subscriptions.remove(foundSubscription!)
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
-
-   // Or remove a subscription that you know exists without querying for it
-   subscriptions.write {
-      subscriptions.remove(named: "existing-subscription")
-   }
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-single-subscription.swift
+   :language: swift
 
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
@@ -360,18 +244,8 @@ Remove All Subscriptions to an Object Type
 If you want to remove all subscriptions to a specific object type, use the 
 ``removeAll`` method with ``ofType`` in a subscription write block.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   subscriptions.write({
-      subscriptions.removeAll(ofType: Team.self)
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-subscriptions-to-object-type.swift
+   :language: swift
 
 Remove All Subscriptions
 ````````````````````````
@@ -385,15 +259,5 @@ method in a subscription write block.
    get an error. A realm opened with a flexible sync configuration needs
    at least one subscription to sync with the server.
 
-.. code-block:: swift
-
-   let subscriptions = realm.subscriptions
-   subscriptions.write({
-      subscriptions.removeAll()
-   }, onComplete: { error in // error is optional
-      if error == nil {
-         // Flexible Sync has updated data to match the subscription
-      } else {
-         // Handle the error
-      }
-   })
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-all-subscriptions.swift
+   :language: swift
