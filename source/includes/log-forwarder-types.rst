@@ -1,4 +1,5 @@
 - ``auth``
+- ``endpoint``
 - ``function``
 - ``graphql``
 - ``push``
