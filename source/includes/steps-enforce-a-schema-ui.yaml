@@ -2,50 +2,48 @@ title: Navigate to the Collection Schema Screen
 ref: navigate-to-the-collection-schema-screen
 level: 4
 content: |
-  In the {+leftnav+}, click :guilabel:`Schema` beneath :guilabel:`Data Access`
-  to open the schema editor.
+  In the {+leftnav+}, click :guilabel:`Schema` beneath :guilabel:`Data
+  Access` to open the schema editor. Realm scans your linked cluster for
+  existing collections and lists them on the left side of the schema
+  editor.
   
-  Realm automatically scans your linked cluster for existing collections and
-  lists them on the left side of the schema editor. Find and select your
-  collection from the menu.
+  Find and select your collection from the menu to open the collection
+  configuration screen.
 ---
 title: Generate a Schema
 ref: generate-a-schema
 level: 4
-content: |
-  {+service-short+} can sample a subset of documents in the collection and
-  automatically generate a schema for you based on the sample.
+content: |  
+  If you already have data in your collection, {+service-short+} can
+  sample a subset of the documents in the collection and generate a
+  schema for you based on the sample. This step is optional, so if you
+  already have a schema or prefer to define one manually, skip this
+  step.
+  
+  You can configure the number of documents to sample and use the
+  MongoDB query language to limit the sample to specific documents. By
+  default, {+service-short+} randomly samples up to 500 documents from
+  the entire collection.
 
-  To automatically generate a schema, click the :guilabel:`Regenerate
-  Schema` button. By default, {+service-short+} randomly samples up to 1,000
-  documents from all documents in the collection, but you can configure
-  the number of documents to sample and specify a query to focus the
-  schema on specific documents.
-  To change the number of documents in the sample, specify your desired
-  number in the :guilabel:`Generate Schema` input box. You may sample up
-  a maximum of ``50,000`` documents. The process may take up to a minute
-  depending on the number and contents of the sampled documents.
+  To generate a schema from existing data:
+  
+  1. Click the :guilabel:`Generate Schema` button to open the sample configuration screen.
+  
+  2. Specify the sample size, up to a maximum of 50,000 documents.
+  
+  3. Optionally, click :guilabel:`Advanced` and specify a query,
+     projection, and/or sort to refine the sample query. Use the query
+     and sort filters to sample a specific subset of documents and use
+     the projection filter to sample a specific subset of fields from
+     each document.
+  
+  4. Click :guilabel:`Generate` to run the sample query and generate a
+     schema. The process may take up to a minute depending on the number
+     and contents of the sampled documents.
 
   .. figure:: /images/generate-schema-sample-size.png
      :lightbox:
      :alt: The Generate Schema sample size input in the {+ui+}
-
-  To modify which documents and fields to include in the sample, click
-  :guilabel:`Advanced (Optional)` and specify a standard MongoDB query,
-  projection, and/or sort filter in the :guilabel:`Define a Query` input
-  boxes. Use the query and sort filters to sample a specific subset of
-  documents and use the projection filter to sample a specific subset of
-  fields from each document.
-
-  .. figure:: /images/generate-schema-define-a-query.png
-     :lightbox:
-     :width: 750px
-     :alt: The Generate Schema query input in the {+ui+}
-
-  When you're satisfied with your sample configuration, click
-  :guilabel:`Generate Schema`. {+service-short+} will immediately begin to sample
-  documents and generate a collection schema based on your
-  configuration.
 ---
 title: Add Field-Level Schema Definitions
 ref: add-field-level-schema-definitions
@@ -183,35 +181,32 @@ level: 4
 content: |
   Once you have saved the collection schema, you can validate that
   existing documents in the collection conform to the schema.
-  {+service-short+} uses the same approach to sample documents for validation as it
-  does for automatic schema generation.
+  
+  {+service-short+} samples documents for validation as it does for
+  automatic schema generation.
 
-  To validate a collection against its current schema, click the
-  :guilabel:`Validate` tab and configure the document sample. Just like
-  with schema generation, you can specify the number of documents to
-  sample as well as a MongoDB query, and/or sort document to
-  modify which documents and fields {+service-short+} includes in the sample.
+  To validate the data in a collection:
+  
+  1. Click the :guilabel:`Run Validation` button to open the validation configuration window.
+  
+  2. Specify the sample size, up to a maximum of 50,000 documents.
+  
+  3. Optionally, click :guilabel:`Advanced` and specify a query and/or
+     sort to refine the validation to a specific subset of documents.
+  
+  4. Click :guilabel:`Run Validation` to sample documents from the collection
+     and validate each document against the schema.
 
-  Once you have configured the sample, click the :guilabel:`Run
-  Validation` button. {+service-short+} will sample documents from the collection
-  and validate each document against the schema. Once the validation is
-  complete, {+service-short+} shows a table that lists any validation errors.
-
-  .. figure:: /images/schema-validation-sample-config.png
-     :alt: The configuration screen for schema validation in the {+ui+}
-     :lightbox:
-
-  Each row of the table represents a specific type of validation error
-  for a particular field and indicates the number of documents that failed
-  to validate in that way.
-
+  Once validation is complete, {+service-short+} lists any validation
+  errors from the sample in the :guilabel:`JSON Validation Errors`
+  table. Each row of the table represents a specific type of validation
+  error for a particular field and indicates the number of documents
+  that failed to validate in that way.
+  
+  For each validation error, you can use the :guilabel:`Actions` menu to
+  download the raw documents that failed or copy a MongoDB query that
+  finds the failed documents.
+  
   .. figure:: /images/schema-validation-errors-table.png
      :alt: The table that displays schema validation errors in the {+ui+}
      :lightbox:
-
-  To see the specific documents that caused a given validation error,
-  click the :guilabel:`Copy Query` button for that error. This copies a
-  standard MongoDB query that you can use to find the documents in the
-  ``mongo`` shell, MongoDB compass, or the Atlas Data Explorer. You can
-  also click the :guilabel:`Failed Documents` button to download the raw
-  validation data.
