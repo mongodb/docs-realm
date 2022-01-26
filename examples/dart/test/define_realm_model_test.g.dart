@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'car.dart';
+part of 'define_realm_model_test.dart';
 
 // **************************************************************************
 // RealmObjectGenerator

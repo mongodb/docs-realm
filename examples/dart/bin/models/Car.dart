@@ -1,6 +1,6 @@
 import 'package:realm_dart/realm.dart';
 
-part 'Car.g.dart';
+part 'car.g.dart';
 
 @RealmModel()
 class _Car {

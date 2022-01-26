@@ -1,4 +1,4 @@
-import './models/Car.dart';
+import 'models/car.dart';
 import 'package:realm_dart/realm.dart';
 
 void main(List<String> arguments) {
