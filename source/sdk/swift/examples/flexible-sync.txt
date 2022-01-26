@@ -1,0 +1,265 @@
+.. _ios-flexible-sync:
+
+=======================
+Flexible Sync - iOS SDK
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+.. versionadded:: 10.22.0
+
+Flexible Sync uses subscriptions and permissions to determine which
+data to sync with your {+app+}.
+
+To use Flexible Sync in an iOS client:
+
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`
+- :ref:`Initialize the app <ios-quick-start-init-app>`
+- :ref:`Authenticate a user <ios-quick-start-authenticate>` in
+  your client project.
+- :ref:`Open the synced Realm with a Flexible Sync configuration <ios-flexible-sync-open-realm>`
+- :ref:`Add subscriptions to the client application <ios-sync-subscribe-to-queryable-fields>`
+
+You can add, update, and remove query subscriptions to determine which data 
+syncs to the client device.
+
+.. include:: /includes/note-flexible-sync-preview.rst
+
+.. seealso::
+
+   This page details how to manage subscriptions for Flexible Sync. 
+   
+   For general information about using Realm Sync with the Swift SDK, 
+   such as how to sync changes in the background or pause a sync session,
+   see: :ref:`Sync Changes Between Devices <ios-sync-changes-between-devices>`.
+
+   For information about setting up permissions for Flexible Sync, see:
+   :ref:`Flexible Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
+
+About the Examples on This Page
+-------------------------------
+   
+The examples on this page use a simple data set for a
+task list app. The two Realm object types are ``Team``
+and ``Task``. A ``Task`` has a ``taskName``, assignee's name, and
+completed flag. There is also an arbitrary number for
+priority -- higher is more important -- and a count of
+minutes spent working on it. A ``Team`` has a ``teamName``, 
+zero or more ``Tasks``, and a list of ``members``.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.flexible-sync-models.swift
+   :language: swift
+
+.. _ios-sync-subscribe-to-queryable-fields:
+
+Subscribe to Queryable Fields
+-----------------------------
+
+When you configure Flexible Sync on the backend, you specify which fields
+your client application can query. In the client application, use the 
+``subscriptions`` API to manage a set of subscriptions to specific queries on 
+queryable fields.
+
+You can:
+
+- Add subscriptions
+- React to subscription state
+- Update subscriptions with new queries
+- Remove individual subscriptions or all subscriptions for an object type
+
+Data matching the subscription, where the user has the appropriate 
+permissions, syncs between devices and the backend application.
+
+You can specify an optional string name for your subscription.
+
+When you create a subscription, Realm looks for data matching a query on a
+specific object type. You can have multiple subscription sets on different 
+object types. You can also have multiple queries on the same object type.
+
+.. example::
+
+   You can create a subscription with an explicit name. Then, you can
+   search for that subscription by name to update or remove it.
+
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-by-name.swift
+      :language: swift
+
+   If you do not specify a ``name`` for a subscription, you can search 
+   for the subscription by the query string.
+
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-without-name.swift
+      :language: swift
+
+.. note:: Duplicate subscriptions
+
+   Subscription names must be unique. Trying to append a subscription 
+   with the same name as an existing subscription throws an error.
+   
+   If you do not explicitly name a subscription, and instead subscribe 
+   to the same unnamed query more than once, Realm does not persist 
+   duplicate queries to the subscription set. 
+   
+   If you subscribe to the same query more than once under different names, 
+   Realm persists both subscriptions to the subscription set.
+
+.. _ios-sync-add-subscription:
+
+Add a Subscription
+~~~~~~~~~~~~~~~~~~
+
+Add a subscription in a subscriptions write block. You append each
+new subscription to the client's Realm subscriptions.
+
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-single-subscription.swift
+   :language: swift
+
+You can add multiple subscriptions within a subscription write block, 
+including subscriptions of different object types.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-multiple-subscriptions.swift
+   :language: swift
+
+.. _ios-sync-check-subscription-state:
+.. _ios-sync-react-to-subscription-changes:
+
+Wait for Subscription Changes to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Writing an update to the subscription set locally is only one component 
+of changing a subscription. After the local subscription change, the realm 
+synchronizes with the server to resolve any updates to the data due to 
+the subscription change. This could mean adding or removing data from the 
+synced realm. 
+
+Pre Async/Await
+```````````````
+
+If your application does not use Swift's async/await feature, you can react 
+to subscription changes syncing with the server using the ``onComplete`` 
+block. This block is called after subscriptions are synchronized with the 
+server. If you want to react to subscription state changes by redrawing a 
+UI, for example, or taking another action based on changes to the data set, 
+take those actions in ``onComplete``. This is also where you can handle 
+optional errors that occur during synchronization.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-subscription-with-oncomplete.swift
+   :language: swift
+
+Async/Await
+```````````
+
+If your application uses async/await, you don't need the ``onComplete`` 
+block. The write transaction executes asynchronously and throws an 
+error if the transaction cannot complete successfully.
+
+.. code-block:: swift
+
+   func changeSubscription() async throws {
+      let subscriptions = realm.subscriptions
+      try await subcriptions.write {
+         subscriptions.remove {
+            QuerySubscription<Task> {
+               $0.assignee == "Joe Doe"
+            }
+         }
+      }
+   }
+
+SyncSubscriptionState Enum
+``````````````````````````
+
+Additionally, you can watch the state of the subscription set with the 
+``SyncSubscriptionState`` enum. You can use subscription state to:
+
+- Show a progress indicator while data is downloading
+- Find out when a subscription set becomes superseded
+- Wait for a subscription that has been persisted locally to sync with
+  the server
+- Watch for errors
+
+
+Superseded
+``````````
+
+The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
+another thread writes a subscription on a different instance of the 
+subscription set. If the state becomes ``superseded``, you must obtain 
+a new instance of the subscription set before you can write to it.
+
+.. _ios-update-subscriptions-with-new-query:
+
+Update Subscriptions with a New Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update subscriptions using ``update``. In this example, we 
+search for a subscription matching our query and then update that 
+subscription with a new query. 
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription.swift
+   :language: swift
+
+You can also search for a subscription by name. In this example, we 
+search for a subscription by name and then update that subscription with
+a new query.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription-by-name.swift
+   :language: swift
+
+.. _ios-remove-subscriptions:
+
+Remove Subscriptions
+~~~~~~~~~~~~~~~~~~~~
+
+To remove subscriptions, you can:
+
+- Remove a single subscription query
+- Remove all subscriptions to a specific object type
+- Remove all subscriptions
+
+When you remove a subscription query, Realm asynchronously removes the
+synced data that matched the query from the client device.
+
+Remove a Single Subscription
+````````````````````````````
+
+You can remove a specific subscription query in a subscription write block 
+using ``remove``. Specify the query by name or use the query as a string 
+name to find the appropriate query subscription to remove.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-single-subscription.swift
+   :language: swift
+
+Remove All Subscriptions to an Object Type
+``````````````````````````````````````````
+
+If you want to remove all subscriptions to a specific object type, use the 
+``removeAll`` method with ``ofType`` in a subscription write block.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-subscriptions-to-object-type.swift
+   :language: swift
+
+Remove All Subscriptions
+````````````````````````
+
+To remove all subscriptions from the subscription set, use the ``removeAll``
+method in a subscription write block.
+
+.. important::
+
+   If you remove all subscriptions and do not add a new one, you'll 
+   get an error. A realm opened with a flexible sync configuration needs
+   at least one subscription to sync with the server.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-all-subscriptions.swift
+   :language: swift

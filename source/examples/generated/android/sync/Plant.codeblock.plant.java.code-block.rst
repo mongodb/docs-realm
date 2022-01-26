@@ -1,5 +1,6 @@
 .. code-block:: java
 
+   import org.bson.codecs.pojo.annotations.BsonProperty;
    import org.bson.types.ObjectId;
 
    public class Plant {
@@ -8,6 +9,7 @@
        private String sunlight;
        private String color;
        private String type;
+       @BsonProperty("_partition")
        private String partition;
 
        // empty constructor required for MongoDB Data Access POJO codec compatibility
