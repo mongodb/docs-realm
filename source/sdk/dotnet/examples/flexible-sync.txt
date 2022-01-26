@@ -21,7 +21,7 @@ data to sync with your {+app+}.
 
 To use Flexible Sync in a .NET client:
 
-- Configure Flexible Sync on the backend [LINK TO BACKEND CONFIG PAGE WHEN COMPLETE]
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
 - :ref:`Initialize the app <dotnet-quick-start-init-app>`
 - :ref:`Authenticate a user <dotnet-quick-start-authenticate>` in
   your client project.
@@ -38,7 +38,7 @@ syncs to the client device.
 .. note:: Realm .NET SDK Version Requirement
 
    In addition to the requirements above, you must use :github:`Realm .NET version
-   10.9.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
+   10.9.0 <realm/realm-dotnet/releases>` or greater in order to use Flexible Sync
    in your Node.js client application.
 
 .. _dotnet-sync-subscribe-to-queryable-fields:
@@ -70,7 +70,7 @@ A Realm subscription in .NET has:
 - A query
 
 You can specify a string name for your subscription. If you do not give your
-subscription a name, it uses the value of the query as a string name.
+subscription a name, the name is set to null.
 
 When you create a subscription, Realm looks for data matching a query on a
 specific object type. In your Flexible Sync subscriptions, you can have
@@ -91,44 +91,41 @@ update existing subscriptions, as shown in the examples below.
 
 Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-Within a Flexible Sync ``transaction`` you can add queries to your list of subscriptions.
+Within a Flexible Sync ``transaction`` you can add queries to your list of
+subscriptions.
 
 Queries must be added to the list of existing subscriptions within a
-``transaction``. Create a transaction by passing a callback function ``update()`` on
-the ``subscriptions`` snapshot. Within the callback function, call the ``add()``
-method on the mutable subscription instance to add a query to the subscription.
+``transaction``. Create a transaction by calling ``SubscriptionSet.Update``.
+Within the callback function, call the ``Add()`` method on the
+``SubscriptionSet`` to add a query to the subscription.
 
-The ``mutableSubscriptionsInstance.add()`` method takes a ``query``, and a
+The ``SubscriptionSet.Add()`` method takes a ``query``, and a
 subscription options object. The subscription options include:
 
-- a ``name`` string field
-- a ``throwOnUpdate`` boolean field.
+- a ``Name`` string field
+- a ``UpdateExisting`` boolean field.
 
-If ``throwOnUpdate`` is false or not defined, adding a subscription with an
+If ``UpdateExisting`` is true, adding a subscription with an
 existing name will replace the existing query with the new query. However, if
-you set ``throwOnUpdate`` to true, adding a subscription with an existing name
-but a different query throws an exception.
+you set ``UpdateExisting`` to false, adding a subscription with an existing name
+but a different query throws an exception. ``UpdateExisting`` defaults to false.
 
-You can add a single query, or multiple queries within a ``subscription.update``
-transaction. In the example below, we subscribe to the queries we created
-earlier. 
+You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
+transaction. In the example below, we subscribe to three queries.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-subscriptions.cs
    :language: csharp
 
-Check the Status of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The subscription state shows if the server has acknowledged the subscription and
-the device has downloaded the data has locally.
+Wait for Subscription Changes to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Writing an update to the subscription set locally is only one part 
+of changing a subscription. After the local subscription change, the realm 
+synchronizes with the server to resolve any updates to the data due to 
+the subscription change. This could mean adding or removing data from the 
+synced realm. 
 
-You can use subscription state to:
-
-- Trigger error handling
-- Show if the transaction is pending or has completed
-- Find out when a subscription set is superseded, and you should obtain a
-  new instance of the subscription set to write a subscription change
-
-To the status of subscriptions, log the value of the subscription's ``state``.
+Use the ``SubscriptionSet.WaitForSynchronizationAsync()`` method to wait for the server to
+acknowledge this set of subscriptions.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
    :language: csharp
@@ -139,12 +136,12 @@ Update Subscriptions with a New Query
 You can update a named subscription with a new query. To update a subscriptions
 query, pass the new query and a subscription option with the name of the
 subscription that you want to update to the
-``mutableSubscriptionsInstance.add()`` method. Like adding a new subscription,
+``SubscriptionSet.Add()`` method. Like adding a new subscription,
 you must update a subscription within a transaction by calling
-``subscriptions.update()`` method.
+``SubscriptionSet.Update()`` method.
 
 In the following example, long running tasks are re-defined to be any tasks that
-have taken more than 180 minutes. 
+have taken more than 130 minutes. 
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-a-subscription.cs
    :language: csharp
@@ -152,7 +149,7 @@ have taken more than 180 minutes.
 .. note::
 
    Attempting to update a subscription that has the
-   ``SubscriptionOptions.throwOnUpdate`` field set to true, throw an exception.
+   ``SubscriptionOptions.UpdateExisting`` field set to false, throw an exception.
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
