@@ -44,19 +44,6 @@ definition to your application code:
    :language: dart
    :caption: Car.dart
 
-   import 'package:realm/realm.dart';
-
-   part 'Car.g.dart';
-
-   @RealmModel()
-   class _Car {
-      @PrimaryKey()
-      late final String make;
-
-      late final String model;
-      late int? miles;
-   }
-
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
 .. code-block::
@@ -69,11 +56,11 @@ where you defined the model class.
 Open a Realm
 ------------
 
-Use `Configuration <realm/Configuration-class.html>`__
+Use :flutter-sdk:`Configuration <realm/Configuration-class.html>`
 to control the specifics of the {+realm+} you
 would like to open, including schema.
 
-Pass your configuration to the `Realm constructor <https://pub.dev/documentation/realm/latest/realm/Realm-class.html>`__
+Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
@@ -85,7 +72,7 @@ Work with Realm Objects
 -----------------------
 
 Once you've opened a {+realm+}, you can create objects within it in a
-`write transaction block <https://pub.dev/documentation/realm/latest/realm/Realm/write.html>`_.
+:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -108,8 +95,7 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-`Realm.query<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
-method:
+:flutter-sdk:`Realm.query<RealmObject>() <realm/Realm/objects.html>` method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
@@ -128,14 +114,14 @@ Sort the results using :apple:`NSPredicate syntax <library/archive/documentation
 Delete Objects
 ~~~~~~~~~~~~~~
 
-Delete a car by calling the `Realm.delete(RealmObject) <https://pub.dev/documentation/realm/latest/realm/Realm/delete.html>`__
+Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
    :language: dart
 
-Delete multiple cars with the `Realm.deleteMany(List<RealmObject>) 
-<https://pub.dev/documentation/realm/latest/realm/Realm/deleteMany.html>`__ method in a write transaction block. 
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
+<realm/Realm/deleteMany.html>` method in a write transaction block. 
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
    :language: dart
