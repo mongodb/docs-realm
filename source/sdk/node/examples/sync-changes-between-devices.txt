@@ -12,12 +12,22 @@ Sync Changes Between Devices - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. _node-sync-open-a-synced-realm:
+.. _node-sync-changes-prereq:
 
-Open a Synced Realm
--------------------
+Prerequisites
+-------------
 
-.. include:: /includes/node-open-a-synced-realm.rst
+Before you can access a synced {+realm+} from the client, you must:
+
+1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+#. :ref:`Initialize the app <node-quick-start-init-app>`
+
+#. :ref:`Authenticate a user <node-quick-start-authenticate>` in
+   your client project.
+
+#. :ref:`Open a Flexible Synced Realm <node-flexible-sync-open-realm>` or :ref:`Open a Partition-Based Synced Realm <node-partition-sync-open-realm>`
+
 
 .. _node-sync-changes-in-the-background:
 
@@ -60,7 +70,7 @@ downloading any existing data from the server in the background.
    asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
    without the asynchronous API will cause an error if your session is online.
    Synced realms are opened asynchronously by default. Learn how to :ref:`open a
-   synced {+realm+} <node-open-a-synced-realm>`.
+   synced {+realm+} <node-partition-sync-open-realm>`.
 
 .. _node-pause-or-resume-a-sync-session:
 

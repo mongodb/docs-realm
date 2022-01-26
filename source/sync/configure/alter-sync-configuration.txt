@@ -1,0 +1,101 @@
+.. _alter-your-sync-configuration:
+
+=============================
+Alter Your Sync Configuration
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+Overview
+--------
+
+You may want to alter your {+sync-short+} configuration after you have already
+:ref:`enabled {+sync-short+} <enable-realm-sync>`. 
+
+If you are using Partition-Based {+sync-short+}, and want to change the ``Partition Key``,
+you can terminate and re-enable {+sync-short+}.
+
+If you are using Flexible {+sync-short+} and want to add or remove queryable
+fields, you can do so immediately, without terminating {+sync-short+}.
+
+.. alter-partition-based-sync-config:
+
+Alter Your Partition-Based Sync Configuration
+---------------------------------------------
+
+You must :ref:`Terminate {+sync-short+} <terminating-realm-sync>` and
+:ref:`Re-enable {+sync-short+} <re-enable-realm-sync>` to make changes to your
+Partition-Based {+sync-short+} Configuration. While you are re-enabling
+{+sync+}, you can specify a new Partition Key, or changes to your Read/Write
+Permissions. Making changes to your {+sync-short+} configuration while
+terminating and re-enabling {+sync-short+} will trigger a client reset. To learn
+more about handling client resets, read the :ref:`client reset <client-resets>`
+documentation.
+
+.. alter-flexible-sync-config:
+
+Alter Your Flexible Sync Configuration
+--------------------------------------
+To alter your Flexible {+sync-short+} Configuration, you can add or remove fields in the {+ui+} while
+{+sync-short+} is enabled without terminating and re-enabling {+sync-short+}. 
+
+.. add-a-queryable-field:
+
+Add a Queryable Field
+~~~~~~~~~~~~~~~~~~~~~
+To add a queryable field, navigate to the :guilabel:`{+sync-short+}` configuration screen
+through the {+leftnav+}. Under the :guilabel:`Select Queryable Fields` heading,
+you can create a new field(s) to construct a query on. Finally, make sure to
+click :guilabel:`Enable {+sync-short+}` to finish adding your queryable field and enable
+{+sync-short+}.
+
+.. note:: 
+
+   Devices using this new field will only be able to {+sync-short+} on this field once the
+   device has caught up to the point in time in :ref:`{+sync-short+} History <sync-history>`
+   where the field was added. 
+
+.. image:: /images/FS-add-queryable-field.png
+   :alt: Add a Queryable Field
+
+.. remove-a-queryable-field:
+
+Remove a Queryable Field
+~~~~~~~~~~~~~~~~~~~~~~~~
+To remove a queryable field, navigate to the :guilabel:`Sync` configuration
+screen through the {+leftnav+}. Under the :guilabel:`Select Queryable Fields`
+heading, you can click the :guilabel:`x` button next to the field you wish to
+delete. Finally, make sure to click :guilabel:`Enable {+sync-short+}` to finish adding
+your queryable field and enable {+sync-short+}.
+
+.. note:: Removing a Queryable Field Triggers a Client Reset on Devices Using That Field
+
+   When you remove a queryable field, any devices still using that field will
+   have their {+sync-short+} session dropped and receive a client reset. To learn more
+   about handling client resets, read the :ref:`client reset <client-resets>`
+   documentation. Clients that are not using this field, will continue syncing
+   data normally without receiving any errors. To avoid triggering a client
+   reset when you remove the queryable field in the :guilabel:`{+sync-short+}`
+   configuration screen, you should also remove this field on the client-side.
+
+.. image:: /images/FS-remove-queryable-field.png
+   :alt: Remove a Queryable Field
+
+.. flexible-sync-permission-changes:
+
+Permission Changes
+~~~~~~~~~~~~~~~~~~
+Making changes to permissions, whether implicitly through user metadata, or
+explicitly through changing configuration filters, will trigger a client reset
+and re-download of all {+sync-short+} data with the new permissions applied. 
+
+A client reset will not be triggered under the following cases: 
+
+- Adding a new collection to a {+sync-short+} schema, and defining permissions for the new namespace or using default roles. This will not trigger a client reset because permissions have not been applied previously.
+- Configuring custom permissions for the new collection in the same :ref:`draft <deploy-ui>` as the new schema. Conversely, deploying a draft with permission changes after you deploy the schema will lead to a client reset, since default permissions were applied in the initial deployment.

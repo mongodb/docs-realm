@@ -8,7 +8,7 @@ app.loginAsync(anonymousCredentials) {
             mongoClient.getDatabase("custom-user-data-database")!!
         val mongoCollection : MongoCollection<Document> =
             mongoDatabase.getCollection("custom-user-data-collection")!!
-        mongoCollection.insertOne(Document("user-id-field", user.id).append("favoriteColor", "pink"))
+        mongoCollection.insertOne(Document("user-id-field", user.id).append("favoriteColor", "pink").append("_partition", "partition"))
             .getAsync { result ->
                 if (result.isSuccess) {
                     Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${result.get().insertedId}")

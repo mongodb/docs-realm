@@ -11,7 +11,7 @@
            MongoCollection<Document> mongoCollection =
                    mongoDatabase.getCollection("custom-user-data-collection");
            mongoCollection.insertOne(
-                   new Document("user-id-field", user.getId()).append("favoriteColor", "pink"))
+                   new Document("user-id-field", user.getId()).append("favoriteColor", "pink").append("_partition", "partition"))
                    .getAsync(result -> {
                        if (result.isSuccess()) {
                            Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
