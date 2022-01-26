@@ -35,44 +35,64 @@ Your application's **data model** defines the structure of data
 stored within {+client-database+}.
 You can define your application's data model via Dart
 classes in your application code with
-:ref:`Realm Object Models <create-schema-from-rom>`.
+:ref:`Realm Object Models <create-schema-from-rom>`. 
+You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-class.html>`
+class that's used within your application.
 
-To define your application's data model, add the following class
-definition to your application code:
+Create Data Model
+~~~~~~~~~~~~~~~~~
 
-.. code-block:: dart
+To define your application's data model, add a Realm model class
+definition to your application code.
+
+Some considerations when defining your Realm model class: 
+
+- Import the ``realm`` package at the top of your class definition file. 
+
+- In your file, give your class a private name, such as ``class _Car``. 
+  You generate the public RealmObject class using the command in the 
+  Generate RealmObject Class section below, 
+  which outputs a public class, such as ``class Car``.
+
+- Make sure to include ``part Car.g.dart`` before the code defining your model.
+  This is required to generate the RealmObject class.
+
+.. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model.dart
+   :language: dart
    :caption: Car.dart
 
-   import 'package:realm/realm.dart';
+.. _flutter-generate-realmobject-class:
 
-   part 'Car.g.dart';
-
-   @RealmModel()
-   class _Car {
-      @PrimaryKey()
-      late final String make;
-
-      late final String model;
-      late int? miles;
-   }
+Generate RealmObject Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
 .. code-block::
    
-   flutter pub run build_runner build
+   dart run realm generate
 
-This creates the ``Car`` class in a ``Car.g.dart`` file in the same directory as 
-where you defined the model class. 
+Running this creates a ``Car`` class in a ``Car.g.dart`` file located in the directory 
+where you defined the model class per the above Create Data Model section.
+This ``Car`` class is public and part of the same library
+as the ``_Car`` data model class that you defined.
+The generated ``Car`` class is what's used throughout your application.
+
+If you'd like to watch your data model class to generate a new ``Car`` class whenever
+there's a change to `_Car`, run: 
+
+.. code-block:: 
+
+   dart run realm generate watch
 
 Open a Realm
 ------------
 
-Use `Configuration <realm/Configuration-class.html>`__
+Use :flutter-sdk:`Configuration <realm/Configuration-class.html>`
 to control the specifics of the {+realm+} you
 would like to open, including schema.
 
-Pass your configuration to the `Realm constructor <https://pub.dev/documentation/realm/latest/realm/Realm-class.html>`__
+Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
@@ -84,7 +104,7 @@ Work with Realm Objects
 -----------------------
 
 Once you've opened a {+realm+}, you can create objects within it in a
-`write transaction block <https://pub.dev/documentation/realm/latest/realm/Realm/write.html>`_.
+:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -107,8 +127,7 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-`Realm.query<RealmObject>() <https://pub.dev/documentation/realm/latest/realm/Realm/objects.html>`__
-method:
+:flutter-sdk:`Realm.query<RealmObject>() <realm/Realm/objects.html>` method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
@@ -119,7 +138,7 @@ of objects:
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
    :language: dart
 
-Sort the results using `NSPredicate syntax <https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pCreating.html>`_:
+Sort the results using :apple:`NSPredicate syntax <library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pCreating.html>`:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-sort.dart
    :language: dart
@@ -127,41 +146,41 @@ Sort the results using `NSPredicate syntax <https://developer.apple.com/library/
 Delete Objects
 ~~~~~~~~~~~~~~
 
-Delete a car by calling the `Realm.delete(RealmObject) <https://pub.dev/documentation/realm/latest/realm/Realm/delete.html>`__
+Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
    :language: dart
 
-Delete multiple cars with the `Realm.deleteMany(List<RealmObject>) 
-<https://pub.dev/documentation/realm/latest/realm/Realm/deleteMany.html>`__ method in a write transaction block. 
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
+<realm/Realm/deleteMany.html>` method in a write transaction block. 
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
    :language: dart
 
-Listen for Changes to Objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .. TODO(DOCSP-20150): refactor everything here. this is the roughest of sketches. 
-.. there's little confidence anything here is correct. it seems that the APIs for these operations 
+.. there's little confidence anything here is correct. the APIs for these operations 
 .. haven't been finished yet. 
+.. Listen for Changes to Objects
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
 
-To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
+.. Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
-   :language: dart
+.. To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
 
-To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
+.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
+..    :language: dart
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
-   :language: dart
+.. To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
 
-To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
+.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
+..    :language: dart
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
-   :language: dart
+.. To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
+
+.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
+..    :language: dart
 
 Close a Realm
 -------------
@@ -176,5 +195,5 @@ Further Examples
 ----------------
 
 For further examples of all the Flutter SDK methods described above and more, refer to 
-the :github:`Flutter SDK unit test suite <realm/realm-dart/blob/master/test/realm_test.dart>`.
+the :github:`Realm Dart Samples Github repo <realm/realm-dart-samples>`.
 

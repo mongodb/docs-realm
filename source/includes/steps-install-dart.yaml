@@ -56,36 +56,14 @@ content: |
      import 'package:realm_dart/realm.dart';
 
 ---
-title: Configure Generation of Realm Objects
-ref: configure-generation-realm-objects
+
+title: Generate Realm Objects
+ref: flutter-generate-realm-objects
 content: |
 
-  .. _configure-generation-realm-objects:
+  .. _flutter-generate-realm-objects:
 
-  To generate {+client-db-short+} Object classes for your app, you also have do
-  additional configuration. 
-
-  Add the `build_runner <https://pub.dev/packages/build_runner>`__ package as a 
-  development dependency:
-
-  .. code-block::
-
-     dart pub add build_runner --dev
-
-  Enable ``realm_generator`` by creating a ``build.yaml`` file with the following contents:
-
-  .. code-block:: yaml
-     :caption: build.yaml 
-
-     targets:
-      $default:
-          builders:
-              realm_generator|realm_object_builder:
-                  enabled: true
-                  generate_for:
-                      - lib/*.dart 
-
-  Now you can generate Realm RealmObject classes from your :ref:`data model classes <flutter-define-object-model>` by running:
+  Now generate Realm RealmObject classes from your :ref:`data model classes <flutter-define-object-model>` by running:
 
   .. code-block::
 

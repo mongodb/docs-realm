@@ -33,13 +33,18 @@ platform to access data stored in local {+realm+}s.
 Supported Realm Features
 ------------------------
 
-The alpha version of the SDK supports the following {+realm+} features:
+The alpha version of the SDK supports the following Realm features:
 
 - Create Realm objects
-- Retrieve Realm objects
+- Retrieve, query, sort, and filter Realm objects
 - Update Realm objects
-- Query, sort, and filter Realm objects
-- Implement change notifications
+- Delete Realm objects
+
+.. TODO(DOCSP-20150): add change notification support once it's ready
+.. - Implement change notifications
+
+.. include:: /includes/note-use-realm-with-only-dart.rst
+
 
 .. include:: /includes/note-use-realm-with-only-dart.rst
 
@@ -70,8 +75,9 @@ dependency and then check out the :ref:`Quick Start
 Dart-Only Realm
 ---------------
 
-In addition to using Realm with Flutter, you can also use Realm only with Dart,
-like a CLI application or web server. 
+In addition to using Realm with Flutter, you can also use Realm with projects
+that just use Dart, like a CLI application or web server. 
+
 
 The usage for Realm with Dart is the same as the Flutter SDK, except you must 
 install and set up a separate package. 
@@ -81,5 +87,5 @@ install and set up a separate package.
 Flutter SDK Reference
 ---------------------
 
-For generate reference documentation of the Flutter SDK refer to the `reference documentation 
-on pub.dev <https://pub.dev/documentation/realm/latest/>`__. This documentation is generated using `dartdoc <https://dart.dev/tools/dartdoc>`__.
+`Explore the reference documentation on pub.dev.
+<https://pub.dev/documentation/realm/latest/>`__

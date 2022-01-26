@@ -1,20 +1,9 @@
 import 'package:test/test.dart';
-import '../models/Car.dart';
+import '../bin/models/Car.dart';
 import 'package:realm_dart/realm.dart';
 
 void main() {
   group('CRUD Operations', () {
-    // setUp(() {
-    //   realm = Realm(config);
-    // });
-    // tearDown(() {
-    //   realm.close();
-    // });
-    // tearDownAll(() {
-    //   // realm.close();
-    //   // Realm.deleteRealm(config.path);
-    // });
-
     test('Create Realm Object', () {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);
@@ -22,9 +11,9 @@ void main() {
       // :snippet-start: create-realm-object
       final car = Car('Tesla', 'Model S', miles: 42);
       realm.write(() {
-        addedCar = realm.add(car); // :ignore:
+        addedCar = realm.add(car); // :remove:
         // :uncomment-start:
-        // realm.add(car);
+        //realm.add(car);
         // :uncomment-end:
       });
       // :snippet-end:
@@ -79,7 +68,6 @@ void main() {
         realm.add(Car('Audi', 'A8', miles: 99));
         realm.add(Car('Mercedes', 'G-Wagon', miles: 2));
       });
-      // TODO(DOCSP-20150): validate that this works as expected..i'm uncertain on how sort works
       final sortedCars = realm.query<Car>('TRUEPREDICATE SORT(model ASC)');
       for (var car in sortedCars) {
         print(car.model);

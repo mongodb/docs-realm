@@ -21,9 +21,13 @@ class Car extends _Car with RealmObject {
 
   @override
   String get make => RealmObject.get<String>(this, 'make') as String;
+  @override
+  set make(String value) => throw RealmUnsupportedSetError();
 
   @override
   String get model => RealmObject.get<String>(this, 'model') as String;
+  @override
+  set model(String value) => throw RealmUnsupportedSetError();
 
   @override
   int? get miles => RealmObject.get<int>(this, 'miles') as int?;
