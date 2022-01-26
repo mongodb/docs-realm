@@ -54,12 +54,12 @@ Some considerations when defining your Realm model class:
   Generate RealmObject Class section below, 
   which outputs a public class, such as ``class Car``.
 
-- Make sure to include ``part Car.g.dart`` before the code defining your model.
+- Make sure to include ``part car.g.dart`` before the code defining your model.
   This is required to generate the RealmObject class.
 
 .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model.dart
    :language: dart
-   :caption: Car.dart
+   :caption: car.dart
 
 .. _flutter-generate-realmobject-class:
 
@@ -68,11 +68,23 @@ Generate RealmObject Class
 
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
-.. code-block::
-   
-   dart run realm generate
+.. tabs::
 
-Running this creates a ``Car`` class in a ``Car.g.dart`` file located in the directory 
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+         
+         dart run realm generate
+
+   .. tab:: Dart Only
+      :tabid: dart-only
+
+      .. code-block::
+         
+         dart run realm_dart generate
+
+Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory 
 where you defined the model class per the above Create Data Model section.
 This ``Car`` class is public and part of the same library
 as the ``_Car`` data model class that you defined.
@@ -81,9 +93,21 @@ The generated ``Car`` class is what's used throughout your application.
 If you'd like to watch your data model class to generate a new ``Car`` class whenever
 there's a change to ``_Car``, run: 
 
-.. code-block:: 
+.. tabs::
 
-   dart run realm generate watch
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+         
+         dart run realm generate --watch
+
+   .. tab:: Dart Only
+      :tabid: dart-only
+
+      .. code-block::
+         
+         dart run realm_dart generate --watch
 
 Open a Realm
 ------------
