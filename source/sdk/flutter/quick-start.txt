@@ -35,14 +35,35 @@ Your application's **data model** defines the structure of data
 stored within {+client-database+}.
 You can define your application's data model via Dart
 classes in your application code with
-:ref:`Realm Object Models <create-schema-from-rom>`.
+:ref:`Realm Object Models <create-schema-from-rom>`. 
+You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-class.html>`
+class that's used within your application.
 
-To define your application's data model, add the following class
-definition to your application code:
+Create Data Model
+~~~~~~~~~~~~~~~~~
+
+To define your application's data model, add a Realm model class
+definition to your application code.
+
+Some considerations when defining your Realm model class: 
+
+- Import the ``realm`` package at the top of your class definition file. 
+
+- In your file, give your class a private name, such as ``class _Car``. 
+  You generate the public RealmObject class below, which has an output such as 
+  ``class Car extends _Car with RealmObject``.
+
+- Make sure to include ``part <Model_Name>.g.dart`` before the code defining your model.
+  This is required for generating the RealmObject class.
 
 .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model.dart
    :language: dart
    :caption: Car.dart
+
+.. _flutter-generate-realmobject-class:
+
+Generate RealmObject Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
