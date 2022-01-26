@@ -68,8 +68,8 @@ the first time a user logs in. Once initial authentication has occurred, you can
 
 .. _dotnet-open-a-synced-realm:
 
-Open a Synced Realm While Online
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Partition-Based Sync Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The steps for opening a synced {+realm+} while online are:
 
 1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
@@ -104,8 +104,9 @@ method:
    :ref:`Partition Strategies <partition-strategies>`
 
 
-Open a Synced Realm While Offline
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open a Partition-Based Sync Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Once a user authenticates, the ``User`` object persists on the device until the 
 user logs off. This allows your app to 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
@@ -118,6 +119,19 @@ device already has a ``user``, it opens the synced {+realm+} with that user:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.check-if-offline.cs
    :language: csharp
+
+.. _dotnet-flexible-sync-open-realm:
+
+Open a Synced Realm with a Flexible Sync Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.9.0
+
+When you use Flexible Sync, pass the current user to the ``FlexibleSyncConfiguration()``
+to open a synced realm. 
+
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.open-a-flexible-synced-realm.cs
+   :language: swift
 
 
 Scoping the Realm
