@@ -139,8 +139,9 @@ method, but this requires you to call the :ref:`waitForSynchronization
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can use the ``waitForSynchronization()`` method to wait for the server to
-acknowledge this set of subscriptions and return the matching objects: 
+If you have synchronously called the ``subscriptions.update()`` method, use the
+``waitForSynchronization()`` method to wait for the server to acknowledge this
+set of subscriptions and return the matching objects: 
 
 The ``waitForSynchronization()`` method returns a promise that resolves when
 synchronization is complete or rejects if there is an error during
