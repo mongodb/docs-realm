@@ -1,8 +1,8 @@
 .. _react-native-bundle-a-realm:
 
-======================================
+=================================
 Bundle a Realm File - React Native SDK
-======================================
+=================================
 
 .. default-domain:: mongodb
 
@@ -11,11 +11,6 @@ Bundle a Realm File - React Native SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
-
-.. note:: Bundle Synchronized Realms
-
-   SDK version 10.12.0 introduced the ability to bundle synchronized {+realm+}s.
-   Before version 10.12.0, you could only bundle local {+realm+}s.
 
 {+service-short+} supports **bundling** {+realm+} files. When you bundle
 a {+realm+} file, you include a database and all of its data in your
@@ -27,38 +22,12 @@ initial download the first time a user opens your application. Instead,
 users must only download the synced changes that occurred since you
 generated the bundled file.
 
-.. warning:: Synced Realm Bundling and Client Maximum Offline Time
-
-   If your application has enabled :ref:`advanced backend compaction
-   <advanced-backend-compaction>` by configuring a
-   :ref:`client maximum offline time <client-maximum-offline-time>`,
-   users could experience a client reset the first time they open the
-   bundled {+realm+} file. This can happen if:
-
-   - the bundled {+realm+} file was generated more than
-     **client maximum offline time** days before the user syncs the
-     {+realm+} for the first time.
-
-   Users experiencing a client reset download the full state of the
-   {+realm+} from the application backend. This negates the
-   advantages of bundling a {+realm+} file. To prevent client resets and
-   preserve the advantages of {+realm+} file bundling:
-
-   - Avoid using a client maximum offline time in applications that
-     bundle a synchronized {+realm+}.
-
-   - If your application does use a client maximum offline time, ensure
-     that your application download always includes a recently synced
-     {+realm+} file. Generate a new file each application version,
-     and ensure that no version ever stays current for more than
-     **client maximum offline time** number of days.
-
 Overview
 --------
 
 To create and bundle a {+realm+} file with your application:
 
-1. :ref:`Create a {+realm+} file <react-native-create-a-realm-for-bundling>` that
+#. :ref:`Create a {+realm+} file <react-native-create-a-realm-for-bundling>` that
    contains the data you'd like to bundle.
 
 #. :ref:`Add the bundled {+realm+} file <react-native-bundle-realm-file>` 
@@ -66,8 +35,17 @@ To create and bundle a {+realm+} file with your application:
 
 #. In your production application,
    :ref:`open the {+realm+} from the bundled asset file
-   <react-native-open-a-realm-from-a-bundled-realm-file>`. For synced
+   <react-native-open-a-realm-from-a-bundled-realm-file>`. For synchronized
    {+realm+}s, you must include the partition key.
+
+.. note:: Bundle Synchronized Realms
+
+   SDK version 10.12.0 introduced the ability to bundle synchronized {+realm+}s.
+   Before version 10.12.0, you could only bundle local {+realm+}s.
+
+   :ref:`See the Bundle a Synchronized Realm section for details on considerations and limitations
+   when bundling a synchronized {+realm+}. <react-native-bundle-synced-realm>`
+   
 
 .. _react-native-create-a-realm-for-bundling:
 
@@ -89,7 +67,7 @@ Create a Realm File for Bundling
    ``writeCopyTo()`` automatically compacts your {+realm+} to the smallest
    possible size before copying.
 
-   .. note:: Differences Between Synced Realms and Local-only Realms
+   .. note:: Differences Between Synchronized Realms and Local-only Realms
 
       The above example uses a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
       to configure a synchronized {+realm+} for the ``sync`` field of the 
@@ -122,12 +100,12 @@ Add the bundled {+realm+} file made in the previous section to your production
 application. 
 
 .. code-block::
-  :caption: prod_realm_app
-  :emphasize-lines: 2
+   :caption: prod_realm_app
+   :emphasize-lines: 2
 
-  .
-  ├── copyOfDefault.realm 
-  ... rest of files in _prod_ application
+   .
+   ├── copyOfDefault.realm 
+   ... rest of files in _prod_ application
 
 .. _react-native-open-a-realm-from-a-bundled-realm-file:
 
@@ -144,3 +122,49 @@ from your bundled {+realm+} in the {+realm+} you've just opened.
 
 .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.open-bundled-realm.js
       :language: javascript
+
+.. _react-native-bundle-synced-realm:
+
+Bundle a Synchronized Realm
+---------------------------
+
+Generally, bundling a synchronized realm works the same as bundling a local-only realm. 
+However, there are some limitations to bundling realms that use {+sync+}.
+
+#. You can only bundle fully synchronized realms. Make sure that the realm has fully synchronized 
+   with the server before bundling: 
+
+   .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.fully-sync-before-copy.js
+      :language: javascript
+
+#. When opening a bundled synchronized realm, you must use the same partition key 
+   that was used in the original realm. If you use a different partition key, the SDK throws
+   an error when opening the bundled realm. 
+
+.. warning:: Synchronized Realm Bundling and Client Maximum Offline Time
+
+   If your application has enabled :ref:`advanced backend compaction
+   <advanced-backend-compaction>` by configuring a
+   :ref:`client maximum offline time <client-maximum-offline-time>`,
+   users could experience a client reset the first time they open the
+   bundled {+realm+} file. This can happen if:
+
+   - the bundled {+realm+} file was generated more than
+     **client maximum offline time** days before the user syncs the
+     {+realm+} for the first time.
+
+   Users experiencing a client reset download the full state of the
+   {+realm+} from the application backend. This negates the
+   advantages of bundling a {+realm+} file. To prevent client resets and
+   preserve the advantages of {+realm+} file bundling:
+
+   - Avoid using a client maximum offline time in applications that
+     bundle a synchronized {+realm+}.
+
+   - If your application does use a client maximum offline time, ensure
+     that your application download always includes a recently synchronized
+     {+realm+} file. Generate a new file each application version,
+     and ensure that no version ever stays current for more than
+     **client maximum offline time** number of days.
+
+
