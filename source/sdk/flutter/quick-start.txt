@@ -47,8 +47,8 @@ Some considerations when defining your Realm model class:
 
 - In your file, give your class a private name, such as ``_Car``. 
   You generate the public RealmObject class using the command in the 
-  Generate RealmObject Class section below, 
-  which outputs a public class, such as ``Car``.
+  Generate RealmObject Class section below. This command 
+  outputs a public class, such as ``Car``.
 
 - Make sure to include ``part car.g.dart`` before the code defining your model.
   This is required to generate the RealmObject class.
@@ -108,7 +108,7 @@ there's a change to ``_Car``, run:
 Open a Realm
 ------------
 
-Use :flutter-sdk:`Configuration <realm/Configuration-class.html>`
+Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
 to control the specifics of the {+realm+} you
 would like to open, including schema.
 
@@ -123,7 +123,7 @@ You can now use that {+realm+} instance to work with objects in the database.
 Work with Realm Objects
 -----------------------
 
-Once you've opened a {+realm+}, you can create objects within it in a
+Once you've opened a {+realm+}, you can create objects within it using a
 :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
 Create Objects
@@ -147,13 +147,13 @@ Query for Objects
 ~~~~~~~~~~~~~~~~~
 
 Retrieve a collection of all objects of a data model in the {+realm+} with the
-:flutter-sdk:`Realm.query<RealmObject>() <realm/Realm/query.html>` method:
+:flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
 
-Filter a collection to retrieve a more specific collection
-of objects:
+Filter a collection to retrieve a specific segment
+of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
    :language: dart
@@ -166,13 +166,13 @@ Sort the results using :apple:`NSPredicate syntax <library/archive/documentation
 Delete Objects
 ~~~~~~~~~~~~~~
 
-Delete a car by calling the :flutter-sdk:`Realm.delete(RealmObject) <realm/Realm/delete.html>`
+Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
    :language: dart
 
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany(List<RealmObject>) 
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany() 
 <realm/Realm/deleteMany.html>` method in a write transaction block. 
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
