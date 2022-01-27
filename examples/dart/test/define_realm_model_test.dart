@@ -18,3 +18,5 @@ class _Car {
   late int? miles;
 }
 // :snippet-end:
+
+main() {}
