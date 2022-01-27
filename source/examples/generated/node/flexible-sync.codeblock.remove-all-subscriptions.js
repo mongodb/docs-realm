@@ -1,3 +1,3 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
-  mutableSubscriptionsInstance.removeAll();
+subscriptions.update(({ removeAll }) => {
+  removeAll();
 });

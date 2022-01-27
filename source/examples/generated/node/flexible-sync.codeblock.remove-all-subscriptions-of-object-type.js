@@ -1,3 +1,3 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
-  mutableSubscriptionsInstance.removeByObjectType("Team");
+subscriptions.update(({ removeByObjectType }) => {
+  removeByObjectType("Team");
 });
