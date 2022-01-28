@@ -1840,6 +1840,110 @@ paths:
     parameters:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
+
+
+  "/groups/{groupId}/apps/{appId}/log_forwarders":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+    get:
+      tags: ["log_forwarders"]
+      operationId: "listLogForwarders"
+      summary: "List log forwarders."
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LogForwarder"
+    post:
+      tags: ["log_forwarders"]
+      operationId: "createLogForwarder"
+      summary: "Create a log forwarder."
+      requestBody:
+        required: true
+        description: "A log forwarder configuration"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLogForwarderRequest"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+  
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    get:
+      tags: ["log_forwarders"]
+      operationId: "getLogForwarder"
+      summary: "Get a specific log forwarder."
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+    patch:
+      tags: ["log_forwarders"]
+      operationId: "updateLogForwarder"
+      summary: "Update a log forwarder."
+      requestBody:
+        required: true
+        description: "A log forwarder configuration"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLogForwarderRequest"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+    delete:
+      tags: ["log_forwarders"]
+      operationId: "deleteGwarder"
+      summary: "Delete a log forwarder."
+      responses:
+        204:
+          description: No Content
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}/enable":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    put:
+      tags: ["log_forwarders"]
+      operationId: "enableLogForwarder"
+      summary: "Enable a log forwarder."
+      responses:
+        204:
+          description: No Content
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}/disable":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    put:
+      tags: ["log_forwarders"]
+      operationId: "disableLogForwarder"
+      summary: "Disable a log forwarder."
+      responses:
+        204:
+          description: No Content
+
   "/groups/{groupId}/apps/{appId}/api_keys":
     get:
       tags:
@@ -2691,6 +2795,13 @@ components:
       required: true
       schema:
         type: string
+    ForwarderId:
+      name: "forwarderId"
+      description: The _id ObjectID of a log forwarder.
+      in: "path"
+      required: true
+      schema:
+        type: string
     UsersAfter:
       name: after
       required: false
@@ -3126,6 +3237,68 @@ components:
           type: string
         version:
           type: integer
+    CreateLogForwarderRequest:
+      $ref: "#/components/schemas/LogForwarder"
+    UpdateLogForwarderRequest:
+      $ref: "#/components/schemas/LogForwarder"
+    LogForwarder:
+      type: object
+      properties:
+        _id: {type: string}
+        name: {type: string}
+        disabled: {type: boolean}
+        log_types:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogType"
+        log_statuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogStatus"
+        policy:
+          $ref: "#/components/schemas/LogForwardingPolicy"
+        action:
+          $ref: "#/components/schemas/LogForwardingAction"
+    LogType:
+      type: string
+      enum:
+        - auth
+        - function
+        - graphql
+        - push
+        - schema
+        - service
+        - sync
+        - trigger
+    LogStatus:
+      type: string
+      enum:
+        - error
+        - success
+    LogForwardingPolicy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - single
+            - batch
+    LogForwardingAction: # We need oneOf to do this correctly.
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - collection
+            - function
+        name:
+          type: string
+        data_source:
+          type: string
+        database:
+          type: string
+        collection:
+          type: string
     NewService:
       properties:
         name:
@@ -3712,6 +3885,9 @@ tags:
 
       For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
     x-displayName: Logging APIs
+  - name: log_forwarders
+    description: Log Forwarding APIs
+    x-displayName: Log Forwarding APIs
   - name: notifications
     description: Notifications APIs
     x-displayName: Notifications APIs
