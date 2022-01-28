@@ -1,4 +1,4 @@
-subscriptions.update(({ add }) => {
+realm.subscriptions.update(({ add }) => {
   add(longRunningTasks, {
     name: "longRunningTasksSubscription",
   });

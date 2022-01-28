@@ -1,4 +1,4 @@
-await subscriptions.update(({ add }) => {
+await realm.subscriptions.update(({ add }) => {
   add(longRunningTasks, {
     name: "longRunningTasksSubscription",
   });

@@ -1,6 +1,6 @@
 let subscriptionReference;
-subscriptions.update(({ add }) => {
+realm.subscriptions.update(({ add }) => {
   subscriptionReference = add(realm.objects("Task"));
 });
 // later..
-subscriptions.removeSubscription(subscriptionReference);
+realm.subscriptions.removeSubscription(subscriptionReference);

@@ -1,3 +1,3 @@
-subscriptions.update(({ removeAll }) => {
+realm.subscriptions.update(({ removeAll }) => {
   removeAll();
 });

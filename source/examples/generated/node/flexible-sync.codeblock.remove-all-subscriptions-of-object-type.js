@@ -1,3 +1,3 @@
-subscriptions.update(({ removeByObjectType }) => {
+realm.subscriptions.update(({ removeByObjectType }) => {
   removeByObjectType("Team");
 });
