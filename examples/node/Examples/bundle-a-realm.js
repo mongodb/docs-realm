@@ -1,4 +1,4 @@
-import Realm, { ObjectId } from "realm";
+import Realm from "realm";
 import path from "path";
 
 describe("Bundle a Realm", () => {
@@ -26,10 +26,7 @@ describe("Bundle a Realm", () => {
     // :snippet-start: open-bundled-realm
     const copyConfig = {
       schema: [Car],
-      path: copyPath, // :remove:
-      // :uncomment-start:
-      // path: "path/to/bundled/file.realm"
-      // :uncomment-end:
+      path: copyPath,
     };
     const copyRealm = await Realm.open(copyConfig);
     // :snippet-end:
