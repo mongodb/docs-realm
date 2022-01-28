@@ -92,9 +92,15 @@ reset events without the need for app-specific logic. During a client
 reset that uses this strategy, the client:
 
 1. Downloads a fresh copy of the realm from the backend.
-2. Uses a diff to bring the original (local) copy of the
-   realm to the same state as the fresh copy.
-3. Discards the fresh copy. The app continues to use
+#. Performs a diff to figure out the set of steps required to
+   bring the original (local) copy of the realm to the same state as
+   the fresh copy of the backend.
+#. Applies that set of steps to transform the local realm into a state
+   where it can sync with the backend. This includes deleting all local
+   changes that haven't yet synced with the backend, as well as any
+   inserts, updates, and deletes that happened on the backend that haven't
+   yet synced to the client.
+#. Discards the fresh copy. The app continues to use
    the original copy of the realm with the diff applied.
 
 The "discard unsynced changes" strategy has several advantages compared
@@ -130,15 +136,15 @@ With this client reset strategy, you can choose to either:
 
 1. Initiate the client reset immediately upon receiving a client reset error,
    after closing all realms.
-2. Wait until all realms have been closed and the app connection is
+#. Wait until all realms have been closed and the app connection is
    re-established. To do this, restart the app.
 
 During a client reset that uses this strategy, the client:
 
 1. Makes a backup of the original (local) copy of the realm.
-2. Downloads a fresh copy of the realm from the backend. This fresh copy
+#. Downloads a fresh copy of the realm from the backend. This fresh copy
    replaces the original local realm.
-3. Provides a reference to the local realm backup and the fresh copy of
+#. Provides a reference to the local realm backup and the fresh copy of
    the realm.
 
 With the local realm backup and the fresh copy in hand, you can triage
@@ -146,6 +152,20 @@ and save local data by copying it from the local realm backup to the
 fresh copy of the realm. Recovering unsynced changes is highly dependent
 on your schema and application logic, so you may need to supplement
 your schema with "last modified" timestamps for best results.
+
+Manual recovery has one major advantage compared
+to discarding unsynced changes:
+
+- You can recover local changes that haven't yet synced to the backend.
+
+There are several disadvantage to this strategy, however:
+
+- You must write custom logic to initiate the client reset.
+- You must close all realms before performing the client reset.
+- Application users never receive notifications for new changes that synced
+  from the backend during the client reset.
+- You must either restart the application or write custom logic to re-initialize
+  the backend app connection after performing the client reset.
 
 Examples
 ~~~~~~~~
