@@ -20,9 +20,10 @@ monthly basis. There are four independently-measured usage types that determine
 how much you pay each month:
 
 - :ref:`Realm Requests <billing-requests>`, which measures the number of
-  requests that MongoDB Realm sends and receives from client applications and
-  external services. Requests include function calls, trigger executions, and
-  sync updates, but exclude user authentication.
+  requests that MongoDB Realm sends and receives from client
+  applications and external services. Requests include function calls,
+  trigger executions, and sync updates, but exclude user authentication
+  and blocked or invalid requests.
 
 - :ref:`Realm Compute <billing-compute>`, which measures the runtime and memory
   usage of all requests excluding sync and authentication.
@@ -74,13 +75,11 @@ Usage Types
 Realm Requests
 ~~~~~~~~~~~~~~
 
-{+service-short+} counts the number of requests that an application receives and
-handles. Authentication provider requests do not count towards your monthly
-usage. Requests blocked by an application's :ref:`IP Access List <manage-ip-access>`
-do not count towards your monthly usage.
+{+service-short+} counts the number of requests that an application
+receives and handles. Requests are billed at a set rate for each
+request.
 
-Requests are billed at a set rate for each request. There are five primary
-types of requests:
+There are five primary types of requests:
 
 - **Function Executions**, such as when a user calls a function from a client
   app or when a function calls an external service. If an executing function
@@ -106,6 +105,13 @@ types of requests:
   
   For more information on sync operations, see :ref:`Realm Sync Protocol
   <sync-protocol>`.
+
+All incoming requests count toward your monthly usage except for the
+following:
+
+- Requests to an authentication provider
+- Requests blocked by an application's :ref:`IP Access List <manage-ip-access>`
+- Requests to an invalid HTTP endpoint
 
 **Price:** $2.00 / 1,000,000 requests ($0.000002 / request)
 
