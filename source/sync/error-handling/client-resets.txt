@@ -28,9 +28,8 @@ until the client reset is complete.
    restore any unsynced changes when you :ref:`handle a client reset
    <handle-a-client-reset>`.
 
-Client reset scenarios are generally rare and occur when the server's copy of a
-synced realm file has an older version than the client's realm file. The most
-common causes of client resets are:
+Client reset scenarios occur when the server's history is incompatible
+with the client's history. The most common causes of client resets are:
 
 - **Realm server crashes**: A server may restore from a backup that has an earlier
   version. An client reset for this scenario would reset the client to
@@ -67,7 +66,7 @@ common causes of client resets are:
 Handle a Client Reset
 ---------------------
 
-The SDKs detect the need for client resets on application startup. You
+The SDKs automatically detect the need for client resets. You
 can handle client resets in your application using one of the available
 **client reset strategies**:
 
