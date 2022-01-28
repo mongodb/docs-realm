@@ -70,10 +70,22 @@ The SDKs automatically detect the need for client resets. You
 can handle client resets in your application using one of the available
 **client reset strategies**:
 
+.. note:: Destructive Changes Require Manual Recovery
+
+   You can only handle a client reset triggered by destructive changes
+   using the :ref:`manually recover unsynced changes
+  <manually-recover-unsynced-changes>` strategy.
+
 .. _discard-unsynced-changes:
 
 Discard Unsynced Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning:: Discard Unsynced Changes Deletes Unsynced Local Changes Permanently
+
+   The "discard unsynced changes" client reset strategy throws away any
+   unsynced local changes. Do not use this client reset strategy if your
+   application needs to preserve these unsynced changes.
 
 The **discard unsynced changes** strategy automatically handles client
 reset events without the need for app-specific logic. During a client
@@ -85,14 +97,24 @@ reset that uses this strategy, the client:
 3. Discards the fresh copy. The app continues to use
    the original copy of the realm with the diff applied.
 
-This allows users to perform a client reset without closing the original
-realm or missing notifications on new changes.
+The "discard unsynced changes" strategy has several advantages compared
+to manual recovery:
 
-.. warning:: Discard Unsynced Changes Deletes Unsynced Local Changes Permanently
+- Your application can perform a client reset without writing any custom
+  logic, other than specifying this strategy. You don't have to manually
+  initiate the client reset or interact with the error object at all.
+- Your application can perform this client reset without closing any
+  realms, disconnecting from the backend app, or manual restarts. This
+  means you don't have to write any logic to handle these situations.
+- Application users receive notifications for changes as the local realm
+  updates to match the state of the backend realm.
 
-   The "discard unsynced changes" client reset strategy throws away any
-   unsynced local changes. Do not use this client reset strategy if your
-   application needs to preserve these unsynced changes.
+There is one major disadvantage to this strategy, however:
+
+- There is no way to recover changes that have not yet synced to the
+  backend at the time of the client reset. When this strategy uses a
+  diff to bring the local realm to the same state as the backend, unsynced
+  changes are permanently deleted and cannot ever be recovered.
 
 You can use this strategy to resolve a client reset caused by anything
 *except* a destructive schema change.
