@@ -221,19 +221,19 @@ Sync configuration:
        - ``"enabled"``
        - ``"disabled"``
 
-   * - | ``permissions.rules.<Collection Name>``
+   * - | ``permissions.rules.<Collection>``
        | String
      - You can define rules that apply to a single collection by specifying
        the collection name. Realm apps apply rules in order from the beginning
        of the array, so start with the most specific rules first.
 
-   * - | ``permissions.rules.<Collection Name>.name``
+   * - | ``rules.<Coll>.name``
        | String
      - The name of the specific rule in the rules array. You might use a 
        descriptive name to make it easier to parse the rules, such as 
        "adminReadWrite" or "employeeReadOnly".
 
-   * - | ``permissions.rules.<Collection Name>.applyWhen``
+   * - | ``rules.<Coll>.applyWhen``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when 
        the rule should be applied. An example might be 
@@ -242,14 +242,14 @@ Sync configuration:
        <custom-user-data>`, and applies the rule when the value of this 
        bool is ``true``.
 
-   * - | ``permissions.rules.<Collection Name>.read``
+   * - | ``rules.<Coll>.read``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a 
        user has permission to read objects in the collection. If the 
        expression evaluates to ``false``, {+service-short+} does not allow 
        the user to read an object or its properties.
 
-   * - | ``permissions.rules.<Collection Name>.write``
+   * - | ``rules.<Coll>.write``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a 
        user has permission to write objects in the collection. If the 
@@ -270,13 +270,13 @@ Sync configuration:
        across all the collections that your Realm app can access, even 
        when you have more specific collection rules defined.
 
-   * - | ``permissions.defaultRoles.name``
+   * - | ``defaultRoles.name``
        | String
      - The name of the specific role in the defaultRoles array. You might 
        use a descriptive name to make it easier to parse the roles, such as 
        "adminReadWrite" or "employeeReadOnly".
 
-   * - | ``permissions.defaultRoles.applyWhen``
+   * - | ``defaultRoles.applyWhen``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when 
        the role should be applied. An example might be 
@@ -285,14 +285,14 @@ Sync configuration:
        <custom-user-data>`, and applies the role when the value of this 
        bool is ``true``.
 
-   * - | ``permissions.defaultRoles.read``
+   * - | ``defaultRoles.read``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a 
        user has permission to read objects in the collection. If the 
        expression evaluates to ``false``, {+service-short+} does not allow 
        the user to read an object or its properties.
 
-   * - | ``permissions.defaultRoles.write``
+   * - | ``defaultRoles.write``
        | JSON Expression
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a 
        user has permission to write objects in the collection. If the 
