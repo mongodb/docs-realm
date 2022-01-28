@@ -575,13 +575,15 @@ document of the following form:
 
 .. note::
 
-   {+service-short+} ignores any additional fields in the JWT payload
-   unless you have mapped them to metadata fields in the
-   :ref:`provider configuration
-   <custom-jwt-authentication-configuration>`. {+service-short+}
-   includes the values of mapped fields in the ``data``
-   document of the authenticated user's :doc:`user object
-   </authentication>`.
+   {+service-short+} maps certain values from the JWT the :ref:`user
+   object <user-objects>` so that you can access them in your
+   application:
+
+   - The required fields listed in this section map to the ``User.identities.data`` property for their Custom JWT provider identity.
+   
+   - The metadata fields listed in the :ref:`Custom JWT provider configuration <custom-jwt-authentication-configuration>` map to the ``User.data`` property.
+   
+   - Any optional fields not listed in the provider configuration are ignored and do not map to the user object.
 
 .. _custom-jwt-authentication-usage-jwt-signature:
 
