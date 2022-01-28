@@ -33,35 +33,105 @@ synced realm file has an older version than the client's realm file. The most
 common causes of client resets are:
 
 - **Realm server crashes**: A server may restore from a backup that has an earlier
-  version. An automatic client reset for this scenario would reset the client to
+  version. An client reset for this scenario would reset the client to
   the earlier version and lose any changes that were saved on the client but not
   yet synced with the server.
+
+- **Disabling and re-enabling sync**: Turning Sync off, then on again in
+  the Realm UI causes all clients to perform a client reset.
+
+- **Client/Backend schema mismatch**: If a client application attempts
+  to synchronize with the backend while using a Realm Object schema that
+  does not exist in the backend, that client must perform a client reset.
+  This only applies in one direction: if the backend schema contains a
+  Realm Object class not used in a client, that client will *not*
+  experience a client reset.
+
+- **Client maximum offline time**: When a client has not synchronized with
+  the backend in more than :ref:`client maximum offline time
+  <client-maximum-offline-time>` days, that client can no longer synchronize
+  unsynced local changes with the backend. The client must discard all
+  local changes since the last sync and download the current status of
+  the realm from the backend.
 
 - **Destructive schema changes**: A :ref:`destructive change
   <destructive-changes-synced-schema>`, like changing a property type or a
   primary key, requires you to terminate and re-enable sync. This creates a new
-  synced realm file with a version unrelated to the client's file.
-
-- Clients exceeding the :ref:`client maximum offline time
-  <client-maximum-offline-time>`.
+  synced realm file with a version unrelated to the client's file. Because
+  this scenario requires a new realm file, you can only handle client resets
+  caused by destructive changes using the :ref:`manually recover unsynced changes
+  <>` strategy.
 
 .. _handle-a-client-reset:
 
 Handle a Client Reset
 ---------------------
 
-The SDKs can detect and perform automatic client resets on application startup.
-They also expose an interface for you to add custom recovery code where you can
-triage and save local data before the reset occurs.
+The SDKs detect the need for client resets on application startup. You
+can handle client resets in your application using one of the available
+**client reset strategies**:
 
-.. important::
-   
-   Automatic client resets lose any changes saved in the client's realm file
-   since the client last successfully synced. To preserve these changes, you
-   must write a custom client reset error handler.
-   
-   To see how, check out a client reset usage example for your SDK:
-   
+.. _discard-unsynced-changes:
+
+Discard Unsynced Changes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The **discard unsynced changes** strategy automatically handles client
+reset events without the need for app-specific logic. During a client
+reset that uses this strategy, the client:
+
+1. Downloads a fresh copy of the realm from the backend.
+2. Uses a diff to bring the original (local) copy of the
+   realm to the same state as the fresh copy.
+3. Discards the fresh copy. The app continues to use
+   the original copy of the realm with the diff applied.
+
+This allows users to perform a client reset without closing the original
+realm or missing notifications on new changes.
+
+.. warning:: Discard Unsynced Changes Deletes Unsynced Local Changes Permanently
+
+   The "discard unsynced changes" client reset strategy throws away any
+   unsynced local changes. Do not use this client reset strategy if your
+   application needs to preserve these unsynced changes.
+
+You can use this strategy to resolve a client reset caused by anything
+*except* a destructive schema change.
+
+.. _manually-recover-unsynced-changes:
+
+Manually Recover Unsynced Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The **manually recover unsynced changes** client reset strategy gives
+the app developer complete control over handling client reset events.
+With this client reset strategy, you can choose to either:
+
+1. Initiate the client reset immediately upon receiving a client reset error,
+   after closing all realms.
+2. To wait until all realms have been closed and the app connection is
+   re-established. The easiest way to do this is restarting the app.
+
+During a client reset that uses this strategy, the client:
+
+1. Makes a backup of the original (local) copy of the realm.
+2. Downloads a fresh copy of the realm from the backend. This fresh copy
+   replaces the original local realm.
+3. Provides a reference to the local realm backup and the fresh copy of
+   the realm.
+
+With the local realm backup and the fresh copy in hand, you can triage
+and save local data by copying it from the local realm backup to the
+fresh copy of the realm. Recovering unsynced changes is highly dependent
+on your schema and application logic, so you may need to supplement
+your schema with "last modified" timestamps for best results.
+
+Examples
+~~~~~~~~
+
+For more information on performing a client reset, check out the client
+reset examples for your SDK:
+
    - :ref:`Android <android-client-resets>`
    - :ref:`iOS, macOS, tvOS, and watchOS <ios-client-resets>`
    - :ref:`.NET <dotnet-client-resets>`
