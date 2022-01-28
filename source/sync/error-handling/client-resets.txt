@@ -81,11 +81,12 @@ can handle client resets in your application using one of the available
 Discard Unsynced Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. warning:: Discard Unsynced Changes Deletes Unsynced Local Changes Permanently
+.. warning:: This Strategy Deletes Unsynced Local Changes Permanently
 
-   The "discard unsynced changes" client reset strategy throws away any
-   unsynced local changes. Do not use this client reset strategy if your
-   application needs to preserve these unsynced changes.
+   This client reset strategy permanently deletes any changes made
+   locally that have not yet synchronized to the backend.
+   Do not use this client reset strategy if your
+   application needs to preserve unsynced changes.
 
 The **discard unsynced changes** strategy automatically handles client
 reset events without the need for app-specific logic. During a client
