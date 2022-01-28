@@ -38,7 +38,7 @@ syncs to the client device.
 .. note:: Realm JS SDK Version Requirement
 
    In addition to the requirements above, you must use :github:`Realm JS version
-   10.12.0-beta.1 <realm/realm-js/releases>` in order to use Flexible Sync
+   10.12.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
    in your Node.js client application.
 
 .. _node-sync-subscribe-to-queryable-fields:
@@ -94,8 +94,8 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
-on the {+realm+}.
+When using a flexible synced realm, you can access a ``SubscriptionSet``, a
+collection of subscriptions, through the ``realm.subscriptions`` property.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
@@ -107,10 +107,14 @@ Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 You can add queries to your subscriptions list. To do so, perform the following: 
 
-#. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a mutable instance of the subscriptions as an argument. 
-#. Within the callback function, call the ``add()`` method on the mutable subscription instance to add a query to the subscription.
+#. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
+#. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
-The ``add()`` method on the mutable subscription instance takes a ``query`` and a
+.. note:: Unpacking Fields from Objects Passed as a Function Parameter
+
+   The examples throughout this page destructure the ``MutableSubscriptionSet`` passed as a callback parameter. Read the :mdn:`Object Destructuring <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>` documentation to learn more about destructuring objects as a function parameter.
+
+The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
 subscription options object. The subscription options include:
 
 - a ``name`` string field
@@ -121,17 +125,27 @@ existing name will replace the existing query with the new query. However, if
 you set ``throwOnUpdate`` to true, adding a subscription with an existing name
 but a different query throws an exception.
 
-You can add a single query, or multiple queries within a ``subscription.update``
+You can asynchronously add a single query, or multiple queries within a ``subscription.update``
 transaction. In the example below, we subscribe to the queries we created
 earlier. 
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields-await-form.js
+    :language: javascript
+
+Alternatively, you can synchronously call the ``subscriptions.update()``
+method, but this requires you to call the :ref:`waitForSynchronization
+<node-flexible-sync-wait-for-sync>` method afterward.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
     :language: javascript
 
+.. _node-flexible-sync-wait-for-sync:
+
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can use the ``waitForSynchronization()`` method to wait for the server to
-acknowledge this set of subscriptions and return the matching objects: 
+If you have synchronously called the ``subscriptions.update()`` method, use the
+``waitForSynchronization()`` method to wait for the server to acknowledge this
+set of subscriptions and return the matching objects: 
 
 The ``waitForSynchronization()`` method returns a promise that resolves when
 synchronization is complete or rejects if there is an error during
@@ -167,7 +181,7 @@ Update Subscriptions with a New Query
 You can update a named subscription with a new query. To update a subscriptions
 query, pass the new query and a subscription option with the name of the
 subscription that you want to update to the
-``mutableSubscriptionsInstance.add()`` method. Like adding a new subscription,
+``MutableSubscriptionSet.add()`` method. Like adding a new subscription,
 you must update a subscription within a transaction by calling
 ``subscriptions.update()`` method.
 
@@ -198,8 +212,8 @@ the client device.
 Remove a Subscription by Query
 ``````````````````````````````
 You can remove a specific subscription by query by executing a transaction on
-the subscriptions set. Pass the query to the ``remove()`` method on the mutable
-subscriptions instance within a transaction.
+the subscriptions set. Pass the query to the ``remove()`` method on the
+``MutableSubscriptionSet`` within a transaction.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -211,7 +225,7 @@ Remove a Subscription by Name
 `````````````````````````````
 To remove a specific subscription by name, execute a transaction on
 the subscriptions set. Within the transaction, pass the name to the
-``removeByName()`` method on the mutable subscriptions instance.
+``removeByName()`` method on the ``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-name.js
     :language: javascript
@@ -221,7 +235,7 @@ Remove a Subscription by Reference
 If you have a reference to a subscription, you can remove that subscription. To
 do so, execute a transaction on the subscriptions set. Within the transaction,
 pass the reference variable to the ``removeSubscription()`` method on the
-mutable subscriptions instance.
+``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-reference.js
     :language: javascript
@@ -230,7 +244,7 @@ Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
-to the ``removeByObjectType()`` method on the mutable subscriptions instance.
+to the ``removeByObjectType()`` method on the ``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions-of-object-type.js
     :language: javascript
@@ -239,7 +253,7 @@ Remove All Subscriptions
 ````````````````````````
 To remove all subscriptions from the subscriptions set, execute a transaction on
 the subscriptions set. Call the ``removeAll()`` method
-on the mutable subscriptions instance within the transaction
+on the ``MutableSubscriptionSet`` within the transaction
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
     :language: javascript

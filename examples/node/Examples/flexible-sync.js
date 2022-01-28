@@ -38,7 +38,8 @@ describe("Flexible Sync Tests", () => {
     // :code-block-end:
 
     // :code-block-start: get-subscriptions
-    const subscriptions = realm.getSubscriptions();
+    // get the SubscriptionSet for the realm
+    const subscriptions = realm.subscriptions;
     // :code-block-end:
 
     // :code-block-start: create-queries-to-subscribe-to
@@ -49,29 +50,45 @@ describe("Flexible Sync Tests", () => {
     const bensTasks = tasks.filtered('owner == "Ben"');
     // :code-block-end:
 
-    // :code-block-start: subscribe-to-queryable-fields
-    subscriptions.update((mutableSubscriptionsInstance) => {
-      mutableSubscriptionsInstance.add(longRunningTasks, {
+    // :code-block-start: subscribe-to-queryable-fields-await-form
+    await realm.subscriptions.update(({ add }) => {
+      add(longRunningTasks, {
         name: "longRunningTasksSubscription",
       });
-      mutableSubscriptionsInstance.add(bensTasks);
-      mutableSubscriptionsInstance.add(realm.objects("Team"), {
+      add(bensTasks);
+      add(realm.objects("Team"), {
         name: "teamsSubscription",
         throwOnUpdate: true,
       });
     });
     // :code-block-end:
 
+    // :code-block-start: subscribe-to-queryable-fields
+    realm.subscriptions.update(({ add }) => {
+      add(longRunningTasks, {
+        name: "longRunningTasksSubscription",
+      });
+
+      add(bensTasks);
+
+      add(realm.objects("Team"), {
+        name: "teamsSubscription",
+        throwOnUpdate: true,
+      });
+    });
+
+    // :code-block-end:
+
     // :code-block-start: log-subscription-state
-    console.log(realm.getSubscriptions().state); // log the subscription state
+    console.log(realm.subscriptions.state); // log the subscription state
     // :code-block-end:
 
     // :code-block-start: wait-for-synchronization
     try {
-      subscriptions.update((mutableSubscriptionsInstance) => {
-        mutableSubscriptionsInstance.add("Person"); // At this point, data may or may not be downloaded.
+      realm.subscriptions.update(({ add }) => {
+        add("Person"); // At this point, data may or may not be downloaded.
       });
-      await subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
+      await realm.subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
       // New data is made available
     } catch (error) {
       console.log(error);
@@ -79,51 +96,45 @@ describe("Flexible Sync Tests", () => {
     // :code-block-end:
 
     // :code-block-start: update-subscriptions
-    subscriptions.update((mutableSubscriptionsInstance) => {
-      mutableSubscriptionsInstance.add(
-        tasks.filtered('status == "completed" && progressMinutes > 180'),
-        {
-          name: "longRunningTasksSubscription",
-        }
-      );
+    realm.subscriptions.update(({ add }) => {
+      add(tasks.filtered('status == "completed" && progressMinutes > 180'), {
+        name: "longRunningTasksSubscription",
+      });
     });
     // :code-block-end:
 
     // :code-block-start: remove-single-subscription
-    subscriptions.update((mutableSubscriptionsInstance) => {
+    realm.subscriptions.update(({ remove }) => {
       // remove a subscription with a specific query
-      mutableSubscriptionsInstance.remove(tasks.filtered('owner == "Ben"'));
+      remove(tasks.filtered('owner == "Ben"'));
     });
     // :code-block-end:
 
     // :code-block-start: remove-subscription-by-name
-    subscriptions.update((mutableSubscriptionsInstance) => {
+    realm.subscriptions.update(({ removeByName }) => {
       // remove a subscription with a specific name
-      mutableSubscriptionsInstance.removeByName("longRunningTasksSubscription");
+      removeByName("longRunningTasksSubscription");
     });
     // :code-block-end:
 
     // :code-block-start: remove-subscription-by-reference
     let subscriptionReference;
-    subscriptions.update((mutableSubscriptionsInstance) => {
-      subscriptionReference = mutableSubscriptionsInstance.add(
-        realm.objects("Task")
-      );
+    realm.subscriptions.update(({ add }) => {
+      subscriptionReference = add(realm.objects("Task"));
     });
-
     // later..
-    subscriptions.removeSubscription(subscriptionReference);
+    realm.subscriptions.removeSubscription(subscriptionReference);
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions-of-object-type
-    subscriptions.update((mutableSubscriptionsInstance) => {
-      mutableSubscriptionsInstance.removeByObjectType("Team");
+    realm.subscriptions.update(({ removeByObjectType }) => {
+      removeByObjectType("Team");
     });
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions
-    subscriptions.update((mutableSubscriptionsInstance) => {
-      mutableSubscriptionsInstance.removeAll();
+    realm.subscriptions.update(({ removeAll }) => {
+      removeAll();
     });
     // :code-block-end:
   });

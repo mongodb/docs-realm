@@ -1,3 +1,3 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
-  mutableSubscriptionsInstance.removeByObjectType("Team");
+realm.subscriptions.update(({ removeByObjectType }) => {
+  removeByObjectType("Team");
 });
