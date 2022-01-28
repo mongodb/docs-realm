@@ -1840,8 +1840,6 @@ paths:
     parameters:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
-
-
   "/groups/{groupId}/apps/{appId}/log_forwarders":
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1877,7 +1875,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LogForwarder"
-  
   "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}":
     parameters:
       - $ref: "#/components/parameters/GroupId"
@@ -1943,7 +1940,6 @@ paths:
       responses:
         204:
           description: No Content
-
   "/groups/{groupId}/apps/{appId}/api_keys":
     get:
       tags:
@@ -2758,6 +2754,127 @@ paths:
                                   the measurement.
         "400":
           "$ref": "#/components/responses/ClientErrorResponse"
+  "/groups/{groupId}/apps/{appId}/schemas":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+    get:
+      tags:
+        - schemas
+      operationId: adminListSchemas
+      summary: List schemas
+      description: List all defined [schemas](https://docs.mongodb.com/realm/schemas).
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    schema:
+                      type: object
+                    metadata:
+                      "$ref": "#/components/schemas/SchemaMetadata"
+    post:
+      tags:
+        - schemas
+      operationId: adminCreateSchema
+      summary: Create a schema
+      description: Define a new [schema](https://docs.mongodb.com/realm/schemas) for a linked collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schema
+                - metadata
+              properties:
+                _id:
+                  type: string
+                schema:
+                  type: object
+                  description: A valid [schema](https://docs.mongodb.com/realm/schemas) for the collection.
+                metadata:
+                  "$ref": "#/components/schemas/SchemaMetadata"
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                properties:
+                  _id:
+                    type: string
+                  metadata:
+                    "$ref": "#/components/schemas/SchemaMetadata"
+  "/groups/{groupId}/apps/{appId}/schemas/{schemaId}":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+      - "$ref": "#/components/parameters/SchemaId"
+    get:
+      tags:
+        - schemas
+      operationId: adminGetSchema
+      summary: Get a schema
+      description: Get a specific [schema](https://docs.mongodb.com/realm/schemas) by its `_id` value.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  _id:
+                    type: string
+                  schema:
+                    type: object
+    put:
+      tags:
+        - schemas
+      operationId: adminUpdateSchema
+      summary: Update a schema
+      description: Replace an existing [schema](https://docs.mongodb.com/realm/schemas) with a new one.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schema
+              properties:
+                _id:
+                  type: string
+                schema:
+                  type: object
+                  description: A valid [schema](https://docs.mongodb.com/realm/schemas) for the collection.
+                relationships:
+                  type: object
+                  description: Relationships to foreign collections. Each field name is a property in the schema. The corresponding value is a [relationship](https://docs.mongodb.com/realm/schemas/relationships/) definition for that field.
+                  additionalProperties:
+                    "$ref": "#/components/schemas/Relationship"
+                metadata:
+                  "$ref": "#/components/schemas/SchemaMetadata"
+      responses:
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - schemas
+      operationId: adminDeleteSchema
+      summary: Delete a schema
+      description: Delete a specific [schema](https://docs.mongodb.com/realm/schemas) by its `_id` value.
+      responses:
+        "204":
+          description: No Content
 components:
   parameters:
     AssetResourcePath:
@@ -2921,6 +3038,13 @@ components:
     TriggerId:
       name: triggerId
       description: The ObjectID of the trigger.
+      in: path
+      required: true
+      schema:
+        type: string
+    SchemaId:
+      name: schemaId
+      description: The ObjectID of the schema.
       in: path
       required: true
       schema:
@@ -3793,6 +3917,36 @@ components:
         hash:
           type: string
           description: The MD5 checksum hash for the hosted asset
+    Relationship:
+      type: object
+      description: A [relationship](https://docs.mongodb.com/realm/schemas/relationships/) definition.
+      properties:
+        ref:
+          type: string
+          description: A reference string for the foreign collection.
+        foreign_key:
+          type: string
+          description: The name of the field in the foreign collection that the relationship points to.
+        is_list:
+          type: boolean
+          description: |-
+            If `true`:
+            
+            - the relationship may point to many foreign documents.
+            - the local field must be defined as an array in the collection schema.
+    SchemaMetadata:
+      type: object
+      description: Metadata the describes which linked collection the schema applies to.
+      properties:
+        data_source:
+          type: string
+          description: The data source name.
+        database:
+          type: string
+          description: The database name.
+        collection:
+          type: string
+          description: The collection name.
   securitySchemes:
     tokenAuth:
       type: http
@@ -3894,6 +4048,9 @@ tags:
   - name: rules
     description: Rules APIs
     x-displayName: Rules APIs
+  - name: schemas
+    description: Schema APIs
+    x-displayName: Schema APIs
   - name: security
     description: Security APIs
     x-displayName: Security APIs
