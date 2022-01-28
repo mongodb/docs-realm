@@ -1,7 +1,10 @@
 import Realm from "realm";
-import path from "path";
 
 describe("Bundle a Realm", () => {
+  afterEach(() => {
+    Realm.deleteFile({ path: "copy.realm" });
+    Realm.deleteFile({ path: "original.realm" });
+  });
   test("Bundle Realm and open it", async () => {
     const Car = {
       name: "Car",
@@ -12,14 +15,14 @@ describe("Bundle a Realm", () => {
       },
     };
     // :snippet-start: copy-realm-to-new-file
-    const originalPath = path.join(__dirname, "original.realm");
+    const originalPath = "original.realm";
     const originalConfig = {
       schema: [Car],
       path: originalPath,
     };
     const originalRealm = await Realm.open(originalConfig);
 
-    const copyPath = path.join(__dirname, "copy.realm");
+    const copyPath = "copy.realm";
     originalRealm.writeCopyTo(copyPath);
     // :snippet-end:
 
@@ -36,9 +39,6 @@ describe("Bundle a Realm", () => {
     expect(copyRealm.isClosed).toBe(false);
     copyRealm.close();
     expect(copyRealm.isClosed).toBe(true);
-    // clean up
-    Realm.deleteFile(originalConfig);
-    Realm.deleteFile(copyConfig);
   });
 
   test.skip("Must fully sync Realm before bundling", async () => {
