@@ -76,10 +76,6 @@ app uses this Sync configuration:
        for the application. While enabled, Realm automatically stores synced
        objects in a specific database (specified in ``database_name``) and
        mirrors objects types in that database's collection schemas.
-       
-       .. important::
-          
-          Realm does not enforce rules when development mode is enabled.
 
    * - | ``database_name``
        | String
@@ -117,7 +113,8 @@ app uses this Sync configuration:
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a user
        has permission to write objects in a partition. If the expression
        evaluates to ``false``, {+service-short+} does not allow the user to
-       modify an object or its properties.
+       modify an object or its properties. Write permission requires read 
+       permission. A user cannot write to a document that they cannot read.
 
    * - | ``last_disabled``
        | Number
@@ -143,7 +140,7 @@ Sync configuration:
    :caption: sync/config.json
 
    {
-     "type": <"flexible" | "partition">,
+     "type": "flexible",
      "development_mode_enabled": <Boolean>,
      "service_name": "<Data Source Name>",
      "database_name": "<Development Mode Database Name>",
@@ -186,7 +183,6 @@ Sync configuration:
        
        Valid Options:
 
-       - ``"partition"``
        - ``"flexible"``
 
    * - | ``development_mode_enabled``
@@ -195,10 +191,6 @@ Sync configuration:
        for the application. While enabled, Realm automatically stores synced
        objects in a specific database (specified in ``database_name``) and
        mirrors objects types in that database's collection schemas.
-       
-       .. important::
-          
-          Realm does not enforce rules when development mode is enabled.
 
    * - | ``service_name``
        | String
@@ -254,7 +246,9 @@ Sync configuration:
      - An :ref:`expression <expressions>` that evaluates to ``true`` when a 
        user has permission to write objects in the collection. If the 
        expression evaluates to ``false``, {+service-short+} does not allow 
-       the user to modify an object or its properties. 
+       the user to modify an object or its properties. Write permission
+       requires read permission. A user cannot write to a document that
+       they cannot read.
 
    * - | ``permissions.defaultRoles``
        | String
