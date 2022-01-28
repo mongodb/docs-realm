@@ -97,10 +97,11 @@ reset that uses this strategy, the client:
    bring the original (local) copy of the realm to the same state as
    the fresh copy of the backend.
 #. Applies that set of steps to transform the local realm into a state
-   where it can sync with the backend. This includes deleting all local
-   changes that haven't yet synced with the backend, as well as any
-   inserts, updates, and deletes that happened on the backend that haven't
-   yet synced to the client.
+   where it can sync with the backend. This includes:
+
+   - deleting all local changes that haven't yet synced to the backend
+   - any inserts, updates, and deletes that haven't yet synced to the client
+
 #. Discards the fresh copy. The app continues to use
    the original copy of the realm with the diff applied.
 
