@@ -150,6 +150,7 @@ To remove subscriptions from the subscription set, you can:
 
 - Remove a single subscription with the given query
 - Remove a single subscription with the given name 
+- Remove a single subscription with the given subscription 
 - Remove all subscriptions of a specific type
 - Remove all subscriptions
 
@@ -159,10 +160,9 @@ the client device.
 
 Remove a Subscription by Query
 ``````````````````````````````
-You can remove a specific subscription by query by executing a transaction on
-the subscriptions set. Pass the query to the :dotnet-sdk:`Remove()
+Within an update block, you can remove a specific subscription by query. Pass the query to the :dotnet-sdk:`Remove()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove__1_System_Linq_IQueryable___0__System_Boolean_>`
-method on the ``SubscriptionSet`` within a transaction.
+method on the ``SubscriptionSet``.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -173,11 +173,10 @@ removed from the subscriptions set.
 
 Remove a Subscription by Name
 `````````````````````````````
-To remove a specific subscription by name, execute a transaction on the
-subscriptions set. Within the transaction, pass the name to the
+Within an update block, you can remove a specific subscription by name. Pass the name to the
 :dotnet-sdk:`Remove()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove_System_String_>`
-method on the ``SubscriptionSet`` within a transaction.
+method on the ``SubscriptionSet``.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-subscription-by-name.cs
    :language: csharp
@@ -185,11 +184,10 @@ method on the ``SubscriptionSet`` within a transaction.
 
 Remove All Subscriptions of an Object Type
 ``````````````````````````````````````````
-To remove all subscriptions of a specific object type, execute a transaction on
-the subscriptions set. Within the transaction, pass the object type as a string
+Within an update block, you can remove all subscriptions of a specific object type. Pass the object type as a string
 to the :dotnet-sdk:`RemoveAll()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_RemoveAll__1_System_Boolean_>`
-method on the ``SubscriptionSet`` within a transaction.
+method on the ``SubscriptionSet``.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions-of-object-type.cs
    :language: csharp
@@ -197,11 +195,12 @@ method on the ``SubscriptionSet`` within a transaction.
 
 Remove All Subscriptions
 ````````````````````````
-To remove all unnamed subscriptions from the subscriptions set, execute a
-transaction on the subscriptions set and call the :dotnet-sdk:`RemoveAll()
+Within an update block, you can remove all unnamed subscriptions from the
+subscriptions set. Call the :dotnet-sdk:`RemoveAll()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_RemoveAll_System_Boolean_>`
-method on the ``SubscriptionSet`` within a transaction. If you also want to
-remove the named subscriptions, pass ``true`` to the ``RemoveAll()`` method.
+method on the ``SubscriptionSet``. The ``RemoveAll()`` method has an optional
+boolean ``removedName`` argument which also removes the named subscriptions if
+it is set to ``true``. ``removedName`` is set to false by default.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions.cs
    :language: csharp
