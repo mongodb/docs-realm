@@ -107,26 +107,12 @@ you set ``UpdateExisting`` to false, adding a subscription with an existing name
 but a different query throws an exception. ``UpdateExisting`` defaults to true.
 
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
-transaction. In the example below, we subscribe to three queries.
+transaction. We recommend batching queries together to avoid 
+
+In the example below, we subscribe to three queries.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-subscriptions.cs
    :language: csharp
-
-Wait for Subscription Changes to Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Writing an update to the subscription set locally is only one part 
-of changing a subscription. After the local subscription change, the realm 
-synchronizes with the server to resolve any updates to the data due to 
-the subscription change. This could mean adding or removing data from the 
-synced realm. 
-
-Use the :dotnet-sdk:`SubscriptionSet.WaitForSynchronizationAsync()
-<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_WaitForSynchronizationAsync>`
-method to wait for the server to acknowledge this set of subscriptions.
-
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
-   :language: csharp
-
 
 Update Subscriptions with a New Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,4 +194,19 @@ method on the ``SubscriptionSet`` within a transaction. If you also want to
 remove the named subscriptions, pass ``true`` to the ``RemoveAll()`` method.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions.cs
+   :language: csharp
+
+Wait for Subscription Changes to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Writing an update to the subscription set locally is only one part 
+of changing a subscription. After the local subscription change, the realm 
+synchronizes with the server to resolve any updates to the data due to 
+the subscription change. This could mean adding or removing data from the 
+synced realm. 
+
+Use the :dotnet-sdk:`SubscriptionSet.WaitForSynchronizationAsync()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_WaitForSynchronizationAsync>`
+method to wait for the server to acknowledge this set of subscriptions.
+
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
    :language: csharp
