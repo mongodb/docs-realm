@@ -104,7 +104,7 @@ options include:
 If ``UpdateExisting`` is true, adding a subscription with an
 existing name will replace the existing query with the new query. However, if
 you set ``UpdateExisting`` to false, adding a subscription with an existing name
-but a different query throws an exception. ``UpdateExisting`` defaults to false.
+but a different query throws an exception. ``UpdateExisting`` defaults to true.
 
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
 transaction. In the example below, we subscribe to three queries.
