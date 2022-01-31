@@ -34,7 +34,7 @@ namespace Examples
                subscriptions.Add(longRunningTasksQuery, new() { Name = "longRunningTasks" });
 
                 // subscribe to all of Ben's Task objects
-                var bensTasks = subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
+               subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 var teamsSubscriptionOptions = new SubscriptionOptions() { Name = "teamsSubscription", UpdateExisting = false };
