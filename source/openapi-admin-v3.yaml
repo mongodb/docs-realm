@@ -1840,6 +1840,106 @@ paths:
     parameters:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
+  "/groups/{groupId}/apps/{appId}/log_forwarders":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+    get:
+      tags: ["log_forwarders"]
+      operationId: "listLogForwarders"
+      summary: "List log forwarders."
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LogForwarder"
+    post:
+      tags: ["log_forwarders"]
+      operationId: "createLogForwarder"
+      summary: "Create a log forwarder."
+      requestBody:
+        required: true
+        description: "A log forwarder configuration"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLogForwarderRequest"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    get:
+      tags: ["log_forwarders"]
+      operationId: "getLogForwarder"
+      summary: "Get a specific log forwarder."
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+    patch:
+      tags: ["log_forwarders"]
+      operationId: "updateLogForwarder"
+      summary: "Update a log forwarder."
+      requestBody:
+        required: true
+        description: "A log forwarder configuration"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLogForwarderRequest"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogForwarder"
+    delete:
+      tags: ["log_forwarders"]
+      operationId: "deleteGwarder"
+      summary: "Delete a log forwarder."
+      responses:
+        204:
+          description: No Content
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}/enable":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    put:
+      tags: ["log_forwarders"]
+      operationId: "enableLogForwarder"
+      summary: "Enable a log forwarder."
+      responses:
+        204:
+          description: No Content
+  "/groups/{groupId}/apps/{appId}/log_forwarders/{forwarderId}/disable":
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - $ref: "#/components/parameters/AppId"
+      - $ref: "#/components/parameters/ForwarderId"
+    put:
+      tags: ["log_forwarders"]
+      operationId: "disableLogForwarder"
+      summary: "Disable a log forwarder."
+      responses:
+        204:
+          description: No Content
   "/groups/{groupId}/apps/{appId}/api_keys":
     get:
       tags:
@@ -2654,6 +2754,127 @@ paths:
                                   the measurement.
         "400":
           "$ref": "#/components/responses/ClientErrorResponse"
+  "/groups/{groupId}/apps/{appId}/schemas":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+    get:
+      tags:
+        - schemas
+      operationId: adminListSchemas
+      summary: List schemas
+      description: List all defined [schemas](https://docs.mongodb.com/realm/schemas).
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    schema:
+                      type: object
+                    metadata:
+                      "$ref": "#/components/schemas/SchemaMetadata"
+    post:
+      tags:
+        - schemas
+      operationId: adminCreateSchema
+      summary: Create a schema
+      description: Define a new [schema](https://docs.mongodb.com/realm/schemas) for a linked collection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schema
+                - metadata
+              properties:
+                _id:
+                  type: string
+                schema:
+                  type: object
+                  description: A valid [schema](https://docs.mongodb.com/realm/schemas) for the collection.
+                metadata:
+                  "$ref": "#/components/schemas/SchemaMetadata"
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                properties:
+                  _id:
+                    type: string
+                  metadata:
+                    "$ref": "#/components/schemas/SchemaMetadata"
+  "/groups/{groupId}/apps/{appId}/schemas/{schemaId}":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+      - "$ref": "#/components/parameters/SchemaId"
+    get:
+      tags:
+        - schemas
+      operationId: adminGetSchema
+      summary: Get a schema
+      description: Get a specific [schema](https://docs.mongodb.com/realm/schemas) by its `_id` value.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  _id:
+                    type: string
+                  schema:
+                    type: object
+    put:
+      tags:
+        - schemas
+      operationId: adminUpdateSchema
+      summary: Update a schema
+      description: Replace an existing [schema](https://docs.mongodb.com/realm/schemas) with a new one.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - schema
+              properties:
+                _id:
+                  type: string
+                schema:
+                  type: object
+                  description: A valid [schema](https://docs.mongodb.com/realm/schemas) for the collection.
+                relationships:
+                  type: object
+                  description: Relationships to foreign collections. Each field name is a property in the schema. The corresponding value is a [relationship](https://docs.mongodb.com/realm/schemas/relationships/) definition for that field.
+                  additionalProperties:
+                    "$ref": "#/components/schemas/Relationship"
+                metadata:
+                  "$ref": "#/components/schemas/SchemaMetadata"
+      responses:
+        "204":
+          description: No Content
+    delete:
+      tags:
+        - schemas
+      operationId: adminDeleteSchema
+      summary: Delete a schema
+      description: Delete a specific [schema](https://docs.mongodb.com/realm/schemas) by its `_id` value.
+      responses:
+        "204":
+          description: No Content
 components:
   parameters:
     AssetResourcePath:
@@ -2688,6 +2909,13 @@ components:
         [The Realm API Project and Application IDs section](#section/Project-and-Application-IDs) demonstrates how to find this
         value.
       in: path
+      required: true
+      schema:
+        type: string
+    ForwarderId:
+      name: "forwarderId"
+      description: The _id ObjectID of a log forwarder.
+      in: "path"
       required: true
       schema:
         type: string
@@ -2810,6 +3038,13 @@ components:
     TriggerId:
       name: triggerId
       description: The ObjectID of the trigger.
+      in: path
+      required: true
+      schema:
+        type: string
+    SchemaId:
+      name: schemaId
+      description: The ObjectID of the schema.
       in: path
       required: true
       schema:
@@ -3126,6 +3361,68 @@ components:
           type: string
         version:
           type: integer
+    CreateLogForwarderRequest:
+      $ref: "#/components/schemas/LogForwarder"
+    UpdateLogForwarderRequest:
+      $ref: "#/components/schemas/LogForwarder"
+    LogForwarder:
+      type: object
+      properties:
+        _id: {type: string}
+        name: {type: string}
+        disabled: {type: boolean}
+        log_types:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogType"
+        log_statuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogStatus"
+        policy:
+          $ref: "#/components/schemas/LogForwardingPolicy"
+        action:
+          $ref: "#/components/schemas/LogForwardingAction"
+    LogType:
+      type: string
+      enum:
+        - auth
+        - function
+        - graphql
+        - push
+        - schema
+        - service
+        - sync
+        - trigger
+    LogStatus:
+      type: string
+      enum:
+        - error
+        - success
+    LogForwardingPolicy:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - single
+            - batch
+    LogForwardingAction: # We need oneOf to do this correctly.
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - collection
+            - function
+        name:
+          type: string
+        data_source:
+          type: string
+        database:
+          type: string
+        collection:
+          type: string
     NewService:
       properties:
         name:
@@ -3620,6 +3917,36 @@ components:
         hash:
           type: string
           description: The MD5 checksum hash for the hosted asset
+    Relationship:
+      type: object
+      description: A [relationship](https://docs.mongodb.com/realm/schemas/relationships/) definition.
+      properties:
+        ref:
+          type: string
+          description: A reference string for the foreign collection.
+        foreign_key:
+          type: string
+          description: The name of the field in the foreign collection that the relationship points to.
+        is_list:
+          type: boolean
+          description: |-
+            If `true`:
+            
+            - the relationship may point to many foreign documents.
+            - the local field must be defined as an array in the collection schema.
+    SchemaMetadata:
+      type: object
+      description: Metadata the describes which linked collection the schema applies to.
+      properties:
+        data_source:
+          type: string
+          description: The data source name.
+        database:
+          type: string
+          description: The database name.
+        collection:
+          type: string
+          description: The collection name.
   securitySchemes:
     tokenAuth:
       type: http
@@ -3712,12 +4039,18 @@ tags:
 
       For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
     x-displayName: Logging APIs
+  - name: log_forwarders
+    description: Log Forwarding APIs
+    x-displayName: Log Forwarding APIs
   - name: notifications
     description: Notifications APIs
     x-displayName: Notifications APIs
   - name: rules
     description: Rules APIs
     x-displayName: Rules APIs
+  - name: schemas
+    description: Schema APIs
+    x-displayName: Schema APIs
   - name: security
     description: Security APIs
     x-displayName: Security APIs
