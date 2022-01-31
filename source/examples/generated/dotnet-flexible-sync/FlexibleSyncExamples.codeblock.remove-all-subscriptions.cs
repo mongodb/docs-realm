@@ -1,1 +1,1 @@
-realm.Subscriptions.RemoveAll();
+realm.Subscriptions.RemoveAll(true);

@@ -79,7 +79,7 @@ namespace Examples
             // :code-block-end:
 
             // :code-block-start: remove-all-subscriptions
-            realm.Subscriptions.RemoveAll();
+            realm.Subscriptions.RemoveAll(true);
             // :code-block-end:
         }
     }

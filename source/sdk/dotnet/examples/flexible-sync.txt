@@ -46,10 +46,10 @@ syncs to the client device.
 Subscribe to Queryable Fields
 -----------------------------
 
-When configuring Flexible Sync on the backend, you specify which fields
-your client application can query. In the client application, use the 
-``subscriptions`` API to manage a set of subscriptions to specific queries on 
-queryable fields.
+When configuring Flexible Sync on the backend, you specify which fields your
+client application can query. In the client application, use the
+:dotnet-sdk:`subscriptions <reference/Realms.Sync.Subscription.html>` API to
+manage a set of subscriptions to specific queries on queryable fields.
 
 You can:
 
@@ -80,8 +80,10 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-When using a flexible synced realm, you can access a ``SubscriptionSet``, a collection of subscriptions, through the
-``Realm.Subscriptions`` property.
+When using a flexible synced realm, you can access a
+:dotnet-sdk:`SubscriptionSet <reference/Realms.Sync.SubscriptionSet.html>`, a
+collection of subscriptions, through the :dotnet-sdk:`Realm.Subscriptions
+<reference/Realms.Realm.html#Realms_Realm_Subscriptions>` property.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.get-subscriptions.cs
    :language: csharp
@@ -95,12 +97,16 @@ Within a Flexible Sync ``transaction`` you can add queries to your list of
 subscriptions.
 
 Queries must be added to the list of existing subscriptions within a
-``transaction``. Create a transaction by calling ``SubscriptionSet.Update``.
+``transaction``. Create a transaction by calling
+:dotnet-sdk:`SubscriptionSet.Update
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Update_System_Action_>`.
 Within the callback function, call the ``Add()`` method on the
 ``SubscriptionSet`` to add a query to the subscription.
 
-The ``SubscriptionSet.Add()`` method takes a ``query``, and a
-subscription options object. The subscription options include:
+The :dotnet-sdk:`SubscriptionSet.Add()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
+method takes a ``query``, and a subscription options object. The subscription
+options include:
 
 - a ``Name`` string field
 - a ``UpdateExisting`` boolean field.
@@ -124,8 +130,9 @@ synchronizes with the server to resolve any updates to the data due to
 the subscription change. This could mean adding or removing data from the 
 synced realm. 
 
-Use the ``SubscriptionSet.WaitForSynchronizationAsync()`` method to wait for the server to
-acknowledge this set of subscriptions.
+Use the :dotnet-sdk:`SubscriptionSet.WaitForSynchronizationAsync()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_WaitForSynchronizationAsync>`
+method to wait for the server to acknowledge this set of subscriptions.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
    :language: csharp
@@ -167,8 +174,9 @@ the client device.
 Remove a Subscription by Query
 ``````````````````````````````
 You can remove a specific subscription by query by executing a transaction on
-the subscriptions set. Pass the query to the ``Remove()`` method on the mutable
-subscriptions instance within a transaction.
+the subscriptions set. Pass the query to the :dotnet-sdk:`Remove()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove__1_System_Linq_IQueryable___0__System_Boolean_>`
+method on the ``SubscriptionSet`` within a transaction.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -179,9 +187,11 @@ removed from the subscriptions set.
 
 Remove a Subscription by Name
 `````````````````````````````
-To remove a specific subscription by name, execute a transaction on
-the subscriptions set. Within the transaction, pass the name to the
-``removeByName()`` method on the mutable subscriptions instance.
+To remove a specific subscription by name, execute a transaction on the
+subscriptions set. Within the transaction, pass the name to the
+:dotnet-sdk:`Remove()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove_System_String_>`
+method on the ``SubscriptionSet`` within a transaction.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-subscription-by-name.cs
    :language: csharp
@@ -191,7 +201,9 @@ Remove All Subscriptions of an Object Type
 ``````````````````````````````````````````
 To remove all subscriptions of a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
-to the ``removeByObjectType()`` method on the mutable subscriptions instance.
+to the :dotnet-sdk:`RemoveAll()
+<reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_RemoveAll__1_System_Boolean_>`
+method on the ``SubscriptionSet`` within a transaction.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions-of-object-type.cs
    :language: csharp
@@ -199,9 +211,11 @@ to the ``removeByObjectType()`` method on the mutable subscriptions instance.
 
 Remove All Subscriptions
 ````````````````````````
-To remove all subscriptions from the subscriptions set, execute a transaction on
-the subscriptions set. Call the ``removeAll()`` method
-on the mutable subscriptions instance within the transaction
+To remove all unnamed subscriptions from the subscriptions set, execute a
+transaction on the subscriptions set and call the :dotnet-sdk:`RemoveAll()
+<Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_RemoveAll_System_Boolean_>`
+method on the ``SubscriptionSet`` within a transaction. If you also want to
+remove the named subscriptions, pass ``true`` to the ``RemoveAll()`` method.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions.cs
    :language: csharp
