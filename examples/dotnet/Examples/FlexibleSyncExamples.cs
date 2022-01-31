@@ -1,4 +1,10 @@
-﻿using System;
+﻿// :replace-start: {
+//    "terms": {
+//       "MyTask": "Task"
+//    }
+// }
+
+using System;
 using Realms;
 using Realms.Sync;
 using MongoDB.Bson;
@@ -118,3 +124,4 @@ namespace Examples
 
     }
 }
+// :replace-end:
