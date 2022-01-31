@@ -84,8 +84,11 @@ namespace Examples
             // :code-block-start: remove-all-subscriptions-of-object-type
             realm.Subscriptions.Update(() =>
             {
-                // remove all Team subscriptions
+                // remove all subscriptions of the "Team" Class Name 
                 realm.Subscriptions.RemoveAll("Team");
+
+                // Alernatively, remove all subscriptions of the "Team" object type
+                realm.Subscriptions.RemoveAll<Team>();
             });
             // :code-block-end:
 
