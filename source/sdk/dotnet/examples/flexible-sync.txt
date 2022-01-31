@@ -70,6 +70,7 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
+.. _dotnet-sync-get-subscription:
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
@@ -83,6 +84,8 @@ collection of subscriptions, through the :dotnet-sdk:`Realm.Subscriptions
 
 You can use this subscriptions set to add queries to this list of subscriptions and
 update existing subscriptions, as shown in the examples below.
+
+.. _dotnet-sync-add-subscription:
 
 Add a Query to the Set Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -107,21 +110,27 @@ you set ``UpdateExisting`` to false, adding a subscription with an existing name
 but a different query throws an exception. ``UpdateExisting`` defaults to true.
 
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
-transaction. We recommend batching queries together to avoid 
+block. You should batch queries whenever possible.
 
 In the example below, we subscribe to three queries.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-subscriptions.cs
    :language: csharp
 
+.. _dotnet-update-subscriptions-with-new-query:
+
 Update Subscriptions with a New Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can update a named subscription with a new query. To update a subscriptions
+You can update a named subscription with a new query. To update a subscription's
 query, pass the new query and a subscription option with the name of the
 subscription that you want to update to the
 ``SubscriptionSet.Add()`` method. Like adding a new subscription,
-you must update a subscription within a transaction by calling
+you must update a subscription within an update block by calling
 ``SubscriptionSet.Update()`` method.
+
+.. note::
+
+   Updating an unnamed subscription is not possible. Alternatively, you can :ref:`delete the unnamed subscription <dotnet-remove-subscriptions>`, and :ref:`create a new subscription <dotnet-sync-add-subscription>` with the desired query.
 
 In the following example, long running tasks are re-defined to be any tasks that
 have taken more than 130 minutes. 
@@ -131,8 +140,9 @@ have taken more than 130 minutes.
 
 .. note::
 
-   Attempting to update a subscription that has the
-   ``SubscriptionOptions.UpdateExisting`` field set to false will throw an exception.
+   Attempting to update a subscription that has the ``SubscriptionOptions.UpdateExisting`` field set to false will throw an exception.
+
+.. _dotnet-remove-subscriptions:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
