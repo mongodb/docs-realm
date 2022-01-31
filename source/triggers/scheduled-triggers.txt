@@ -393,5 +393,39 @@ describes valid field values and expressions:
 Performance Optimization
 ------------------------
 
-TODO(DOCSP-20059): talk about using a $match expression in function to reduce 
-number of documents looked at.
+Use the Query API with a a :manual:`$match</reference/operator/aggregation/match/>`
+expression to reduce the number of documents your {+service-short+} Function looks at.
+This helps your Function improve performance and not reach
+:ref:`{+service-short+} Function memory limits <function-constraints>`. 
+
+.. example:: Using $match in a Scheduled Trigger to Find Recent Positive Reviews
+
+   In this example, we're creating a Scheduled Trigger that use the $match operator
+   on a collection of product reviews to generate all positive (3 stars or higher) reviews in the past 24 hours. 
+
+   Documents in the reviews collection have the following schema: 
+
+   .. code-block:: javascript
+
+      // review schema
+      {
+        _id: <ObjectId>,
+        userId: <ObjectId>,
+        productId: <ObjectId>,
+        rating: <Integer>,
+        comment: <String>,
+        createdAtTimestamp: <Integer>
+      }
+   
+
+   The {+service-short+} Function that the Trigger invokes should run with the following
+   cron expression to run every 24 hours at 12:00 AM: 
+
+   .. code-block::
+
+      0 0 * * *
+
+   Now the {+service-short+} Function that finds the recent positive reviews: 
+
+   ..literalinclude:: /examples/functions/functions_tester/functions/dailyPositiveReviews.js
+      :language: javascript
