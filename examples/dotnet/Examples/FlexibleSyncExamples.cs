@@ -38,7 +38,7 @@ namespace Examples
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 var teamsSubscriptionOptions = new SubscriptionOptions() { Name = "teamsSubscription", UpdateExisting = false };
-                var teamsSubscription = subscriptions.Add(realm.All<Team>(), teamsSubscriptionOptions); 
+                subscriptions.Add(realm.All<Team>(), new() { Name = "teams", UpdateExisting = false }); 
             });
             // :code-block-end:
 
