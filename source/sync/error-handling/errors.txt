@@ -123,6 +123,13 @@ and MongoDB Atlas.
        primary key value. Alternatively, ensure that every synced object has a
        unique primary key, even across partitions.
 
+   * - TranslatorFatalError - ChangeStreamHistoryLost
+     - This error occurs when the translator cannot keep up with the
+       number of transactions to process. This could occur if Sync is
+       paused for too long. The only resolution is to :ref:`terminate
+       <terminating-realm-sync>` and :ref:`re-enable Sync
+       <re-enable-realm-sync>`.
+
 .. _sync-client-errors:
 
 Sync Client Errors
