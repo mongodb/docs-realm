@@ -76,16 +76,41 @@ cannot view or modify data.
 MongoDB Realm Applications with Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you :ref:`enable {+sync+} <sync-rules>`, you specify the :ref:`partition 
-key <sync-partitions>` that gives users access to data. You can define 
-:ref:`JSON expressions <expressions>` to give users read and write 
-permissions for the partition.
+When you enable {+sync+} for your {+app+}, you define data access rules
+that determine which data users can read and write. The :ref:`Sync Mode 
+<sync-modes>` you select determines which types of permissions apply 
+for your application.
+
+Partition-Based Sync
+````````````````````
+
+When you :ref:`enable Partition-Based {+sync+} <enable-pbs-sync>`, you 
+specify the :ref:`partition key <sync-partitions>` that gives users 
+access to data. You can define :ref:`JSON expressions <expressions>` to 
+give users read and write permissions for the partition.
 
 When you access a synced {+app+} from a client, you specify the partition
 value that the logged-in user can access. The user only has access to the 
 partition key and value you define in your app. The user cannot read or 
 write data whose partition key value does not match the conditions you specify
 when you configure {+sync-short+}.
+
+Flexible Sync
+`````````````
+
+When you :ref:`enable Flexible {+sync+} <enable-flexible-sync>`, you specify
+the :ref:`fields that your client application can query <queryable-fields>`, 
+as well as :ref:`rules to apply read and write permissions 
+<flexible-sync-rules-and-permissions>`. You can define :ref:`JSON expressions 
+<expressions>` to give users read and write permissions for specific 
+collections, and define :ref:`default roles <default-roles>` that apply 
+permissions across all collections.
+
+Your client application can query for objects via these queryable fields. 
+Users can then access objects that match the query where they have read or 
+read and write permission to access the objects. Objects that match the query, 
+but where the user does not have read or read and write permission, do not 
+sync to the client application.
 
 .. _security-atlas-permissions:
 
@@ -108,8 +133,9 @@ search or read data.
 .. note::
 
    When you access {+atlas+} through a {+app+} with {+sync+} enabled, the
-   permissions you defined for {+sync-short+} apply. MongoDB does not apply 
-   role-based permissions when {+sync+} is enabled.
+   permissions you define for {+sync-short+} apply, instead of the 
+   :ref:`role-based permissions <define-roles-and-permissions>` you define 
+   when you link an {+atlas+} data source.
 
 .. _security-developer-access:
 
