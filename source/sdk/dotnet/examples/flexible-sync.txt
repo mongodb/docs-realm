@@ -86,19 +86,16 @@ update existing subscriptions, as shown in the examples below.
 
 Add a Query to the Set Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Within a Flexible Sync ``transaction`` you can add queries to your list of
-subscriptions.
-
-Queries must be added to the list of existing subscriptions within a
-``transaction``. Create a transaction by calling
-:dotnet-sdk:`SubscriptionSet.Update
+You must perform all mutations on the subscriptions set within an update block.
+To create an update block, call the :dotnet-sdk:`SubscriptionSet.Update()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Update_System_Action_>`.
-Within the callback function, call the ``Add()`` method on the
-``SubscriptionSet`` to add a query to the subscription.
+method.
 
-The :dotnet-sdk:`SubscriptionSet.Add()
+Within the delegate, call the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
-method takes a ``query``, and a subscription options object. The subscription
+method on the ``SubscriptionSet`` to add a query to the subscription.
+
+The ``Add()`` method takes a ``query``, and a subscription options object. The subscription
 options include:
 
 - a ``Name`` string field

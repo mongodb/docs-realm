@@ -36,15 +36,15 @@ namespace Examples
             realm.Subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
-                var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 ); 
-               subscriptions.Add(longRunningTasksQuery, new() { Name = "longRunningTasks" });
+                var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 );
+                realm.Subscriptions.Add(longRunningTasksQuery, new() { Name = "longRunningTasks" });
 
                 // subscribe to all of Ben's Task objects
-               subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
+                realm.Subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 var teamsSubscriptionOptions = new SubscriptionOptions() { Name = "teamsSubscription", UpdateExisting = false };
-                subscriptions.Add(realm.All<Team>(), new() { Name = "teams", UpdateExisting = false }); 
+                realm.Subscriptions.Add(realm.All<Team>(), new() { Name = "teams", UpdateExisting = false }); 
             });
             // :code-block-end:
 
@@ -59,27 +59,42 @@ namespace Examples
             realm.Subscriptions.Update(() =>
             {
                 var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
-                subscriptions.Add(updatedLongRunningTasksQuery, new() { Name = "longRunningTasks" });
+                realm.Subscriptions.Add(updatedLongRunningTasksQuery, new() { Name = "longRunningTasks" });
             });
             // :code-block-end:
 
             // :code-block-start: remove-subscription-by-query
-            // remove a subscription by it's query
-            var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
-            realm.Subscriptions.Remove(query);
+            realm.Subscriptions.Update(() =>
+            {
+                // remove a subscription by it's query
+                var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
+                realm.Subscriptions.Remove(query);
+            });
             // :code-block-end:
 
             // :code-block-start: remove-subscription-by-name
-            var subscriptionName = "longRunningTasksSubscription";
-            realm.Subscriptions.Remove(subscriptionName);
+            realm.Subscriptions.Update(() =>
+            {
+                // remove a named subscription
+                var subscriptionName = "longRunningTasksSubscription";
+                realm.Subscriptions.Remove(subscriptionName);
+            });
             // :code-block-end:
 
             // :code-block-start: remove-all-subscriptions-of-object-type
-            realm.Subscriptions.RemoveAll("Team");
+            realm.Subscriptions.Update(() =>
+            {
+                // remove all Team subscriptions
+                realm.Subscriptions.RemoveAll("Team");
+            });
             // :code-block-end:
 
             // :code-block-start: remove-all-subscriptions
-            realm.Subscriptions.RemoveAll(true);
+            realm.Subscriptions.Update(() =>
+            {
+                // remove all subscriptions, including named subscriptions
+                realm.Subscriptions.RemoveAll(true);
+            });
             // :code-block-end:
         }
     }
