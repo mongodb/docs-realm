@@ -45,12 +45,14 @@ Some considerations when defining your Realm model class:
 
 - Import the ``realm`` package at the top of your class definition file. 
 
-- In your file, give your class a private name (starting with `_`), such as ``_Car``. 
+- In your file, give your class a private name (starting with ``_``), 
+  such as a file ``car.dart`` with a class ``_Car``.
   You generate the public RealmObject class using the command in the 
   Generate RealmObject Class section. This command 
   outputs a public class, such as ``Car``.
 
-- Make sure to include ``part car.g.dart`` before the code defining your model.
+- Make sure to include the generated file name, such as ``part car.g.dart``,
+  before the code defining your model.
   This is required to generate the RealmObject class.
 
 .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model.dart
@@ -83,7 +85,7 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory 
 where you defined the model class per the above Create Data Model section.
 This ``Car`` class is public and part of the same library
-as the ``_Car`` data model class that you defined.
+as the ``_Car`` data model class.
 The generated ``Car`` class is what's used throughout your application.
 
 If you'd like to watch your data model class to generate a new ``Car`` class whenever
