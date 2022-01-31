@@ -198,7 +198,7 @@ remove the named subscriptions, pass ``true`` to the ``RemoveAll()`` method.
 
 Wait for Subscription Changes to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Writing an update to the subscription set locally is only one part 
+Mutating the subscription set within an update block is only one part 
 of changing a subscription. After the local subscription change, the realm 
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
