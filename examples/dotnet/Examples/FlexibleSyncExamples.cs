@@ -27,7 +27,7 @@ namespace Examples
             // :code-block-end:
 
             // :code-block-start: update-subscriptions
-            subscriptions.Update(() =>
+            realm.Subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
                 var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 ); 
@@ -47,11 +47,11 @@ namespace Examples
             // :code-block-start: wait-for-synchronization
             // Wait for the server to acknowledge the subscription and return all objects
             // matching the query
-            await subscriptions.WaitForSynchronizationAsync();
+            await realm.Subscriptions.WaitForSynchronizationAsync();
             // :code-block-end:
 
             // :code-block-start: update-a-subscription
-            subscriptions.Update(() =>
+            realm.Subscriptions.Update(() =>
             {
                 var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
                 var longRunningTasksSubscriptionOptions = new SubscriptionOptions() { Name = "longRunningTasksSubscription" };
@@ -62,20 +62,20 @@ namespace Examples
             // :code-block-start: remove-subscription-by-query
             // remove a subscription by it's query
             var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
-            subscriptions.Remove(query);
+            realm.Subscriptions.Remove(query);
             // :code-block-end:
 
             // :code-block-start: remove-subscription-by-name
             var subscriptionName = "longRunningTasksSubscription";
-            subscriptions.Remove(subscriptionName);
+            realm.Subscriptions.Remove(subscriptionName);
             // :code-block-end:
 
             // :code-block-start: remove-all-subscriptions-of-object-type
-            subscriptions.RemoveAll("Team");
+            realm.Subscriptions.RemoveAll("Team");
             // :code-block-end:
 
             // :code-block-start: remove-all-subscriptions
-            subscriptions.RemoveAll();
+            realm.Subscriptions.RemoveAll();
             // :code-block-end:
         }
     }

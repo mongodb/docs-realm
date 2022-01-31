@@ -1,4 +1,4 @@
-subscriptions.Update(() =>
+realm.Subscriptions.Update(() =>
 {
     // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
     var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 ); 

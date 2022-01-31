@@ -1,2 +1,2 @@
 var subscriptionName = "longRunningTasksSubscription";
-subscriptions.Remove(subscriptionName);
+realm.Subscriptions.Remove(subscriptionName);

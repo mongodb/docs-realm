@@ -1,1 +1,1 @@
-subscriptions.RemoveAll("Team");
+realm.Subscriptions.RemoveAll("Team");
