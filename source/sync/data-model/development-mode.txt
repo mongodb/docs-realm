@@ -66,29 +66,6 @@ while {+backend+} updates the schema to match.
    For more information about modifying synced object schemas, including
    how to make destructive changes, see: :ref:`<synced-schema-overview>`.
 
-Bypass Rules and Validation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When you enable development mode, {+service-short+} bypasses data access 
-rules and schema validation. This lets developers iterate quickly to develop 
-new features or fix bugs. However, this aspect of development mode means 
-it's vital to disable it in production. Leaving development mode enabled 
-in production can expose your app to security vulnerabilities. 
-
-.. warning::
-
-   Ensure your development database does not contain production data. When 
-   you enable development mode, {+service-short+} does not enforce data access 
-   rules. If your development database contains production data, developer
-   mode would leave that data vulnerable to inadvertent or malicious access.
-   
-.. note:: Specify Data Access Rules with Development Mode Enabled
-
-   By default, enabling development mode disables all data access rules,
-   allowing any user to access any data. However, if your application requires
-   permissions during schema development, you can :ref:`specify data access
-   rules <sync-rules>` after enabling development mode.
-
 Key Concepts
 ------------
 
@@ -101,9 +78,13 @@ When you enable Development Mode, you specify a database to store synced
 objects. {+service-short+} creates new collections in this Development Mode 
 database for every type of synced object.
 
-{+service-short+} does not enforce data access rules while in Development 
-Mode. Your Development Mode Database should not contain any production 
-or user data.
+.. warning:: Specify Data Access Rules with Development Mode Enabled
+
+   By default, enabling development mode when you have not defined 
+   permissions creates default permissions that allow any user to access 
+   any data. However, if your application requires permissions during schema 
+   development, you can :ref:`specify data access rules <sync-rules>` after 
+   enabling development mode.
 
 .. example::
 

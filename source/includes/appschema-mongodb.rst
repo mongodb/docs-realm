@@ -84,9 +84,9 @@ the cluster.
    * - | ``sync.development_mode_enabled``
        | Boolean
      - If ``true``, :term:`development mode` is enabled for the cluster. While
-       enabled, Realm does not enforce sync rules, stores synced objects in a
-       specific database within the cluster, and mirrors object types in that
-       database's collection schemas.
+       enabled, Realm, stores synced objects in a specific database within 
+       the cluster, and mirrors object types in that database's collection 
+       schemas.
 
    * - | ``sync.database_name``
        | String
