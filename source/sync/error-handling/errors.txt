@@ -44,8 +44,8 @@ errors and how to handle them. {+service+} reports errors in your
        server cannot access after :ref:`terminating and re-enabling
        {+sync-short+} <terminating-and-reenabling-sync>`.
        
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
    * - ErrorClientFileUserMismatch
      - This error indicates that the client attempted to synchronize a
@@ -64,8 +64,8 @@ errors and how to handle them. {+service+} reports errors in your
        reenabled <terminating-and-reenabling-sync>` while the
        user is offline, which invalidates their previous sync history.
        
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
    * - ErrorPermissionDenied
      - This error occurs when a user's data access permissions are not
@@ -86,7 +86,7 @@ errors and how to handle them. {+service+} reports errors in your
 Partition-Based Sync Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following error may occur when your {+app+} uses :ref:`Partition-Based Sync 
+The following errors may occur when your {+app+} uses :ref:`Partition-Based Sync 
 <partition-based-sync>`.
 
 .. list-table::
@@ -137,16 +137,16 @@ The following errors may occur when your {+app+} uses :ref:`Flexible Sync
      - This error indicates that server permissions for the file ident have changed
        since the last time it was used.
 
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
    * - ErrorInitialSyncNotCompleted
      - This error indicates that the client tried to open a session before the 
-       initial sync was complete.
+       initial sync was complete. This may occur when the app has just
+       enabled Sync, and is still in the process of building the Sync history.
 
-       To resolve this error, check Sync status in the client application 
-       before attempting to read from or write to the realm. Consult your 
-       preferred SDK's Flexible Sync documentation for details.
+       The client attempts to reconnect until this process is complete. Then,
+       this error resolves and Sync begins working normally.
     
    * - ErrorWriteNotAllowed
      - This error occurs when a client attempts a write that is disallowed 
@@ -159,8 +159,8 @@ The following errors may occur when your {+app+} uses :ref:`Flexible Sync
        ``name: "CT"``, the write triggers an ``ErrorWriteNotAllowed`` because 
        the object is not within the subscription query.
 
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
 .. _mongodb-translator-errors:
 
