@@ -80,7 +80,7 @@ database for every type of synced object.
 
 .. warning:: Specify Data Access Rules with Development Mode Enabled
 
-   By default, enabling development mode when you have not defined 
+   By default, enabling development mode before you have defined 
    permissions creates default permissions that allow any user to access 
    any data. However, if your application requires permissions during schema 
    development, you can :ref:`specify data access rules <sync-rules>` after 
@@ -90,7 +90,7 @@ database for every type of synced object.
 
    Specify a Development Mode database of ``myapp``. Your iOS client has a 
    ``Person`` model. You sync a {+realm+} that contains an instance of the 
-   ``Person`` object. Developer Mode creates a server-side schema associated 
+   ``Person`` object. Development Mode creates a server-side schema associated 
    with the model. The object syncs to the ``myapp.Person`` collection. 
 
    {+service-short+} continues creating new server-side schemas and collections 
