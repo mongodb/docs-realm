@@ -8,12 +8,12 @@ part of 'define_realm_model_test.dart';
 
 class Car extends _Car with RealmObject {
   Car(
-    String make,
-    String model, {
+    String make, {
+    String? model,
     int? miles,
   }) {
     RealmObject.set(this, 'make', make);
-    RealmObject.set(this, 'model', model);
+    this.model = model;
     this.miles = miles;
   }
 
@@ -25,9 +25,9 @@ class Car extends _Car with RealmObject {
   set make(String value) => throw RealmUnsupportedSetError();
 
   @override
-  String get model => RealmObject.get<String>(this, 'model') as String;
+  String? get model => RealmObject.get<String>(this, 'model') as String?;
   @override
-  set model(String value) => throw RealmUnsupportedSetError();
+  set model(String? value) => RealmObject.set(this, 'model', value);
 
   @override
   int? get miles => RealmObject.get<int>(this, 'miles') as int?;
@@ -40,7 +40,7 @@ class Car extends _Car with RealmObject {
     RealmObject.registerFactory(Car._);
     return const SchemaObject(Car, [
       SchemaProperty('make', RealmPropertyType.string, primaryKey: true),
-      SchemaProperty('model', RealmPropertyType.string),
+      SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
   }

@@ -7,7 +7,7 @@ void main(List<String> arguments) {
 
   realm.write(() {
     print('Creating Realm object of type Car');
-    var car = realm.add(Car("Audi", 'A8'));
+    var car = realm.add(Car("Audi", model: 'A8'));
     print('The car is ${car.make}');
 
     car.make = "VW";
