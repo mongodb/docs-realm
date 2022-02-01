@@ -1,4 +1,4 @@
-import 'package:realm_dart/realm.dart';
+import 'package:realm/realm.dart';
 
 part 'car.g.dart';
 

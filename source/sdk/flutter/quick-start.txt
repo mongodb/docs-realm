@@ -43,7 +43,7 @@ definition to your application code.
 
 Some considerations when defining your Realm model class: 
 
-- Import the ``realm`` package at the top of your class definition file. 
+- Import package at the top of your class definition file. 
 
 - In your file, give your class a private name (starting with ``_``), 
   such as a file ``car.dart`` with a class ``_Car``.
@@ -55,9 +55,23 @@ Some considerations when defining your Realm model class:
   before the code defining your model.
   This is required to generate the RealmObject class.
 
-.. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model.dart
-   :language: dart
-   :caption: car.dart
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model-flutter.dart
+         :language: dart
+         :caption: car.dart
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model-dart.dart
+         :language: dart
+         :caption: car.dart
+
+
 
 .. _flutter-generate-realmobject-class:
 
@@ -75,8 +89,8 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
          
          flutter pub run realm generate
 
-   .. tab:: Dart Only
-      :tabid: dart-only
+   .. tab:: Dart
+      :tabid: dart
 
       .. code-block::
          
@@ -100,8 +114,8 @@ there's a change to ``_Car``, run:
          
          flutter pub run realm generate --watch
 
-   .. tab:: Dart Only
-      :tabid: dart-only
+   .. tab:: Dart
+      :tabid: dart
 
       .. code-block::
          

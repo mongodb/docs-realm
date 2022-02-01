@@ -9,7 +9,7 @@ void main() {
       Realm realm = Realm(config);
       Car? addedCar;
       // :snippet-start: create-realm-object
-      final car = Car('Tesla', 'Model S', miles: 42);
+      final car = Car('Tesla', model: 'Model S', miles: 42);
       realm.write(() {
         addedCar = realm.add(car); // :remove:
         // :uncomment-start:
@@ -28,7 +28,7 @@ void main() {
       Realm realm = Realm(config);
 
       realm.write(() {
-        realm.add(Car('Tesla', 'Model Y', miles: 42));
+        realm.add(Car('Tesla', model: 'Model Y', miles: 42));
       });
       // :snippet-start: query-all-realm-objects
       var cars = realm.all<Car>();
@@ -46,8 +46,8 @@ void main() {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);
       realm.write(() {
-        realm.add(Car('Tesla', 'Model Y', miles: 42));
-        realm.add(Car('Toyota', 'Prius', miles: 99));
+        realm.add(Car('Tesla', model: 'Model Y', miles: 42));
+        realm.add(Car('Toyota', model: 'Prius', miles: 99));
       });
       // :snippet-start: query-realm-objects-with-filter
       var cars = realm.all<Car>().query('make == "Tesla"');
@@ -64,9 +64,9 @@ void main() {
       Realm realm = Realm(config);
       // :snippet-start: query-realm-objects-with-sort
       realm.write(() {
-        realm.add(Car('BMW', 'Z4', miles: 42));
-        realm.add(Car('Audi', 'A8', miles: 99));
-        realm.add(Car('Mercedes', 'G-Wagon', miles: 2));
+        realm.add(Car('BMW', model: 'Z4', miles: 42));
+        realm.add(Car('Audi', model: 'A8', miles: 99));
+        realm.add(Car('Mercedes', model: 'G-Wagon', miles: 2));
       });
       final sortedCars = realm.query<Car>('TRUEPREDICATE SORT(model ASC)');
       for (var car in sortedCars) {
@@ -87,7 +87,7 @@ void main() {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);
 
-      final car = Car('Tesla', 'Model Y', miles: 42);
+      final car = Car('Tesla', model: 'Model Y', miles: 42);
       realm.write(() {
         realm.add(car);
       });
@@ -108,7 +108,7 @@ void main() {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);
 
-      final car = Car('Tesla', 'Model Y', miles: 42);
+      final car = Car('Tesla', model: 'Model Y', miles: 42);
       realm.write(() {
         realm.add(car);
       });
@@ -125,8 +125,8 @@ void main() {
       Realm realm = Realm(config);
 
       realm.write(() {
-        realm.add(Car('Tesla', 'Model Y', miles: 42));
-        realm.add(Car('Toyota', 'Prius', miles: 99));
+        realm.add(Car('Tesla', model: 'Model Y', miles: 42));
+        realm.add(Car('Toyota', model: 'Prius', miles: 99));
       });
       var cars = realm.all<Car>();
       // :snippet-start: delete-many-realm-objects
