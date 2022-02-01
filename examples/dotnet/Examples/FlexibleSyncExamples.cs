@@ -43,7 +43,6 @@ namespace Examples
                 realm.Subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
-                var teamsSubscriptionOptions = new SubscriptionOptions() { Name = "teamsSubscription", UpdateExisting = false };
                 realm.Subscriptions.Add(realm.All<Team>(), new() { Name = "teams", UpdateExisting = false }); 
             });
             // :code-block-end:
