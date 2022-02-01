@@ -44,15 +44,13 @@ Atlas and your application.
    must :ref:`terminate <terminating-realm-sync>` and :ref:`re-enable 
    <re-enable-realm-sync>` {+sync-short+} and perform a client reset.
 
-Pausing {+sync-short+} rejects any incoming client connections. This means that 
-pausing {+sync+} for your {+app+} stops syncing changes for all clients.
+Pausing {+sync-short+} rejects any incoming client connections. This
+means that pausing {+sync+} for your {+app+} stops syncing changes for
+all clients.
 
-When you resume {+sync-short+}, the clients sync all of the changes made
-since {+sync-short+} was paused. Too many changes can overload the
-server, so avoid leaving {+sync-short+} paused for too long.
-
-To pause {+sync-short+} from the client side, using logic that situationally 
-pauses {+sync-short+} during a session, see your preferred SDK:
+To pause {+sync-short+} from the client side, using logic
+that situationally pauses {+sync-short+} during a session, see your
+preferred SDK:
 
 .. tabs-realm-sdks::
 
