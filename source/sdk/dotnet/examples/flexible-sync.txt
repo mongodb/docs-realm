@@ -115,15 +115,11 @@ but a different query throws an exception. ``UpdateExisting`` defaults to true.
    with the same query. Also, adding multiple identical named subscriptions,
    regardless of the value of ``UpdateExisting``, is a :wikipedia:`no-op <NOP_(code)>`.
 
-We should call out the set semantics of the subscriptions collection - namely,
-that adding multiple unnamed subscriptions with the same query will de-duplicate
-them, as well as adding multiple identical named subscriptions, regardless of
-whether UpdateExisting is true or false, will be a no-op.
-
-
-
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
-block. You should batch queries whenever possible.
+block. Performing query updates is an expensive operation on the server. We
+strongly advise designing your application to minimize updates. You can do this
+by creating all subscriptions in a single update block the first time the user
+launches the app and batching any follow-up changes to the subscription set.
 
 In the example below, we subscribe to three queries.
 
