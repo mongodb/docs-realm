@@ -22,6 +22,10 @@ exports = function () {
       },
     },
   });
+  return JSON.stringify(positiveRecentReviews);
   // ... do stuff with the positive reviews ...
 };
 // :snippet-end:
+if (typeof module === "object") {
+  module.exports = exports;
+}
