@@ -16,5 +16,5 @@ for a given change event.
 .. tip:: Performance Optimization
 
    Limit the number of fields that the Trigger processes by using a 
-   **$match </reference/operator/aggregation/match>`**
-   :ref:`Learn more <database-triggers-match-expression>.`
+   **$match** expression.
+   :ref:`Learn more. <database-triggers-match-expression>`

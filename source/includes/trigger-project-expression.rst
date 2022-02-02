@@ -5,5 +5,5 @@ event objects.
 .. tip:: Performance Optimization
 
    Limit the number of fields that the Trigger processes by using a 
-   **$project </reference/operator/aggregation/project>`**
-   :ref:`Learn more <database-triggers-project-expression>.`
+   **$project** expression.
+   :ref:`Learn more. <database-triggers-project-expression>`

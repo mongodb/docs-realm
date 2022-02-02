@@ -6,4 +6,4 @@ disabled, multiple executions of this Trigger will occur independently.
 
    Improve performance for Triggers that respond to bulk database operations 
    by disabling event ordering.
-   :ref:`Learn more <database-triggers-disable-event-ordering>.`
+   :ref:`Learn more. <database-triggers-disable-event-ordering>`
