@@ -194,6 +194,26 @@ and MongoDB Atlas.
        primary key value. Alternatively, ensure that every synced object has a
        unique primary key, even across partitions.
 
+   * - TranslatorFatalError - ChangeStreamHistoryLost
+     - This error occurs when old entries in the :manual:`oplog
+       </core/replica-set-oplog/>` have expired before the server-side
+       "translator" process could read them. Without these entries, the
+       translator cannot bring the MongoDB cluster and the Realm object
+       server to an equivalent state.
+       
+       This can happen when:
+       
+       - Sync is paused for so long that entries fall off the oplog.
+       - You drop a collection that the translator was using.
+       - The MongoDB cluster is unreachable for too long.
+       
+       Because the free tier has a shared oplog, it is more vulnerable
+       to this error.
+       
+       To resolve this error, :ref:`terminate
+       <terminating-realm-sync>` and :ref:`re-enable Sync
+       <re-enable-realm-sync>`.
+
 .. _sync-client-errors:
 
 Sync Client Errors
