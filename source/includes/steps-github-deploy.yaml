@@ -127,6 +127,14 @@ content: |
   Refer to the :ref:`app-configuration` reference page and individual component
   reference pages for details on the structure and schema of your application
   directory.
+
+  .. important:: Do not make destructive schema changes via automated deploy
+
+     Because :ref:`destructive schema changes 
+     <destructive-changes-synced-schema>` require special handling, Realm
+     does not support making destructive schema changes via automated deploy
+     with GitHub. Instead, you should make destructive changes from the
+     Realm UI.
 ---
 title: Commit and Push Your Changes
 ref: commit-and-push-your-changes

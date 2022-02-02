@@ -61,7 +61,7 @@ Destructive Changes
 Destructive changes to a schema are usually **modifications** of existing properties, 
 such as:
 
-- changing a property’s type but keeping the same name
+- changing a property's type but keeping the same name
 - changing a primary key
 - changing a property from optional to required (or vice-versa)
 
@@ -87,6 +87,12 @@ create a **"partner collection"**.
    When you make a destructive change by terminating and re-enabling sync, 
    client applications must perform a client reset. For more information, 
    see: :ref:`Client Resets <client-resets>`.
+
+.. note:: Make destructive changes via the Realm UI
+
+   Because destructive schema changes require special handling, Realm does not
+   support making these changes via Realm CLI or automated deploy with GitHub.
+   Instead, you should make destructive changes in the Realm UI.
 
 .. _partner_collections:
 
