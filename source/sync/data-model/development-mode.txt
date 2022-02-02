@@ -20,13 +20,13 @@ give you language-specific tools to define and work with these objects.
 
 You can infer schemas from your client object models by enabling development 
 mode. Development mode is a {+sync+} configuration setting for your {+app+}.
-When you enable development mode, your {+app+} can create or update your 
+When you enable Development Mode, your {+app+} can create or update your 
 schema by reading your synced {+realm+} files.
 
 Why Use Development Mode?
 -------------------------
 
-{+sync+} development mode enables developers to develop faster, and design
+{+sync+} Development Mode enables developers to develop faster, and design
 :ref:`schemas <configure-your-data-model>` directly in client application 
 code.
 
@@ -34,9 +34,9 @@ Create Schemas
 ~~~~~~~~~~~~~~
 
 In practice, here's how the server-side document schema definition process 
-works with development mode:
+works with Development Mode:
 
-1. Enable development mode.
+1. Enable Development Mode.
 2. Sync {+realm+} files from your local {+client-database+}.
 3. The objects in the files become the definitions for your schema.
 
@@ -80,11 +80,11 @@ database for every type of synced object.
 
 .. warning:: Specify Data Access Rules with Development Mode Enabled
 
-   By default, enabling development mode before you have defined 
+   By default, enabling Development Mode before you have defined 
    permissions creates default permissions that allow any user to access 
    any data. However, if your application requires permissions during schema 
    development, you can :ref:`specify data access rules <sync-rules>` after 
-   enabling development mode.
+   enabling Development Mode.
 
 .. example::
 
@@ -106,7 +106,7 @@ Enable Development Mode
 .. important:: Disable Development Mode for Production Apps
    
    Development mode is a development utility that is not suitable for 
-   production use. Make sure that you turn off development mode before you 
+   production use. Make sure that you turn off Development Mode before you 
    make your app accessible in a production environment.
 
 .. tabs-realm-admin-interfaces::

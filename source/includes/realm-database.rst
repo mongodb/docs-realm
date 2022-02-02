@@ -261,7 +261,7 @@ Applications that use {+sync+} define their schema on the backend using
 `JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
 Client applications must match that backend schema to synchronize data.
 However, if you prefer to define your initial schema in your application's
-programming language, you can use :ref:`development mode
+programming language, you can use :ref:`Development Mode
 <concept-development-mode>` to create a backend JSON Schema based on
 native SDK objects as you write your application. However, once your
 application is used for production purposes, you should alter your

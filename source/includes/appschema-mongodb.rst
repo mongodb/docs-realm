@@ -83,7 +83,7 @@ the cluster.
    
    * - | ``sync.development_mode_enabled``
        | Boolean
-     - If ``true``, :term:`development mode` is enabled for the cluster. While
+     - If ``true``, :term:`Development Mode` is enabled for the cluster. While
        enabled, Realm stores synced objects in a specific database within 
        the cluster, and mirrors object types in that database's collection 
        schemas.
@@ -93,7 +93,7 @@ the cluster.
      - The name of the database in the synced cluster where Realm should store
        synced objects.
        
-       When :term:`development mode` is enabled, Realm stores synced objects in
+       When :term:`Development Mode` is enabled, Realm stores synced objects in
        this database. Each object type maps to its own collection in the
        database with a schema that matches the synced objects.
    
