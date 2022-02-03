@@ -239,8 +239,9 @@ server rejects the change, the :dotnet-sdk:`SubscriptionSetState
 an exception will be thrown.
 
 An exception may occur if: 
+
 - an unsupported query is subscribed to. Subscribing to an unsupported query will pause synchronization. To resume synchronization, :ref:`remove the unsupported query <dotnet-remove-subscriptions>`.
-- you are performing an invalid action, such as adding an object that does not match a subscription. This triggers a :ref:`client reset <client-resets>`: all data is erased from the {+realm+}, and a new copy of the data is created without any subscriptions in the set.
+- you are performing an invalid action, such as adding an object that does not match a subscription. This triggers a :ref:`client reset <client-resets>`: data is erased from the {+realm+}, and a new copy of the data is created without any subscriptions in the set.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
    :language: csharp
