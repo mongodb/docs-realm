@@ -224,7 +224,7 @@ Database Triggers have the following configuration options:
 
        .. tip:: Performance Optimization
 
-          You can disable preimages at a collection level to improve performance. 
+          Disable preimages at a collection level to improve performance. 
           :ref:`Learn more. <database-triggers-disable-collection-level-preimages>`
 
    * - :guilabel:`Event Ordering`
@@ -340,14 +340,15 @@ stream event after the change stream stopped. However, if the resume
 token is no longer in the cluster oplog, the Trigger begins listening to
 new events but does not process any missed past events. 
 
-You can adjust the oplog size in your :atlas:`{+atlas-short+} cluster configuration
-</scale-cluster/#scale-cluster-more-configuration-options>` 
-to keep the resume token for more time after a suspension. 
-
-Typically, you avoid a suspended trigger's resume token from dropping off the oplog 
-and not being executed by maintaining an oplog size a few times greater than
-the peak value in the **Oplog GB/Hour** graph in the 
-:atlas:`{+atlas-short+} cluster metrics </monitor-cluster-metrics/>`.
+You can adjust the oplog size to keep the resume token for more time after a suspension
+ by :atlas:`scaling your {+atlas-short+} cluster
+</scale-cluster/>`. 
+Maintain an oplog size a few times greater than
+your cluster's peak oplog throughput (GB/hour) to reduce the risk of a 
+suspended trigger's resume token from dropping off the oplog 
+before its execution. 
+View your cluster's oplog throughput in the **Oplog GB/Hour** graph in the 
+:atlas:`{+atlas-short+} cluster metrics </monitor-cluster-metrics/>`. 
 
 .. _last-cluster-time-processed:
 
