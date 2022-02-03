@@ -23,10 +23,24 @@ Open a Local Realm
 
 .. include:: /includes/js-open-an-in-memory-realm.rst
 
-.. _react-native-open-a-synced-realm:
+.. _node-flexible-sync-open-realm:
 
-Open a Synced Realm
--------------------
+Open a Flexible Synced Realm
+----------------------------
+
+To open a {+realm+} using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
+object, which must include the ``sync`` property defining a 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.open-flexible-sync-realm.js
+   :language: javascript
+
+.. _react-native-partition-sync-open-realm:
+
+Open a Partition-Based Synced Realm
+-----------------------------------
 
 .. include:: /includes/react-native-open-a-synced-realm.rst
 

@@ -12,25 +12,22 @@ Sync Changes Between Devices - React Native SDK
    :depth: 2
    :class: singlecol
 
-.. _react-native-open-a-synced-realm-sync-changes:
 
-Open a Synced Realm
--------------------
+.. _node-sync-changes-prereq:
 
-.. include:: /includes/react-native-open-a-synced-realm.rst
+Prerequisites
+-------------
 
+Before you can access a synced {+realm+} from the client, you must:
 
+1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
 
-.. example::
+#. :ref:`Initialize the app <react-native-quick-start-init-app>`
 
-   In the following example, a synced {+realm+} is opened with a :doc:`schema
-   </sdk/react-native/examples/define-a-realm-object-model>` value of a predefined
-   ``TaskSchema`` ``SyncConfiguration`` object that uses the currently logged in
-   user  and a partition value of "MyPartition".
+#. :ref:`Authenticate a user <react-native-quick-start-authenticate>` in
+   your client project.
 
-   .. literalinclude:: /examples/SyncChanges/open-a-synced-realm.js
-      :language: javascript
-
+#. :ref:`Open a Flexible Synced Realm <react-native-flexible-sync-open-realm>` or :ref:`Open a Partition-Based Synced Realm <react-native-partition-sync-open-realm>`
 
 .. _react-native-sync-changes-in-the-background:
 
@@ -73,7 +70,7 @@ downloading any existing data from the server in the background.
    asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
    without the asynchronous API will cause an error if your session is online.
    Synced realms are opened asynchronously by default. Learn how to :ref:`open a
-   synced {+realm+} <react-native-open-a-synced-realm>`.
+   synced {+realm+} <react-native-partition-sync-open-realm>`.
 
 .. _react-native-pause-or-resume-a-sync-session:
 
