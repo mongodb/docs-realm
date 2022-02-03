@@ -338,9 +338,16 @@ When :ref:`resuming the suspended Trigger <resume-a-suspended-trigger>`,
 {+service-short+} attempts to resume the Trigger at the next change
 stream event after the change stream stopped. However, if the resume
 token is no longer in the cluster oplog, the Trigger begins listening to
-new events but does not process any missed past events. You can adjust
-your oplog size to keep the resume token around for more time after a
-suspension.
+new events but does not process any missed past events. 
+
+You can adjust the oplog size in your :atlas:`{+atlas-short+} cluster configuration
+</scale-cluster/#scale-cluster-more-configuration-options>` 
+to keep the resume token for more time after a suspension. 
+
+Typically, you avoid a suspended trigger's resume token from dropping off the oplog 
+and not being executed by maintaining an oplog size a few times greater than
+the peak value in the **Oplog GB/Hour** graph in the 
+:atlas:`{+atlas-short+} cluster metrics </monitor-cluster-metrics/>`.
 
 .. _last-cluster-time-processed:
 
