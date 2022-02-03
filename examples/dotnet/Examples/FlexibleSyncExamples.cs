@@ -11,12 +11,12 @@ using MongoDB.Bson;
 using System.Linq;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using Realms.Exceptions.Sync;
 
 namespace Examples
 {
     public class FlexibleSyncExamples
     {
-        [Test]
         public async Task TestUseFlexibleSync()
         {
             var app = App.Create("dotnet-flexible-wtzwc");
@@ -51,7 +51,15 @@ namespace Examples
             // :code-block-start: wait-for-synchronization
             // Wait for the server to acknowledge the subscription change and return all objects
             // matching the query
-            await realm.Subscriptions.WaitForSynchronizationAsync();
+            try
+            {
+                await realm.Subscriptions.WaitForSynchronizationAsync();
+            }
+            catch (SubscriptionException ex)
+            {
+                // do something in response to the exception or log it
+                Console.WriteLine($@"The subscription set's state is Error and synchronization is paused:  {ex.Message}");
+            }
             // :code-block-end:
 
             // :code-block-start: update-a-subscription
