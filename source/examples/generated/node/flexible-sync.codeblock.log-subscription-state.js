@@ -1,1 +1,1 @@
-console.log(realm.getSubscriptions().state); // log the subscription state
+console.log(realm.subscriptions.state); // log the subscription state

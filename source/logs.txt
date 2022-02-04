@@ -18,6 +18,7 @@ Application Logs
    
    Access Logs with the Admin API </logs/api>
    View Logs with Realm CLI </logs/cli>
+   Forward Logs to a Service </logs/forward-logs>
    Authentication Logs </logs/authentication>
    Change Stream Logs </logs/changestream>
    Function Logs </logs/function>
@@ -153,10 +154,13 @@ counts.
 Log Retention
 ~~~~~~~~~~~~~~
 
-{+service+} retains logs for 30 days, after which point they are
-deleted. If you require logs older than 30 days, you can use the
-:doc:`admin log API </logs/api>` prior to the 30 day expiration date of
-each log to extract and externally store your log history.
+{+service+} retains logs for {+log-retention-time+}, after which they
+are deleted.
+
+If you require logs older than {+log-retention-time+}, you can set up a
+:ref:`log forwarder <forward-logs>` or use the :doc:`admin log API
+</logs/api>` prior to the expiration date of each log to extract and
+externally store your log history.
 
 Reference Documentation
 -----------------------

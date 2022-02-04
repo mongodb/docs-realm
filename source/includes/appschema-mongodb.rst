@@ -54,7 +54,7 @@ the cluster.
        "sync": {
          "state": <Boolean>,
          "development_mode_enabled": <Boolean>,
-         "database_name": "<Developer Mode Database Name>",
+         "database_name": "<Development Mode Database Name>",
          "partition": {
            "key": "<Partition Key Field Name>",
            "type": "<Partition Key Value Type>",
@@ -83,17 +83,17 @@ the cluster.
    
    * - | ``sync.development_mode_enabled``
        | Boolean
-     - If ``true``, :term:`development mode` is enabled for the cluster. While
-       enabled, Realm does not enforce sync rules, stores synced objects in a
-       specific database within the cluster, and mirrors object types in that
-       database's collection schemas.
+     - If ``true``, :term:`Development Mode` is enabled for the cluster. While
+       enabled, Realm stores synced objects in a specific database within 
+       the cluster, and mirrors object types in that database's collection 
+       schemas.
 
    * - | ``sync.database_name``
        | String
      - The name of the database in the synced cluster where Realm should store
        synced objects.
        
-       When :term:`development mode` is enabled, Realm stores synced objects in
+       When :term:`Development Mode` is enabled, Realm stores synced objects in
        this database. Each object type maps to its own collection in the
        database with a schema that matches the synced objects.
    
