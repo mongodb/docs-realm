@@ -84,7 +84,7 @@ describe("Flexible Sync Tests", () => {
 
     // :code-block-start: wait-for-synchronization
     try {
-      realm.subscriptions.update(( mutableSubs) => {
+      realm.subscriptions.update((mutableSubs) => {
         mutableSubs.add("Person"); // At this point, data may or may not be downloaded.
       });
       await realm.subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
