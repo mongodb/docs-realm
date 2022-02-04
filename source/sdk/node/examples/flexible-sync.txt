@@ -110,10 +110,6 @@ You can add queries to your subscriptions list. To do so, perform the following:
 #. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
 #. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
-.. note:: Unpacking Fields from Objects Passed as a Function Parameter
-
-   The examples throughout this page destructure the ``MutableSubscriptionSet`` passed as a callback parameter. Read the :mdn:`Object Destructuring <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>` documentation to learn more about destructuring objects as a function parameter.
-
 The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
 subscription options object. The subscription options include:
 
