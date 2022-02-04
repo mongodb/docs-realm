@@ -1,13 +1,12 @@
-realm.subscriptions.update(({ add }) => {
-  add(longRunningTasks, {
+realm.subscriptions.update((mutableSubs) => {
+  mutableSubs.add(longRunningTasks, {
     name: "longRunningTasksSubscription",
   });
 
-  add(bensTasks);
+  mutableSubs.add(bensTasks);
 
-  add(realm.objects("Team"), {
+  mutableSubs.add(realm.objects("Team"), {
     name: "teamsSubscription",
     throwOnUpdate: true,
   });
 });
-
