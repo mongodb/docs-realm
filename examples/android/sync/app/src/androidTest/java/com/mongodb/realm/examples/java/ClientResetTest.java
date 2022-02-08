@@ -45,6 +45,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -552,6 +553,134 @@ public class ClientResetTest extends RealmTest {
         });
         expectation.await(42000); // long timeout because manual recovery can take a while
         // (dynamic realms are slooooooooow)
+    }
+
+    @Test
+    public void clientResetDiscardUnsyncedChangesWithSimpleManualFallback() {
+        // :code-block-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
+        String appID = YOUR_APP_ID; // replace this with your App ID
+        App app = null;
+        AtomicReference<App> globalApp = new AtomicReference<>(app);
+        // accessing the app from within the lambda below requires an effectively final object
+        app = new App(new AppConfiguration.Builder(appID)
+                .defaultSyncClientResetStrategy(new DiscardUnsyncedChangesStrategy() {
+                    @Override
+                    public void onBeforeReset(Realm realm) {
+                        Log.w("EXAMPLE", "Beginning client reset for " + realm.getPath());
+                    }
+
+                    @Override
+                    public void onAfterReset(Realm before, Realm after) {
+                        Log.w("EXAMPLE", "Finished client reset for " + before.getPath());
+                        // :hide-start:
+                        // if we made it this far without error, exit the test successfully
+                        expectation.fulfill();
+                        // :hide-end:
+                    }
+
+                    @Override
+                    public void onError(SyncSession session, ClientResetRequiredError error) {
+                        Log.e("EXAMPLE", "Couldn't handle the client reset automatically." +
+                                " Falling back to manual client reset execution: "
+                                + error.getErrorMessage());
+                        // close all instances of your realm -- this application only uses one
+                        globalRealm.close();
+
+                        try {
+                            Log.w("EXAMPLE", "About to execute the client reset.");
+                            // execute the client reset, moving the current realm to a backup file
+                            error.executeClientReset();
+                            Log.w("EXAMPLE", "Executed the client reset.");
+                        } catch (IllegalStateException e) {
+                            Log.e("EXAMPLE", "Failed to execute the client reset: " + e.getMessage());
+
+                            // The client reset can only proceed if there are no open realms.
+                            // if execution failed, ask the user to restart the app, and we'll client reset
+                            // when we first open the app connection.
+                            AlertDialog restartDialog = new AlertDialog.Builder(activity)
+                                    .setMessage("Sync error. Restart the application to resume sync.")
+                                    .setTitle("Restart to Continue")
+                                    .create();
+                            restartDialog.show();
+                        }
+
+                        // open a new instance of the realm. This initializes a new file for the new realm
+                        // and downloads the backend state. Do this in a background thread so we can wait
+                        // for server changes to fully download.
+                        ExecutorService executor = Executors.newSingleThreadExecutor();
+                        executor.execute(() -> {
+                            Realm newRealm = Realm.getInstance(globalConfig);
+
+                            // ensure that the backend state is fully downloaded before proceeding
+                            try {
+                                globalApp.get().getSync().getSession(globalConfig).downloadAllServerChanges(10000,
+                                        TimeUnit.MILLISECONDS);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.w("EXAMPLE",
+                                    "Downloaded server changes for a fresh instance of the realm.");
+
+                            newRealm.close();
+                            expectation.fulfill(); // :hide:
+                        });
+
+                        // execute the recovery logic on a background thread
+                        try {
+                            executor.awaitTermination(20000, TimeUnit.MILLISECONDS);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .build());
+        globalApp.set(app);
+        // :code-block-end:
+
+        Credentials anonymousCredentials = Credentials.anonymous();
+        User user = app.login(anonymousCredentials);
+
+        SyncConfiguration config = new SyncConfiguration.Builder(user, PARTITION)
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .waitForInitialRemoteData(5000, TimeUnit.MILLISECONDS)
+                .build();
+
+        setupData(app, config, user);
+
+        activity.runOnUiThread (() -> {
+            Realm.getInstanceAsync(config, new Realm.Callback() {
+                @Override
+                public void onSuccess(Realm realm) {
+                    // need a reference to the realm in the client reset handler
+                    // so we can close the realm (needs to stay open until then, or simulateClientReset fails)
+                    globalRealm = realm;
+
+                    // need a reference to the config in the client reset handler
+                    globalConfig = config;
+
+                    // create a session -- a requirement for the client reset simulation.
+                    // Oddly enough, the successful open realm doesn't mean we have a sync
+                    // session. Nor does writing to the realm. So... manually create the sync session.
+                    globalApp.get().getSync().getOrCreateSession(config);
+                    Log.v("EXAMPLE", "Sessions open: " + globalApp.get().getSync().getAllSessions().size());
+
+                    // simulate a client reset event using a method built into the SDK.
+                    // Need to call from the same package, so... we made an identical package,
+                    // in this application, that can trick java into allowing it that privilege.
+                    SimulateClientResetCaller.simulateClientReset(globalApp.get().getSync(),
+                            globalApp.get().getSync().getOrCreateSession(config));
+                }
+
+                @Override
+                public void onError(Throwable exception) {
+                    Log.e("EXAMPLE", "Error opening realm: " + exception.getMessage());
+                    super.onError(exception);
+                }
+            });
+        });
+        expectation.await();
     }
 }
 // :replace-end:

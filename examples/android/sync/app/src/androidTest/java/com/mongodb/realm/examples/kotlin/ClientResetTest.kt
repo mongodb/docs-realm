@@ -26,6 +26,7 @@ import io.realm.mongodb.sync.SyncConfiguration
 import io.realm.mongodb.sync.SyncSession
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 import java.util.function.Predicate
 import java.util.stream.Collectors
 import org.bson.types.ObjectId
@@ -643,5 +644,132 @@ class ClientResetTest : RealmTest() {
         }
         expectation!!.await(42000) // long timeout because manual recovery can take a while
         // (dynamic realms are slooooooooow)
+    }
+
+    @Test
+    fun clientResetDiscardUnsyncedChangesWithSimpleManualFallback() {
+        // :code-block-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
+        val appID = YOUR_APP_ID // replace this with your App ID
+        var app: App? = null
+        app = App(
+            AppConfiguration.Builder(appID)
+                .defaultSyncClientResetStrategy(object : DiscardUnsyncedChangesStrategy {
+                    override fun onBeforeReset(realm: Realm) {
+                        Log.w("EXAMPLE", "Beginning client reset for " + realm.path)
+                    }
+
+                    override fun onAfterReset(before: Realm, after: Realm) {
+                        Log.w("EXAMPLE", "Finished client reset for " + before.path)
+                        // :hide-start:
+                        // if we made it this far without error, exit the test successfully
+                        expectation!!.fulfill()
+                        // :hide-end:
+                    }
+
+                    override fun onError(session: SyncSession, error: ClientResetRequiredError) {
+                        Log.e(
+                            "EXAMPLE", "Couldn't handle the client reset automatically." +
+                                    " Falling back to manual client reset execution: "
+                                    + error.errorMessage
+                        )
+                        // close all instances of your realm -- this application only uses one
+                        globalRealm!!.close()
+                        try {
+                            Log.w("EXAMPLE", "About to execute the client reset.")
+                            // execute the client reset, moving the current realm to a backup file
+                            error.executeClientReset()
+                            Log.w("EXAMPLE", "Executed the client reset.")
+                        } catch (e: java.lang.IllegalStateException) {
+                            Log.e("EXAMPLE", "Failed to execute the client reset: " + e.message)
+
+                            // The client reset can only proceed if there are no open realms.
+                            // if execution failed, ask the user to restart the app, and we'll client reset
+                            // when we first open the app connection.
+                            val restartDialog = AlertDialog.Builder(activity)
+                                .setMessage("Sync error. Restart the application to resume sync.")
+                                .setTitle("Restart to Continue")
+                                .create()
+                            restartDialog.show()
+                        }
+
+                        // open a new instance of the realm. This initializes a new file for the new realm
+                        // and downloads the backend state. Do this in a background thread so we can wait
+                        // for server changes to fully download.
+                        val executor = Executors.newSingleThreadExecutor()
+                        executor.execute {
+                            val newRealm = Realm.getInstance(globalConfig)
+
+                            // ensure that the backend state is fully downloaded before proceeding
+                            try {
+                                app!!.sync.getSession(globalConfig)
+                                    .downloadAllServerChanges(
+                                        10000,
+                                        TimeUnit.MILLISECONDS
+                                    )
+                            } catch (e: InterruptedException) {
+                                e.printStackTrace()
+                            }
+                            Log.w(
+                                "EXAMPLE",
+                                "Downloaded server changes for a fresh instance of the realm."
+                            )
+                            newRealm.close()
+                            expectation!!.fulfill() // :hide:
+                        }
+
+                        // execute the recovery logic on a background thread
+                        try {
+                            executor.awaitTermination(20000, TimeUnit.MILLISECONDS)
+                        } catch (e: InterruptedException) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
+                .build()
+        )
+        // :code-block-end:
+        val anonymousCredentials = Credentials.anonymous()
+        val user = app.login(anonymousCredentials)
+        val config = SyncConfiguration.Builder(user, PARTITION)
+            .allowQueriesOnUiThread(true)
+            .allowWritesOnUiThread(true)
+            .waitForInitialRemoteData(5000, TimeUnit.MILLISECONDS)
+            .build()
+        setupData(app, config, user)
+        activity!!.runOnUiThread {
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    // need a reference to the realm in the client reset handler
+                    // so we can close the realm (needs to stay open until then, or simulateClientReset fails)
+                    globalRealm = realm
+
+                    // need a reference to the config in the client reset handler
+                    globalConfig = config
+
+                    // create a session -- a requirement for the client reset simulation.
+                    // Oddly enough, the successful open realm doesn't mean we have a sync
+                    // session. Nor does writing to the realm. So... manually create the sync session.
+                    app.sync.getOrCreateSession(config)
+                    Log.v(
+                        "EXAMPLE",
+                        "Sessions open: " + app.sync.allSessions.size
+                    )
+
+                    // simulate a client reset event using a method built into the SDK.
+                    // Need to call from the same package, so... we made an identical package,
+                    // in this application, that can trick java into allowing it that privilege.
+                    SimulateClientResetCaller.simulateClientReset(
+                        app.sync,
+                        app.sync.getOrCreateSession(config)
+                    )
+                }
+
+                override fun onError(exception: Throwable) {
+                    Log.e("EXAMPLE", "Error opening realm: " + exception.message)
+                    super.onError(exception)
+                }
+            })
+        }
+        expectation!!.await()
     }
 }
