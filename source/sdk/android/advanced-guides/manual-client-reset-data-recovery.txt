@@ -287,8 +287,9 @@ Other possible implementations include:
   create another model in your schema called ``Updates``. Every time any
   field in any object (besides ``Updates``) updates, record the primary
   key, field, and time of the update. During a client reset, "re-write"
-  all of the ``Update`` events that occurred after the "last synced time".
+  all of the ``Update`` events that occurred after the "last synced time"
+  using the latest value of that field in the backup realm.
   This approach should replicate all unsynced local changes in the new
   realm without overwriting any fields with stale data. However, storing
-  the collection could become expensive if your application writes
-  frequently.
+  the collection of updates could become expensive if your application
+  writes frequently.
