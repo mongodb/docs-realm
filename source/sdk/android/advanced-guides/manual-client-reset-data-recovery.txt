@@ -108,7 +108,7 @@ most manual recoveries. The following example implementation demonstrates
 one method of recovering unsynced changes from a backup realm.
 
 This example adds a "Last Updated Time" to each object model to track
-the when each object last changed. We'll watch the realm for the
+when each object last changed. We'll watch the realm for the
 "Last Synced Time" to determine when the realm last uploaded its state
 to the backend. Then, we can find objects that were deleted, created,
 or updated since the last sync with the backend, and copy that data from
