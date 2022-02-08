@@ -32,7 +32,8 @@ Discard Unsynced Changes
 ------------------------
 
 The **discard unsynced changes** client reset strategy helps you perform
-a client reset with minimal code. This strategy automatically
+a client reset with minimal code and minimal disruption to your application
+workflow. This strategy automatically
 restores your local realm to a syncable state without manually
 closing the realm or unsubscribing from notifications. But this strategy
 comes with one large caveat: it deletes all changes made since the last
@@ -114,7 +115,7 @@ following steps demonstrate the process at a high level:
    to the user.
 
 #. Call the ``executeClientReset()`` method of the provided
-   :ref:`ClientResetRequiredError
+   :java-sdk:`ClientResetRequiredError
    <io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupFile()>`.
    This method moves the current copy of the client realm file to a
    backup file.
