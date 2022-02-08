@@ -20,7 +20,7 @@ Relationships
 
 {+service+} allows you to define explicit relationships between the types of
 objects in a {+app+}. A relationship is an object property that references
-another {+service-short+} object type.  Define
+another {+service-short+} object type. You can define
 relationships by setting an object's property to another object type
 in the :ref:`property schema <react-native-realm-schema>`.
 
@@ -108,7 +108,7 @@ Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 An inverse relationship links an object back to any other objects that refer
 to it in a defined to-one or to-many relationship.
-Relationship definitions are unidirectional.
+Relationship definitions are unidirectional by default.
 You must explicitly define a property in the object's model as an inverse relationship.
 
 For example, the to-many relationship "User has many Tasks" does not automatically
