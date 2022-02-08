@@ -7,10 +7,11 @@ open class LastSynced : RealmObject {
 
     @PrimaryKey
     var _id: ObjectId? = null
+        protected set(id: ObjectId?) {}
+    // only one instance per realm -- enforce by forcing a single objectid value on all instances
 
-    constructor(timestamp: Long?, id: ObjectId?) {
+    constructor(timestamp: Long?) {
         this.timestamp = timestamp
-        _id = id
     }
 
     constructor() {}

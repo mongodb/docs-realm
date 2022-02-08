@@ -6,17 +6,20 @@ package com.mongodb.realm.examples.model.java;
 //    }
 // }
 import org.bson.types.ObjectId;
+
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class LastSyncedJava extends RealmObject {
     protected Long timestamp;
     @PrimaryKey
-    public ObjectId _id;
+    protected ObjectId _id = null;
+    // only one instance per realm -- enforce by forcing a single objectid value on all instances
 
-    public LastSyncedJava(Long timestamp, ObjectId id) {
+    public LastSyncedJava(Long timestamp) {
         this.timestamp = timestamp;
-        this._id = id;
     }
 
     public LastSyncedJava() {}
@@ -26,6 +29,9 @@ public class LastSyncedJava extends RealmObject {
     }
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+    public ObjectId get_id() {
+        return _id;
     }
 }
 // :replace-end:

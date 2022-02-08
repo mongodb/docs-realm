@@ -107,8 +107,8 @@ following steps demonstrate the process at a high level:
 
 #. The SDK calls your error handler.
 
-#. Close *all open instances of the realm experiencing the
-   client reset*. If your application architecture makes this difficult
+#. Close *all open instances* of the realm experiencing the
+   client reset. If your application architecture makes this difficult
    (for instance, if your app uses many realm instances simultaneously
    in listeners throughout the application), it may be easier to restart
    the application, either programmatically or through a direct request
@@ -186,7 +186,7 @@ one method of recovering unsynced changes from a backup realm.
 Last Updated Time
 ~~~~~~~~~~~~~~~~~
 
-Ordinarily, there is now way to detect when a Realm object was last
+Ordinarily, there is no way to detect when a Realm object was last
 modified. This makes it difficult to determine which changes were synced
 to the backend. By adding a timestamp to your Realm object classes and
 updating that timestamp to the current time whenever a change occurs,
@@ -337,7 +337,7 @@ code samples below.
 
    This example keeps track of the last time each *object* was updated. As
    a result, the recovery operation overwrites the entire object in the
-   new realm if any field was updated after last last successful sync
+   new realm if any field was updated after the last successful sync
    of the backup realm. This could overwrite fields updated by other
    clients with old data from this client. If your realm objects contain
    multiple fields containing important data, consider keeping track of

@@ -8,7 +8,6 @@
    open class Potato : RealmObject {
        @PrimaryKey
        var _id: ObjectId? = null
-           private set
        var lastUpdated: Long
        var species: String? = null
            set(species: String?) {

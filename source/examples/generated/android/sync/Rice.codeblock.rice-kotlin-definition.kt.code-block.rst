@@ -8,7 +8,6 @@
    open class Rice : RealmObject {
        @PrimaryKey
        var _id: ObjectId? = null
-           protected set
        var lastUpdated: Long
        var style: String? = null
            set(style: String?) {
