@@ -202,7 +202,7 @@ successfully synced to the backend, and you can
 update the ``LastSynced`` time to the current time. To prevent
 ``LastSynced`` from looping on updates to the ``LastSynced`` time,
 don't update the ``LastSynced`` time if it's been less than, say,
-10ms since the you updated the time.
+10ms since you last updated the time.
 
 Register your progress listener with :java-sdk:`ProgressMode.INDEFINITELY
 <io/realm/mongodb/sync/ProgressMode.html#INDEFINITELY>` to subscribe
