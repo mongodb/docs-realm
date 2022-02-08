@@ -1,0 +1,343 @@
+.. _android-client-resets:
+
+==================================
+Reset a Client Realm - Android SDK
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. seealso:: Learn More About Client Resets
+
+   To learn more about client resets, check out the Sync
+   :ref:`Client Resets <client-resets>` page.
+
+A **client reset** is an error scenario where a client application that uses a
+Realm SDK must erase all local data and download a new copy of the data from
+MongoDB Atlas before it can continue to sync data. Clients in this state may
+continue to run and save data locally but cannot send or receive sync changesets
+until the client reset is complete.
+
+You can handle client resets in your application using one of the
+available **client reset strategies**:
+
+.. _android-discard-unsynced-changes:
+
+Discard Unsynced Changes
+------------------------
+
+The **discard unsynced changes** client reset strategy helps you perform
+a client reset with minimal code. This strategy automatically
+restores your local realm to a syncable state without manually
+closing the realm or unsubscribing from notifications. But this strategy
+comes with one large caveat: it deletes all changes made since the last
+successful sync from your realm. Do not use the "discard unsynced changes"
+strategy if your application cannot lose data that has been written to
+the client realm file, but has not yet synced to the backend.
+
+The "discard unsynced changes" strategy can handle every kind of client
+reset error *except* for client resets triggered by
+:ref:`destructive schema changes <destructive-changes-synced-schema>`.
+If your application experiences a destructive schema change, this strategy
+will fall back to a mode that mimics the "manually recover unsynced changes"
+strategy.
+
+To handle client resets with the "discard unsynced changes" strategy, 
+pass an instance of :java-sdk:`DiscardUnsyncedChangesStrategy
+<io/realm/mongodb/sync/DiscardUnsyncedChangesStrategy.html>` to the
+:java-sdk:`defaultSyncClientResetStrategy()
+<io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy)>`
+builder method when you instantiate your ``App``. Your
+``DiscardUnsyncedChangesStrategy`` instance must implement the following
+methods:
+
+- ``onBeforeReset()``: called before the SDK executes this strategy,
+  when the SDK receives a client reset error from the backend.
+- ``onAfterReset()``: called after the SDK successfully executes this
+  strategy. Provides a frozen copy of the original realm, as well as
+  a live instance of the realm in a syncable state.
+- ``onError()``: mimics the "manually recover unsynced changes"
+  strategy. The SDK only calls this method when your application
+  experiences a destructive schema change. For more information on
+  how to handle a this scenario, see the
+  :ref:`Manually Recover Unsynced Changes
+  <android-manually-recover-unsynced-changes>` strategy documentation.
+
+The following example implements this strategy:
+
+.. tabs-realm-languages::
+
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.java
+         :language: java
+
+.. _android-manually-recover-unsynced-changes:
+
+Manually Recover Unsynced Changes
+---------------------------------
+
+.. note:: Manual Recovery Replaces ``SyncSession.ClientResetHandler``
+
+   This strategy works just like the deprecated
+   ``SyncSession.ClientResetHandler`` method of performing client resets.
+   Applications that use deprecated client reset handling can switch
+   directly to the "manually recover unsynced changes" strategy with
+   no logic changes.
+
+The **manually recover unsynced changes** client reset strategy gives
+developers the opportunity to recover data that has been written to
+the client realm file, but has not yet synced to the backend. The
+following steps demonstrate the process at a high level:
+
+1. Your application receives a client reset error code from the backend.
+
+#. The SDK calls your error handler.
+
+#. Close *all open instances of the realm experiencing the
+   client reset*. If your application architecture makes this difficult
+   (for instance, if your app uses many realm instances simultaneously
+   in listeners throughout the application), it may be easier to restart
+   the application, either programmatically or through a direct request
+   to the user.
+
+#. Call the ``executeClientReset()`` method of the provided
+   :ref:`ClientResetRequiredError
+   <io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupFile()>`.
+   This method moves the current copy of the client realm file to a
+   backup file.
+
+#. Open a new instance of the realm using your typical sync configuration.
+   If your application uses multiple realms, you can identify the
+   realm experiencing a client reset from the backup file name.
+
+#. Download the entire set of data in the realm before you
+   proceed. If your sync configuration doesn't specify the
+   :java-sdk:`waitForInitialRemoteData()
+   <io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>`
+   option, you can call :java-sdk:`SyncSession.downloadAllServerChanges()
+   <io/realm/mongodb/sync/SyncSession.html#downloadAllServerChanges(long,java.util.concurrent.TimeUnit)>`
+   after opening the realm.
+
+#. Use the :java-sdk:`getBackupRealmConfiguration()
+   <io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupRealmConfiguration()>`
+   method of the provided ``ClientResetRequiredError`` to open an
+   instance of the client realm file from the backup file. You must open
+   this instance as a :java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>`,
+   a type of realm that uses text field lookups for all data access.
+
+#. Query the backup realm for data to recover. Insert, delete or update
+   data in the new realm accordingly.
+
+To handle client resets with the "manually recover unsynced changes"
+strategy,  pass an instance of :java-sdk:`ManuallyRecoverUnsyncedChangesStrategy
+<io/realm/mongodb/sync/ManuallyRecoverUnsyncedChangesStrategy.html>` to
+the :java-sdk:`defaultSyncClientResetStrategy()
+<io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy)>`
+builder method when you instantiate your ``App``. Your
+``ManuallyRecoverUnsyncedChangesStrategy`` instance must implement the
+following methods:
+
+- ``onClientReset()``: called when the SDK detects a client reset,
+  when the SDK receives a client reset error from the backend.
+
+The following example implements this strategy:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.java
+         :language: java
+
+.. note:: ``handleManualReset()`` Implementation
+
+   This client reset example calls a separate method that handles the
+   specific logic of the client reset. Continue reading the sections
+   below for an :ref:`example implementation <android-manual-recovery-implementation>`.
+
+The specifics of manual recovery depend heavily upon your application
+and your schema. However, there are a few techniques that can help with
+most manual recoveries. The following example implementation demonstrates
+one method of recovering unsynced changes from a backup realm.
+
+.. _android-manual-recovery-implementation-last-updated-time:
+
+Last Updated Time
+~~~~~~~~~~~~~~~~~
+
+Ordinarily, there is now way to detect when a Realm object was last
+modified. This makes it difficult to determine which changes were synced
+to the backend. By adding a timestamp to your Realm object classes and
+updating that timestamp to the current time whenever a change occurs,
+you can keep track of when objects were changed:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/Potato.codeblock.potato-kotlin-definition.kt
+         :language: kotlin
+         :caption: Potato.kt
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/PotatoJava.codeblock.potato-java-definition.java
+         :language: java
+         :caption: Potato.java
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/Onion.codeblock.onion-kotlin-definition.kt
+         :language: kotlin
+         :caption: Onion.kt
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/OnionJava.codeblock.onion-java-definition.java
+         :language: java
+         :caption: Onion.java
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/Rice.codeblock.rice-kotlin-definition.kt
+         :language: kotlin
+         :caption: Rice.kt
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/RiceJava.codeblock.rice-java-definition.java
+         :language: java
+         :caption: Rice.java
+
+.. _android-manual-recovery-implementation-last-synced-time:
+
+Last Synced Time
+~~~~~~~~~~~~~~~~
+
+But just knowing when objects were changed isn't enough. You also need
+to know when the realm last completed a sync successfully. This example
+implementation uses a singleton object called ``LastSynced`` in the
+realm, paired with an upload progress listener, to record whenever a
+realm finishes syncing successfully.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/LastSynced.codeblock.last-synced-kotlin-definition.kt
+         :language: kotlin
+         :caption: LastSynced.kt
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/LastSyncedJava.codeblock.last-synced-java-definition.java
+         :language: java
+         :caption: LastSynced.java
+
+You can use :java-sdk:`SyncSession.addUploadProgressListener()
+<io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)>`
+to listen for upload progress events in your ``App``. Implement
+``onChange()`` to handle these events. Call
+:java-sdk:`Progress.isTransferComplete()
+<io/realm/mongodb/sync/Progress.html#isTransferComplete()>` to check if
+the upload has completed. When ``isTransferComplete()`` returns true,
+all clientside updates, inserts, and deletes in the realm have
+successfully synced to the backend, and you can
+update the ``LastSynced`` time to the current time. To prevent
+``LastSynced`` from looping on updates to the ``LastSynced`` time,
+don't update the ``LastSynced`` time if it's been less than, say,
+10ms since the you updated the time.
+
+Register your progress listener with :java-sdk:`ProgressMode.INDEFINITELY
+<io/realm/mongodb/sync/ProgressMode.html#INDEFINITELY>` to subscribe
+your listener to all future upload progress events, instead of just the
+current upload's progress events.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.kt
+         :language: kotlin
+         :caption: Upload Progress Listener
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.java
+         :language: Upload Progress Listener
+
+.. _android-manual-recovery-implementation:
+
+Manual Recovery with Last Updated Time and Last Synced Time
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now that you've recorded update times for all objects in your application
+as well as the last time your application completed a sync, it's time to
+implement the manual recovery process. This example handles two main
+recovery operations:
+
+- restoring unsynced inserts and updates from the backup realm
+- deleting objects from the new realm that were previously deleted from
+  the backup realm
+
+You can follow along with the implementation of these operations in the
+code samples below.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.handle-manual-reset.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.handle-manual-reset.java
+         :language: java
+
+.. note:: This Example is Simplified
+
+   This example keeps track of the last time each *object* was updated. As
+   a result, the recovery operation overwrites the entire object in the
+   new realm if any field was updated after last last successful sync
+   of the backup realm. This could overwrite fields updated by other
+   clients with old data from this client. If your realm objects contain
+   multiple fields containing important data, consider keeping track of
+   the last updated time of each *field* instead, and recovering each
+   field individually.

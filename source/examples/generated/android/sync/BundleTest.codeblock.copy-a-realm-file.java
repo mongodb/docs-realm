@@ -25,6 +25,13 @@ app.loginAsync(anonymousCredentials, it -> {
             File outputDir = activity.getApplicationContext().getCacheDir();
             File outputFile = new File(outputDir.getPath() + "/" +  PARTITION + "_bundled.realm");
 
+            // ensure all local changes have synced to the backend
+            try {
+                app.getSync().getSession(config).uploadAllLocalChanges(10000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             // cannot write to file if it already exists. Delete the file if already there
             outputFile.delete();
 

@@ -132,6 +132,14 @@ You can use this strategy to resolve a client reset caused by anything
 Manually Recover Unsynced Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. note:: Manual Recovery Replaces Client Reset Handlers
+
+   This strategy works just like the deprecated
+   "Client Reset Handler" method of performing client resets.
+   Applications that use deprecated client reset handling can switch
+   directly to the "manually recover unsynced changes" strategy with
+   no logic changes.
+
 The **manually recover unsynced changes** client reset strategy gives
 the app developer complete control over handling client reset events.
 With this client reset strategy, you can choose to either:

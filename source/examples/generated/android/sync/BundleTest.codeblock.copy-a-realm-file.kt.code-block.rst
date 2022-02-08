@@ -1,5 +1,5 @@
 .. code-block:: kotlin
-   :emphasize-lines: 17, 31
+   :emphasize-lines: 17, 39
 
    val appID: String = YOUR_APP_ID // replace this with your App ID
    val app = App(appID)
@@ -27,6 +27,14 @@
                val outputDir = activity!!.applicationContext.cacheDir
                val outputFile =
                    File(outputDir.path + "/" + PARTITION + "_bundled.realm")
+
+               // ensure all local changes have synced to the backend
+               try {
+                   app.sync.getSession(config)
+                       .uploadAllLocalChanges(10000, TimeUnit.MILLISECONDS)
+               } catch (e: InterruptedException) {
+                   e.printStackTrace()
+               }
 
                // cannot write to file if it already exists. Delete the file if already there
                outputFile.delete()
