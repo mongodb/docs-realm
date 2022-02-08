@@ -13,23 +13,22 @@ Link User Identities - Swift SDK
 Overview
 --------
 
-{+service+} provides :ref:`multiple ways <authentication-providers>` for users
-to log into your application. Because each method of authentication corresponds
-to a unique user identity, {+service-short+} lets you merge multiple identities
-corresponding to a single user into one user identity.
+Realm provides :ref:`many authentication providers <authentication-providers>` 
+to log users into your app. Each provider creates a unique user identity. 
+Realm lets you merge multiple credentials into one user identity.
 
 Example
 -------
 
-For instance, consider an application that enables users to authenticate via
-:ref:`anonymous authentication <anonymous-authentication>` so they may explore
-functionality without linking to an existing SSO provider or generating a new
-password. When that user finally decides to create a full account with an SSO
-provider or email/password authentication, you need some way of persisting the
-user's original anonymous identity with their new permanent identity.
+Consider an application that offers :ref:`anonymous login 
+<anonymous-authentication>`. This allows users to explore the app without 
+registering. If users like the application, they create permanent 
+accounts. They sign up with SSO or email/password authentication. By default, 
+this creates a new ``User`` object. The app must link the new 
+identity with the original User.
 
-You can link identities using the ``linkUser(credentials:Credentials)`` method
-of the ``User`` object of a logged in User.
+You can link identities using ``linkUser(credentials:Credentials)``. This 
+links authentication providers to a logged-in ``User`` object.
 
 .. tabs-realm-languages::
 
