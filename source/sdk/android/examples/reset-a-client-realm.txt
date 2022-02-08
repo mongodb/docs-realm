@@ -245,7 +245,8 @@ you can keep track of when objects were changed:
 Last Synced Time
 ~~~~~~~~~~~~~~~~
 
-But just knowing when objects were changed isn't enough. You also need
+Just knowing when objects were changed isn't enough to recover data
+during a client reset. You also need
 to know when the realm last completed a sync successfully. This example
 implementation uses a singleton object called ``LastSynced`` in the
 realm, paired with an upload progress listener, to record whenever a
