@@ -21,6 +21,19 @@ authentication provider. Instantiate a ``Credentials`` object and pass it to the
 ``app.login()`` method to authenticate a user login and create a ``User``
 object.
 
+User Sessions
+~~~~~~~~~~~~~
+
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
+SDKs supply the logic to manage tokens, and provide them with requests.
+
+For web browsers, the JavaScript SDK stores these tokens in 
+`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
+
+.. seealso:: 
+
+   :ref:`<user-sessions>`
+
 .. _node-anonymous-login:
 .. _node-login-anonymous:
 

@@ -121,7 +121,7 @@ Realm replaces dynamic references to the user - e.g. :json-expansion:`%%user`
 in a JSON expression - with the active user.
 
 You can use a specific active user, or the system user, to execute 
-Functions, Triggers, and HTTPS Endpoints.
+Functions.
 
 .. _system-user:
 
@@ -130,8 +130,8 @@ System User
 
 The **system** user is an internal user that has advanced privileges. The 
 system user bypasses all rules. You can execute :ref:`Functions <functions>` 
-and :ref:`HTTPS endpoints <https-endpoints>` as a system user instead of 
-the user making a request. Triggers run in the context of the system user.
+as a system user instead of the user making a request. Triggers run in the 
+context of the system user.
 
 The system user is useful for administrative tasks. This includes:
 
@@ -142,9 +142,9 @@ The system user is useful for administrative tasks. This includes:
 
 .. important:: Security Warning
 
-   Rules do not apply to the system user. Functions and HTTPS endpoints 
-   run as the system user can become a security liability. Ensure that 
-   you do not expose these functions to unauthorized users.
+   Rules do not apply to the system user. Functions run as the system 
+   user can become a security liability. Ensure that you do not expose 
+   these functions to unauthorized users.
 
    For example, use :ref:`function context <context-user>` to check if 
    the active user can call the system function. Define a condition to 
@@ -173,13 +173,6 @@ a password or re-authenticating.
 
 MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
 SDKs supply the logic to manage tokens, and provide them with requests.
-
-For web browsers, the JavaScript SDK stores these tokens in 
-`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_. 
-The Android SDK stores them in 
-`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_. 
-The Swift SDK stores them in the 
-`Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.
 
 The access token for a session expires after thirty minutes. Clients can 
 use the refresh token to retrieve a new access token and start a new 

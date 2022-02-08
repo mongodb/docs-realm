@@ -47,6 +47,18 @@ passed to the callback returns a boolean that indicates whether the
 operation succeeded. In the event of a failure,  you can view the
 error that caused the failure using the ``getError()`` method.
 
+User Sessions
+~~~~~~~~~~~~~
+
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
+SDKs supply the logic to manage tokens, and provide them with requests.
+
+The Android SDK stores these tokens in 
+`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
+
+.. seealso:: 
+
+   :ref:`<user-sessions>`
 
 .. _android-anonymous-login:
 .. _android-login-anonymous:
