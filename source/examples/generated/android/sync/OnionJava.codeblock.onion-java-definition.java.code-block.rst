@@ -18,9 +18,10 @@
            this.varietal = varietal;
        }
 
-       public Onion() {
-           this.lastUpdated = System.currentTimeMillis();
-       }
+       public Onion() { this.lastUpdated = System.currentTimeMillis(); }
+
+       // convenience constructor that allows us to convert DynamicRealmObjects in a backup realm
+       // into full object instances
        public Onion(DynamicRealmObject obj) {
            this._id = obj.getObjectId("_id");
            this.varietal = obj.getString("varietal");

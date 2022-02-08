@@ -16,11 +16,10 @@ public class Potato extends RealmObject {
         this.species = species;
     }
 
-    public Potato() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
+    public Potato() { this.lastUpdated = System.currentTimeMillis(); }
 
-    // convenience constructor that allows us to convert DynamicRealmObjects in a backup realm to instances
+    // convenience constructor that allows us to convert DynamicRealmObjects in a backup realm
+    // into full object instances
     public Potato(DynamicRealmObject obj) {
         this._id = obj.getObjectId("_id");
         this.species = obj.getString("species");

@@ -23,9 +23,10 @@ public class OnionJava extends RealmObject {
         this.varietal = varietal;
     }
 
-    public OnionJava() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
+    public OnionJava() { this.lastUpdated = System.currentTimeMillis(); }
+
+    // convenience constructor that allows us to convert DynamicRealmObjects in a backup realm
+    // into full object instances
     public OnionJava(DynamicRealmObject obj) {
         this._id = obj.getObjectId("_id");
         this.varietal = obj.getString("varietal");

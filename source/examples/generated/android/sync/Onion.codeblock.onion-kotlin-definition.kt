@@ -23,6 +23,8 @@ open class Onion : RealmObject {
         lastUpdated = System.currentTimeMillis()
     }
 
+    // convenience constructor that allows us to convert DynamicRealmObjects in a backup realm
+    // into full object instances
     constructor(obj: DynamicRealmObject) {
         _id = obj.getObjectId("_id")
         varietal = obj.getString("varietal")
