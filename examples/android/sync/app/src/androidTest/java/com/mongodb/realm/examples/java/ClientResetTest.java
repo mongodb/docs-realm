@@ -199,12 +199,12 @@ public class ClientResetTest extends RealmTest {
     public void handleManualReset(App app, SyncSession session, ClientResetRequiredError error) {
         Log.w("EXAMPLE", "Beginning manual reset recovery.");
 
-        // close all instances of your realm -- this application only uses one
+        // Close all instances of the realm -- this application only uses one
         globalRealm.close();
 
         try {
             Log.w("EXAMPLE", "About to execute the client reset.");
-            // execute the client reset, moving the current realm to a backup file
+            // Move the realm to a backup file -- execute the client reset
             error.executeClientReset();
             Log.w("EXAMPLE", "Executed the client reset.");
         } catch (IllegalStateException e) {
@@ -220,14 +220,15 @@ public class ClientResetTest extends RealmTest {
             restartDialog.show();
         }
 
-        // open a new instance of the realm. This initializes a new file for the new realm
+        // Open new instance of the realm. This initializes a new file for the new realm
         // and downloads the backend state. Do this in a background thread so we can wait
         // for server changes to fully download.
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             Realm newRealm = Realm.getInstance(globalConfig);
 
-            // ensure that the backend state is fully downloaded before proceeding
+            // Download all realm data from the backend -- ensure that the backend state is
+            // fully downloaded before proceeding
             try {
                 app.getSync().getSession(globalConfig).downloadAllServerChanges(10000,
                         TimeUnit.MILLISECONDS);
@@ -237,7 +238,7 @@ public class ClientResetTest extends RealmTest {
 
             Log.w("EXAMPLE", "Opened a fresh instance of the realm.");
 
-            // open the backup realm as a dynamic realm
+            // Open the the realm backup -- as a dynamic realm
             // (no formal schema; access all data through field lookups)
             DynamicRealm backupRealm = DynamicRealm.getInstance(error.getBackupRealmConfiguration());
             Log.w("EXAMPLE", "Opened the backup realm.");
@@ -251,7 +252,7 @@ public class ClientResetTest extends RealmTest {
             Long lastSuccessfulSyncTime =
                     lastSuccessfulSynced.getLong("timestamp");
 
-            // DATA RECOVERY: move data from the backup
+            // Migrate unsynced changes: move data from the backup
             // instance of the realm to the new "fresh" instance fetched from the backend.
             // This includes:
             // - copying any objects that updated, but didn't sync from the

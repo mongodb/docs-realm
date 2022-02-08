@@ -14,21 +14,33 @@ Reset a Client Realm - Android SDK
 
 .. seealso:: Learn More About Client Resets
 
-   To learn more about client resets, check out the Sync
-   :ref:`Client Resets <client-resets>` page.
+   To learn about the causes of and strategies for handling client
+   resets, check out the Sync :ref:`Client Resets <client-resets>` page.
 
-A **client reset error** is a scenario where a client cannot sync data
-with the application backend. Clients in this state may continue to run
-and save data locally but cannot send or receive sync changesets
+A **client reset error** is a scenario where a client realm cannot sync
+data with the application backend. Clients in this state may continue to
+run and save data locally but cannot send or receive sync changesets
 until they perform a client reset strategy.
 
 You can handle client resets in your application using one of the
 available **client reset strategies**:
 
+- :ref:`Discard Unsynced Changes <android-discard-unsynced-changes>`:
+  Restores the realm to a syncable state by discarding changes made
+  since the last sync.
+
+- :ref:`Manually Recover Unsynced Changes <android-manually-recover-unsynced-changes>`:
+  Downloads a new copy of the realm, and moves the unsyncable realm
+  to a backup. Migrate unsynced data from the backup copy of the
+  realm to the new syncable copy.
+
+
 .. _android-discard-unsynced-changes:
 
 Discard Unsynced Changes
 ------------------------
+
+.. versionadded:: 10.10.0
 
 The **discard unsynced changes** client reset strategy helps you perform
 a client reset with minimal code and minimal disruption to your application
@@ -66,8 +78,8 @@ methods:
   strategy. The SDK only calls this method when your application
   experiences a destructive schema change. For more information on
   how to handle this scenario, see
-  :ref:`Manual Fallback for Destructive Schema Changes
-  <android-manual-fallback-destructive-schema-changes>`.
+  :ref:`Discard Unsynced Changes after Destructive Schema Changes
+  <android-discard-unsynced-changes-after-destructive-schema-changes>`.
 
 The following example implements this strategy:
 
@@ -85,10 +97,10 @@ The following example implements this strategy:
        .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.java
          :language: java
 
-.. _android-manual-fallback-destructive-schema-changes:
+.. _android-discard-unsynced-changes-after-destructive-schema-changes:
 
-Manual Fallback for Destructive Schema Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Discard Unsynced Changes after Destructive Schema Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your application experiences a destructive schema change, the "discard
 unsynced changes" strategy cannot handle the resulting client reset

@@ -1,12 +1,12 @@
 fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequiredError) {
     Log.w("EXAMPLE", "Beginning manual reset recovery.")
 
-    // close all instances of your realm -- this application only uses one
+    // Close all instances of the realm -- this application only uses one
     globalRealm!!.close()
 
     try {
         Log.w("EXAMPLE", "About to execute the client reset.")
-        // execute the client reset, moving the current realm to a backup file
+        // Move the realm to a backup file: execute the client reset
         error.executeClientReset()
         Log.w("EXAMPLE", "Executed the client reset.")
     } catch (e: IllegalStateException) {
@@ -22,14 +22,15 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
         restartDialog.show()
     }
 
-    // open a new instance of the realm. This initializes a new file for the new realm
+    // Open new instance of the realm. This initializes a new file for the new realm
     // and downloads the backend state. Do this in a background thread so we can wait
     // for server changes to fully download.
     val executor = Executors.newSingleThreadExecutor()
     executor.execute {
         val newRealm = Realm.getInstance(globalConfig)
 
-        // ensure that the backend state is fully downloaded before proceeding
+        // Download all realm data from the backend -- ensure that the backend state is
+        // fully downloaded before proceeding
         try {
             app.sync.getSession(globalConfig)
                 .downloadAllServerChanges(10000, TimeUnit.MILLISECONDS)
@@ -38,7 +39,7 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
         }
         Log.w("EXAMPLE", "Opened a fresh instance of the realm.")
 
-        // open the backup realm as a dynamic realm
+        // Open the the realm backup -- as a dynamic realm
         // (no formal schema; access all data through field lookups)
         val backupRealm =
             DynamicRealm.getInstance(error.backupRealmConfiguration)
@@ -52,7 +53,7 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
             backupRealm.where("LastSynced").findFirst()
         val lastSuccessfulSyncTime = lastSuccessfulSynced!!.getLong("timestamp")
 
-        // DATA RECOVERY: move data from the backup
+        // Migrate unsynced changes: move data from the backup
         // instance of the realm to the new "fresh" instance fetched from the backend.
         // This includes:
         // - copying any objects that updated, but didn't sync from the
