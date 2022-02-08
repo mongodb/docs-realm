@@ -73,7 +73,7 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
         val riceQuery = backupRealm.where("Rice")
             .greaterThan("lastUpdated", lastSuccessfulSyncTime)
 
-        // insert the backup version of all unsynced object updates and creates into the new realm
+        // insert the backup version of all unsynced object updates + creates into the new realm
         // NOTE: this process will overwrite writes from other clients, potentially overwriting
         // data in fields not modified in the backup realm. Use with caution. If this does not
         // meet your application's needs, consider keeping track of the last write for each
@@ -117,7 +117,7 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
 
         // get all the ids of objects that haven't been updated since the last client sync
         // (anything that's been updated since the last sync should not be deleted)
-        // -- could be new object, or an object that this client deleted that another client modified
+        // -- could be new object, or an object this client deleted but another client modified
         val allNewPotatoIds =
             newRealm.where(
                 Potato::class.java
@@ -214,9 +214,12 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
                 }.negate())
                 .collect(Collectors.toSet())
 
-        Log.v("EXAMPLE", "Number of potatos to re-delete: " + unsyncedPotatoDeletions.size)
-        Log.v("EXAMPLE", "Number of onions to re-delete: " + unsyncedOnionDeletions.size)
-        Log.v("EXAMPLE", "Number of rices to re-delete: " + unsyncedRiceDeletions.size)
+        Log.v("EXAMPLE", "Number of potatos to re-delete: "
+                + unsyncedPotatoDeletions.size)
+        Log.v("EXAMPLE", "Number of onions to re-delete: "
+                + unsyncedOnionDeletions.size)
+        Log.v("EXAMPLE", "Number of rices to re-delete: "
+                + unsyncedRiceDeletions.size)
 
         // perform "re-deletions"
         for (id in unsyncedPotatoDeletions) {
@@ -255,17 +258,20 @@ fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequire
 
         // Output the state of the freshly downloaded realm, after recovering local data.
         Log.v(
-            "EXAMPLE", "Number of potato objects in the new realm: " + newRealm.where(
+            "EXAMPLE", "Number of potato objects in the new realm: "
+                    + newRealm.where(
                 Potato::class.java
             ).findAll().size
         )
         Log.v(
-            "EXAMPLE", "Number of onion objects in the new realm: " + newRealm.where(
+            "EXAMPLE", "Number of onion objects in the new realm: "
+                    + newRealm.where(
                 Onion::class.java
             ).findAll().size
         )
         Log.v(
-            "EXAMPLE", "Number of rice objects in the new realm: " + newRealm.where(
+            "EXAMPLE", "Number of rice objects in the new realm: "
+                    + newRealm.where(
                 Rice::class.java
             ).findAll().size
         )

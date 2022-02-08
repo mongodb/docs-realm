@@ -12,7 +12,7 @@ app.getSync().getSession(config)
                             new ObjectId()).setTimestamp(System.currentTimeMillis()));
         }
 
-        // only update the "last synced" time when ALL client data has uploaded successfully
+        // only update the "last synced" time when ALL client data has uploaded
         // avoid repeatedly setting "last synced" every time we update "last synced"
         // by checking if the current "last synced" time was within the last 10ms
         if(progress.isTransferComplete() &&

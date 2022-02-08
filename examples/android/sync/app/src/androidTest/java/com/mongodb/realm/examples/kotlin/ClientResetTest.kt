@@ -85,7 +85,7 @@ class ClientResetTest : RealmTest() {
                             }
                         }
 
-                        // only update the "last synced" time when ALL client data has uploaded successfully
+                        // only update the "last synced" time when ALL client data has uploaded
                         // avoid repeatedly setting "last synced" every time we update "last synced"
                         // by checking if the current "last synced" time was within the last 10ms
                         if (progress.isTransferComplete &&
@@ -158,7 +158,9 @@ class ClientResetTest : RealmTest() {
                 app.sync.getOrCreateSession(config).stop()
 
                 // insert objects while "offline"
-                for (i in 0..99) { // do it a lot because otherwise the changes could all sync when we open the realm later
+                for (i in 0..99) {
+                    // do it a lot because otherwise the changes
+                        // could all sync when we open the realm later
                     realm.executeTransaction { transactionRealm: Realm? ->
                         realm.createObject(
                             Onion::class.java,
@@ -296,7 +298,7 @@ class ClientResetTest : RealmTest() {
             val riceQuery = backupRealm.where("Rice")
                 .greaterThan("lastUpdated", lastSuccessfulSyncTime)
 
-            // insert the backup version of all unsynced object updates and creates into the new realm
+            // insert the backup version of all unsynced object updates + creates into the new realm
             // NOTE: this process will overwrite writes from other clients, potentially overwriting
             // data in fields not modified in the backup realm. Use with caution. If this does not
             // meet your application's needs, consider keeping track of the last write for each
@@ -340,7 +342,7 @@ class ClientResetTest : RealmTest() {
 
             // get all the ids of objects that haven't been updated since the last client sync
             // (anything that's been updated since the last sync should not be deleted)
-            // -- could be new object, or an object that this client deleted that another client modified
+            // -- could be new object, or an object this client deleted but another client modified
             val allNewPotatoIds =
                 newRealm.where(
                     Potato::class.java
@@ -437,9 +439,12 @@ class ClientResetTest : RealmTest() {
                     }.negate())
                     .collect(Collectors.toSet())
 
-            Log.v("EXAMPLE", "Number of potatos to re-delete: " + unsyncedPotatoDeletions.size)
-            Log.v("EXAMPLE", "Number of onions to re-delete: " + unsyncedOnionDeletions.size)
-            Log.v("EXAMPLE", "Number of rices to re-delete: " + unsyncedRiceDeletions.size)
+            Log.v("EXAMPLE", "Number of potatos to re-delete: "
+                    + unsyncedPotatoDeletions.size)
+            Log.v("EXAMPLE", "Number of onions to re-delete: "
+                    + unsyncedOnionDeletions.size)
+            Log.v("EXAMPLE", "Number of rices to re-delete: "
+                    + unsyncedRiceDeletions.size)
 
             // perform "re-deletions"
             for (id in unsyncedPotatoDeletions) {
@@ -478,17 +483,20 @@ class ClientResetTest : RealmTest() {
 
             // Output the state of the freshly downloaded realm, after recovering local data.
             Log.v(
-                "EXAMPLE", "Number of potato objects in the new realm: " + newRealm.where(
+                "EXAMPLE", "Number of potato objects in the new realm: "
+                        + newRealm.where(
                     Potato::class.java
                 ).findAll().size
             )
             Log.v(
-                "EXAMPLE", "Number of onion objects in the new realm: " + newRealm.where(
+                "EXAMPLE", "Number of onion objects in the new realm: "
+                        + newRealm.where(
                     Onion::class.java
                 ).findAll().size
             )
             Log.v(
-                "EXAMPLE", "Number of rice objects in the new realm: " + newRealm.where(
+                "EXAMPLE", "Number of rice objects in the new realm: "
+                        + newRealm.where(
                     Rice::class.java
                 ).findAll().size
             )

@@ -31,7 +31,8 @@ public void handleManualReset(App app, SyncSession session, ClientResetRequiredE
 
         // ensure that the backend state is fully downloaded before proceeding
         try {
-            app.getSync().getSession(globalConfig).downloadAllServerChanges(10000, TimeUnit.MILLISECONDS);
+            app.getSync().getSession(globalConfig).downloadAllServerChanges(10000,
+                    TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -76,7 +77,7 @@ public void handleManualReset(App app, SyncSession session, ClientResetRequiredE
                 backupRealm.where("Rice")
                         .greaterThan("lastUpdated", lastSuccessfulSyncTime);
 
-        // insert the backup version of all unsynced object updates and creates into the new realm
+        // insert the backup version of all unsynced object updates + creates into the new realm
         // NOTE: this process will overwrite writes from other clients, potentially overwriting
         // data in fields not modified in the backup realm. Use with caution. If this does not
         // meet your application's needs, consider keeping track of the last write for each
@@ -111,7 +112,7 @@ public void handleManualReset(App app, SyncSession session, ClientResetRequiredE
 
         // get all the ids of objects that haven't been updated since the last client sync
         // (anything that's been updated since the last sync should not be deleted)
-        // -- could be new object, or an object that this client deleted that another client modified
+        // -- could be new object, or an object this client deleted but another client modified
         Set<ObjectId> allNewPotatoIds = newRealm.where(Potato.class)
                 .lessThan("lastUpdated", lastSuccessfulSyncTime)
                 .findAll().stream().map(Potato::getId).collect(Collectors.toSet());
@@ -162,36 +163,48 @@ public void handleManualReset(App app, SyncSession session, ClientResetRequiredE
                 .filter(((Predicate<ObjectId>)(allOldRiceIds::contains)).negate())
                 .collect(Collectors.toSet());
 
-        Log.v("EXAMPLE", "Number of potatos to re-delete: " + unsyncedPotatoDeletions.size());
-        Log.v("EXAMPLE", "Number of onions to re-delete: " + unsyncedOnionDeletions.size());
-        Log.v("EXAMPLE", "Number of rices to re-delete: " + unsyncedRiceDeletions.size());
+        Log.v("EXAMPLE", "Number of potatos to re-delete: "
+                + unsyncedPotatoDeletions.size());
+        Log.v("EXAMPLE", "Number of onions to re-delete: "
+                + unsyncedOnionDeletions.size());
+        Log.v("EXAMPLE", "Number of rices to re-delete: "
+                + unsyncedRiceDeletions.size());
 
         // perform "re-deletions"
         for(ObjectId id: unsyncedPotatoDeletions) {
-            Log.w("EXAMPLE", "Deleting " + unsyncedPotatoDeletions.size() + " potato objects.");
+            Log.w("EXAMPLE", "Deleting " + unsyncedPotatoDeletions.size()
+                    + " potato objects.");
             newRealm.executeTransaction(transactionRealm -> {
-                transactionRealm.where(Potato.class).equalTo("_id", id).findAll().deleteAllFromRealm();
+                transactionRealm.where(Potato.class).equalTo("_id", id)
+                        .findAll().deleteAllFromRealm();
             });
         }
 
         for(ObjectId id: unsyncedOnionDeletions) {
-            Log.w("EXAMPLE", "Deleting " + unsyncedOnionDeletions.size() + " onion objects.");
+            Log.w("EXAMPLE", "Deleting " + unsyncedOnionDeletions.size()
+                    + " onion objects.");
             newRealm.executeTransaction(transactionRealm -> {
-                transactionRealm.where(Onion.class).equalTo("_id", id).findAll().deleteAllFromRealm();
+                transactionRealm.where(Onion.class).equalTo("_id", id)
+                        .findAll().deleteAllFromRealm();
             });
         }
 
         for(ObjectId id: unsyncedRiceDeletions) {
-            Log.w("EXAMPLE", "Deleting " + unsyncedRiceDeletions.size() + " rice objects.");
+            Log.w("EXAMPLE", "Deleting " + unsyncedRiceDeletions.size()
+                    + " rice objects.");
             newRealm.executeTransaction(transactionRealm -> {
-                transactionRealm.where(Rice.class).equalTo("_id", id).findAll().deleteAllFromRealm();
+                transactionRealm.where(Rice.class).equalTo("_id", id)
+                        .findAll().deleteAllFromRealm();
             });
         }
 
         // Output the state of the freshly downloaded realm, after recovering local data.
-        Log.v("EXAMPLE", "Number of potato objects in the new realm: " + newRealm.where(Potato.class).findAll().size());
-        Log.v("EXAMPLE", "Number of onion objects in the new realm: " + newRealm.where(Onion.class).findAll().size());
-        Log.v("EXAMPLE", "Number of rice objects in the new realm: " + newRealm.where(Rice.class).findAll().size());
+        Log.v("EXAMPLE", "Number of potato objects in the new realm: "
+                + newRealm.where(Potato.class).findAll().size());
+        Log.v("EXAMPLE", "Number of onion objects in the new realm: "
+                + newRealm.where(Onion.class).findAll().size());
+        Log.v("EXAMPLE", "Number of rice objects in the new realm: "
+                + newRealm.where(Rice.class).findAll().size());
 
         // close the realms
         backupRealm.close();
