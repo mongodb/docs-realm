@@ -17,11 +17,10 @@ Reset a Client Realm - Android SDK
    To learn more about client resets, check out the Sync
    :ref:`Client Resets <client-resets>` page.
 
-A **client reset** is an error scenario where a client application that uses a
-Realm SDK must erase all local data and download a new copy of the data from
-MongoDB Atlas before it can continue to sync data. Clients in this state may
-continue to run and save data locally but cannot send or receive sync changesets
-until the client reset is complete.
+A **client reset error** is a scenario where a client cannot sync data
+with the application backend. Clients in this state may continue to run
+and save data locally but cannot send or receive sync changesets
+until they perform a client reset strategy.
 
 You can handle client resets in your application using one of the
 available **client reset strategies**:
@@ -33,19 +32,20 @@ Discard Unsynced Changes
 
 The **discard unsynced changes** client reset strategy helps you perform
 a client reset with minimal code and minimal disruption to your application
-workflow. This strategy automatically
-restores your local realm to a syncable state without manually
-closing the realm or unsubscribing from notifications. But this strategy
-comes with one large caveat: it deletes all changes made since the last
-successful sync from your realm. Do not use the "discard unsynced changes"
-strategy if your application cannot lose data that has been written to
-the client realm file, but has not yet synced to the backend.
+workflow. This strategy restores your local realm to a syncable state without
+closing the realm or missing notifications.
+
+This strategy comes with a downside: it permanently deletes all
+local unsynced changes made since the last successful sync of the realm.
+Do not use the "discard unsynced changes" strategy if your application
+cannot lose data already written to the client realm file, but not yet
+synced to the backend.
 
 The "discard unsynced changes" strategy can handle every kind of client
 reset error *except* for client resets triggered by
 :ref:`destructive schema changes <destructive-changes-synced-schema>`.
 If your application experiences a destructive schema change, this strategy
-will fall back to a mode that mimics the "manually recover unsynced changes"
+falls back to a mode that mimics the "manually recover unsynced changes"
 strategy.
 
 To handle client resets with the "discard unsynced changes" strategy, 
@@ -65,9 +65,9 @@ methods:
 - ``onError()``: mimics the "manually recover unsynced changes"
   strategy. The SDK only calls this method when your application
   experiences a destructive schema change. For more information on
-  how to handle a this scenario, see the
-  :ref:`Manually Recover Unsynced Changes
-  <android-manually-recover-unsynced-changes>` strategy documentation.
+  how to handle this scenario, see
+  :ref:`Manual Fallback for Destructive Schema Changes
+  <android-manual-fallback-destructive-schema-changes>`.
 
 The following example implements this strategy:
 
@@ -85,15 +85,17 @@ The following example implements this strategy:
        .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.java
          :language: java
 
+.. _android-manual-fallback-destructive-schema-changes:
+
 Manual Fallback for Destructive Schema Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your application experiences a destructive schema change, the "discard
 unsynced changes" strategy cannot handle the resulting client reset
-automatically. Instead, you need to provide a manual client reset
-implementation in the ``onError()`` method implementation. The following
-example demonstrates how you can manually handle client resets resulting
-from destructive schema changes by discarding all unsynced changes:
+automatically. Instead, you must provide a manual client reset
+implementation in the ``onError()`` method. The following
+example demonstrates how you can manually handle this error case by
+discarding all unsynced changes:
 
 .. tabs-realm-languages::
 

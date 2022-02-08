@@ -15,11 +15,10 @@ Client Resets
 Overview
 --------
 
-A **client reset** is an error scenario where a client application that uses a
-Realm SDK must erase all local data and download a new copy of the data from
-MongoDB Atlas before it can continue to sync data. Clients in this state may
-continue to run and save data locally but cannot send or receive sync changesets
-until the client reset is complete.
+A **client reset error** is a scenario where a client cannot sync data
+with the application backend. Clients in this state may continue to run
+and save data locally but cannot send or receive sync changesets
+until they perform a client reset.
 
 .. warning::
    
@@ -141,17 +140,13 @@ Manually Recover Unsynced Changes
    no logic changes.
 
 The **manually recover unsynced changes** client reset strategy gives
-the app developer complete control over handling client reset events.
-With this client reset strategy, you can choose to either:
-
-1. Initiate the client reset immediately upon receiving a client reset error,
-   after closing all realms.
-#. Wait until all realms have been closed and the app connection is
-   re-established. To do this, restart the app.
-
+the app developer complete control over recovery from client reset errors.
 During a client reset that uses this strategy, the client:
 
-1. Makes a backup of the original (local) copy of the realm.
+1. Makes a backup of the original (local) copy of the realm. Before making
+   the backup, you must close all instances of the realm. If your application
+   architecture makes this difficult, you can restart the app and handle
+   the client reset on reconnect.
 #. Downloads a fresh copy of the realm from the backend. This fresh copy
    replaces the original local realm.
 #. Provides a reference to the local realm backup and the fresh copy of
