@@ -260,7 +260,7 @@ public class ClientResetTest extends RealmTest {
 
             // Insert any unsynced updated objects to the new realm
             // NOTE: this will overwrite any changes made by other clients
-            // since the last sync.
+            // to those objects since the last sync.
             // Applications that require finer-grained conflict resolution
             // should use custom logic instead.
             // This example keeps track of when the object last updated by also writing
