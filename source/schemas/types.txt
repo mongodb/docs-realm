@@ -107,7 +107,7 @@ BSON Types
 .. _schema-type-array:
 
 Array
------
+~~~~~
 
 An ``array`` contains multiple values of a specific type. BSON ``array`` schemas
 use the standard `JSON Schema array
@@ -188,7 +188,7 @@ Mixed
 ~~~~~
 
 A ``mixed`` field may contain any schema type except for :ref:`arrays
-<schema-type-array>`, :ref:`embedded objects <schema-embedded-objects>`,
+<schema-type-array>`, :ref:`embedded objects <schema-objects>`,
 :ref:`sets <schema-type-set>`, and :ref:`dictionaries
 <schema-type-dictionary>`. Realm does not enforce a consistent type across
 documents, so two different documents may have values of different types.
