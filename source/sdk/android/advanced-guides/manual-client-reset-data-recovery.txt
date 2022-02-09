@@ -20,12 +20,11 @@ Manual Client Reset Data Recovery - Android SDK
    :ref:`discard unsynced changes <android-discard-unsynced-changes>`
    client reset strategy instead.
 
-.. warning:: Do Not Make Destructive Schema Changes
+.. warning:: Avoid Making Destructive Schema Changes in Production
 
-   This guide demonstrates one method of recovering *some* unsynced
-   changes after a destructive schema change. But no manual recovery
-   method is perfect. The best way to preserve user data is to never
-   make a destructive schema change at all.
+   Do not expect to recover all unsynced data after a destructive schema
+   change. The best way to preserve user data is to never make a
+   destructive schema change at all.
 
 .. include:: /includes/destructive-schema-change-app-update.rst
 
