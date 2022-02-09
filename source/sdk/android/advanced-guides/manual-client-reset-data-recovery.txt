@@ -12,7 +12,7 @@ Manual Client Reset Data Recovery - Android SDK
    :depth: 2
    :class: singlecol
 
-.. warning:: Advanced Concept
+.. note:: Manual Recovery is Manual
 
    Manual recovery requires significant amounts of code, schema concessions,
    and custom conflict resolution logic. If your application can accommodate
@@ -20,9 +20,18 @@ Manual Client Reset Data Recovery - Android SDK
    :ref:`discard unsynced changes <android-discard-unsynced-changes>`
    client reset strategy instead.
 
+.. warning:: Do Not Make Destructive Schema Changes
+
+   This guide demonstrates one method of recovering *some* unsynced
+   changes after a destructive schema change. But no manual recovery
+   method is perfect. The best way to preserve user data is to never
+   make a destructive schema change at all.
+
+.. include:: /includes/destructive-schema-change-app-update.rst
+
 The **manually recover unsynced changes** client reset strategy gives
 developers the opportunity to recover data already written to
-the client realm file, but not yet synced to the backend. The
+the client realm file but not yet synced to the backend. The
 following steps demonstrate the process at a high level:
 
 1. **Client reset error**: Your application receives a client reset
@@ -107,6 +116,9 @@ and your schema. However, there are a few techniques that can help with
 most manual recoveries. The following example implementation demonstrates
 one method of recovering unsynced changes from a backup realm.
 
+Example
+-------
+
 This example adds a "Last Updated Time" to each object model to track
 when each object last changed. We'll watch the realm for the
 "Last Synced Time" to determine when the realm last uploaded its state
@@ -117,7 +129,7 @@ the backup realm to the new realm.
 .. _android-manual-recovery-implementation-track-updates:
 
 Track Updates to Objects
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ordinarily, there is no way to detect when a Realm object was last
 modified. This makes it difficult to determine which changes were synced
@@ -176,7 +188,7 @@ you can keep track of when objects were changed:
 .. _android-manual-recovery-implementation-track-successful-syncs:
 
 Track Successful Syncs
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 Just knowing when objects were changed isn't enough to recover data
 during a client reset. You also need
@@ -238,7 +250,7 @@ current upload's progress events.
 .. _android-manual-recovery-implementation:
 
 Manual Recovery with Last Updated Time and Last Synced Time
------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Now that you've recorded update times for all objects in your application
 as well as the last time your application completed a sync, it's time to

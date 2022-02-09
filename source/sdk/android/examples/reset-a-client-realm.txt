@@ -50,7 +50,7 @@ closing the realm or missing notifications.
 This strategy comes with a downside: it permanently deletes all
 local unsynced changes made since the last successful sync of the realm.
 Do not use the "discard unsynced changes" strategy if your application
-cannot lose data already written to the client realm file, but not yet
+cannot lose data already written to the client realm file but not yet
 synced to the backend.
 
 The "discard unsynced changes" strategy can handle every kind of client
@@ -122,6 +122,8 @@ discarding all unsynced changes:
 
        .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.java
          :language: java
+
+.. include:: /includes/destructive-schema-change-app-update.rst
 
 .. _android-manually-recover-unsynced-changes:
 
