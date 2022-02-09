@@ -1,0 +1,91 @@
+.. _convert-webhooks-to-endpoints:
+
+===================================
+Convert Webhooks to HTTPS Endpoints
+===================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+}'s third-party service webhooks are deprecated in favor of
+custom HTTPS endpoints. HTTPS endpoints are functionally almost
+identical to webhooks but are now a first-class service.
+
+This guide walks through converting your app's existing webhooks and
+updating external apps that call them. For new webhooks or callback
+URLs, you should define an HTTPS endpoint.
+
+Automatically Convert Existing Webhooks
+---------------------------------------
+
+{+service-short+} can automatically convert any existing webhooks in
+your app into HTTPS endpoints. This conversion is one-way which means
+that you cannot convert HTTPS endpoints back into webhooks. The
+conversion process does not delete the original webhooks so incoming
+webhook requests will continue to execute after the conversion.
+
+To run the webhook to HTTPS endpoint conversion process for all webhooks
+in your application:
+
+1. Click :guilabel:`HTTPS Endpoints` in the {+leftnav+} of the {+ui+}.
+
+#. Click the :guilabel:`Convert` button.
+
+#. Confirm that you want to run the conversion.
+
+.. figure:: /images/confirmation_converting_webhooks.png
+   :alt: Convert all Endpoints in UI
+
+.. note::
+   
+   The converted HTTPS endpoints are independent from their source
+   webhooks. If you choose to edit a webhook after running the conversion,
+   you can run the conversion again with the "Convert & Override" option to
+   propogate those changes to your new endpoints.
+
+Update Callback URLs in Client Apps & Services
+----------------------------------------------
+
+HTTPS endpoints use a different URL scheme than service webhooks. You
+should update any apps or services that call your webhooks to instead
+call the converted HTTPS endpoint URL. Existing webhooks URLs will
+continue to accept requests and execute their associated functions after
+you've run the conversion. This means that you can gradually migrate to
+the new URLs without breaking existing workflows.
+
+To migrate to the converted HTTPS endpoint URLs:
+
+1. Identify all client apps and services that call service webhooks
+
+#. For each app or service, modify the source code or configuration to
+   use the new URLs.
+
+#. Monitor your app's logs for :ref:`service webhook <logs-webhooks>`
+   records to look for any active webhook callers that you missed.
+
+#. Once all clients are updated with the new URLs, delete the deprecated
+   webhooks from your app.
+
+.. example::
+
+   To migrate a GitHub repo from an existing service webhook to its
+   converted HTTPS endpoint, open the repo's webhook settings and change
+   the URL to point to the converted endpoint.
+   
+   .. code-block:: text
+      :caption: Deprecated HTTP Service Webhook URL
+      
+      https://webhooks.mongodb-realm.com/api/client/v2.0/app/myapp-abcde/service/myHttpService/incoming_webhook/onGitHubPush
+
+   .. code-block:: text
+      :caption: Converted HTTPS Endpoint URL
+      
+      https://data.mongodb-api.com/app/myapp-abcde/endpoint/myHttpService/onGitHubPush
