@@ -84,6 +84,7 @@ block of your project level ``build.gradle`` file:
 .. literalinclude:: /examples/generated/android/sync/build.codeblock.realm-dependency.gradle
    :language: gradle
    :emphasize-lines: 10
+   :copyable: false
 
 You'll also have to add the Android LiveData Dependency to the
 ``dependencies`` block of your app level ``build.gradle`` file:
@@ -91,12 +92,14 @@ You'll also have to add the Android LiveData Dependency to the
 .. literalinclude:: /examples/generated/android/sync/build.codeblock.livedata-dependency.gradle
    :language: gradle
    :emphasize-lines: 10
+   :copyable: false
 
 Next, configure the Realm Android SDK to enable {+sync+} by creating the
 following top-level block in your app level ``build.gradle`` file:
 
 .. literalinclude:: /examples/generated/android/sync/build.codeblock.sync-enable.gradle
    :language: gradle
+   :copyable: false
 
 Then, enable DataBinding by creating the following block in the
 ``android`` block of your app level ``build.gradle`` file:
@@ -104,6 +107,7 @@ Then, enable DataBinding by creating the following block in the
 .. literalinclude:: /examples/generated/android/sync/build.codeblock.databinding-enable.gradle
    :language: gradle
    :emphasize-lines: 15-17
+   :copyable: false
 
 Finally, click the "Sync" button or select ``Build > Rebuild Project``
 in the application menu to reconfigure your Gradle configuration with
@@ -121,12 +125,14 @@ have to handle a few events:
 
   .. literalinclude:: /examples/generated/android/sync/LiveRealmObject.codeblock.onactive.kt
      :language: kotlin
+     :copyable: false
 
 - The ``onInactive()`` method enables an observer to unsubscribe to
   changes to the underlying Realm object by removing the change listener.
 
   .. literalinclude:: /examples/generated/android/sync/LiveRealmObject.codeblock.oninactive.kt
      :language: kotlin
+     :copyable: false
 
 - When a change occurs, the ``listener`` member uses the ``setValue()``
   method of the ``LiveData`` parent class to pass the Realm object's
@@ -136,6 +142,7 @@ have to handle a few events:
 
   .. literalinclude:: /examples/generated/android/sync/LiveRealmObject.codeblock.listener.kt
      :language: kotlin
+     :copyable: false
 
 .. note:: Using LiveData with Collections of RealmResults
 
@@ -205,11 +212,13 @@ method of ``CounterFragment``:
 
 .. literalinclude:: /examples/generated/android/sync/CounterFragment.codeblock.getcountermodel.kt
    :language: kotlin
+   :copyable: false
 
 Next, set up the Data Binding hooks in the UI for the counter fragment:
 
 .. literalinclude:: /examples/generated/android/sync/counter_fragment.xml
    :language: kotlin
+   :copyable: false
 
 Finally, connect the model to the binding so that the UI can display the
 counter and iterate the counter on button press with the following code
@@ -217,6 +226,7 @@ in the ``onCreateView()`` method of ``CounterFragment``:
 
 .. literalinclude:: /examples/generated/android/sync/CounterFragment.codeblock.binding.kt
    :language: kotlin
+   :copyable: false
 
 Running the Application
 -----------------------
