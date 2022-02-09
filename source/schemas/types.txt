@@ -188,8 +188,9 @@ Mixed
 ~~~~~
 
 A ``mixed`` field may contain any schema type except for :ref:`arrays
-<schema-type-array>`, :ref:`sets <schema-type-set>`, and :ref:`dictionaries
-<schema-type-dictionary>`). Realm does not enforce a consistent type across
+<schema-type-array>`, :ref:`embedded objects <schema-embedded-objects>`,
+:ref:`sets <schema-type-set>`, and :ref:`dictionaries
+<schema-type-dictionary>`. Realm does not enforce a consistent type across
 documents, so two different documents may have values of different types.
 
 .. code-block:: json
@@ -394,7 +395,8 @@ A ``uuid`` (Universal Unique Identifier) is a :rfc:`standardized <rfc4122>`
 Binary Data
 ~~~~~~~~~~~
 
-A ``binData`` is a piece of unstructured binary data.
+A ``binData`` is a piece of unstructured binary data. Maps to the `binary
+BSON type <https://bsonspec.org/spec.html>`__. Always uses subtype 0.
 
 .. code-block:: json
 
