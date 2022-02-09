@@ -46,21 +46,23 @@ definitions to your application code:
    .. tab::
       :tabid: java
 
-      ``Task.java``:
-
       .. literalinclude:: /examples/generated/android/local/DefinitelyNotJavaTask.codeblock.define-object-model-local.java
          :language: java
-
-      ``TaskStatus.java``:
+         :caption: Task.java
+         :copyable: false
       
       .. literalinclude:: /examples/generated/android/local/TaskStatus.codeblock.define-object-model-local.java
          :language: java
+         :caption: TaskStatus.java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.define-object-model-local.kt
          :language: kotlin
+         :caption: Task.kt
+         :copyable: false
 
 Open a Realm
 ------------
@@ -103,12 +105,14 @@ To create a new ``Task``, instantiate an instance of the
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.create-object-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.create-object-local.kt
          :language: kotlin
+         :copyable: false
 
 You can retrieve a live :ref:`collection <android-client-collections>`
 of all items in the {+realm+}:
@@ -120,12 +124,14 @@ of all items in the {+realm+}:
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.read-object-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.read-object-local.kt
          :language: kotlin
+         :copyable: false
 
 You can also filter that collection using a :ref:`filter
 <android-client-query-engine>`:
@@ -137,12 +143,14 @@ You can also filter that collection using a :ref:`filter
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.filter-collection-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.filter-collection-local.kt
          :language: kotlin
+         :copyable: false
 
 To modify a task, update its properties in a write transaction block:
 
@@ -153,12 +161,14 @@ To modify a task, update its properties in a write transaction block:
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.update-object-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.update-object-local.kt
          :language: kotlin
+         :copyable: false
 
 Finally, you can delete a task by calling the ``deleteFromRealm()``
 method in a write transaction block:
@@ -170,12 +180,14 @@ method in a write transaction block:
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.delete-object-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.delete-object-local.kt
          :language: kotlin
+         :copyable: false
 
 Watch for Changes
 -----------------
@@ -192,12 +204,14 @@ method:
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.watch-for-changes-local.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/local/MainActivity.codeblock.watch-for-changes-local.kt
          :language: kotlin
+         :copyable: false
 
 Complete Example
 ----------------

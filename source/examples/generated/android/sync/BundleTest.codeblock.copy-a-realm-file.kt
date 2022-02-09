@@ -25,6 +25,14 @@ app.loginAsync(anonymousCredentials) { it: App.Result<User?> ->
             val outputFile =
                 File(outputDir.path + "/" + PARTITION + "_bundled.realm")
 
+            // ensure all local changes have synced to the backend
+            try {
+                app.sync.getSession(config)
+                    .uploadAllLocalChanges(10000, TimeUnit.MILLISECONDS)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+
             // cannot write to file if it already exists. Delete the file if already there
             outputFile.delete()
 

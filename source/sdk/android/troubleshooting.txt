@@ -27,6 +27,7 @@ the APK file by adding the following code to the application’s
 ``build.gradle``. You can refer to Mixing 32- and 64-bit Dependencies in Android for more information.
 
 .. code-block:: gradle
+   :copyable: false
 
    android {
        //...
@@ -105,6 +106,7 @@ To avoid this error when using lambdas, you can either:
 #. Override the default equals check of the ``RealmConfiguration``:
 
    .. code-block:: kotlin
+      :copyable: false
 
       val config = RealmConfiguration.Builder()
            .initialData(object: Realm.Transaction {
