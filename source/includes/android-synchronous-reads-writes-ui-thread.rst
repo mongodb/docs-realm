@@ -24,6 +24,7 @@
          .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
             :language: java
             :emphasize-lines: 2,3
+            :copyable: false
 
       .. tab::
          :tabid: kotlin
@@ -31,3 +32,4 @@
          .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
             :language: kotlin
             :emphasize-lines: 2,3
+            :copyable: false
