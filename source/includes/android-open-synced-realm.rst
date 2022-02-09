@@ -12,12 +12,14 @@ specific sync settings created using a ``SyncConfiguration`` object:
 
        .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
          :language: java
+         :copyable: false
 
 The code above shows how to open the {+realm+} *asynchronously* 
 by using :java-sdk:`getInstanceAsync()

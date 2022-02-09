@@ -181,6 +181,7 @@ For example, suppose the backend function expects the input parameter to include
 a field named ``username``, like this:
 
 .. code-block:: js
+   :copyable: false
    
    exports = async function(loginPayload) {
       const { username } = loginPayload;
@@ -190,6 +191,7 @@ a field named ``username``, like this:
 The document you pass to ``Credentials.customFunction()`` might look like this:
 
 .. code-block:: java
+   :copyable: false
    
    Document("username", "bob")
 
@@ -286,6 +288,7 @@ users in your Android application:
    block of your application level ``build.gradle``:
 
    .. code-block:: groovy
+      :copyable: false
 
       com.google.android.gms:play-services-auth:19.2.0
 

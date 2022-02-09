@@ -102,6 +102,7 @@ valley" plant into a
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
 
@@ -137,6 +138,7 @@ The following snippet inserts three documents describing plants into a
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted 3 documents into the collection.
 
@@ -186,6 +188,7 @@ field contains the string value "perennial":
 Running this snippet produces output similar to the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully found a document: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
 
@@ -221,6 +224,7 @@ The following snippet finds all documents in a
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully found all plants for Store 42:
    V/EXAMPLE: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
@@ -264,6 +268,7 @@ The following snippet counts the number of documents in a
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully counted, number of documents in the collection: 5
 
@@ -314,6 +319,7 @@ of the first matched document's ``sunlight`` field to "partial":
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully updated a document.
 
@@ -351,6 +357,7 @@ the value of the ``_partition`` field of each matching document to "Store 51":
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully updated 2 documents.
 
@@ -398,6 +405,7 @@ both the query and specified updates:
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully upserted a document with id: BsonObjectId{value=5f19...}
 
@@ -447,6 +455,7 @@ the first document that matches the query:
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully deleted a document.
 
@@ -485,6 +494,7 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: succcessfully deleted 2 documents.
 
@@ -532,6 +542,7 @@ The following snippet watches for changes to any documents in the
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted a document with id BsonObjectId{value=5f6bb...}
    V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, partition=Store 47]
@@ -576,6 +587,7 @@ events corresponding to documents belonging to the partition named
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted 2 documents into the collection
    V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, partition=Store 42]
@@ -615,6 +627,7 @@ documents according to a Query API :manual:`query filter
 </tutorial/query-documents>`.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      "$match": {
@@ -707,6 +720,7 @@ vice versa.
    and inclusion in one ``$project`` stage.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      "$project": {
@@ -799,6 +813,7 @@ MongoDB copies each document once for each element of the array field
 but replaces the array value with the array element in each copy.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      $unwind: {
@@ -834,6 +849,7 @@ but replaces the array value with the array element in each copy.
 Consider the following document from the a collection of purchases:
 
 .. code-block:: javascript
+   :copyable: false
 
       {
         _id: 123,
@@ -849,6 +865,7 @@ If we apply the example ``$unwind`` stage to this document, the stage
 outputs the following three documents:
 
 .. code-block:: javascript
+   :copyable: false
 
       {
         _id: 123,

@@ -210,6 +210,7 @@ When working with a system app, you may see a security violation in
 Logcat that looks something like this:
 
 .. code-block::
+   :copyable: false
 
    05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:99): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
    05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:100): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
@@ -221,6 +222,7 @@ as part of AOSP:
 1. Pull the current policy from the device:
 
    .. code-block::
+      :copyable: false
 
       adb pull /sys/fs/selinux/policy
 
@@ -229,6 +231,7 @@ as part of AOSP:
 #. Run the ``audit2allow`` tool:
 
    .. code-block::
+      :copyable: false
 
       audit2allow -p policy -i input.txt
 
@@ -238,6 +241,7 @@ as part of AOSP:
 An example of such a policy is provided below:
 
 .. code-block::
+   :copyable: false
 
    # Allow system_app to create named pipes required by Realm
    # Credit: https://github.com/mikalackis/platform_vendor_ariel/blob/master_oreo/sepolicy/system_app.te
