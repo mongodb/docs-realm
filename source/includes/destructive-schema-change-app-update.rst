@@ -2,5 +2,5 @@
 
    After a destructive schema change, clients must update their local
    object models before they can resume syncing. Only clients that use
-   models affected by that schema change need to update and perform
-   a client reset.
+   models affected by that schema change need to update. All clients
+   must perform a client reset.
