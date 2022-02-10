@@ -1,6 +1,9 @@
 .. note:: Destructive Schema Changes Require an App Schema Update
 
-   After a destructive schema change, clients must update their local
-   object models before they can resume syncing. Only clients that use
-   models affected by that schema change need to update. All clients
-   must perform a client reset.
+   After a destructive schema change:
+
+   - All clients must perform a client reset.
+   - Clients that use models destructively affected by the schema
+     change must update local object models.
+
+
