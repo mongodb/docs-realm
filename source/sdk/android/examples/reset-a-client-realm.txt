@@ -104,6 +104,8 @@ The following example implements this strategy:
 Discard Unsynced Changes after Destructive Schema Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. include:: /includes/destructive-schema-change-app-update.rst
+
 If your application experiences a destructive schema change, the "discard
 unsynced changes" strategy cannot handle the resulting client reset
 automatically. Instead, you must provide a manual client reset
@@ -126,8 +128,6 @@ discarding all unsynced changes:
        .. literalinclude:: /examples/generated/android/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.java
          :language: java
          :copyable: false
-
-.. include:: /includes/destructive-schema-change-app-update.rst
 
 .. _android-manually-recover-unsynced-changes:
 
