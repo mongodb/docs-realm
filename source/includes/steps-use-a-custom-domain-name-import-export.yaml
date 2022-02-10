@@ -83,20 +83,20 @@ content: |
 
   .. tip:: Troubleshooting
 
-      - In the :guilabel:`Name` field of the {+ui+}, {+service-short+} provides 
-        the full address for the CNAME record, ``<Subdomain>.<Your Base Domain>``. 
-        However, many hosting providers just request the ``<Subdomain>`` part 
-        to put in their UI. If you run into issues, check your hosting provider's 
-        documentation on how to add CNAME records. 
+     - In the :guilabel:`Name` field of the {+ui+}, {+service-short+} provides 
+       the full address for the CNAME record, ``<Subdomain>.<Your Base Domain>``. 
+       However, many hosting providers just request the ``<Subdomain>`` part 
+       to put in their UI. If you run into issues, check your hosting provider's 
+       documentation on how to add CNAME records. 
 
-      - {+service-short+} may not be able to find the validation record if your DNS
-        provider proxies requests for the domain. If {+service-short+} cannot validate
-        your domain, ensure that you have disabled any HTTP proxies for the
-        validation CNAME record on your DNS provider.
+     - {+service-short+} may not be able to find the validation record if your DNS
+       provider proxies requests for the domain. If {+service-short+} cannot validate
+       your domain, ensure that you have disabled any HTTP proxies for the
+       validation CNAME record on your DNS provider.
 
-      - If an error is encountered during custom domain name validation,
-        {+service-short+} sends the project owner an email alerting them of the
-        issue.
+     - If an error is encountered during custom domain name validation,
+       {+service-short+} sends the project owner an email alerting them of the
+       issue.
 
 ---
 title: Add a Redirect CNAME Record
