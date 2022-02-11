@@ -14,14 +14,14 @@ class BundleRealms: XCTestCase {
         // :code-block-start: copy-synced-realm-for-bundling
         let app = App(id: YOUR_REALM_APP_ID)
 
-        // Log in the user whose Realm you want to copy for bundling
+        // Log in the user whose realm you want to copy for bundling
         let seedUser = try await app.login(credentials: Credentials.anonymous)
 
         // Create a configuration to open the seed user's realm
         var config = seedUser.configuration(partitionValue: "Partition You Want to Bundle")
         config.objectTypes = [QsTask.self]
 
-        // Open the Realm with the seed user's config
+        // Open the realm with the seed user's config
         let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
         print("Successfully opened realm: \(realm)")
 
@@ -41,7 +41,7 @@ class BundleRealms: XCTestCase {
         let tasks = realm.objects(QsTask.self)
         let daenerysTasks = tasks.filter("owner == 'Daenerys'")
         XCTAssertEqual(daenerysTasks.count, 1)
-        
+
         // Specify an output directory for the bundled realm
         // We're using FileManager here for tested code examples,
         // but this could be a static directory on your computer.
@@ -64,6 +64,7 @@ class BundleRealms: XCTestCase {
 
         // Write a copy of the realm you want to bundle at the path you specified
         try realm.writeCopy(toFile: bundleRealmFilePath)
+        XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
         print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")
         // :code-block-end:
     }
@@ -76,7 +77,7 @@ class BundleRealms: XCTestCase {
         let user = try await app.login(credentials: Credentials.anonymous)
 
         // Create a configuration for the app user's realm
-        // This should use the same partition value as the bundled Realm
+        // This should use the same partition value as the bundled realm
         var config = user.configuration(partitionValue: "Partition You Want to Bundle")
         config.objectTypes = [QsTask.self]
 
@@ -94,7 +95,7 @@ class BundleRealms: XCTestCase {
         let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
         print("Successfully opened the bundled realm")
 
-        // Read and write to the bundled Realm as normal
+        // Read and write to the bundled realm as normal
         let tasks = realm.objects(QsTask.self)
 
         // There should be one task whose owner is Daenerys because that's

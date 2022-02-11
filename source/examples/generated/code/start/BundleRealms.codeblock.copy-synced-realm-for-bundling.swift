@@ -1,13 +1,13 @@
 let app = App(id: YOUR_REALM_APP_ID)
 
-// Log in the user whose Realm you want to copy for bundling
+// Log in the user whose realm you want to copy for bundling
 let seedUser = try await app.login(credentials: Credentials.anonymous)
 
 // Create a configuration to open the seed user's realm
 var config = seedUser.configuration(partitionValue: "Partition You Want to Bundle")
 config.objectTypes = [Task.self]
 
-// Open the Realm with the seed user's config
+// Open the realm with the seed user's config
 let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 print("Successfully opened realm: \(realm)")
 
@@ -44,4 +44,5 @@ if Realm.fileExists(for: config) {
 
 // Write a copy of the realm you want to bundle at the path you specified
 try realm.writeCopy(toFile: bundleRealmFilePath)
+XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
 print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")

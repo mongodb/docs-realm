@@ -12,7 +12,7 @@ Bundle a Realm File - Swift SDK
    :depth: 2
    :class: singlecol
 
-.. versionadded:: ?
+.. note:: Bundle Synchronized Realms
 
    Swift SDK version ? introduced the ability to bundle synchronized 
    {+realm+}s. Before version ?, you could only bundle local {+realm+}s.
@@ -80,7 +80,7 @@ Create a Realm File for Bundling
 #. Open a {+realm+} and add the data you wish to bundle. If using a
    synchronized {+realm+}, allow time for the {+realm+} to fully sync.
 
-#. Use the :swift-sdk:`writeCopy() <>` 
+#. Use the :swift-sdk:`writeCopyTo() <>` 
    method to copy the {+realm+} to a new file:
 
 .. literalinclude:: /examples/generated/code/start/BundleRealms.codeblock.copy-synced-realm-for-bundling.swift
@@ -104,13 +104,13 @@ Now that you have a copy of the {+realm+} that contains the initial data,
 bundle it with your production application. At a broad level, this entails:
 
 1. Create a new project with the exact same data models as your production 
-   app. Open a {+realm+} and add the data you wish to bundle. Since Realm 
+   app. Open a {+realm+} and add the data you wish to bundle. Since realm 
    files are cross-platform, you can do this in a macOS app.
-#. Drag the compacted copy of your Realm file to your production app's Xcode 
+#. Drag the compacted copy of your realm file to your production app's Xcode 
    Project Navigator.
 #. Go to your app target's :guilabel:`Build Phases` tab in Xcode. Add the 
-   Realm file to the :guilabel:`Copy Bundle Resources` build phase.
-#. At this point, your app can access the bundled Realm file. Find its path 
+   realm file to the :guilabel:`Copy Bundle Resources` build phase.
+#. At this point, your app can access the bundled realm file. Find its path 
    with :apple:`NSBundle.main.path(forResource:ofType) 
    <documentation/foundation/bundle/1410989-path>`.
 

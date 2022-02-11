@@ -4,7 +4,7 @@ let app = App(id: YOUR_REALM_APP_ID)
 let user = try await app.login(credentials: Credentials.anonymous)
 
 // Create a configuration for the app user's realm
-// This should use the same partition value as the bundled Realm
+// This should use the same partition value as the bundled realm
 var config = user.configuration(partitionValue: "Partition You Want to Bundle")
 config.objectTypes = [Task.self]
 
@@ -22,7 +22,7 @@ config.seedFilePath = completeSeedPath
 let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 print("Successfully opened the bundled realm")
 
-// Read and write to the bundled Realm as normal
+// Read and write to the bundled realm as normal
 let tasks = realm.objects(Task.self)
 
 // There should be one task whose owner is Daenerys because that's
