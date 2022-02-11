@@ -22,19 +22,17 @@ describe("test Realm Web SDK quickstart page", () => {
   });
   test("Authenticate user", async () => {
     // :snippet-start: authenticate-user
-    // :uncomment-start:
-    // let user;
-    // :uncomment-end:
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
-    try {
-      // Authenticate the user
-      user = await app.logIn(credentials);
-      // `App.currentUser` updates to match the logged in user
-      console.assert(user.id === app.currentUser.id);
-    } catch (err) {
-      console.error("Failed to log in", err);
-    }
+
+    // Authenticate the user
+    // :uncomment-start:
+    // const user = await app.logIn(credentials);
+    // :uncomment-end:
+    user = await app.logIn(credentials); // :remove:
+    // `App.currentUser` updates to match the logged in user
+    console.assert(user.id === app.currentUser.id);
+
     // :snippet-end:
 
     expect(user.id).toBe(app.currentUser.id);
