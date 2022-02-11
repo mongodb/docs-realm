@@ -5,21 +5,20 @@ let seedUser = try await app.login(credentials: Credentials.anonymous)
 
 // Create a configuration to open the seed user's realm
 var config = seedUser.configuration(partitionValue: "Partition You Want to Bundle")
-config.objectTypes = [QsTask.self]
+config.objectTypes = [Task.self]
 
 // Open the Realm with the seed user's config
 let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 print("Successfully opened realm: \(realm)")
 
-
 // Write the seed data you want to bundle with your application to the realm
-let task = QsTask(value: ["name": "Feed the dragons", "owner": "Daenerys", "status": "In Progress"])
+let task = Task(value: ["name": "Feed the dragons", "owner": "Daenerys", "status": "In Progress"])
 
 try realm.write {
     realm.add(task)
 }
 print("Successfully added a task to the realm")
-let tasks = realm.objects(QsTask.self)
+let tasks = realm.objects(Task.self)
 let daenerysTasks = tasks.filter("owner == 'Daenerys'")
 XCTAssertEqual(daenerysTasks.count, 1)
 

@@ -1,6 +1,6 @@
 // :replace-start: {
 //   "terms": {
-//     "QTask": "Task"
+//     "QsTask": "Task"
 //   }
 // }
 
@@ -31,7 +31,6 @@ class BundleRealms: XCTestCase {
             realm.delete(realm.objects(QsTask.self))
         }
         // :hide-end:
-
         // Write the seed data you want to bundle with your application to the realm
         let task = QsTask(value: ["name": "Feed the dragons", "owner": "Daenerys", "status": "In Progress"])
 
@@ -42,7 +41,7 @@ class BundleRealms: XCTestCase {
         let tasks = realm.objects(QsTask.self)
         let daenerysTasks = tasks.filter("owner == 'Daenerys'")
         XCTAssertEqual(daenerysTasks.count, 1)
-
+        
         // Specify an output directory for the bundled realm
         // We're using FileManager here for tested code examples,
         // but this could be a static directory on your computer.
