@@ -67,7 +67,7 @@ to the ``clientReset`` field of your
 Include these properties in the ClientResetConfiguration: 
 
 - ``mode``: Set to ``discardLocal``.
-- ``clientResetBefore``: Optional. Callback function invoked before the SDK executes this strategy,
+- ``clientResetBefore()``: Optional. Callback function invoked before the SDK executes this strategy,
   when the SDK receives a client reset error from the backend. 
   Provides a copy of the realm. 
 - ``clientResetAfter()``: Optional. Callback function invoked after the SDK successfully
@@ -93,7 +93,7 @@ implementation in the SyncConfiguration ``error()`` callback. The following
 example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-.. literalinclude:: source/examples/generated/node/client-reset.codeblock.discard-unsynced-changes-after-destructive-schema-changes.js
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.discard-unsynced-changes-after-destructive-schema-changes.js
    :language: javascript
 
 .. _node-manually-recover-unsynced-changes:
