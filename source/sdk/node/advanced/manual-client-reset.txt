@@ -12,13 +12,28 @@ Manual Client Reset Data Recovery - Node SDK
    :depth: 2
    :class: singlecol
 
-.. note:: Manual Recovery is Manual
+This page explains how to manually recover unsynced realm data after a client reset 
+caused by a destructive schema change.
 
-   Manual recovery requires significant amounts of code, schema concessions,
-   and custom conflict resolution logic. If your application can accommodate
-   losing unsynced data during a client reset, try the
-   :ref:`discard unsynced changes <node-discard-unsynced-changes>`
-   client reset strategy instead.
+Manual recovery requires significant amounts of code, schema concessions,
+and custom conflict resolution logic.
+You should only perform a manual recovery of unsynced realm data if 
+**all** the following are true:
+
+#. You cannot lose unsynced data. 
+
+# Your client reset is caused by a :ref:`destructive schema change 
+<destructive-changes-synced-schema>`. 
+
+If all of these criteria are not true for your application, use the 
+:ref:`discard unsynced changes <node-discard-unsynced-changes>`
+client reset strategy instead.
+
+The specifics of manual recovery depend heavily upon your application
+and your schema. However, there are a few techniques that can help with
+most manual recoveries. The :ref:`Track Changes by Object Strategy section 
+<node-client-reset-track-changes-by-object>` demonstrates
+one method of recovering unsynced changes during a client reset.
 
 .. warning:: Avoid Making Destructive Schema Changes in Production
 
@@ -28,12 +43,25 @@ Manual Client Reset Data Recovery - Node SDK
 
 .. include:: /includes/destructive-schema-change-app-update.rst
 
-The **manually recover unsynced changes** client reset strategy gives
-developers the opportunity to recover data already written to
-the client realm file but not yet synced to the backend. The
-following steps demonstrate the process at a high level:
+.. _node-client-reset-track-changes-by-object:
 
-1. **Client reset error**: Your application receives a client reset
+Track Changes by Object Strategy
+--------------------------------
+
+The **track changes by object** manual client reset data recovery strategy 
+lets you recover data already written to the client realm file 
+but not yet synced to the backend. 
+
+In this strategy, you add a "Last Updated Time" to each object model to track
+when each object last changed. We'll watch the realm for the
+"Last Synced Time" to determine when the realm last uploaded its state
+to the backend. Then, we can find objects that were deleted, created,
+or updated since the last sync with the backend, and copy that data from
+the backup realm to the new realm.
+
+The following steps demonstrate implementing the process at a high level:
+
+#. **Client reset error**: Your application receives a client reset
    error code from the backend.
 
 #. **Strategy implementation**: The SDK calls your strategy
@@ -47,10 +75,8 @@ following steps demonstrate the process at a high level:
    the application. You can do this programmatically or through a direct
    request to the user in a dialog.
 
-#. TODO(DOCSP-20821): find JS equivalent...
-   **Move the realm to a backup file**: Call the ``executeClientReset()``
-   method of the provided :java-sdk:`ClientResetRequiredError
-   <io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupFile()>`.
+#. **Move the realm to a backup file**: Call the :js-sdk:`Realm.App.Sync.initiateClientReset()
+   <Realm.App.Sync.html#.initiateClientReset>` static method.
    This method moves the current copy of the client realm file to a
    backup file.
 
@@ -59,82 +85,72 @@ following steps demonstrate the process at a high level:
    multiple realms, you can identify the realm experiencing a client
    reset from the backup file name.
 
-#. TODO(DOCSP-20821): find JS equivalent...
-   **Download all realm data from the backend**: Download the entire set
-   of data in the realm before you proceed. If your sync configuration
-   doesn't specify the :java-sdk:`waitForInitialRemoteData()
-   <io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>`
-   option, you can call :java-sdk:`SyncSession.downloadAllServerChanges()
-   <io/realm/mongodb/sync/SyncSession.html#downloadAllServerChanges(long,java.util.concurrent.TimeUnit)>`
-   after opening the realm.
+#. **Download all realm data from the backend**: Download the entire set
+   of data in the realm before you proceed. This is the default behavior of the 
+   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
-#. TODO(DOCSP-20821): find JS equivalent...
-   **Open the realm backup**: Use the :java-sdk:`getBackupRealmConfiguration()
-   <io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupRealmConfiguration()>`
-   method of the provided ``ClientResetRequiredError`` to open an
-   instance of the client realm file from the backup file. You must open
-   this instance as a :java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>`,
-   a type of realm that uses text field lookups for all data access.
+#. **Open the realm backup**: Use the ``error.config`` object passed as an argument
+   to the SyncConfiguration.error callback function.
+   instance of the client realm file from the backup file. 
 
 #. **Migrate unsynced changes**: Query the backup realm for data to
    recover. Insert, delete or update data in the new realm accordingly.
 
-TODO(DOCSP-20821): find JS equivalent...
-To handle client resets with the "manually recover unsynced changes"
-strategy,  pass an instance of :java-sdk:`ManuallyRecoverUnsyncedChangesStrategy
-<io/realm/mongodb/sync/ManuallyRecoverUnsyncedChangesStrategy.html>` to
-the :java-sdk:`defaultSyncClientResetStrategy()
-<io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy)>`
-builder method when you instantiate your ``App``. Your
-``ManuallyRecoverUnsyncedChangesStrategy`` instance must implement the
-following methods:
-
-- TODO(DOCSP-20821): find JS equivalent...
-  ``onClientReset()``: called when the SDK receives a client reset error
-  from the backend.
-
-The following example implements this strategy:
-
-TODO(DOCSP-20821): small JS example
-
-.. note:: ``handleManualReset()`` Implementation
-
-   This client reset example calls a separate method that handles the
-   specific logic of the client reset. Continue reading the sections
-   below for an :ref:`example implementation <node-manual-recovery-implementation>`.
-
-The specifics of manual recovery depend heavily upon your application
-and your schema. However, there are a few techniques that can help with
-most manual recoveries. The following example implementation demonstrates
-one method of recovering unsynced changes from a backup realm.
+To manually recover unsynced changes handle during a client reset with the 
+track changes by object strategy.
 
 Example
--------
+~~~~~~~
 
-This example adds a "Last Updated Time" to each object model to track
-when each object last changed. We'll watch the realm for the
-"Last Synced Time" to determine when the realm last uploaded its state
-to the backend. Then, we can find objects that were deleted, created,
-or updated since the last sync with the backend, and copy that data from
-the backup realm to the new realm.
+This example demonstrates implementing the **track changes by object** 
+manual client reset data recovery strategy.
 
-.. _node-manual-recovery-implementation-track-updates:
+.. note:: This Example is Simplified
 
-Track Updates to Objects
-~~~~~~~~~~~~~~~~~~~~~~~~
+   This example keeps track of the last time each *object* was updated. As
+   a result, the recovery operation overwrites the entire object in the
+   new realm if any field was updated after the last successful sync
+   of the backup realm. This could overwrite fields updated by other
+   clients with old data from this client. If your realm objects contain
+   multiple fields containing important data, consider keeping track of
+   the last updated time of each *field* instead, and recovering each
+   field individually.
+
+.. _node-manual-client-reset-config:
+
+1. Include Last Updated Time in Your Schema
++++++++++++++++++++++++++++++++++++++++++++
+
+Add a new property to your Realm object schema to track the last time it was updated. 
+Whenever you create or update a Realm object with the schema, include a 
+timestamp with the update time. 
 
 Ordinarily, there is no way to detect when a Realm object was last
 modified. This makes it difficult to determine which changes were synced
 to the backend. By adding a timestamp to your Realm object classes and
 updating that timestamp to the current time whenever a change occurs,
-you can keep track of when objects were changed:
+you can keep track of when objects were changed. 
 
-TODO(DOCSP-20821): track updates to objects code snippet
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
+   :language: javascript
 
-.. _node-manual-recovery-implementation-track-successful-syncs:
+.. _node-manual-client-reset-config:
 
-Track Successful Syncs
-~~~~~~~~~~~~~~~~~~~~~~
+2. Configure Realm to Use Manual Client Reset
++++++++++++++++++++++++++++++++++++++++++++++
+
+In the realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
+set the ``clientReset`` field to manual mode and include an ``error`` callback function.
+You'll define the error callback function in the 
+:ref:`Create Callback to Handle Client Reset section <node-create-callback-client-reset>`.
+
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
+   :language: javascript
+
+.. _node-manual-client-reset-track-sync:
+
+3. Track Synchronization in Separate Realm
+++++++++++++++++++++++++++++++++++++++++++
 
 Just knowing when objects were changed isn't enough to recover data
 during a client reset. You also need
@@ -143,36 +159,22 @@ implementation uses a singleton object called ``LastSynced`` in the
 realm, paired with an upload progress listener, to record whenever a
 realm finishes syncing successfully.
 
-TODO(DOCSP-20821): track updates to objects code snippet
+Define your LastSynced Realm to track the latest time your realm synchronizes.
 
-TODO(DOCSP-20821): javascript-ify
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.last-synced-realm.js
+   :language: javascript
 
-You can use :java-sdk:`SyncSession.addUploadProgressListener()
-<io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)>`
-to listen for upload progress events in your ``App``. Implement
-``onChange()`` to handle these events. Call
-:java-sdk:`Progress.isTransferComplete()
-<io/realm/mongodb/sync/Progress.html#isTransferComplete()>` to check if
-the upload has completed. When ``isTransferComplete()`` returns true,
-all clientside updates, inserts, and deletes in the realm have
-successfully synced to the backend, and you can
-update the ``LastSynced`` time to the current time. To prevent
-``LastSynced`` from looping on updates to the ``LastSynced`` time,
-don't update the ``LastSynced`` time if it's been less than, say,
-10ms since you last updated the time.
-
-Register your progress listener with :java-sdk:`ProgressMode.INDEFINITELY
-<io/realm/mongodb/sync/ProgressMode.html#INDEFINITELY>` to subscribe
+Register your progress listener to subscribe
 your listener to all future upload progress events, instead of just the
 current upload's progress events.
 
-TODO(DOCSP-20821): code example for keeping track of last sync time
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.track-sync-session.js
+   :language: javascript
 
+.. _node-manual-client-reset-create-callback: 
 
-.. _node-manual-recovery-implementation:
-
-Manual Recovery with Last Updated Time and Last Synced Time
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Create Callback to Handle Client Reset
++++++++++++++++++++++++++++++++++++++++++
 
 Now that you've recorded update times for all objects in your application
 as well as the last time your application completed a sync, it's time to
@@ -186,26 +188,13 @@ recovery operations:
 You can follow along with the implementation of these operations in the
 code samples below.
 
-TODO(DOCSP-20821): code example for handling manual reset 
-
-.. note:: This Example is Simplified
-
-   This example keeps track of the last time each *object* was updated. As
-   a result, the recovery operation overwrites the entire object in the
-   new realm if any field was updated after the last successful sync
-   of the backup realm. This could overwrite fields updated by other
-   clients with old data from this client. If your realm objects contain
-   multiple fields containing important data, consider keeping track of
-   the last updated time of each *field* instead, and recovering each
-   field individually.
+.. literalinclude:: /examples/generated/node/client-reset.codeblock.handle-sync-error.js
+   :language: javascript
 
 Alternative Implementations
 ---------------------------
 
-Other possible implementations include:
-
-TODO(DOCSP-20821): see what the JS equivalent is of ``insertOrUpdate()``
-
+Possible alternate implementations include:
 
 - **Overwrite the entire backend with the backup state**:
   with no "last updated time" or "last synced time", ``insertOrUpdate()``
