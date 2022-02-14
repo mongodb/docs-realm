@@ -1,9 +1,10 @@
 async function handleSyncError(_session, error) {
   if (error.name === "ClientReset") {
-    const realmPath = realm.path; // realm.path will no be accessible after realm.close()
+    const realmPath = realm.path; // realm.path will not be accessible after realm.close()
     realm.close(); // you must close all realms before proceeding
 
     // pass your realm app instance, and realm path to initiateClientReset()
+    // TODO: do i need this now that it's deprecated?
     Realm.App.Sync.initiateClientReset(app, realmPath);
 
     realm = await Realm.open(config);
