@@ -111,16 +111,14 @@ bundle it with your production application. At a broad level, this entails:
 #. Go to your app target's :guilabel:`Build Phases` tab in Xcode. Add the 
    realm file to the :guilabel:`Copy Bundle Resources` build phase.
 #. At this point, your app can access the bundled realm file. Find its path 
-   with :apple:`NSBundle.main.path(forResource:ofType) 
+   with :apple:`Bundle.main.path(forResource:ofType) 
    <documentation/foundation/bundle/1410989-path>`.
 
 You can open the {+realm+} at the bundle path directly if the
 ``readOnly`` property is set to ``true`` on the
 :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`. If
 you want to modify the bundled {+realm+}, first copy the bundled file to
-your app's Documents folder with
-:apple:`NSFileManager.default.copyItem(at:to:)
-<documentation/foundation/filemanager/1412957-copyitem>`.
+your app's Documents folder with ``seedFilePath``.
 
 .. tip::
 
