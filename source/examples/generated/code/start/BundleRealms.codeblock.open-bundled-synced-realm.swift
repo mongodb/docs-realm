@@ -5,11 +5,21 @@ let user = try await app.login(credentials: Credentials.anonymous)
 
 // Create a configuration for the app user's realm
 // This should use the same partition value as the bundled realm
-var config = user.configuration(partitionValue: "Partition You Want to Bundle")
-config.objectTypes = [Task.self]
+var newUserConfig = user.configuration(partitionValue: "Partition You Want to Bundle")
+newUserConfig.objectTypes = [Task.self]
 
-// Open the synced realm, downloading any changes before opening it
-let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
+// Find the path of the seed.realm file in your project
+let realmURL = Bundle.main.url(forResource: "seed", withExtension: ".realm")
+print("The bundled realm URL is: \(realmURL)")
+
+// When you use the `seedFilePath` parameter, this copies the
+// realm at the specified path for use with the user's config
+newUserConfig.seedFilePath = realmURL
+
+// Open the synced realm, downloading any changes before opening it.
+// This starts with the existing data in the bundled realm, but checks
+// for any updates to the data before opening it in your application.
+let realm = try await Realm(configuration: newUserConfig, downloadBeforeOpen: .always)
 print("Successfully opened the bundled realm")
 
 // Read and write to the bundled realm as normal

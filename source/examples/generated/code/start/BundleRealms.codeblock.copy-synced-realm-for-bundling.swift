@@ -11,13 +11,9 @@ config.objectTypes = [Task.self]
 let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 print("Successfully opened realm: \(realm)")
 
-// Write the seed data you want to bundle with your application to the realm
-let task = Task(value: ["name": "Feed the dragons", "owner": "Daenerys", "status": "In Progress"])
-
-try realm.write {
-    realm.add(task)
-}
-print("Successfully added a task to the realm")
+// Verify there is a task object in the realm whose
+// owner's name is "Daenerys". When we open the bundled
+// realm later, we should see the same result.
 let tasks = realm.objects(Task.self)
 let daenerysTasks = tasks.filter("owner == 'Daenerys'")
 XCTAssertEqual(daenerysTasks.count, 1)
@@ -42,7 +38,9 @@ if Realm.fileExists(for: config) {
     print("No file currently exists at path")
 }
 
-// Write a copy of the realm you want to bundle at the path you specified
-try realm.writeCopy(toFile: bundleRealmFilePath)
+// Write a copy of the realm at the URL we specified
+try realm.writeCopy(configuration: config)
+
+// Verify that we successfully made a copy of the realm
 XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
 print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")

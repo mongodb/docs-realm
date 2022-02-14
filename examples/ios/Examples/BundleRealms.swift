@@ -25,19 +25,9 @@ class BundleRealms: XCTestCase {
         let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
         print("Successfully opened realm: \(realm)")
 
-        // :hide-start:
-        // Delete all objects to start with a fresh realm
-        try! realm.write {
-            realm.delete(realm.objects(QsTask.self))
-        }
-        // :hide-end:
-        // Write the seed data you want to bundle with your application to the realm
-        let task = QsTask(value: ["name": "Feed the dragons", "owner": "Daenerys", "status": "In Progress"])
-
-        try realm.write {
-            realm.add(task)
-        }
-        print("Successfully added a task to the realm")
+        // Verify there is a task object in the realm whose
+        // owner's name is "Daenerys". When we open the bundled
+        // realm later, we should see the same result.
         let tasks = realm.objects(QsTask.self)
         let daenerysTasks = tasks.filter("owner == 'Daenerys'")
         XCTAssertEqual(daenerysTasks.count, 1)
@@ -62,11 +52,16 @@ class BundleRealms: XCTestCase {
             print("No file currently exists at path")
         }
 
-        // Write a copy of the realm you want to bundle at the path you specified
-        try realm.writeCopy(toFile: bundleRealmFilePath)
+        // Write a copy of the realm at the URL we specified
+        try realm.writeCopy(configuration: config)
+        
+        // Verify that we successfully made a copy of the realm
         XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
         print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")
         // :code-block-end:
+        // Delete the realm copy so it doesn't mess with other tests
+        try Realm.deleteFiles(for: config)
+        print("Successfully deleted existing realm at path: \(bundleRealmFilePath)")
     }
 
     func testOpenCopiedRealm() async throws {
@@ -78,11 +73,21 @@ class BundleRealms: XCTestCase {
 
         // Create a configuration for the app user's realm
         // This should use the same partition value as the bundled realm
-        var config = user.configuration(partitionValue: "Partition You Want to Bundle")
-        config.objectTypes = [QsTask.self]
+        var newUserConfig = user.configuration(partitionValue: "Partition You Want to Bundle")
+        newUserConfig.objectTypes = [QsTask.self]
 
-        // Open the synced realm, downloading any changes before opening it
-        let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
+        // Find the path of the seed.realm file in your project
+        let realmURL = Bundle.main.url(forResource: "seed", withExtension: ".realm")
+        print("The bundled realm URL is: \(realmURL)")
+
+        // When you use the `seedFilePath` parameter, this copies the
+        // realm at the specified path for use with the user's config
+        newUserConfig.seedFilePath = realmURL
+
+        // Open the synced realm, downloading any changes before opening it.
+        // This starts with the existing data in the bundled realm, but checks
+        // for any updates to the data before opening it in your application.
+        let realm = try await Realm(configuration: newUserConfig, downloadBeforeOpen: .always)
         print("Successfully opened the bundled realm")
 
         // Read and write to the bundled realm as normal
