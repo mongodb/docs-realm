@@ -23,7 +23,7 @@ You should only perform a manual recovery of unsynced realm data if
 #. You cannot lose unsynced data. 
 
 #. Your client reset is caused by a :ref:`destructive schema change 
-<destructive-changes-synced-schema>`. 
+   <destructive-changes-synced-schema>`. 
 
 If all of these criteria are not true for your application, use the 
 :ref:`discard unsynced changes <node-discard-unsynced-changes>`
@@ -103,16 +103,22 @@ Example
 This example demonstrates implementing the **track changes by object** 
 manual client reset data recovery strategy.
 
-.. note:: This Example is Simplified
+.. note:: Limitations of This Example
 
-   This example keeps track of the last time each *object* was updated. As
-   a result, the recovery operation overwrites the entire object in the
-   new realm if any field was updated after the last successful sync
-   of the backup realm. This could overwrite fields updated by other
-   clients with old data from this client. If your realm objects contain
-   multiple fields containing important data, consider keeping track of
-   the last updated time of each *field* instead, and recovering each
-   field individually.
+   - This example only is for an application with a single realm containing 
+     a single Realm object type. For each additional object type, you'd need 
+     to add another sync listener as described in the 
+     :ref:`Track Synchronization in Separate Realm section
+     <node-manual-client-reset-track-sync>`.
+
+   - This example keeps track of the last time each *object* was updated. As
+     a result, the recovery operation overwrites the entire object in the
+     new realm if any field was updated after the last successful sync
+     of the backup realm. This could overwrite fields updated by other
+     clients with old data from this client. If your realm objects contain
+     multiple fields containing important data, consider keeping track of
+     the last updated time of each *field* instead, and recovering each
+     field individually.
 
    For more information on other ways to perform a manual client reset with data recovery,
    refer to the :ref:`Alternative Strategies section
@@ -135,7 +141,7 @@ you can keep track of when objects were changed.
 
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
    :language: javascript
-   :emphasize-lines: 5
+   :emphasize-lines: 6
 
 
 .. _node-manual-client-reset-config:
@@ -160,8 +166,8 @@ You'll define the error callback function in the
 Just knowing when objects were changed isn't enough to recover data
 during a client reset. You also need
 to know when the realm last completed a sync successfully. This example
-implementation uses a singleton object called ``LastSynced`` in the
-realm, paired with an upload progress listener, to record whenever a
+implementation uses a singleton object in a separate realm called ``LastSynced``
+ paired with a change listener to record when a
 realm finishes syncing successfully.
 
 Define your LastSynced Realm to track the latest time your realm synchronizes.
@@ -169,9 +175,9 @@ Define your LastSynced Realm to track the latest time your realm synchronizes.
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.last-synced-realm.js
    :language: javascript
 
-Register your progress listener to subscribe
-your listener to all future upload progress events, instead of just the
-current upload's progress events.
+Register a change listener to subscribe to changes to the Dog collection. 
+Only update the LastSynced object if the sync session is connected and all local
+changes have been synced with the server. 
 
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-sync-session.js
    :language: javascript
@@ -186,8 +192,8 @@ as well as the last time your application completed a sync, it's time to
 implement the manual recovery process. This example handles two main
 recovery operations:
 
-- restoring unsynced inserts and updates from the backup realm
-- deleting objects from the new realm that were previously deleted from
+- Restore unsynced inserts and updates from the backup realm
+- Delete objects from the new realm that were previously deleted from
   the backup realm
 
 You can follow along with the implementation of these operations in the

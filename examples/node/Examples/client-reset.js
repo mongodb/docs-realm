@@ -118,11 +118,6 @@ describe("Manual client reset", () => {
     };
     // :snippet-end:
     // :snippet-start: last-synced-realm
-    // TODO: i think this approach won't work for JS if you're tracking multiple realms w
-    // the same partition
-    // b/c it doesn't track sync by realm, only by sync session.
-    // maybe can do `Track updates separately from objects` approach w unique partition
-    // so the sync session only tracks the updates
     const LastSyncedSchema = {
       name: "LastSynced",
       properties: {
@@ -140,29 +135,20 @@ describe("Manual client reset", () => {
     });
     // :snippet-end:
     // :snippet-start: track-sync-session
-    const syncSession = Realm.App.Sync.getSyncSession(
-      app.currentUser,
-      config.sync.partitionValue
-    );
-    syncSession.addProgressNotification(
-      "upload",
-      "reportIndefinitely",
-      (transferred, transferable) => {
-        // signifies all data transferred
-        if (transferred === transferable) {
-          lastSyncedRealm.write(() => {
-            lastSyncedRealm.create(
-              "LastSynced",
-              {
-                realmTracked: "Dog",
-                timestamp: Date.now(),
-              },
-              "modified"
-            );
+    // Listens for changes to the Dogs collection
+    realm.objects("Dog").addListener(async () => {
+      // only update LastSynced if sync session is connected
+      // and all local changes are synced
+      if (realm.syncSession.isConnected()) {
+        await realm.syncSession.uploadAllLocalChanges();
+        lastSyncedRealm.write(() => {
+          lastSyncedRealm.create("LastSynced", {
+            realmTracked: "Dog",
+            timestamp: Date.now(),
           });
-        }
+        });
       }
-    );
+    });
     // :snippet-end:
     // :snippet-start: handle-sync-error
     async function handleSyncError(_session, error) {
@@ -211,3 +197,28 @@ describe("Manual client reset", () => {
     // :snippet-end:
   });
 });
+
+// unused track-sync-session code
+// const syncSession = Realm.App.Sync.getSyncSession(
+//   app.currentUser,
+//   config.sync.partitionValue
+// );
+// syncSession.addProgressNotification(
+//   "upload",
+//   "reportIndefinitely",
+//   (transferred, transferable) => {
+//     // signifies all data transferred
+//     if (transferred === transferable) {
+//       lastSyncedRealm.write(() => {
+//         lastSyncedRealm.create(
+//           "LastSynced",
+//           {
+//             realmTracked: "Dog",
+//             timestamp: Date.now(),
+//           },
+//           "modified"
+//         );
+//       });
+//     }
+//   }
+// );
