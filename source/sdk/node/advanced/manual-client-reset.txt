@@ -22,7 +22,7 @@ You should only perform a manual recovery of unsynced realm data if
 
 #. You cannot lose unsynced data. 
 
-# Your client reset is caused by a :ref:`destructive schema change 
+#. Your client reset is caused by a :ref:`destructive schema change 
 <destructive-changes-synced-schema>`. 
 
 If all of these criteria are not true for your application, use the 
@@ -53,10 +53,11 @@ lets you recover data already written to the client realm file
 but not yet synced to the backend. 
 
 In this strategy, you add a "Last Updated Time" to each object model to track
-when each object last changed. We'll watch the realm for the
-"Last Synced Time" to determine when the realm last uploaded its state
-to the backend. Then, we can find objects that were deleted, created,
-or updated since the last sync with the backend, and copy that data from
+when each object last changed. We'll watch the
+to determine when the realm last uploaded its state to the backend.
+
+When the client reset is invoked, you find objects that were deleted, created, or updated
+since the last sync with the backend. Then copy that data from
 the backup realm to the new realm.
 
 The following steps demonstrate implementing the process at a high level:
@@ -90,14 +91,11 @@ The following steps demonstrate implementing the process at a high level:
    :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object.
 
 #. **Open the realm backup**: Use the ``error.config`` object passed as an argument
-   to the SyncConfiguration.error callback function.
-   instance of the client realm file from the backup file. 
+   to the ``SyncConfiguration.error`` callback function.
 
 #. **Migrate unsynced changes**: Query the backup realm for data to
    recover. Insert, delete or update data in the new realm accordingly.
 
-To manually recover unsynced changes handle during a client reset with the 
-track changes by object strategy.
 
 Example
 ~~~~~~~
@@ -116,6 +114,10 @@ manual client reset data recovery strategy.
    the last updated time of each *field* instead, and recovering each
    field individually.
 
+   For more information on other ways to perform a manual client reset with data recovery,
+   refer to the :ref:`Alternative Strategies section
+   <node-manual-client-reset-alternative-strategies>`.
+
 .. _node-manual-client-reset-config:
 
 1. Include Last Updated Time in Your Schema
@@ -127,12 +129,14 @@ timestamp with the update time.
 
 Ordinarily, there is no way to detect when a Realm object was last
 modified. This makes it difficult to determine which changes were synced
-to the backend. By adding a timestamp to your Realm object classes and
+to the backend. By adding a timestamp ``lastUpdated`` to your Realm object models and
 updating that timestamp to the current time whenever a change occurs,
 you can keep track of when objects were changed. 
 
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
    :language: javascript
+   :emphasize-lines: 5
+
 
 .. _node-manual-client-reset-config:
 
@@ -146,6 +150,7 @@ You'll define the error callback function in the
 
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
    :language: javascript
+   :emphasize-lines: 6-9
 
 .. _node-manual-client-reset-track-sync:
 
@@ -191,13 +196,15 @@ code samples below.
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.handle-sync-error.js
    :language: javascript
 
-Alternative Implementations
----------------------------
+.. _node-manual-client-reset-alternative-strategies:
+
+Alternative Strategies
+----------------------
 
 Possible alternate implementations include:
 
 - **Overwrite the entire backend with the backup state**:
-  with no "last updated time" or "last synced time", ``insertOrUpdate()``
+  With no "last updated time" or "last synced time", upsert
   all objects from the backup realm into the new realm. There is no way
   to recovered unsynced deletions with this approach. This approach
   overwrites all data written to the backend by other clients since the

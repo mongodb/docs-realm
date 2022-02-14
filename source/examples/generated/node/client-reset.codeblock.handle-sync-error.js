@@ -13,14 +13,28 @@ async function handleSyncError(_session, error) {
       "LastSynced",
       "Dog"
     ).timestamp;
-    const unsyncedDogs = realm
+    const unsyncedDogs = oldRealm
       .objects("Dog")
       .filtered(`lastUpdated > ${lastSyncedTime}`);
+    // add unsynced dogs to synced realm
     realm.write(() => {
       unsyncedDogs.forEach((dog) => {
         realm.create("Dog", dog, "modified");
       });
     });
+
+    // delete dogs from synced realm that were deleted locally
+    const syncedDogs = realm
+      .objects("Dog")
+      .filtered(`lastUpdated <= ${lastSyncedTime}`);
+    realm.write(() => {
+      syncedDogs.forEach((dog) => {
+        if (!oldRealm.objectForPrimaryKey("Dog", dog._id)) {
+          realm.delete(dog);
+        }
+      });
+    });
+    // make sure everything syncs and close old realm
     await realm.syncSession.uploadAllLocalChanges();
     oldRealm.close();
   } else {
