@@ -221,7 +221,57 @@ HTTPS endpoints support the following standard HTTP methods:
 Authentication
 ~~~~~~~~~~~~~~
 
-TODO
+Endpoints use the same authentication settings as the underlying
+function that they call. Most endpoints use either system authentication
+or appplication authentication.
+
+System Authentication
++++++++++++++++++++++
+
+If the endpoint function is configured to run as the system user,
+incoming requests do not need to include any user credentials or tokens.
+The endpoint will not enforce any :ref:`rules` or validate your
+:ref:`schemas`.
+
+Application Authentication
+++++++++++++++++++++++++++
+
+If the endpoint function is configured to use application
+authentication, incoming requests must include one or more headers that
+contain valid user credentials. Users can authenticate with any of the
+following configured authentication providers:
+
+- :ref:`Email/Password </authentication/email-password>`
+
+  .. code-block:: shell
+     :emphasize-lines: 2-3
+  
+     curl -X GET \
+        -H 'email: <Email Address>' \
+        -H 'password: <Password>' \
+        -H 'Content-Type: application/json' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
+
+- :ref:`Custom JWT </authentication/custom-jwt>`
+
+  .. code-block:: shell
+     :emphasize-lines: 2
+  
+     curl -X GET \
+        -H 'jwtTokenString: <External JSON Web Token>' \
+        -H 'Content-Type: application/json' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
+
+- :ref:`API Key </authentication/api-key>`
+
+  .. code-block:: shell
+     :emphasize-lines: 2
+  
+     curl -X GET \
+        -H 'apiKey: <API Key>' \
+        -H 'Content-Type: application/json' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
+
 
 .. _endpoint-authorization:
 
