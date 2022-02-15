@@ -29,10 +29,11 @@ and their client application access token.
 
 .. note::
 
-   Because {+service+} stores the custom user data in the access token,
-   you should keep the custom user data payload small (less than 16KB).
-   Otherwise, the payload might exceed header size limits, depending on
-   your infrastructure.
+   Because {+service+} stores the custom user data in the access token
+   in the HTTP header, you should keep the custom user data payload
+   small (say, less than 16KB). Other services might limit the HTTP
+   header size, which means that large custom user data objects can
+   cause integration issues.
 
 {+service+} does not manage custom user documents so you are responsible for
 creating and deleting them. The underlying data is a regular MongoDB
