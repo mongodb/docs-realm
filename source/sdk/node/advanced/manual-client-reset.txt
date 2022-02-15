@@ -124,9 +124,9 @@ manual client reset data recovery strategy.
    refer to the :ref:`Alternative Strategies section
    <node-manual-client-reset-alternative-strategies>`.
 
-.. procedure::
+.. _node-manual-client-reset-config:
 
-   .. _node-manual-client-reset-config:
+.. procedure::
 
    .. step:: Include Last Updated Time in Your Schema
 
@@ -145,7 +145,7 @@ manual client reset data recovery strategy.
          :emphasize-lines: 6
 
 
-   .. _node-manual-client-reset-config:
+      .. _node-manual-client-reset-config:
 
    .. step:: Configure Realm to Use Manual Client Reset
 
@@ -192,7 +192,7 @@ manual client reset data recovery strategy.
 
       - Restore unsynced inserts and updates from the backup realm
       - Delete objects from the new realm that were previously deleted from
-      the backup realm
+        the backup realm
 
       You can follow along with the implementation of these operations in the
       code samples below.
