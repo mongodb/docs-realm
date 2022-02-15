@@ -1,27 +1,18 @@
 import Realm from "realm";
-import fs from "fs";
 
 const REALM_APP_ID = "myapp-zufnj";
-const DogSchema = {
-  name: "Dog",
-  properties: {
-    name: "string",
-    age: "int?",
-  },
-};
 
 describe("Client Reset with Seamless Loss", () => {
-  let app;
-  beforeAll(async () => {
-    app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
-  });
-  afterAll(async () => {
-    const user = app.currentUser;
-    await app.currentUser.logOut();
-    app.deleteUser(user);
-  });
+  const DogSchema = {
+    name: "Doggo",
+    properties: {
+      name: "string",
+      age: "int?",
+    },
+  };
   test("Discard unsynced changes", async () => {
+    const app = new Realm.App({ id: REALM_APP_ID });
+    await app.logIn(new Realm.Credentials.anonymous());
     // :snippet-start: discard-unsynced-changes
     const config = {
       schema: [DogSchema],
@@ -36,15 +27,45 @@ describe("Client Reset with Seamless Loss", () => {
           clientResyncAfter: (beforeRealm, afterRealm) => {
             console.log("Finished client reset for", beforeRealm.path);
             console.log("New realm path", afterRealm.path);
+            expect(afterRealm.objects("Doggo").length).toBe(2); // :remove:
           },
         },
+        error: handleClientReset, // :remove:
       },
     };
     // :snippet-end:
+
+    async function handleClientReset(sender, error) {
+      console.log(JSON.stringify(error));
+      expect(error.code).toBe(211);
+      expect(error.name).toBe("ClientReset");
+      expect(error.message).toBe("Simulate Client Reset");
+    }
     const realm = await Realm.open(config);
+    realm.write(() => {
+      realm.create("Doggo", { name: "Chippy", age: 12 });
+      realm.create("Doggo", { name: "Jasper", age: 11 });
+    });
+    await realm.syncSession.uploadAllLocalChanges();
+    realm.write(() => {
+      realm.create("Doggo", { name: "Troy", age: 15 });
+    });
+    realm.syncSession._simulateError(
+      211,
+      "Simulate Client Reset",
+      "realm::sync::ProtocolError",
+      false
+    );
+
     realm.close();
+    expect(realm.isClosed).toBe(true);
+    const user = app.currentUser;
+    await app.currentUser.logOut();
+    await app.deleteUser(user);
+    Realm.clearTestState();
+    await new Promise((resolve) => setTimeout(resolve, 0));
   });
-  test("Discard unsynced changes after destructive schema changes", async () => {
+  test.skip("Discard unsynced changes after destructive schema changes", async () => {
     let realm;
     // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
     // Once you have opened your Realm, you will have to keep a reference to it.
@@ -53,7 +74,6 @@ describe("Client Reset with Seamless Loss", () => {
       if (syncError.name == "ClientReset") {
         const path = realm.path; // realm.path will no be accessible after realm.close()
         realm.close();
-        // TODO: do i need this here now that it's deprecated?
         Realm.App.Sync.initiateClientReset(app, path);
 
         // Download Realm from the server.
@@ -88,11 +108,7 @@ describe("Client Reset with Seamless Loss", () => {
 });
 
 describe("Manual client reset", () => {
-  test("Manually recover unsynced changes", async () => {
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
-    let realm = await Realm.open(config);
-
+  test.skip("Manually recover unsynced changes", async () => {
     // :snippet-start: track-updates-to-objects
     const DogSchema = {
       name: "Dog",
@@ -118,6 +134,9 @@ describe("Manual client reset", () => {
       },
     };
     // :snippet-end:
+    const app = new Realm.App({ id: REALM_APP_ID });
+    await app.logIn(new Realm.Credentials.anonymous());
+    let realm = await Realm.open(config);
     // :snippet-start: last-synced-realm
     const LastSyncedSchema = {
       name: "LastSynced",
@@ -158,7 +177,6 @@ describe("Manual client reset", () => {
         realm.close(); // you must close all realms before proceeding
 
         // pass your realm app instance, and realm path to initiateClientReset()
-        // TODO: do i need this now that it's deprecated?
         Realm.App.Sync.initiateClientReset(app, realmPath);
 
         realm = await Realm.open(config);
