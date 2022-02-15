@@ -15,71 +15,77 @@ describe("Client Reset with Seamless Loss", () => {
   };
   it("Discard unsynced changes", async () => {
     const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
-    // :snippet-start: discard-unsynced-changes
-    const config = {
-      schema: [DogSchema],
-      sync: {
-        user: app.currentUser,
-        partitionValue: "MyPartitionValue",
-        clientReset: {
-          mode: "discardLocal",
-          clientResyncBefore: (realm) => {
-            console.log("Beginning client reset for ", realm.path);
+    return app.logIn(new Realm.Credentials.anonymous()).then(async () => {
+      // :snippet-start: discard-unsynced-changes
+      const config = {
+        schema: [DogSchema],
+        sync: {
+          user: app.currentUser,
+          partitionValue: "MyPartitionValue",
+          clientReset: {
+            mode: "discardLocal",
+            clientResyncBefore: (realm) => {
+              console.log("Beginning client reset for ", realm.path);
+            },
+            clientResyncAfter: (beforeRealm, afterRealm) => {
+              console.log("Finished client reset for", beforeRealm.path);
+              console.log("New realm path", afterRealm.path);
+              expect(afterRealm.objects("Doggo").length).toBe(7); // :remove:
+            },
           },
-          clientResyncAfter: (beforeRealm, afterRealm) => {
-            console.log("Finished client reset for", beforeRealm.path);
-            console.log("New realm path", afterRealm.path);
-            expect(afterRealm.objects("Doggo").length).toBe(2); // :remove:
-          },
+          error: handleClientReset, // :remove:
         },
-        error: handleClientReset, // :remove:
-      },
-    };
-    // :snippet-end:
+      };
+      // :snippet-end:
 
-    function handleClientReset(sender, error) {
-      console.log("derp derp");
-      console.log(JSON.stringify(error));
-      expect(error.code).toBe(211);
-      expect(error.name).toBe("ClientReset");
-      expect(error.message).toBe("Simulate Client Reset");
-    }
-    const realm = await Realm.open(config);
-    realm.write(() => {
-      realm.create("Doggo", {
-        _id: new ObjectId(),
-        name: "Chippy",
-        age: 12,
+      function handleClientReset(sender, error) {
+        console.log(JSON.stringify(error));
+        expect(error.code).toBe(211);
+        expect(error.name).toBe("ClientReset");
+        expect(error.message).toBe("Simulate Client Reset");
+      }
+      const realm = new Realm(config);
+      realm.write(() => {
+        realm.create("Doggo", {
+          _id: new ObjectId(),
+          name: "Chippy",
+          age: 12,
+        });
+        realm.create("Doggo", {
+          _id: new ObjectId(),
+          name: "Jasper",
+          age: 11,
+        });
       });
-      realm.create("Doggo", {
-        _id: new ObjectId(),
-        name: "Jasper",
-        age: 11,
+      await realm.syncSession.uploadAllLocalChanges();
+      realm.write(() => {
+        realm.create("Doggo", {
+          _id: new ObjectId(),
+          name: "Troy",
+          age: 15,
+        });
       });
+
+      await realm.syncSession._simulateError(
+        211,
+        "Simulate Client Reset",
+        "realm::sync::ProtocolError",
+        false
+      );
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      // cleanup
+      realm.write(() => {
+        const doggos = realm.objects("Doggo");
+        realm.delete(doggos);
+      });
+      await realm.syncSession.uploadAllLocalChanges();
+
+      realm.close();
+      expect(realm.isClosed).toBe(true);
+      await app.deleteUser(app.currentUser);
+      Realm.clearTestState();
     });
-    await realm.syncSession.uploadAllLocalChanges();
-    realm.write(() => {
-      realm.create("Doggo", {
-        _id: new ObjectId(),
-        name: "Troy",
-        age: 15,
-      });
-    });
-
-    realm.syncSession._simulateError(
-      211,
-      "Simulate Client Reset",
-      "realm::sync::ProtocolError",
-      false
-    );
-
-    realm.close();
-    expect(realm.isClosed).toBe(true);
-    console.log("hello");
-    // await app.currentUser.logOut();
-    await app.deleteUser(app.currentUser);
-    Realm.clearTestState();
   });
   // it.skip("Discard unsynced changes after destructive schema changes", async () => {
   //   let realm;
