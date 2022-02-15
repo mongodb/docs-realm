@@ -63,6 +63,11 @@ back to callers as the second argument:
      response.setBody("Request was successful");
    }
 
+.. _endpoint-requests-and-responses:
+
+Requests & Responses
+--------------------
+
 .. _endpoint-request-object:
 
 Request Objects
@@ -109,7 +114,7 @@ includes methods that you can call to configure the response.
 
 .. list-table::
    :header-rows: 1
-   :widths: 15 10 45
+   :widths: 30 70
 
    * - Method
      - Description
@@ -220,9 +225,18 @@ HTTPS endpoints support the following standard HTTP methods:
 Authentication
 ~~~~~~~~~~~~~~
 
+Endpoint requests can run as either an unauthenticated system user or an
+application user.
+
 Endpoints use the same authentication settings as the underlying
-function that they call. Most endpoints use either system authentication
-or appplication authentication.
+function that they call.
+
+Most endpoints use either system authentication or appplication
+authentication.
+
+.. tip::
+   
+   New endpoints that you create in the UI use System authentication by default.
 
 System Authentication
 +++++++++++++++++++++
@@ -240,7 +254,7 @@ authentication, incoming requests must include one or more headers that
 contain valid user credentials. Users can authenticate with any of the
 following configured authentication providers:
 
-- :ref:`Email/Password </authentication/email-password>`
+- :ref:`Email/Password <email-password-authentication>`
 
   .. code-block:: shell
      :emphasize-lines: 2-3
@@ -251,17 +265,7 @@ following configured authentication providers:
         -H 'Content-Type: application/json' \
         https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
 
-- :ref:`Custom JWT </authentication/custom-jwt>`
-
-  .. code-block:: shell
-     :emphasize-lines: 2
-  
-     curl -X GET \
-        -H 'jwtTokenString: <External JSON Web Token>' \
-        -H 'Content-Type: application/json' \
-        https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
-
-- :ref:`API Key </authentication/api-key>`
+- :ref:`API Key <api-key-authentication>`
 
   .. code-block:: shell
      :emphasize-lines: 2
@@ -271,6 +275,15 @@ following configured authentication providers:
         -H 'Content-Type: application/json' \
         https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
 
+- :ref:`Custom JWT <custom-jwt-authentication>`
+
+  .. code-block:: shell
+     :emphasize-lines: 2
+  
+     curl -X GET \
+        -H 'jwtTokenString: <External JSON Web Token>' \
+        -H 'Content-Type: application/json' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
 
 .. _endpoint-authorization:
 
@@ -302,7 +315,7 @@ You can specify up to one of the following schemes:
 .. _endpoint-secret-query-parameter:
 
 Secret Query Parameter
-~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++
 
 The secret query parameter request validation option requires that
 incoming requests include the secret value as a `query parameter
@@ -330,7 +343,7 @@ Every request must include the secret value as the ``secret`` query parameter:
 .. _endpoint-payload-signature-verification:
 
 Payload Signature Verification
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++
 
 Payload signature verification requires that incoming requests include
 an HTTP header where the value is a hexadecimal-encoded :abbr:`HMAC
