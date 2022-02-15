@@ -56,7 +56,7 @@ In this strategy, you add a "Last Updated Time" to each object model to track
 when each object last changed. We'll watch the
 to determine when the realm last uploaded its state to the backend.
 
-When the client reset is invoked, you find objects that were deleted, created, or updated
+When backend invokes a client reset, find objects that were deleted, created, or updated
 since the last sync with the backend. Then copy that data from
 the backup realm to the new realm.
 
