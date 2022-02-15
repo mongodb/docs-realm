@@ -124,83 +124,81 @@ manual client reset data recovery strategy.
    refer to the :ref:`Alternative Strategies section
    <node-manual-client-reset-alternative-strategies>`.
 
-.. _node-manual-client-reset-config:
+.. procedure::
 
-1. Include Last Updated Time in Your Schema
-+++++++++++++++++++++++++++++++++++++++++++
+   .. _node-manual-client-reset-config:
 
-Add a new property to your Realm object schema to track the last time it was updated. 
-Whenever you create or update a Realm object with the schema, include a 
-timestamp with the update time. 
+   .. step:: Include Last Updated Time in Your Schema
 
-Ordinarily, there is no way to detect when a Realm object was last
-modified. This makes it difficult to determine which changes were synced
-to the backend. By adding a timestamp ``lastUpdated`` to your Realm object models and
-updating that timestamp to the current time whenever a change occurs,
-you can keep track of when objects were changed. 
+      Add a new property to your Realm object schema to track the last time it was updated. 
+      Whenever you create or update a Realm object with the schema, include a 
+      timestamp with the update time. 
 
-.. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
-   :language: javascript
-   :emphasize-lines: 6
+      Ordinarily, there is no way to detect when a Realm object was last
+      modified. This makes it difficult to determine which changes were synced
+      to the backend. By adding a timestamp ``lastUpdated`` to your Realm object models and
+      updating that timestamp to the current time whenever a change occurs,
+      you can keep track of when objects were changed. 
+
+      .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
+         :language: javascript
+         :emphasize-lines: 6
 
 
-.. _node-manual-client-reset-config:
+   .. _node-manual-client-reset-config:
 
-2. Configure Realm to Use Manual Client Reset
-+++++++++++++++++++++++++++++++++++++++++++++
+   .. step:: Configure Realm to Use Manual Client Reset
 
-In the realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
-set the ``clientReset`` field to manual mode and include an ``error`` callback function.
-You'll define the error callback function in the 
-:ref:`Create Callback to Handle Client Reset section <node-create-callback-client-reset>`.
+      In the realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
+      set the ``clientReset`` field to manual mode and include an ``error`` callback function.
+      You'll define the error callback function in the 
+      :ref:`Create Callback to Handle Client Reset section <node-create-callback-client-reset>`.
 
-.. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
-   :language: javascript
-   :emphasize-lines: 6-9
+      .. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
+         :language: javascript
+         :emphasize-lines: 6-9
 
-.. _node-manual-client-reset-track-sync:
+      .. _node-manual-client-reset-track-sync:
 
-3. Track Synchronization in Separate Realm
-++++++++++++++++++++++++++++++++++++++++++
+   .. step:: Track Synchronization in Separate Realm
 
-Just knowing when objects were changed isn't enough to recover data
-during a client reset. You also need
-to know when the realm last completed a sync successfully. This example
-implementation uses a singleton object in a separate realm called ``LastSynced``
- paired with a change listener to record when a
-realm finishes syncing successfully.
+      Just knowing when objects were changed isn't enough to recover data
+      during a client reset. You also need
+      to know when the realm last completed a sync successfully. This example
+      implementation uses a singleton object in a separate realm called ``LastSynced``
+      paired with a change listener to record when a
+      realm finishes syncing successfully.
 
-Define your LastSynced Realm to track the latest time your realm synchronizes.
+      Define your LastSynced Realm to track the latest time your realm synchronizes.
 
-.. literalinclude:: /examples/generated/node/client-reset.codeblock.last-synced-realm.js
-   :language: javascript
+      .. literalinclude:: /examples/generated/node/client-reset.codeblock.last-synced-realm.js
+         :language: javascript
 
-Register a change listener to subscribe to changes to the Dog collection. 
-Only update the LastSynced object if the sync session is connected and all local
-changes have been synced with the server. 
+      Register a change listener to subscribe to changes to the Dog collection. 
+      Only update the LastSynced object if the sync session is connected and all local
+      changes have been synced with the server. 
 
-.. literalinclude:: /examples/generated/node/client-reset.codeblock.track-sync-session.js
-   :language: javascript
+      .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-sync-session.js
+         :language: javascript
 
-.. _node-manual-client-reset-create-callback: 
+      .. _node-manual-client-reset-create-callback: 
 
-4. Create Callback to Handle Client Reset
-+++++++++++++++++++++++++++++++++++++++++
+   .. step:: Create Callback to Handle Client Reset
 
-Now that you've recorded update times for all objects in your application
-as well as the last time your application completed a sync, it's time to
-implement the manual recovery process. This example handles two main
-recovery operations:
+      Now that you've recorded update times for all objects in your application
+      as well as the last time your application completed a sync, it's time to
+      implement the manual recovery process. This example handles two main
+      recovery operations:
 
-- Restore unsynced inserts and updates from the backup realm
-- Delete objects from the new realm that were previously deleted from
-  the backup realm
+      - Restore unsynced inserts and updates from the backup realm
+      - Delete objects from the new realm that were previously deleted from
+      the backup realm
 
-You can follow along with the implementation of these operations in the
-code samples below.
+      You can follow along with the implementation of these operations in the
+      code samples below.
 
-.. literalinclude:: /examples/generated/node/client-reset.codeblock.handle-sync-error.js
-   :language: javascript
+      .. literalinclude:: /examples/generated/node/client-reset.codeblock.handle-sync-error.js
+         :language: javascript
 
 .. _node-manual-client-reset-alternative-strategies:
 
