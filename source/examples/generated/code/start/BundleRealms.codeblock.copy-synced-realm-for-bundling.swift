@@ -15,7 +15,7 @@ print("Successfully opened realm: \(realm)")
 // owner's name is "Daenerys". When we open the bundled
 // realm later, we should see the same result.
 let tasks = realm.objects(Task.self)
-let daenerysTasks = tasks.filter("owner == 'Daenerys'")
+let daenerysTasks = tasks.where { $0.owner == "Daenerys" }
 XCTAssertEqual(daenerysTasks.count, 1)
 
 // Specify an output directory for the bundled realm
@@ -44,3 +44,14 @@ try realm.writeCopy(configuration: config)
 // Verify that we successfully made a copy of the realm
 XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
 print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")
+
+// Verify that opening the realm at the new file URL works.
+// Don't download changes, because this can mask a copy
+// that does not contain the expected data.
+let copiedRealm = try await Realm(configuration: config, downloadBeforeOpen: .never)
+
+// Verify that the copied realm contains the data we expect
+let copiedTasks = copiedRealm.objects(Task.self)
+let daenerysCopiedTasks = copiedTasks.where { $0.owner == "Daenerys" }
+XCTAssertEqual(daenerysCopiedTasks.count, 1)
+print("Copied realm opens and contains this many tasks: \(daenerysCopiedTasks.count)")

@@ -27,7 +27,7 @@ let tasks = realm.objects(Task.self)
 
 // There should be one task whose owner is Daenerys because that's
 // what was in the bundled realm.
-var daenerysTasks = tasks.filter("owner == 'Daenerys'")
+var daenerysTasks = tasks.where { $0.owner == "Daenerys" }
 XCTAssertEqual(daenerysTasks.count, 1)
 print("The bundled realm has \(daenerysTasks.count) tasks whose owner is Daenerys")
 
@@ -38,5 +38,5 @@ try realm.write {
 }
 print("Successfully added a task to the realm")
 
-daenerysTasks = tasks.filter("owner == 'Daenerys'")
+daenerysTasks = tasks.where { $0.owner == "Daenerys" }
 XCTAssertEqual(daenerysTasks.count, 2)

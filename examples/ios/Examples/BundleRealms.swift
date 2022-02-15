@@ -29,7 +29,7 @@ class BundleRealms: XCTestCase {
         // owner's name is "Daenerys". When we open the bundled
         // realm later, we should see the same result.
         let tasks = realm.objects(QsTask.self)
-        let daenerysTasks = tasks.filter("owner == 'Daenerys'")
+        let daenerysTasks = tasks.where { $0.owner == "Daenerys" }
         XCTAssertEqual(daenerysTasks.count, 1)
 
         // Specify an output directory for the bundled realm
@@ -54,14 +54,22 @@ class BundleRealms: XCTestCase {
 
         // Write a copy of the realm at the URL we specified
         try realm.writeCopy(configuration: config)
-        
+
         // Verify that we successfully made a copy of the realm
         XCTAssert(FileManager.default.fileExists(atPath: bundleRealmFilePath.path))
         print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")
+
+        // Verify that opening the realm at the new file URL works.
+        // Don't download changes, because this can mask a copy
+        // that does not contain the expected data.
+        let copiedRealm = try await Realm(configuration: config, downloadBeforeOpen: .never)
+
+        // Verify that the copied realm contains the data we expect
+        let copiedTasks = copiedRealm.objects(QsTask.self)
+        let daenerysCopiedTasks = copiedTasks.where { $0.owner == "Daenerys" }
+        XCTAssertEqual(daenerysCopiedTasks.count, 1)
+        print("Copied realm opens and contains this many tasks: \(daenerysCopiedTasks.count)")
         // :code-block-end:
-        // Delete the realm copy so it doesn't mess with other tests
-        try Realm.deleteFiles(for: config)
-        print("Successfully deleted existing realm at path: \(bundleRealmFilePath)")
     }
 
     func testOpenCopiedRealm() async throws {
@@ -95,7 +103,7 @@ class BundleRealms: XCTestCase {
 
         // There should be one task whose owner is Daenerys because that's
         // what was in the bundled realm.
-        var daenerysTasks = tasks.filter("owner == 'Daenerys'")
+        var daenerysTasks = tasks.where { $0.owner == "Daenerys" }
         XCTAssertEqual(daenerysTasks.count, 1)
         print("The bundled realm has \(daenerysTasks.count) tasks whose owner is Daenerys")
 
@@ -106,7 +114,7 @@ class BundleRealms: XCTestCase {
         }
         print("Successfully added a task to the realm")
 
-        daenerysTasks = tasks.filter("owner == 'Daenerys'")
+        daenerysTasks = tasks.where { $0.owner == "Daenerys" }
         XCTAssertEqual(daenerysTasks.count, 2)
         // :code-block-end:
         // Delete the task we just added to avoid messing with XCTAsserts
