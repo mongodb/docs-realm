@@ -40,50 +40,6 @@ send data to your app.
 
    https://data.mongodb-api.com/app/<appId>/endpoint/<route>
 
-Endpoint Configuration
-----------------------
-
-.. _endpoint-route:
-
-Route
-~~~~~
-
-Every HTTPS endpoint has a unique route that serves as a name for the
-endpoint. Clients call an endpoint by specifying its route in the
-request URL.
-
-Routes names must begin with a forward slash (``/``) and may contain
-additional forward slashes to indicate a nested path.
-
-.. _endpoint-http-method:
-
-HTTP Method
-~~~~~~~~~~~
-
-You can configure an endpoint to accept only a specific :mdn:`HTTP
-method <Web/HTTP/Methods>` or allow any method and handle each type
-within the endpoint function.
-
-HTTPS endpoints support the following standard HTTP methods:
-
-- :mdn:`GET <Web/HTTP/Methods/GET>`
-- :mdn:`POST <Web/HTTP/Methods/POST>`
-- :mdn:`PUT <Web/HTTP/Methods/PUT>`
-- :mdn:`PATCH <Web/HTTP/Methods/PATCH>`
-- :mdn:`DELETE <Web/HTTP/Methods/DELETE>`
-
-.. _endpoint-authentication:
-
-Authentication
-~~~~~~~~~~~~~~
-
-
-
-.. _endpoint-authorization:
-
-Authorization
-~~~~~~~~~~~~~
-
 .. _endpoint-function:
 
 Endpoint Function
@@ -226,3 +182,140 @@ includes methods that you can call to configure the response.
                "Cache-Control",
                "min-fresh=60"
              )
+
+
+Endpoint Configuration
+----------------------
+
+.. _endpoint-route:
+
+Route
+~~~~~
+
+Every HTTPS endpoint has a unique route that serves as a name for the
+endpoint. Clients call an endpoint by specifying its route in the
+request URL.
+
+Routes names must begin with a forward slash (``/``) and may contain
+additional forward slashes to indicate a nested path.
+
+.. _endpoint-http-method:
+
+HTTP Method
+~~~~~~~~~~~
+
+You can configure an endpoint to accept only a specific :mdn:`HTTP
+method <Web/HTTP/Methods>` or allow any method and handle each type
+within the endpoint function.
+
+HTTPS endpoints support the following standard HTTP methods:
+
+- :mdn:`GET <Web/HTTP/Methods/GET>`
+- :mdn:`POST <Web/HTTP/Methods/POST>`
+- :mdn:`PUT <Web/HTTP/Methods/PUT>`
+- :mdn:`PATCH <Web/HTTP/Methods/PATCH>`
+- :mdn:`DELETE <Web/HTTP/Methods/DELETE>`
+
+.. _endpoint-authentication:
+
+Authentication
+~~~~~~~~~~~~~~
+
+TODO
+
+.. _endpoint-authorization:
+
+Authorization
+~~~~~~~~~~~~~
+
+You can configure authorization for each endpoint to determine whether
+or not an authenticated request is allowed to execute.
+
+HTTP endpoints always enforce :ref:`rules` in the context of the
+authenticated user that called the endpoint. In addition, you can
+specify a request validation scheme that requires incoming requests to
+incorporate a secret value.
+
+You can specify up to one of the following schemes:
+
+- :ref:`Secret Query Parameter <endpoint-secret-query-parameter>`
+
+- :ref:`Payload Signature Verification <endpoint-payload-signature-verification>`
+
+.. note::
+
+   For maximum security, programmatically generate the secret value
+   using a secure package such as the `Python secrets module
+   <https://docs.python.org/3/library/secrets.html>`__. Make sure that
+   you do not publish the secret or include it in your version control
+   system.
+
+.. _endpoint-secret-query-parameter:
+
+Secret Query Parameter
+~~~~~~~~~~~~~~~~~~~~~~
+
+The secret query parameter request validation option requires that
+incoming requests include the secret value as a `query parameter
+<https://en.wikipedia.org/wiki/Query_string>`_ appended to the end of
+the URL.
+
+Every request must include the secret value as the ``secret`` query parameter:
+
+.. code-block:: none
+
+   <endpoint URL>?secret=12345
+
+.. example::
+   
+   The following ``curl`` request uses secret query parameter validation
+   with the secret value ``12345``:
+
+   .. code-block:: shell
+
+      curl -X POST \
+           -H "Content-Type: application/json" \
+           -d '{ "message": "HELLO" }' \
+           https://data.mongodb-api.com/app/myapp-abcde/endpoint/testSecretQueryParam?secret=12345
+
+.. _endpoint-payload-signature-verification:
+
+Payload Signature Verification
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Payload signature verification requires that incoming requests include
+an HTTP header where the value is a hexadecimal-encoded :abbr:`HMAC
+(Hash-based Message Authentication Code)` SHA-256 hash generated from
+the request body and the secret value.
+   
+You could use the following function to generate the payload signature:
+
+.. code-block:: javascript
+
+   // Generate an HMAC request signature
+   exports = function signEndpointRequest(
+     secret, // the secret validation string e.g. 12345
+     body, // the endpoint request body e.g. { "message": "MESSAGE" }
+   ) {
+     return utils.crypto.hmac(EJSON.stringify(body), secret, "sha256", "hex");
+   }
+
+Every request must include a payload signature in the
+``Endpoint-Signature`` header:
+
+.. code-block:: none
+
+   Endpoint-Signature::sha256=<hex encoded hash>
+
+.. example::
+   
+   The following ``curl`` request demonstrates payload signature verification
+   with the secret value ``12345``:
+
+   .. code-block:: shell
+      
+      curl -X POST \
+        -H "Content-Type: application/json" \
+        -H "Endpoint-Signature::sha256=828ee180512eaf8a6229eda7eea72323f68e9c0f0093b11a578b0544c5777862" \
+        -d '{"message":"MESSAGE"}' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/testPayloadSignatureVerification

@@ -150,8 +150,7 @@ ref: specify-the-request-validation-method
 content: |
   You can configure a endpoint's request authorization method in the
   ``validation_method`` field of the endpoint configuration. Realm
-  supports the following :ref:`request validation methods
-  <endpoint-request-validation>`:
+  supports the following request validation methods:
 
   .. list-table::
      :header-rows: 1
@@ -172,9 +171,10 @@ content: |
        
      * - Verify Payload Signature
        - Incoming endpoint requests must include a hashed signature of
-         the request body and a secret value. For details, refer to
-         :ref:`Payload Signature Verification
-         <endpoint-verify-payload-signature>`.
+         the request body and a secret value.
+         
+         For details, see :ref:`Payload Signature Verification
+         <endpoint-payload-signature-verification>`.
 
          .. code-block:: json
             
@@ -185,8 +185,9 @@ content: |
        
      * - Require Secret
        - Incoming endpoint requests must include a secret string value as
-         the ``secret`` query parameter in the endpoint URL. For details,
-         refer to :ref:`Secret as a Query Parameter
+         the ``secret`` query parameter of the endpoint URL.
+         
+         For details, see :ref:`Secret Query Parameter
          <endpoint-secret-query-parameter>`.
 
          .. code-block:: json
