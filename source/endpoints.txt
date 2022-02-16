@@ -27,26 +27,71 @@ HTTPS Endpoints
 Introduction
 ------------
 
-Many modern applications use multiple external services to handle
-complex use cases, such as messaging, analytics, and data management.
-Those services often send data back by calling an HTTPS endpoint. You
-can create HTTPS endpoints in {+service+} for these external services to
-send data to your app.
+HTTPS endpoints are serverless functions that you call by sending
+requests from an HTTP client. An endpoint receives requests sent to a
+URL, runs a function that can access data from the request payload, and
+then returns a result back to the caller. You can use endpoints to
+define custom API routes for your app or webhooks that integrate with
+external services.
 
-{+app+} HTTPS endpoints are found at the following URL:
+Endpoints use standard, encrypted HTTPS requests which means that you
+don't need to install any database drivers or opinionated libraries to
+call them. Instead, you send requests like this from any HTTP client:
+
+.. code-block:: bash
+   
+   curl -X POST \
+        -H 'api-key: <API Key>' \
+        -H 'Content-Type: application/json' \
+        -d '{ "message": "Hello, world!" }' \
+        https://data.mongodb-api.com/app/myapp-abcde/endpoint/hello
+
+.. _endpoint-route:
+
+Endpoint Routes
+~~~~~~~~~~~~~~~
+
+Every HTTPS endpoint has a unique route that serves as a name for the
+endpoint. Clients call an endpoint by specifying its route in the
+request URL.
+
+Endpoint URLs include both your App ID and the endpoint's route:
 
 .. code-block::
 
    https://data.mongodb-api.com/app/<appId>/endpoint/<route>
 
+.. note::
+   
+   Routes names must begin with a forward slash (``/``) and may contain
+   additional forward slashes to indicate a nested path.
+
+.. _endpoint-http-method:
+
+HTTP Methods
+~~~~~~~~~~~~
+
+You can configure an endpoint to accept only a specific :mdn:`HTTP
+method <Web/HTTP/Methods>` or allow any method and handle each type
+within the endpoint function.
+
+HTTPS endpoints support the following standard HTTP methods:
+
+- :mdn:`GET <Web/HTTP/Methods/GET>`
+- :mdn:`POST <Web/HTTP/Methods/POST>`
+- :mdn:`PUT <Web/HTTP/Methods/PUT>`
+- :mdn:`PATCH <Web/HTTP/Methods/PATCH>`
+- :mdn:`DELETE <Web/HTTP/Methods/DELETE>`
+
 .. _endpoint-function:
 
-Endpoint Function
------------------
+Endpoint Functions
+~~~~~~~~~~~~~~~~~~
 
 Each HTTPS endpoint calls an associated :ref:`function <functions>` that
-takes the incoming request as its first argument and the response sent
-back to callers as the second argument:
+takes the incoming :ref:`request <endpoint-request-object>` as its first
+argument and the :ref:`response <endpoint-response-object>` sent back to
+callers as the second argument:
 
 .. code-block:: javascript
 
@@ -78,6 +123,7 @@ includes information about the incoming HTTP request that called the
 endpoint.
 
 .. code-block:: json
+   :caption: Endpoint Request Object
    
    {
      "query": { "<Query Parameter>": "<Parameter Value>" },
@@ -87,7 +133,7 @@ endpoint.
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 40 60
 
    * - Field
      - Description
@@ -114,7 +160,7 @@ includes methods that you can call to configure the response.
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 40 60
 
    * - Method
      - Description
@@ -187,59 +233,21 @@ includes methods that you can call to configure the response.
                "min-fresh=60"
              )
 
-
-Endpoint Configuration
-----------------------
-
-.. _endpoint-route:
-
-Route
-~~~~~
-
-Every HTTPS endpoint has a unique route that serves as a name for the
-endpoint. Clients call an endpoint by specifying its route in the
-request URL.
-
-Routes names must begin with a forward slash (``/``) and may contain
-additional forward slashes to indicate a nested path.
-
-.. _endpoint-http-method:
-
-HTTP Method
-~~~~~~~~~~~
-
-You can configure an endpoint to accept only a specific :mdn:`HTTP
-method <Web/HTTP/Methods>` or allow any method and handle each type
-within the endpoint function.
-
-HTTPS endpoints support the following standard HTTP methods:
-
-- :mdn:`GET <Web/HTTP/Methods/GET>`
-- :mdn:`POST <Web/HTTP/Methods/POST>`
-- :mdn:`PUT <Web/HTTP/Methods/PUT>`
-- :mdn:`PATCH <Web/HTTP/Methods/PATCH>`
-- :mdn:`DELETE <Web/HTTP/Methods/DELETE>`
-
 .. _endpoint-authentication:
 
 Authentication
-~~~~~~~~~~~~~~
+--------------
 
 Endpoint requests can run as either an unauthenticated system user or an
-application user.
-
-Endpoints use the same authentication settings as the underlying
-function that they call.
-
-Most endpoints use either system authentication or appplication
-authentication.
+application user. Most endpoints use either system authentication or
+appplication authentication.
 
 .. tip::
    
    New endpoints that you create in the UI use System authentication by default.
 
 System Authentication
-+++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~
 
 If the endpoint function is configured to run as the system user,
 incoming requests do not need to include any user credentials or tokens.
@@ -247,7 +255,7 @@ The endpoint will not enforce any :ref:`rules` or validate your
 :ref:`schemas`.
 
 Application Authentication
-++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If the endpoint function is configured to use application
 authentication, incoming requests must include one or more headers that
@@ -271,7 +279,7 @@ following configured authentication providers:
      :emphasize-lines: 2
   
      curl -X GET \
-        -H 'apiKey: <API Key>' \
+        -H 'api-key: <API Key>' \
         -H 'Content-Type: application/json' \
         https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
 
@@ -281,14 +289,14 @@ following configured authentication providers:
      :emphasize-lines: 2
   
      curl -X GET \
-        -H 'jwtTokenString: <External JSON Web Token>' \
+        -H 'jwtTokenString: <Custom JSON Web Token>' \
         -H 'Content-Type: application/json' \
         https://data.mongodb-api.com/app/myapp-abcde/endpoint/test
 
 .. _endpoint-authorization:
 
 Authorization
-~~~~~~~~~~~~~
+-------------
 
 You can configure authorization for each endpoint to determine whether
 or not an authenticated request is allowed to execute.
@@ -315,7 +323,7 @@ You can specify up to one of the following schemes:
 .. _endpoint-secret-query-parameter:
 
 Secret Query Parameter
-++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~
 
 The secret query parameter request validation option requires that
 incoming requests include the secret value as a `query parameter
@@ -343,7 +351,7 @@ Every request must include the secret value as the ``secret`` query parameter:
 .. _endpoint-payload-signature-verification:
 
 Payload Signature Verification
-++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Payload signature verification requires that incoming requests include
 an HTTP header where the value is a hexadecimal-encoded :abbr:`HMAC
