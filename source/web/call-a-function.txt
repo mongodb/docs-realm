@@ -20,12 +20,8 @@ You can call a :doc:`function </functions>` from a connected client application.
 The examples in this section demonstrate calling a simple function named
 ``sum`` that takes two arguments, adds them, and returns the result:
 
-.. code-block:: javascript
-
-   // sum: adds two numbers
-   exports = function(a, b) {
-     return a + b;
-   };
+.. literalinclude:: /examples/generated/web/call-a-function.test.codeblock.function.js
+   :language: javascript
 
 Usage
 -----
@@ -42,16 +38,12 @@ In the Node SDK you call functions as a logged in user with the
 Call a Function
 ~~~~~~~~~~~~~~~
 
-.. code-block:: javascript
-   
-   const result = await user.functions.sum(2, 3);
+.. literalinclude:: /examples/generated/web/call-a-function.test.codeblock.call-function.js
+   :language: javascript
 
 
 Call a Function Programmatically
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: javascript
-   
-   const functionName = "sum";
-   const args = [2, 3];
-   const result = await user.callFunction(functionName, args);
+.. literalinclude:: /examples/generated/web/call-a-function.test.codeblock.call-function-programmatically.js
+   :language: javascript
