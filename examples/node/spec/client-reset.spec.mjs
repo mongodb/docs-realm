@@ -1,132 +1,174 @@
 import Realm from "realm";
 import { ObjectId } from "bson";
 
-const REALM_APP_ID = "myapp-zufnj";
+const REALM_APP_ID = "sync_test-ytdqo";
 
 describe("Client Reset with Seamless Loss", () => {
   const DogSchema = {
-    name: "Doggo",
+    name: "Doggo3",
     properties: {
       _id: "objectId",
       name: "string",
       age: "int?",
+      _partition: "string",
     },
     primaryKey: "_id",
   };
-  it("Discard unsynced changes", async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+  afterEach(() => {
+    Realm.clearTestState();
+  });
+  xit("Discard unsynced changes", () => {
+    let beforeCalled = false;
+    let afterCalled = false;
     const app = new Realm.App({ id: REALM_APP_ID });
-    return app.logIn(new Realm.Credentials.anonymous()).then(async () => {
-      // :snippet-start: discard-unsynced-changes
-      const config = {
-        schema: [DogSchema],
-        sync: {
-          user: app.currentUser,
-          partitionValue: "MyPartitionValue",
-          clientReset: {
-            mode: "discardLocal",
-            clientResyncBefore: (realm) => {
-              console.log("Beginning client reset for ", realm.path);
+    return app.logIn(new Realm.Credentials.anonymous()).then(() => {
+      return new Promise((resolve, reject) => {
+        // :snippet-start: discard-unsynced-changes
+        const config = {
+          schema: [DogSchema],
+          sync: {
+            user: app.currentUser,
+            partitionValue: "MyPartitionValue",
+            clientReset: {
+              mode: "discardLocal",
+              clientResetBefore: (realm) => {
+                console.log("Beginning client reset for ", realm.path);
+                expect(realm.objects("Doggo3").length).toBe(2);
+                beforeCalled = true;
+              },
+              clientResetAfter: (beforeRealm, afterRealm) => {
+                console.log("Finished client reset for", beforeRealm.path);
+                console.log("New realm path", afterRealm.path);
+                afterCalled = true;
+                // TODO: change toBe from `null` to `2` once this block is entered
+                expect(afterRealm.objects("Doggo3").length).toBe(null); // :remove:
+              },
             },
-            clientResyncAfter: (beforeRealm, afterRealm) => {
-              console.log("Finished client reset for", beforeRealm.path);
-              console.log("New realm path", afterRealm.path);
-              expect(afterRealm.objects("Doggo").length).toBe(7); // :remove:
-            },
+            error: handleClientReset, // :remove:
           },
-          error: handleClientReset, // :remove:
-        },
-      };
-      // :snippet-end:
+        };
+        // :snippet-end:
+        function handleClientReset(sender, error) {
+          console.log(JSON.stringify(error, null, 2));
+          reject();
+        }
 
-      function handleClientReset(sender, error) {
-        console.log(JSON.stringify(error));
-        expect(error.code).toBe(211);
-        expect(error.name).toBe("ClientReset");
-        expect(error.message).toBe("Simulate Client Reset");
-      }
-      const realm = new Realm(config);
-      realm.write(() => {
-        realm.create("Doggo", {
-          _id: new ObjectId(),
-          name: "Chippy",
-          age: 12,
+        const realm = new Realm(config);
+        realm.write(() => {
+          realm.create("Doggo3", {
+            _id: new ObjectId(),
+            name: "Chippy",
+            age: 12,
+            _partition: "MyPartitionValue",
+          });
+          realm.create("Doggo3", {
+            _id: new ObjectId(),
+            name: "Jasper",
+            age: 11,
+            _partition: "MyPartitionValue",
+          });
         });
-        realm.create("Doggo", {
-          _id: new ObjectId(),
-          name: "Jasper",
-          age: 11,
+        realm.syncSession.uploadAllLocalChanges().then(async () => {
+          realm.write(() => {
+            realm.create("Doggo3", {
+              _id: new ObjectId(),
+              name: "Troy",
+              age: 15,
+              _partition: "MyPartitionValue",
+            });
+          });
+
+          realm.syncSession._simulateError(
+            211,
+            "Simulate Client Reset",
+            "realm::sync::ProtocolError",
+            false
+          );
+          setTimeout(() => {
+            expect(beforeCalled).toBe(true);
+            expect(afterCalled).toBe(true);
+            expect(realm.objects("Doggo3").length).toBe(2);
+          }, 0);
         });
       });
-      await realm.syncSession.uploadAllLocalChanges();
-      realm.write(() => {
-        realm.create("Doggo", {
-          _id: new ObjectId(),
-          name: "Troy",
-          age: 15,
-        });
-      });
-
-      await realm.syncSession._simulateError(
-        211,
-        "Simulate Client Reset",
-        "realm::sync::ProtocolError",
-        false
-      );
-      await new Promise((resolve) => setTimeout(resolve, 0));
-
-      // cleanup
-      realm.write(() => {
-        const doggos = realm.objects("Doggo");
-        realm.delete(doggos);
-      });
-      await realm.syncSession.uploadAllLocalChanges();
-
-      realm.close();
-      expect(realm.isClosed).toBe(true);
-      await app.deleteUser(app.currentUser);
-      Realm.clearTestState();
     });
   });
-  // it.skip("Discard unsynced changes after destructive schema changes", async () => {
-  //   let realm;
-  //   // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
-  //   // Once you have opened your Realm, you will have to keep a reference to it.
-  //   // In the error handler, this reference is called `realm`
-  //   async function handleSyncError(session, syncError) {
-  //     if (syncError.name == "ClientReset") {
-  //       const path = realm.path; // realm.path will no be accessible after realm.close()
-  //       realm.close();
-  //       Realm.App.Sync.initiateClientReset(app, path);
 
-  //       // Download Realm from the server.
-  //       // Ensure that the backend state is fully downloaded before proceeding,
-  //       // which is the default behavior.
-  //       realm = await Realm.open(config);
-  //       realm.close();
-  //     }
-  //   }
+  it("Discard unsynced changes after destructive schema changes", async () => {
+    return new Promise((resolve, reject) => {
+      let realm;
+      const app = new Realm.App({ id: REALM_APP_ID });
+      app.logIn(new Realm.Credentials.anonymous()).then(async () => {
+        // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
+        // Once you have opened your Realm, you will have to keep a reference to it.
+        // In the error handler, this reference is called `realm`
+        async function handleSyncError(session, syncError) {
+          console.error(JSON.stringify(syncError, null, 2));
+          if (syncError.name == "ClientReset") {
+            try {
+              console.log("error type  is ClientReset....");
+              const path = realm.path; // realm.path will no be accessible after realm.close()
+              realm.close();
+              Realm.App.Sync.initiateClientReset(app, path);
 
-  //   const config = {
-  //     schema: [DogSchema],
-  //     sync: {
-  //       user: app.currentUser,
-  //       partitionValue: "MyPartitionValue",
-  //       clientReset: {
-  //         mode: "discardLocal",
-  //         clientResyncBefore: (realm) => {
-  //           console.log("Beginning client reset for ", realm.path);
-  //         },
-  //         clientResyncAfter: (beforeRealm, afterRealm) => {
-  //           console.log("Finished client reset for", beforeRealm.path);
-  //           console.log("New realm path", afterRealm.path);
-  //         },
-  //       },
-  //       error: handleSyncError,
-  //     },
-  //   };
-  //   // :snippet-end:
-  //   realm = await Realm.open(config);
-  // });
+              // Download Realm from the server.
+              // Ensure that the backend state is fully downloaded before proceeding,
+              // which is the default behavior.
+              realm = await Realm.open(config);
+              expect(realm.isClosed).toBe(false);
+              realm.close();
+              resolve();
+            } catch (err) {
+              console.error(JSON.stringify(err, null, 2));
+              reject(err);
+            }
+          } else reject();
+        }
+
+        const config = {
+          schema: [DogSchema],
+          sync: {
+            user: app.currentUser,
+            partitionValue: "MyPartitionValue",
+            clientReset: {
+              mode: "discardLocal",
+              clientResetBefore: (realm) => {
+                // not used when destructive schema changes
+                console.log("Beginning client reset for ", realm.path);
+              },
+              clientResetAfter: (beforeRealm, afterRealm) => {
+                // not used when destructive schema changes
+                console.log("Finished client reset for", beforeRealm.path);
+                console.log("New realm path", afterRealm.path);
+              },
+            },
+            error: handleSyncError,
+          },
+        };
+        // :snippet-end:
+        Realm.open(config).then((openedRealm) => {
+          realm = openedRealm;
+          realm.write(() => {
+            realm.create("Doggo3", {
+              _id: new ObjectId(),
+              name: "Maggie",
+              age: 13,
+              _partition: "MyPartitionValue",
+            });
+          });
+          realm.syncSession.uploadAllLocalChanges().then(() => {
+            realm.syncSession._simulateError(
+              132,
+              "Simulate Client Reset",
+              "realm::sync::ProtocolError",
+              true
+            );
+          });
+        });
+      });
+    });
+  });
 });
 
 // describe("Manual client reset", () => {
