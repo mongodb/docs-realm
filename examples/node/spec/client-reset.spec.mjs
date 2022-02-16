@@ -14,11 +14,10 @@ describe("Client Reset with Seamless Loss", () => {
     },
     primaryKey: "_id",
   };
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
   afterEach(() => {
     Realm.clearTestState();
   });
-  xit("Discard unsynced changes", () => {
+  it("Discard unsynced changes", () => {
     let beforeCalled = false;
     let afterCalled = false;
     const app = new Realm.App({ id: REALM_APP_ID });
@@ -69,28 +68,28 @@ describe("Client Reset with Seamless Loss", () => {
             _partition: "MyPartitionValue",
           });
         });
-        realm.syncSession.uploadAllLocalChanges().then(async () => {
-          realm.write(() => {
-            realm.create("Doggo3", {
-              _id: new ObjectId(),
-              name: "Troy",
-              age: 15,
-              _partition: "MyPartitionValue",
-            });
-          });
+        // realm.syncSession.uploadAllLocalChanges().then(async () => {
+        //   realm.write(() => {
+        //     realm.create("Doggo3", {
+        //       _id: new ObjectId(),
+        //       name: "Troy",
+        //       age: 15,
+        //       _partition: "MyPartitionValue",
+        //     });
+        //   });
 
-          realm.syncSession._simulateError(
-            211,
-            "Simulate Client Reset",
-            "realm::sync::ProtocolError",
-            false
-          );
-          setTimeout(() => {
-            expect(beforeCalled).toBe(true);
-            expect(afterCalled).toBe(true);
-            expect(realm.objects("Doggo3").length).toBe(2);
-          }, 0);
-        });
+        realm.syncSession._simulateError(
+          211,
+          "Simulate Client Reset",
+          "realm::sync::ProtocolError",
+          false
+        );
+        setTimeout(() => {
+          expect(beforeCalled).toBe(true);
+          expect(afterCalled).toBe(true);
+          expect(realm.objects("Doggo3").length).toBe(2);
+        }, 100);
+        // });
       });
     });
   });
