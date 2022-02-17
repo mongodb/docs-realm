@@ -17,6 +17,10 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         syncConfig.objectTypes = [QsTask.self]
 
         let syncedRealm = try await Realm(configuration: syncConfig, downloadBeforeOpen: .always)
+        
+        try! syncedRealm.write {
+            syncedRealm.delete(syncedRealm.objects(QsTask.self))
+        }
 
         let task1 = QsTask(value: ["name": "Keep it secret", "owner": "Frodo"])
         let task2 = QsTask(value: ["name": "Keep it safe", "owner": "Frodo"])
@@ -68,7 +72,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // For this example, add some data to the local realm
         // before copying it. No need to do this if you're
         // copying a realm that already contains data.
-        let localRealm = bootstrapRealm(config: localConfig)
+        let localRealm = addExampleData(config: localConfig)
 
         // Create a copy of the local realm that uses the
         // sync configuration. All the data that is in the
@@ -113,7 +117,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // :hide-end:
 
         /// Populate the local realm with some data that we'll use in the synced realm.
-        func bootstrapRealm(config: Realm.Configuration) -> Realm {
+        func addExampleData(config: Realm.Configuration) -> Realm {
             // Prepare the configuration for the user whose local realm you
             // want to convert to a synced realm
             var localConfig = config
