@@ -70,6 +70,17 @@ specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
 
+.. important:: Object Links
+
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be nil.
+   There is no way to distinguish whether that property's value is 
+   legitimately nil, or whether the object it links to exists but is out of
+   view of the query subscription.
+   
+   You must add both the object and the linked object to the subscription 
+   set to see a linked object.
+
 .. _dotnet-sync-get-subscription:
 
 Get Subscriptions
