@@ -9,7 +9,8 @@ func testConvertLocalToSync() async throws {
     syncConfig.objectTypes = [QsTask.self]
     // Prepare the configuration for the user whose local realm you
     // want to convert to a synced realm
-    let localConfig = Realm.Configuration()
+    var localConfig = Realm.Configuration()
+    localConfig.objectTypes = [QsTask.self]
 
     // For this example, add some data to the local realm
     // before copying it. No need to do this if you're
@@ -56,9 +57,7 @@ func testConvertLocalToSync() async throws {
     func addExampleData(config: Realm.Configuration) -> Realm {
         // Prepare the configuration for the user whose local realm you
         // want to convert to a synced realm
-        var localConfig = config
-        localConfig.objectTypes = [QsTask.self]
-
+        let localConfig = config
         // Open the local realm, and populate it with some data before returning it
         let localRealm = try! Realm(configuration: localConfig)
 

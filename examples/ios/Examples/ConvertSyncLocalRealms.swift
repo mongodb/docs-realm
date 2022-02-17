@@ -17,7 +17,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         syncConfig.objectTypes = [QsTask.self]
 
         let syncedRealm = try await Realm(configuration: syncConfig, downloadBeforeOpen: .always)
-        
+
         try! syncedRealm.write {
             syncedRealm.delete(syncedRealm.objects(QsTask.self))
         }
@@ -67,7 +67,15 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         syncConfig.objectTypes = [QsTask.self]
         // Prepare the configuration for the user whose local realm you
         // want to convert to a synced realm
-        let localConfig = Realm.Configuration()
+        var localConfig = Realm.Configuration()
+        localConfig.objectTypes = [QsTask.self]
+        // :hide-start:
+        // Set a custom fileURL to prevent other tests using
+        // a default realm from causing this test to fail
+        localConfig.fileURL!.deleteLastPathComponent()
+        localConfig.fileURL!.appendPathComponent("nonSync")
+        localConfig.fileURL!.appendPathExtension("realm")
+        // :hide-end:
 
         // For this example, add some data to the local realm
         // before copying it. No need to do this if you're
@@ -120,8 +128,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         func addExampleData(config: Realm.Configuration) -> Realm {
             // Prepare the configuration for the user whose local realm you
             // want to convert to a synced realm
-            var localConfig = config
-            localConfig.objectTypes = [QsTask.self]
+            let localConfig = config
             // :hide-start:
             // Delete a local realm that may already exist
             // avoid messing up future test runs.
@@ -132,7 +139,6 @@ class ConvertSyncAndLocalRealms: XCTestCase {
                 print("No local realm currently exists")
             }
             // :hide-end:
-
             // Open the local realm, and populate it with some data before returning it
             let localRealm = try! Realm(configuration: localConfig)
 
