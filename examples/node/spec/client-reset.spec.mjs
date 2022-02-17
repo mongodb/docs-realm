@@ -41,7 +41,8 @@ describe("Client Reset with Seamless Loss", () => {
                 console.log("New realm path", afterRealm.path);
                 afterCalled = true;
                 // TODO: change toBe from `null` to `2` once this block is entered
-                expect(afterRealm.objects("Doggo3").length).toBe(null); // :remove:
+                expect(afterRealm.objects("Doggo3").length).toBe(2); // :remove:
+                console.log("hey kenneth");
               },
             },
             error: handleClientReset, // :remove:
@@ -52,44 +53,46 @@ describe("Client Reset with Seamless Loss", () => {
           console.log(JSON.stringify(error, null, 2));
           reject();
         }
+        let realm;
+        Realm.open(config).then((openedRealm) => {
+          realm = openedRealm;
+          realm.write(() => {
+            realm.create("Doggo3", {
+              _id: new ObjectId(),
+              name: "Chippy",
+              age: 12,
+              _partition: "MyPartitionValue",
+            });
+            realm.create("Doggo3", {
+              _id: new ObjectId(),
+              name: "Jasper",
+              age: 11,
+              _partition: "MyPartitionValue",
+            });
+          });
+          // realm.syncSession.uploadAllLocalChanges().then(async () => {
+          //   realm.write(() => {
+          //     realm.create("Doggo3", {
+          //       _id: new ObjectId(),
+          //       name: "Troy",
+          //       age: 15,
+          //       _partition: "MyPartitionValue",
+          //     });
+          //   });
 
-        const realm = new Realm(config);
-        realm.write(() => {
-          realm.create("Doggo3", {
-            _id: new ObjectId(),
-            name: "Chippy",
-            age: 12,
-            _partition: "MyPartitionValue",
-          });
-          realm.create("Doggo3", {
-            _id: new ObjectId(),
-            name: "Jasper",
-            age: 11,
-            _partition: "MyPartitionValue",
-          });
+          realm.syncSession._simulateError(
+            211,
+            "Simulate Client Reset",
+            "realm::sync::ProtocolError",
+            false
+          );
+          setTimeout(() => {
+            expect(beforeCalled).toBe(true);
+            expect(afterCalled).toBe(true);
+            expect(realm.objects("Doggo3").length).toBe(2);
+          }, 100);
+          // });
         });
-        // realm.syncSession.uploadAllLocalChanges().then(async () => {
-        //   realm.write(() => {
-        //     realm.create("Doggo3", {
-        //       _id: new ObjectId(),
-        //       name: "Troy",
-        //       age: 15,
-        //       _partition: "MyPartitionValue",
-        //     });
-        //   });
-
-        realm.syncSession._simulateError(
-          211,
-          "Simulate Client Reset",
-          "realm::sync::ProtocolError",
-          false
-        );
-        setTimeout(() => {
-          expect(beforeCalled).toBe(true);
-          expect(afterCalled).toBe(true);
-          expect(realm.objects("Doggo3").length).toBe(2);
-        }, 100);
-        // });
       });
     });
   });
@@ -106,7 +109,7 @@ describe("Client Reset with Seamless Loss", () => {
           console.error(JSON.stringify(syncError, null, 2));
           if (syncError.name == "ClientReset") {
             try {
-              console.log("error type  is ClientReset....");
+              console.log("error type is ClientReset....");
               const path = realm.path; // realm.path will no be accessible after realm.close()
               realm.close();
               Realm.App.Sync.initiateClientReset(app, path);
