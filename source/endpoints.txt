@@ -52,19 +52,15 @@ Endpoint Routes
 ~~~~~~~~~~~~~~~
 
 Every HTTPS endpoint has a unique route that serves as a name for the
-endpoint. Clients call an endpoint by specifying its route in the
-request URL.
+endpoint. Route names must begin with a forward slash (``/``) and may
+contain additional forward slashes to indicate a nested path.
 
-Endpoint URLs include both your App ID and the endpoint's route:
+Endpoint URLs include the endpoint's route:
 
-.. code-block::
+.. code-block:: none
+   :caption: Endpoint URL Format
 
    https://data.mongodb-api.com/app/<appId>/endpoint/<route>
-
-.. note::
-   
-   Routes names must begin with a forward slash (``/``) and may contain
-   additional forward slashes to indicate a nested path.
 
 .. _endpoint-http-method:
 
@@ -88,25 +84,49 @@ HTTPS endpoints support the following standard HTTP methods:
 Endpoint Functions
 ~~~~~~~~~~~~~~~~~~
 
-Each HTTPS endpoint calls an associated :ref:`function <functions>` that
-takes the incoming :ref:`request <endpoint-request-object>` as its first
-argument and the :ref:`response <endpoint-response-object>` sent back to
-callers as the second argument:
+Each request sent to an HTTPS endpoint calls an associated serverless
+:ref:`function <functions>` that handles the logic for the endpoint. The
+function runs your custom code and can import libraries from npm,
+connect to a linked MongoDB Atlas cluster, and call other serverless
+functions.
+
+.. tip::
+   
+   You define and edit endpoint handler functions on the
+   :guilabel:`Functions` page of the {+ui+} or in the :ref:`/functions
+   <appconfig-functions>` folder of an app configuration directory.
+
+Endpoint functions receive arguments that describe the incoming
+:ref:`request <endpoint-request-object>` and allow you to modify the
+:ref:`response <endpoint-response-object>` sent back to callers.
 
 .. code-block:: javascript
-
+   :caption: Endpoint function signature
+   
    exports = async function (request, response) {
-     // 1. Parse the incoming request
-     const bodyJson = JSON.parse(request.body.text());
-     // 2. Run the endpoint logic
-     await context.services
-       .get("mongodb-atlas")
-       .db("myDb")
-       .collection("myCollection")
-       .insertOne({ date: new Date(), requestBody: bodyJson });
-     // 3. Configure the response
-     response.setBody("Request was successful");
+     // ... your code here
    }
+
+.. example::
+   
+   This endpoint function parses the body of an incoming ``POST``
+   request, stores the parsed body in a MongoDB collection, and then
+   responds to the caller:
+
+   .. code-block:: javascript
+   
+      exports = async function (request, response) {
+        // 1. Parse the incoming request
+        const bodyJson = JSON.parse(request.body.text());
+        // 2. Run the endpoint logic
+        await context.services
+          .get("mongodb-atlas")
+          .db("myDb")
+          .collection("myCollection")
+          .insertOne({ date: new Date(), requestBody: bodyJson });
+        // 3. Configure the response
+        response.setBody("Request was successful");
+      }
 
 .. _endpoint-requests-and-responses:
 
