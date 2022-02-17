@@ -1,6 +1,5 @@
 import * as Realm from "realm-web";
-import ReactDOM from "react-dom";
-
+import TestRenderer from "react-test-renderer";
 import {
   ApolloClient,
   ApolloProvider,
@@ -36,7 +35,7 @@ describe("Set up Apollo Client", () => {
       cache: new InMemoryCache(),
     });
     // :snippet-end:
-    // TODO: test in react component
+    expect(client.link.options.uri).toBe(graphqlUri);
   });
 
   it("Set up app with user authentication and client", () => {
@@ -91,7 +90,12 @@ describe("Set up Apollo Client", () => {
     // :uncomment-end:
 
     // ... code to create the GraphQL client
-    ReactDOM.render(
+    // :uncomment-start:
+    // ReactDOM.render(
+    // :uncomment-end:
+    // :remove-start:
+    TestRenderer.create(
+      // :remove-end:
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>,
@@ -105,8 +109,9 @@ describe("Set up Apollo Client", () => {
         </div>
       );
     }
-
-    // TODO: test
+    expect(client.link.options.uri).toBe(
+      `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`
+    );
   });
 });
 
@@ -119,18 +124,19 @@ describe("Queries and mutations", () => {
   // import MovieList from "./MovieList";
   // :uncomment-end:
 
+  const ALL_MOVIES = gql`
+    query AllMovies {
+      movies {
+        _id
+        title
+        year
+        runtime
+      }
+    }
+  `;
   // Must be rendered inside of an ApolloProvider
   function Movies() {
-    const { loading, error, data } = useQuery(gql`
-        query AllMovies {
-          movies {
-            _id
-            title
-            year
-            runtime
-          }
-        }
-      `);
+    const { loading, error, data } = useQuery(ALL_MOVIES);
     if (loading) {
       return <div>loading</div>;
     }
@@ -139,6 +145,9 @@ describe("Queries and mutations", () => {
     }
     return <MovieList movies={data.movies} />;
   }
+  // :uncomment-start:
+  // export default Movies
+  // :uncomment-end:
   // :snippet-end:
 
   // :snippet-start: run-mutation
@@ -148,30 +157,32 @@ describe("Queries and mutations", () => {
   // import gql from "graphql-tag";
   // :uncomment-end:
 
+  const UPDATE_MOVIE_TITLE = gql`
+    mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) {
+      updateOneMovie(query: { title: $oldTitle }, set: { title: $newTitle }) {
+        title
+        year
+      }
+    }
+  `;
+
   // Must be rendered inside of an ApolloProvider
   function MovieList({ movies }) {
-    const [updateMovieTitle] = useMutation(gql`
-      mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) {
-        updateOneMovie(query: { title: $oldTitle }, set: { title: $newTitle }) {
-          title
-          year
-        }
-      }
-    `);
+    const [updateMovieTitle] = useMutation(UPDATE_MOVIE_TITLE);
     return (
       <ul>
         {movies.map((movie) => (
           <li key={movie._id}>
             <div>{movie.title}</div>
             <button
-              onClick={() =>
+              onClick={() => {
                 updateMovieTitle({
                   variables: {
                     oldTitle: movie.title,
                     newTitle: "Some New Title",
                   },
-                })
-              }
+                });
+              }}
             >
               Update Title
             </button>
@@ -180,39 +191,83 @@ describe("Queries and mutations", () => {
       </ul>
     );
   }
+  // :uncomment-start:
+  // export default MovieList
+  // :uncomment-end:
   // :snippet-end:
-  it("Run a Mutation", () => {
-    const mocks = [
-      {
-        request: {
-          query: AllMovies,
-        },
-        result: {
-          data: [
-            {
-              _id: 1,
-              name: "Saving Private Ryan",
-              year: 1997,
-              runtime: 169,
-            },
-            {
-              _id: 2,
-              name: "Dunkirk",
-              year: 2017,
-              runtime: 106,
-            },
-            {
-              _id: 3,
-              name: "Defiance",
-              year: 2008,
-              runtime: 137,
-            },
-          ],
+  const movies = [
+    {
+      _id: 1,
+      title: "Saving Private Ryan",
+      year: 1997,
+      runtime: 169,
+    },
+    {
+      _id: 2,
+      title: "Defiance",
+      year: 2008,
+      runtime: 137,
+    },
+    {
+      _id: 3,
+      title: "Dunkirk",
+      year: 2017,
+      runtime: 106,
+    },
+  ];
+  let clicked = false;
+  const mocks = [
+    {
+      request: {
+        query: ALL_MOVIES,
+      },
+      result: {
+        data: {
+          movies,
         },
       },
-    ];
-    return;
+    },
+    {
+      request: {
+        query: UPDATE_MOVIE_TITLE,
+        variables: {
+          oldTitle: "Saving Private Ryan",
+          newTitle: "Some New Title",
+        },
+      },
+      result: function () {
+        clicked = true;
+        return {
+          data: {
+            updateOneMovie: {
+              title: "Some New Title",
+              year: 1997,
+            },
+          },
+        };
+      },
+    },
+  ];
+
+  const component = TestRenderer.create(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <Movies />
+    </MockedProvider>
+  );
+  it("Run a query", async () => {
+    const tree = component.toJSON();
+    expect(tree.children).toContain("loading");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    const divs = await component.root.findAllByType("div");
+    expect(divs.length).toBe(3);
   });
 
-  it("Run a query", () => {});
+  it("Run a mutation", async () => {
+    await TestRenderer.act(async () => {
+      const buttons = await component.root.findAllByType("button");
+      buttons[0].props.onClick();
+    });
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    expect(clicked).toBe(true);
+  });
 });
