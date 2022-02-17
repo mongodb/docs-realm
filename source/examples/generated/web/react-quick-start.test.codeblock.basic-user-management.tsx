@@ -1,5 +1,5 @@
 // Create a component that displays the given user's details
-const UserDetail: React.FC<{ user: Realm.User }> = ({ user }) => {
+const UserDetail = ({ user }: { user: Realm.User }) => {
   return (
     <div>
       <h1>Logged in with anonymous id: {user.id}</h1>
@@ -8,9 +8,10 @@ const UserDetail: React.FC<{ user: Realm.User }> = ({ user }) => {
 };
 
 // Create a component that lets an anonymous user log in
-const Login: React.FC<{ setUser: (user: Realm.User) => void }> = ({
-  setUser,
-}) => {
+type LoginProps = {
+  setUser: (user: Realm.User) => void;
+};
+const Login = ({ setUser }: LoginProps) => {
   const loginAnonymous = async () => {
     const user: Realm.User = await app.logIn(Realm.Credentials.anonymous());
     setUser(user);

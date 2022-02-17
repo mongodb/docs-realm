@@ -7,7 +7,7 @@ const app = new Realm.App({ id: APP_ID });
 test("basic user management & app instantiation", () => {
   // :snippet-start: basic-user-management
   // Create a component that displays the given user's details
-  const UserDetail: React.FC<{ user: Realm.User }> = ({ user }) => {
+  const UserDetail = ({ user }: { user: Realm.User }) => {
     return (
       <div>
         <h1>Logged in with anonymous id: {user.id}</h1>
@@ -16,9 +16,10 @@ test("basic user management & app instantiation", () => {
   };
 
   // Create a component that lets an anonymous user log in
-  const Login: React.FC<{ setUser: (user: Realm.User) => void }> = ({
-    setUser,
-  }) => {
+  type LoginProps = {
+    setUser: (user: Realm.User) => void;
+  };
+  const Login = ({ setUser }: LoginProps) => {
     const loginAnonymous = async () => {
       const user: Realm.User = await app.logIn(Realm.Credentials.anonymous());
       setUser(user);
@@ -27,7 +28,7 @@ test("basic user management & app instantiation", () => {
   };
   // :snippet-end:
   // :snippet-start: create-export-app
-  const App: React.FC = () => {
+  const App = () => {
     // Keep the logged in Realm user in local state. This lets the app re-render
     // whenever the current user changes (e.g. logs in or logs out).
     const [user, setUser] = React.useState<Realm.User | null>(app.currentUser);
