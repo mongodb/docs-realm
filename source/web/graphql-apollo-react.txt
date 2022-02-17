@@ -85,33 +85,9 @@ Both hooks accept a query definition and additional options, including
 about the query's current execution status and data returned from the most
 recent execution.
 
-.. code-block:: javascript
+.. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.run-query.jsx
+  :language: javascript
 
-   import React from "react";
-   import { useQuery } from "@apollo/client";
-   import gql from "graphql-tag";
-   import MovieList from "./MovieList"
-   
-   // Must be rendered inside of an ApolloProvider
-   export default function Movies() {
-     const { loading, error, data } = useQuery(gql`
-       query AllMovies {
-         movies {
-           _id
-           title
-           year
-           runtime
-         }
-       }
-     `);
-     if(loading) {
-       return <div>loading</div>
-     }
-     if(error) {
-       return <div>encountered an error: {error}</div>
-     }
-     return <MovieList movies={data.movies} />
-   }
 
 .. _graphql-apollo-react-run-a-mutation:
 
@@ -131,41 +107,5 @@ The hook returns several objects in an array:
 - an object that includes information on the mutation's execution status and
   data returned from the most recent execution.
 
-.. code-block:: javascript
-   
-   import React from "react";
-   import { useMutation } from "@apollo/client";
-   import gql from "graphql-tag";
-   
-   // Must be rendered inside of an ApolloProvider
-   export default function MovieList({ movies }) {
-     const [updateMovieTitle] = useMutation(gql`
-       mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) {
-         updateOneMovie(query: { title: $oldTitle }, set: { title: $newTitle }) {
-           title
-           year
-         }
-       }
-     `);
-     return (
-       <ul>
-         {movies.map((movie) => (
-           <li key={movie._id}>
-             <div>{movie.title}</div>
-             <button
-               onClick={() =>
-                 updateMovieTitle({
-                   variables: {
-                     oldTitle: movie.title,
-                     newTitle: "Some New Title",
-                   },
-                 })
-               }
-             >
-               Update Title
-             </button>
-           </li>
-         ))}
-       </ul>
-     );
-   }
+.. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.run-mutation.jsx
+  :language: javascript
