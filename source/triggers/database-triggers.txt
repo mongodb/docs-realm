@@ -344,8 +344,8 @@ You can adjust the oplog size to keep the resume token for more time after a sus
 by :atlas:`scaling your {+atlas-short+} cluster </scale-cluster/>`. 
 Maintain an oplog size a few times greater than
 your cluster's peak oplog throughput (GB/hour) to reduce the risk of a 
-suspended trigger's resume token from dropping off the oplog 
-before its execution. 
+suspended trigger's resume token dropping off the oplog 
+before the trigger executes. 
 View your cluster's oplog throughput in the **Oplog GB/Hour** graph in the 
 :atlas:`{+atlas-short+} cluster metrics </monitor-cluster-metrics/>`. 
 
