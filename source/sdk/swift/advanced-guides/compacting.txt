@@ -29,7 +29,7 @@ file. In some situations, unused space may comprise a significant
 portion of a {+realm+} file. If file size grows large enough to 
 negatively impact performance, compact the {+realm+}. 
 
-.. tip:: Implement Compacting in Your Productin Application
+.. tip:: Implement Compacting in Your Production Application
 
    Every production application should implement a :swift-sdk:`shouldCompactOnLaunch 
    <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV21shouldCompactOnLaunchSbSi_SitcSgvp>` 
@@ -160,4 +160,4 @@ Summary
 
 - Compacting cannot occur if another process is accessing the {+realm+}.
 
-- You can compact a realm asynchronously when you use async/await syntax.
+- You can compact a realm in the background when you use async/await syntax.
