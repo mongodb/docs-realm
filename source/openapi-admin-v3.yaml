@@ -2876,6 +2876,105 @@ paths:
       responses:
         "204":
           description: No Content
+
+
+  "/groups/{groupId}/apps/{appId}/endpoints":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+    
+    get:
+      tags:
+        - endpoints
+      operationId: adminGetEndpoint
+      summary: Get an endpoint
+      description: Get a specific [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Endpoint"
+    
+    post:
+      tags:
+        - endpoints
+      operationId: adminCreateEndpoint
+      summary: Create an endpoint
+      description: Create a new [endpoint](https://docs.mongodb.com/realm/endpoints/).
+      requestBody:
+        description: A valid [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the new endpoint.
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Endpoint"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+
+  "/groups/{groupId}/apps/{appId}/endpoints/{endpointId}":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+      - "$ref": "#/components/parameters/EndpointId"
+    
+    get:
+      tags:
+        - endpoints
+      operationId: adminGetEndpoint
+      summary: Get an endpoint
+      description: Get a specific [endpoint configuration](https://docs.mongodb.com/realm/manage-apps/configure/config/http_endpoints/#appconfig-endpoints).
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+    
+    put:
+      tags:
+        - endpoints
+      operationId: adminModifyEndpoint
+      summary: Modify an endpoint.
+      description: Modify an existing [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
+      requestBody:
+        description: A valid, updated [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the endpoint.
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Endpoint"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+    
+    delete:
+      tags:
+        - endpoints
+      operationId: adminDeleteEndpoint
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                properties: {}
+
+
+
 components:
   parameters:
     AssetResourcePath:
@@ -3038,14 +3137,21 @@ components:
         type: string
     TriggerId:
       name: triggerId
-      description: The ObjectID of the trigger.
+      description: The trigger's `_id` ObjectID value.
       in: path
       required: true
       schema:
         type: string
     SchemaId:
       name: schemaId
-      description: The ObjectID of the schema.
+      description: The schema's `_id` ObjectID value.
+      in: path
+      required: true
+      schema:
+        type: string
+    EndpointId:
+      name: endpointId
+      description: The endpoint's `_id` ObjectID value.
       in: path
       required: true
       schema:
@@ -3301,6 +3407,36 @@ components:
                 description: |-
                   A list where each element is the name of a file that was changed in the
                   draft.
+    Endpoint:
+      type: object
+      properties:
+        route:
+          type: string
+        http_method:
+          type: string
+          enum:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "PATCH"
+            - "DELETE"
+            - "*"
+        function_name:
+          type: string
+        validation_method:
+          type: string
+          enum:
+            - "NO_VALIDATION"
+            - "SECRET_AS_QUERY_PARAM"
+            - "VERIFY_PAYLOAD"
+        respond_result:
+          type: boolean
+        fetch_custom_user_data:
+          type: boolean
+        create_user_on_auth:
+          type: boolean
+        disabled:
+          type: boolean
     Error:
       type: object
       properties:
@@ -3980,121 +4116,15 @@ tags:
   - name: apikeys
     description: API Key APIs
     x-displayName: API Key APIs
-  - name: billing
-    description: Billing APIs
-    x-displayName: Billing APIs
-  - name: secrets
-    description: Secrets APIs
-    x-displayName: Secrets APIs
   - name: apps
     description: Application-level APIs
     x-displayName: Application-level APIs
   - name: authproviders
     description: Auth Provider APIs
     x-displayName: Auth Provider APIs
-  - name: email
-    description: Email APIs
-    x-displayName: Email APIs
-  - name: functions
-    description: Functions APIs
-    x-displayName: Functions APIs
-  - name: logs
-    description: |
-      Logging APIs
-
-      ## Pagination with the Logging API
-
-      The Logging endpoint returns up to 100 log entries per page. If the
-      query matches more than 100 entries, the result will be
-      [paginated](https://en.wikipedia.org/wiki/Pagination). Such a result
-      will contain two pieces of information that you will need to request the
-      next page of entries for the same query: the `nextEndDate` and
-      `nextSkip` fields.
-
-      Paginated results always contain the `nextEndDate` field. A paginated
-      result will also contain the `nextSkip` field if the timestamp of the
-      first entry on the next page is identical to the timestamp of the last
-      entry on the current page.
-
-      To request the first page of up to 100 log entries, use the endpoint as
-      usual:
-
-      ```sh
-      curl --request GET \
-        --header 'Authorization: Bearer <access_token>' \
-        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs'
-      ```
-
-      To request the next page of up to 100 log entries, pass the values of
-      `nextEndDate` and `nextSkip` as the `end_date` and `skip` parameters,
-      respectively:
-
-      ```sh
-      curl --request GET \
-        --header 'Authorization: Bearer <access_token>' \
-        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs?end_date={nextEndDate of previous response}&skip={nextSkip of previous response}'
-      ```
-
-      Repeat this step to get more pages until the response does not have a
-      `nextEndDate` field. This signifies that you have reached the last page.
-
-      For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
-    x-displayName: Logging APIs
-  - name: log_forwarders
-    description: Log Forwarding APIs
-    x-displayName: Log Forwarding APIs
-  - name: notifications
-    description: Notifications APIs
-    x-displayName: Notifications APIs
-  - name: rules
-    description: Rules APIs
-    x-displayName: Rules APIs
-  - name: schemas
-    description: Schema APIs
-    x-displayName: Schema APIs
-  - name: security
-    description: Security APIs
-    x-displayName: Security APIs
-  - name: services
-    description: Services APIs
-    x-displayName: Services APIs
-  - name: sync
-    description: Sync APIs
-    x-displayName: Sync APIs
-  - name: users
-    description: Users APIs
-    x-displayName: Users APIs
-  - name: values
-    description: Values APIs
-    x-displayName: Values APIs
-  - name: webhooks
-    description: Incoming Webhook APIs
-    x-displayName: Incoming Webhook APIs
-  - name: triggers
-    description: Event Trigger APIs
-    x-displayName: Event Trigger APIs
-  - name: hosting
-    description: |
-      Static File Hosting APIs
-
-      ## Asset Metadata Document Example
-
-      Asset metadata documents describe hosted asset files.
-
-      ```json
-      {
-        "path": "<Asset Resource Path>",
-        "hash": "<Asset MD5 Checksum Hash>",
-        "size": <File size in bytes>,
-        "attrs": [
-            {
-              "name": "<Metadata Attribute Name>",
-              "value": "<Metadata Attribute Value>",
-            }
-        ]
-      }
-      ```
-    x-displayName: Static File Hosting APIs
+  - name: billing
+    description: Billing APIs
+    x-displayName: Billing APIs
   - name: deploy
     description: |
       Application Deployment APIs
@@ -4165,5 +4195,114 @@ tags:
   - name: dependencies
     description: Dependency APIs
     x-displayName: Dependency APIs
+  - name: email
+    description: Email APIs
+    x-displayName: Email APIs
+  - name: endpoints
+    description: Custom HTTPS Endpoint APIs
+    x-displayName: Custom HTTPS Endpoint APIs
+  - name: functions
+    description: Functions APIs
+    x-displayName: Functions APIs
+  - name: hosting
+    description: |
+      Static File Hosting APIs
+
+      ## Asset Metadata Document Example
+
+      Asset metadata documents describe hosted asset files.
+
+      ```json
+      {
+        "path": "<Asset Resource Path>",
+        "hash": "<Asset MD5 Checksum Hash>",
+        "size": <File size in bytes>,
+        "attrs": [
+            {
+              "name": "<Metadata Attribute Name>",
+              "value": "<Metadata Attribute Value>",
+            }
+        ]
+      }
+      ```
+    x-displayName: Static File Hosting APIs
+  - name: logs
+    description: |
+      Logging APIs
+
+      ## Pagination with the Logging API
+
+      The Logging endpoint returns up to 100 log entries per page. If the
+      query matches more than 100 entries, the result will be
+      [paginated](https://en.wikipedia.org/wiki/Pagination). Such a result
+      will contain two pieces of information that you will need to request the
+      next page of entries for the same query: the `nextEndDate` and
+      `nextSkip` fields.
+
+      Paginated results always contain the `nextEndDate` field. A paginated
+      result will also contain the `nextSkip` field if the timestamp of the
+      first entry on the next page is identical to the timestamp of the last
+      entry on the current page.
+
+      To request the first page of up to 100 log entries, use the endpoint as
+      usual:
+
+      ```sh
+      curl --request GET \
+        --header 'Authorization: Bearer <access_token>' \
+        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs'
+      ```
+
+      To request the next page of up to 100 log entries, pass the values of
+      `nextEndDate` and `nextSkip` as the `end_date` and `skip` parameters,
+      respectively:
+
+      ```sh
+      curl --request GET \
+        --header 'Authorization: Bearer <access_token>' \
+        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/logs?end_date={nextEndDate of previous response}&skip={nextSkip of previous response}'
+      ```
+
+      Repeat this step to get more pages until the response does not have a
+      `nextEndDate` field. This signifies that you have reached the last page.
+
+      For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
+    x-displayName: Logging APIs
+  - name: log_forwarders
+    description: Log Forwarding APIs
+    x-displayName: Log Forwarding APIs
+  - name: notifications
+    description: Notifications APIs
+    x-displayName: Notifications APIs
+  - name: rules
+    description: Rules APIs
+    x-displayName: Rules APIs
+  - name: schemas
+    description: Schema APIs
+    x-displayName: Schema APIs
+  - name: secrets
+    description: Secrets APIs
+    x-displayName: Secrets APIs
+  - name: security
+    description: Security APIs
+    x-displayName: Security APIs
+  - name: services
+    description: Services APIs
+    x-displayName: Services APIs
+  - name: sync
+    description: Sync APIs
+    x-displayName: Sync APIs
+  - name: triggers
+    description: Event Trigger APIs
+    x-displayName: Event Trigger APIs
+  - name: users
+    description: Users APIs
+    x-displayName: Users APIs
+  - name: values
+    description: Values APIs
+    x-displayName: Values APIs
+  - name: webhooks
+    description: "[Deprecated] Incoming Webhook APIs"
+    x-displayName: "[Deprecated] Incoming Webhook APIs"
 security:
   - tokenAuth: []
