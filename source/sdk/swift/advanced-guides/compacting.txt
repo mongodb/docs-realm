@@ -110,7 +110,7 @@ the UI thread. Your application should not compact every time you open
 a {+realm+}. Instead, try to optimize compacting so your application does 
 it just often enough to prevent the file size from growing too large. 
 If your application runs in a resource-constrained environment,
-you may want to compact when you reach a certain file size, or when the 
+you may want to compact when you reach a certain file size or when the 
 file size negatively impacts performance.
 
 These recommendations can help you start optimizing compaction for your 
@@ -127,7 +127,7 @@ application:
 These calculations might look like this in your ``shouldCompactOnLaunch`` 
 callback:
 
-.. code-block:: Swift
+.. code-block:: swift
 
    // Set a maxFileSize equal to 20MB in bytes
    let maxFileSize = 20 * 1024 * 1024
