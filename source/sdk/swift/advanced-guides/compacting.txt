@@ -120,9 +120,13 @@ application:
   size. If your average realm state size is 10MB, you might set the max 
   file size to 20MB or 40MB, depending on expected usage and device
   constraints.
-- As a starting point, compact realms when less than 50% of the realm file 
-  size is actually in use. After experimentation, you may find a different
-  percentage works best for your application.
+- As a starting point, compact realms when more than 50% of the realm file 
+  size is no longer in use. Divide the currently used bytes by the total 
+  file size to determine the percentage of space that is currently used. 
+  Then, check for that to be less than 50%. This means that greater than 
+  50% of your realm file size is unused space, and it is a good time to 
+  compact. After experimentation, you may find a different percentage 
+  works best for your application.
 
 These calculations might look like this in your ``shouldCompactOnLaunch`` 
 callback:
