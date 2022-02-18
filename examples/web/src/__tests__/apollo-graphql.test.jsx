@@ -90,6 +90,7 @@ describe("Set up Apollo Client", () => {
     // :uncomment-end:
 
     // ... code to create the GraphQL client
+
     // :uncomment-start:
     // ReactDOM.render(
     // :uncomment-end:

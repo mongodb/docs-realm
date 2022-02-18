@@ -9,6 +9,7 @@ import {
 } from "@apollo/client";
 
 // ... code to create the GraphQL client
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
