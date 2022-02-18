@@ -1,8 +1,8 @@
-.. _node-create-and-delete-users:
+.. _react-native-create-and-delete-users:
 
-==================================
-Create and Delete Users - Node SDK
-==================================
+==========================================
+Create and Delete Users - React Native SDK
+==========================================
 
 .. default-domain:: mongodb
 
@@ -12,7 +12,7 @@ Create and Delete Users - Node SDK
    :depth: 2
    :class: singlecol
 
-.. _node-create-user:
+.. _react-native-create-user:
 
 Create a User
 -------------
@@ -21,11 +21,11 @@ For most :ref:`authentication methods <authentication-providers>`, Realm
 automatically creates a :ref:`user object <user-objects>` the first time 
 a user authenticates. The only exception is email/password authentication. 
 When you use email/password authentication, you must :ref:`register 
-<node-register-new-user>` and :ref:`confirm 
-<node-complete-confirmation>` a user before the user can 
+<react-native-register-new-user>` and :ref:`confirm 
+<react-native-complete-confirmation>` a user before the user can 
 authenticate to a Realm application.
 
-.. _node-delete-user:
+.. _react-native-delete-user:
 
 Delete a User
 -------------
@@ -43,7 +43,7 @@ the user from your Realm application.
 
    Deleting a user only deletes the user object, which may contain associated 
    metadata from the associated auth provider. This does not delete :ref:`custom 
-   user data <node-access-custom-user-data>` or user-entered data from your 
+   user data <react-native-access-custom-user-data>` or user-entered data from your 
    application. 
    
    Apple :apple:`requires that you disclose data retention 
