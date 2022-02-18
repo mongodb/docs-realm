@@ -60,6 +60,8 @@ client with calls to an HTTP library like :npm:`node-fetch
      return response.data
    }
 
+.. _migrate-twilio-to-npm:
+
 Twilio Service
 --------------
 
@@ -87,11 +89,13 @@ functions and pass them to the SDK.
    :caption: After
    
    exports = async function() {
-     // Your Account SID and Auth Token from www.twilio.com/console
-     const accountSid = context.values.get("TwilioAccountSID");
-     const authToken = context.values.get("TwilioAuthToken");
-     const twilioClient = require("twilio"); // require calls must be in exports function
-     const twilio = new twilioClient(accountSid, authToken);
+     // Note: require calls must be in the exported function
+     const twilio = require('twilio')(
+       // Your Account SID and Auth Token from https://www.twilio.com/console
+       // Specify the same Twilio credentials as the service configuration
+       context.values.get("TwilioAccountSID"),
+       context.values.get("TwilioAuthToken"),
+     )
      await twilio.messages.create({
        to: "+15558675309",
        from: "+15551234567",

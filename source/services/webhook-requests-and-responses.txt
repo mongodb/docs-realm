@@ -19,7 +19,6 @@ Depending on the service, :ref:`incoming webhooks <incoming-webhooks>`
 offer several ways to validate requests and customize the response that
 {+service+} sends back to the external service.
 
-.. _request-validation-methods:
 .. _webhook-request-validation:
 
 Request Validation Methods
@@ -53,8 +52,6 @@ requires that incoming requests include a hexadecimal-encoded
 :abbr:`HMAC (Hash-based Message Authentication Code)` SHA-256 hash
 generated from the request body and ``secret`` string in the
 ``X-Hook-Signature`` header.
-
-.. _example-payload-signature:
 
 .. example::
 
@@ -105,8 +102,6 @@ The :guilabel:`Require Secret as Query Param` request validation option
 requires that incoming requests include the specified ``secret`` string
 as a `query parameter <https://en.wikipedia.org/wiki/Query_string>`_
 appended to the end of the URL.
-
-.. _example-secret-query-parameter:
 
 .. example::
 
