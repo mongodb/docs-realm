@@ -46,7 +46,7 @@ func testConvertLocalToSync() async throws {
     // Open the local realm, and confirm that it still only contains 3 tasks
     let openedLocalRealm = try await Realm(configuration: localConfig)
     let localTasks = openedLocalRealm.objects(QsTask.self)
-    var frodoLocalTasks = localTasks.where { $0.owner == "Frodo" }
+    let frodoLocalTasks = localTasks.where { $0.owner == "Frodo" }
     XCTAssertEqual(frodoLocalTasks.count, 3)
     print("Local realm opens and contains this many tasks: \(frodoLocalTasks.count)")
 

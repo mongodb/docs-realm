@@ -31,30 +31,6 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         }
     }
 
-    override func tearDown() async throws {
-        // Delete synced realm tasks. This applies to the two
-        // examples that start with synced realms; the one that
-        // starts with a local realm deletes its own data and uses
-        // a different partition value
-        let app = App(id: YOUR_REALM_APP_ID)
-
-        // Log in the user whose realm you want to open as a synced realm
-        let syncUser = try await app.login(credentials: Credentials.anonymous)
-
-        // Create a configuration to open the sync user's realm
-        var syncConfig = syncUser.configuration(partitionValue: "Some Partition Value")
-        syncConfig.objectTypes = [QsTask.self]
-
-        let syncedRealm = try await Realm(configuration: syncConfig, downloadBeforeOpen: .always)
-        let syncedTasks = syncedRealm.objects(QsTask.self)
-
-        try syncedRealm.write {
-            syncedRealm.delete(syncedTasks)
-        }
-
-        print("Successfully deleted all synced tasks")
-    }
-
     // :code-block-start: convert-local-to-sync
     func testConvertLocalToSync() async throws {
         let app = App(id: YOUR_REALM_APP_ID)
@@ -111,7 +87,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // Open the local realm, and confirm that it still only contains 3 tasks
         let openedLocalRealm = try await Realm(configuration: localConfig)
         let localTasks = openedLocalRealm.objects(QsTask.self)
-        var frodoLocalTasks = localTasks.where { $0.owner == "Frodo" }
+        let frodoLocalTasks = localTasks.where { $0.owner == "Frodo" }
         XCTAssertEqual(frodoLocalTasks.count, 3)
         print("Local realm opens and contains this many tasks: \(frodoLocalTasks.count)")
 
