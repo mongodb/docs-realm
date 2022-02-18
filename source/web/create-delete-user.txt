@@ -1,0 +1,53 @@
+.. _web-create-and-delete-users:
+
+========================
+Create and Delete a User
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _web-create-user:
+
+Create a User
+-------------
+
+For most :ref:`authentication methods <authentication-providers>`, Realm 
+automatically creates a :ref:`user object <user-objects>` the first time 
+a user authenticates. The only exception is email/password authentication. 
+When you use email/password authentication, you must :ref:`register 
+<web-email-password-register-new-user>` and :ref:`confirm 
+<web-email-password-complete-confirmation>` a user before the user can 
+authenticate to a Realm application.
+
+.. _web-delete-user:
+
+Delete a User
+-------------
+
+.. versionadded:: 10.13.0
+
+Call your {+app+}'s ``.deleteUser()`` method on a user object to delete 
+the user from your Realm application.
+
+.. literalinclude:: /examples/generated/node/authenticate.codeblock.delete-user.js
+   :language: javascript
+
+
+.. important:: Deleting All User Data
+
+   Deleting a user only deletes the user object, which may contain associated 
+   metadata from the associated auth provider. This does not delete :ref:`custom 
+   user data <web-access-custom-user-data>` or user-entered data from your 
+   application. 
+   
+   Apple :apple:`requires that you disclose data retention 
+   and deletion policies <app-store/review/guidelines/#5.1.1>` to your 
+   application customers and give them a way to request user data deletion.
+   If you collect additional user data, you must implement your own methods 
+   or processes to delete that data.
