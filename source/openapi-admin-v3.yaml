@@ -2886,9 +2886,9 @@ paths:
     get:
       tags:
         - endpoints
-      operationId: adminGetEndpoint
-      summary: Get an endpoint
-      description: Get a specific [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
+      operationId: adminGetAllEndpoints
+      summary: Get all endpoints
+      description: Get all [endpoint](https://docs.mongodb.com/realm/endpoints/) configurations.
       responses:
         "200":
           description: Ok
@@ -2944,7 +2944,7 @@ paths:
       tags:
         - endpoints
       operationId: adminModifyEndpoint
-      summary: Modify an endpoint.
+      summary: Modify an endpoint
       description: Modify an existing [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
       requestBody:
         description: A valid, updated [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the endpoint.
@@ -2965,6 +2965,7 @@ paths:
       tags:
         - endpoints
       operationId: adminDeleteEndpoint
+      summary: Delete an endpoint
       responses:
         "200":
           description: Ok
