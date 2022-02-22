@@ -125,7 +125,7 @@ You can add queries to your subscriptions list. To do so, perform the following:
 
 .. tabs::
 
-   .. tab:: Asynchronously Add a Query to the List Of Subscriptions
+   .. tab:: Asynchronously Add a Query
       :tabid: asynchronous-add-a-query-to-subscriptions
 
       You can asynchronously add a single query, or multiple queries within a ``subscription.update``
@@ -136,12 +136,12 @@ You can add queries to your subscriptions list. To do so, perform the following:
           :language: javascript
 
    
-   .. tab:: Synchronously Add a Query to the List Of Subscriptions
+   .. tab:: Synchronously Add a Query
       :tabid: synchronous-add-a-query-to-subscriptions
 
-      Alternatively, you can synchronously call the ``subscriptions.update()``
-      method, but this requires you to call the :ref:`waitForSynchronization
-      <node-flexible-sync-wait-for-sync>` method afterward.
+      You can synchronously add a single query, or multiple queries within a ``subscriptions.update()``
+      transaction. If you synchronously add queries, you must call the :ref:`waitForSynchronization
+      <react-native-flexible-sync-wait-for-sync>` method afterward.
       
       .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
           :language: javascript      
@@ -156,6 +156,8 @@ If ``throwOnUpdate`` is false or undefined, adding a subscription with an
 existing name will replace the existing query with the new query. However, if
 you set ``throwOnUpdate`` to true, adding a subscription with an existing name
 but a different query throws an exception.
+
+.. _react-native-flexible-sync-wait-for-sync:
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

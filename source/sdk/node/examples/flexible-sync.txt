@@ -123,19 +123,28 @@ You can add queries to your subscriptions list. To do so, perform the following:
 #. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
 #. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
-You can asynchronously add a single query, or multiple queries within a ``subscription.update``
-transaction. In the example below, we subscribe to the queries we created
-earlier. 
+.. tabs::
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields-await-form.js
-    :language: javascript
+   .. tab:: Asynchronously Add a Query
+      :tabid: asynchronous-add-a-query-to-subscriptions
 
-Alternatively, you can synchronously call the ``subscriptions.update()``
-method, but this requires you to call the :ref:`waitForSynchronization
-<node-flexible-sync-wait-for-sync>` method afterward.
+      You can asynchronously add a single query, or multiple queries within a ``subscription.update``
+      transaction. In the example below, we subscribe to the queries we created
+      earlier. 
+  
+      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields-await-form.js
+          :language: javascript
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
-    :language: javascript
+   
+   .. tab:: Synchronously Add a Query
+      :tabid: synchronous-add-a-query-to-subscriptions
+
+      You can synchronously add a single query, or multiple queries within a ``subscriptions.update()``
+      transaction. If you synchronously add queries, you must call the :ref:`waitForSynchronization
+      <node-flexible-sync-wait-for-sync>` method afterward.
+      
+      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
+          :language: javascript      
 
 The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
 subscription options object. The subscription options include:
