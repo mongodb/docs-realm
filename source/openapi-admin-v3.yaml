@@ -156,7 +156,7 @@ paths:
                     type: string
                     description: |
                       A refresh token you may provide in the `Authorization` header of 
-                      [POST auth/session](#section/)
+                      [POST auth/session](#section/adminCreateSession)
                       to obtain a new `access_token` for the current user session.
                   user_id:
                     type: string
@@ -185,19 +185,11 @@ paths:
               schema:
                 "$ref": "#/components/schemas/RealmProfile"
   "/auth/session":
-    delete:
-      tags:
-        - admin
-      operationId: adminDeleteSession
-      summary: Delete a Realm access token
-      responses:
-        "401":
-          description: "invalid refresh token: incorrect token type"
     post:
       tags:
         - admin
       operationId: adminCreateSession
-      summary: Obtain a Realm access token
+      summary: Obtain a session access token
       responses:
         "201":
           description: Successfully created.
@@ -209,6 +201,14 @@ paths:
                     type: string
       security:
         - refreshAuth: []
+    delete:
+      tags:
+        - admin
+      operationId: adminDeleteSession
+      summary: Delete a session access token
+      responses:
+        "401":
+          description: "invalid refresh token: incorrect token type"
   "/groups/{groupId}/apps":
     get:
       tags:
@@ -1278,9 +1278,9 @@ paths:
       tags:
         - email
       operationId: adminRerunPendingUserConfirmation
-      summary: Re-runs a pending user's confirmation workflow
+      summary: Rerun a user confirmation workflow
       description: |-
-        Re-runs a pending user's [confirmation workflow](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
+        Reruns a pending user's [confirmation workflow](https://docs.mongodb.com/realm/authentication#std-label-user-accounts).
       responses:
         "202":
           description: Successfully re-ran confirmation workflow.
@@ -4112,24 +4112,23 @@ components:
                 description: A message describing the error.
 tags:
   - name: admin
-    description: Realm Administrator APIs
-    x-displayName: Realm Administrator APIs
+    x-displayName: Administrator
+    description: Log in and adminstrate Realm apps.
   - name: apikeys
-    description: API Key APIs
-    x-displayName: API Key APIs
+    x-displayName: API Keys
+    description: View and manage API keys through the [API Key provider](https://docs.mongodb.com/realm/authentication/api-key/).
   - name: apps
-    description: Application-level APIs
-    x-displayName: Application-level APIs
+    x-displayName: Applications
+    description: View and manage applications in an Atlas project.
   - name: authproviders
-    description: Auth Provider APIs
-    x-displayName: Auth Provider APIs
+    x-displayName: Authentication Providers
+    description: View and manage [authentication providers](https://docs.mongodb.com/realm/authentication/providers/).
   - name: billing
-    description: Billing APIs
-    x-displayName: Billing APIs
+    x-displayName: Billing
+    description: View billed usage of your applications.
   - name: deploy
+    x-displayName: Deployment
     description: |
-      Application Deployment APIs
-
       ## Draft and Deploy a Group of Changes
 
       You can [deploy](https://docs.mongodb.com/realm/manage-apps/deploy#std-label-application-deployment) a
@@ -4190,23 +4189,19 @@ tags:
       in the `Deployment` page. You can use the download to deploy your
       changes in the `realm-cli` or as a reference as you reapply changes in
       the UI.
-
-    x-displayName: Application Deployment APIs
   - name: dependencies
-    description: Dependency APIs
-    x-displayName: Dependency APIs
-  - name: email
-    description: Email APIs
-    x-displayName: Email APIs
+    x-displayName: Dependencies
+    description: Manage your application's [external dependencies](https://docs.mongodb.com/realm/functions/add-external-dependencies/).
   - name: endpoints
-    description: Custom HTTPS Endpoint APIs
-    x-displayName: Custom HTTPS Endpoint APIs
+    x-displayName: Endpoints
+    description: View and manage your app's custom [HTTPS endpoints](https://docs.mongodb.com/realm/endpoints/).
   - name: functions
-    description: Functions APIs
-    x-displayName: Functions APIs
+    x-displayName: Functions
+    description: View and manage your app's [functions](https://docs.mongodb.com/realm/functions/).
   - name: hosting
+    x-displayName: Hosting
     description: |
-      Static File Hosting APIs
+      Manage your application's [hosted files](https://docs.mongodb.com/realm/hosting/).
 
       ## Asset Metadata Document Example
 
@@ -4225,10 +4220,10 @@ tags:
         ]
       }
       ```
-    x-displayName: Static File Hosting APIs
   - name: logs
+    x-displayName: Logs
     description: |
-      Logging APIs
+      Access your application's [logs](https://docs.mongodb.com/realm/logs/).
 
       ## Pagination with the Logging API
 
@@ -4267,42 +4262,44 @@ tags:
       `nextEndDate` field. This signifies that you have reached the last page.
 
       For more information, see [GET /groups/{groupId}/apps/{appId}/logs](#section/adminGetLogs).
-    x-displayName: Logging APIs
   - name: log_forwarders
-    description: Log Forwarding APIs
-    x-displayName: Log Forwarding APIs
-  - name: notifications
-    description: Notifications APIs
-    x-displayName: Notifications APIs
+    x-displayName: Log Forwarding
+    description: View and manage your application's [log forwarders](https://docs.mongodb.com/realm/logs/forward-logs/).
   - name: rules
-    description: Rules APIs
-    x-displayName: Rules APIs
+    x-displayName: Rules
+    description: View and manage your application's [data access rules](https://docs.mongodb.com/realm/rules/).
   - name: schemas
-    description: Schema APIs
-    x-displayName: Schema APIs
+    x-displayName: Schemas
+    description: View and manage your application's [schemas](https://docs.mongodb.com/realm/schemas/).
   - name: secrets
-    description: Secrets APIs
-    x-displayName: Secrets APIs
+    x-displayName: Secrets
+    description: View and manage your application's [secrets](https://docs.mongodb.com/realm/values-and-secrets/).
   - name: security
-    description: Security APIs
-    x-displayName: Security APIs
+    x-displayName: Security
+    description: Configure your application's [security](https://docs.mongodb.com/realm/manage-apps/secure/).
   - name: services
-    description: Services APIs
-    x-displayName: Services APIs
+    x-displayName: Services
+    description: View and manage your application's [services](https://docs.mongodb.com/realm/services/).
   - name: sync
-    description: Sync APIs
-    x-displayName: Sync APIs
+    x-displayName: Sync
+    description: Get information about [sync](https://docs.mongodb.com/realm/sync/) for your application.
   - name: triggers
-    description: Event Trigger APIs
-    x-displayName: Event Trigger APIs
+    x-displayName: Triggers
+    description: View and manage your application's [triggers](https://docs.mongodb.com/realm/triggers/).
   - name: users
-    description: Users APIs
-    x-displayName: Users APIs
+    x-displayName: Users
+    description: View and manage your application's [users](https://docs.mongodb.com/realm/authentication/).
+  - name: email
+    x-displayName: User Confirmation
+    description: Confirm pending users with the built-in email confirmation flow.
   - name: values
-    description: Values APIs
-    x-displayName: Values APIs
+    x-displayName: Values
+    description: View and manage your application's [values](https://docs.mongodb.com/realm/values-and-secrets/).
+  - name: notifications
+    x-displayName: "[Deprecated] Push Notifications"
+    description: View and manage your application's [push notifications](https://docs.mongodb.com/realm/push-notifications/).
   - name: webhooks
-    description: "[Deprecated] Incoming Webhook APIs"
-    x-displayName: "[Deprecated] Incoming Webhook APIs"
+    x-displayName: "[Deprecated] Webhooks"
+    description: View and manage your application's [webhooks](https://docs.mongodb.com/realm/services/configure/service-webhooks/).
 security:
   - tokenAuth: []
