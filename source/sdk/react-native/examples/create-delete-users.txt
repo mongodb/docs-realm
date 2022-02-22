@@ -32,8 +32,9 @@ Delete a User
 
 .. versionadded:: 10.13.0
 
-Call your {+app+}'s ``.deleteUser()`` method on a user object to delete 
-the user from your Realm application.
+Call :js-sdk:`App.deleteUser() <Realm.App.html#deleteUser>` method on a user object to delete 
+the user object from your Realm application. This deletes the object from
+the server in addition to clearing local data.
 
 .. literalinclude:: /examples/generated/node/authenticate.codeblock.delete-user.js
    :language: javascript

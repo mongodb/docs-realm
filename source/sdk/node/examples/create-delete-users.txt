@@ -32,8 +32,9 @@ Delete a User
 
 .. versionadded:: 10.13.0
 
-Call your {+app+}'s ``.deleteUser()`` method on a user object to delete 
-the user from your Realm application.
+Call :js-sdk:`App.deleteUser() <Realm.App.html#deleteUser>` on a user object to delete 
+the user object from your Realm application. This deletes the object from
+the server in addition to clearing local data.
 
 .. literalinclude:: /examples/generated/node/authenticate.codeblock.delete-user.js
    :language: javascript
@@ -45,9 +46,3 @@ the user from your Realm application.
    metadata from the associated auth provider. This does not delete :ref:`custom 
    user data <node-access-custom-user-data>` or user-entered data from your 
    application. 
-   
-   Apple :apple:`requires that you disclose data retention 
-   and deletion policies <app-store/review/guidelines/#5.1.1>` to your 
-   application customers and give them a way to request user data deletion.
-   If you collect additional user data, you must implement your own methods 
-   or processes to delete that data.
