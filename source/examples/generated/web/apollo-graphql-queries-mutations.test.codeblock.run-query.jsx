@@ -1,7 +1,3 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
-import MovieList from "./MovieList";
 
 const ALL_MOVIES = gql`
   query AllMovies {
@@ -24,4 +20,3 @@ function Movies() {
   }
   return <MovieList movies={data.movies} />;
 }
-export default Movies

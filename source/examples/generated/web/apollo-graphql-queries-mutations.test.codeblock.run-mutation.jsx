@@ -1,7 +1,3 @@
-import React from "react";
-import { useMutation } from "@apollo/client";
-import gql from "graphql-tag";
-
 const UPDATE_MOVIE_TITLE = gql`
   mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) {
     updateOneMovie(query: { title: $oldTitle }, set: { title: $newTitle }) {
@@ -36,4 +32,3 @@ function MovieList({ movies }) {
     </ul>
   );
 }
-export default MovieList

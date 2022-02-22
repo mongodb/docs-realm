@@ -17,6 +17,15 @@ content: |
      
      npm install @apollo/client graphql
 ---
+title: Import dependencies
+ref: import-apollo-graph-ql-client-realm
+content: |
+  Import the necessary dependencies from ``realm-web`` and ``@apollo/client`` to 
+  create your Apollo GraphQL client and add authentication with Realm. 
+
+  .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.apollo-realm-imports.jsx
+     :language: javascript
+---
 title: Create an Apollo GraphQL Client
 ref: create-an-apollo-graph-ql-client
 content: |
@@ -25,7 +34,7 @@ content: |
   endpoint URL based on your Realm App ID or find it on the GraphQL page of the
   Realm UI.
 
-  .. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.create-apollo-client.jsx
+  .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.create-apollo-client.jsx
      :language: javascript
 ---
 title: Set Up User Authentication
@@ -43,7 +52,7 @@ content: |
   Web SDK <web-intro>`. The Apollo ``HttpLink`` object allows you to add custom
   headers to every request by defining a custom ``fetch`` function.
 
-  .. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.set-up-user-auth.jsx
+  .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.set-up-user-auth.jsx
      :language: javascript
      :emphasize-lines: 17, 27-31
 

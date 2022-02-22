@@ -1,6 +1,3 @@
-import * as Realm from "realm-web";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-
 // Add your Realm App ID
 const graphqlUri = `https://realm.mongodb.com/api/client/v2.0/app/${APP_ID}/graphql`;
 // Local apps should use a local URI!

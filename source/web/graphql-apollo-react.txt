@@ -55,6 +55,12 @@ To define queries and mutations that you can pass to the hooks, install
    
    npm install graphql-tag
 
+Import the hooks you're using and the GraphQL query constructor at the top of 
+the file where you're using the hooks. 
+
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.import-dependencies-query.jsx
+  :language: javascript
+
 .. note:: Apollo Hooks Must Have An ApolloProvider
    
    Components that call the query and mutation hooks must be descendants of the
@@ -85,7 +91,7 @@ Both hooks accept a query definition and additional options, including
 about the query's current execution status and data returned from the most
 recent execution.
 
-.. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.run-query.jsx
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.run-query.jsx
   :language: javascript
 
 
@@ -107,5 +113,5 @@ The hook returns several objects in an array:
 - an object that includes information on the mutation's execution status and
   data returned from the most recent execution.
 
-.. literalinclude:: /examples/generated/web/apollo-graphql.test.codeblock.run-mutation.jsx
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.run-mutation.jsx
   :language: javascript
