@@ -123,17 +123,6 @@ You can add queries to your subscriptions list. To do so, perform the following:
 #. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
 #. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
-The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
-subscription options object. The subscription options include:
-
-- a ``name`` string field
-- a ``throwOnUpdate`` boolean field.
-
-If ``throwOnUpdate`` is false or undefined, adding a subscription with an
-existing name will replace the existing query with the new query. However, if
-you set ``throwOnUpdate`` to true, adding a subscription with an existing name
-but a different query throws an exception.
-
 You can asynchronously add a single query, or multiple queries within a ``subscription.update``
 transaction. In the example below, we subscribe to the queries we created
 earlier. 
@@ -148,6 +137,18 @@ method, but this requires you to call the :ref:`waitForSynchronization
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
     :language: javascript
 
+The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
+subscription options object. The subscription options include:
+
+- a ``name`` string field
+- a ``throwOnUpdate`` boolean field.
+
+If ``throwOnUpdate`` is false or undefined, adding a subscription with an
+existing name will replace the existing query with the new query. However, if
+you set ``throwOnUpdate`` to true, adding a subscription with an existing name
+but a different query throws an exception.
+
+
 .. _node-flexible-sync-wait-for-sync:
 
 Check the Status of Subscriptions
@@ -158,13 +159,9 @@ set of subscriptions and return the matching objects:
 
 The ``waitForSynchronization()`` method returns a promise that resolves when
 synchronization is complete or rejects if there is an error during
-synchronization.
-
-.. note::
- 
-   The ``waitForSynchronization()`` method throws if there is an error, so we
-   recommend wrapping it in a :mdn:`try...catch
-   <Web/JavaScript/Reference/Statements/try...catch>` statement.
+synchronization. Wrap the method call in a :mdn:`try...catch
+<Web/JavaScript/Reference/Statements/try...catch>` statement to handle any
+exceptions that are thrown.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.wait-for-synchronization.js
     :language: javascript

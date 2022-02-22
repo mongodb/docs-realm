@@ -123,6 +123,29 @@ You can add queries to your subscriptions list. To do so, perform the following:
 #. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a mutable instance of the subscriptions as an argument. 
 #. Within the callback function, call the ``add()`` method on the mutable subscription instance to add a query to the subscription.
 
+.. tabs::
+
+   .. tab:: Asynchronously Add a Query to the List Of Subscriptions
+      :tabid: asynchronous-add-a-query-to-subscriptions
+
+      You can asynchronously add a single query, or multiple queries within a ``subscription.update``
+      transaction. In the example below, we subscribe to the queries we created
+      earlier. 
+  
+      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields-await-form.js
+          :language: javascript
+
+   
+   .. tab:: Synchronously Add a Query to the List Of Subscriptions
+      :tabid: synchronous-add-a-query-to-subscriptions
+
+      Alternatively, you can synchronously call the ``subscriptions.update()``
+      method, but this requires you to call the :ref:`waitForSynchronization
+      <node-flexible-sync-wait-for-sync>` method afterward.
+      
+      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
+          :language: javascript      
+
 The ``add()`` method on the mutable subscription instance takes a ``query`` and a
 subscription options object. The subscription options include:
 
@@ -134,13 +157,6 @@ existing name will replace the existing query with the new query. However, if
 you set ``throwOnUpdate`` to true, adding a subscription with an existing name
 but a different query throws an exception.
 
-You can add a single query, or multiple queries within a ``subscription.update``
-transaction. In the example below, we subscribe to the queries we created
-earlier. 
-
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
-    :language: javascript
-
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can use the ``waitForSynchronization()`` method to wait for the server to
@@ -148,13 +164,9 @@ acknowledge this set of subscriptions and return the matching objects:
 
 The ``waitForSynchronization()`` method returns a promise that resolves when
 synchronization is complete or rejects if there is an error during
-synchronization.
-
-.. note::
- 
-   The ``waitForSynchronization()`` method throws if there is an error, so we
-   recommend wrapping it in a :mdn:`try...catch
-   <Web/JavaScript/Reference/Statements/try...catch>` statement.
+synchronization. Wrap the method call in a :mdn:`try...catch
+<Web/JavaScript/Reference/Statements/try...catch>` statement to handle any
+exceptions that are thrown.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.wait-for-synchronization.js
     :language: javascript
