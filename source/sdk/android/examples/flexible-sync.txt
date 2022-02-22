@@ -85,16 +85,18 @@ object types. You can also have multiple queries on the same object type.
    .. tabs-realm-languages::
       
       .. tab::
-          :tabid: kotlin
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.kt
+         .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
-          :tabid: java
+         :tabid: java
 
-          .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.java
+         .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.java
             :language: java
+            :copyable: false
 
    You can also search subscriptions by query. If you omit the name when
    creating a subscription, this is the only way to look up your
@@ -103,16 +105,18 @@ object types. You can also have multiple queries on the same object type.
    .. tabs-realm-languages::
       
       .. tab::
-          :tabid: kotlin
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.kt
+         .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
-          :tabid: java
+         :tabid: java
 
-          .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.java
+         .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.java
             :language: java
+            :copyable: false
 
 .. note:: Duplicate subscriptions
 
@@ -141,12 +145,25 @@ new subscription to the client's Realm subscriptions.
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.add-a-subscription.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.add-a-subscription.java
          :language: java
+         :copyable: false
+
+.. important:: Object Links
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be nil.
+   There is no way to distinguish whether that property's value is 
+   legitimately nil, or whether the object it links to exists but is out of
+   view of the query subscription.
 
 .. _android-sync-check-subscription-state:
 .. _android-sync-react-to-subscription-changes:
@@ -171,6 +188,7 @@ data synchronizes to the backend before opening the {+realm+}:
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.kt
          :language: kotlin
          :emphasize-lines: 11-14
+         :copyable: false
 
    .. tab::
        :tabid: java
@@ -178,6 +196,7 @@ data synchronizes to the backend before opening the {+realm+}:
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.java
          :language: java
          :emphasize-lines: 10
+         :copyable: false
 
 You can also use :java-sdk:`SubscriptionSet.waitForSynchronization()
 <io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronization(java.lang.Long,java.util.concurrent.TimeUnit)>`
@@ -225,12 +244,14 @@ to update the query for the subscription named "my frog subscription":
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.java
          :language: java
+         :copyable: false
 
 You cannot update subscriptions created without a name. However, you can
 look up unnamed subscriptions by their query, remove them from the
@@ -243,12 +264,14 @@ subscription set, then add a new subscription with an updated query:
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.java
          :language: java
+         :copyable: false
 
 .. _ios-remove-subscriptions:
 
@@ -281,12 +304,14 @@ subscription to ``remove()``, or pass the subscription name directly to
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-single-subscription.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-single-subscription.java
          :language: java
+         :copyable: false
 
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
@@ -303,12 +328,14 @@ method:
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.java
          :language: java
+         :copyable: false
 
 Remove All Subscriptions
 ````````````````````````
@@ -330,9 +357,11 @@ with no arguments:
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.java
          :language: java
+         :copyable: false

@@ -23,10 +23,29 @@ Open a Local Realm
 
 .. include:: /includes/js-open-an-in-memory-realm.rst
 
-.. _react-native-open-a-synced-realm:
+.. _react-native-flexible-sync-open-realm:
 
-Open a Synced Realm
--------------------
+Open a Flexible Synced Realm
+----------------------------
+
+To open a {+realm+} using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
+object, which must include the ``sync`` property defining a 
+:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
+In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.open-flexible-sync-realm.js
+   :language: javascript
+
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, see: :ref:`<react-native-sync-add-subscription>`.
+
+.. _react-native-partition-sync-open-realm:
+
+Open a Partition-Based Synced Realm
+-----------------------------------
 
 .. include:: /includes/react-native-open-a-synced-realm.rst
 
@@ -63,7 +82,7 @@ By default, {+service-short+} syncs all data from the server before returning.
 Open After Timeout with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you don't need to sync all data before before returning the {+realm+}, configure the
+If you don't need to sync all data before returning the {+realm+}, configure the
 ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of your
 SyncConfiguration to automatically open the realm after a timeout period elapses. You
 can use a single :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
@@ -90,7 +109,7 @@ where it's uncertain if the user has an Internet connection.
   the currently logged in user, a partition value of "myPartition", and a 
   :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
   ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
-  to work with the local {+realm+} if the device is doesn't fully sync within the ``timeOut``
+  to work with the local {+realm+} if the device doesn't fully sync within the ``timeOut``
   period of 1000 milliseconds.  
 
   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-offline-with-car-schema.js

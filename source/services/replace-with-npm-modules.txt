@@ -10,6 +10,25 @@ Replace Services with npm Modules
    :depth: 2
    :class: singlecol
 
+Overview
+--------
+
+You should migrate deprecated third-party service integrations to use
+the corresponding official libraries available from :npm:`npm <>`. The
+sections later on this page contain details and examples for each
+service.
+
+To migrate from a deprecated service:
+
+1. Install and :ref:`upload <add-external-dependencies>` the official
+   service library from ``npm``.
+
+2. Replace calls to the built-in service actions with calls to the
+   corresponding methods in the official library.
+
+3. If the service has webhooks, :ref:`convert
+   <convert-webhooks-to-endpoints>` them to endpoints.
+
 HTTP Service
 ------------
 
@@ -17,13 +36,16 @@ Replace HTTP requests sent through an :ref:`HTTP Service <http-service>`
 client with calls to an HTTP library like :npm:`node-fetch
 <package/node-fetch>` or :npm:`axios <package/axios>`.
 
+node-fetch
+~~~~~~~~~~
+
+.. code-block:: sh
+   
+   npm i node-fetch@^2
+
 .. important::
    
-   Realm does not support v3 of ``node-fetch``. Use v2 instead:
-
-   .. code-block:: sh
-      
-      npm i node-fetch@^2
+   Realm does not support v3 of ``node-fetch``. Use v2 instead.
 
 .. code-block:: javascript
    :caption: Before
@@ -49,6 +71,25 @@ client with calls to an HTTP library like :npm:`node-fetch
      return response.text()
    }
 
+axios
+~~~~~
+
+.. code-block:: sh
+   
+   npm i axios
+
+.. code-block:: javascript
+   :caption: Before
+   
+   exports = async function() {
+     const http = context.services.get("myHttp");
+     const response = await http.get({
+       url: "https://www.example.com",
+       headers: { "Content-Type": [ "application/json" ] }
+     })
+     return response.body.text()
+   }
+
 .. code-block:: javascript
    :caption: After (axios)
    
@@ -60,12 +101,18 @@ client with calls to an HTTP library like :npm:`node-fetch
      return response.data
    }
 
+.. _migrate-twilio-to-npm:
+
 Twilio Service
 --------------
 
 Replace calls through a :ref:`Twilio Service <twilio-service>` client
 with calls to the official :twilio:`Twilio Node Helper Library
 <docs/libraries/node>`.
+
+.. code-block:: sh
+   
+   npm i twilio
 
 To authenticate Twilio requests, store your Account SID and Auth Token
 as :ref:`values <values-and-secrets>`. You can then access them within
@@ -87,11 +134,13 @@ functions and pass them to the SDK.
    :caption: After
    
    exports = async function() {
-     // Your Account SID and Auth Token from www.twilio.com/console
-     const accountSid = context.values.get("TwilioAccountSID");
-     const authToken = context.values.get("TwilioAuthToken");
-     const twilioClient = require("twilio"); // require calls must be in exports function
-     const twilio = new twilioClient(accountSid, authToken);
+     // Note: require calls must be in the exported function
+     const twilio = require('twilio')(
+       // Your Account SID and Auth Token from https://www.twilio.com/console
+       // Specify the same Twilio credentials as the service configuration
+       context.values.get("TwilioAccountSID"),
+       context.values.get("TwilioAuthToken"),
+     )
      await twilio.messages.create({
        to: "+15558675309",
        from: "+15551234567",
@@ -106,13 +155,18 @@ Replace calls through an :ref:`AWS Service <aws-service>` client with
 calls to the official :aws-docs:`AWS JavaScript SDK
 <sdk-for-javascript/v2/developer-guide/welcome>`.
 
-To authenticate AWS requests, store your Access Key ID and Secret Access
-Key as :ref:`values <values-and-secrets>`. You can then access them
-within functions and pass them to the SDK.
+.. code-block:: sh
+   
+   npm i aws-sdk
 
 .. important::
    
-   Realm does not yet support version 3 of the AWS SDK. Use the version 2 SDK to replace the deprecated AWS Service in your functions.
+   Realm does not yet support version 3 of the AWS SDK. Use the version
+   2 SDK to replace the deprecated AWS Service in your functions.
+
+To authenticate AWS requests, store your Access Key ID and Secret Access
+Key as :ref:`values <values-and-secrets>`. You can then access them
+within functions and pass them to the SDK.
   
 S3
 ~~

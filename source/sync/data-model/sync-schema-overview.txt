@@ -69,6 +69,14 @@ in the :guilabel:`Schema` sidebar entry of the {+ui+}:
      }
    }
 
+.. tip:: Partition field
+
+   When using :ref:`Partition-Based Sync <partition-based-sync>`, your
+   object schema should include a :ref:`partition key <partition-key>`. 
+   This may be a synthetic property such as the ``_partition`` field
+   shown here. When using :ref:`Flexible Sync <flexible-sync>`, your 
+   schema does not need a partition key.
+
 .. _property-schema:
 
 Property Schema

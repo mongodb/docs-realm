@@ -13,10 +13,9 @@ Realms - .NET SDK
    :class: singlecol
 
 A **{+realm+}** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. Realms may contain more
-than one type of data as long as a schema exists for each type.
+schema. Realms may contain more than one type of data as long as a 
+schema exists for each type.
 
-A {+realm+} allows you to partition data according to who uses it and when they use it.
 Every {+realm+} stores data in a separate :term:`{+realm+} file` that contains a binary
 encoding of each object in the {+realm+}. You can automatically :doc:`synchronize
 a {+realm+} across multiple devices </sync>` and set up :ref:`reactive event handlers
@@ -50,18 +49,29 @@ Key Concepts
 
 .. _dotnet-realm-path:
 
-Realms are Partitions of Atlas Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synced Realms
+~~~~~~~~~~~~~
 
 When using {+sync+}, each {+realm+} corresponds to a subset of the data in your
-:term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. You can
-customize the :ref:`partitioning <sync-partitions>` of data using your application's
+:term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. 
+
+When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
+realms represent partitions of Atlas data. You can customize the 
+:ref:`partitioning <sync-partitions>` of data using your application's
 :ref:`partition key <partition-key>`. Unique values of the partition
 key, known as :ref:`partition values <partition-value>`, correspond to
 individual {+realms+}.
 
-You can customize permissions for these partitions of data using :ref:`{+service-short+}
-Rules <sync-rules>`.
+When you use :ref:`Flexible Sync <flexible-sync>`, you can customize the 
+data your client application syncs by subscribing to queries. These queries 
+search for data in your {+app+} backend, and the Flexible Sync realm syncs 
+data that matches the queries. The client application can only sync data 
+where the user has the appropriate :ref:`read or read and write permissions 
+<flexible-sync-rules-and-permissions>` to access the data.
+
+You can customize permissions for the data that synced realms can read
+and write from your {+app+} when you configure 
+:ref:`{+service-short+} Rules <sync-rules>`.
 
 .. _dotnet-realm-schema:
 
@@ -99,6 +109,13 @@ specify a path.
 
 The default realm file is named ``default.realm`` and is located where the OS 
 stores app-specific data.
+
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement :dotnet-sdk:`ShouldCompactOnLaunch 
+   <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration_ShouldCompactOnLaunch>` 
+   to periodically reduce the realm file size. For more information
+   about compacting a realm, see: :ref:`<dotnet-compact-realm>`.
 
 .. note:: Auxiliary Realm Files
    
@@ -140,7 +157,8 @@ Summary
   schema. It is not a single, application-wide database. There can and
   usually will be more than one {+realm+} per application.
 
-- A :term:`partition value` is a {+realm+}'s unique identifier.
+- When using :ref:`Partition-Based Sync <partition-based-sync>`, a 
+  :term:`partition value` is a {+realm+}'s unique identifier.
 
 - {+service-short+} Rules define who can read or write the {+realm+} and apply to the {+realm+} as a whole.
 

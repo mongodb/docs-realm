@@ -42,6 +42,8 @@ statement:
    using Realms;
    using Realms.Sync;
 
+.. _dotnet-quick-start-init-app:
+
 Initialize the App
 ------------------
 
@@ -61,17 +63,11 @@ the data that you can store within {+client-database+} and synchronize
 to and from {+backend+}.
 
 If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`development mode` in the {+ui+}, you can
+{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
 define your object model directly in code.
 
-.. note::
+.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
 
-   If you have enabled {+sync-short+} but turned off Developer Mode,
-   you can copy and paste the object model definitions that
-   {+backend-short+} generated for you from the :guilabel:`SDKs` tab
-   in the {+ui+}. You must re-enable Developer Mode if you want to make
-   changes to the object model definition from client side code. See
-   :ref:`Configure Your Data Model <configure-your-data-model>`.
 
 The following code shows how to define an object model for a ``Task`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, marked the 

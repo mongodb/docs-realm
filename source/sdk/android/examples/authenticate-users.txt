@@ -47,6 +47,18 @@ passed to the callback returns a boolean that indicates whether the
 operation succeeded. In the event of a failure,  you can view the
 error that caused the failure using the ``getError()`` method.
 
+User Sessions
+~~~~~~~~~~~~~
+
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
+SDKs supply the logic to manage tokens, and provide them with requests.
+
+The Android SDK stores these tokens in 
+`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
+
+.. seealso:: 
+
+   :ref:`<user-sessions>`
 
 .. _android-anonymous-login:
 .. _android-login-anonymous:
@@ -68,12 +80,14 @@ authentication, create an anonymous credential by calling
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.anonymous.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.anonymous.kt
          :language: kotlin
+         :copyable: false
 
 .. _android-email-password-login:
 .. _android-login-email-password:
@@ -95,12 +109,14 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.email-password.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.email-password.kt
          :language: kotlin
+         :copyable: false
 
 .. _android-api-key-login:
 .. _android-login-api-key:
@@ -122,12 +138,14 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.api-key.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.api-key.kt
          :language: kotlin
+         :copyable: false
 
 .. _android-custom-jwt-login:
 .. _android-login-custom-jwt:
@@ -149,12 +167,14 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-jwt.kt
          :language: kotlin
+         :copyable: false
 
 .. _android-custom-function-login:
 .. _android-login-custom-function:
@@ -173,6 +193,7 @@ For example, suppose the backend function expects the input parameter to include
 a field named ``username``, like this:
 
 .. code-block:: js
+   :copyable: false
    
    exports = async function(loginPayload) {
       const { username } = loginPayload;
@@ -182,6 +203,7 @@ a field named ``username``, like this:
 The document you pass to ``Credentials.customFunction()`` might look like this:
 
 .. code-block:: java
+   :copyable: false
    
    Document("username", "bob")
 
@@ -194,12 +216,14 @@ You then pass the generated credential to ``app.login()`` or ``app.loginAsync()`
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-function.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.custom-function.kt
          :language: kotlin
+         :copyable: false
 
 .. _android-facebook-login:
 .. _android-login-facebook:
@@ -231,6 +255,7 @@ create a {+service-short+} Facebook credential and then log the user into your
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.facebook.java
          :language: java
          :emphasize-lines: 10-17
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
@@ -238,6 +263,7 @@ create a {+service-short+} Facebook credential and then log the user into your
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.facebook.kt
          :language: kotlin
          :emphasize-lines: 10-21
+         :copyable: false
 
 .. _android-google-login:
 .. _android-login-google:
@@ -274,6 +300,7 @@ users in your Android application:
    block of your application level ``build.gradle``:
 
    .. code-block:: groovy
+      :copyable: false
 
       com.google.android.gms:play-services-auth:19.2.0
 
@@ -335,12 +362,14 @@ The following code implements this flow, starting with a method call to
 
       .. literalinclude:: /examples/generated/android/sync/AuthActivity.codeblock.google.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthActivity.codeblock.google.kt
          :language: kotlin
+         :copyable: false
 
 .. seealso::
 
@@ -368,12 +397,14 @@ to ``app.login()`` or ``app.loginAsync()``.
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.apple.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.apple.kt
          :language: kotlin
+         :copyable: false
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
@@ -400,9 +431,11 @@ all local Realm updates have uploaded to the server.
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.log-out.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/AuthenticationTest.codeblock.log-out.kt
          :language: kotlin
+         :copyable: false

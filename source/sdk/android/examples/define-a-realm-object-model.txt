@@ -150,6 +150,12 @@ types:
 Define a Relationship Field
 ---------------------------
 
+.. warning:: Always Define Accessors and Mutators for Client-Modified Fields
+
+   {+service-short+} objects use getters and setters to persist updated
+   field values to your {+realm+}s. Always use getters and setters when
+   changing fields of a {+service-short+} object.
+
 .. seealso::
 
    :ref:`Fundamentals: Relationships <android-client-relationships>`

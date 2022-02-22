@@ -15,19 +15,24 @@ Users & Authentication
 Introduction
 ------------
 
-{+service+} manages authentication for your application's
-end users and allows you to store and access metadata for
-each user. Every request in {+service+} is associated with an
-authenticated user, which enables {+service+}'s role-based
-:ref:`data access rules <mongodb-rules>` to dynamically
-determine read & write permissions for every object included
-in their request.
+MongoDB Realm manages authentication for your application's end users. 
+Realm:
 
-Users log in through modular :doc:`authentication providers
-</authentication/providers>` that each represent a specific method of
-authentication. {+service+} includes several built-in providers for
-common use cases as well as custom providers that allow you to integrate
-any external authentication system.
+- Uses role-based :ref:`data access rules <mongodb-rules>` to determine 
+  read & write permissions.
+- Associates every request with an authenticated user
+- Evaluates permissions for every object included the request. 
+
+Through user accounts, you can store and access metadata and custom 
+data for each user. 
+
+Users log in through :ref:`authentication providers 
+<authentication-providers>`. Each provider represents a specific method 
+of authentication. 
+
+Realm includes built-in providers for common use cases, such as Facebook 
+and Google. Custom providers allow you to integrate any external 
+authentication system.
 
 Concepts
 --------
@@ -37,38 +42,39 @@ Concepts
 Authentication Providers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-An **authentication provider** is a modular service that maintains
-information about your application's users and allows them to verify
-their identity.
+In MongoDB Realm, an **authentication provider** is a modular service. 
+These services provide identity verification, and maintain information 
+about app users.
 
-Users authenticate themselves by providing a set of credentials to an
-authentication provider. If the credentials are valid, the provider
-returns a unique identity associated with the user and {+backend+}
-logs them in as the :ref:`active user <active-user>`.
+Users authenticate themselves by providing a set of credentials to an 
+authentication provider. With valid credentials, the provider returns a 
+unique identity associated with the user. MongoDB Realm logs them in as 
+the :ref:`active user <active-user>`.
 
-{+service+} includes built-in authentication providers for common
-use cases, including :doc:`anonymous
-</authentication/anonymous>` users, :doc:`email/password
-</authentication/email-password>` combinations, :doc:`API
-keys </authentication/api-key>`, and OAuth 2.0 through
-:doc:`Facebook </authentication/facebook>`, :doc:`Google
-</authentication/google>`, and :doc:`Apple ID
-</authentication/apple>`.
+Realm includes built-in authentication providers for common use cases. 
+This includes:
 
-You can also configure your own custom authentication
-providers to integrate external authentication systems. The
-:doc:`Custom JWT </authentication/custom-jwt>` provider
-accepts JSON web tokens signed by the external system and
-the :doc:`Custom Function </authentication/custom-function>`
-provider allows you to define custom logic in a :term:`{+service-short+} Function`.
+- :ref:`Anonymous users <anonymous-authentication>`
+- :ref:`Email/password combinations <email-password-authentication>`
+- :ref:`API keys <api-key-authentication>`
+- OAuth 2.0 through :ref:`Facebook <facebook-authentication>`, :ref:`Google 
+  <google-authentication>`, and :ref:`Apple ID <apple-id-authentication>`
 
-.. important:: User Authentication is Required
+You can configure custom providers to integrate external authentication 
+systems. 
+
+- :ref:`Custom JWT <custom-jwt-authentication>`: provider accepts JSON 
+  web tokens signed by the external system. 
+- :ref:`Custom Function <custom-function-authentication>`: provider allows 
+  you to define custom login logic in a Realm Function.
+
+.. important:: Realm Applications Require User Authentication
    
-   Every application must have at least one authentication provider
-   configured and enabled before any client application can successfully
-   connect. For more information on how to configure and enable
-   authentication providers, see :doc:`Authentication Providers
-   </authentication/providers>`.
+   Every application must have at least one authentication provider 
+   configured and enabled. Without at least one provider, no client 
+   application can connect. To learn how to configure and enable 
+   authentication providers, see: :ref:`Authentication Providers 
+   <authentication-providers>`.
 
 .. _user-accounts:
 
@@ -76,93 +82,73 @@ User Accounts
 ~~~~~~~~~~~~~
 
 A **user account** represents a single, distinct user of
-your application. Every user account has a unique ID and is
-associated with at least one :ref:`authentication provider
-identity <authentication-provider-identities>`. {+backend+}
-automatically sources user metadata, such as their email
-address or birthday, from authentication providers and
-allows you to associate each user with :doc:`custom data
-</users/enable-custom-user-data>` stored in a collection
-of your :term:`linked {+atlas+} data source <data source>`.
-
-.. note:: Link Multiple Identities to One User Account
-
-   When a user authenticates with a provider for the first
-   time, {+backend+} creates a new account and associates the
-   authenticated identity with that account. Some providers
-   allow you to associate the identity with an existing user
-   account instead of creating a new one. This allows users
-   to log in to the same account with multiple
-   authentication providers. For more information, see
-   the documentation on linking identities for your client SDK.
-
+your application. Realm creates the user when an authentication provider 
+validates a unique identity. You can source user metadata, such as email 
+or birthday, from authentication providers. You can associate each user 
+with :ref:`custom data <custom-user-data>`.
 
 .. _authentication-provider-identities:
 
 Authentication Provider Identities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An **authentication provider identity** is a set of metadata
-about a user that {+backend+} obtains from each authentication
-provider used to authenticate that user. A single user
-account can have multiple identities if the user associates
-their account with multiple authentication providers.
+MongoDB Realm stores login metadata for a user in an 
+**authentication provider identity**. Realm uses this metadata to 
+authenticate the user. 
 
-When a user first logs in with an authentication provider,
-{+backend+} associates the user with an identity object that
-contains a unique identifier and :ref:`additional,
-provider-specific metadata <user-metadata>` about the user.
-On subsequent logins, {+backend+} refreshes the existing identity
-data but does not create a new identity.
+Upon first login with an authentication provider, Realm creates an 
+identity object. Each object contains a unique ID, and 
+:ref:`provider-specific metadata <user-metadata>` about the user. On later 
+logins, MongoDB Realm refreshes the existing identity data.
+
+A single user account can have more than one identity. Realm client SDKs 
+enable you to link identities to existing user accounts. This allows users 
+to log in to a single account with more than one provider. For more 
+information, see the documentation on linking identities for your 
+client SDK.
 
 .. _active-user:
 
 Active User
 ~~~~~~~~~~~
 
-In the {+service-short+} SDKs, multiple users can log in simultaneously,
-but only one account can be **active** at any given time.
-The **active user** is a user account associated with an
-application request. When {+backend+} receives a request from a
-client application, it executes the request in the context
-of the active user, replacing any dynamic references to the
-user (e.g. :json-expansion:`%%user` in a JSON expression)
-with the active user's information.
+In the Realm SDKs, you can log in more than one user, but only one account 
+can be **active** at any given time. The **active user** is a user account 
+associated with an application request. 
 
-In most circumstances, the active user is the authenticated
-user that issued a request. You can also configure a
-specific active user for Functions, Triggers, and HTTPS Endpoints
-or choose to use the :ref:`system user <system-user>`
-instead.
+MongoDB Realm executes requests from client applications as the active user. 
+Realm replaces dynamic references to the user - e.g. :json-expansion:`%%user` 
+in a JSON expression - with the active user.
+
+You can use a specific active user, or the system user, to execute 
+Functions.
 
 .. _system-user:
 
 System User
 ~~~~~~~~~~~
 
-The **system user** is an internal user that has advanced
-privileges and automatically bypasses all rules. You can
-configure :doc:`Functions </functions>` and :ref:`HTTPS endpoints
-<https-endpoints>` to run in the context of the
-system user instead of the user account that issued a
-request. Triggers always run in the context of the system
-user.
+The **system** user is an internal user that has advanced privileges. The 
+system user bypasses all rules. You can execute :ref:`Functions <functions>` 
+as a system user instead of the user making a request. Triggers run in the 
+context of the system user.
 
-The system user is useful for administrative tasks that need
-to circumvent rules and queries that need :ref:`unrestricted access
-<mongodb-service-limitations-version-requirements>` to MongoDB
-CRUD and aggregation operations.
+The system user is useful for administrative tasks. This includes:
+
+- Tasks that need to circumvent rules and queries
+- Tasks that need :ref:`unrestricted access 
+  <mongodb-service-limitations-version-requirements>` to MongoDB CRUD 
+  and aggregation operations
 
 .. important:: Security Warning
 
-   Rules do not apply to the system user, which means that
-   Functions and HTTPS endpoints that run as the :term:`system user`
-   can become a security liability. Ensure that you do not expose these
-   functions to unauthorized users.
-   
-   For example, you can use :ref:`function context <context-user>` to
-   check if the active user is allowed to call the system function based
-   on a condition that you define, e.g.:
+   Rules do not apply to the system user. Functions run as the system 
+   user can become a security liability. Ensure that you do not expose 
+   these functions to unauthorized users.
+
+   For example, use :ref:`function context <context-user>` to check if 
+   the active user can call the system function. Define a condition to 
+   determine whether the user has the appropriate permissions, e.g.:
 
    .. code-block:: javascript
       
@@ -181,71 +167,53 @@ CRUD and aggregation operations.
 User Sessions
 ~~~~~~~~~~~~~
 
-A **user session** is a user's state of being authenticated
-with your app for a certain period of time. While a user is
-authenticated, they can interact with app data without
-needing to enter their password or otherwise
-re-authenticate.
+**User session** describes the period when an authenticated user can access 
+data in your app. Authenticated users can use app data without re-entering 
+a password or re-authenticating.
 
-Sessions are managed with access tokens and a refresh token
-provided by {+backend+}. The client SDKs implement the logic of
-managing these tokens and providing them to {+backend+} when
-making requests.
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
+SDKs supply the logic to manage tokens, and provide them with requests.
 
-For web browsers, the JavaScript SDK stores these tokens in
-`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
-In the Android SDK, they are stored in
-`Shared Preferences <https://developer.android.com/guide/topics/data/data-storage.html#pref>`_.
-In the Swift SDK, they are stored in the
-`Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.
+The access token for a session expires after thirty minutes. Clients can 
+use the refresh token to retrieve a new access token and start a new 
+session. Realm SDKs manage refresh access tokens for you. You don't need 
+to manage this process yourself when implementing client applications.
 
-The access token for a session expires after thirty minutes.
-However, a new session can be started by retrieving a new
-access token from {+backend+} using the refresh token. The SDKs
-automatically take care of refreshing access tokens, so you
-do not need to worry about this when implementing client
-applications.
+You can invalidate a refresh token by calling the ``logout()`` method on the 
+client, which does two things:
 
-You can invalidate a refresh token by calling the
-``logout()`` method on the client, which does two things:
-
-- It deletes the local session information by deleting both the access and refresh tokens.
-- It invalidates the refresh token in the {+backend+} backend.
+- Deletes the local session information by deleting both the access and 
+  refresh tokens.
+- Invalidates the refresh token in the MongoDB Realm backend.
 
 .. note::
 
-   The ``logout()`` method provided by the SDKs does **NOT**
-   invalidate any active sessions on the server. This means
-   that if you somehow expose the access token to a
-   malicious user before ``logout()`` is called, the
-   malicious user could theoretically use the token to
-   continue making requests on behalf of the user who
-   "logged out" for up to thirty minutes (that is, until
-   that access token expires).
+   The ``logout()`` method provided by the SDKs does **NOT** invalidate 
+   any active sessions on the server. If a malicious user gets the access 
+   token, he or she could use the token to continue making requests. These 
+   requests would appear to come from the user who "logged out." This window 
+   would last for up to thirty minutes (that is, until that access token 
+   expires).
 
-The user list under the :guilabel:`Users` tab, on the
-:guilabel:`App Users` page of the {+service-short+} admin console, provides
-a way to revoke all sessions for a specific user. This will
-invalidate all access tokens and refresh tokens for that user. See the
-:ref:`Revoking User Sessions <revoke-user-sessions>` page for the specific
-steps.
+You can use revoke all sessions for a specific user. This invalidates all 
+access tokens and refresh tokens for that user. See the :ref:`Revoking User 
+Sessions <revoke-user-sessions>` page for the specific steps.
 
 Summary
 -------
 
-- {+service+} supports authentication and user accounts through a
-  variety of :doc:`authentication providers </authentication/providers>`.
-  Users can associate themselves with multiple authentication providers
-  and have identity information from multiple providers.
+- Realm supports authentication and user accounts through a variety of 
+  :ref:`authentication providers <authentication-providers>`. You can 
+  associate users with more than one authentication provider.
 
-- {+service+} supports having multiple users logged in at the same time.
-  There is only one **active user** at a time.
+- MongoDB Realm supports having more than one user logged in at the same 
+  time. There is only one **active user** at a time.
 
-- The **system user** is a special user in {+backend+} that
-  bypasses all rules.
+- The **system user** is a special user in MongoDB Realm that bypasses 
+  all rules.
 
-- {+backend+} handles the access tokens and refresh tokens that comprise
-  a **user session** automatically.
+- Realm SDKs manage the access and refresh tokens that comprise a 
+  **user session**.
 
 
 .. toctree::

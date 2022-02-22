@@ -51,12 +51,12 @@ describe("Flexible Sync Tests", () => {
     // :code-block-end:
 
     // :code-block-start: subscribe-to-queryable-fields-await-form
-    await realm.subscriptions.update(({ add }) => {
-      add(longRunningTasks, {
+    await realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(longRunningTasks, {
         name: "longRunningTasksSubscription",
       });
-      add(bensTasks);
-      add(realm.objects("Team"), {
+      mutableSubs.add(bensTasks);
+      mutableSubs.add(realm.objects("Team"), {
         name: "teamsSubscription",
         throwOnUpdate: true,
       });
@@ -64,19 +64,18 @@ describe("Flexible Sync Tests", () => {
     // :code-block-end:
 
     // :code-block-start: subscribe-to-queryable-fields
-    realm.subscriptions.update(({ add }) => {
-      add(longRunningTasks, {
+    realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(longRunningTasks, {
         name: "longRunningTasksSubscription",
       });
 
-      add(bensTasks);
+      mutableSubs.add(bensTasks);
 
-      add(realm.objects("Team"), {
+      mutableSubs.add(realm.objects("Team"), {
         name: "teamsSubscription",
         throwOnUpdate: true,
       });
     });
-
     // :code-block-end:
 
     // :code-block-start: log-subscription-state
@@ -85,8 +84,8 @@ describe("Flexible Sync Tests", () => {
 
     // :code-block-start: wait-for-synchronization
     try {
-      realm.subscriptions.update(({ add }) => {
-        add("Person"); // At this point, data may or may not be downloaded.
+      realm.subscriptions.update((mutableSubs) => {
+        mutableSubs.add("Person"); // At this point, data may or may not be downloaded.
       });
       await realm.subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
       // New data is made available
@@ -96,45 +95,45 @@ describe("Flexible Sync Tests", () => {
     // :code-block-end:
 
     // :code-block-start: update-subscriptions
-    realm.subscriptions.update(({ add }) => {
-      add(tasks.filtered('status == "completed" && progressMinutes > 180'), {
+    realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(tasks.filtered('status == "completed" && progressMinutes > 180'), {
         name: "longRunningTasksSubscription",
       });
     });
     // :code-block-end:
 
     // :code-block-start: remove-single-subscription
-    realm.subscriptions.update(({ remove }) => {
+    realm.subscriptions.update((mutableSubs) => {
       // remove a subscription with a specific query
-      remove(tasks.filtered('owner == "Ben"'));
+      mutableSubs.remove(tasks.filtered('owner == "Ben"'));
     });
     // :code-block-end:
 
     // :code-block-start: remove-subscription-by-name
-    realm.subscriptions.update(({ removeByName }) => {
+    realm.subscriptions.update((mutableSubs) => {
       // remove a subscription with a specific name
-      removeByName("longRunningTasksSubscription");
+      mutableSubs.removeByName("longRunningTasksSubscription");
     });
     // :code-block-end:
 
     // :code-block-start: remove-subscription-by-reference
     let subscriptionReference;
-    realm.subscriptions.update(({ add }) => {
-      subscriptionReference = add(realm.objects("Task"));
+    realm.subscriptions.update((mutableSubs) => {
+      subscriptionReference = mutableSubs.add(realm.objects("Task"));
     });
     // later..
     realm.subscriptions.removeSubscription(subscriptionReference);
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions-of-object-type
-    realm.subscriptions.update(({ removeByObjectType }) => {
-      removeByObjectType("Team");
+    realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.removeByObjectType("Team");
     });
     // :code-block-end:
 
     // :code-block-start: remove-all-subscriptions
-    realm.subscriptions.update(({ removeAll }) => {
-      removeAll();
+    realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.removeAll();
     });
     // :code-block-end:
   });

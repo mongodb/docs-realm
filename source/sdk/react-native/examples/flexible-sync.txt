@@ -1,0 +1,258 @@
+.. _react-native-flexible-sync:
+
+================================
+Flexible Sync - React Native SDK
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+Flexible Sync uses subscriptions and permissions to determine which
+data to sync with your {+app+}.
+
+To use Flexible Sync in a React Native client:
+
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+- :ref:`Initialize the app <react-native-quick-start-init-app>`
+- :ref:`Authenticate a user <react-native-quick-start-authenticate>` in
+  your client project.
+- :ref:`Open the synced Realm with a Flexible Sync configuration <react-native-flexible-sync-open-realm>`
+- :ref:`Add subscriptions to the client application <react-native-sync-subscribe-to-queryable-fields>`
+
+You can add, update, and remove query subscriptions to determine which data 
+syncs to the client device.
+
+.. include:: /includes/note-flexible-sync-preview.rst
+
+.. include:: /includes/note-flexible-sync-prerequisite.rst
+
+.. note:: Realm JS SDK Version Requirement
+
+   In addition to the requirements above, you must use :github:`Realm JS version
+   10.12.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
+   in your React Native application.
+
+.. _react-native-sync-subscribe-to-queryable-fields:
+
+Subscribe to Queryable Fields
+-----------------------------
+
+When configuring Flexible Sync on the backend, you specify which fields
+your client application can query. In the client application, use the 
+``Subscriptions`` API to manage a set of subscriptions to specific queries on 
+queryable fields.
+
+You can:
+
+- Get a list of all subscriptions
+- Add subscriptions
+- Check subscription state
+- Update a subscription with a new query
+- Remove individual subscriptions or all subscriptions of a type
+
+When data matches the subscription and has appropriate permissions, it syncs
+between devices and the backend application.
+
+A Realm subscription in JavaScript has:
+
+- A created and updated date 
+- A name
+- An object type
+- A query string 
+
+You can specify a string name for your subscription. If you do not give your
+subscription a name, the name is set to :mdn:`null
+<Web/JavaScript/Reference/Global_Objects/null>`.
+
+When you create a subscription, Realm looks for data matching a query on a
+specific object type. In your Flexible Sync subscriptions, you can have
+subscriptions on several different object types or several queries on the same
+object type.
+
+.. example::
+
+  In the following example, queries are created to subscribe to:
+
+  - A filtered list of completed tasks that have taken over 120 ``progressMinutes``
+  - A filtered list of completed tasks
+
+  Notice that queries that you subscribe to using Flexible Sync are
+  syntactically the same as :ref:`querying a {+realm+} <react-native-read-operations>`
+  and that the queries below will create an overlapping result set.
+
+  .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+     :language: javascript
+
+.. important:: Object Links
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be null.
+   There is no way to distinguish whether that property's value is 
+   legitimately null, or whether the object it links to exists but is out of
+   view of the query subscription.
+
+Get Subscriptions
+~~~~~~~~~~~~~~~~~
+To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
+on the {+realm+}.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
+    :language: javascript
+
+You can use this snapshot to add queries to the list of subscriptions and
+update existing subscriptions, as shown in the examples below.
+
+.. _react-native-sync-add-subscription:
+
+Add a Query to the List Of Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+You can add queries to your subscriptions list. To do so, perform the following: 
+
+#. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a mutable instance of the subscriptions as an argument. 
+#. Within the callback function, call the ``add()`` method on the mutable subscription instance to add a query to the subscription.
+
+The ``add()`` method on the mutable subscription instance takes a ``query`` and a
+subscription options object. The subscription options include:
+
+- a ``name`` string field
+- a ``throwOnUpdate`` boolean field.
+
+If ``throwOnUpdate`` is false or undefined, adding a subscription with an
+existing name will replace the existing query with the new query. However, if
+you set ``throwOnUpdate`` to true, adding a subscription with an existing name
+but a different query throws an exception.
+
+You can add a single query, or multiple queries within a ``subscription.update``
+transaction. In the example below, we subscribe to the queries we created
+earlier. 
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
+    :language: javascript
+
+Check the Status of Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can use the ``waitForSynchronization()`` method to wait for the server to
+acknowledge this set of subscriptions and return the matching objects: 
+
+The ``waitForSynchronization()`` method returns a promise that resolves when
+synchronization is complete or rejects if there is an error during
+synchronization.
+
+.. note::
+ 
+   The ``waitForSynchronization()`` method throws if there is an error, so we
+   recommend wrapping it in a :mdn:`try...catch
+   <Web/JavaScript/Reference/Statements/try...catch>` statement.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.wait-for-synchronization.js
+    :language: javascript
+
+In addition to the ``waitForSynchronization()`` method, you can check the
+subscription state to see if the server has acknowledged the subscription and
+the device has downloaded the data locally.
+
+You can use subscription state to:
+
+- Trigger error handling
+- Show if the transaction is pending or has completed
+- Find out when a subscription set is superseded, and you should obtain a
+  new instance of the subscription set to write a subscription change
+
+To the status of subscriptions, log the value of the subscription's ``state``.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.log-subscription-state.js 
+    :language: javascript
+
+Update Subscriptions with a New Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can update a named subscription with a new query. To update a subscriptions
+query, pass the new query and a subscription option with the name of the
+subscription that you want to update to the
+``mutableSubscriptionsInstance.add()`` method. Like adding a new subscription,
+you must update a subscription within a transaction by calling
+``subscriptions.update()`` method.
+
+In the following example, long-running tasks are re-defined to be any tasks that
+have taken more than 180 minutes. 
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.update-subscriptions.js
+    :language: javascript
+
+.. note::
+ 
+   Attempting to update a subscription that has the
+   ``SubscriptionOptions.throwOnUpdate`` field set to true, throw an exception.
+
+Remove Subscriptions
+~~~~~~~~~~~~~~~~~~~~
+To remove subscriptions from the subscription set, you can:
+
+- Remove a single subscription with the given query
+- Remove a single subscription with the given name 
+- Remove all subscriptions on a specific type
+- Remove all subscriptions
+
+When you remove a subscription query, the server also removes synced data from
+the client device.
+
+
+Remove a Subscription by Query
+``````````````````````````````
+You can remove a specific subscription by query by executing a transaction on
+the subscriptions set. Pass the query to the ``remove()`` method on the mutable
+subscriptions instance within a transaction.
+
+In the following example, the subscription to tasks with an owner named 'Ben' is
+removed from the subscriptions set.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-single-subscription.js
+    :language: javascript
+
+Remove a Subscription by Name
+`````````````````````````````
+To remove a specific subscription by name, execute a transaction on
+the subscriptions set. Within the transaction, pass the name to the
+``removeByName()`` method on the mutable subscriptions instance.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-name.js
+    :language: javascript
+
+Remove a Subscription by Reference
+``````````````````````````````````
+If you have a reference to a subscription, you can remove that subscription. To
+do so, execute a transaction on the subscriptions set. Within the transaction,
+pass the reference variable to the ``removeSubscription()`` method on the
+mutable subscriptions instance.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-reference.js
+    :language: javascript
+
+Remove All Subscriptions on an Object Type
+``````````````````````````````````````````
+To remove all subscriptions on a specific object type, execute a transaction on
+the subscriptions set. Within the transaction, pass the object type as a string
+to the ``removeByObjectType()`` method on the mutable subscriptions instance.
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions-of-object-type.js
+    :language: javascript
+
+Remove All Subscriptions
+````````````````````````
+To remove all subscriptions from the subscriptions set, execute a transaction on
+the subscriptions set. Call the ``removeAll()`` method
+on the mutable subscriptions instance within the transaction
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
+    :language: javascript

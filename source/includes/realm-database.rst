@@ -76,15 +76,15 @@ Realm Files
 {+client-database+} persists data in files saved on device
 storage. The database uses several kinds of file:
 
-- **realm files**, suffixed with "realm", e.g. ``default.realm``:
+- **realm files**, suffixed with "realm", e.g. :file:`default.realm`:
   contain object data.
-- **lock files**, suffixed with "lock", e.g. ``default.realm.lock``:
+- **lock files**, suffixed with "lock", e.g. :file:`default.realm.lock`:
   keep track of which versions of data in a {+realm+} are
   actively in use. This prevents {+realm+} from reclaiming storage space
   that is still used by a client application. 
-- **note files**, suffixed with "note", e.g. ``default.realm.note``:
+- **note files**, suffixed with "note", e.g. :file`default.realm.note`:
   enable inter-thread and inter-process notifications.
-- **management files**, suffixed with "management", e.g. ``default.realm.management``:
+- **management files**, suffixed with "management", e.g. :file:`default.realm.management`:
   internal state management.
 
 Realm files contain object data with the following data structures:
@@ -261,7 +261,7 @@ Applications that use {+sync+} define their schema on the backend using
 `JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
 Client applications must match that backend schema to synchronize data.
 However, if you prefer to define your initial schema in your application's
-programming language, you can use :ref:`development mode
+programming language, you can use :ref:`Development Mode
 <concept-development-mode>` to create a backend JSON Schema based on
 native SDK objects as you write your application. However, once your
 application is used for production purposes, you should alter your

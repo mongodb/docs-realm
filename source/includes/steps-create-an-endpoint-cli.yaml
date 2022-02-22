@@ -15,13 +15,14 @@ content: |
      You can also download a copy of your application's configuration files from
      the :guilabel:`Deploy > Export App` screen in the {+ui+}.
 ---
-title: Add a Endpoint Configuration Object
-ref: add-a-endpoint-configuration-object
+title: Add an Endpoint Configuration Object
+ref: add-an-endpoint-configuration-object
 content: |
-  Create a json object describing the endpoint in the top-level array
-  within the :file:`/http_endpoints/config.json` file.
-
-  The configuration object should have the following form:
+  To create a new endpoint, add an :ref:`endpoint configuration
+  <appconfig-endpoints>` object to the array in
+  :file:`/http_endpoints/config.json`.
+  
+  The configuration file has the following form:
 
   .. code-block:: json
      :caption: http_endpoints/config.json
@@ -39,119 +40,68 @@ content: |
           "disabled": <Boolean>
        }
      ]
-
-  The following table describes each of the fields in the configuration
-  object:
-
-  .. list-table::
-     :header-rows: 1
-     :widths: 10 40
- 
-     * - Field
-       - Value
-     * - ``route`` (string)
-       - The full path and name of the endpoint
-     * - ``http_method`` (string)
-       - The HTTP method that calling services can use to connect to this 
-         endpoint. Valid values are "GET", "POST", "PUT", "PATCH", 
-         "DELETE" and "*", the last of which indicates that all methods 
-         are accepted.
-     * - ``function_name`` (string)
-       - The name of the function that {+service-short+} calls when the 
-         endpoint receives data.
-     * - ``validation_method`` (string)
-       - Indicates how the endpoint validates the incoming request. Valid 
-         options are:
-
-         - "SECRET_AS_QUERY_PARAM", which requires a secret value in the 
-           query parameters
-         - "VERIFY_PAYLOAD", which requires an "Endpoint-Signature" field 
-           in the header. For example, "Endpoint-Signature::sha256=<hex-encoded-hash>"
-         - "NO_VALIDATION", in which {+service-short+} performs no validation
-           of the incoming request.
+---
+title: Define the Route and HTTP Method
+ref: definte-route-and-http-method
+content: |
+  An endpoint's route determines the URL used to call the endpoint. You
+  can define at most one handler for a given route and HTTP method
+  combination in your app.
+  
+  1. Enter a name for the endpoint in ``route`` field. Route
+     names must begin with a forward slash (``/``) and may contain
+     additional forward slashes to indicate a nested path.
+     
+     .. code-block:: json
         
-         Endpoints that use "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" as their
-         validation method must also specify a ``secret_name``.
-     * - ``secret_name`` (string)
-       - The name of the secret used to validate incoming requests. Required
-         if "SECRET_AS_QUERY_PARAM" or "VERIFY_PAYLOAD" is used as a validation
-         method.
-     * - ``respond_result`` (boolean)
-       - Specifies if response contains the result of the associated 
-         function. If set to **false** and the endpoint completes 
-         successfully, the endpoint returns a ``204`` response with 
-         no data in the body. 
-     * - ``fetch_custom_user_data`` (boolean)
-       - If ``true``, {+service-short+} queries the requesting user's 
-         :ref:`custom user data <custom-user-data>` and, if it exists, 
-         exposes the data as an object on the ``context.user.custom_data`` 
-         property.
-     * - ``create_user_on_auth`` (boolean)
-       - If ``true``, {+service-short+} automatically creates a new user 
-         based on the provided user credentials, if they don't match an 
-         existing user. The authentication provider that corresponds to 
-         the credentials must be enabled at the time of the request to 
-         create the new user.
-     * - ``disabled`` (boolean)
-       - Enables (false) or disables (true) the endpoint.
----
-title: Name the New Endpoint
-ref: name-the-new-endpoint
-content: |
-  Enter a route for the endpoint in the configuration file's ``route``
-  field. Each endpoint must use a unique route and HTTP Method
-  combination. Begin your route with a leading slash ("/").
+        {
+          "route": "/example/myEndpoint"
+        }
 
-  .. code-block:: json
+  2. Specify the endpoint's :mdn:`HTTP method <Web/HTTP/Methods>` in the
+     ``options.httpMethod`` field. You can choose either a specific
+     method (e.g. ``GET`` or ``POST``) or configure the endpoint to
+     accept *any* HTTP method (i.e. ``ANY``). For a given route, if you
+     define both a specific method endpoint and an ANY method endpoint,
+     the more specific endpoint takes precedence and runs instead of the
+     ANY endpoint.
      
-     {
-       "route": "/example/endpoint"
-     }
----
-title: Specify the Endpoint's HTTP Method
-ref: specify-the-endpoints-http-method
-content: |
-  You can require that incoming requests use a specific :mdn:`HTTP
-  method <Web/HTTP/Methods>` or you can accept all HTTP methods and
-  handle each one individually in the endpoint function by inspecting the
-  ``httpMethod`` property on the :ref:`context.request
-  <context-request>` object, as in the following example function:
-
-  .. include:: /includes/endpoint-http-method-handler.rst
-
-  To specify a endpoint method, set the ``options.httpMethod`` field to
-  the name of the method using all capital letters or ``"ANY"``.
-
-  .. code-block:: json
+     .. code-block:: json
+        
+        {
+          "options": {
+            "httpMethod": "POST"
+          }
+        }
      
-     {
-       "options": {
-         "httpMethod": "POST"
-       }
-     }
+     .. tip::
+
+        You can check which method a request was sent with in the
+        endpoint function by accessing :ref:`context.request.httpMethod
+        <context-request>`.
 ---
 title: Configure the Endpoint Response
 ref: configure-the-endpoint-response
 content: |
-  You can send a configurable :mdn:`HTTP Response
-  <Web/HTTP/Messages#HTTP_Responses>` to external services that call the
-  endpoint. To configure the endpoint to send a response to incoming
-  requests, set ``respond_result`` to ``true``.
-
-  If you enable :guilabel:`Respond With Result`, the endpoint will
-  respond to incoming requests with a basic :mdn:`HTTP 200
-  <Web/HTTP/Status/200>` response that includes the endpoint function
-  return value as its ``body`` field. You can configure a custom HTTP
-  response from within the endpoint function using the ``response``
-  object that Realm automatically passes as the second argument.
+  To send an :mdn:`HTTP Response <Web/HTTP/Messages#HTTP_Responses>` to
+  clients that call the endpoint, set ``respond_result`` to ``true``.
+  
+  By default, the endpoint responds to incoming requests with a basic
+  :mdn:`HTTP 200 <Web/HTTP/Status/200>` response that includes the
+  endpoint function return value as its ``body`` field.
+  
+  You can configure a custom HTTP response from within the endpoint
+  function using the ``response`` object. For more information, see
+  :ref:`endpoint-response-object`.
 ---
-title: Specify the Request Validation Method
-ref: specify-the-request-validation-method
+title: Configure Request Authorization
+ref: configure-request-authorization
 content: |
-  You can configure a endpoint's request authorization method in the
-  ``validation_method`` field of the endpoint configuration. Realm
-  supports the following :ref:`request validation methods
-  <endpoint-request-validation>`:
+  You can require all requests to a given endpoint to include additional
+  information that proves the validity of the request.
+
+  Specify one of the following supported validation methods in the
+  ``validation_method`` field:
 
   .. list-table::
      :header-rows: 1
@@ -160,21 +110,21 @@ content: |
      * - Method
        - Description
        
-     * - No Additional Authorization
-       - Incoming endpoint requests do not require additional
-         authorization.
-
+     * - ``NO_VALIDATION``
+       - Authenticated requests do not need to include authorization information.
+         
          .. code-block:: json
             
             {
               "validation_method": "NO_VALIDATION"
             }
        
-     * - Verify Payload Signature
-       - Incoming endpoint requests must include a hashed signature of
-         the request body and a secret value. For details, refer to
-         :ref:`Payload Signature Verification
-         <endpoint-verify-payload-signature>`.
+     * - ``VERIFY_PAYLOAD``
+       - Authenticated requests must include an ``Endpoint-Signature`` header
+         that contains a hash of the request body signed with a secret value.
+         
+         For details, see :ref:`Payload Signature Verification
+         <endpoint-payload-signature-verification>`.
 
          .. code-block:: json
             
@@ -183,10 +133,11 @@ content: |
               "secret_name": "<Secret Name>"
             }
        
-     * - Require Secret
-       - Incoming endpoint requests must include a secret string value as
-         the ``secret`` query parameter in the endpoint URL. For details,
-         refer to :ref:`Secret as a Query Parameter
+     * - ``SECRET_AS_QUERY_PARAM``
+       - Authenticated requests must include a secret value in the
+         ``secret`` query parameter of the endpoint URL.
+
+         For details, see :ref:`Secret Query Parameter
          <endpoint-secret-query-parameter>`.
 
          .. code-block:: json
@@ -196,20 +147,23 @@ content: |
               "secret_name": "<Secret Name>"
             }
 ---
-title: Add the Endpoint Function Source Code
-ref: add-the-endpoint-function-source-code
+title: Write the Endpoint Function
+ref: write-the-endpoint-function
 content: |
-  1. Pick a name for the function you would like to run when the endpoint
-     receives a request. Use that name as the value of the
-     ``function_name`` field in your the endpoint configuration object.
+  Every endpoint is associated with a :ref:`function <functions>` that
+  it calls for each incoming request. You can either :ref:`define a new
+  function <create-a-function>` or reference an existing function by
+  name.
+  
+  Endpoint functions have the following signature:
 
-  #. Create a :file:`.js` file with the same name as the function in the
-     functions directory or one of its subdirectories. The file
-     should contain a valid function that will execute when the endpoint is
-     called.
-
-  Realm automatically passes two objects as the endpoint function's
-  arguments:
+  .. code-block:: javascript
+     
+     exports = async function(request, response) {
+       // ... your code here
+     }
+  
+  {+service-short+} calls endpoint functions with two arguments:
 
   .. list-table::
      :header-rows: 1
@@ -218,29 +172,34 @@ content: |
      * - Argument
        - Description
 
-     * - ``payload``
-       - An EJSON representation of the incoming request payload. The
-         payload document contains:
+     * - ``request``
+       - An EJSON representation of the incoming request payload. For
+         details, see :ref:`endpoint-request-object`.
+       
+         The payload document contains:
 
          - The request query parameters, as an object.
 
          - The request headers, as an object.
 
-         - The request body, as a binary object. You can access the
+         - The request body, as a BSON.Binary object. You can access the
            contents as a string using the ``body.text()`` method.
 
      * - ``response``
-       - An :ref:`HTTP response object <endpoint-response-object>` that
-         configures Realm's response to the client that called the
-         endpoint. The object has methods that allow you to set the
-         response's headers, body, and status code. Calling any of these
-         methods overrides the default response behavior.
+       - An object that configures the HTTP response that the endpoint
+         returns to the client that called it. For details, see
+         :ref:`endpoint-response-object`.
+         
+         You can call methods on this object to set the response's
+         headers, body, and status code. If you do not call a method to
+         configure the response, the endpoint defaults to an :mdn:`HTTP
+         200 <Web/HTTP/Status/200>` response with the function's return
+         value as the body.
 
-  You can use the following endpoint function as a base for your own endpoint:
+  You can use the following example as a base for your own endpoint function:
 
   .. literalinclude:: /includes/endpoint-function-example.js
      :language: javascript
-     :emphasize-lines: 3, 10-11, 14-15
 
   .. note::
 
@@ -254,7 +213,17 @@ content: |
           { body: "This document is the endpoint payload" },
           new HTTPResponse()
         )
-
+---
+title: Configure User Authentication
+ref: configure-user-authentication
+content: |
+  Endpoints use the same authentication settings as the underlying
+  function that they call. To configure an endpoint's user
+  authentication, :ref:`modify the underlying function
+  <create-a-function>`.
+  
+  For more information on how to authenticate endpoint requests, see
+  :ref:`Endpoint Authentication <endpoint-authentication>`.
 ---
 title: Deploy the Incoming Endpoint Configuration
 ref: deploy-the-incoming-endpoint-configuration
