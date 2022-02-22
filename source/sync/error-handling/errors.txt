@@ -34,7 +34,7 @@ errors and how to handle them. {+service+} reports errors in your
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 35 65
 
    * - Error Name
      - Description
@@ -44,8 +44,8 @@ errors and how to handle them. {+service+} reports errors in your
        server cannot access after :ref:`terminating and re-enabling
        {+sync-short+} <terminating-and-reenabling-sync>`.
        
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
    * - ErrorClientFileUserMismatch
      - This error indicates that the client attempted to synchronize a
@@ -64,18 +64,8 @@ errors and how to handle them. {+service+} reports errors in your
        reenabled <terminating-and-reenabling-sync>` while the
        user is offline, which invalidates their previous sync history.
        
-       To recover from this error, perform a :ref:`client reset
-       <client-resets>`.
-
-   * - ErrorIllegalRealmPath
-     - This error indicates that the client attempted to open a {+realm+} with a
-       partition value of the wrong type. For example, you might see the error
-       message "attempted to bind on illegal realm partition: expected partition
-       to have type objectId but found string".
-       
-       To recover from this error, ensure that the type of the partition value
-       used to open the realm matches the partition key type in your
-       {+sync-short+} configuration.
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
 
    * - ErrorPermissionDenied
      - This error occurs when a user's data access permissions are not
@@ -91,6 +81,87 @@ errors and how to handle them. {+service+} reports errors in your
        specific error. For example, this might occur when you hit the storage
        limit of a free tier Atlas cluster.
 
+.. _partition-based-sync-errors:
+
+Partition-Based Sync Errors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following errors may occur when your {+app+} uses :ref:`Partition-Based Sync 
+<partition-based-sync>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Error Name
+     - Description
+
+   * - ErrorIllegalRealmPath
+     - This error indicates that the client attempted to open a {+realm+} with a
+       partition value of the wrong type. For example, you might see the error
+       message "attempted to bind on illegal realm partition: expected partition
+       to have type objectId but found string".
+       
+       To recover from this error, ensure that the type of the partition value
+       used to open the realm matches the partition key type in your
+       {+sync-short+} configuration.
+
+.. _flexible-sync-errors:
+
+Flexible Sync Errors
+~~~~~~~~~~~~~~~~~~~~
+
+The following errors may occur when your {+app+} uses :ref:`Flexible Sync 
+<flexible-sync>`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Error Name
+     - Description
+
+   * - ErrorBadQuery
+     - This error indicates the client query is invalid or malformed. This 
+       error includes a message that provides details about why the query
+       is invalid.
+
+       To recover from this error, you may need to verify the :ref:`query 
+       syntax <realm-query-language>` is correct, and that you are using 
+       :ref:`query operators that are supported on the server 
+       <flexible-sync-rql-limitations>`. Additionally, confirm you are querying
+       a :ref:`queryable field <queryable-fields>` in your Flexible Sync 
+       configuration.
+
+   * - ErrorServerPermissionsChanged
+     - This error indicates that server permissions for the file ident have changed
+       since the last time it was used.
+
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
+
+   * - ErrorInitialSyncNotCompleted
+     - This error indicates that the client tried to open a session before the 
+       initial sync was complete. This may occur when the app has just
+       enabled Sync, and is still in the process of building the Sync history.
+
+       The client attempts to reconnect until this process is complete. Then,
+       this error resolves and Sync begins working normally.
+    
+   * - ErrorWriteNotAllowed
+     - This error occurs when a client attempts a write that is disallowed 
+       by permissions, or if the write modifies an object outside of the 
+       subscription query. 
+       
+       Consider an example where the client application opens a subscription 
+       on a ``Places`` object type with the query ``name = "NY"``. If the 
+       client then tries to insert a ``Places`` object with a field 
+       ``name: "CT"``, the write triggers an ``ErrorWriteNotAllowed`` because 
+       the object is not within the subscription query.
+
+       This error triggers a client reset. To recover from this error, 
+       perform a :ref:`client reset <client-resets>`.
+
 .. _mongodb-translator-errors:
 
 MongoDB Translator Errors
@@ -101,7 +172,7 @@ and MongoDB Atlas.
 
 .. list-table::
    :header-rows: 1
-   :widths: 30 70
+   :widths: 35 65
 
    * - Error Name
      - Description
@@ -122,6 +193,26 @@ and MongoDB Atlas.
        primary key. To avoid this error, use an ``ObjectId`` or ``UUID`` as the
        primary key value. Alternatively, ensure that every synced object has a
        unique primary key, even across partitions.
+
+   * - TranslatorFatalError - ChangeStreamHistoryLost
+     - This error occurs when old entries in the :manual:`oplog
+       </core/replica-set-oplog/>` have expired before the server-side
+       "translator" process could read them. Without these entries, the
+       translator cannot bring the MongoDB cluster and the Realm object
+       server to an equivalent state.
+       
+       This can happen when:
+       
+       - Sync is paused for so long that entries fall off the oplog.
+       - You drop a collection that the translator was using.
+       - The MongoDB cluster is unreachable for too long.
+       
+       Because the free tier has a shared oplog, it is more vulnerable
+       to this error.
+       
+       To resolve this error, :ref:`terminate
+       <terminating-realm-sync>` and :ref:`re-enable Sync
+       <re-enable-realm-sync>`.
 
 .. _sync-client-errors:
 

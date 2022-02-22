@@ -229,6 +229,12 @@ The following example configures a synced {+realm+} with:
   before returning an open {+realm+}
 - automatic compaction when launching the {+realm+} to save file space
 
+.. important:: Production Applications Should Handle Client Resets
+
+   Applications used in production environments should handle client
+   reset errors. To learn more, see :ref:`Reset a Client Realm
+   <android-client-resets>`.
+
 .. tabs-realm-languages::
    
    .. tab::
@@ -298,12 +304,14 @@ parameter to add it to your subscriptions:
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.open-a-realm.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/FlexibleSyncTest.codeblock.open-a-realm.java
          :language: java
+         :copyable: false
 
 .. seealso::
 
@@ -327,12 +335,14 @@ It is important to remember to call the :java-sdk:`close()
 
        .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.close-a-realm-local.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/local/OpenARealmTest.codeblock.close-a-realm-local.java
          :language: java
+         :copyable: false
 
 .. seealso::
 
@@ -366,12 +376,14 @@ application.
 
        .. literalinclude:: /examples/generated/android/sync/RealmsTest.codeblock.modules.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/android/sync/RealmsTest.codeblock.modules.java
          :language: java
+         :copyable: false
 
 .. seealso::
 

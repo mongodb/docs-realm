@@ -9,15 +9,12 @@ import com.mongodb.realm.examples.YOUR_APP_ID
 import com.mongodb.realm.examples.model.kotlin.Frog
 import io.realm.Realm
 import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import java.io.File
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import org.bson.types.ObjectId
-import org.junit.Assert
 import org.junit.Test
 
 class BundleTest : RealmTest() {
@@ -52,6 +49,14 @@ class BundleTest : RealmTest() {
                         val outputDir = activity!!.applicationContext.cacheDir
                         val outputFile =
                             File(outputDir.path + "/" + PARTITION + "_bundled.realm")
+
+                        // ensure all local changes have synced to the backend
+                        try {
+                            app.sync.getSession(config)
+                                .uploadAllLocalChanges(10000, TimeUnit.MILLISECONDS)
+                        } catch (e: InterruptedException) {
+                            e.printStackTrace()
+                        }
 
                         // cannot write to file if it already exists. Delete the file if already there
                         outputFile.delete()

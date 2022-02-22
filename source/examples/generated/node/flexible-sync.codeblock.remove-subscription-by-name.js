@@ -1,4 +1,4 @@
-realm.subscriptions.update(({ removeByName }) => {
+realm.subscriptions.update((mutableSubs) => {
   // remove a subscription with a specific name
-  removeByName("longRunningTasksSubscription");
+  mutableSubs.removeByName("longRunningTasksSubscription");
 });

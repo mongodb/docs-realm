@@ -32,10 +32,12 @@ About the Examples on this Page
          .. literalinclude:: /examples/generated/android/sync/ProjectTask.codeblock.projecttask.kt
             :language: kotlin
             :caption: ProjectTask.kt
+            :copyable: false
 
          .. literalinclude:: /examples/generated/android/sync/Project.codeblock.project.kt
             :language: kotlin
             :caption: Project.kt
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -43,10 +45,12 @@ About the Examples on this Page
          .. literalinclude:: /examples/generated/android/sync/ProjectTask.codeblock.projecttask.java
             :language: java
             :caption: ProjectTask.java
+            :copyable: false
 
          .. literalinclude:: /examples/generated/android/sync/Project.codeblock.project.java
             :language: java
             :caption: Project.java
+            :copyable: false
 
 .. _android-read-from-realm:
 
@@ -87,12 +91,14 @@ using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java
 
       .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java
          :language: java
+         :copyable: false
 
 .. _android-query-all-objects-of-a-given-type:
 
@@ -113,16 +119,18 @@ refine the results.
    .. tabs-realm-languages::
 
       .. tab::
-          :tabid: java
+         :tabid: java
 
-          .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.get-all-objects.java
-             :language: java
+         .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.get-all-objects.java
+            :language: java
+            :copyable: false
 
       .. tab::
-          :tabid: kotlin
+         :tabid: kotlin
 
-          .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.get-all-objects.kt
-             :language: kotlin
+         .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.get-all-objects.kt
+            :language: kotlin
+            :copyable: false
 
 .. _android-filter-queries-based-on-object-properties:
 .. _android-filter-results:
@@ -156,12 +164,14 @@ up complex queries.
 
          .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.filter-results.java
             :language: java
+            :copyable: false
 
       .. tab::
          :tabid: kotlin
 
          .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.filter-results.kt
             :language: kotlin
+            :copyable: false
 
 .. _android-sort-query-results:
 .. _android-sort-results:
@@ -189,12 +199,14 @@ results are sorted.
 
           .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.sort-results.java
             :language: java
+            :copyable: false
 
       .. tab::
          :tabid: kotlin
 
          .. literalinclude:: /examples/generated/android/sync/ReadsTest.codeblock.sort-results.kt
             :language: kotlin
+            :copyable: false
 
 .. _android-query-a-relationship:
 
@@ -212,9 +224,11 @@ Query a Relationship
       .. literalinclude:: /examples/generated/android/sync/Person.codeblock.complete.kt
          :language: kotlin
          :emphasize-lines: 10
+         :copyable: false
 
       .. literalinclude:: /examples/generated/android/sync/Dog.codeblock.complete.kt
          :language: kotlin
+         :copyable: false
 
       To query this relationship, use dot notation in a
       :ref:`query <android-client-query-engine>` to access any property
@@ -223,6 +237,7 @@ Query a Relationship
       .. literalinclude:: /examples/generated/android/sync/RealmQueryTest.codeblock.query-a-relationship.kt
          :language: kotlin
          :emphasize-lines: 15
+         :copyable: false
 
    .. tab::
       :tabid: java
@@ -233,9 +248,11 @@ Query a Relationship
       .. literalinclude:: /examples/generated/android/sync/Human.codeblock.complete.java
          :language: java
          :emphasize-lines: 12
+         :copyable: false
 
       .. literalinclude:: /examples/generated/android/sync/Cat.codeblock.complete.java
          :language: java
+         :copyable: false
 
       To query this relationship, use dot notation in a
       :ref:`query <android-client-query-engine>` to access any property
@@ -244,6 +261,7 @@ Query a Relationship
       .. literalinclude:: /examples/generated/android/sync/RealmQueryTest.codeblock.query-a-relationship.java
          :language: java
          :emphasize-lines: 16
+         :copyable: false
 
 .. seealso::
 
@@ -310,12 +328,14 @@ Aggregate Data
 
       .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.aggregate-operators.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/QueryEngineTest.codeblock.aggregate-operators.java
          :language: java
+         :copyable: false
 
 .. _android-write-operations:
 .. _android-realm-database-writes:
@@ -367,6 +387,7 @@ This automatically inserts the instance into the {+realm+}.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.create-an-object.kt
             :language: kotlin
             :emphasize-lines: 3
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -374,6 +395,7 @@ This automatically inserts the instance into the {+realm+}.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.create-an-object.java
             :language: java
             :emphasize-lines: 3
+            :copyable: false
 
 You can also insert objects into a {+realm+} from JSON. {+service-short+}
 supports creating objects from ``String``,
@@ -396,12 +418,14 @@ not defined in the {+service-short+} object schema.
 
          .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.create-an-object-json.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.create-an-object-json.java
             :language: java
+            :copyable: false
 
 .. _android-modify-an-object:
 .. _android-update:
@@ -427,6 +451,7 @@ the property.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.update-an-object.kt
             :language: kotlin
             :emphasize-lines: 6,7
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -434,6 +459,7 @@ the property.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.update-an-object.java
             :language: java
             :emphasize-lines: 6,7
+            :copyable: false
 
 .. _android-upsert:
 
@@ -463,6 +489,7 @@ adding any new entries.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.upsert-an-object.kt
             :language: kotlin
             :emphasize-lines: 14-16
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -470,6 +497,7 @@ adding any new entries.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.upsert-an-object.java
             :language: java
             :emphasize-lines: 14-16
+            :copyable: false
 
 You can also use :java-sdk:`copyToRealmOrUpdate()
 <io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...->` to
@@ -492,6 +520,7 @@ that are different in the supplied object:
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt
             :language: kotlin
             :emphasize-lines: 15-16
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -499,6 +528,7 @@ that are different in the supplied object:
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java
             :language: java
             :emphasize-lines: 16
+            :copyable: false
 
 
 .. _android-batch-update:
@@ -529,6 +559,7 @@ objects in a collection at once.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.update-a-collection.kt
             :language: kotlin
             :emphasize-lines: 11,12
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -536,6 +567,7 @@ objects in a collection at once.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.update-a-collection.java
             :language: java
             :emphasize-lines: 9,10
+            :copyable: false
 
 .. _android-iteration:
 
@@ -569,12 +601,14 @@ to manually generate a snapshot you can iterate over manually:
 
          .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.iterate.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/local/WritesTest.codeblock.iterate.java
             :language: java
+            :copyable: false
 
 .. _android-delete-an-object:
 
@@ -604,6 +638,7 @@ versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-an-object.kt
             :language: kotlin
             :emphasize-lines: 6
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -611,6 +646,7 @@ versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-an-object.java
             :language: java
             :emphasize-lines: 4
+            :copyable: false
 
 .. _android-delete-multiple-objects:
 
@@ -637,6 +673,7 @@ filter the ``RealmResults`` down to a subset of objects using the
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-a-collection.kt
             :language: kotlin
             :emphasize-lines: 6
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -644,6 +681,7 @@ filter the ``RealmResults`` down to a subset of objects using the
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-a-collection.java
             :language: java
             :emphasize-lines: 4
+            :copyable: false
 
 .. _android-delete-object-and-dependent-objects:
 
@@ -676,6 +714,7 @@ deleting the parent object.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.cascading-deletes.kt
             :language: kotlin
             :emphasize-lines: 6
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -683,6 +722,7 @@ deleting the parent object.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.cascading-deletes.java
             :language: java
             :emphasize-lines: 5
+            :copyable: false
 
 .. _android-delete-all-object-of-a-specific-type:
 
@@ -706,6 +746,7 @@ Delete All Objects of a Specific Type
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-all-instances-of-a-type.kt
             :language: kotlin
             :emphasize-lines: 2
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -713,6 +754,7 @@ Delete All Objects of a Specific Type
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-all-instances-of-a-type.java
             :language: java
             :emphasize-lines: 2
+            :copyable: false
 
 .. _android-delete-all-objects-in-a-realm:
 
@@ -737,6 +779,7 @@ quickly clearing out your {+realm+} while prototyping.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-all.kt
             :language: kotlin
             :emphasize-lines: 2
+            :copyable: false
 
       .. tab::
          :tabid: java
@@ -744,3 +787,4 @@ quickly clearing out your {+realm+} while prototyping.
          .. literalinclude:: /examples/generated/android/sync/WritesTest.codeblock.delete-all.java
             :language: java
             :emphasize-lines: 2
+            :copyable: false

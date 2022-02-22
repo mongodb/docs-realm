@@ -1,9 +1,9 @@
-await realm.subscriptions.update(({ add }) => {
-  add(longRunningTasks, {
+await realm.subscriptions.update((mutableSubs) => {
+  mutableSubs.add(longRunningTasks, {
     name: "longRunningTasksSubscription",
   });
-  add(bensTasks);
-  add(realm.objects("Team"), {
+  mutableSubs.add(bensTasks);
+  mutableSubs.add(realm.objects("Team"), {
     name: "teamsSubscription",
     throwOnUpdate: true,
   });

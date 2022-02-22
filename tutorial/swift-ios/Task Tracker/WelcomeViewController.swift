@@ -2,7 +2,7 @@
 //  WelcomeViewController.swift
 //  Task Tracker
 //
-//  Copyright © 2020-2021 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2022 MongoDB, Inc. All rights reserved.
 //
 
 import UIKit

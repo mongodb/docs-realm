@@ -1,0 +1,42 @@
+title: Create a Flutter Project
+ref: create-a-Flutter-project
+content: |
+
+  Create a Flutter project. Follow the instructions in the 
+  `Flutter documentation <https://docs.flutter.dev/get-started/test-drive?tab=terminal>`__.
+
+  .. code-block::
+
+     flutter create <app_name>
+     cd <app_name>
+---
+title: Add Realm to the Project
+ref: add-realm-to-project
+content: |
+
+  To add the `{+service-short+} Flutter SDK <https://pub.dev/packages/realm>`__ to your project, run the command:
+
+  .. code-block:: 
+
+     flutter pub add realm
+
+  This downloads the ``realm`` package and adds it to your project. 
+  In your ``pubspec.yaml`` file, you should see:
+
+  .. code-block:: yaml
+     :caption: pubspec.yaml
+
+     dependencies:
+       realm: <latest_version>
+
+---
+title: Import Realm Package
+ref: import-realm-package
+content: |
+
+  To use the {+service-short+} Flutter SDK within your app, import the package 
+  into files where you will use it:
+
+  .. code-block:: dart
+
+     import 'package:realm/realm.dart';

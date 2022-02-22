@@ -207,7 +207,7 @@ between synced realms and MongoDB Atlas.
 To define your synced object models, do one of the following for each object
 type:
 
-- **Sync object models from an SDK:** In :ref:`development mode
+- **Sync object models from an SDK:** In :ref:`Development Mode
   <concept-development-mode>`, Realm automatically generates a document schema
   for each synced object type and assigns that schema to a collection in the
   linked cluster with the same name as the object type. Development mode lets
@@ -216,12 +216,13 @@ type:
   you prefer a client-first approach that uses idiomatic object models in your
   preferred programming language.
   
-  For a walkthrough of how to turn on development mode, see :ref:`Enable
+  For a walkthrough of how to turn on Development Mode, see :ref:`Enable
   Development Mode <enable-development-mode>`.
   
-  .. tip:: Development Mode Configurations
+  .. tip:: Partition-Based Sync
      
-     Development mode requires you to specify a partition key and database to
+     When you use :ref:`Partition-Based Sync <partition-based-sync>` with 
+     Development mode, you must specify a partition key and database to
      hold synced data.
      
      You may not know exactly what you want either of these to be long term, but
@@ -251,7 +252,10 @@ Define Data Access Patterns
 Once you have decided on your app's data model, you can define a data access 
 pattern and access rules for your app's data. 
 
-When you use partition-based Sync, you must:
+Choose a Sync Mode
+~~~~~~~~~~~~~~~~~~
+
+When you use :ref:`Partition-Based Sync <partition-based-sync>`, you must:
 
 - Identify a partition strategy
 - Define a partition key 
@@ -260,26 +264,43 @@ When you use partition-based Sync, you must:
 Partition key values and data access rules determine which users can read or
 write which data in your database.
 
+When you use :ref:`Flexible Sync <flexible-sync>`, you must:
+
+- Specify queryable fields
+- Configure data access rules and default roles
+
+Client applications can query the queryable fields you configure to determine
+which objects to sync. Then, Realm applies rules and default roles to 
+determine whether users can read or write the objects that match the query.
+
 Define Data Access Rules
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Data access rules determine how Realm divides your app's data into synced
-partitions as well as each user's ability to read and write data. Rules are
-closely linked to your app's data model.
+Data access rules determine which data to sync, as well as each user's 
+ability to read and write data. Rules are closely linked to your app's data 
+model.
+
+Partition-Based Sync Data Access Rules
+``````````````````````````````````````
 
 To design effective rules, :ref:`choose a partition strategy
 <partition-strategies>` and corresponding :ref:`read and write permissions
-<sync-permissions>` that match your app's data model and access patterns.
+<partition-based-sync-permissions>` that match your app's data model and 
+access patterns.
 
-.. important:: Define Rules for Production Apps
-   
-   In development mode, Realm does not enforce any rules and doesn't ask you to
-   define any. This allows you to develop your data models faster but is not
-   secure for user-facing apps.
-   
-   If you're using development mode to define your app's object models, you can
-   skip this step for now. However, you should disable development mode and
-   define rules before you push your app to production.
+Flexible Sync Data Access Rules
+```````````````````````````````
+
+Flexible Sync does not require you to define a partition strategy, but instead
+enables you to specify which data to sync by querying for matching objects 
+in a client application. Realm then evaluates :ref:`rules and roles 
+<flexible-sync-permissions>` to determine which of those matching objects 
+a user can read and write.
+
+You can define rules on specific collections. Default roles provide read and 
+write permissions when more specific rules do not apply. Default roles apply 
+to all collections a Realm app can access, but you can restrict a rule to a 
+specific collection by specifying the collection name.
 
 Configure and Enable Sync
 -------------------------
@@ -292,8 +313,8 @@ Enable Sync
 ~~~~~~~~~~~
 
 When you enable Sync, you specify how clients can access data in your
-{+app+}. For a walkthrough of how to turn on sync, see :ref:`Define Sync 
-Rules <sync-rules>`.
+{+app+}. For a walkthrough of how to turn on sync, see :ref:`Enable Realm 
+Sync <enable-sync>`.
 
 Optimize Sync Data Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~

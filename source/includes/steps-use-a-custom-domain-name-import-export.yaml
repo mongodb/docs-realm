@@ -10,13 +10,13 @@ ref: pull-the-latest-version-of-your-app
 content: |
   To configure a custom domain name with {+cli-bin+}, you need a local copy of
   your application's configuration files.
-  
+
   To pull a local copy of the latest version of your app, run the following:
-  
+
   .. code-block:: bash
      
      realm-cli pull --remote="<Your App ID>"
-  
+
   .. tip::
      
      You can also download a copy of your application's configuration files from
@@ -27,7 +27,7 @@ ref: specify-the-custom-domain
 content: |
   In ``hosting/config.json``, set ``custom_domain`` to your custom domain name
   then save the file.
-  
+
   .. code-block:: json
      :caption: hosting/config.json
      
@@ -35,7 +35,7 @@ content: |
        "enabled": true,
        "custom_domain": "example.com"
      }
-  
+
   .. note::
      
      The value of ``custom_domain`` should be the root domain without
@@ -61,7 +61,7 @@ content: |
   Once you've updated and saved ``hosting/config.json`` you can push the updated
   config to your remote app. {+cli+} immediately deploys the configuration on
   push and Realm immediately starts trying to verify your domain name.
-  
+
   .. code-block:: bash
      
      realm-cli push --remote="<Your App ID>" --include-hosting
@@ -81,18 +81,23 @@ content: |
   DNS records for the validation ``CNAME`` and will mark the domain as
   verified if it finds the record.
 
-  .. note::
+  .. tip:: Troubleshooting
 
-     {+service-short+} may not be able to find the validation record if your DNS
-     provider proxies requests for the domain. If {+service-short+} cannot validate
-     your domain, ensure that you have disabled any HTTP proxies for the
-     validation CNAME record on your DNS provider.
+     - In the :guilabel:`Name` field of the {+ui+}, {+service-short+} provides 
+       the full address for the CNAME record, ``<Subdomain>.<Your Base Domain>``. 
+       However, many hosting providers just request the ``<Subdomain>`` part 
+       to put in their UI. If you run into issues, check your hosting provider's 
+       documentation on how to add CNAME records. 
 
-  .. note::
+     - {+service-short+} may not be able to find the validation record if your DNS
+       provider proxies requests for the domain. If {+service-short+} cannot validate
+       your domain, ensure that you have disabled any HTTP proxies for the
+       validation CNAME record on your DNS provider.
 
-     If an error is encountered during custom domain name validation,
-     {+service-short+} sends the project owner an email alerting them of the
-     issue.
+     - If an error is encountered during custom domain name validation,
+       {+service-short+} sends the project owner an email alerting them of the
+       issue.
+
 ---
 title: Add a Redirect CNAME Record
 ref: add-a-redirect-cname-record
@@ -120,4 +125,3 @@ content: |
          .. code-block:: none
 
             <Your App ID>.mongodbstitch.com
-...

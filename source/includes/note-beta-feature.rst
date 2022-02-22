@@ -8,7 +8,7 @@
    - The API may change.
    - New data types are not backwards compatible. 
 
-   To add new data types via :ref:`development mode <enable-development-mode>`, 
+   To add new data types via :ref:`Development Mode <enable-development-mode>`, 
    you must update the client SDK. {+sync+} client applications using older
    protocol versions will no longer be able to connect.
 
