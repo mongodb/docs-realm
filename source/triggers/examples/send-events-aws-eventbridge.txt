@@ -6,6 +6,12 @@ Send Trigger Events to AWS EventBridge
 
 .. default-domain:: mongodb
 
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 Overview
 --------
 
@@ -32,11 +38,9 @@ Procedure
 .. note::
 
    The AWS put entry for an EventBridge trigger event must be smaller than 256 KB.
-
-   For more information, see the `AWS Documentation to calculate Amazon
-   PutEvents event entry size <https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html>`_.
-   You can configure a :ref:`project expression <create-a-database-trigger>` 
-   on the trigger to reduce the size of the entry you send to Eventbridge.
+   
+   :ref:`Learn how to reduce the size of your PutEvents entry in the Performance Optimization 
+   section. <send-aws-eventbridge-performance-optimization>` 
 
 .. include:: /includes/steps/eventbridge.rst
 
@@ -49,3 +53,23 @@ The following object configures a trigger to send events to AWS
 Eventbridge:
 
 .. include:: /includes/event-processor-example.rst
+
+.. _send-aws-eventbridge-performance-optimization:
+
+Performance Optimization
+------------------------
+
+The AWS put entry for an EventBridge trigger event must be smaller than 256 KB. 
+
+For more information, see the :aws:`AWS Documentation to calculate Amazon
+PutEvents event entry size </eventbridge/latest/userguide/eb-putevent-size.html>`.
+
+When using Database Triggers, the Project Expression can be useful reduce the document size  
+before sending messages to EventBridge. 
+This expression lets you include only specified fields, reducing document size.
+
+:ref:`Learn more in the Database Trigger Project Expression documentation. 
+<database-triggers-project-expression>`
+
+
+

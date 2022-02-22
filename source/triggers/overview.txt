@@ -1,0 +1,94 @@
+.. _triggers:
+.. _triggers-overview:
+
+=================
+Triggers Overview
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service-short+} Triggers enable you to execute application and database
+logic automatically, either in response to events or based on a
+pre-defined schedule. 
+
+Triggers listen for application events of a configured type
+and are each linked with a specific :doc:`{+service-short+} Function </functions>`.
+Whenever a Trigger observes an event that matches your
+configuration, it *"fires"* and passes the event object that caused it
+to fire as the argument to its linked Function. You can
+configure the events that cause a Trigger to fire based on
+their *operation type* as well as other values specific to each type of
+Trigger.
+
+{+service-short+} keeps track of the latest execution time for each
+Trigger.
+
+.. _trigger-types:
+
+Trigger Types
+-------------
+
+{+service+} supports three types of triggers:
+
+- :doc:`Database triggers </triggers/database-triggers>`
+  automatically respond upon any document insertion, alteration, or
+  removal in a linked MongoDB collection.
+
+- :doc:`Authentication triggers </triggers/authentication-triggers>`
+  execute additional server-side logic upon user creation,
+  authentication, or deletion.
+
+- :doc:`Scheduled triggers </triggers/scheduled-triggers>`
+  execute functions at regular intervals according to a pre-defined
+  schedule.
+
+.. _trigger-limitations:
+
+Limitations
+-----------
+
+Realm Function Constraints Apply
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As Triggers invoke {+service-short+} Functions, they have the same constraints
+as all {+service-short+} Functions. 
+
+:ref:`Learn more about {+service-short+} Function constraints.<function-constraints>`
+
+Maximum Executions Per Second
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{+service+} limits the execution of Trigger
+Functions to a rate of 2500 executions per second per Trigger. If there 
+are additional Trigger executions beyond this threshold, {+backend+} adds 
+their associated Function calls to a queue and executes each one when the 
+capacity becomes available. However, the real execution rate in your
+environment may be lower than the theoretical limit of 2500 executions
+per second, depending on your Atlas instance size.
+
+Database Triggers with *event ordering* enabled are an exception to
+this rule. Each ordered Trigger processes events in order,
+waiting for the previous event execution to complete before handling
+the next event. Therefore, only one execution of a particular ordered
+Trigger executes at any given time.
+
+Number of Triggers Cannot Exceed Available Change Streams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{+service+} limits the total number of Database Triggers based on size of your 
+{+atlas-short+} cluster. Each cluster tier has a maximum number of supported 
+change streams. A Database Trigger requires its own change stream, and there 
+are other {+service-short+} services that use change streams, such as {+sync+}. 
+The total number of Database Triggers may not exceed the number of available change 
+streams. 
+
+:ref:`Learn more about the maximum number of supported change streams for
+different {+atlas+} tiers. <mongodb-service-limitations-change-streams>`
+
+
