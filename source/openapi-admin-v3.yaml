@@ -2876,6 +2876,106 @@ paths:
       responses:
         "204":
           description: No Content
+
+
+  "/groups/{groupId}/apps/{appId}/endpoints":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+    
+    get:
+      tags:
+        - endpoints
+      operationId: adminGetAllEndpoints
+      summary: Get all endpoints
+      description: Get all [endpoint](https://docs.mongodb.com/realm/endpoints/) configurations.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Endpoint"
+    
+    post:
+      tags:
+        - endpoints
+      operationId: adminCreateEndpoint
+      summary: Create an endpoint
+      description: Create a new [endpoint](https://docs.mongodb.com/realm/endpoints/).
+      requestBody:
+        description: A valid [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the new endpoint.
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Endpoint"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+
+  "/groups/{groupId}/apps/{appId}/endpoints/{endpointId}":
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
+      - "$ref": "#/components/parameters/EndpointId"
+    
+    get:
+      tags:
+        - endpoints
+      operationId: adminGetEndpoint
+      summary: Get an endpoint
+      description: Get a specific [endpoint](https://docs.mongodb.com/realm/endpoints/)'s configuration.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+    
+    put:
+      tags:
+        - endpoints
+      operationId: adminModifyEndpoint
+      summary: Modify an endpoint
+      description: Modify an existing [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
+      requestBody:
+        description: A valid, updated [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the endpoint.
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Endpoint"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Endpoint"
+    
+    delete:
+      tags:
+        - endpoints
+      operationId: adminDeleteEndpoint
+      summary: Delete an endpoint
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                properties: {}
+
+
+
 components:
   parameters:
     AssetResourcePath:
@@ -3038,14 +3138,21 @@ components:
         type: string
     TriggerId:
       name: triggerId
-      description: The ObjectID of the trigger.
+      description: The trigger's `_id` ObjectID value.
       in: path
       required: true
       schema:
         type: string
     SchemaId:
       name: schemaId
-      description: The ObjectID of the schema.
+      description: The schema's `_id` ObjectID value.
+      in: path
+      required: true
+      schema:
+        type: string
+    EndpointId:
+      name: endpointId
+      description: The endpoint's `_id` ObjectID value.
       in: path
       required: true
       schema:
@@ -3301,6 +3408,36 @@ components:
                 description: |-
                   A list where each element is the name of a file that was changed in the
                   draft.
+    Endpoint:
+      type: object
+      properties:
+        route:
+          type: string
+        http_method:
+          type: string
+          enum:
+            - "GET"
+            - "POST"
+            - "PUT"
+            - "PATCH"
+            - "DELETE"
+            - "*"
+        function_name:
+          type: string
+        validation_method:
+          type: string
+          enum:
+            - "NO_VALIDATION"
+            - "SECRET_AS_QUERY_PARAM"
+            - "VERIFY_PAYLOAD"
+        respond_result:
+          type: boolean
+        fetch_custom_user_data:
+          type: boolean
+        create_user_on_auth:
+          type: boolean
+        disabled:
+          type: boolean
     Error:
       type: object
       properties:
@@ -3980,24 +4117,115 @@ tags:
   - name: apikeys
     description: API Key APIs
     x-displayName: API Key APIs
-  - name: billing
-    description: Billing APIs
-    x-displayName: Billing APIs
-  - name: secrets
-    description: Secrets APIs
-    x-displayName: Secrets APIs
   - name: apps
     description: Application-level APIs
     x-displayName: Application-level APIs
   - name: authproviders
     description: Auth Provider APIs
     x-displayName: Auth Provider APIs
+  - name: billing
+    description: Billing APIs
+    x-displayName: Billing APIs
+  - name: deploy
+    description: |
+      Application Deployment APIs
+
+      ## Draft and Deploy a Group of Changes
+
+      You can [deploy](https://docs.mongodb.com/realm/manage-apps/deploy#std-label-application-deployment) a
+      group of application changes together by creating and deploying a draft.
+      To create and deploy a set of draft changes:
+
+      ### 1. Create a New Draft
+
+      A draft represents a group of application changes that you can deploy or
+      discard as a single unit. To create a draft, send a `POST` request to
+      the drafts endpoint:
+
+      ```shell
+      curl --request POST \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer <access_token>' \
+        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts'
+      ```
+
+
+      #### One Draft Per User
+
+      Each user can only create a single draft at a time, either through the
+      UI or the Admin API. If you already have an existing draft, you can
+      discard the changes associated with it by sending a `DELETE` request to
+      the draft's endpoint:
+
+      ```shell
+      curl --request DELETE \
+        --header 'Authorization: Bearer <access_token>' \
+        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}'
+      ```
+
+      ### 2. Make Changes to Your Application
+
+      Once you've created a draft, make all of the changes that you want to
+      include in the draft. Realm adds any application changes that you make
+      to the draft so that you can deploy them together.
+
+      ### 3. Deploy the Draft
+
+      After you've made all the changes that you want to include in the
+      deployment, deploy the draft by sending a `POST` request to that draft's
+      deployment endpoint:
+
+      ```shell
+      curl --request POST \
+        --header 'Content-Type: application/json' \
+        --header 'Authorization: Bearer <access_token>' \
+        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}/deployment'
+      ```
+
+      #### Draft Conflicts
+
+      If you deploy changes through the API but have conflicting changes in a
+      draft in the UI, your UI draft will become invalid and you will not be
+      able to deploy it. You can download your UI draft by reviewing the draft
+      in the `Deployment` page. You can use the download to deploy your
+      changes in the `realm-cli` or as a reference as you reapply changes in
+      the UI.
+
+    x-displayName: Application Deployment APIs
+  - name: dependencies
+    description: Dependency APIs
+    x-displayName: Dependency APIs
   - name: email
     description: Email APIs
     x-displayName: Email APIs
+  - name: endpoints
+    description: Custom HTTPS Endpoint APIs
+    x-displayName: Custom HTTPS Endpoint APIs
   - name: functions
     description: Functions APIs
     x-displayName: Functions APIs
+  - name: hosting
+    description: |
+      Static File Hosting APIs
+
+      ## Asset Metadata Document Example
+
+      Asset metadata documents describe hosted asset files.
+
+      ```json
+      {
+        "path": "<Asset Resource Path>",
+        "hash": "<Asset MD5 Checksum Hash>",
+        "size": <File size in bytes>,
+        "attrs": [
+            {
+              "name": "<Metadata Attribute Name>",
+              "value": "<Metadata Attribute Value>",
+            }
+        ]
+      }
+      ```
+    x-displayName: Static File Hosting APIs
   - name: logs
     description: |
       Logging APIs
@@ -4052,6 +4280,9 @@ tags:
   - name: schemas
     description: Schema APIs
     x-displayName: Schema APIs
+  - name: secrets
+    description: Secrets APIs
+    x-displayName: Secrets APIs
   - name: security
     description: Security APIs
     x-displayName: Security APIs
@@ -4061,6 +4292,9 @@ tags:
   - name: sync
     description: Sync APIs
     x-displayName: Sync APIs
+  - name: triggers
+    description: Event Trigger APIs
+    x-displayName: Event Trigger APIs
   - name: users
     description: Users APIs
     x-displayName: Users APIs
@@ -4068,102 +4302,7 @@ tags:
     description: Values APIs
     x-displayName: Values APIs
   - name: webhooks
-    description: Incoming Webhook APIs
-    x-displayName: Incoming Webhook APIs
-  - name: triggers
-    description: Event Trigger APIs
-    x-displayName: Event Trigger APIs
-  - name: hosting
-    description: |
-      Static File Hosting APIs
-
-      ## Asset Metadata Document Example
-
-      Asset metadata documents describe hosted asset files.
-
-      ```json
-      {
-        "path": "<Asset Resource Path>",
-        "hash": "<Asset MD5 Checksum Hash>",
-        "size": <File size in bytes>,
-        "attrs": [
-            {
-              "name": "<Metadata Attribute Name>",
-              "value": "<Metadata Attribute Value>",
-            }
-        ]
-      }
-      ```
-    x-displayName: Static File Hosting APIs
-  - name: deploy
-    description: |
-      Application Deployment APIs
-
-      ## Draft and Deploy a Group of Changes
-
-      You can [deploy](https://docs.mongodb.com/realm/manage-apps/deploy#std-label-application-deployment) a
-      group of application changes together by creating and deploying a draft.
-      To create and deploy a set of draft changes:
-
-      ### 1. Create a New Draft
-
-      A draft represents a group of application changes that you can deploy or
-      discard as a single unit. To create a draft, send a `POST` request to
-      the drafts endpoint:
-
-      ```shell
-      curl --request POST \
-        --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer <access_token>' \
-        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts'
-      ```
-
-      **See Also**: [API Deployment Endpoints](undefinedapplication-deployment-apis)
-
-      #### One Draft Per User
-
-      Each user can only create a single draft at a time, either through the
-      UI or the Admin API. If you already have an existing draft, you can
-      discard the changes associated with it by sending a `DELETE` request to
-      the draft's endpoint:
-
-      ```shell
-      curl --request DELETE \
-        --header 'Authorization: Bearer <access_token>' \
-        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}'
-      ```
-
-      ### 2. Make Changes to Your Application
-
-      Once you've created a draft, make all of the changes that you want to
-      include in the draft. Realm adds any application changes that you make
-      to the draft so that you can deploy them together.
-
-      ### 3. Deploy the Draft
-
-      After you've made all the changes that you want to include in the
-      deployment, deploy the draft by sending a `POST` request to that draft's
-      deployment endpoint:
-
-      ```shell
-      curl --request POST \
-        --header 'Content-Type: application/json' \
-        --header 'Authorization: Bearer <access_token>' \
-        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}/deployment'
-      ```
-
-      #### Draft Conflicts
-
-      If you deploy changes through the API but have conflicting changes in a
-      draft in the UI, your UI draft will become invalid and you will not be
-      able to deploy it. You can download your UI draft by reviewing the draft
-      in the `Deployment` page. You can use the download to deploy your
-      changes in the `realm-cli` or as a reference as you reapply changes in
-      the UI.
-
-    x-displayName: Application Deployment APIs
-  - name: dependencies
-    description: Dependency APIs
-    x-displayName: Dependency APIs
+    description: "[Deprecated] Incoming Webhook APIs"
+    x-displayName: "[Deprecated] Incoming Webhook APIs"
 security:
   - tokenAuth: []
