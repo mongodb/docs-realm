@@ -178,10 +178,12 @@ Generally, {+client-database+} takes less space on disk than a
 comparable SQLite database. Unexpected file growth may be related to the 
 {+backend-short+} referring to outdated data.
 
-.. seealso::
+.. tip:: Implement Compacting in Your Production Application
 
-   If file size negatively impacts performance, you may want to compact the file:
-   :ref:`Compact a Realm <ios-client-compact-a-realm>`.
+   Every production application should implement a :swift-sdk:`shouldCompactOnLaunch 
+   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV21shouldCompactOnLaunchSbSi_SitcSgvp>` 
+   callback to periodically reduce the realm file size. For more information
+   about compacting a realm, see: :ref:`<ios-client-compact-a-realm>`.
 
 Avoid Pinning Transactions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -92,6 +92,17 @@ object type.
   .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
      :language: javascript
 
+.. important:: Object Links
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be null.
+   There is no way to distinguish whether that property's value is 
+   legitimately null, or whether the object it links to exists but is out of
+   view of the query subscription.
+
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
 To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
@@ -102,6 +113,8 @@ on the {+realm+}.
 
 You can use this snapshot to add queries to the list of subscriptions and
 update existing subscriptions, as shown in the examples below.
+
+.. _react-native-sync-add-subscription:
 
 Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 

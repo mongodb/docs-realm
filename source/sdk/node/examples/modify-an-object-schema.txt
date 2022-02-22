@@ -15,6 +15,15 @@ Modify an Object Schema - Node.js SDK
 
 .. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
 
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete 
+   the realm instead of migrating it. Use the 
+   ``deleteRealmIfMigrationNeeded`` flag to delete the database 
+   automatically when a schema mismatch would require a migration. 
+
+   Never release an app to production with this flag set to ``true``.
+
 .. _node-add-a-property:
 
 Add a Property
