@@ -37,11 +37,11 @@ Open a Realm
 ------------
 
 Use :kotlin-sdk:`RealmConfiguration
-<-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/index.html>`
+<{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>`
 to control the specifics of the {+realm+} you
 would like to open, including the name, location, and schema.
 Pass your configuration to the :kotlin-sdk:`Realm constructor
-<-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html>`
+<{+kotlin-local-prefix+}io.realm/-realm/index.html>`
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt
@@ -52,7 +52,7 @@ Create, Read, Update, and Delete Objects
 
 Once opened, you can create objects within a {+realm+} in a
 :kotlin-sdk:`write transaction block
-<-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
+<{+kotlin-local-prefix+}io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
 
 To create a new ``Task``, instantiate an instance of the
 ``Task`` class and add it to the {+realm+} in a write transaction block:
@@ -85,7 +85,7 @@ To modify a task, update its properties in a write transaction block:
    :language: kotlin
 
 Finally, you can delete a task by calling the :kotlin-sdk:`object.delete()
-<-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691>`
+<{+kotlin-local-prefix+}io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691>`
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt
