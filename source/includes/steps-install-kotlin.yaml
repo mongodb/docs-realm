@@ -17,10 +17,10 @@ content: |
   ``plugins``. The next step differs if your project uses {+sync+}:
 
   - If your project uses {+sync+}, add ``implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")``
-  to ``kotlin.sourceSets.commonMain.dependencies``.
+    to ``kotlin.sourceSets.commonMain.dependencies``.
 
   - If your project does **not** use {+sync+}, add ``implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")``
-  to ``kotlin.sourceSets.commonMain.dependencies``.
+    to ``kotlin.sourceSets.commonMain.dependencies``.
 
   The SDK uses coroutines for asynchronous calls. You should also add
   ``implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")``
