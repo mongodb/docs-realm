@@ -1,4 +1,6 @@
-val config = RealmConfiguration.with(schema = setOf(Task::class))
+val config = RealmConfiguration.Builder()
+    .schema(setOf(Task::class))
+    .build()
 val realm: Realm = Realm.open(config)
 realm.writeBlocking {
     copyToRealm(Task().apply {

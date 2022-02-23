@@ -12,6 +12,7 @@ kotlin {
     android()
     iosX64()
     iosArm64()
+    jvm()
     
     sourceSets {
         val commonMain by getting {
@@ -26,6 +27,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion") // required to use coroutines in test suite
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-junit"))
             }
         }
         val androidMain by getting {
@@ -52,6 +54,13 @@ kotlin {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
+        }
+        jvm().compilations["main"].defaultSourceSet {
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+            }
         }
     }
 }

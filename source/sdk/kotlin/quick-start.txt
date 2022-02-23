@@ -44,7 +44,7 @@ Pass your configuration to the :kotlin-sdk:`Realm constructor
 <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html>`
 to generate an instance of that {+realm+}:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-open-a-realm.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt
    :language: kotlin
 
 Create, Read, Update, and Delete Objects
@@ -57,7 +57,7 @@ Once opened, you can create objects within a {+realm+} in a
 To create a new ``Task``, instantiate an instance of the
 ``Task`` class and add it to the {+realm+} in a write transaction block:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-create.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-create.kt
    :language: kotlin
 
 You can retrieve a collection of all tasks in the {+realm+} with the
@@ -65,13 +65,13 @@ You can retrieve a collection of all tasks in the {+realm+} with the
 <-realm -kotlin -multiplatform -s-d-k/io.realm/objects.html>`
 convenience wrapper:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-read.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-read.kt
    :language: kotlin
 
 You can also filter a collection to retrieve a more specific collection
 of objects:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-read-filtered.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-read-filtered.kt
    :language: kotlin
 
 .. note:: Realm Query Language
@@ -81,14 +81,14 @@ of objects:
 
 To modify a task, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-update.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-update.kt
    :language: kotlin
 
 Finally, you can delete a task by calling the :kotlin-sdk:`object.delete()
 <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691>`
 method in a write transaction block:
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start-delete.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt
    :language: kotlin
 
 Complete Example
@@ -98,5 +98,5 @@ If you're running this project in a fresh KMM template project, you can
 copy and paste into the ``Greeting.greeting()`` method in the
 ``commonMain`` module.
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.quick-start.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start.kt
    :language: kotlin
