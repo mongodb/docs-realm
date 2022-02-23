@@ -1,0 +1,88 @@
+.. _java-init-appclient:
+.. _java-connect-to-mongodb-realm-backend-app:
+
+=================================================
+Connect to a MongoDB Realm Backend App - Java SDK
+=================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+app+} client is the interface to the {+backend+}
+backend. It provides access to the :ref:`authentication functionality
+<java-authenticate>`, :ref:`functions <java-call-a-function>`, and
+:ref:`sync management <java-sync-data>`.
+
+.. include:: /includes/java-initialize-realm.rst
+
+.. _java-access-the-app-client:
+
+Access the App Client
+---------------------
+
+Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
+<find-your-app-id>`.
+  
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/InitializeTest.codeblock.access-app-client.java
+         :language: java
+         :copyable: false
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/InitializeTest.codeblock.access-app-client.kt
+         :language: kotlin
+         :copyable: false
+
+.. important:: Initialize the App before Creating an Instance
+
+   You must initialize your {+service-short+} app connection with
+   ``Realm.init()`` before creating any instance of an ``App``.
+
+.. note::
+
+   You can create multiple ``App`` instances to connect to multiple
+   {+app+}s or to the same {+app+} with different configurations. All
+   ``App`` instances that share the same App ID use the same underlying
+   connection.
+
+.. _java-app-client-configuration:
+
+Configuration
+-------------
+
+For more granular control of the details of your app connection,
+such as custom timeouts for connections, codecs used for MongoDB Data Access,
+and keys for local encryption, you can use the ``AppConfiguration``
+Builder to control details of your ``App``:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.java
+         :language: java
+         :copyable: false
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.kt
+         :language: kotlin
+         :copyable: false
+
+.. note:: 
+
+   For most use cases, you only need your application's App ID to connect
+   to {+service+}. The other settings demonstrated here are optional.
