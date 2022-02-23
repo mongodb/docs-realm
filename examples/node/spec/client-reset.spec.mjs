@@ -14,10 +14,14 @@ describe("Client Reset with Seamless Loss", () => {
     },
     primaryKey: "_id",
   };
+  let realm;
   afterEach(() => {
-    Realm.clearTestState();
+    realm.write(() => {
+      realm.deleteAll();
+    });
+    realm.close();
   });
-  it("Discard unsynced changes", () => {
+  xit("Discard unsynced changes", () => {
     let beforeCalled = false;
     let afterCalled = false;
     const app = new Realm.App({ id: REALM_APP_ID });
@@ -33,16 +37,20 @@ describe("Client Reset with Seamless Loss", () => {
               mode: "discardLocal",
               clientResetBefore: (realm) => {
                 console.log("Beginning client reset for ", realm.path);
+                // :remove-start:
                 expect(realm.objects("Doggo3").length).toBe(2);
                 beforeCalled = true;
+                // :remove-end:
               },
               clientResetAfter: (beforeRealm, afterRealm) => {
                 console.log("Finished client reset for", beforeRealm.path);
                 console.log("New realm path", afterRealm.path);
+                // :remove-start:
                 afterCalled = true;
-                // TODO: change toBe from `null` to `2` once this block is entered
-                expect(afterRealm.objects("Doggo3").length).toBe(2); // :remove:
-                console.log("hey kenneth");
+                expect(beforeCalled).toBe(true);
+                expect(afterCalled).toBe(true);
+                resolve();
+                // :remove-end:
               },
             },
             error: handleClientReset, // :remove:
@@ -53,7 +61,6 @@ describe("Client Reset with Seamless Loss", () => {
           console.log(JSON.stringify(error, null, 2));
           reject();
         }
-        let realm;
         Realm.open(config).then((openedRealm) => {
           realm = openedRealm;
           realm.write(() => {
@@ -70,15 +77,6 @@ describe("Client Reset with Seamless Loss", () => {
               _partition: "MyPartitionValue",
             });
           });
-          // realm.syncSession.uploadAllLocalChanges().then(async () => {
-          //   realm.write(() => {
-          //     realm.create("Doggo3", {
-          //       _id: new ObjectId(),
-          //       name: "Troy",
-          //       age: 15,
-          //       _partition: "MyPartitionValue",
-          //     });
-          //   });
 
           realm.syncSession._simulateError(
             211,
@@ -86,12 +84,6 @@ describe("Client Reset with Seamless Loss", () => {
             "realm::sync::ProtocolError",
             false
           );
-          setTimeout(() => {
-            expect(beforeCalled).toBe(true);
-            expect(afterCalled).toBe(true);
-            expect(realm.objects("Doggo3").length).toBe(2);
-          }, 100);
-          // });
         });
       });
     });
@@ -99,7 +91,6 @@ describe("Client Reset with Seamless Loss", () => {
 
   it("Discard unsynced changes after destructive schema changes", async () => {
     return new Promise((resolve, reject) => {
-      let realm;
       const app = new Realm.App({ id: REALM_APP_ID });
       app.logIn(new Realm.Credentials.anonymous()).then(async () => {
         // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
@@ -107,25 +98,34 @@ describe("Client Reset with Seamless Loss", () => {
         // In the error handler, this reference is called `realm`
         async function handleSyncError(session, syncError) {
           console.error(JSON.stringify(syncError, null, 2));
-          if (syncError.name == "ClientReset") {
-            try {
-              console.log("error type is ClientReset....");
-              const path = realm.path; // realm.path will no be accessible after realm.close()
-              realm.close();
-              Realm.App.Sync.initiateClientReset(app, path);
+          // if (syncError.name == "ClientReset") {
+          console.log("derp", JSON.parse(JSON.stringify(session)));
+          console.log(syncError);
+          try {
+            console.log("error type is ClientReset....");
+            const path = realm.path; // realm.path will no be accessible after realm.close()
+            realm.close();
+            Realm.App.Sync.initiateClientReset(app, path);
 
-              // Download Realm from the server.
-              // Ensure that the backend state is fully downloaded before proceeding,
-              // which is the default behavior.
-              realm = await Realm.open(config);
-              expect(realm.isClosed).toBe(false);
-              realm.close();
-              resolve();
-            } catch (err) {
-              console.error(JSON.stringify(err, null, 2));
-              reject(err);
-            }
-          } else reject();
+            // Download Realm from the server.
+            // Ensure that the backend state is fully downloaded before proceeding,
+            // which is the default behavior.
+            realm = await Realm.open(config);
+            // :remove-start:
+            expect(realm.isClosed).toBe(false);
+            resolve();
+            // :remove-end:
+            // :uncomment-start:
+            // realm.close();
+            // :uncomment-end:
+          } catch (err) {
+            console.error(JSON.stringify(err, null, 2));
+            reject(err); // :remove:
+          }
+          // } else {
+          //   // ...handle other error types
+          //   reject(); // :remove:
+          // }
         }
 
         const config = {
@@ -136,16 +136,18 @@ describe("Client Reset with Seamless Loss", () => {
             clientReset: {
               mode: "discardLocal",
               clientResetBefore: (realm) => {
-                // not used when destructive schema changes
+                // NOT used with destructive schema changes
                 console.log("Beginning client reset for ", realm.path);
+                reject(); // :remove:
               },
               clientResetAfter: (beforeRealm, afterRealm) => {
-                // not used when destructive schema changes
+                // NOT used with destructive schema changes
                 console.log("Finished client reset for", beforeRealm.path);
                 console.log("New realm path", afterRealm.path);
+                reject(); // :remove:
               },
             },
-            error: handleSyncError,
+            error: handleSyncError, // invoked with destructive schema changes
           },
         };
         // :snippet-end:
