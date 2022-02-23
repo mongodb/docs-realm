@@ -2,13 +2,10 @@ package com.mongodb.realm.realmkmmapp
 
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import io.github.aakira.napier.Napier.v
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.delete
-import io.realm.internal.platform.ensureNeverFrozen
 import io.realm.internal.platform.runBlocking
 import io.realm.log.LogLevel
 import io.realm.mongodb.App
@@ -17,41 +14,17 @@ import io.realm.mongodb.Credentials
 import io.realm.mongodb.SyncConfiguration
 import io.realm.query
 import kotlin.random.Random
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-
-class Person : RealmObject {
-    var name: String = "Foo"
-    var dog: Dog? = null
-}
-
-class Dog : RealmObject {
-    var name: String = ""
-    var age: Int = 0
-}
-
-class Frog : RealmObject {
-    var name: String = ""
-    var age: Int = 0
-    var species: String = ""
-    var owner: String? = null
-}
-
-class Task : RealmObject {
-    var name: String = ""
-    var status: String = ""
-}
 
 class Greeting {
 
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
 
     fun greeting(): String {
-        Napier.base(DebugAntilog())
+        Napier.base(DebugAntilog()) // initialize napier
         getDogsTest()
         queryTest()
         updateTest()
