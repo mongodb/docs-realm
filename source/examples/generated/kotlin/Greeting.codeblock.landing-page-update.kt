@@ -3,8 +3,8 @@ val realm = Realm.open(config)
 // start a write transaction
 realm.writeBlocking {
     // get a frog from the database to update
-    val frog = objects<Frog>()
-        .query("name == $0 LIMIT(1)", "Benjamin Franklin")
+    val frog = query<Frog>()
+        .query("name == $0 LIMIT(1)", "Benjamin Franklin").find()
     // change the frog's name
     frog[0].name = "George Washington"
     // change the frog's species

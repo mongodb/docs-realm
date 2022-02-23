@@ -1,9 +1,9 @@
-.. _kotlin-multiplatform-init-appclient:
-.. _kotlin-multiplatform-connect-to-mongodb-realm-backend-app:
+.. _kotlin-init-appclient:
+.. _kotlin-connect-to-mongodb-realm-backend-app:
 
-=================================================================
-Connect to a MongoDB Realm Backend App - Kotlin Multiplatform SDK
-=================================================================
+===================================================
+Connect to a MongoDB Realm Backend App - Kotlin SDK
+===================================================
 
 .. default-domain:: mongodb
 
@@ -15,18 +15,17 @@ Connect to a MongoDB Realm Backend App - Kotlin Multiplatform SDK
 
 The {+app+} client is the interface to the {+backend+}
 backend. It provides access to the :ref:`authentication
-<kotlin-multiplatform-authenticate>`, and
-:ref:`{+sync+} <android-sync-data>`.
+<kotlin-authenticate>`, and {+sync+}.
 
-.. _kotlin-multiplatform-access-the-app-client:
+.. _kotlin-access-the-app-client:
 
 Access the App Client
 ---------------------
 
-Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
+Pass the App ID for your {+app+}, which you can :ref:`find in the Realm UI
 <find-your-app-id>`.
 
-.. literalinclude:: /examples/generated/kotlin-multiplatform/sync/InitializeTest.codeblock.access-app-client.kt
+.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.initialize-app-client.kt
    :language: kotlin
 
 .. note::
@@ -36,16 +35,17 @@ Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
    ``App`` instances that share the same App ID use the same underlying
    connection.
 
-.. _kotlin-multiplatform-app-client-configuration:
+.. _kotlin-app-client-configuration:
 
 Configuration
 -------------
 
 For more granular control of the details of your app connection,
 such as custom timeouts for connections and keys for local encryption,
-use the ``AppConfiguration`` Builder to control details of your ``App``:
+use the :kotlin-sdk:`AppConfiguration.Builder
+<library-sync/-realm -kotlin -multiplatform -s-d-k - -sync/io.realm.mongodb/-app-configuration/-builder/index.html>` to control details of your ``App``:
 
-.. literalinclude:: /examples/generated/kotlin-multiplatform/sync/InitializeTest.codeblock.advanced-access-app-client.kt
+.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.configure-app-client.kt
    :language: kotlin
 
 .. note:: 

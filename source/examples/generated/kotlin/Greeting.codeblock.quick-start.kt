@@ -1,5 +1,5 @@
 val config = RealmConfiguration.with(schema = setOf(Task::class))
-val realm = Realm.open(config)
+val realm: Realm = Realm.open(config)
 realm.writeBlocking {
     copyToRealm(Task().apply {
         name = "Do work"
@@ -7,10 +7,10 @@ realm.writeBlocking {
     })
 }
 // all tasks in the realm
-val tasks = realm.objects<Task>().query()
+val tasks = realm.query<Task>().find()
 // all tasks in the realm
-val tasksThatBeginWIthD = realm.objects<Task>().query("name BEGINSWITH $0", "D")
-val openTasks = realm.objects<Task>().query("status == $0", "Open")
+val tasksThatBeginWIthD = realm.query<Task>("name BEGINSWITH $0", "D").find()
+val openTasks = realm.query<Task>("status == $0", "Open").find()
 realm.writeBlocking {
     findLatest(openTasks[0])?.status = "In Progress"
 }

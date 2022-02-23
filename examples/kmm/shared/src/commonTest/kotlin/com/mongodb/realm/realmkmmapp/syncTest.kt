@@ -18,19 +18,30 @@ import kotlinx.coroutines.test.setMain
 
 
 class SyncTest {
+    val YOUR_APP_ID: String = "kmm-example-testers-viybt"
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    @Test
+    fun anonymousAuthTest() {
+        // :code-block-start: anonymous-authentication
+        val app: App = App.create(YOUR_APP_ID)
+        runBlocking {
+            val user = app.login(Credentials.anonymous())
+        }
+        // :code-block-end:
+    }
+
+    //private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     //@BeforeClass
-    fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
-    }
+    //fun setUp() {
+    //    Dispatchers.setMain(mainThreadSurrogate)
+    //}
 
     //@AfterClass
-    fun tearDown() {
-        Dispatchers.resetMain() // reset the main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
-    }
+    //fun tearDown() {
+    //    Dispatchers.resetMain() // reset the main dispatcher to the original Main dispatcher
+    //    mainThreadSurrogate.close()
+    //}
 
     /*
     @Test

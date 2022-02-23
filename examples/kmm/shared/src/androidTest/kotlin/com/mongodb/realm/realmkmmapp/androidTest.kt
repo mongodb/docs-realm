@@ -3,12 +3,14 @@ package com.mongodb.realm.realmkmmapp
 import android.app.Activity
 import android.os.Handler
 import android.os.HandlerThread
+import android.util.Log
 import androidx.test.core.app.ActivityScenario
 import io.realm.Realm
 import io.realm.mongodb.App
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.SyncConfiguration
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -32,7 +34,7 @@ class AndroidTest {
         }
         // block until we have an activity to run tests on
         try {
-            Assert.assertTrue(setupLatch.await(1, TimeUnit.SECONDS))
+            assertTrue(setupLatch.await(1, TimeUnit.SECONDS))
         } catch (e: InterruptedException) {
             Log.e("EXAMPLE", e.stackTraceToString())
         }

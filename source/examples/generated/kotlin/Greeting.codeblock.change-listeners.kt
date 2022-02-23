@@ -3,9 +3,9 @@ val realm = Realm.open(config)
 
 // fetch objects from a realm as Flowables
 CoroutineScope(Dispatchers.Main).launch {
-    val flow: Flow<RealmResults<Task>> = realm.objects<Task>().observe()
+    val flow: Flow<RealmResults<Task>> = realm.query<Task>().asFlow()
     flow.collect { task ->
-        println("Task: $task")
+        Log.v("Task: $task")
     }
 }
 
