@@ -16,5 +16,4 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: run tests
-        script: cd examples/kotlin && ./gradlew jvmTest
+      run: cd examples/kotlin && ./gradlew jvmTest
