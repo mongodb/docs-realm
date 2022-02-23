@@ -1,0 +1,19 @@
+name: KMM CI Realm Example App
+
+on:
+  pull_request:
+    paths:
+      - 'examples/kotlin/**'
+
+jobs:
+  build:
+    name: Run KMM Example App Tests
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: run jvm commonTests
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - run: cd examples/kotlin && ./gradlew jvmTest --stacktrace --info

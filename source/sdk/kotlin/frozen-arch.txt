@@ -24,10 +24,10 @@ Access a Live Version of Frozen Object
 
 In order to modify objects, they must be live. You can convert a frozen
 object to a live object in a transaction with :kotlin-sdk:`MutableRealm.findLatest()
-<-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/find-latest.html>`.
+<{+kotlin-local-prefix+}io.realm/-mutable-realm/find-latest.html>`.
 Live objects are only accessible inside of a write transaction within
-a :kotlin-sdk:`write <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html>`
-or :kotlin-sdk:`writeBlocking <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html>`
+a :kotlin-sdk:`write <{+kotlin-local-prefix+}io.realm/-realm/write.html>`
+or :kotlin-sdk:`writeBlocking <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`
 closure.
 
 Objects returned from a write closure become frozen objects when the
@@ -36,11 +36,11 @@ write transaction completes.
 Thread-safe Realms
 ------------------
 
-The :kotlin-sdk:`Realm <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html>`
+The :kotlin-sdk:`Realm <{+kotlin-local-prefix+}io.realm/-realm/index.html>`
 class is no longer thread-confined, so you can share a single {+realm+}
 across multiple threads. You no longer need to handle the {+realm+}
 lifecycle explicitly with calls to
-:kotlin-sdk:`Realm.close() <-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html#-1654108755%2FFunctions%2F1327329691>`.
+:kotlin-sdk:`Realm.close() <{+kotlin-local-prefix+}io.realm/-realm/index.html#-1654108755%2FFunctions%2F1327329691>`.
 
 Access Changes
 ~~~~~~~~~~~~~~
@@ -52,7 +52,7 @@ are thread-safe, so you can access them from any context. Notifications
 are handled on a dedicated internal notifier thread. Frozen objects now
 support change listeners.
 
-.. literalinclude:: /examples/generated/kotlin/Greeting.codeblock.change-listeners.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.change-listeners.kt
    :language: kotlin
 
 .. note:: Flows API Requires Kotlinx Coroutines
