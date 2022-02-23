@@ -1,0 +1,209 @@
+.. _java-live-queries:
+.. _java-live-object:
+
+=======================
+Live Queries - Java SDK
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Objects in {+service-short+} clients are **live objects** that
+update automatically to reflect data changes, including
+:doc:`synced </sync>` remote changes, and emit
+:ref:`notification events <java-client-notifications>` that you
+can subscribe to whenever their underlying data changes. You
+can use live objects to work with object-oriented data
+natively without an :wikipedia:`ORM
+<Object-relational_mapping>` tool.
+
+Live objects are direct proxies to the underlying stored data, which
+means that a live object doesn't directly contain data. Instead, a live
+object always references the most up-to-date data on disk and
+:wikipedia:`lazy loads <Lazy_loading>` field values when you access
+them from a :ref:`collection <java-client-collections>`. This means that a
+{+realm+} can contain many objects but only pays the performance cost for
+data that the application is actually using.
+
+Valid write operations on a live object automatically persist to the
+{+realm+} and propagate to any other synced clients. You do not need to
+call an update method, modify the {+realm+}, or otherwise "push" updates.
+
+.. _java-auto-refresh:
+
+Auto-Refresh
+------------
+
+{+service-short+} objects accessed on a thread associated with a
+:android:`Looper <reference/android/os/Looper.html>` automatically
+update periodically to reflect changes to underlying data.
+
+The Android UI thread always contains a ``Looper`` instance. If you need
+to keep {+service-short+} objects around for long periods of time on
+any other thread, you should configure a ``Looper`` for that thread.
+
+.. warning:: Always Close Realm Instances on Non-Looper Threads to Avoid Resource Leaks
+
+   Instances of a {+realm+} instantiated on a thread that does not have a
+   :android:`Looper <reference/android/os/Looper>` message loop configured
+   do not :java-sdk:`automatically advance <io/realm/Realm.html#refresh-->` their version of underlying data. This
+   results in the SDK "pinning" that version of the data, which can cause
+   an increased memory footprint for your instance of {+client-database+}.
+   Avoid using {+realm+} instances on non-Looper threads when possible.
+   When unavoidable, always ensure that you close the {+realm+}
+   when you're done using it, or the pinned version will consume
+   application memory indefinitely.
+   
+
+.. _java-read-operations:
+.. _java-realm-database-reads:
+
+Read Operations
+---------------
+
+You can read back the data that you have
+:ref:`stored <java-realm-database-writes>` in :term:`{+client-database+}`.
+The standard data access pattern across {+service+}
+SDKs is to find, filter, and sort objects, in that order. To
+get the best performance from {+service+} as your app grows and
+your queries become more complex, design your app's data
+access patterns around a solid understanding of {+client-database+}
+:ref:`read characteristics <java-realm-read-characteristics>`.
+
+.. _java-realm-read-characteristics:
+
+Read Characteristics
+~~~~~~~~~~~~~~~~~~~~
+
+When you design your app's data access patterns around the
+following three key characteristics of reads in {+client-database+},
+you can be confident you are reading data as
+efficiently as possible.
+
+.. _java-results-are-not-copies:
+
+Results Are Not Copies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Results to a query are not copies of your data: modifying
+the results of a query will modify the data on disk
+directly. This memory mapping also means that results are
+**live**: that is, they always reflect the current state on
+disk.
+
+See also: :ref:`Collections are Live <java-live-collections>`.
+
+.. _java-results-are-lazy:
+
+Results Are Lazy
+~~~~~~~~~~~~~~~~
+
+{+client-database+} defers execution of a query until you access the
+results. You can chain several filter and sort operations
+without requiring extra work to process the intermediate
+state.
+
+See also: :ref:`Results are Lazily Evaluated
+<java-lazy-evaluated-results>`.
+
+.. _java-references-retained:
+
+References Are Retained
+~~~~~~~~~~~~~~~~~~~~~~~
+
+One benefit of {+client-database+}'s object model is that
+{+client-database+} automatically retains all of an object's
+:ref:`relationships <java-client-relationships>` as
+direct references, so you can traverse your graph of
+relationships directly through the results of a query.
+
+A **direct reference**, or pointer, allows you to access a
+related object's properties directly through the reference.
+
+Other databases typically copy objects from database storage
+into application memory when you need to work with them
+directly. Because application objects contain direct
+references, you are left with a choice: copy the object
+referred to by each direct reference out of the database in
+case it's needed, or just copy the foreign key for each
+object and query for the object with that key if it's
+accessed. If you choose to copy referenced objects into
+application memory, you can use up a lot of resources for
+objects that are never accessed, but if you choose to only
+copy the foreign key, referenced object lookups can cause
+your application to slow down.
+
+{+client-database+} bypasses all of this using :term:`zero-copy`
+:term:`live objects`. :term:`{+service-short+} object` accessors point directly into
+database storage using memory mapping, so there is no distinction
+between the objects in {+client-database+} and the results of your query in
+application memory. Because of this, you can traverse direct references
+across an entire {+realm+} from any query result.
+
+.. _java-managed-objects:
+
+Managed Objects
+---------------
+
+**Managed objects** are live {+service-short+} objects that update
+based on changes to underlying data in {+client-database+}. Managed
+objects can only come from an open {+realm+}, and receive updates
+as long as that {+realm+} remains open.
+
+.. note:: Managed Objects are Not Thread-safe
+
+   Managed objects cannot be passed between threads.
+
+.. _java-unmanaged-objects:
+
+Unmanaged objects
+-----------------
+
+**Unmanaged objects** are instances of {+service-short+} objects that are
+not live. You can get an unmanaged object by manually constructing a
+{+service-short+} object yourself, or by calling
+:java-sdk:`Realm.copyFromRealm() <io/realm/Realm.html#copyFromRealm-E->`.
+
+.. note:: Unmanaged Objects are Thread-safe
+
+   Unmanaged objects can be passed between threads.
+
+Notifications
+-------------
+
+Any modern app should be able to react when data changes,
+regardless of where that change originated. When a user adds
+a new item to a list, you may want to update the UI, show a
+notification, or log a message. When someone updates that
+item, you may want to change its visual state or fire off a
+network request. Finally, when someone deletes the item, you
+probably want to remove it from the UI. {+service+}'s notification
+system allows you to watch for and react to changes in your
+data, independent of the writes that caused the changes.
+
+{+service-short+} emits three kinds of notifications:
+
+- :ref:`Realm notifications <java-realm-notifications>` whenever a specific {+realm+} commits a write transaction.
+- :ref:`Collection notifications <java-collection-notifications>` whenever any :term:`{+service-short+} object` in a collection changes, including inserts, updates, and deletes.
+- :ref:`Object notifications <java-object-notifications>` whenever a specific {+service-short+} object changes, including updates and deletes.
+
+.. seealso::
+
+   :ref:`Usage Example: React to Changes <java-react-to-changes>`
+
+.. _java-subscribe-to-changes:
+
+Subscribe to Changes
+~~~~~~~~~~~~~~~~~~~~
+
+Generally, this is how you observe a {+realm+}, collection, or object:
+
+1. Create a notification handler for the {+realm+}, collection, or object notification.
+2. Add the notification handler to the {+realm+}, collection, or object that you want to observe.
+3. Receive a notification token from the call to add the handler. Retain this token as long as you want to observe.
+4. When you are done observing, invalidate the token.

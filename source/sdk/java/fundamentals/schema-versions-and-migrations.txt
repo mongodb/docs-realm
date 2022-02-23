@@ -1,0 +1,71 @@
+.. _java-schema-versions-and-migrations:
+
+=======================================
+Schema Versions & Migrations - Java SDK
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _java-schema-version:
+
+Schema Version
+--------------
+
+A **schema version** identifies the state of a :ref:`{+backend-schema+}
+<java-realm-schema>` at some point in time. {+client-database+} tracks the schema
+version of each {+realm+} and uses it to map the objects in each {+realm+}
+to the correct schema.
+
+Schema versions are integers that you may include
+in the {+realm+} configuration when you open a {+realm+}. If a client
+application does not specify a version number when it opens a {+realm+} then
+the {+realm+} defaults to version ``0``.
+
+.. important:: Increment Versions Monotonically
+
+   :ref:`Migrations <java-client-migrations>` must update a {+realm+} to a
+   higher schema version. {+client-database+} will throw an error if a client
+   application opens a {+realm+} with a schema version that is lower than
+   the {+realm+}'s current version or if the specified schema version is the
+   same as the {+realm+}'s current version but includes different
+   :ref:`object schemas <java-object-schema>`.
+
+.. _java-migrations:
+
+Migrations
+----------
+
+A **local migration** is a migration for a {+realm+} that does
+not automatically :doc:`{+sync-short+} </sync>` with
+another {+realm+}. Local migrations have access to the existing
+{+backend-schema+}, version, and objects and define logic that
+incrementally updates the {+realm+} to its new schema version.
+To perform a local migration you must specify a new schema
+version that is higher than the current version and provide
+a migration function when you open the out-of-date {+realm+}.
+
+With the SDK, you can update underlying data to reflect schema changes
+using manual migrations. During such a manual migration, you can
+define new and deleted properties when they are added or removed from
+your schema. The editable schema exposed via a
+:java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>` provides
+convenience functions for renaming fields. This gives you full control
+over the behavior of your data during complex schema migrations.
+
+.. important:: Migrations During Application Development
+
+   During development of an application, ``RealmObject`` classes can
+   change frequently. You can use :java-sdk:`Realm.deleteRealm()
+   <io/realm/Realm.html#deleteRealm-io.realm.RealmConfiguration->` to
+   delete the database file and eliminate the need to write a full
+   migration for testing data.
+
+.. seealso::
+
+   :ref:`Usage Example: Migration Functions <java-migration-function>`
