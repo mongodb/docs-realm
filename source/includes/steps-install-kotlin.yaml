@@ -2,214 +2,214 @@ title: Create a KMM App
 ref: create-a-kmm-app
 content: |
 
-   Create a KMM App using the "KMM Application" template in Android
-   Studio. Follow the instructions at the `KMM documentation
-   <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
+  Create a KMM App using the "KMM Application" template in Android
+  Studio. Follow the instructions at the `KMM documentation
+  <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
 
 ---
 title: Add Realm to the Shared Module Gradle Configuration
 ref: add-realm-to-shared-module-gradle-config
 content: |
 
-   Open the shared module ``build.gradle.kts`` file in the root of the
-   shared module directory of your project. By default, this module is
-   called "shared". Add the ``io.realm.kotlin`` dependency to
-   ``plugins``. The next step differs if your project uses {+sync+}:
+  Open the shared module ``build.gradle.kts`` file in the root of the
+  shared module directory of your project. By default, this module is
+  called "shared". Add the ``io.realm.kotlin`` dependency to
+  ``plugins``. The next step differs if your project uses {+sync+}:
 
-   - If your project uses {+sync+}, add ``implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")``
-   to ``kotlin.sourceSets.commonMain.dependencies``.
+  - If your project uses {+sync+}, add ``implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")``
+  to ``kotlin.sourceSets.commonMain.dependencies``.
 
-   - If your project does **not** use {+sync+}, add ``implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")``
-   to ``kotlin.sourceSets.commonMain.dependencies``.
+  - If your project does **not** use {+sync+}, add ``implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")``
+  to ``kotlin.sourceSets.commonMain.dependencies``.
 
-   The SDK uses coroutines for asynchronous calls. You should also add
-   ``implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")``
-   to ``kotlin.sourceSets.commonMain.dependencies`` to use coroutines with
-   the SDK.
+  The SDK uses coroutines for asynchronous calls. You should also add
+  ``implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")``
+  to ``kotlin.sourceSets.commonMain.dependencies`` to use coroutines with
+  the SDK.
 
-   .. tabs::
+  .. tabs::
 
-      .. tab:: Without Sync
-         :tabid: no-sync
+     .. tab:: Without Sync
+        :tabid: no-sync
 
-         .. code-block:: kotlin
-            :emphasize-lines: 5, 29, 30
+        .. code-block:: kotlin
+           :emphasize-lines: 5, 29, 30
 
-            plugins {
-                kotlin("multiplatform")
-                kotlin("native.cocoapods")
-                id("com.android.library")
-                id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
-            }
+           plugins {
+               kotlin("multiplatform")
+               kotlin("native.cocoapods")
+               id("com.android.library")
+               id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
+           }
 
-            version = "1.0"
+           version = "1.0"
 
-            kotlin {
-                android()
-                iosX64()
-                iosArm64()
+           kotlin {
+               android()
+               iosX64()
+               iosArm64()
 
-               cocoapods {
-                   summary = "Some description for the Shared Module"
-                   homepage = "Link to the Shared Module homepage"
-                   ios.deploymentTarget = "14.1"
-                   podfile = project.file("../iosRealmKMMApp/Podfile")
-                    framework {
-                       baseName = "shared"
-                    }
-                }
-                
-                sourceSets {
-                    val commonMain by getting
-                    val commonTest by getting {
-                        dependencies {
-                            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
-                            implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")
-                            implementation(kotlin("test-common"))
-                            implementation(kotlin("test-annotations-common"))
-                        }
-                    }
-                   val androidMain by getting
-                   val androidTest by getting {
+              cocoapods {
+                  summary = "Some description for the Shared Module"
+                  homepage = "Link to the Shared Module homepage"
+                  ios.deploymentTarget = "14.1"
+                  podfile = project.file("../iosRealmKMMApp/Podfile")
+                   framework {
+                      baseName = "shared"
+                   }
+               }
+               
+               sourceSets {
+                   val commonMain by getting
+                   val commonTest by getting {
                        dependencies {
-                            implementation(kotlin("test-junit"))
-                            implementation("junit:junit:4.13.2")
-                        }
-                    }
-                    val iosX64Main by getting
-                    val iosArm64Main by getting
-                    
-                    val iosMain by creating {
-                        dependsOn(commonMain)
-                        iosX64Main.dependsOn(this)
-                        iosArm64Main.dependsOn(this)
-                    }
-                    val iosX64Test by getting
-                    val iosArm64Test by getting
-                    val iosTest by creating {
-                        dependsOn(commonTest)
-                        iosX64Test.dependsOn(this)
-                        iosArm64Test.dependsOn(this)
-                    }
-                }
-            }
+                           implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                           implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")
+                           implementation(kotlin("test-common"))
+                           implementation(kotlin("test-annotations-common"))
+                       }
+                   }
+                  val androidMain by getting
+                  val androidTest by getting {
+                      dependencies {
+                           implementation(kotlin("test-junit"))
+                           implementation("junit:junit:4.13.2")
+                       }
+                   }
+                   val iosX64Main by getting
+                   val iosArm64Main by getting
+                   
+                   val iosMain by creating {
+                       dependsOn(commonMain)
+                       iosX64Main.dependsOn(this)
+                       iosArm64Main.dependsOn(this)
+                   }
+                   val iosX64Test by getting
+                   val iosArm64Test by getting
+                   val iosTest by creating {
+                       dependsOn(commonTest)
+                       iosX64Test.dependsOn(this)
+                       iosArm64Test.dependsOn(this)
+                   }
+               }
+           }
 
-            android {
-                compileSdk = 30
-                sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-                defaultConfig {
-                    minSdk = 28
-                    targetSdk = 30
-                }
-            }
+           android {
+               compileSdk = 30
+               sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+               defaultConfig {
+                   minSdk = 28
+                   targetSdk = 30
+               }
+           }
 
-      .. tab:: With Sync
-         :tabid: sync
+     .. tab:: With Sync
+        :tabid: sync
 
-         .. code-block:: kotlin
-            :emphasize-lines: 5, 29, 30
+        .. code-block:: kotlin
+           :emphasize-lines: 5, 29, 30
 
-            plugins {
-                kotlin("multiplatform")
-                kotlin("native.cocoapods")
-                id("com.android.library")
-                id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
-            }
+           plugins {
+               kotlin("multiplatform")
+               kotlin("native.cocoapods")
+               id("com.android.library")
+               id("io.realm.kotlin") version "{+kotlin-sdk-version+}"
+           }
 
-            version = "1.0"
+           version = "1.0"
 
-            kotlin {
-                android()
-                iosX64()
-                iosArm64()
+           kotlin {
+               android()
+               iosX64()
+               iosArm64()
 
-               cocoapods {
-                   summary = "Some description for the Shared Module"
-                   homepage = "Link to the Shared Module homepage"
-                   ios.deploymentTarget = "14.1"
-                   podfile = project.file("../iosRealmKMMApp/Podfile")
-                    framework {
-                       baseName = "shared"
-                    }
-                }
-                
-                sourceSets {
-                    val commonMain by getting
-                    val commonTest by getting {
-                        dependencies {
-                            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
-                            implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")
-                            implementation(kotlin("test-common"))
-                            implementation(kotlin("test-annotations-common"))
-                        }
-                    }
-                   val androidMain by getting
-                   val androidTest by getting {
+              cocoapods {
+                  summary = "Some description for the Shared Module"
+                  homepage = "Link to the Shared Module homepage"
+                  ios.deploymentTarget = "14.1"
+                  podfile = project.file("../iosRealmKMMApp/Podfile")
+                   framework {
+                      baseName = "shared"
+                   }
+               }
+               
+               sourceSets {
+                   val commonMain by getting
+                   val commonTest by getting {
                        dependencies {
-                            implementation(kotlin("test-junit"))
-                            implementation("junit:junit:4.13.2")
-                        }
-                    }
-                    val iosX64Main by getting
-                    val iosArm64Main by getting
-                    
-                    val iosMain by creating {
-                        dependsOn(commonMain)
-                        iosX64Main.dependsOn(this)
-                        iosArm64Main.dependsOn(this)
-                    }
-                    val iosX64Test by getting
-                    val iosArm64Test by getting
-                    val iosTest by creating {
-                        dependsOn(commonTest)
-                        iosX64Test.dependsOn(this)
-                        iosArm64Test.dependsOn(this)
-                    }
-                }
-            }
+                           implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                           implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")
+                           implementation(kotlin("test-common"))
+                           implementation(kotlin("test-annotations-common"))
+                       }
+                   }
+                  val androidMain by getting
+                  val androidTest by getting {
+                      dependencies {
+                           implementation(kotlin("test-junit"))
+                           implementation("junit:junit:4.13.2")
+                       }
+                   }
+                   val iosX64Main by getting
+                   val iosArm64Main by getting
+                   
+                   val iosMain by creating {
+                       dependsOn(commonMain)
+                       iosX64Main.dependsOn(this)
+                       iosArm64Main.dependsOn(this)
+                   }
+                   val iosX64Test by getting
+                   val iosArm64Test by getting
+                   val iosTest by creating {
+                       dependsOn(commonTest)
+                       iosX64Test.dependsOn(this)
+                       iosArm64Test.dependsOn(this)
+                   }
+               }
+           }
 
-            android {
-                compileSdk = 30
-                sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-                defaultConfig {
-                    minSdk = 28
-                    targetSdk = 30
-                }
-            }
+           android {
+               compileSdk = 30
+               sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+               defaultConfig {
+                   minSdk = 28
+                   targetSdk = 30
+               }
+           }
 
-   .. note:: Android Module Dependencies
+  .. note:: Android Module Dependencies
 
-      If you use any part of the SDK inside the Android module, add the
-      SDK's compile-time dependency to your Android module ``build.gradle.kts``:
+     If you use any part of the SDK inside the Android module, add the
+     SDK's compile-time dependency to your Android module ``build.gradle.kts``:
 
-      .. code-block:: kotlin
+     .. code-block:: kotlin
 
-         dependencies {
-            compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
-         }
+        dependencies {
+           compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
+        }
 
 ---
 title: Sync Project with Gradle Files
 ref: sync-gradle-dependencies
 content: |
 
-   Now that you have updated the Gradle configuration,
-   resolve the dependencies by clicking :guilabel:`File` >
-   :guilabel:`Sync Project with Gradle Files`.
+  Now that you have updated the Gradle configuration,
+  resolve the dependencies by clicking :guilabel:`File` >
+  :guilabel:`Sync Project with Gradle Files`.
 
 ---
 title: Run the Application
 ref: run-the-application
 content: |
 
-   Once Android Studio has successfully resolved the dependencies, you
-   can get started with {+service-short+}. Import the {+service-short+}
-   SDK with the following import statement in your ``.kt`` files in
-   ``commonMain``:
+  Once Android Studio has successfully resolved the dependencies, you
+  can get started with {+service-short+}. Import the {+service-short+}
+  SDK with the following import statement in your ``.kt`` files in
+  ``commonMain``:
 
-   .. code-block:: kotlin
-      
-      import io.realm.Realm
+  .. code-block:: kotlin
+     
+     import io.realm.Realm
 
-   Then, click the :guilabel:`Run` button (a green triangle) to run
-   the application in your compatible emulator.
+  Then, click the :guilabel:`Run` button (a green triangle) to run
+  the application in your compatible emulator.
