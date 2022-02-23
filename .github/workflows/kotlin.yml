@@ -6,13 +6,14 @@ on:
       - 'examples/kotlin/**'
 
 jobs:
-  build_kmm:
+  build:
     name: Run KMM Example App Tests
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: run jvm commonTests
+      uses: actions/setup-java@v1
       with:
         java-version: 11
-      run: cd examples/kotlin && ./gradlew jvmTest
+    - run: cd examples/kotlin && ./gradlew jvmTest
