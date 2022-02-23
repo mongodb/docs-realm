@@ -13,6 +13,7 @@ raw: realm/getting-started/configure-rules-based-access-to-mongodb -> ${base}/mo
 raw: realm/procedures/create-stitch-app -> ${base}/get-started/create-realm-app/
 raw: realm/procedures/create-realm-app -> ${base}/get-started/create-realm-app/
 raw: realm/graphql/graphql-types-and-resolvers/index.html -> ${base}/graphql/types-and-resolvers/
+raw: realm/triggers/overview -> ${base}/triggers/
 raw: realm/sync/overview -> ${base}/sync/learn/overview/
 raw: realm/mongodb/service-limitations -> ${base}/reference/service-limitations/
 raw: realm/sdk/android/fundamentals/mongodb-realm-cloud -> ${base}/sdk/android/fundamentals/application-services/
@@ -215,10 +216,9 @@ raw: realm/deploy/realm-cli-reference -> ${base}/cli/
 
 # Realm Triggers IA Refresh
 raw: realm/triggers/cron-expressions -> ${base}/triggers/scheduled-triggers/
-raw: realm/triggers -> ${base}/triggers/overview/
+raw: realm/triggers -> ${base}/triggers/trigger-types/
 raw: realm/triggers/eventbridge -> ${base}/triggers/examples/send-events-aws-eventbridge/
 raw: realm/triggers/trigger-snippets -> ${base}/triggers/examples/
-raw: realm/triggers/trigger-types -> ${base}/triggers/overview/
 
 # Realm App Admin IA Refresh (https://jira.mongodb.org/browse/DOCSP-18465)
 raw: realm/get-started/create-realm-app -> ${base}/manage-apps/create/create-with-realm-ui/
@@ -277,7 +277,7 @@ raw: realm/sync/generate-sdk-object-models -> ${base}/sync/data-model/generate-s
 raw: realm/sync/get-started -> ${base}/sync/learn/overview/
 raw: realm/sync/migrate-schema-partner-collection -> ${base}/sync/data-model/migrate-schema-partner-collection/
 raw: realm/sync/optimize-sync-atlas-usage -> ${base}/sync/configure/optimize-sync-atlas-usage/
-raw: realm/sync/partition-strategies -> ${base}/sync/data-access-patterns/partitions/
+raw: realm/sync/partition-strategies -> ${base}/sync/data-access-patterns/partition-strategies/
 raw: realm/sync/partitions -> ${base}/sync/data-access-patterns/partitions/
 raw: realm/sync/pause-or-terminate-sync -> ${base}/sync/configure/pause-or-terminate-sync/
 raw: realm/sync/permissions -> ${base}/sync/data-access-patterns/permissions
@@ -348,10 +348,9 @@ raw: realm/sdk/ios/examples/filter-data -> ${base}/sdk/swift/examples/filter-dat
 raw: realm/sdk/ios/examples/read-and-write-data -> ${base}/sdk/swift/examples/read-and-write-data/
 raw: realm/sdk/ios/fundamentals -> ${base}/sdk/swift/fundamentals/
 
-# Query Based Sync & Other Sync Modes Changes Related to QBS (https://jira.mongodb.org/browse/DOCSP-19522)
-raw: realm/sync/data-access-patterns/partition-strategies -> ${base}/sync/data-access-patterns/partitions/
-
-# Client Reset move from Advanced to Examples (part of Seamless Client Reset)
-raw: realm/sdk/android/advanced-guides/client-reset -> ${base}/sdk/android/examples/reset-a-client-realm/
-# HTTPS endpoints
-raw: realm/endpoints/requests-and-responses -> ${base}/endpoints/
+# kotlin-multiplatform -> kotlin rename
+raw: realm/sdk/kotlin-multiplatform -> ${base}/sdk/kotlin/
+raw: realm/sdk/kotlin-multiplatform/frozen-arch -> ${base}/sdk/kotlin/frozen-arch/
+raw: realm/sdk/kotlin-multiplatform/install -> ${base}/sdk/kotlin/install/
+raw: realm/sdk/kotlin-multiplatform/quick-start -> ${base}/sdk/kotlin/quick-start/
+raw: realm/sdk/kotlin-multiplatform/realm-database -> ${base}/sdk/kotlin/realm-database/
