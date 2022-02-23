@@ -10,14 +10,14 @@ specific sync settings created using a ``SyncConfiguration`` object:
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/android/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
          :language: java
          :copyable: false
 
@@ -41,4 +41,4 @@ your app that has particular relevance to the current user.
 
    - :ref:`Partitions <sync-partitions>`
    
-   - :ref:`Fundamentals: Realms <android-realms>`
+   - :ref:`Fundamentals: Realms <java-realms>`

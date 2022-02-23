@@ -148,7 +148,7 @@ ref: connect-to-your-mongodb-realm-app
 content: |
 
   Tasktracker uses the Gradle dependency management system to manage the
-  Realm Android SDK. The Maven and Ant build systems are not currently
+  Realm Java SDK. The Maven and Ant build systems are not currently
   supported.
 
   Android Studio projects contain two ``build.gradle`` files by default:
@@ -444,7 +444,7 @@ content: |
   logic in the floating action button's ``setPositiveButton()`` callback
   that adds a new user to the project using the ``addTeamMember()``
   {+service-short+} function. Because the team members displayed in this
-  view aren't :ref:`live Realm Objects <android-live-object>`, this
+  view aren't :ref:`live Realm Objects <java-live-object>`, this
   RecyclerView's adapter isn't a subclass of
   ``RealmRecyclerViewAdapter``, and we'll have to manually update our
   local copy of the list of team members to reflect the success of this

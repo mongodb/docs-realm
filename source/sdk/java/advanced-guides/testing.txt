@@ -122,7 +122,7 @@ Instead, you can use the :android:`Activity.runOnUiThread()
 method of your test activity to execute logic on a thread that already
 has a ``Looper`` configured. Combine ``Activity.runOnUiThread()`` with
 a ``CountDownLatch`` as described in the :ref:`delay section
-<android-testing-delay-while-async>` to prevent your test from completing
+<java-testing-delay-while-async>` to prevent your test from completing
 and exiting before your logic has executed. Within the ``runOnUiThread()``
 call, you can interact with the SDK just like you normally would in your
 application code:
