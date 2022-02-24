@@ -11,121 +11,123 @@ Install (Android) - Kotlin SDK
 Installation
 ------------
 
-.. tab:: Realm Database
-   :tabid: realm-database
+.. tabs::
 
-   To add local-only Realm Database to your application, make
-   the following changes to your app-level Gradle build file,
-   typically found at :file:`<project>/app/build.gradle`:
+   .. tab:: Realm Database
+      :tabid: realm-database
 
-   - Add :file:`io.realm.kotlin:library-base` to the list of
-     dependencies.
+      To add local-only Realm Database to your application, make
+      the following changes to your app-level Gradle build file,
+      typically found at :file:`<project>/app/build.gradle`:
 
-   .. code-block:: kotlin
-      :emphasize-lines: 35
-      :copyable: false
+      - Add :file:`io.realm.kotlin:library-base` to the list of
+        dependencies.
 
-      plugins {
-          id 'com.android.application'
-          id 'org.jetbrains.kotlin.android'
-      }
+      .. code-block:: kotlin
+         :emphasize-lines: 35
+         :copyable: false
 
-      android {
-          compileSdk 31
+         plugins {
+             id 'com.android.application'
+             id 'org.jetbrains.kotlin.android'
+         }
 
-          defaultConfig {
-              applicationId "com.mongodb.realm.testkmmandroidonly"
-              minSdk 28
-              targetSdk 31
-              versionCode 1
-              versionName "1.0"
+         android {
+             compileSdk 31
 
-              testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-          }
+             defaultConfig {
+                 applicationId "com.mongodb.realm.testkmmandroidonly"
+                 minSdk 28
+                 targetSdk 31
+                 versionCode 1
+                 versionName "1.0"
 
-          buildTypes {
-              release {
-                  minifyEnabled false
-                  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-              }
-          }
-          compileOptions {
-              sourceCompatibility JavaVersion.VERSION_11
-              targetCompatibility JavaVersion.VERSION_11
-          }
-          kotlinOptions {
-              jvmTarget = '1.8'
-          }
-      }
+                 testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+             }
 
-      dependencies {
-          compileOnly 'io.realm.kotlin:library-base:0.9.0'
-          implementation 'androidx.core:core-ktx:1.7.0'
-          implementation 'androidx.appcompat:appcompat:1.4.1'
-          implementation 'com.google.android.material:material:1.5.0'
-          implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-          testImplementation 'junit:junit:4.13.2'
-          androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-          androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-      }
+             buildTypes {
+                 release {
+                     minifyEnabled false
+                     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                 }
+             }
+             compileOptions {
+                 sourceCompatibility JavaVersion.VERSION_11
+                 targetCompatibility JavaVersion.VERSION_11
+             }
+             kotlinOptions {
+                 jvmTarget = '1.8'
+             }
+         }
 
-.. tab:: Sync
-   :tabid: sync
+         dependencies {
+             compileOnly 'io.realm.kotlin:library-base:0.9.0'
+             implementation 'androidx.core:core-ktx:1.7.0'
+             implementation 'androidx.appcompat:appcompat:1.4.1'
+             implementation 'com.google.android.material:material:1.5.0'
+             implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+             testImplementation 'junit:junit:4.13.2'
+             androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+             androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+         }
 
-   To add Realm Database and Sync to your application, make the
-   following changes to your app-level Gradle build file,
-   typically found at :file:`<project>/app/build.gradle`:
+   .. tab:: Sync
+      :tabid: sync
 
-   - Add :file:`io.realm.kotlin:library-sync` to the list of
-     dependencies.
+      To add Realm Database and Sync to your application, make the
+      following changes to your app-level Gradle build file,
+      typically found at :file:`<project>/app/build.gradle`:
 
-   .. code-block:: kotlin
-      :emphasize-lines: 35
-      :copyable: false
+      - Add :file:`io.realm.kotlin:library-sync` to the list of
+        dependencies.
 
-      plugins {
-          id 'com.android.application'
-          id 'org.jetbrains.kotlin.android'
-      }
+      .. code-block:: kotlin
+         :emphasize-lines: 35
+         :copyable: false
 
-      android {
-          compileSdk 31
+         plugins {
+             id 'com.android.application'
+             id 'org.jetbrains.kotlin.android'
+         }
 
-          defaultConfig {
-              applicationId "com.mongodb.realm.testkmmandroidonly"
-              minSdk 28
-              targetSdk 31
-              versionCode 1
-              versionName "1.0"
+         android {
+             compileSdk 31
 
-              testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-          }
+             defaultConfig {
+                 applicationId "com.mongodb.realm.testkmmandroidonly"
+                 minSdk 28
+                 targetSdk 31
+                 versionCode 1
+                 versionName "1.0"
 
-          buildTypes {
-              release {
-                  minifyEnabled false
-                  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-              }
-          }
-          compileOptions {
-              sourceCompatibility JavaVersion.VERSION_11
-              targetCompatibility JavaVersion.VERSION_11
-          }
-          kotlinOptions {
-              jvmTarget = '1.8'
-          }
-      }
+                 testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+             }
 
-      dependencies {
-          compileOnly 'io.realm.kotlin:library-sync:0.9.0'
-          implementation 'androidx.core:core-ktx:1.7.0'
-          implementation 'androidx.appcompat:appcompat:1.4.1'
-          implementation 'com.google.android.material:material:1.5.0'
-          implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-          testImplementation 'junit:junit:4.13.2'
-          androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-          androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-      }
+             buildTypes {
+                 release {
+                     minifyEnabled false
+                     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                 }
+             }
+             compileOptions {
+                 sourceCompatibility JavaVersion.VERSION_11
+                 targetCompatibility JavaVersion.VERSION_11
+             }
+             kotlinOptions {
+                 jvmTarget = '1.8'
+             }
+         }
+
+         dependencies {
+             compileOnly 'io.realm.kotlin:library-sync:0.9.0'
+             implementation 'androidx.core:core-ktx:1.7.0'
+             implementation 'androidx.appcompat:appcompat:1.4.1'
+             implementation 'com.google.android.material:material:1.5.0'
+             implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+             testImplementation 'junit:junit:4.13.2'
+             androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+             androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+         }
 
 After updating the Gradle configuration,
 resolve the dependencies by clicking :guilabel:`File` >
