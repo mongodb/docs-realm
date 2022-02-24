@@ -15,6 +15,7 @@ describe("Manage email/password users", () => {
     const user = await app.logIn(
       Realm.Credentials.emailPassword(email, password)
     );
+
     app.deleteUser(user);
   });
   test.skip("Confirm new user email address", async () => {
