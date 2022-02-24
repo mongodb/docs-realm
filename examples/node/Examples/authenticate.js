@@ -156,4 +156,20 @@ describe("user authentication", () => {
       console.error(err.message);
     }
   });
+  test("Delete user", async () => {
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+    const uid = app.currentUser.id;
+    const preDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(preDeleteMatchesLen).toBe(1);
+    // :snippet-start: delete-user
+    await app.deleteUser(app.currentUser);
+    // :snippet-end:
+    const postDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(postDeleteMatchesLen).toBe(0);
+  });
 });
