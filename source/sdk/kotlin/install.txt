@@ -60,7 +60,7 @@ Installation
            :tabid: realm-database
 
            To add local-only Realm Database to your application, make
-           the following changes to your shared module gradle build
+           the following changes to your shared module Gradle build
            file, typically found at :file:`<project>/shared/build.gradle.kts`:
 
            - Add :file:`io.realm.kotlin:library-base` to the dependencies
@@ -71,7 +71,8 @@ Installation
              to the dependencies block of your common module.
 
            .. code-block:: kotlin
-              :emphasize-lines: 5, 29, 30
+              :emphasize-lines: 5, 28, 29
+              :copyable: false
 
               plugins {
                   kotlin("multiplatform")
@@ -146,10 +147,11 @@ Installation
 
            Then, add :file:`classpath("io.realm.kotlin:gradle-plugin:{+kotlin-sdk-version+}")`
            to the :file:`buildscript.dependencies` block of your project-level
-           gradle build file, typically found at :file:`<project>/build.gradle.kts`:
+           Gradle build file, typically found at :file:`<project>/build.gradle.kts`:
 
            .. code-block:: kotlin
               :emphasize-lines: 10
+              :copyable: false
 
               buildscript {
                    repositories {
@@ -179,7 +181,7 @@ Installation
            :tabid: sync
 
            To add Realm Database and Sync to your application, make
-           the following changes to your shared module gradle build
+           the following changes to your shared module Gradle build
            file, typically found at :file:`shared/build.gradle.kts`:
 
            - Add :file:`io.realm.kotlin:library-sync` to the dependencies
@@ -190,7 +192,8 @@ Installation
              to the dependencies block of your common module.
 
            .. code-block:: kotlin
-              :emphasize-lines: 5, 29, 30
+              :emphasize-lines: 5, 28, 29
+              :copyable: false
 
               plugins {
                   kotlin("multiplatform")
@@ -265,10 +268,11 @@ Installation
 
            Then, add :file:`io.realm.kotlin:gradle-plugin`
            to the :file:`buildscript.dependencies` block of your project-level
-           gradle build file, typically found at :file:`<project>/build.gradle.kts`:
+           Gradle build file, typically found at :file:`<project>/build.gradle.kts`:
 
            .. code-block:: kotlin
               :emphasize-lines: 10
+              :copyable: false
 
               buildscript {
                    repositories {
@@ -300,6 +304,7 @@ Installation
         SDK's compile-time dependency to your Android module ``build.gradle.kts``:
 
         .. code-block:: kotlin
+           :copyable: false
 
            dependencies {
               compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
@@ -314,7 +319,7 @@ Installation
            :tabid: realm-database
 
            To add local-only Realm Database to your application, make
-           the following changes to your app-level gradle build file,
+           the following changes to your app-level Gradle build file,
            typically found at :file:`<project>/app/build.gradle`:
 
            - Add :file:`io.realm.kotlin:library-base` to the list of
@@ -322,6 +327,7 @@ Installation
 
            .. code-block:: kotlin
               :emphasize-lines: 35
+              :copyable: false
 
               plugins {
                   id 'com.android.application'
@@ -371,7 +377,7 @@ Installation
            :tabid: sync
 
            To add Realm Database and Sync to your application, make the
-           following changes to your app-level gradle build file,
+           following changes to your app-level Gradle build file,
            typically found at :file:`<project>/app/build.gradle`:
 
            - Add :file:`io.realm.kotlin:library-sync` to the list of
@@ -379,6 +385,7 @@ Installation
 
            .. code-block:: kotlin
               :emphasize-lines: 35
+              :copyable: false
 
               plugins {
                   id 'com.android.application'
