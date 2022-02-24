@@ -6,17 +6,26 @@ const app = new Realm.App({ id: APP_ID });
 describe("Manage email/password users", () => {
   test("Register new user", async () => {
     // :snippet-start: register-new-user
-    const email = "someone@example.com";
+    const now = new Date();
+    const nonce = now.getTime();
+    const email = `someone-${nonce}@example.com`;
     const password = "Pa55w0rd";
     await app.emailPasswordAuth.registerUser({ email, password });
     // :snippet-end:
+    const user = await app.logIn(
+      Realm.Credentials.emailPassword(email, password)
+    );
+    app.deleteUser(user);
   });
-  test("Confirm new user email address", async () => {
+  test.skip("Confirm new user email address", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const tokenId = params.get("tokenId");
     // :snippet-start: confirm-new-email
     await app.emailPasswordAuth.confirmUser({ token, tokenId });
     // :snippet-end:
   });
-  describe("Retry user confirmation methods", () => {
+  describe.skip("Retry user confirmation methods", () => {
     test("Resend a confirmation email", async () => {
       // :snippet-start: resend-confirmation-email
       const email = "someone@example.com"; // The user's email address
@@ -30,7 +39,7 @@ describe("Manage email/password users", () => {
       // :snippet-end:
     });
   });
-  describe("Reset user password", () => {
+  describe.skip("Reset user password", () => {
     test("Send a password reset email", async () => {
       // :snippet-start: send-password-reset-email:
       // The user's email address
@@ -54,6 +63,9 @@ describe("Manage email/password users", () => {
       // :snippet-end:
     });
     test("Complete a password reset", async () => {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get("token");
+      const tokenId = params.get("tokenId");
       // :snippet-start: complete-password-reset
       await app.emailPasswordAuth.resetPassword({
         password: "newPassw0rd",
