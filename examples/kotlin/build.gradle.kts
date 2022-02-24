@@ -23,8 +23,3 @@ allprojects {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
-
-// Don't cache SNAPSHOT (changing) dependencies.
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor(0, "seconds")
-}

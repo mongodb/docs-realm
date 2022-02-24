@@ -23,7 +23,9 @@ class CRUDTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: create-a-new-object
-
+            realm.writeBlocking {
+                this.copyToRealm(Frog())
+            }
             // :code-block-end:
             realm.close()
         }
@@ -44,7 +46,7 @@ class CRUDTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: find-object-by-primary-key
-
+            realm.query(Frog::class).find()
             // :code-block-end:
             realm.close()
         }
