@@ -2,11 +2,23 @@ import * as Realm from "realm-web";
 import { APP_ID } from "../realm.config.json";
 
 const app = new Realm.App({ id: APP_ID });
-
+jest.setTimeout(15000);
 describe("Log in user", () => {
-  afterEach(async () => {
-    await app?.currentUser?.logOut();
+  beforeAll(async () => {
+    try {
+      await app.emailPasswordAuth.registerUser({
+        email: "joe.jasper@example.com",
+        password: "passw0rd",
+      });
+    } catch (err) {
+      console.log("account already exists for: ");
+      console.log("email:", "joe.jasper@example.com");
+      console.log("password:", "passw0rd");
+    }
   });
+  // afterEach(async () => {
+  //   await app?.currentUser?.logOut();
+  // });
   test("Anonymous log in", async () => {
     // :snippet-start: anon-auth
     async function loginAnonymous() {
@@ -23,7 +35,7 @@ describe("Log in user", () => {
       }
     }
     const user = await loginAnonymous();
-    console.log("Successfully logged in!", user);
+    console.log("Successfully logged in!", user.id);
 
     // :snippet-end:
     expect(app.currentUser.isLoggedIn).toBe(true);
@@ -52,9 +64,13 @@ describe("Log in user", () => {
     expect(app.currentUser?.id).toBe(user.id);
   });
   test("API key", async () => {
-    const baseUser = await app.logIn(Realm.Credentials.anonymous());
-    const REALM_API_KEY = baseUser.apiKeys.create("myKey");
-    await baseUser.logOut();
+    const baseUser = await app.logIn(
+      Realm.Credentials.emailPassword("joe.jasper@example.com", "passw0rd")
+    );
+    const now = new Date();
+    const nonce = now.getTime();
+    const REALM_API_KEY = await baseUser.apiKeys.create("myKey" + nonce);
+    console.log({ REALM_API_KEY });
     // :snippet-start: api-key-auth
     async function loginApiKey(apiKey) {
       // Create an API Key credential
@@ -69,7 +85,7 @@ describe("Log in user", () => {
         console.error("Failed to log in", err);
       }
     }
-    const user = await loginApiKey(REALM_API_KEY); // add previously generated API key
+    const user = await loginApiKey(REALM_API_KEY.key); // add previously generated API key
     console.log("Successfully logged in!", user);
     // :snippet-end:
     expect(app.currentUser.isLoggedIn).toBe(true);
@@ -208,22 +224,84 @@ describe("Log in user", () => {
   });
 });
 describe("Log out user", () => {
+  beforeAll(async () => {
+    const userIds = [...Object.keys(app.allUsers)];
+
+    for await (const userId of userIds) {
+      await app.deleteUser(app.allUsers[userId]);
+    }
+
+    try {
+      await app.emailPasswordAuth.registerUser({
+        email: "ian.jasper@example.com",
+        password: "passw0rd",
+      });
+    } catch (err) {
+      console.log("accounts already exist");
+    }
+    try {
+      await app.emailPasswordAuth.registerUser({
+        email: "mark.jasper@example.com",
+        password: "passw0rd",
+      });
+    } catch (err) {
+      console.log("accounts already exist");
+    }
+    try {
+      await app.emailPasswordAuth.registerUser({
+        email: "steve.jasper@example.com",
+        password: "passw0rd",
+      });
+    } catch (err) {
+      console.log("accounts already exist");
+    }
+    try {
+      await app.emailPasswordAuth.registerUser({
+        email: "bob.jasper@example.com",
+        password: "passw0rd",
+      });
+    } catch (err) {
+      console.log("accounts already exist");
+    }
+  });
+  afterAll(async () => {
+    const userIds = [...Object.keys(app.allUsers)];
+
+    for await (const userId of userIds) {
+      console.log(userIds);
+      await app.deleteUser(app.allUsers[userId]);
+    }
+  });
   test("Log out current user", async () => {
-    const user = await app.logIn(Realm.Credentials.anonymous());
+    const credentials = Realm.Credentials.emailPassword(
+      "ian.jasper@example.com",
+      "passw0rd"
+    );
+    const user = await app.logIn(credentials);
+    expect(user.isLoggedIn).toBe(true);
     // :snippet-start: log-out-current-user
     await app.currentUser.logOut();
     // :snippet-end:
     expect(user.isLoggedIn).toBe(false);
-    expect(app.currentUser.isLoggedIn).toBe(false);
+    expect(app.currentUser).toBe(null);
+    await app.logIn(credentials);
   });
   test("Log out specific user", async () => {
-    const user1 = await app.logIn(Realm.Credentials.anonymous());
-    const user2 = await app.logIn(Realm.Credentials.anonymous());
-    const user3 = await app.logIn(Realm.Credentials.anonymous());
+    const user1 = await app.logIn(
+      Realm.Credentials.emailPassword("bob.jasper@example.com", "passw0rd")
+    );
+    const user2 = await app.logIn(
+      Realm.Credentials.emailPassword("mark.jasper@example.com", "passw0rd")
+    );
+    const user3Creds = Realm.Credentials.emailPassword(
+      "steve.jasper@example.com",
+      "passw0rd"
+    );
+    const user3 = await app.logIn(user3Creds);
     // :snippet-start: log-out-specific-user
-    await app.allUsers[2].logOut();
+    const userId = app.currentUser.id;
+    await app.allUsers[userId].logOut();
     // :snippet-end
-    await user1.logOut();
-    await user2.logOut();
+    await app.logIn(user3Creds);
   });
 });
