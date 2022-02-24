@@ -303,9 +303,13 @@ Flexible Sync Rules and Permissions
 Flexible Sync Rule Behavior
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Flexible Sync rules apply on a per-collection basis. They are coupled to 
+You define Flexible Sync rules on a per-collection basis. They are coupled to 
 your app's data model by the :ref:`queryable field <queryable-fields>` or 
-user metadata. Consider the following behavior when designing your schemas 
+user metadata. Realm applies the per-collection rules to each document 
+when evaluating which documents to return in response to a Flexible Sync 
+subscription query.
+
+Consider the following behavior when designing your schemas 
 to ensure that you have appropriate data access granularity and don't 
 accidentally leak sensitive information.
 
@@ -315,7 +319,7 @@ accidentally leak sensitive information.
   document entirely. You control these permissions by defining 
   :ref:`JSON expressions <expressions>`.
 
-- Sync rules apply on a per-collection basis to all documents in a query. 
+- Sync rules apply to all documents in a query on a per-collection basis. 
   If a user has read or write permission for a given collection, then they 
   can read or modify all synced fields of any document that matches the 
   sync query in the collection.
