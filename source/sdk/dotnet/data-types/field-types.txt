@@ -40,7 +40,7 @@ nullable counterparts:
 - ``char``
 - ``string``
 - ``byte[]``
-- ``DateTimeOffset``
+- ``DateTimeOffset`` (note: Realm converts ``DateTimeOffset`` values to UTC before storing in the database and does not store the timezone information. See :github:`Issue #1835 </realm/realm-dotnet/issues/1835>` for more information.)
 - ``Guid``
 - ``IList<T>``, where T is any of the supported data types 
   (see :ref:`Lists <dotnet-property-lists>`)
