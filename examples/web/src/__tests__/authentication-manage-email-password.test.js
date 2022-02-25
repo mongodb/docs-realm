@@ -5,10 +5,17 @@ const app = new Realm.App({ id: APP_ID });
 
 describe("Manage email/password users", () => {
   test("Register new user", async () => {
+    //delete user if exists
+    try {
+      await app.logIn(
+        Realm.Credentials.emailPassword("someone@example.com", "Pa55w0rd")
+      );
+      await app.deleteUser(app.currentUser);
+    } catch (err) {
+      console.log(err);
+    }
     // :snippet-start: register-new-user
-    const now = new Date();
-    const nonce = now.getTime();
-    const email = `someone-${nonce}@example.com`;
+    const email = "someone@example.com";
     const password = "Pa55w0rd";
     await app.emailPasswordAuth.registerUser({ email, password });
     // :snippet-end:
@@ -16,7 +23,7 @@ describe("Manage email/password users", () => {
       Realm.Credentials.emailPassword(email, password)
     );
 
-    app.deleteUser(user);
+    await app.deleteUser(user);
   });
   test.skip("Confirm new user email address", async () => {
     const params = new URLSearchParams(window.location.search);
