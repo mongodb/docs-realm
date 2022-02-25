@@ -91,7 +91,6 @@ describe("Log in user", () => {
     expect(app.currentUser.isLoggedIn).toBe(true);
     expect(app.currentUser?.id).toBe(user.id);
   });
-  // TODO
   test.skip("Custom function", () => {
     // :snippet-start: custom-function-auth
     async function loginCustomFunction(payload) {
@@ -301,7 +300,7 @@ describe("Log out user", () => {
     // :snippet-start: log-out-specific-user
     const userId = app.currentUser.id;
     await app.allUsers[userId].logOut();
-    // :snippet-end
+    // :snippet-end:
     await app.logIn(user3Creds);
   });
 });
