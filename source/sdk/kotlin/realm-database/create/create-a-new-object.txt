@@ -12,5 +12,15 @@ Create a New Object - Kotlin SDK
    :depth: 2
    :class: singlecol
 
+Instantiate Realm objects as you would any other object. In a
+transaction, you can add the object to the {+realm+} if the
+{+realm+}'s schema includes the object
+type. When you add an instance to the {+realm+}, it becomes
+*managed* by that {+realm+}.
 
-Create (includes Write Transactions)
+This code demonstrates how to create an object with
+:kotlin-sdk:`copyToRealm() <{+kotlin-local-prefix+}io.realm/-mutable-realm/copy-to-realm.html>`:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.create-a-new-object.kt
+   :language: kotlin
+   :copyable: false

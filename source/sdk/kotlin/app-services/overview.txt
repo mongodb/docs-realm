@@ -1,0 +1,56 @@
+.. _kotlin-mongodb-realm-cloud:
+.. _kotlin-application-services:
+
+==========================================
+Application Services Overview - Kotlin SDK
+==========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} provides SDKs that help you connect your client apps to the {+service-short+} 
+backend. The SDK provides the {+service+} functionality needed to 
+authenticate users with any of the built-in :ref:`Authentication providers <authentication-providers>`, 
+call backend :ref:`functions <functions>`, and directly access a 
+:ref:`MongoDB database <mongodb-service>`. 
+
+The Realm App Client
+--------------------
+
+When using the SDK to access the {+service-short+} backend, you start with a 
+Realm App object. This object provides all other functionality related to 
+MongoDB Realm. :ref:`Initialize <kotlin-connect-to-mongodb-realm-backend-app>`
+the ``App`` object is with :ref:`your Realm app ID <find-your-app-id>`.
+
+.. tip::
+
+   To learn how to initialize the Realm App client, see
+   :ref:`kotlin-init-appclient`.
+
+Authentication & User Management
+--------------------------------
+
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the {+service-short+} SDKs, however, you 
+can use any of the {+service+} authentication providers with very minimal backend 
+setup or client-side code required. With the authentication APIs, you can 
+implement the following functionality:
+
+- Creation of new user accounts
+- User log-in and log-out
+- Multiple users logged on at the same time on the same device 
+- Linking user accounts from different providers 
+- Providing custom user data 
+
+.. tip::
+
+   To learn how to set up authentication with different providers, see
+   :ref:`kotlin-authenticate`.
