@@ -377,9 +377,8 @@ You define a read and write rule expression pair for every session role.
 :ref:`Queryable fields <queryable-fields>` couple these rules to your app's data model.
 
 In response to a Flexible Sync subscription query, Realm evaluates the
-read and write rule expressions for each document that matches the query
-and only syncs to the client those documents where the rule expression
-evaluated to "true".
+read and write rule expressions for each document that matches the query.
+The client only receives documents where the rule expression evaluates to "true".
 
 Consider the following behavior when designing your schemas 
 to ensure that you have appropriate data access granularity and don't 
