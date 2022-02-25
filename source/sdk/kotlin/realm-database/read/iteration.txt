@@ -11,3 +11,16 @@ Iteration - Kotlin SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+You can iterate through results using `Flows
+<https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/>`__.
+
+
+To convert your results into a Flow, call :realm-sdk:`results.asFlow()
+<io.realm/-realm-results/as-flow.html>`. You can then iterate through
+the results with `flow.collect()
+<https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.iteration.kt
+   :language: kotlin
+   :copyable: false
