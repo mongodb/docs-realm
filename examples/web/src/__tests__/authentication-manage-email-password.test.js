@@ -42,7 +42,7 @@ describe("Manage email/password users", () => {
   });
   describe.skip("Reset user password", () => {
     test("Send a password reset email", async () => {
-      // :snippet-start: send-password-reset-email:
+      // :snippet-start: send-password-reset-email
       // The user's email address
       const email = "joe.jasper@example.com";
       await app.emailPasswordAuth.sendResetPasswordEmail({ email });
