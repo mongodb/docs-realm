@@ -1,4 +1,4 @@
-// fetch frogs from a realm as Flowables
+// fetch frogs from the realm as Flowables
 val frogsFlow: Flow<RealmResults<Frog>> = realm.query<Frog>().asFlow()
 
 // iterate through the flow with collect, printing each item

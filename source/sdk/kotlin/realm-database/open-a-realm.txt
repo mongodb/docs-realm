@@ -15,7 +15,7 @@ Open a Realm - Kotlin SDK
 To open a {+realm+}, create a
 :kotlin-sdk:`RealmConfiguration <{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>` with
 :kotlin-sdk:`RealmConfiguration.Builder <{+kotlin-local-prefix+}io.realm/-realm-configuration/-builder/index.html>`
-and pass the resulting ``RealmConfiguration`` to
+and pass the resulting :file:`RealmConfiguration` to
 :kotlin-sdk:`Realm.open() <{+kotlin-local-prefix+}io.realm/-realm/-companion/open.html>`:
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.codeblock.open-a-realm.kt
@@ -26,7 +26,7 @@ Close a Realm
 -------------
 
 You can close a realm with :kotlin-sdk:`realm.close() <io.realm/-realm/close.html?>`.
-``close()`` blocks until all write transactions to the realm finish.
+:file:`close()` blocks until all write transactions to the realm finish.
 
 .. literalinclude:: /examples/generated/kotlin/OpenARealmTest.codeblock.close-a-realm.kt
    :language: kotlin
