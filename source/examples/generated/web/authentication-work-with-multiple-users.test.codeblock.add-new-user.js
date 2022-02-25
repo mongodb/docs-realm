@@ -1,7 +1,5 @@
-const now = new Date();
-const nonce = now.getTime();
 // Register Joe
-const joeEmail = `joe-${nonce}@example.com`;
+const joeEmail = "joe@example.com";
 const joePassword = "passw0rd";
 await app.emailPasswordAuth.registerUser({
   email: joeEmail,
@@ -17,7 +15,7 @@ const joe = await app.logIn(joeCredentials);
 console.assert(joe.id === app.currentUser.id);
 
 // Register Emma
-const emmaEmail = `emma-${nonce}@example.com`;
+const emmaEmail = "emma@example.com";
 const emmaPassword = "passw0rd";
 await app.emailPasswordAuth.registerUser({
   email: emmaEmail,
