@@ -16,36 +16,43 @@ Application Services Overview - Kotlin SDK
 Overview
 --------
 
-{+service+} provides SDKs that help you connect your client apps to the {+service-short+} 
-backend. The SDK provides the {+service+} functionality needed to 
-authenticate users with any of the built-in :ref:`Authentication providers <authentication-providers>`, 
-call backend :ref:`functions <functions>`, and directly access a 
-:ref:`MongoDB database <mongodb-service>`. 
+You can connect your client apps to the {+service-short+} 
+backend using the SDK. Backend functionality includes:
+
+- :doc:`Connect to a Realm App </sdk/kotlin/app-services/connect-to-a-realm-app>`
+- :doc:`Register Users </sdk/kotlin/app-services/register-users>`
+- :doc:`Authenticate Users </sdk/kotlin/app-services/authenticate-users>`
 
 The Realm App Client
 --------------------
 
-When using the SDK to access the {+service-short+} backend, you start with a 
-Realm App object. This object provides all other functionality related to 
-MongoDB Realm. :ref:`Initialize <kotlin-connect-to-backend>`
-the :file:`App` object with :ref:`your Realm app ID <find-your-app-id>`.
+To connect to your {+service-short+} backend, start with a 
+:kotlin-sdk:`App <{+kotlin-sync-prefix+}io.realm.mongodb/-app/index.html>` object.
+This object provides all other functionality related to 
+the backend. Initialize an App with the Realm app ID, which you can 
+:ref:`find in the Realm UI <find-your-app-id>`.
+
+.. tip::
+
+   To learn how to initialize the Realm App client, see
+   :ref:`kotlin-connect-to-backend`.
 
 Authentication & User Management
 --------------------------------
 
 One of the most challenging aspects of client development is implementing a 
-robust and secure authentication system. With the {+service-short+} SDKs, however, you 
-can use any of the {+service+} authentication providers with very minimal backend 
-setup or client-side code required. With the authentication APIs, you can 
-implement the following functionality:
+robust and secure authentication system. With the {+service-short+} SDKs,
+however, you can use any of the {+service+} authentication providers with
+minimal backend setup and client-side code. With the authentication APIs,
+you can implement the following functionality:
 
-- Creation of new user accounts
-- User log-in and log-out
-- Multiple users logged on at the same time on the same device 
-- Linking user accounts from different providers 
-- Providing custom user data 
+- Create new user accounts
+- User log in and log out
+- Multiple users logged on at the same time on the same device
+- Link user accounts from different providers
+- Store custom data for a particular user
 
 .. tip::
 
-   To learn how to set up authentication with different providers, see
+   To learn how to set up authentication in your app, see
    :ref:`kotlin-authenticate`.
