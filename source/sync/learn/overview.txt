@@ -291,16 +291,17 @@ access patterns.
 Flexible Sync Data Access Rules
 ```````````````````````````````
 
-Flexible Sync does not require you to define a partition strategy, but instead
-enables you to specify which data to sync by querying for matching objects 
-in a client application. Realm then evaluates :ref:`rules and roles 
-<flexible-sync-permissions>` to determine which of those matching objects 
-a user can read and write.
+Flexible Sync does not require you to define a partition strategy.
+Instead, you specify which data to sync through queries for
+matching objects in a client application. Realm then evaluates
+:ref:`session roles and rules <flexible-sync-roles>` to determine which
+of those matching objects a user can read and write.
 
-You can define rules on specific collections. Default roles provide read and 
-write permissions when more specific rules do not apply. Default roles apply 
-to all collections a Realm app can access, but you can restrict a rule to a 
-specific collection by specifying the collection name.
+You can define session roles on specific collections. Default roles
+provide read and write permissions when more specific session roles do
+not apply. Default roles apply to all collections a Realm app can
+access, but you can restrict a session role to a specific collection by
+specifying the collection name.
 
 Configure and Enable Sync
 -------------------------
