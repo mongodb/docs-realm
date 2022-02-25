@@ -24,3 +24,12 @@ Then iterate through the results with `flow.collect()
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.iteration.kt
    :language: kotlin
    :copyable: false
+
+.. note:: :file:`find()` is Synchronous
+
+   You can also iterate through results returned via :file:`find()`.
+   :file:`find()` runs a synchronous query on the thread it is called from.
+   As a result, avoid using :file:`find()` on the UI thread or in
+   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
+   <{+kotlin-local-prefix+}io.realm/-realm-results/as-flow.html>` in
+   time sensitive environments.

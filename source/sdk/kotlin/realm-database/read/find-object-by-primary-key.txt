@@ -21,3 +21,11 @@ Specify the object type as a type parameter passed to :file:`query()`:
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.find-object-by-primary-key.kt
    :language: kotlin
    :copyable: false
+
+.. note:: :file:`find()` is Synchronous
+
+   :file:`find()` runs a synchronous query on the thread it is called from.
+   As a result, avoid using :file:`find()` on the UI thread or in
+   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
+   <{+kotlin-local-prefix+}io.realm/-realm-results/as-flow.html>` in
+   time sensitive environments.
