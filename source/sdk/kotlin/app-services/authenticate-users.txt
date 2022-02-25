@@ -51,10 +51,11 @@ authentication, create an anonymous credential by calling
 :kotlin-sdk:`AuthenticationProvider.ANONYMOUS()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html>`
 and then pass the generated credential to
-``app.login()``.
+:file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.anonymous-authentication.kt
    :language: kotlin
+   :copyable: false
 
 .. _kotlin-email-password-login:
 .. _kotlin-login-email-password:
@@ -68,10 +69,11 @@ a password. To log in with email/password authentication, create an
 email/password credential by calling :kotlin-sdk:`AuthenticationProvider.EMAIL_PROVIDER()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-e-m-a-i-l_-p-a-s-s-w-o-r-d/index.html>`
 with the user's email and password. Then pass the generated credential
-to ``app.login()``.
+to :file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.email-password-authentication.kt
    :language: kotlin
+   :copyable: false
 
 .. _kotlin-logout:
 
@@ -91,3 +93,4 @@ all local Realm updates have uploaded to the server.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.log-out.kt
    :language: kotlin
+   :copyable: false
