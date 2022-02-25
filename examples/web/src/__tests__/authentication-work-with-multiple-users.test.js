@@ -20,11 +20,27 @@ describe("Work with multiple users", () => {
   });
 
   test("Add new user to device", async () => {
+    // delete the users if they already exist
+    try {
+      const joe = await app.logIn(
+        Realm.Credentials.emailPassword("joe@example.com", "passw0rd")
+      );
+      await app.deleteUser(joe);
+    } catch (err) {
+      console.log("deleted Joe");
+    }
+    try {
+      const emma = await app.logIn(
+        Realm.Credentials.emailPassword("emma@example.com", "passw0rd")
+      );
+      await app.deleteUser(emma);
+    } catch (err) {
+      console.log("deleted Joe");
+    }
+
     // :snippet-start: add-new-user
-    const now = new Date();
-    const nonce = now.getTime();
     // Register Joe
-    const joeEmail = `joe-${nonce}@example.com`;
+    const joeEmail = "joe@example.com";
     const joePassword = "passw0rd";
     await app.emailPasswordAuth.registerUser({
       email: joeEmail,
@@ -41,7 +57,7 @@ describe("Work with multiple users", () => {
     expect(joe.id).toBe(app.currentUser.id); // :remove:
 
     // Register Emma
-    const emmaEmail = `emma-${nonce}@example.com`;
+    const emmaEmail = "emma@example.com";
     const emmaPassword = "passw0rd";
     await app.emailPasswordAuth.registerUser({
       email: emmaEmail,
