@@ -29,7 +29,7 @@ Realm Object Models to use in your realm schema. Additionally:
 - The Java SDK used :file:`RealmConfiguration.Builder().build()` to
   generate instances of :file:`RealmConfiguration`. With the Kotlin SDK,
   use the :kotlin-sdk:`RealmConfiguration.with()
-  <{+kotlin-local-prefix+}io.realm/-realm-configuration/-companion/with.html`
+  <{+kotlin-local-prefix+}io.realm/-realm-configuration/-companion/with.html>`
   companion method :file:`RealmConfiguration` instead.
 
 - The Java SDK used the static :file:`Realm.getInstance()` method to
@@ -46,11 +46,9 @@ Realm Object Models to use in your realm schema. Additionally:
    * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java
           :language: java
           :copyable: false
-          :caption: Java SDK (Legacy)
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
           :language: kotlin
           :copyable: false
-          :caption: Kotlin SDK (New)
 
 Optionally, use :kotlin-sdk:`RealmConfiguration.Builder
 <{+kotlin-local-prefix+}io.realm/-realm-configuration/-builder/index.html>`
@@ -59,7 +57,7 @@ to customize your configuration even more:
 .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
    :language: kotlin
    :copyable: false
-   :caption: Kotlin SDK (New)
+   :caption: Kotlin SDK
 
 .. seealso::
 
@@ -68,15 +66,19 @@ to customize your configuration even more:
 Realm Object Models
 -------------------
 
-.. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.java
-   :language: java
-   :copyable: false
-   :caption: Java SDK (Legacy)
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
 
-.. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt
-   :language: kotlin
-   :copyable: false
-   :caption: Kotlin SDK (New)
+   * - .. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt
+          :language: kotlin
+          :copyable: false
 
 Relationships
 -------------

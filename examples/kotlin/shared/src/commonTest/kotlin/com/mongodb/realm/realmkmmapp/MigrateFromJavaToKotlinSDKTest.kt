@@ -19,11 +19,14 @@ class Sample : RealmObject {
     var shortField: Short = 17
     var intField: Int = 42
     @Index
-    var longField: Long = 256
+    var longField: Long = 256L
     var booleanField: Boolean = true
     var floatField: Float = 3.14f
     var doubleField: Double = 1.19840122
-    var timestampField: RealmInstant = RealmInstant.fromEpochSeconds(100, 1000)
+    var timestampField: RealmInstant =
+        RealmInstant.fromEpochSeconds(
+            100,
+            1000)
 }
 // :code-block-end:
 
@@ -35,9 +38,11 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
 
         runBlocking {
             // :code-block-start: open-a-realm
-            val config = RealmConfiguration.with(schema = setOf(Frog::class, Sample::class))
+            val config = RealmConfiguration
+                .with(schema = setOf(Frog::class, Sample::class))
             val realm = Realm.open(config)
-            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            Log.v("Successfully opened realm:" +
+                    "${realm.configuration.name}")
             // :code-block-end:
             realm.close()
         }

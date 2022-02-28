@@ -17,16 +17,21 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             // :code-block-start: open-a-realm
-            RealmConfiguration config = new RealmConfiguration.Builder()
+            RealmConfiguration config =
+                    new RealmConfiguration.Builder()
                     .build();
 
             Realm realm;
             try {
                 realm = Realm.getInstance(config);
-                Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+                Log.v("EXAMPLE",
+                        "Successfully opened a realm at: "
+                                + realm.getPath());
             } catch (RealmFileException ex) {
-                Log.v("EXAMPLE", "Error opening the realm.");
-                Log.v("EXAMPLE", ex.toString());
+                Log.v("EXAMPLE",
+                        "Error opening the realm.");
+                Log.v("EXAMPLE",
+                        ex.toString());
             }
             // :code-block-end:
             realm = Realm.getInstance(config);
