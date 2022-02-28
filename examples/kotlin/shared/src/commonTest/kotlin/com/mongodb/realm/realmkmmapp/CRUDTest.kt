@@ -67,7 +67,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             realm.close()
         }
     }
@@ -98,7 +98,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             Log.v("Number of frogs in realm : ${realm.query<Frog>().find().size}")
             assertEquals(1, realm.query<Frog>().find().size)
             realm.close()
@@ -171,8 +171,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCall.await()
-            asyncCall.cancel()
+            asyncCall.cancel() // :hide:
 
             // fetch all objects of a type as a results collection, synchronously
             val frogs: RealmResults<Frog> = realm.query<Frog>().find()
@@ -240,8 +239,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCallConvenience.await()
-            asyncCallConvenience.cancel()
+            asyncCallConvenience.cancel() // :hide:
 
             // sort in descending order, frogs with distinct owners, only the first 5, using RQL
             val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
@@ -253,8 +251,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCallLessConvenient.await()
-            asyncCallLessConvenient.cancel()
+            asyncCallLessConvenient.cancel() // :hide:
             // :code-block-end:
             realm.close()
         }
@@ -349,7 +346,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             assertEquals(0, realm.query<Frog>().find().size)
             realm.close()
         }
@@ -391,7 +388,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             realm.close()
         }
     }
@@ -433,7 +430,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             realm.close()
         }
     }
@@ -475,7 +472,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             realm.close()
         }
     }
@@ -527,7 +524,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
-            asyncCall.await()
+            asyncCall.cancel() // :hide:
             realm.close()
         }
     }

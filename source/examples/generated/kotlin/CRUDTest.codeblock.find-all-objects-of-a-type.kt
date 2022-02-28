@@ -7,8 +7,6 @@ val asyncCall: Deferred<Unit> = async {
         }
     }
 }
-asyncCall.await()
-asyncCall.cancel()
 
 // fetch all objects of a type as a results collection, synchronously
 val frogs: RealmResults<Frog> = realm.query<Frog>().find()

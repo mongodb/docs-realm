@@ -9,8 +9,6 @@ val asyncCallConvenience: Deferred<Unit> = async {
         }
     }
 }
-asyncCallConvenience.await()
-asyncCallConvenience.cancel()
 
 // sort in descending order, frogs with distinct owners, only the first 5, using RQL
 val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
@@ -22,5 +20,3 @@ val asyncCallLessConvenient: Deferred<Unit> = async {
         }
     }
 }
-asyncCallLessConvenient.await()
-asyncCallLessConvenient.cancel()
