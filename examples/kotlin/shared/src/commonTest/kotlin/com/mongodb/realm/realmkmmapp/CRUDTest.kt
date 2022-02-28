@@ -164,13 +164,15 @@ class CRUDTest: RealmTest() {
             // :code-block-start: find-all-objects-of-a-type
             // fetch all objects of a type as a flow, asynchronously
             val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
-            val deferred: Deferred<Unit> = async {
+            val asyncCall: Deferred<Unit> = async {
                 frogsFlow.collect { change ->
                     for (frog in change.list) {
                         Log.v("Frog: $frog")
                     }
                 }
             }
+            asyncCall.await()
+            asyncCall.cancel()
 
             // fetch all objects of a type as a results collection, synchronously
             val frogs: RealmResults<Frog> = realm.query<Frog>().find()
@@ -231,23 +233,28 @@ class CRUDTest: RealmTest() {
             val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington'")
                     .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
-            val deferred1: Deferred<Unit> = async {
+            val asyncCallConvenience: Deferred<Unit> = async {
                 convenientlyOrganizedFrogs.collect { change ->
                     change.list.forEach { frog ->
                         Log.v("Found frog: $frog")
                     }
                 }
             }
+            asyncCallConvenience.await()
+            asyncCallConvenience.cancel()
+
             // sort in descending order, frogs with distinct owners, only the first 5, using RQL
             val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
-            val deferred2: Deferred<Unit> = async {
+            val asyncCallLessConvenient: Deferred<Unit> = async {
                 somewhatLessConvenientlyOrganizedFrogs.collect { change ->
                     change.list.forEach { frog ->
                         Log.v("Found frog: $frog")
                     }
                 }
             }
+            asyncCallLessConvenient.await()
+            asyncCallLessConvenient.cancel()
             // :code-block-end:
             realm.close()
         }
