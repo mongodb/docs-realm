@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 REPO=$(git rev-parse --show-toplevel)
 bluehawk snip $(echo $REPO)/examples/web/src/__tests__ \
