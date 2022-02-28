@@ -36,6 +36,7 @@ to your application with ephemeral accounts that have no associated information.
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.anon-auth.js
+    :language: javascript
     :emphasize-lines: 3, 6
 
 .. _web-login-email-password:
@@ -51,6 +52,7 @@ To log in, create an email/password credential with the user's email address and
 password and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.email-password-auth.js
+    :language: javascript
     :emphasize-lines: 3, 6
 
 .. _web-login-api-key:
@@ -65,6 +67,7 @@ To log in with an API key, create an API Key credential with a server or user
 API key and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.api-key-auth.js
+    :language: javascript
     :emphasize-lines: 3, 6
 
 .. _web-login-custom-function:
@@ -80,6 +83,7 @@ To log in with the custom function provider, create a Custom Function credential
 with a payload object and pass it to ``App.logIn()``:
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.custom-function-auth.js
+    :language: javascript
     :emphasize-lines: 3, 6
 
 .. _web-login-custom-jwt:
@@ -96,6 +100,7 @@ and pass it to ``App.logIn()``:
 
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.custom-jwt.js
+    :language: javascript
     :emphasize-lines: 3, 6
 
 
@@ -135,6 +140,7 @@ require you to install the Facebook SDK. The built in flow follows three main st
    automatically detect the access token and finish logging the user in.
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.builtin-facebook-oauth.js
+   :language: javascript
 
 .. _web-facebook-auth-token:
 
@@ -147,6 +153,7 @@ Facebook SDK returns an access token that you can use to finish logging the user
 in to your app.
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.facebook-sdk-oauth.js
+   :language: javascript
 
 .. _web-login-google:
 
@@ -384,6 +391,7 @@ authentication and redirect flow. Once authenticated, the Apple JS SDK returns
 an ID token that you can use to finish logging the user in to your app.
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.apple-sdk-oauth.js
+   :language: javascript
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
@@ -397,7 +405,9 @@ To log any user out, call the ``User.logOut()`` on their user instance.
 Log out current user: 
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.log-out-current-user.js
+   :language: javascript
 
 Log out user by user ID: 
 
 .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.log-out-specific-user.js
+   :language: javascript
