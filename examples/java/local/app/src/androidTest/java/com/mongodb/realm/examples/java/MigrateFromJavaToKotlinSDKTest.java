@@ -25,7 +25,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             try {
                 realm = Realm.getInstance(config);
                 Log.v("EXAMPLE",
-                        "Successfully opened a realm at: "
+                        "Successfully opened a realm: "
                                 + realm.getPath());
             } catch (RealmFileException ex) {
                 Log.v("EXAMPLE",

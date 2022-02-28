@@ -4,7 +4,7 @@
        @PrimaryKey
        String stringField = "Realm";
        Byte byteField = 0xA;
-       // no support for chars, so no charField
+       // no support for chars: no charField
        Short shortField = 17;
        Integer intField = 42;
        @Index
