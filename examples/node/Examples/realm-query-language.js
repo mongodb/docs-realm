@@ -24,7 +24,6 @@ describe("Realm Query Language Reference", () => {
   beforeEach(async () => {
     realm = await Realm.open({
       schema: [Project, Task],
-      inMemory: true,
     });
 
     // populate test objects
@@ -63,10 +62,12 @@ describe("Realm Query Language Reference", () => {
 
   afterEach(() => {
     // After the test, delete the objects and close the realm
-    realm.write(() => {
-      realm.deleteAll();
-    });
-    realm.close();
+    if (realm && !realm.isClosed) {
+      realm.write(() => {
+        realm.deleteAll();
+      });
+      // realm.close();
+    }
   });
 
   test("comparison queries", () => {

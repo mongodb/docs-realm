@@ -9,7 +9,10 @@ module.exports = {
       moduleFileExtensions: ["js"],
       testMatch: ["<rootDir>/Examples/**/*.js"],
       setupFilesAfterEnv: ["<rootDir>/testSetup.js"],
-      modulePathIgnorePatterns: ["<rootDir>/Examples/rn"],
+      modulePathIgnorePatterns: [
+        "<rootDir>/Examples/rn",
+        "<rootDir>/Examples/server_google_auth",
+      ],
     },
     {
       displayName: "TypeScript",

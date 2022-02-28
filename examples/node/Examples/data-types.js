@@ -54,10 +54,12 @@ const PetOwnerSchema = {
 
 describe("Node.js Data Types", () => {
   afterEach(() => {
-    realm?.write(() => {
-      realm.deleteAll();
-    });
-    realm?.close();
+    if (realm && !realm.isClosed) {
+      realm.write(() => {
+        realm.deleteAll();
+      });
+      realm.close();
+    }
   });
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
@@ -524,7 +526,9 @@ describe("Node.js Data Types", () => {
     // :uncomment-start:
     // const realm = await Realm.open({
     // :uncomment-end:
-    realm = await Realm.open({ // :remove:
+    // :remove-start:
+    realm = await Realm.open({
+      // :remove-end:
       schema: [characterSchema],
     });
     realm.write(() => {
