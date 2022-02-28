@@ -30,7 +30,7 @@ Then iterate through the results with `flow.collect()
 
 .. note:: :file:`find()` is Synchronous
 
-   You can also iterate through results returned via :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/find.html`.
+   You can also iterate through results returned via :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/find.html>`.
    :file:`find()` runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
    logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
