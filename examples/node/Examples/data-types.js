@@ -526,8 +526,9 @@ describe("Node.js Data Types", () => {
     // :uncomment-start:
     // const realm = await Realm.open({
     // :uncomment-end:
+    // :remove-start:
     realm = await Realm.open({
-      // :remove:
+      // :remove-end:
       schema: [characterSchema],
     });
     realm.write(() => {
