@@ -98,6 +98,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
+            asyncCall.await()
             asyncCall.cancel() // :hide:
             Log.v("Number of frogs in realm : ${realm.query<Frog>().find().size}")
             assertEquals(1, realm.query<Frog>().find().size)
@@ -346,6 +347,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :code-block-end:
             }
+            asyncCall.await()
             asyncCall.cancel() // :hide:
             assertEquals(0, realm.query<Frog>().find().size)
             realm.close()
