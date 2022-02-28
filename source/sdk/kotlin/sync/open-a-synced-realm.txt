@@ -1,8 +1,8 @@
-.. _kotlin-sync-changes-between-devices:
+.. _kotlin-open-a-synced-realm:
 
-=========================================
-Sync Changes Between Devices - Kotlin SDK
-=========================================
+================================
+Open a Synced Realm - Kotlin SDK
+================================
 
 .. default-domain:: mongodb
 
@@ -12,6 +12,11 @@ Sync Changes Between Devices - Kotlin SDK
    :depth: 2
    :class: singlecol
 
+.. note:: Flexible Sync
+
+   The Kotlin SDK does not yet support Flexible Sync. You can currently
+   only use the SDK with Partition-Based Sync applications.
+
 Prerequisites
 -------------
 
@@ -19,14 +24,12 @@ Before you can access a synced {+realm+} from the client, you must:
 
 1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
 
-#. :ref:`Install <kotlin-install>` the sync distribution of the Kotlin SDK.
-   (To use sync, you should use the dependency
-   io.realm.kotlin:library-*sync* instead of io.realm.kotlin:library-*base*)
+#. Install the sync distribution of the Kotlin SDK
+   for :ref:`Android <kotlin-install-android>` or
+   :ref:`Kotlin Multiplatform <kotlin-install-kotlin-multiplatform>`.
 
 #. :ref:`Authenticate a user <kotlin-authenticate>` in
    your client project.
-
-.. _kotlin-open-a-synced-realm:
 
 Open a Synced Realm
 -------------------
@@ -41,6 +44,7 @@ an instance of the realm:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt
    :language: kotlin
+   :copyable: false
 
 
 Configure a Synced Realm
@@ -52,3 +56,4 @@ To adjust specific configuration settings, use the options provided by
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt
    :language: kotlin
+   :copyable: false

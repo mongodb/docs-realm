@@ -10,10 +10,10 @@ MongoDB Realm Kotlin SDK (Alpha)
    Install </sdk/kotlin/install>
    Quick Start </sdk/kotlin/quick-start>
    Realm Database </sdk/kotlin/realm-database>
-   Frozen Architecture </sdk/kotlin/frozen-arch>
+   Sync </sdk/kotlin/sync>
    App Services </sdk/kotlin/app-services>
    Reference Manual <https://docs.mongodb.com/realm-sdks/kotlin/latest/>
-   Release Notes <https://github.com/realm/realm-kotlin/releases>
+   Release Notes <https://github.com/realm/realm-kotlin/blob/releases/CHANGELOG.md>
 
 .. contents:: On this page
    :local:
@@ -24,9 +24,13 @@ MongoDB Realm Kotlin SDK (Alpha)
 .. include:: /includes/note-alpha-sdk.rst
 
 The {+service+} :github:`Kotlin SDK <realm/realm-kotlin>`
-allows you to use {+client-database+} from Android and iOS applications
-written with `Kotlin Multiplatform Mobile (KMM)
-<https://kotlinlang.org/docs/mobile/home.html>`__.
+allows you to use {+client-database+} from:
+
+- Android and iOS applications written with
+  `Kotlin Multiplatform Mobile (KMM)
+  <https://kotlinlang.org/docs/mobile/home.html>`__
+
+- standalone Android applications
 
 .. note:: Sync Support In Development
 
@@ -47,6 +51,7 @@ Define your object schema with marked Kotlin classes:
 
 .. literalinclude:: /examples/generated/kotlin/RealmModels.codeblock.landing-page-model.kt
    :language: kotlin
+   :copyable: false
 
 
 Query Realm Database
@@ -56,6 +61,7 @@ Query for stored objects:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.landing-page-query.kt
    :language: kotlin
+   :copyable: false
 
 Update Objects
 ~~~~~~~~~~~~~~
@@ -65,21 +71,16 @@ instance of the object within a transaction:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.landing-page-update.kt
    :language: kotlin
+   :copyable: false
 
 Get Started
 -----------
 
 To start using the {+service+} Kotlin SDK
-in your KMM application, see :ref:`the installation guide
-<kotlin-install>` to add the Kotlin SDK
-dependency. Once you've added the SDK to your application, check out the
-:ref:`Quick Start <kotlin-client-quick-start-local>`.
-
-- :doc:`Install Realm for Kotlin </sdk/kotlin/install>`
-
-- :doc:`Quick Start </sdk/kotlin/quick-start>`
-
-- :doc:`Frozen Architecture </sdk/kotlin/frozen-arch>`
+in your application, see the installation guide for :ref:`Kotlin Multiplatform
+<kotlin-install-kotlin-multiplatform>` or :ref:`Android
+<kotlin-install-kotlin-multiplatform>`. Once you've installed the SDK,
+check out the :ref:`Quick Start <kotlin-client-quick-start-local>`.
 
 .. important:: This SDK is Currently in Alpha
 

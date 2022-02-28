@@ -14,7 +14,7 @@ Authenticate Users - Kotlin SDK
    :class: singlecol
 
 {+service+} provides an API for authenticating users using any enabled
-authentication provider. Instantiate a ``Credentials`` object and pass
+authentication provider. Instantiate a :file:`Credentials` object and pass
 it to :kotlin-sdk:`app.login()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`
 method to authenticate a user and create a :kotlin-sdk:`User
@@ -22,7 +22,8 @@ method to authenticate a user and create a :kotlin-sdk:`User
 object for that user.
 Each authentication provider corresponds to a
 :kotlin-sdk:`static helper method
-<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/index.html>` used to instantiate ``Credentials`` objects for that
+<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/index.html>`
+used to instantiate :file:`Credentials` objects for that
 authentication provider.
 
 .. _kotlin-login:
@@ -33,8 +34,8 @@ Log In
 You can authenticate users with :kotlin-sdk:`app.login()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`.
 
-If successful, ``app.login()`` returns a ``User`` object.
-In the event of a failure, ``app.login()`` throws an
+If successful, :file:`app.login()`returns a :file:`User` object.
+In the event of a failure, :file:`app.login()` throws an
 exception of type :kotlin-sdk:`AppException
 <library-sync/io.realm.mongodb/-app-exception/index.html>`.
 
@@ -51,10 +52,11 @@ authentication, create an anonymous credential by calling
 :kotlin-sdk:`AuthenticationProvider.ANONYMOUS()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html>`
 and then pass the generated credential to
-``app.login()``.
+:file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.anonymous-authentication.kt
    :language: kotlin
+   :copyable: false
 
 .. _kotlin-email-password-login:
 .. _kotlin-login-email-password:
@@ -68,10 +70,11 @@ a password. To log in with email/password authentication, create an
 email/password credential by calling :kotlin-sdk:`AuthenticationProvider.EMAIL_PROVIDER()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-e-m-a-i-l_-p-a-s-s-w-o-r-d/index.html>`
 with the user's email and password. Then pass the generated credential
-to ``app.login()``.
+to :file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.email-password-authentication.kt
    :language: kotlin
+   :copyable: false
 
 .. _kotlin-logout:
 
@@ -91,3 +94,4 @@ all local Realm updates have uploaded to the server.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.log-out.kt
    :language: kotlin
+   :copyable: false

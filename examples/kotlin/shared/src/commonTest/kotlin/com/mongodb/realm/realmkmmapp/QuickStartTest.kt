@@ -4,6 +4,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.delete
+import io.realm.notifications.ResultsChange
 import io.realm.query
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
@@ -117,7 +118,7 @@ class QuickStartTest: RealmTest() {
 
         // fetch objects from a realm as Flowables
         CoroutineScope(Dispatchers.Main).launch {
-            val flow: Flow<RealmResults<Task>> = realm.query<Task>().asFlow()
+            val flow: Flow<ResultsChange<Task>> = realm.query<Task>().asFlow()
             flow.collect { task ->
                 Log.v("Task: $task")
             }
