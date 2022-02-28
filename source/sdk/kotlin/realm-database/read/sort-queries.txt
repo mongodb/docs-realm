@@ -15,9 +15,9 @@ Sort Queries - Kotlin SDK
 To sort results, specify a sort in the query passed to
 :kotlin-sdk:`realm.query()
 <{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`
-with the :file:`SORT` key word. Similarly, use the :file:`DISTINCT`
-key word to constrain results to unique values of a field, and
-the :file:`LIMIT` key word to cap the number of results. The SDK
+with the :file:`SORT` keyword. Similarly, use :file:`DISTINCT`
+to constrain results to unique values of a field, and
+:file:`LIMIT` to cap the number of results. The SDK
 provides convenience methods on :file:`RealmQuery` so you don't have
 to manually write the keywords:
 
@@ -35,7 +35,8 @@ to the query. This can impact the results returned from your query.
 
 .. note:: :file:`find()` is Synchronous
 
-   :file:`find()` runs a synchronous query on the thread it is called from.
+   :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/find.html`
+   runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
    logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
    <{+kotlin-local-prefix+}io.realm/-realm-results/as-flow.html>` in

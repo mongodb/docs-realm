@@ -5,7 +5,9 @@ import io.realm.RealmConfiguration
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.PrimaryKey
+import io.realm.delete
 import io.realm.internal.platform.runBlocking
+import io.realm.notifications.ResultsChange
 import io.realm.query
 import io.realm.query.Sort
 import kotlin.random.Random
@@ -14,6 +16,7 @@ import kotlin.test.assertEquals
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.toCollection
 
 class CRUDTest: RealmTest() {
 
@@ -138,7 +141,7 @@ class CRUDTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: find-all-objects-of-a-type
             // fetch all objects of a type as a flow, asynchronously
-            val frogsFlow: Flow<RealmResults<Frog>> = realm.query<Frog>().asFlow()
+            val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
 
             // fetch all objects of a type as a results collection, synchronously
             val frogs: RealmResults<Frog> = realm.query<Frog>().find()
@@ -162,22 +165,22 @@ class CRUDTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: sort
             // sort in descending order, frogs with distinct owners, only the first 5, with convenience methods
-            val convenientlyOrganizedFrogs: Flow<RealmResults<Frog>> =
+            val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington'")
                     .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
             suspend {
-                convenientlyOrganizedFrogs.collect { realmResults ->
-                    realmResults.forEach { frog ->
+                convenientlyOrganizedFrogs.collect { change ->
+                    change.list.forEach { frog ->
                         Log.v("Found frog: $frog")
                     }
                 }
             }
             // sort in descending order, frogs with distinct owners, only the first 5, using RQL
-            val somewhatLessConvenientlyOrganizedFrogs: Flow<RealmResults<Frog>> =
+            val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
             suspend {
-                convenientlyOrganizedFrogs.collect { realmResults ->
-                    realmResults.forEach { frog ->
+                convenientlyOrganizedFrogs.collect { change ->
+                    change.list.forEach { frog ->
                         Log.v("Found frog: $frog")
                     }
                 }
@@ -202,7 +205,7 @@ class CRUDTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: iteration
             // fetch frogs from the realm as Flowables
-            val frogsFlow: Flow<RealmResults<Frog>> = realm.query<Frog>().asFlow()
+            val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
 
             // iterate through the flow with collect, printing each item
             val frogsObserver: Deferred<Unit> = async {
@@ -294,10 +297,10 @@ class CRUDTest: RealmTest() {
                 // :code-block-start: delete-an-object
                 realm.write {
                     // fetch the frog by primary key value, passed in as argument number 0
-                    val frogs: RealmResults<Frog> =
-                        this.query<Frog>("_id == $0", PRIMARY_KEY_VALUE).find()
+                    val frog: Frog? =
+                        this.query<Frog>("_id == $0", PRIMARY_KEY_VALUE).first().find()
                     // call delete on the results of a query to delete the object permanently
-                    frogs.delete()
+                    frog?.delete()
                 }
                 // :code-block-end:
             }

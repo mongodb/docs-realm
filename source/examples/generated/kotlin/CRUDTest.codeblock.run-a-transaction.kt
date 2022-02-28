@@ -1,4 +1,4 @@
-realm.writeBlocking {
+realm.write {
     // create a frog object in the realm
     val frog = this.copyToRealm(Frog().apply {
         name = "Kermit"

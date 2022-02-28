@@ -14,8 +14,6 @@ query API.
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
 
-.. include:: includes/note-unsupported-flex-sync-rql-operators.rst
-
 Expressions
 ~~~~~~~~~~~
 
@@ -100,23 +98,35 @@ with a number literal (such as ``0``) or another property (such as
 
    See the schema for these two classes, ``Project`` and ``Task``, below:
 
-   .. code-block:: 
 
-      class Task {
-          ObjectId id;
-          string name;
-          bool isComplete;
-          string? assignee;
-          int priority;
-          int progressMinutes;
-      }
+.. tabs::
 
-      class Project {
-          ObjectId id;
-          string name;
-          Task[] tasks;
-          int? quota;
-      }
+   .. tab:: Swift SDK
+      :tabid: swift
+
+      .. code-block:: swift
+
+         class Task {
+             ObjectId id;
+             string name;
+             bool isComplete;
+             string? assignee;
+             int priority;
+             int progressMinutes;
+         }
+
+         class Project {
+             ObjectId id;
+             string name;
+             Task[] tasks;
+             int? quota;
+         }
+
+   .. tab:: Kotlin SDK
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.rql-examples.kt
+         :language: kotlin
 
 Operators
 ~~~~~~~~~

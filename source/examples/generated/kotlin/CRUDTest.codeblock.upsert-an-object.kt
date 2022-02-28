@@ -1,4 +1,4 @@
-realm.writeBlocking {
+realm.write {
     // fetch a frog from the realm based on some query
     val frog: Frog? =
         this.query<Frog>("name == 'Wirt'").first().find()

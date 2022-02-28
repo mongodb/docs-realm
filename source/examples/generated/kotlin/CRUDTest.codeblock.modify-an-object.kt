@@ -1,4 +1,4 @@
-realm.writeBlocking {
+realm.write {
     // fetch a frog from the realm by primary key
     val frog: Frog? =
         this.query<Frog>("_id == $0", PRIMARY_KEY_VALUE).first().find()

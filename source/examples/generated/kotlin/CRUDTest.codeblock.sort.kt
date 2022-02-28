@@ -1,3 +1,21 @@
-// sort in descending order, frogs with distinct owners, only the first 5
-val frogs: RealmResults<Frog> =
-    realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").find()
+// sort in descending order, frogs with distinct owners, only the first 5, with convenience methods
+val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
+    realm.query<Frog>("name = 'George Washington'")
+        .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
+suspend {
+    convenientlyOrganizedFrogs.collect { change ->
+        change.list.forEach { frog ->
+            Log.v("Found frog: $frog")
+        }
+    }
+}
+// sort in descending order, frogs with distinct owners, only the first 5, using RQL
+val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
+    realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
+suspend {
+    convenientlyOrganizedFrogs.collect { change ->
+        change.list.forEach { frog ->
+            Log.v("Found frog: $frog")
+        }
+    }
+}
