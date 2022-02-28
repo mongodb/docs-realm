@@ -1,0 +1,116 @@
+.. _kotlin-migrate-from-java-sdk-to-kotlin-sdk:
+
+===========================================
+Migrate from the Java SDK to the Kotlin SDK
+===========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Java SDK and the Kotlin SDK differ in many ways. On this page, you'll
+find a high-level comparison of most of the ways the SDKs differ.
+
+Opening Realms
+--------------
+
+The Java SDK automatically detects Realm Object Models defined in your
+application, and uses all of them in the schema of opened realms unless
+you specify otherwise. In the Kotlin SDK, you must manually specify the
+Realm Object Models to use in your realm schema. Additionally:
+
+- The Java SDK used :file:`RealmConfiguration.Builder().build()` to
+  generate instances of :file:`RealmConfiguration`. With the Kotlin SDK,
+  use the :kotlin-sdk:`RealmConfiguration.with()
+  <{+kotlin-local-prefix+}io.realm/-realm-configuration/-companion/with.html`
+  companion method :file:`RealmConfiguration` instead.
+
+- The Java SDK used the static :file:`Realm.getInstance()` method to
+  open a realm with a given config. With the Kotlin SDK, use the static
+  :file:`Realm.open()` method instead.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java
+          :language: java
+          :copyable: false
+          :caption: Java SDK (Legacy)
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
+          :language: kotlin
+          :copyable: false
+          :caption: Kotlin SDK (New)
+
+Optionally, use :kotlin-sdk:`RealmConfiguration.Builder
+<{+kotlin-local-prefix+}io.realm/-realm-configuration/-builder/index.html>`
+to customize your configuration even more:
+
+.. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
+   :language: kotlin
+   :copyable: false
+   :caption: Kotlin SDK (New)
+
+.. seealso::
+
+   :ref:`Open & Close a Realm <kotlin-open-and-close-a-realm>`
+
+Realm Object Models
+-------------------
+
+.. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.java
+   :language: java
+   :copyable: false
+   :caption: Java SDK (Legacy)
+
+.. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt
+   :language: kotlin
+   :copyable: false
+   :caption: Kotlin SDK (New)
+
+Relationships
+-------------
+
+One-to-One
+~~~~~~~~~~
+
+One-to-Many
+~~~~~~~~~~~
+
+Writes
+------
+
+Sync
+~~~~
+
+Async
+~~~~~
+
+Queries
+-------
+
+Filters
+~~~~~~~
+
+Aggregates
+~~~~~~~~~~
+
+Deletes
+-------
+
+Notifications
+-------------
+
+Threading
+---------
+
