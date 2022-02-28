@@ -125,7 +125,7 @@ with a number literal (such as ``0``) or another property (such as
    .. tab:: Kotlin SDK
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.rql-examples.kt
+      .. literalinclude:: /examples/generated/kotlin/RQLTest.codeblock.rql-examples.kt
          :language: kotlin
 
 Operators
