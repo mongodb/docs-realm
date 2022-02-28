@@ -20,8 +20,9 @@ MongoDB Realm enforces data access rules for all requests to a :term:`synced
 cluster`. Sync rules are dynamic :ref:`JSON expressions <expressions>` that
 specify a given user's ability to view and modify synced data.
 
-The way Sync rules work depends on whether you are using Partition-Based
-Sync or Flexible Sync.
+The way Sync rules work depends on whether you are using
+:ref:`Partition-Based Sync <partition-based-rules-and-permissions>` or
+:ref:`Flexible Sync <flexible-sync-rules-and-permissions>`.
 
 .. important:: Non-Sync Rules
    
@@ -374,7 +375,8 @@ Flexible Sync Rules
 
 You define a read and write rule expression pair for every session role.
 
-:ref:`Queryable fields <queryable-fields>` couple these rules to your app's data model.
+Rule expressions can refer to the :ref:`queryable fields
+<queryable-fields>` of your data model.
 
 In response to a Flexible Sync subscription query, Realm evaluates the
 read and write rule expressions for each document that matches the query.
