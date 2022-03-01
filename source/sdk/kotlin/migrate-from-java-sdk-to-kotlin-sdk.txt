@@ -23,8 +23,8 @@ Opening Realms
 
 The Java SDK automatically detects Realm Object Models defined in your
 application, and uses all of them in the schema of opened realms unless
-you specify otherwise. In the Kotlin SDK, you must manually specify the
-Realm Object Models to use in your realm schema. Additionally:
+you specify otherwise. The Kotlin SDK requires you to manually specify
+the Realm Object Models to use in your realm schema. Additionally:
 
 - The Java SDK used :file:`RealmConfiguration.Builder().build()` to
   generate instances of :file:`RealmConfiguration`. With the Kotlin SDK,
@@ -84,6 +84,10 @@ and indexes:
           :language: kotlin
           :copyable: false
 
+.. seealso::
+
+   :ref:`Schemas: Supported Types <kotlin-supported-types>`
+
 Relationships
 -------------
 
@@ -100,7 +104,7 @@ One-to-One
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-one-relationship.java
+   * - .. literalinclude:: /examples/generated/java/local/Child.codeblock.one-to-one-relationship.java
           :language: java
           :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt
@@ -110,8 +114,8 @@ One-to-One
 One-to-Many
 ~~~~~~~~~~~
 
-In the Java SDK, you could define one-to-many relationships with fields
-of type :file:`RealmList`. In the Kotlin SDK, you still use fields of
+With the Java SDK, you could define one-to-many relationships with fields
+of type :file:`RealmList`. The Kotlin SDK still uses fields of
 type :file:`RealmList`, but you should instantiate :file:`RealmList`
 instances with the :kotlin-sdk:`realmListOf()
 <{+kotlin-local-prefix+}io.realm/realm-list-of.html>` companion method.
@@ -123,7 +127,7 @@ instances with the :kotlin-sdk:`realmListOf()
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.java
+   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.java
           :language: java
           :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt
@@ -133,11 +137,13 @@ instances with the :kotlin-sdk:`realmListOf()
 Writes
 ------
 
+The Kotlin SDK introduces new names for the methods that write to realms.
+
 Async
 ~~~~~
 
-In the Java SDK, you could write asynchronously to a realm with
-:file:`realm.executeTransactionAsync()`. In the Kotlin SDK, use
+With the Java SDK, you could write asynchronously to a realm with
+:file:`realm.executeTransactionAsync()`. The Kotlin SDK uses
 :kotlin-sdk:`realm.write()
 <{+kotlin-local-prefix+}io.realm/-realm/write.html>`:
 
@@ -158,8 +164,8 @@ In the Java SDK, you could write asynchronously to a realm with
 Sync
 ~~~~
 
-In the Java SDK, you could write synchronously to a realm with
-:file:`realm.executeTransaction()`. In the Kotlin SDK, use
+With the Java SDK, you could write synchronously to a realm with
+:file:`realm.executeTransaction()`. The Kotlin SDK uses
 :kotlin-sdk:`realm.writeBlocking()
 <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`:
 
@@ -177,8 +183,18 @@ In the Java SDK, you could write synchronously to a realm with
           :language: kotlin
           :copyable: false
 
+.. seealso::
+
+   :ref:`Create a New Object <kotlin-create-a-new-object>`
+   :ref:`Modify an Object <kotlin-modify-an-object>`
+   :ref:`Delete an Object <kotlin-delete-an-object>`
+
 Queries
 -------
+
+With the Java SDK, you could query objects in realms using a fluent
+interface or :ref:`Realm Query Language <kotlin-query-language>` (RQL).
+The Kotlin SDK only uses RQL.
 
 Filters
 ~~~~~~~
@@ -186,12 +202,26 @@ Filters
 Aggregates
 ~~~~~~~~~~
 
+.. seealso::
+
+   :ref:`Realm Query Language <kotlin-query-language>`
+
 Deletes
 -------
+
+.. seealso::
+
+   :ref:`Delete all Objects of a Type <kotlin-delete-all-objects-of-a-type>`
+   :ref:`Delete Multiple Objects <kotlin-delete-multiple-objects>`
+   :ref:`Delete an Object <kotlin-delete-an-object>`
 
 Notifications
 -------------
 
 Threading
 ---------
+
+Migrations
+----------
+
 
