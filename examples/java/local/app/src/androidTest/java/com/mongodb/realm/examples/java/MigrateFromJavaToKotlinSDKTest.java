@@ -376,7 +376,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                     sampleStringField)
                                     .findFirst();
                     Log.v("EXAMPLE",
-                            "Fetched sample on separate thread: "
+                            "Separate thread sample: "
                             + threadSample);
                 });
                 // :code-block-end:

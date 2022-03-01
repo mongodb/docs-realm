@@ -33,7 +33,7 @@
                ).findFirst()
        Log.v(
            "EXAMPLE",
-           "Fetched sample on separate thread: " +
+           "Separate thread sample: " +
                    threadSample
        )
    }
