@@ -1,5 +1,5 @@
 .. code-block:: kotlin
 
-   class Kid : RealmObject() {
+   open class Kid : RealmObject() {
        var frogs = RealmList<Frog>()
    }

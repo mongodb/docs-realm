@@ -1,5 +1,5 @@
 .. code-block:: kotlin
 
-   class Child : RealmObject() {
+   open class Child : RealmObject() {
        var frog: Frog? = null
    }

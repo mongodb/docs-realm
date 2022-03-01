@@ -1,4 +1,4 @@
-class Sample : RealmObject() {
+open class Sample : RealmObject() {
     @PrimaryKey
     var stringField = "Realm"
     var byteField: Byte = 0xA

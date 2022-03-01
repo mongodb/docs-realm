@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey
 import java.util.*
 
 // :code-block-start: realm-object-model
-class Sample : RealmObject() {
+open class Sample : RealmObject() {
     @PrimaryKey
     var stringField = "Realm"
     var byteField: Byte = 0xA
