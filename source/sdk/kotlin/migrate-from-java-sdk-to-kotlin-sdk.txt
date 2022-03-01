@@ -25,11 +25,13 @@ The Java SDK provided live objects, queries, and realms that
 automatically update when underlying data changes. The Kotlin SDK still
 provides this live interface in write transactions, but otherwise relies
 on a new frozen architecture that makes Realm objects easier to work
-with. With the Kotlin SDK architecture, you'll notice a few differences:
+with. Here are some of the main differences between the Java SDK
+architecture and the Kotlin SDK architecture:
 
-- **Frozen by default**: All objects are now frozen. You can still access
-  live objects within a write transaction, but passing a live object out
-  of a write transaction freezes the object.
+- **Frozen by default**: All objects are now frozen. Unlike live objects,
+  frozen objects do not automatically update after database writes. You
+  can still access live objects within a write transaction, but passing
+  a live object out of a write transaction freezes the object.
 
 - **Thread-safety**: All realm instances, objects, query results, and
   collections can now be transferred across threads.
@@ -40,7 +42,7 @@ with. With the Kotlin SDK architecture, you'll notice a few differences:
 
 .. seealso::
 
-   :ref:`Frozen Architecture <kotlin-frozen-architecture>`
+   :ref:`Kotlin SDK Frozen Architecture <kotlin-frozen-architecture>`
 
 Opening Realms
 --------------
