@@ -66,6 +66,10 @@ to customize your configuration even more:
 Realm Object Models
 -------------------
 
+Both the Java and Kotlin SDKs declare Realm objects the same way: extend
+:file:`RealmObject`, and annotate fields with properties like primary keys
+and indexes:
+
 .. list-table::
    :header-rows: 1
    :widths: 50 50
@@ -83,11 +87,48 @@ Realm Object Models
 Relationships
 -------------
 
+Both the Java and Kotlin SDKs declare relationships through Realm object
+fields:
+
 One-to-One
 ~~~~~~~~~~
 
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-one-relationship.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt
+          :language: kotlin
+          :copyable: false
+
 One-to-Many
 ~~~~~~~~~~~
+
+In the Java SDK, you could define one-to-many relationships with fields
+of type :file:`RealmList`. In the Kotlin SDK, you still use fields of
+type :file:`RealmList`, but you should instantiate :file:`RealmList`
+instances with the :kotlin-sdk:`realmListOf()
+<{+kotlin-local-prefix+}io.realm/realm-list-of.html>` companion method.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt
+          :language: kotlin
+          :copyable: false
 
 Writes
 ------

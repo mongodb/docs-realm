@@ -13,7 +13,7 @@ import io.realm.exceptions.RealmFileException;
 
 public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
     @Test
-    public void testOpenAndCloseARealm() {
+    public void testOpenARealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             // :code-block-start: open-a-realm

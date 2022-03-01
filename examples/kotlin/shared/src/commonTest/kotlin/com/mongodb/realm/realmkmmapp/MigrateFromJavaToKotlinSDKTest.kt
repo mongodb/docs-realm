@@ -3,10 +3,12 @@ package com.mongodb.realm.realmkmmapp
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmInstant
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.internal.platform.runBlocking
+import io.realm.realmListOf
 
 import kotlin.test.Test
 
@@ -30,6 +32,18 @@ class Sample : RealmObject {
 }
 // :code-block-end:
 
+// :code-block-start: one-to-one-relationship
+class Child : RealmObject {
+    var frog: Frog? = null
+}
+// :code-block-end:
+
+// :code-block-start: one-to-many-relationship
+class Kid : RealmObject {
+    var frogs: RealmList<Frog> = realmListOf()
+    var nullableFrogs: RealmList<Frog?> = realmListOf()
+}
+// :code-block-end:
 
 class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
