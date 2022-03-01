@@ -1,4 +1,4 @@
-public class Student
+public class CollegeStudent
         extends RealmObject {
     @Required
     public RealmList<String> notes =
