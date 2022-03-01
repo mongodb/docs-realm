@@ -9,15 +9,18 @@ realm.where(Sample::class.java)
             ("Results changed. " +
                 "change ranges: " +
                 Arrays.toString(
-                    changeSet.changeRanges
+                    changeSet
+                        .changeRanges
                 ) +
                 ", insertion ranges: " +
                 Arrays.toString(
-                    changeSet.insertionRanges
+                    changeSet
+                        .insertionRanges
                 ) +
                 ", deletion ranges: " +
                 Arrays.toString(
-                    changeSet.deletionRanges
+                    changeSet
+                        .deletionRanges
                 ))
         )
     }

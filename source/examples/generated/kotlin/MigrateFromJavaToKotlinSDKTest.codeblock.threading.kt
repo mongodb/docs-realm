@@ -1,5 +1,8 @@
 val realm = Realm.open(config)
-val sample: Sample? = realm.query<Sample>().first().find()
+val sample: Sample? =
+    realm.query<Sample>()
+        .first()
+        .find()
 
 launch(Dispatchers.Unconfined) {
     // can access the realm opened on

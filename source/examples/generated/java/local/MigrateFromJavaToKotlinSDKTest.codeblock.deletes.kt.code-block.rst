@@ -12,7 +12,8 @@
    }
 
    // delete a query result asynchronously
-   realm.executeTransactionAsync { backgroundRealm: Realm ->
+   realm.executeTransactionAsync {
+           backgroundRealm: Realm ->
        backgroundRealm.where(
            Sample::class.java
        ).findFirst()!!.deleteFromRealm()

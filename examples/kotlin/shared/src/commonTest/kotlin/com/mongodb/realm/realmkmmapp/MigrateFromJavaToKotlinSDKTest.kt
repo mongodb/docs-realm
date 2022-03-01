@@ -184,8 +184,11 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             val samples: RealmResults<Sample> =
                 realm.query<Sample>().find()
 
-            val samplesThatBeginWithN: RealmResults<Sample> =
-                realm.query<Sample>("stringField BEGINSWITH 'N'").find()
+            val samplesThatBeginWithN:
+                    RealmResults<Sample> =
+                realm.query<Sample>(
+                    "stringField BEGINSWITH 'N'"
+                ).find()
             // :code-block-end:
             realm.close()
         }
@@ -345,7 +348,10 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                 this.copyToRealm(sample)
             }
             // :hide-end:
-            val sample: Sample? = realm.query<Sample>().first().find()
+            val sample: Sample? =
+                realm.query<Sample>()
+                    .first()
+                    .find()
 
             launch(Dispatchers.Unconfined) {
                 // can access the realm opened on

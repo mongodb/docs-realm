@@ -9,16 +9,22 @@
    ExecutorService executorService =
            Executors.newFixedThreadPool(4);
    executorService.execute(() -> {
-       // cannot pass a realm into another thread,
-       // so get a new instance for separate thread
+       // cannot pass a realm
+       // into another thread,
+       // so get a new instance
+       // for separate thread
        Realm threadRealm =
                Realm.getInstance(config);
-       // cannot access original sample on another
-       // thread, so use sampleStringField instead
+       // cannot access original
+       // sample on another
+       // thread, use
+       // sampleStringField instead
        Sample threadSample =
-               threadRealm.where(Sample.class)
+               threadRealm
+                       .where(Sample.class)
                .equalTo("stringField",
-                       sampleStringField).findFirst();
+                       sampleStringField)
+                       .findFirst();
        Log.v("EXAMPLE",
                "Fetched sample on separate thread: " +
                        threadSample);

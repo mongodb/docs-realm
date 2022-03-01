@@ -29,7 +29,8 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             var realm: Realm
             realm = Realm.getInstance(config)
             Log.v(
-                "EXAMPLE", "Successfully opened a realm: "
+                "EXAMPLE",
+                "Successfully opened a realm: "
                         + realm.path
             )
             // :code-block-end:
@@ -53,9 +54,9 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             try {
                 realm = Realm.getInstance(config)
                 Log.v(
-                    "EXAMPLE", (
-                            "Successfully opened a realm: "
-                                    + realm.path)
+                    "EXAMPLE",
+                    "Successfully opened a realm: "
+                                    + realm.path
                 )
                 // :code-block-start: write-async
                 realm.executeTransactionAsync {
@@ -263,7 +264,8 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                 }
 
                 // delete a query result asynchronously
-                realm.executeTransactionAsync { backgroundRealm: Realm ->
+                realm.executeTransactionAsync {
+                        backgroundRealm: Realm ->
                     backgroundRealm.where(
                         Sample::class.java
                     ).findFirst()!!.deleteFromRealm()
@@ -323,15 +325,18 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                             ("Results changed. " +
                                 "change ranges: " +
                                 Arrays.toString(
-                                    changeSet.changeRanges
+                                    changeSet
+                                        .changeRanges
                                 ) +
                                 ", insertion ranges: " +
                                 Arrays.toString(
-                                    changeSet.insertionRanges
+                                    changeSet
+                                        .insertionRanges
                                 ) +
                                 ", deletion ranges: " +
                                 Arrays.toString(
-                                    changeSet.deletionRanges
+                                    changeSet
+                                        .deletionRanges
                                 ))
                         )
                     }
@@ -385,17 +390,24 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                     realm.where(
                         Sample::class.java
                     ).findFirst()
-                // save sample field in a separate variable
+                // save sample field in a
+                // separate variable
                 // for access on another thread
-                val sampleStringField = sample!!.stringField
+                val sampleStringField =
+                    sample!!.stringField
                 val executorService =
                     Executors.newFixedThreadPool(4)
                 executorService.execute {
-                    // cannot pass a realm into another thread,
-                    // so get a new instance for separate thread
-                    val threadRealm = Realm.getInstance(config)
-                    // cannot access original sample on another
-                    // thread, so use sampleStringField instead
+                    // cannot pass a realm
+                    // into another thread,
+                    // so get a new instance
+                    // for separate thread
+                    val threadRealm =
+                        Realm.getInstance(config)
+                    // cannot access original
+                    // sample on another
+                    // thread, use
+                    // sampleStringField instead
                     val threadSample =
                         threadRealm.where(
                             Sample::class.java
@@ -439,12 +451,14 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
         activity!!.runOnUiThread {
 
             // :code-block-start: migrations
-            val config = RealmConfiguration.Builder()
+            val config =
+                RealmConfiguration.Builder()
                 .name(getRandom()) // :hide:
                 .migration { realm: DynamicRealm,
                              oldVersion: Long,
                              newVersion: Long ->
-                    val schema: RealmSchema = realm.schema
+                    val schema: RealmSchema =
+                        realm.schema
                     if (oldVersion == 0L) {
                         // perform schema migration
                         schema.get("Sample")
@@ -456,18 +470,20 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
 
                     // migrate data
                     schema.get("Sample")
-                        ?.transform { obj: DynamicRealmObject ->
+                        ?.transform {
+                                obj: DynamicRealmObject ->
                             obj.set(
                                 "longField",
                                 42L
                             )
                         }
                 }.build()
-            val realm: Realm = Realm.getInstance(config)
+            val realm: Realm =
+                Realm.getInstance(config)
             Log.v(
-                "EXAMPLE", (
-                        "Successfully opened a realm: "
-                                + realm.path)
+                "EXAMPLE",
+                "Successfully opened a realm: "
+                        + realm.path
             )
             // :code-block-end:
             expectation.fulfill()

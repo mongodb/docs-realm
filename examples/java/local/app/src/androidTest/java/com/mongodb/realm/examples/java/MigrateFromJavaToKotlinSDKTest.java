@@ -230,11 +230,13 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                 .findFirst();
 
                 // delete one object synchronously
-                realm.executeTransaction(transactionRealm ->
+                realm.executeTransaction(
+                        transactionRealm ->
                         sample.deleteFromRealm());
 
                 // delete a query result asynchronously
-                realm.executeTransactionAsync(backgroundRealm ->
+                realm.executeTransactionAsync(
+                        backgroundRealm ->
                         backgroundRealm.where(SampleJava.class)
                                 .findFirst().deleteFromRealm());
                 // :code-block-end:
@@ -347,16 +349,22 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                 ExecutorService executorService =
                         Executors.newFixedThreadPool(4);
                 executorService.execute(() -> {
-                    // cannot pass a realm into another thread,
-                    // so get a new instance for separate thread
+                    // cannot pass a realm
+                    // into another thread,
+                    // so get a new instance
+                    // for separate thread
                     Realm threadRealm =
                             Realm.getInstance(config);
-                    // cannot access original sample on another
-                    // thread, so use sampleStringField instead
+                    // cannot access original
+                    // sample on another
+                    // thread, use
+                    // sampleStringField instead
                     SampleJava threadSample =
-                            threadRealm.where(SampleJava.class)
+                            threadRealm
+                                    .where(SampleJava.class)
                             .equalTo("stringField",
-                                    sampleStringField).findFirst();
+                                    sampleStringField)
+                                    .findFirst();
                     Log.v("EXAMPLE",
                             "Fetched sample on separate thread: " +
                                     threadSample);
