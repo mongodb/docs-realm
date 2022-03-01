@@ -14,8 +14,8 @@ Bundle a Realm File - Swift SDK
 
 .. note:: Bundle Synchronized Realms
 
-   Swift SDK version ? introduced the ability to bundle synchronized 
-   {+realm+}s. Before version ?, you could only bundle local {+realm+}s.
+   Swift SDK version 10.23.0 introduced the ability to bundle synchronized 
+   {+realm+}s. Before version 10.23.0, you could only bundle local {+realm+}s.
 
 {+service-short+} supports **bundling** {+realm+} files. When you bundle
 a {+realm+} file, you include a database and all of its data in your
@@ -80,14 +80,16 @@ Create a Realm File for Bundling
 #. Open a {+realm+} and add the data you wish to bundle. If using a
    synchronized {+realm+}, allow time for the {+realm+} to fully sync.
 
-#. Use the :swift-sdk:`writeCopy(configuration:) <>` 
+#. Use the :swift-sdk:`writeCopy(configuration:) <Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
    method to copy the {+realm+} to a new file:
 
 .. literalinclude:: /examples/generated/code/start/BundleRealms.codeblock.copy-synced-realm-for-bundling.swift
    :language: swift
 
-``writeCopy(configuration: )`` automatically compacts your {+realm+} to the smallest
-possible size before copying.
+:swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+automatically compacts your {+realm+} to the smallest possible size before 
+copying.
 
 .. note:: Differences Between Synced Realms and Local-only Realms
 
@@ -132,7 +134,8 @@ Open a Realm from a Bundled Realm File
 --------------------------------------
 
 Now that you have a copy of the {+realm+} included with your production
-application, you need to add code to use it. Use the ``seedFilePath``
+application, you need to add code to use it. Use the :swift-sdk:`seedFilePath 
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV12seedFilePath10Foundation3URLVSgvp>`
 method when configuring your {+realm+} to open the realm
 from the bundled file:
 
