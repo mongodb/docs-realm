@@ -9,6 +9,7 @@ Work with Users - Swift SDK
 .. toctree::
    :titlesonly:
 
+   Create and Delete Users </sdk/swift/examples/users/create-and-delete-users>
    Authenticate Users </sdk/swift/examples/users/authenticate-users>
    Custom User Data </sdk/swift/examples/users/custom-user-data>
    User Metadata </sdk/swift/examples/users/user-metadata>
@@ -23,9 +24,27 @@ When you use {+backend+} to back your client {+app+}, you get access to a
 :ref:`user object <user-objects>`. Use client SDK methods with this user 
 object to conveniently:
 
+- Create and delete users
 - Log users in and out
 - Create and update custom user data
 - Read user metadata from social login providers
+
+.. _ios-creating-and-deleting-users:
+
+Create and Delete Users
+-----------------------
+
+For all authentication providers other than email/password authentication,
+{+backend+} automatically :ref:`creates a user object <ios-create-user>` 
+the first time a user authenticates. If a user authenticates via more than 
+one method, you can :ref:`link these user identities <ios-link-user-identities>` 
+to a single user object. 
+
+You can :ref:`delete user objects <ios-delete-user>`. Deleting a user object 
+deletes metadata attached to the user object, but does not delete user-entered
+data from your application.
+
+.. include:: /includes/apple-account-deletion-requirements.rst
 
 .. _ios-access-the-app-client:
 
@@ -51,8 +70,6 @@ When you have a logged-in user, SDK methods enable you to:
 - :ref:`Change the active user <ios-change-the-active-user>` in a multi-user 
   application
 - :ref:`Remove a user <ios-remove-a-user-from-the-device>` from the device
-- :ref:`Link multiple identities <ios-link-user-identities>` to a single 
-  user object
 
 {+service-short+} caches credentials on the device upon successful login in a 
 ``sync_metadata.realm`` file. You can bypass the login flow and access the 
