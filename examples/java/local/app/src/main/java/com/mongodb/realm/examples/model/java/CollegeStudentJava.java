@@ -9,10 +9,10 @@ import io.realm.annotations.Required;
 // :code-block-start: schema-types
 // :replace-start: {
 //    "terms": {
-//       "StudentJava": "Student"
+//       "CollegeStudentJava": "CollegeStudent"
 //    }
 // }
-public class StudentJava
+public class CollegeStudentJava
         extends RealmObject {
     @Required
     public RealmList<String> notes =

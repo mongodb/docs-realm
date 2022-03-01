@@ -23,7 +23,7 @@ import io.realm.exceptions.RealmFileException;
 //       "KidJava": "Kid",
 //       "SampleJava": "Sample",
 //       "ChildJava": "Child",
-//       "StudentJava": "Student"
+//       "CollegeStudentJava": "CollegeStudent"
 //    }
 // }
 public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
