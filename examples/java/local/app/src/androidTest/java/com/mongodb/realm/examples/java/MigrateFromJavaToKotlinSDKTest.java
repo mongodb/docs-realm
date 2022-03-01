@@ -388,7 +388,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
     public void testMigration() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: migration
+            // :code-block-start: migrations
             RealmConfiguration config =
                 new RealmConfiguration.Builder()
                         .migration((realm,
