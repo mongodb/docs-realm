@@ -11,6 +11,8 @@
        public Long longField = 256L;
        public Boolean booleanField = true;
        public Float floatField = 3.14f;
-       public Double doubleField = 1.19840122;
-       public Date timestampField = new Date();
+       public Double doubleField =
+               1.19840122;
+       public Date timestampField =
+               new Date();
    }

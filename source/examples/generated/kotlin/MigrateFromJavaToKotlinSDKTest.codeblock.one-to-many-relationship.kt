@@ -1,3 +1,4 @@
 class Kid : RealmObject {
-    var frogs: RealmList<Frog> = realmListOf()
+    var frogs: RealmList<Frog> =
+        realmListOf()
 }

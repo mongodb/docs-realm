@@ -9,7 +9,12 @@ import io.realm.RealmResults
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.delete
+import io.realm.dynamic.DynamicMutableRealm
+import io.realm.dynamic.DynamicMutableRealmObject
+import io.realm.dynamic.DynamicRealm
+import io.realm.dynamic.DynamicRealmObject
 import io.realm.internal.platform.runBlocking
+import io.realm.migration.AutomaticSchemaMigration
 import io.realm.notifications.InitialResults
 import io.realm.notifications.ResultsChange
 import io.realm.notifications.UpdatedResults
@@ -18,6 +23,8 @@ import io.realm.query.Sort
 import io.realm.realmListOf
 
 import kotlin.test.Test
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -50,7 +57,8 @@ class Child : RealmObject {
 
 // :code-block-start: one-to-many-relationship
 class Kid : RealmObject {
-    var frogs: RealmList<Frog> = realmListOf()
+    var frogs: RealmList<Frog> =
+        realmListOf()
 }
 // :code-block-end:
 
@@ -110,7 +118,8 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: write-async
-            realm.write { // this: MutableRealm
+            realm.write {
+                // this: MutableRealm
                 val sample = Sample()
                 sample.stringField = "Sven"
                 this.copyToRealm(sample)
@@ -136,7 +145,8 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: write-sync
-            realm.writeBlocking { // this: MutableRealm
+            realm.writeBlocking {
+                // this: MutableRealm
                 val sample = Sample()
                 sample.stringField = "Sven"
                 this.copyToRealm(sample)
@@ -191,7 +201,8 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             val aggregates: RealmResults<Sample> =
                 realm.query<Sample>()
                     .distinct(Sample::stringField.name)
-                    .sort(Sample::stringField.name, Sort.ASCENDING)
+                    .sort(Sample::stringField.name,
+                        Sort.ASCENDING)
                     .limit(2)
                     .find()
             // :code-block-end:
@@ -273,29 +284,108 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             val asyncQuery = async {
                 // :code-block-start: notifications
                 // in a coroutine or a suspend function
-                realm.query<Sample>()
-                    .asFlow().collect { results: ResultsChange<Sample> ->
-                        when (results) {
-                            is InitialResults<Sample> -> {
-                                // do nothing with the initial set of results
-                            }
-                            is UpdatedResults<Sample> -> {
-                                // log change description
-                                Log.v(
-                                    "Results changed. " +
-                                            "change ranges: " +
-                                            results.changeRanges +
-                                            ", insertion ranges: " +
-                                            results.insertionRanges +
-                                            ", deletion ranges: " +
-                                            results.deletionRanges
-                                )
-                            }
+                realm.query<Sample>().asFlow().collect {
+                        results: ResultsChange<Sample> ->
+                    when (results) {
+                        is InitialResults<Sample> -> {
+                            // do nothing with the
+                            // initial set of results
+                        }
+                        is UpdatedResults<Sample> -> {
+                            // log change description
+                            Log.v("Results changed. " +
+                                "change ranges: " +
+                                results.changeRanges +
+                                ", insertion ranges: " +
+                                results.insertionRanges +
+                                ", deletion ranges: " +
+                                results.deletionRanges
+                            )
                         }
                     }
+                }
                 // :code-block-end:
             }
             asyncQuery.cancel()
+            realm.close()
+        }
+    }
+
+    @Test
+    fun threadingTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+
+            // :code-block-start: threading
+            val realm = Realm.open(config)
+            // :hide-start:
+            realm.writeBlocking { // this: MutableRealm
+                val sample = Sample()
+                sample.stringField = "Sven"
+                this.copyToRealm(sample)
+                sample.stringField = "not sven"
+                this.copyToRealm(sample)
+            }
+            // :hide-end:
+            val sample: Sample? = realm.query<Sample>().first().find()
+
+            launch(Dispatchers.Unconfined) {
+                // can access the realm opened on
+                // a different thread
+                realm.query<Sample>().find()
+                // can access realm object queried
+                // on a different thread
+                Log.v(sample!!.stringField)
+            }.join()
+            // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun migrationTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+
+            // :code-block-start: migrations
+            // A Realm migration that performs automatic schema migration
+            // and allows additional custom migration of data.
+            RealmConfiguration.Builder(schema = setOf(Sample::class))
+                .migration(AutomaticSchemaMigration {
+                        context: AutomaticSchemaMigration.MigrationContext ->
+                    val oldRealm: DynamicRealm =
+                        context.oldRealm
+                    val newRealm: DynamicMutableRealm =
+                        context.newRealm
+                    // dynamic realm gives access to realm data
+                    // through a generic string based API
+                    context.enumerate("Sample") {
+                            oldObject: DynamicRealmObject,
+                            newObject: DynamicMutableRealmObject? ->
+                        newObject?.set("longField", 42L)
+                    }
+                })
+                .build()
+            val realm = Realm.open(config)
+            // :code-block-end:
             realm.close()
         }
     }

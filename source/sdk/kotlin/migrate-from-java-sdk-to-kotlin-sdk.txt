@@ -312,7 +312,48 @@ by the flow represents a change to the results set.
 Threading
 ---------
 
+With the Java SDK, realms, Realm objects, and results cannot be passed
+between threads. The Kotlin SDK freezes these objects by default, making
+them thread-safe. Unlike the live objects used by the Java SDK, the
+frozen objects found in the Kotlin SDK do not automatically update when
+underlying data changes. You must use notifications to subscribe to
+updates instead.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt
+          :language: kotlin
+          :copyable: false
+
+.. seealso::
+
+   :ref:`Frozen Architecture <kotlin-frozen-architecture>`
+
 Migrations
 ----------
 
+With the Java SDK, migrations were a manual process. The Kotlin SDK
+automates migrations, but also gives you the ability to override those
+automatic migrations when necessary.
 
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt
+          :language: kotlin
+          :copyable: false
