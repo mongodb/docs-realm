@@ -7,6 +7,7 @@ import io.realm.RealmResults
 import io.realm.annotations.PrimaryKey
 import io.realm.delete
 import io.realm.internal.platform.runBlocking
+import io.realm.notifications.InitialResults
 import io.realm.notifications.ResultsChange
 import io.realm.query
 import io.realm.query.Sort
@@ -15,6 +16,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.toCollection
@@ -166,9 +168,16 @@ class CRUDTest: RealmTest() {
             // fetch all objects of a type as a flow, asynchronously
             val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
             val asyncCall: Deferred<Unit> = async {
-                frogsFlow.collect { change ->
-                    for (frog in change.list) {
-                        Log.v("Frog: $frog")
+                frogsFlow.collect { results ->
+                    when (results) {
+                        // print out initial results
+                        is InitialResults<Frog> -> {
+                            for (frog in results.list) {
+                                Log.v("Frog: $frog")
+                            }
+                        } else -> {
+                            // do nothing on changes
+                        }
                     }
                 }
             }
@@ -234,9 +243,16 @@ class CRUDTest: RealmTest() {
                 realm.query<Frog>("name = 'George Washington'")
                     .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
             val asyncCallConvenience: Deferred<Unit> = async {
-                convenientlyOrganizedFrogs.collect { change ->
-                    change.list.forEach { frog ->
-                        Log.v("Found frog: $frog")
+                convenientlyOrganizedFrogs.collect { results ->
+                    when (results) {
+                        // print out initial results
+                        is InitialResults<Frog> -> {
+                            for (frog in results.list) {
+                                Log.v("Frog: $frog")
+                            }
+                        } else -> {
+                            // do nothing on changes
+                        }
                     }
                 }
             }
@@ -246,9 +262,16 @@ class CRUDTest: RealmTest() {
             val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
             val asyncCallLessConvenient: Deferred<Unit> = async {
-                somewhatLessConvenientlyOrganizedFrogs.collect { change ->
-                    change.list.forEach { frog ->
-                        Log.v("Found frog: $frog")
+                somewhatLessConvenientlyOrganizedFrogs.collect { results ->
+                    when (results) {
+                        // print out initial results
+                        is InitialResults<Frog> -> {
+                            for (frog in results.list) {
+                                Log.v("Frog: $frog")
+                            }
+                        } else -> {
+                            // do nothing on changes
+                        }
                     }
                 }
             }
@@ -300,8 +323,18 @@ class CRUDTest: RealmTest() {
 
             // iterate through the flow with collect, printing each item
             val frogsObserver: Deferred<Unit> = async {
-                frogsFlow.collect { frog ->
-                    Log.v("Frog: $frog")
+                frogsFlow.collect { results ->
+                    when (results) {
+                        // print out initial results
+                        is InitialResults<Frog> -> {
+                            for (frog in results.list) {
+                                Log.v("Frog: $frog")
+                            }
+                        }
+                        else -> {
+                            // do nothing on changes
+                        }
+                    }
                 }
             }
 

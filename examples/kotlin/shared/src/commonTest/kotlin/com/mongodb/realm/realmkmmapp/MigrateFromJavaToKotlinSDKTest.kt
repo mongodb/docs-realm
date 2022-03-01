@@ -8,12 +8,19 @@ import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
+import io.realm.delete
 import io.realm.internal.platform.runBlocking
+import io.realm.notifications.InitialResults
+import io.realm.notifications.ResultsChange
+import io.realm.notifications.UpdatedResults
 import io.realm.query
 import io.realm.query.Sort
 import io.realm.realmListOf
 
 import kotlin.test.Test
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 // :code-block-start: realm-object-model
 class Sample : RealmObject {
@@ -188,6 +195,107 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                     .limit(2)
                     .find()
             // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun deleteTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            realm.writeBlocking { // this: MutableRealm
+                val sample = Sample()
+                sample.stringField = "Sven"
+                this.copyToRealm(sample)
+                sample.stringField = "not sven"
+                this.copyToRealm(sample)
+            }
+            // :code-block-start: deletes
+            val sample: Sample? =
+                realm.query<Sample>()
+                    .first().find()
+
+            // delete one object synchronously
+            realm.writeBlocking {
+                val liveSample: Sample? =
+                    this.findLatest(sample!!)
+                liveSample?.delete()
+            }
+
+            // delete a query result asynchronously
+            GlobalScope.launch {
+                realm.write {
+                    query<Sample>()
+                        .first()
+                        .find()
+                        .also { delete(it!!) }
+                }
+            }
+            // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun notificationTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            realm.writeBlocking { // this: MutableRealm
+                val sample = Sample()
+                sample.stringField = "Sven"
+                this.copyToRealm(sample)
+                sample.stringField = "not sven"
+                this.copyToRealm(sample)
+            }
+
+            val asyncQuery = async {
+                // :code-block-start: notifications
+                // in a coroutine or a suspend function
+                realm.query<Sample>()
+                    .asFlow().collect { results: ResultsChange<Sample> ->
+                        when (results) {
+                            is InitialResults<Sample> -> {
+                                // do nothing with the initial set of results
+                            }
+                            is UpdatedResults<Sample> -> {
+                                // log change description
+                                Log.v(
+                                    "Results changed. " +
+                                            "change ranges: " +
+                                            results.changeRanges +
+                                            ", insertion ranges: " +
+                                            results.insertionRanges +
+                                            ", deletion ranges: " +
+                                            results.deletionRanges
+                                )
+                            }
+                        }
+                    }
+                // :code-block-end:
+            }
+            asyncQuery.cancel()
             realm.close()
         }
     }

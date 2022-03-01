@@ -9,6 +9,10 @@ import com.mongodb.realm.examples.model.kotlin.Frog;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -51,6 +55,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config =
                     new RealmConfiguration.Builder()
+                            .name(getRandom())
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
                             .build();
@@ -90,6 +95,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config =
                     new RealmConfiguration.Builder()
+                            .name(getRandom())
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
                             .build();
@@ -129,6 +135,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config =
                     new RealmConfiguration.Builder()
+                            .name(getRandom())
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
                             .build();
@@ -167,6 +174,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
         activity.runOnUiThread(() -> {
             RealmConfiguration config =
                     new RealmConfiguration.Builder()
+                            .name(getRandom())
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
                             .build();
@@ -181,6 +189,118 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                         .sort("stringField", Sort.ASCENDING)
                         .limit(2)
                         .findAll();
+                // :code-block-end:
+                Log.v("EXAMPLE",
+                        "Successfully opened a realm: "
+                                + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE",
+                        "Error opening the realm.");
+                Log.v("EXAMPLE",
+                        ex.toString());
+            }
+            realm = Realm.getInstance(config);
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testDeletes() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config =
+                    new RealmConfiguration.Builder()
+                            .name(getRandom())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+
+            Realm realm;
+            try {
+                realm = Realm.getInstance(config);
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Sample sample = new Sample();
+                        sample.stringField = "Sven";
+                        realm.copyToRealm(sample);
+                        sample.stringField = "not sven";
+                        realm.copyToRealm(sample);
+                    }
+                });
+                // :code-block-start: deletes
+                Sample sample = realm.where(Sample.class).findFirst();
+
+                // delete one object synchronously
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm transactionRealm) {
+                        sample.deleteFromRealm();
+                    }
+                });
+
+                // delete a query result asynchronously
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm backgroundRealm) {
+                        backgroundRealm.where(Sample.class).findFirst().deleteFromRealm();
+                    }
+                });
+                // :code-block-end:
+                Log.v("EXAMPLE",
+                        "Successfully opened a realm: "
+                                + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE",
+                        "Error opening the realm.");
+                Log.v("EXAMPLE",
+                        ex.toString());
+            }
+            realm = Realm.getInstance(config);
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testNotifications() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config =
+                    new RealmConfiguration.Builder()
+                            .name(getRandom())
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+
+            Realm realm;
+            try {
+                realm = Realm.getInstance(config);
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Sample sample = new Sample();
+                        sample.stringField = "Sven";
+                        realm.copyToRealm(sample);
+                        sample.stringField = "not sven";
+                        realm.copyToRealm(sample);
+                    }
+                });
+                // :code-block-start: notifications
+                realm.where(Sample.class).findAllAsync()
+                        .addChangeListener((samples, changeSet) -> {
+                            // log change description
+                            Log.v("EXAMPLE", "Results changed. " +
+                                    "change ranges: " +
+                                    Arrays.toString(changeSet.getChangeRanges()) +
+                                    ", insertion ranges: " +
+                                    Arrays.toString(changeSet.getInsertionRanges()) +
+                                    ", deletion ranges: " +
+                                    Arrays.toString(changeSet.getDeletionRanges()));
+                        });
                 // :code-block-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "

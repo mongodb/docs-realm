@@ -209,7 +209,7 @@ in the Kotlin SDK:
   :kotlin-sdk:`realm.asFlow()
   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
   Once you have a flow of results, you can `collect
-  <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`
+  <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
   the results.
 
 - With the Java SDK, you could query synchronously with
@@ -258,6 +258,24 @@ Aggregates
 Deletes
 -------
 
+In both SDKs, you can only delete live objects. The Kotlin SDK provides
+:file:`realm.findLatest()` to make it easy to access a live version of
+any frozen object.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt
+          :language: kotlin
+          :copyable: false
+
 .. seealso::
 
    :ref:`Delete all Objects of a Type <kotlin-delete-all-objects-of-a-type>`
@@ -266,6 +284,30 @@ Deletes
 
 Notifications
 -------------
+
+In both SDKs, you can subscribe to change to collections of results.
+With the Java SDK, you could use :file:`realmResults.addChangeListener()`
+to receive notifications whenever an element of a result set changes.
+The Kotlin SDK provides a similar interface with :kotlin-sdk:`realmResults.asFlow()
+<{+kotlin-local-prefix+}io.realm/-realm-results/as-flow.html>`.
+Once you have a flow of results, you can call `collect
+<https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
+to subscribe to changes. Any object of type :file:`UpdatedResults` emitted
+by the flow represents a change to the results set.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt
+          :language: kotlin
+          :copyable: false
 
 Threading
 ---------
