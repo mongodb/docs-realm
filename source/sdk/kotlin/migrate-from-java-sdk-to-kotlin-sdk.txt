@@ -27,7 +27,7 @@ provides this live interface in write transactions, but otherwise relies
 on a new frozen architecture that makes Realm objects easier to work
 with. With the Kotlin SDK architecture, you'll notice a few differences:
 
-- **Frozen by default**: All objects are now frozen. You can still obtain
+- **Frozen by default**: All objects are now frozen. You can still access
   live objects within a write transaction, but passing a live object out
   of a write transaction freezes the object.
 
