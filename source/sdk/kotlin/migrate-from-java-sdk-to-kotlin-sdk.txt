@@ -66,31 +66,28 @@ the Realm Object Models to use in your realm schema. Additionally:
   :file:`Realm.open()` method instead.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
                 :language: kotlin
@@ -117,31 +114,28 @@ Both the Java and Kotlin SDKs declare Realm objects the same way: extend
 and indexes:
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/SampleJava.codeblock.realm-object-model.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt
                 :language: kotlin
@@ -161,31 +155,28 @@ One-to-One
 ~~~~~~~~~~
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/Child.codeblock.one-to-one-relationship.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/ChildJava.codeblock.one-to-one-relationship.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt
                 :language: kotlin
@@ -201,31 +192,28 @@ instances with the :kotlin-sdk:`realmListOf()
 <{+kotlin-local-prefix+}io.realm/realm-list-of.html>` companion method.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/KidJava.codeblock.one-to-many-relationship.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt
                 :language: kotlin
@@ -240,31 +228,28 @@ SDK makes lists of primitives non-nullable by default. Use the
 :file:`?` operator to make a list of primitives nullable.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/Student.codeblock.schema-types.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/StudentJava.codeblock.schema-types.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.schema-types.kt
                 :language: kotlin
@@ -284,31 +269,28 @@ the suspend function :kotlin-sdk:`realm.write()
 <{+kotlin-local-prefix+}io.realm/-realm/write.html>` instead.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt
                 :language: kotlin
@@ -323,31 +305,28 @@ With the Java SDK, you could write synchronously to a realm with
 <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`:
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt
                 :language: kotlin
@@ -391,31 +370,28 @@ Filters
 ~~~~~~~
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt
                 :language: kotlin
@@ -425,31 +401,28 @@ Sort, Distinct, Limit
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt
-                :language: kotlin
+                :language: java
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt
                 :language: kotlin
@@ -468,31 +441,28 @@ In both SDKs, you can only delete live objects. The Kotlin SDK provides
 to access a live version of any frozen object.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt
                 :language: kotlin
@@ -523,31 +493,28 @@ to subscribe to changes. Any object of type :file:`UpdatedResults` emitted
 by the flow represents a change to the results set.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt
                 :language: kotlin
@@ -569,26 +536,25 @@ updates instead.
    :header-rows: 0
    :widths: 50 50
 
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: Java SDK (Kotlin)
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: Java SDK (Java)
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java
                 :language: java
                 :copyable: false
-
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: Kotlin SDK
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt
                 :language: kotlin
@@ -606,31 +572,28 @@ automates migrations, but also gives you access to a similar dynamic
 realm interface for custom tweaks to migration logic.
 
 .. list-table::
-   :header-rows: 1
+   :header-rows: 0
    :widths: 50 50
    
-   * - Java SDK
-     - Kotlin SDK
-
-   * - .. tabs-realm-languages::
+   * - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Java SDK (Kotlin)
+             :tabid: java-sdk-kotlin
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt
                 :language: kotlin
                 :copyable: false
 
-          .. tab::
-             :tabid: java
+          .. tab:: Java SDK (Java)
+             :tabid: java-sdk-java
 
              .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java
                 :language: java
                 :copyable: false
-     - .. tabs-realm-languages::
+     - .. tabs::
    
-          .. tab::
-             :tabid: kotlin
+          .. tab:: Kotlin SDK
+             :tabid: kotlin-sdk
 
              .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt
                 :language: kotlin
