@@ -192,15 +192,64 @@ With the Java SDK, you could write synchronously to a realm with
 Queries
 -------
 
-With the Java SDK, you could query objects in realms using a fluent
-interface or :ref:`Realm Query Language <kotlin-query-language>` (RQL).
-The Kotlin SDK only uses RQL.
+There are several differences between queries in the Java SDK and queries
+in the Kotlin SDK:
+
+- With the Java SDK, you could query objects in realms using a fluent
+  interface or :ref:`Realm Query Language <kotlin-query-language>` (RQL).
+  The Kotlin SDK only uses RQL.
+
+- The Java SDK uses :file:`realm.where()`
+  to query realms, whereas the Kotlin SDK uses :kotlin-sdk:`realmQuery.query()
+  <{+kotlin-local-prefix+>io.realm/query.html>`.
+
+- With the Java SDK, you could query asynchronously with
+  :file:`realmQuery.findAllAsync()` and :file:`realmQuery.findOneAsync()`.
+  In the Kotlin SDK, query asynchronously with
+  :kotlin-sdk:`realm.asFlow()
+  <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
+  Once you have a flow of results, you can `collect
+  <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`
+  the results.
+
+- With the Java SDK, you could query synchronously with
+  :file:`realmQuery.findAll()` and :file:`realmQuery.findOne()`.
+  In the Kotlin SDK, query synchronously with
+  :kotlin-sdk:`realmQuery.find() <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/find.html>`.
 
 Filters
 ~~~~~~~
 
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt
+          :language: kotlin
+          :copyable: false
+
 Aggregates
 ~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-aggregates.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-aggregates.kt
+          :language: kotlin
+          :copyable: false
 
 .. seealso::
 

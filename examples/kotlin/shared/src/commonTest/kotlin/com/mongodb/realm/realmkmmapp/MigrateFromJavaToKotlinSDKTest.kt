@@ -5,9 +5,12 @@ import io.realm.RealmConfiguration
 import io.realm.RealmInstant
 import io.realm.RealmList
 import io.realm.RealmObject
+import io.realm.RealmResults
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.internal.platform.runBlocking
+import io.realm.query
+import io.realm.query.Sort
 import io.realm.realmListOf
 
 import kotlin.test.Test
@@ -41,7 +44,6 @@ class Child : RealmObject {
 // :code-block-start: one-to-many-relationship
 class Kid : RealmObject {
     var frogs: RealmList<Frog> = realmListOf()
-    var nullableFrogs: RealmList<Frog?> = realmListOf()
 }
 // :code-block-end:
 
@@ -132,6 +134,59 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                 sample.stringField = "Sven"
                 this.copyToRealm(sample)
             }
+            // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun queryTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :code-block-start: query-filters
+            val samples: RealmResults<Sample> =
+                realm.query<Sample>().find()
+
+            val samplesThatBeginWithN: RealmResults<Sample> =
+                realm.query<Sample>("stringField BEGINSWITH 'N'").find()
+            // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun queryAggregatesTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :code-block-start: query-aggregates
+            val aggregates: RealmResults<Sample> =
+                realm.query<Sample>()
+                    .distinct(Sample::stringField.name)
+                    .sort(Sample::stringField.name, Sort.ASCENDING)
+                    .limit(2)
+                    .find()
             // :code-block-end:
             realm.close()
         }
