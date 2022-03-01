@@ -10,7 +10,8 @@
    val sampleStringField = sample!!.stringField
    val executorService =
        Executors.newFixedThreadPool(4)
-   executorService.execute { // cannot pass a realm into another thread,
+   executorService.execute {
+       // cannot pass a realm into another thread,
        // so get a new instance for separate thread
        val threadRealm = Realm.getInstance(config)
        // cannot access original sample on another

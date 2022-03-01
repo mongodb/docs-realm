@@ -339,26 +339,27 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                     }
                 });
                 // :hide-end:
-                SampleJava sample = realm.where(SampleJava.class).findFirst();
+                SampleJava sample = realm
+                        .where(SampleJava.class).findFirst();
                 // save sample field in a separate variable
                 // for access on another thread
                 String sampleStringField = sample.stringField;
-                ExecutorService executorService = Executors.newFixedThreadPool(4);
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        // cannot pass a realm into another thread,
-                        // so get a new instance for separate thread
-                        Realm threadRealm = Realm.getInstance(config);
-                        // cannot access original sample on another
-                        // thread, so use sampleStringField instead
-                        SampleJava threadSample = threadRealm.where(SampleJava.class)
-                                .equalTo("stringField",
-                                        sampleStringField).findFirst();
-                        Log.v("EXAMPLE",
-                                "Fetched sample on separate thread: " +
-                                        threadSample);
-                    }
+                ExecutorService executorService =
+                        Executors.newFixedThreadPool(4);
+                executorService.execute(() -> {
+                    // cannot pass a realm into another thread,
+                    // so get a new instance for separate thread
+                    Realm threadRealm =
+                            Realm.getInstance(config);
+                    // cannot access original sample on another
+                    // thread, so use sampleStringField instead
+                    SampleJava threadSample =
+                            threadRealm.where(SampleJava.class)
+                            .equalTo("stringField",
+                                    sampleStringField).findFirst();
+                    Log.v("EXAMPLE",
+                            "Fetched sample on separate thread: " +
+                                    threadSample);
                 });
                 // :code-block-end:
                 Log.v("EXAMPLE",

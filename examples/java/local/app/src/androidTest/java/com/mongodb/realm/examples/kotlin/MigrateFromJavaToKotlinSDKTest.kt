@@ -390,7 +390,8 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                 val sampleStringField = sample!!.stringField
                 val executorService =
                     Executors.newFixedThreadPool(4)
-                executorService.execute { // cannot pass a realm into another thread,
+                executorService.execute {
+                    // cannot pass a realm into another thread,
                     // so get a new instance for separate thread
                     val threadRealm = Realm.getInstance(config)
                     // cannot access original sample on another
@@ -440,7 +441,9 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             // :code-block-start: migrations
             val config = RealmConfiguration.Builder()
                 .name(getRandom()) // :hide:
-                .migration { realm: DynamicRealm, oldVersion: Long, newVersion: Long ->
+                .migration { realm: DynamicRealm,
+                             oldVersion: Long,
+                             newVersion: Long ->
                     val schema: RealmSchema = realm.schema
                     if (oldVersion == 0L) {
                         // perform schema migration

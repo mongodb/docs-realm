@@ -1,5 +1,7 @@
 val config = RealmConfiguration.Builder()
-    .migration { realm: DynamicRealm, oldVersion: Long, newVersion: Long ->
+    .migration { realm: DynamicRealm,
+                 oldVersion: Long,
+                 newVersion: Long ->
         val schema: RealmSchema = realm.schema
         if (oldVersion == 0L) {
             // perform schema migration
