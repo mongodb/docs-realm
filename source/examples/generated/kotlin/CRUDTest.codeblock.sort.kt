@@ -3,9 +3,16 @@ val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
     realm.query<Frog>("name = 'George Washington'")
         .sort("age", Sort.DESCENDING).distinct("owner").limit(5).asFlow()
 val asyncCallConvenience: Deferred<Unit> = async {
-    convenientlyOrganizedFrogs.collect { change ->
-        change.list.forEach { frog ->
-            Log.v("Found frog: $frog")
+    convenientlyOrganizedFrogs.collect { results ->
+        when (results) {
+            // print out initial results
+            is InitialResults<Frog> -> {
+                for (frog in results.list) {
+                    Log.v("Frog: $frog")
+                }
+            } else -> {
+                // do nothing on changes
+            }
         }
     }
 }
@@ -14,9 +21,16 @@ val asyncCallConvenience: Deferred<Unit> = async {
 val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
     realm.query<Frog>("name = 'George Washington' SORT(age DESC) DISTINCT(owner) LIMIT(5)").asFlow()
 val asyncCallLessConvenient: Deferred<Unit> = async {
-    somewhatLessConvenientlyOrganizedFrogs.collect { change ->
-        change.list.forEach { frog ->
-            Log.v("Found frog: $frog")
+    somewhatLessConvenientlyOrganizedFrogs.collect { results ->
+        when (results) {
+            // print out initial results
+            is InitialResults<Frog> -> {
+                for (frog in results.list) {
+                    Log.v("Frog: $frog")
+                }
+            } else -> {
+                // do nothing on changes
+            }
         }
     }
 }

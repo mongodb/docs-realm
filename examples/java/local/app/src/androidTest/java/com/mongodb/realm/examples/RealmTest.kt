@@ -6,6 +6,7 @@ import io.realm.Realm
 import org.junit.Assert
 import org.junit.Before
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.random.Random
 
 abstract class RealmTest {
     @JvmField
@@ -24,6 +25,10 @@ abstract class RealmTest {
         }
         // ensure that setup has initialized realm before exiting
         expectation.await()
+    }
+
+    fun getRandom(): String {
+        return Random.nextLong(100000L).toString()
     }
 }
 
