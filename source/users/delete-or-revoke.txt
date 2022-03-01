@@ -23,6 +23,23 @@ and authentication provider identities.
    If you don't want to delete the user's account, you can :ref:`disable their
    account <disable-user>` to temporarily suspend their access.
 
+Delete a User in the SDK
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can give users the option to delete their own account from a client 
+application when you use the SDK to delete users.
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: ios
+
+      Learn how to :ref:`delete a user from an iOS application 
+      <ios-delete-user>`.
+
+Manually Delete a User
+~~~~~~~~~~~~~~~~~~~~~~
+
 .. tabs-realm-admin-interfaces::
    
    .. tab::
@@ -65,12 +82,7 @@ and authentication provider identities.
             
             realm-cli users delete --user=6099694d5debcbcc873ff413,60996996b78eca4a8d615d3a
 
-.. note::
-
-   Realm does not automatically delete any data in your :term:`linked {+atlas+}
-   cluster <linked cluster>` that you have associated with a deleted user, such
-   as by including their ID in an ``owner_id`` field. To remove all traces of a
-   deleted user, you must manually delete or modify any such documents.
+.. include:: /includes/note-delete-user.rst
 
 .. _disable-user:
 

@@ -140,6 +140,8 @@ class Authenticate: XCTestCase {
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
+        // Delete this user so it doesn't interfere with the DeleteUsers tests
+        app.currentUser?.delete()
     }
 
     func testApiKeyCredentials() {
