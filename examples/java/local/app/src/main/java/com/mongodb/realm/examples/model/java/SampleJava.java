@@ -7,7 +7,12 @@ import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 // :code-block-start: realm-object-model
-public class Sample extends RealmObject {
+// :replace-start: {
+//    "terms": {
+//       "SampleJava": "Sample"
+//    }
+// }
+public class SampleJava extends RealmObject {
     @PrimaryKey
     public String stringField = "Realm";
     public Byte byteField = 0xA;
@@ -23,4 +28,5 @@ public class Sample extends RealmObject {
     public Date timestampField =
             new Date();
 }
+// :replace-end:
 // :code-block-end:

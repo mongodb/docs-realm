@@ -23,14 +23,7 @@
        }).build();
 
    Realm realm;
-   try {
-       realm = Realm.getInstance(config);
-       Log.v("EXAMPLE",
-               "Successfully opened a realm: "
-                       + realm.getPath());
-   } catch (RealmFileException ex) {
-       Log.v("EXAMPLE",
-               "Error opening the realm.");
-       Log.v("EXAMPLE",
-               ex.toString());
-   }
+   realm = Realm.getInstance(config);
+   Log.v("EXAMPLE",
+   "Successfully opened a realm: "
+           + realm.getPath());

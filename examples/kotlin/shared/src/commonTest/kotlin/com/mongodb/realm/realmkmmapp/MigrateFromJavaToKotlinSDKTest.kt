@@ -62,6 +62,15 @@ class Kid : RealmObject {
 }
 // :code-block-end:
 
+// :code-block-start: schema-types
+class Student : RealmObject {
+    var notes: RealmList<String> =
+        realmListOf()
+    var nullableNotes: RealmList<String?> =
+        realmListOf()
+}
+// :code-block-end:
+
 class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun openARealmTest() {
@@ -183,7 +192,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     }
 
     @Test
-    fun queryAggregatesTest() {
+    fun querySortLimitDistinctTest() {
         val REALM_NAME = getRandom()
         val PATH = randomTmpRealmPath()
         val KEY = ByteArray(64)
@@ -197,7 +206,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-start: query-aggregates
+            // :code-block-start: query-sort-limit-distinct
             val aggregates: RealmResults<Sample> =
                 realm.query<Sample>()
                     .distinct(Sample::stringField.name)

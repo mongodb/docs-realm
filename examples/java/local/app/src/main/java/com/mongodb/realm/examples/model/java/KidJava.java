@@ -6,9 +6,15 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 
 // :code-block-start: one-to-many-relationship
-public class Kid
+// :replace-start: {
+//    "terms": {
+//       "KidJava": "Kid"
+//    }
+// }
+public class KidJava
         extends RealmObject {
     public RealmList<Frog> frogs =
             new RealmList<Frog>();
 }
+// :replace-end:
 // :code-block-end:

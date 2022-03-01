@@ -18,6 +18,30 @@ Overview
 The Java SDK and the Kotlin SDK differ in many ways. On this page, you'll
 find a high-level comparison of most of the ways the SDKs differ.
 
+Architecture
+------------
+
+The Java SDK provided live objects, queries, and realms that
+automatically update when underlying data changes. The Kotlin SDK still
+provides this live interface in write transactions, but otherwise relies
+on a new frozen architecture that makes Realm objects easier to work
+with. With this new architecture, you'll notice a few differences:
+
+- **Frozen by default**: All objects are now frozen. You can still obtain
+  live objects within a write transaction, but passing a live object out
+  of a write transaction freezes the object.
+
+- **Thread-safety**: All realm instances, objects, query results, and
+  collections can now be transferred across threads.
+
+- **Singleton**: You now only need one instance of each realm.
+  :ref:`No need to open and close realms on individual threads.
+  <kotlin-migration-threading>`
+
+.. seealso::
+
+   :ref:`Frozen Architecture <kotlin-frozen-architecture>`
+
 Opening Realms
 --------------
 
@@ -25,6 +49,11 @@ The Java SDK automatically detects Realm Object Models defined in your
 application, and uses all of them in the schema of opened realms unless
 you specify otherwise. The Kotlin SDK requires you to manually specify
 the Realm Object Models to use in your realm schema. Additionally:
+
+- The Kotlin SDK does not provide the ability to set and access a
+  default realm in your application. Since you can now share realms,
+  objects, and results across threads, you can rely on a global singleton
+  instead.
 
 - The Java SDK used :file:`RealmConfiguration.Builder().build()` to
   generate instances of :file:`RealmConfiguration`. With the Kotlin SDK,
@@ -43,9 +72,21 @@ the Realm Object Models to use in your realm schema. Additionally:
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt
           :language: kotlin
           :copyable: false
@@ -77,9 +118,21 @@ and indexes:
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/Sample.codeblock.realm-object-model.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/SampleJava.codeblock.realm-object-model.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt
           :language: kotlin
           :copyable: false
@@ -104,9 +157,21 @@ One-to-One
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/Child.codeblock.one-to-one-relationship.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/Child.codeblock.one-to-one-relationship.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/ChildJava.codeblock.one-to-one-relationship.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt
           :language: kotlin
           :copyable: false
@@ -127,10 +192,56 @@ instances with the :kotlin-sdk:`realmListOf()
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/KidJava.codeblock.one-to-many-relationship.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt
+          :language: kotlin
+          :copyable: false
+
+Schema Types
+------------
+
+With the Java SDK, you needed to use the :file:`@Required` annotation to
+make lists of primitives non-nullable in realm object models. The Kotlin
+SDK makes lists of primitives non-nullable by default. Use the
+:file:`?` operator to make a list of primitives nullable.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/Student.codeblock.schema-types.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/StudentJava.codeblock.schema-types.java
+                :language: java
+                :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.schema-types.kt
           :language: kotlin
           :copyable: false
 
@@ -144,8 +255,8 @@ Async
 
 With the Java SDK, you could write asynchronously to a realm with
 :file:`realm.executeTransactionAsync()`. The Kotlin SDK uses
-:kotlin-sdk:`realm.write()
-<{+kotlin-local-prefix+}io.realm/-realm/write.html>`:
+the suspend function :kotlin-sdk:`realm.write()
+<{+kotlin-local-prefix+}io.realm/-realm/write.html>` instead.
 
 .. list-table::
    :header-rows: 1
@@ -154,9 +265,21 @@ With the Java SDK, you could write asynchronously to a realm with
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt
           :language: kotlin
           :copyable: false
@@ -176,9 +299,21 @@ With the Java SDK, you could write synchronously to a realm with
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt
           :language: kotlin
           :copyable: false
@@ -200,20 +335,20 @@ in the Kotlin SDK:
   The Kotlin SDK only uses RQL.
 
 - The Java SDK uses :file:`realm.where()`
-  to query realms, whereas the Kotlin SDK uses :kotlin-sdk:`realmQuery.query()
+  to query realms, whereas the Kotlin SDK uses :kotlin-sdk:`realm.query()
   <{+kotlin-local-prefix+>io.realm/query.html>`.
 
 - With the Java SDK, you could query asynchronously with
-  :file:`realmQuery.findAllAsync()` and :file:`realmQuery.findOneAsync()`.
+  :file:`realmQuery.findAllAsync()` and :file:`realmQuery.findFirstAsync()`.
   In the Kotlin SDK, query asynchronously with
-  :kotlin-sdk:`realm.asFlow()
+  :kotlin-sdk:`realmQuery.asFlow()
   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
   Once you have a flow of results, you can `collect
   <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
   the results.
 
 - With the Java SDK, you could query synchronously with
-  :file:`realmQuery.findAll()` and :file:`realmQuery.findOne()`.
+  :file:`realmQuery.findAll()` and :file:`realmQuery.findFirst()`.
   In the Kotlin SDK, query synchronously with
   :kotlin-sdk:`realmQuery.find() <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/find.html>`.
 
@@ -227,15 +362,27 @@ Filters
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt
           :language: kotlin
           :copyable: false
 
-Aggregates
-~~~~~~~~~~
+Sort, Distinct, Limit
+~~~~~~~~~~~~~~~~~~~~~
 
 .. list-table::
    :header-rows: 1
@@ -244,9 +391,21 @@ Aggregates
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-aggregates.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-aggregates.kt
           :language: kotlin
           :copyable: false
@@ -259,8 +418,9 @@ Deletes
 -------
 
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
-:file:`realm.findLatest()` to make it easy to access a live version of
-any frozen object.
+:kotlin-sdk:`mutableRealm.findLatest()
+<{+kotlin-local-prefix+}io.realm/-mutable-realm/find-latest.html>`
+to access a live version of any frozen object.
 
 .. list-table::
    :header-rows: 1
@@ -269,9 +429,21 @@ any frozen object.
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt
           :language: kotlin
           :copyable: false
@@ -286,10 +458,15 @@ Notifications
 -------------
 
 In both SDKs, you can subscribe to change to collections of results.
-With the Java SDK, you could use :file:`realmResults.addChangeListener()`
-to receive notifications whenever an element of a result set changes.
-The Kotlin SDK provides a similar interface with :kotlin-sdk:`realmResults.asFlow()
-<{+kotlin-local-prefix+}io.realm/-realm-results/as-flow.html>`.
+With the Java SDK, you could receive notifications whenever realm results
+changed with the following interfaces:
+
+- :file:`realmResults.addChangeListener()`
+- RxJava through :file:`asFlowable()`
+- Kotlin Extensions with :file:`toFlow()`
+
+The Kotlin SDK replaces all of these options with :kotlin-sdk:`realmQuery.asFlow()
+<{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
 Once you have a flow of results, you can call `collect
 <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
 to subscribe to changes. Any object of type :file:`UpdatedResults` emitted
@@ -302,12 +479,26 @@ by the flow represents a change to the results set.
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt
           :language: kotlin
           :copyable: false
+
+.. _kotlin-migration-threading:
 
 Threading
 ---------
@@ -326,9 +517,21 @@ updates instead.
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt
           :language: kotlin
           :copyable: false
@@ -341,8 +544,8 @@ Migrations
 ----------
 
 With the Java SDK, migrations were a manual process. The Kotlin SDK
-automates migrations, but also gives you the ability to override those
-automatic migrations when necessary.
+automates migrations, but also gives you access to a similar dynamic
+realm interface for custom tweaks to migration logic.
 
 .. list-table::
    :header-rows: 1
@@ -351,9 +554,21 @@ automatic migrations when necessary.
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java
-          :language: java
-          :copyable: false
+   * - .. tabs-realm-languages::
+   
+          .. tab::
+             :tabid: kotlin
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt
+                :language: kotlin
+                :copyable: false
+
+          .. tab::
+             :tabid: java
+
+             .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java
+                :language: java
+                :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt
           :language: kotlin
           :copyable: false

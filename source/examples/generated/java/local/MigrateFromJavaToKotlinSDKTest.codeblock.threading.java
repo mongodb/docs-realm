@@ -9,10 +9,10 @@ executorService.execute(new Runnable() {
     public void run() {
         // cannot pass a realm into another thread,
         // so get a new instance for separate thread
-        Realm realm = Realm.getInstance(config);
+        Realm threadRealm = Realm.getInstance(config);
         // cannot access original sample on another
         // thread, so use sampleStringField instead
-        Sample threadSample = realm.where(Sample.class)
+        Sample threadSample = threadRealm.where(Sample.class)
                 .equalTo("stringField",
                         sampleStringField).findFirst();
         Log.v("EXAMPLE",
