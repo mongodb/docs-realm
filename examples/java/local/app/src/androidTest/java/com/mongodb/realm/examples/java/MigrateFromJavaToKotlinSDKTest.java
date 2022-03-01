@@ -391,6 +391,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             // :code-block-start: migrations
             RealmConfiguration config =
                 new RealmConfiguration.Builder()
+                        .name(getRandom()) // :hide:
                         .migration((realm,
                                     oldVersion,
                                     newVersion) -> {
