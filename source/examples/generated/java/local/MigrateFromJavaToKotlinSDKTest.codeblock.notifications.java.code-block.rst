@@ -8,11 +8,14 @@
                "Results changed. " +
                "change ranges: " +
                Arrays.toString(
-                   changeSet.getChangeRanges()) +
+                   changeSet
+                       .getChangeRanges()) +
                ", insertion ranges: " +
                Arrays.toString(
-                   changeSet.getInsertionRanges()) +
+                   changeSet
+                       .getInsertionRanges()) +
                ", deletion ranges: " +
                Arrays.toString(
-                   changeSet.getDeletionRanges()));
+                   changeSet
+                       .getDeletionRanges()));
        });
