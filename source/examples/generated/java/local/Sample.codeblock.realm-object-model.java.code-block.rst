@@ -2,15 +2,15 @@
 
    public class Sample extends RealmObject {
        @PrimaryKey
-       String stringField = "Realm";
-       Byte byteField = 0xA;
+       public String stringField = "Realm";
+       public Byte byteField = 0xA;
        // no support for chars: no charField
-       Short shortField = 17;
-       Integer intField = 42;
+       public Short shortField = 17;
+       public Integer intField = 42;
        @Index
-       Long longField = 256L;
-       Boolean booleanField = true;
-       Float floatField = 3.14f;
-       Double doubleField = 1.19840122;
-       Date timestampField = new Date();
+       public Long longField = 256L;
+       public Boolean booleanField = true;
+       public Float floatField = 3.14f;
+       public Double doubleField = 1.19840122;
+       public Date timestampField = new Date();
    }

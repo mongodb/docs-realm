@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.mongodb.realm.examples.Expectation;
 import com.mongodb.realm.examples.RealmTest;
+import com.mongodb.realm.examples.model.java.Sample;
+import com.mongodb.realm.examples.model.kotlin.Frog;
 
 import org.junit.Test;
 
@@ -34,6 +36,84 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                         ex.toString());
             }
             // :code-block-end:
+            realm = Realm.getInstance(config);
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testAsyncWrite() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config =
+                    new RealmConfiguration.Builder()
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+
+            Realm realm;
+            try {
+                realm = Realm.getInstance(config);
+                // :code-block-start: write-async
+                realm.executeTransactionAsync(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Sample sample = new Sample();
+                        sample.stringField = "Sven";
+                        realm.copyToRealm(sample);
+                    }
+                });
+                // :code-block-end:
+                Log.v("EXAMPLE",
+                        "Successfully opened a realm: "
+                                + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE",
+                        "Error opening the realm.");
+                Log.v("EXAMPLE",
+                        ex.toString());
+            }
+            realm = Realm.getInstance(config);
+            realm.close();
+            expectation.fulfill();
+        });
+        expectation.await();
+    }
+
+    @Test
+    public void testSyncWrite() {
+        Expectation expectation = new Expectation();
+        activity.runOnUiThread(() -> {
+            RealmConfiguration config =
+                    new RealmConfiguration.Builder()
+                            .allowQueriesOnUiThread(true)
+                            .allowWritesOnUiThread(true)
+                            .build();
+
+            Realm realm;
+            try {
+                realm = Realm.getInstance(config);
+                // :code-block-start: write-sync
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Sample sample = new Sample();
+                        sample.stringField = "Sven";
+                        realm.copyToRealm(sample);
+                    }
+                });
+                // :code-block-end:
+                Log.v("EXAMPLE",
+                        "Successfully opened a realm: "
+                                + realm.getPath());
+            } catch (RealmFileException ex) {
+                Log.v("EXAMPLE",
+                        "Error opening the realm.");
+                Log.v("EXAMPLE",
+                        ex.toString());
+            }
             realm = Realm.getInstance(config);
             realm.close();
             expectation.fulfill();

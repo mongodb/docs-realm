@@ -123,7 +123,7 @@ instances with the :kotlin-sdk:`realmListOf()
    * - Java SDK
      - Kotlin SDK
 
-   * - .. literalinclude:: /examples/generated/java/local/Kid.codeblock.one-to-many-relationship.java
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.java
           :language: java
           :copyable: false
      - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt
@@ -133,11 +133,49 @@ instances with the :kotlin-sdk:`realmListOf()
 Writes
 ------
 
+Async
+~~~~~
+
+In the Java SDK, you could write asynchronously to a realm with
+:file:`realm.executeTransactionAsync()`. In the Kotlin SDK, use
+:kotlin-sdk:`realm.write()
+<{+kotlin-local-prefix+}io.realm/-realm/write.html>`:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt
+          :language: kotlin
+          :copyable: false
+
 Sync
 ~~~~
 
-Async
-~~~~~
+In the Java SDK, you could write synchronously to a realm with
+:file:`realm.executeTransaction()`. In the Kotlin SDK, use
+:kotlin-sdk:`realm.writeBlocking()
+<{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+   
+   * - Java SDK
+     - Kotlin SDK
+
+   * - .. literalinclude:: /examples/generated/java/local/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java
+          :language: java
+          :copyable: false
+     - .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt
+          :language: kotlin
+          :copyable: false
 
 Queries
 -------

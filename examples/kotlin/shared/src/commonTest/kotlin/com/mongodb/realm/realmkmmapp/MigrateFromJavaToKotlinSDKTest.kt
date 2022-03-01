@@ -84,4 +84,56 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             realm.close()
         }
     }
+
+    @Test
+    fun asyncWriteTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :code-block-start: write-async
+            realm.write { // this: MutableRealm
+                val sample = Sample()
+                sample.stringField = "Sven"
+                this.copyToRealm(sample)
+            }
+            // :code-block-end:
+            realm.close()
+        }
+    }
+
+    @Test
+    fun syncWriteTest() {
+        val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
+
+        runBlocking {
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .path(PATH)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :code-block-start: write-sync
+            realm.writeBlocking { // this: MutableRealm
+                val sample = Sample()
+                sample.stringField = "Sven"
+                this.copyToRealm(sample)
+            }
+            // :code-block-end:
+            realm.close()
+        }
+    }
 }
