@@ -12,5 +12,7 @@
    // delete a query result asynchronously
    realm.executeTransactionAsync(
            backgroundRealm ->
-           backgroundRealm.where(Sample.class)
-                   .findFirst().deleteFromRealm());
+           backgroundRealm
+                   .where(Sample.class)
+                   .findFirst()
+                   .deleteFromRealm());

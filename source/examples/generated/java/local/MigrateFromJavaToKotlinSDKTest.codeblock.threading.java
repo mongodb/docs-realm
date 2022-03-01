@@ -1,9 +1,10 @@
 realm = Realm.getInstance(config);
 Sample sample = realm
         .where(Sample.class).findFirst();
-// save sample field in a separate variable
+// save sample field in a variable
 // for access on another thread
-String sampleStringField = sample.stringField;
+String sampleStringField =
+        sample.stringField;
 ExecutorService executorService =
         Executors.newFixedThreadPool(4);
 executorService.execute(() -> {
@@ -24,6 +25,6 @@ executorService.execute(() -> {
                     sampleStringField)
                     .findFirst();
     Log.v("EXAMPLE",
-            "Fetched sample on separate thread: " +
-                    threadSample);
+            "Fetched sample on separate thread: "
+            + threadSample);
 });

@@ -141,12 +141,16 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                 realm = Realm.getInstance(config);
                 // :code-block-start: query-filters
                 RealmResults<SampleJava> samples =
-                        realm.where(SampleJava.class).findAll();
+                        realm
+                            .where(SampleJava.class)
+                            .findAll();
 
                 RealmResults<SampleJava> samplesThatBeginWithN =
-                        realm.where(SampleJava.class)
-                                .beginsWith("stringField",
-                                        "N").findAll();
+                        realm
+                            .where(SampleJava.class)
+                            .beginsWith("stringField",
+                                    "N")
+                            .findAll();
                 // :code-block-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
@@ -237,8 +241,10 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                 // delete a query result asynchronously
                 realm.executeTransactionAsync(
                         backgroundRealm ->
-                        backgroundRealm.where(SampleJava.class)
-                                .findFirst().deleteFromRealm());
+                        backgroundRealm
+                                .where(SampleJava.class)
+                                .findFirst()
+                                .deleteFromRealm());
                 // :code-block-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
@@ -346,9 +352,10 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                 // :hide-end:
                 SampleJava sample = realm
                         .where(SampleJava.class).findFirst();
-                // save sample field in a separate variable
+                // save sample field in a variable
                 // for access on another thread
-                String sampleStringField = sample.stringField;
+                String sampleStringField =
+                        sample.stringField;
                 ExecutorService executorService =
                         Executors.newFixedThreadPool(4);
                 executorService.execute(() -> {
@@ -369,8 +376,8 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                     sampleStringField)
                                     .findFirst();
                     Log.v("EXAMPLE",
-                            "Fetched sample on separate thread: " +
-                                    threadSample);
+                            "Fetched sample on separate thread: "
+                            + threadSample);
                 });
                 // :code-block-end:
                 Log.v("EXAMPLE",
