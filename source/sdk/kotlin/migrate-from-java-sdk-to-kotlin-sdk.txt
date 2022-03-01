@@ -117,7 +117,7 @@ to customize your configuration even more:
 
 .. seealso::
 
-   :ref:`Open & Close a Realm <kotlin-open-and-close-a-realm>`
+   :ref:`Open & Close a Realm (Kotlin SDK) <kotlin-open-and-close-a-realm>`
 
 Realm Object Models
 -------------------
@@ -156,7 +156,7 @@ and indexes:
 
 .. seealso::
 
-   :ref:`Schemas: Supported Types <kotlin-supported-types>`
+   :ref:`Supported Schemas Types (Kotlin SDK) <kotlin-supported-types>`
 
 Relationships
 -------------
@@ -347,9 +347,9 @@ With the Java SDK, you could write synchronously to a realm with
 
 .. seealso::
 
-   - :ref:`Create a New Object <kotlin-create-a-new-object>`
-   - :ref:`Modify an Object <kotlin-modify-an-object>`
-   - :ref:`Delete an Object <kotlin-delete-an-object>`
+   - :ref:`Create a New Object (Kotlin SDK) <kotlin-create-a-new-object>`
+   - :ref:`Modify an Object (Kotlin SDK) <kotlin-modify-an-object>`
+   - :ref:`Delete an Object (Kotlin SDK) <kotlin-delete-an-object>`
 
 Queries
 -------
@@ -357,7 +357,7 @@ Queries
 There are several differences between queries in the Java SDK and queries
 in the Kotlin SDK:
 
-- With the Java SDK, you could query objects in realms using a fluent
+- With the Java SDK, you can query objects in realms using a fluent
   interface or :ref:`Realm Query Language <kotlin-query-language>` (RQL).
   The Kotlin SDK only uses RQL.
 
@@ -443,7 +443,7 @@ Sort, Distinct, Limit
 
 .. seealso::
 
-   :ref:`Realm Query Language <kotlin-query-language>`
+   :ref:`Realm Query Language (Kotlin SDK) <kotlin-query-language>`
 
 Deletes
 -------
@@ -483,9 +483,9 @@ to access a live version of any frozen object.
 
 .. seealso::
 
-   - :ref:`Delete all Objects of a Type <kotlin-delete-all-objects-of-a-type>`
-   - :ref:`Delete Multiple Objects <kotlin-delete-multiple-objects>`
-   - :ref:`Delete an Object <kotlin-delete-an-object>`
+   - :ref:`Delete all Objects of a Type (Kotlin SDK) <kotlin-delete-all-objects-of-a-type>`
+   - :ref:`Delete Multiple Objects (Kotlin SDK) <kotlin-delete-multiple-objects>`
+   - :ref:`Delete an Object (Kotlin SDK) <kotlin-delete-an-object>`
 
 Notifications
 -------------
@@ -542,7 +542,7 @@ With the Java SDK, realms, Realm objects, and results cannot be passed
 between threads. The Kotlin SDK freezes these objects by default, making
 them thread-safe. Unlike the live objects used by the Java SDK, the
 frozen objects found in the Kotlin SDK do not automatically update when
-underlying data changes. You must use notifications to subscribe to
+underlying data changes. With the Kotlin SDK, you must use notifications to subscribe to
 updates instead.
 
 .. list-table::
@@ -575,7 +575,7 @@ updates instead.
 
 .. seealso::
 
-   :ref:`Frozen Architecture <kotlin-frozen-architecture>`
+   :ref:`Frozen Architecture (Kotlin SDK) <kotlin-frozen-architecture>`
 
 Migrations
 ----------
