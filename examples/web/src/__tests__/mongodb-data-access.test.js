@@ -2,6 +2,7 @@
 import * as Realm from "realm-web";
 // :snippet-end:
 import { APP_ID } from "../realm.config.json";
+import _ from "lodash";
 const {
   BSON: { ObjectId },
 } = Realm;
@@ -10,8 +11,9 @@ const app = new Realm.App({ id: APP_ID });
 const CLUSTER_NAME = "mongodb-atlas";
 const DATABASE_NAME = "demo_db";
 const COLLECTION_NAME = "plants";
-
+// prettier-ignore
 const sampleData = [
+  // :snippet-start: sample-data
   {
     _id: ObjectId("5f87976b7b800b285345a8b4"),
     name: "venus flytrap",
@@ -52,6 +54,7 @@ const sampleData = [
     type: "annual",
     _partition: "Store 47",
   },
+  // :snippet-end:
 ];
 let plants;
 beforeAll(async () => {
@@ -61,7 +64,12 @@ beforeAll(async () => {
   const collection = mongo.db(DATABASE_NAME).collection(COLLECTION_NAME);
   // :snippet-end:
   plants = collection;
+});
+beforeEach(async () => {
   await plants.insertMany(sampleData);
+});
+afterEach(async () => {
+  await plants.deleteMany({});
 });
 
 afterAll(async () => {
@@ -88,10 +96,17 @@ describe("CRUD operations", () => {
         color: "white",
         type: "perennial",
         _partition: "Store 47",
+        _id: ObjectId("5f879f83fc9013565c23360e"), // :remove:
       });
       console.log(result);
       // :snippet-end:
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: insert-single-document-result
+        { insertedId: ObjectId("5f879f83fc9013565c23360e") }
+      )
       expect(result.insertedId instanceof ObjectId).toBe(true);
+      expect(result).toStrictEqual(expectedRes);
     });
     test("Insert multiple documents", async () => {
       // :snippet-start: insert-multiple-documents
@@ -102,6 +117,7 @@ describe("CRUD operations", () => {
           color: "red",
           type: "perennial",
           _partition: "Store 47",
+          _id: ObjectId("5f87a0defc9013565c233611"), // :remove:
         },
         {
           name: "wisteria lilac",
@@ -109,6 +125,7 @@ describe("CRUD operations", () => {
           color: "purple",
           type: "perennial",
           _partition: "Store 42",
+          _id: ObjectId("5f87a0defc9013565c233612"), // :remove:
         },
         {
           name: "daffodil",
@@ -116,12 +133,28 @@ describe("CRUD operations", () => {
           color: "yellow",
           type: "perennial",
           _partition: "Store 42",
+          _id: ObjectId("5f87a0defc9013565c233613"), // :remove:
         },
       ]);
       console.log(result);
       // :snippet-end:
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: insert-multiple-documents-result
+        {
+          insertedIds: [
+            ObjectId("5f87a0defc9013565c233611"),
+            ObjectId("5f87a0dffc9013565c233612"),
+            ObjectId("5f87a0dffc9013565c233613"),
+          ],
+        }
+      );
+      // :snippet-end:
       expect(result.insertedIds.length).toBe(3);
       expect(result.insertedIds[0] instanceof ObjectId).toBe(true);
+      // TODO: i ran into weird issues evaluating equality here. seems to relate to objectId.
+      // figure out how to address
+      // expect(result.insertedIds).toStrictEqual(expectedRes.insertedIds);
     });
   });
   describe("Read documents", () => {
@@ -130,6 +163,20 @@ describe("CRUD operations", () => {
       const venusFlytrap = await plants.findOne({ name: "venus flytrap" });
       console.log("venusFlytrap", venusFlytrap);
       // :snippet-end:
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: find-single-document-result
+        {
+          _id: ObjectId("5f87976b7b800b285345a8b4"),
+          name: "venus flytrap",
+          sunlight: "full",
+          color: "white",
+          type: "perennial",
+          _partition: "Store 42",
+        }
+        // :snippet-end:
+      );
+      expect(venusFlytrap).toStrictEqual(expectedRes);
       expect(venusFlytrap._id instanceof ObjectId).toBe(true);
       expect(venusFlytrap.name).toBe("venus flytrap");
       expect(venusFlytrap.color).toBe("white");
@@ -140,15 +187,45 @@ describe("CRUD operations", () => {
       const perennials = await plants.find({ type: "perennial" });
       console.log("perennials", perennials);
       // :snippet-end:
-      expect(perennials.length > 1).toBe(true);
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: find-single-document-result
+        [
+          {
+            _id: ObjectId("5f87976b7b800b285345a8b4"),
+            name: "venus flytrap",
+            sunlight: "full",
+            color: "white",
+            type: "perennial",
+            _partition: "Store 42",
+          },
+          {
+            _id: ObjectId("5f87976b7b800b285345a8b6"),
+            name: "thai basil",
+            sunlight: "partial",
+            color: "green",
+            type: "perennial",
+            _partition: "Store 42",
+          },
+          {
+            _id: ObjectId("5f87976b7b800b285345a8b7"),
+            name: "helianthus",
+            sunlight: "full",
+            color: "yellow",
+            type: "annual",
+            _partition: "Store 42",
+          },
+        ]
+        // :snippet-end:
+      );
+      expect(perennials).toStrictEqual(expectedRes);
     });
     test("Count documents in collection", async () => {
       // :snippet-start: count-documents-in-collection
       const numPlants = await plants.count();
       console.log(`There are ${numPlants} plants in the collection`);
       // :snippet-end:
-      expect(typeof numPlants).toBe("number");
-      expect(numPlants >= 0).toBe(true);
+      expect(numPlants).toBe(5);
     });
   });
   describe("Update documents", () => {
@@ -162,8 +239,13 @@ describe("CRUD operations", () => {
       );
       console.log(result);
       // :snippet-end:
-      expect(result.matchedCount).toBe(1);
-      expect(result.modifiedCount).toBe(1);
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: update-single-document-result
+        { matchedCount: 1, modifiedCount: 1 }
+        // :snippet-end:
+      );
+      expect(result).toStrictEqual(expectedRes);
       const petunia = await plants.findOne({ name: "petunia" });
       expect(petunia.sunlight).toBe("partial");
     });
@@ -171,17 +253,22 @@ describe("CRUD operations", () => {
     test("Update multiple documents", async () => {
       // :snippet-start: update-multiple-documents
       const result = await plants.updateMany(
-        { _partition: "Store 47" },
+        { _partition: "Store 42" },
         { $set: { _partition: "Store 51" } }
       );
       console.log(result);
       // :snippet-end:
-      expect(result.matchedCount).toBe(3);
-      expect(result.modifiedCount).toBe(3);
-      const store47After = await plants.find({ _partition: "Store 47" });
-      expect(store47After.length).toBe(0);
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: update-multiple-documents-result
+        { matchedCount: 4, modifiedCount: 4 }
+        // :snippet-end:
+      );
+      expect(result).toStrictEqual(expectedRes);
+      const store42After = await plants.find({ _partition: "Store 42" });
+      expect(store42After.length).toBe(0);
       const store51After = await plants.find({ _partition: "Store 51" });
-      expect(store51After.length).toBe(3);
+      expect(store51After.length).toBe(4);
     });
     test("Upsert documents", async () => {
       // :snippet-start: upsert-documents
@@ -191,15 +278,24 @@ describe("CRUD operations", () => {
           type: "perennial",
           color: "green",
           _partition: "Store 47",
+          _id: ObjectId("5f1f63055512f2cb67f460a3"), // :remove:
         },
         { $set: { name: "super sweet basil" } },
         { upsert: true }
       );
       console.log(result);
       // :snippet-end:
-      expect(result.matchedCount).toBe(0);
-      expect(result.modifiedCount).toBe(0);
-      expect(result.upsertedId instanceof ObjectId).toBe(true);
+      //prettier-ignore
+      const expectedRes = (
+        // :snippet-start: upsert-documents-result
+        {
+          matchedCount: 0,
+          modifiedCount: 0,
+          upsertedId: ObjectId("5f1f63055512f2cb67f460a3"),
+        } 
+        // :snippet-end:
+      );
+      expect(result).toStrictEqual(expectedRes);
     });
   });
   describe("Delete documents", () => {
@@ -217,13 +313,13 @@ describe("CRUD operations", () => {
       const countBefore = await plants.count();
       // :snippet-start: delete-multiple-documents
       const result = await plants.deleteMany({
-        _partition: "Store 51",
+        _partition: "Store 42",
       });
       console.log(result);
       // :snippet-end:
       const countAfter = await plants.count();
-      expect(result.deletedCount).toBe(3);
-      expect(countBefore - countAfter).toBe(3);
+      expect(result.deletedCount).toBe(4);
+      expect(countBefore - countAfter).toBe(4);
     });
   });
 });
@@ -246,7 +342,7 @@ describe("Watch for changes", () => {
       (async () => {
         // :snippet-start: watch-for-changes
         for await (const change of plants.watch()) {
-          let breakAsyncIterator = false;
+          let breakAsyncIterator = false; // Later used to exit async iterator
           // :remove-start:
           expect(change.operationType).toBe("insert");
           expect(change.fullDocument.name).toBe("delphinium");
@@ -277,7 +373,7 @@ describe("Watch for changes", () => {
               break;
             }
           }
-          if (breakAsyncIterator) break;
+          if (breakAsyncIterator) break; // Exit async iterator
         }
         // :snippet-end:
       })(),
@@ -332,9 +428,143 @@ describe("Aggregate documents", () => {
     // :snippet-end:
     const [annual, perennial] = result;
     expect(annual._id).toBe("annual");
-    expect(annual.total).toBe(1);
+    expect(annual.total).toBe(3);
     expect(perennial._id).toBe("perennial");
-    expect(perennial.total).toBe(6);
+    expect(perennial.total).toBe(2);
   });
 });
+
+// NOTE: not needed at this point in time
+describe.skip("Aggregation Stages", () => {
+  test("Filter Documents", async () => {
+    // :__NOT__code-block-start: filter-documents
+    const perennials = await plants.aggregate([
+      { $match: { type: { $eq: "perennial" } } },
+    ]);
+    console.log(perennials);
+    // :__NOT__code-block-end:
+    perennials.forEach((plant) => {
+      expect(plant.type).toEqual("perennial");
+    });
+    // prettier-ignore
+    const expectedRes =  (
+      // :__NOT__code-block-start: filter-documents-result
+      [
+        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "sunlight": "partial", "type": "perennial" },
+      ]
+      // :__NOT__code-block-end:
+    );
+    expect(arraysHaveSameElements(perennials, expectedRes)).toBe(true);
+  });
+
+  test("Group Documents", async () => {
+    // :__NOT__code-block-start: group-documents
+    const result = await plants.aggregate([
+      {
+        $group: {
+          _id: "$type",
+          numItems: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+    console.log(result);
+    // :__NOT__code-block-end:
+    expect(result).toEqual(
+      // :__NOT__code-block-start: group-documents-result
+      [
+        { _id: "annual", numItems: 3 },
+        { _id: "perennial", numItems: 2 },
+      ]
+      // :__NOT__code-block-end:
+    );
+  });
+
+  test("Project Document Fields", async () => {
+    // :__NOT__code-block-start: project-document-fields
+    const result = await plants.aggregate([
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          storeNumber: {
+            $arrayElemAt: [{ $split: ["$_partition", " "] }, 1],
+          },
+        },
+      },
+    ]);
+    console.log(result);
+    // :__NOT__code-block-end:
+    // prettier-ignore
+    const expectedRes = (
+    // :__NOT__code-block-start: project-document-fields-result
+    [
+      { name: "venus flytrap", storeNumber: "42" },
+      { name: "sweet basil", storeNumber: "42" },
+      { name: "thai basil", storeNumber: "42" },
+      { name: "helianthus", storeNumber: "42" },
+      { name: "petunia", storeNumber: "47" },
+    ]
+    // :__NOT__code-block-end:
+    );
+    expect(arraysHaveSameElements(result, expectedRes)).toBe(true);
+  });
+  test("Add Fields to Documents", async () => {
+    // :__NOT__code-block-start: add-fields-to-documents
+    const result = await plants.aggregate([
+      {
+        $addFields: {
+          storeNumber: {
+            $arrayElemAt: [{ $split: ["$_partition", " "] }, 1],
+          },
+        },
+      },
+    ]);
+    console.log(result);
+    // :__NOT__code-block-end:
+    // prettier-ignore
+    const expectedRes = (
+      // :__NOT__code-block-start: add-fields-to-documents-result
+      [
+        { "_id": ObjectId("5f87976b7b800b285345a8b4"), "_partition": "Store 42", "color": "white", "name": "venus flytrap", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8b6"), "_partition": "Store 42", "color": "green", "name": "thai basil", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87976b7b800b285345a8b7"), "_partition": "Store 42", "color": "yellow", "name": "helianthus", "storeNumber": "42", "sunlight": "full", "type": "annual" },
+        { "_id": ObjectId("5f87a0dffc9013565c233612"), "_partition": "Store 42", "color": "purple", "name": "wisteria lilac", "storeNumber": "42", "sunlight": "partial", "type": "perennial" },
+        { "_id": ObjectId("5f87a0dffc9013565c233613"), "_partition": "Store 42", "color": "yellow", "name": "daffodil", "storeNumber": "42", "sunlight": "full", "type": "perennial" },
+        { "_id": ObjectId("5f1f63055512f2cb67f460a3"), "_partition": "Store 47", "color": "green", "name": "sweet basil", "storeNumber": "47", "sunlight": "full", "type": "perennial" }
+      ]
+      // :__NOT__code-block-end:
+    );
+
+    expect(arraysHaveSameElements(result, expectedRes)).toBe(true);
+  });
+  test("Unwind Array Values", async () => {
+    // :__NOT__code-block-start: unwind-array-values
+    const result = await plants.aggregate([
+      { $group: { _id: "$type", colors: { $addToSet: "$color" } } },
+      { $unwind: { path: "$colors" } },
+      { $sort: { _id: 1, colors: 1 } },
+    ]);
+    console.log(result);
+    // :__NOT__code-block-end:
+    // prettier-ignore
+    const expectedRes = (
+      // :__NOT__code-block-start: unwind-array-values-result
+      [
+        { "_id": "annual", "colors": "yellow" },
+        { "_id": "perennial", "colors": "green" },
+        { "_id": "perennial", "colors": "purple" },
+        { "_id": "perennial", "colors": "white" },
+        { "_id": "perennial", "colors": "yellow" },
+      ]
+      // :__NOT__code-block-end:
+    );
+    expect(arraysHaveSameElements(result, expectedRes)).toEqual(true);
+  });
+});
+
+function arraysHaveSameElements(x, y) {
+  return _(x).xorWith(y, _.isEqual).isEmpty();
+}
 // TODO: refactor docs to make aggregation stages examples testable
