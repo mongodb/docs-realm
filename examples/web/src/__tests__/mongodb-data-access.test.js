@@ -1,11 +1,11 @@
-// :snippet-start: import-realm-web
-import * as Realm from "realm-web";
-// :snippet-end:
 import { APP_ID } from "../realm.config.json";
 import _ from "lodash";
+// :snippet-start: import-realm-web
+import * as Realm from "realm-web";
 const {
   BSON: { ObjectId },
 } = Realm;
+// :snippet-end:
 
 const app = new Realm.App({ id: APP_ID });
 const CLUSTER_NAME = "mongodb-atlas";
@@ -218,6 +218,14 @@ describe("CRUD operations", () => {
       const numPlants = await plants.count();
       console.log(`There are ${numPlants} plants in the collection`);
       // :snippet-end:
+      const strOut = `There are ${numPlants} plants in the collection`;
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: count-documents-in-collection-result
+        "There are 5 plants in the collection"
+      // :snippet-end:
+      );
+      expect(strOut).toBe(expectedRes);
       expect(numPlants).toBe(5);
     });
   });

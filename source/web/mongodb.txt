@@ -23,14 +23,61 @@ from a Web app using the  {+service-short+} Web SDK.
 Set Up Your Project
 -------------------
 
-.. include:: /includes/steps/crud-snippets-web.rst
+.. procedure::
+   :style: normal
+
+   .. step:: Set Up Your Project
+
+      Follow the steps in the :ref:`Install Realm for Web <web-quickstart-install>`
+      guide.
+      
+
+   .. step:: Link a MongoDB Atlas Service Cluster
+
+      Follow the steps in the :ref:`link-a-data-source` guide. Assign your service a
+      meaningful name -- you'll need it to connect to the cluster using the
+      {+service-short+} SDK.
+      
+
+   .. step:: Import Realm Dependencies
+
+      At the top of your source files where you want to use MongoDB Realm,
+      add the following line to import the SDK.
+      
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.import-realm-web.js
+         :language: javascript
+      
+      
+
+   .. step:: Instantiate a MongoDB Collection Handle
+
+      To access a collection, create MongoDB service handle for the user that you
+      wish to access the collection with:
+      
+      .. tabs-realm-languages::
+         
+         .. tab::
+            :tabid: javascript
+            
+            .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.instantiate-mongo-client.js
+               :language: javascript
+         
+         .. tab::
+            :tabid: typescript
+            
+            .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plants-collection-handle.ts
+               :language: typescript
 
 .. _web-mongodb-example-dataset:
 
 Example Data
 ------------
 
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
+The examples on this page use the following MongoDB collection that describes
+various plants for sale in a chain of plant stores:
+
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.sample-data.js
+   :language: javascript
 
 .. _web-mongodb-create-documents:
 
@@ -62,7 +109,7 @@ valley" plant into a
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-single-document.js
          :language: javascript
 
    .. tab::
@@ -79,7 +126,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-a-single-document-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-single-document-result.js
          :language: javascript
 
    .. tab::
@@ -105,7 +152,7 @@ The following snippet inserts three documents describing plants into a
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-multiple-documents.js
          :language: javascript
 
    .. tab::
@@ -122,7 +169,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.insert-multiple-documents-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-multiple-documents-result.js
          :language: javascript
 
    .. tab::
@@ -161,7 +208,7 @@ The following snippet finds the document that describes venus flytraps in the
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test..codeblock.find-single-document.js
          :language: javascript
 
    .. tab::
@@ -178,7 +225,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-a-single-document-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-single-document-result.js
          :language: javascript
 
    .. tab::
@@ -208,7 +255,7 @@ The following snippet finds all documents in a
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-multiple-documents.js
          :language: javascript
 
    .. tab::
@@ -225,7 +272,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.find-multiple-documents-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-multiple-documents-result.js
          :language: javascript
 
    .. tab::
@@ -254,7 +301,7 @@ The following snippet counts the number of documents in a
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.count-documents-in-collection.js
          :language: javascript
 
    .. tab::
@@ -271,7 +318,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.count-documents-in-the-collection-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.count-documents-in-collection-result.js
          :language: javascript
 
    .. tab::
@@ -312,7 +359,7 @@ of the first matched document's ``sunlight`` field to "partial":
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-single-document.js
          :language: javascript
 
    .. tab::
@@ -329,7 +376,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-a-single-document-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-single-document-result.js
          :language: javascript
 
    .. tab::
@@ -357,7 +404,7 @@ the value of the ``_partition`` field of each matching document to "Store 51":
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-multiple-documents.js
          :language: javascript
 
    .. tab::
@@ -374,7 +421,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.update-multiple-documents-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-multiple-documents-result.js
          :language: javascript
 
    .. tab::
@@ -413,7 +460,7 @@ both the query and specified updates:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.upsert-documents.js
          :language: javascript
 
    .. tab::
@@ -430,7 +477,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.upsert-documents-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.upsert-documents-result.js
          :language: javascript
 
    .. tab::
@@ -470,7 +517,7 @@ the first document that matches the query:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-single-document.js
          :language: javascript
 
    .. tab::
@@ -487,7 +534,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-a-single-document-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-single-document-result.js
          :language: javascript
 
    .. tab::
@@ -513,7 +560,7 @@ stores <web-mongodb-example-dataset>`:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-multiple-documents.js
          :language: javascript
 
    .. tab::
@@ -530,7 +577,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.delete-multiple-documents-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-multiple-documents-result.js
          :language: javascript
 
    .. tab::
@@ -569,7 +616,7 @@ To watch for all changes in a collection, call :js-sdk:`collection.watch()
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.watch-for-changes.js
          :language: javascript
 
    .. tab::
@@ -592,7 +639,7 @@ values to watch:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection-with-filter.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.watch-for-changes-with-filter.js
          :language: javascript
 
    .. tab::
@@ -635,7 +682,7 @@ number of each type:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.basic-aggregation.js
          :language: javascript
 
    .. tab::
@@ -652,7 +699,7 @@ Running this snippet produces output resembling the following:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.basic-aggregation-results.js
          :language: javascript
 
    .. tab::
