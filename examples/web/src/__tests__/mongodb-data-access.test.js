@@ -104,6 +104,7 @@ describe("CRUD operations", () => {
       const expectedRes = (
         // :snippet-start: insert-single-document-result
         { insertedId: ObjectId("5f879f83fc9013565c23360e") }
+        // :snippet-end:
       )
       expect(result.insertedId instanceof ObjectId).toBe(true);
       expect(result).toStrictEqual(expectedRes);
@@ -189,7 +190,7 @@ describe("CRUD operations", () => {
       // :snippet-end:
       // prettier-ignore
       const expectedRes = (
-        // :snippet-start: find-single-document-result
+        // :snippet-start: find-multiple-documents-result
         [
           {
             _id: ObjectId("5f87976b7b800b285345a8b4"),
@@ -205,14 +206,6 @@ describe("CRUD operations", () => {
             sunlight: "partial",
             color: "green",
             type: "perennial",
-            _partition: "Store 42",
-          },
-          {
-            _id: ObjectId("5f87976b7b800b285345a8b7"),
-            name: "helianthus",
-            sunlight: "full",
-            color: "yellow",
-            type: "annual",
             _partition: "Store 42",
           },
         ]
@@ -305,9 +298,16 @@ describe("CRUD operations", () => {
       const result = await plants.deleteOne({ color: "green" });
       console.log(result);
       // :snippet-end:
+
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: delete-single-document-result
+        { deletedCount: 1 }
+        // :snippet-end:
+      );
       const countAfter = await plants.count();
       expect(countBefore - countAfter).toBe(1);
-      expect(result.deletedCount).toBe(1);
+      expect(result).toStrictEqual(expectedRes);
     });
     test("Delete multiple documents", async () => {
       const countBefore = await plants.count();
@@ -317,8 +317,14 @@ describe("CRUD operations", () => {
       });
       console.log(result);
       // :snippet-end:
+      // prettier-ignore
+      const expectedRes = (
+        // :snippet-start: delete-multiple-documents-result
+        { deletedCount: 4 }
+        // :snippet-end:
+      );
       const countAfter = await plants.count();
-      expect(result.deletedCount).toBe(4);
+      expect(result).toStrictEqual(expectedRes);
       expect(countBefore - countAfter).toBe(4);
     });
   });
@@ -426,11 +432,16 @@ describe("Aggregate documents", () => {
     ]);
     console.log(result);
     // :snippet-end:
-    const [annual, perennial] = result;
-    expect(annual._id).toBe("annual");
-    expect(annual.total).toBe(3);
-    expect(perennial._id).toBe("perennial");
-    expect(perennial.total).toBe(2);
+    // prettier-ignore
+    const expectedRes = (
+      // :snippet-start: basic-aggregation-result
+      [
+        { _id: "annual", total: 3 },
+        { _id: "perennial", total: 2 },
+      ]
+      // :snippet-end:
+    );
+    expect(result).toStrictEqual(expectedRes);
   });
 });
 

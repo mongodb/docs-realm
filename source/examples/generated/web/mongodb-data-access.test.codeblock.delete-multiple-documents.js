@@ -1,4 +1,4 @@
 const result = await plants.deleteMany({
-  _partition: "Store 51",
+  _partition: "Store 42",
 });
 console.log(result);

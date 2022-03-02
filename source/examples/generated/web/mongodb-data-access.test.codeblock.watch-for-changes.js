@@ -1,5 +1,5 @@
 for await (const change of plants.watch()) {
-  let breakAsyncIterator = false;
+  let breakAsyncIterator = false; // Later used to exit async iterator
   switch (change.operationType) {
     case "insert": {
       const { documentKey, fullDocument } = change;
@@ -26,5 +26,5 @@ for await (const change of plants.watch()) {
       break;
     }
   }
-  if (breakAsyncIterator) break;
+  if (breakAsyncIterator) break; // Exit async iterator
 }
