@@ -23,13 +23,20 @@ Installation
       - Add :file:`io.realm.kotlin:library-base` to the list of
         dependencies.
 
+      - Add :file:`io.realm.kotlin` to the list of plugins.
+
+      - To use coroutines with the SDK, add
+        :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
+        to the list of dependencies.
+
       .. code-block:: kotlin
-         :emphasize-lines: 35
+         :emphasize-lines: 4, 36, 37
          :copyable: false
 
          plugins {
              id 'com.android.application'
              id 'org.jetbrains.kotlin.android'
+             id 'io.realm.kotlin' version "{+kotlin-sdk-version+}"
          }
 
          android {
@@ -61,7 +68,8 @@ Installation
          }
 
          dependencies {
-             compileOnly 'io.realm.kotlin:library-base:0.9.0'
+             implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
+             implementation 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}'
              implementation 'androidx.core:core-ktx:1.7.0'
              implementation 'androidx.appcompat:appcompat:1.4.1'
              implementation 'com.google.android.material:material:1.5.0'
@@ -81,13 +89,20 @@ Installation
       - Add :file:`io.realm.kotlin:library-sync` to the list of
         dependencies.
 
+      - Add :file:`io.realm.kotlin` to the list of plugins.
+
+      - To use coroutines with the SDK, add
+        :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
+        to the list of dependencies.
+
       .. code-block:: kotlin
-         :emphasize-lines: 35
+         :emphasize-lines: 4, 36, 37
          :copyable: false
 
          plugins {
              id 'com.android.application'
              id 'org.jetbrains.kotlin.android'
+             id 'io.realm.kotlin' version "{+kotlin-sdk-version+}"
          }
 
          android {
@@ -119,7 +134,8 @@ Installation
          }
 
          dependencies {
-             compileOnly 'io.realm.kotlin:library-sync:0.9.0'
+             implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
+             implementation 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'
              implementation 'androidx.core:core-ktx:1.7.0'
              implementation 'androidx.appcompat:appcompat:1.4.1'
              implementation 'com.google.android.material:material:1.5.0'
