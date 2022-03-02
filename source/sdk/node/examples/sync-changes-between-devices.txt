@@ -29,16 +29,16 @@ Before you can access a synced {+realm+} from the client, you must:
 #. :ref:`Open a Flexible Synced Realm <node-flexible-sync-open-realm>`
    or :ref:`Open a Partition-Based Synced Realm <node-partition-sync-open-realm>`
 
-.. note:: Sync method in the examples
+.. note:: Sync method in the examples on this page
 
    The examples on this page use **Partition-Based Sync** with the 
    :ref:`firehose partition strategy <partition-strategy-firehose>`. 
    This means that data is synced to the clients of all users with the same static partition value. 
-   In the case of the examples, this static partition value is ``MyPartitionValue``.
-
+   
+   In the examples on this page, the static partition value is ``MyPartitionValue``.
    The {+realm+}'s :js-sdk:`Configuration <Realm.html#~Configuration>` object includes
    a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` with
-   ``partitionValue: "MyPartitionValue"``. For example: 
+   ``partitionValue: "MyPartitionValue"``.
 
    .. code-block:: javascript
       :caption: Configuration
