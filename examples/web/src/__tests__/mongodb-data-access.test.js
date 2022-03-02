@@ -6,7 +6,6 @@ const {
   BSON: { ObjectId },
 } = Realm;
 // :snippet-end:
-
 const app = new Realm.App({ id: APP_ID });
 const CLUSTER_NAME = "mongodb-atlas";
 const DATABASE_NAME = "demo_db";
@@ -149,8 +148,8 @@ describe("CRUD operations", () => {
             ObjectId("5f87a0dffc9013565c233613"),
           ],
         }
+        // :snippet-end:
       );
-      // :snippet-end:
       expect(result.insertedIds.length).toBe(3);
       expect(result.insertedIds[0] instanceof ObjectId).toBe(true);
       // TODO: i ran into weird issues evaluating equality here. seems to relate to objectId.
