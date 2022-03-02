@@ -26,13 +26,44 @@ Before you can access a synced {+realm+} from the client, you must:
 #. :ref:`Authenticate a user <node-quick-start-authenticate>` in
    your client project.
 
-#. :ref:`Open a Flexible Synced Realm <node-flexible-sync-open-realm>` or :ref:`Open a Partition-Based Synced Realm <node-partition-sync-open-realm>`
+#. :ref:`Open a Flexible Synced Realm <node-flexible-sync-open-realm>`
+   or :ref:`Open a Partition-Based Synced Realm <node-partition-sync-open-realm>`
+
+.. note:: Sync method in the examples on this page
+
+   The examples on this page use **Partition-Based Sync** with the 
+   :ref:`firehose partition strategy <partition-strategy-firehose>`. 
+   This means that data is synced to the clients of all users with the same static partition value. 
+   
+   In the examples on this page, the static partition value is ``MyPartitionValue``. 
+   All {+realm+}s with the partition ``MyPartitionValue`` 
+   have access to any document with a matching partition value.
+   The {+realm+}'s :js-sdk:`Configuration <Realm.html#~Configuration>` object includes
+   a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` with
+   ``partitionValue: "MyPartitionValue"``.
+
+   .. code-block:: javascript
+      :caption: Configuration
+      :emphasize-lines: 5
+   
+      const config = {
+      schema: [DogSchema], // predefined schema
+      sync: {
+         user: app.currentUser,
+         partitionValue: "MyPartitionValue",
+         ...rest of SyncConfiguration
+      },
+      };
+   
+   For more information on how to configure Partition-Based Sync, 
+   refer to the :ref:`Partition Strategies documentation <partition-strategy>`. 
 
 
 .. _node-sync-changes-in-the-background:
 
 Sync Changes in the Background
 ------------------------------
+
 You may want to sync changes in the background to display partial data to the
 user while the synced {+realm+} downloads data from the server, preventing the
 user experience from being blocked. We recommend syncing changes in the
@@ -76,6 +107,7 @@ downloading any existing data from the server in the background.
 
 Pause or Resume a Sync Session
 ------------------------------
+
 Opening a synced {+realm+} starts a :js-sdk:`sync session <Realm.App.Sync.Session.html>`.
 You can pause and resume the sync session on the {+realm+}. Pausing a sync 
 session only pauses that {+realm+}'s sync session. If you have more than one 
@@ -95,6 +127,7 @@ To pause synchronization, use the :js-sdk:`syncSession.pause()
 
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
+
 To check the upload and download progress for a sync session, add a progress
 notification using the :js-sdk:`syncSession.addProgressNotification() <Realm.App.Sync.Session.html#.addProgressNotification>` method.
 
@@ -118,6 +151,7 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
 
 Check the Network Connection
 ----------------------------
+
 To check the current state of the connection to the server, call the
 :js-sdk:`syncSession.connectionState()
 <Realm.App.Sync.Session.html#.connectionState>` method.
@@ -156,6 +190,7 @@ your :js-sdk:`Realm.App <Realm.App.html>`.
 
 Multiplex Sync Sessions
 -----------------------
+
 To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing() <Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`. 
 
 .. warning::
