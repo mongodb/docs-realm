@@ -42,11 +42,11 @@ schema, such as:
 - adding a property (required or optional) to an existing class
 
 Additive changes apply automatically to synced {+realms+}; you can make these 
-additive schema changes with no additional configuration changes.
+additive schema changes with no additional client-side configuration changes.
 
 .. note:: Removing a Property from Your Schema Is Considered an Additive Change
 
-   To maintain backward compatibility, removing a property from a schema doesn’t
+   To maintain backward compatibility, removing a property from a schema doesn't
    delete the property from the database and instead instructs Realm to ignore that
    property. New objects retain the removed property, but Realm automatically sets the
    property's value to ``null``. Realm sets properties that are non-nullable to an
