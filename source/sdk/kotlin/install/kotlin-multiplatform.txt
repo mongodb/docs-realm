@@ -58,7 +58,7 @@ Installation
              sourceSets {
                  val commonMain by getting {
                      dependencies {
-                         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}")
                          implementation("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")
                      }
                  }
@@ -179,7 +179,7 @@ Installation
              sourceSets {
                  val commonMain by getting {
                      dependencies {
-                         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
+                         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}")
                          implementation("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")
                      }
                  }
