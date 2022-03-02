@@ -35,7 +35,9 @@ Before you can access a synced {+realm+} from the client, you must:
    :ref:`firehose partition strategy <partition-strategy-firehose>`. 
    This means that data is synced to the clients of all users with the same static partition value. 
    
-   In the examples on this page, the static partition value is ``MyPartitionValue``.
+   In the examples on this page, the static partition value is ``MyPartitionValue``. 
+   All {+realm+}s with the partition ``MyPartitionValue`` 
+   have access to any document with a matching partition value.
    The {+realm+}'s :js-sdk:`Configuration <Realm.html#~Configuration>` object includes
    a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` with
    ``partitionValue: "MyPartitionValue"``.
