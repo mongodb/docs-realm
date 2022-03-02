@@ -122,9 +122,17 @@ to customize your configuration even more:
 Realm Object Models
 -------------------
 
-Both the Java and Kotlin SDKs declare Realm objects the same way: extend
-:file:`RealmObject`, and annotate fields with properties like primary keys
-and indexes:
+In the Java SDK, you declare Realm object models in one of two ways:
+
+- extending :file:`RealmObject`
+
+- implementing :file:`RealmModel`
+
+The Kotlin SDK uses default methods in the :file:`RealmObject` interface
+instead. With the Kotlin SDK, inherit from :file:`RealmObject` to
+declare a Realm object model. Annotations work the same way they did
+in java for fields with special properties, such as ignored fields,
+primary keys, and indexes.
 
 .. list-table::
    :header-rows: 0
