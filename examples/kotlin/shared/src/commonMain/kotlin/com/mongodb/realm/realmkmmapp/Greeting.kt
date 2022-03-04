@@ -52,7 +52,7 @@ class Greeting {
 
         // delete all Dogs
         realm.writeBlocking {
-            query<Dog>().find().delete()
+            query<Dog>().find().also { delete(it) }
         }
 
         return ""
