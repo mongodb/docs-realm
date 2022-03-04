@@ -84,7 +84,6 @@ describe("Set up MongoDB Client", () => {
   });
 });
 
-// TODO(DOCSP-21091): turn into actual tests
 describe("CRUD operations", () => {
   describe("Create documents", () => {
     test("Insert single document", async () => {
@@ -139,22 +138,19 @@ describe("CRUD operations", () => {
       console.log(result);
       // :snippet-end:
       // prettier-ignore
-      const expectedRes = (
+      const expectedRes =
         // :snippet-start: insert-multiple-documents-result
         {
           insertedIds: [
             ObjectId("5f87a0defc9013565c233611"),
-            ObjectId("5f87a0dffc9013565c233612"),
-            ObjectId("5f87a0dffc9013565c233613"),
+            ObjectId("5f87a0defc9013565c233612"),
+            ObjectId("5f87a0defc9013565c233613"),
           ],
-        }
-        // :snippet-end:
-      );
+        };
+      // :snippet-end:
       expect(result.insertedIds.length).toBe(3);
       expect(result.insertedIds[0] instanceof ObjectId).toBe(true);
-      // TODO: i ran into weird issues evaluating equality here. seems to relate to objectId.
-      // figure out how to address
-      // expect(result.insertedIds).toStrictEqual(expectedRes.insertedIds);
+      expect(result).toStrictEqual(expectedRes);
     });
   });
   describe("Read documents", () => {
@@ -337,12 +333,13 @@ describe("CRUD operations", () => {
   });
 });
 describe("Watch for changes", () => {
+  jest.setTimeout(10000);
   const sleep = async (time) =>
     new Promise((resolve) => setTimeout(resolve, time));
   test("Watch for changes in a collection", async () => {
     await Promise.all([
       (async () => {
-        sleep(500);
+        sleep(1000);
         plants.insertOne({
           _id: ObjectId(),
           name: "delphinium",
