@@ -5,7 +5,7 @@ const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/vsDark");
 
 const url = process.env.DOCUSAURUS_URL || "https://realm.io"
-const baseUrl = process.env.DOCUSAURUS_BASE_URL || "/docs/";
+const baseUrl = process.env.DOCUSAURUS_BASE_URL || "docs";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -13,13 +13,13 @@ const config = {
   tagline:
     "MongoDB Realm is a development platform designed for modern, data-driven applications. You can use Realm to build mobile, web, desktop, and IoT.",
   url,
-  baseUrl,
+  baseUrl: `/${baseUrl}/`,
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   trailingSlash: false, // Required to make site not give warning about broken links. unsure why - ben
   favicon: "img/realm-logo.png",
-  organizationName: "nathan-contino-mongo", // Usually your GitHub org/user name.
-  projectName: "docusaurus-realm", // Usually your repo name.
+  organizationName: "mongodb",
+  projectName: "docs-realm",
   plugins: [
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
