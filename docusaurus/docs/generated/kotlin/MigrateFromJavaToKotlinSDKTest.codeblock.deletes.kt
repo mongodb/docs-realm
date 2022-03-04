@@ -5,7 +5,8 @@ val sample: Sample? =
 // delete one object synchronously
 realm.writeBlocking {
     if (sample != null) {
-        findLatest(sample).also { delete(it!!) }
+        findLatest(sample)
+            .also { delete(it!!) }
     }
 }
 
