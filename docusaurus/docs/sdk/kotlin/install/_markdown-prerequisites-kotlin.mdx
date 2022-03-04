@@ -1,19 +1,20 @@
 - [Android Studio](https://developer.android.com/studio/index.html)
-  version 4.2.2 or higher.
+  Bumblebee 2021.1.1 or higher.
 - JDK 11 or higher
-- Kotlin Plugin for Android Studio, version 1.5.20 or higher.
+- Kotlin Plugin for Android Studio, version 1.6.10 or higher.
 - [Kotlin Multiplatform Mobile (KMM) Plugin](https://kotlinlang.org/docs/mobile/kmm-plugin-releases.html#release-details)
-  for Android Studio, version 0.2.6 or higher.
+  for Android Studio, version 0.3.1 or higher.
 - A KMM App created using the "KMM Application" template in Android
   Studio. Follow the instructions in the
   [KMM documentation](https://kotlinlang.org/docs/mobile/create-first-app.html).
-- An Android Virtual Device (AVD) using a compatible architecture
-  (x86_64 or arm64).
+- An Android Virtual Device (AVD) using a supported CPU architecture.
 
 <details>
-  <summary>x86 Devices are not Compatible with the Kotlin SDK</summary>
+  <summary>x86 Device Support Added in 0.10.0</summary>
   <div>
-The Kotlin SDK does not support x86 devices. Since x86 devices are the
+
+
+Prior to version 0.10.0, the SDK did not support x86 devices. Since x86 devices are the
 default option in Android Studio, you must create an x86_64 or arm64
 device in AVD Manager to run applications that use the SDK. You can find
 images for compatible devices in AVD Manager. Follow these steps to
@@ -43,7 +44,6 @@ create and use a compatible device:
 1. At the top of your Android Studio window, select your compatible
    device in the AVD dropdown.
 
-You can track x86 support in
-[this GitHub issue](https://github.com/realm/realm-kotlin/issues/109).
+
   </div>
 </details>

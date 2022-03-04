@@ -420,7 +420,9 @@ in the Kotlin SDK:
 
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
 [`mutableRealm.findLatest()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/find-latest.html)
-to access a live version of any frozen object.
+to access a live version of any frozen object. In a write transaction,
+you can directly query for live objects and delete them without using
+`findLatest()`.
 
 <table>
    <tr>
