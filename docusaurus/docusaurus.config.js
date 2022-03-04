@@ -16,7 +16,7 @@ const config = {
   baseUrl: `/${baseUrl}/`,
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
-  trailingSlash: true,
+  trailingSlash: true, // true for hosting on s3; set to false for github pages. See https://docusaurus.io/docs/api/docusaurus-config#trailing-slash
   favicon: "img/realm-logo.png",
   organizationName: "mongodb",
   projectName: "docs-realm",
