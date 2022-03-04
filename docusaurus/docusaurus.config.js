@@ -150,7 +150,7 @@ const config = {
         darkTheme: darkCodeTheme,
         // careful -- adding a nonexistent language will break
         // the build without any error output!
-        additionalLanguages: ['kotlin', 'java'],
+        additionalLanguages: ['kotlin', 'java', 'dart', 'aspnet'],
       },
     }),
 };
