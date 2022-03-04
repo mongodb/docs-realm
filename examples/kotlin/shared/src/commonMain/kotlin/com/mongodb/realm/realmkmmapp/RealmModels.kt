@@ -1,6 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import kotlin.random.Random
 
 class Person : RealmObject {
     var name: String = "Foo"

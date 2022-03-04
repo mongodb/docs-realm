@@ -1,0 +1,44 @@
+---
+title: App Services Overview
+---
+
+You can connect your client apps to the Realm
+backend using the SDK. Backend functionality includes:
+
+- [Connect to a Realm App](https://docs.mongodb.com/realm/sdk/kotlin/app-services/connect-to-a-realm-app/)
+- [Register Users](https://docs.mongodb.com/realm/sdk/kotlin/app-services/register-users/)
+- [Authenticate Users](https://docs.mongodb.com/realm/sdk/kotlin/app-services/authenticate-users/)
+
+## The Realm App Client
+
+To connect to your Realm backend, start with a 
+[`App`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-app/index.html)
+object.
+This object provides all other functionality related to 
+the backend. Initialize an App with the Realm app ID, which you can 
+[find in the Realm UI](https://docs.mongodb.com/realm/get-started/find-your-project-or-app-id/#std-label-find-your-app-id).
+
+:::tip
+
+To learn how to initialize the Realm App client, see
+[Connect to a Realm App](sdk/kotlin/app-services/connect).
+:::
+
+## Authentication & User Management
+
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the Realm SDKs,
+however, you can use authentication providers with
+minimal backend setup and client-side code. With the authentication APIs,
+you can implement the following functionality:
+
+- Create new user accounts
+- User log in and log out
+- Multiple users logged on at the same time on the same device
+- Link user accounts from different providers
+- Store custom data for a particular user
+
+:::tip
+   To learn how to set up authentication in your app, see
+   [Authenticate Users](sdk/kotlin/app-services/authenticate-users).
+:::

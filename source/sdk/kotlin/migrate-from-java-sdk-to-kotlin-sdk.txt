@@ -371,7 +371,7 @@ in the Kotlin SDK:
 
 - The Java SDK uses :file:`realm.where()`
   to query realms, whereas the Kotlin SDK uses :kotlin-sdk:`realm.query()
-  <{+kotlin-local-prefix+>io.realm/query.html>`.
+  <{+kotlin-local-prefix+}io.realm/query.html>`.
 
 - With the Java SDK, you could query asynchronously with
   :file:`realmQuery.findAllAsync()` and :file:`realmQuery.findFirstAsync()`.
@@ -459,7 +459,9 @@ Deletes
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
 :kotlin-sdk:`mutableRealm.findLatest()
 <{+kotlin-local-prefix+}io.realm/-mutable-realm/find-latest.html>`
-to access a live version of any frozen object.
+to access a live version of any frozen object. In a write transaction,
+you can directly query for live objects and delete them without using
+:file:`findLatest()`.
 
 .. list-table::
    :header-rows: 0
