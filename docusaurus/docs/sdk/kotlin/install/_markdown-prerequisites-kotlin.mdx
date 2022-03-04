@@ -1,0 +1,49 @@
+- [Android Studio](https://developer.android.com/studio/index.html)
+  version 4.2.2 or higher.
+- JDK 11 or higher
+- Kotlin Plugin for Android Studio, version 1.5.20 or higher.
+- [Kotlin Multiplatform Mobile (KMM) Plugin](https://kotlinlang.org/docs/mobile/kmm-plugin-releases.html#release-details)
+  for Android Studio, version 0.2.6 or higher.
+- A KMM App created using the "KMM Application" template in Android
+  Studio. Follow the instructions in the
+  [KMM documentation](https://kotlinlang.org/docs/mobile/create-first-app.html).
+- An Android Virtual Device (AVD) using a compatible architecture
+  (x86_64 or arm64).
+
+<details>
+  <summary>x86 Devices are not Compatible with the Kotlin SDK</summary>
+  <div>
+The Kotlin SDK does not support x86 devices. Since x86 devices are the
+default option in Android Studio, you must create an x86_64 or arm64
+device in AVD Manager to run applications that use the SDK. You can find
+images for compatible devices in AVD Manager. Follow these steps to
+create and use a compatible device:
+
+1. Open AVD Manager in Android Studio by selecting `Tools` > `AVD Manager`.
+
+1. Click the `Create Virtual Device` button.
+
+1. Select a phone, such as `Nexus 5`.
+
+1. Click the `Next` button.
+
+1. Navigate to the `x86 Images` tab.
+
+1. Click the `Download` link next to an x86_64 device image, such as
+   `S / x86_64 / Android API S (Google Play)`.
+
+1. Click the `Finish` button to close the dialogue when the image
+   finishes downloading.
+
+1. Click the `Next` button.
+
+1. Name your device and click the `Finish` button to add it to your list
+   of virtual devices.
+
+1. At the top of your Android Studio window, select your compatible
+   device in the AVD dropdown.
+
+You can track x86 support in
+[this GitHub issue](https://github.com/realm/realm-kotlin/issues/109).
+  </div>
+</details>
