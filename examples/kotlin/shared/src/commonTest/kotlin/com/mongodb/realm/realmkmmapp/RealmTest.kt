@@ -17,14 +17,15 @@ open class RealmTest {
         return Random.nextLong(100000000).toString()
     }
 
-    fun randomTmpRealmPath() : String {
-        return "/tmp/${getRandom()}"
-    }
-
+    val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
+    val TMP_PATH = "/tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
-    val defaultRealmConfiguration = RealmConfiguration.Builder()
-        .path("/tmp/${getRandom()}")
+    val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
+        // :hide-start:
+        .directory(TMP_PATH)
+        .name(getRandom())
+        // :hide-end:
         .build()
 
     // kotlin test framework doesn't support "before class" on jvm, so... before each test
