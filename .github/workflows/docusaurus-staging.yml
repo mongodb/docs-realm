@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCUSAURUS_URL: "http://realm-io-staging.s3-website-us-east-1.amazonaws.com"
-      DOCUSAURUS_BASE_URL: "${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}/"
+      DOCUSAURUS_BASE_URL: "${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
