@@ -14,6 +14,8 @@ jobs:
       DOCUSAURUS_URL: "http://realm-io-staging.s3-website-us-east-1.amazonaws.com"
       DOCUSAURUS_BASE_URL: "${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}"
     steps:
+      - run: |
+          echo "DOCUSAURUS_BASE_URL=${DOCUSAURUS_BASE_URL}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
