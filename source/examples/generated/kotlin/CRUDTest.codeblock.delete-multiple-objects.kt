@@ -3,5 +3,5 @@ realm.write {
     val frogs: RealmResults<Frog> =
         this.query<Frog>("species == 'bullfrog' LIMIT(7)").find()
     // call delete on the results of a query to delete those objects permanently
-    frogs.delete()
+    frogs.also { delete(it) }
 }

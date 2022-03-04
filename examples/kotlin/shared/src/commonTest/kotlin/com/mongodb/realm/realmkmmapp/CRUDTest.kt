@@ -5,7 +5,6 @@ import io.realm.RealmConfiguration
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.PrimaryKey
-import io.realm.delete
 import io.realm.internal.platform.runBlocking
 import io.realm.notifications.InitialResults
 import io.realm.notifications.ResultsChange
@@ -16,10 +15,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.toCollection
 
 class CRUDTest: RealmTest() {
 
@@ -37,11 +33,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -79,11 +73,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -110,15 +102,13 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun findObjectByPrimaryKeyTest() {
-        val REALM_NAME = getRandom()
         val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             // insert an object that meets our example query
@@ -145,11 +135,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             // insert an object that meets our example query
@@ -198,11 +186,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             // insert an object that meets our example query
@@ -286,11 +272,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
 
@@ -350,11 +334,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
 
@@ -376,7 +358,7 @@ class CRUDTest: RealmTest() {
                     // fetch all frogs from the realm
                     val frogs: RealmResults<Frog> = this.query<Frog>().find()
                     // call delete on the results of a query to delete those objects permanently
-                    frogs.delete()
+                    delete(frogs)
                 }
                 // :code-block-end:
             }
@@ -392,11 +374,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
 
@@ -419,7 +399,7 @@ class CRUDTest: RealmTest() {
                     val frogs: RealmResults<Frog> =
                         this.query<Frog>("species == 'bullfrog' LIMIT(7)").find()
                     // call delete on the results of a query to delete those objects permanently
-                    frogs.delete()
+                    frogs.also { delete(it) }
                 }
                 // :code-block-end:
             }
@@ -430,15 +410,13 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun deleteAnObjectTest() {
-        val REALM_NAME = getRandom()
         val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
 
@@ -461,7 +439,7 @@ class CRUDTest: RealmTest() {
                     val frog: Frog? =
                         this.query<Frog>("_id == $0", PRIMARY_KEY_VALUE).first().find()
                     // call delete on the results of a query to delete the object permanently
-                    frog?.delete()
+                    frog?.also { delete(it) }
                 }
                 // :code-block-end:
             }
@@ -472,15 +450,13 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun modifyAnObjectTest() {
-        val REALM_NAME = getRandom()
         val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
 
@@ -517,11 +493,9 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder()
-                .schema(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file for this user
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
+                .directory(TMP_PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")

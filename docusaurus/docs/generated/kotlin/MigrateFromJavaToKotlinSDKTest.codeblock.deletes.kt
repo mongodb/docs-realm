@@ -4,9 +4,10 @@ val sample: Sample? =
 
 // delete one object synchronously
 realm.writeBlocking {
-    val liveSample: Sample? =
-        this.findLatest(sample!!)
-    liveSample?.delete()
+    if (sample != null) {
+        findLatest(sample)
+            ?.also { delete(it) }
+    }
 }
 
 // delete a query result asynchronously
@@ -15,6 +16,6 @@ GlobalScope.launch {
         query<Sample>()
             .first()
             .find()
-            .also { delete(it!!) }
+            ?.also { delete(it) }
     }
 }

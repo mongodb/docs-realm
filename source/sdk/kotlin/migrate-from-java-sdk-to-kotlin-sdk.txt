@@ -459,7 +459,9 @@ Deletes
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
 :kotlin-sdk:`mutableRealm.findLatest()
 <{+kotlin-local-prefix+}io.realm/-mutable-realm/find-latest.html>`
-to access a live version of any frozen object.
+to access a live version of any frozen object. In a write transaction,
+you can directly query for live objects and delete them without using
+:file:`findLatest()`.
 
 .. list-table::
    :header-rows: 0
