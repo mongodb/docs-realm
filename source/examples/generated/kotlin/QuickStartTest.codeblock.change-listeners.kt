@@ -1,4 +1,5 @@
-val config = RealmConfiguration.Builder(setOf(Task::class))
+val config = RealmConfiguration.Builder()
+    .schema(setOf(Task::class))
     .build()
 val realm = Realm.open(config)
 

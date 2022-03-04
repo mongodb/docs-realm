@@ -1,11 +1,9 @@
-val config = RealmConfiguration.Builder(
-    setOf(Frog::class, Sample::class))
+val config = RealmConfiguration.Builder()
+    .schema(setOf(Frog::class, Sample::class))
     .name(REALM_NAME)
     .deleteRealmIfMigrationNeeded()
-    .directory(PATH)
+    .path(PATH)
     .encryptionKey(KEY)
     .build()
 val realm = Realm.open(config)
-Log.v("Successfully opened realm:" +
-        realm.configuration.name
-)
+Log.v("Successfully opened realm: ${realm.configuration.name}")

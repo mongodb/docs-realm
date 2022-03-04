@@ -14,20 +14,21 @@ Supported Types - Kotlin SDK
 
 Realm Database supports the following field data types:
 
-- :file:`Boolean`
-- :file:`Integer`
-- :file:`Short`
-- :file:`Long`
-- :file:`Double`
-- :file:`Float`
+- :file:`Boolean` or :file:`boolean`
+- :file:`Integer` or :file:`int`
+- :file:`Short` or :file:`short`
+- :file:`Long` or :file:`long`
+- :file:`Double` or :file:`double`
+- :file:`Float` or :file:`float`
 - :file:`String`
 - :file:`Char`
 - :file:`Date`
+- :file:`Decimal128` from :file:`org.bson.types`
 - Any :file:`RealmObject` subclass
 - :file:`RealmList`
 
-The :file:`Byte`, :file:`Short`, :file:`Integer`, and :file:`Long` types
-are all stored as :file:`Long` values
+The :file:`Byte`, :file:`Short`, :file:`Integer`, and :file:`Long` types and their
+lowercase primitive alternatives are all stored as :file:`Long` values
 within Realm Database. Similarly, Realm Database stores objects
 of the :file:`Float` and :file:`float` types as type :file:`Double`.
 

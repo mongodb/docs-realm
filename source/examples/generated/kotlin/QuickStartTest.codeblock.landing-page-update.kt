@@ -1,4 +1,5 @@
-val config = RealmConfiguration.Builder(setOf(Frog::class))
+val config = RealmConfiguration.Builder()
+    .schema(setOf(Frog::class))
     .build()
 val realm = Realm.open(config)
 // start a write transaction

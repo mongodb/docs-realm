@@ -11,12 +11,11 @@ class OpenARealmTest: RealmTest() {
         val REALM_NAME = getRandom()
         runBlocking {
             // :code-block-start: open-a-realm
-            val config = RealmConfiguration.Builder(setOf(Frog::class))
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(CRUDTest.Frog::class))
                 // specify name so realm doesn't just use the "default.realm" file
                 .name(REALM_NAME)
-                // :hide-start:
-                .directory("/tmp/") // default location for jvm is... in the project root
-                // :hide-end:
+                .path(randomTmpRealmPath()) // :hide: // default location for jvm is... in the project root
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")

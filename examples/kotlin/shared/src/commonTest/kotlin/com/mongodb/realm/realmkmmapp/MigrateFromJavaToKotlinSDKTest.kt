@@ -8,6 +8,7 @@ import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
+import io.realm.delete
 import io.realm.dynamic.DynamicMutableRealm
 import io.realm.dynamic.DynamicMutableRealmObject
 import io.realm.dynamic.DynamicRealm
@@ -91,22 +92,20 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun openARealmBuilderTest() {
         val REALM_NAME = getRandom()
-        val PATH = TMP_PATH
+        val PATH = randomTmpRealmPath()
         val KEY = ByteArray(64)
 
         runBlocking {
             // :code-block-start: open-a-realm-advanced
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .deleteRealmIfMigrationNeeded()
-                .directory(PATH)
+                .path(PATH)
                 .encryptionKey(KEY)
                 .build()
             val realm = Realm.open(config)
-            Log.v("Successfully opened realm:" +
-                    realm.configuration.name
-            )
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-end:
             realm.close()
         }
@@ -115,17 +114,18 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun asyncWriteTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
-            Log.v("Successfully opened realm:" +
-                    realm.configuration.name
-            )
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :code-block-start: write-async
             realm.write {
                 // this: MutableRealm
@@ -141,12 +141,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun syncWriteTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -165,12 +168,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun queryTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -191,12 +197,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun querySortLimitDistinctTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -216,12 +225,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun deleteTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -239,10 +251,9 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
 
             // delete one object synchronously
             realm.writeBlocking {
-                if (sample != null) {
-                    findLatest(sample)
-                        .also { delete(it!!) }
-                }
+                val liveSample: Sample? =
+                    this.findLatest(sample!!)
+                liveSample?.delete()
             }
 
             // delete a query result asynchronously
@@ -262,12 +273,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun notificationTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
@@ -312,12 +326,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun threadingTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
 
             // :code-block-start: threading
@@ -352,12 +369,15 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
     @Test
     fun migrationTest() {
         val REALM_NAME = getRandom()
+        val PATH = randomTmpRealmPath()
+        val KEY = ByteArray(64)
 
         runBlocking {
-            val config = RealmConfiguration.Builder(
-                setOf(Frog::class, Sample::class))
+
+            val config = RealmConfiguration.Builder()
+                .schema(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
-                .directory(TMP_PATH)
+                .path(PATH)
                 .build()
 
             // :code-block-start: migrations

@@ -2,6 +2,8 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.RealmResults
+import io.realm.delete
 import io.realm.notifications.ResultsChange
 import io.realm.query
 import kotlin.test.Test
@@ -15,11 +17,9 @@ class QuickStartTest: RealmTest() {
     @Test
     fun queryTest() {
         // :code-block-start: landing-page-query
-        val config = RealmConfiguration.Builder(setOf(Frog::class))
-            // :hide-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :hide-end:
+        val config = RealmConfiguration.Builder()
+            .schema(setOf(Frog::class))
+            .path(randomTmpRealmPath()) // :hide:
             .build()
         val realm = Realm.open(config)
         val frogsQuery = realm.query<Frog>()
@@ -34,11 +34,9 @@ class QuickStartTest: RealmTest() {
 
     @Test
     fun updateTest() {
-        val configSetup = RealmConfiguration.Builder(setOf(Frog::class))
-            // :hide-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :hide-end:
+        val configSetup = RealmConfiguration.Builder()
+            .schema(setOf(Frog::class))
+            .path(randomTmpRealmPath()) // :hide:
             .build()
         val realmSetup = Realm.open(configSetup)
         realmSetup.writeBlocking {
@@ -50,11 +48,9 @@ class QuickStartTest: RealmTest() {
             })
         }
         // :code-block-start: landing-page-update
-        val config = RealmConfiguration.Builder(setOf(Frog::class))
-            // :hide-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :hide-end:
+        val config = RealmConfiguration.Builder()
+            .schema(setOf(Frog::class))
+            .path(randomTmpRealmPath()) // :hide:
             .build()
         val realm = Realm.open(config)
         // start a write transaction
@@ -75,28 +71,11 @@ class QuickStartTest: RealmTest() {
     fun quickStartTest() {
         // :code-block-start: quick-start
         // :code-block-start: quick-start-open-a-realm
-        val config = RealmConfiguration.Builder(setOf(Task::class))
-            // :hide-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :hide-end:
+        val config = RealmConfiguration.Builder()
+            .schema(setOf(Task::class))
+            .path(randomTmpRealmPath()) // :hide:
             .build()
         val realm: Realm = Realm.open(config)
-        // :hide-start:
-        // insert some sample data
-        realm.writeBlocking {
-            copyToRealm(Task().apply {
-                name = "Do work 1"
-                status = "In Progress"
-            })
-        }
-        realm.writeBlocking {
-            copyToRealm(Task().apply {
-                name = "Do work 2"
-                status = "Open"
-            })
-        }
-        // :hide-end:
         // :code-block-end:
         // :code-block-start: quick-start-create
         realm.writeBlocking {
@@ -111,21 +90,18 @@ class QuickStartTest: RealmTest() {
         val tasks = realm.query<Task>().find()
         // :code-block-end:
         // :code-block-start: quick-start-read-filtered
-        // tasks in the realm whose name begins with the letter 'D'
+        // all tasks in the realm
         val tasksThatBeginWIthD = realm.query<Task>("name BEGINSWITH $0", "D").find()
         val openTasks = realm.query<Task>("status == $0", "Open").find()
         // :code-block-end:
         // :code-block-start: quick-start-update
-        // change the first task with open status to in progress status
         realm.writeBlocking {
             findLatest(openTasks[0])?.status = "In Progress"
         }
         // :code-block-end:
         // :code-block-start: quick-start-delete
-        // delete the first task in the realm
         realm.writeBlocking {
-            val writeTransactionTasks = realm.query<Task>().find()
-            delete(findLatest(writeTransactionTasks[0])!!)
+            findLatest(tasks[0])?.delete()
         }
         // :code-block-end:
         // :code-block-end:
@@ -134,11 +110,9 @@ class QuickStartTest: RealmTest() {
     @Test
     fun changeListenersTest() {
         // :code-block-start: change-listeners
-        val config = RealmConfiguration.Builder(setOf(Task::class))
-            // :hide-start:
-            .directory("/tmp/")
-            .name(getRandom())
-            // :hide-end:
+        val config = RealmConfiguration.Builder()
+            .schema(setOf(Task::class))
+            .path(randomTmpRealmPath()) // :hide:
             .build()
         val realm = Realm.open(config)
 
