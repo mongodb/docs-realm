@@ -11,7 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      STAGING_DIR: "${{github.actor}}/${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}/"
+      STAGING_DIR: "${{github.event.pull_request.head.repo.full_name}}/${{github.ref_name}}"
 
     steps:
       - uses: actions/checkout@v2
@@ -30,4 +30,4 @@ jobs:
           SOURCE_DIR: "docusaurus/build/"
           DEST_DIR: "$STAGING_DIR"
       - run: |
-          echo "(Probably) hosted at: http://${{ secrets.REALM_IO_STAGING_S3_BUCKET }}.s3-website-us-east-1.amazonaws.com/$STAGING_DIR/index.html"
+          echo "(Probably) hosted at: http://realm-io-staging.s3-website-us-east-1.amazonaws.com/${STAGING_DIR}index.html"
