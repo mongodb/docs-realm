@@ -23,11 +23,11 @@ jobs:
         with:
           args: --acl public-read --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.REALM_IO_STAGING_BUCKET }}
+          AWS_S3_BUCKET: ${{ secrets.REALM_IO_STAGING_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.REALM_IO_STAGING_S3_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.REALM_IO_STAGING_S3_KEY }}
           AWS_REGION: "us-east-1"
           SOURCE_DIR: "docusaurus/build/"
           DEST_DIR: "$STAGING_DIR"
       - run: |
-          echo "(Probably) hosted at: http://${{ secrets.REALM_IO_STAGING_BUCKET }}.s3-website-us-east-1.amazonaws.com/$STAGING_DIR"
+          echo "(Probably) hosted at: http://${{ secrets.REALM_IO_STAGING_S3_BUCKET }}.s3-website-us-east-1.amazonaws.com/$STAGING_DIR"
