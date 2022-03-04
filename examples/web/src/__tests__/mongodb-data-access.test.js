@@ -138,7 +138,7 @@ describe("CRUD operations", () => {
       console.log(result);
       // :snippet-end:
       // prettier-ignore
-      const expectedRes =
+      const expectedRes = (
         // :snippet-start: insert-multiple-documents-result
         {
           insertedIds: [
@@ -146,8 +146,9 @@ describe("CRUD operations", () => {
             ObjectId("5f87a0defc9013565c233612"),
             ObjectId("5f87a0defc9013565c233613"),
           ],
-        };
-      // :snippet-end:
+        }
+        // :snippet-end:
+      );
       expect(result.insertedIds.length).toBe(3);
       expect(result.insertedIds[0] instanceof ObjectId).toBe(true);
       expect(result).toStrictEqual(expectedRes);
