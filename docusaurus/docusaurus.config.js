@@ -16,7 +16,7 @@ const config = {
   baseUrl: `/${baseUrl}/`,
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
-  trailingSlash: false, // Required to make site not give warning about broken links. unsure why - ben
+  trailingSlash: true,
   favicon: "img/realm-logo.png",
   organizationName: "mongodb",
   projectName: "docs-realm",
