@@ -18,8 +18,8 @@ const config = {
   onBrokenMarkdownLinks: "warn",
   trailingSlash: false, // Required to make site not give warning about broken links. unsure why - ben
   favicon: "img/realm-logo.png",
-  organizationName: "nathan-contino-mongo", // Usually your GitHub org/user name.
-  projectName: "docusaurus-realm", // Usually your repo name.
+  organizationName: "mongodb",
+  projectName: "docs-realm",
   plugins: [
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
