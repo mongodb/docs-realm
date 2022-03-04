@@ -30,4 +30,4 @@ jobs:
           SOURCE_DIR: "docusaurus/build/"
           DEST_DIR: "$STAGING_DIR"
       - run: |
-          echo "(Probably) hosted at: http://${{ secrets.REALM_IO_STAGING_S3_BUCKET }}.s3-website-us-east-1.amazonaws.com/$STAGING_DIR"
+          echo "(Probably) hosted at: http://${{ secrets.REALM_IO_STAGING_S3_BUCKET }}.s3-website-us-east-1.amazonaws.com/$STAGING_DIR/index.html"
