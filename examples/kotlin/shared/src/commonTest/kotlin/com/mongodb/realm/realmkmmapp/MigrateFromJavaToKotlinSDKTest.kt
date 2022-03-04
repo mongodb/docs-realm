@@ -241,7 +241,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
             realm.writeBlocking {
                 if (sample != null) {
                     findLatest(sample)
-                        .also { delete(it!!) }
+                        ?.also { delete(it) }
                 }
             }
 
@@ -251,7 +251,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                     query<Sample>()
                         .first()
                         .find()
-                        .also { delete(it!!) }
+                        ?.also { delete(it) }
                 }
             }
             // :code-block-end:

@@ -6,7 +6,7 @@ val sample: Sample? =
 realm.writeBlocking {
     if (sample != null) {
         findLatest(sample)
-            .also { delete(it!!) }
+            ?.also { delete(it) }
     }
 }
 
@@ -16,6 +16,6 @@ GlobalScope.launch {
         query<Sample>()
             .first()
             .find()
-            .also { delete(it!!) }
+            ?.also { delete(it) }
     }
 }
