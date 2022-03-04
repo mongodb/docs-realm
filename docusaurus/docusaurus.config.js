@@ -7,6 +7,8 @@ const darkCodeTheme = require("prism-react-renderer/themes/vsDark");
 const url = process.env.DOCUSAURUS_URL || "https://realm.io"
 const baseUrl = process.env.DOCUSAURUS_BASE_URL || "docs";
 
+console.log(`Attempting to build: url=${url}, baseUrl=${baseUrl}`);
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Realm Docs",
