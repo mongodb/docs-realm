@@ -52,15 +52,24 @@ Endpoint Routes
 ~~~~~~~~~~~~~~~
 
 Every HTTPS endpoint has a unique route that serves as a name for the
-endpoint. Route names must begin with a forward slash (``/``) and may
-contain additional forward slashes to indicate a nested path.
-
-Endpoint URLs include the endpoint's route:
+endpoint. You call an endpoint by appending its route to your app's base
+URL and sending an HTTP request. Route names must begin with a forward
+slash (``/``) and may contain additional forward slashes to indicate a
+nested path.
 
 .. code-block:: none
-   :caption: Endpoint URL Format
+   :caption: Endpoint URL Format (Global Apps)
 
-   https://data.mongodb-api.com/app/<appId>/endpoint/<route>
+   https://data.mongodb-api.com/app/<App ID>/endpoint/<Route>
+
+Endpoints in a :ref:`locally deployed <local-deployment>` app use a base
+URL specific to the app's :ref:`deployment region <realm-regions>` (e.g.
+``us-east-1``):
+
+.. code-block:: none
+   :caption: Endpoint URL Format (Local Apps)
+
+   https://<Region>.aws.data.mongodb-api.com/app/<App ID>/endpoint/<Route>
 
 .. _endpoint-http-method:
 
