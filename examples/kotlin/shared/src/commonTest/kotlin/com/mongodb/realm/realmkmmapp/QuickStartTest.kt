@@ -124,9 +124,8 @@ class QuickStartTest: RealmTest() {
         // :code-block-start: quick-start-delete
         // delete the first task in the realm
         realm.writeBlocking {
-            realm.also {
-                delete(tasks[0])
-            }
+            val writeTransactionTasks = realm.query<Task>().find()
+            delete(findLatest(writeTransactionTasks[0])!!)
         }
         // :code-block-end:
         // :code-block-end:

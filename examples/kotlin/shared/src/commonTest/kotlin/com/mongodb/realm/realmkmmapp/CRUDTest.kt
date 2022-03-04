@@ -33,7 +33,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -73,7 +73,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -106,7 +106,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -135,7 +135,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -186,7 +186,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -272,7 +272,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -334,7 +334,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -374,7 +374,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -414,7 +414,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -454,7 +454,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()
@@ -493,7 +493,7 @@ class CRUDTest: RealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
-            val config = RealmConfiguration.Builder(setOf(com.mongodb.realm.realmkmmapp.Frog::class, Sample::class))
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
                 .name(REALM_NAME)
                 .directory(TMP_PATH)
                 .build()

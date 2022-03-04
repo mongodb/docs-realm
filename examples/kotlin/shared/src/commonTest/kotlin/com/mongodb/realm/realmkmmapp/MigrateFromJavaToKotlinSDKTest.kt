@@ -239,9 +239,9 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
 
             // delete one object synchronously
             realm.writeBlocking {
-                val liveSample: Sample? =
-                    this.findLatest(sample!!)
-                liveSample?.also { delete(it) }
+                if (sample != null) {
+                    findLatest(sample).also { delete(it!!) }
+                }
             }
 
             // delete a query result asynchronously

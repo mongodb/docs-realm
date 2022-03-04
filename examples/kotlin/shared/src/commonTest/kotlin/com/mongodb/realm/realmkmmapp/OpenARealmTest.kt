@@ -16,7 +16,7 @@ class OpenARealmTest: RealmTest() {
                 .name(REALM_NAME)
                 // :hide-start:
                 .directory("/tmp/") // default location for jvm is... in the project root
-                // :hide-start:
+                // :hide-end:
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
