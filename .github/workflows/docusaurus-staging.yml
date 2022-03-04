@@ -23,7 +23,7 @@ jobs:
         with:
           args: --acl public-read --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.REALM_IO_STAGING_S3_BUCKET }}
+          AWS_S3_BUCKET: "realm-io-staging"
           AWS_ACCESS_KEY_ID: ${{ secrets.REALM_IO_STAGING_S3_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.REALM_IO_STAGING_S3_KEY }}
           AWS_REGION: "us-east-1"
