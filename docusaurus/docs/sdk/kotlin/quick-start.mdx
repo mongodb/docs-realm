@@ -36,7 +36,7 @@ definition to your application code:
 Use [RealmConfiguration](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/index.html)
 to control the specifics of the realm you
 would like to open, including the name, location, and schema.
-Pass your configuration to the [Realm constructor](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html)
+Pass your configuration to the [Realm factory constructor](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/index.html)
 to generate an instance of that realm:
 
 <CodeBlock language="kotlin">{OpenARealm}</CodeBlock>
@@ -74,8 +74,8 @@ To modify a task, update its properties in a write transaction block:
 
 <CodeBlock language="kotlin">{Update}</CodeBlock>
 
-Finally, you can delete a task by calling the [object.delete()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691)
-method in a write transaction block:
+Finally, you can delete a task by calling [mutableRealm.delete()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/delete.html)
+in a write transaction block:
 
 <CodeBlock language="kotlin">{Delete}</CodeBlock>
 

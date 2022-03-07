@@ -8,6 +8,15 @@ Install (Kotlin Multiplatform) - Kotlin SDK
 
 .. include:: /includes/kotlin-install-prerequisites.rst
 
+Additionally, Kotlin Multiplatform projects require the following:
+
+- `Kotlin Multiplatform Mobile (KMM) Plugin
+  <https://kotlinlang.org/docs/mobile/kmm-plugin-releases.html#release-details>`__
+  for Android Studio, version 0.3.1 or higher.
+- A KMM App created using the "KMM Application" template in Android
+  Studio. Follow the instructions in the `KMM documentation
+  <https://kotlinlang.org/docs/mobile/create-first-app.html>`__.
+
 Installation
 ------------
 
@@ -22,10 +31,10 @@ Installation
 
       - Add :file:`io.realm.kotlin:library-base` to the dependencies
         block of your common module.
-      - Add :file:`io.realm.kotlin` to your list of plugins.
-      - To use coroutines with the SDK, add the
+      - To use coroutines with the SDK, add
         :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
         to the dependencies block of your common module.
+      - Add :file:`io.realm.kotlin` to your list of plugins.
 
       .. code-block:: kotlin
          :emphasize-lines: 5, 28, 29
@@ -143,10 +152,10 @@ Installation
 
       - Add :file:`io.realm.kotlin:library-sync` to the dependencies
         block of your common module.
-      - Add :file:`io.realm.kotlin` to your list of plugins.
       - To use coroutines with the SDK, add the
         :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
         to the dependencies block of your common module.
+      - Add :file:`io.realm.kotlin` to your list of plugins.
 
       .. code-block:: kotlin
          :emphasize-lines: 5, 28, 29

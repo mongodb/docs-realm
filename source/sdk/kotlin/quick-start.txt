@@ -43,8 +43,8 @@ Use :kotlin-sdk:`RealmConfiguration
 <{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>`
 to control the specifics of the {+realm+} you
 would like to open, including the name, location, and schema.
-Pass your configuration to the :kotlin-sdk:`Realm constructor
-<{+kotlin-local-prefix+}io.realm/-realm/index.html>`
+Pass your configuration to the :kotlin-sdk:`Realm factory constructor
+<{+kotlin-local-prefix+}io.realm/-realm/-companion/index.html>`
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt
@@ -84,7 +84,7 @@ of objects:
 .. note:: Realm Query Language
 
    You can find more information about string {+client-database+} queries in
-   the :ref:`Node SDK Query Guide <node-client-query-engine>`.
+   :ref:`Realm Query Language <kotlin-query-language>`.
 
 To modify a task, update its properties in a write transaction block:
 
@@ -92,9 +92,9 @@ To modify a task, update its properties in a write transaction block:
    :language: kotlin
    :copyable: false
 
-Finally, you can delete a task by calling the :kotlin-sdk:`object.delete()
-<{+kotlin-local-prefix+}io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691>`
-method in a write transaction block:
+Finally, you can delete a task by calling :kotlin-sdk:`mutableRealm.delete()
+<{+kotlin-local-prefix+}io.realm/-mutable-realm/delete.html>`
+in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt
    :language: kotlin
