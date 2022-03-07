@@ -169,12 +169,16 @@ Retrieve a collection of all objects of a data model in the {+realm+} with the
    :language: dart
 
 Filter a collection to retrieve a specific segment
-of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method:
+of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
+In the ``query()`` method's argument,
+use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
+
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
    :language: dart
 
-Sort the results using :apple:`NSPredicate syntax <library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pCreating.html>`:
+Sort the results using the :ref:`Realm Query Language <flutter-query-language>` 
+SORT() operator in the ``query()`` method's argument.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-sort.dart
    :language: dart

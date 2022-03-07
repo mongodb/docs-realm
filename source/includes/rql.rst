@@ -128,6 +128,12 @@ with a number literal (such as ``0``) or another property (such as
       .. literalinclude:: /examples/generated/kotlin/RQLTest.codeblock.rql-examples.kt
          :language: kotlin
 
+   .. tab:: Flutter SDK
+      :tabid: Flutter
+
+      .. literalinclude:: /examples/generated/flutter/task_project_models_test.codeblock.task-model.dart
+         :language: dart
+
 Operators
 ~~~~~~~~~
 
