@@ -1,5 +1,5 @@
 const navBar = {
-  title: "Realm Docs",
+  title: "Realm SDK Docs",
   logo: {
     alt: "Realm Logo",
     src: "/img/realm-logo.png",
