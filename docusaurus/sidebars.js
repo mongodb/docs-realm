@@ -155,7 +155,9 @@ const sidebars = {
     },
   ],
   java: [
-    "sdk/java/intro"
+    "sdk/java/intro",
+    "sdk/java/install",
+    "sdk/java/quick-start",
   ],
 
   studio: [
