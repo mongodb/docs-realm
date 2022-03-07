@@ -3,14 +3,16 @@ on:
   pull_request:
     paths:
       - examples/web/**
+
+defaults:
+  run:
+    working-directory: examples/web # The working directory path
+
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Enter Web SDK project
-        run: cd examples/web
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
