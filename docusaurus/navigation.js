@@ -1,5 +1,5 @@
 const navBar = {
-  title: "MongoDB Realm Docs",
+  title: "Realm Docs",
   logo: {
     alt: "Realm Logo",
     src: "/img/realm-logo.png",
@@ -21,6 +21,10 @@ const navBar = {
         {
           href: "/sdk/flutter/intro",
           label: "Flutter SDK",
+        },
+        {
+          href: "/sdk/java/intro",
+          label: "Java SDK",
         },
       ],
     },
