@@ -41,6 +41,6 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            SDK Staging build complete! Visit it at: ${{process.env.DOCUSAURUS_URL}}/${{process.env.DOCUSAURUS_BASE_URL}}/index.html
+            SDK Staging build complete! Visit it at: ${{env.DOCUSAURUS_URL}}/${{env.DOCUSAURUS_BASE_URL}}/index.html
           edit-mode: replace
           
