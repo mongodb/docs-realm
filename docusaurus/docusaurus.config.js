@@ -11,7 +11,7 @@ const baseUrl = process.env.DOCUSAURUS_BASE_URL || "docs";
 const config = {
   title: "Realm Docs",
   tagline:
-    "MongoDB Realm is a development platform designed for modern, data-driven applications. You can use Realm to build mobile, web, desktop, and IoT.",
+    "Realm is a mobile database designed for modern, data-driven applications. You can use Realm to build mobile, web, desktop, and IoT apps.",
   url,
   baseUrl: `/${baseUrl}/`,
   onBrokenLinks: "warn",

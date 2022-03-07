@@ -1,5 +1,5 @@
 const navBar = {
-  title: "MongoDB Realm Docs",
+  title: "Realm Docs",
   logo: {
     alt: "Realm Logo",
     src: "/img/realm-logo.png",
