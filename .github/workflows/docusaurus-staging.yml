@@ -35,13 +35,10 @@ jobs:
           DEST_DIR: "$DOCUSAURUS_BASE_URL"
       - run: |
           echo "Hosted at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html"
-      - name: Comment on PR
-        uses: actions/github-script@0.3.0
+      - name: Output To Results
+        uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
             const {DOCUSAURUS_URL, DOCUSAURUS_BASE_URL} = process.env;
-            const body = `Staging build complete! Visit it at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html`;
-            github.issues.createComment({ issue_number, owner, repo, body });
+            return `SDK Staging build complete! Visit it at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html`;
           
