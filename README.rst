@@ -17,7 +17,6 @@ To contribute to the documentation,
 
 - Fork this repository on GitHub and issue a pull request.
 
-
 Report Issues
 -------------
 
