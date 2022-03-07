@@ -133,6 +133,11 @@ with a number literal (such as ``0``) or another property (such as
 
       .. literalinclude:: /examples/generated/flutter/task_project_models_test.codeblock.task-project-models.dart
          :language: dart
+   .. tab:: Node.Js SDK
+      :tabid: node
+   
+   .. tab:: React Native SDK
+      :tabid: react-native
 
 Operators
 ~~~~~~~~~
