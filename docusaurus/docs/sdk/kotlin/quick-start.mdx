@@ -44,16 +44,15 @@ to generate an instance of that realm:
 ## Create, Read, Update, and Delete Objects
 
 Once opened, you can create objects within a realm in a
-[write transaction block](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691).
+write transaction block.
 
 To create a new `Task`, instantiate an instance of the
 `Task` class and add it to the realm in a write transaction block:
 
 <CodeBlock language="kotlin">{Create}</CodeBlock>
 
-You can retrieve a collection of all tasks in the realm with the
-[io.realm.objects()](https://docs.mongodb.com/realm-sdks/kotlin/latest/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/objects.html)
-convenience wrapper:
+You can retrieve a collection of all tasks in the realm with
+[query.find()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html):
 
 <CodeBlock language="kotlin">{Read}</CodeBlock>
 
