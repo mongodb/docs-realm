@@ -11,6 +11,14 @@ import {variables} from '@site/variables';
 
 <PrerequisitesKotlin/>
 
+Additionally, Kotlin Multiplatform projects require the following:
+
+- [Kotlin Multiplatform Mobile (KMM) Plugin](https://kotlinlang.org/docs/mobile/kmm-plugin-releases.html#release-details)
+  for Android Studio, version 0.3.1 or higher.
+- A KMM App created using the "KMM Application" template in Android
+  Studio. Follow the instructions in the
+  [KMM documentation](https://kotlinlang.org/docs/mobile/create-first-app.html).
+
 ## Installation
 
 <Tabs groupId="sdk-distros">
@@ -22,10 +30,10 @@ file, typically found at `<project>/shared/build.gradle.kts`:
 
 - Add `io.realm.kotlin:library-base` to the dependencies
   block of your common module.
-- Add `io.realm.kotlin` to your list of plugins.
 - To use coroutines with the SDK, add
   `org.jetbrains.kotlinx:kotlinx-coroutines-core`
   to the dependencies block of your common module.
+- Add `io.realm.kotlin` to your list of plugins.
 
 <!--- Credit for variable in code blocks solution: https://github.com/facebook/Docusaurus/issues/395#issuecomment-633686061 --->
 <pre><code parentName="pre" {...{
@@ -152,10 +160,10 @@ file, typically found at `shared/build.gradle.kts`:
 
 - Add `io.realm.kotlin:library-sync` to the dependencies
   block of your common module.
-- Add `io.realm.kotlin` to your list of plugins.
 - To use coroutines with the SDK, add
   `org.jetbrains.kotlinx:kotlinx-coroutines-core`
   to the dependencies block of your common module.
+- Add `io.realm.kotlin` to your list of plugins.
 
 <pre><code parentName="pre" {...{
             "className": "language-kotlin"

@@ -15,8 +15,8 @@ This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have installed
 the Kotlin SDK for your platform:
 
-- [Android](./install/android)
-- [Kotlin Multiplatform](./install/kotlin-multiplatform)
+- [Android](/sdk/kotlin/install/android)
+- [Kotlin Multiplatform](/sdk/kotlin/install/kotlin-multiplatform)
 
 ## Define Your Object Model
 
@@ -36,7 +36,7 @@ definition to your application code:
 Use [RealmConfiguration](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/index.html)
 to control the specifics of the realm you
 would like to open, including the name, location, and schema.
-Pass your configuration to the [Realm constructor](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html)
+Pass your configuration to the [Realm factory constructor](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/index.html)
 to generate an instance of that realm:
 
 <CodeBlock language="kotlin">{OpenARealm}</CodeBlock>
@@ -44,16 +44,15 @@ to generate an instance of that realm:
 ## Create, Read, Update, and Delete Objects
 
 Once opened, you can create objects within a realm in a
-[write transaction block](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691).
+write transaction block.
 
 To create a new `Task`, instantiate an instance of the
 `Task` class and add it to the realm in a write transaction block:
 
 <CodeBlock language="kotlin">{Create}</CodeBlock>
 
-You can retrieve a collection of all tasks in the realm with the
-[io.realm.objects()](https://docs.mongodb.com/realm-sdks/kotlin/latest/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/objects.html)
-convenience wrapper:
+You can retrieve a collection of all tasks in the realm with
+[query.find()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html):
 
 <CodeBlock language="kotlin">{Read}</CodeBlock>
 
@@ -74,8 +73,8 @@ To modify a task, update its properties in a write transaction block:
 
 <CodeBlock language="kotlin">{Update}</CodeBlock>
 
-Finally, you can delete a task by calling the [object.delete()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-object/index.html#2054000914%2FExtensions%2F1327329691)
-method in a write transaction block:
+Finally, you can delete a task by calling [mutableRealm.delete()](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/delete.html)
+in a write transaction block:
 
 <CodeBlock language="kotlin">{Delete}</CodeBlock>
 
