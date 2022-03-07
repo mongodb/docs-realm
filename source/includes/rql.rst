@@ -135,9 +135,15 @@ with a number literal (such as ``0``) or another property (such as
          :language: dart
    .. tab:: Node.Js SDK
       :tabid: node
-   
+
+      .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
+         :language: javascript
+
    .. tab:: React Native SDK
       :tabid: react-native
+
+      .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
+         :language: javascript
 
 Operators
 ~~~~~~~~~
