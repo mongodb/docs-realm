@@ -334,7 +334,6 @@ describe("CRUD operations", () => {
   });
 });
 describe("Watch for changes", () => {
-  jest.setTimeout(5000);
   const sleep = async (time) =>
     new Promise((resolve) => setTimeout(resolve, time));
   test("Watch for changes in a collection", async () => {
@@ -407,6 +406,7 @@ describe("Watch for changes", () => {
         );
       })(),
       (async () => {
+        let updatedDoc = false;
         // :snippet-start: watch-for-changes-with-filter
         for await (const change of plants.watch({
           filter: {
@@ -418,9 +418,11 @@ describe("Watch for changes", () => {
           const { documentKey, fullDocument } = change;
           console.log(`new document: ${documentKey}`, fullDocument);
           expect(fullDocument.name).toBe("daisy"); // :remove:
+          updatedDoc = true; // :remove:
           break; // Exit async iterator
         }
         // :snippet-end:
+        expect(updatedDoc).toBe(true);
       })(),
     ]);
   });
