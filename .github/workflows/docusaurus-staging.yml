@@ -48,7 +48,7 @@ jobs:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            # SDK Docs Site Staging Build
+            ## SDK Docs Site Staging Build
             
             ${{env.DOCUSAURUS_URL}}/${{env.DOCUSAURUS_BASE_URL}}/index.html
           edit-mode: replace
