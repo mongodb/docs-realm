@@ -153,6 +153,9 @@ const sidebars = {
       href: 'https://docs.mongodb.com/realm-sdks/kotlin/latest/',
     },
   ],
+  java: [
+    "sdk/java/intro"
+  ],
 
   studio: [
     {
