@@ -35,16 +35,12 @@ jobs:
           DEST_DIR: "$DOCUSAURUS_BASE_URL"
       - run: |
           echo "Hosted at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html"
-      - name: Output To Results
-        uses: actions/github-script@v6
-        with:
-          script: |
-            ;
       - name: Output Results to PR Comment
         uses: peter-evans/create-or-update-comment@v1
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: `SDK Staging build complete! Visit it at: ${process.env.DOCUSAURUS_URL}/${process.env.DOCUSAURUS_BASE_URL}/index.html`
+          body: |
+            SDK Staging build complete! Visit it at: ${{process.env.DOCUSAURUS_URL}}/${{process.env.DOCUSAURUS_BASE_URL}}/index.html
           edit-mode: replace
           
