@@ -145,6 +145,13 @@ with a number literal (such as ``0``) or another property (such as
       .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
          :language: javascript
 
+   .. tab:: .NET SDK
+      :tabid: dotnet
+
+      .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs
+         :language: csharp
+
+
 Operators
 ~~~~~~~~~
 
