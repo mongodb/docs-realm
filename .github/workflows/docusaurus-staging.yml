@@ -11,11 +11,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      STAGING_DIR: "${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}"
       DOCUSAURUS_URL: "http://realm-io-staging.s3-website-us-east-1.amazonaws.com"
-      DOCUSAURUS_BASE_URL: "/${STAGING_DIR}/"
-
+      DOCUSAURUS_BASE_URL: "${{github.event.pull_request.head.repo.full_name}}/${{github.head_ref}}"
     steps:
+      - run: |
+          echo "DOCUSAURUS_BASE_URL=${DOCUSAURUS_BASE_URL}"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
@@ -25,11 +25,21 @@ jobs:
         with:
           args: --acl public-read --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.REALM_IO_STAGING_S3_BUCKET }}
+          AWS_S3_BUCKET: "realm-io-staging"
           AWS_ACCESS_KEY_ID: ${{ secrets.REALM_IO_STAGING_S3_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.REALM_IO_STAGING_S3_KEY }}
           AWS_REGION: "us-east-1"
           SOURCE_DIR: "docusaurus/build/"
-          DEST_DIR: "$STAGING_DIR"
+          DEST_DIR: "$DOCUSAURUS_BASE_URL"
       - run: |
-          echo "(Probably) hosted at: ${DOCUSAURUS_URL}/${STAGING_DIR}/index.html"
+          echo "(Probably) hosted at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html"
+      - name: Comment on PR
+        uses: actions/github-script@0.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            const {DOCUSAURUS_URL, DOCUSAURUS_BASE_URL} = process.env;
+            const body = `Staging build complete! Visit it at: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html`;
+            github.issues.createComment({ issue_number, owner, repo, body });
+          

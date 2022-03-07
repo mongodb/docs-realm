@@ -24,28 +24,8 @@ $ npm run build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment to Github Pages
+### Staging & Deployment
 
-Prerequisites:
+Changes to this directory are automatically staged and deployed on s3 via GitHub Actions.
 
-1. Set up your site to use GitHub pages:
-
-   1. In your repo, go to "Settings" (tab bar) > "Pages" (sidebar)
-
-   1. Activate GitHub Pages, with "gh-pages" as the source branch and "/" as the source directory.
-
-   1. After you push your site, you should be able to view it (after 30 seconds to a minute of backend magic) at the link on the GitHub Pages configuration page.
-
-1. Use the following command to build your site and push it to the gh-pages branch (this will create the branch if it doesn't exist already)
-
-   Using SSH for github auth:
-
-   ```
-   $ USE_SSH=true npm run deploy
-   ```
-
-   Not using SSH for github auth:
-
-   ```
-   $ GIT_USER=<Your GitHub username> npm run deploy
-   ```
+See [staging](/.github/workflows/docusaurus-staging.yml) and [production](/.github/workflows/docusaurus-push-to-production.yml) workflows.
