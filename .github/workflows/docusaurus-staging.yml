@@ -16,7 +16,9 @@ jobs:
       DOCUSAURUS_BASE_URL: "/${STAGING_DIR}/"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v1
         with:
           node-version: 16.x
