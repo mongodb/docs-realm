@@ -48,7 +48,7 @@ const config = {
         includeCurrentVersion: true,
         versions: {
           current: {
-            label: "Current",
+            label: "Current (0.2.0+alpha)",
           },
         },
         path: "sdk-sites/flutter/docs",

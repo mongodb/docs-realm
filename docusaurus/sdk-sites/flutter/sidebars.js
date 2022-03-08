@@ -34,6 +34,15 @@ const sidebars = {
       label: "Realm Database",
       id: "realm-database",
     },
+    {
+      Versions: [
+        {
+          type: "link",
+          label: "Preview",
+          href: "/sdk/flutter/preview/intro",
+        },
+      ],
+    },
   ],
 };
 
