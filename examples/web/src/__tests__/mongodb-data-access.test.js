@@ -329,7 +329,7 @@ describe("CRUD operations", () => {
       );
       const countAfter = await plants.count();
       expect(result).toStrictEqual(expectedRes);
-      expect(countBefore - countAfter).toBe(4);
+      expect(countBefore - countAfter).toBe(12);
     });
   });
 });
