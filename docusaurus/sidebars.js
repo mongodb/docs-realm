@@ -158,6 +158,7 @@ const sidebars = {
     'sdk/java/intro',
     'sdk/java/install',
     'sdk/java/quick-start',
+    `sdk/java/async-api`,
     {
       type: 'category',
       label: 'Realm Database',
