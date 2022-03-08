@@ -1,10 +1,9 @@
 ---
 title: Open a Synced Realm
 ---
-
-import CodeBlock from "@theme/CodeBlock";
-import Open from "!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt";
-import Configure from "!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt";
+import CodeBlock from '@theme/CodeBlock';
+import Open from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt';
+import Configure from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt';
 
 :::note Flexible Sync
 
@@ -26,7 +25,8 @@ Before you can access a synced realm from the client, you must:
 1. [Authenticate a user](sdk/kotlin/app-services/authenticate-users) in
    your client project.
 
-## Open a Synced Realm
+Open a Synced Realm
+-------------------
 
 To open a synced {+realm+}, pass a user, a partition, and a set of
 Realm object schemas to
@@ -36,7 +36,8 @@ to open an instance of the realm:
 
 <CodeBlock language="kotlin">{Open}</CodeBlock>
 
-## Configure a Synced Realm
+Configure a Synced Realm
+------------------------
 
 To adjust specific configuration settings, use the options provided by
 [`SyncConfiguration.Builder`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/index.html):

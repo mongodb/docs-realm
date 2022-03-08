@@ -1,9 +1,8 @@
 ---
 title: Sort Queries
 ---
-
-import CodeBlock from "@theme/CodeBlock";
-import Sort from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.sort.kt";
+import CodeBlock from '@theme/CodeBlock';
+import Sort from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.sort.kt';
 
 To sort results, specify a sort in the query passed to
 [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html)
@@ -20,6 +19,7 @@ to manually write the keywords:
 When used on the same query in both RQL and method form, `SORT`,
 `DISTINCT`, and `LIMIT` execute in the order they're added
 to the query. This can impact the results returned from your query.
+
 
 <CodeBlock language="kotlin">{Sort}</CodeBlock>
 

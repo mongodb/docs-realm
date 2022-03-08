@@ -1,16 +1,15 @@
 ---
 title: Quick Start
 ---
-
-import CodeBlock from "@theme/CodeBlock";
-import Model from "!!raw-loader!@site/docs/generated/kotlin/RealmModels.codeblock.quick-start-model.kt";
-import OpenARealm from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt";
-import Create from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-create.kt";
-import Read from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read.kt";
-import ReadFiltered from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read-filtered.kt";
-import Update from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-update.kt";
-import Delete from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt";
-import QuickStart from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start.kt";
+import CodeBlock from '@theme/CodeBlock';
+import Model from '!!raw-loader!@site/docs/generated/kotlin/RealmModels.codeblock.quick-start-model.kt';
+import OpenARealm from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt';
+import Create from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-create.kt';
+import Read from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read.kt';
+import ReadFiltered from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read-filtered.kt';
+import Update from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-update.kt';
+import Delete from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt';
+import QuickStart from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start.kt';
 
 This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have installed
@@ -18,6 +17,7 @@ the Kotlin SDK for your platform:
 
 - [Android](/sdk/kotlin/install/android)
 - [Kotlin Multiplatform](/sdk/kotlin/install/kotlin-multiplatform)
+
 
 ## Define Your Object Model
 
@@ -60,6 +60,7 @@ You can retrieve a collection of all tasks in the realm with
 You can also filter a collection to retrieve a more specific collection
 of objects:
 
+
 <CodeBlock language="kotlin">{ReadFiltered}</CodeBlock>
 
 :::note Realm Query Language
@@ -69,6 +70,7 @@ the [Realm Query Language Reference](sdk/kotlin/realm-database/query-language).
 :::
 
 To modify a task, update its properties in a write transaction block:
+
 
 <CodeBlock language="kotlin">{Update}</CodeBlock>
 
@@ -82,5 +84,6 @@ in a write transaction block:
 If you're running this project in a fresh KMM template project, you can
 copy and paste into the `Greeting.greeting()` method in the
 `commonMain` module.
+
 
 <CodeBlock language="kotlin">{QuickStart}</CodeBlock>

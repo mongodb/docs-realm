@@ -2,49 +2,49 @@
 title: Migrate from Java SDK to Kotlin SDK
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import CodeBlock from "@theme/CodeBlock";
-import ThreadingKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt";
-import ThreadingJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt";
-import ThreadingJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java";
-import OpenARealmKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt";
-import OpenARealmJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt";
-import OpenARealmJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java";
-import OpenARealmAdvancedKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm-advanced.kt";
-import ROMKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt";
-import ROMJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/Sample.codeblock.realm-object-model.kt";
-import ROMJavaSDKJava from "!!raw-loader!@site/docs/generated/java/SampleJava.codeblock.realm-object-model.java";
-import OneToOneKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt";
-import OneToOneJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/Child.codeblock.one-to-one-relationship.kt";
-import OneToOneJavaSDKJava from "!!raw-loader!@site/docs/generated/java/ChildJava.codeblock.one-to-one-relationship.java";
-import OneToManyKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt";
-import OneToManyJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/Kid.codeblock.one-to-many-relationship.kt";
-import OneToManyJavaSDKJava from "!!raw-loader!@site/docs/generated/java/KidJava.codeblock.one-to-many-relationship.java";
-import SchemaTypesKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.schema-types.kt";
-import SchemaTypesJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/CollegeStudent.codeblock.schema-types.kt";
-import SchemaTypesJavaSDKJava from "!!raw-loader!@site/docs/generated/java/CollegeStudentJava.codeblock.schema-types.java";
-import WritesAsyncKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt";
-import WritesAsyncJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt";
-import WritesAsyncJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java";
-import WritesSyncKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt";
-import WritesSyncJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt";
-import WritesSyncJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java";
-import QueryFiltersKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt";
-import QueryFiltersJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt";
-import QueryFiltersJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java";
-import SDLKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt";
-import SDLJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt";
-import SDLJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.java";
-import DeletesKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt";
-import DeletesJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt";
-import DeletesJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java";
-import NotificationsKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt";
-import NotificationsJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt";
-import NotificationsJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java";
-import MigrationsKotlinSDK from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt";
-import MigrationsJavaSDKKotlin from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt";
-import MigrationsJavaSDKJava from "!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import ThreadingKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt';
+import ThreadingJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.threading.kt';
+import ThreadingJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.threading.java';
+import OpenARealmKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt';
+import OpenARealmJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.kt';
+import OpenARealmJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm.java';
+import OpenARealmAdvancedKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.open-a-realm-advanced.kt';
+import ROMKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.realm-object-model.kt';
+import ROMJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/Sample.codeblock.realm-object-model.kt';
+import ROMJavaSDKJava from '!!raw-loader!@site/docs/generated/java/SampleJava.codeblock.realm-object-model.java';
+import OneToOneKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-one-relationship.kt';
+import OneToOneJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/Child.codeblock.one-to-one-relationship.kt';
+import OneToOneJavaSDKJava from '!!raw-loader!@site/docs/generated/java/ChildJava.codeblock.one-to-one-relationship.java';
+import OneToManyKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.one-to-many-relationship.kt';
+import OneToManyJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/Kid.codeblock.one-to-many-relationship.kt';
+import OneToManyJavaSDKJava from '!!raw-loader!@site/docs/generated/java/KidJava.codeblock.one-to-many-relationship.java';
+import SchemaTypesKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.schema-types.kt';
+import SchemaTypesJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/CollegeStudent.codeblock.schema-types.kt';
+import SchemaTypesJavaSDKJava from '!!raw-loader!@site/docs/generated/java/CollegeStudentJava.codeblock.schema-types.java';
+import WritesAsyncKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt';
+import WritesAsyncJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.kt';
+import WritesAsyncJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-async.java';
+import WritesSyncKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt';
+import WritesSyncJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.kt';
+import WritesSyncJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.write-sync.java';
+import QueryFiltersKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt';
+import QueryFiltersJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.kt';
+import QueryFiltersJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-filters.java';
+import SDLKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt';
+import SDLJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.kt';
+import SDLJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.query-sort-limit-distinct.java';
+import DeletesKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt';
+import DeletesJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt';
+import DeletesJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.java';
+import NotificationsKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt';
+import NotificationsJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.kt';
+import NotificationsJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.notifications.java';
+import MigrationsKotlinSDK from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt';
+import MigrationsJavaSDKKotlin from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.kt';
+import MigrationsJavaSDKJava from '!!raw-loader!@site/docs/generated/java/MigrateFromJavaToKotlinSDKTest.codeblock.migrations.java';
 
 :::info What is the Kotlin SDK?
 
@@ -54,7 +54,7 @@ different codebase from the Java SDK. It is designed specifically
 to take advantage of Kotlin language features such as coroutines and
 suspend functions. The Java SDK also supports some of these features,
 as well as Android applications written in Kotlin. But the
-[Kotlin SDK](./intro) is more Kotlin-idiomatic than the
+[Kotlin SDK](/sdk/kotlin/intro) is more Kotlin-idiomatic than the
 Java SDK.
 :::
 
@@ -110,25 +110,25 @@ the Realm Object Models to use in your realm schema. Additionally:
   `Realm.open()` method instead.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{OpenARealmJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{OpenARealmJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{OpenARealmKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{OpenARealmJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{OpenARealmJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{OpenARealmKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 Optionally, use [`RealmConfiguration.Builder`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/-builder/index.html)
@@ -156,25 +156,25 @@ in java for fields with special properties, such as ignored fields,
 primary keys, and indexes.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{ROMJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{ROMJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{ROMKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{ROMJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{ROMJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{ROMKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 :::tip See Also
@@ -190,25 +190,25 @@ fields:
 ### One-to-One
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{OneToOneJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{OneToOneJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{OneToOneKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{OneToOneJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{OneToOneJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{OneToOneKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 ### One-to-Many
@@ -220,25 +220,25 @@ instances with the [`realmListOf()`](https://docs.mongodb.com/realm-sdks/kotlin/
 companion method.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{OneToManyJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{OneToManyJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{OneToManyKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{OneToManyJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{OneToManyJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{OneToManyKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 ## Schema Types
@@ -249,25 +249,25 @@ SDK makes lists of primitives non-nullable by default. Use the
 `?` operator to make a list of primitives nullable.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{SchemaTypesJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{SchemaTypesJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{SchemaTypesKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{SchemaTypesJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{SchemaTypesJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{SchemaTypesKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 ## Writes
@@ -281,26 +281,27 @@ With the Java SDK, you could write asynchronously to a realm with
 the suspend function [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html) instead.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{WritesAsyncJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{WritesAsyncJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{WritesAsyncKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{WritesAsyncJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{WritesAsyncJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{WritesAsyncKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
+
 
 ### Sync
 
@@ -309,33 +310,33 @@ With the Java SDK, you could write synchronously to a realm with
 [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html):
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{WritesSyncJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{WritesSyncJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{WritesSyncKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{WritesSyncJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{WritesSyncJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{WritesSyncKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
-:::tip See Also
 
+:::tip See Also
 - [Create a New Object (Kotlin SDK)](/sdk/kotlin/realm-database/create/create-a-new-object)
 - [Modify an Object (Kotlin SDK)](/sdk/kotlin/realm-database/update/modify-an-object)
 - [Delete an Object (Kotlin SDK)](/sdk/kotlin/realm-database/delete/delete-an-object)
-  :::
+:::
 
 ## Queries
 
@@ -364,49 +365,50 @@ in the Kotlin SDK:
 ### Filters
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{QueryFiltersJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{QueryFiltersJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{QueryFiltersKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{QueryFiltersJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{QueryFiltersJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{QueryFiltersKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
+
 
 ## Sort, Distinct, Limit
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{SDLJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{SDLJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{SDLKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{SDLJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{SDLJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{SDLKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 :::tip See Also
@@ -418,28 +420,30 @@ in the Kotlin SDK:
 
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
 [`mutableRealm.findLatest()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/find-latest.html)
-to access a live version of any frozen object.
+to access a live version of any frozen object. In a write transaction,
+you can directly query for live objects and delete them without using
+`findLatest()`.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{DeletesJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{DeletesJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{DeletesKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{DeletesJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{DeletesJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{DeletesKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 :::tip See Also
@@ -447,7 +451,7 @@ to access a live version of any frozen object.
 - [Delete all Objects of a Type (Kotlin SDK)](/sdk/kotlin/realm-database/delete/delete-all-objects-of-a-type)
 - [Delete Multiple Objects (Kotlin SDK)](/sdk/kotlin/realm-database/delete/delete-multiple-objects)
 - [Delete an Object (Kotlin SDK)](/sdk/kotlin/realm-database/delete/delete-an-object)
-  :::
+:::
 
 ## Notifications
 
@@ -465,25 +469,25 @@ to subscribe to changes. Any object of type `UpdatedResults` emitted
 by the flow represents a change to the results set.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{NotificationsJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{NotificationsJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{NotificationsKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{NotificationsJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{NotificationsJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{NotificationsKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 ## Threading
@@ -496,25 +500,25 @@ underlying data changes. With the Kotlin SDK, you must use notifications to subs
 updates instead.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{ThreadingJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{ThreadingJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{ThreadingKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{ThreadingJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{ThreadingJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{ThreadingKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 :::tip See Also
@@ -529,25 +533,25 @@ automates migrations, but also gives you access to a similar dynamic
 realm interface for custom tweaks to migration logic.
 
 <table>
-  <tr>
-    <td>
-      <Tabs groupId="java-sdk-languages">
-        <TabItem value="kotlin" label="Java SDK (Kotlin)">
-          <CodeBlock language="kotlin">{MigrationsJavaSDKKotlin}</CodeBlock>
-        </TabItem>
-        <TabItem value="java" label="Java SDK (Java)">
-          <CodeBlock language="java">{MigrationsJavaSDKJava}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-    <td>
-      <Tabs groupId="kotlin-sdk-languages">
-        <TabItem value="kotlin" label="Kotlin SDK">
-          <CodeBlock language="kotlin">{MigrationsKotlinSDK}</CodeBlock>
-        </TabItem>
-      </Tabs>
-    </td>
-  </tr>
+   <tr>
+      <td>
+         <Tabs groupId="java-sdk-languages">
+            <TabItem value="kotlin" label="Java SDK (Kotlin)">
+               <CodeBlock language="kotlin">{MigrationsJavaSDKKotlin}</CodeBlock>
+            </TabItem>
+            <TabItem value="java" label="Java SDK (Java)">
+               <CodeBlock language="java">{MigrationsJavaSDKJava}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+      <td>
+         <Tabs groupId="kotlin-sdk-languages">
+            <TabItem value="kotlin" label="Kotlin SDK">
+               <CodeBlock language="kotlin">{MigrationsKotlinSDK}</CodeBlock>
+            </TabItem>
+         </Tabs>
+      </td>
+   </tr>
 </table>
 
 ## What Next?
