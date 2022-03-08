@@ -7,9 +7,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to the Realm Web SDK test suite</p>
-        <p>Write test in the `src/__test__` directory</p>
-        <p>Tests use Jest</p>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
