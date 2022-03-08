@@ -333,7 +333,7 @@ describe("CRUD operations", () => {
     });
   });
 });
-describe("Watch for changes", () => {
+describe.skip("Watch for changes", () => {
   const sleep = async (time) =>
     new Promise((resolve) => setTimeout(resolve, time));
   test("Watch for changes in a collection", async () => {
