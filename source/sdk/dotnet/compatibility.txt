@@ -12,6 +12,8 @@ Platform and Framework Compatibility - .NET SDK
    :depth: 2
    :class: singlecol
 
+Frameworks
+----------
 The following table shows which .NET and Xamarin framework
 version(s) you can use with {+service-short+} on your target platforms:
 
@@ -37,9 +39,51 @@ version(s) you can use with {+service-short+} on your target platforms:
    * - Android API level 16 or later
      - Xamarin.Android for API level 16 or later
 
-   * - macOS 10.11 or later
+   * - macOS 10.11 or later (Intel-based Macs)
      - | .NET Core 2.0 or later
        | Xamarin.Mac for macOS 10.11 or later
 
    * - iOS 9 or later
      - Xamarin.iOS for iOS 9 or later
+
+.. note:: 
+
+   The {+service-short+} .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip.
+
+Android Deployment
+------------------
+Due to some instruction set limitations, {+service-short+} does not support 
+deploying Android apps to the ``armeabi`` ABI. Because default templates often 
+have different ABI settings for Debug and Release modes, your app may throw 
+a ``System.TypeInitializationException`` exception in Release mode but not when 
+it was running in Debug mode.
+
+To avoid this, verify the ABI settings for both Debug and Release modes. To check 
+and change the settings, follow the steps in the 
+`Visual Studio CPU Architectures <https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/cpu-architectures>`_ 
+page.
+
+Unless you have a good reason to avoid linking other ABIs, we recommend 
+checking all of the settings other than ``armabi``:
+
+.. figure:: /images/ABI-settings.png
+   :alt: ABI settings
+
+Limitations 
+-----------
+Realm has limits imposed to balance flexibility with performance. The SDK 
+throws an exception during app initialization if the following limits are 
+exceeded:
+
+- Class names can't exceed 57 bytes in length. 
+
+- Property names can't exceed 63 bytes in length. 
+
+In addition, for iOS apps, the total size of all open Realm files cannot be 
+larger than the amount of memory your application is allowed to map in iOS. This 
+varies per device, and depends on how fragmented the memory space on the device is. 
+If you need to store more data than is allowed, you can split your data into 
+multiple Realm files, open a {+realm+} only when needed, and close it when it is 
+no longer needed.
+
+For more information, see `Open Radar 17119975 <http://www.openradar.me/17119975>`_.

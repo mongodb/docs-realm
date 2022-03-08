@@ -1,0 +1,92 @@
+.. _realm-app-environments:
+
+======================
+Realm App Environments
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Environments in Realm
+--------------------- 
+
+In {+service+}, an environment represents a collection of 
+:ref:`environment values <environment-values>` that corresponds with a stage 
+in your development process. For example, many organizations use different 
+environment values for Development and Production.
+
+When you deploy a {+app+}, you can :ref:`specify the environment 
+<change-environments>` that this application represents. If you do not 
+specify the environment, the {+app+} defaults to ``No Environment``. 
+
+.. tip::
+
+   Setting your {+app+}'s environment tells {+service+} which 
+   :ref:`environment values <environment-values>` to use. When you change the 
+   environment, this changes the environment values that the {+app+} uses. 
+   This is distinct from the more general :ref:`values <app-value>`, which do 
+   not change when you change the app environment. 
+
+.. _supported-environments:
+
+Supported Environments
+~~~~~~~~~~~~~~~~~~~~~~
+
+{+service-short+} supports the following environments:
+
+.. include:: /includes/list-of-environment-names.rst
+
+Environment Values
+~~~~~~~~~~~~~~~~~~
+
+You can :ref:`define environment values <define-environment-values>` directly 
+in the {+ui+}. You can also :ref:`import environment configuration files
+<change-environments>` with {+cli+} or GitHub. In these files, you define 
+environment values as JSONobjects. 
+
+These values are specific to the environment that the app represents. For 
+example, you'd store your ``Production`` environment values in a 
+``production.json`` file in the ``/environments`` directory, and your 
+``Development`` environment values in a ``development.json`` file. When
+you specify the environment for your {+app+}, {+service-short+} uses the
+corresponding environment values.
+
+.. _environments-in-workflows:
+
+Environments in Workflows
+-------------------------
+
+Each {+app+} represents a single environment in your development process.
+This means that a typical development process is likely to have a minimum 
+of three {+app+}s at any given time; ``Development``, ``Testing``, and 
+``Production``. If you use unique applications to test different feature 
+branches, you might have many versions of ``Development`` and ``Testing`` 
+apps -- one for each branch.
+
+.. figure:: /images/realm-app-environments-in-workflow.png
+   :width: 400 px
+   :align: center
+   :alt: Diagram showing different Realm apps for each branch
+   :lightbox:
+
+Use Environments in CI/CD
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use environments in your CI/CD pipeline. You might create an
+automated process to generate a new ``Testing`` app when a developer on
+your team opens a pull request to merge development work to staging.
+You can use {+cli-bin+} to automate :ref:`creating a new {+app+} 
+<create-app-cli>`, setting the environment to ``testing``, and :ref:`importing 
+your updated app configuration <deploy-cli>`. 
+
+.. seealso::
+
+   For a complete example CI/CD pipeline that manages testing, deployment,
+   and other tasks for a real application, see: `How to Build CI/CD Pipelines
+   for MongoDB Realm Apps using GitHub Actions 
+   <https://www.mongodb.com/developer/how-to/build-ci-cd-pipelines-realm-apps-github-actions/>`__.

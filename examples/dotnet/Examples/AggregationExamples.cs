@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 using Examples;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-
+using Examples.Models;
 
 namespace Examples
 {
     public class AggregationExamples
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;
@@ -34,48 +34,51 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new SyncConfiguration("myPart", user);
-            mongoClient = user.GetMongoClient("mongodb-atlas");
-            dbPlantInventory = mongoClient.GetDatabase("inventory");
-            plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+            //:hide-start:
+            config.Schema = new[] { typeof(Plant) };
+            //:hide-end:
+            SetupPlantCollection();
+
+            await plantsCollection.DeleteManyAsync();
 
             venus = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.White,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.White.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
             sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
             helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Yellow,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Yellow.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Purple,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Purple.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 47"
             };
 
@@ -95,9 +98,20 @@ namespace Examples
             return;
         }
 
+        private void SetupPlantCollection()
+        {
+            mongoClient = user.GetMongoClient("mongodb-atlas");
+            dbPlantInventory = mongoClient.GetDatabase("inventory");
+            plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
+        }
+
         [Test]
         public async Task GroupsAndCounts()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_group
             var groupStage =
                 new BsonDocument("$group",
@@ -155,6 +169,10 @@ namespace Examples
         [Test]
         public async Task Filters()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_filter
             var matchStage = new BsonDocument("$match",
                     new BsonDocument("type",
@@ -184,6 +202,10 @@ namespace Examples
         [Test]
         public async Task Projects()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             // :code-block-start: agg_project
             var projectStage = new BsonDocument("$project",
                 new BsonDocument
@@ -235,7 +257,12 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
+            if (plantsCollection == null)
+            {
+                SetupPlantCollection();
+            }
             await plantsCollection.DeleteManyAsync();
+
             return;
         }
     }

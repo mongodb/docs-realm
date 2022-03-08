@@ -1,0 +1,104 @@
+.. _configure-user-metadata-on-the-backend:
+
+====================
+Enable User Metadata
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can read metadata about your application users from authentication 
+providers, and configure {+service+} to automatically expose each user's data
+in a field of their :ref:`user object <user-objects>`. For example, you
+might want to access a user's name or email, their birthday, or their gender.
+
+You can configure {+service+} to request user metadata from the authentication 
+provider and include it in their access token when they log in. You can 
+access the data from the logged-in user's object with your preferred client 
+SDK.
+
+Configuration
+-------------
+
+When you configure authentication providers for your application, you can 
+specify optional metadata fields that you want to access through your 
+user's account. These metadata fields vary depending on provider.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Facebook
+     - Google
+     - Custom JWT
+
+   * - - ``name``
+       - ``first_name``
+       - ``last_name``
+       - ``picture``
+       - ``gender``
+       - ``birthday``
+       - ``min_age``
+       - ``max_age``
+       - ``email``
+
+     - - ``name``
+       - ``first_name``
+       - ``last_name``
+       - ``picture``
+       - ``gender``
+       - ``birthday``\*
+       - ``min_age``\*
+       - ``max_age``\*
+       - ``email``
+
+     - - Custom
+
+:ref:`Google <google-authentication>` requires you to enable the Google+ 
+API in your Google app settings to enable metadata fields listed above 
+with ``*``.
+
+When you configure a :ref:`custom JWT <custom-jwt-authentication>` 
+authentication provider for your {+app+}, you can specify the metadata 
+fields that your identity provider supports. When you press the 
+:guilabel:`Add Field` button, you get to define the path, the field name, 
+and whether or not the field is required.
+
+.. _enable-user-metadata-procedure:
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/configure-user-metadata-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/configure-user-metadata-import-export.rst
+
+
+Access User Metadata from a Client Application
+-------------------------------------------------
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: ios
+
+      .. tip:: Read a User's Metadata
+         
+         Learn how to :ref:`read a user's metadata from an iOS
+         application <ios-read-user-metadata>`.
+

@@ -1,18 +1,9 @@
-title: Export Your Realm Application
-ref: export-your-application
+title: Pull Your App's Latest Configuration Files
+ref: pull-your-apps-latest-configuration-files
 content: |
-  To define a new service rule with :doc:`realm-cli
-  </deploy/realm-cli-reference>`, you need a
-  previously created :ref:`application configuration <application-directory>`.
-
-  You can :doc:`export </deploy/export-realm-app>` your application from the
-  :guilabel:`Import/Export App` tab of the :guilabel:`Deploy` page in the
-  {+ui+}, or by running the following command from an authenticated instance of
-  :doc:`realm-cli </deploy/realm-cli-reference>`:
-
   .. code-block:: shell
 
-     realm-cli export --app-id=<App ID>
+     realm-cli pull --remote=<App ID>
 ---
 title: Create a Service Rule Directory
 ref: create-a-service-rule-directory
@@ -74,32 +65,18 @@ content: |
      * - | :guilabel:`When`
          | *when*
 
-       - Required. A :doc:`JSON expression </services/json-expressions>`
-         that determines if a service action should actually execute
-         after being called. {+backend+} will only execute the action if the
-         expression resolves to ``true``. If you do not specify an
-         expression, :guilabel:`Can Evaluate` defaults to ``true``.
+       - Required. A :ref:`rule expression <expressions>` that determines if a
+         service action should actually execute after being called. {+backend+}
+         will only execute the action if the expression resolves to ``true``. If
+         you do not specify an expression, :guilabel:`Can Evaluate` defaults to
+         ``true``.
 ---
-title: Import the Service Rule
-ref: import-the-service-rule
+title: Deploy the Rule
+ref: deploy-the-rule
 content: |
-  Once you've configured the service rule, all that's left is to import
-  it into your {+app+}.
-
-  1. Ensure that ``<rule name>.json`` is saved.
-
-  2. Navigate to the root of the exported application directory.
-
-  3. Log in to MongoDB Atlas with {+cli-bin+}:
-
-     .. code-block:: shell
-
-        realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
-
-  4. Import the directory:
-
-     .. code-block:: shell
-
-        realm-cli import
-
-  Now that you have imported the rule, it takes effect immediately.
+  Push the rule configuration to deploy it to your app. Once you have deployed,
+  Realm immediately begins to enforce the rule.
+  
+  .. code-block:: shell
+     
+     realm-cli push

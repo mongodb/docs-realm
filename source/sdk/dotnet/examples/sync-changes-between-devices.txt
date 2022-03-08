@@ -22,20 +22,7 @@ Before you can access a synced {+realm+} from the client, you must:
 - :ref:`Authenticate a user <dotnet-quick-start-authenticate>` in
   your client project.
 
-.. _dotnet-open-a-synced-realm:
-
-Open a Synced Realm
--------------------
-
-.. include:: /includes/dotnet-open-synced-realm.rst
-
-The :ref:`partition value <partitioning>` specifies which subset of your data to sync.
-This is typically a user ID, project ID, store ID, or some other category identifier in
-your app that has particular relevance to the current user. 
-
-.. seealso:: 
-
-   :ref:`Partition Atlas Data into Realms <partitioning>`
+- :ref:`Open a Synced Realm <dotnet-open-a-synced-realm>`
 
 .. _dotnet-sync-data:
 
@@ -57,7 +44,7 @@ efficiently integrates, uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.create.cs
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.codeblock.create.cs
    :language: csharp
 
 .. seealso:: 
@@ -72,8 +59,32 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-pause-or-resume-a-sync-session:
 
-.. Pause or Resume a Sync Session
-.. ------------------------------
+Pause or Resume a Sync Session
+------------------------------
+Opening a synced {+realm+} starts a {+sync-short+} 
+:dotnet-sdk:`Session <reference/Realms.Sync.Session.html>`. To pause synchronization 
+for a specific session, you can call the 
+:dotnet-sdk:`Stop() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Stop>` 
+method on the session.
+
+When you then call the 
+:dotnet-sdk:`Start() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Start>`  
+method on the paused session, the {+sync-short+} session resumes. 
+
+.. note:: Each session is independent
+
+   You must manually call the ``Stop()`` and ``Start()`` methods for each  
+   {+realm+} whose {+sync-short+} session you want to pause and restart. The 
+   sync state of one session has no impact on other open sessions. 
+
+The following code block demonstrates calling the ``Stop()`` and ``Start()`` 
+methods: 
+
+.. literalinclude:: /examples/generated/dotnet/DataSyncExamples.codeblock.pause-synced-realm.cs
+   :language: csharp
+
+.. |pause_func_name| replace:: ``.Stop()``
+.. include:: /includes/note-details-about-pause.rst
 
 .. _dotnet-check-network-connection:
 
@@ -82,8 +93,81 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-check-sync-progress:
 
-.. Check Upload & Download Progress for a Sync Session
-.. ---------------------------------------------------
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+You can check on the status of your current changes by :ref:`waiting for changes to be uploaded or downloaded <dotnet-check-sync-progress-wait-for-upload-or-download>` or by :ref:`displaying a progress bar <dotnet-check-sync-progress-display-progress-bar>`.
+
+.. _dotnet-check-sync-progress-wait-for-upload-or-download:
+
+Wait for Changes to be Uploaded or Downloaded
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To asynchronously wait for your changes to be completed, get the sync session 
+from the :dotnet-sdk:`Realms.Sync.SyncSession
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>`
+property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
+:dotnet-sdk:`session.WaitForDownloadAsync()
+<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
+methods.
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
+   :language: csharp
+
+.. _dotnet-check-sync-progress-display-progress-bar:
+
+Display a Progress Bar
+~~~~~~~~~~~~~~~~~~~~~~
+You can use progress notifications to display a progress bar. First, get the 
+sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
+progress notification by calling the 
+:dotnet-sdk:`session.GetProgressObservable() <reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
+method.
+
+The ``session.GetProgressObservable`` method takes in the following two parameters:
+
+- A ``ProgressDirection`` parameter that can be set to ``ProgressDirection.Upload`` or ``ProgressDirection.Download`` to register notifications for either event.
+- A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered, or ``ProgressMode.ForCurrentlyOutstandingWork`` for the notifications to continue until only the currently transferable bytes are synced.
+
+.. example::
+   In the following example, an application developer registers a progress observable on the ``session`` to
+   listen for upload events indefinitely. When this callback is triggered, the console prints
+   the number of transferred bytes and the number of transferable bytes.
+
+   .. note:: 
+   
+      The following snippet requires the `System.Reactive <https://www.nuget.org/packages/System.Reactive/>`_ NuGet package. 
+
+   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
+      :language: csharp
+
+Once you no longer wish to receive notifications, unregister the token by using ``token.Dispose()``
+
+.. warning:: 
+   
+   The number of transferred and transferable bytes are estimates. Since the actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting over the network, the actual transmitted sizes will be much smaller for both transferable and transferred bytes.
+
+.. warning:: 
+   
+   {+service-short+} will try to optimize download speeds by combining multiple changesets
+   into a single download message up to 16 MB. Since the progress callback is
+   only invoked once before and after a download message is processed, this
+   means that you'll likely see ``transferredBytes`` change in increments of roughly
+   16 MB rather than continuously as the message is being downloaded."
+
+.. _dotnet-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+{+sync+} represents errors via :dotnet-sdk:`SessionExceptions <reference/Realms.Sync.Exceptions.SessionException.html>`. In
+addition to the standard exception properties, you have access to an :dotnet-sdk:`ErrorCode <reference/Realms.Sync.Exceptions.ErrorCode.html>`
+that contains information about the type of the error and allows you to have
+strongly typed handling logic.
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.handle-errors.cs
+   :language: csharp
+
 
 .. _dotnet-reset-a-client-realm-file:
 
@@ -93,5 +177,21 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 .. _dotnet-set-the-client-log-level:
 
-.. Set the Client Log Level
-.. ------------------------
+Set the Client Log Level
+------------------------
+To control which messages are logged by the sync client logger, set the :dotnet-sdk:`LogLevel <reference/Realms.Sync.LogLevel.html>` property of the :dotnet-sdk:`AppConfiguration <reference/Realms.Sync.AppConfiguration.html>` object:
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.set-log-level.cs
+   :language: csharp
+
+.. include:: /includes/tip-sync-log-levels.rst
+
+
+.. _dotnet-customize-logging-function:
+
+Customize the Logging Function
+------------------------------
+To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.customize-logging-function.cs
+   :language: csharp

@@ -175,12 +175,11 @@ content: |
 
      * - :guilabel:`Custom Type`
        - Realm generates a new input type specifically for the resolver based on
-         a :ref:`JSON schema <mongodb-schemas>` that you define. The schema
-         must be an ``object`` that contains at least one property and a
-         ``title`` field that defines a unique name for the generated input
-         type.
+         a :ref:`schema <schemas>` that you define. The schema must be an
+         ``object`` that contains at least one property and a ``title`` field
+         that defines a unique name for the generated input type.
          
-         .. figure:: /images/custom-resolver-input-type-custom.png
+         .. figure:: /images/custom-resolver-input-type-custom-bson.png
             :alt: A custom resolver configuration for a custom input type.
          
          .. example::
@@ -222,11 +221,8 @@ content: |
        - The resolver returns the automatically generated ``DefaultPayload``
          type which has the following signature:
          
-         .. code-block:: graphql
-            
-            type DefaultPayload {
-              status: String!
-            }
+         .. literalinclude:: /includes/DefaultPayload.type.graphql
+            :language: graphql
             
          The ``status`` field will always resolve to ``"complete"`` regardless
          of the resolver function's return value.
@@ -305,12 +301,11 @@ content: |
 
      * - :guilabel:`Custom Type`
        - Realm generates a new payload type specifically for the resolver based
-         on a :ref:`JSON schema <mongodb-schemas>` that you define. The schema
-         must be an ``object`` that contains at least one property and a
-         ``title`` field that defines a unique name for the generated input
-         type.
+         on a :ref:`schema <schemas>` that you define. The schema must be an
+         ``object`` that contains at least one property and a ``title`` field
+         that defines a unique name for the generated input type.
          
-         .. figure:: /images/custom-resolver-payload-type-custom.png
+         .. figure:: /images/custom-resolver-payload-type-custom-bson.png
             :alt: A custom resolver configuration that defines a new custom payload type.
          
          .. example::
@@ -391,6 +386,6 @@ title: Save and Deploy the Resolver
 ref: save-and-deploy-the-resolver
 content: |
   Once you have configured the resolver, click :guilabel:`Save` and then
-  :doc:`deploy </deploy>` your application. Once deployed, you can call the
+  :doc:`deploy </manage-apps/deploy>` your application. Once deployed, you can call the
   custom resolver through the GraphQL API.
 ...

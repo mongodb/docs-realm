@@ -1,8 +1,8 @@
 .. _http-service:
 
-============
-HTTP Service
-============
+=========================
+HTTP Service [Deprecated]
+=========================
 
 .. default-domain:: mongodb
 
@@ -11,6 +11,8 @@ HTTP Service
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. include:: /includes/note-third-party-services-deprecation.rst
 
 Overview
 --------
@@ -56,7 +58,7 @@ You will need to provide values for the following parameters when you
       :tabid: cli
 
       .. code-block:: json
-         :caption: <Service Name>/config.json
+         :caption: /http_endpoints/<Service Name>/config.json
 
          {
            "name": "<Service Name>",
@@ -100,6 +102,13 @@ Service Action </services/call-a-service-action>`.
 Incoming Webhooks
 -----------------
 
+.. note:: Convert HTTP Webhooks to Endpoints
+
+   HTTP Service webhoooks are deprecated in favor of custom HTTPS
+   endpoints. You can automatically migrate your existing webhooks to
+   endpoints in one-click. To learn how, see :ref:`Convert Webhooks to
+   HTTPS Endpoints <migrate-http-webhooks-to-endpoints>`.
+
 Configuration
 ~~~~~~~~~~~~~
 
@@ -114,21 +123,27 @@ Configuration
 
      - id: cli
        content: |
-         You will need to provide a configuration file of the following
-         form when you :doc:`configure an HTTP incoming webhook
+         You will need to provide a :ref:`configuration file
+         <config-incoming-webhooks>` of the following form when you
+         :doc:`configure an HTTP incoming webhook
          </services/configure/service-webhooks>`:
-
-         .. code-block:: javascript
-
+         
+         .. code-block:: json
+            :caption: http_endpoints/<Service Name>/<Webhook Name>/config.json
+            
             {
-              "name": <string>,
-              "respond_result": <boolean>,
-              "run_as_user_id": <string>,
-              "run_as_user_id_script_source": <string>,
+              "name": "<Webhook Name>",
+              "can_evaluate": { <JSON Expression> },
+              "run_as_authed_user": <Boolean>,
+              "run_as_user_id": "<Realm User ID>",
+              "run_as_user_id_script_source": "<Function Source Code>",
+              "respond_result": <Boolean>,
+              "fetch_custom_user_data": <Boolean>,
+              "create_user_on_auth": <Boolean>,
               "options": {
-                "httpMethod": <string>,
-                "secret": <string>,
-                "validationMethod": <string>
+                "httpMethod": "<HTTP Method>",
+                "validationMethod": "<Webhook Validation Method>",
+                "secret": "<Webhook Secret>"
               }
             }
 
@@ -181,8 +196,7 @@ Configuration
              specific user id or a function that resolves to a user id,
              {+service-short+} executes the webhook function as the :ref:`system
              user <system-user>` that has full access to MongoDB CRUD and
-             Aggregation APIs and is not affected by any rules, roles, or
-             permissions.
+             Aggregation APIs and bypasses all rules and schema validation.
 
    * - | :guilabel:`HTTP Method`
        | *options.httpMethod*

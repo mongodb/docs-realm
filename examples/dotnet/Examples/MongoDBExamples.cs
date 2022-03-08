@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 using Examples;
+using Examples.Models;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
@@ -12,9 +13,9 @@ namespace Examples
     public class MongoDBExamples
     {
         App app;
-        User user;
+        Realms.Sync.User user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
         MongoClient.Database dbPlantInventory;
@@ -44,51 +45,51 @@ namespace Examples
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.White,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.White.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
 
             var insertResult = await plantsCollection.InsertOneAsync(plant);
             var newId = insertResult.InsertedId;
             // :code-block-end:
-            
+
         }
-       
+
         public async Task InsertsMany()
         {
             // :code-block-start: mongo-insert-many
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             var thaiBasil = new Plant
             {
                 Name = "Thai Basil",
-                Sunlight = Sunlight.Partial,
-                Color = PlantColor.Green,
-                Type = PlantType.Perennial,
+                Sunlight = Sunlight.Partial.ToString(),
+                Color = PlantColor.Green.ToString(),
+                Type = PlantType.Perennial.ToString(),
                 Partition = "Store 42"
             };
             var helianthus = new Plant
             {
                 Name = "Helianthus",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Yellow,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Yellow.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 42"
             };
             var petunia = new Plant
             {
                 Name = "Petunia",
-                Sunlight = Sunlight.Full,
-                Color = PlantColor.Purple,
-                Type = PlantType.Annual,
+                Sunlight = Sunlight.Full.ToString(),
+                Color = PlantColor.Purple.ToString(),
+                Type = PlantType.Annual.ToString(),
                 Partition = "Store 47"
             };
 
@@ -116,7 +117,7 @@ namespace Examples
             Assert.AreEqual("Store 47", petunia.Partition);
             // :code-block-start: mongo-find-many
             var allPerennials = await plantsCollection.FindAsync(
-                new {type = PlantType.Perennial.ToString() },
+                new { type = PlantType.Perennial.ToString() },
                 new { name = 1 });
             // :code-block-end:
             Assert.AreEqual(2, allPerennials.Count());
@@ -132,8 +133,9 @@ namespace Examples
             {
                 // :code-block-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
-                    new BsonDocument("sunlight", Sunlight.Partial.ToString()),
-                    new { name = "Petunia" });
+                    new { name = "Petunia" },
+                    new BsonDocument("$set", new BsonDocument("sunlight", Sunlight.Partial.ToString()))
+                    );
                 // :code-block-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
@@ -154,8 +156,8 @@ namespace Examples
                 // :code-block-start: mongo-upsert
                 var filter = new BsonDocument()
                     .Add("name", "Pothos")
-                    .Add("type", PlantType.Perennial)
-                    .Add("sunlight", Sunlight.Full);
+                    .Add("type", PlantType.Perennial.ToString())
+                    .Add("sunlight", Sunlight.Full.ToString());
 
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     filter,
@@ -182,20 +184,23 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            config = new SyncConfiguration("myPart", user);
-            using var realm = await Realm.GetInstanceAsync(config);
-            {
-                // :code-block-start: mongo-delete-one
-                var filter = new BsonDocument("name", "Thai Basil");
-                var deleteResult = await plantsCollection.DeleteOneAsync(filter);
-                // :code-block-end:
-            }
-            {
-                // :code-block-start: mongo-delete-many
-                var filter = new BsonDocument("type", PlantType.Annual);
-                var deleteResult = await plantsCollection.DeleteManyAsync(filter);
-                // :code-block-end:
-            }
+
+            // :code-block-start: mongo-delete-one
+            var filter = new BsonDocument("name", "Thai Basil");
+            var deleteResult = await plantsCollection.DeleteOneAsync(filter);
+            // :code-block-end:
+
+            // :code-block-start: mongo-delete-many
+            // :replace-start: {
+            //  "terms": {
+            //   "filter2": "filter",
+            //   "deleteResult2": "deleteResult" }
+            // }
+            var filter2 = new BsonDocument("type", PlantType.Annual);
+            var deleteResult2 = await plantsCollection.DeleteManyAsync(filter);
+            // :replace-end:
+            // :code-block-end:
+
             await plantsCollection.DeleteManyAsync();
             return;
         }

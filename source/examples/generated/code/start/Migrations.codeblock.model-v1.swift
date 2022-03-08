@@ -1,7 +1,8 @@
 // In the first version of the app, the Person model
-// has separate fields for first and last names.
+// has separate fields for first and last names,
+// and an age property.
 class Person: Object {
-    @objc dynamic var firstName = ""
-    @objc dynamic var lastName = ""
-    @objc dynamic var age = 0
+    @Persisted var firstName = ""
+    @Persisted var lastName = ""
+    @Persisted var age = 0
 }

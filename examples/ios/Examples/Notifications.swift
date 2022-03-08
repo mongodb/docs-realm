@@ -1,6 +1,10 @@
 // :replace-start: {
 //   "terms": {
-//     "NotificationExample_": ""
+//     "AlternateNotificationExampleKeyPath_": "",
+//     "additionalObjectNotificationToken": "objectNotificationToken",
+//     "keyPath_": "",
+//     "NotificationExample_": "",
+//     "NotificationExampleKeyPath_": ""
 //   }
 // }
 import RealmSwift
@@ -11,7 +15,7 @@ import XCTest
 // :code-block-start: register-an-object-change-listener
 // Define the dog class.
 class NotificationExample_Dog: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 var objectNotificationToken: NotificationToken?
@@ -44,6 +48,66 @@ func objectNotificationExample() {
     try! realm.write {
         dog.name = "Wolfie"
     }
+}
+// :code-block-end:
+
+// Note: the following is not really tested but it makes for a convenient
+// full program example.
+// :code-block-start: register-a-keypath-change-listener
+// Define the dog class.
+class NotificationExampleKeyPath_Dog: Object {
+    @Persisted var name = ""
+    @Persisted var favoriteToy = ""
+    @Persisted var age: Int?
+}
+
+var additionalObjectNotificationToken: NotificationToken?
+
+func keyPath_objectNotificationExample() {
+    let dog = NotificationExampleKeyPath_Dog()
+    dog.name = "Max"
+    dog.favoriteToy = "Ball"
+    dog.age = 2
+
+    // Open the default realm.
+    let realm = try! Realm()
+    try! realm.write {
+        realm.add(dog)
+    }
+    // Observe notifications on some of the object's key paths. Keep a strong
+    // reference to the notification token or the observation will stop.
+    // Invalidate the token when done observing.
+    objectNotificationToken = dog.observe(keyPaths: ["favoriteToy", "age"], { change in // :emphasize:
+        switch change {
+        case .change(let object, let properties):
+            for property in properties {
+                print("Property '\(property.name)' of object \(object) changed to '\(property.newValue!)'")
+            }
+        case .error(let error):
+            print("An error occurred: \(error)")
+        case .deleted:
+            print("The object was deleted.")
+        }
+    })
+
+    // Now update to trigger the notification
+    try! realm.write {
+        dog.favoriteToy = "Frisbee"
+    }
+    // When you specify one or more key paths, changes to other properties
+    // do not trigger notifications. In this example, changing the "name"
+    // property does not trigger a notification.
+    try! realm.write {
+        dog.name = "Maxamillion"
+    }
+}
+// :code-block-end:
+
+// :code-block-start: alternate-dog-class-for-keypaths
+class AlternateNotificationExampleKeyPath_Dog: Object {
+    @Persisted var name = ""
+    @Persisted var siblings: List<AlternateNotificationExampleKeyPath_Dog> // :emphasize:
+    @Persisted var age: Int?
 }
 // :code-block-end:
 

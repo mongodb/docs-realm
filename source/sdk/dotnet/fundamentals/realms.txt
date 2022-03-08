@@ -9,14 +9,13 @@ Realms - .NET SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 A **{+realm+}** is a set of related objects that conform to a pre-defined
-schema and share user-level access permissions. Realms may contain more
-than one type of data as long as a schema exists for each type.
+schema. Realms may contain more than one type of data as long as a 
+schema exists for each type.
 
-A {+realm+} allows you to partition data according to who uses it and when they use it.
 Every {+realm+} stores data in a separate :term:`{+realm+} file` that contains a binary
 encoding of each object in the {+realm+}. You can automatically :doc:`synchronize
 a {+realm+} across multiple devices </sync>` and set up :ref:`reactive event handlers
@@ -50,18 +49,29 @@ Key Concepts
 
 .. _dotnet-realm-path:
 
-Realms are Partitions of Atlas Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Synced Realms
+~~~~~~~~~~~~~
 
 When using {+sync+}, each {+realm+} corresponds to a subset of the data in your
-:term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. You can
-customize the :ref:`partitioning <partitioning>` of data using your application's
-:ref:`partition key <partition-keys>`. Unique values of the partition
-key, known as :term:`partition values <partition value>`, correspond to
+:term:`{+app+}'s <{+app+}>` :term:`synced {+atlas+} cluster <synced cluster>`. 
+
+When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
+realms represent partitions of Atlas data. You can customize the 
+:ref:`partitioning <sync-partitions>` of data using your application's
+:ref:`partition key <partition-key>`. Unique values of the partition
+key, known as :ref:`partition values <partition-value>`, correspond to
 individual {+realms+}.
 
-You can customize permissions for these partitions of data using :ref:`{+service-short+}
-Rules <sync-rules>`.
+When you use :ref:`Flexible Sync <flexible-sync>`, you can customize the 
+data your client application syncs by subscribing to queries. These queries 
+search for data in your {+app+} backend, and the Flexible Sync realm syncs 
+data that matches the queries. The client application can only sync data 
+where the user has the appropriate :ref:`read or read and write permissions 
+<flexible-sync-rules-and-permissions>` to access the data.
+
+You can customize permissions for the data that synced realms can read
+and write from your {+app+} when you configure 
+:ref:`{+service-short+} Rules <sync-rules>`.
 
 .. _dotnet-realm-schema:
 
@@ -77,7 +87,7 @@ Client applications provide a {+frontend-schema+} when they open a {+realm+}. If
 {+client-database+} validates the schema on the client against the existing schema.
 
 To define the schema, you can specify the 
-:dotnet-sdk:`ObjectClasses <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_ObjectClasses>` 
+:dotnet-sdk:`Schema <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_Schema>` 
 property on the 
 :dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html>`. If 
 you omit this property, then all classes that inherit from 
@@ -85,7 +95,60 @@ you omit this property, then all classes that inherit from
 :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
 to the schema automatically.
 
-.. seealso:: :ref:`Objects <dotnet-objects>`
+.. _dotnet-realm-file:
+
+Realm Files 
+~~~~~~~~~~~
+
+{+client-database+} stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at the path that
+you define in the 
+:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
+object when you open the realm, or in the default path if you do not 
+specify a path.
+
+The default realm file is named ``default.realm`` and is located where the OS 
+stores app-specific data.
+
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement :dotnet-sdk:`ShouldCompactOnLaunch 
+   <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration_ShouldCompactOnLaunch>` 
+   to periodically reduce the realm file size. For more information
+   about compacting a realm, see: :ref:`<dotnet-compact-realm>`.
+
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <dotnet-realm-database>`.
+
+
+Deleting a Realm File
+=====================
+In some circumstances, such as a :ref:`client reset <dotnet-client-resets>` 
+scenario, you might need to delete a {+realm+} file and its auxiliary files. If 
+you are developing or debugging the app, you might manually delete the {+realm+} 
+file, but doing so when the app is running and any {+realm+} instances are still 
+open can cause data corruption. 
+
+To delete a {+realm+} file while the app is running, you can use the 
+:dotnet-sdk:`DeleteRealm(configuration) <reference/Realms.Realm.html#Realms_Realm_DeleteRealm_Realms_RealmConfigurationBase_>` 
+method to safely do so. The following code demonstrates this:
+
+.. literalinclude:: /examples/generated/dotnet/Program.codeblock.delete-realm-file.cs
+   :language: csharp
+
+.. warning:: Use Caution When Deleting Realm Files
+   
+   If you delete a {+realm+} file or any of its auxiliary files while one or
+   more instances of the {+realm+} are open, you might corrupt the {+realm+} or
+   disrupt :doc:`sync </sync>`.
+   
+   You may delete these files when all instances of a {+realm+} are
+   closed. Before you delete a realm file, however, **be sure that you back up any
+   important objects as you will lose all unsynced data in the realm**.
+
 
 Summary
 -------
@@ -94,7 +157,8 @@ Summary
   schema. It is not a single, application-wide database. There can and
   usually will be more than one {+realm+} per application.
 
-- A :term:`partition value` is a {+realm+}'s unique identifier.
+- When using :ref:`Partition-Based Sync <partition-based-sync>`, a 
+  :term:`partition value` is a {+realm+}'s unique identifier.
 
 - {+service-short+} Rules define who can read or write the {+realm+} and apply to the {+realm+} as a whole.
 

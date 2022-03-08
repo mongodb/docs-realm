@@ -1,0 +1,79 @@
+.. _app-configuration:
+
+===============================
+Realm Application Configuration
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. toctree::
+   
+   Realm App </manage-apps/configure/config/app>
+   Users & Authentication Providers </manage-apps/configure/config/auth>
+   MongoDB Data Sources </manage-apps/configure/config/data_sources>
+   Realm Sync </manage-apps/configure/config/sync>
+   Functions </manage-apps/configure/config/functions>
+   GraphQL </manage-apps/configure/config/graphql>
+   HTTP Endpoints </manage-apps/configure/config/http_endpoints>
+   Static Hosting </manage-apps/configure/config/hosting>
+   Log Forwarders </manage-apps/configure/config/log_forwarders>
+   Triggers </manage-apps/configure/config/triggers>
+   Values </manage-apps/configure/config/values>
+   Environment Values </manage-apps/configure/config/environments>
+   Third-Party Services </manage-apps/configure/config/services>
+   Create Template Configurations with Expansions </manage-apps/configure/config/template-expansions>
+   Legacy Configuration Files </manage-apps/configure/config/legacy>
+
+Every component of a {+service+} application is fully defined and configured
+using structured JSON configuration and JavaScript source code files.
+
+- ``.json`` files define and configure specific components in your app. Every
+  JSON configuration file conforms to a specific schema for the type of
+  component it configures.
+
+- ``.js`` files define serverless application logic used in functions, triggers,
+  HTTPS endpoints, and custom resolvers.
+
+You'll work directly with configuration files if you prefer to develop and
+:ref:`deploy <application-deployment>` locally instead of through the Realm UI.
+
+A complete directory of configuration files has the following root-level files
+and directories:
+
+.. code-block:: none
+   
+   app/
+   ├── realm_config.json
+   ├── auth/
+   ├── data_sources/
+   ├── environments/
+   ├── functions/
+   ├── graphql/
+   ├── hosting/
+   ├── http_endpoints/
+   ├── log_forwarders/
+   ├── services/
+   ├── sync/
+   ├── triggers/
+   └── values/
+
+For detailed descriptions and examples of each component type's configuration
+and source code files, refer to the type's page in this section:
+
+- :doc:`Realm App </manage-apps/configure/config/app>`
+- :doc:`Users & Authentication Providers </manage-apps/configure/config/auth>`
+- :doc:`MongoDB Data Sources </manage-apps/configure/config/data_sources>`
+- :doc:`Environment Values </manage-apps/configure/config/environments>`
+- :doc:`Functions </manage-apps/configure/config/functions>`
+- :doc:`GraphQL </manage-apps/configure/config/graphql>`
+- :doc:`Static Hosting </manage-apps/configure/config/hosting>`
+- :doc:`HTTP Endpoints </manage-apps/configure/config/http_endpoints>`
+- :doc:`Log Forwarders </manage-apps/configure/config/log_forwarders>`
+- :doc:`Third-Party Services </manage-apps/configure/config/services>`
+- :doc:`Realm Sync </manage-apps/configure/config/sync>`
+- :doc:`Triggers </manage-apps/configure/config/triggers>`
+- :doc:`Values </manage-apps/configure/config/values>`

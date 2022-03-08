@@ -15,6 +15,24 @@ from a .NET application using the {+service-short+} .NET SDK.
 
 .. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
 
+Use Cases
+---------
+
+There are a variety of reasons you might want to query a MongoDB data source. 
+Working with data in your client via Realm Sync is not always practical or 
+possible. You might want to query MongoDB when:
+
+- The data set is large or the client device has constraints against loading 
+  the entire data set
+- You are :ref:`creating or updating custom user data 
+  <dotnet-custom-user-data>`
+- You are retrieving documents that are not modeled in Realm
+- Your app needs to access collections that don't have strict schemas
+- A non-Realm service generates collections that you want to access
+
+While not exhaustive, these are some common use cases for querying MongoDB 
+directly.
+
 Setup
 -----
 
@@ -53,9 +71,13 @@ class for this purpose:
 
 .. note::
  
-   For more information on using mapping classes, see 
-   `Mapping Classes <https://mongodb.github.io/mongo-csharp-driver/2.11/reference/bson/mapping/>`_
-   in the MongoDB .NET Driver documentation.
+   If you choose to provide custom constructors, you must declare a public 
+   constructor with no arguments.
+
+
+For more information on using mapping classes, see 
+`Mapping Classes <https://mongodb.github.io/mongo-csharp-driver/2.11/reference/bson/mapping/>`_
+in the MongoDB .NET Driver documentation.
 
 .. _dotnet-mongodb-create-documents:
 
@@ -67,7 +89,7 @@ and pass the new object to
 :dotnet-sdk:`InsertOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertOneAsync__0_>`. 
 You can also create multiple documents 
 and insert them in a single call by using 
-:dotnet-sdk:`InsertManyAsync() <reference/reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertManyAsync_System_Collections_Generic_IEnumerable__0__>`.
+:dotnet-sdk:`InsertManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertManyAsync_System_Collections_Generic_IEnumerable__0__>`.
 
 .. _dotnet-mongodb-insertOne:
 
@@ -89,7 +111,7 @@ Insert Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can insert multiple documents at the same time by using 
-:dotnet-sdk:`InsertManyAsync() <reference/reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertManyAsync_System_Collections_Generic_IEnumerable__0__>`.
+:dotnet-sdk:`InsertManyAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_InsertManyAsync_System_Collections_Generic_IEnumerable__0__>`.
 
 The following snippet inserts four ``Plant`` objects into the "plants" collection
 by instantiating the objects, adding them to a ``List<Plant>``, and passing that 
@@ -106,7 +128,7 @@ Read Documents
 To retrieve documents from the datastore, you create a ``BsonDocument`` filter 
 that defines the properties you want to search on, and then pass that filter 
 to either 
-:dotnet-sdk:`FindOneAsync() <reference/reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_FindOneAsync_System_Object_System_Object_>`.
+:dotnet-sdk:`FindOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_FindOneAsync_System_Object_System_Object_>`
 or
 :dotnet-sdk:`FindAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_FindAsync_System_Nullable_System_Int64__>`.
 You can also get the count of all documents that match the filter by calling 
@@ -281,7 +303,7 @@ the number of each type, and then sorts them in ascending order:
 
 The example above builds the pipeline with a series of nested BsonDocuments, which 
 can get complicated to write and debug. If 
-you are already familiar with the `Mongo Query Language <https://docs.mongodb.com/manual/crud/>`_,
+you are already familiar with the :manual:`Query API </tutorial/query-documents>`,
 you can pass queries as a string the 
 `BsonDocument_Parse() <https://mongodb.github.io/mongo-csharp-driver/2.11/apidocs/html/M_MongoDB_Bson_BsonDocument_Parse.htm>`_ 
 method. The following example performs the same aggregation as the preceding example:
@@ -293,7 +315,7 @@ Filter Documents
 ~~~~~~~~~~~~~~~~
 
 You can use the :manual:`$match </reference/operator/aggregation/match/>` stage 
-to filter documents according to a standard :manual:`query filter
+to filter documents using standard MongoDB :manual:`query syntax
 </tutorial/query-documents>`.
 
 The following example shows how to filter documents when using Aggregation.

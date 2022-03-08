@@ -1,0 +1,40 @@
+.. _deploy-cli:
+
+=============================
+Deploy Changes with Realm CLI
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can deploy changes to your {+app+} with :ref:`{+cli+} <realm-cli-quickstart>` by
+importing an :ref:`application directory <app-directory>` with configuration
+files that define the updated app.
+
+Prerequisites
+-------------
+
+- A :atlas:`MongoDB Atlas programmatic API Key </configure-api-access/#programmatic-api-keys>`.
+
+- A :ref:`properly installed <install-realm-cli>` copy of
+  {+cli-bin+} that has been added to your system ``PATH``.
+
+Procedure
+---------
+
+.. warning::
+
+   If you're using :ref:`Automated GitHub Deploy <deploy-github>`, do not 
+   update :ref:`your {+app+} configuration via the Realm CLI 
+   <deploy-github-make-changes-cli>`. Instead, push your changes to the 
+   linked GitHub repository.
+
+.. include:: /includes/steps/deploy-cli.rst

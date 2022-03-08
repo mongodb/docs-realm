@@ -13,11 +13,11 @@ Update Documents
 Overview
 --------
 
-The code snippets on this page demonstrate how to update documents that
-are stored in a MongoDB collection. Update operations use query filters
-to specify which documents to update and :manual:`update operators
-</reference/operator/update>` to describe the changes to apply to
-matching documents.
+The code snippets on this page demonstrate how to update documents that are
+stored in a MongoDB collection. Update operations use standard MongoDB query
+syntax to specify which documents to update and :manual:`update operators
+</reference/operator/update>` to describe the changes to apply to matching
+documents.
 
 This page also covers several different update operators that you can
 use to :ref:`update fields <mongodb-update-operators-fields>` or
@@ -28,6 +28,23 @@ use to :ref:`update fields <mongodb-update-operators-fields>` or
 .. include:: /mongodb/crud-snippets/data-model.rst
 
 .. include:: /mongodb/crud-snippets/setup.rst
+
+
+.. _id__baas_transaction:
+
+Temporary ``_id__baas_transaction`` Field
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While running update operations, {+backend+} temporarily adds a
+reserved field, ``_id_baas_transaction``, to documents.
+Once a document is successfully updated, {+backend+} removes this
+field. 
+
+If you need to modify data in the linked {+atlas+} data source while
+ensuring the ``_id_baas_transaction`` field isn't persisted, refer to the
+:ref:`Accessing Application Data with Another Tool <accessing-application-data-with-another-tool>`
+documentation. 
+
 
 Methods
 -------
@@ -47,7 +64,7 @@ of a single document in the ``items`` collection from ``lego`` to
 Update One or More Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can update a single document using the
+You can update multiple documents in a collection using the
 :method:`collection.updateMany()` action.
 
 The following :ref:`function <functions>` snippet updates all documents

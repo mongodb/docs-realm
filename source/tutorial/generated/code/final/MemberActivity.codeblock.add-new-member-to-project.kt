@@ -5,10 +5,7 @@ functionsManager.callFunctionAsync(
     Document::class.java
 ) { result ->
     if (result.isSuccess) {
-        Log.v(
-            TAG(),
-            "Attempted to add team member. Result: ${result.get()}"
-        )
+        Log.v(TAG(), "Attempted to add team member. Result: ${result.get()}")
         // rebuild the list of members to display the newly-added member
         setUpRecyclerView()
     } else {

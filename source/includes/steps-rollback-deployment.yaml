@@ -1,0 +1,57 @@
+title: View Your App's Deployment History 
+ref: view-app-deployment-history
+content: |
+  In order to roll back to a prior deploy, you'll need to navigate to your 
+  {+app+} Deployment History page.
+
+  Click :guilabel:`Deployment` in the {+leftnav+} of the {+ui+}. Select the 
+  :guilabel:`History` tab.
+
+  You'll see the 25 most recent application deployments. The 
+  :guilabel:`Change Origin` column shows whether the deploy originated from
+  changes in the UI, the linked GitHub repository, the Admin API, or the CLI.
+
+  .. figure:: /images/realm-app-deploy-history.png
+     :alt: Deployment History screen with Realm, Deployment, and History tabs circled
+---
+title: Re-Deploy a Prior Deployment
+ref: re-deploy-prior-deployment
+content: |
+  Selecte a prior version to roll back to and then press the 
+  :guilabel:`Re-Deploy` button for that version of your {+app+}.
+  
+  If you have deployment drafts enabled, you'll see a modal notifying you 
+  that this action will replace any changes in your current deployment 
+  draft with the app configuration you want to re-deploy. Press the 
+  :guilabel:`Re-Deploy` button to confirm.
+
+  You'll see the banner at the top of your {+app+} notifying you that you 
+  have changes to deploy. Press the :guilabel:`Review Draft & Deploy` button.
+
+  Next, you'll see a Deployment Draft that shows you a diff of the 
+  changes you'll apply when you complete this deploy. From here, you can
+  specify a descriptive name for your deploy that will be visible in the
+  :guilabel:`Deployment History` list. 
+  
+  If you have :ref:`GitHub deployment <deploy-github>` enabled, you'll see 
+  a :guilabel:`Deploy and Push to GitHub` button. Push this button to confirm 
+  the rollback.
+
+  .. figure:: /images/deployment-draft-deploy-and-push-to-github.png
+     :alt: Screenshot of deployment draft with a Deploy and Push to GitHub button
+---
+title: Confirm Rollback Success
+ref: confirm-rollback-success
+content: |
+  After the deployment completes, you'll see the deployment success banner.
+  The new deployment appears in your Deployment History. 
+  
+  If you have GitHub deployment enabled, it also contains a link to the 
+  commit in the GitHub repository. 
+  
+  In the linked GitHub repository, the commit author is the 
+  ``mongodb-realm`` bot.
+
+  .. figure:: /images/realm-ui-deploy-changes-in-github.png
+     :alt: Screenshot of deployment changes in GitHub
+   

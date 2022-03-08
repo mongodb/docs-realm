@@ -1,0 +1,34 @@
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
+content: |
+  To pull a local copy of the latest version of your app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+---
+title: Disable Development Mode
+ref: disable-development-mode-in-cli
+content: |
+  You can turn Development Mode on and off by setting a boolean value for
+  ``development_mode_enabled`` in your app's ``sync/config.json`` file. To
+  disable Development Mode, set the value to ``false``:
+
+  .. code-block:: json
+     :caption: sync/config.json
+     
+     {
+       "development_mode_enabled": false
+     }
+---
+title: Deploy the Updated App Configuration
+ref: deploy-development-mode-disabled-updated-app-configuration
+content: |
+  Now that you've configured Development Mode and specified that it's disabled,
+  you can deploy your changes to turn it off
+
+  To deploy your changes, import your app configuration:
+
+  .. code-block:: shell
+     
+     realm-cli push --remote="<Your App ID>"

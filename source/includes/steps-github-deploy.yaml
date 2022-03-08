@@ -5,7 +5,7 @@ content: |
   {+service-short+} requires that you install a GitHub app that has, at minimum,
   read access to the repository.
 
-  To install the app, click :guilabel:`Deploy` in the {+leftnav+} of the {+ui+}.
+  To install the app, click :guilabel:`Deployment` in the {+leftnav+} of the {+ui+}.
   Select the :guilabel:`Configuration` tab and then click :guilabel:`Install
   Realm on GitHub`. A new browser window will open to the GitHub application
   installation flow.
@@ -30,7 +30,11 @@ content: |
      :alt: GitHub Application permissions request screen
 
   After you install the application, click :guilabel:`Authorize` to finish
-  connecting Realm to GitHub. 
+  connecting Realm to GitHub. This leads you to a github permissions screen,
+  where you will click :guilabel:`Authorize MongoDB Realm`.
+
+  .. figure:: /images/authorize-mdb-realm-github.png
+     :alt: GitHub Application authorization request screen
 
   .. note:: GitHub Permissions
      
@@ -67,19 +71,24 @@ content: |
   The configured branch and directory must contain an :ref:`application
   directory <app-directory>` with configuration files that define your
   application. You can create the application directory manually or :doc:`export
-  the application directory </deploy/export-realm-app>` of an existing app (using the
-  ``--for-source-control`` option).
+  the application directory </manage-apps/configure/export-realm-app>` of an existing app.
+  
+  .. important::
+   
+     In order to deploy successfully, your git repository *must not* contain 
+     some fields that are present in your application export. 
 
-  .. important:: Export For Source Control
+     If you are using :ref:`realm-cli v1.x <realm-cli-v1>` for the v1 app
+     structure, use the ``--for-source-control`` flag when you export an app.
+     This flag omits the ``name``, ``app_id``, ``location``, and ``deployment_model`` 
+     fields in the ``config.json`` file, and the ``config.clusterName`` field of 
+     the ``config.json`` of any Atlas :ref:`data sources <link-a-data-source>` 
+     connected to the application.
 
-     {+app+}s deployed via GitHub *must not* specify the ``name``, ``app_id``,
-     ``location``, or ``deployment_model`` fields in the ``config.json`` file.
-     Applications deployed via GitHub must also omit the ``config.clusterName``
-     field of the ``config.json`` of any Atlas :ref:`data sources
-     <link-a-data-source>` connected to the application.
-     
-     Application configurations exported with the ``--for-source-control`` flag
-     omit these fields automatically.
+     If you are using the :ref:`realm-cli v2.x <realm-cli>` for the v2 app
+     structure, ``--for-source-control`` is no longer an available flag. The
+     v2 app structure no longer contains most of those references. The only 
+     field you must remove is the ``app_id`` from the ``realm_config.json`` file.
 
   Add the application directory to the repository and then commit the changes:
 
@@ -115,10 +124,17 @@ content: |
   application since the previous deployment. Make any additions, modifications,
   or deletions to the repository that you want to include in your deployment.
 
-  Refer to the :doc:`Application Configuration Files
-  </deploy/application-configuration-files>` reference page and individual
-  component reference pages for details on the structure and schema of your
-  application directory.
+  Refer to the :ref:`app-configuration` reference page and individual component
+  reference pages for details on the structure and schema of your application
+  directory.
+
+  .. important:: Do not make destructive schema changes via automated deploy
+
+     Because :ref:`destructive schema changes 
+     <destructive-changes-synced-schema>` require special handling, Realm
+     does not support making destructive schema changes via automated deploy
+     with GitHub. Instead, you should make destructive changes from the
+     Realm UI.
 ---
 title: Commit and Push Your Changes
 ref: commit-and-push-your-changes

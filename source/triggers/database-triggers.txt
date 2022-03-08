@@ -1,6 +1,8 @@
------------------
+.. _database-trigger:
+
+=================
 Database Triggers
------------------
+=================
 
 .. default-domain:: mongodb
 
@@ -26,6 +28,12 @@ to listen for changes to documents in a collection and pass
 :ref:`database events <database-events>` to their associated Trigger
 function.
 
+You can use a :manual:`$match </reference/operator/aggregation/match>`
+expression document to filter change events based on
+field values. For more information, see :manual:`Query on Embedded
+Documents </tutorial/query-embedded-documents>` in the MongoDB server
+manual.
+
 .. important:: Change Stream Limitations
    
    {+backend+} opens a single change stream for each collection with at least
@@ -36,132 +44,109 @@ function.
 
 .. note::
 
-   Database Triggers are only available for `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_ 
-   clusters that are running MongoDB version 3.6 or newer.
+   Database Triggers are only available for `{+atlas+}
+   <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
+   clusters running MongoDB version 3.6 or newer.
 
-.. _create-a-database-trigger:
+Example
+-------
 
-Create a Database Trigger
--------------------------
+An online store wants to notify its customers whenever one of their
+orders changes location. They record each order in the ``store.orders``
+collection as a document that resembles the following:
+
+.. code-block:: json
+
+   {
+     _id: ObjectId("59cf1860a95168b8f685e378"),
+     customerId: ObjectId("59cf17e1a95168b8f685e377"),
+     orderDate: ISODate("2018-06-26T16:20:42.313Z"),
+     shipDate: ISODate("2018-06-27T08:20:23.311Z"),
+     orderContents: [
+       { qty: 1, name: "Earl Grey Tea Bags - 100ct", price: NumberDecimal("10.99") }
+     ],
+     shippingLocation: [
+       { location: "Memphis", time: ISODate("2018-06-27T18:22:33.243Z") },
+     ]
+   }
+
+To automate this process, the store creates a database Trigger that
+listens for ``UPDATE`` change events in the ``store.orders`` collection.
+When the trigger observes an ``UPDATE`` event, it passes the
+:ref:`change event object <database-events>` to its associated Function,
+``textShippingUpdate``. The Function checks the change event for any
+changes to the ``shippingLocation`` field and, if it was updated, sends
+a text message to the customer with the new location of the order.
 
 .. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         To create a database Trigger in the {+ui+}:
-
-         1. Click :guilabel:`Triggers` under :guilabel:`MongoDB
-            Cluster` in the {+leftnav+}.
-
-         2. Select the :guilabel:`Database Triggers` tab.
-
-         3. Click :guilabel:`Add Database Trigger` in the top
-            right to open the Trigger configuration page.
-
-         4. Enter :ref:`configuration values <database-trigger-configuration>`
-            for the Trigger and click :guilabel:`Save` at the bottom of
-            the page.
+   
+   .. tab::
+      :tabid: ui
+      
+      .. figure:: /images/db-trigger-example-config-1.png
+         :alt: Example UI that configures the trigger, including its type and name
+      
+      .. figure:: /images/db-trigger-example-config-2.png
+         :alt: Example UI that configures the trigger function
+      
+   .. tab::
+      :tabid: cli
+      
+      .. code-block:: json
+         :caption: Trigger Configuration
          
-         .. figure:: /images/db-trigger-example-config-1.png
-            :alt: Example UI that configures the trigger, including its type and name
-            :width: 750px
-            :lightbox:
-         
-         .. figure:: /images/db-trigger-example-config-2.png
-            :alt: Example UI that configures the trigger function
-            :width: 750px
-            :lightbox:
+         {
+           "type": "DATABASE",
+           "name": "shippingLocationUpdater",
+           "function_name": "textShippingUpdate",
+           "config": {
+             "service_name": "mongodb-atlas",
+             "database": "store",
+             "collection": "orders",
+             "operation_types": ["UPDATE"],
+             "unordered": false,
+             "full_document": true,
+             "match": {}
+           },
+           "disabled": false
+         }
 
-     - id: cli
-       content: |
-         To create a database trigger with :doc:`realm-cli
-         </deploy/realm-cli-reference>`:
+.. code-block:: javascript
+   :caption: textShippingUpdate
 
-         1. Add a database trigger :ref:`configuration file
-            <database-trigger-configuration>` to the ``triggers``
-            subdirectory of a local application directory.
+   exports = async function (changeEvent) {
+     // Destructure out fields from the change stream event object
+     const { updateDescription, fullDocument } = changeEvent;
 
-         2. :doc:`Import </deploy/deploy-cli>` the
-            application directory into your application.
+     // Check if the shippingLocation field was updated
+     const updatedFields = Object.keys(updateDescription.updatedFields);
+     const isNewLocation = updatedFields.some(field =>
+       field.match(/shippingLocation/)
+     );
 
-            .. code-block:: shell
+     // If the location changed, text the customer the updated location.
+     if (isNewLocation) {
+       const { customerId, shippingLocation } = fullDocument;
+       const twilio = context.services.get("myTwilioService");
+       const mongodb = context.services.get("mongodb-atlas");
+       const customers = mongodb.db("store").collection("customers");
 
-               realm-cli import
+       const { location } = shippingLocation.pop();
+       const customer = await customers.findOne({ _id: customer_id })
+       twilio.send({
+         to: customer.phoneNumber,
+         from: context.values.get("ourPhoneNumber"),
+         body: `Your order has moved! The new location is ${location}.`
+       });
+     }
+   };
 
-         .. note::
+.. _database-triggers-configuration:
 
-            {+service+} does not enforce specific filenames for Trigger
-            configuration files. However, once imported, {+backend+} will
-            rename each configuration file to match the name of the
-            Trigger it defines, e.g. ``mytrigger.json``.
+Configuration
+-------------
 
-Restart a Database Trigger
---------------------------
-
-Database Triggers may enter a :guilabel:`suspended` state in response to
-an event that prevents the Trigger's change stream from continuing, such
-as a network disruption or change to the underlying cluster. When a
-Trigger enters a suspended state, it does not receive change events and will not
-fire.
-
-.. note:: 
-
-   In the event of a suspended or failed trigger, {+service-short+} sends the 
-   project owner an email alerting them of the issue. 
-
-You can attempt to restart a suspended Trigger from the {+ui+} or by
-importing an application directory with {+cli-bin+}.
-
-.. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         .. include:: /includes/steps/restart-db-trigger-realm-ui.rst
-     - id: cli
-       content: |
-         .. include:: /includes/steps/restart-db-trigger-import-export.rst
-
-Reference
----------
-
-.. _database-trigger-configuration:
-
-Database Trigger Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: cli
-       content: |
-         Configuration files for database Triggers have the
-         following form:
-
-         .. code-block:: none
-            :caption: /triggers/<trigger name>.json
-
-            {
-               "type": <string>,
-               "name": <string>,
-               "function_name": <string>,
-               "config": {
-                 "service_name": <string>,
-                 "database": <string>,
-                 "collection": <string>,
-                 "operation_types": [<string>, ...],
-                 "full_document": <boolean>,
-                 "unordered": <boolean>,
-                 "match": <document>,
-                 "project": <document>
-               },
-               "disabled": <boolean>
-            }
-
-     - id: ui
-       content: |
-         Database Triggers have the following configuration parameters:
+Database Triggers have the following configuration options:
 
 .. list-table::
    :header-rows: 1
@@ -170,195 +155,117 @@ Database Trigger Configuration
    * - Field
      - Description
 
-   * - | :guilabel:`Trigger Type`
-       | *type*
+   * - :guilabel:`Trigger Type`
 
      - Required. The type of the Trigger. Set this value to ``DATABASE`` for database Triggers
 
-   * - | :guilabel:`Trigger Name`
-       | *name*
+   * - :guilabel:`Trigger Name`
 
      - Required. The name of the Trigger.
 
-   * - | :guilabel:`Linked Function`
-       | *function_name*
+   * - :guilabel:`Linked Function`
 
      - Required. The name of the {+service-short+} Function that the Trigger
        executes whenever it fires. The Trigger passes the
        :ref:`database event object <database-events>` that
        caused it to fire as the only argument to this Function.
 
-   * - | :guilabel:`Cluster`
-       | *config.service_name*
+   * - :guilabel:`Cluster`
 
      - Required. The name of the MongoDB Service that the Trigger is
        associated with.
 
-   * - | :guilabel:`Database Name`
-       | *config.database*
+   * - :guilabel:`Database Name`
 
      - Required. The MongoDB database that contains the watched
        collection.
 
-   * - | :guilabel:`Collection Name`
-       | *config.collection*
+   * - :guilabel:`Collection Name`
 
      - Required. The name of the collection that the Trigger watches for
        change events.
 
-   * - | :guilabel:`Operation Types`
-       | *config.operation_types*
+   * - :guilabel:`Operation Types`
 
      - Required. A list of one or more :ref:`database operation
        types <database-event-operation-types>` that cause the Trigger to
-       fire. Format each operation type as a fully capitalized string, e.g., ``"INSERT"``.
-
-   * - | :guilabel:`Full Document`
-       | *config.full_document*
-
-     - Required. If true, indicates that ``UPDATE`` change events should
-       include the most current :manual:`majority-committed
-       </reference/read-concern-majority/>` version of the modified
-       document in the ``fullDocument`` field.
-
-       .. note::
-
-          This option only affects ``UPDATE`` change events. ``INSERT``
-          and ``REPLACE`` events always include the ``fullDocument``
-          field. ``DELETE`` events never include the ``fullDocument``
-          field. For more information, see the :manual:`change events
-          </reference/change-events/>` reference page.
+       fire. Format each operation type as an uppercase string, e.g.,
+       ``"INSERT"``.
 
        .. warning::
 
-          Update operations executed from {+compass+} or the
-          {+atlas+} Data Explorer fully replace the previous
-          document. As a result, update operations from these clients
-          will generate ``REPLACE`` change events rather than ``UPDATE``
-          events.
+          Update operations executed from {+compass+} or the {+atlas+}
+          Data Explorer fully replace the previous document. As a result,
+          update operations from these clients will generate ``REPLACE``
+          change events rather than ``UPDATE`` events.
 
-   * - | :guilabel:`Event Ordering`
-       | *config.unordered*
+   * - :guilabel:`Full Document`
+
+     - If enabled, ``UPDATE`` change events include the latest
+       :manual:`majority-committed </reference/read-concern-majority/>`
+       version of the modified document *after* the change was applied in
+       the ``fullDocument`` field.
+
+       .. note::
+
+          Regardless of this setting:
+          
+          - ``INSERT`` and ``REPLACE`` events always include the
+            ``fullDocument`` field.
+          
+          - ``DELETE`` events never include the ``fullDocument`` field.
+
+   * - :guilabel:`Document Preimage`
+
+     - If enabled, change events include a copy of the modified document
+       from immediately *before* the change was applied in the
+       ``fullDocumentBeforeChange`` field. All change events except for
+       ``INSERT`` events include the document preimage.
+
+       .. tip:: Performance Optimization
+
+          Disable preimages at a collection level to improve performance. 
+          :ref:`Learn more. <database-triggers-disable-collection-level-preimages>`
+
+   * - :guilabel:`Event Ordering`
 
      - 
        .. tabs-realm-admin-interfaces::
           :hidden: true
-
+          
           .. tab::
              :tabid: ui
-             
+                 
              Default: Enabled.
-             
+                 
              Indicates whether event ordering is enabled for this Trigger.
-             
+                 
           .. tab::
              :tabid: cli
-             
+                 
              Optional. Default: ``false``.
-             
+                 
              If ``true``, indicates that event ordering is disabled for
              this trigger.
-       
-       If event ordering is enabled, multiple executions of this Trigger
-       will occur sequentially based on the timestamps of the change
-       events. If event ordering is disabled, multiple executions of
-       this Trigger will occur independently.
-       
-       .. tip::
           
-          Consider disabling event ordering if your trigger fires on a
-          collection that receives short bursts of events (e.g.
-          inserting data as part of a daily batch job).
-          
-          Ordered Triggers wait to execute a Function for a particular
-          event until the Functions of previous events have finished
-          executing. As a consequence, ordered Triggers are effectively
-          rate-limited by the run time of each sequential Trigger
-          function. This may cause a significant delay between the
-          database event and the Trigger firing if a sufficiently large
-          number of Trigger executions are currently in the queue.
+       .. include:: /includes/trigger-event-ordering.rst
 
-          Unordered Triggers execute functions in parallel if possible,
-          which can be significantly faster (depending on your use case)
-          but does not guarantee that multiple executions of a Trigger
-          Function occur in event order.
-
-   * - | :guilabel:`Match Expression`
-       | *config.match*
+   * - :guilabel:`Match Expression`
 
      - Optional.
-       A :manual:`$match </reference/operator/aggregation/match>`
-       expression document that {+service-short+} uses to filter which change
-       events cause the Trigger to fire. The Trigger
-       evaluates all change event objects that it receives against this
-       match expression and only executes if the expression evaluates to
-       ``true`` for a given change event.
-          
-       .. note:: Use Dot-Notation for Embedded Fields
-          
-          MongoDB performs a full equality match for embedded
-          documents in a match expression. If you want to match a
-          specific field in an embedded document, refer to the field
-          directly using :manual:`dot-notation
-          </core/document/#document-dot-notation>`. For more
-          information, see :manual:`Query on Embedded Documents
-          </tutorial/query-embedded-documents>` in the MongoDB server
-          manual.
+       
+       .. include:: /includes/trigger-match-expression.rst
 
-       .. example::
-
-          The following :guilabel:`Match Expression` configures a
-          trigger to fire only if the change event object specifies that
-          the ``status`` field in a document changed.
-          
-          .. code-block:: javascript
-
-             {
-               "updateDescription.updatedFields.status": {
-                 "$exists": true
-               }
-             }
-
-   * - | :guilabel:`Project Expression`
-       | *config.project*
+   * - :guilabel:`Project Expression`
 
      - Optional.
-       A :manual:`$project </reference/operator/aggregation/project>` expression
-       document that {+service-short+} uses to filter the fields that appear in
-       change event objects.
-       
-       .. example::
 
-          A trigger is configured with the following :guilabel:`Project
-          Expression`:
-          
-          .. code-block:: json
-
-             {
-               "_id": 0,
-               "operationType": 1,
-               "updateDescription.updatedFields.status": 1
-             }
-          
-          The change event object that {+service-short+} passes to the trigger
-          function only includes the fields specifed in the projection, as in
-          the following example:
-          
-          .. code-block:: json
-             
-             {
-               "operationType": "update",
-               "updateDescription": {
-                 "updatedFields": {
-                   "status": "InProgress"
-                 }
-               }
-             }
+       .. include:: /includes/trigger-project-expression.rst
 
 .. _database-events:
 
 Database Change Events
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 .. _database-event-operation-types:
 
@@ -397,6 +304,7 @@ Database change event objects have the following general form:
       _id : <ObjectId>,
       "operationType": <string>,
       "fullDocument": <document>,
+      "fullDocumentBeforeChange": <document>,
       "ns": {
          "db" : <string>,
          "coll" : <string>
@@ -407,3 +315,166 @@ Database change event objects have the following general form:
       "updateDescription": <document>,
       "clusterTime": <Timestamp>
    }
+
+.. _suspended_triggers:
+
+Suspended Triggers
+------------------
+
+Database Triggers may enter a suspended state in response to an event
+that prevents the Trigger's change stream from continuing. Events that
+can suspend a Trigger include:
+
+- :manual:`invalidate events </reference/change-events/#invalidate-event>`
+  such as ``dropDatabase``, ``renameCollection``, or those caused by
+  a network disruption
+- the token required to resume the change stream is no longer in the
+  cluster :manual:`oplog </core/replica-set-oplog/>`
+- importing a {+app+} with the ``replace`` strategy instead of the
+  ``merge`` strategy and consequently removing the database user that
+  created the Trigger's change stream
+
+When :ref:`resuming the suspended Trigger <resume-a-suspended-trigger>`,
+{+service-short+} attempts to resume the Trigger at the next change
+stream event after the change stream stopped. However, if the resume
+token is no longer in the cluster oplog, the Trigger begins listening to
+new events but does not process any missed past events. 
+
+You can adjust the oplog size to keep the resume token for more time after a suspension
+by :atlas:`scaling your {+atlas-short+} cluster </scale-cluster/>`. 
+Maintain an oplog size a few times greater than
+your cluster's peak oplog throughput (GB/hour) to reduce the risk of a 
+suspended trigger's resume token dropping off the oplog 
+before the trigger executes. 
+View your cluster's oplog throughput in the **Oplog GB/Hour** graph in the 
+:atlas:`{+atlas-short+} cluster metrics </monitor-cluster-metrics/>`. 
+
+.. _last-cluster-time-processed:
+
+Last Cluster Time Processed
+---------------------------
+
+All Triggers keep track of the last time the Trigger executed, known as
+the **latest execution** in the {+ui+}. Database Triggers also keep track
+of the **last cluster time processed**: the last time the change stream
+backing that Trigger emitted an event. You can access these timestamps
+in the list of Triggers that displays when you first navigate to the
+:guilabel:`Triggers` section from the sidebar.
+
+The difference between the latest execution and the last cluster time
+processed represents the latency between when an event occurs in your
+database, and when the Trigger finishes responding to that event. If
+latency is consistently large, you can reduce it with the following
+mitigations:
+
+- Optimize the Trigger's Linked Function to speed up execution.
+
+- If your Trigger uses Event Ordering, consider switching ordering off
+  to reduce latency.
+
+- Add resources by upgrading your {+atlas+} cluster.
+
+Performance Optimization
+------------------------
+
+.. _database-triggers-disable-event-ordering:
+
+Disable Event Ordering for Burst Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Consider disabling event ordering if your trigger fires on a collection that
+receives short bursts of events (e.g. inserting data as part of a daily batch
+job).
+
+Ordered Triggers wait to execute a Function for a particular event until the
+Functions of previous events have finished executing. As a consequence,
+ordered Triggers are effectively rate-limited by the run time of each
+sequential Trigger function. This may cause a significant delay between the
+database event and the Trigger firing if a sufficiently large number of
+Trigger executions are currently in the queue.
+
+Unordered Triggers execute functions in parallel if possible, which can be
+significantly faster (depending on your use case) but does not guarantee that
+multiple executions of a Trigger Function occur in event order.
+
+.. _database-triggers-disable-collection-level-preimages:
+
+Disable Collection-Level Preimages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          
+Document preimages use extra information stored in the oplog.
+The extra data may degrade trigger performance.
+
+Once you've enabled document preimages for any trigger on a
+given collection, that collection will include preimage data in
+the oplog and other triggers on the collection can use preimages
+with no additonal overhead.
+
+You can disable document preimages on a per-trigger basis to
+exclude the preimage from change events. Regardless of your
+trigger-level settings, a collection's oplog entries will
+continue to include preimage data unless you explicitly disable
+preimages for the collection.
+
+:ref:`Learn how to view and disable collection-level preimages.<trigger-preimages>`
+
+.. _database-triggers-match-expression:
+
+Use Match Expressions to Limit Trigger Invocations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the :guilabel:`Match Expression` field, 
+limit the number of Trigger invocations by using Match expressions. The Trigger is only 
+invoked if the document meets the criteria of the 
+:manual:`$match </reference/operator/aggregation/match>` expression. 
+
+.. example::
+   
+   The following :guilabel:`Match Expression` configures a trigger to fire only
+   if the change event object specifies that the ``status`` field in a document
+   changed.
+   
+   .. code-block:: javascript
+   
+      {
+        "updateDescription.updatedFields.status": {
+          "$exists": true
+        }
+      }
+
+.. _database-triggers-project-expression:
+
+
+Use Project Expressions to Reduce Input Data Size
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the :guilabel:`Project Expression` field, 
+limit the number of fields that the Trigger processes by using a 
+:manual:`$project </reference/operator/aggregation/project>` expression. 
+
+.. example::
+   
+   A trigger is configured with the following :guilabel:`Project Expression`:
+   
+   .. code-block:: json
+   
+      {
+        "_id": 0,
+        "operationType": 1,
+        "updateDescription.updatedFields.status": 1
+      }
+   
+   The change event object that {+service-short+} passes to the trigger function
+   only includes the fields specifed in the projection, as in the following
+   example:
+   
+   .. code-block:: json
+      
+      {
+        "operationType": "update",
+        "updateDescription": {
+          "updatedFields": {
+            "status": "InProgress"
+          }
+        }
+      }

@@ -1,4 +1,5 @@
 .. _define-roles-and-permissions:
+.. _define-roles:
 
 ============================
 Define Roles And Permissions
@@ -37,7 +38,7 @@ guide walks through configuring one or more roles for a collection.
    non-sync rules defined for the cluster do not apply.
    
    For more information on data access rules for synced clusters, see
-   :doc:`Define Sync Rules </sync/rules>`.
+   :ref:`Sync Rules and Permissions <sync-rules>`.
 
 Procedure
 ---------
@@ -50,11 +51,13 @@ Procedure
    a Data Lake from a :ref:`system function <system-functions>`.
 
 .. tabs-realm-admin-interfaces::
-
-   tabs:
-     - id: ui
-       content: |
-         .. include:: /includes/steps/define-roles-and-permissions-ui.rst
-     - id: cli
-       content: |
-         .. include:: /includes/steps/define-roles-and-permissions-cli.rst
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/define-roles-and-permissions-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/define-roles-and-permissions-cli.rst

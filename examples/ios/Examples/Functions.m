@@ -14,16 +14,16 @@
     
     RLMUser *user = [app currentUser];
 
-    // Call sum function
-    [user callFunctionNamed:@"sum"
-                  arguments:@[@1, @2]
+    // Call concatenate function
+    [user callFunctionNamed:@"concatenate"
+                  arguments:@[@"john.smith", @"@companyemail.com"]
             completionBlock:^(id<RLMBSON> result, NSError *error) {
         if (error) {
             NSLog(@"Function call failed: %@", [error localizedDescription]);
             return;
         }
-        NSLog(@"Called function 'sum' and got result: %@", result);
-        assert([result isEqual:@3]);
+        NSLog(@"Called function 'concatenate' and got result: %@", result);
+        assert([result isEqual:@"john.smith@companyemail.com"]);
         // :remove-start:
         [expectation fulfill];
         // :remove-end:

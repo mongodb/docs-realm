@@ -1,0 +1,47 @@
+.. _export-realm-app:
+
+====================================
+Export an Existing Realm Application
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. toctree::
+   :titlesonly:
+   :caption: Export Realm Apps
+   :hidden:
+
+   Realm UI </manage-apps/configure/export/export-with-realm-ui>
+   Realm CLI </manage-apps/configure/export/export-with-cli>
+   Realm API </manage-apps/configure/export/export-with-api>
+
+Overview
+--------
+
+As you develop a :term:`{+app+}`, you might want to share the
+codebase with team members, make a backup, or work with a
+version control system like Git. {+service+}'s export
+functionality makes this possible.
+
+Exported application directories use the same name as the {+app+}
+and the application's ObjectId. Every configuration file must conform to its
+:ref:`configuration file schema <app-configuration>`.
+
+.. include:: /includes/note-secrets-not-exported.rst
+
+.. _realm_app_structure:
+
+Output
+------
+
+Only entities that are configured in your application appear in your
+exported application directory. See :ref:`app-configuration` for more
+information on configuration files.
+
+.. include:: /includes/realm-application-file-schema.rst

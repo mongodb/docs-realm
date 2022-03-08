@@ -63,6 +63,8 @@ class Authenticate: XCTestCase {
     func testFacebookCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
         // :code-block-start: facebook
+        // This example demonstrates login logic for FBSDK version 8.x. If you're using
+        // a different version of FBSDK, you'll need to adapt this example for your version.
         let loginManager = LoginManager()
         loginManager.logIn(permissions: [ .email ]) { loginResult in
             switch loginResult {
@@ -138,6 +140,8 @@ class Authenticate: XCTestCase {
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
+        // Delete this user so it doesn't interfere with the DeleteUsers tests
+        app.currentUser?.delete()
     }
 
     func testApiKeyCredentials() {
@@ -185,6 +189,28 @@ class Authenticate: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testAsyncAwaitLogin() async {
+        let expectation = XCTestExpectation(description: "login completes")
+        // :code-block-start: async-await
+        func login() async {
+            do {
+                let app = App(id: YOUR_REALM_APP_ID)
+                // Authenticate with the instance of the app that points
+                // to your backend. Here, we're using anonymous login.
+                let user = try await app.login(credentials: Credentials.anonymous)
+                print("Successfully logged in user: \(user)")
+                // :hide-start:
+                expectation.fulfill()
+                // :hide-end:
+            } catch {
+                print("Failed to log in user: \(error.localizedDescription)")
+            }
+        }
+        // :code-block-end:
+        await login()
+        wait(for: [expectation], timeout: 10)
+    }
+
     func testAnonymousCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
@@ -204,6 +230,26 @@ class Authenticate: XCTestCase {
             }
         }
         // :code-block-end:
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testReadUserMetadata() {
+        let expectation = XCTestExpectation(description: "login completes")
+
+        let anonymousCredentials = Credentials.anonymous
+        app.login(credentials: anonymousCredentials) { (result) in
+            switch result {
+            case .failure(let error):
+                print("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                print("Successfully logged in as user \(user)")
+                // :code-block-start: read-user-metadata
+                // First, log in a user. Then, access user metadata
+                print("The logged-in user's email is: \(user.profile.email)")
+                // :code-block-end:
+                expectation.fulfill()
+            }
+        }
         wait(for: [expectation], timeout: 10)
     }
 

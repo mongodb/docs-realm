@@ -1,0 +1,49 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  .. include:: /includes/api-authenticate-instructions.rst
+
+---
+title: Get the Group ID
+ref: get-group-id
+content: |
+  To delete a {+app+} you will need to find the Group ID in Atlas.
+
+  :ref:`Follow these steps <find-your-project-id>` and save the Group ID for 
+  the next steps.
+
+---
+title: Get the Application ID
+ref: get-application-id
+content: |
+  To delete a {+app+} you will need to find the Application ID of the app.
+
+  .. include:: /includes/api-get-application-id.rst
+
+  Find the app you want to delete and save the ``_id`` field for the last step.
+
+---
+title: Delete the Realm App
+ref: app-delete-endpoint
+content: |
+  The API has an :admin-api-endpoint:`endpoint <operation/adminDeleteApplication>`
+  through which you can delete an {+app+}. 
+  Your request should include: 
+
+  - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+
+  - The :admin-api-endpoint:`Group ID/Project ID <section/Project-and-Application-IDs>` from step 2.
+
+  - The :admin-api-endpoint:`Application ID <section/Get-Authentication-Tokens>` from step 3.
+
+  .. code-block:: shell
+    
+     curl --request DELETE 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps/<ApplicationID>' \
+       --header 'Authorization:  Bearer <access_token>' \
+       --header 'Content-Type: application/json'
+
+  If your application deletes successfully, the {+backend+} returns a ``204`` response.
+
+  .. seealso::
+    
+     :admin-api-endpoint:`API Documentation for the delete endpoint <operation/adminDeleteApplication>`

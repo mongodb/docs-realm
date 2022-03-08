@@ -17,7 +17,9 @@ Object Models & Schemas - .NET SDK
 {+service+} applications model data as objects composed of property-value pairs
 that each contain one or more primitive data types or other {+service-short+}
 objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
-as regular objects, but they also include
+as regular objects, but they inherit from 
+:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` and include
 additional features like
 :ref:`real-time updating data views <dotnet-live-object>` and reactive
 :ref:`change event handlers <dotnet-client-notifications>`.
@@ -25,8 +27,25 @@ additional features like
 Every {+service-short+} object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
 <dotnet-object-schema>` that defines the properties and relationships of those
-objects. In most languages you define object schemas using the native
-class implementation.
+objects.
+
+In C#, you typically define object schemas by using the C# class declarations. 
+When {+service-short+} is initialized, it discovers the 
+{+service-short+} objects defined in all assemblies that have been loaded and 
+generates schemas accordingly. This is the simplest approach to defining a 
+schema, and is generally the least error-prone. However, this approach includes 
+all loaded {+service-short+} objects, and there may be cases where you only want 
+to use :ref:`a subset of classes <dotnet-omit-classes-from-schema>`, or to 
+customize {+service-short+} object schemas. To do this, you can  
+:ref:`programmatically define a schema <dotnet-manual-schema>`.
+
+.. note:: 
+
+   .NET does not load an assembly until you reference a class in it, so if you 
+   define your object models in one assembly and instantiate {+service-short+} 
+   in another, be sure to call a method in the assembly that contains the object 
+   models *before* initialization. Otherwise, {+service-short+} will not discover 
+   the objects when it first loads. 
 
 Example
 -------
@@ -38,7 +57,7 @@ Example
    optionally include the dog's ``Age``, ``Breed`` and a list of people that 
    represents the dog's ``Owners``. 
 
-   .. literalinclude:: /examples/generated/dotnet/Examples.codeblock.dog_class.cs
+   .. literalinclude:: /examples/generated/dotnet/ObjectModelsAndSchemas.codeblock.dog_class.cs
       :language: csharp
 
 .. note::
@@ -123,8 +142,9 @@ objects of the same type in a {+realm+}.
 
 .. seealso::
 
-   :ref:`Usage Examples: Primary Key <dotnet-primary-key-example>`
-
+   - :ref:`Usage Examples: Define a Primary Key <dotnet-primary-key-example>`
+   - :ref:`Usage Examples: Find a Specific Object by Primary Key <dotnet-find-a-specific-object-by-primary-key>`
+   
 .. _dotnet-index-property:
 
 Indexes
@@ -164,19 +184,44 @@ You can index properties with the following types:
 
    :ref:`Usage Examples: Index a Property <dotnet-index-property-example>`
 
-.. _dotnet-decimal128:
 
-Using Decimal Values
---------------------
-Realm supports 128-bit decimal values with the ``Decimal128`` Bson type. When 
-defining a decimal type, you can use the ``Decimal128`` Bson type or the .NET 
-``decimal`` type, even though it is only a 96-bit decimal. The SDK automatically 
-converts between the two, although you risk losing precision or range. The 
-following example shows how to use both the ``Decimal128`` Bson type and the .NET 
-``decimal`` type:
+Data Binding and MVVM
+---------------------
+When building a Xamarin app using the 
+`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
+pattern, you often want proper data binding *in both directions* between the 
+View and ViewModel: if a property value changes in the UI, the ViewModel should 
+be notified, and vice-versa. ViewModels typically implement 
+the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
+interface to ensure this. 
 
-.. literalinclude:: /examples/generated/code/start/DecimalFun.codeblock.decimal128.cs
-   :language: csharp
+However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+this notification happens automatically, thus greatly simplifying your ViewModel code. 
+
+You can also bind a UI element to a {+realm+} :ref:`Live Query <dotnet-live-queries>`. 
+For example, if you bind a 
+`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
+to a live query, then the list will update automatically when the results of the 
+query change; you do not need to implement the ``INotifyPropertyChange`` 
+interface.
+
+For example, if you bind a ListView to a query that returns all Product 
+objects, the list of available products updates automatically 
+when a product is added, changed, or removed from the {+realm+}:
+
+.. code-block:: csharp
+   :copyable: false
+
+   // Somewhere in your ViewModel
+   AllProducts = realm.All<Products>();
+
+
+.. code-block:: xaml
+   :copyable: false
+   
+   <!-- Somewhere in your View -->
+   <ListView ItemsSource="{Binding AllProducts}">
+
 
 Summary
 -------
@@ -193,3 +238,6 @@ Summary
 - The {+service-short+} object's **schema** defines the properties of the object and
   which properties are optional, which properties have a default value,
   and which properties are indexed.
+
+- Using {+realm+} objects and queries in a MVVM architecture simplifies data 
+  binding.

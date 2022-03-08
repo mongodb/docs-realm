@@ -1,0 +1,72 @@
+title: Navigate to the {+sync-short+} Configuration Screen
+ref: navigate-to-the-{+sync-short+}-configuration-screen
+content: |
+  To define {+sync-short+} rules and enable {+sync-short+} for your application, navigate to the
+  :guilabel:`{+sync-short+}` configuration screen through the {+leftnav+}.
+---
+title: Select Development Details
+ref: select-development-details
+content: |
+  Under the :guilabel:`Select Development Details` heading, you can configure
+  various development details, such as {+sync-short+} types, Development Mode,
+  and a cluster to {+sync-short+}.
+
+  Below the :guilabel:`{+sync-short+} types` subheading, select the :guilabel:`Flexible`
+  option to enable Flexible {+sync-short+}.
+  
+  Next, under the :guilabel:`Development Mode` subheading, you can choose to
+  toggle :ref:`Development Mode <enable-disable-development-mode>` on/off.
+  Enabling ``Development Mode`` allows you to define schemas directly in your
+  client application code and is suitable if you are in development and do not
+  have application data in Atlas yet.
+  
+  Finally, you can enable {+sync-short+} for a single :term:`linked cluster` in your
+  application. Determine which cluster you want to use and select it from
+  the :guilabel:`Select Cluster To {+sync-short+}` dropdown menu.
+
+  .. important:: Ineligible Clusters
+
+     Flexible Sync requires MongoDB 5.0. Clusters display as gray and not-selectable
+     in the UI when they do not meet the requirements for Flexible Sync.
+
+  .. figure:: /images/flex-sync-select-development-details.png
+     :width: 750px
+     :alt: Select Development Details Menu
+---
+title: Select Queryable Fields
+ref: select-queryable-fields
+content: |
+  When configuring Flexible {+sync-short+}, specify one or more :ref:`queryable
+  fields <queryable-fields>` from your {+sync-short+} Schema.
+  
+  To configure queryable fields for your application, navigate to the
+  :guilabel:`Select Queryable Fields` heading. Select up to 10 existing fields
+  from your schema to query on. If you want to create a new field(s) to
+  construct a query on, you must define a database and enable ``Development Mode``.
+
+  .. figure:: /images/flex-sync-set-queryable-fields.png
+     :width: 750px
+     :alt: Select Queryable Fields
+---
+title: Define Read & Write Permissions
+ref: define-read-write-permissions
+content: |
+  In the :guilabel:`Define Permissions` section, you can define :ref:`JSON
+  expressions <expressions>` to tell {+service+} whether a user has read or
+  write permissions on a given document. {+service-short+} evaluates these
+  expressions for a user when that user opens a {+realm+}.
+
+  The ``Apply When`` :ref:`expression <expressions>` determines
+  if a role applies to a given document. 
+  
+  .. figure:: /images/flex-sync-define-permissions.png
+     :width: 750px
+     :alt: Define Permissions Settings
+---
+title: Turn On Sync
+ref: turn-on-sync
+content: |
+  Now that you've configured rules for your synced cluster, all that's left to
+  do is turn on {+sync-short+} for client applications. Click :guilabel:`Enable {+sync-short+}`,
+  take note of any recommendations that appear and then confirm your choice.
+

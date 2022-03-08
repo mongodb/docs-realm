@@ -8,34 +8,40 @@ import RealmSwift
 
 // :code-block-start: models
 class ReadWriteDataExamples_DogToy: Object {
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 }
 
 class ReadWriteDataExamples_Dog: Object {
-    @objc dynamic var name = ""
-    @objc dynamic var age = 0
+    @Persisted var name = ""
+    @Persisted var age = 0
+    @Persisted var color = ""
+    @Persisted var currentCity = ""
 
     // To-one relationship
-    @objc dynamic var favoriteToy: ReadWriteDataExamples_DogToy?
+    @Persisted var favoriteToy: ReadWriteDataExamples_DogToy?
 }
 
 class ReadWriteDataExamples_Person: Object {
-    @objc dynamic var id = 0
+    @Persisted(primaryKey: true) var id = 0
+    @Persisted var name = ""
 
     // To-many relationship - a person can have many dogs
-    let dogs = List<ReadWriteDataExamples_Dog>()
+    @Persisted var dogs: List<ReadWriteDataExamples_Dog>
 
     // Inverse relationship - a person can be a member of many clubs
-    let clubs = LinkingObjects(fromType: ReadWriteDataExamples_DogClub.self, property: "members")
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+    @Persisted(originProperty: "members") var clubs: LinkingObjects<ReadWriteDataExamples_DogClub>
 }
 
 class ReadWriteDataExamples_DogClub: Object {
-    @objc dynamic var name = ""
-    let members = List<ReadWriteDataExamples_Person>()
+    @Persisted var name = ""
+    @Persisted var members: List<ReadWriteDataExamples_Person>
+}
+// :code-block-end:
+
+// :code-block-start: object-id-model
+class ReadWriteDataExamples_User: Object {
+    @Persisted var id: ObjectId
+    @Persisted var name = ""
 }
 // :code-block-end:
 
@@ -135,6 +141,8 @@ class ReadWriteData: XCTestCase {
     }
 
     func testBatchUpdateAndCascadingDelete() {
+        // TODO: CURRENTLY COMMENTED OUT UNTIL https://jira.mongodb.org/browse/RCOCOA-1282 IS FIXED
+        /*
         // :code-block-start: batch-update
         let realm = try! Realm()
         try! realm.write {
@@ -173,6 +181,7 @@ class ReadWriteData: XCTestCase {
         // :code-block-end:
         XCTAssert(realm.objects(ReadWriteDataExamples_Dog.self).count == 0)
         XCTAssert(realm.objects(ReadWriteDataExamples_Person.self).count == 0)
+        */
     }
 
     func testCreateAndDelete() {
@@ -233,6 +242,21 @@ class ReadWriteData: XCTestCase {
         // :code-block-end:
     }
 
+    func testTypeSafeQueryDeleteCollection() {
+        // :code-block-start: tsq-delete-collection
+        let realm = try! Realm()
+        try! realm.write {
+            // Find dogs younger than 2 years old.
+            let puppies = realm.objects(ReadWriteDataExamples_Dog.self).where {
+                $0.age < 2
+            }
+
+            // Delete the objects in the collection from the realm.
+            realm.delete(puppies)
+        }
+        // :code-block-end:
+    }
+
     func testObjects() {
         // :code-block-start: objects
         let realm = try! Realm()
@@ -273,6 +297,62 @@ class ReadWriteData: XCTestCase {
         print(puppies.count)
         print(dogsWithoutFavoriteToy.count)
         print(dogsWhoLikeTennisBalls.count)
+    }
+
+    func testWhere() {
+        // :code-block-start: where
+        let realm = try! Realm()
+        // Access all dogs in the realm
+        let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
+
+        // Query by age
+        let puppies = dogs.where {
+            $0.age < 2
+        }
+
+        // Query by person
+        let dogsWithoutFavoriteToy = dogs.where {
+            $0.favoriteToy == nil
+        }
+
+        // Query by person's name
+        let dogsWhoLikeTennisBalls = dogs.where {
+            $0.favoriteToy.name == "Tennis ball"
+        }
+        // :code-block-end:
+        print(puppies.count)
+        print(dogsWithoutFavoriteToy.count)
+        print(dogsWhoLikeTennisBalls.count)
+    }
+
+    func testQueryObjectId() {
+        // :code-block-start: query-object-id
+        let realm = try! Realm()
+
+        let users = realm.objects(ReadWriteDataExamples_User.self)
+
+        // Get specific user by ObjectId id
+        let specificUser = users.filter("id = %@", ObjectId("11223344556677889900aabb")).first
+
+        // WRONG: Realm will not convert the string to an object id
+        // users.filter("id = '11223344556677889900aabb'") // not ok
+        // users.filter("id = %@", "11223344556677889900aabb") // not ok
+        // :code-block-end:
+        print("\(specificUser ?? ReadWriteDataExamples_User())")
+    }
+
+    func testTypeSafeQueryObjectId() {
+        // :code-block-start: tsq-object-id
+        let realm = try! Realm()
+
+        let users = realm.objects(ReadWriteDataExamples_User.self)
+
+        // Get specific user by ObjectId id
+        let specificUser = users.where {
+            $0.id == ObjectId("11223344556677889900aabb")
+        }
+        // :code-block-end:
+        print("\(specificUser)")
     }
 
     func testTransaction() {
@@ -373,6 +453,139 @@ class ReadWriteData: XCTestCase {
 
         // People whose dogs' ages combined > 10 years
         people.filter("dogs.@sum.age > 10")
+        // :code-block-end:
+    }
+
+    func testTypeSafeQueryAggregate() {
+        // :code-block-start: tsq-aggregate
+        let realm = try! Realm()
+
+        let people = realm.objects(ReadWriteDataExamples_Person.self)
+
+        // People whose dogs' average age is 5
+        people.where {
+            $0.dogs.age.avg == 5
+        }
+
+        // People with older dogs
+        people.where {
+            $0.dogs.age.min > 5
+        }
+
+        // People with younger dogs
+        people.where {
+            $0.dogs.age.max < 2
+        }
+
+        // People with many dogs
+        people.where {
+            $0.dogs.count > 2
+        }
+
+        // People whose dogs' ages combined > 10 years
+        people.where {
+            $0.dogs.age.sum > 10
+        }
+        // :code-block-end:
+    }
+
+    func testCopyToAnotherRealm() {
+        // :code-block-start: copy-to-another-realm
+        let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "first realm"))
+
+        try! realm.write {
+            let dog = ReadWriteDataExamples_Dog()
+            dog.name = "Wolfie"
+            dog.age = 1
+            realm.add(dog)
+        }
+
+        // Later, fetch the instance we want to copy
+        let wolfie = realm.objects(ReadWriteDataExamples_Dog.self).first(where: { $0.name == "Wolfie" })!
+
+        // Open the other realm
+        let otherRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "second realm"))
+        try! otherRealm.write {
+            // Copy to the other realm
+            let wolfieCopy = otherRealm.create(type(of: wolfie), value: wolfie)
+            wolfieCopy.age = 2
+
+            // Verify that the copy is separate from the original
+            XCTAssertNotEqual(wolfie.age, wolfieCopy.age)
+        }
+        // :code-block-end:
+    }
+
+    func testKeyValueCoding() {
+        // :code-block-start: key-value-coding
+        let realm = try! Realm()
+
+        let allDogs = realm.objects(ReadWriteDataExamples_Dog.self)
+
+        try! realm.write {
+            allDogs.first?.setValue("Sparky", forKey: "name")
+            // Move the dogs to Toronto for vacation
+            allDogs.setValue("Toronto", forKey: "currentCity")
+        }
+        // :code-block-end:
+    }
+
+    func testChainQuery() {
+        // :code-block-start: chain-query
+        let realm = try! Realm()
+        let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).filter("color = 'tan'")
+        let tanDogsWithBNames = tanDogs.filter("name BEGINSWITH 'B'")
+        // :code-block-end:
+    }
+
+    func testTypeSafeChainQuery() {
+        // :code-block-start: tsq-chain-query
+        let realm = try! Realm()
+        let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).where {
+            $0.color == "tan"
+        }
+        let tanDogsWithBNames = tanDogs.where {
+            $0.name.starts(with: "B")
+        }
+        // :code-block-end:
+    }
+
+    func testJson() {
+        // :code-block-start: json
+        // Specify a dog toy in JSON
+        let data = "{\"name\": \"Tennis ball\"}".data(using: .utf8)!
+        let realm = try! Realm()
+        // Insert from data containing JSON
+        try! realm.write {
+            let json = try! JSONSerialization.jsonObject(with: data, options: [])
+            realm.create(ReadWriteDataExamples_DogToy.self, value: json)
+        }
+        // :code-block-end:
+    }
+
+    func testNestedObjects() {
+        let aDog = ReadWriteDataExamples_Dog(value: ["Buster", 5])
+        let anotherDog = ReadWriteDataExamples_Dog(value: ["Buddy", 6])
+        // :code-block-start: nested-objects
+        // Instead of using pre-existing dogs...
+        let aPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [aDog, anotherDog]])
+
+        // ...we can create them inline
+        let anotherPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [["Buster", 5], ["Buddy", 6]]])
+        // :code-block-end:
+    }
+
+    func testPartialUpdate() {
+        // :code-block-start: partial-update
+        let realm = try! Realm()
+        try! realm.write {
+            // Use .modified to only update the provided values.
+            // Note that the "name" property will remain the same
+            // for the person with primary key "id" 123.
+            realm.create(ReadWriteDataExamples_Person.self,
+                         value: ["id": 123, "dogs": [["Buster", 5]]],
+                         update: .modified)
+        }
         // :code-block-end:
     }
 }

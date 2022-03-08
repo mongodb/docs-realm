@@ -2,29 +2,7 @@
 MongoDB Realm Documentation
 ===========================
 
-This repository contains documentation regarding components of
-MongoDB Realm .
-
-This documentation builds on the work of the `MongoDB
-Manual <http://docs.mongodb.org/manual/>`_. You can download and build
-this documentation locally if you already have `Sphinx
-<http://sphinx.pocoo.org/>`_ installed, with the following command: ::
-
-     pip install giza
-     git clone git://github.com/mongodb/docs-ecosystem
-     cd docs-ecosystem/
-     make html
-
-To build on Windows (using Cygwin):
-
-- Ensure you have python installed
-- install Sphinx using ``easy_install -U Sphinx``
-- install pyyamml using ``pip install pyyaml``
-- Build the docs using ``sphinx-build  -b html -d build/doctrees-html -c ./ source build/html``
-
-You may also wish to install `Pygments
-<http://pygments.org>`_ to provide syntax highlighting for code
-examples.
+This repository contains documentation for MongoDB Realm.
 
 Contribute
 ----------
@@ -38,7 +16,6 @@ To contribute to the documentation,
 - If you have not done so already, please sign the `MongoDB Contributor Agreement <https://www.mongodb.com/legal/contributor-agreement>`_.
 
 - Fork this repository on GitHub and issue a pull request.
-
 
 Report Issues
 -------------
@@ -56,3 +33,17 @@ If you have any questions, please contact `docs@10gen.com
 <mailto:docs@10gen.com>`_.
 
 -- The MongoDB/10gen Docs Team
+
+Contributing Enhancements
+-------------------------
+
+We love contributions! If you'd like to contribute code, documentation, or any other improvements, please `file a Pull Request <https://github.com/mongodb/docs-realm/pulls>`__ on our GitHub repository. Make sure to accept our CLA!
+
+This project adheres to the `Contributor Covenant Code of Conduct <https://www.contributor-covenant.org/version/2/0/code_of_conduct/code_of_conduct.md>`__. By participating, you are expected to uphold this code. Please report unacceptable behavior to info@realm.io.
+
+CLA
+---
+
+Realm welcomes all contributions! The only requirement we have is that, like many other projects, we need to have a `Contributor License Agreement <https://en.wikipedia.org/wiki/Contributor_License_Agreement>`__ (CLA) in place before we can accept any external code. Our own CLA is a modified version of the Apache Software Foundation’s CLA.
+
+`Please submit your CLA electronically using our Google form <https://docs.google.com/forms/d/e/1FAIpQLSeQ9ROFaTu9pyrmPhXc-dEnLD84DbLuT_-tPNZDOL9J10tOKQ/viewform>`__ so we can accept your submissions. The GitHub username you file there will need to match that of your Pull Requests. If you have any questions or cannot file the CLA electronically, you can email `help@realm.io`.

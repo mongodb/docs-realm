@@ -14,10 +14,34 @@ Schema Versions & Migrations - .NET SDK
 
 .. _dotnet-schema-version:
 
+Overview
+--------
+A **migration** transforms an existing {+realm+} and its objects from its
+current :ref:`{+backend-schema+} version <dotnet-schema-version>` to a newer one.
+Application data models typically change over time to accommodate new
+requirements and features. Migrations give you the flexibility to
+automatically update your existing application data whenever a client
+application upgrades to a newer version.
+
+Consider the following example, in which we have a ``RealmObject`` 
+called "Person":
+
+.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro3.cs
+   :language: csharp
+
+Suppose we now want to split up the ``FullName`` property into two separate 
+properties, ``FirstName`` and ``LastName``:
+
+.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro2.cs
+   :language: csharp
+   
+At this point, there is a mismatch between the model and any saved data, and 
+an exception will be thrown when you try to open the realm.
+
 Schema Version
 --------------
 
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
+The **schema version** identifies the state of a :ref:`{+backend-schema+}
 <dotnet-realm-schema>` at some point in time. {+client-database+} tracks the schema
 version of each {+realm+} and uses it to map the objects in each {+realm+}
 to the correct schema.
@@ -29,28 +53,14 @@ the {+realm+} defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
 
-   :ref:`Migrations <dotnet-client-migrations>` must update a {+realm+} to a
+   Migrations must update a {+realm+} to a
    higher schema version. {+client-database+} will throw an error if a client
    application opens a {+realm+} with a schema version that is lower than
    the {+realm+}'s current version or if the specified schema version is the
    same as the {+realm+}'s current version but includes different
    :ref:`object schemas <dotnet-object-schema>`.
 
-.. _dotnet-migrations:
+Migrate a Schema
+----------------
 
-Migrations
-----------
-
-A **local migration** is a migration for a {+realm+} that does
-not automatically :doc:`{+sync-short+} </sync>` with
-another {+realm+}. Local migrations have access to the existing
-{+backend-schema+}, version, and objects and define logic that
-incrementally updates the {+realm+} to its new schema version.
-To perform a local migration you must specify a new schema
-version that is higher than the current version and provide
-a migration function when you open the out-of-date {+realm+}.
-
-.. TODO: add this link when we have a migration function example for .NET
-.. .. seealso::
-
-..    :ref:`Usage Example: Migration Functions <dotnet-migration-function>`
+To learn how to perform a migration, see :ref:`<dotnet-modify-an-object-schema>`.

@@ -20,6 +20,24 @@ Query MongoDB - Node.js SDK
    in a chain of plant stores. For more information on the collection schema and
    document contents, see :ref:`Example Data <node-mongodb-example-dataset>`.
 
+Use Cases
+---------
+
+There are a variety of reasons you might want to query a MongoDB data source. 
+Working with data in your client via Realm Sync is not always practical or 
+possible. You might want to query MongoDB when:
+
+- The data set is large or the client device has constraints against loading 
+  the entire data set
+- You are :ref:`creating or updating custom user data 
+  <node-access-custom-user-data>`
+- You are retrieving documents that are not modeled in Realm
+- Your app needs to access collections that don't have strict schemas
+- A non-Realm service generates collections that you want to access
+
+While not exhaustive, these are some common use cases for querying MongoDB 
+directly.
+
 .. _node-mongodb-connect:
 
 Connect to a Linked Cluster
@@ -53,9 +71,9 @@ Read Operations
 Find a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~
 
-To find a single document, pass a query filter that matches the document to
+To find a single document, pass a query that matches the document to
 :js-sdk:`collection.findOne() <Realm.MongoDBCollection.html#findOne>`. If you do
-not pass a query filter, ``findOne()`` matches the first document it finds in
+not pass a query, ``findOne()`` matches the first document it finds in
 the collection.
 
 The following snippet finds the document that describes "venus flytrap" plants in the
@@ -101,9 +119,9 @@ Running this snippet produces output resembling the following:
 Find Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To find multiple documents, pass a query filter that matches the documents to
+To find multiple documents, pass a query that matches the documents to
 :js-sdk:`collection.find() <Realm.MongoDBCollection.html#find>`. If you do not
-pass a query filter, ``find()`` matches all documents in the collection.
+pass a query, ``find()`` matches all documents in the collection.
 
 The following snippet finds all documents that describe perennial plants in the
 :ref:`collection of documents that describe plants for sale in a group of stores
@@ -148,9 +166,9 @@ Running this snippet produces output resembling the following:
 Count Documents
 ~~~~~~~~~~~~~~~
 
-To count documents, pass a query filter that matches the documents to
+To count documents, pass a query that matches the documents to
 :js-sdk:`collection.count() <Realm.MongoDBCollection.html#count>`. If you do not
-pass a query filter, ``count()`` counts all documents in the collection.
+pass a query, ``count()`` counts all documents in the collection.
 
 The following snippet counts the number of documents in a :ref:`collection of
 documents that describe plants for sale in a group of stores
@@ -290,7 +308,7 @@ Running this snippet produces output resembling the following:
 Update a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update a single document, pass a query filter that matches the document and
+To update a single document, pass a query that matches the document and
 an update document to :js-sdk:`collection.updateOne()
 <Realm.MongoDBCollection.html#updateOne>`.
 
@@ -339,7 +357,7 @@ Running this snippet produces output resembling the following:
 Update Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To update multiple documents simultaneously, pass a query filter that matches
+To update multiple documents simultaneously, pass a query that matches
 the documents and an update description to :js-sdk:`collection.updateMany()
 <Realm.MongoDBCollection.html#updateMany>`.
 
@@ -389,7 +407,7 @@ Upsert Documents
 ~~~~~~~~~~~~~~~~
 
 To upsert a document, set the ``upsert`` option to ``true`` in your update
-operation. If the operation's query filter does not match any document in the
+operation. If the operation's query does not match any document in the
 collection, an upsert automatically inserts a single new document into the
 collection that matches the provided query document with the update applied to
 it.
@@ -438,15 +456,15 @@ Running this snippet produces output resembling the following:
 Delete a Single Document
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete a single document from a collection, pass a query filter that matches
+To delete a single document from a collection, pass a query that matches
 the document to :js-sdk:`collection.deleteOne()
-<Realm.MongoDBCollection.html#deleteOne>`. If you do not pass a query filter or
-if the query filter matches multiple documents, then the operation deletes the
+<Realm.MongoDBCollection.html#deleteOne>`. If you do not pass a query or
+if the query matches multiple documents, then the operation deletes the
 first document it finds.
 
 The following snippet deletes one document in a :ref:`collection of documents
 that describe plants for sale in a group of stores
-<android-mongodb-example-dataset>`. This operation queries for a document where
+<node-mongodb-example-dataset>`. This operation queries for a document where
 the ``color`` field has a value of "green" and deletes the first document that
 matches the query:
 
@@ -489,9 +507,9 @@ Running this snippet produces output resembling the following:
 Delete Multiple Documents
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete multiple document from a collection, pass a query filter that matches
+To delete multiple document from a collection, pass a query that matches
 the documents to :js-sdk:`collection.deleteMany()
-<Realm.MongoDBCollection.html#deleteMany>`. If you do not pass a query filter,
+<Realm.MongoDBCollection.html#deleteMany>`. If you do not pass a query,
 ``deleteMany()`` deletes all documents in the collection.
 
 The following snippet deletes all documents for plants that are in "Store 51" in
@@ -561,13 +579,13 @@ To watch for all changes in a collection, call :js-sdk:`collection.watch()
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.js
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection.ts
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection.ts
          :language: typescript
 
 .. _node-watch-for-specific-changes-in-a-collection:
@@ -576,7 +594,7 @@ To watch for all changes in a collection, call :js-sdk:`collection.watch()
 Watch for Specific Changes in a Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To watch for specific changes in a collection, pass a query filter that matches
+To watch for specific changes in a collection, pass a query that matches
 :manual:`change event </reference/change-events/>` fields to
 :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`:
 
@@ -585,13 +603,13 @@ To watch for specific changes in a collection, pass a query filter that matches
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.js
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection-with-filter.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.watch-a-collection-with-filter.ts
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection-with-filter.ts
          :language: typescript
 
 Aggregation Operations

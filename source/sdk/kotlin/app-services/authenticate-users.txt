@@ -1,0 +1,96 @@
+.. _kotlin-authenticate:
+.. _kotlin-authenticate-users:
+
+===============================
+Authenticate Users - Kotlin SDK
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a :file:`Credentials` object and pass
+it to :kotlin-sdk:`app.login()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`
+method to authenticate a user and create a :kotlin-sdk:`User
+<{+kotlin-sync-prefix+}io.realm.mongodb/-user/index.html>`
+object for that user.
+Each authentication provider corresponds to a
+:kotlin-sdk:`static helper method
+<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/index.html>`
+used to instantiate :file:`Credentials` objects for that
+authentication provider.
+
+.. _kotlin-login:
+
+Log In
+------
+
+You can authenticate users with :kotlin-sdk:`app.login()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`.
+
+If successful, :file:`app.login()` returns a :file:`User` object.
+In the event of a failure, :file:`app.login()` throws an
+exception of type :file:`AppException`.
+
+.. _kotlin-anonymous-login:
+.. _kotlin-login-anonymous:
+
+Anonymous User
+~~~~~~~~~~~~~~
+
+The :doc:`anonymous authentication provider </authentication/anonymous>`
+enables users to log in to your application with short-term accounts
+that store no persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+:kotlin-sdk:`AuthenticationProvider.ANONYMOUS()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html>`
+and then pass the generated credential to
+:file:`app.login()`.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.anonymous-authentication.kt
+   :language: kotlin
+   :copyable: false
+
+.. _kotlin-email-password-login:
+.. _kotlin-login-email-password:
+
+Email/Password User
+~~~~~~~~~~~~~~~~~~~
+
+The :doc:`Email/Password authentication provider </authentication/email-password>`
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling :kotlin-sdk:`AuthenticationProvider.EMAIL_PROVIDER()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-e-m-a-i-l_-p-a-s-s-w-o-r-d/index.html>`
+with the user's email and password. Then pass the generated credential
+to :file:`app.login()`.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.email-password-authentication.kt
+   :language: kotlin
+   :copyable: false
+
+.. _kotlin-logout:
+
+Log a User Out
+--------------
+
+You can log out any user, regardless of the authentication provider used
+to log in, using :kotlin-sdk:`user.logOut()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-user/log-out.html>`. This method:
+
+- deletes locally stored user credentials from the device
+
+- immediately halts any synchronization to and from the user's {+realm+}s
+
+Because logging out halts synchronization, you should only log out after
+all local Realm updates have uploaded to the server.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.log-out.kt
+   :language: kotlin
+   :copyable: false

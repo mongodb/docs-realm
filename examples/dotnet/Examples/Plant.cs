@@ -2,11 +2,18 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Realms;
 
-namespace Examples
+namespace Examples.Models
 {
     // :code-block-start: plant-class
     public class Plant
+    //:hide-start:
+    : RealmObject
+    //:hide-end:
     {
+        //:hide-start:
+        [PrimaryKey]
+        [MapTo("_id")]
+        //:hide-end:
         [BsonElement("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
@@ -15,15 +22,15 @@ namespace Examples
 
         [BsonElement("sunlight")]
         [BsonRepresentation(BsonType.String)]
-        public Sunlight Sunlight { get; set; }
+        public string Sunlight { get; set; }
 
         [BsonElement("color")]
         [BsonRepresentation(BsonType.String)]
-        public PlantColor Color { get; set; }
+        public string Color { get; set; }
 
         [BsonElement("type")]
         [BsonRepresentation(BsonType.String)]
-        public PlantType Type { get; set; }
+        public string Type { get; set; }
 
         [BsonElement("_partition")]
         public string Partition { get; set; }

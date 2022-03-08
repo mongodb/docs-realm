@@ -15,32 +15,52 @@ toc_landing_pages = [
   "/authentication",
   "/authentication/providers",
   "/mongodb",
-  "/sync",
   "/graphql",
   "/functions",
-  "/triggers",
   "/services",
   "/services/http",
   "/services/twilio",
   "/hosting",
   "/values-and-secrets",
-  "/deploy",
+  "/manage-apps/deploy",
   "/logs",
+  "/manage-apps/configure/config",
+  "/manage-apps/configure/export-realm-app",
+  "/manage-apps/secure",
+  "/schemas",
+  "/rules",
+  "/endpoints",
   # SDKs
   "/sdk",
-  "/sdk/android",
-  "/sdk/ios",
+  "/sdk/java",
+  "/sdk/java/api",
+  "/sdk/swift",
   "/sdk/node",
   "/sdk/react-native",
+  "/sdk/kotlin",
   "/sdk/web",
   "/sdk/dotnet",
+  "/sdk/flutter",
+  "/sdk/swift/examples/work-with-users",
   # Old SDKs
   "/android",
   "/ios",
   "/node",
   "/react-native",
   "/web",
-  "/dotnet"
+  "/dotnet",
+  # CLI
+  "/cli",
+  "/cli/realm-cli-accessList",
+  "/cli/realm-cli-apps",
+  "/cli/realm-cli-function",
+  "/cli/realm-cli-logs",
+  "/cli/realm-cli-schema",
+  "/cli/realm-cli-secrets",
+  "/cli/realm-cli-users",
+  # Other
+  "/studio",
+  "/release-notes"
 ]
 
 [substitutions]
@@ -50,6 +70,7 @@ atlas = "Atlas"
 realm = "realm"
 realms = "realms"
 client-database = "Realm Database"
+client-db-short = "Realm"
 atlas = "MongoDB Atlas"
 atlas-short = "Atlas"
 compass = "MongoDB Compass"
@@ -64,10 +85,18 @@ sync = "Realm Sync"
 sync-short = "Sync" # feature/product name, NOT verb
 backend-schema = "Realm Schema"
 frontend-schema = "Realm Object Model"
-cli-bin = "``realm-cli``" # binary -- DO NOT USE IN LINKS! Will break them.
+cli-bin = ":binary:`realm-cli`" # binary -- DO NOT USE IN LINKS! Will break them.
 cli = "Realm CLI"
 ui = "Realm UI"
 app = "Realm app"
 leftnav = "left navigation menu"
 admin-api-page = "/admin/api/v3/#"
 base-url = "https://docs.mongodb.com/realm"
+kotlin-sdk-version = "0.10.0"
+kotlinx-coroutines-version = "1.6.0-native-mt"
+kotlin-sync-prefix = "library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/"
+kotlin-local-prefix = "library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/"
+java-sdk-version = "10.10.1"
+max-graphql-resolvers = "ten"
+max-graphql-relationship-depth = "five"
+log-retention-time = "10 days"

@@ -1,0 +1,39 @@
+.. _rules:
+.. _mongodb-rules:
+
+=====
+Rules
+=====
+
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Role-based Permissions </rules/roles>
+   Filters </rules/filters>
+   Expressions </rules/expressions>
+   Examples </rules/examples>
+   Define Roles And Permissions </mongodb/define-roles-and-permissions>
+   Filter Incoming Queries </mongodb/filter-incoming-queries>
+   Configure Advanced Rules </mongodb/configure-advanced-rules>
+
+.. include:: /includes/non-sync-rules-note.rst
+
+In traditional applications, an application server exposes an API to client
+applications and handles database queries on their behalf. To prevent malicious,
+improper, or incorrect read and write operations, clients don't query the
+database directly.
+
+{+service+} provides a configurable and dynamic rules engine that enables you to
+run a MongoDB query from client applications while transparently preventing
+unauthorized reads and writes. Rules are defined for entire collections in a
+linked MongoDB Atlas cluster and apply to individual documents in the collection
+dynamically based on the :doc:`application user </authentication>` that issued a
+query.
+
+.. include:: /includes/data-lake-rules-note.rst
+
+The rules engine handles incoming queries with the following 4-step
+process:
+
+.. include:: /includes/steps/mdb-rules-process.rst

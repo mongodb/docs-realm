@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using Realms;
 
-namespace dotnet
+namespace Examples.Models
 {
     public class Project : RealmObject
     {
@@ -9,6 +9,7 @@ namespace dotnet
         [MapTo("_id")]
         public ObjectId _id { get; set; }
         [MapTo("_partition")]
+        [Required]
         public string Partition { get; set; }
         [MapTo("name")]
         [Required]

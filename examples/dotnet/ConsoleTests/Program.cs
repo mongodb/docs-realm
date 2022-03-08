@@ -9,7 +9,7 @@ namespace ConsoleTests
 {
     class Program
     {
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = "codesnippetbackend-drcpb";
 
         //:code-block-start: async-console
         public static void Main(string[] args)
@@ -24,7 +24,7 @@ namespace ConsoleTests
             var config = new SyncConfiguration("partition", user);
 
             using var realm = await Realm.GetInstanceAsync();
-            var foos = realm.All<Foo>().Where(f => f.Bar > 5);
+            var foos = realm.All<TestClass>().Where(f => f.Bar > 5);
             foreach (var foo in foos)
             {
                 await Task.Delay(10); // Simulates some background work
@@ -37,7 +37,7 @@ namespace ConsoleTests
         //:code-block-end:
     }
 
-    class Foo : RealmObject
+    class TestClass : RealmObject
     {
         public int Bar { get; set; }
     }

@@ -40,7 +40,7 @@ If you have enabled :ref:`Anonymous authentication <anonymous-authentication>` i
 {+ui+}, users can immediately log into your app without providing any identifying
 information. The following code shows how to do this:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_anon.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_anon.cs
    :language: csharp
 
 .. _dotnet-login-email-password:
@@ -51,7 +51,7 @@ Email/Password User
 If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_EP.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_EP.cs
    :language: csharp
 
 .. _dotnet-login-api-key:
@@ -62,7 +62,7 @@ API Key User
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_API.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_API.cs
    :language: csharp
 
 .. _dotnet-login-custom-jwt:
@@ -73,7 +73,7 @@ Custom JWT User
 If you have enabled the :doc:`Custom JWT authentication provider </authentication/custom-jwt>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_JWT.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_JWT.cs
    :language: csharp
 
 .. _dotnet-login-custom-function:
@@ -85,7 +85,7 @@ If you have enabled the
 :doc:`Custom Function authentication provider </authentication/custom-function>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_Function.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_Function.cs
    :language: csharp
 
 .. _dotnet-login-facebook:
@@ -101,7 +101,7 @@ account.
 
 .. include:: /includes/note-facebook-profile-picture-url.rst
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_fb.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_fb.cs
    :language: csharp
 
 .. _dotnet-login-google:
@@ -112,7 +112,7 @@ Google User
 If you have enabled :ref:`Google authentication <google-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_google.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_google.cs
    :language: csharp
 
 .. _dotnet-login-apple:
@@ -123,8 +123,10 @@ Apple User
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logon_apple.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_apple.cs
    :language: csharp
+
+.. include:: /includes/authorization-appleidcredential-string.rst
 
 .. _dotnet-logout:
 
@@ -133,7 +135,24 @@ Log a User Out
 
 Once logged in, you can log out by calling the ``LogOutAsync()`` method:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.logout.cs
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.codeblock.logout.cs
    :language: csharp
 
 .. include:: /includes/log-out-queries-in-progress.rst
+
+.. _dotnet-retrieve-current-user:
+
+Retrieve the Current User
+-------------------------
+
+Once you have an authenticated user, you can retrieve the User object with the 
+:dotnet-sdk:`App.CurrentUser <reference/Realms.Sync.App.html#Realms_Sync_App_CurrentUser>` 
+property. The ``CurrentUser`` object is persisted in local storage, so even if 
+the app shuts down after the initial authentication, you do not need to call 
+``LoginAsync`` again (unless the user logged out). Instead, use 
+:dotnet-sdk:`Realm.GetInstance(config) <reference/Realms.Realm.html#Realms_Realm_GetInstance_Realms_RealmConfigurationBase_>`, 
+where ``config`` is a 
+:dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration__ctor_System_Nullable_MongoDB_Bson_ObjectId__Realms_Sync_User_System_String_>` 
+object. This approach results in a faster start-up and also enables the user to 
+work offline.
+

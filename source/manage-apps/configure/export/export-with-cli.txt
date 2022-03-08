@@ -1,0 +1,48 @@
+.. _export-app-cli:
+
+=================================
+Export a Realm App with Realm CLI
+=================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can use the :ref:`MongoDB Realm CLI <realm-cli-quickstart>` to export 
+your {+app+}'s configuration.
+
+.. include:: /includes/note-secrets-not-exported.rst
+
+.. note::
+
+   ``Export`` is the :ref:`v1 Realm CLI <realm-cli-v1>` command, and is an
+   alias for ``pull`` in the :ref:`v2 Realm CLI <realm-cli-quickstart>`.  
+
+Prerequisites
+-------------
+
+- A :ref:`properly installed <install-realm-cli>` copy of {+cli-bin+} that has
+  been added to your system ``PATH``.
+
+- A `{+atlas+}
+  <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_
+  :atlas:`programmatic API key </configure-api-access/#programmatic-api-keys>`. 
+  You must be a :atlas:`Project Owner </reference/user-roles/#project-roles>` 
+  to export a {+app+}.
+
+Procedure
+---------
+
+.. include:: /includes/steps/cli-export.rst
+
+Output
+------
+
+Your application will be exported to a local application directory. If
+you did not specify a path for the directory with ``--local``, it will
+be exported with the same name as the application into the current
+working directory.

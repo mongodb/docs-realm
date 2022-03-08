@@ -1,8 +1,8 @@
 .. _twilio-service:
 
-==============
-Twilio Service
-==============
+===========================
+Twilio Service [Deprecated]
+===========================
 
 .. default-domain:: mongodb
 
@@ -15,6 +15,8 @@ Twilio Service
 .. meta::
    :description: MongoDB Realm, MongoDB Realm Documentation Manual, MongoDB Backend as a Service, Integrate MongoDB Realm with Twilio, Twilio Integration with MongoDB Realm
    :keywords: MongoDB Realm, MongoDB, Realm, MongoDB Backend as a Service, Integrate, Twilio
+
+.. include:: /includes/note-third-party-services-deprecation.rst
 
 Overview
 --------
@@ -60,7 +62,7 @@ You will need to provide values for the following parameters when you
       
       .. code-block:: json
          :copyable: False
-         :caption: ``<Service Name>/config.json``
+         :caption: <Service Name>/config.json
       
          {
            "name": "<Service Name>",
@@ -120,6 +122,13 @@ Action </services/call-a-service-action>`.
 
 Incoming Webhooks
 -----------------
+
+.. note:: Convert Twilio Webhooks to Endpoints
+
+   Twilio Service webhoooks are deprecated in favor of custom HTTPS
+   endpoints. To learn how to migrate your existing Twilio webhooks to
+   endpoints, see :ref:`Convert Webhooks to HTTPS Endpoints
+   <migrate-twilio-webhooks-to-endpoints>`.
 
 Incoming webhooks for the Twilio service enable your {+app+}
 to handle incoming text messages. Once you've created an incoming
@@ -208,8 +217,7 @@ Configuration
              specific user id or a function that resolves to a user id,
              {+service-short+} executes the webhook function as the :ref:`system
              user <system-user>` that has full access to MongoDB CRUD and
-             Aggregation APIs and is not affected by any rules, roles, or
-             permissions.
+             Aggregation APIs and bypasses all rules and schema validation.
 
 .. _twilio-webhook-request-payload:
 

@@ -12,6 +12,7 @@ namespace RealmDotnetTutorial
     {
         private Realm taskRealm;
         private ObservableCollection<Task> _tasks = new ObservableCollection<Task>();
+        private string projectPartition;
 
         public ObservableCollection<Task> MyTasks
         {
@@ -28,17 +29,18 @@ namespace RealmDotnetTutorial
 
         protected override async void OnAppearing()
         {
+            projectPartition = $"project={App.RealmApp.CurrentUser.Id}";
             WaitingLayout.IsVisible = true;
             try
             {
-                var syncConfig = new SyncConfiguration(
-                    $"project={App.RealmApp.CurrentUser.Id }",
-                    App.RealmApp.CurrentUser);
+                var syncConfig = new SyncConfiguration(projectPartition, App.RealmApp.CurrentUser);
+
                 // :code-block-start:task-realm-config
                 // :state-start: final
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: instatiate the taskRealm by calling GetInstanceAsync
+                //// taskRealm = await ...
                 // :state-uncomment-end:
                 // :code-block-end:
                 SetUpTaskList();
@@ -58,6 +60,7 @@ namespace RealmDotnetTutorial
             _tasks = new ObservableCollection<Task>(taskRealm.All<Task>().ToList());
             // :state-end: :state-uncomment-start: start
             //// TODO: populate the _tasks collection with all tasks in the taskRealm.
+            //// _tasks = new ...
             // :state-uncomment-end:
             // :code-block-end:
             listTasks.ItemsSource = MyTasks;
@@ -89,7 +92,7 @@ namespace RealmDotnetTutorial
 
             if (taskRealm == null)
             {
-                var syncConfig = new SyncConfiguration($"project={App.RealmApp.CurrentUser.Id }", App.RealmApp.CurrentUser);
+                var syncConfig = new SyncConfiguration(projectPartition, App.RealmApp.CurrentUser);
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
             }
 
@@ -98,6 +101,7 @@ namespace RealmDotnetTutorial
             var newTask = new Task()
             {
                 Name = result,
+                Partition = projectPartition,
                 Status = Task.TaskStatus.Open.ToString()
             };
 
@@ -109,6 +113,7 @@ namespace RealmDotnetTutorial
             //// TODO: create a new Task, setting the name to "result" and
             //// the status to "Open" (using the TaskStatus enum).
             //// Then add the task to the taskRealm within a transaction.
+            //// var newTask = ...
             // :state-uncomment-end:
             // :code-block-end:
 

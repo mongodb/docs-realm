@@ -1,10 +1,10 @@
 class Person: Object {
     // Required string property
-    @objc dynamic var name: String = ""
+    @Persisted var name: String = ""
 
     // Optional string property
-    @objc dynamic var address: String?
+    @Persisted var address: String?
 
     // Optional integral type property
-    let age = RealmOptional<Int>()
+    @Persisted var age: Int?
 }

@@ -36,7 +36,7 @@ content: |
      * - :method:`collection.findOneAndUpdate()`
 
        - Update a single document in a collection or :manual:`view
-         </core/views>` based on a query filter and return the document
+         </core/views>` based on a query and return the document
          in either its pre-update or post-update form. Unlike
          :method:`collection.updateOne()`, this action allows you to
          atomically find, update, and return a document with the same
@@ -45,7 +45,7 @@ content: |
      * - :method:`collection.findOneAndReplace()`
 
        - Overwrite a single document in a collection or :manual:`view
-         </core/views>` based on a query filter and return the document
+         </core/views>` based on a query and return the document
          in either its pre-replacement or post-replacement form. Unlike
          :method:`collection.updateOne()`, this action allows you to
          atomically find, replace, and return a document with the same
@@ -62,7 +62,7 @@ content: |
      * - :method:`collection.count()`
 
        - Return the number of documents in a collection or :manual:`view
-         </core/views>` that match the specified query filter.
+         </core/views>` that match the specified query.
 
      * - :method:`collection.insertOne()`
 
@@ -76,19 +76,19 @@ content: |
 
      * - :method:`collection.updateOne()`
 
-       - Update a single document in a collection based on a query filter.
+       - Update a single document in a collection based on a query.
 
      * - :method:`collection.updateMany()`
 
-       - Update one or more documents in a collection based on a query filter.
+       - Update one or more documents in a collection based on a query.
 
      * - :method:`collection.deleteOne()`
 
-       - Remove a single document from the collection based on a query filter.
+       - Remove a single document from the collection based on a query.
 
      * - :method:`collection.deleteMany()`
 
-       - Remove one or more documents from the collection based on a query filter.
+       - Remove one or more documents from the collection based on a query.
 
      * - :method:`collection.aggregate()`
 
@@ -234,7 +234,7 @@ content: |
 
   .. list-table::
      :header-rows: 1
-     :widths: 10 80
+     :widths: 50 50
 
      * - Action
        - Description

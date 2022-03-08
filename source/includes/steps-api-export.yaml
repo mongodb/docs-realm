@@ -1,0 +1,44 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  .. include:: /includes/api-authenticate-instructions.rst
+---
+title: Get the Atlas Project ID
+ref: get-project-id
+content: |
+  To export a {+app+}, you need the Project ID (sometimes referred to as
+  the Group ID) of the Atlas project that contains the app. You will
+  include this ID in the URL of API requests.
+
+  :ref:`Follow these steps <find-your-project-id>` and note the Project ID.
+---
+title: Get the Application ID
+ref: get-application-id
+content: |
+  To export a {+app+} configuration, you need the app's Application ID.
+  You will include this ID in the URL of API requests alongside the
+  Project ID you just looked up.
+
+  .. include:: /includes/api-get-application-id.rst
+---
+title: Export Your Realm App
+ref: app-export-endpoint
+content: |
+  To export your {+app+}, send a request to the app's
+  :admin-api-endpoint:`export endpoint
+  <operation/adminExportApplication>`. The endpoint URL should includes
+  the :admin-api-endpoint:`Project ID
+  <section/Project-and-Application-IDs>` and App ID you just looked up.
+
+  Include the access token from the response document of the previous step in a 
+  :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+
+  .. code-block:: shell
+
+    curl --request GET 'https://realm.mongodb.com/api/admin/v3.0/groups/<projectId>/apps/<appId>/export' \
+      --header 'Authorization:  Bearer <access token>' \
+      --header 'Content-Type: application/json'
+
+  If the request is successful, the endpoint returns a ``200`` response
+  and a ``.zip`` file that contains your application's current
+  configuration directory.

@@ -1,0 +1,85 @@
+title: Define Environment Values
+ref: define-environment-values
+content: |
+  You can use expansions to template any environment. For each environment that
+  you use, define values that you reference in your configuration files.
+  
+  .. example::
+     
+     The following environments configure different MongoDB Atlas cluster names:
+
+     .. code-block:: json
+        :caption: environments/development.json
+        
+        {
+          "values": {
+            "clusterName": "atlas-development"
+          }
+        }
+     
+     .. code-block:: json
+        :caption: environments/production.json
+        
+        {
+          "values": {
+            "clusterName": "atlas-production"
+          }
+        }
+---
+title: Define an Expansion Replacement
+ref: define-an-expansion-replacement
+content: |
+  You can reference any environment value from a configuration file with the
+  ``%()`` replacement operator and the :json-expansion:`%%environment`
+  expansion. Define expansions for each configuration file you want to template.
+  
+  .. example::
+     
+     The following template configuration file for the ``mongodb-atlas`` data
+     source uses expansions to dynamically resolve ``clusterName`` based on the
+     environment:
+     
+     .. code-block:: json
+        :caption: data_sources/mongodb-atlas/config.json
+        :emphasize-lines: 5
+        
+        {
+          "name": "mongodb-atlas",
+          "type": "mongodb-atlas",
+          "config": {
+            "clusterName": "%(%%environment.values.clusterName)",
+            "readPreference": "primaryPreferred",
+            "wireProtocolEnabled": true
+          }
+        }
+---
+title: Create a New Templated App
+ref: create-a-new-templated-app
+content: |
+  Once you have defined your templated configuration files, you can use them to
+  create a new app for a given environment. If you do not specify an
+  environment, ``%%environment`` expansions resolve to values in
+  ``environments/no-environment.json``.
+  
+  .. example::
+     
+     Realm uses the template configuration to generate new, resolved
+     configuration files on import:
+     
+     .. code-block:: shell
+        
+        realm-cli push --environment="development"
+     
+     .. code-block:: json
+        :caption: data_sources/mongodb-atlas/config.json
+        :emphasize-lines: 5
+        
+        {
+          "name": "mongodb-atlas",
+          "type": "mongodb-atlas",
+          "config": {
+            "clusterName": "atlas-development",
+            "readPreference": "primaryPreferred",
+            "wireProtocolEnabled": true
+          }
+        }

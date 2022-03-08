@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Text, ListItem } from "react-native-elements";
+import { ListItem, Text } from "react-native-elements";
 import { useTasks } from "../providers/TasksProvider";
 import { ActionSheet } from "./ActionSheet";
 import { Task } from "../schemas";
+
+import styles from "../stylesheet";
 
 export function TaskItem({ task }) {
   const [actionSheetVisible, setActionSheetVisible] = useState(false);
@@ -22,7 +24,7 @@ export function TaskItem({ task }) {
   // avoid repetition, we split each status to separate each case in the code
   // below for demonstration purposes.
   // :code-block-start: define-task-status-actions
-  // :hide-start:
+  // :state-start: final
   if (task.status !== "" && task.status !== Task.STATUS_OPEN) {
     actions.push({
       title: "Mark Open",
@@ -47,9 +49,9 @@ export function TaskItem({ task }) {
       },
     });
   }
-  // :replace-with:
+  // :state-end: :state-uncomment-start: start
   //// TODO
-  // :hide-end:
+  // :state-uncomment-end:
   // :code-block-end:
 
   return (
@@ -63,21 +65,25 @@ export function TaskItem({ task }) {
         }}
         actions={actions}
       />
-      <ListItem
-        key={task.id}
+      <ListItem 
+        key={task.id} 
         onPress={() => {
           setActionSheetVisible(true);
         }}
-        title={task.name}
-        bottomDivider
-        checkmark={
+        bottomDivider>
+        <ListItem.Content>
+          <ListItem.Title>
+            {task.name}
+            </ListItem.Title>
+        </ListItem.Content>
+        {
           task.status === Task.STATUS_COMPLETE ? (
             <Text>&#10004; {/* checkmark */}</Text>
           ) : task.status === Task.STATUS_IN_PROGRESS ? (
             <Text>In Progress</Text>
           ) : null
         }
-      />
+      </ListItem>
     </>
   );
 }

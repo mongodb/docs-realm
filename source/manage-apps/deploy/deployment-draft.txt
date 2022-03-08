@@ -1,0 +1,55 @@
+.. _deployment-draft:
+
+================
+Deployment Draft
+================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+A deployment draft represents a group of {+app+} changes that you can 
+deploy or discard as a single unit. 
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 5 30 
+
+   * - Deployment Method
+     - Drafts Explicitly Used?
+     - Draft Behavior
+
+   * - :ref:`{+ui+} <deploy-ui>`
+     - Yes
+     - Any changes you make to your {+app+}'s configuration in the {+ui+} will be 
+       automatically saved as a draft that you can manually deploy, 
+       unless you have :ref:`disabled drafts <disable-deployment-drafts>` in the settings.
+
+   * - :ref:`{+service-short+} Admin API <deploy-api>`
+     - Yes
+     - You can use an :admin-api-endpoint:`API endpoint <tag/deploy>`
+       to create a draft, then use other endpoints to make changes and deploy (or discard)
+       the draft.
+
+   * - :ref:`{+cli+} <deploy-cli>`
+     - No 
+     - You make changes to configuration files locally, and once you are ready to deploy 
+       them, :ref:`push <realm-cli-push>` them. Once you confirm your changes and push, 
+       a draft automatically gets created and deployed. 
+
+   * - :ref:`Automatic GitHub Deployment <deploy-github>` or :ref:`CI/CD <ci-cd-pipeline>`
+     - No
+     - You make changes to configuration files locally, and once you are ready to deploy 
+       them, push them to GitHub or any CI/CD pipeline. Once you push, 
+       a draft automatically gets created and deployed. 
+
+.. important:: Draft Conflicts
+   
+   Avoid having multiple users make conflicting changes in UI or API drafts at the same time. 
+   If there are multiple concurrent drafts that contain conflicting changes, you will not 
+   be able to deploy one or more of the drafts. 

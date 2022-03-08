@@ -1,0 +1,46 @@
+.. _kotlin-create-a-new-object:
+
+================================
+Create a New Object - Kotlin SDK
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Instantiate Realm objects as you would any other object. In a
+transaction, you can add the object to the {+realm+} if the
+{+realm+}'s schema includes the object
+type. When you add an instance to the {+realm+}, it becomes
+*managed* by that {+realm+}.
+
+To persist a new object to a realm:
+
+1. Instantiate a new object instance with the class constructor. You
+   can use an `apply block
+   <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html>`__
+   to configure multiple properties at once.
+
+#. Open a write transaction with :kotlin-sdk:`realm.write()
+   <{+kotlin-local-prefix+}io.realm/-realm/write.html>` or
+   :kotlin-sdk:`realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`.
+
+#. Pass the new object instance to :kotlin-sdk:`copyToRealm()
+   <{+kotlin-local-prefix+}io.realm/-mutable-realm/copy-to-realm.html>`
+   to persist the object data to the realm. This method returns a
+   **managed** instance of the object. You can modify the persisted
+   object through the returned instance.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.create-a-new-object.kt
+   :language: kotlin
+   :copyable: false
+
+.. note::
+
+   You can only insert new objects into a realm within a
+   :ref:`write transaction <kotlin-write-transactions>`.

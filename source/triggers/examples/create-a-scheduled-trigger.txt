@@ -1,0 +1,83 @@
+.. _create-a-scheduled-trigger:
+
+==========================
+Create a Scheduled Trigger
+==========================
+
+.. default-domain:: mongodb
+
+.. seealso::
+
+   For more information about configuring Scheduled Triggers, see the
+   :ref:`Scheduled Trigger reference <scheduled-triggers-configuration>`.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      To create a scheduled Trigger in the {+ui+}:
+      
+      1. Click :guilabel:`Triggers` under :guilabel:`MongoDB Cluster` in the
+         {+leftnav+}.
+      
+      2. Select :guilabel:`Scheduled Triggers` from the Trigger type dropdown
+         menu.
+      
+      3. Click :guilabel:`Add a Trigger` to open the Trigger configuration page.
+      
+      4. Enter :ref:`configuration values <scheduled-trigger-configuration>` for
+         the Trigger. You can configure two types of Trigger schedules:
+         :guilabel:`Basic` or :guilabel:`Advanced`.
+      
+         - A :guilabel:`Basic` schedule executes the Trigger periodically based
+           on a single unit of time and an interval, such as "every five
+           minutes" or "every Monday".
+      
+         - An :guilabel:`Advanced` schedule executes the Trigger based on a
+           custom :ref:`CRON expression <CRON-expressions>` that you
+           define.
+      
+      5. Click :guilabel:`Save`.
+      
+      .. figure:: /images/trigger-example-scheduled.png
+         :figwidth: 750px
+         :alt: Creating a Trigger in the {+ui+}.
+   
+   .. tab::
+      :tabid: cli
+      
+      To create a scheduled Trigger with :doc:`realm-cli
+      </cli>`:
+      
+      1. Add a scheduled Trigger :ref:`configuration file
+         <config-scheduled-trigger>` to the ``triggers`` subdirectory of a local
+         application directory.
+      
+         .. note::
+      
+            You cannot create a Trigger that runs on a :guilabel:`Basic`
+            schedule using Realm CLI. All imported scheduled Trigger
+            configurations must specify a :ref:`CRON expression
+            <CRON-expressions>`.
+
+         Scheduled Trigger configuration files have the following form:
+
+         .. code-block:: none
+            :caption: /triggers/<triggers name>.json
+
+            {
+               "type": "SCHEDULED",
+               "name": "<Trigger Name>",
+               "function_name": "<Trigger Function Name>",
+               "config": {
+                 "schedule": "<CRON expression>"
+               },
+               "disabled": <boolean>
+            }
+      
+      2. :doc:`Deploy </manage-apps/deploy/manual/deploy-cli>` the trigger:
+      
+         .. code-block:: shell
+      
+            realm-cli push

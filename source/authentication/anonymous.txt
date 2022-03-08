@@ -18,10 +18,14 @@ Overview
 --------
 
 The Anonymous authentication provider allows users to log in to your
-application without providing credentials. Each time someone
-authenticates anonymously, the provider generates a new anonymous user
-object for that session. Anonymous user objects have a unique ID value
-but no other metadata fields or configuration options.
+application without providing credentials. Anonymous user objects have a 
+unique ID value but no other metadata fields or configuration options.
+
+.. warning::
+
+   An Anonymous user object is not intended to persist data. Once a user logs 
+   out, either by explicit logout or because the refresh token expires, the 
+   user cannot retrieve any previous user data.
 
 Potential use cases for anonymous authentication include:
 
@@ -37,8 +41,13 @@ Potential use cases for anonymous authentication include:
 
 Account Linking
 ---------------
-An Anonymous user object is not intended to be reused, and once a user
-logs out, they will not be able to retrieve any previous user data.
+
+When someone authenticates anonymously, the provider generates an anonymous 
+user object. If the app does not explicitly log this anonymous user out, 
+the same anonymous user is reused. The anonymous user persists until 
+explicit logout, or until the refresh token expires, which is currently 
+60 days. When the refresh token expires, login fails.
+
 To persist data associated with an Anonymous user, you can associate
 that existing Anonymous identity with a user account created by a
 different authentication provider.
@@ -51,6 +60,7 @@ different authentication provider.
    user remain unaffected.
 
 .. _anonymous-authentication-configuration:
+.. _config-anonymous:
 
 Configuration
 -------------
@@ -85,24 +95,21 @@ Configuration
    .. tab::
       :tabid: cli
 
-      You can enable the Anonymous authentication provider with
-      :doc:`realm-cli </deploy/realm-cli-reference>` by
-      importing an application directory that contains a
-      :ref:`configuration file <appschema-authentication-providers>`
-      for the provider.
-
-      The configuration file must be named ``anon-user.json`` and
-      stored in the ``/auth_providers`` directory. Configuration
-      files for the Anonymous authentication provider have the
-      following form:
+      To enable and configure the Anonymous authentication provider with
+      :ref:`realm-cli <realm-cli-quickstart>`, define a :ref:`configuration 
+      object <appconfig-auth>` for it in ``/auth/providers.json``.
+      
+      Anonymous provider configurations have the following form:
 
       .. code-block:: javascript
-         :caption: /auth_providers/anon-user.json
-
+         :caption: /auth/providers.json
+         
          {
-           "name": "anon-user",
-           "type": "anon-user",
-           "disabled": <boolean>,
+           "anon-user": {
+             "name": "anon-user",
+             "type": "anon-user",
+             "disabled": <boolean>
+           }
          }
 
 .. note::
@@ -124,13 +131,13 @@ anonymous authentication, see the documentation for the Realm SDKs:
       :tabid: android
 
       To register or log in an anonymous user from the Android Client SDK, see the
-      :ref:`Android SDK guide to anonymous authentication <android-login-anonymous>`.
+      :ref:`Java SDK guide to anonymous authentication <java-login-anonymous>`.
 
    .. tab::
       :tabid: ios
 
       To register or log in an anonymous user from the iOS Client SDK, see the
-      :ref:`iOS SDK guide to anonymous authentication <ios-login-anonymous>`.
+      :ref:`Swift SDK guide to anonymous authentication <ios-login-anonymous>`.
 
    .. tab::
       :tabid: web

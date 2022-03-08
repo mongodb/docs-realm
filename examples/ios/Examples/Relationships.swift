@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
 //     "InverseRelationshipExample_": "",
+//     "InverseRelationshipObjcDynamicExample_": "",
 //     "ToManyExample_": "",
 //     "ToOneRelationship_": ""
 //   }
@@ -9,26 +10,47 @@ import RealmSwift
 
 // :code-block-start: inverse-relationship
 class InverseRelationshipExample_User: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var _partition: String = ""
+    @Persisted var name: String = ""
+
+    // A user can have many tasks.
+    @Persisted var tasks: List<InverseRelationshipExample_Task>
+}
+
+class InverseRelationshipExample_Task: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var _partition: String = ""
+    @Persisted var text: String = ""
+
+    // Backlink to the user. This is automatically updated whenever
+    // this task is added to or removed from a user's task list.
+    @Persisted(originProperty: "tasks") var assignee: LinkingObjects<InverseRelationshipExample_User>
+}
+// :code-block-end:
+
+// :code-block-start: inverse-relationship-objc-dynamic
+class InverseRelationshipObjcDynamicExample_User: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var name: String = ""
 
     // A user can have many tasks.
-    let tasks = List<InverseRelationshipExample_Task>()
+    let tasks = List<InverseRelationshipObjcDynamicExample_Task>()
 
     override static func primaryKey() -> String? {
         return "_id"
     }
 }
 
-class InverseRelationshipExample_Task: Object {
+class InverseRelationshipObjcDynamicExample_Task: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
     @objc dynamic var text: String = ""
 
     // Backlink to the user. This is automatically updated whenever
     // this task is added to or removed from a user's task list.
-    let assignee = LinkingObjects(fromType: InverseRelationshipExample_User.self, property: "tasks")
+    let assignee = LinkingObjects(fromType: InverseRelationshipObjcDynamicExample_User.self, property: "tasks")
 
     override static func primaryKey() -> String? {
         return "_id"
@@ -38,34 +60,34 @@ class InverseRelationshipExample_Task: Object {
 
 // :code-block-start: to-many-relationship
 class ToManyExample_Person: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var birthdate: Date = Date(timeIntervalSince1970: 1)
+    @Persisted var name: String = ""
+    @Persisted var birthdate: Date = Date(timeIntervalSince1970: 1)
 
     // A person can have many dogs
-    let dogs = List<ToManyExample_Dog>()
+    @Persisted var dogs: List<ToManyExample_Dog>
 }
 
 class ToManyExample_Dog: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var age: Int = 0
-    @objc dynamic var breed: String?
+    @Persisted var name: String = ""
+    @Persisted var age: Int = 0
+    @Persisted var breed: String?
     // No backlink to person -- one-directional relationship
 }
 // :code-block-end:
 
 // :code-block-start: to-one-relationship
 class ToOneRelationship_Person: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var birthdate: Date = Date(timeIntervalSince1970: 1)
+    @Persisted var name: String = ""
+    @Persisted var birthdate: Date = Date(timeIntervalSince1970: 1)
 
     // A person can have one dog
-    @objc dynamic var dog: ToOneRelationship_Dog?
+    @Persisted var dog: ToOneRelationship_Dog?
 }
 
 class ToOneRelationship_Dog: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var age: Int = 0
-    @objc dynamic var breed: String?
+    @Persisted var name: String = ""
+    @Persisted var age: Int = 0
+    @Persisted var breed: String?
     // No backlink to person -- one-directional relationship
 }
 // :code-block-end:

@@ -9,20 +9,29 @@ const tasks = require("./tasks");
 const manageTeam = require("./manageTeam");
 
 // :code-block-start: getProjects
-async function getProjects() { 
-  const realm = await index.getRealm(`user=${users.getAuthedUser().id}`);
-  const currentUser = users.getAuthedUser().id;
-  // :hide-start:
-  const user = realm.objectForPrimaryKey("User", currentUser);
-  const projects = user.memberOf;
-  // :replace-with:
-  // // TODO: Call the objectForPrimaryKey() method to get the current user and assign
-  // // the memberOf property of the user to projects. 
-  //const user;
-  //const projects;
-  // :hide-end:
-  return projects;
-};
+async function getProjects() {
+  // :state-start: final
+  const user = users.getAuthedUser();
+  try {
+    const { memberOf: projects } = await user.refreshCustomData();
+
+    // Make sure that the user object has been created
+    if (!projects) {
+      output.error("The user object hasn't been created yet. Try again soon.");
+      throw new Error("No projects for user");
+    }
+    return projects;
+  } catch (err) {
+    output.error(err);
+    output.error("There was a problem accessing custom user data.");
+  }
+  // :state-end: :state-uncomment-start: start
+  // // TODO: Call the refreshCustomData() method to get the user's available
+  // projects from custom user data.
+  //
+  // return projects;
+  // :state-uncomment-end:
+}
 // :code-block-end:
 
 exports.showProjects = async () => {
@@ -34,7 +43,7 @@ exports.showProjects = async () => {
 exports.selectProject = async () => {
   const projects = await getProjects();
   // Get a list of all the valid project names to show in the menu
-  const projectNames = projects.map(p => p.name)
+  const projectNames = projects.map((p) => p.name);
   try {
     // Let the user select a project by name
     const { selectedProjectName } = await inquirer.prompt({
@@ -44,10 +53,12 @@ exports.selectProject = async () => {
       choices: [...projectNames, new inquirer.Separator()],
     });
     // Find the corresponding project document so that we can get the partition value
-    const selectedProject = projects.find(p => p.name === selectedProjectName);
-    return(projectMenu(selectedProject.partition));
+    const selectedProject = projects.find(
+      (p) => p.name === selectedProjectName
+    );
+    return projectMenu(selectedProject.partition);
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };
 
@@ -116,9 +127,9 @@ async function projectMenu(partition) {
       }
     }
   } catch (err) {
-    output.error(err);
+    output.error(err.message);
     return;
   }
-};
+}
 
 exports.projectMenu = projectMenu;

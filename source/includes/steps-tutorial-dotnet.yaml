@@ -4,22 +4,19 @@ ref: clone-the-client-app-repository
 content: |
   We've already put together a task tracker Xamarin application that has
   most of the code you'll need. You can clone the client application repository
-  directly from GitHub:
+  directly from :github:`GitHub <mongodb-university/realm-tutorial-dotnet>`:
 
   .. code-block:: shell
 
-     git clone https://github.com/mongodb-university/realm-tutorial-dotnet.git
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-dotnet.git
+     cd realm-tutorial-dotnet
 
-  .. important::
+  .. tip::
    
-     The ``realm-tutorial-dotnet`` repository contains two branches: ``final``
-     and ``start``. The ``final`` branch is a finished version of the app as it
-     should look *after* you complete this tutorial. To walk through this
-     tutorial, please check out the ``start`` branch:
-
-     .. code-block:: shell
-    
-        git checkout start
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view the finished app, check out the
+     ``final`` branch and update ``App.xaml.cs`` with your :ref:`Realm app ID
+     <find-your-app-id>`.
 
 ---
 title: Explore the App Structure
@@ -62,7 +59,7 @@ content: |
   .. cssclass:: config-table
   .. list-table::
      :header-rows: 1
-     :widths: 25 75
+     :widths: 35 65
      
      * - File
        - Purpose
@@ -92,16 +89,18 @@ content: |
 title: Connect to Your MongoDB Realm App
 ref: connect-to-your-mongodb-realm-app
 content: |
-  To get the app working with your backend, you first need to instantiate the
-  Realm app. The Realm app is the interface to the MongoDB Realm backend.
-  Navigate to the ``App.xaml.cs`` file and complete the ``OnStart()``
-  method:
+  To get the app working with your backend, you'll need to enter your Realm app
+  ID and instantiate the Realm app. The Realm app is the interface to the 
+  MongoDB Realm backend. 
+  
+  Navigate to the ``App.xaml.cs`` file. At the top of the ``Application`` class,
+  replace the ``appId`` value with your own Realm app ID. You can :ref:`find 
+  this in the Realm UI <find-your-app-id>`.
+  
+  Next, complete the ``OnStart()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/App.codeblock.open-realm.cs
+  .. literalinclude:: /tutorial/generated/code/final/App.xaml.codeblock.open-realm.cs
      :language: csharp
-
-  Be sure to enter your own Realm app ID, which you can :ref:`find in the Realm
-  UI <find-your-app-id>`. 
 
   At this point, we have a static, public 
   :dotnet-sdk:`Realms.Sync.App <reference/Realms.Sync.App.html>` object that we 
@@ -130,14 +129,14 @@ content: |
   :dotnet-sdk:`Realms.Sync.User <reference/Realms.Sync.User.html>`, and we can 
   return to the default screen, which is defined in ``Projects.xaml``.
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginPage.codeblock.login-async.cs
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.codeblock.login-async.cs
      :language: csharp
 
   Next, implement the user registration functionality in the ``RegisterUser()`` 
   method by calling the ``RegisterUserAsync()`` method. On success, you then call 
   ``DoLogin()`` to log on the new user: 
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginPage.codeblock.register-user.cs
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.codeblock.register-user.cs
      :language: javascript
 
 ---
@@ -165,7 +164,7 @@ content: |
 
   In summary, a ``User`` has an array of projects of which it is a member. Each 
   ``Project`` has a name and partition value. Each ``Task`` has a name, status, 
-  and a list of ``Projects`` in which it is contained. 
+  and a list of ``Projects`` in which it is contained.
 
 ---
 title: Get the Projects
@@ -179,37 +178,41 @@ content: |
   The ``ProjectPage.xaml.cs`` file is the default screen for this app. In the 
   ``OnAppearing()`` method, we check to see if we have an authenticated user 
   already. If not, we redirect to the Login page. If we do, or when control is 
-  returned from the Login page, we can then instantiate a
-  :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
-  object and pass that to the 
-  :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-  method to get the user's custom realm. From this realm, we fetch the specific 
-  user document that has an ``_id`` value matching the ``Id`` property. 
+  returned from the Login page, we can instantiate a :dotnet-sdk:`SyncConfiguration 
+  <reference/Realms.Sync.SyncConfiguration.html>` object in the ``LoadProjects()`` 
+  method to get the user's custom realm.
+  
+  From this realm, we fetch the specific user document that has an ``_id`` 
+  value matching the ``Id`` property. 
   Each ``User`` object contains a read-only ``IList<Project>`` 
   property called ``MemberOf``, and we iterate through this list to display the 
   Projects in the UI. 
 
-  To implement this functionality, find the ``OnAppearing()`` method in 
-  ``ProjectPage.xaml.cs``. You see the conditional checking to see if we already 
-  have an authenticated user. In the ``else`` block (we have an authenticated user),
-  instantiate the ``userRealm`` object by creating a ``SyncConfiguration`` object 
-  and passing that to the ``Realm.GetInstanceAsync()`` method. When building the 
-  SyncConfiguration object, we set the partition string to ``user=<USER_ID>``:
+  To implement this functionality, find the ``LoadProjects()`` method in 
+  ``ProjectPage.xaml.cs``. This method is only called when we have an 
+  authenticated user. 
   
-  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.codeblock.user-realm-config.cs
+  Here, we instantiate the ``userRealm`` object by creating a 
+  ``SyncConfiguration`` object and passing that to the 
+  ``Realm.GetInstanceAsync()`` method. When building the SyncConfiguration 
+  object, we set the partition string to ``user=<USER_ID>``:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.codeblock.user-realm-config.cs
      :language: csharp
 
   We then find the user from the User realm that matches the authenticated user's
   Id:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.codeblock.find-user.cs
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.codeblock.find-user.cs
      :language: csharp
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
 
   Once you have the user, call ``SetUpProjectList()``. In that method, you populate 
   the ``MyProjects`` collection (an ``ObservableCollection<Project>``), which is 
   used to keep the list of projects up-to-date. When the app user touches one of 
   the Projects in the list, we pass control to the ``TaskPage.xaml.cs`` class 
-  and display the list of Tasks within the selected Project. 
+  and display the list of Tasks within the selected Project.
 
 ---
 title: Implement the Task Page
@@ -222,14 +225,14 @@ content: |
   each user has exactly one project they own, and it is specified by the partition 
   key value containing their own user ID:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.task-realm-config.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.task-realm-config.cs
      :language: csharp
 
   In the ``SetUpTaskList()`` method, find all of the tasks. We find all tasks because 
   we configured our ``taskRealm`` to use the partition specific to the user, removing 
   the need to filter by "owner":
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.setup-tasks.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.setup-tasks.cs
      :language: csharp
 
   At the bottom of the Task view, we have added a button for creating a new Task. 
@@ -237,7 +240,7 @@ content: |
   of the new task and then create a new Task, setting the Task's status to 
   ``TaskStatus.Open``. We then add the Task to the ``taskRealm``:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.codeblock.new-task.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.new-task.cs
      :language: csharp
 
   .. note::
@@ -249,7 +252,7 @@ content: |
 
   The final Task-related work is providing a way for the user to edit a Task, 
   including changing its state. Within our UI, when a user taps on a task in the 
-  list, the TaskEdit page displays. The logic here is similar to creating a Task, 
+  list, the EditTaskPage page displays. The logic here is similar to creating a Task, 
   where the updated information is wrapped in a temporary transaction using the 
   ``taskRealm.Write()`` method. To view this code, find the ``Save_Button_Clicked`` 
   event handler in the ``EditTaskPage.xaml.cs`` file.
@@ -266,7 +269,7 @@ content: |
   Find the ``AddMemberPage.xaml.cs`` file. First, we need to fetch the list of
   current team members. We do this in the ``OnAppearing()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-1.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-1.cs
      :language: csharp
 
   The UI provides two buttons for team management: an ``Add Member`` button at 
@@ -278,7 +281,7 @@ content: |
   we call the ``addTeamMember`` function on the backend to add the specified team
   member:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-2.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-2.cs
      :language: csharp
 
   Finally, in the ``Delete_Button_Clicked`` handler, we use the button's 
@@ -286,7 +289,7 @@ content: |
   confirmation dialog, and then call the ``removeTeamMember`` function on the 
   backend. The final step is to refresh the the list of members:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.codeblock.call-function-3.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-3.cs
      :language: csharp
 
 ---

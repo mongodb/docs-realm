@@ -2,8 +2,7 @@
 //  TasksViewController.swift
 //  Task Tracker
 //
-//  Created by MongoDB on 2020-05-07.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2022 MongoDB, Inc. All rights reserved.
 //
 
 import UIKit
@@ -11,44 +10,34 @@ import RealmSwift
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    // :code-block-start:
+    // :code-block-start: properties
     let tableView = UITableView()
-    let partitionValue: String
     let realm: Realm
     var notificationToken: NotificationToken?
-    // :hide-start:
+    // :state-start: local sync
     let tasks: Results<Task>
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: Use Realm Results collection for `tasks`
     // let tasks: [Task] = []
-    // :hide-end:
+    // :state-uncomment-end:
     // :code-block-end:
-    
+
     // :code-block-start: init
-    required init(realm: Realm, title: String) {
-
-        // Ensure the realm was opened with sync.
-        guard let syncConfiguration = realm.configuration.syncConfiguration else {
-            fatalError("Sync configuration not found! Realm not opened with sync?");
-        }
-
-        self.realm = realm
-
-        // Partition value must be of string type.
-        partitionValue = syncConfiguration.partitionValue!.stringValue!
-
-        // :hide-start:
+    required init(realmConfiguration: Realm.Configuration, title: String) {
+        self.realm = try! Realm(configuration: realmConfiguration)
+        
+        // :state-start: local sync
         // Access all tasks in the realm, sorted by _id so that the ordering is defined.
         tasks = realm.objects(Task.self).sorted(byKeyPath: "_id")
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: initialize `tasks` with the collection of Tasks in the realm, sorted by _id.
-        // :hide-end:
+        // :state-uncomment-end:
 
         super.init(nibName: nil, bundle: nil)
 
         self.title = title
 
-        // :hide-start:
+        // :state-start: local sync
         // Observe the tasks for changes. Hang on to the returned notification token.
         notificationToken = tasks.observe { [weak self] (changes) in
             guard let tableView = self?.tableView else { return }
@@ -74,10 +63,10 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 fatalError("\(error)")
             }
         }
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Observe the tasks for changes. Hang on to the returned notification token.
         // // When changes are received, update the tableView.
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
@@ -87,12 +76,12 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     // :code-block-start: deinit
     deinit {
-        // :hide-start:
+        // :state-start: local sync
         // Always invalidate any notification tokens when you are done with them.
         notificationToken?.invalidate()
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: invalidate notificationToken
-        // :hide-end:
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
@@ -107,13 +96,17 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidClick))
 
-        if (isOwnTasks()) {
-            // Only set up the manage team button if these are tasks the user owns.
-            toolbarItems = [
-                UIBarButtonItem(title: "Manage Team", style: .plain, target: self, action: #selector(manageTeamButtonDidClick))
-            ]
-            navigationController?.isToolbarHidden = false
-        }
+        // :code-block-start: check-if-own-tasks
+        // :state-uncomment-start: sync
+        // if isOwnTasks() {
+        //     // Only set up the manage team button if these are tasks the user owns.
+        //     toolbarItems = [
+        //         UIBarButtonItem(title: "Manage Team", style: .plain, target: self, action: #selector(manageTeamButtonDidClick))
+        //     ]
+        //     navigationController?.isToolbarHidden = false
+        // }
+        // :state-uncomment-end:
+        // :code-block-end:
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,7 +120,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
         cell.textLabel?.text = task.name
-        switch (task.statusEnum) {
+        switch task.statusEnum {
         case .Open:
             cell.accessoryView = nil
             cell.accessoryType = UITableViewCell.AccessoryType.none
@@ -147,22 +140,26 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         // When the user clicks the add button, present them with a dialog to enter the task name.
         alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: {
-            alert -> Void in
+            _ -> Void in
             let textField = alertController.textFields![0] as UITextField
 
             // :code-block-start: add-button-did-click
-            // :hide-start:
+            
+            // :state-start: local sync
             // Create a new Task with the text that the user entered.
-            let task = Task(partition: self.partitionValue, name: textField.text ?? "New Task")
+            let task = Task(name: textField.text ?? "New Task")
 
             // Any writes to the Realm must occur in a write block.
             try! self.realm.write {
                 // Add the Task to the Realm. That's it!
                 self.realm.add(task)
             }
-            // :replace-with:
-            // // TODO: Create a Task instance and add it to the realm in a write block.
-            // :hide-end:
+            // :state-end: :state-uncomment-start: start
+            // // TODO: Replace the following code with code to create a Task instance and add it to the realm in a write block.
+            // let alertController = UIAlertController(title: "TODO", message: "Implement add task functionality in TasksViewController.swift", preferredStyle: .alert)
+            // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            // self.present(alertController, animated: true)
+            // :state-uncomment-end:
             // :code-block-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -181,12 +178,12 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         // Create the AlertController and add its actions.
         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
- 
+
         // :code-block-start: populate-action-sheet
-        // :hide-start:
+        // :state-start: local sync
         // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
         // We do this for the other two states -- InProgress and Complete.
-        if (task.statusEnum != .Open) {
+        if task.statusEnum != .Open {
             actionSheet.addAction(UIAlertAction(title: "Open", style: .default) { _ in
                     // Any modifications to managed objects must occur in a write block.
                     // When we modify the Task's state, that change is automatically reflected in the realm.
@@ -196,7 +193,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 })
         }
 
-        if (task.statusEnum != .InProgress) {
+        if task.statusEnum != .InProgress {
             actionSheet.addAction(UIAlertAction(title: "Start Progress", style: .default) { _ in
                     try! self.realm.write {
                         task.statusEnum = .InProgress
@@ -204,19 +201,19 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 })
         }
 
-        if (task.statusEnum != .Complete) {
+        if task.statusEnum != .Complete {
             actionSheet.addAction(UIAlertAction(title: "Complete", style: .default) { _ in
                     try! self.realm.write {
                         task.statusEnum = .Complete
                     }
                 })
         }
-        // :replace-with:
+        // :state-end: :state-uncomment-start: start
         // // TODO: Populate the action sheet with task status update functions
         // // for every state the task is not currently in.
-        // :hide-end:
+        // :state-uncomment-end:
         // :code-block-end:
-        
+
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
                 actionSheet.dismiss(animated: true)
             })
@@ -224,40 +221,44 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Show the actions list.
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
+
     // :code-block-start: delete-task
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
 
         // User can swipe to delete items.
         let task = tasks[indexPath.row]
-        
-        // :hide-start:
+
+        // :state-start: local sync
         // All modifications to a realm must happen in a write block.
         try! realm.write {
             // Delete the Task.
             realm.delete(task)
         }
-        // :replace-with:
-        // // TODO: delete the task from the realm in a write block.
-        // :hide-end:
+        // :state-end: :state-uncomment-start: start
+        // // TODO: Replace the following code with code to delete the task from the realm in a write block.
+        // let alertController = UIAlertController(title: "TODO", message: "Implement delete functionality in TasksViewController.swift", preferredStyle: .alert)
+        // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        // self.present(alertController, animated: true)
+        // :state-uncomment-end:
     }
     // :code-block-end:
 
-    @objc func manageTeamButtonDidClick() {
-        present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
-    }
-    
+    // :code-block-start: manage-button-did-click
+    // :state-uncomment-start: sync
+    // @objc func manageTeamButtonDidClick() {
+    //     present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
+    // }
+    // :state-uncomment-end:
+    // :code-block-end:
+
+    // :state-start: sync
     // :code-block-start: is-own-tasks
     // Returns true if these are the user's own tasks.
     func isOwnTasks() -> Bool {
-        // :hide-start:
-        return partitionValue == "project=\(app.currentUser!.id)"
-        // :replace-with:
-        // // TODO: Check if the partition value matches the user's project's partition value,
-        // // which should look like "project=\(app.currentUser()!.id!)"
-        // return false
-        // :hide-end:
+        let partitionValue = self.realm.configuration.syncConfiguration?.partitionValue?.stringValue
+        return partitionValue != nil && partitionValue == "project=\(app.currentUser!.id)"
     }
     // :code-block-end:
+    // :state-end:
 }

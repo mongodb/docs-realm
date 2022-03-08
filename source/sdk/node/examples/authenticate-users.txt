@@ -21,6 +21,19 @@ authentication provider. Instantiate a ``Credentials`` object and pass it to the
 ``app.login()`` method to authenticate a user login and create a ``User``
 object.
 
+User Sessions
+~~~~~~~~~~~~~
+
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
+SDKs supply the logic to manage tokens, and provide them with requests.
+
+For web browsers, the JavaScript SDK stores these tokens in 
+`HTML5 local storage <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API>`_.
+
+.. seealso:: 
+
+   :ref:`<user-sessions>`
+
 .. _node-anonymous-login:
 .. _node-login-anonymous:
 
@@ -80,7 +93,7 @@ API Key User
 ------------
 
 The :doc:`API key </authentication/api-key>` authentication provider allows
-server processes to access to access your app directly or on behalf of a user.
+server processes to access your app directly or on behalf of a user.
 
 To log in with an API key, create an API Key credential with a server or user
 API key and pass it to ``App.logIn()``:
@@ -214,42 +227,68 @@ authenticate users through a Google project using their existing Google account.
 .. note:: Enable the Google Auth Provider
    
    To authenticate a Google user, you must configure the :doc:`Google
-   authentication provider </authentication/google>`.
+   authentication provider </authentication/google>`. 
+   You must enable OpenID Connect to use the Google Authentication Provider with the
+   Node.js SDK.
 
-You can use the :google:`official Google SDK <identity>` to handle the user
-authentication and redirect flow from a client application. Once authenticated,
-the Google SDK returns an access token that you can send to your Node.js app and
-use to finish logging the user in to your app.
+To set up your {+app+} for Google User authentication in your {+app+} configuration:
 
-.. tabs-realm-languages::
+1. In the `Google Cloud Platform console
+   <https://console.cloud.google.com/apis/credentials>`__, create an
+   OAuth 2.0 client ID of type "Web application".
+
+#. Configure your backend {+app+} to use that client ID and the associated
+   client secret.
+
+#. Enable OpenID Connect on the backend.
+
+Use the `official Google APIs Node.js OAuth 2.0 Client <https://googleapis.dev/nodejs/googleapis/latest/oauth2/index.html>`_ 
+to handle the user authentication and redirect flow from a Node.js client application: 
+
+#. Install the Realm and Google APIs npm packages. 
    
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Get the access token from a client application using the Google SDK
-         const accessToken = getGoogleAccessToken();
+   .. code-block::
 
-         // Log the user in to your app
-         const credentials = Realm.Credentials.google(accessToken);
-         app.logIn(credentials).then(user => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+      npm install realm googleapis
 
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Get the access token from a client application using the Google SDK
-         const accessToken = getGoogleAccessToken();
+#. Import the packages into your project. 
 
-         // Log the user in to your app
-         const credentials = Realm.Credentials.google(accessToken);
-         app.logIn(credentials).then((user: Realm.User) => {
-           console.log(`Logged in with id: ${user.id}`);
-         });
+   .. literalinclude:: /examples/generated/node/server.codeblock.import-npm-packages.js
+         :language: javascript
+
+#. Create configuration for Google OAuth 2.0 client and Realm. 
+
+   .. literalinclude:: /examples/generated/node/server.codeblock.google-oauth-realm-config.js
+         :language: javascript
+
+#. Generate an OAuth login link, and pass it to the application client. 
+
+   .. literalinclude:: /examples/generated/node/server.codeblock.generate-log-in.js
+         :language: javascript
+
+
+#. Process the request from the the Google authentication server, which includes 
+   an access code in the query string using the Google OAuth 2.0 client's ``getToken()``
+   method. In the callback function, sign in to your {+app+} using the ``id_token``.
+
+   .. literalinclude:: /examples/generated/node/server.codeblock.login-with-token.js
+      :language: javascript
+
+.. _example-auth-google-node-server:
+
+.. example:: Authenticate with Google on a Node.js Server
+
+   Refer to `the code for an example Node.js server <https://github.com/mongodb/docs-realm/tree/master/examples/node/Examples/server_google_auth>`_
+   that implements Sign in With Google.
+   All of the Google OAuth 2.0 implementation is in the ``server.js`` file. 
+
+   The example uses `Express <https://expressjs.com/>`_ for routing and the 
+   `Google APIs Node.js OAuth 2.0 Client <https://googleapis.dev/nodejs/googleapis/latest/oauth2/index.html>`_ 
+   authentication library.
+
+   You might want to authenticate with Google on a Node.js server 
+   to perform server-side operations on behalf of a user, like call a {+service-short+}
+   Function with a user's credentials.    
 
 .. _node-apple-login:
 .. _node-login-apple:
@@ -300,6 +339,8 @@ use to finish logging the user in to your app.
          app.logIn(credentials).then((user: Realm.User) => {
            console.log(`Logged in with id: ${user.id}`);
          });
+
+.. include:: /includes/authorization-appleidcredential-string.rst
 
 .. _node-logout:
 

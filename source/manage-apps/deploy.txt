@@ -1,0 +1,228 @@
+.. _application-deployment:
+
+======================
+Application Deployment
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :class: singlecol
+   :backlinks: none
+   :depth: 2
+   :local:
+
+.. toctree::
+   :titlesonly:
+   :caption: Deployment Methods
+   :hidden:
+   
+   Deploy Manually </manage-apps/deploy/manual>
+   Automate Deployment </manage-apps/deploy/automated>
+   Deployment Models & Regions </manage-apps/deploy/deployment-models-and-regions>
+   Deployment Draft </manage-apps/deploy/deployment-draft>
+   Disable Deployment Drafts </manage-apps/deploy/disable-deployment-drafts>
+
+Overview
+--------
+
+{+service+} uses a deployment-based versioning scheme that allows you to
+group updates to your application and make them available to client
+applications at the same time. You can deploy a new version of your
+application with multiple deployment methods that each fit a particular
+development workflow. You can also review the historical state of your
+application based on the built-in deployment history log.
+
+Concepts
+--------
+
+.. _deployment-methods:
+
+Deployment Methods
+~~~~~~~~~~~~~~~~~~
+
+You can deploy new versions of your application through the {+ui+} or
+one of multiple code-based deployment methods that each suit a
+particular development workflow.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 5 30 
+
+   * - Deployment Method
+     - Type
+     - Details
+
+   * - {+ui+}
+     - **Manual**
+     - **Use This Method If:**
+       
+       - You want to use a browser-based GUI to develop and manage
+         your {+app+}.
+
+       **Deployment Pattern**
+
+       *For a detailed walkthrough, see* :ref:`Deploy from the {+ui+} <deploy-ui>`
+       
+       1. Make changes in the UI that are saved in a draft state
+          and not visible to client apps.
+       
+       2. Review all draft changes and then deploy them together
+          through the {+ui+}.
+   
+   * - {+cli-bin+}
+     - **Manual**
+     - **Use This Method If:**
+       
+       - You want to use a code-first approach to app development.
+       - You want to use a command line interface to manage and deploy your {+app+}.
+       
+       **Deployment Pattern**
+
+       *For a detailed walkthrough, see* :ref:`Deploy Changes with {+cli+} <deploy-cli>`
+       
+       1. Export a copy of your application to a directory of
+          configuration files and download it to your computer.
+       
+       2. Add, remove, or modify configuration files in the directory
+          to specify your updated application.
+       
+       3. When you've made all the changes that you want to,
+          manually deploy them by importing the updated application
+          directory.
+
+   * - {+service-short+} Admin API
+     - **Manual**    
+     - **Use This Method If:**
+
+       - You want to use a code-first approach to app development.
+       - You want to use an HTTP API to manage and deploy your {+app+}.
+       
+       **Deployment Pattern**
+
+       *For a detailed walkthrough, see* :ref:`Deploy Changes with Realm API <deploy-api>`
+       
+       1. Create a new draft deployment through the API.
+       
+       2. Add, remove, or modify components of your application by
+          calling relevant HTTP endpoints.
+       
+       3. When you've made all the changes that you want to,
+          deploy the draft through the API.
+
+   * - Automatic GitHub Deployment
+     - **Automatic**
+     - **Use This Method If:**
+       
+       - You want to use a code-first approach to app development.
+       - You want to use Git to version control your app.
+       - You want to automatically deploy changes when you push to
+         :github:`GitHub <>`.
+      
+       **Deployment Pattern**
+      
+       *For a detailed walkthrough, see* :ref:`Deploy Automatically
+       with GitHub <deploy-github>`
+       
+       1. Host your exported application repository on GitHub.
+       
+       2. Add, remove, or modify configuration files in a local clone
+          of the repository to specify your updated application.
+       
+       3. When you've made all the changes that you want to, commit
+          them and push the changes to GitHub.
+
+   * - CI/CD Pipeline with the {+cli-bin+}
+     - **Automatic**
+     - **Use This Method If:**
+       
+       - You want to automatically test and deploy your app whenever you make changes.
+       - You work on a larger app with multiple developers working on the codebase.
+      
+       **Deployment Pattern**
+      
+       *For a detailed walkthrough, see* :ref:`Set Up a CI/CD Pipeline <ci-cd-pipeline>`
+       
+       1. Develop your application and set up staging and production environments
+          and a pipeline for any changes to flow through. 
+       
+       #. Use {+cli-bin+} commands in your pipeline to update the app in response to
+          changes in the configuration files. 
+       
+       #. When you make any changes, they should propagate through the CI/CD Pipeline
+          stages automatically.
+
+.. _app-components:
+
+Application Components
+~~~~~~~~~~~~~~~~~~~~~~
+
+{+app+}s are composed of components like
+:doc:`Functions </functions>`, :ref:`Triggers <triggers>`,
+:doc:`Auth Providers </authentication>`, and :doc:`Values
+</values-and-secrets>`. A deployment consist of at least one
+new, updated, or deleted component.
+
+.. _app-config:
+.. _application-config:
+.. _config-files:
+
+Configuration Files
++++++++++++++++++++
+
+{+service+} uses **configuration files** to define your application's
+metadata and components. Every component is defined by its own
+configuration file and each type of component uses a distinct
+configuration file schema. The {+ui+} manages your application's
+configuration files for you, but you can also use a code-based
+deployment method to update your application by adding, modifying, and
+deleting configuration files directly.
+
+.. _application-directory:
+.. _app-directory:
+
+Application Directory
++++++++++++++++++++++
+
+{+app+}s are structured in a nested directory format called
+an **application directory** that contains configuration files for your
+application components. The configuration files are grouped into
+directories based on their component type. You can download a copy of
+the application directory for the most recently deployed version of an
+app by :ref:`exporting <export-realm-app>` it from the
+{+ui+} or {+cli-bin+}, or by cloning the underlying Git repository.
+
+For additional information on the structure of an application directory as well
+as the schema of each configuration file type, see :ref:`app-configuration`.
+
+.. _deployment-history:
+
+Deployment History
+~~~~~~~~~~~~~~~~~~
+
+{+backend+} logs every deployment of an application and exposes a list of the
+25 most recent deployments in the :guilabel:`History` tab of the
+:guilabel:`Deploy` in the {+ui+}. Each deployment log includes data
+about a set of changes, such as their status, origin, and time of
+deployment.
+
+If you choose to deploy through the {+ui+}, any changes you make are
+grouped in a row at the top of the deployment history table that
+represents draft changes made since the previous deployment. You can use
+the :guilabel:`Action`  buttons on this row to manually deploy all draft
+changes.
+
+The :guilabel:`Deployment History` is also where you can :guilabel:`Export`
+your {+app+}, or use the :guilabel:`Re-Deploy` button to :ref:`rollback 
+to a prior version <roll-back-deployments>`.
+
+.. figure:: /images/deployment-history-table.png
+   :alt: The table of application deployment history logs in the {+ui+}
+
+Summary
+-------
+
+- Deployment allows you to group updates to your application and make them available to client applications at the same time in a new version.
+- {+service-short+} provides four ways to deploy depending on your project's workflow: {+ui+} deployment, automatic GitHub deployment, {+cli-bin+} deployment, and {+service-short+} Admin API deployment.
+- A deployment consists of at least one new, updated, or deleted {+service-short+} component such as a Function, Trigger, Auth Provider, or Value.
+- {+service-short+} tracks deployment history up to 25 versions, allowing you to review and rollback to prior versions.

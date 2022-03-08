@@ -5,6 +5,7 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false
     },
   });
 

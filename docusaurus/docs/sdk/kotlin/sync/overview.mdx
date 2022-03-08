@@ -1,0 +1,34 @@
+---
+title: Sync Overview
+---
+
+Realm Sync automatically synchronizes data between client applications and 
+a [Realm App](https://docs.mongodb.com/realm/cloud/#std-label-realm-cloud).
+When a client  device is online, the SDK asynchronously synchronizes data in a 
+background thread between the device and the backend.
+
+When you use Sync in your client application, your implementation must match 
+the Sync Mode you select in your backend App configuration. The Sync Mode
+options are:
+
+- Partition-Based Sync
+- Flexible Sync
+
+You can only use one Sync Mode for your application. The Kotlin
+SDK only supports Partition-Based Sync.
+
+:::tip See Also
+[Enable Realm Sync](https://docs.mongodb.com/realm/sync/configure/enable-sync/#std-label-enable-realm-sync)
+:::
+
+## Partition-Based Sync
+
+When you select [Partition-Based Sync](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/#std-label-partition-based-sync)
+for your backend App configuration, your client implementation must
+include a  partition value. This is the value of the
+[partition key](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/#std-label-partition-key)
+field you select when you configure Partition-Based Sync. 
+
+The partition value determines which data the client application can access.
+
+You must provide a partition value when you open a synced realm.

@@ -1,0 +1,50 @@
+.. _copy-realm-app:
+
+==================================
+Make a Copy of a Realm Application
+==================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+Overview
+--------
+
+You can make a copy of an existing {+app+}. You might want to copy an
+application when:
+
+- You use feature branches for development. Use a unique copy of the 
+  {+app+} for each feature branch to avoid conflicts.
+- You use a fresh copy of the {+app+} when running tests to ensure start state.
+- You deploy the same app to clusters across regions using a :ref:`local 
+  deployment model <local-deployment>`.
+
+Procedure
+---------
+
+You can copy your application's configuration in two ways:
+
+- With the :ref:`Realm CLI <deploy-cli>` 
+- With :ref:`GitHub deployment <deploy-github>`
+
+.. tabs::
+
+   .. tab:: CLI
+      :tabid: cli
+
+      .. warning::
+
+         If you're using :ref:`Automated GitHub Deploy <deploy-github>`, do not 
+         update :ref:`your {+app+} configuration with the Realm CLI 
+         <deploy-github-make-changes-cli>`. Instead, push your changes to the 
+         linked GitHub repository.
+
+      .. include:: /includes/steps/copy-cli.rst
+
+   .. tab:: Github Auto Deploy
+      :tabid: github
+
+      .. include:: /includes/steps/copy-github.rst

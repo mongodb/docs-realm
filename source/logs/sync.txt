@@ -28,9 +28,9 @@ starts a connection. Logging out that user ends the connection.
 Sessions
 ~~~~~~~~
 
-Users download and upload changes to a single {+service+} partition
-using a *session*. Instantiating a local instance of a synced {+realm+}
-starts a session. Destroying that {+realm+} object ends the session.
+Users download and upload changes to a synced {+realm+} using a *session*. 
+Instantiating a local instance of a synced {+realm+} starts a session. 
+Destroying that {+realm+} object ends the session.
 
 MongoDB Atlas Sync Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -38,12 +38,11 @@ MongoDB Atlas Sync Events
 Every sync event is associated with a user identity that tells you
 exactly which user caused the event to occur. However, you may notice
 some sync events that aren't associated with any specific user. These
-events include downloaded changes from all clients on all partitions as
-well as uploaded changes to data from MongoDB Atlas. Any sync event that
-does not include a user ID is part of the MongoDB Atlas data
-synchronization process. You may see a large number of MongoDB Atlas
-synchronization events when you initialize sync if your cluster already
-contains a large amount of data.
+events include downloaded changes from all clients as well as as well as 
+any change made in MongoDB Atlas. Any sync event that does not include 
+a user ID is part of the MongoDB Atlas data synchronization process. You 
+may see a large number of MongoDB Atlas synchronization events when you 
+initialize sync if your cluster already contains a large amount of data.
 
 Fields
 ~~~~~~
@@ -62,8 +61,8 @@ Fields
        the operation into the server's copy of the data.
 
    * - Partition
-     - Which :term:`partition <partitioning>` changed as a result of the
-       operation.
+     - When using :ref:`Partition-Based Sync <partition-based-sync>`, which 
+       :ref:`partition <sync-partitions>` changed as a result of the operation.
 
    * - Write Summary
      - Includes information about the data that changed, such as:
@@ -87,7 +86,7 @@ Fields
 
               SDK: firefox v4.0.0
 
-          This request came from the {+service-short+} Android SDK version 4.6.0 running
+          This request came from the {+service-short+} Java SDK version 4.6.0 running
           on Android Marshmallow:
 
           .. code-block:: none

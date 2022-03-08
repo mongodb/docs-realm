@@ -1,0 +1,112 @@
+.. _deploy-github:
+
+================================
+Deploy Automatically with GitHub
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can configure a Realm app to automatically deploy whenever you push updated
+:ref:`configuration files <config-files>` to a :github:`GitHub <>` repository.
+You can clone the GitHub repository to your computer and then use standard Git
+commands to pull down the latest versions and deploy new changes.
+
+Prerequisites
+-------------
+
+- A :github:`GitHub <>` account and repository. The repository should
+  either contain an :ref:`application directory <app-directory>` or be
+  empty. For information on how to create an empty repository, see
+  GitHub's `create a repo
+  <https://help.github.com/en/articles/create-a-repo>`_ guide.
+
+- An installed copy of the Git CLI. If you do not have ``git``
+  installed, see the official guide for `Installing Git
+  <https://git-scm.com/book/en/v1/Getting-Started-Installing-Git>`_.
+
+- A `{+atlas+} <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ 
+  :atlas:`Programmatic API Key </configure-api-access/#programmatic-api-keys>` 
+  to authenticate and authorize access to your app's underlying Git
+  repo. If you have not yet generated a programmatic API key for your
+  Atlas organization, do so now.
+
+.. _deploy-github-enable:
+
+Enable Automatic Deployment with GitHub
+---------------------------------------
+
+.. include:: /includes/steps/github-deploy.rst
+
+.. _deploy-github-make-changes-ui:
+
+Make Changes from the UI
+------------------------
+
+Automatic GitHub deployment does not prevent you from making changes
+to your {+app+} from the {+service-short+} UI. You can make changes to your 
+app via the UI, and {+service-short+} automatically commits changes back to 
+your linked GitHub repository.
+
+.. tip::
+
+   If your linked GitHub repository contains new commits that are not reflected
+   in your {+service+} UI changes, {+service-short+} can't automatically 
+   commit those changes to your repo. However, you can use the 
+   :guilabel:`Export` button to download the updated configuration files 
+   to your local machine, and then you push them manually to your GitHub 
+   repository.
+
+When changes are committed to your linked GitHub repository, you'll see a
+:guilabel:`Commit: <commit-hash>` link in your app's Deployment History.
+
+.. figure:: /images/deploy-history-link-to-github-commit.png
+   :alt: GitHub repository selection
+
+You can click that link to view the commit in GitHub. The ``mongodb-realm`` 
+bot appears as the commit author.
+
+.. figure:: /images/realm-ui-deploy-changes-in-github.png
+   :alt: GitHub repository selection
+
+.. _deploy-github-make-changes-cli:
+
+Avoid Making Changes from the CLI
+---------------------------------
+
+With automatic GitHub deployment enabled, avoid making changes to your app 
+with {+cli+} because:
+
+- If you push changes with the CLI while GitHub deployment is enabled, Realm 
+  deploys the changes but does not commit them back to your linked repository.
+- The configuration files in your repository no longer reflect the current 
+  state of your app.
+- To get the changes you pushed, a contributor must manually pull the latest 
+  configuration files directly from your {+app+}. The GitHub repository is
+  no longer the source of truth. 
+- If a contributor adds a new commit to a stale repo, they overwrite any 
+  deployed but uncommitted changes.
+
+Summary
+-------
+
+- You can deploy your {+app+} by modifying a repo hosted on GitHub.
+
+- While Automatic GitHub Deployment is enabled, {+service+} immediately
+  deploys the latest commit. To deploy, commit your changes locally, then push
+  them to your repo on GitHub.
+
+- When you make changes via the {+service-short+} UI after enabling Automatic 
+  GitHub Deployment, those changes are automatically committed back to your 
+  linked repository.
+
+- Do not use {+cli+} to update configuration files after enabling 
+  Automatic GitHub Deployment.

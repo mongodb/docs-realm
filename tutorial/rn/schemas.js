@@ -23,20 +23,19 @@ class Task {
   static STATUS_IN_PROGRESS = "InProgress";
   static STATUS_COMPLETE = "Complete";
   // :code-block-start: react-native-task-schema
-  // :hide-start:
+  // :state-start: final
   static schema = {
     name: "Task",
     properties: {
       _id: "objectId",
-      _partition: "string?",
       name: "string",
       status: "string",
     },
     primaryKey: "_id",
   };
-  // :replace-with:
+  // :state-end: :state-uncomment-start: start
   //// TODO: implement schema
-  // :hide-end:
+  // :state-uncomment-end:
   // :code-block-end:
 }
 

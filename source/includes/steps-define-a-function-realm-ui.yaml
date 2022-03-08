@@ -13,6 +13,12 @@ content: |
   Enter a unique, identifying name for the function in the
   :guilabel:`Name` field. This name must be distinct from all other
   functions in the application.
+  
+  .. tip::
+     
+     You can define functions inside of nested folders. Function names
+     are slash-separated paths, so a function named ``utils/add`` maps
+     to ``functions/utils/add.js`` in the app's configuration files.
 ---
 title: Configure User Authentication
 ref: configure-user-authentication
@@ -74,16 +80,15 @@ content: |
 title: Specify an Authorization Expression
 ref: specify-an-authorization-expression
 content: |
-  You can dynamically authorize requests based on the contents of each
-  request by defining a :guilabel:`Can Evaluate` :doc:`JSON expression
-  </services/json-expressions>`. {+service-short+} evaluates the expression
-  whenever the function is called. If you do not specify an expression
-  then {+service-short+} automatically authorizes all authenticated incoming
-  requests.
+  You can dynamically authorize requests based on the contents of each request
+  by defining a :guilabel:`Can Evaluate` :ref:`expression <expressions>`.
+  {+service-short+} evaluates the expression whenever the function is called. If
+  you do not specify an expression then {+service-short+} automatically
+  authorizes all authenticated incoming requests.
   
-  The expression can expand standard :doc:`expression variables
-  </services/expression-variables>`, including the
-  :json-expansion:`%%request` and :json-expansion:`%%user` expansions.
+  The expression can expand standard :ref:`expression variables <expressions>`,
+  including the :json-expansion:`%%request` and :json-expansion:`%%user`
+  expansions.
 
   .. figure:: /images/function-can-evaluate-realm-ui.png
      :alt: The function's Can Evaluate JSON expression input in the UI
@@ -97,9 +102,8 @@ content: |
   applications from seeing or calling a function by setting
   :guilabel:`Private` to ``true``.
 
-  You can still call a private function from :doc:`JSON expressions
-  </services/json-expressions>` and other functions, including incoming
-  webhooks and triggers.
+  You can still call a private function from :ref:`expression <expressions>` and
+  other functions, including incoming webhooks and triggers.
 
   .. figure:: /images/private-function-toggle.png
      :alt: The private function toggle in the UI

@@ -96,7 +96,7 @@ Fields
 
               SDK: firefox v4.0.0
 
-          This request came from the {+service-short+} Android SDK version 4.6.0 running
+          This request came from the {+service-short+} Java SDK version 4.6.0 running
           on Android Marshmallow:
 
           .. code-block:: none
@@ -107,7 +107,11 @@ Fields
      - The data center in which the function was executed.
 
    * - Rule Performance Metrics
-     - A summary of the :doc:`roles </mongodb/query-roles>`, :doc:`schema </mongodb/document-schemas>`, and :doc:`filters </mongodb/query-filters>` applied to a return value. Provides the number of documents that a role applies to as well as the number of fields in those documents that Realm evaluated and potentially withheld.
+     - A summary of the :ref:`roles <roles>`,
+       :ref:`schemas <schemas>`, and :ref:`filters <filters>`
+       applied to a return value. Provides the number of documents that a role
+       applies to as well as the number of fields in those documents that Realm
+       evaluated and potentially withheld.
 
 Error Fields
 ~~~~~~~~~~~~
@@ -130,6 +134,8 @@ fields for debugging purposes. These include the following:
 
    * - Details
      - Extra information about an execution, including action, reason, service name, and service type.
+
+.. _logs-webhooks:
 
 Webhook / HTTP Service
 ----------------------
@@ -174,7 +180,7 @@ Fields
      - The data center in which the function was executed.
 
    * - Logs
-     - A list of ``console.log`` outputs. {+service+} saves the first 256 bytes of the first 10 ``console.log()`` calls.
+     - A list of ``console.log`` outputs. {+service+} saves the first 512 bytes of the first 25 ``console.log()`` calls.
 
 Error Fields
 ~~~~~~~~~~~~

@@ -1,0 +1,390 @@
+.. _java-open-close-realm:
+
+===============================
+Open & Close a Realm - Java SDK
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Interacting with :ref:`{+realm+}s <java-realms>` in an Android
+application uses the following high-level series of steps:
+
+1. Create a configuration for the {+realm+} you want to open.
+#. Open the {+realm+} using the config.
+#. :ref:`Close the {+realm+} <java-close-a-realm>` to free up
+   resources when you're finished.
+
+The Default Realm
+-----------------
+
+You can save any :java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>`
+or :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>`
+as the default for your application using the
+:java-sdk:`setDefaultConfiguration() <io/realm/Realm.html#setDefaultConfiguration-io.realm.RealmConfiguration->`
+method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.set-default-realm.kt.code-block.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.set-default-realm.java.code-block.rst
+
+You can then use
+:java-sdk:`getDefaultConfiguration() <io/realm/Realm.html#getDefaultConfiguration-->`
+to access that configuration, or
+:java-sdk:`getDefaultInstance() <io/realm/Realm.html#getDefaultInstance-->`
+to open a {+realm+} with that configuration:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.use-default-realm.kt.code-block.rst
+
+   .. tab::
+      :tabid: java
+
+      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.use-default-realm.java.code-block.rst
+
+Local Realms
+------------
+
+Local {+realm+}s store data only on the client device. You can customize
+the settings for a local {+realm+} with ``RealmConfiguration``.
+
+.. _java-local-realm-configuration:
+
+Local Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To configure settings for a {+realm+}, create a
+:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with a
+:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>`.
+The following example configures a local {+realm+} with:
+
+- the file name "alternate-realm"
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- automatic compaction when launching the {+realm+} to save file space
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.java
+         :language: java
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <java-realms>`
+
+.. _java-open-a-local-realm:
+.. _java-open-close-local-realm:
+
+Open a Local Realm
+~~~~~~~~~~~~~~~~~~
+
+To open a {+realm+}, create a
+:java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with
+:java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>` and 
+pass the resulting ``RealmConfiguration`` to
+:java-sdk:`getInstance() <io/realm/Realm.html#getInstance-io.realm.RealmConfiguration->`
+or :java-sdk:`getInstanceAsync() <io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback->`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.java
+         :language: java
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <java-realms>`
+
+.. _java-read-only-realms:
+
+Read-Only Realms
+~~~~~~~~~~~~~~~~
+
+Use the :java-sdk:`readOnly() <io/realm/RealmConfiguration.Builder.html#readOnly-->`
+method when configuring your {+realm+} to make it read-only:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.read-only.kt.code-block.rst
+
+   .. tab::
+       :tabid: java
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.read-only.java.code-block.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Read-Only Realms <java-read-only-realms-fundamentals>`
+
+.. _java-in-memory-realms:
+
+In-Memory Realms
+~~~~~~~~~~~~~~~~
+
+To create a {+realm+} that runs entirely in memory without being written
+to a file, use :java-sdk:`inMemory() <io/realm/RealmConfiguration.Builder.html#inMemory()>`
+when configuring your realm:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.in-memory.kt.code-block.rst
+
+   .. tab::
+       :tabid: java
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.in-memory.java.code-block.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: In-Memory Realms <java-in-memory-realms-fundamentals>`
+
+.. _java-dynamic-realms:
+
+Dynamic Realms
+~~~~~~~~~~~~~~
+
+To open a Dynamic Realm with a mutable schema, use 
+:java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.dynamic.kt.code-block.rst
+
+   .. tab::
+       :tabid: java
+
+       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.dynamic.java.code-block.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Dynamic Realms <java-dynamic-realms-fundamentals>`
+
+Synced Realms
+-------------
+
+Synced {+realm+}s use {+sync+} to store data both on the client device
+and in your synced data source. Opening a synced {+realm+} works exactly
+like opening a local {+realm+}, except you use ``SyncConfiguration``
+to customize the settings for synced {+realm+}s.
+
+.. _java-synced-realm-configuration:
+
+Synced Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To configure settings for a {+realm+}, create a
+:java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` with a
+:java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`.
+The following example configures a synced {+realm+} with:
+
+- partition-based {+sync+}
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- explicit waiting for all backend changes to synchronize to the device
+  before returning an open {+realm+}
+- automatic compaction when launching the {+realm+} to save file space
+
+.. important:: Production Applications Should Handle Client Resets
+
+   Applications used in production environments should handle client
+   reset errors. To learn more, see :ref:`Reset a Client Realm
+   <java-client-resets>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.java
+         :language: java
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <java-realms>`
+
+.. _java-open-a-synced-realm:
+.. _java-open-a-synced-realm-while-online:
+
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/java-open-synced-realm.rst
+
+.. _java-open-a-synced-realm-while-offline:
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a synced {+realm+} when offline with the exact same syntax
+that you use to :ref:`open a synced realm while online
+<java-open-a-synced-realm-while-online>`. Not all SDKs follow this
+pattern, so cross-platform developers should consult the documentation
+for each SDK to learn more.
+
+.. _java-flexible-sync-open-realm:
+
+Open a Synced Realm with a Flexible Sync Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When your application uses Flexible Sync, call
+the :java-sdk:`initialSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#initialSubscriptions(io.realm.mongodb.sync.SyncConfiguration.InitialFlexibleSyncSubscriptions)>`
+sync configuration builder method
+with an instance of
+:java-sdk:`SyncConfiguration.InitialFlexibleSyncSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.InitialFlexibleSyncSubscriptions.html>`
+to open a synced realm. While partition-based Sync requires a partition
+value when you instantiate your ``SyncConfiguration``, you should omit
+the partition value when you use Flexible Sync. In the ``configure()`` method, instantiate
+an ``UnmanagedSubscription`` with a name and query using
+:java-sdk:`Subscription.create()
+<io/realm/mongodb/sync/Subscription.html#create(java.lang.String,io.realm.RealmQuery)>`.
+Pass your new subscription
+to the ``add()`` method of the :java-sdk:`MutableSubscriptionSet
+<io/realm/mongodb/sync/MutableSubscriptionSet.html>`
+parameter to add it to your subscriptions:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.java
+         :language: java
+         :copyable: false
+
+.. seealso::
+
+   For more information about subscriptions, see
+   :ref:`Subscribe to Queryable Fields <java-sync-subscribe-to-queryable-fields>`.
+
+.. _java-close-a-realm:
+
+Close a Realm
+-------------
+
+It is important to remember to call the :java-sdk:`close()
+<io/realm/Realm.html#close-->` method when done with a 
+{+realm+} instance to free resources. Neglecting to close {+realm+}s can lead to an
+``OutOfMemoryError``.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.java
+         :language: java
+         :copyable: false
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <java-realms>`
+
+.. _java-provide-a-subset-of-classes-to-a-realm:
+.. _java-realm-modules:
+
+Configure Which Classes to Include in Your Realm Schema
+-------------------------------------------------------
+
+{+service-short+} modules are collections of {+service-short+} object
+models. Specify a module or modules when opening a {+realm+} to control
+which classes {+client-database+} should include in your schema. If you
+do not specify a module, {+service-short+} uses the default module,
+which includes all {+service-short+} objects defined in your
+application.
+
+.. note::
+   
+   Libraries that include {+client-database+} must expose and use their
+   schema through a module. Doing so prevents the library from
+   generating the default ``RealmModule``, which would conflict with
+   the default ``RealmModule`` used by any app that includes the library.
+   Apps using the library access library classes through the module.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/RealmsTest.codeblock.modules.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/RealmsTest.codeblock.modules.java
+         :language: java
+         :copyable: false
+
+.. seealso::
+
+   :ref:`Fundamentals: Modules <java-modules>`

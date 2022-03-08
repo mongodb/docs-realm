@@ -54,7 +54,7 @@ the cluster.
        "sync": {
          "state": <Boolean>,
          "development_mode_enabled": <Boolean>,
-         "database_name": "<Developer Mode Database Name>",
+         "database_name": "<Development Mode Database Name>",
          "partition": {
            "key": "<Partition Key Field Name>",
            "type": "<Partition Key Value Type>",
@@ -83,24 +83,24 @@ the cluster.
    
    * - | ``sync.development_mode_enabled``
        | Boolean
-     - If ``true``, :term:`development mode` is enabled for the cluster. While
-       enabled, Realm does not enforce sync rules, stores synced objects in a
-       specific database within the cluster, and mirrors object types in that
-       database's collection schemas.
+     - If ``true``, :term:`Development Mode` is enabled for the cluster. While
+       enabled, Realm stores synced objects in a specific database within 
+       the cluster, and mirrors object types in that database's collection 
+       schemas.
 
    * - | ``sync.database_name``
        | String
      - The name of the database in the synced cluster where Realm should store
        synced objects.
        
-       When :term:`development mode` is enabled, Realm stores synced objects in
+       When :term:`Development Mode` is enabled, Realm stores synced objects in
        this database. Each object type maps to its own collection in the
        database with a schema that matches the synced objects.
    
    * - | ``sync.partition.key``
        | String
-     - The name of the field that :ref:`partitions <partitioning>` data into
-       client Realms.
+     - The name of the :ref:`partition key <partition-key>` field that maps data
+       into individual synced realms.
    
    * - | ``sync.partition.type``
        | String
@@ -133,9 +133,9 @@ namespace.
      "id": "<Rule ID>",
      "database": "<Database Name>",
      "collection": "<Collection Name>",
-     "roles": [<Query Role>],
+     "roles": [<Role>],
      "schema": <Document Schema>,
-     "filters": [<Query Filter>],
+     "filters": [<Filter>],
    }
 
 .. list-table::
@@ -161,15 +161,15 @@ namespace.
 
    * - | ``roles``
        | Array<Document>
-     - An array of :ref:`Query Role configuration documents
-       <query-role-config>`, which have the following form:
+     - An array of :ref:`Role configuration documents
+       <role-config>`, which have the following form:
        
-       .. include:: /mongodb/tables/query-role-configuration.rst
+       .. include:: /mongodb/tables/role-configuration.rst
 
    * - | ``schema``
        | Document
-     - A :ref:`Document Schema <document-schema-config>`. The root level
-       schema must be an :ref:`object schema <schema-type-objects>`,
+     - A :ref:`document schema <schemas>`. The root level
+       schema must be an :ref:`object schema <schema-type-object>`,
        which has the following form:
 
        .. code-block:: json
@@ -183,7 +183,7 @@ namespace.
 
    * - | ``filters``
        | Array<Document>
-     - An array of :ref:`Query Filter configuration documents
-       <query-filter-config>`, which have the following form:
+     - An array of :ref:`Filter configuration documents
+       <filter-config>`, which have the following form:
 
        .. include:: /mongodb/tables/query-filter-params.rst

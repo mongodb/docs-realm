@@ -1,0 +1,40 @@
+.. _flutter-open-close-realm: 
+
+==================================
+Open & Close a Realm - Flutter SDK
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _flutter-open-realm:
+
+Open a Realm
+------------
+
+Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
+to control the specifics of the {+realm+} you
+would like to open, including schema.
+
+Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
+to generate an instance of that {+realm+}:
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
+   :language: dart
+
+You can now use that {+realm+} instance to work with objects in the database.
+
+.. _flutter-close-realm: 
+
+Close a Realm
+-------------
+
+Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.close-realm.dart
+   :language: dart

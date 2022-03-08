@@ -2,43 +2,33 @@
 //  Models.swift
 //  Task Tracker
 //
-//  Created by MongoDB on 2020-05-07.
-//  Copyright © 2020 MongoDB, Inc. All rights reserved.
+//  Copyright © 2020-2022 MongoDB, Inc. All rights reserved.
 //
 
 import Foundation
 import RealmSwift
 
 // :code-block-start: user-model
+// :state-start: sync
 class User: Object {
-    // :hide-start:
-    @objc dynamic var _id: String = ""
-    @objc dynamic var _partition: String = ""
-    @objc dynamic var name: String = ""
-    let memberOf = RealmSwift.List<Project>()
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
-    // :replace-with:
-    // // TODO: Add User model (see SDKs panel in Realm UI)
-    // :hide-end:
+    @Persisted(primaryKey: true) var _id: String = ""
+    @Persisted var name: String = ""
+    @Persisted var memberOf: List<Project>
 }
+// :state-end:
 // :code-block-end:
-
 // :code-block-start: project-model
+// :state-start: sync
 class Project: EmbeddedObject {
-    // :hide-start:
-    @objc dynamic var name: String? = nil
-    @objc dynamic var partition: String? = nil
+    @Persisted var name: String?
+    @Persisted var partition: String?
     convenience init(partition: String, name: String) {
         self.init()
         self.partition = partition
         self.name = name
     }
-    // :replace-with:
-    // // TODO: Add Project model (see SDKs panel in Realm UI)
-    // :hide-end: 
 }
+// :state-end:
 // :code-block-end:
 
 enum TaskStatus: String {
@@ -48,16 +38,12 @@ enum TaskStatus: String {
 }
 
 // :code-block-start: task-model
-// :hide-start:
+// :state-start: local sync
 class Task: Object {
-    @objc dynamic var _id: ObjectId = ObjectId.generate()
-    @objc dynamic var _partition: String = ""
-    @objc dynamic var name: String = ""
-    @objc dynamic var owner: String? = nil
-    @objc dynamic var status: String = ""
-    override static func primaryKey() -> String? {
-        return "_id"
-    }
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String = ""
+    @Persisted var owner: String?
+    @Persisted var status: String = ""
 
     var statusEnum: TaskStatus {
         get {
@@ -67,20 +53,19 @@ class Task: Object {
             status = newValue.rawValue
         }
     }
-    
-    convenience init(partition: String, name: String) {
+
+    convenience init(name: String) {
         self.init()
-        self._partition = partition
         self.name = name
     }
 }
-// :replace-with:
+// :state-end: :state-uncomment-start: start
 // // TODO: Realm-ify Task model
 // class Task {
 //    var name: String = ""
 //    var statusEnum: TaskStatus = .Open
 // }
-// :hide-end: 
+// :state-uncomment-end:
 // :code-block-end:
 
 struct Member {
@@ -91,4 +76,3 @@ struct Member {
         self.name = document["name"]!!.stringValue!
     }
 }
-

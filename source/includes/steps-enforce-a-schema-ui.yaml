@@ -1,0 +1,212 @@
+title: Navigate to the Collection Schema Screen
+ref: navigate-to-the-collection-schema-screen
+level: 4
+content: |
+  In the {+leftnav+}, click :guilabel:`Schema` beneath :guilabel:`Data
+  Access` to open the schema editor. Realm scans your linked cluster for
+  existing collections and lists them on the left side of the schema
+  editor.
+  
+  Find and select your collection from the menu to open the collection
+  configuration screen.
+---
+title: Generate a Schema
+ref: generate-a-schema
+level: 4
+content: |  
+  If you already have data in your collection, {+service-short+} can
+  sample a subset of the documents in the collection and generate a
+  schema for you based on the sample. This step is optional, so if you
+  already have a schema or prefer to define one manually, skip this
+  step.
+  
+  You can configure the number of documents to sample and use the
+  MongoDB query language to limit the sample to specific documents. By
+  default, {+service-short+} randomly samples up to 500 documents from
+  the entire collection.
+
+  To generate a schema from existing data:
+  
+  1. Click the :guilabel:`Generate Schema` button to open the sample configuration screen.
+  
+  2. Specify the sample size, up to a maximum of 50,000 documents.
+  
+  3. Optionally, click :guilabel:`Advanced` and specify a query,
+     projection, and/or sort to refine the sample query. Use the query
+     and sort filters to sample a specific subset of documents and use
+     the projection filter to sample a specific subset of fields from
+     each document.
+  
+  4. Click :guilabel:`Generate` to run the sample query and generate a
+     schema. The process may take up to a minute depending on the number
+     and contents of the sampled documents.
+
+  .. figure:: /images/generate-schema-sample-size.png
+     :lightbox:
+     :alt: The Generate Schema sample size input in the {+ui+}
+---
+title: Add Field-Level Schema Definitions
+ref: add-field-level-schema-definitions
+level: 4
+content: |
+  You may define a single BSON schema for each collection. The root-level type
+  of each collection schema is an ``object`` schema that represents a document
+  in the collection. You can define additional schemas for document fields
+  within the root schema's ``properties`` field.
+  
+  The fields available in a JSON schema object depend on the type of value that
+  the schema defines. For a list of supported types and details on how to
+  configure them, see :ref:`schema types <schema-types>`.
+
+  .. example::
+     
+     A group is using {+service-short+} to run a voting app where users aged 13 or
+     older can submit a ranked list of their favorite colors. They store
+     the votes in a MongoDB collection named ``votes`` where each
+     document represents a single person's vote. Each vote must include
+     the person's name, age, and an array of their favorite colors. Each
+     color has a ``rank``, ``name``, and a ``hexCode``.
+     The following is a typical document in the ``votes`` collection:
+
+     .. code-block:: json
+
+        {
+          "name": "Jane Doe",
+          "age": 42,
+          "favoriteColors": [
+            { "rank": 1, "name": "RebeccaPurple", "hexCode": "#663399" },
+            { "rank": 2, "name": "DodgerBlue", "hexCode": "#1E90FF" },
+            { "rank": 3, "name": "SeaGreen", "hexCode": "#2E8B57" },
+          ]
+        }
+
+     The group can use the following schema to guarantee that the listed
+     constraints are satisfied for each document in the ``votes``
+     collection:
+
+     .. code-block:: json
+
+        {
+          "bsonType": "object",
+          "required": ["name", "age", "favoriteColors"],
+          "properties": {
+            "name": {
+              "bsonType": "string"
+            },
+            "age": {
+              "bsonType": "int",
+              "minimum": 13,
+              "exclusiveMinimum": false
+            },
+            "favoriteColors": {
+              "bsonType": "array",
+              "uniqueItems": true,
+              "items": {
+                "bsonType": "object",
+                "properties": {
+                  "rank": { "bsonType": "int" },
+                  "name": { "bsonType": "string" },
+                  "hexCode": {
+                    "bsonType": "string",
+                    "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+                  }
+                }
+              }
+            }
+          }
+        }
+---
+title: Add Change Validation Expressions
+ref: add-change-validation-expressions
+level: 4
+content: |
+  In addition to configuring the content of each field, you can validate changes
+  to documents by defining a validation :ref:`expression <expressions>` in the
+  ``validate`` field of a schema. Validation expressions can use the
+  :json-expansion:`%%prev` and :json-expansion:`%%prevRoot` expansions to access
+  a field or document's values *before* the insert or update operation occurred.
+
+  .. example::
+
+     Consider a collection where the document's ``owner_id`` field
+     represents the owner of each document. The business rules for this
+     collection specify that once a document has an owner, the value of
+     ``owner_id`` should never change. We can enforce this constraint
+     with the following validation expression that ensures that update
+     operations do not change the ``owner_id`` value unless its to
+     assign an owner where there was none previously:
+
+     .. code-block:: javascript
+
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prev": { "%exists": false } },
+              { "%%prev": "%%this" }
+            ]
+          }
+        }
+        
+     We could also use the :json-expansion:`%%prevRoot` expansion to
+     create the following equivalent validation expression:
+
+     .. code-block:: javascript
+
+        "owner_id": {
+          "validate": {
+            "%or": [
+              { "%%prevRoot.owner_id": { "%exists": false } },
+              { "%%prevRoot.owner_id": "%%root.owner_id" }
+            ]
+          }
+        }
+---
+title: Save the Schema
+ref: save-the-schema
+level: 4
+content: |
+  After you have configured the schema, click :guilabel:`Save`. After
+  saving, {+service-short+} immediately begins enforcing the schema for all future
+  queries.
+
+  .. note::
+
+     Existing documents that do not match the schema are not
+     automatically updated or validated, so future changes to these
+     documents may cause schema validation failures.
+---
+title: Validate Documents Against the Schema
+ref: validate-documents-against-the-schema
+level: 4
+content: |
+  Once you have saved the collection schema, you can validate that
+  existing documents in the collection conform to the schema.
+  
+  {+service-short+} samples documents for validation as it does for
+  automatic schema generation.
+
+  To validate the data in a collection:
+  
+  1. Click the :guilabel:`Run Validation` button to open the validation configuration window.
+  
+  2. Specify the sample size, up to a maximum of 50,000 documents.
+  
+  3. Optionally, click :guilabel:`Advanced` and specify a query and/or
+     sort to refine the validation to a specific subset of documents.
+  
+  4. Click :guilabel:`Run Validation` to sample documents from the collection
+     and validate each document against the schema.
+
+  Once validation is complete, {+service-short+} lists any validation
+  errors from the sample in the :guilabel:`JSON Validation Errors`
+  table. Each row of the table represents a specific type of validation
+  error for a particular field and indicates the number of documents
+  that failed to validate in that way.
+  
+  For each validation error, you can use the :guilabel:`Actions` menu to
+  download the raw documents that failed or copy a MongoDB query that
+  finds the failed documents.
+  
+  .. figure:: /images/schema-validation-errors-table.png
+     :alt: The table that displays schema validation errors in the {+ui+}
+     :lightbox:

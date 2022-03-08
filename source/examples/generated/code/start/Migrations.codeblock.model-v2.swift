@@ -1,7 +1,8 @@
-// In the second version, the Person model has one
-// combined field for the name. A migration will be required
-// to convert from version 1 to version 2.
+// In version 2, the Person model has one
+// combined field for the full name and age as a Int. 
+// A manual migration will be required to convert from 
+// version 1 to this version.
 class Person: Object {
-    @objc dynamic var fullName = ""
-    @objc dynamic var age = 0
+    @Persisted var fullName = ""
+    @Persisted var age = 0
 }

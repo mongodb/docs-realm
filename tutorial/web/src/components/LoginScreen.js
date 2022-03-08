@@ -23,7 +23,7 @@ export default function LoginScreen() {
   const [error, setError] = React.useState({});
   // Whenever the mode changes, clear the form inputs
   React.useEffect(() => {
-    setEmail("nick.larew@mongodb.com");
+    setEmail("sampleemail@example.com");
     setPassword("password");
     setError({});
   }, [mode]);
@@ -34,11 +34,11 @@ export default function LoginScreen() {
     setIsLoggingIn(true);
     setError((e) => ({ ...e, password: null }));
     try {
-      // :hide-start:
+      // :state-start: final
       await app.logIn(Realm.Credentials.emailPassword(email, password));
-      // :replace-with:
+      // :state-end: :state-uncomment-start: start
       // // TODO: Call the logIn() method and pass it the emailPassword credentials.
-      // :hide-end:
+      // :state-uncomment-end:
     } catch (err) {
       handleAuthenticationError(err, setError);
     }
@@ -52,11 +52,11 @@ export default function LoginScreen() {
     if (isValidEmailAddress) {
       try {
         // Register the user and, if successful, log them in
-        // :hide-start:
-        await app.emailPasswordAuth.registerUser(email, password);
-        // :replace-with:
+        // :state-start: final
+        await app.emailPasswordAuth.registerUser({ email, password });
+        // :state-end: :state-uncomment-start: start
         // // TODO: Create new emailPassword credentials by calling the registerUser() method.
-        // :hide-end:
+        // :state-uncomment-end:
         return await handleLogin();
       } catch (err) {
         handleAuthenticationError(err, setError);

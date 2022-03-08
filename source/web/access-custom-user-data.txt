@@ -31,7 +31,7 @@ Example User Object
 The code examples in this page use the following :ref:`user object
 <user-objects>` on which the ``custom_data`` field has not yet been set.
 
-.. code-block:: console
+.. code-block:: js
 
    {
      id: '5f1f216e82df4a7979f9da93',
@@ -59,19 +59,14 @@ Read Custom User Data
 You can access a read-only copy of a logged in user's custom data directly from
 the :js-sdk:`Realm.User.customData <Realm.User.html#customData>` property.
 
-.. code-block:: javascript
-
-   // Access a logged in user's read-only custom data
-   const customData = app.currentUser.customData
-   console.log(customData);
+.. literalinclude:: /examples/generated/web/access-custom-user-data.codeblock.read-custom-user-data.js
+   :language: javascript
 
 To manually fetch the latest version of a user's custom data, call
 :js-sdk:`User.refreshCustomData() <Realm.User.html#refreshCustomData>`.
 
-.. code-block:: javascript
-
-   // Refresh a user's custom data to make sure we have the latest version
-   await app.currentUser.refreshCustomData();
+.. literalinclude:: /examples/generated/web/access-custom-user-data.codeblock.refresh-custom-user-data.js
+   :language: javascript
 
 Output
 ~~~~~~
@@ -98,25 +93,8 @@ app's custom data collection.
 The following example updates the user's custom data to set the
 ``favoriteColor`` property to ``"purple"``:
 
-.. code-block:: javascript
-
-   // Get a client object for your app's custom user data collection
-   const mongodb = app.services.mongodb("<MongoDB Service Name>");
-   const collection = mongo.db("<Database Name>").collection("<Collection Name>");
-   
-   // Log the user's favorite color before we change it
-   console.log("old favoriteColor: ", app.currentUser.customData.favoriteColor);
-   
-   // Update the user's custom data document
-   await collection.updateOne(
-     { userID: app.currentUser.id }, // Query for the user object of the logged in user
-     { $set: { favoriteColor: "purple" } } // Set the logged in user's favorite color to purple
-   );
-   // Refresh the user's local customData property
-   await app.currentUser.refreshCustomData();
-   
-   // Log the user's new favorite color
-   console.log("new favoriteColor: ", app.currentUser.customData.favoriteColor);
+.. literalinclude:: /examples/generated/web/access-custom-user-data.codeblock.modify-custom-user-data.js
+   :language: javascript
 
 Output
 ~~~~~~

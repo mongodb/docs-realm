@@ -1,0 +1,189 @@
+---
+title: Clone the Client App Repository
+ref: clone-the-client-app-repository
+content: |
+  We've already put together a task tracker iOS application that has most of the
+  code you'll need. You can clone the client application repository directly
+  from :github:`GitHub <mongodb-university/realm-tutorial-ios-swift>`:
+
+  .. code-block:: shell
+
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-ios-swift.git
+
+  .. tip::
+   
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view a local-only version of the app:
+
+     1. Navigate to the root directory of the client application repository:
+
+        .. code-block:: shell
+
+           cd realm-tutorial-ios-swift
+
+     #. Check out the ``local`` branch:
+
+        .. code-block:: shell
+
+           git checkout local
+
+     #. Run the app by clicking the "Play" button in the upper-left
+        corner of the Xcode window.
+
+---
+title: Explore the App Structure
+ref: explore-the-app-structure
+content: |
+
+  In the Xcode Project Navigator, you can see the source files of the task
+  tracker application in the ``Task Tracker`` folder. The relevant files are as follows:
+
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 40 60
+     
+     * - File
+       - Purpose
+
+     * - Models.swift
+       - Define the Realm object models used by this app.
+
+     * - SceneDelegate.swift
+       - Part 2: Declare the global {+app+} instance for the {+sync+} 
+         portion of the tutorial.
+     
+     * - WelcomeViewController.swift
+       - Implement the login and user registration functionality.
+     
+     * - TasksViewController.swift
+       - Create the list view for the tasks in a given project.
+
+     * - ProjectsViewController.swift
+       - Display the user's list of projects. In the local app, there is
+         only the local user's project. In Part 2, when we add Sync, 
+         we'll add the projects where the logged in user is a member.
+
+     * - ManageTeamViewController.swift
+       - Part 2: Manage members of a user's project.
+
+---
+title: Define the Object Models
+ref: define-the-object-models
+content: |
+  Navigate to the Models.swift file to implement the Realm Object Models used in
+  this app. Realm object models derive from ``Object`` from the
+  ``RealmSwift`` library, which allows us to store them in {+client-database+}.
+  The Task class is currently just a normal Swift class. Let's turn it
+  into a Realm object model:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.task-model.swift
+     :language: swift
+
+  .. note::
+
+     To learn more about how {+service-short+} Object models are used in iOS applications, 
+     see :ref:`ios-read-and-write-data` in our iOS client guide.
+
+---
+title: Specify the Realm to Open
+ref: specify-the-realm-to-open
+content: |
+  Navigate to the ProjectsViewController.swift file. For the local application,
+  the user only has their own project - and their own {+realm+} - to open. 
+  We'll specify the :ref:`configuration <ios-configure-and-open-a-realm>` to use 
+  when we open the {+realm+} in ``init(userRealmConfiguration: Realm.Configuration)``:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift 
+
+---
+title: Implement the Tasks List
+ref: implement-the-tasks-list
+content: |
+  Navigate to the TasksViewController.swift file, where we'll implement the list
+  of Tasks in a Project. The TasksViewController class holds an array of Task
+  objects. We already converted the Task class to a Realm object model. In order
+  to hold a live collection of Realm objects contained in a realm, we need to
+  use ``RealmResults`` instead of a standard Swift array. Let's convert that
+  property from an array of Tasks (``[Task]``) to a RealmResults collection
+  of Tasks (``Results<Task>``) now:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.properties.swift
+     :language: swift
+
+  We can initialize the ``tasks`` property with a query on the project realm.
+  Once we have the live tasks collection, we can observe that for changes:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.init.swift
+     :language: swift
+
+  Calls to ``observe`` Realm objects return a notificationToken. Retain
+  the notificationToken as long as you want to continue observing. When
+  done observing -- for example, because the user navigated away from this view
+  -- be sure to invalidate the token. The ``deinit`` method is a good place to
+  do this:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.deinit.swift
+     :language: swift
+
+  The TasksViewController already populates the UI using the Tasks in the list.
+  Check out the ``tableView(_:numberOfRowsInSection:)`` and
+  ``tableView(_:cellForRowAt:)`` methods to see how the Realm object model
+  version of the Task class and the RealmResults object are drop-in replacements
+  for the regular class and array respectively. No changes are required in these
+  methods.
+
+  The TasksViewController also wires up the Add button at the top of the view to
+  the ``addButtonDidClick()`` method. We can implement the Task creation in this
+  method:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.add-button-did-click.swift
+     :language: swift
+
+  When the user selects a Task in the list, we present them with an action sheet
+  to allow them to update the Task's status. Complete the
+  ``tableView(_:didSelectRowAt:)`` method implementation as follows:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.populate-action-sheet.swift
+     :language: swift
+
+  To handle swipes to delete a Task, we implement the
+  ``tableView(_:commit:forRowAt:)`` method:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.delete-task.swift
+     :language: swift
+
+---
+title: Enable Sign-in
+ref: sign-in
+content: |
+  Finally, go to the WelcomeViewController and implement the ``signIn()`` 
+  method. Create a {+realm+} configuration that specifies which "project" to 
+  open and pass it to the TasksViewController:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
+
+  .. note::
+
+     TasksViewController works the same whether we're using Sync or not. That
+     makes it easier to add Sync later in Part 2. We'll only need to change the
+     configuration we pass into TasksViewController.
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
+
+  - Create a user with username *test*
+  - Navigate to "My Project"
+  - Add, update, and remove some tasks
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``local`` branch of 
+     this repo to compare your code with our finished solution.

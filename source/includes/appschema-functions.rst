@@ -51,14 +51,13 @@ Configuration
    
    * - | ``private``
        | Boolean
-     - If ``true``, this function may only be accessed from incoming
-       webhooks, rules, and named functions.
+     - If ``true``, this function may only be accessed from
+       HTTPS endpoints, rules, and named functions.
    
    * - | ``can_evaluate``
        | Document
-     - A :doc:`rule expression </services/json-expressions>` that
-       evaluates to ``true`` when the function is allowed to execute in
-       response to a given request.
+     - A :ref:`rule expression <expressions>` that evaluates to ``true`` when
+       the function is allowed to execute in response to a given request.
    
    * - | ``disable_arg_logs``
        | Boolean

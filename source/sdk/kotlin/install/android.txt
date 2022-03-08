@@ -1,0 +1,149 @@
+.. _kotlin-install-android:
+
+==============================
+Install (Android) - Kotlin SDK
+==============================
+
+.. default-domain:: mongodb
+
+.. include:: /includes/kotlin-install-prerequisites.rst
+
+Installation
+------------
+
+.. tabs::
+
+   .. tab:: Realm Database
+      :tabid: realm-database
+
+      To add local-only Realm Database to your application, make
+      the following changes to your app-level Gradle build file,
+      typically found at :file:`<project>/app/build.gradle`:
+
+      - Add :file:`io.realm.kotlin:library-base` to the list of
+        dependencies.
+      - To use coroutines with the SDK, add
+        :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
+        to the list of dependencies.
+      - Add :file:`io.realm.kotlin` to the list of plugins.
+
+      .. code-block:: kotlin
+         :emphasize-lines: 4, 36, 37
+         :copyable: false
+
+         plugins {
+             id 'com.android.application'
+             id 'org.jetbrains.kotlin.android'
+             id 'io.realm.kotlin' version "{+kotlin-sdk-version+}"
+         }
+
+         android {
+             compileSdk 31
+
+             defaultConfig {
+                 applicationId "com.mongodb.realm.testkmmandroidonly"
+                 minSdk 28
+                 targetSdk 31
+                 versionCode 1
+                 versionName "1.0"
+
+                 testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+             }
+
+             buildTypes {
+                 release {
+                     minifyEnabled false
+                     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                 }
+             }
+             compileOptions {
+                 sourceCompatibility JavaVersion.VERSION_11
+                 targetCompatibility JavaVersion.VERSION_11
+             }
+             kotlinOptions {
+                 jvmTarget = '1.8'
+             }
+         }
+
+         dependencies {
+             implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
+             implementation 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}'
+             implementation 'androidx.core:core-ktx:1.7.0'
+             implementation 'androidx.appcompat:appcompat:1.4.1'
+             implementation 'com.google.android.material:material:1.5.0'
+             implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+             testImplementation 'junit:junit:4.13.2'
+             androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+             androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+         }
+
+   .. tab:: Sync
+      :tabid: sync
+
+      To add Realm Database and Sync to your application, make the
+      following changes to your app-level Gradle build file,
+      typically found at :file:`<project>/app/build.gradle`:
+
+      - Add :file:`io.realm.kotlin:library-sync` to the list of
+        dependencies.
+      - To use coroutines with the SDK, add
+        :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
+        to the list of dependencies.
+      - Add :file:`io.realm.kotlin` to the list of plugins.
+
+      .. code-block:: kotlin
+         :emphasize-lines: 4, 36, 37
+         :copyable: false
+
+         plugins {
+             id 'com.android.application'
+             id 'org.jetbrains.kotlin.android'
+             id 'io.realm.kotlin' version "{+kotlin-sdk-version+}"
+         }
+
+         android {
+             compileSdk 31
+
+             defaultConfig {
+                 applicationId "com.mongodb.realm.testkmmandroidonly"
+                 minSdk 28
+                 targetSdk 31
+                 versionCode 1
+                 versionName "1.0"
+
+                 testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+             }
+
+             buildTypes {
+                 release {
+                     minifyEnabled false
+                     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                 }
+             }
+             compileOptions {
+                 sourceCompatibility JavaVersion.VERSION_11
+                 targetCompatibility JavaVersion.VERSION_11
+             }
+             kotlinOptions {
+                 jvmTarget = '1.8'
+             }
+         }
+
+         dependencies {
+             implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
+             implementation 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'
+             implementation 'androidx.core:core-ktx:1.7.0'
+             implementation 'androidx.appcompat:appcompat:1.4.1'
+             implementation 'com.google.android.material:material:1.5.0'
+             implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+             testImplementation 'junit:junit:4.13.2'
+             androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+             androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+         }
+
+After updating the Gradle configuration,
+resolve the dependencies by clicking :guilabel:`File` >
+:guilabel:`Sync Project with Gradle Files` in the Android Studio menu bar.
+You can now use the Kotlin SDK in your application.
+
+

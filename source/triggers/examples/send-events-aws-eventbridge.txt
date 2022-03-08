@@ -1,0 +1,75 @@
+.. _aws-eventbridge:
+
+======================================
+Send Trigger Events to AWS EventBridge
+======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+MongoDB offers an `AWS Eventbridge
+<https://aws.amazon.com/eventbridge/>`_ partner event source that lets
+you send {+service-short+} Trigger events to an event bus instead of
+calling a {+service-short+} Function. You can configure any {+service-short+} Trigger to send events to
+EventBridge.
+
+All you need to send Trigger events to EventBridge is an AWS account ID.
+This guide walks through finding your account ID, configuring the
+Trigger, and associating the Trigger event source with an event bus.
+
+.. note:: Official AWS Partner Event Source Guide
+   
+   This guide is based on Amazon's :aws-docs:`Receiving Events from a
+   SaaS Partner
+   </eventbridge/latest/userguide/create-partner-event-bus.html>`
+   documentation.
+
+Procedure
+---------
+
+.. note::
+
+   The AWS put entry for an EventBridge trigger event must be smaller than 256 KB.
+   
+   :ref:`Learn how to reduce the size of your PutEvents entry in the Performance Optimization 
+   section. <send-aws-eventbridge-performance-optimization>` 
+
+.. include:: /includes/steps/eventbridge.rst
+
+.. _event_processor_example:
+
+Example Event
+-------------
+
+The following object configures a trigger to send events to AWS
+Eventbridge:
+
+.. include:: /includes/event-processor-example.rst
+
+.. _send-aws-eventbridge-performance-optimization:
+
+Performance Optimization
+------------------------
+
+The AWS put entry for an EventBridge trigger event must be smaller than 256 KB. 
+
+For more information, see the :aws:`AWS Documentation to calculate Amazon
+PutEvents event entry size </eventbridge/latest/userguide/eb-putevent-size.html>`.
+
+When using Database Triggers, the Project Expression can be useful reduce the document size  
+before sending messages to EventBridge. 
+This expression lets you include only specified fields, reducing document size.
+
+:ref:`Learn more in the Database Trigger Project Expression documentation. 
+<database-triggers-project-expression>`
+
+
+

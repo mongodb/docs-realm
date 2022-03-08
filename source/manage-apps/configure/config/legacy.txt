@@ -1,0 +1,100 @@
+========================================
+Application Configuration Files (Legacy)
+========================================
+
+.. note:: Legacy Page
+   
+   This page describes an older configuration file format still used by some
+   existing applications. For an up-to-date description of {+service+}
+   configuration files, see :ref:`Realm Application Configuration
+   <app-configuration>`.
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+{+service+} uses JSON files and source code files to define and configure every
+component of an application. Each component has a specific configuration file
+schema and every application uses a standard file structure to organize the
+configuration files.
+
+When Will I Use Configuration Files?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Every :term:`{+app+}` is composed of a collection of configuration files, so you
+use application configuration files whenever you create or modify a {+app+}. If
+you use the {+ui+} then you rarely deal directly with the configuration files
+themselves, but other deployment methods, like :doc:`{+cli+}
+</manage-apps/deploy/manual/deploy-cli>` and :doc:`GitHub
+</manage-apps/deploy/automated/deploy-automatically-with-github>` allow you to define and edit the
+configuration files directly.
+
+Directory Structure
+~~~~~~~~~~~~~~~~~~~
+
+The following figure shows a high-level view of a {+app+}'s directory structure:
+
+.. include:: /includes/realm-legacy-application-file-schema.rst
+
+.. _legacy-appschema-realm-config:
+
+Application Configuration
+-------------------------
+
+.. include:: /includes/appschema-configuration.rst
+
+.. _legacy-appschema-authentication-providers:
+
+Authentication Providers
+------------------------
+
+.. include:: /includes/appschema-auth-providers.rst
+
+.. _legacy-appschema-functions:
+
+Functions
+---------
+
+.. include:: /includes/appschema-functions.rst
+
+.. _legacy-appschema-mongodb:
+
+MongoDB Services
+----------------
+
+.. include:: /includes/appschema-mongodb.rst
+
+.. _legacy-appschema-services:
+
+External Services
+-----------------
+
+.. include:: /includes/appschema-services.rst
+
+.. _legacy-appschema-triggers:
+
+Triggers
+--------
+
+.. include:: /includes/appschema-triggers.rst
+
+.. _legacy-appschema-hosting:
+
+Hosting
+-------
+
+.. include:: /includes/appschema-hosting.rst
+
+.. _legacy-appschema-values:
+
+Values
+------
+
+.. include:: /includes/appschema-values.rst

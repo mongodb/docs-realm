@@ -3,7 +3,7 @@ Filter Documents
 
 You can use the :manual:`$match
 </reference/operator/aggregation/match/>` stage to filter
-documents according to a standard :manual:`query filter
+documents according to standard MongoDB :manual:`query syntax
 </tutorial/query-documents>`.
 
 .. code-block:: javascript

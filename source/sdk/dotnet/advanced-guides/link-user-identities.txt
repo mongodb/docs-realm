@@ -12,29 +12,26 @@ Link User Identities - .NET SDK
    :depth: 2
    :class: singlecol
 
-{+service+} provides multiple :ref:`authentication providers <authentication-providers>`. Each 
-authentication provider maintains its own unique list of user identities that 
-enable users to log into your application. To allow a single user to log into 
-your application in multiple ways, you can associate the user's identities from multiple 
-providers together.
+Realm provides :ref:`many authentication providers <authentication-providers>` 
+to log users into your app. Each provider creates a unique user identity. 
+Realm lets you merge multiple credentials into one user identity.
 
 Example
 -------
 
-For instance, consider an application that enables users to authenticate
-via :ref:`anonymous authentication <anonymous-authentication>` so they
-may explore functionality without linking to an existing
-SSO provider or generating a new password. When that user decides to
-finally create a full account with an SSO provider or email/password
-authentication, you need some way of associating the user's original
-anonymous identity with their new permanent identity.
+Consider an application that offers :ref:`anonymous login 
+<anonymous-authentication>`. This allows users to explore the app without 
+registering. If users like the application, they create permanent 
+accounts. They sign up with SSO or email/password authentication. By default, 
+this creates a new ``User`` object. The app must link the new 
+identity with the original User.
 
 You can link identities using the 
-:dotnet-sdk:`LinkCredentialsAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_LinkCredentialsAsync_Realms_Sync_Credentials_>` 
-method on the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object of a 
-logged in user. The following code demonstrates this:
+:dotnet-sdk:`LinkCredentialsAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_LinkCredentialsAsync_Realms_Sync_Credentials_>`. 
+This links authentication providers to a logged-in 
+:dotnet-sdk:`User <reference/Realms.Sync.User.html>` object. 
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.link.cs
+.. literalinclude:: /examples/generated/dotnet/UserLinkExamples.codeblock.link.cs
    :language: csharp
 
 In the example above, we must first register the new :doc:`email/password
@@ -43,5 +40,5 @@ the other :doc:`Auth Providers </authentication>`,
 this step is unnecessary. The following example uses 
 :ref:`Google authentication <google-authentication>` instead of EmailPassword:
 
-.. literalinclude:: /examples/generated/dotnet/Examples.codeblock.link2.cs
+.. literalinclude:: /examples/generated/dotnet/UserLinkExamples.codeblock.link2.cs
    :language: csharp

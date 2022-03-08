@@ -1,0 +1,163 @@
+.. _filters:
+
+=======
+Filters
+=======
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/non-sync-rules-note.rst
+
+Overview
+--------
+
+What is a Filter?
+~~~~~~~~~~~~~~~~~
+
+A **filter** modifies an incoming MongoDB query to return only a subset of the
+results matched by the query. Filters add additional query parameters and omit
+fields from query results *before* Realm runs the query.
+
+Every filter has three components:
+
+- An Apply When :ref:`expression <expressions>` that determines if
+  the filter applies to an incoming request. You can use variables like
+  :json-expansion:`%%user` and :json-expansion:`%%request` in this expression.
+  However, you cannot use MongoDB variables like :json-expansion:`%%root`
+  because Realm applies filters before it reads any data.
+
+- An optional query document, which uses standard MongoDB query
+  syntax and merges with the existing query of any request the filter applies
+  to.
+
+- An optional projection document, which uses standard MongoDB projection
+  syntax and merges with the existing projection of any request the filter
+  applies to.
+
+Why Define a Filter?
+~~~~~~~~~~~~~~~~~~~~
+
+You can use filters to optimize queries, minimize compute overhead, and secure
+sensitive data. Filters are most useful for cross-cutting concerns that affect
+some or all of your queries.
+
+Consider using filters if you want a centralized system to:
+
+- Restrict queries to a subset of all documents
+
+- Omit sensitive data or unused fields
+
+.. example::
+   
+   In a voting app where some users have agreed to anonymously share their vote,
+   you could use the following filter to constrain all queries to an anonymous
+   subset of the existing data:
+   
+   .. tabs::
+      
+      .. tab:: Filter
+         :tabid: filters
+         
+         .. code-block:: json
+            
+            {
+              "name": "AnonymizeVotes",
+              "apply_when": true,
+              "query": {
+                "shareVoteAnonymous": true
+              },
+              "project": {
+                "_id": 0,
+                "age": 1,
+                "vote": 1
+              }
+            }
+      
+      .. tab:: Unfiltered Collection
+         :tabid: unfiltered-collection
+         
+         .. code-block:: json
+            
+            { "_id": ObjectId(...), "name": "sarah", age: 42, "vote": "yes", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "andy", age: 22, "vote": "no", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "jennifer", age: 37, "vote": "yes", "shareVoteAnonymous": false }
+            { "_id": ObjectId(...), "name": "rick", age: 43, "vote": "no", "shareVoteAnonymous": true }
+            { "_id": ObjectId(...), "name": "tom", age: 64, "vote": "yes", "shareVoteAnonymous": false }
+            { "_id": ObjectId(...), "name": "bob", age: 67, "vote": "yes", "shareVoteAnonymous": true }
+      
+      .. tab:: Filtered Collection
+         :tabid: filtered-collection
+         
+         .. code-block:: json
+            
+            { age: 42, "vote": "yes" }
+            { age: 22, "vote": "no" }
+            { age: 37, "vote": "yes" }
+            { age: 43, "vote": "no" }
+            { age: 64, "vote": "yes" }
+            { age: 67, "vote": "yes" }
+
+.. _filter-enforcement:
+
+How Realm Applies Filters
+-------------------------
+
+Realm evaluates and applies filters for every MongoDB request where rules apply,
+e.g. an SDK or a function run as a specific user. Multiple filters may apply to
+a single request.
+
+A filter applies to a given request if its Apply When :ref:`expression
+<expressions>` evaluates to ``true`` given that request's context. If a filter
+applies to a request, Realm merges the filter's query or projection into the
+requested operation's existing query and projection.
+
+Realm applies filters to the request *before* it sends the request to MongoDB.
+
+.. example::
+
+   A collection contains several million documents and has one role with
+   the following Apply When expression:
+
+   .. code-block:: json
+
+      { "owner_id": "%%user.id" }
+
+   If no filter is applied, {+backend+} will evaluate a role for each
+   document that the query matches. We know that {+backend+} will withhold
+   any document that does not have the user's id as the value of the
+   ``owner_id`` field, so we save time and compute resources by applying
+   an additional query predicate that excludes those documents before
+   {+backend+} evaluates any roles:
+
+   .. list-table::
+      :header-rows: 1
+
+      * - Apply When
+        - Query
+        - Projection
+
+      * - ``{ "%%true": true }``
+        - ``{ "owner_id": "%%user.id" }``
+        - ``{}``
+
+.. _define-a-filter:
+
+Define a Filter
+---------------
+
+You define filters for specific collections in your linked cluster. 
+
+.. note::
+
+   To learn how to configure and deploy a filter in your app, see
+   :ref:`filter-incoming-queries`.
+
+A filter configuration has the following form:
+
+.. include:: /mongodb/tables/query-filter-params.rst

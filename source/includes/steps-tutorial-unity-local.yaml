@@ -1,0 +1,574 @@
+---
+title: Download and Import Unity's Platformer Microgame
+ref: download-and-import-unity-platform-microgame
+content: |
+  Unity Hub comes pre-installed with templates, such as the Platformer
+  Microgame, to help users learn to develop games for Unity. You'll start by
+  loading the Platformer Microgame template. In later steps, you will import and
+  add {+service-short+} functionality to the game. 
+
+  Click the :guilabel:`Learn` tab on the left side of Unity Hub to view the list of template projects.
+  Scroll to the :guilabel:`Platformer Microgame` and click it.
+
+  .. figure:: /images/unity-scroll-to-platformer-microgame.png
+     :width: 750px
+     :alt: Unity Scroll to Platformer Microgame
+
+  On the Modal that appears, click the :guilabel:`Download Project` button to download the
+  project. When the download is complete, click :guilabel:`Open Project` to open the project in Unity.  
+
+  .. figure:: /images/unity-download-platformer-microgame.png
+     :width: 500px
+     :alt: Download Project - Platformer Microgame
+
+  When you open the Platformer Microgame template, Unity prompts you with the
+  option to :guilabel:`Load Scene` or :guilabel:`Load Tutorials`. 
+
+  If you are new to developing with Unity, click :guilabel:`Load Tutorials` to
+  learn Unity editor basics, interacting with 
+  `Game Objects <https://docs.unity3d.com/ScriptReference/GameObject.html>`_, and more. 
+  Once you feel comfortable working with the Unity Editor, you can continue to
+  the next step. Alternatively, if you are already comfortable working with the
+  Unity editor, click :guilabel:`Load Scene` and continue to the next step in
+  this tutorial.
+
+  Once the scene is loaded, click the play button on the top of the
+  screen to enter `play mode <https://docs.unity3d.com/Manual/GameView.html>`_
+  and play the game. 
+
+  .. figure:: /images/unity-view-game-in-play-mode.png
+     :width: 500px
+     :alt: View Game in Play Mode
+
+  .. tip:: Playing the Game
+
+     Try the game to get a feel of what your users will experience. Use the arrow keys for ``Player`` movement and the spacebar
+     to jump. Navigate through a series of platforms and defeat the "red slime" enemies by hopping on them, making them disappear.
+     Collect the yellow "tokens" by touching them. Get to the end of the level to win the game. 
+
+  In later steps, you will use {+client-database+} to record: 
+
+  - how many enemies the ``Player`` defeated per playthrough
+  - how many tokens were collected
+  - a score that is calculated based on the statistics for the current playthrough and how quickly you completed the playthrough
+
+  Unity stores the game's files in a temporary directory when you load a
+  template project from the :guilabel:`Learn` tab. To save them to a local folder on your
+  machine, click the :guilabel:`X` button at the top of the screen to close Unity. A modal
+  opens and prompts if you want to keep this project. Select the :guilabel:`Keep` button and
+  pick a folder to save your new project in.
+
+  .. figure:: /images/unity-tutorial-keep-project.png
+     :width: 350px
+     :alt: Keep Project
+
+  Navigate to the Unity Hub menu to reopen your game. Select the :guilabel:`Add`
+  button in the menu and click your project folder to add your new locally saved
+  project to your list of projects on Unity Hub.
+
+  .. figure:: /images/unity-tutorial-add-project.png
+     :width: 350px
+     :alt: Add Project
+---
+title: Update Your Project Manifest 
+ref: update-project-manifest
+content: |
+  Unity uses the `project manifest
+  <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_ to determine packages
+  to install into your project. You'll need to update your project's manifest
+  file to install {+client-database+}, and the Unity UI ToolKit and UI Builder packages to
+  develop user interfaces to interact with and display data stored in {+realm+}.
+  
+  Open your project's manifest file by navigating to your project on Unity Hub
+  and expanding the dropdown menu on the right-hand side of your project name.
+  Click the :guilabel:`Reveal in Finder` option if you're on a Mac or the
+  :guilabel:`Show in Explorer` option if you're on a Windows machine. Open your
+  project's ``/Packages/manifest.json`` file in a text editor.
+
+  .. figure:: /images/unity-tutorial-reveal-in-finder.png
+     :width: 500px
+     :alt: Reveal in Finder
+
+  Update your project's manifest file to include the following dependencies and scoped registries:
+
+  .. code-block:: json
+
+     {
+       "dependencies": {
+         // ... 
+         "io.realm.unity": "10.5.0",
+         "com.unity.ui": "1.0.0-preview.17",
+         "com.unity.ui.builder": "1.0.0-preview.17"
+       },
+       "scopedRegistries": [
+         {
+           "name": "NPM",
+           "url": "https://registry.npmjs.org/",
+           "scopes": [
+             "io.realm.unity"
+           ]
+         }
+       ]
+     }
+
+  .. warning:: UI ToolKit and UI Builder are Preview Packages
+
+     UI ToolKit and UI Builder are `preview packages
+     <https://docs.unity3d.com/Manual/pack-preview.html>`_ that are in
+     development by the Unity engineering team. While they provide a simple API
+     to develop user interfaces for a tutorial, they should not be used in
+     production yet.
+
+  .. warning:: The type or namespace 'UIDocument' could not be found
+     
+     If you are experiencing the compilation error: "The type or namespace
+     'UIDocument could not be found", this is a bug in the UI Toolkit
+     package. As a workaround, create an `Assembly Definition Reference
+     <https://docs.unity3d.com/Manual/class-AssemblyDefinitionReferenceImporter.html>`_.
+     Click :guilabel:`Assets` at the top of the screen. Then select :guilabel:`Create` in the
+     dropdown that appears. Finally, select :guilabel:`Assembly Definition Reference`.
+     This will cause Unity to recompile without the error.
+---
+title: Download the Realm Tutorial Repository
+ref: clone-the-repository
+content: |
+  Now that you have installed {+service-short+}, UI Builder, and UI Toolkit, you can begin
+  recording data into {+service-short+} and building a user interface that can read and
+  interact with that data.
+
+  We've already put together a repository with most of the code you'll need
+  to accomplish that. You can clone or download the {+service-short+} Tutorial repository directly from
+  :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
+
+  .. tabs:: 
+
+     .. tab:: Clone with Git CLI
+        :tabid: shell
+
+        To download the Realm Tutorial repository using the `git
+        <https://git-scm.com/book/en/v2/Getting-Started-The-Command-Line>`_ CLI,
+        open your terminal and execute the following code:
+
+        .. code-block:: shell
+
+           cd <your-unity-microplatformer-game-path>/Assets/Scripts
+           git clone --branch start https://github.com/mongodb-university/realm-tutorial-unity.git
+
+        .. tip::
+
+           The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
+           complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
+
+           1. Navigate to the root directory of the client application repository:
+
+              .. code-block:: shell
+
+                 cd realm-tutorial-unity
+
+           #. Check out the ``local`` branch:
+
+              .. code-block:: shell
+
+                 git checkout local
+ 
+     .. tab:: Download as ZIP
+        :tabid: zip
+
+        To download the Realm Tutorial repository as a zip:
+        
+        1. Navigate to :github:`https://github.com/mongodb-university/realm-tutorial-unity <mongodb-university/realm-tutorial-unity>` in your browser.
+        #. Click the green :guilabel:`Code` dropdown and select the :guilabel:`Download ZIP` option.
+        #. Once the download completes, extract and move the repository into your ``<your-unity-microplatformer-game-path>/Assets/Scripts`` folder.
+
+        .. figure:: /images/unity-tutorial-download-repo-as-zip.png
+           :width: 500px
+           :alt: Reveal in Finder
+
+---
+title: Explore the Realm Tutorial Repository
+ref: explore-the-realm-tutorial-repository
+content: |
+
+  In your text editor of choice, such as `Visual Studio
+  <https://docs.microsoft.com/en-us/visualstudio/>`_,  you can see the script
+  files you will need to add to the game. The relevant files are as follows:
+
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 40 60
+     
+     * - File
+       - Purpose
+
+     * - UI Toolkit/Leaderboard.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
+         the structure of the Leaderboard user interface.
+     
+     * - RealmScripts/LeaderboardManager.cs
+       - :ref:`Query {+service-short+} <dotnet-read-from-realm>` and display the top ``Stat`` objects.
+
+     * - UI Toolkit/ScoreCard.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
+         the structure of the Scorecard user interface.
+
+     * - RealmScripts/ScoreCardManager.cs
+       - :ref:`Listen for changes <dotnet-react-to-changes>` to the current playthrough ``Stat`` and update the Scorecard UI.
+
+     * - UI Toolkit/Authentication.uxml
+       - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
+         the structure of the Authentication Screen user interface.
+
+     * - RealmScripts/AuthenticationManager.cs
+       - Interacts with the TextField's of AuthenticationScreen.uxml to
+         implement user login. In part 2, you'll add :ref:`user authentication
+         <dotnet-login-email-password>` with the {+backend+}
+         :ref:`Email/Password <email-password-authentication>` provider.
+
+     * - RealmScripts/RealmController.cs
+       - Open a {+realm+}, :ref:`query {+service-short+} <dotnet-read-from-realm>` the {+realm+}
+         for an existing ``Player`` or create a new one and a new ``Stat`` for the current
+         playthrough. Perform :ref:`write transactions <dotnet-write-transactions>` on the {+realm+}
+         objects.
+
+     * - RealmScripts/PlayerModel.cs
+       - Defines the ``Player`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+
+     * - RealmScripts/StatModel.cs
+       - Defines the playthrough ``Stat`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+
+     * - RealmScripts/Constants.cs (Part 2)
+       - Part 2: Declare the {+backend-short+} :ref:`App ID <find-your-project-or-app-id>` for the {+sync+} portion of the tutorial.
+
+---
+title: Explore the Schemas
+ref: explore-schemas
+content: |
+  In the ``realm-tutorial-unity`` project that you have cloned, navigate to the
+  ``PlayerModel.cs`` and ``StatModel.cs`` files in a text editor. These C#
+  classes define the schemas for the objects we store in our realms. 
+  
+  Note the following about the schemas:
+
+  - A ``Stat`` is a {+realm+} object representing the statistics of a
+    playthrough of the game. For instance, in one playthrough of the game, a
+    ``Player`` may have defeated 10 enemies, collected 15 tokens, and had a
+    score of 210. Each ``Stat`` has a ``statOwner`` that is a ``Player`` object.
+
+  - A ``Player`` is a {+realm+} object representing the user's logged-in
+    character. Each ``Player`` has a collection (IList) of ``Stat`` objects.
+
+  - A ``Player`` has a string property, ``_id``, that defines the ``Player`` objects' unique partition.
+---
+title: Create a RealmController Game Object
+ref: create-realm-controller-object
+content: |
+  The ``RealmController.cs`` file is a script that contains boilerplate code for
+  this tutorial, such as a ``Start()`` method that automatically generates
+  Leaderboard, Authentication, and ScoreCard UI objects and attaches
+  the ``AuthenticationManager.cs``, ``LeaderboardManager.cs``, and
+  ``ScoreCardManager.cs`` scripts to their respective UI ``Game Objects``. In later
+  steps, you will add functionality to the ``RealmController`` script to perform
+  the following:
+
+  - Open a realm.
+  - Set a logged-in ``Player``.
+  - Interact with the ``Player`` and ``Stat`` models.
+  - Create, read, update, and delete the current playthrough ``Stat`` object.
+  
+  Before you begin updating the code in the ``RealmController.cs`` file, you'll
+  need to create a new ``Game Object`` for it.
+
+  Create an empty ``Game Object`` by right-clicking the hierarchy window and
+  selecting :guilabel:`Create Empty`. Name the object ``RealmController``. 
+  
+  .. figure:: /images/unity-tutorial-create-empty-game-object.png
+     :width: 500px
+     :alt: Create empty game object
+  
+  Next, open the `inspector window <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_ 
+  by clicking the new :guilabel:`RealmController` object.
+
+  .. note:: Inspector Window Not Opening Automatically
+
+     If your inspector window does not open after clicking the ``Game Object``,
+     click :guilabel:`Window` > :guilabel:`General` > :guilabel:`Inspector`.
+     Then click the ``Game Object`` again to open its inspector window.
+
+  Next, `attach <https://docs.unity3d.com/Manual/UnityAnalyticsAttachSDK.html>`_
+  the ``RealmController.cs`` script to the ``RealmController`` object. Click the
+  :guilabel:`Add Component` button, and select the :guilabel:`Scripts` option in the dropdown.
+
+  .. figure:: /images/unity-tutorial-attach-script.png
+     :width: 500px
+     :alt: Attach a script
+
+  Finally, select the ``RealmController.cs`` script to attach it to the
+  ``RealmController`` object.
+  
+  .. figure:: /images/unity-tutorial-attach-realmcontroller-script.png
+     :width: 500px
+     :alt: Attach a script  
+
+  Click the play button on the top of the screen to enter `play mode
+  <https://docs.unity3d.com/Manual/GameView.html>`_ and play the game. You
+  should see something like the following:
+
+  .. figure:: /images/unity-tutorial-play-mode-1.png
+     :width: 500px
+     :alt: Enter Play Mode - Start Login Screen  
+
+  Notice, when you type a username and click :guilabel:`Login & Start Game`, Unity
+  navigates you to the platformer game, but the username field on the right-hand
+  side of the game screen is a static username rather than the one you inputted.
+  You'll add functionality to replace the static username value with a dynamic
+  user input later.
+
+  .. figure:: /images/unity-tutorial-playmode-2.png
+     :width: 500px
+     :alt: Enter Play Mode - Initial Platformer Screen
+
+---
+title: Open a Realm
+ref: open-realm
+content: |
+  Open the ``RealmController.cs`` file with a text editor, where we'll implement a
+  function to open a {+realm+}. To open a {+realm+} instance that you will use
+  throughout the ``RealmController`` class, add the following code to the
+  ``GetRealm()`` method:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-fn.cs
+     :language: csharp
+
+---
+title: Set a Logged In User
+ref: set-logged-in-user
+content: |
+  In the ``RealmController.cs`` file, you will need to implement a function to set
+  the logged-in user. The ``AuthenticationManager.cs`` file calls this function
+  when a user clicks the :guilabel:`Login & Start` button.
+  
+  The ``RealmController.SetLoggedInUser()`` method takes a string, ``userInput``.
+  You will create code to do the following in this method:
+  
+  - Query the {+realm+} to determine if a ``Player`` object already exists for the
+    given ``userInput``. 
+  - Create an if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
+    object if the ``Player`` does not exist, and uses the existing ``Player`` and
+    creates a new ``Stat`` object if the ``Player`` does exist.
+
+  Add the following code to your ``RealmController.SetLoggedInUser()`` method:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realm-controller-set-logged-in-user.cs
+     :language: csharp
+
+  After the above code is executed, the ``RealmController.SetLoggedInUser()``
+  function calls ``startGame()`` to begin the timer. The timer increments the
+  RealmController's ``runTime`` variable, and we use the ``runTime`` variable to
+  calculate bonus points in the ``playerWon()`` method when the game has
+  completed.
+---
+title: Update the Stats and Watch for Changes
+ref: watch-for-changes-to-stat-object
+content: |
+  You've set the current Scorecard to the initial playthrough statistics for the
+  current playthrough of the game, but collecting tokens or defeating
+  enemies will not impact the current ``Stat`` object yet. To implement that, you'll edit the
+  ``CollectToken()`` and ``DefeatEnemy()`` methods in the ``RealmController``.
+
+
+  Add the following code to the ``RealmController.CollectToken()`` method to
+  perform a :doc:`write transaction
+  </sdk/dotnet/fundamentals/write-transactions>` and update the variable
+  ``currentStat`` that you created in the last step:
+  
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.collect-token-fn.cs
+     :language: csharp
+
+  Call the ``CollectToken()`` method when the ``Player`` collides with the token
+  instance. This occurs in the platformer microgame file:
+
+  ``/Assets/Scripts/Mechanics/TokenInstance.cs``.
+  In the ``TokenInstance.cs`` file, the ``OnPlayerEnter()`` occurs when a ``Player``
+  has collided with the token instance. Add the following code to
+  ``OnPlayerEnter()`` after ``collected = true``.
+
+  .. code-block:: csharp
+
+     RealmController.CollectToken();
+
+  Add the following code to the ``RealmController.DefeatEnemy()`` method to
+  perform a :doc:`write transaction
+  </sdk/dotnet/fundamentals/write-transactions>` and update the variable
+  ``currentStat`` that you created in the last step:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.defeat-enemy-fn.cs
+     :language: csharp
+
+  Navigate to the ``/Assets/Scripts/Gameplay/EnemyDeath.cs`` file and call
+  ``RealmController.DefeatEnemy()`` at the beginning of the ``Execute()`` method.
+
+  .. code-block:: csharp
+
+     RealmController.DefeatEnemy();
+ 
+  Finally, create a listener that :ref:`reacts to changes <dotnet-react-to-changes>` to the current
+  playthrough's ``Stat`` and updates the Scorecard in the UI. In the`
+  ``ScoreCardManager.cs`` file, you can add a change listener to the current
+  ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
+  variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
+  :dotnet-sdk:`PropertyChanged event<reference/Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
+   
+  .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.codeblock.watch-for-changes-stat-propery-changed.cs
+     :language: csharp
+  
+  The Scorecard now updates if the ``Player`` defeats an enemy or collects a token.
+
+  .. figure:: /images/unity-tutorial-defeatEnem-collectTok-functionality.gif
+     :width: 350px
+     :alt: Select Authentication.uxml as source asset
+---
+title: Restart the Game When the Player Wins
+ref: restart-game-on-win
+content: |
+  When the ``Player`` reaches the end of the Microgame level, the game is complete,
+  but nothing else happens. To expand upon this, you will update the code to do
+  the following when the ``Player`` wins the game:
+
+  - Call the ``RealmController.PlayerWon()`` method to calculate and write the final score to {+realm+}
+  - Display a dialog with the final score
+  - Respawn the ``Player`` and restarts the game if the ``Player`` clicks the restart button
+
+
+  Navigate to the Platformer Microgame file, ``/Assets/Scripts/Gameplay/PlayerEnteredVictoryZone.cs``,
+  in your text editor. This script is executed when the ``Player`` enters the victory zone. 
+
+  To create a dialogue, you'll need the `UnityEditor.EditorUtility
+  <https://docs.unity3d.com/ScriptReference/EditorUtility.html>`_ class. Add the
+  following code to the top of the file:
+
+  .. code-block:: csharp
+ 
+     using UnityEditor;
+
+  Replace the existing ``Execute()`` method in the PlayerEnteredVictoryZone
+  script with the snippet below:
+
+  .. code-block:: csharp
+ 
+     public override void Execute()
+     {
+         var finalScore = RealmController.PlayerWon();
+         var didClickRestart = EditorUtility.DisplayDialog("You won!", $"Final Score = {finalScore}", "restart game");
+         if (didClickRestart == true)
+         {
+            Simulation.Schedule<PlayerSpawn>(2);
+            RealmController.RestartGame();
+         }
+     }
+---
+title: Delete the Current Playthrough Stats When the Player Loses
+ref: delete-stats-on-loss
+content: |
+  When the ``Player`` loses by colliding with an enemy or by falling from a
+  platform, the game starts a new playthrough and respawns the ``Player`` back to
+  the start point but does not create a new ``Stat`` object for the new playthrough.
+  To expand upon this, you'll perform the following when the ``Player`` loses the game:
+
+  - Update the ``RealmController.DeleteCurrentStat()`` method to delete the current ``Stat`` object for the current playthrough
+  - Call the ``RealmController.DeleteCurrentStat()`` method
+  - Call the ``RealmController.RestartGame()`` method to create a new ``Stat`` object for the new playthrough 
+
+  Navigate to the ``RealmController.DeleteCurrentStat()`` method and add the following code at the bottom of that method:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.delete-current-stat-method.cs
+     :language: csharp
+  
+  Next, open the Platformer Microgame file,
+  ``/Assets/Scripts/Gameplay/PlayerDeath.cs``, which handles the player death
+  event. Add the following code to the end of the PlayerDeath's ``Execute()``
+  method:
+
+  .. code-block:: csharp
+ 
+     RealmController.DeleteCurrentStat();
+     RealmController.RestartGame();
+
+  Return to the Unity Editor, and click play to enter ``play mode``. The next
+  time your ``Player`` loses,  the game respawns the ``Player`` to the start point with a new
+  ``Stat`` object showing 0 enemies defeated, 0 tokens collected.
+---
+title: Customize Your Game Assets (Optional)
+ref: customize-game
+content: |
+  To add a personal touch to the game, you can modify its assets from the Unity
+  Editor. Navigate to ``Assets/Tiles`` in the `Project Window
+  <https://docs.unity3d.com/Manual/ProjectView.html>`_ to find a set of tiles
+  that the game uses. 
+
+  To modify a tile, click the tile to open its `inspector window
+  <https://docs.unity3d.com/Manual/UsingTheInspector.html>`_. From the inspector
+  window, you can change the sprite that the tile uses and its color.
+
+  .. figure:: /images/unity-tutorial-customize-game-find-tiles.png
+     :width: 500px
+     :alt: Customize Tiles
+
+  In the example below, we replaced the fence tile's sprite with the
+  ``fence_brown`` sprite that comes with the Platformer Microgame.
+
+  .. figure:: /images/unity-tutorial-customize-change-sprite.png
+     :width: 350px
+     :alt: Customize Fence Sprite
+     
+  You can choose any tile colors and sprites you would like. We went with the
+  following for an earth-toned and friendly look:
+
+  .. list-table::
+    :header-rows: 1
+ 
+    * - Tile Name
+      - Sprite
+    
+    * - Fence
+      - fence_brown
+
+    * - House
+      - house_green
+
+    * - Plant
+      - plant_green
+
+    * - TileFloatingLeftEdge
+      - TileFloatingLeftEdge_green
+   
+    * - TileFloatingRightEdge
+      - TileFloatingRightEdge_green
+
+    * - TileFloatingMiddle
+      - TileFloatingMiddle_green
+
+    * - TileGround
+      - TileGroundDark_green
+
+    * - TileGroundTop
+      - TileGroundTop_green
+
+  .. figure:: /images/unity-tutorial-customize-final-look.png
+     :width: 500px
+     :alt: Customize Unity Game - Final Look
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check its functionality.
+
+  Click the play button on the top of the screen to enter `play mode
+  <https://docs.unity3d.com/Manual/GameView.html>`_ and play the game. Once the
+  Unity Editor opens the `GameView
+  <https://docs.unity3d.com/Manual/GameView.html>`_, here are some things you
+  can try out:
+
+  - Logging in with a username.
+  - Achieving a new high score and seeing the leaderboard update with it on the next playthrough.
+  - Achieving a new high score using a different user and seeing the leaderboard update with the highscore on the next playthrough.

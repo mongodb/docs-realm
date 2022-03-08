@@ -1,0 +1,207 @@
+---
+title: Enable Realm Sync
+ref: enable-realm-sync
+content: |
+  Before you can add {+sync-short+} functionality within your game, you must
+  enable {+sync+} in your {+backend+} app. 
+
+  To enable {+sync+}, follow the steps in the :ref:`Enable Realm Sync
+  <enable-realm-sync>` guide. When enabling {+sync-short+}, you will need to configure your app to:
+
+  - use ``Development Mode``
+  - add a required :ref:`Partition Key <sync-partitions>` with the name ``"_partition"`` and with the type ``string``
+---
+title: Connect to Your MongoDB Realm App
+ref: connect-your-mongodb-realm-app
+content: |
+  To get the app working with your backend, you first need to add your {+backend+} App
+  ID to the ``Constants.cs`` file:
+
+  .. literalinclude:: /tutorial/generated/unity/Constants.codeblock.create-constants-sync.cs
+     :language: csharp
+
+  Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
+  the {+backend+} UI <find-your-app-id>`.
+
+---
+title: Open a Synced Realm
+ref: open-synced-realm
+content: |
+  To configure {+service-short+} to automatically synchronize data between
+  devices, you'll need to replace your local {+realm+} with a synced {+realm+}.
+  
+  In the ``RealmController.cs`` file, replace the existing ``GetRealm()`` method
+  with the one that takes in a User as a parameter and asynchronously gets a
+  synced {+realm+} instance: 
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-synced-realm-controller.cs
+     :language: csharp  
+
+  Opening a synced {+realm+} requires a logged-in {+realm+} user; you'll set
+  that up in the next step.
+---
+title: Update the Authentication Screen and Manager
+ref: update-authentication-screen
+content: |
+  To add support for :doc:`Email/Password Authentication </sdk/dotnet/examples/manage-email-password-users>`,
+  you'll need to update your Authentication Screen to have a password field
+  and a button that allows users to toggle between a registration mode and login mode. 
+
+  Replace the code in your ``Authentication.uxml`` with the following:
+
+  .. literalinclude:: /tutorial/generated/unity/Authentication.codeblock.sync-authentication-uxml.uxml
+     :language: xml
+
+  You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
+
+  - Defines the ``passInput`` variable as a `password TextField <https://docs.unity3d.com/ScriptReference/UIElements.TextInputBaseField_1-isPasswordField.html>`_.
+  - Defines the ``toggleLoginOrRegisterUIButton`` variable as a `button <https://docs.unity3d.com/ScriptReference/UIElements.Button.html>`_.
+  - Handles the toggle register/login button's click event and toggles between a register mode and login mode
+
+  In ``AuthenticationManager.cs``, add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
+
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.sync-auth-manager-start.cs
+     :language: csharp
+
+  Next, create a ``AuthenticationManager.SwitchToLoginUI()`` and ``AuthenticationManager.SwitchToRegisterUI()`` method to toggle between authentication UI modes:
+
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-togglable-ui-methods.cs
+     :language: csharp
+
+  Replace the existing ``AuthenticationManager.OnPressLogin()`` method with the one below, called
+  ``OnPressLoginWithBackend`` that uses :doc:`Email/Password Authentication
+  </sdk/dotnet/examples/manage-email-password-users>`:
+
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-login-click-handler.cs
+     :language: csharp
+  
+  Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method. You will update that method in the next step.
+
+  Finally, create an ``AuthenticationManager.OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
+
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-register-click-handler.cs
+     :language: csharp
+
+---
+title: Setup Authentication in your Game
+ref: enable-email-pass-auth
+content: |
+  Currently, the project's only form of authentication is a username input.
+  Let's replace that in the code with {+realm+} :doc:`Email/Password
+  Authentication </sdk/dotnet/examples/manage-email-password-users>`
+
+  In the ``RealmController.cs``, replace the ``SetLoggedInUser()`` with an
+  asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()
+  <reference/Realms.Sync.App.html#Realms_Sync_App_LogInAsync_Realms_Sync_Credentials_>`
+  method to authenticate and obtain a :dotnet-sdk:`User
+  <reference/Realms.Sync.User.html>` instance:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-set-logged-in-user-synced.cs
+     :language: csharp
+
+  Next, in the ``RealmController.cs`` file, create an asynchronous method that
+  registers a new user by passing a user-provided email and password to the
+  :dotnet-sdk:`RegisterUserAsync()
+  <reference/Realms.Sync.App.EmailPasswordClient.html#Realms_Sync_App_EmailPasswordClient_RegisterUserAsync_System_String_System_String_>`
+  method:
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-press-register-sync.cs
+     :language: csharp
+
+
+  Finally, replace the ``RealmController.LogOut()`` method with the
+  ``RealmController.LogOutBackend()`` method below that calls
+  :dotnet-sdk:`User.LogOutAsync()
+  <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out
+  the {+realm+} user when log out button is clicked.
+
+  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.logout-backend.cs
+     :language: csharp
+---
+title: Create a Real-Time Leaderboard with Realm Sync
+ref: create-a-real-time-leaderboard-with-realm-sync
+content: |
+  The current leaderboard shows the top ``Stat`` objects when the game first loads.
+  However, if another ``Player`` gets a new high score after the game loads on your
+  device, the leaderboard on your device will not be updated.
+
+  To fix this, you will update the code in the ``LeaderboardManager.cs`` file to do the following:
+
+  - Open a synced {+realm+}
+  - Listen to changes on all ``Stat`` objects
+  - Update the Leaderboard GameObject when there is a new high score
+
+  Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-open-realm-in-leaderboard.cs
+     :language: csharp
+
+  In ``LeaderboardManager.cs`` make the ``SetLoggedInUser()`` an
+  asynchronous function and replace the existing ``Realm.GetInstance()`` call
+  with a call to the new ``GetRealm()`` method. Your code should look something like the following snippet:
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-leaderboard-setloggedinuser.cs
+     :language: csharp
+
+  Next, create a :ref:`Change Listener <dotnet-register-a-realm-change-listener>` method:
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.listen-for-stat-changes.cs
+     :language: csharp
+
+  Create a method, ``SetNewlyInsertedScores()`` that does the following:
+
+  - Loops through a list of indices of inserted elements to find the newly created ``Stat`` objects. 
+  - Loops through the current top scores to determine if the new ``Stat`` object's ``score`` is higher than the current score. 
+  - Updates the list of current top scores if there is a higher one and updates the UI to display the new list of top scores.
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.set-newly-inserted-scores.cs
+     :language: csharp
+   
+  Call the ``SetStatListener()``  after the user is logged-in, at the
+  end of the LeaderboardManager's ``SetLoggedInUser()`` method:
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.call-setstatlistener.cs
+     :language: csharp
+
+  Finally, dispose of the listener token once the Leaderboard GameObject is disabled in the ``OnDisable()`` method:
+
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.leaderboard-cleanup-fn.cs
+     :language: csharp
+
+  .. note:: Simulate New Top Scores Through {+service-short+} Studio or {+atlas+} 
+
+     Since Unity Hub does not allow opening multiple instances of the same
+     project by default, we recommend simulating a new top score by creating a
+     new ``Stat`` object through :ref:`{+service-short+} Studio <realm-studio>` or
+     :atlas:`{+atlas+} <>`. When you create a new ``Stat`` object with a high score,
+     your leaderboard updates automatically and displays the new high score.
+     Alternatively, you can use the `Unity symbolic link workaround
+     <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
+     to open a second instance of the project and log in with a different user,
+     and get a new high score.
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the game and check its
+  functionality. Click the play button on the top of the screen to enter `play
+  mode <https://docs.unity3d.com/Manual/GameView.html>`_ and play the game. Once
+  the Unity Editor opens the `GameView <https://docs.unity3d.com/Manual/GameView.html>`_,
+  you should see something like the following images.
+
+  .. figure:: /images/unity-tutorial-play-mode-sync-1.png
+     :width: 500px
+     :alt: Enter Play Mode Sync - Login Screen
+
+  After you register an account or log in to an existing account, you can play
+  the complete game
+
+  .. figure:: /images/unity-tutorial-play-mode-sync-2.png
+     :width: 500px
+     :alt: Enter Play Mode Sync - Play Game
+
+  Here are some things you can try out:
+
+  - Authenticating a new user.
+  - Getting a new high score and seeing the leaderboard update in real-time.
+  - Creating a new ``Stat`` object with a high score in {+service-short+} Studio or {+atlas+} and seeing the leaderboard update in real-time.

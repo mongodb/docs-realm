@@ -29,11 +29,12 @@ authentication methods. For example, the system could require the user
 to perform two factor authentication, provide specific credentials, or
 otherwise identify themself.
 
-.. figure:: /images/custom-auth-diagram.svg
+.. figure:: /images/custom-auth-diagram.png
    :alt: Diagram of Custom JWT authentication architecture.
    :figwidth: 750px
 
 .. _custom-jwt-authentication-configuration:
+.. _config-custom-jwt:
 
 Configuration
 -------------
@@ -56,42 +57,41 @@ Configuration
    .. tab::
       :tabid: cli
 
-      You can enable the Custom JWT authentication provider with
-      :doc:`realm-cli </deploy/realm-cli-reference>` by importing an
-      application directory that contains a :ref:`configuration file
-      <appschema-authentication-providers>` for the provider.
+      To enable and configure the Custom JWT authentication provider with
+      :ref:`realm-cli <realm-cli-quickstart>`, define a :ref:`configuration 
+      object <appconfig-auth>` for it in ``/auth/providers.json``.
 
-      The configuration file must be named ``custom-token.json`` and
-      stored in the ``/auth_providers`` directory. Configuration files
-      for the Custom authentication provider have the following form:
+      Custom JWT provider configurations have the following form:
 
       .. code-block:: none
-         :caption: /auth_providers/custom-token.json
-
+         :caption: /auth/providers.json
+         
          {
-           "name": "custom-token",
-           "type": "custom-token",
-           "config": {
-             "audience": "<JWT Audience>",
-             "signingAlgorithm": "<JWT Signing Algorithm>",
-             "useJWKURI": <boolean>,
-             "jwkURI": "<JWK or JWKS URL>",
-           },
-           "secret_config": {
-             "signingKeys": [
-               "<Signing Key Secret Name>",
-               ...
-             ]
-           },
-           "metadata_fields": [
-             {
-               "required": <boolean>,
-               "name": "<JWT Field Path>",
-               "field_name": "<Metadata Field Name>",
+           "custom-token": {
+             "name": "custom-token",
+             "type": "custom-token",
+             "config": {
+               "audience": "<JWT Audience>",
+               "signingAlgorithm": "<JWT Signing Algorithm>",
+               "useJWKURI": <boolean>,
+               "jwkURI": "<JWK or JWKS URL>",
              },
-             ...
-           ],
-           "disabled": <boolean>,
+             "secret_config": {
+               "signingKeys": [
+                 "<Signing Key Secret Name>",
+                 ...
+               ]
+             },
+             "metadata_fields": [
+               {
+                 "required": <boolean>,
+                 "name": "<JWT Field Path>",
+                 "field_name": "<Metadata Field Name>",
+               },
+               ...
+             ],
+             "disabled": <boolean>
+           }
          }
 
 .. _custom-jwt-authentication-configuration-audience:
@@ -277,6 +277,13 @@ field as the user's display name. {+service-short+} refreshes a user's metadata
 whenever they log in and exposes the fields in the ``data`` object of the 
 :doc:`user object </authentication>`.
 
+.. important:: 2048 Character Limit
+
+   The length of a JWT token increases with the number of metadata fields in the 
+   token and the size of each field. **{+service-short+} limits the length of a 
+   JWT token to 2048 characters.** If you exceed this limit, {+service-short+} 
+   logs an error and the ticket is not processed.
+
 .. tabs-realm-admin-interfaces::
 
    .. tab::
@@ -327,6 +334,21 @@ whenever they log in and exposes the fields in the ``data`` object of the
        contains the value for the metadata field. To specify a field in
        an embedded object, use :manual:`dot notation
        </core/document/#dot-notation>`.
+
+       .. note:: Escaping periods in JWT keys
+
+          Use a backslash (``\``) to escape period (``.``) characters in JWT keys. 
+          Take this JSON object for example: 
+
+          .. code-block:: json
+
+            { "valid.json.key": {
+                "nested_key": "val"
+              }
+            }
+
+          You could represent the ``"nested_key"`` in the path name as
+          ``valid\.json\.key.nested_key``.
 
    * - | :guilabel:`Field Name`
        | *field_name*
@@ -553,13 +575,15 @@ document of the following form:
 
 .. note::
 
-   {+service-short+} ignores any additional fields in the JWT payload
-   unless you have mapped them to metadata fields in the
-   :ref:`provider configuration
-   <custom-jwt-authentication-configuration>`. {+service-short+}
-   includes the values of mapped fields in the ``data``
-   document of the authenticated user's :doc:`user object
-   </authentication>`.
+   {+service-short+} maps certain values from the JWT the :ref:`user
+   object <user-objects>` so that you can access them in your
+   application:
+
+   - The required fields listed in this section map to the ``User.identities.data`` property for their Custom JWT provider identity.
+   
+   - The metadata fields listed in the :ref:`Custom JWT provider configuration <custom-jwt-authentication-configuration>` map to the ``User.data`` property.
+   
+   - Any optional fields not listed in the provider configuration are ignored and do not map to the user object.
 
 .. _custom-jwt-authentication-usage-jwt-signature:
 
@@ -595,13 +619,13 @@ Custom JWT authentication, see the documentation for the Realm SDKs:
       :tabid: android
 
       To register or log in a Custom JWT user from the Android Client SDK, see the
-      :ref:`Android SDK guide to Custom JWT authentication <android-login-custom-jwt>`.
+      :ref:`Java SDK guide to Custom JWT authentication <java-login-custom-jwt>`.
 
    .. tab::
       :tabid: ios
 
       To register or log in a Custom JWT user from the iOS Client SDK, see the
-      :ref:`iOS SDK guide to Custom JWT authentication <ios-login-custom-jwt>`.
+      :ref:`Swift SDK guide to Custom JWT authentication <ios-login-custom-jwt>`.
 
    .. tab::
       :tabid: web

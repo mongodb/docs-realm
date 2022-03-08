@@ -55,7 +55,30 @@ authentication endpoints accept valid user credentials in the body of a
 
 .. code-block:: text
    
-   https://realm.mongodb.com/api/client/v2.0/app/<yourappid-abcde>/auth/providers/<provider type>/login
+   https://<hostname>/api/client/v2.0/app/<yourappid>/auth/providers/<provider-type>/login
+
+If your app is deployed globally, the ``<hostname>`` is **realm.mongodb.com**. 
+Otherwise, you need to find your hostname by issuing the following request:
+
+.. code-block:: shell
+
+   curl --location --request GET \
+      'https://realm.mongodb.com/api/client/v2.0/app/<APP NAME>/location' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
+         "key": <API KEY> 
+      }'
+
+The ``hostname`` is in the response:
+
+.. code-block:: text
+   :emphasize-lines: 3
+
+   { "deployment_model":"LOCAL",
+      "location":"US-VA",
+      "hostname":"https://us-east-1.aws.realm.mongodb.com",
+      "ws_hostname":"wss://ws.us-east-1.aws.realm.mongodb.com"
+   }
 
 .. example::
 
@@ -157,14 +180,14 @@ Verify a Client Access Token
 ----------------------------
 
 If you want to verify that a client access token is valid, you can do so using
-the `verify access token endpoint <{+base-url+}{+admin-api-page+}post-/groups/{groupId}/apps/{appId}/users/verify-token>`__ 
+the :admin-api-endpoint:`verify access token endpoint <operation/adminVerifyUserAccessToken>` 
 in the administration API.
 
 This endpoint accepts a ``POST`` request that includes these details:
 
 - the client access token you got using one of the :ref:`above methods <get-client-api-access-token>` for the payload
-- an :ref:`Admin API access token <realm-api-authentication>` ``Authorization`` header
-- the :ref:`{groupId} and {appId} <realm-api-project-and-application-ids>` for your backend {+app+}
+- an :admin-api-endpoint:`Admin API access token <section/Get-Authentication-Tokens>` ``Authorization`` header
+- the :admin-api-endpoint:`{groupId} and {appId} <section/Project-and-Application-IDs>` for your backend {+app+}
 
 With this information, call this API endpoint to verify that the client access 
 token is valid:
@@ -186,7 +209,7 @@ token is valid:
    with the ``access_token`` value you get after authenticating with the
    Admin API, and ``<Client Access Token>`` with the client access token you
    got using one of the above methods. In the URL, replace {groupId} and {appId}
-   with :ref:`the values for your Realm app <realm-api-project-and-application-ids>`.
+   with :admin-api-endpoint:`the values for your Realm app <section/Project-and-Application-IDs>`.
    
    .. code-block:: shell
       :emphasize-lines: 3

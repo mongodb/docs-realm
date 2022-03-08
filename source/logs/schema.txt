@@ -35,7 +35,7 @@ Fields
      - Important information about the schema update. This can include:
 
        - Whether the schema change originated in a client while
-         developer mode was enabled or from the {+backend+} backend.
+         Development Mode was enabled or from the {+backend+} backend.
 
        - The name of the table the schema change effected.
 
@@ -63,7 +63,7 @@ Fields
 
               SDK: firefox v10.0.0
 
-          This request came from the {+service-short+} Android SDK version 10.0.0 running
+          This request came from the {+service-short+} Java SDK version 10.0.0 running
           on Android Marshmallow:
 
           .. code-block:: none
@@ -74,4 +74,8 @@ Fields
      - The version of {+service+} that processed the change.
 
    * - Rule Performance Metrics
-     - A summary of the :doc:`roles </mongodb/query-roles>`, :doc:`schema </mongodb/document-schemas>`, and :doc:`filters </mongodb/query-filters>` applied to a return value. Provides the number of documents that a role applies to as well as the number of fields in those documents that Realm evaluated and potentially withheld.
+     - A summary of the :ref:`roles <roles>`, :ref:`schemas
+       <schemas>`, and :ref:`filters <filters>` applied to a
+       return value. Provides the number of documents that a role applies to as
+       well as the number of fields in those documents that Realm evaluated and
+       potentially withheld.

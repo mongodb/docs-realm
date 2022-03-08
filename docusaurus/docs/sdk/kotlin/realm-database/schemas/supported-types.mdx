@@ -1,0 +1,36 @@
+---
+title: Supported Types
+---
+
+Realm Database supports the following field data types:
+
+- `Boolean` or `boolean`
+- `Integer` or `int`
+- `Short` or `short`
+- `Long` or `long`
+- `Double` or `double`
+- `Float` or `float`
+- `String`
+- `Char`
+- `Date`
+- `Decimal128` from `org.bson.types`
+- Any `RealmObject` subclass
+- `RealmList`
+
+The `Byte`, `Short`, `Integer`, and `Long` types and their
+lowercase primitive alternatives are all stored as `Long` values
+within Realm Database. Similarly, Realm Database stores objects
+of the `Float` and `float` types as type `Double`.
+
+Realm Database does not support fields with modifiers `final` and
+`volatile`, though you can use fields with those modifiers if you
+[`ignore`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.annotations/-ignore/index.html)
+them. If you choose to provide custom constructors, you must declare a
+public constructor with no arguments.
+
+## Updating Strings and Byte Arrays
+
+Since Realm Database operates on fields as a whole, it's not possible
+to directly update individual elements of strings or byte arrays. Instead,
+you'll need to read the whole field, make your modification to individual
+elements, and then write the entire field back again in a transaction block.

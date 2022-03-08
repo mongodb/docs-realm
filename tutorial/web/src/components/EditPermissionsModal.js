@@ -16,25 +16,26 @@ function useTeamMembers() {
   const [teamMembers, setTeamMembers] = React.useState(null);
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
   const app = useRealmApp();
-  // :hide-start:
-  const { addTeamMember, removeTeamMember, getMyTeamMembers } = app.functions;
-  // :replace-with:
+  // :state-start: final
+  const { addTeamMember, removeTeamMember, getMyTeamMembers } =
+    app.currentUser.functions;
+  // :state-end: :state-uncomment-start: start
   // // TODO: Import the Realm functions: addTeamMember, removeTeamMember, and getMyTeamMembers
-  // :hide-end:
-  // :hide-start:
+  // :state-uncomment-end:
+  // :state-start: final
   const updateTeamMembers = () => {
     getMyTeamMembers().then(setTeamMembers);
   };
-  // :replace-with:
+  // :state-end: :state-uncomment-start: start
   // // TODO: Implement the function updateTeamMembers so that it calls getMyTeamMembers and updates
   // // the team variable with the current team members.
-  // :hide-end:
+  // :state-uncomment-end:
   // display team members on load
   React.useEffect(updateTeamMembers, []);
   return {
     teamMembers,
     errorMessage: newUserEmailError,
-    // :hide-start:
+    // :state-start: final
     addTeamMember: async (email) => {
       const { error } = await addTeamMember(email);
       if (error) {
@@ -44,18 +45,18 @@ function useTeamMembers() {
         updateTeamMembers();
       }
     },
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: Call the addTeamMember() function and return updateTeamMembers if
     // // addTeamMember() was successful.
-    // :hide-end:
-    // :hide-start:
+    // :state-uncomment-end:
+    // :state-start: final
     removeTeamMember: async (email) => {
       await removeTeamMember(email);
       updateTeamMembers();
     },
-    // :replace-with:
+    // :state-end: :state-uncomment-start: start
     // // TODO: Call the removeTeamMember()
-    // :hide-end:
+    // :state-uncomment-end:
   };
 }
 // :code-block-end:
@@ -64,12 +65,8 @@ export default function EditPermissionsModal({
   isEditingPermissions,
   setIsEditingPermissions,
 }) {
-  const {
-    teamMembers,
-    errorMessage,
-    addTeamMember,
-    removeTeamMember,
-  } = useTeamMembers();
+  const { teamMembers, errorMessage, addTeamMember, removeTeamMember } =
+    useTeamMembers();
   return (
     <Modal
       open={isEditingPermissions}
@@ -178,7 +175,7 @@ const List = styled.ul`
   margin: 0;
 `;
 const ListItem = styled.li(
-  (props) => css`
+  () => css`
     padding: 8px 12px;
     border-radius: 8px;
     :hover {

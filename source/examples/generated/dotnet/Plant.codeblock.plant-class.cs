@@ -8,15 +8,15 @@ public class Plant
 
     [BsonElement("sunlight")]
     [BsonRepresentation(BsonType.String)]
-    public Sunlight Sunlight { get; set; }
+    public string Sunlight { get; set; }
 
     [BsonElement("color")]
     [BsonRepresentation(BsonType.String)]
-    public PlantColor Color { get; set; }
+    public string Color { get; set; }
 
     [BsonElement("type")]
     [BsonRepresentation(BsonType.String)]
-    public PlantType Type { get; set; }
+    public string Type { get; set; }
 
     [BsonElement("_partition")]
     public string Partition { get; set; }

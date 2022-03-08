@@ -1,0 +1,73 @@
+title: Authenticate a MongoDB Atlas User
+ref: authenticate-atlas-user
+content: |
+  .. include:: /includes/api-authenticate-instructions.rst
+
+---
+title: Get the Group ID
+ref: get-group-id
+content: |
+  To delete a {+app+} you will need to find the Group ID in Atlas.
+
+  :ref:`Follow these steps <find-your-project-id>` and save the Group ID for the last step.
+
+---
+title: Create a new Realm App
+ref: app-creation-endpoint
+content: |
+  You can create a new {+app+} through the :admin-api-endpoint:`create endpoint <operation/adminCreateApplication>`.
+
+  Your request should include: 
+
+  - The ``access_token`` from step 1 in a :mdn:`Bearer token <Web/HTTP/Authentication>` ``Authorization`` header.
+
+  - The :admin-api-endpoint:`Group ID <section/Project-and-Application-IDs>` from step 2.
+
+  - A name for your new app.
+
+  .. tabs::
+   
+     .. tab:: Blank App
+        :tabid: blank
+
+        .. code-block:: shell
+
+           curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
+             --header 'Authorization:  Bearer <AccessToken>' \
+             --header 'Content-Type: application/json' \
+             --data '{ "name": "<AppName>" }'
+
+     .. tab:: Template App
+        :tabid: template
+        
+        If you want to create an app from a :ref:`template <template-apps>`, you must also 
+        include the following in the request body:
+            
+        - The ``template_id`` field with one of the following values:
+          
+          .. include:: /includes/template-app-ids.rst
+        
+        - The ``data_source`` field with information about an existing Atlas cluster.
+        
+        .. code-block:: shell
+
+          curl --request POST 'https://realm.mongodb.com/api/admin/v3.0/groups/<GroupID>/apps' \
+            --header 'Authorization:  Bearer <AccessToken>' \
+            --header 'Content-Type: application/json' \
+            --data '{
+                "name": "<AppName>",
+                "template_id": "<ChosenTemplateAppId>",
+                "data_source": {
+                  "name": "mongodb-atlas",
+                  "type": "mongodb-atlas",
+                  "config": {
+                      "clusterName": "<NameOfExistingCluster>"
+                  }
+                }
+              }'
+
+  If creation succeeds, the {+backend+} returns a ``201`` response and a JSON document.
+
+  .. seealso::
+
+     :admin-api-endpoint:`API Documentation for the create endpoint <operation/adminCreateApplication>`

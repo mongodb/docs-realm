@@ -16,11 +16,11 @@ Context Modules
 Overview
 --------
 
-Realm functions can interact with connected services, user
-information, predefined values, and other functions through modules
-attached to the global ``context`` variable.
+Realm :ref:`functions <functions>` have access to a global ``context`` object
+that contains metadata for the current function call and provides access to
+components and services that you've configured in your app.
 
-The ``context`` variable contains the following modules:
+The ``context`` object exposes the following modules and methods:
 
 .. list-table::
    :header-rows: 1
@@ -29,82 +29,79 @@ The ``context`` variable contains the following modules:
    * - Property
      - Description
 
-   * - ``context.services``
-     - Access service clients for the :doc:`services </services>` you've
-       configured.
+   * - :ref:`context.environment <context-environment>`
+     - Access :ref:`environment values <environment-values>` and the current
+       environment tag.
 
-   * - ``context.values``
-     - Access :doc:`values </values-and-secrets>` that you've defined.
+   * - :ref:`context.functions <context-functions>`
+     - A client object that calls your app's :ref:`functions <functions>`.
 
-   * - ``context.user``
-     - Access information about the :doc:`user </authentication>` that initiated
-       the request.
+   * - :ref:`context.http <context-http>`
+     - A built-in HTTP client.
 
-   * - ``context.request``
-     - Access information about the HTTP request that triggered this function
-       call.
+   * - :ref:`context.request <context-request>`
+     - Describes the HTTP request that triggered this function call.
 
-   * - ``context.functions``
-     - Execute other functions in your {+app+}.
+   * - :ref:`context.services <context-services>`
+     - Provides access to :doc:`service </services>` clients.
 
-   * - ``context.http``
-     - Access the HTTP service for ``get``, ``post``, ``put``, ``patch``,
-       ``delete``, and ``head`` actions.
+   * - :ref:`context.user <context-user>`
+     - Describes the :doc:`user </authentication>` that initiated the request.
+
+   * - :ref:`context.values <context-values>`
+     - Contains global :doc:`static values </values-and-secrets>`.
+
+   * - :method:`context.runningAsSystem()`
+     - Returns a boolean that, if ``true``, indicates that the function is a
+       :ref:`system function <system-functions>`.
 
 Context Modules
 ---------------
 
-.. _context-services:
+.. _context-environment:
 
-context.services
-~~~~~~~~~~~~~~~~
+context.environment
+~~~~~~~~~~~~~~~~~~~
 
-An object that provides access to service clients for :doc:`Services
-</services>` in your application, including the :doc:`MongoDB Service
-</mongodb>`. A service client exposes all actions associated with its
-service as methods.
+An object that includes the app's current environment and any :ref:`environment
+values <environment-values>` for that environment.
 
-.. method:: context.services.get(serviceName)
+.. method:: context.environment.tag
+   
+   The app's current environment.
 
-   Returns a service client object or ``undefined`` if no such service
-   exists.
+   .. code-block:: javascript
 
-   .. list-table::
-      :header-rows: 1
-      :widths: 20 10 70
+      exports = async function() {
+        switch(context.environment.tag) {
+          case "": {
+            return "There is no current environment"
+          }
+          case "development": {
+            return "The current environment is development"
+          }
+          case "testing": {
+            return "The current environment is testing"
+          }
+          case "qa": {
+            return "The current environment is qa"
+          }
+          case "production": {
+            return "The current environment is production"
+          }
+        }
+      };
 
-      * - Parameter
-        - Type
-        - Description
-
-      * - ``serviceName``
-        - string
-        - The unique name of the service assigned when the
-          :doc:`service was created </services/configure/services>`.
-
-          You can find the name of the Service associated with a
-          particular external service or linked data source in the
-          {+ui+} or in an exported application directory:
-
-          .. list-table::
-             :widths: 30 70
-             
-             * - **Realm UI**
-               - Refer to the :guilabel:`Service Name` column of the
-                 table on the :guilabel:`Services` page or the
-                 :guilabel:`Realm Service Name` column of the table on
-                 the :guilabel:`Linked Data Sources` page.
-             
-             * - **Application Directory**
-               - Refer to the ``name`` field of the service's
-                 :ref:`config.json <appschema-services>` file.
-
-          .. note:: MongoDB Service Names
-             
-             The default name for the :doc:`MongoDB Service </mongodb>`
-             associated with a {+app+}'s linked cluster is
-             ``mongodb-atlas``. For a linked Data Lake, the default name
-             is ``mongodb-datalake``.
+.. method:: context.environment.values
+   
+   An object where each field maps the name of an :ref:`environment value
+   <environment-values>` to its value in the current environment.
+   
+   .. code-block:: javascript
+      
+      exports = async function() {
+        const baseUrl = context.environment.values.baseUrl
+      };
 
 .. _context-functions:
 
@@ -136,31 +133,6 @@ your application.
         - A variadic list of arguments to pass to the function. Each
           function parameter maps to a separate, comma-separated
           argument.
-
-.. _context-values:
-
-context.values
-~~~~~~~~~~~~~~
-
-An object that provides access to :doc:`Values </values-and-secrets>` via a "getter"
-method.
-
-.. method:: context.values.get(valueName)
-
-   Returns the plain text data or :ref:`Secret <app-secret>` value
-   associated with the provided value name.
-
-   .. list-table::
-      :header-rows: 1
-      :widths: 20 20 60
-
-      * - Parameter
-        - Type
-        - Description
-
-      * - ``valueName``
-        - string
-        - The name of the :doc:`Value </values-and-secrets>`.
 
 .. _context-http:
 
@@ -265,66 +237,6 @@ rules </services/configure/service-rules>`.
         EJSON.parse(response.body.text());
       };
 
-Context Properties
-------------------
-
-.. _context-user:
-
-context.user
-~~~~~~~~~~~~
-
-A property that contains the :ref:`user object <user-objects>` of the
-function's :ref:`active user <function-active-user>`.
-
-.. note:: System Functions
-
-   ``context.user`` always resolves to the authenticated application
-   user that called the function, even if the function is a
-   :ref:`system function <system-functions>` running without regard for
-   {+service-short+} rules. However, some functions are not called by authenticated
-   users, such as webhook and trigger functions. For these functions,
-   ``context.user`` resolves to a system user object that contains no
-   data.
-
-.. code-block:: javascript
-
-   {
-       "id": <string>,
-       "type": <string>,
-       "data": <document>,
-       "identities": <array>
-   }
-
-.. include:: /includes/user-object-fields.rst
-
-.. example::
-
-   The following ``context.user`` document reflects an
-   :doc:`Email/Password </authentication/email-password>`
-   user that is associated with a single :ref:`User API Key
-   <api-key-authentication-user-api-key>`.
-
-   .. code-block:: json
-
-      {
-        "id": "5cbf68583025b12840664682",
-        "type": "normal",
-        "data": {
-          "email": "someone@example.com",
-          "name": "myApiKeyName"
-        },
-        "identities": [
-          {
-            "id": "5cbf68583025b12880667681",
-            "provider_type": "local-userpass"
-          },
-          {
-            "id": "5cbf6c6a922616045a388c71",
-            "provider_type": "api-key"
-          }
-        ]
-      }
-
 .. _context-request:
 
 context.request
@@ -345,7 +257,7 @@ determine the origin of the call. It may contain the following fields:
       "httpReferrer": <string>,
       "httpUserAgent": <string>,
       "service": <string>,
-      "action":"<string>
+      "action": <string>
    }
 
 .. list-table::
@@ -446,15 +358,150 @@ determine the origin of the call. It may contain the following fields:
          "httpUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
       }
 
- 
+.. _context-services:
+
+context.services
+~~~~~~~~~~~~~~~~
+
+An object that provides access to service clients for :doc:`Services
+</services>` in your application, including the :doc:`MongoDB Service
+</mongodb>`. A service client exposes all actions associated with its
+service as methods.
+
+.. method:: context.services.get(serviceName)
+
+   Returns a service client object or ``undefined`` if no such service
+   exists.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 20 10 70
+
+      * - Parameter
+        - Type
+        - Description
+
+      * - ``serviceName``
+        - string
+        - The unique name of the service assigned when the
+          :doc:`service was created </services/configure/services>`.
+
+          You can find the name of the Service associated with a
+          particular external service or linked data source in the
+          {+ui+} or in an exported application directory:
+
+          .. list-table::
+             :widths: 30 70
+             
+             * - **Realm UI**
+               - Refer to the :guilabel:`Service Name` column of the
+                 table on the :guilabel:`Services` page or the
+                 :guilabel:`Realm Service Name` column of the table on
+                 the :guilabel:`Linked Data Sources` page.
+             
+             * - **Application Directory**
+               - Refer to the ``name`` field of the service's
+                 :ref:`config.json <legacy-appschema-services>` file.
+
+          .. note:: MongoDB Service Names
+             
+             The default name for the :doc:`MongoDB Service </mongodb>`
+             associated with a {+app+}'s linked cluster is
+             ``mongodb-atlas``. For a linked Data Lake, the default name
+             is ``mongodb-datalake``.
+
+.. _context-user:
+
+context.user
+~~~~~~~~~~~~
+
+A property that contains the :ref:`user object <user-objects>` of the
+function's :ref:`active user <function-active-user>`.
+
+.. note:: System Functions
+
+   ``context.user`` always resolves to the authenticated application
+   user that called the function, even if the function is a
+   :ref:`system function <system-functions>` running without regard for
+   {+service-short+} rules. However, some functions are not called by authenticated
+   users, such as webhook and trigger functions. For these functions,
+   ``context.user`` resolves to a system user object that contains no
+   data.
+
+.. code-block:: javascript
+
+   {
+       "id": <string>,
+       "type": <string>,
+       "data": <document>,
+       "identities": <array>
+   }
+
+.. include:: /includes/user-object-fields.rst
+
+.. example::
+
+   The following ``context.user`` document reflects an
+   :doc:`Email/Password </authentication/email-password>`
+   user that is associated with a single :ref:`User API Key
+   <api-key-authentication-user-api-key>`.
+
+   .. code-block:: json
+
+      {
+        "id": "5cbf68583025b12840664682",
+        "type": "normal",
+        "data": {
+          "email": "someone@example.com",
+          "name": "myApiKeyName"
+        },
+        "identities": [
+          {
+            "id": "5cbf68583025b12880667681",
+            "provider_type": "local-userpass"
+          },
+          {
+            "id": "5cbf6c6a922616045a388c71",
+            "provider_type": "api-key"
+          }
+        ]
+      }
+
+.. _context-values:
+
+context.values
+~~~~~~~~~~~~~~
+
+An object that provides access to :doc:`Values </values-and-secrets>` via a "getter"
+method.
+
+.. method:: context.values.get(valueName)
+
+   Returns the plain text data or :ref:`Secret <app-secret>` value
+   associated with the provided value name.
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 20 20 60
+
+      * - Parameter
+        - Type
+        - Description
+
+      * - ``valueName``
+        - string
+        - The name of the :doc:`Value </values-and-secrets>`.
+
+.. _context-methods:
+
 Context Methods
 ---------------
 
 .. method:: context.runningAsSystem()
-
+   
    Returns ``true`` if the function is running as a :guilabel:`System
    User`, otherwise returns ``false``.
-
+   
    .. code-block:: javascript
    
       const isSystemUser = context.runningAsSystem()

@@ -37,7 +37,81 @@ and integrates into your app with idiomatic React components and hooks.
 Set Up Apollo Client
 --------------------
 
-.. include:: /includes/steps/graphql-apollo-react-setup.rst
+.. procedure::
+   :style: normal
+
+   .. step:: Install Dependencies
+
+      As in any MongoDB Realm project, you'll need to install the :npm:`Realm Web
+      SDK <realm-web>` to authenticate users and requests.
+      
+      .. code-block:: shell
+         
+         npm install realm-web
+      
+      Apollo bundles the core components that you need to create a client in a
+      package called :npm:`@apollo/client <package/@apollo/client>`. It also
+      requires the :npm:`graphql <package/graphql>` package to parse GraphQL
+      queries.
+      
+      .. code-block:: shell
+         
+         npm install @apollo/client graphql
+      
+
+   .. step:: Import dependencies
+
+      Import the necessary dependencies from ``realm-web`` and ``@apollo/client`` to 
+      create your Apollo GraphQL client and add authentication with Realm. 
+      
+      .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.apollo-realm-imports.jsx
+         :language: javascript
+      
+
+   .. step:: Create an Apollo GraphQL Client
+
+      Create a new :apollo:`ApolloClient <docs/react/api/core/ApolloClient>` object
+      that points to your Realm app's GraphQL API endpoint. You generate the
+      endpoint URL based on your Realm App ID or find it on the GraphQL page of the
+      Realm UI.
+      
+      .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.create-apollo-client.jsx
+         :language: javascript
+      
+
+   .. step:: Set Up User Authentication
+
+      The ``ApolloClient`` is configured to send requests to your app. However, all
+      Realm GraphQL requests must include a valid user access token to authenticate
+      requests, so right now any operations sent from Apollo will fail.
+      
+      To authenticate requests, you need to add an :doc:`Authorization header
+      </graphql/authenticate>` with a valid Realm user access token to each GraphQL
+      request.
+      
+      You can authenticate a user and get their access token with the :ref:`Realm
+      Web SDK <web-intro>`. The Apollo ``HttpLink`` object allows you to add custom
+      headers to every request by defining a custom ``fetch`` function.
+      
+      .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.set-up-user-auth.jsx
+         :language: javascript
+         :emphasize-lines: 17, 27-31
+      
+
+   .. step:: Add the Apollo Client to Your App
+
+      The Apollo ``client`` object is now configured to send authenticated GraphQL
+      requests to your MongoDB Realm app. All that's left to do is make it available
+      to the rest of your React application.
+      
+      The ``@apollo/client`` package exports an ``ApolloProvider`` component that
+      makes the ``client`` available to any Apollo hooks that you call from child
+      components. Wrap your app in an ``ApolloProvider`` and pass the ``client``
+      object to the provider.
+      
+      .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.codeblock.add-apollo-client-to-app.jsx
+         :language: javascript
+         :emphasize-lines: 3-5
 
 .. _graphql-apollo-react-queries-mutations:
 
@@ -54,6 +128,12 @@ To define queries and mutations that you can pass to the hooks, install
 .. code-block:: shell
    
    npm install graphql-tag
+
+Import the relevant hooks and the GraphQL query constructor at the top of 
+the file where you're using them. 
+
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.import-dependencies-query.jsx
+  :language: javascript
 
 .. note:: Apollo Hooks Must Have An ApolloProvider
    
@@ -85,33 +165,9 @@ Both hooks accept a query definition and additional options, including
 about the query's current execution status and data returned from the most
 recent execution.
 
-.. code-block:: javascript
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.run-query.jsx
+  :language: javascript
 
-   import React from "react";
-   import { useQuery } from "@apollo/client";
-   import gql from "graphql-tag";
-   import MovieList from "./MovieList"
-   
-   // Must be rendered inside of an ApolloProvider
-   export default function Movies() {
-     const { loading, error, data } = useQuery(gql`
-       query AllMovies {
-         movies {
-           _id
-           title
-           year
-           runtime
-         }
-       }
-     `);
-     if(loading) {
-       return <div>loading</div>
-     }
-     if(error) {
-       return <div>encountered an error: {error}</div>
-     }
-     return <MovieList movies={data.movies} />
-   }
 
 .. _graphql-apollo-react-run-a-mutation:
 
@@ -131,41 +187,5 @@ The hook returns several objects in an array:
 - an object that includes information on the mutation's execution status and
   data returned from the most recent execution.
 
-.. code-block:: javascript
-   
-   import React from "react";
-   import { useMutation } from "@apollo/client";
-   import gql from "graphql-tag";
-   
-   // Must be rendered inside of an ApolloProvider
-   export default function MovieList({ movies }) {
-     const [updateMovieTitle] = useMutation(gql`
-       mutation UpdateMovieTitle($oldTitle: String!, $newTitle: String!) {
-         updateOneMovie(query: { title: $oldTitle }, set: { title: $newTitle }) {
-           title
-           year
-         }
-       }
-     `);
-     return (
-       <ul>
-         {movies.map((movie) => (
-           <li key={movie._id}>
-             <div>{movie.title}</div>
-             <button
-               onClick={() =>
-                 updateMovieTitle({
-                   variables: {
-                     oldTitle: movie.title,
-                     newTitle: "Some New Title",
-                   },
-                 })
-               }
-             >
-               Update Title
-             </button>
-           </li>
-         ))}
-       </ul>
-     );
-   }
+.. literalinclude:: /examples/generated/web/apollo-graphql-queries-mutations.test.codeblock.run-mutation.jsx
+  :language: javascript

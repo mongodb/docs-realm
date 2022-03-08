@@ -29,12 +29,6 @@ Procedure
 Custom Resolver Examples
 ------------------------
 
-.. contents:: Custom Resolver Examples
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
 Scenario & Schemas
 ~~~~~~~~~~~~~~~~~~
 
@@ -82,6 +76,8 @@ The resolvers all reference ``Sale`` documents, which have the following schema:
              }
            }
          }
+
+.. _example-graphql-custom-query:
 
 Custom Query Resolver
 ~~~~~~~~~~~~~~~~~~~~~
@@ -205,21 +201,24 @@ The resolver uses the following configuration:
           exports = async function averageSaleForMonth({ month, year }) {
             const cluster = context.services.get("mongodb-atlas");
             const sales = cluster.db("corp").collection("sales");
-          
             const averageSalePayload = await sales
               .aggregate([
                 { $match: { month: month, year: year } },
                 {
                   $group: {
-                    _id: "$month",
-                    month: "$month",
-                    year: "$year",
+                    _id: { month: "$month", year: "$year" },
                     averageSale: { $avg: "$saleTotal" },
-                  },
+                  }
                 },
+                {
+                  $project: {
+                    month: "$_id.month",
+                    year: "$_id.year",
+                    averageSale: 1
+                  }
+                }
               ])
               .next();
-            
             return averageSalePayload;
           };
 
@@ -245,6 +244,8 @@ To call this custom query, you could use the following operation and variables:
        "averageSaleInput": { month: "March", year: "2020" }
      }
    }
+
+.. _example-graphql-custom-mutation:
 
 Custom Mutation
 ~~~~~~~~~~~~~~~
@@ -403,6 +404,8 @@ To call this custom query, you could use the following operation and variables:
        }
      }
    }
+
+.. _example-graphql-computed-property:
 
 Computed Properties
 ~~~~~~~~~~~~~~~~~~~

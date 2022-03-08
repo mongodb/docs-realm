@@ -1,0 +1,65 @@
+title: Log In to MongoDB Cloud
+ref: log-in-to-mongodb-cloud
+content: |
+  To change your app environment with {+cli-bin+}, you must log in to MongoDB 
+  Cloud using an :atlas:`API key </configure-api-access/#programmatic-api-keys>` 
+  scoped to the organization or project that contains the app.
+  
+  .. code-block:: bash
+     
+     realm-cli login --api-key="<MongoDB Cloud Public API Key>" --private-api-key="<MongoDB Cloud Private API Key>"
+---
+title: Pull the Latest Version of Your App
+ref: pull-the-latest-version-of-your-app
+content: |
+  You'll need a local copy of your application's configuration files. To 
+  :ref:`pull <realm-cli-pull>` a local copy of the latest version of your 
+  app, run the following:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deployment > Export App` screen in the {+ui+}.
+---
+title: Update Your Environment
+ref: update-your-environment
+content: |
+  Open the ``realm_config.json`` file at the root of the exported app, 
+  and update the ``environment`` property to one of the :ref:`supported 
+  environments <supported-environments>`.
+
+  .. code-block:: javascript
+     :caption: /realm_config.json
+     :emphasize-lines: 5
+
+     {
+       "app_id": "<Realm Application ID>",
+       "name": "<Realm Application Name>",
+       "config_version": "<Version Number>",
+       "environment": "development",
+       "allowed_request_origins": ["<Origin URL>", "..."],
+       "deployment_model": "<Deployment Model Type>",
+       "location": "<Deployment Cloud Region Name>"
+     }
+---
+title: Deploy the Updated App
+ref: deploy-the-updated-app
+content: |
+  Once you've updated your app's configuration file, :ref:`push <realm-cli-push>` 
+  to your remote app. {+cli+} immediately deploys the updated configurations
+  on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
+  
+  .. tip::
+     
+     If you have :ref:`deployment drafts <deployment-draft>` 
+     enabled, you'll be prompted to review and confirm your changes in the 
+     terminal. When you approve, {+cli+} immediately deploys the updated 
+     configurations.

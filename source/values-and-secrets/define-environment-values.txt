@@ -1,0 +1,34 @@
+.. _define-environment-values:
+
+=========================
+Define Environment Values
+=========================
+
+.. default-domain:: mongodb
+
+Overview
+--------
+
+You can define :ref:`environment values <environment-values>` directly in the
+{+ui+} or by importing :ref:`environment configuration files
+<appconfig-environment>` with :ref:`{+cli+} <deploy-cli>` or :ref:`GitHub
+<deploy-github>`.
+
+You can access defined environment values through :ref:`function context
+<context-environment>` and in :json-expansion:`rule expressions
+<%%environment>`.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/define-environment-values-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/define-environment-values-import-export.rst

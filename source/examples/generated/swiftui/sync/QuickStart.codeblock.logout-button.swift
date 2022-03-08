@@ -1,11 +1,10 @@
 /// A button that handles logout requests.
 struct LogoutButton: View {
-    @ObservedObject var app: RealmSwift.App
     @State var isLoggingOut = false
 
     var body: some View {
         Button("Log Out") {
-            guard let user = app.currentUser else {
+            guard let user = app!.currentUser else {
                 return
             }
             isLoggingOut = true
@@ -15,6 +14,6 @@ struct LogoutButton: View {
                 // that the currentUser has changed. Nothing more to do here.
                 print("Logged out")
             }
-        }.disabled(app.currentUser == nil || isLoggingOut)
+        }.disabled(app!.currentUser == nil || isLoggingOut)
     }
 }

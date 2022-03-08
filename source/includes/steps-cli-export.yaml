@@ -1,29 +1,39 @@
 title: Authenticate a MongoDB Atlas User
 ref: authenticate-atlas-user
-pre: |
-  To export a {+app+} with {+cli-bin+}, you must first
-  authenticate your {+cli-bin+} session using a `{+atlas+} <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`_
-  :atlas:`programmatic API key
-  </configure-api-access/#programmatic-api-keys>` associated with your
-  MongoDB Cloud account.
+content: |
+  Use your MongoDB Cloud API Key to log in:
 
   .. code-block:: shell
 
      realm-cli login --api-key="<my api key>" --private-api-key="<my private api key>"
-
 ---
-title: Run the Export Command
-ref: run-export-command
-pre: |
-
-  Run the following command to export your application as a directory in
-  the specified output path:
+title: Run the App Export Command
+ref: run-the-app-export-command
+content: |
+  You can export an application's configuration directory by specifying its remote
+  App ID and an optional local path. If you do not specify a local path, the
+  command outputs the configuration directory in the current working directory.
 
   .. code-block:: shell
 
-     realm-cli export --app-id=myRealmApp-abcde --output=path/to/exported/dir
-
+     realm-cli pull --remote=<App ID> --local=<Output Directory Path> [options]
+  
   .. warning::
 
-     If the directory specified by ``--output`` already exists,
-     {+cli-bin+} will throw an error and the export will fail.
+     The directory specified by ``--local`` must not already exist, otherwise
+     {+cli-bin+} throws an error and does not pull the configuration files.
+
+  The command also supports :ref:`additional flags <realm-cli-pull>` that you 
+  can optionally include to customize your app. The following table lists 
+  common flags you might use:
+
+  .. list-table::
+     
+     * - ``--include-dependencies``
+       - If specified, exports any external dependencies included
+         in a ``node_modules`` archive in the ``/functions`` directory of your
+         {+app+}.
+     
+     * - ``--include-hosting``
+       - If specified, exports all hosted static assets in the ``hosting/files``
+         directory of your {+app+}.

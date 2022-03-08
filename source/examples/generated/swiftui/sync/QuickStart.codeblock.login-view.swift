@@ -5,9 +5,6 @@ struct LoginView: View {
     
     // Keep track of whether login is in progress.
     @State var isLoggingIn = false
-    
-    // The Realm app is passed in from above
-    @ObservedObject var app: RealmSwift.App
 
     var body: some View {
         VStack {
@@ -20,7 +17,7 @@ struct LoginView: View {
             Button("Log in anonymously") {
                 // Button pressed, so log in
                 isLoggingIn = true
-                app.login(credentials: .anonymous) { result in
+                app!.login(credentials: .anonymous) { result in
                     isLoggingIn = false
                     if case let .failure(error) = result {
                         print("Failed to log in: \(error.localizedDescription)")

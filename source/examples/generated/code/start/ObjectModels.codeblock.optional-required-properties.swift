@@ -1,13 +1,13 @@
 class Person: Object {
     // Required string property
-    @objc dynamic var name = ""
+    @Persisted var name = ""
 
     // Optional string property
-    @objc dynamic var address: String?
+    @Persisted var address: String?
 
     // Required numeric property
-    @objc dynamic var ageYears = 0
+    @Persisted var ageYears = 0
 
     // Optional numeric property
-    let heightCm = RealmOptional<Float>()
+    @Persisted var heightCm: Float?
 }

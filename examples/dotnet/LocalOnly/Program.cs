@@ -110,5 +110,14 @@ namespace LocalOnly
 
 
         }
+
+        public void DeleteAndStartAgain()
+        {
+            //:code-block-start:delete-realm-file
+            var config = new RealmConfiguration("FileWeThrowAway.realm");
+            Realm.DeleteRealm(config);
+            var freshRealm = Realm.GetInstance(config);
+            //:code-block-end:
+        }
     }
 }

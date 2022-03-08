@@ -1,0 +1,81 @@
+title: Pull Your Realm Application
+ref: pull-your-realm-application
+content: |
+  To define environment variables with {+cli-bin+}, you need a local copy of
+  your application's :ref:`configuration files <app-configuration>`.
+  
+  To pull a local copy of the latest version of your app, run the following
+  command while logged in with :ref:`realm-cli <realm-cli-quickstart>`:
+  
+  .. code-block:: bash
+     
+     realm-cli pull --remote="<Your App ID>"
+  
+  .. tip::
+     
+     You can also download a copy of your application's configuration files from
+     the :guilabel:`Deploy > Import/Export App` screen in the {+ui+}.
+---
+title: Modify One or More Environments
+ref: modify-one-or-more-environments
+content: |
+  The ``/environments`` directory contains ``.json`` files for every supported
+  environment tag. Each file defines all of the environment values for its
+  corresponding environment.
+  
+  {+service-short+} supports the following environment tags:
+  
+  .. include:: /includes/list-of-environment-names.rst
+  
+  Open the file for each environment where the value should be defined. In each
+  file, add an entry to the ``values`` subdocument that maps the value's name to
+  its value in that environment.
+
+  .. example::
+     
+     The following configurations define the ``baseUrl`` environment value in
+     the ``production`` and ``development`` environments.
+
+     .. code-block:: json
+        :caption: /environments/production.json
+        
+        {
+          "values": {
+            "baseUrl": "https://example.com"
+          }
+        }
+     
+     .. code-block:: json
+        :caption: /environments/development.json
+        
+        {
+          "values": {
+            "baseUrl": "https://dev.example.com"
+          }
+        }
+---
+title: Specify Your App Environment
+ref: specify-your-app-environment
+content: |
+  Your app always runs in a specific environment, which affects the value of all
+  environment values. You can specify the current environment for your app in
+  ``realm_config.json``:
+  
+  .. code-block:: json
+     :caption: realm_config.json
+     
+     {
+       "environment": "development"
+     }
+---
+title: Deploy the Environment Values
+ref: deploy-the-environment-values
+content: |
+  Once you've defined values for each environment, you can push the updated
+  configurations to your remote app. {+cli+} immediately deploys the update
+  environment values on push.
+  
+  .. code-block:: bash
+     
+     realm-cli push --remote="<Your App ID>"
+...

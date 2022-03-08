@@ -45,15 +45,15 @@ Overview
 The {+service+} :graphql:`GraphQL <>` API allows client applications to access
 data stored in a linked MongoDB cluster using any standard GraphQL client.
 {+service-short+} automatically creates GraphQL types for every linked
-collection that has a defined :doc:`document schema
-</mongodb/enforce-a-document-schema>` and evaluates :doc:`role-based permissions
-</mongodb/define-roles-and-permissions>` for all GraphQL requests.
+collection that has a defined :doc:`schema <schemas>` and evaluates
+:doc:`role-based permissions </mongodb/define-roles-and-permissions>` for all
+GraphQL requests.
 
 .. note:: Create an Atlas Cluster for Free
 
    The GraphQL API lets you access data that you have stored in a
    `MongoDB Atlas
-   <https://www.mongodb.com/cloud/atlas?tck=docs_realm>`__ cluster or
+   <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`__ cluster or
    data lake. To get started, create a free cluster and :doc:`link it to
    your {+app+} </mongodb/link-a-data-source>`.
 
@@ -85,10 +85,16 @@ tutorial <learn>`.
 Limitations
 -----------
 
-- The GraphQL API can process a maximum of ten resolvers for a given query or
-  mutation. If an operation specifies more than ten resolvers, the entire
-  operation will fail with the error message ``"max number of queries
-  reached"``.
+- The GraphQL API can process a maximum of {+max-graphql-resolvers+}
+  resolvers for a given query or mutation. If an operation specifies
+  more than {+max-graphql-resolvers+} resolvers, the entire operation
+  fails with the error message ``"max number of queries reached"``.
+
+- The GraphQL API can resolve :ref:`relationships <relationships>` to a
+  maximum depth of {+max-graphql-relationship-depth+} for a given query
+  or mutation. If an operation specifies a relationship deeper than
+  {+max-graphql-relationship-depth+} resolvers, the entire operation
+  fails with the error message ``"max relationship depth exceeded"``.
 
 GraphQL Operations
 ------------------
@@ -105,10 +111,9 @@ type, see :doc:`Expose Data in a Collection </graphql/expose-data>`.
 Queries
 ~~~~~~~
 
-A GraphQL **query** is a read operation that requests specific fields
-from one or more types. {+service-short+} automatically generates query types for
-documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`.
+A GraphQL **query** is a read operation that requests specific fields from one
+or more types. {+service-short+} automatically generates query types for
+documents in each collection that has a defined :ref:`schema <schemas>`.
 
 For more information and examples, including a list of all automatically
 generated query types, see :ref:`Query Resolvers
@@ -153,11 +158,10 @@ generated query types, see :ref:`Query Resolvers
 Mutations
 ~~~~~~~~~
 
-A GraphQL **mutation** is a write operation that creates, modifies, or
-deletes one or more documents. {+service-short+} automatically generates mutation
-types for documents in each collection that has a defined :doc:`schema
-</mongodb/enforce-a-document-schema>`. {+backend+} uses transactions to ensure
-safe writes via mutations.
+A GraphQL **mutation** is a write operation that creates, modifies, or deletes
+one or more documents. {+service-short+} automatically generates mutation types
+for documents in each collection that has a defined :ref:`schema <schemas>`.
+{+backend+} uses transactions to ensure safe writes via mutations.
 
 For more information and examples, including a list of all automatically
 generated mutation types, see :ref:`Mutation Resolvers

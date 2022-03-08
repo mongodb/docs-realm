@@ -22,15 +22,14 @@ exports.createTask = async (partition) => {
     realm.write(() => {
       result = realm.create("Task", {
         _id: new bson.ObjectID(),
-        _partition: partition,
         name: task.name,
-        status: task.status.replace(/\s/g, ''), // Removes space from "In Progress",
+        status: task.status.replace(/\s/g, ""), // Removes space from "In Progress",
       });
     });
 
     output.header("New task created");
     output.result(JSON.stringify(result, null, 2));
   } catch (err) {
-    output.error(JSON.stringify(err));
+    output.error(err.message);
   }
 };

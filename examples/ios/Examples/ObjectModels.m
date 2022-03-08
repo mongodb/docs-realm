@@ -132,6 +132,17 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
 @end
 // :code-block-end:
 
+@interface ObjectModelsExamplesObjc_TestProperties : RLMObject
+@property RLMDecimal128 *decimal;
+// @property NSNumber<RLMDecimal128> *value;
+@property RLMObjectId *objectId;
+
+@end
+
+@implementation ObjectModelsExamplesObjc_TestProperties
+
+@end
+
 @interface ObjectModelsObjc : XCTestCase
 @end
 

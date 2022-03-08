@@ -27,16 +27,21 @@ describe("user authentication", () => {
 
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
-    const username = "joe.jasper"+randomInt.toString()+"@example.com";
-    await app.emailPasswordAuth.registerUser(username, "passw0rd")
+    const username = "joe.jasper" + randomInt.toString() + "@example.com";
+
+    await app.emailPasswordAuth.registerUser({
+      email: username,
+      password: "passw0rd",
+    });
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
       // :hide-start:
       username,
-      // :replace-with: /*
-      "joe.jasper@example.com",
-      // :hide-end: */
+      // :hide-end:
+      // :uncomment-start:
+      // "joe.jasper@example.com",
+      // :uncomment-end:
       "passw0rd"
     );
     try {
@@ -51,7 +56,6 @@ describe("user authentication", () => {
     }
     // :code-block-end:
   });
-
 
   test("server api key login", async () => {
     process.env.realmServerApiKey = "lolthisisntreallyakey";
@@ -151,5 +155,21 @@ describe("user authentication", () => {
     } catch (err) {
       console.error(err.message);
     }
+  });
+  test("Delete user", async () => {
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+    const uid = app.currentUser.id;
+    const preDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(preDeleteMatchesLen).toBe(1);
+    // :snippet-start: delete-user
+    await app.deleteUser(app.currentUser);
+    // :snippet-end:
+    const postDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(postDeleteMatchesLen).toBe(0);
   });
 });

@@ -1,0 +1,70 @@
+.. _change-environments:
+
+===================
+Change Environments
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+When you use multiple {+app+}s in your development workflow, you must 
+set the environment for each app to reflect the appropriate stage in your 
+workflow. Changing the environment in your {+app+} tells {+service+} which 
+set of environment values to use.
+
+.. seealso::
+
+   :ref:`Realm App Environments <realm-app-environments>`
+
+Procedure
+---------
+
+.. tabs::
+   
+   .. tab:: UI
+      :tabid: ui
+      
+      .. include:: /includes/steps/change-environment-ui.rst
+   
+   .. tab:: CLI
+      :tabid: cli
+
+      .. warning::
+
+         If you're using :ref:`Automated GitHub Deploy <deploy-github>`, do not 
+         update your {+app+} environment via the Realm CLI. Instead, push 
+         your changes to the linked GitHub repository.
+      
+      .. include:: /includes/steps/change-environment-cli.rst
+
+   .. tab:: GitHub
+      :tabid: github
+
+      If you're :ref:`using GitHub to version control your app <deploy-github>`, 
+      use your regular development process to update the application environment.
+
+      You can change the environment in the ``realm_config.json`` file at the 
+      root of your app. Update the ``environment`` property to one of the 
+      :ref:`supported environments <supported-environments>`.
+
+      .. code-block:: javascript
+         :caption: /realm_config.json
+         :emphasize-lines: 5
+
+         {
+         "app_id": "<Realm Application ID>",
+         "name": "<Realm Application Name>",
+         "config_version": "<Version Number>",
+         "environment": "development",
+         "allowed_request_origins": ["<Origin URL>", "..."],
+         "deployment_model": "<Deployment Model Type>",
+         "location": "<Deployment Cloud Region Name>"
+         }

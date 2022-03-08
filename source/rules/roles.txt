@@ -1,0 +1,261 @@
+.. _roles:
+.. _permissions:
+
+======================
+Role-based Permissions
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/non-sync-rules-note.rst
+
+Overview
+--------
+
+What are Permissions?
+~~~~~~~~~~~~~~~~~~~~~
+
+A **permission** is a status that Realm assigns to individual users to control what
+they can and cannot do in your app. Realm uses both document-level and
+field-level permissions:
+
+- Document-level permissions control whether a user can insert, delete, modify,
+  and search for a specific document in a MongoDB collection. These permissions
+  always apply to the entire document regardless of the content.
+
+- Field-level permissions control whether a user can read or write the data in
+  specific fields of a document. These permissions only affect the field they
+  apply to, which means that a user may have read or write access to only a
+  subset of the entire document.
+
+What are Roles?
+~~~~~~~~~~~~~~~
+
+A **role** is a named set of permissions that a user may have for documents in a
+MongoDB collection. Each role represents a possible relationship between a user
+and an individual document. A user may play at most one role per document in
+a request.
+
+You define the roles a user can play for the documents in a collection. Realm
+automatically assigns roles to the user at request time. Each role includes an
+Apply When :ref:`expression <expressions>` that determines when Realm should
+assign the role to a user as well as a set of document-level and field-level
+permissions that apply to the role.
+
+Realm only commits operations that a user is authorized to do based on their
+assigned roles. If a role does not have permission to read a document or some of
+its fields, Realm omits the document or fields from the results.
+
+.. example::
+
+   Consider a collection named ``employees`` where each employee has their own
+   document with all of their employment data. This collection might have two
+   roles: **Employee** and **Manager**.
+
+   - If a user requests their own document, their role is **Employee**. An
+     employee can read and write their own data but can't create or delete their
+     own documents.
+
+   - If a user requests a document for someone whose name is listed in the
+     user's ``manages`` arrays, their role is **Manager**. A manager can read
+     and write their direct reports' data and can create and delete their
+     documents.
+
+   - If a user is neither an **Employee** nor a **Manager** for a given
+     document, then they have no role and cannot read, write, or search that
+     document.
+   
+   .. tabs::
+      
+      .. tab:: Roles
+         :tabid: roles
+         
+         .. code-block:: json
+            
+            
+            {
+              "name": "Manager",
+              "apply_when": { "email": "%%user.custom_data.manages" },
+              "insert": true,
+              "delete": true,
+              "read": true,
+              "write": true,
+              "search": true,
+              "fields": {},
+              "additional_fields": {
+                "read": true,
+                "write": true
+              }
+            }
+            {
+              "name": "Employee",
+              "apply_when": { "email": "%%user.data.email" },
+              "insert": false,
+              "delete": false,
+              "read": true,
+              "write": true,
+              "search": true,
+              "fields": {},
+              "additional_fields": {
+                "read": true,
+                "write": true
+              }
+            }
+      
+      .. tab:: Employee Documents
+         :tabid: documents
+         
+         .. code-block:: json
+            
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0528",
+              "name": "Phylis Lapin",
+              "team": "sales",
+              "email": "phylis.lapin@dundermifflin.com",
+              "manages": []
+            }
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0713",
+              "name": "Stanley Hudson",
+              "team": "sales",
+              "email": "stanley.hudson@dundermifflin.com",
+              "manages": []
+            }
+            {
+              "_id": ObjectId(...),
+              "employeeId": "0865",
+              "name": "Andy Bernard",
+              "team": "sales",
+              "email": "andy.bernard@dundermifflin.com",
+              "manages": [
+                "phylis.lapin@dundermifflin.com",
+                "stanley.hudson@dundermifflin.com"
+              ]
+            }
+
+Why Define a Role?
+~~~~~~~~~~~~~~~~~~
+
+A role carries a specific set of permissions that you might expose to your app's
+users. A user may play at most one role for each document, so each distinct set of
+permissions that you need requires you to define a named role that encapsulates
+those permissions.
+
+The exact roles and permissions that you define will vary based on your app's
+data and requirements. To determine good roles for a collection, consider your
+data from the perspective of your app's users and what it might mean to them.
+
+.. example::
+   
+   In addition to **Employee** and **Manager** roles, you might add a
+   **Teammate** role to the ``employees`` collection to represent a user on the
+   same team as the document's employee. Teammates can read each other's data
+   but cannot modify it.
+   
+   .. code-block:: json
+      
+      {
+        "name": "Teammate",
+        "apply_when": { "team": "%%user.data.team" },
+        "insert": false,
+        "delete": false,
+        "read": true,
+        "write": false,
+        "search": true,
+        "fields": {},
+        "additional_fields": {
+          "read": true,
+          "write": false
+        }
+      }
+
+How Realm Assigns Roles
+-----------------------
+
+Realm dynamically assigns roles for every request. A user may play different
+roles between documents in the same request and their role for a given document
+may differ between requests.
+
+When Realm receives a MongoDB request, it applies :ref:`filters <filters>` to
+the request and then runs the filtered request query. Realm evaluates and
+assigns roles individually for each document that this query matches and
+returns.
+
+.. example::
+   
+   This request would cause Realm to evaluate a role for every document in the
+   ``restaurants`` collection where the ``city`` field is set to ``"Chicago"``:
+   
+   .. code-block:: javascript
+      
+      db.restaurants.updateMany(
+        { "city": "Chicago" },
+        { "$set": { "city": "Chicago, IL" } }
+      );
+
+A role applies to a given document if its Apply When :ref:`expression
+<expressions>` evaluates to ``true`` when run against the document.
+
+- If one or more roles apply to a given document, Realm assigns only the first
+  matching role based on the order in which the roles are defined.
+
+- If no roles apply to a document, then Realm prevents the user from reading,
+  writing, or searching the document in any way.
+
+.. example::
+   
+   An employee will always be on their own team, so both the **Employee** and
+   **Teammate** roles apply to them for their own document. However, they can
+   only one play one role, so we want to use **Employee** because it's more
+   specific.
+   
+   To configure this, specify **Employee** earlier than **Teammate** in the
+   collection's role definitions:
+   
+   .. tabs-realm-admin-interfaces:: 
+      
+      .. tab::
+         :tabid: ui
+         
+         .. figure:: /images/role-assignment-ordered.png
+            :alt: Role definitions that specify Manager first, Employee second, and Teammate third.
+      
+      .. tab::
+         :tabid: cli
+         
+         .. code-block:: json
+            
+            {
+              "database": "<Database Name>",
+              "collection": "<Collection Name>",
+              "roles": [
+                { "name": "Manager", ... },
+                { "name": "Employee", ... },
+                { "name": "Teammate", ... }
+              ]
+            }
+
+Role Configuration
+------------------
+
+.. note::
+
+   To learn how to configure and deploy a role in your app, see
+   :ref:`define-roles`.
+   
+   For examples of expressions and roles for common scenarios, see
+   :ref:`rule-examples`.
+
+You define roles for specific collections in your linked cluster.
+
+A role configuration has the following form:
+
+.. include:: /mongodb/tables/role-configuration.rst

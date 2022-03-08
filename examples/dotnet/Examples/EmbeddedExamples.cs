@@ -13,15 +13,15 @@ namespace Examples
     {
         App app;
         User user;
-        SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        RealmConfiguration config;
+        const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
         public void Setup()
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPart", user);
+            config = new RealmConfiguration();// "myPart", user);
 
             // Synchronous here because setup and tear down don't support async
             var realm = Realm.GetInstance(config);
@@ -44,6 +44,9 @@ namespace Examples
             var contact = new Contact() // Create a Contact
             {
                 Name = "Nick Riviera",
+                // :hide-start:
+                Partition = "myPart",
+                // :hide-end:
                 Address = address // Embed the Address Object
             };
 
@@ -136,6 +139,7 @@ namespace Examples
                 var newContact = new Contact() // Create a Contact
                 {
                     Name = "Foo Barbaz",
+                    Partition = "myPart",
                     Address = address // Embed the Address Object
                 };
 
@@ -182,12 +186,6 @@ namespace Examples
         // :code-block-start:embedded-classes
         public class Address : EmbeddedObject
         {
-            [MapTo("_id")]
-            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
-
-            [MapTo("_partition")]
-            public string Partition { get; set; }
-
             [MapTo("street")]
             public string Street { get; set; }
 
@@ -208,6 +206,7 @@ namespace Examples
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             [MapTo("_partition")]
+            [Required]
             public string Partition { get; set; }
 
             [MapTo("name")]
@@ -224,6 +223,7 @@ namespace Examples
             public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
             [MapTo("_partition")]
+            [Required]
             public string Partition { get; set; }
 
             [MapTo("name")]

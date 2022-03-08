@@ -1,0 +1,70 @@
+.. _realm-query-language:
+
+====================
+Realm Query Language
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. include:: includes/note-unsupported-flex-sync-rql-operators.rst
+
+.. include:: /includes/rql.rst
+
+.. _rql-aggregate-operators:
+
+.. include:: /includes/rql-aggregation.rst
+
+.. _flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+Flexible Sync has some limitations when using RQL operators. When you 
+write the :ref:`query subscription <flexible-sync-query-subscription>` 
+that determines which data to sync, the server does not support these
+query operators. However, you can still use the full range of RQL features
+to query the synced data set in the client application.
+
+Unsupported Query Operators in Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator Type
+     - Unsupported Operators
+
+   * - Comparison Operators
+     - ``BETWEEN``, ``IN``
+    
+   * - Case-Insensitive Queries
+     - ``[c]``
+
+   * - String Operators
+     - ``beginsWith``, ``endsWith``, ``contains``, ``like``, ``in``
+
+   * - Aggregate Operators
+     - ``@avg``, ``@count``, ``@max``, ``@min``, ``@sum``
+
+   * - Collection Operators
+     - ``ANY``, ``SOME``, ``ALL``, ``NONE``
+
+   * - Query Suffixes
+     - ``DISTINCT``, ``SORT``, ``LIMIT``
+
+The recommended workaround for the ``BETWEEN`` comparison operator is to
+combine range operators with ``AND`` for this type of query, instead. For 
+example, ``field > 100 AND field < 200``.
+
+Embedded or Linked Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Flexible Sync does not support querying on properties in Embedded Objects 
+or links. For example, ``obj1.field = “foo”``.

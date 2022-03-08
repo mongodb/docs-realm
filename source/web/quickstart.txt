@@ -54,13 +54,21 @@ Install the Web SDK
    .. tab:: CDN
       :tabid: CDN
       
-      To load the Realm Web SDK from a content delivery network as a global
-      variable, add the following ``<script>`` tag to the ``<head>`` of your
-      HTML file:
+      Add a ``<script>`` tag to the ``<head>`` of your HTML file to load
+      the Realm Web SDK as a global variable from a content delivery
+      network.
       
+      Use the most recent version:
+
       .. code-block:: html
          
-         <script src="https://unpkg.com/realm-web@1.2.0/dist/bundle.iife.js"></script>
+         <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
+      
+      Or import a specific version:
+
+      .. code-block:: html
+         
+         <script src="https://unpkg.com/realm-web@1.5.1/dist/bundle.iife.js"></script>
 
 .. _web-quickstart-import-realm:
 
@@ -70,21 +78,8 @@ Import the Web SDK
 Near the top of any JavaScript or TypeScript file that uses Realm, add the
 following import statement:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         import * as Realm from "realm-web";
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         import * as Realm from "realm-web";
+.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.import-realm.js
+   :language: javascript
 
 .. note::
    
@@ -100,21 +95,8 @@ Initialize the App
 To use {+backend+} features such as user authentication and functions, you must
 access your {+app+} using your App ID. You can find your App ID in the {+ui+}.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         const app = new Realm.App({ id: "<Your App ID>" });
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         const app: Realm.App = new Realm.App({ id: "<Your App ID>" });
+.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.initialize-realm-app.js
+   :language: javascript
 
 .. _web-quickstart-authenticate:
 
@@ -124,41 +106,8 @@ Authenticate a User
 When :ref:`anonymous authentication <anonymous-authentication>` is enabled,
 users can log into your app without providing any identifying information:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         // Create an anonymous credential
-         const credentials = Realm.Credentials.anonymous();
-         try {
-           // Authenticate the user
-           const user = await app.logIn(credentials);
-           // `App.currentUser` updates to match the logged in user
-           assert(user.id === app.currentUser.id)
-           return user
-         } catch(err) {
-           console.error("Failed to log in", err);
-         }
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-
-         // Create an anonymous credential
-         const credentials = Realm.Credentials.anonymous();
-         try {
-           // Authenticate the user
-           const user: Realm.User = await app.logIn(credentials);
-           // `App.currentUser` updates to match the logged in user
-           assert(user.id === app.currentUser.id)
-           return user
-         } catch(err) {
-           console.error("Failed to log in", err);
-         }
+.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.authenticate-user.js
+   :language: javascript
 
 {+service-short+} provides many additional ways to authenticate, register, and
 link users.
@@ -175,23 +124,8 @@ To call a :doc:`function </functions>`, use the ``Realm.User.functions`` interfa
 :ref:`call your serverless functions <web-call-a-function>` as if they were 
 regular JavaScript functions defined on the object.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. code-block:: javascript
-         
-         const summed = await user.functions.sum(2,3);
-         assert(summed === 5);
-   
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         const summed: number = await user.functions.sum(2,3);
-         assert(summed === 5);
+.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.call-a-function.js
+   :language: javascript
 
 .. _web-use-graphql:
 

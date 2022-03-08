@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
+using RealmUser = Realms.Sync.User;
+using User = Examples.Models.User;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
 
@@ -12,19 +13,22 @@ namespace Examples
     public class ClientResetExamples
     {
         App app;
-        Realms.Sync.User user;
+        RealmUser user;
         SyncConfiguration config;
-        const string myRealmAppId = "tuts-tijya";
+        const string myRealmAppId = Config.appid;
 
 
         [Test]
-        public async Task resetsTheClient()
+        public async Task ResetsTheClient()
         {
             app = App.Create(myRealmAppId);
 
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
             config = new SyncConfiguration("myPart", user);
+            //:hide-start:
+            config.Schema = new[] { typeof(User) };
+            //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 
             // :code-block-start: handle
@@ -63,7 +67,7 @@ namespace Examples
                 }
             };
             // :code-block-end:
-            TestingExtensions.SimulateError(realm.GetSession(),
+            TestingExtensions.SimulateError(realm.SyncSession,
                 ErrorCode.DivergingHistories, "diverging histories!", false);
         }
     }

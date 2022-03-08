@@ -1,0 +1,96 @@
+.. _enable-realm-sync:
+.. _enable-sync:
+
+=================
+Enable Realm Sync
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+Overview
+--------
+
+You can enable {+sync+} via the {+app+} UI, Realm CLI, or the 
+Realm Admin API. If it is your first time enabling {+sync-short+}, 
+the UI is a great choice because it walks you through the required steps.
+
+If you're re-enabling it after pausing or terminating it, see: 
+:ref:`Resume <resume-sync>` or :ref:`Re-Enable <re-enable-realm-sync>` 
+{+sync-short+}.
+
+Prerequisites
+-------------
+
+While you are configuring {+sync+}, you must define the data access patterns
+and rules for your {+app+}. If you haven't already decided how you want to 
+configure your data model and access {+sync-short+}, see:
+
+- :ref:`Configure Your Data Model <sync-schema-overview>`
+- :ref:`Choose Your Sync Mode <sync-modes>`
+- :ref:`Sync Rules and Permissions <sync-permissions>`
+
+.. important::
+   
+   Before defining sync rules and enabling sync, you must specify at least
+   one valid :ref:`schema <schemas>` for a collection in the synced cluster 
+   unless you are using :ref:`Development Mode <enable-development-mode>`.
+   
+   At a minimum, the schema must define ``_id`` and the field that you intend to
+   use as your :term:`partition key`. A partition key field may be a ``string``,
+   ``integer``, or ``objectId``.
+   
+   For more details on how to define a schema, see :ref:`enforce-a-schema`.
+
+.. _enable-pbs-sync:
+
+Enable Partition-Based Sync
+---------------------------
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/define-sync-rules-ui.rst
+     
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/define-sync-rules-cli.rst
+     
+   .. tab::
+      :tabid: api
+      
+      .. include:: /includes/steps/define-sync-rules-api.rst
+
+.. _enable-flexible-sync:
+
+Enable Flexible Sync
+--------------------
+
+.. include:: /includes/note-flexible-sync-preview.rst
+
+.. include:: /includes/note-flexible-sync-prerequisite.rst
+
+.. tabs-realm-admin-interfaces::
+
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/configure-flexible-sync-ui.rst
+     
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/configure-flexible-sync-cli.rst
+     
+   .. tab::
+      :tabid: api
+      
+      .. include:: /includes/steps/configure-flexible-sync-api.rst

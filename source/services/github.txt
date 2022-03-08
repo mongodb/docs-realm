@@ -1,6 +1,6 @@
-==============
-GitHub Service
-==============
+===========================
+GitHub Service [Deprecated]
+===========================
 
 .. default-domain:: mongodb
 
@@ -9,6 +9,8 @@ GitHub Service
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+.. include:: /includes/note-third-party-services-deprecation.rst
 
 Overview
 --------
@@ -70,6 +72,13 @@ in your GitHub repo.
 
 Incoming Webhooks
 -----------------
+
+.. note:: Convert GitHub Webhooks to Endpoints
+
+   GitHub Service webhoooks are deprecated in favor of custom HTTPS
+   endpoints. To learn how to migrate your existing GitHub webhooks to
+   endpoints, see :ref:`Convert Webhooks to HTTPS Endpoints
+   <migrate-github-webhooks-to-endpoints>`.
 
 GitHub can invoke one or more webhooks whenever a particular event
 occurs in a repository. If you'd like to learn more about GitHub's
@@ -151,8 +160,7 @@ Configuration
              specific user id or a function that resolves to a user id,
              {+service-short+} executes the webhook function as the :ref:`system
              user <system-user>` that has full access to MongoDB CRUD and
-             Aggregation APIs and is not affected by any rules, roles, or
-             permissions.
+             Aggregation APIs and bypasses all rules and schema validation.
 
    * - | :guilabel:`Request Validation`
        | *config.secret*

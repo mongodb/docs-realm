@@ -1,0 +1,178 @@
+title: Select a Cluster to Sync
+ref: select-a-cluster-to-sync
+content: |
+  You can enable {+sync-short+} for a single :term:`linked cluster` in your application.
+  If you have not yet linked the cluster to your application, follow the
+  :ref:`link-a-data-source` guide to link it before
+  you continue.
+
+  You'll need the cluster's service configuration file to configure {+sync-short+}. You
+  can find the configuration file by listing all services through the Admin API:
+  
+  .. note:: Authenticating Your Request with an Access Token
+    
+    To authenticate your request to the Realm Admin API, you need a valid and
+    current authorization token from the MongoDB Cloud API. Read the 
+    :admin-api-endpoint:`API Authentication <section/Get-Authentication-Tokens>` 
+    documentation to learn how to acquire a valid access token.
+
+  .. code-block:: shell
+     
+     curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services \
+       -X GET \
+       -h 'Authorization: Bearer <Valid Access Token>'
+
+  Once you have the configuration, add the ``config.flexible_sync`` field with the
+  following template configuration:
+
+  .. code-block:: json
+    
+     {
+         "config": {
+             "flexible_sync": {
+                 "state": "enabled",
+                 "database_name": "",
+                 "permissions": {
+                     "defaultRoles": [
+                         {
+                             "applyWhen": {},
+                             "name": "all",
+                             "read": true,
+                             "write": true
+                         }
+                     ],
+                     "rules": {}
+                 },
+                 "queryable_fields_names": []
+             }
+         }
+     }
+
+  Replace the ``database_name`` field's value with the name of your database.
+
+  .. note::
+    
+    The default role applies to any collection where you do not define custom roles. 
+    Since no custom roles are defined in the above example, the default role 
+    applies to all collections.
+
+  .. seealso::
+    
+    :ref:`Default Roles <default-roles>`
+    
+---
+title: Choose Queryable Fields
+ref: choose-queryable-fields
+content: |
+  The ``queryable_fields_names`` property defines a set of queryable fields that
+  the device may query on. A queryable field can be any top-level primitive
+  field with a scalar type. A queryable field cannot be an embedded object or
+  array.
+
+  To learn more about queryable fields, read the :ref:`queryable fields
+  <queryable-fields>` documentation.
+
+  Add the fields you would like your application to query on to the ``config.flexible_sync.queryable_fields_names``:
+
+  .. code-block:: json
+
+     {
+         "config": {
+             "flexible_sync": {
+                 "state": "enabled",
+                 "database_name": "",
+                 "permissions": {
+                     "defaultRoles": [
+                         {
+                             "applyWhen": {},
+                             "name": "all",
+                             "read": true,
+                             "write": true
+                         }
+                     ],
+                     "rules": {}
+                 },
+                 "queryable_fields_names": ["age", "name"]
+             }
+         }
+     }
+---
+title: Define Read & Write Permissions
+ref: define-read-write-permissions
+content: |
+  You can define :ref:`JSON expressions <expressions>` to tell {+service+}
+  whether a user has read or write permissions on a given document.
+  {+service-short+} evaluates these expressions for a user when that user opens
+  a {+realm+}.
+
+  {+sync-short+} rule expressions have access to :json-expansion:`%%user`, which resolves
+  to the user that opened the {+realm+}. You can also use operators, including
+  :json-operator:`%function`, to handle more complex cases. For examples, see
+  :ref:`{+sync-short+} Permissions <sync-permissions>`.
+
+  Define the corresponding JSON expressions in the ``read`` and ``write`` fields
+  of ``config.sync.partition.permissions``.
+
+  In the following example, there is a user-defined role in the ``Employees``
+  collection. This role takes precedent, and the default role is not applied for
+  the ``Employees`` collection. However, since the ``Items`` collection does not
+  specify a value, {+backend+} will apply the default role to the ``Items`` collection. 
+
+  .. code-block:: json
+
+     {
+       "config": {
+         "flexible_sync": {
+           "state": "enabled",
+           "database_name": "test-database",
+           "permissions": {
+             "Employees": {
+               "roles": [
+                 {
+                   "name": "everyone",
+                   "applyWhen": {},
+                   "read": { "owner_id": "%%user.id" },
+                   "write": false
+                 }
+               ]
+             },
+             "Items": {},
+             "defaultRoles": [
+               {
+                 "applyWhen": {},
+                 "name": "all",
+                 "read": true,
+                 "write": true
+               }
+             ],
+             "rules": {}
+           },
+           "queryable_fields_names": ["age", "name"]
+         }
+       }
+     }
+---
+title: Deploy the Sync Configuration
+ref: deploy-the-sync-configuration
+content: |
+  Now that you've defined the {+sync-short+} configuration, including read and write
+  permissions, you can deploy your changes to start syncing data and enforcing
+  {+sync-short+} rules.
+
+  To deploy your changes, send an Admin API request that updates the cluster
+  configuration with your {+sync-short+} configuration.
+
+  .. note:: Authenticating Your Request with an Access Token
+    
+    To authenticate your request to the Realm Admin API, you need a valid and
+    current authorization token from the MongoDB Cloud API. Read the 
+    :admin-api-endpoint:`API Authentication <section/Get-Authentication-Tokens>` 
+    documentation to learn how to acquire a valid access token.
+
+  .. code-block:: shell
+     
+     curl https://realm.mongodb.com/api/admin/v3.0/groups/{GROUP_ID}/apps/{APP_ID}/services/{MongoDB_Service_ID}/config \
+       -X PATCH \
+       -h 'Authorization: Bearer <Valid Access Token>' \
+       -h "Content-Type: application/json" 
+       -d @/some-directory/config.json

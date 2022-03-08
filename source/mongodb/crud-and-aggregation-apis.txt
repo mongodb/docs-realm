@@ -404,9 +404,13 @@ Bitwise Update Operator Availability
 Bulk Write Operations
 ~~~~~~~~~~~~~~~~~~~~~
 
-{+service+} supports bulk write operations using the same API as the MongoDB Node.js driver.
+{+service+} supports bulk write operations using the same API as the
+:node-docs:`MongoDB Node.js driver <>`.
 
-.. note:: {+service+} does not support the ``collection.bulkWrite()`` method.
+.. tip::
+
+   {+service-short+} also provides the :ref:`db.collection.bulkWrite() <bulk-write>`
+   method for performing bulk write operations.
 
 Ordered Bulk Write Operation Availability
 +++++++++++++++++++++++++++++++++++++++++
@@ -427,15 +431,15 @@ returns.
      - User Function
      - System Function
 
-   * - :manual:`execute </reference/method/Bulk.execute>`.
+   * - :manual:`execute </reference/method/Bulk.execute>`
      - Yes
      - Yes
 
-   * - :manual:`find </reference/method/Bulk.find>`.
+   * - :manual:`find </reference/method/Bulk.find>`
      - Yes
      - Yes
 
-   * - :manual:`insert </reference/method/Bulk.insert>`.
+   * - :manual:`insert </reference/method/Bulk.insert>`
      - Yes
      - Yes
 
@@ -458,15 +462,15 @@ returns.
      - User Function
      - System Function
 
-   * - :manual:`execute </reference/method/Bulk.execute>`.
+   * - :manual:`execute </reference/method/Bulk.execute>`
      - Yes
      - Yes
 
-   * - :manual:`find </reference/method/Bulk.find>`.
+   * - :manual:`find </reference/method/Bulk.find>`
      - Yes
      - Yes
 
-   * - :manual:`insert </reference/method/Bulk.insert>`.
+   * - :manual:`insert </reference/method/Bulk.insert>`
      - Yes
      - Yes
 
@@ -616,7 +620,7 @@ Database Commands
 {+service+} does not support any :manual:`database commands
 </reference/command>` in the Client SDKs or :doc:`Functions
 </functions>`. You can, however, call a limited subset of database
-commands when when connected to a MongoDB cluster over the :doc:`{+service+}
+commands when connected to a MongoDB cluster over the :doc:`{+service+}
 wire protocol </mongodb/connect-over-the-wire-protocol>`.
 
 The following :manual:`database commands </reference/command>` are

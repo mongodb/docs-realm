@@ -1,3 +1,5 @@
+.. _realm-sdks:
+
 ==========
 Realm SDKs
 ==========
@@ -5,101 +7,90 @@ Realm SDKs
 .. toctree::
    :titlesonly:
    :hidden:
-   
-   Android SDK </sdk/android>
-   iOS SDK </sdk/ios>
+
+   Java SDK </sdk/java>
+   Swift SDK </sdk/swift>
    .NET SDK </sdk/dotnet>
    Node.js SDK </sdk/node>
-   React Native SDK </react-native>
+   React Native SDK </sdk/react-native>
+   Kotlin SDK (Beta) </sdk/kotlin>
    Web SDK </web>
+   Flutter SDK (Alpha) </sdk/flutter>
 
-The MongoDB Realm SDKs are client libraries that allow you to connect to
-local and synced Realm databases, authenticate users, and interact with
-serverless :ref:`MongoDB Realm <realm-cloud>` applications.
+{+service+} has open-source SDKs available for most popular languages, frameworks, 
+and platforms. Each SDK is language-idiomatic and includes:
 
-Get Started
------------
+- The core database APIs for creating and working with on-device databases.
 
-Realm has native, idiomatic SDKs for most common application ecosystems and
-programming languages. Find yours below to start building your Realm app:
+- The APIs you need for connecting to the {+service-short+} backend so you can 
+  make use of server-side features like :ref:`Sync <sync>`, 
+  :ref:`Authentication <users-and-authentication>`, :ref:`Functions <functions>`, 
+  :ref:`Triggers <trigger-types>`, and more. 
 
-Android SDK
-~~~~~~~~~~~
+.. card-group::
+   :style: extra-compact
+   :columns: 2
 
-- :doc:`Install Realm for Android </sdk/android/install>`
-- :doc:`Quick Start (Local-only) </sdk/android/quick-start-local>`
-- :doc:`Quick Start with Sync </sdk/android/quick-start-sync>`
-- :doc:`Quick Start with LiveData </sdk/android/livedata>`
-- :doc:`Fundamentals </sdk/android/fundamentals>`
-- :doc:`Data Types </sdk/android/data-types>`
-- :doc:`Usage Examples </sdk/android/examples>`
-- :doc:`Advanced Guides </sdk/android/advanced-guides>`
-- :java-sdk:`Java Reference Manual (Javadoc) <>`
-- :kotlin-sdk:`Kotlin Extensions Reference Manual <>`
-- :doc:`Upgrade from Stitch to Realm </sdk/android/migrate>`
-- :github:`Release Notes <realm/realm-java/blob/releases/CHANGELOG.md>`
+   .. card::
+      :headline: Java SDK
+      :url: https://docs.mongodb.com/realm/sdk/java/
+      :icon: /images/icons/android_sdk.svg
+      :icon-alt: Java SDK icon
 
-iOS, macOS, tvOS, and watchOS SDK
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      Build Android applications in Java or Kotlin. Realm data maps directly to the classes in your app.
 
-- :doc:`Install Realm for iOS, macOS, tvOS, and watchOS </sdk/ios/install>`
-- :doc:`Quick Start with Sync </sdk/ios/quick-start-with-sync>`
-- :doc:`SwiftUI & Combine </sdk/ios/swiftui>`
-- :doc:`Fundamentals </sdk/ios/fundamentals>`
-- :doc:`Data Types </sdk/ios/data-types>`
-- :doc:`Usage Examples </sdk/ios/examples>`
-- :doc:`Advanced Guides </sdk/ios/advanced-guides>`
-- :doc:`Upgrade from Stitch to Realm </sdk/ios/upgrade-from-stitch-to-realm>`
-- :objc-sdk:`Objective-C Reference Manual <>`
-- :swift-sdk:`Swift Reference Manual <>`
-- :github:`Release Notes <realm/realm-cocoa/releases>`
+   .. card::
+      :headline: Swift SDK
+      :url: https://docs.mongodb.com/realm/sdk/swift/
+      :icon: /images/icons/swift_sdk.svg
+      :icon-alt: Swift SDK icon
 
-Node.js SDK
-~~~~~~~~~~~
+      Build applications in Swift or Objective-C for Apple platforms, including iOS, macOS, watchOS, and tvOS.
 
-- :doc:`Install Realm for Node.js </sdk/node/install>`
-- :doc:`Quick Start with Sync </sdk/node/quick-start>`
-- :doc:`Fundamentals </sdk/node/fundamentals>`
-- :doc:`Usage Examples </sdk/node/examples>`
-- :doc:`Integration Guides </sdk/node/integrations>`
-- :doc:`Advanced Guides </sdk/node/advanced>`
-- :js-sdk:`Javascript SDK Reference Manual <>`
-- :doc:`Upgrade from Stitch to Realm </sdk/node/migrate>`
-- :github:`Release Notes <realm/realm-js/releases>`
+   .. card::
+      :headline: .NET SDK
+      :url: https://docs.mongodb.com/realm/sdk/dotnet/
+      :icon: /images/icons/dot_net_sdk.svg
+      :icon-alt: .NET SDK icon
 
-React Native SDK
-~~~~~~~~~~~~~~~~
+      Build applications that use C# and the .NET platform, including Xamarin, native Windows applications, and Unity projects.
 
-- :doc:`Install Realm for React Native </react-native/install>`
-- :doc:`Quick Start </react-native/quick-start>`
-- :doc:`The Realm Data Model </react-native/data-model>`
-- :doc:`Realm Database </react-native/database>`
-- :doc:`MongoDB Realm </react-native/mongodb-realm>`
-- :doc:`Reference </react-native/reference>`
-- :js-sdk:`React Native API Reference <>`
+   .. card::
+      :headline: Node.js SDK
+      :url: https://docs.mongodb.com/realm/sdk/node/
+      :icon: /images/icons/node_js_sdk.svg
+      :icon-alt: Node.JS SDK icon
 
-Web SDK
-~~~~~~~
+      Use the Node.js SDK to build server and IoT applications in JavaScript or TypeScript.
 
-- :doc:`Quick Start </web/quickstart>`
-- :doc:`Quick Start (React) </web/react-web-quickstart>`
-- :doc:`Apollo GraphQL Client (React) </web/graphql-apollo-react>`
-- :doc:`MongoDB Realm </web/mongodb-realm>`
-- :doc:`Reference </web/reference>`
+   .. card::
+      :headline: React Native SDK
+      :url: https://docs.mongodb.com/realm/sdk/react-native/
+      :icon: /images/icons/react_native_sdk.svg
+      :icon-alt: React SDK icon
 
-.NET SDK
-~~~~~~~~
+      Use the React Native SDK to build cross-platform applications in JavaScript or TypeScript.
 
-- :doc:`Install Realm for .NET </sdk/dotnet/install>`
-- :doc:`Quick Start with Sync </sdk/dotnet/quick-start-with-sync>`
-- :doc:`Compatibility </sdk/dotnet/compatibility>`
-- :doc:`Use Realm in a Console App </sdk/dotnet/async-console>`
-- :doc:`Fundamentals </sdk/dotnet/fundamentals>`
-- :doc:`Data Types </sdk/dotnet/data-types>`
-- :doc:`Usage Examples </sdk/dotnet/examples>`
-- :doc:`Advanced Guides </sdk/dotnet/advanced-guides>`
-- :dotnet-sdk:`C#/.NET SDK Reference Manual <>`
-- :github:`Release Notes <realm/realm-dotnet/releases>`
+   .. card::
+      :headline: Kotlin SDK
+      :url: https://docs.mongodb.com/realm/sdk/kotlin/
+      :icon: /images/icons/kotlin_sdk.svg
+      :icon-alt: Kotlin SDK icon
 
-.. 
-   Test
+      Build cross-platform applications for Android, iOS, and macOS with Kotlin Multiplatform Mobile. Realm data maps directly to the classes in your app.
+
+   .. card::
+      :headline: Web SDK
+      :url: https://docs.mongodb.com/realm/web/
+      :icon: /images/icons/web_sdk.svg
+      :icon-alt: Web SDK icon
+
+      Build web applications in JavaScript or TypeScript. Access data with GraphQL and MongoDB queries.
+
+   .. card::
+      :headline: Flutter SDK (Alpha)
+      :url: https://docs.mongodb.com/realm/sdk/flutter
+      :icon: /images/icons/flutter.svg
+      :icon-alt: Futter icon
+
+      Build Flutter applications with Dart. 

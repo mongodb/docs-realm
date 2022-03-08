@@ -40,7 +40,7 @@ content: |
 
   .. seealso::
 
-     `Admin API: List All Services <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps/{appid}/services>`__
+     :admin-api-endpoint:`Admin API: List All Services <operation/adminListServices>`
 ---
 title: Choose a Partition Key
 ref: choose-a-partition-key
@@ -49,7 +49,7 @@ content: |
   each document to a client-side realm. Sync rules apply at the partition level,
   so it's particularly important to consider your data model and access
   patterns. For more information on partition keys and how to choose one, see
-  :ref:`Partition Atlas Data into Realms <partitioning>`.
+  :ref:`Partitions <sync-partitions>`.
 
   You can get a list of all valid partition keys and their corresponding types
   through the Admin API:
@@ -98,7 +98,7 @@ content: |
 
   .. seealso::
 
-     `Admin API: List Valid Partition Keys <{+base-url+}{+admin-api-page+}get-/groups/{groupid}/apps/{appid}/sync/data>`__
+     :admin-api-endpoint:`Admin API: List Valid Partition Keys <operation/adminGetSync>`
 ---
 title: Define Read & Write Permissions
 ref: define-read-write-permissions
@@ -111,7 +111,7 @@ content: |
   to the user that opened the realm, and :json-expansion:`%%partition`, which
   resolves to the partition key value for the realm. You can also use operators,
   including :json-operator:`%function`, to handle more complex cases. For
-  examples, see :ref:`Define Sync Permissions <define-sync-permissions>`.
+  examples, see :ref:`Sync Permissions <sync-permissions>`.
 
   Once you've determined how to decide a user's read and write permissions for a
   given partition, define the corresponding JSON expressions in the
@@ -164,4 +164,4 @@ content: |
 
   .. seealso::
 
-     `Admin API: Update a Service Configuration <{+base-url+}{+admin-api-page+}patch-/groups/{groupid}/apps/{appid}/services/{serviceid}/config>`__
+     :admin-api-endpoint:`Admin API: Update a Service Configuration <operation/adminGetServiceConfig>`

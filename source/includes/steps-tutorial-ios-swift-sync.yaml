@@ -1,0 +1,271 @@
+---
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
+content: |
+  To get the app working with your backend, you first need to add your Realm App
+  ID to the SceneDelegate.swift file. Declare a global Realm App instance:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/SceneDelegate.codeblock.initialize-app.swift
+     :language: swift
+
+  Change the value of ``id`` to your Realm app ID, which you can :ref:`find in
+  the Realm UI <find-your-app-id>`.
+
+---
+title: Update Your App's Realm Models
+ref: update-realm-models
+content: |
+
+  To support online functionality like shared projects, we'll need two
+  additional models.
+
+  Add an embedded object model for user projects:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.project-model.swift
+     :language: swift
+
+  And a model for custom user data that stores the list of projects as user can
+  access:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/Models.codeblock.user-model.swift
+     :language: swift
+
+---
+title: Enable Authentication
+ref: enable-authentication
+content: |
+  Navigate to the WelcomeViewController.swift file, which is where we implement
+  all login and user registration logic. This controller is set up with a text
+  field for email and password, sign in and sign up buttons, and an activity
+  indicator to show when the app is handling an authentication request.
+  To enable users to log in with {+service+} accounts, we'll add a field
+  where the user can enter a password and a button to register
+  an account as variables in WelcomeViewController:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-and-sign-up-button.swift
+     :language: swift
+
+  We'll also need to add an accessor to get the password entered by the
+  user when they register or log in:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.get-password.swift
+     :language: swift
+
+  In the ``viewDidLoad()`` method, update the ``infoLabel``
+  value to mention both a username *and* password:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.info-label-password-add.swift
+     :language: swift
+
+  Change the placeholder value of the username entry field to "Email",
+  since usernames for {+service+} accounts should be email addresses:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.username-field-placeholder.swift
+     :language: swift
+
+  And configure the password entry field with placeholder text and
+  secure text entry:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-configure.swift
+     :language: swift
+
+  Configure a sign-up button that users can click to register an account:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up-button.swift
+     :language: swift
+
+  Next, in the ``setLoading()`` method, enable the password field alongside
+  the username field when the view loads:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.password-field-enable.swift
+     :language: swift
+
+  Implement the ``signUp()`` method to register a new user, which uses the
+  :ref:`email/password authentication provider <email-password-authentication>`
+  of the Realm app to register a new user:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-up.swift
+     :language: swift
+
+  Finally, implement the ``signIn()`` method to authenticate user credentials
+  with your backend {+app+} using email/password credentials. Once logged in
+  successfully, open the user {+realm+} and navigate to the
+  ProjectsViewController. We open the {+realm+} using ``asyncOpen()`` because it
+  fully downloads any remote data before proceeding:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.codeblock.sign-in.swift
+     :language: swift
+
+---
+title: Implement the Projects List
+ref: implement-the-projects-list
+content: |
+
+  Open the ProjectsViewController.swift file, which is where we present the user
+  with a list of projects they are a member of.
+
+  Let's provide a way for a user to log out and get back to the
+  WelcomeViewController. The ``viewDidLoad()`` method hooks up the Log Out
+  button at the top of the view to the ``logOutButtonDidClick()`` method. We can
+  implement ``logOutButtonDidClick()`` as follows:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.log-out-button-did-click.swift
+     :language: swift
+
+  Next, open the {+realm+} with the configuration passed in from the previous
+  controller. By receiving the configuration rather than creating one here, the
+  ViewController does not need to know whether the {+realm+} is using Sync or
+  not.
+
+  Add a change listener at the end of the ``init`` method that watches for a new
+  ``User`` object in the user {+realm+}. Because your backend app creates
+  ``User`` objects with a Trigger, it can sometimes take a few seconds after
+  account creation for the backend Trigger to generate a user's ``User`` object.
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.user-in-realm-notification.swift
+     :language: swift
+
+  The ProjectsViewController reads the list of projects the user has access to
+  from a custom user data object. We added the model for the user custom data
+  earlier in this tutorial. 
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
+
+  Now add a ``deinit`` method to ensure that your application invalidates the
+  notification token for that change listener when the view is destroyed:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.invalidate-token.swift
+     :language: swift
+
+  Since the ProjectsViewController implements the UITableViewDelegate protocol
+  for its own list, let's implement these methods. First, implement the
+  ``tableView(_:numberOfRowsInSection:)`` method to return the number of
+  available projects to the current user. Use the count of projects that
+  the user can access:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.number-of-rows-in-section.swift
+     :language: swift
+
+  Next, implement the ``tableView(_:cellForRowAt:)`` to fill out the project
+  information for each cell:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.cell-for-row-at.swift
+     :language: swift
+
+  Implement the ``tableView(_:didSelectRowAt:)`` method to handle what
+  happens when the user clicks a project in the list. We'll open the
+  project {+realm+} before navigating to the TasksViewController so that
+  if anything goes wrong, we can handle the error before launching a
+  separate view:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.codeblock.did-select-row-at.swift
+     :language: swift
+
+---
+title: Add Project Member Management Button to the Tasks View
+ref: add-partitions-and-project-member-management-to-tasks
+content: |
+  Next, we'll add a menu to manage members of a project. You can open this menu
+  with a button. Navigate to TaskViewController.swift. Add a new method that
+  checks if a project is owned by the current user. This controls whether or not
+  the user can manage the list of users allowed to access that project:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.is-own-tasks.swift
+     :language: swift
+
+  Add the corresponding click handler for that method:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.manage-button-did-click.swift
+     :language: swift
+
+  At the end of the ``viewDidLoad`` method, add logic that calls the
+  method you just created:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/TasksViewController.codeblock.check-if-own-tasks.swift
+     :language: swift
+
+  .. note:: ManageTeamViewController Error
+
+     The ManageTeamViewController doesn't exist yet, so if you see an error
+     about it here, it should go away after the next step.
+
+---
+title: Implement the Manage Team View
+ref: implement-the-manage-team-view
+content: |
+  A user can add and remove team members to their own Project using the Manage
+  Team view. Since the client side cannot handle access management, we need to
+  call out to our Realm functions we defined earlier.
+
+  .. warning::
+
+     This view heavily relies on the serverless functions we built into the
+     backend. If you did not :ref:`import the backend
+     <tutorial-task-tracker-create-realm-app>`, the code in this section will
+     not work as expected.
+
+  Navigate to the ManageTeamViewController.swift file, which defines the view
+  that pops up when a user clicks the "Manage Team" action on the
+  TasksViewController. The file should be empty except for a copyright
+  disclaimer comment. Copy and paste the following code into the file:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.complete.swift
+     :language: swift
+
+  You should now have a fully functional ManageTeamViewController
+  implementation. However, it's worth taking a look at some of the core
+  logic to get a sense of how team management works in Task Tracker.
+
+  The ManageTeamViewController uses ``fetchTeamMembers()`` to get the
+  list of team members, which calls the ``getMyTeamMembers`` Realm
+  function to access a list of users with access to the project:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.fetch-team-members.swift
+     :language: swift
+
+  The ManageTeamViewController wires up the add button and swipe to delete
+  functionality to the ``addTeamMember()`` and ``removeTeamMember()`` methods,
+  respectively.
+
+  The ``addTeamMember()`` method calls the ``addTeamMember`` Realm function and
+  can use the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.add-team-member.swift
+     :language: swift
+
+  The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
+  also uses the ``onTeamMemberOperationComplete()`` method as a completion
+  handler:
+
+  .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.codeblock.remove-team-member.swift
+     :language: swift
+
+  The ``onTeamMemberOperationComplete()`` method presents any errors to the user
+  and refreshes the member list.
+
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Once you have completed the code, you can run the app and check functionality.
+
+  Click the :guilabel:`Run` button in Xcode. If the app builds successfully,
+  here are some things you can try in the app:
+
+  - Create a user with email *first@example.com*
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email second@example.com
+  - Navigate to *second@example.com*'s project
+  - Add, update, and remove some tasks
+  - Click "Manage Team"
+  - Add *first@example.com* to your team
+  - Log out and log in as *first@example.com*
+  - See two projects in the projects list
+  - Navigate to *second@example.com*'s project
+  - Collaborate by adding, updating, and removing some new tasks
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``sync`` branch of 
+     this repo to compare your code with our finished solution.

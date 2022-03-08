@@ -1,0 +1,57 @@
+.. _config-expansions:
+
+==============================================
+Create Template Configurations with Expansions
+==============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Realm supports a replacement operator (``%()``) that dynamically resolves JSON
+expansions like :json-expansion:`%%environment` in your :ref:`configuration
+files <app-configuration>`. When you create a new app with configuration files
+that include expansions (either with :ref:`Realm CLI <deploy-cli>` or through
+:ref:`GitHub <deploy-github>`), Realm automatically resolves the expansions and
+uses the resolved configuration files to create the app.
+
+.. important::
+   
+   Configuration files that use the replacement operator are *templates*. Realm
+   does not resolve the expansions after it creates the app. Instead, it uses a
+   copy of the configuration files that reflect the resolved values at the time
+   the app was created.
+
+Define a Template
+-----------------
+
+.. include:: /includes/steps/config-expansions.rst
+
+Development Workflow
+--------------------
+
+You can use configuration expansions for any Realm app, but the most useful case
+is for teams that develop a production application with source code files stored
+in an external version control system like GitHub. You can create independent
+apps to develop features or test changes and use expansions to customize the
+apps based on their environment.
+
+1. :ref:`Create a new app <create-app-cli>` from the common template with the
+   environment set to ``development``. If you're using Git, create a new branch
+   on GitHub and check out a local copy.
+
+2. Make changes and test them locally against the development app. Any changes
+   you make to the app won't affect the production app, though they may still
+   read and write production data sources and services unless you configure
+   alternatives.
+
+3. Commit changes and merge them back to production. You can set up a CI/CD
+   pipeline, which may itself create an app in the ``test`` environment, to
+   validate and merge your changes into the production branch.
+
+4. Once your changes are merged, you can safely delete the development app and
+   clean up any other associated services.

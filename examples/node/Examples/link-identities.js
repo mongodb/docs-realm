@@ -18,7 +18,7 @@ beforeAll(async () => {
   }
   async function registerNewAccount(email, password) {
     await app.emailPasswordAuth
-      .registerUser(email, password)
+      .registerUser({ email, password })
       .catch((err) =>
         console.log(
           `An error occurred while registering: ${JSON.stringify(err, 2, null)}`
@@ -57,7 +57,7 @@ afterAll(async () => {
   }
 });
 
-/* 
+/*
     Steps the app user follows:
     1. Creates an anonymous account to try out the app
     2. Decides to create a more permanent account (email/pass) once they decide they enjoy the app
@@ -66,7 +66,7 @@ afterAll(async () => {
     4. Deletes the temporary anonymous account
 */
 describe("Linking Identities Tests", () => {
-  test("links anon identity with email/pass identity", async () => {
+  test.skip("links anon identity with email/pass identity", async () => {
     // :code-block-start: link-identities
     async function linkAccounts(user, email, password) {
       const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
@@ -81,7 +81,7 @@ describe("Linking Identities Tests", () => {
     // :code-block-end:
 
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
-    anonUser.logOut()
+    anonUser.logOut();
     const freshAnonUser = await app.logIn(Realm.Credentials.anonymous());
     expect(linkAccounts(freshAnonUser, email, password)).resolves.toStrictEqual(
       await app.logIn(credentials)

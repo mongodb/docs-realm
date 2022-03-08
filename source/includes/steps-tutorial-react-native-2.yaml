@@ -1,0 +1,207 @@
+---
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
+content: |
+  To get the app working with your backend, you first need to instantiate the
+  Realm app. The Realm app is the interface to the MongoDB Realm backend.
+  Navigate to the ``realmApp.js`` file and create an instance of your Realm app:
+
+  .. literalinclude:: /tutorial/generated/code/final/realmApp.codeblock.instantiate-realm-app.js
+     :language: javascript
+
+  Be sure to enter your own Realm app ID, which you can 
+  :ref:`find in the Realm UI <find-your-app-id>`.
+
+---
+title: Implement the AuthProvider
+ref: implement-the-auth-provider
+content: |
+  Navigate to ``providers/AuthProvider.js``. In this file, and in the
+  ``providers/TasksProvider.js`` file that we will complete a bit later, we use
+  React :reactjs:`Context <docs/context.html>` and :reactjs:`hooks
+  <docs/hooks-overview.html>` to implement a data provider pattern. Don't worry
+  if you aren't too familiar with these constructs yet. The basic idea is as
+  follows:
+
+  - The Provider component handles fetching and modifying data.
+  - Any descendant of the Provider component can use a hook function to access 
+    the provider's data as well as its commands for modifying the data.
+
+  The AuthProvider is responsible for logging in, registering a user, logging
+  out, and retrieving the list of projects that a user is a member of from the
+  custom user data object.
+
+  First, let's implement the login functionality that a descendant component can
+  pass an email and password in order to log in:
+
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-in.js
+     :language: javascript
+
+  Next, implement the user registration functionality by using the
+  email/password provider of the Realm app:
+
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-up.js
+     :language: javascript
+
+  Next, implement the log out functionality:
+
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-out.js
+     :language: javascript
+
+---
+title: Open a Realm
+ref: open-close-a-realm
+content: |
+  The AuthProvider must access the custom user data object so it can 
+  provide a list of projects associated with the user. We have set up our app 
+  so that the custom user data object exists in a specific realm, where only 
+  one user object exists.
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
+
+  To access the custom user data, we will create a Configuration object that 
+  specifies a partition value of the  pattern ``user=<USER_ID>`` and then add 
+  code to open the realm.
+
+  Because there may be a delay between when a user first registers and when the
+  authentication trigger creates the user custom data object, the
+  realm may be empty when first opened. Rather than have an empty realm, we need 
+  to add an observer to the collection of users in that realm which watches for 
+  the appearance of the user object and any changes to its project memberships. 
+  When a user object is available, your code will read its ``memberOf`` field 
+  to populate the available project data for any descendant of the provider:
+
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.open-user-realm.js
+     :language: javascript
+
+  Finally, the Realm SDK requires you to close any realm you open when you are
+  finished with it. You can return a cleanup function from the effect, which
+  will close the realm any time the user changes or the component is unmounted:
+
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.user-realm-cleanup.js
+     :language: javascript
+
+
+  .. note::
+
+     Check out the ``App.js``, ``views/WelcomeView.js``, and ``views/ProjectView.js``
+     files to see how they use the AuthProvider's ``signIn``, ``signUp``, and 
+     ``signOut`` functions and the user data via the ``useAuth()`` hook function. 
+     The ProjectView also uses the project data to populate the list of projects 
+     available to the logged-in user.
+
+  You should now be able to run the app, sign in, view your projects, and sign
+  out. We will implement the task management functionality next.
+
+---
+title: Define the Task Schema
+ref: define-the-task-schema
+content: |
+  In order to work with task objects in the Realm Database, we need to define
+  their schema. Navigate to the ``schemas.js`` file to complete the task class's
+  schema definition where it says ``TODO``:
+
+  .. literalinclude:: /tutorial/generated/code/final/schemas.codeblock.react-native-task-schema.js
+     :language: javascript
+
+---
+title: Implement the TasksProvider
+ref: implement-the-tasks-provider
+content: |
+  The TasksProvider component, like the AuthProvider, manages the data that its
+  descendants can use. As the name implies, the TasksProvider provides the task
+  objects for a given project. The project partition is passed in as a prop.
+
+  The first thing to implement is opening the realm for the specified
+  project. When configuring the user realm, we used a partition key value pattern of
+  ``user=<USER_ID>``. Similarly, projects use a partition key value pattern of
+  ``project=<USER_ID>``. For the sake of this tutorial's simplicity, each user
+  always has exactly one project, specified by the partition key value
+  containing their own user ID.
+
+  In the effect block of ``providers/TasksProvider.js``, configure and open the 
+  realm. Once opened, attach an observer that will update the tasks list when 
+  any changes come in:
+
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.open-project-realm.js
+     :language: javascript
+
+  Again, Realm requires you to close any realm you open once you are done with
+  it. We can do that by returning a cleanup function from the effect:
+
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.clean-up.js
+     :language: javascript
+
+  A user can create, update, and delete tasks in a project that they are a
+  member of. To implement the task creation functionality, find the 
+  ``createTask`` function and add the following code:
+
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.create-task.js
+     :language: javascript
+
+  For this application, we limit updates to changing the status of the task. 
+  Find the ``setTaskStatus`` function and implement the following code, which 
+  changes the Task's status:
+
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.set-task-status.js
+     :language: javascript
+
+  Finally, in the ``deleteTask`` function, implement the task deletion functionality:
+
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.delete-task.js
+     :language: javascript
+
+  Check out the ``views/TasksView.js`` and ``components/TaskItem.js`` files to see how
+  they use the provider's task data and functionality via the ``useTasks()``
+  hook function.
+
+---
+title: Implement Team Management
+ref: implement-team-management
+content: |
+  A user can add other users to their team, which allows them to view, edit, and
+  delete tasks on the user's project. The ``ManageTeam`` component implements this
+  functionality by calling a few Realm functions on the backend that we defined
+  earlier.
+
+  Navigate to ``components/ManageTeam.js`` and find the ``getTeam`` function. 
+  In this function, we need to fetch the list of  current team members:
+
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.get-team.js
+     :language: javascript
+
+  Next, in the ``addTeamMember`` function, we will call the backend function 
+  ``addTeamMember`` to implement add team  member functionality:
+
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.add-team-member.js
+     :language: javascript
+
+  Finally, in the ``removeTeamMember`` function, we call another backend function, 
+  named ``removeTeamMember``, that removes a team member:
+
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.remove-team-member.js
+     :language: javascript
+
+---
+title: Run and Test
+ref: run-and-test
+content: |
+  Congratulations! Now that you have completed the code, you can run the app and
+  check functionality. Here are some things you can try in the app:
+
+  - Create a user with email *first@example.com*
+  - Explore the app, then log out or launch a second instance of the app on another device or simulator
+  - Create another user with email *second@example.com*
+  - Navigate to *second@example.com*'s project
+  - Add, update, and remove some tasks
+  - Click "Manage Team"
+  - Add *first@example.com* to your team
+  - Log out and log in as *first@example.com*
+  - See two projects in the projects list
+  - Navigate to *second@example.com*'s project
+  - Collaborate by adding, updating, and removing some new tasks
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``final`` branch of 
+     this repo to compare your code with our finished solution.

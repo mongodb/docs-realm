@@ -6,19 +6,20 @@ import {
 } from "mongodb-stitch-server-sdk";
 
 // Add expected errors here.
-const expectedErrors: RegExp[] = [
-  /^ERROR\(admin\/api\/v3\.txt.*Target not found: "extlink:None"/
-];
+const expectedErrors: RegExp[] = [/(WARNING|ERROR)\(sdk\/java\/api.*/];
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
 const stitchClient = Stitch.initializeDefaultAppClient(STITCH_APP_ID);
 
-type Build = { comMessage?: string[] };
+type Build = {
+  endTime: Date;
+  logs: string[];
+};
 
 async function nextInStream<T>(
   stream: Stream<T>,
-  timeoutMs = 3 * 60 * 1000 // allow a lot of time for autobuilder to complete
+  timeoutMs: number
 ): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
@@ -53,51 +54,93 @@ async function main(): Promise<string[] | undefined> {
       `Expected CLI argument in form 'owner/repo/branch', got '${actorOwnerRepoBranch}`,
     ];
   }
+
   const filter = {
-    $or: [
-      {"payload.repoOwner": actor},
-      {"payload.repoOwner": owner},
-    ],
+    $or: [{ "payload.repoOwner": actor }, { "payload.repoOwner": owner }],
     "payload.repoName": repo,
     "payload.branchName": branch,
+    endTime: {
+      $ne: null,
+    },
   };
 
-  const stream = await collection.watch({
+  const watchFilter = {
     $or: [
-      {"fullDocument.payload.repoOwner": actor},
-      {"fullDocument.payload.repoOwner": owner},
+      { "fullDocument.payload.repoOwner": actor },
+      { "fullDocument.payload.repoOwner": owner },
     ],
     "fullDocument.payload.repoName": repo,
     "fullDocument.payload.branchName": branch,
+  };
+
+  // First check if a build is ongoing
+  const ongoingBuildStream = await collection.watch({
+    ...watchFilter,
+    "fullDocument.endTime": {
+      $eq: null,
+    },
   });
 
   let build: Build | null;
-  console.log(`Waiting for update to ${JSON.stringify(filter)}...`);
   try {
-    build = (await nextInStream(stream)).fullDocument ?? null;
+    console.log("Checking for ongoing build...");
+    build =
+      (await nextInStream(ongoingBuildStream, 3 * 60 * 1000)).fullDocument ??
+      null;
+
+    console.log("Ongoing build found.");
+    const stream = await collection.watch({
+      ...watchFilter,
+      "fullDocument.endTime": {
+        $ne: null,
+      },
+    });
+
+    console.log("Waiting for build to complete...");
+    const timeoutMs = 3 * 60 * 1000; // allow a lot of time for autobuilder to complete
+    build = (await nextInStream(stream, timeoutMs)).fullDocument ?? null;
   } catch (error) {
     console.warn(`Update never received: ${error.message}`);
-    console.log("Falling back to findOne.");
-    build = await collection.findOne(filter);
-  }
-  if (build == null) {
-    return [`Nothing found for filter: ${JSON.stringify(filter)}, build=${JSON.stringify(build)}`];
+    console.log("No ongoing build found. Falling back to findOne.");
+    build = await collection.findOne(filter, {
+      sort: {
+        endTime: -1,
+      },
+    });
   }
 
-  const comMessage = build.comMessage;
-  if (comMessage === undefined) {
-    return [`comMessage undefined, build=${JSON.stringify(build)}`];
+  if (build == null) {
+    return [
+      `Nothing found for filter: ${JSON.stringify(
+        filter
+      )}, build=${JSON.stringify(build)}
+
+This might happen if the autobuilder is not set up on your fork.
+`,
+    ];
   }
-  const log = comMessage[0];
+
+  if (build?.logs === undefined) {
+    return [`build.logs undefined! build=${JSON.stringify(build)}`];
+  }
+
+  if (build?.logs.length === 0) {
+    return [`build.logs.length === 0! build=${JSON.stringify(build)}`];
+  }
+
+  const log = build?.logs.join("\n") as string;
+
   if (log === undefined) {
-    console.warn("Log not found!");
-    return undefined; // don't fail the PR
+    return [`log undefined?! build=${JSON.stringify(build)}`];
   }
-  const re = /ERROR.*/g;
+
+  console.log("Build completed at", build.endTime);
+  const re = /(?:WARNING|ERROR).*/g;
   const errors: string[] = [];
   for (let match = re.exec(log); match !== null; match = re.exec(log)) {
-    errors.push(match[0]);
+    errors.push((match as RegExpExecArray)[0]);
   }
+
   return errors.length > 0 ? errors : undefined;
 }
 
@@ -108,10 +151,11 @@ main()
   })
   .then((errors) => {
     if (errors === undefined) {
+      console.log("Build completed without errors.");
       process.exit(0);
     }
-    const unexpectedErrors = errors.filter(error => {
-      for (let re of expectedErrors) {
+    const unexpectedErrors = errors.filter((error) => {
+      for (const re of expectedErrors) {
         if (re.test(error)) {
           return false;
         }

@@ -12,6 +12,10 @@ content: |
        --header 'Authorization: Bearer <access_token>' \
        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts'
 
+  .. seealso::
+     
+     :admin-api-endpoint:`API Deployment Endpoints <tag/deploy>`
+
   .. important:: One Draft Per User
      
      Each user can only create a single draft at a time, either through
@@ -45,4 +49,11 @@ content: |
        --header 'Content-Type: application/json' \
        --header 'Authorization: Bearer <access_token>' \
        'https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps/{appId}/drafts/{draftId}/deployment'
-...
+
+  .. important:: Draft Conflicts
+     
+     If you deploy changes through the API but have conflicting changes in a draft in the UI,
+     your UI draft will become invalid and you will not be able to deploy it. 
+     You can download your UI draft by reviewing the draft in the  
+     :guilabel:`Deployment` page. You can use the download to deploy your changes in the
+     {+cli-bin+} or as a reference as you reapply changes in the UI.
