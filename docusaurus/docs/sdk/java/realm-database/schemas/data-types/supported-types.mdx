@@ -8,14 +8,19 @@ Realm Database supports the following field data types:
 - `Integer` or `int`
 - `Short` or `short`
 - `Long` or `long`
+- `Byte` or `byte[]`
 - `Double` or `double`
 - `Float` or `float`
 - `String`
-- `Char`
 - `Date`
 - `Decimal128` from `org.bson.types`
+- `ObjectId` from `org.bson.types`
+- `UUID` from `java.util.UUID`
 - Any `RealmObject` subclass
 - `RealmList`
+- `RealmAny`
+- `RealmSet`
+- `RealmDictionary`
 
 The `Byte`, `Short`, `Integer`, and `Long` types and their
 lowercase primitive alternatives are all stored as `Long` values
@@ -24,7 +29,7 @@ of the `Float` and `float` types as type `Double`.
 
 Realm Database does not support fields with modifiers `final` and
 `volatile`, though you can use fields with those modifiers if you
-[`ignore`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.annotations/-ignore/index.html)
+[`ignore`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/annotations/Ignore/)
 them. If you choose to provide custom constructors, you must declare a
 public constructor with no arguments.
 
@@ -34,3 +39,11 @@ Since Realm Database operates on fields as a whole, it's not possible
 to directly update individual elements of strings or byte arrays. Instead,
 you'll need to read the whole field, make your modification to individual
 elements, and then write the entire field back again in a transaction block.
+
+## Object IDs and UUIDs
+
+`ObjectId` and `UUID` (Universal Unique Identifier) both provide
+unique values that can be used as identifiers for objects.
+`ObjectId` is a [MongoDB-specific 12-byte unique value](https://docs.mongodb.com/manual/reference/method/ObjectId/).
+`UUID` is a [standardized](https://tools.ietf.org/html/rfc4122) 16-byte
+unique value. Both types are indexable and can be used as primary keys.

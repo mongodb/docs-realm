@@ -149,78 +149,114 @@ including decimal, float, and Decimal128.
 :::
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>between</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to <code>true</code> if the left-hand date is within the right-hand date range.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>==</code>, <code>=</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand expression is equal to the right-hand expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>></code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to <code>true</code> if the left-hand date is later than the right-hand date.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>>=</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to <code>true</code> if the left-hand date is later than or the same as the right-hand date.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>in</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand expression is in the right-hand list or string.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>&lt;</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to <code>true</code> if the left-hand date is earlier than the right-hand date.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>&lt;=</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to <code>true</code> if the left-hand date is earlier than or the same as the right-hand date.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>!=</code>, <code>&lt;&gt;=</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand expression is not equal to the right-hand expression.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`between`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to `true` if the left-hand date is within the right-hand date range.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`==`, `=`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand expression is equal to the right-hand expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`>`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand numerical or date expression is greater than the right-hand numerical or date expression. For dates, this evaluates to `true` if the left-hand date is later than the right-hand date.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`>=`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand numerical or date expression is greater than or equal to the right-hand numerical or date expression. For dates, this evaluates to `true` if the left-hand date is later than or the same as the right-hand date.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`in`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand expression is in the right-hand list or string.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`<`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand numerical or date expression is less than the right-hand numerical or date expression. For dates, this evaluates to `true` if the left-hand date is earlier than the right-hand date.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`<=`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand numeric expression is less than or equal to the right-hand numeric expression. For dates, this evaluates to `true` if the left-hand date is earlier than or the same as the right-hand date.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`!=`, `<>=`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand expression is not equal to the right-hand expression.
+
+</td>
+</tr>
 </table>
 
 #### Example
@@ -241,38 +277,54 @@ comparison operators to:
 You can make compound predicates using logical operators.
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>AND</code>, <code>&&</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if both left-hand and right-hand expressions are <code>true</code>.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>NOT</code>, <code>!</code>
-      </td>
-      <td>
-         Negates the result of the given expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>OR</code>, <code>||</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if either expression returns <code>true</code>.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`AND`, `&&`
+
+</td>
+<td>
+
+Evaluates to `true` if both left-hand and right-hand expressions are `true`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`NOT`, `!`
+
+</td>
+<td>
+
+Negates the result of the given expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`OR`, `||`
+
+</td>
+<td>
+
+Evaluates to `true` if either expression returns `true`.
+
+</td>
+</tr>
 </table>
 
 #### Example
@@ -280,7 +332,7 @@ You can make compound predicates using logical operators.
 We can use the query language's logical operators to find
 all of Ali's completed tasks. That is, we find all tasks
 where the `assignee` property value is equal to 'Ali' AND
-the `isComplete` property value is <code>true</code>:
+the `isComplete` property value is `true`:
 
 <CodeBlock language="javascript">{Logical}</CodeBlock>
 
@@ -300,70 +352,102 @@ You can use the following modifiers with the string operators:
 ```
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>beginsWith</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand string expression begins with the right-hand string expression. This is similar to <code>contains</code>, but only matches if the right-hand string expression is found at the beginning of the left-hand string expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>in</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand string expression is found anywhere in the right-hand string expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>contains</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the right-hand string expression is found anywhere in the left-hand string expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>endsWith</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand string expression ends with the right-hand string expression. This is similar to <code>contains</code>, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>like</code>
-      </td>
-      <td>
-       Evaluates to <code>true</code> if the left-hand string expression matches the right-hand string wildcard string expression. A wildcard string expression is a string that uses normal characters with two special wildcard characters, including <code>*</code> (matches zero or more of any character) and <code>?</code> (matches any character). For example, the wildcard string "d?g" matches "dog", "dig", and "dug", but not "ding", "dg", or "a dog".
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>==</code>, <code>=</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand string is lexicographically equal to the right-hand string.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>!=</code>, <code>&lt;&gt;</code>
-      </td>
-      <td>
-         Evaluates to <code>true</code> if the left-hand string is not lexicographically equal to the right-hand string.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`beginsWith`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string expression begins with the right-hand string expression. This is similar to `contains`, but only matches if the right-hand string expression is found at the beginning of the left-hand string expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`in`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string expression is found anywhere in the right-hand string expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`contains`
+
+</td>
+<td>
+
+Evaluates to `true` if the right-hand string expression is found anywhere in the left-hand string expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`endsWith`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string expression ends with the right-hand string expression. This is similar to `contains`, but only matches if the left-hand string expression is found at the very end of the right-hand string expression.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`like`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string expression matches the right-hand string wildcard string expression. A wildcard string expression is a string that uses normal characters with two special wildcard characters, including `*` (matches zero or more of any character) and `?` (matches any character). For example, the wildcard string "d?g" matches "dog", "dig", and "dug", but not "ding", "dg", or "a dog".
+
+</td>
+</tr>
+<tr>
+<td>
+
+`==`, `=`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string is lexicographically equal to the right-hand string.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`!=`, `<>`
+
+</td>
+<td>
+
+Evaluates to `true` if the left-hand string is not lexicographically equal to the right-hand string.
+
+</td>
+</tr>
 </table>
 
 #### Example
@@ -382,62 +466,86 @@ object. Aggregate operators traverse a collection and reduce it to a
 single value.
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>@avg</code>
-      </td>
-      <td>
-         Evaluates to the average value of a given numerical property across a collection.
-         If any values are <code>null</code>, they are not counted in the result.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>@count</code>
-      </td>
-      <td>
-         Evaluates to the number of objects in the given collection. This
-         is currently only supported on to-many relationship
-         collections and not on lists of primitives. In order to use <code>@count</code>
-         on a list of primitives, consider wrapping the primitives in a 
-         Realm object.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>@max</code>
-      </td>
-      <td>
-         Evaluates to the highest value of a given numerical property across a collection.
-         <code>null</code> values are ignored.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>@min</code>
-      </td>
-      <td>
-         Evaluates to the lowest value of a given numerical property across a collection.
-         <code>null</code> values are ignored.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>@sum</code>
-      </td>
-      <td>
-       Evaluates to the sum of a given numerical property across a collection,
-       excluding <code>null</code> values.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`@avg`
+
+</td>
+<td>
+
+Evaluates to the average value of a given numerical property across a collection.
+If any values are `null`, they are not counted in the result.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`@count`
+
+</td>
+<td>
+
+Evaluates to the number of objects in the given collection. This
+is currently only supported on to-many relationship
+collections and not on lists of primitives. In order to use `@count`
+on a list of primitives, consider wrapping the primitives in a 
+Realm object.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`@max`
+
+</td>
+<td>
+
+Evaluates to the highest value of a given numerical property across a collection.
+`null` values are ignored.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`@min`
+
+</td>
+<td>
+
+Evaluates to the lowest value of a given numerical property across a collection.
+`null` values are ignored.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`@sum`
+
+</td>
+<td>
+
+Evaluates to the sum of a given numerical property across a collection,
+excluding `null` values.
+
+</td>
+</tr>
 </table>
 
 #### Example
@@ -462,38 +570,54 @@ a given list property of
 the object.
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>ALL</code>
-      </td>
-      <td>
-         Returns objects where the predicate evaluates to <code>true</code> for all objects in the collection.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>ANY</code>, <code>SOME</code>
-      </td>
-      <td>
-         Returns objects where the predicate evaluates to <code>true</code> for any objects in the collection.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>NONE</code>
-      </td>
-      <td>
-         Returns objects where the predicate evaluates to false for all objects in the collection.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`ALL`
+
+</td>
+<td>
+
+Returns objects where the predicate evaluates to `true` for all objects in the collection.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`ANY`, `SOME`
+
+</td>
+<td>
+
+Returns objects where the predicate evaluates to `true` for any objects in the collection.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`NONE`
+
+</td>
+<td>
+
+Returns objects where the predicate evaluates to false for all objects in the collection.
+
+</td>
+</tr>
 </table>
 
 #### Example
@@ -511,48 +635,64 @@ You can use additional operators in your queries to sort and limit the
 results collection.
 
 <table>
-   <tr>
-      <th>
-         Operator
-      </th>
-      <th>
-         Description
-      </th>
-   </tr>
-   <tr>
-      <td>
-         <code>SORT</code>
-      </td>
-      <td>
-         Specify the name of the property to compare. You can optionally 
-         specify ascending (<code>ASC</code>) or descending (<code>DESC</code>) order.
-         If you specify multiple SORT fields, the query sorts by the first
-         field, and then the second. For example, if you <code>SORT (priority, name)</code>, 
-         the query returns sorted by priority, and then by name when priority
-         value is the same.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>DISTINCT</code>
-      </td>
-      <td>
-         Specify a name of the property to compare. Remove duplicates 
-         for that property in the results collection. If you specify multiple 
-         DISTINCT fields, the query removes duplicates by the first field, and 
-         then the second. For example, if you <code>DISTINCT (name, assignee)</code>, 
-         the query only removes duplicates where the values of both properties
-         are the same.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <code>LIMIT</code>
-      </td>
-      <td>
-         Limit the results collection to the specified number.
-      </td>
-   </tr>
+<tr>
+<th>
+
+Operator
+
+</th>
+<th>
+
+Description
+
+</th>
+</tr>
+<tr>
+<td>
+
+`SORT`
+
+</td>
+<td>
+
+Specify the name of the property to compare. You can optionally 
+specify ascending (`ASC`) or descending (`DESC`) order.
+If you specify multiple SORT fields, the query sorts by the first
+field, and then the second. For example, if you `SORT (priority, name)`, 
+the query returns sorted by priority, and then by name when priority
+value is the same.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`DISTINCT`
+
+</td>
+<td>
+
+Specify a name of the property to compare. Remove duplicates 
+for that property in the results collection. If you specify multiple 
+DISTINCT fields, the query removes duplicates by the first field, and 
+then the second. For example, if you `DISTINCT (name, assignee)`, 
+the query only removes duplicates where the values of both properties
+are the same.
+
+</td>
+</tr>
+<tr>
+<td>
+
+`LIMIT`
+
+</td>
+<td>
+
+Limit the results collection to the specified number.
+
+</td>
+</tr>
 </table>
 
 #### Example

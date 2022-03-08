@@ -217,7 +217,25 @@ const sidebars = {
           collapsible: true,
           collapsed: true,
           items: [
-            'sdk/java/realm-database/schemas/supported-types',
+            'sdk/java/realm-database/schemas/overview',
+            {
+              type: 'category',
+              label: 'Data Types',
+              collapsible: true,
+              collapsed: true,
+              items: [
+                'sdk/java/realm-database/schemas/data-types/supported-types',
+                'sdk/java/realm-database/schemas/data-types/collections',
+                'sdk/java/realm-database/schemas/data-types/counters',
+                'sdk/java/realm-database/schemas/data-types/enums',
+                'sdk/java/realm-database/schemas/data-types/embedded-objects',
+                'sdk/java/realm-database/schemas/data-types/realm-any',
+                'sdk/java/realm-database/schemas/data-types/realm-dictionary',
+                'sdk/java/realm-database/schemas/data-types/realm-set',
+              ],
+            },
+            'sdk/java/realm-database/schemas/relationships',
+            'sdk/java/realm-database/schemas/versions-and-migrations',
           ],
         }
       ],
@@ -242,6 +260,7 @@ const sidebars = {
             'sdk/java/app-services/sync/open-a-synced-realm'
           ],
         },
+        'sdk/java/app-services/functions',
       ],
     },
     'sdk/java/troubleshooting',
