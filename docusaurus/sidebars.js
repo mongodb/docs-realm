@@ -257,7 +257,9 @@ const sidebars = {
           collapsed: true,
           items: [
             'sdk/java/app-services/sync/overview',
-            'sdk/java/app-services/sync/open-a-synced-realm'
+            'sdk/java/app-services/sync/quick-start',
+            'sdk/java/app-services/sync/open-a-synced-realm',
+            'sdk/java/app-services/sync/reset-a-client-realm',
           ],
         },
         'sdk/java/app-services/functions',
