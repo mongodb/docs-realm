@@ -283,7 +283,7 @@ const sidebars = {
             'sdk/java/app-services/sync/open-a-synced-realm',
             'sdk/java/app-services/sync/reset-a-client-realm',
             'sdk/java/app-services/sync/flexible-sync',
-            'sdk/java/app-services/sync/manual-client-reset-data-recovery',
+            'sdk/java/app-services/sync/manual-client-reset-data-recover',
           ],
         },
         'sdk/java/app-services/functions',

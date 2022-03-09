@@ -35,8 +35,8 @@ see [API Key Authentication](https://docs.mongodb.com/realm/authentication/api-k
 
 ## Create a User API Key
 
-To create a new user API key, call [`user.apiKeyAuth.create()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#create-java.lang.String-)
-or [`user.apiKeyAuth.createAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#createAsync-java.lang.String-io.realm.mongodb.App.Callback-)
+To create a new user API key, call [`user.ApiKeyAuth.create()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#create-java.lang.String-)
+or [`user.ApiKeyAuth.createAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#createAsync-java.lang.String-io.realm.mongodb.App.Callback-)
 with a logged in user. The backend will associate the user API key with
 the logged in user. You can then use the key to interact with the
 backend on the user's behalf. You cannot create user API keys for
@@ -61,7 +61,7 @@ You will need to create a new user API key.
 ## Look up a User API Key
 
 To get a list of all user API keys associated with the logged in user,
-call [`user.apiKeyAuth.fetchAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll--):
+call [`user.ApiKeyAuth.fetchAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll--):
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
@@ -73,8 +73,8 @@ call [`user.apiKeyAuth.fetchAll()`](https://docs.mongodb.com/realm-sdks/java/lat
 </Tabs>
 
 To look up a specific user API key for the logged in user, pass the
-key's id to [`user.apiKeyAuth.fetch()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetch-ObjectId-)
-or [`user.apiKeyAuth.fetchAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAsync-ObjectId-io.realm.mongodb.App.Callback->):
+key's id to [`user.ApiKeyAuth.fetch()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetch-ObjectId-)
+or [`user.ApiKeyAuth.fetchAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAsync-ObjectId-io.realm.mongodb.App.Callback->):
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
@@ -93,8 +93,8 @@ Later, when they are needed again, you can enable them.
 ### Disable a User API Key
 
 To disable a specific user API key without deleting it, pass the
-key's id to [`user.apiKeyAuth.disable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disable-ObjectId-)
-or [`user.apiKeyAuth.disableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disableAsync-ObjectId-io.realm.mongodb.App.Callback-):
+key's id to [`user.ApiKeyAuth.disable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disable-ObjectId-)
+or [`user.ApiKeyAuth.disableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disableAsync-ObjectId-io.realm.mongodb.App.Callback-):
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
@@ -108,8 +108,8 @@ or [`user.apiKeyAuth.disableAsync()`](https://docs.mongodb.com/realm-sdks/java/l
 ### Enable a User API Key
 
 To enable a specific user API key that was previously disabled, pass the
-key's id to [`user.apiKeyAuth.enable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enable-ObjectId-)
-or [`user.apiKeyAuth.enableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enableAsync-ObjectId-io.realm.mongodb.App.Callback-):
+key's id to [`user.ApiKeyAuth.enable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enable-ObjectId-)
+or [`user.ApiKeyAuth.enableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enableAsync-ObjectId-io.realm.mongodb.App.Callback-):
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
@@ -123,8 +123,8 @@ or [`user.apiKeyAuth.enableAsync()`](https://docs.mongodb.com/realm-sdks/java/la
 ## Delete a User API Key
 
 To permanently remove a specific user API key, pass the
-key's id to [`user.apiKeyAuth.delete()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#delete-ObjectId-)
-or [`user.apiKeyAuth.deleteAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#deleteAsync-ObjectId-io.realm.mongodb.App.Callback-):
+key's id to [`user.ApiKeyAuth.delete()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#delete-ObjectId-)
+or [`user.ApiKeyAuth.deleteAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#deleteAsync-ObjectId-io.realm.mongodb.App.Callback-):
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
