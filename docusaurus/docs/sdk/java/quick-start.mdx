@@ -125,6 +125,8 @@ thread, and more.
 Once you have opened a realm, you can modify the
 objects within that realm in a write transaction.
 
+### Create
+
 To create a new `Task`, instantiate an instance of the
 `Task` class and add it to the realm in a write block:
 
@@ -137,6 +139,8 @@ To create a new `Task`, instantiate an instance of the
     </TabItem>
 </Tabs>
 
+### Read
+
 You can retrieve a live collection of all items in the realm:
 
 <Tabs groupId="java-sdk-languages">
@@ -148,8 +152,7 @@ You can retrieve a live collection of all items in the realm:
     </TabItem>
 </Tabs>
 
-You can also filter that collection using a filter:
-
+You can also filter that collection:
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
@@ -159,6 +162,8 @@ You can also filter that collection using a filter:
          <CodeBlock language="java">{FilterJava}</CodeBlock>
     </TabItem>
 </Tabs>
+
+### Update
 
 To modify a task, update its properties in a write transaction block:
 
@@ -170,6 +175,8 @@ To modify a task, update its properties in a write transaction block:
          <CodeBlock language="java">{UpdateJava}</CodeBlock>
     </TabItem>
 </Tabs>
+
+### Delete
 
 Finally, you can delete a task by calling the `deleteFromRealm()`
 method in a write transaction block:
@@ -202,8 +209,8 @@ method:
 ## Complete Example
 
 If you're running this project in a fresh Android Studio project, you can
-copy and paste this file into your application's `MainActivity` -- just
-remember to:
+copy and paste this file into your application's `MainActivity`.
+Remember to:
 
 - add a package declaration for your project
 
