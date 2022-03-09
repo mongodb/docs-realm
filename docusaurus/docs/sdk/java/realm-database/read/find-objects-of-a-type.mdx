@@ -5,28 +5,22 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
 import Intro from './_read-intro.md';
-import FindKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt';
-import FindJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java';
+import FindAllKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.kt';
+import FindAllJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.java';
 
 <Intro />
-
-To find an object with a specific primary key value, open a realm
-and query the primary key field for the desired primary key value
-using [`RealmQuery.equalTo()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmQuery/#equalto):
-
-<Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{FindKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{FindJava}</CodeBlock>
-    </TabItem>
-</Tabs>
 
 To find all objects of a type, open a realm
 and pass the type as a type parameter to [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html):
 
-<CodeBlock language="kotlin">{FindAll}</CodeBlock>
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{FindAllKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{FindAllJava}</CodeBlock>
+    </TabItem>
+</Tabs>
 
 :::note `find()` is Synchronous
 
