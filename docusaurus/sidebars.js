@@ -300,6 +300,7 @@ const sidebars = {
           collapsible: true,
           collapsed: true,
           items: [
+            'sdk/java/app-services/mongodb/overview',
             'sdk/java/app-services/mongodb/create',
             'sdk/java/app-services/mongodb/read',
             'sdk/java/app-services/mongodb/update',
