@@ -15,10 +15,11 @@ Quick Start with Expo - React Native SDK
 Overview
 --------
 
-The Realm Expo template provides a fully working React Native application that
-you can use to bootstrap your app development project with Realm. This
-documentation covers how to initialize, build and run the template on Android
-and iOS, and the template's file structure and core features. 
+The :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
+provides a fully working React Native application that you can use to bootstrap
+your app development project with Realm. This documentation covers how to
+initialize, build and run the template on both Android and iOS, and the template's
+file structure and core features. 
 
 
 Prerequisites
@@ -38,7 +39,6 @@ Run the following command in your terminal:
    
    npx create-react-native-app MyAwesomeRealmApp -t with-realm
 
-
 Explore The File Structure
 --------------------------
 
@@ -52,8 +52,43 @@ The relevant files are as follows:
    * - File
      - Purpose
 
-   * - TaskTracker
-     - A subclass of the Android :android:`Application <reference/android/app/Application>` class. Responsible for:
+   * - Task.ts
+     - A typescript file that defines a Task :ref:`object schema
+       <react-native-object-schemas>`, and returns a ``RealmProvider`` and the
+       ``Realm React Hooks``.
       
-   * - LoginActivity
-     - View launched whenever a user is not currently logged in. Allows users to create email/password accounts in the connected
+   * - App.ts
+     - The entry point to the application, which contains methods to create,
+       update, and delete tasks. The ``RealmProvider`` component wraps around
+       the ``App`` component, providing your entire application with access to
+       the {+realm+}.
+
+   * - TaskList.tsx
+     - A React component that gets a list of Task objects from the {+realm+} and renders each object as a TaskItem component.
+
+   * - TaskItem.tsx
+     - A React component that displays the task's description, a checkbox to
+       toggle the task's completion status, and a button to delete the task.
+
+Build and Run the Application
+-----------------------------
+
+To run your application on an :apple:`iOS simulator
+<documentation/xcode/running-your-app-in-the-simulator-or-on-a-device>`, run the
+following command from your application root:
+
+.. code-block:: shell
+   
+   npm run ios
+
+To run your application on an :android:`Android emulator <studio/run/emulator>`,
+run the following command from your application root:
+
+.. code-block:: shell
+   
+   npm run ios
+
+When the application builds, you will see something similar to the following image:
+
+.. image:: /images/realm-expo-template.png
+   :alt: Realm Expo Template on an iOS Simulator
