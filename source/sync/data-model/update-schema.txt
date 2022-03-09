@@ -16,24 +16,25 @@ Overview
 --------
 
 When developing an application using {+sync+}, you may need to make changes to
-your schema at some point: you have a new property to add to an already-synced 
-object, you decide to change the type stored in a property, or you now need to 
-make a property *required*, for example. 
+your schema at some point, such as when you: 
+
+- Need to add a new property to an already-synced object
+- Decide to change the type stored in a property
+- Have to change an optional property to *required* 
 
 To make it easier to understand how schema changes affect your app, we
 characterize them as "breaking" versus "non-breaking" changes.
 
-The {+service-short+} APIs provide for 
-non-breaking schema changes to synced realms, allowing old clients to
-sync with newer ones.
+The {+service-short+} APIs provide for non-breaking schema changes to synced 
+realms, allowing old clients to sync with newer ones.
 
 Breaking schema changes, however, take some planning and work, and should
 be avoided whenever possible.
 
-The difficulty with implementing a breaking schema changes is that older 
-clients (those that have not been updated to your new code and schema) still 
-need access to the data via the old schema definition, while clients that are 
-updated need to work with the new schema changes.
+Breaking schema changes are difficult because older clients (those that 
+have not been updated to your new code and schema) still need access to 
+the data via the old schema definition. Clients that are updated need to 
+work with the new schema changes.
 
 .. important:: Breaking and Non-Breaking may differ between server and client
 
@@ -68,7 +69,7 @@ changes.
 
 .. note:: Applying non-breaking changes to the client may require migration
 
-   When you __only__ make non-breaking changes to the server-side schema, 
+   When you _only_ make non-breaking changes to the server-side schema, 
    no additional action is required. However, if you then try to apply 
    these changes to your client object model, you may need to perform 
    a migration. If the client device has an existing realm file, you must
@@ -78,9 +79,9 @@ changes.
 Client Object Model Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One type of change is non-breaking when you make it on the object model, but 
-breaking when you make it the server side: removing a property from the 
-client object model.
+One type of change is non-breaking when you make it in the client object 
+model, but breaking when you make it in the server side schema: removing 
+a property from an object.
 
 To maintain backward compatibility, removing a property from a client-side 
 object model does not delete the property from the database. Instead, 
@@ -92,9 +93,13 @@ to the object model.
 
 However, if you remove a property from your object model and _also_ try to 
 remove it from your server-side schema, removing it from the server-side
-schema __is__ a breaking change. So you can safely remove a property from the 
+schema _is_ a breaking change. So you can safely remove a property from the 
 client-side object model as a non-breaking change, but trying to remove it 
 from the server-side schema is a breaking change.
+
+To avoid making a breaking change to the server-side schema, leave existing
+fields in place even if you remove them from the client-side object model.
+Then this operation is a non-breaking change.
 
 .. _destructive-changes-synced-schema:
 .. _breaking-changes-synced-schema:
@@ -103,8 +108,10 @@ Breaking Changes
 ----------------
 
 A breaking change is a change that you can make in your server-side
-schema that requires additional action to handle. The consequences of
-failing to handle these changes properly can be catastrophic to your app.
+schema that requires additional action to handle. Failing to handle these 
+changes properly can result in clients being unable to open a realm, or
+the appearance of data loss when server-side documents are unable to 
+sync to client-side applications.
 
 One example of a breaking change is a destructive change that requires you 
 to :ref:`terminate and re-enable Sync <terminating-realm-sync>`, and 
@@ -124,8 +131,8 @@ modify the server-side schema or the client object model:
 Server-Side Schema Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to the modifications above, some changes breaking changes when 
-you perform them on the server-side schema, but non-breaking when you 
+In addition to the modifications above, some changes are breaking changes 
+when you perform them on the server-side schema, but are non-breaking when you 
 perform them only on the object model. These changes include:
 
 - removing a required property from a class
@@ -135,9 +142,9 @@ perform them only on the object model. These changes include:
 Client Object Model Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Synchronized {+realms+} only support non-breaking changes to an object model. 
-Attempting to perform a breaking change on a synchronized 
-{+realm+} leads to errors like the following:
+Synchronized {+realms+} only support non-breaking changes to a client object 
+model. Attempting to perform a breaking change to a client object model on a 
+synchronized {+realm+} leads to errors like the following:
 
 .. code-block:: shell
 
@@ -156,9 +163,9 @@ How to Handle Breaking Changes
 If you are developing an application using Realm Sync and need to make a 
 breaking schema change, you have two choices: 
 
-- :ref:`Terminate sync <terminating-realm-sync>` in the backend and then :ref:`re-enable 
-   <enable-sync>` it, which triggers a :ref:`client reset <client-resets>`
-- Create a **"partner collection"**.
+- ref:`Terminate sync <terminating-realm-sync>` in the backend and then
+  :ref:`re-enable <enable-sync>` sync, which triggers a :ref:`client reset <client-resets>`
+- Create a **"partner collection"**
 
 When you terminate and re-enable Sync and perform a client reset, you must
 handle any unsynced changes on client devices. You can discard the changes,
@@ -184,13 +191,16 @@ To implement a breaking schema change, see :ref:`<migrate-schema-partner-collect
    support making these changes via Realm CLI or automated deploy with GitHub.
    Instead, you should make destructive changes in the Realm UI.
 
+Some Breaking Changes Require Additional Handling in Atlas
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 With some types of breaking changes, even after you terminate and re-enable 
 Sync and perform a client reset, you must do perform additional handling
 of existing Atlas documents to enable them to Sync with your client 
 applications. Without this additional handling, those documents do not Sync
 and it may appear in the client that the data has been lost.
 
-These breaking changesrequire additional handling of existing Atlas documents:
+These breaking changes require additional handling of existing Atlas documents:
 
 - Changing a property's type but keeping the same name
 - Changing a property's name
