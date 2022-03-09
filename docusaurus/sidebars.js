@@ -15,72 +15,60 @@
 const sidebars = {
   landing: [
     {
-      type: "category",
-      label: "Realm SDK Documentation",
+      type: 'category',
+      label: 'Realm SDK Documentation',
       collapsible: false,
       link: {
-        type: "doc",
-        id: "index",
+        type: 'doc',
+        id: 'index',
       },
       items: [
-        {
-          type: "link",
-          label: "Flutter",
-          href: "/sdk/flutter/intro",
-        },
-        {
-          type: "link",
-          label: "Kotlin",
-          href: "/sdk/kotlin/intro",
-        },
-        {
-          type: "link",
-          label: "Java",
-          href: "/sdk/java/intro",
-        },
+        'sdk/java/intro',
+        'sdk/kotlin/intro',
+        'sdk/flutter/intro',
       ],
     },
   ],
   getStarted: [
     {
-      type: "category",
-      label: "Get Started",
+      type: 'category',
+      label: 'Get Started',
       collapsible: false,
       link: {
         type: 'doc',
         id: 'get-started'
       },
       items: [
-        "get-started/introduction-backend",
-        "get-started/introduction-mobile",
-        "get-started/introduction-web",
+        'get-started/introduction-backend',
+        'get-started/introduction-mobile',
+        'get-started/introduction-web',
       ],
     },
   ],
   kotlin: [
     'sdk/kotlin/intro',
     {
-      type: "category",
-      label: "Install",
+      type: 'category',
+      label: 'Install',
       collapsible: true,
       collapsed: false,
       items: [
-        "sdk/kotlin/install/android",
-        "sdk/kotlin/install/kotlin-multiplatform",
+        'sdk/kotlin/install/android',
+        'sdk/kotlin/install/kotlin-multiplatform',
       ],
     },
     'sdk/kotlin/quick-start',
     {
-      type: "category",
-      label: "Realm Database",
+      type: 'category',
+      label: 'Realm Database',
       collapsible: true,
       collapsed: false,
       items: [
         'sdk/kotlin/realm-database/overview',
         'sdk/kotlin/realm-database/open-and-close-a-realm',
         {
-          type: "category",
-          label: "Create",
+          type: 'category',
+          label: 'Create',
           collapsible: true,
           collapsed: true,
           items: [
@@ -88,8 +76,8 @@ const sidebars = {
           ],
         },
         {
-          type: "category",
-          label: "Read",
+          type: 'category',
+          label: 'Read',
           collapsible: true,
           collapsed: true,
           items: [
@@ -100,8 +88,8 @@ const sidebars = {
           ],
         },
         {
-          type: "category",
-          label: "Update",
+          type: 'category',
+          label: 'Update',
           collapsible: true,
           collapsed: true,
           items: [
@@ -110,8 +98,8 @@ const sidebars = {
           ],
         },
         {
-          type: "category",
-          label: "Delete",
+          type: 'category',
+          label: 'Delete',
           collapsible: true,
           collapsed: true,
           items: [
@@ -124,8 +112,8 @@ const sidebars = {
         'sdk/kotlin/realm-database/write-transactions',
         'sdk/kotlin/realm-database/frozen-architecture',
         {
-          type: "category",
-          label: "Schemas",
+          type: 'category',
+          label: 'Schemas',
           collapsible: true,
           collapsed: true,
           items: [
@@ -272,8 +260,8 @@ const sidebars = {
       ],
     },
     {
-      type: "category",
-      label: "App Services",
+      type: 'category',
+      label: 'App Services',
       collapsible: true,
       collapsed: true,
       items: [
