@@ -333,14 +333,13 @@ describe("CRUD operations", () => {
     });
   });
 });
-describe("Watch for changes", () => {
-  jest.setTimeout(10000);
+describe.skip("Watch for changes", () => {
   const sleep = async (time) =>
     new Promise((resolve) => setTimeout(resolve, time));
   test("Watch for changes in a collection", async () => {
     await Promise.all([
       (async () => {
-        sleep(1000);
+        await sleep(500);
         plants.insertOne({
           _id: ObjectId(),
           name: "delphinium",
@@ -351,6 +350,7 @@ describe("Watch for changes", () => {
         });
       })(),
       (async () => {
+        let insertedDoc = false;
         // :snippet-start: watch-for-changes
         for await (const change of plants.watch()) {
           let breakAsyncIterator = false; // Later used to exit async iterator
@@ -360,6 +360,7 @@ describe("Watch for changes", () => {
           // :remove-end:
           switch (change.operationType) {
             case "insert": {
+              insertedDoc = true; // :remove:
               const { documentKey, fullDocument } = change;
               console.log(`new document: ${documentKey}`, fullDocument);
               breakAsyncIterator = true;
@@ -387,13 +388,14 @@ describe("Watch for changes", () => {
           if (breakAsyncIterator) break; // Exit async iterator
         }
         // :snippet-end:
+        expect(insertedDoc).toBe(true);
       })(),
     ]);
   });
   test("Watch for changes in a collection with a filter", async () => {
     await Promise.all([
       (async () => {
-        sleep(500);
+        await sleep(500);
         const perennial = await plants.findOne({ type: "perennial" });
         console.log(perennial);
         await plants.updateOne(
@@ -404,6 +406,7 @@ describe("Watch for changes", () => {
         );
       })(),
       (async () => {
+        let updatedDoc = false;
         // :snippet-start: watch-for-changes-with-filter
         for await (const change of plants.watch({
           filter: {
@@ -415,9 +418,11 @@ describe("Watch for changes", () => {
           const { documentKey, fullDocument } = change;
           console.log(`new document: ${documentKey}`, fullDocument);
           expect(fullDocument.name).toBe("daisy"); // :remove:
+          updatedDoc = true; // :remove:
           break; // Exit async iterator
         }
         // :snippet-end:
+        expect(updatedDoc).toBe(true);
       })(),
     ]);
   });

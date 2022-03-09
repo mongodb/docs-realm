@@ -10,7 +10,8 @@ on:
       - "docusaurus/**"
 
 jobs:
-  deploy:
+  production-deploy:
+    if: github.repository == 'mongodb/docs-realm'
     runs-on: ubuntu-latest
     env:
       DOCUSAURUS_URL: "http://realm-io.s3-website-us-east-1.amazonaws.com"

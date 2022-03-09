@@ -28,6 +28,7 @@ const navBar = {
         },
       ],
     },
+
     {
       type: "dropdown",
       label: "More",
@@ -47,8 +48,8 @@ const navBar = {
         },
         {
           href: "https://docs.mongodb.com/realm/cloud/",
-          label: "App Services"
-        }
+          label: "App Services",
+        },
       ],
     },
   ],
