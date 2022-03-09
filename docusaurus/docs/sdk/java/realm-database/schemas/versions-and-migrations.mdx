@@ -27,7 +27,7 @@ in the realm configuration when you open a realm. If a client
 application does not specify a version number when it opens a realm then
 the realm defaults to version `0`.
 
-::: important Increment Versions Monotonically
+:::important Increment Versions Monotonically
 Migrations must update a realm to a
 higher schema version. Realm Database will throw an error if a client
 application opens a realm with a schema version that is lower than

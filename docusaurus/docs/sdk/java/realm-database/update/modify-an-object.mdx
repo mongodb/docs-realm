@@ -1,28 +1,30 @@
 ---
 title: Modify an Object
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Modify from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.modify-an-object.kt';
+import UpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-an-object.kt';
+import UpdateJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-an-object.java';
 
-To modify an object stored within a realm:
+Within a transaction, you can update a Realm object the same
+way you would update any other object in your language of
+choice. Just assign a new value to the property or update
+the property.
 
-1. Open a write transaction with [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-   or [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+This code changes the turtle's name to "Archibald" and
+sets Archibald's age to 101 by assigning new values to properties:
 
-1. Query the transaction's mutable realm with [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
-   Specify the object type as a type parameter passed to `query()`.
-   To ensure your query returns the correct object, filter with unique
-   identifying information such as a primary key value.
-
-1. Change an object property within the
-   [write transaction](/sdk/kotlin/realm-database/write-transactions).
-   The SDK automatically persists changes to the realm.
-
-
-<CodeBlock language="kotlin">{Modify}</CodeBlock>
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{UpdateJava}</CodeBlock>
+    </TabItem>
+</Tabs>
 
 :::note
-
 You can only modify objects in a realm within a
-[write transaction](/sdk/kotlin/realm-database/write-transactions).
+[write transaction](/sdk/java/realm-database/write-transactions).
 :::

@@ -137,7 +137,7 @@ const sidebars = {
           collapsed: true,
           items: [
             'sdk/kotlin/app-services/sync/overview',
-            'sdk/kotlin/app-services/sync/open-a-synced-realm'
+            'sdk/kotlin/app-services/sync/open-a-synced-realm',
           ],
         },
       ],
@@ -159,6 +159,7 @@ const sidebars = {
     'sdk/java/install',
     'sdk/java/quick-start',
     `sdk/java/async-api`,
+    'sdk/java/android-livedata',
     {
       type: 'category',
       label: 'Realm Database',
@@ -166,7 +167,12 @@ const sidebars = {
       collapsed: false,
       items: [
         'sdk/java/realm-database/overview',
+        'sdk/java/realm-database/what-is-a-realm',
         'sdk/java/realm-database/open-and-close-a-realm',
+        'sdk/java/realm-database/query-language',
+        'sdk/java/realm-database/write-transactions',
+        'sdk/java/realm-database/filter-data',
+        'sdk/java/realm-database/notifications',
         {
           type: 'category',
           label: 'Create',
@@ -196,6 +202,7 @@ const sidebars = {
           items: [
             'sdk/java/realm-database/update/modify-an-object',
             'sdk/java/realm-database/update/upsert-an-object',
+            'sdk/java/realm-database/update/update-a-collection',
           ],
         },
         {
@@ -207,10 +214,9 @@ const sidebars = {
             'sdk/java/realm-database/delete/delete-an-object',
             'sdk/java/realm-database/delete/delete-multiple-objects',
             'sdk/java/realm-database/delete/delete-all-objects-of-a-type',
+            'sdk/java/realm-database/delete/delete-all',
           ],
         },
-        'sdk/java/realm-database/query-language',
-        'sdk/java/realm-database/write-transactions',
         {
           type: 'category',
           label: 'Schemas',
@@ -237,7 +243,10 @@ const sidebars = {
             'sdk/java/realm-database/schemas/relationships',
             'sdk/java/realm-database/schemas/versions-and-migrations',
           ],
-        }
+        },
+        'sdk/java/realm-database/freeze-objects',
+        'sdk/java/realm-database/bundle-a-realm',
+        'sdk/java/realm-database/encrypt-a-realm',
       ],
     },
     {
@@ -248,8 +257,21 @@ const sidebars = {
       items: [
         'sdk/java/app-services/overview',
         'sdk/java/app-services/connect',
-        'sdk/java/app-services/register-users',
-        'sdk/java/app-services/authenticate-users',
+        {
+          type: 'category',
+          label: 'Users',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'sdk/java/app-services/users/register-users',
+            'sdk/java/app-services/users/authenticate-users',
+            'sdk/java/app-services/users/user-api-keys',
+            'sdk/java/app-services/users/email-password-users',
+            'sdk/java/app-services/users/custom-user-data',
+            'sdk/java/app-services/users/link-users',
+            'sdk/java/app-services/users/multi-user-applications',
+          ],
+        },
         {
           type: 'category',
           label: 'Sync',
@@ -260,11 +282,16 @@ const sidebars = {
             'sdk/java/app-services/sync/quick-start',
             'sdk/java/app-services/sync/open-a-synced-realm',
             'sdk/java/app-services/sync/reset-a-client-realm',
+            'sdk/java/app-services/sync/flexible-sync',
+            'sdk/java/app-services/sync/manual-client-reset-data-recovery',
           ],
         },
         'sdk/java/app-services/functions',
       ],
     },
+    'sdk/java/threading',
+    'sdk/java/testing',
+    'sdk/java/logging',
     'sdk/java/troubleshooting',
     {
       type: 'link',

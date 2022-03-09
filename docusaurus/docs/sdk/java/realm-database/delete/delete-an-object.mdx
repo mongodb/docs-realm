@@ -1,27 +1,67 @@
 ---
 title: Delete an Object
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Delete from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.delete-an-object.kt';
+import DeleteKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-an-object.kt';
+import DeleteJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-an-object.java';
+import CascadeDeleteKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.cascading-deletes.kt';
+import CascadeDeleteJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.cascading-deletes.java';
 
-To delete an object from a realm:
+To delete an object from a realm, use either the dynamic or static
+versions of [`realmObject.deleteFromRealm()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmObject.html#deleteFromRealm())
 
-1. Open a write transaction with [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-   or [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+:::important Do not use objects after delete
+Realm Database throws an error if you try to use an object after
+it has been deleted.
+:::
 
-1. Query the transaction's mutable realm with [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
-   Specify the object type as a type parameter passed to `query()`.
-   Filter the set of returned objects by specifying a query. To ensure
-   your query returns the correct object, filter with unique identifying
-   information such as a primary key value.
+The following code shows how to delete one object from
+a realm with `deleteFromRealm()`:
 
-1. Delete the set of [`RealmResults`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-results/index.html)
-   returned by the query with [`realmResults.delete()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-results/delete.html).
-
-<CodeBlock language="kotlin">{Delete}</CodeBlock>
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{DeleteKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{DeleteJava}</CodeBlock>
+    </TabItem>
+</Tabs>
 
 :::note
 
-You can only delete objects in a realm within a
-[write transaction](/sdk/kotlin/realm-database/write-transactions).
+You can only delete objects from a realm within a
+[write transaction](/sdk/java/realm-database/write-transactions).
+:::
+
+## Delete an Object and its Dependent Objects
+
+Sometimes, you have related objects that you want to delete when
+you delete an object. Realm Database does not delete related
+objects for you. If you do not delete the objects yourself,
+they will remain orphaned in your realm. This may or may not be a problem
+in your application.
+
+Currently, the best way to delete dependent objects is to
+iterate through the dependencies and delete them before
+deleting the parent object.
+
+The following code demonstrates how to delete related objects, then a
+parent object, by first deleting all of Ali's turtles,
+then deleting Ali:
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{CascadeDeleteKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{CascadeDeleteJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+:::note
+
+You can only delete objects from a realm within a
+[write transaction](/sdk/java/realm-database/write-transactions).
 :::

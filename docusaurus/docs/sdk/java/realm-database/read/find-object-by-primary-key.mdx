@@ -1,21 +1,24 @@
 ---
 title: Find Object by Primary Key
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Find from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.find-object-by-primary-key.kt';
+import Intro from './_read-intro.md';
+import FindKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt';
+import FindJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java';
+
+<Intro />
 
 To find an object with a specific primary key value, open a realm
 and query the primary key field for the desired primary key value
-using [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
-Specify the object type as a type parameter passed to `query()`:
+using [`RealmQuery.equalTo()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmQuery/#equalto):
 
-<CodeBlock language="kotlin">{Find}</CodeBlock>
-
-:::note `find()` is Synchronous
-
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
-runs a synchronous query on the thread it is called from.
-As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
-in time sensitive environments.
-:::
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{FindKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{FindJava}</CodeBlock>
+    </TabItem>
+</Tabs>

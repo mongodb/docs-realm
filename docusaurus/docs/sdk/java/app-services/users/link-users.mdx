@@ -1,0 +1,34 @@
+---
+title: Link Users
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import LinkKotlin from '!!raw-loader!@site/docs/generated/java/sync/LinkUserIdentitiesTest.codeblock.link-users.kt';
+import LinkJava from '!!raw-loader!@site/docs/generated/java/sync/LinkUserIdentitiesTest.codeblock.link-users.java';
+
+The SDK provides multiple authentication providers to log users into your
+app. Each provider creates a unique user identity.
+You can merge multiple credentials into one user identity.
+
+## Example
+
+Consider an application that offers anonymous login. This allows users
+to explore the app without registering. If users like the application,
+they create permanent accounts. They sign up with SSO or email/password
+authentication. By default,  this creates a new user object. The app
+must link the new identity with the original anonymous user credential.
+
+You can link identities using
+[`user.linkCredentials()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/User.html#linkCredentials-io.realm.mongodb.Credentials-)
+or [`user.linkCredentialsAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/User.html#linkCredentialsAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback-).
+This links authentication providers to a logged-in user object.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{LinkKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{LinkJava}</CodeBlock>
+    </TabItem>
+</Tabs>

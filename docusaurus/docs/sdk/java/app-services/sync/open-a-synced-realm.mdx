@@ -5,11 +5,6 @@ import CodeBlock from '@theme/CodeBlock';
 import Open from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt';
 import Configure from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt';
 
-:::note Flexible Sync
-
-The Kotlin SDK does not yet support Flexible Sync. You can currently
-only use the SDK with Partition-Based Sync applications.
-:::
 
 ## Prerequisites
 
@@ -25,21 +20,113 @@ Before you can access a synced realm from the client, you must:
 1. [Authenticate a user](sdk/kotlin/app-services/authenticate-users) in
    your client project.
 
-Open a Synced Realm
--------------------
+Synced {+realm+}s use {+sync+} to store data both on the client device
+and in your synced data source. Opening a synced {+realm+} works exactly
+like opening a local {+realm+}, except you use ``SyncConfiguration``
+to customize the settings for synced {+realm+}s.
 
-To open a synced {+realm+}, pass a user, a partition, and a set of
-Realm object schemas to
-[`SyncConfiguration.Builder()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/-builder.html).
-Then, pass the configuration to [`Realm.open()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/open.html)
-to open an instance of the realm:
 
-<CodeBlock language="kotlin">{Open}</CodeBlock>
+Synced Realm Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Configure a Synced Realm
-------------------------
+To configure settings for a {+realm+}, create a
+:java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` with a
+:java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`.
+The following example configures a synced {+realm+} with:
 
-To adjust specific configuration settings, use the options provided by
-[`SyncConfiguration.Builder`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/index.html):
+- partition-based {+sync+}
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- explicit waiting for all backend changes to synchronize to the device
+  before returning an open {+realm+}
+- automatic compaction when launching the {+realm+} to save file space
 
-<CodeBlock language="kotlin">{Configure}</CodeBlock>
+.. important:: Production Applications Should Handle Client Resets
+
+   Applications used in production environments should handle client
+   reset errors. To learn more, see :ref:`Reset a Client Realm
+   <java-client-resets>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.kt
+         :language: kotlin
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.java
+         :language: java
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Realms <java-realms>`
+
+.. _java-open-a-synced-realm:
+.. _java-open-a-synced-realm-while-online:
+
+Open a Synced Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/java-open-synced-realm.rst
+
+.. _java-open-a-synced-realm-while-offline:
+
+Open a Synced Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a synced {+realm+} when offline with the exact same syntax
+that you use to :ref:`open a synced realm while online
+<java-open-a-synced-realm-while-online>`. Not all SDKs follow this
+pattern, so cross-platform developers should consult the documentation
+for each SDK to learn more.
+
+.. _java-flexible-sync-open-realm:
+
+Open a Synced Realm with a Flexible Sync Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When your application uses Flexible Sync, call
+the :java-sdk:`initialSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#initialSubscriptions(io.realm.mongodb.sync.SyncConfiguration.InitialFlexibleSyncSubscriptions)>`
+sync configuration builder method
+with an instance of
+:java-sdk:`SyncConfiguration.InitialFlexibleSyncSubscriptions()
+<io/realm/mongodb/sync/SyncConfiguration.InitialFlexibleSyncSubscriptions.html>`
+to open a synced realm. While partition-based Sync requires a partition
+value when you instantiate your ``SyncConfiguration``, you should omit
+the partition value when you use Flexible Sync. In the ``configure()`` method, instantiate
+an ``UnmanagedSubscription`` with a name and query using
+:java-sdk:`Subscription.create()
+<io/realm/mongodb/sync/Subscription.html#create(java.lang.String,io.realm.RealmQuery)>`.
+Pass your new subscription
+to the ``add()`` method of the :java-sdk:`MutableSubscriptionSet
+<io/realm/mongodb/sync/MutableSubscriptionSet.html>`
+parameter to add it to your subscriptions:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.java
+         :language: java
+         :copyable: false
+
+.. seealso::
+
+   For more information about subscriptions, see
+   :ref:`Subscribe to Queryable Fields <java-sync-subscribe-to-queryable-fields>`.
+

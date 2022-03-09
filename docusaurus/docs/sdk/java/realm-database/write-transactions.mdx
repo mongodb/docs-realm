@@ -1,8 +1,11 @@
 ---
 title: Write Transactions
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Transaction from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.run-a-transaction.kt';
+import TransactionKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.kt';
+import TransactionJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.java';
 
 ## Overview
 
@@ -60,4 +63,11 @@ If the code in the callback throws an exception, Realm
 cancels the transaction. Otherwise, Realm commits the
 transaction.
 
-<CodeBlock language="kotlin">{Transaction}</CodeBlock>
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{TransactionKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{TransactionJava}</CodeBlock>
+    </TabItem>
+</Tabs>

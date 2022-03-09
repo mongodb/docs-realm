@@ -1,33 +1,30 @@
 ---
 title: Sort Queries
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Sort from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.sort.kt';
+import Intro from './_read-intro.md';
+import SortKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.sort-results.kt';
+import SortJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.sort-results.java';
 
-To sort results, specify a sort in the query passed to
-[`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html)
-with the `SORT` keyword. Similarly, use `DISTINCT`
-to constrain results to unique values of a field, and
-`LIMIT` to cap the number of results. The SDK
-provides convenience methods on `RealmQuery` so you don't have
-to manually write the keywords:
+<Intro />
 
-- [`realmQuery.sort()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/sort.html)
-- [`realmQuery.distinct()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/distinct.html)
-- [`realmQuery.limit()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/limit.html)
+A **sort** operation allows you to configure the order in
+which Realm Database returns queried objects. You can sort based on
+one or more properties of the objects in the results collection.
 
-When used on the same query in both RQL and method form, `SORT`,
-`DISTINCT`, and `LIMIT` execute in the order they're added
-to the query. This can impact the results returned from your query.
+The SDK only guarantees a consistent order of results when the
+results are sorted.
 
+The following code sorts the projects by name in reverse
+alphabetical order (i.e. "descending" order).
 
-<CodeBlock language="kotlin">{Sort}</CodeBlock>
-
-:::note `find()` is Synchronous
-
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
-runs a synchronous query on the thread it is called from.
-As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
-in time sensitive environments.
-:::
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{SortKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{SortJava}</CodeBlock>
+    </TabItem>
+</Tabs>

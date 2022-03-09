@@ -1,32 +1,54 @@
 ---
 title: Upsert an Object
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Upsert from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.upsert-an-object.kt';
+import UpsertKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.kt';
+import UpsertJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.java';
+import CopyOrUpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt';
+import CopyOrUpdateJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java';
 
-The **upsert** operation either inserts a new instance of an object or
-updates an existing object that meets certain criteria.
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+realm. Upserting is an elegant way to update existing entries while
+adding any new entries.
 
-To upsert into a realm:
+This code demonstrates how to upsert an object with
+realm. We create a new turtle enthusiast named "Drew" and then
+update their name to "Andy" using [`insertOrUpdate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#insertOrUpdate-io.realm.RealmModel-):
 
-1. Open a write transaction with [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-   or [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{UpsertKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{UpsertJava}</CodeBlock>
+    </TabItem>
+</Tabs>
 
-1. Query the transaction's mutable realm with [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
-   Specify the object type as a type parameter passed to `query()`.
-   Filter your criteria with unique identifying criteria for the
-   object you want to upsert.
+You can also use [`copyToRealmOrUpdate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...-)
+to either create a new object based on a supplied object or update an
+existing object with the same primary key value. Use
+[`ImportFlag.CHECK_SAME_VALUES_BEFORE_SET`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/ImportFlag.html#CHECK_SAME_VALUES_BEFORE_SET)
+to only update fields that are different in the supplied object.
 
-1. Insert a new object with the same primary key as the object returned
-   by the previous query (if it exists) with [`copyToRealm()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/copy-to-realm.html).
-   If an object matching your filter already exists, realm updates the
-   existing object. If no object exists that matches your filter, realm
-   inserts a new object.
+This code demonstrates how to insert an object or, if an object already
+exists with the same primary key, update only those fields that differ:
 
-<CodeBlock language="kotlin">{Upsert}</CodeBlock>
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{CopyOrUpdateKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{CopyOrUpdateJava}</CodeBlock>
+    </TabItem>
+</Tabs>
 
 :::note
-
 You can only modify objects in a realm within a
-[write transaction](/sdk/kotlin/realm-database/write-transactions).
+[write transaction](/sdk/java/realm-database/write-transactions).
 :::
