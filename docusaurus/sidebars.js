@@ -25,13 +25,18 @@ const sidebars = {
       items: [
         {
           type: "link",
-          label: "Flutter", // The link label
-          href: "/sdk/flutter/intro", // The internal path
+          label: "Flutter",
+          href: "/sdk/flutter/intro",
         },
         {
           type: "link",
-          label: "Kotlin", // The link label
-          href: "/sdk/kotlin/intro", // The internal path
+          label: "Kotlin",
+          href: "/sdk/kotlin/intro",
+        },
+        {
+          type: "link",
+          label: "Java",
+          href: "/sdk/java/intro",
         },
       ],
     },
