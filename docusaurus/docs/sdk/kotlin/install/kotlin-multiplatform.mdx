@@ -1,10 +1,10 @@
 ---
 title: Install (Kotlin Multiplatform)
 ---
+import {variables} from '@site/variables';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import PrerequisitesKotlin from './_markdown-prerequisites-kotlin.mdx';
-import {variables} from '@site/variables';
 
 
 ## Prerequisites
@@ -37,7 +37,7 @@ file, typically found at `<project>/shared/build.gradle.kts`:
 
 <!--- Credit for variable in code blocks solution: https://github.com/facebook/Docusaurus/issues/395#issuecomment-633686061 --->
 <pre><code parentName="pre" {...{
-            "className": "language-kotlin"
+            "language": "kotlin"
           }}>
 {`
 plugins {
@@ -121,7 +121,7 @@ to the `buildscript.dependencies` block of your project-level
 Gradle build file, typically found at `<project>/build.gradle.kts`:
 
 <pre><code parentName="pre" {...{
-            "className": "language-kotlin"
+            "language": "kotlin"
           }}>
 {`
 buildscript {
@@ -151,7 +151,7 @@ tasks.register("clean", Delete::class) {
 `}
 </code></pre>
 
-</TabItem>
+  </TabItem>
   <TabItem value="sync" label="Sync">
 
 To add Realm Database and Sync to your application, make
@@ -166,7 +166,7 @@ file, typically found at `shared/build.gradle.kts`:
 - Add `io.realm.kotlin` to your list of plugins.
 
 <pre><code parentName="pre" {...{
-            "className": "language-kotlin"
+            "language": "kotlin"
           }}>
 {`
 plugins {
@@ -251,7 +251,7 @@ to the `buildscript.dependencies` block of your project-level
 Gradle build file, typically found at `<project>/build.gradle.kts`:
 
 <pre><code parentName="pre" {...{
-            "className": "language-kotlin"
+            "language": "kotlin"
           }}>
 {`
 buildscript {

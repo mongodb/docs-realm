@@ -1,0 +1,65 @@
+---
+title: 'Create'
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import InsertKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.kt';
+import InsertJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.java';
+import InsertMultipleKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.kt';
+import InsertMultipleJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.java';
+
+These code snippets demonstrate how to insert one or more
+documents into a MongoDB collection from a mobile application. Insert
+operations take a document or documents to add to MongoDB as an argument
+and return a [`RealmResultTask`](/sdk/java/async-api/#realmresulttask)
+that resolves to an object that contains the results of the operation.
+
+## Insert a Single Document
+
+You can insert a single document using
+[`collection.insertOne()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#insertOne-DocumentT-).
+
+The following snippet inserts a single document describing a "lily of the
+valley" plant into a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores:
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{InsertKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{InsertJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
+```
+
+## Insert Multiple Documents
+
+You can insert multiple documents at the same time using
+[`collection.insertMany()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#insertMany-java.util.List-).
+
+The following snippet inserts three documents describing plants into a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores:
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{InsertMultipleKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{InsertMultipleJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: successfully inserted 3 documents into the collection.
+```

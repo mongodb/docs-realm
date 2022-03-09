@@ -4,23 +4,21 @@ title: Supported Types
 
 Realm Database supports the following field data types:
 
-- `Boolean` or `boolean`
-- `Integer` or `int`
-- `Short` or `short`
-- `Long` or `long`
-- `Double` or `double`
-- `Float` or `float`
+- `Boolean`
+- `Integer`
+- `Short`
+- `Long`
+- `Double`
+- `Float`
 - `String`
 - `Char`
 - `Date`
-- `Decimal128` from `org.bson.types`
 - Any `RealmObject` subclass
 - `RealmList`
 
-The `Byte`, `Short`, `Integer`, and `Long` types and their
-lowercase primitive alternatives are all stored as `Long` values
-within Realm Database. Similarly, Realm Database stores objects
-of the `Float` and `float` types as type `Double`.
+The `Byte`, `Short`, `Integer`, and `Long` types are all stored as
+`Long` values within Realm Database. Similarly, Realm Database stores
+objects of the `Float` and `float` types as type `Double`.
 
 Realm Database does not support fields with modifiers `final` and
 `volatile`, though you can use fields with those modifiers if you
