@@ -25,7 +25,6 @@ const sidebars = {
       items: [
         'sdk/java/intro',
         'sdk/kotlin/intro',
-        'sdk/flutter/intro',
       ],
     },
   ],
