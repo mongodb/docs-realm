@@ -1,0 +1,133 @@
+---
+title: Read
+---
+
+Read Documents
+--------------
+
+These code snippets demonstrate how to read data stored in a MongoDB
+collection from a mobile application. Read operations use :manual:`queries
+</core/document/#document-query-filter>` to specify which documents to
+return from the database. Read operations return a
+:android:`Task <reference/com/google/android/play/core/tasks/Task>` that resolves to
+either a single matched document (in the case of ``findOne()``), a ``long``
+numeric value (in the case of ``count()``) or an iterator that allows you to
+traverse the collection of matched documents (in the case of ``find()``).
+
+.. _java-mongodb-findOne:
+
+Find a Single Document
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can find a single document using :java-sdk:`collection.findOne()
+<io/realm/mongodb/mongo/MongoCollection.html#findOne-->`.
+
+The following snippet finds a single document from the a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>` where the plant document's ``type``
+field contains the string value "perennial":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output similar to the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully found a document: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
+
+.. _java-mongodb-findMany:
+
+Find Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can find multiple documents using :java-sdk:`collection.find()
+<io/realm/mongodb/mongo/MongoCollection.html#find-->`.
+
+The following snippet finds all documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>` that contain a field named
+``_partition`` with a value of "Store 42":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully found all plants for Store 42:
+   V/EXAMPLE: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, partition=Store 42]
+   V/EXAMPLE: Plant [id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, partition=Store 42]
+
+.. _java-mongodb-count:
+
+Count Documents in the Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can count documents in a collection using
+:java-sdk:`collection.count()
+<io/realm/mongodb/mongo/MongoCollection.html#count-->`.
+You can specify an optional query to
+determine which documents to count. If you don't specify a query, the
+action counts all documents in the collection.
+
+The following snippet counts the number of documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.count-documents.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.count-documents.java
+         :language: java
+         :copyable: false
+
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully counted, number of documents in the collection: 5
+
+.. _java-mongodb-update-documents:

@@ -167,12 +167,22 @@ const sidebars = {
       collapsed: false,
       items: [
         'sdk/java/realm-database/overview',
-        'sdk/java/realm-database/what-is-a-realm',
-        'sdk/java/realm-database/open-and-close-a-realm',
         'sdk/java/realm-database/query-language',
         'sdk/java/realm-database/write-transactions',
         'sdk/java/realm-database/filter-data',
         'sdk/java/realm-database/notifications',
+        {
+          type: 'category',
+          label: 'Realms',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'sdk/java/realm-database/realms/overview',
+            'sdk/java/realm-database/realms/open-and-close-a-realm',
+            'sdk/java/realm-database/realms/bundle-a-realm',
+            'sdk/java/realm-database/realms/encrypt-a-realm',
+          ],
+        },
         {
           type: 'category',
           label: 'Create',
@@ -245,8 +255,6 @@ const sidebars = {
           ],
         },
         'sdk/java/realm-database/freeze-objects',
-        'sdk/java/realm-database/bundle-a-realm',
-        'sdk/java/realm-database/encrypt-a-realm',
       ],
     },
     {
@@ -263,7 +271,6 @@ const sidebars = {
           collapsible: true,
           collapsed: true,
           items: [
-            'sdk/java/app-services/users/register-users',
             'sdk/java/app-services/users/authenticate-users',
             'sdk/java/app-services/users/user-api-keys',
             'sdk/java/app-services/users/email-password-users',
@@ -287,6 +294,20 @@ const sidebars = {
           ],
         },
         'sdk/java/app-services/functions',
+        {
+          type: 'category',
+          label: 'Query MongoDB',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            'sdk/java/app-services/mongodb/create',
+            'sdk/java/app-services/mongodb/read',
+            'sdk/java/app-services/mongodb/update',
+            'sdk/java/app-services/mongodb/delete',
+            'sdk/java/app-services/mongodb/watch',
+            'sdk/java/app-services/mongodb/aggregate',
+          ],
+        },
       ],
     },
     'sdk/java/threading',

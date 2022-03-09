@@ -1,0 +1,91 @@
+---
+title: 'Create'
+---
+
+
+.. _java-mongodb-create-documents:
+
+Create Documents
+----------------
+
+These code snippets demonstrate how to insert one or more
+documents into a MongoDB collection from a mobile application. Insert
+operations take a document or documents to add to MongoDB as an argument
+and return a :java-sdk:`RealmResultTask
+<io/realm/mongodb/RealmResultTask.html>` that resolves to an object that
+contains the results of the execution of the operation.
+
+.. _java-mongodb-insertOne:
+
+Insert a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert a single document using
+:java-sdk:`collection.insertOne()
+<io/realm/mongodb/mongo/MongoCollection.html#insertOne-DocumentT->`.
+
+The following snippet inserts a single document describing a "lily of the
+valley" plant into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
+
+.. _java-mongodb-insertMany:
+
+Insert Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert multiple documents at the same time using
+:java-sdk:`collection.insertMany()
+<io/realm/mongodb/mongo/MongoCollection.html#insertMany-java.util.List->`.
+
+The following snippet inserts three documents describing plants into a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>`:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully inserted 3 documents into the collection.
+
+.. _java-mongodb-read-documents:

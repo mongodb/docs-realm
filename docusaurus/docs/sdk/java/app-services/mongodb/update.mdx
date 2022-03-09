@@ -1,0 +1,141 @@
+---
+title: 'Update'
+---
+
+
+Update Documents
+----------------
+
+These code snippets demonstrate how to update data stored in a MongoDB
+collection from a mobile application. Update operations use queries
+to specify which documents to update and :manual:`update operators
+</reference/operator/update>` to describe how to mutate documents that
+match the query. Update operations return a :android:`Task
+<reference/com/google/android/play/core/tasks/Task>` that resolves to an object
+that contains the results of the execution of the operation.
+
+.. _java-mongodb-updateOne:
+
+Update a Single Document
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update a single document using
+:java-sdk:`collection.updateOne()
+<io/realm/mongodb/mongo/MongoCollection.html#updateOne-Bson-Bson->`.
+
+The following snippet updates a single document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>`. This operation queries for a document
+where the ``name`` field contains the value "petunia" and changes the value
+of the first matched document's ``sunlight`` field to "partial":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully updated a document.
+
+.. _java-mongodb-updateMany:
+
+Update Multiple Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update multiple documents using
+:java-sdk:`collection.updateMany()
+<io/realm/mongodb/mongo/MongoCollection.html#updateMany-Bson-Bson->`.
+
+The following snippet updates multiple documents in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>`. This operation queries for documents
+where the ``_partition`` field contains the value "Store 47" and changes
+the value of the ``_partition`` field of each matching document to "Store 51":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully updated 2 documents.
+
+.. _java-mongodb-upsert:
+
+Upsert Documents
+~~~~~~~~~~~~~~~~
+
+If an update operation does not match any document in the collection,
+you can automatically insert a single new document into the collection
+that matches the update query by setting the ``upsert`` option to
+``true``.
+
+The following snippet updates a document in a
+:ref:`collection of documents that describe plants for sale in a group of stores
+<java-mongodb-example-dataset>` or inserts a
+new document if no document matches the query. This operation
+queries for documents where:
+
+- the ``sunlight`` field has a value of "full"
+- the ``type`` field has a value of "perennial"
+- the ``color`` field has a value of "green"
+- the ``_partition`` field has a value of "Store 47"
+
+Because this snippet sets the ``upsert`` option to ``true``, if no
+document matches the query, MongoDB creates a new document that includes
+both the query and specified updates:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.java
+         :language: java
+         :copyable: false
+
+Running this snippet produces output resembling the following:
+
+.. code-block:: text
+   :copyable: false
+
+   V/EXAMPLE: successfully upserted a document with id: BsonObjectId{value=5f19...}
+
+.. _java-mongodb-delete-documents:
