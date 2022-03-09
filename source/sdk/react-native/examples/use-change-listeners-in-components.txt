@@ -15,12 +15,19 @@ Use Change Listeners In Components - React Native SDK
 
 Overview
 --------
-You can copy your {+service-short+} objects to your component's :reactjs:`state
+
+A best practice is to copy {+service-short+} objects to your component's :reactjs:`state
 <docs/state-and-lifecycle.html>`. However, since {+service-short+} objects are
 live and automatically update in response to changes, you must update the copies
 of them to prevent your UI from drifting out of date with underlying data. You can do this by
 registering a :ref:`change listener <react-native-change-notifications>` in your
-component and updating the state variable when that listener fires.  
+component and updating the state variable when that listener fires.
+
+The Realm React Native SDK does not provide first class support for
+global state management systems like `Redux <https://redux.js.org/>`_. 
+
+Learn more about change listener APIs in the
+:ref:`React to Changes<react-native-react-to-changes>` documentation.
 
 .. warning::
 
@@ -33,18 +40,23 @@ component and updating the state variable when that listener fires.
    within a :mdn:`try...catch <Web/JavaScript/Reference/Statements/try...catch>` statement. 
 
 Procedure
-~~~~~~~~~
-To keep your UI up-to-date with changes to underlying {+service-short+} objects,
-declare a state variable for your {+service-short+} objects using the
-:reactjs:`useState() <docs/hooks-state.html>` hook.
+---------
 
-Within the :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
-the initial value of your objects. Then declare a change listener on the
-{+service-short+} objects.
+#. To keep your UI up-to-date with changes to underlying {+service-short+} objects,
+   declare a state variable for your {+service-short+} objects using the
+   :reactjs:`useState() <docs/hooks-state.html>` hook.
 
-Finally, return an anonymous cleanup function that you can use to remove the
-change listener and close the {+service-short+}. React.js will call this cleanup function when
-the component unmounts.
+#. Within the :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
+   the initial value of your objects. Then declare a change listener on the
+   {+service-short+} objects.
+
+#. Finally, return an anonymous cleanup function that you can use to remove the
+   change listener and close the {+service-short+}. React.js will call this cleanup function when
+   the component unmounts.
+
+If you need to access Realm objects in other components further down the component tree,
+pass the state variable for your Realm object as a prop or use 
+:reactjs:`React Context <docs/context.html>`. 
 
 .. example::
 

@@ -1,4 +1,4 @@
-title: Add the Realm Dependency to the Project-Level ``build.gradle`` File
+title: Add the Realm Dependency to the Project-Level :file:`build.gradle` File
 ref: add-realm-dependency-project-level-gradle
 content: |
 
@@ -8,7 +8,7 @@ content: |
    .. image:: /images/android-studio-project-view.png
       :alt: The project view is in the top-left panel.
 
-   Open the project-level ``build.gradle`` file:
+   Open the project-level :file:`build.gradle` file:
 
    .. image:: /images/project-level-build-gradle.png
       :alt: Location of the project-level build.gradle file.
@@ -49,7 +49,7 @@ content: |
     
       classpath "io.realm:realm-gradle-plugin:{+android-sdk-version+}"
 
-   When done, your project-level ``build.gradle`` should look something like this:
+   When done, your project-level :file:`build.gradle` should look something like this:
 
    .. tabs::
       :hidden:
@@ -117,13 +117,13 @@ content: |
             }
 
 ---
-title: Add Realm to the Application-Level ``build.gradle`` File
+title: Add Realm to the Application-Level :file:`build.gradle` File
 ref: add-realm-to-app-level-gradle
 content: |
 
    Expand the ``app`` folder on the "Project" view in the
    top-left panel to reveal the application files. Open the
-   application-level ``build.gradle`` file in this folder:
+   application-level :file:`build.gradle` file in this folder:
 
    .. image:: /images/application-level-build-gradle.png
       :alt: Location of the application-level build.gradle file.
@@ -136,7 +136,7 @@ content: |
       apply plugin: 'kotlin-kapt'
 
    Apply the ``realm-android`` plugin near the top of your application
-   level ``build.gradle`` file:
+   level :file:`build.gradle` file:
 
    .. code-block:: groovy
 
@@ -168,7 +168,7 @@ content: |
          syncEnabled = true
       }
 
-   When done, your application-level ``build.gradle`` file should look
+   When done, your application-level :file:`build.gradle` file should look
    something like this:
 
    .. tabs-realm-languages::
@@ -259,7 +259,7 @@ content: |
       :ref:`sync <sync>` data between mobile applications and a MongoDB
       Realm backend. If your application only uses local Realm Database,
       you can omit the following snippet from your application level
-      ``build.gradle`` file to disable that functionality at the SDK level:
+      :file:`build.gradle` file to disable that functionality at the SDK level:
 
       .. code-block:: groovy
 
@@ -272,7 +272,7 @@ title: Sync Project with Gradle Files
 ref: sync-gradle-dependencies
 content: |
 
-   Now that you have updated the ``build.gradle`` files,
+   Now that you have updated the :file:`build.gradle` files,
    resolve the dependencies by clicking :guilabel:`File >
    Sync Project with Gradle Files`.
 

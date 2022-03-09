@@ -39,9 +39,11 @@ of documents describing various plants for sale in a store:
       .. literalinclude:: /examples/generated/android/sync/Plant.codeblock.plant.kt
          :language: kotlin
          :caption: Plant.kt
+         :copyable: false
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.example-data.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
@@ -49,9 +51,11 @@ of documents describing various plants for sale in a store:
       .. literalinclude:: /examples/generated/android/sync/Plant.codeblock.plant.java
          :language: java
          :caption: Plant.java
+         :copyable: false
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.example-data.java
          :language: java
+         :copyable: false
 
 .. _android-mongodb-create-documents:
 
@@ -86,16 +90,19 @@ valley" plant into a
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.insert-a-single-document.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted a document with id: BsonObjectId{value=5f19...}
 
@@ -119,16 +126,19 @@ The following snippet inserts three documents describing plants into a
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.insert-multiple-documents.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted 3 documents into the collection.
 
@@ -166,16 +176,19 @@ field contains the string value "perennial":
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output similar to the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully found a document: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
 
@@ -199,16 +212,19 @@ The following snippet finds all documents in a
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully found all plants for Store 42:
    V/EXAMPLE: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
@@ -239,17 +255,20 @@ The following snippet counts the number of documents in a
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.count-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.count-documents.java
          :language: java
+         :copyable: false
 
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully counted, number of documents in the collection: 5
 
@@ -288,16 +307,19 @@ of the first matched document's ``sunlight`` field to "partial":
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully updated a document.
 
@@ -323,16 +345,19 @@ the value of the ``_partition`` field of each matching document to "Store 51":
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully updated 2 documents.
 
@@ -368,16 +393,19 @@ both the query and specified updates:
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully upserted a document with id: BsonObjectId{value=5f19...}
 
@@ -415,16 +443,19 @@ the first document that matches the query:
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.delete-a-single-document.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.delete-a-single-document.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully deleted a document.
 
@@ -451,16 +482,19 @@ a ``sunlight`` field value of "full" and a ``type`` field value of
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.delete-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.delete-documents.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: succcessfully deleted 2 documents.
 
@@ -496,16 +530,19 @@ The following snippet watches for changes to any documents in the
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.watch-documents.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.watch-documents.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted a document with id BsonObjectId{value=5f6bb...}
    V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=triffid, sunlight=low, color=green, type=perennial, partition=Store 47]
@@ -538,16 +575,19 @@ events corresponding to documents belonging to the partition named
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.watch-documents-with-filter.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.watch-documents-with-filter.java
          :language: java
+         :copyable: false
 
 Running this snippet produces output resembling the following:
 
 .. code-block:: text
+   :copyable: false
 
    V/EXAMPLE: successfully inserted 2 documents into the collection
    V/EXAMPLE: Event type: INSERT full document: Plant [id=5f6bb..., name=venomous tentacula, sunlight=low, color=brown, type=annual, partition=Store 42]
@@ -587,6 +627,7 @@ documents according to a Query API :manual:`query filter
 </tutorial/query-documents>`.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      "$match": {
@@ -607,12 +648,14 @@ documents according to a Query API :manual:`query filter
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.java
             :language: java
+            :copyable: false
 
 .. _android-mongodb-aggregation-group-documents:
 
@@ -637,12 +680,14 @@ number of each type:
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.kt
          :language: kotlin
+         :copyable: false
 
    .. tab::
       :tabid: java
 
       .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.java
          :language: java
+         :copyable: false
 
 .. _android-mongodb-aggregation-project-document-fields:
 
@@ -675,6 +720,7 @@ vice versa.
    and inclusion in one ``$project`` stage.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      "$project": {
@@ -707,12 +753,14 @@ vice versa.
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.java
             :language: java
+            :copyable: false
 
 .. _android-mongodb-aggregation-add-fields-to-documents:
 
@@ -743,12 +791,14 @@ with calculated values using :manual:`aggregation operators
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.java
             :language: java
+            :copyable: false
 
 .. _android-mongodb-aggregation-unwind-array-values:
 
@@ -763,6 +813,7 @@ MongoDB copies each document once for each element of the array field
 but replaces the array value with the array element in each copy.
 
 .. code-block:: javascript
+   :copyable: false
 
    {
      $unwind: {
@@ -786,16 +837,19 @@ but replaces the array value with the array element in each copy.
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.kt
             :language: kotlin
+            :copyable: false
 
       .. tab::
          :tabid: java
 
          .. literalinclude:: /examples/generated/android/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.java
             :language: java
+            :copyable: false
 
 Consider the following document from the a collection of purchases:
 
 .. code-block:: javascript
+   :copyable: false
 
       {
         _id: 123,
@@ -811,6 +865,7 @@ If we apply the example ``$unwind`` stage to this document, the stage
 outputs the following three documents:
 
 .. code-block:: javascript
+   :copyable: false
 
       {
         _id: 123,

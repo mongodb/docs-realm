@@ -1,9 +1,11 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
-  mutableSubscriptionsInstance.add(longRunningTasks, {
+realm.subscriptions.update((mutableSubs) => {
+  mutableSubs.add(longRunningTasks, {
     name: "longRunningTasksSubscription",
   });
-  mutableSubscriptionsInstance.add(bensTasks);
-  mutableSubscriptionsInstance.add(realm.objects("Team"), {
+
+  mutableSubs.add(bensTasks);
+
+  mutableSubs.add(realm.objects("Team"), {
     name: "teamsSubscription",
     throwOnUpdate: true,
   });

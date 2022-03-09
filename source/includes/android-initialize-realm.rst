@@ -21,12 +21,14 @@ application runs.
    
       .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-realm.java
          :language: java
+         :copyable: false
    
    .. tab::
       :tabid: kotlin
 
       .. literalinclude:: /examples/generated/android/sync/MainActivity.codeblock.initialize-realm.kt
          :language: kotlin
+         :copyable: false
 
 .. note:: Register Your Application Subclass in the Android Manifest
    
@@ -38,6 +40,7 @@ application runs.
    
    .. code-block:: xml
       :emphasize-lines: 6
+      :copyable: false
 
       <?xml version="1.0" encoding="utf-8"?>
       <manifest xmlns:android="http://schemas.android.com/apk/res/android"

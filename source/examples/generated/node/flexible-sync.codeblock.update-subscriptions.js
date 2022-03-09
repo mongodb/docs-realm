@@ -1,8 +1,5 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
-  mutableSubscriptionsInstance.add(
-    tasks.filtered('status == "completed" && progressMinutes > 180'),
-    {
-      name: "longRunningTasksSubscription",
-    }
-  );
+realm.subscriptions.update((mutableSubs) => {
+  mutableSubs.add(tasks.filtered('status == "completed" && progressMinutes > 180'), {
+    name: "longRunningTasksSubscription",
+  });
 });

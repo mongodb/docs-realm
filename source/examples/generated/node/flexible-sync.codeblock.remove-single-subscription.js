@@ -1,4 +1,4 @@
-subscriptions.update((mutableSubscriptionsInstance) => {
+realm.subscriptions.update((mutableSubs) => {
   // remove a subscription with a specific query
-  mutableSubscriptionsInstance.remove(tasks.filtered('owner == "Ben"'));
+  mutableSubs.remove(tasks.filtered('owner == "Ben"'));
 });

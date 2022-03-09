@@ -7,66 +7,76 @@ Flutter SDK (Alpha)
 .. toctree::
    :titlesonly:
    
-   Realm SDK for Flutter Reference Manual <https://pub.dev/packages/realm>
-   Realm SDK for Flutter APIs <https://pub.dev/documentation/realm/latest/realm/realm-library.html>
-   Realm SDK for Dart APIs <https://pub.dev/documentation/realm_dart/latest/realm/realm-library.html>
+   Install Realm for Flutter </sdk/flutter/install.txt>
+   Quick Start </sdk/flutter/quick-start.txt>
+   Realm Database </sdk/flutter/realm-database.txt>
+   Flutter SDK Reference Manual <https://pub.dev/documentation/realm/latest/>
+   Release Notes <https://github.com/realm/realm-dart/releases>
    
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
 .. include:: /includes/note-alpha-sdk.rst
 
 The {+service+} Flutter SDK enables client applications written in 
 `Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__ 
 platform to access data stored in local {+realm+}s.
 
-.. note:: Local {+client-database+} Only
-
-   The Flutter SDK currently only supports local {+client-database+}.
-   You cannot use the SDK to connect to {+service+} backend apps.
+.. include:: /includes/note-flutter-local-realm-only.rst
 
 Supported Realm Features
 ------------------------
-The alpha version of the SDK supports the following {+realm+} features:
 
-- creating Realm objects
-- retrieving Realm objects
-- updating Realm objects
-- querying, sorting, and filtering Realm objects
-- implementing change notifications
+The alpha version of the SDK supports the following Realm features:
 
-.. _flutter_limitations:
+- Create Realm objects
+- Retrieve, query, sort, and filter Realm objects
+- Update Realm objects
+- Delete Realm objects
+
+.. TODO(DOCSP-20543): add change notification support once it's ready
+.. - Implement change notifications
 
 Alpha Limitations
------------------
+~~~~~~~~~~~~~~~~~
+
 Because this is an alpha version of the SDK, functionality is limited and there 
 are specific configuration considerations:
 
-- The alpha version of the SDK requires a custom engine based on Flutter 2.0. 
-  For a :wikipedia:`diff <Diff>` of the changes and additional information, see the 
-  `runtime diff <https://github.com/realm/realm-dart/tree/preview/runtime>`__
-  readme page.
-
-- You cannot use the ``realm_dart`` alpha package with the Dart SDK 2.12 shipped 
-  with Flutter 2.0. Flutter downloads a custom version of the Dart SDK,
-  and this custom version has known problems loading native binaries. Instead, 
-  use an official Dart SDK 2.12 installation and ensure it is in your PATH.
-
 - The alpha version of the SDK enables working with a local-only (on device) 
-  Realm database; Realm Sync functionality is not yet implemented.
+  Realm database. Realm Sync functionality is not yet implemented.
 
-- Flutter Hot Reload is available when running on the Android x86 Emulator and 
-  iOS Simulator.
+- The SDK doesn't have built-in functionality to interact with 
+  :ref:`{+service+} application services<realm-cloud>`.
 
-- Running on a physical Android device always includes the libraries in 
-  ``release`` mode.
-
-- New projects for iOS can not be created with ``flutter create``. As a workaround, 
-  use the `Realm Flutter and Dart Samples <https://github.com/realm/realm-dart-samples>`__ 
-  and modify the sample project ``provider_shopper``.
+- The SDK doesn't support Flutter on Linux desktop yet.
 
 Get Started
 -----------
-The `Getting Started <https://pub.dev/packages/realm#getting-started>`__ section 
-of the Realm SDK package provides:
 
-- The steps necessary to import Realm into a Flutter project 
+To start using the {+service+} Flutter SDK
+in your Flutter application, see :ref:`Install Realm for Flutter
+<flutter-install>` to add the Flutter SDK
+dependency and then check out the :ref:`Quick Start
+<flutter-quick-start-local>`.
 
-- Code snippets for writing to and reading from the {+realm+}.
+Dart Standalone Realm
+---------------------
+
+In addition to using Realm with Flutter, you can also use Realm with projects
+that just use Dart, like a CLI application or web server. 
+
+
+The usage for Realm with Dart is the same as the Flutter SDK, except you must 
+install and set up a separate package. 
+
+:ref:`Learn how to set up Realm in your Dart project. <dart-install-steps>`
+
+Flutter SDK Reference
+---------------------
+
+`Explore the reference documentation on pub.dev.
+<https://pub.dev/documentation/realm/latest/>`__
