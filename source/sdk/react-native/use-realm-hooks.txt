@@ -32,17 +32,27 @@ Install Realm React
 .. tabs::
 
    tabs:
-     - id: Expo
-       name: Install with Expo
-       content: |
-         The general process of integrating Push Notifications in an Android 
-         application is as follows:
-
-     - id: ios
+     - id: use-npm-to-install-realm-hooks
        name: Install through NPM
        content: |
-         To use FCM with {+service-short+} in an iOS app, follow these
-         general steps:
+         To install Realm Hooks on an existing React Native application, run the
+         following command in your terminal from the root of your application
+         where your ``package.json`` file is located:
+
+         .. code-block:: shell
+
+            npm i @realm/react
+
+     - id: use-expo-to-install-realm-hooks
+       name: Install with Expo
+       content: |
+         If you don't have an existing application, we recommend developing with
+         the Realm Expo template. The Realm Expo template allows you to
+         bootstrap your application with `Expo <https://docs.expo.dev/>`_ and
+         Realm Hooks preconfigured.
+
+         To initialize the Realm Expo template, read the :ref:`Quick Start
+         with Expo <react-native-client-quick-start-expo>` documentation.
 
 .. _react-native-realm-context-and-provider:
 
