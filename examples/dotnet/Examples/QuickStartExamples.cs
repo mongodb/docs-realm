@@ -17,7 +17,7 @@ namespace Examples
     {
         ObjectId testTaskId;
         Realms.Sync.User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         App app;
         const string myRealmAppId = Config.appid;
 
@@ -30,7 +30,7 @@ namespace Examples
 
             user = await app.LogInAsync(
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             config.Schema = new[]
             {
                 typeof(Task),
@@ -75,7 +75,7 @@ namespace Examples
             var user = await app.LogInAsync(Credentials.Anonymous());
             // :code-block-end:
             // :code-block-start: config
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new[]
             {
@@ -100,7 +100,7 @@ namespace Examples
         public async ThreadTask ModifiesATask()
         {
             // App app = App.Create(myRealmAppId);
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new[]
             {

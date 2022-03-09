@@ -13,7 +13,7 @@ namespace Examples
     {
         App app;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         bool didTriggerErrorHandler;
         string myRealmAppId = Config.appid;
 
@@ -46,7 +46,7 @@ namespace Examples
 
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
-            config = new SyncConfiguration("myPartition", user);
+            config = new PartitionSyncConfiguration("myPartition", user);
             //:hide-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
             //:hide-end:

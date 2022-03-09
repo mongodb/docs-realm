@@ -15,7 +15,7 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
@@ -33,7 +33,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new[] { typeof(Plant) };
             //:hide-end:

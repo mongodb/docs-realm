@@ -17,7 +17,7 @@ namespace Examples
 
         App app;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -25,7 +25,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("foo", user);
+            config = new PartitionSyncConfiguration("foo", user);
             //:hide-start:
             config.Schema = new[]
             {
