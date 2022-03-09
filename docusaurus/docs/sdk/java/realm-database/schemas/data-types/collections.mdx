@@ -59,7 +59,7 @@ where `T` can be the following types:
 </Tabs>
 
 :::note Nullability
-Unlike lists of {+service-short+} objects, these lists can contain
+Unlike lists of Realm objects, these lists can contain
 null values. If null values shouldn't be allowed, use the
 [`@Required`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/annotations/Required/) annotation.
 :::
@@ -213,8 +213,8 @@ Android applications usually display collection data in the UI using the
 built-in [`RecyclerView`](https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.html)
 or [`ListView`](https://developer.android.com/reference/android/widget/ListView)
 components. Realm offers **adapters** to help display data
-contained in :ref:`collections <java-client-collections>` of
-Realm objects that implement the ``OrderedRealmCollections``
+contained in collections of
+Realm objects that implement the `OrderedRealmCollections`
 interface, including [`RealmResults`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmResults/)
 and [`RealmList`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmList/).
 When you use these adapters, UI components automatically update to

@@ -99,11 +99,13 @@ of a party to a new instance in a write transaction:
 
 ## Query a Collection on Embedded Object Properties
 
-Use dot notation to filter or sort a :ref:`collection
-<java-client-collections>` of objects based on an embedded object
-property value:
+Use dot notation to filter or sort a [collection](/sdk/java/realm-database/schemas/data-types/collections)
+of objects based on an embedded object property value:
 
-.. include:: /includes/directly-query-embedded-objects-note.rst
+:::tip
+It is not possible to query embedded objects directly. Instead,
+access embedded objects through a query for the parent object type.
+:::
 
 <Tabs groupId="java-sdk-languages">
     <TabItem value="kotlin" label="Kotlin">
