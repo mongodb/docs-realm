@@ -117,7 +117,9 @@ Usage
 ~~~~~
 Import the ``Context`` object that you created. In the example below, the
 Context object is called "TaskContext" since it refers to the Realm Context of
-the Task. Destructure the TaskContext object to get it's ``RealmProvider``. 
+the Task. :mdn:`Destructure
+<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
+the TaskContext object to get it's ``RealmProvider``. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
     :language: typescript
@@ -130,12 +132,67 @@ the ``App`` component which renders the application.
 .. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
     :language: typescript
 
+Use Realm Hooks In Child Components
+-----------------------------------
+
+Once you have wrapped your component with your ``RealmProvider``, your component
+and it's child components will have access to the ``useRealm()``,
+``useObject()``, and ``useQuery()`` hooks.
+
+Usage
+~~~~~
+Import the ``Context`` object that you created. In the example below, the
+Context object is called "TaskContext" since it refers to the Realm Context of
+the Task. :mdn:`Destructure
+<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
+the TaskContext object to get it's Realm Hooks. 
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
+    :language: typescript
+
+useRealm
+````````
+The ``useRealm()`` hook returns the opened {+realm+} instance. In the following
+example, a ``handleAddTask()`` method is created for the ``App`` component. The
+``handleAddTask()`` method writes to the realm returned by the ``useRealm()``
+hook.
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.example-userealm-hook-usage.tsx
+    :language: typescript
+
+Within the :js-sdk:`Realm.create() <Realm.html#create>` call, the
+``Task.generate()`` method defined in the ``Task`` class is used to instantiated
+a JavaScript object with default values for the ``_id``, ``isComplete``, and
+``createdAt`` properties.
+
+.. seealso::
+  - :ref:`write to a realm <react-native-write-operations>`
+
+useObject
+`````````
+To find a {+realm+} object by it's primary key, pass the class (or the
+class name as a string) and the primary key to the ``useObject()`` hook.
+``useObject()`` will return null if the object doesn't exist or has been
+deleted.
+
+In the following example, a ``Task`` object is retrieved using the
+``useObject()`` hook, and it's description is logged to the console.
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.example-useobject-hook-usage.tsx
+    :language: typescript
+
+useQuery
+````````
+To retrieve a collection of realm objects of a given type, pass the class (or
+the class name as a string) to the ``useQuery()`` hook.
+
+In the following example, the ``Task`` class is passed to the ``useQuery()``
+hook and then the tasks are set as a prop of a ``TaskList`` component. 
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.example-usequery-hook-usage.tsx
+    :language: typescript
+
 .. _react-native-realm-config:
 
 Update a Realm Configuration
 ----------------------------
-
-.. _react-native-use-realm-hooks-in-child-components:
-
-Use Realm Hooks In Child Components
------------------------------------

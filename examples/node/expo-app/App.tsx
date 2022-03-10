@@ -15,33 +15,68 @@ import colors from "./app/styles/colors";
 const { RealmProvider } = TaskContext;
 // :code-block-end:
 
-const { useRealm, useQuery, } = TaskContext;
+// :code-block-start: get-access-to-the-hooks
+// :uncomment-start:
+// import TaskContext from "./app/models/Task";
+
+// :uncomment-end:
+const { useRealm, useQuery, useObject } = TaskContext;
+// :code-block-end:
 
 function App() {
   const realm = useRealm();
-  const result = useQuery(Task);
 
-  const tasks = useMemo(() => result.sorted("createdAt"), [result]);
+  // :code-block-start: example-usequery-hook-usage
+  const tasks = useQuery("Task");
+  // :uncomment-start:
 
-  const handleAddTask = useCallback(
-    (description: string): void => {
-      if (!description) {
-        return;
-      }
+  //return (
+  //  <TaskList tasks={tasks} />
+  //);
 
-      // Everything in the function passed to "realm.write" is a transaction and will
-      // hence succeed or fail together. A transcation is the smallest unit of transfer
-      // in Realm so we want to be mindful of how much we put into one single transaction
-      // and split them up if appropriate (more commonly seen server side). Since clients
-      // may occasionally be online during short time spans we want to increase the probability
-      // of sync participants to successfully sync everything in the transaction, otherwise
-      // no changes propagate and the transaction needs to start over when connectivity allows.
-      realm.write(() => {
-        realm.create("Task", Task.generate(description));
-      });
-    },
-    [realm],
-  );
+  // :uncomment-end:
+  // :code-block-end:
+
+  const id = 123;
+  
+  // :code-block-start: example-useobject-hook-usage
+  const myTask = useObject("Task", id);
+  console.log(myTask.description);
+  // :code-block-end:
+
+  // :code-block-start: example-userealm-hook-usage
+  // :uncomment-start:
+  // const realm = useRealm();
+  // :uncomment-end:
+  const handleAddTask = (description: string) => {
+    if (!description) {
+      return;
+    }
+    realm.write(() => {
+      realm.create("Task", Task.generate(description));
+    });
+  }
+  // :code-block-end:
+
+  // const handleAddTask = useCallback(
+  //   (description: string): void => {
+  //     if (!description) {
+  //       return;
+  //     }
+
+  //     // Everything in the function passed to "realm.write" is a transaction and will
+  //     // hence succeed or fail together. A transcation is the smallest unit of transfer
+  //     // in Realm so we want to be mindful of how much we put into one single transaction
+  //     // and split them up if appropriate (more commonly seen server side). Since clients
+  //     // may occasionally be online during short time spans we want to increase the probability
+  //     // of sync participants to successfully sync everything in the transaction, otherwise
+  //     // no changes propagate and the transaction needs to start over when connectivity allows.
+  //     realm.write(() => {
+  //       realm.create("Task", Task.generate(description));
+  //     });
+  //   },
+  //   [realm],
+  // );
 
   const handleToggleTaskStatus = useCallback(
     (task: Task): void => {
