@@ -5,6 +5,7 @@ import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.notifications.ResultsChange
 import io.realm.query
+import io.realm.query.RealmQuery
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,12 +24,10 @@ class QuickStartTest: RealmTest() {
             // :hide-end:
             .build()
         val realm = Realm.open(config)
-        val tadpoles: RealmResults<Frog> = realm.query<Frog>("age > $0", 2).find()
+        val tadpoles: RealmQuery<Frog> = realm.query<Frog>("age > $0", 2)
         Log.v("Tadpoles: ${tadpoles.count()}")
-        val numFrogsNamedJasonFunderburker = tadpoles.query("name == $0", "Jason Funderburker").count()
-        Log.v("Frogs named Jason Funderburker: $numFrogsNamedJasonFunderburker")
-        val numFrogsWithoutOwners = tadpoles.query("owner == null").count()
-        Log.v("Frogs without owners: $numFrogsWithoutOwners")
+        val numTadpolesNamedJasonFunderburker = tadpoles.query("name == $0", "Jason Funderburker").count()
+        Log.v("Tadpoles named Jason Funderburker: $numTadpolesNamedJasonFunderburker")
         // :code-block-end:
     }
 

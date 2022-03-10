@@ -85,7 +85,7 @@ async function main(): Promise<string[] | undefined> {
   try {
     console.log("Checking for ongoing build...");
     build =
-      (await nextInStream(ongoingBuildStream, 3 * 60 * 1000)).fullDocument ??
+      (await nextInStream(ongoingBuildStream, 6 * 60 * 1000)).fullDocument ??
       null;
 
     console.log("Ongoing build found.");
