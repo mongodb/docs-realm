@@ -42,6 +42,57 @@ work with the new schema changes.
    breaking changes in the client object model, and vice versa. Do not
    consider the client model and the server schema interchangeable.
 
+Breaking vs. Non-Breaking Change Quick Reference
+------------------------------------------------
+
+This table shows whether each type of change is breaking or non-breaking
+when you make it only in the server-side schema or in the object model.
+Some changes that are non-breaking on the client-side are breaking on
+the server-side. Additionally, some changes that are non-breaking on the
+server-side schema may require additional handling when you apply them to 
+the client-side object model. For more details, see relevant sections below.
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - Type of Change
+     - Server-Side Schema
+     - Client-Side Object Model
+   * - Add a class
+     - Non-breaking
+     - Non-breaking
+   * - Add a required property
+     - Non-breaking
+     - Non-breaking
+   * - Add an optional property
+     - Non-breaking
+     - Non-breaking
+   * - Remove a required property
+     - Breaking
+     - Non-breaking
+   * - Remove an optional property
+     - Breaking
+     - Non-breaking
+   * - Remove a class
+     - Breaking
+     - Non-breaking
+   * - Change property type but keep the name
+     - Breaking
+     - Breaking
+   * - Change property name
+     - Breaking
+     - Breaking
+   * - Change property from optional to required
+     - Breaking
+     - Breaking
+   * - Change property from required to optional
+     - Breaking
+     - Breaking
+   * - Change a class name
+     - Breaking
+     - Breaking
+
 .. _additive-changes-synced-schema:
 .. _non-breaking-changes-synced-schema:
 
@@ -91,9 +142,9 @@ appropriate empty value, such as a 0 for integer values or an empty string
 for string values. This is considered a non-breaking or additive change
 to the object model.
 
-However, if you remove a property from your object model and _also_ try to 
+However, if you remove a property from your object model and *also* try to 
 remove it from your server-side schema, removing it from the server-side
-schema _is_ a breaking change. So you can safely remove a property from the 
+schema *is* a breaking change. So you can safely remove a property from the 
 client-side object model as a non-breaking change, but trying to remove it 
 from the server-side schema is a breaking change.
 
