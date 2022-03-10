@@ -7,7 +7,15 @@ import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 
-const { useRealm, useQuery, RealmProvider } = TaskContext;
+// :code-block-start: import-task-context
+// :uncomment-start:
+// import TaskContext from "./app/models/Task";
+
+// :uncomment-end:
+const { RealmProvider } = TaskContext;
+// :code-block-end:
+
+const { useRealm, useQuery, } = TaskContext;
 
 function App() {
   const realm = useRealm();
@@ -97,6 +105,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// :code-block-start: wrap-app-within-realm-provider
 function AppWrapper() {
   if (!RealmProvider) {
     return null;
@@ -107,5 +116,6 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
+// :code-block-end:
 
 export default AppWrapper;
