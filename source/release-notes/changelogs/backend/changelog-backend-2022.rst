@@ -1,3 +1,10 @@
+.. _backend_20220317:
+
+17 March 2022 Release (Upcoming)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- On 17 March 2022, MongoDB Atlas moves to Let's Encrypt as the new Certificate Authority for TLS certificates for all Realm services.
+
 .. _backend_20220126:
 
 26 January 2022 Release
