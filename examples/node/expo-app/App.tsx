@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
+import Realm from 'realm';
+
 
 import TaskContext, { Task } from "./app/models/Task";
 import IntroText from "./app/components/IntroText";
@@ -152,5 +154,32 @@ function AppWrapper() {
   );
 }
 // :code-block-end:
+
+const app = new Realm.App({id: "sample-id"});
+
+// :code-block-start: dynamically-update-realm-config
+// :replace-start: {
+//   "terms": {
+//     "AppWrapper2": "AppWrapper"
+//   }
+// }
+function AppWrapper2() {
+  if (!RealmProvider) {
+    return null;
+  }
+  const syncConfig = {
+    user: app.currentUser,
+    partitionValue: "ExpoTemplate"
+  }
+
+  return (
+    <RealmProvider sync={syncConfig}>
+      <App />
+    </RealmProvider>
+  );
+}
+// :replace-end:
+// :code-block-end:
+
 
 export default AppWrapper;

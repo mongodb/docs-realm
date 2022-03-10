@@ -9,7 +9,7 @@ Use Realm Hooks
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Overview
@@ -132,6 +132,14 @@ the ``App`` component which renders the application.
 .. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
     :language: typescript
 
+You can dynamically update the {+service-short+} configuration, by setting
+:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
+component. In the following example, we update the RealmProvider with a
+:js-sdk:`sync configuration <Realm.App.Sync.html#~SyncConfiguration>`:
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.dynamically-update-app-with-realm-config.tsx
+    :language: typescript
+
 Use Realm Hooks In Child Components
 -----------------------------------
 
@@ -192,7 +200,9 @@ hook and then the tasks are set as a prop of a ``TaskList`` component.
 .. literalinclude:: /examples/generated/expo/App.codeblock.example-usequery-hook-usage.tsx
     :language: typescript
 
-.. _react-native-realm-config:
-
-Update a Realm Configuration
-----------------------------
+Summary
+-------
+- You can set up Realm Hooks on an existing application by installing it through npm, or on a new application through the Realm Expo template.
+- A Realm Context opens a {+realm+} and contains a ``RealmProvider`` and a set of prebuilt Realm Hooks. 
+- A ``RealmProvider`` passes data and hooks to the component it wraps around, and any children of that component. 
+- The prebuilt Realm Hooks provide functionality like interacting with a {+realm}, and finding {+realm+} object(s).
