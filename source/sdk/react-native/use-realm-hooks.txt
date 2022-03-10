@@ -55,10 +55,46 @@ Install Realm React
          To initialize the Realm Expo template, read the :ref:`Quick Start
          with Expo <react-native-client-quick-start-expo>` documentation.
 
-.. _react-native-realm-context-and-provider:
+.. _react-native-realm-context:
 
-Setup the RealmContext and Provider
------------------------------------
+Create a Realm Configuration and Realm Context
+----------------------------------------------
+
+The ``createRealmContext()`` method creates a Realm :reactjs:`Context
+<docs/context.html>` object that opens a realm with a given :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>`. The ``Realm Context`` object contains the following: 
+
+- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to
+   get access to the opened {+realm+}, query the {+realm+}, etc.
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` component
+   that wraps around a component, and provides any of it's child components with access
+   to the hooks.
+
+Usage
+~~~~~
+First, create a file where you will define a Realm object type, a Realm
+configuration, and create a Realm Context. At the top of the file, import Realm
+and the ``createRealmContext()`` method.
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.add-imports-to-task.ts
+    :language: typescript
+
+Define a Realm object type is defined using a JavaScript class. The ``Task``
+class below contains the following:
+
+- A ``generate()`` method to generate ``Task`` objects with specific values that you do not want the user to override. 
+- A schema
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
+    :language: typescript
+
+Next, create a ``Realm.Configuration`` object and set it's ``schema`` property
+to the ``Task`` class you created. Pass the configuration object to the
+``createRealmContext()`` method. Export the return value of
+``createRealmContext()`` so you can use the ``Realm Context`` in other files.
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.create-realm-context.ts
+    :language: typescript
 
 .. _react-native-realm-provider:
 

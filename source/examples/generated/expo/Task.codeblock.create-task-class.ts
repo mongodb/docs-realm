@@ -1,8 +1,3 @@
-// :code-block-start: add-imports-to-task
-import { Realm, createRealmContext } from "@realm/react";
-// :code-block-end:
-
-// :code-block-start: create-task-class
 export class Task extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
   description!: string;
@@ -30,14 +25,3 @@ export class Task extends Realm.Object {
     },
   };
 }
-// :code-block-end: 
-
-// :code-block-start: create-realm-context
-const config = {
-  schema: [Task],
-  // :hide-start:
-  deleteRealmIfMigrationNeeded: true,
-  // :hide-end:
-};
-export default createRealmContext(config);
-// :code-block-end:
