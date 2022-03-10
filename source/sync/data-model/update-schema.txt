@@ -124,11 +124,17 @@ Add an Object Type
 You can add an object type to either the server-side schema or the client 
 object model without doing any additional handling. 
 
+How to Add an Object Type
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you want to add an object type to both the server-side schema and the 
 client object model, you can add the object type to the object model, and 
 use :ref:`Development Mode <enable-development-mode>` to let Realm infer the 
 server-side schema updates. Or you can manually add the object type to both 
 the model and the schema.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
@@ -144,14 +150,57 @@ information, see your preferred SDK's migration page.
 Add a Required Property
 -----------------------
 
-You can add a required property to either the server-side schema or the 
-client object model without doing any additional handling. 
+You can add a required property to the client object model without doing 
+any additional handling. 
+
+.. warning:: Update existing documents
+
+   If you add a new required property to the server-side schema, you must 
+   update existing documents with that new property or they do not sync 
+   to the client. This may give client users the impression that the data 
+   has been lost.
+
+How to Add a Required Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to add a required property to both the server-side schema and 
 the client object model, you can add the required property to the object 
 model, and use :ref:`Development Mode <enable-development-mode>` to let 
 Realm infer the server-side schema updates. Or you can manually add the 
 required property to both the model and the schema.
+
+.. important:: Even non-breaking changes can require terminating sync
+
+   When there are more than 100,000 documents in the 
+   ``__realm_sync.unsynced_documents`` collection, Realm requires that you
+   :ref:`terminate and re-enable sync <terminating-realm-sync>`. When you 
+   add a required property, the re-sync process can push your collection
+   over this limit. In this case, you must terminate and re-enable sync, 
+   even though the change you're making is a non-breaking change.
+
+Handle Existing Atlas Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you add a new required property to the server-side schema, you must 
+update existing documents with that new property or they do not sync 
+to the client. This may give client users the impression that the data 
+has been lost.
+
+If you add a new required property to the server-side schema, you must 
+update existing Atlas documents to enable them to Sync with your client 
+applications. Without this additional handling, those documents do not 
+Sync and it may appear in the client that the data has been lost.
+
+If an Atlas document does not have the new required property, the entire 
+document no longer syncs to the client application. Resolve this issue by
+adding a new field to each document that matches the new schema, and 
+populating it with a default value.
+
+After you've made these changes, the appropriate documents should once again 
+sync to the client application.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
@@ -170,11 +219,17 @@ Add an Optional Property
 You can add an optional property to either the server-side schema or the 
 client object model without doing any additional handling. 
 
+How to Add an Optional Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you want to add an optional property to both the server-side schema and 
 the client object model, you can add the optional property to the object 
 model, and use :ref:`Development Mode <enable-development-mode>` to let 
 Realm infer the server-side schema updates. Or you can manually add the 
 optional property to both the model and the schema.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
@@ -194,6 +249,9 @@ If you remove an object type from the server-side schema, this is a breaking
 or destructive change. However, you can remove an object type from the object 
 model as a non-breaking change.
 
+How to Remove an Object Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -202,6 +260,9 @@ making breaking server-side schema changes.
 
 Instead, you can remove the object type from the client-side object model and 
 leave it in place on the server-side schema. 
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
@@ -214,6 +275,9 @@ If you remove a required property from the server-side schema, this is
 a breaking or destructive change. However, you can remove a required 
 property from the object model as a non-breaking change.
 
+How to Remove a Required Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -230,6 +294,9 @@ property's value to ``null``. Realm sets properties that are non-nullable to an
 appropriate empty value, such as a 0 for integer values or an empty string
 for string values. This is considered a non-breaking or additive change
 to the object model.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
@@ -242,6 +309,9 @@ If you remove an optional property from the server-side schema, this is
 a breaking or destructive change. However, you can remove an optional 
 property from the object model as a non-breaking change.
 
+How to Remove an Optional Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -259,6 +329,9 @@ appropriate empty value, such as a 0 for integer values or an empty string
 for string values. This is considered a non-breaking or additive change
 to the object model.
 
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
 information, see your preferred SDK's migration page.
@@ -269,6 +342,9 @@ Change an Object Type Name
 If you change an object type's name, this is a breaking or destructive change 
 to both the server-side schema and the client-side object model.
 
+How to Change an Object Type Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -287,15 +363,22 @@ meaning that when one collection is written to, the other is also written to
 To implement a breaking schema change using the partner collection strategy, 
 see :ref:`<migrate-schema-partner-collection>`.
 
+If you choose to terminate and re-enable sync instead of using the partner
+collection strategy to resolve this type of breaking change, you must 
+manually update the schema. :ref:`Development Mode <enable-development-mode>` 
+does not automatically update your schema for breaking changes.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you already have a client-side realm file that contains data when you
 implement a schema change using the partner collection strategy, you must
 perform a migration when you open the realm. For more information, see your 
 preferred SDK's migration page.
 
 If you choose to terminate and re-enable sync instead of using the partner
-collection strategy to resolve this type of breaking change, you must 
-manually update the schema. :ref:`Development Mode <enable-development-mode>` 
-does not automatically update your schema for breaking changes.
+collection strategy to resolve this type of breaking change, your client 
+application must perform a :ref:`client reset <client-resets>`.
 
 Change a Property Name
 ----------------------
@@ -303,6 +386,16 @@ Change a Property Name
 If you change a property's name, this is a breaking or destructive change 
 to both the server-side schema and the client-side object model.
 
+.. warning:: Update existing documents
+
+   If you change a property name in the server-side schema, you must 
+   update existing documents with that new property name or they do not sync 
+   to the client. This may give client users the impression that the data 
+   has been lost.
+
+How to Change a Property Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -321,18 +414,16 @@ meaning that when one collection is written to, the other is also written to
 To implement a breaking schema change using the partner collection strategy, 
 see :ref:`<migrate-schema-partner-collection>`.
 
-If you already have a client-side realm file that contains data when you
-implement a schema change using the partner collection strategy, you must
-perform a migration when you open the realm. For more information, see your 
-preferred SDK's migration page.
-
 If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, you must 
 manually update the schema. :ref:`Development Mode <enable-development-mode>` 
 does not automatically update your schema for breaking changes.
 
-Additionally, if you choose to terminate and re-enable sync, you must update 
-existing Atlas documents to enable them to Sync with your client applications. 
+Handle Existing Atlas Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you choose to terminate and re-enable sync, you must update existing Atlas 
+documents to enable them to Sync with your client applications. 
 Without this additional handling, those documents do not Sync and it may 
 appear in the client that the data has been lost.
 
@@ -347,12 +438,34 @@ few ways:
 After you've made these changes, the appropriate documents should once again 
 sync to the client application.
 
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you already have a client-side realm file that contains data when you
+implement a schema change using the partner collection strategy, you must
+perform a migration when you open the realm. For more information, see your 
+preferred SDK's migration page.
+
+If you choose to terminate and re-enable sync instead of using the partner
+collection strategy to resolve this type of breaking change, your client 
+application must perform a :ref:`client reset <client-resets>`.
+
 Change Property Type but Keep the Name
 --------------------------------------
 
 If you change a property's type while keeping the name, this is a breaking 
 or destructive change to both the server-side schema and the client-side 
 object model.
+
+.. warning:: Update existing documents
+
+   If you change a property's type in the server-side schema, you must 
+   update existing documents with that new property type or they do not sync 
+   to the client. This may give client users the impression that the data 
+   has been lost.
+
+How to Change a Property Type but Keep the Name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
@@ -372,18 +485,16 @@ meaning that when one collection is written to, the other is also written to
 To implement a breaking schema change using the partner collection strategy, 
 see :ref:`<migrate-schema-partner-collection>`.
 
-If you already have a client-side realm file that contains data when you
-implement a schema change using the partner collection strategy, you must
-perform a migration when you open the realm. For more information, see your 
-preferred SDK's migration page.
-
 If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, you must 
 manually update the schema. :ref:`Development Mode <enable-development-mode>` 
 does not automatically update your schema for breaking changes.
 
-Additionally, if you choose to terminate and re-enable sync, you must update 
-existing Atlas documents to enable them to Sync with your client applications. 
+Handle Existing Atlas Documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you choose to terminate and re-enable sync, you must update existing Atlas 
+documents to enable them to Sync with your client applications. 
 Without this additional handling, those documents do not Sync and it may 
 appear in the client that the data has been lost.
 
@@ -398,12 +509,27 @@ few ways:
 After you've made these changes, the appropriate documents should once again 
 sync to the client application.
 
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you already have a client-side realm file that contains data when you
+implement a schema change using the partner collection strategy, you must
+perform a migration when you open the realm. For more information, see your 
+preferred SDK's migration page.
+
+If you choose to terminate and re-enable sync instead of using the partner
+collection strategy to resolve this type of breaking change, your client 
+application must perform a :ref:`client reset <client-resets>`.
+
 Change Property from Optional to Required
 -----------------------------------------
 
 If you change a property from optional to required, this is a breaking or 
 destructive change to both the server-side schema and the client-side object 
 model.
+
+How to Change a Property from Optional to Required
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
@@ -423,15 +549,22 @@ meaning that when one collection is written to, the other is also written to
 To implement a breaking schema change using the partner collection strategy, 
 see :ref:`<migrate-schema-partner-collection>`.
 
+If you choose to terminate and re-enable sync instead of using the partner
+collection strategy to resolve this type of breaking change, you must 
+manually update the schema. :ref:`Development Mode <enable-development-mode>` 
+does not automatically update your schema for breaking changes.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you already have a client-side realm file that contains data when you
 implement a schema change using the partner collection strategy, you must
 perform a migration when you open the realm. For more information, see your 
 preferred SDK's migration page.
 
 If you choose to terminate and re-enable sync instead of using the partner
-collection strategy to resolve this type of breaking change, you must 
-manually update the schema. :ref:`Development Mode <enable-development-mode>` 
-does not automatically update your schema for breaking changes.
+collection strategy to resolve this type of breaking change, your client 
+application must perform a :ref:`client reset <client-resets>`.
 
 Change Property from Required to Optional
 -----------------------------------------
@@ -440,6 +573,9 @@ If you change a property from required to optional, this is a breaking or
 destructive change to both the server-side schema and the client-side object 
 model.
 
+How to Change a Property from Required to Optional
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
 <enable-sync>` sync. This triggers a :ref:`client reset <client-resets>`, 
@@ -458,15 +594,22 @@ meaning that when one collection is written to, the other is also written to
 To implement a breaking schema change using the partner collection strategy, 
 see :ref:`<migrate-schema-partner-collection>`.
 
+If you choose to terminate and re-enable sync instead of using the partner
+collection strategy to resolve this type of breaking change, you must 
+manually update the schema. :ref:`Development Mode <enable-development-mode>` 
+does not automatically update your schema for breaking changes.
+
+Handle Client Realm Files
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If you already have a client-side realm file that contains data when you
 implement a schema change using the partner collection strategy, you must
 perform a migration when you open the realm. For more information, see your 
 preferred SDK's migration page.
 
 If you choose to terminate and re-enable sync instead of using the partner
-collection strategy to resolve this type of breaking change, you must 
-manually update the schema. :ref:`Development Mode <enable-development-mode>` 
-does not automatically update your schema for breaking changes.
+collection strategy to resolve this type of breaking change, your client 
+application must perform a :ref:`client reset <client-resets>`.
 
 Summary
 -------
