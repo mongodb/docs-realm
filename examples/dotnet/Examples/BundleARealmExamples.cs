@@ -43,10 +43,10 @@ namespace Examples
 
             // open an existing realm
             // :uncomment-start:
-            // var existingConfig = new SyncConfiguration("myPartition", user);
+            // var existingConfig = new PartitionSyncConfiguration("myPartition", user);
             // :uncomment-end:
             // :hide-start:
-            var existingConfig = new SyncConfiguration("myPartition", user)
+            var existingConfig = new PartitionSyncConfiguration("myPartition", user)
             {
                 Schema = new[] { typeof(Models.User) }
             };
@@ -55,7 +55,7 @@ namespace Examples
 
             // Create a RealmConfiguration for the *copy*
             // Be sure the partition name matches the original
-            var bundledConfig = new SyncConfiguration("myPartition", user, "bundled.realm");
+            var bundledConfig = new PartitionSyncConfiguration("myPartition", user, "bundled.realm");
 
             // Make sure the file doesn't already exist
             Realm.DeleteRealm(bundledConfig);
@@ -90,7 +90,7 @@ namespace Examples
             // If the realm file is a synced realm
             var app = App.Create(Config.appid);
             var user = await app.LogInAsync(Credentials.Anonymous());
-            config = new SyncConfiguration("myPartition", user);
+            config = new PartitionSyncConfiguration("myPartition", user);
             // :hide-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
             // :hide-end:

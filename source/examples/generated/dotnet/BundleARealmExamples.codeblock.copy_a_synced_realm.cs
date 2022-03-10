@@ -1,11 +1,11 @@
 
 // open an existing realm
-var existingConfig = new SyncConfiguration("myPartition", user);
+var existingConfig = new PartitionSyncConfiguration("myPartition", user);
 var realm = await Realm.GetInstanceAsync(existingConfig);
 
 // Create a RealmConfiguration for the *copy*
 // Be sure the partition name matches the original
-var bundledConfig = new SyncConfiguration("myPartition", user, "bundled.realm");
+var bundledConfig = new PartitionSyncConfiguration("myPartition", user, "bundled.realm");
 
 // Make sure the file doesn't already exist
 Realm.DeleteRealm(bundledConfig);
