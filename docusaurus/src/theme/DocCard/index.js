@@ -16,7 +16,6 @@ import AndroidIcon from "../../icons/android_sdk.svg";
 import KotlinIcon from "../../icons/kotlin_sdk.svg";
 
 function CardContainer({ href, children }) {
-  console.log(children);
   const className = clsx(
     "card margin-bottom--lg padding--lg",
     styles.cardContainer,
@@ -32,7 +31,6 @@ function CardContainer({ href, children }) {
 }
 
 function CardLayout({ href, icon, title, description }) {
-  console.log(icon);
   if (icon.endsWith("Icon")) {
     switch (icon) {
       case "FlutterIcon":
@@ -87,7 +85,6 @@ function CardCategory({ item }) {
 }
 
 function CardLink({ item }) {
-  console.log(item);
   const icon =
     item.customProps?.svg_icon || (isInternalUrl(item.href) ? "📄️" : "🔗");
   const doc = useDocById(item.docId ?? undefined);
