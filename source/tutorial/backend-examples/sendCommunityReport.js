@@ -5,7 +5,10 @@ exports = async function sendCommunityReport(changeEvent) {
   // Format values from the report to include in the message
   const projectName = `${report.owner}/${report.repo}`;
   const moment = require("moment");
-  const formattedDate = moment(report.date).utc().format("MMMM Do, YYYY");
+  const formattedDate = moment(report.startDate).utc().format("MMMM Do, YYYY");
+  const numIssuesWithActivity = report.issuesWithActivity.length;
+  const numContributors = report.allContributors.length;
+  const numNewContributors = report.newContributors.length;
   
   // Create a message string that describes the data in the report
   const message = [
