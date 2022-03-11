@@ -73,6 +73,22 @@ const config = {
       },
     ],
     [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "java",
+        lastVersion: "current",
+        includeCurrentVersion: true,
+        versions: {
+          current: {
+            label: "10.10.1",
+          },
+        },
+        path: "sdk-sites/java/docs",
+        routeBasePath: "sdk/java/",
+        sidebarPath: require.resolve("./sdk-sites/java/sidebars.js"),
+      },
+    ],
+    [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
         // whether to index docs pages
