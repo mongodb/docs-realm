@@ -85,39 +85,41 @@ the client-side object model. For more details, see relevant sections below.
    * - Type of Change
      - Server-Side Schema
      - Client-Side Object Model
-   * - Add an object type
+   * - :ref:`Add an object type <schema-update-add-object-type>`
      - Non-breaking
      - Non-breaking
-   * - Add a required property
+   * - :ref:`Add a required property <schema-update-add-required-property>`
      - Non-breaking
      - Non-breaking
-   * - Add an optional property
+   * - :ref:`Add an optional property <schema-update-add-optional-property>`
      - Non-breaking
      - Non-breaking
-   * - Remove an object type
+   * - :ref:`Remove an object type <schema-update-remove-object-type>`
      - Breaking
      - Non-breaking
-   * - Remove a required property
+   * - :ref:`Remove a required property <schema-update-remove-required-property>`
      - Breaking
      - Non-breaking
-   * - Remove an optional property
+   * - :ref:`Remove an optional property <schema-update-remove-optional-property>`
      - Breaking
      - Non-breaking
-   * - Change an object type name
+   * - :ref:`Change an object type name <schema-update-change-object-type-name>`
      - Breaking
      - Breaking
-   * - Change a property name
+   * - :ref:`Change a property name <schema-update-change-property-name>`
      - Breaking
      - Breaking
-   * - Change property type but keep the name
+   * - :ref:`Change property type but keep the name <schema-update-change-property-type-but-keep-name>`
      - Breaking
      - Breaking
-   * - Change property from optional to required
+   * - :ref:`Change property from optional to required <schema-update-change-property-from-optional-to-required>`
      - Breaking
      - Breaking
-   * - Change property from required to optional
+   * - :ref:`Change property from required to optional <schema-update-change-property-from-required-to-optional>`
      - Breaking
      - Breaking
+
+.. _schema-update-add-object-type:
 
 Add an Object Type
 ------------------
@@ -148,6 +150,8 @@ information, see your preferred SDK's migration page.
    is expected behavior, but it does cause a temporary halt to propogating 
    changes while this process is underway.
    
+.. _schema-update-add-required-property:
+
 Add a Required Property
 -----------------------
 
@@ -163,6 +167,12 @@ any additional handling.
 
 How to Add a Required Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note:: Consider adding an optional property
+
+   Adding a required property to the server-side schema requires additional
+   handling detailed below. If you add the property as optional, you can
+   avoid the need to modify existing Atlas documents. 
 
 If you want to add a required property to both the server-side schema and 
 the client object model, you can add the required property to the object 
@@ -187,11 +197,6 @@ update existing documents with that new property or they do not sync
 to the client. This may give client users the impression that the data 
 has been lost.
 
-If you add a new required property to the server-side schema, you must 
-update existing Atlas documents to enable them to Sync with your client 
-applications. Without this additional handling, those documents do not 
-Sync and it may appear in the client that the data has been lost.
-
 If an Atlas document does not have the new required property, the entire 
 document no longer syncs to the client application. Resolve this issue by
 adding a new field to each document that matches the new schema, and 
@@ -213,6 +218,8 @@ information, see your preferred SDK's migration page.
    the collection and re-insert them into Realm to get the new values. This
    is expected behavior, but it does cause a temporary halt to propogating 
    changes while this process is underway.
+
+.. _schema-update-add-optional-property:
 
 Add an Optional Property
 ------------------------
@@ -243,6 +250,8 @@ information, see your preferred SDK's migration page.
    is expected behavior, but it does cause a temporary halt to propogating 
    changes while this process is underway.
 
+.. _schema-update-remove-object-type:
+
 Remove an Object Type
 ---------------------
 
@@ -268,6 +277,8 @@ Handle Client Realm Files
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
 information, see your preferred SDK's migration page.
+
+.. _schema-update-remove-required-property:
 
 Remove a Required Property
 --------------------------
@@ -303,6 +314,8 @@ If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
 information, see your preferred SDK's migration page.
 
+.. _schema-update-remove-optional-property:
+
 Remove an Optional Property
 ---------------------------
 
@@ -336,6 +349,8 @@ Handle Client Realm Files
 If you already have a client-side realm file that contains data, you must
 increment the client schema version when you open the realm. For more 
 information, see your preferred SDK's migration page.
+
+.. _schema-update-change-object-type-name:
 
 Change an Object Type Name
 --------------------------
@@ -380,6 +395,8 @@ preferred SDK's migration page.
 If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, your client 
 application must perform a :ref:`client reset <client-resets>`.
+
+.. _schema-update-change-property-name:
 
 Change a Property Name
 ----------------------
@@ -450,6 +467,8 @@ preferred SDK's migration page.
 If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, your client 
 application must perform a :ref:`client reset <client-resets>`.
+
+.. _schema-update-change-property-type-but-keep-name:
 
 Change Property Type but Keep the Name
 --------------------------------------
@@ -522,6 +541,8 @@ If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, your client 
 application must perform a :ref:`client reset <client-resets>`.
 
+.. _schema-update-change-property-from-optional-to-required:
+
 Change Property from Optional to Required
 -----------------------------------------
 
@@ -566,6 +587,8 @@ preferred SDK's migration page.
 If you choose to terminate and re-enable sync instead of using the partner
 collection strategy to resolve this type of breaking change, your client 
 application must perform a :ref:`client reset <client-resets>`.
+
+.. _schema-update-change-property-from-required-to-optional:
 
 Change Property from Required to Optional
 -----------------------------------------
