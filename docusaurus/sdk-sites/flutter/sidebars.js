@@ -38,8 +38,8 @@ const sidebars = {
       Versions: [
         {
           type: "link",
-          label: "Preview",
-          href: "/sdk/flutter/preview/intro",
+          label: "0.0.0",
+          href: "/sdk/flutter/0.0.0/intro",
         },
       ],
     },
