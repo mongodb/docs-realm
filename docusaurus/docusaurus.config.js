@@ -56,22 +56,22 @@ const config = {
         sidebarPath: require.resolve("./sdk-sites/flutter/sidebars.js"),
       },
     ],
-    // [
-    //   "@docusaurus/plugin-content-docs",
-    //   {
-    //     id: "kotlin",
-    //     lastVersion: "current",
-    //     includeCurrentVersion: true,
-    //     versions: {
-    //       current: {
-    //         label: "Current",
-    //       },
-    //     },
-    //     path: "sdk-sites/kotlin/docs",
-    //     routeBasePath: "sdk/kotlin/",
-    //     sidebarPath: require.resolve("./sdk-sites/kotlin/sidebars.js"),
-    //   },
-    // ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "kotlin",
+        lastVersion: "current",
+        includeCurrentVersion: true,
+        versions: {
+          current: {
+            label: "0.10.0",
+          },
+        },
+        path: "sdk-sites/kotlin/docs",
+        routeBasePath: "sdk/kotlin/",
+        sidebarPath: require.resolve("./sdk-sites/kotlin/sidebars.js"),
+      },
+    ],
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
@@ -185,7 +185,7 @@ const config = {
         darkTheme: darkCodeTheme,
         // careful -- adding a nonexistent language will break
         // the build without any error output!
-        additionalLanguages: ['kotlin', 'java', 'dart', 'groovy'],
+        additionalLanguages: ["kotlin", "java", "dart", "groovy"],
       },
     }),
 };
