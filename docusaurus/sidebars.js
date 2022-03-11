@@ -22,7 +22,23 @@ const sidebars = {
         type: "doc",
         id: "index",
       },
-      items: ["studio/index"],
+      items: [
+        {
+          type: "link",
+          label: "Java SDK",
+          href: "/sdk/java/intro",
+        },
+        {
+          type: "link",
+          label: "Kotlin SDK (Beta)",
+          href: "/sdk/kotlin/intro",
+        },
+        {
+          type: "link",
+          label: "Flutter SDK (Alpha)",
+          href: "/sdk/flutter/intro",
+        },
+      ],
     },
   ],
   getStarted: [
