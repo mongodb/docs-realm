@@ -45,13 +45,13 @@ You'll need to have the following before you can begin this tutorial:
 
 - A GitHub repository. The app you build will track contributions to
   this repository. You can `create a new repository
-  <https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository>`
+  <https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository>`__
   for this tutorial or use an existing repo that you have admin access
   to.
 
 - A MongoDB Atlas cluster. If you don't already have a cluster, `sign up
   for MongoDB Atlas and create one for free
-  <https://account.mongodb.com/account/register?tck=docs_realm>`.
+  <https://account.mongodb.com/account/register?tck=docs_realm>`__.
 
 Create a New Realm App
 ----------------------
@@ -76,8 +76,8 @@ First, you'll need to create an application in Realm. To create the app:
 Welcome New GitHub Contributors
 -------------------------------
 
-First, we'll connect the Realm App to your GitHub repository using a
-`GitHub repository webhook
+We'll connect the Realm App to your GitHub repository using a `GitHub
+repository webhook
 <https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks>`__.
 Webhooks let your app know whenever some event, like a new commit or
 pull request, happens in your repository. Each event runs a serverless
@@ -135,7 +135,7 @@ To create the endpoint:
 Connect the Endpoint to a GitHub Webhook
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that you've created the endpoint in your app, you need to set up
+Now that you've created the endpoint in your app, you need to set up a
 webhook in your GitHub repository that sends events to the endpoint.
 
 To create the webhook in your repository:
@@ -398,8 +398,8 @@ Send Report Notifications
 
 Your app will now automatically generate and save reports every week.
 However, the reports won't be very useful if nobody sees them. We'll
-create a database trigger that listens for new reports and sends a
-formatted message to end users.
+create a database trigger that listens for new reports and creates a
+formatted message that you can send to end users.
 
 To set up the messages:
 
