@@ -52,7 +52,7 @@ with the client's history. The most common causes of client resets are:
   local changes since the last sync and download the current status of
   the realm from the backend.
 
-- **Destructive schema changes**: A :ref:`destructive change
+- **Breaking schema changes**: A :ref:`breaking or destructive change
   <destructive-changes-synced-schema>`, like changing a property type or a
   primary key, requires you to terminate and re-enable sync. This creates a new
   synced realm file with a version unrelated to the client's file. Because
@@ -71,9 +71,9 @@ The SDKs automatically detect the need for client resets. You
 can handle client resets in your application using one of the available
 **client reset strategies**:
 
-.. note:: Destructive Changes Require Manual Recovery
+.. note:: Breaking Changes Require Manual Recovery
 
-   You can only handle a client reset triggered by destructive changes
+   You can only handle a client reset triggered by breaking changes
    using the :ref:`manually recover unsynced changes
    <manually-recover-unsynced-changes>` strategy.
 
@@ -126,7 +126,7 @@ There is one major disadvantage to this strategy, however:
   changes are permanently deleted and cannot ever be recovered.
 
 You can use this strategy to resolve a client reset caused by anything
-*except* a destructive schema change.
+*except* a breaking schema change.
 
 .. _manually-recover-unsynced-changes:
 
