@@ -27,16 +27,27 @@ const sidebars = {
           type: "link",
           label: "Java SDK",
           href: "/sdk/java/intro",
+          customProps: {
+            description:
+              "Build Android applications with Realm in Java or Kotlin.",
+          },
         },
         {
           type: "link",
           label: "Kotlin SDK (Beta)",
           href: "/sdk/kotlin/intro",
+          customProps: {
+            description:
+              "Build Kotlin Multiplatform and Android applications with Realm.",
+          },
         },
         {
           type: "link",
           label: "Flutter SDK (Alpha)",
           href: "/sdk/flutter/intro",
+          customProps: {
+            description: "Build Flutter applications with Realm in Dart.",
+          },
         },
       ],
     },
