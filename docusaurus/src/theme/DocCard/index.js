@@ -11,9 +11,11 @@ import clsx from "clsx";
 import styles from "./styles.module.css";
 import isInternalUrl from "@docusaurus/isInternalUrl";
 import { translate } from "@docusaurus/Translate";
+import FlutterIcon from "../../icons/flutter.svg";
+import AndroidIcon from "../../icons/android_sdk.svg";
+import KotlinIcon from "../../icons/kotlin_sdk.svg";
 
 function CardContainer({ href, children }) {
-  console.log(children);
   const className = clsx(
     "card margin-bottom--lg padding--lg",
     styles.cardContainer,
@@ -29,6 +31,22 @@ function CardContainer({ href, children }) {
 }
 
 function CardLayout({ href, icon, title, description }) {
+  if (icon.endsWith("Icon")) {
+    switch (icon) {
+      case "FlutterIcon":
+        icon = <FlutterIcon style={{ height: 20, width: 20 }} />;
+        break;
+      case "AndroidIcon":
+        icon = <AndroidIcon style={{ height: 20, width: 20 }} />;
+        break;
+      case "KotlinIcon":
+        icon = <KotlinIcon style={{ height: 20, width: 20 }} />;
+        break;
+      default:
+        break;
+    }
+    // icon = <img src={icon} />;
+  }
   return (
     <CardContainer href={href}>
       <h2 className={clsx("text--truncate", styles.cardTitle)} title={title}>
@@ -49,7 +67,7 @@ function CardCategory({ item }) {
   return (
     <CardLayout
       href={href}
-      icon="🗃️"
+      icon={item.customProps?.svg_icon || "🗃️"}
       title={item.label}
       description={translate(
         {
@@ -67,7 +85,8 @@ function CardCategory({ item }) {
 }
 
 function CardLink({ item }) {
-  const icon = isInternalUrl(item.href) ? "📄️" : "🔗";
+  const icon =
+    item.customProps?.svg_icon || (isInternalUrl(item.href) ? "📄️" : "🔗");
   const doc = useDocById(item.docId ?? undefined);
   return (
     <CardLayout
