@@ -32,7 +32,6 @@ const colorStyles: StylesConfig = {
 const getContext = (id) => CONTEXTS.find((context) => context.id === id);
 
 export const getCurrentSiteInstance = (history) => {
-  // const history = useHistory();
   const {
     location: { pathname },
   } = history;
@@ -81,13 +80,6 @@ function SDKSelector({ sdkSitesMetaData, activeSDK }) {
         styles={colorStyles}
         defaultValue={options.find((option) => option.value === activeSDK)}
       />
-      {/* <select onChange={changeHandler}>
-        {Object.keys(sdkSitesMetaData).map((sdkId) => (
-          <option key={sdkId} value={sdkId} selected={sdkId === activeSDK}>
-            {getContext(sdkId).name}
-          </option>
-        ))}
-      </select> */}
     </div>
   );
 }
