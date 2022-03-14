@@ -12,7 +12,9 @@ Install (Android) - Kotlin SDK
 
    The Kotlin Multiplatform ecosystem frequently changes. If you experience
    any issues installing the SDK, check your Kotlin Plugin version, since
-   outdated plugins can lead to difficult to debug errors.
+   outdated plugins can lead to difficult to debug errors. To see which
+   versions of the Kotlin Plugin are compatible with the SDK, see the
+   `realm-kotlin changelog <https://github.com/realm/realm-kotlin/blob/master/CHANGELOG.md>`__.
 
 Installation
 ------------
@@ -36,7 +38,6 @@ Installation
          // Top-level build file where you can add configuration options common to all sub-projects/modules.
          plugins {
              id 'com.android.application' version '7.1.2' apply false
-             id 'com.android.library' version '7.1.2' apply false
              id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
              id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
          }
@@ -122,7 +123,6 @@ Installation
          // Top-level build file where you can add configuration options common to all sub-projects/modules.
          plugins {
              id 'com.android.application' version '7.1.2' apply false
-             id 'com.android.library' version '7.1.2' apply false
              id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
              id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
          }
