@@ -1,8 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React, { useState, useEffect, Fragment, memo } from "react";
 import { useAllPluginInstancesData } from "@docusaurus/useGlobalData";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { versions } from "process";
+import Select, { StylesConfig } from "react-select";
 
 const CONTEXTS = [
   {
@@ -18,6 +17,17 @@ const CONTEXTS = [
     name: "Flutter",
   },
 ];
+
+const colorStyles: StylesConfig = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isSelected ? "#f8aaca" : undefined,
+      color: isSelected ? "white" : "#f15192",
+    };
+  },
+};
 
 const getContext = (id) => CONTEXTS.find((context) => context.id === id);
 
@@ -36,7 +46,6 @@ export const getCurrentSiteInstance = (history) => {
     const sdkWordIdx = splitPath.findIndex((value) => value === "sdk");
     const sdkInstance = splitPath[sdkWordIdx + 1];
     const sdkPage = splitPath.slice(sdkWordIdx + 2).join("/");
-    console.log(sdkPage);
     const sdkVersion = isNaN(splitPath[sdkWordIdx + 2][0])
       ? "current"
       : splitPath[sdkWordIdx + 2];
@@ -54,22 +63,31 @@ const pathExists = (path, data) => {
 
 function SDKSelector({ sdkSitesMetaData, activeSDK }) {
   const history = useHistory();
-  function changeHandler(e) {
-    const sdkName = e.target.value;
+  function changeHandler({ value: sdkName }) {
     const sdkMetadata = sdkSitesMetaData[sdkName];
     const sdkBasePage = sdkMetadata.path + "intro"; //TODO: refactor into smthn better
     history.push(sdkBasePage);
   }
   delete sdkSitesMetaData.default;
+  const options = Object.keys(sdkSitesMetaData).map((sdkId) => ({
+    value: sdkId,
+    label: getContext(sdkId).name,
+  }));
   return (
-    <div>
-      <select onChange={changeHandler}>
+    <div style={{ padding: 5 }}>
+      <Select
+        options={options}
+        onChange={changeHandler}
+        styles={colorStyles}
+        defaultValue={options.find((option) => option.value === activeSDK)}
+      />
+      {/* <select onChange={changeHandler}>
         {Object.keys(sdkSitesMetaData).map((sdkId) => (
           <option key={sdkId} value={sdkId} selected={sdkId === activeSDK}>
             {getContext(sdkId).name}
           </option>
         ))}
-      </select>
+      </select> */}
     </div>
   );
 }
@@ -81,41 +99,42 @@ function ActiveSDKVersionSelector({
   sdkSitesMetaData,
 }) {
   const history = useHistory();
-  function changeHandler2(e) {
-    const sdkVersion = e.target.value;
-    console.log({ sdkVersion });
+  function changeHandler({ value: sdkVersion }) {
     const sdkMetadata = sdkSitesMetaData[activeSdk];
-    console.log({ sdkMetadata });
-    const sdkVersionBasePage = sdkMetadata.path + `${sdkVersion}/` + "intro"; //TODO: refactor into smthn better
-    console.log({ sdkVersionBasePage });
+    const sdkVersionBasePage =
+      sdkVersion === "current"
+        ? sdkMetadata.path + "intro"
+        : sdkMetadata.path + sdkVersion + "/intro"; //TODO: refactor into smthn better
     history.push(sdkVersionBasePage);
   }
+  const options = activeSdkVersions.map((version) => ({
+    value: version.name,
+    label: version.label,
+  }));
   return (
-    <div>
-      <select onChange={changeHandler2}>
-        {activeSdkVersions.map((versionsInfo, i) => {
-          return (
-            <option
-              key={versionsInfo.name}
-              value={versionsInfo.name}
-              selected={currentSdkVersion === versionsInfo.name}
-            >
-              {versionsInfo.label}
-            </option>
-          );
-        })}
-      </select>
+    <div style={{ padding: 5 }}>
+      <Select
+        options={options}
+        onChange={changeHandler}
+        styles={colorStyles}
+        defaultValue={options.find(
+          (option) => option.value === currentSdkVersion
+        )}
+      />
     </div>
   );
 }
 
 const ContextSwitcher = ({ className }) => {
   const [context, setContext] = useState(CONTEXTS[0]);
+  const [versions, setVersions] = useState(null);
   const data = useAllPluginInstancesData("docusaurus-plugin-content-docs");
   const history = useHistory();
-
-  console.log(data);
-  console.log(history.location);
+  // TODO: refactor to make worth with this hook
+  // const activeDoc = useActiveDocContext(
+  //   getCurrentSiteInstance(history).sdkInstance
+  // );
+  // console.log({ activeDoc });
 
   useEffect(() => {
     const { sdkPage } = getCurrentSiteInstance(history);
@@ -124,50 +143,31 @@ const ContextSwitcher = ({ className }) => {
     if (currContext && currContext.id !== context.id) {
       setContext(currContext);
     }
+    const { sdkInstance: sdkName } = getCurrentSiteInstance(history);
+    setVersions(data[sdkName]?.versions);
   }, []);
 
-  const handleChange = (newValue) => {
-    setContext(newValue);
-
-    const { sdkInstance, sdkPage } = getCurrentSiteInstance(history);
-
-    const newDoc = newValue.id;
-
-    // let path = `/${newDoc}/${docPath.join("/")}`;
-    // // @ts-ignore
-    // const lastVersion = data[newDoc].versions.find(
-    //   (version) => version.isLast === true
-    // );
-
-    // if (pathExists(path, lastVersion)) {
-    //   // navigate to same document in the last version
-    //   // append hash to path for navigating to anchor tags, if they exist
-    //   if (window.location.hash) path += window.location.hash;
-    //   history.push(path);
-    // } else {
-    //   // navigate to the main doc of the last version.
-    //   const { mainDocId } = lastVersion;
-    //   history.push(`/${newDoc}/${mainDocId}`);
-    // }
-  };
   const currentPath = history.location.pathname;
   if (currentPath.includes("/sdk/")) {
     const { sdkInstance: sdkName } = getCurrentSiteInstance(history);
-    // @ts-ignore
-    const versions = data[sdkName].versions;
-    console.log(versions);
+    const wrapperStyles = { paddingTop: 45, height: 135 };
+    if (!versions) {
+      return <div style={wrapperStyles}></div>;
+    }
     return (
-      <div style={{ paddingTop: 60 }}>
-        <SDKSelector sdkSitesMetaData={data} activeSDK={sdkName} />
-        <ActiveSDKVersionSelector
-          activeSdk={sdkName}
-          activeSdkVersions={versions}
-          sdkSitesMetaData={data}
-          currentSdkVersion={getCurrentSiteInstance(history).sdkVersion}
-        />
+      <div style={wrapperStyles}>
+        <div style={{ position: "relative", zIndex: 100, top: 40 }}>
+          <SDKSelector sdkSitesMetaData={data} activeSDK={sdkName} />
+          <ActiveSDKVersionSelector
+            activeSdk={sdkName}
+            activeSdkVersions={versions}
+            sdkSitesMetaData={data}
+            currentSdkVersion={getCurrentSiteInstance(history).sdkVersion}
+          />
+        </div>
       </div>
     );
-  } else return <></>;
+  } else return null;
 };
 
 export default ContextSwitcher;
