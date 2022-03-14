@@ -1,9 +1,20 @@
+// PROTOTYPE: this component was implemented for prototype purposes.
+// it should not be added in it's current form to any production site.
+// refer to conversation on https://github.com/mongodb/docs-realm/pull/1743
+// for more information about changes to make to it.
 import { useHistory } from "react-router-dom";
 import React, { useState, useEffect, Fragment, memo } from "react";
 import { useAllPluginInstancesData } from "@docusaurus/useGlobalData";
 import Select, { StylesConfig } from "react-select";
 
-const CONTEXTS = [
+type Context = {
+  id: string;
+  name: string;
+};
+
+// TODO: try to refactor  Contexts to be generated dynamically with the hook
+// useAllPluginInstancesData("docusaurus-plugin-content-docs")
+const CONTEXTS: Context[] = [
   {
     id: "java",
     name: "Java",
@@ -18,6 +29,7 @@ const CONTEXTS = [
   },
 ];
 
+// TODO: refactor styling to properly use the Docusaurus theme config
 const colorStyles: StylesConfig = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -31,6 +43,11 @@ const colorStyles: StylesConfig = {
 
 const getContext = (id) => CONTEXTS.find((context) => context.id === id);
 
+// TODO: refactor to make SDK location selection worth with this hook
+// const activeDoc = useActiveDocContext(
+//   getCurrentSiteInstance(history).sdkInstance
+// );
+// console.log({ activeDoc });
 export const getCurrentSiteInstance = (history) => {
   const {
     location: { pathname },
@@ -41,34 +58,35 @@ export const getCurrentSiteInstance = (history) => {
       sdkInstance: "default",
       sdkPage: null,
     };
-  } else {
-    const sdkWordIdx = splitPath.findIndex((value) => value === "sdk");
-    const sdkInstance = splitPath[sdkWordIdx + 1];
-    const sdkPage = splitPath.slice(sdkWordIdx + 2).join("/");
-    const sdkVersion = isNaN(splitPath[sdkWordIdx + 2][0])
-      ? "current"
-      : splitPath[sdkWordIdx + 2];
-    return {
-      sdkInstance,
-      sdkPage,
-      sdkVersion,
-    };
   }
+  const sdkWordIdx = splitPath.findIndex((value) => value === "sdk");
+  const sdkInstance = splitPath[sdkWordIdx + 1];
+  const sdkPage = splitPath.slice(sdkWordIdx + 2).join("/");
+  const sdkVersion = isNaN(splitPath[sdkWordIdx + 2][0])
+    ? "current"
+    : splitPath[sdkWordIdx + 2];
+  return {
+    sdkInstance,
+    sdkPage,
+    sdkVersion,
+  };
 };
 
 const pathExists = (path, data) => {
   return data.docs.some((doc) => doc.path === path);
 };
 
-function SDKSelector({ sdkSitesMetaData, activeSDK }) {
+function SdkSelector({ sdkSitesMetaData, activeSDK }) {
   const history = useHistory();
   function changeHandler({ value: sdkName }) {
     const sdkMetadata = sdkSitesMetaData[sdkName];
     const sdkBasePage = sdkMetadata.path + "intro"; //TODO: refactor into smthn better
     history.push(sdkBasePage);
   }
-  delete sdkSitesMetaData.default;
-  const options = Object.keys(sdkSitesMetaData).map((sdkId) => ({
+  // not using `default` b.c this is the base site w intro, tutorials, etc.
+  // but not SDK content
+  const { default: _default, ...sdkSitesMetaDataCopy } = sdkSitesMetaData;
+  const options = Object.keys(sdkSitesMetaDataCopy).map((sdkId) => ({
     value: sdkId,
     label: getContext(sdkId).name,
   }));
@@ -84,7 +102,7 @@ function SDKSelector({ sdkSitesMetaData, activeSDK }) {
   );
 }
 
-function ActiveSDKVersionSelector({
+function ActiveSdkVersionSelector({
   activeSdk,
   activeSdkVersions,
   currentSdkVersion,
@@ -122,11 +140,6 @@ const ContextSwitcher = ({ className }) => {
   const [versions, setVersions] = useState(null);
   const data = useAllPluginInstancesData("docusaurus-plugin-content-docs");
   const history = useHistory();
-  // TODO: refactor to make worth with this hook
-  // const activeDoc = useActiveDocContext(
-  //   getCurrentSiteInstance(history).sdkInstance
-  // );
-  // console.log({ activeDoc });
 
   useEffect(() => {
     const { sdkPage } = getCurrentSiteInstance(history);
@@ -137,7 +150,7 @@ const ContextSwitcher = ({ className }) => {
     }
     const { sdkInstance: sdkName } = getCurrentSiteInstance(history);
     setVersions(data[sdkName]?.versions);
-  }, []);
+  }, [history]);
 
   const currentPath = history.location.pathname;
   if (currentPath.includes("/sdk/")) {
@@ -149,8 +162,8 @@ const ContextSwitcher = ({ className }) => {
     return (
       <div style={wrapperStyles}>
         <div style={{ position: "relative", zIndex: 100, top: 40 }}>
-          <SDKSelector sdkSitesMetaData={data} activeSDK={sdkName} />
-          <ActiveSDKVersionSelector
+          <SdkSelector sdkSitesMetaData={data} activeSDK={sdkName} />
+          <ActiveSdkVersionSelector
             activeSdk={sdkName}
             activeSdkVersions={versions}
             sdkSitesMetaData={data}
