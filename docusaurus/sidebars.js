@@ -30,7 +30,7 @@ const sidebars = {
           customProps: {
             description:
               "Build Android applications with Realm in Java or Kotlin.",
-            svg_icon: "AndroidIcon",
+            icon: "/img/icons/android_sdk.svg",
           },
         },
         {
@@ -40,7 +40,7 @@ const sidebars = {
           customProps: {
             description:
               "Build Kotlin Multiplatform and Android applications with Realm.",
-            svg_icon: "KotlinIcon",
+            icon: "/img/icons/kotlin_sdk.svg",
           },
         },
         {
@@ -49,7 +49,7 @@ const sidebars = {
           href: "/sdk/flutter/intro",
           customProps: {
             description: "Build Flutter applications with Realm in Dart.",
-            svg_icon: "FlutterIcon",
+            icon: "/img/icons/flutter.svg",
           },
         },
       ],
