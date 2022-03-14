@@ -8,6 +8,14 @@ Install (Android) - Kotlin SDK
 
 .. include:: /includes/kotlin-install-prerequisites.rst
 
+.. warning:: Kotlin Plugin Version
+
+   The Kotlin Multiplatform ecosystem frequently changes. If you experience
+   any issues installing the SDK, check your Kotlin Plugin version, since
+   outdated plugins can lead to difficult to debug errors. To see which
+   versions of the Kotlin Plugin are compatible with the SDK, see the
+   `realm-kotlin changelog <https://github.com/realm/realm-kotlin/blob/master/CHANGELOG.md>`__.
+
 Installation
 ------------
 
@@ -17,13 +25,33 @@ Installation
       :tabid: realm-database
 
       To add local-only Realm Database to your application, make
-      the following changes to your app-level Gradle build file,
+      the following changes to your project-level Gradle build file,
       typically found at :file:`<project>/app/build.gradle`:
 
       - Add :file:`io.realm.kotlin` to the list of plugins, specifying
         the library version and :file:`apply false`.
+
+      .. code-block:: kotlin
+         :emphasize-lines: 5
+         :copyable: false
+
+         // Top-level build file where you can add configuration options common to all sub-projects/modules.
+         plugins {
+             id 'com.android.application' version '7.1.2' apply false
+             id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+             id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
+         }
+
+         task clean(type: Delete) {
+             delete rootProject.buildDir
+         }
+
+      Then, make the following changes to your app-level Gradle build
+      file, typically found at :file:`<project>/app/build.gradle`:
+
+      - Add :file:`io.realm.kotlin` to the list of plugins.
       - Add :file:`io.realm.kotlin:library-base` to the list of
-        dependencies with the :file:`compileOnly` keyword.
+        dependencies.
       - To use coroutines with the SDK, add
         :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
         to the list of dependencies.
@@ -35,7 +63,7 @@ Installation
          plugins {
              id 'com.android.application'
              id 'org.jetbrains.kotlin.android'
-             id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
+             id 'io.realm.kotlin'
          }
 
          android {
@@ -68,7 +96,7 @@ Installation
 
          dependencies {
              implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
-             compileOnly 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}'
+             implementation 'io.realm.kotlin:library-base:{+kotlin-sdk-version+}'
              implementation 'androidx.core:core-ktx:1.7.0'
              implementation 'androidx.appcompat:appcompat:1.4.1'
              implementation 'com.google.android.material:material:1.5.0'
@@ -82,13 +110,33 @@ Installation
       :tabid: sync
 
       To add Realm Database and Sync to your application, make
-      the following changes to your app-level Gradle build file,
+      the following changes to your project-level Gradle build file,
       typically found at :file:`<project>/app/build.gradle`:
 
       - Add :file:`io.realm.kotlin` to the list of plugins, specifying
         the library version and :file:`apply false`.
+
+      .. code-block:: kotlin
+         :emphasize-lines: 5
+         :copyable: false
+
+         // Top-level build file where you can add configuration options common to all sub-projects/modules.
+         plugins {
+             id 'com.android.application' version '7.1.2' apply false
+             id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+             id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
+         }
+
+         task clean(type: Delete) {
+             delete rootProject.buildDir
+         }
+
+      Then, make the following changes to your app-level Gradle build file,
+      typically found at :file:`<project>/app/build.gradle`:
+
+      - Add :file:`io.realm.kotlin` to the list of plugins.
       - Add :file:`io.realm.kotlin:library-sync` to the list of
-        dependencies with the :file:`compileOnly` keyword.
+        dependencies.
       - To use coroutines with the SDK, add
         :file:`org.jetbrains.kotlinx:kotlinx-coroutines-core`
         to the list of dependencies.
@@ -100,7 +148,7 @@ Installation
          plugins {
              id 'com.android.application'
              id 'org.jetbrains.kotlin.android'
-             id 'io.realm.kotlin' version '{+kotlin-sdk-version+}' apply false
+             id 'io.realm.kotlin'
          }
 
          android {
@@ -133,7 +181,7 @@ Installation
 
          dependencies {
              implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{+kotlinx-coroutines-version+}'
-             compileOnly 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'
+             implementation 'io.realm.kotlin:library-sync:{+kotlin-sdk-version+}'
              implementation 'androidx.core:core-ktx:1.7.0'
              implementation 'androidx.appcompat:appcompat:1.4.1'
              implementation 'com.google.android.material:material:1.5.0'
