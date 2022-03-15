@@ -121,12 +121,53 @@ with a number literal (such as ``0``) or another property (such as
              Task[] tasks;
              int? quota;
          }
+   
+   .. tab:: Java SDK
+      :tabid: java
 
-   .. tab:: Kotlin SDK
+      .. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. code-block:: java
+
+         public class Task extends RealmObject {
+           ObjectId id  = new ObjectId();
+           String name;
+           Boolean isComplete = false;
+           String assignee;
+           Integer priority = 0;
+           Integer progressMinutes = 0;
+         }
+
+         public class Project extends RealmObject {
+           ObjectId id = new ObjectId();
+           String name;
+           RealmList<Task> tasks;
+           Integer quota = null;
+         }
+
+   .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/kotlin/RQLTest.codeblock.rql-examples.kt
-         :language: kotlin
+      .. code-block:: kotlin
+
+         open class Task(): RealmObject() {
+             var id: ObjectId = new ObjectId()
+             lateinit var name: String
+             var isComplete: Boolean = false
+             var assignee: String? = null
+             var priority: Int = 0
+             var progressMinutes: Int = 0
+         }
+
+         open class Project(): RealmObject() {
+             var id: ObjectId = new ObjectId()
+             lateinit var name: String
+             lateinit var tasks: RealmList<Task>
+             var quota: Int? = null
+         }
 
    .. tab:: Flutter SDK
       :tabid: Flutter
@@ -150,6 +191,27 @@ with a number literal (such as ``0``) or another property (such as
 
       .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs
          :language: csharp
+
+   .. tab:: Kotlin SDK
+      :tabid: kotlin
+
+      .. code-block:: kotlin
+
+         class Task(): RealmObject {
+           var id: Long = 0 // Kotlin SDK does not yet support ObjectId
+           lateinit var name: String
+           var isComplete: Boolean = false
+           var assignee: String? = null
+           var priority: Int = 0
+           var progressMinutes: Int = 0
+         }
+
+         class Project(): RealmObject {
+           var id: Long = 0 // Kotlin SDK does not yet support ObjectId
+           lateinit var name: String
+           lateinit var tasks: Array<Task>
+           var quota: Int? = null
+         }
 
 
 Operators
