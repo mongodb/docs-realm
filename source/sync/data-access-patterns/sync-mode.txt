@@ -224,9 +224,9 @@ logged-in user has permission to read or read and write the data.
         'id == "507f191e810c19729de860ea" && procedureDate > new Date("Wed Oct 18 2020 12:00:00 GMT+0000 (UTC)")'
       );
       
-      const subscriptions = realm.getSubscriptions();
-      subscriptions.update((mutableSubscriptionsInstance) => {
-        mutableSubscriptionsInstance.add(patientAndTimeWindow, {
+      const subscriptions = realm.subscriptions;
+      subscriptions.update((mutableSubs) => {
+        mutableSubs.add(patientAndTimeWindow, {
           name: "patientAndTimeWindow",
         });
       });
