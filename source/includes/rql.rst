@@ -101,27 +101,7 @@ with a number literal (such as ``0``) or another property (such as
 
 .. tabs::
 
-   .. tab:: Swift SDK
-      :tabid: swift
 
-      .. code-block:: swift
-
-         class Task {
-             ObjectId id;
-             string name;
-             bool isComplete;
-             string? assignee;
-             int priority;
-             int progressMinutes;
-         }
-
-         class Project {
-             ObjectId id;
-             string name;
-             Task[] tasks;
-             int? quota;
-         }
-   
    .. tab:: Java SDK
       :tabid: java
 
@@ -130,7 +110,8 @@ with a number literal (such as ``0``) or another property (such as
          .. tab::
              :tabid: java 
 
-             .. code-block:: java 
+             .. code-block:: java
+
                public class Task extends RealmObject {
                  ObjectId id  = new ObjectId();
                  String name;
@@ -165,6 +146,27 @@ with a number literal (such as ``0``) or another property (such as
                  lateinit var tasks: RealmList<Task>
                  var quota: Int? = null
                }
+
+   .. tab:: Swift SDK
+      :tabid: swift
+
+      .. code-block:: swift
+
+         class Task {
+             ObjectId id;
+             string name;
+             bool isComplete;
+             string? assignee;
+             int priority;
+             int progressMinutes;
+         }
+
+         class Project {
+             ObjectId id;
+             string name;
+             Task[] tasks;
+             int? quota;
+         }
 
    .. tab:: .NET SDK
       :tabid: dotnet
