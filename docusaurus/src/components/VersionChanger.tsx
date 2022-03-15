@@ -155,14 +155,14 @@ const ContextSwitcher = ({ className }) => {
   const currentPath = history.location.pathname;
   if (currentPath.includes("/sdk/")) {
     const { sdkInstance: sdkName } = getCurrentSiteInstance(history);
-    const wrapperStyles = { paddingTop: 45, height: 135 };
+    const wrapperStyles = { paddingTop: 45, height: 90 };
     if (!versions) {
       return <div style={wrapperStyles}></div>;
     }
     return (
       <div style={wrapperStyles}>
         <div style={{ position: "relative", zIndex: 100, top: 40 }}>
-          <SdkSelector sdkSitesMetaData={data} activeSDK={sdkName} />
+          {/* <SdkSelector sdkSitesMetaData={data} activeSDK={sdkName} /> */}
           <ActiveSdkVersionSelector
             activeSdk={sdkName}
             activeSdkVersions={versions}
