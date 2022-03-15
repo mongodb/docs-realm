@@ -1,5 +1,5 @@
 .. code-block:: swift
-   :emphasize-lines: 1, 1, 1, 11, 11
+   :emphasize-lines: 11
 
    struct SyncContentView: View {
        // Observe the Realm app object in order to react to login state changes.

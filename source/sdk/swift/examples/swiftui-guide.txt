@@ -301,7 +301,7 @@ To perform a migration:
 - Provide this configuration to the first view in your hierarchy that uses realm
 
 For example, you might want to add a property to an existing object, such as
-the ``Item`` object in the :ref:`SwiftUI Quick Start <ios-swiftui-quick-start>`:
+the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
 
 .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.add-property-to-model.swift
    :language: swift
@@ -313,9 +313,9 @@ schema version. Your ``Realm.Configuration`` might look like this:
    :language: swift
 
 Declare this configuration somewhere that is accessible to the first view 
-in the hierarchy that needs it. Above your ``@main`` app entrypoint makes it
-available everywhere, but you could also put it in the file where you first 
-open a realm.
+in the hierarchy that needs it. Declaring this above your ``@main`` app 
+entrypoint makes it available everywhere, but you could also put it in 
+the file where you first open a realm.
 
 Then, pass this configuration as an environment object to the first view 
 in your hierarchy that opens a realm. If you are using the ``@ObservedResults`` 
@@ -335,7 +335,7 @@ to the ``LocalOnlyContentView``:
 
 Which opens a realm implicitly with:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-to-synced-realm-view.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.implicitly-open-realm.swift.code-block.rst
 
 However, for the Sync version of the quickstart, you open the Realm explicitly
 using the AsyncOpen property wrapper:
