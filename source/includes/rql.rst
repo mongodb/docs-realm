@@ -127,53 +127,51 @@ with a number literal (such as ``0``) or another property (such as
 
       .. tabs-realm-languages::
 
-   .. tab::
-      :tabid: java
+         .. tab::
+             :tabid: java 
 
-      .. code-block:: java
+             .. code-block:: java 
+               public class Task extends RealmObject {
+                 ObjectId id  = new ObjectId();
+                 String name;
+                 Boolean isComplete = false;
+                 String assignee;
+                 Integer priority = 0;
+                 Integer progressMinutes = 0;
+               } 
+               public class Project extends RealmObject {
+                 ObjectId id = new ObjectId();
+                 String name;
+                 RealmList<Task> tasks;
+                 Integer quota = null;
+               }
 
-         public class Task extends RealmObject {
-           ObjectId id  = new ObjectId();
-           String name;
-           Boolean isComplete = false;
-           String assignee;
-           Integer priority = 0;
-           Integer progressMinutes = 0;
-         }
+         .. tab::
+            :tabid: kotlin
 
-         public class Project extends RealmObject {
-           ObjectId id = new ObjectId();
-           String name;
-           RealmList<Task> tasks;
-           Integer quota = null;
-         }
+            .. code-block:: kotlin 
 
-   .. tab::
-      :tabid: kotlin
+               open class Task(): RealmObject() {
+                 var id: ObjectId = new ObjectId()
+                 lateinit var name: String
+                 var isComplete: Boolean = false
+                 var assignee: String? = null
+                 var priority: Int = 0
+                 var progressMinutes: Int = 0
+               }
+               open class Project(): RealmObject() {
+                 var id: ObjectId = new ObjectId()
+                 lateinit var name: String
+                 lateinit var tasks: RealmList<Task>
+                 var quota: Int? = null
+               }
 
-      .. code-block:: kotlin
+   .. tab:: .NET SDK
+      :tabid: dotnet
 
-         open class Task(): RealmObject() {
-             var id: ObjectId = new ObjectId()
-             lateinit var name: String
-             var isComplete: Boolean = false
-             var assignee: String? = null
-             var priority: Int = 0
-             var progressMinutes: Int = 0
-         }
+      .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs
+         :language: csharp
 
-         open class Project(): RealmObject() {
-             var id: ObjectId = new ObjectId()
-             lateinit var name: String
-             lateinit var tasks: RealmList<Task>
-             var quota: Int? = null
-         }
-
-   .. tab:: Flutter SDK
-      :tabid: Flutter
-
-      .. literalinclude:: /examples/generated/flutter/task_project_models_test.codeblock.task-project-models.dart
-         :language: dart
    .. tab:: Node.Js SDK
       :tabid: node
 
@@ -185,12 +183,6 @@ with a number literal (such as ``0``) or another property (such as
 
       .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
          :language: javascript
-
-   .. tab:: .NET SDK
-      :tabid: dotnet
-
-      .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs
-         :language: csharp
 
    .. tab:: Kotlin SDK
       :tabid: kotlin
@@ -212,6 +204,13 @@ with a number literal (such as ``0``) or another property (such as
            lateinit var tasks: Array<Task>
            var quota: Int? = null
          }
+
+   .. tab:: Flutter SDK
+      :tabid: Flutter
+
+      .. literalinclude:: /examples/generated/flutter/task_project_models_test.codeblock.task-project-models.dart
+         :language: dart
+
 
 
 Operators
