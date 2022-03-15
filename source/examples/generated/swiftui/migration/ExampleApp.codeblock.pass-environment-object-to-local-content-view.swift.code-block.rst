@@ -1,5 +1,5 @@
 .. code-block:: swift
-   :emphasize-lines: 10-11
+   :emphasize-lines: 10
 
    @main
    struct ContentView: SwiftUI.App {

@@ -338,7 +338,7 @@ Which opens a realm implicitly with:
 .. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.implicitly-open-realm.swift.code-block.rst
 
 However, for the Sync version of the quickstart, you open the Realm explicitly
-using the AsyncOpen property wrapper:
+using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
 
 .. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.auto-open-synced-realm.swift.code-block.rst
 
@@ -346,5 +346,6 @@ So you must pass pass the environment object to the ``OpenSyncedRealmView``:
 
 .. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-to-synced-realm-view.swift.code-block.rst
 
-Make sure to pass the ``Realm.Configuration`` that encompasses your migration
-logic to any view hierarchy that implicitly or explicitly opens a realm.
+The important thing to remember is to make sure to pass the 
+``Realm.Configuration`` that encompasses your migration logic to any view 
+hierarchy that implicitly or explicitly opens a realm.

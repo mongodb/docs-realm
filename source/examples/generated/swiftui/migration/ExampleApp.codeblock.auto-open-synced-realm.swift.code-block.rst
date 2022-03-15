@@ -1,5 +1,5 @@
 .. code-block:: swift
-   :emphasize-lines: 22-29
+   :emphasize-lines: 7, 22-29
 
    struct OpenSyncedRealmView: View {
        // @AutoOpen attempts to connect to the server and download remote changes

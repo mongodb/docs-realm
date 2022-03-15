@@ -152,7 +152,9 @@ struct OpenSyncedRealmView: View {
     // no network connection, AutoOpen will open a realm on the device.
     // We can use an empty string as the partitionValue here because we're
     // injecting the user.id as an environment value from the LoginView.
+    // :emphasize-start:
     @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
+    // :emphasize-end:
     // :hide-start:
     @State var searchFilter: String = ""
     // :hide-end:
