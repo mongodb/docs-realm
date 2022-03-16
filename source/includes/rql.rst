@@ -2,7 +2,10 @@ Overview
 --------
 
 Realm Query Language is a string-based query language to constrain 
-searches when retrieving objects. Queries evaluate a predicate for every 
+searches when retrieving objects from a realm. SDK-specific methods pass queries 
+to the Realm query engine, which retrives matching objects from the realm.
+
+Queries evaluate a predicate for every 
 object in the collection being queried. If the predicate resolves 
 to ``true``, {+client-database+} includes the object in the results 
 collection.
