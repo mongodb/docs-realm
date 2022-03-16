@@ -440,22 +440,19 @@ document, but can only write their own data.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
+     "Employees": [{
            "name": "admin", 
            "applyWhen": { "%%user.custom_data.isAdmin": true},
-           "read": {} // evaluates to the same as true
+           "read": {}, // evaluates to the same as true
            "write": {}
          },
          {
            "name": "self",
            "applyWhen": {},
-           "read": {}
+           "read": {},
            "write": {"employee_id": "%%user.id"}
          }
-       ]
-     }
+      ]
    }
 
 Document Owner Read Only
@@ -467,16 +464,13 @@ Users cannot write, even to their own documents.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
+     "Employees": [{
            "name": "everyone", 
            "applyWhen": {},
-           "read": {"owner_id": "%%user.id"}
+           "read": {"owner_id": "%%user.id"},
            "write": false
          }
-       ]
-     }
+     ]
    }
 
 Global Admin, Department Admin, Department Member
@@ -493,28 +487,33 @@ read documents for other departments.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
-           "name": "globalAdmin", 
-           "applyWhen": { "%%user.custom_data.isGlobalAdmin": true},
-           "read": {}
-           "write": {}
-         },
-         {
-           "name": "departmentAdmin", 
-           "applyWhen": { "%%user.custom_data.isLocalAdmin": true},
-           "read": {}
-           "write": {"department": "%%user.custom_data.department"}
-         },
-         {
-           "name": "departmentMember", 
-           "applyWhen": {},
-           "read": {"department": "%%user.custom_data.department"}
-           "write": false
-         },
-       ]
-     }
+    "Employees": [{
+        "name": "globalAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isGlobalAdmin": true
+        },
+        "read": {},
+        "write": {}
+      },
+      {
+        "name": "departmentAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isLocalAdmin": true
+        },
+        "read": {},
+        "write": {
+          "department": "%%user.custom_data.department"
+        }
+      },
+      {
+        "name": "departmentMember",
+        "applyWhen": {},
+        "read": {
+          "department": "%%user.custom_data.department"
+        },
+        "write": false
+      }
+    ]
    }
 
 .. _flexible-sync-custom-and-default-roles:
@@ -523,11 +522,9 @@ Custom and Default Roles
 ````````````````````````
 
 This permission strategy combines custom and default roles. The custom
-session role applies to the ``Employees`` collection. The ``Items``
-collection has no custom session role, and therefore the default role
-applies. The ``Store`` collection is not listed in the configuration,
-and has no custom session role, so it also evaluates to the default
-role.
+session role applies to the ``Employees`` collection. The ``Store`` 
+collection is not listed in the configuration, and has no custom session 
+role, so it also evaluates to the default role.
 
 Sync attempts to find a matching session role by traversing the session
 roles in descending order. List the most specific custom session roles
@@ -538,43 +535,50 @@ default role, the user gets the default role permissions.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-           "name": "self",
-           "applyWhen": {},
-           "read": {}
-           "write": {"employee_id": "%%user.id"}
-       ]
-     },
-     "Items": {}, // an empty collection will thus conform to the defaultRoles
-     // the Stores collection is not listed but is part of the syncing schema and 
-     // thus will conform to the defaultRoles, the same as: "Stores": {}, 
-
-     "defaultRoles": {
-         "roles": [
-           {
-             "name": "admin", 
-             "applyWhen": {"%%user.custom_data.isGlobalAdmin": true},
-             "read": {}
-             "write": {}
-           },
-           {
-             "name": "owner", 
-             "applyWhen": {
-               "%%true": {
-                 "%function": {
-                 "name": "isOwner",
-                 "arguments": ["%%user.id"]
-               },
-             "read": {},
-             "write": {"owner_id": "%%user.custom_data.ownerId"},
-           },
-           {
-             "name": "shoppers", 
-             "applyWhen": {},
-             "read": {}
-             "write": false
-           },
-         ]
-   }
+    "rules": {
+      "Employees": [
+        {
+          "name": "employeeWriteSelf",
+          "applyWhen": {},
+          "read": {},
+          "write": {
+            "employee_id": "%%user.id"
+          }
+        }
+      ]
+    },
+    "defaultRoles": [
+      {
+        "name": "admin",
+        "applyWhen": {
+          "%%user.custom_data.isGlobalAdmin": true
+        },
+        "read": {},
+        "write": {}
+      },
+      {
+        "name": "owner",
+        "applyWhen": {
+          "%%true": {
+            "%function": {
+              "name": "isOwner",
+              "arguments": [
+                "%%user.id"
+              ]
+            }
+          }
+        },
+        "read": {},
+        "write": {
+          "owner_id": "%%user.custom_data.ownerId"
+        }
+      },
+      {
+        "name": "shoppers",
+        "applyWhen": {},
+        "read": {},
+        "write": false
+      }
+    ]
+  }
 
