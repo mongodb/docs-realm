@@ -125,11 +125,14 @@ property, and then delete the old property.
 
 .. important:: Synced Realms
 
-   :ref:`Synced realms <sync>` only support additive changes to ensure that
+   :ref:`Synced realms <sync>` only support non-breaking - also called additive
+   - changes to ensure that
    older clients can sync with newer clients. Because full renames require you
    to delete the old property, you cannot rename a synchronized property without
    requiring a client reset. Instead, consider adding
-   the renamed property without deleting the old property.
+   the renamed property without deleting the old property. Alternately, use 
+   :ref:`mapTo <react-native-remap-a-property>` to store data using the existing 
+   internal name, but let your code use a different name.  
 
 Modify a Property Type
 ----------------------
@@ -140,7 +143,7 @@ callback function of the :js-sdk:`realm's configuration Object
 
 .. note::
 
-   :doc:`Synchronized realms </sync/>` only support additive changes,
+   :doc:`Synchronized realms </sync/>` only support non-breaking changes,
    to ensure that older clients can sync with newer clients. This means that
    synchronized realms do not support modifying the type of a property of a
    schema. 

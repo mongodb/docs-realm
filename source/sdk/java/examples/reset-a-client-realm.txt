@@ -55,8 +55,8 @@ synced to the backend.
 
 The "discard unsynced changes" strategy can handle every kind of client
 reset error *except* for client resets triggered by
-:ref:`destructive schema changes <destructive-changes-synced-schema>`.
-If your application experiences a destructive schema change, this strategy
+:ref:`breaking or destructive schema changes <destructive-changes-synced-schema>`.
+If your application experiences a breaking schema change, this strategy
 falls back to a mode that mimics the "manually recover unsynced changes"
 strategy.
 
@@ -76,9 +76,9 @@ methods:
   a live instance of the realm in a syncable state.
 - ``onError()``: mimics the "manually recover unsynced changes"
   strategy. The SDK only calls this method when your application
-  experiences a destructive schema change. For more information on
+  experiences a breaking schema change. For more information on
   how to handle this scenario, see
-  :ref:`Discard Unsynced Changes after Destructive Schema Changes
+  :ref:`Discard Unsynced Changes after Breaking Schema Changes
   <java-discard-unsynced-changes-after-destructive-schema-changes>`.
 
 The following example implements this strategy:
@@ -101,12 +101,12 @@ The following example implements this strategy:
 
 .. _java-discard-unsynced-changes-after-destructive-schema-changes:
 
-Discard Unsynced Changes after Destructive Schema Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Discard Unsynced Changes after Breaking Schema Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/destructive-schema-change-app-update.rst
 
-If your application experiences a destructive schema change, the "discard
+If your application experiences a breaking schema change, the "discard
 unsynced changes" strategy cannot handle the resulting client reset
 automatically. Instead, you must provide a manual client reset
 implementation in the ``onError()`` method. The following
