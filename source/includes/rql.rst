@@ -17,42 +17,42 @@ Some SDKs also support idiomatic APIs for querying realms in their language.
 
 Further reading on SDK-specific methods for querying realms. 
 
-.. tabs-realm-languages::
+.. tabs::
 
-   .. tab::
+   .. tab:: Java SDK
       :tabid: java
 
     - :ref:`Query Engine - Java SDK <java-client-query-engine>`
     - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
 
-   .. tab::
+   .. tab:: Swift SDK
       :tabid: swift
 
       - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
 
-   .. tab::
+   .. tab:: .NET SDK
       :tabid: dotnet
 
       - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
 
-   .. tab::
+   .. tab:: Node.JS SDK
       :tabid: node
 
       - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
       - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
 
-   .. tab::
+   .. tab:: React Native SDK
       :tabid: react-native
 
       - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
       - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
 
-   .. tab::
+   .. tab:: Kotlin SDK
       :tabid: kotlin
 
       - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>` 
 
-   .. tab::
+   .. tab:: Flutter SDK
       :tabid: flutter
 
       - :ref:`Realm Query Language - Flutter SDK <flutter-query-language>`
