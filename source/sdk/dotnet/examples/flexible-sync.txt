@@ -109,8 +109,12 @@ Within the delegate, call the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
 method on the ``SubscriptionSet`` to add a query to the subscription.
 
-The ``Add()`` method takes a ``query``, and an optional subscription options object. The subscription
-options include:
+The ``Add()`` method takes two arguments, a ``query`` and an optional 
+:dotnet-sdk:`SubscriptionOptions <reference/Realms.Sync.SubscriptionOptions.html>` object.
+
+Create the ``query`` argument using the :ref:`.NET SDK LINQ Query Engine <dotnet-client-query-engine>`.
+
+``SubscriptionOptions`` contains additional configuration for your subscription:
 
 - a ``Name`` string field 
 - a ``UpdateExisting`` boolean field.

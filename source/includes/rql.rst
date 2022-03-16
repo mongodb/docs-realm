@@ -8,8 +8,8 @@ to ``true``, {+client-database+} includes the object in the results
 collection.
 
 You can use Realm Query Language in most Realm SDKs with your SDK's filter 
-or query methods. The Swift SDK is the exception, as it uses the NSPredicate 
-query API.
+or query methods. The Swift SDK is the exception, as it uses the 
+:ref:`NSPredicate query API <ios-nspredicate-query>`.
 
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
