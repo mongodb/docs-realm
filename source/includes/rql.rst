@@ -22,8 +22,8 @@ Further reading on SDK-specific methods for querying realms.
    .. tab:: Java SDK
       :tabid: java
 
-    - :ref:`Query Engine - Java SDK <java-client-query-engine>`
-    - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
+      - :ref:`Query Engine - Java SDK <java-client-query-engine>`
+      - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
 
    .. tab:: Swift SDK
       :tabid: swift
