@@ -1,7 +1,7 @@
 Overview
 --------
 
-{+client-database+} supports a string-based query language to constrain 
+Realm Query Language is a string-based query language to constrain 
 searches when retrieving objects. Queries evaluate a predicate for every 
 object in the collection being queried. If the predicate resolves 
 to ``true``, {+client-database+} includes the object in the results 
@@ -9,7 +9,52 @@ collection.
 
 You can use Realm Query Language in most Realm SDKs with your SDK's filter 
 or query methods. The Swift SDK is the exception, as it uses the 
-:ref:`NSPredicate query API <ios-nspredicate-query>`.
+:ref:`NSPredicate query API <ios-nspredicate-query>`. 
+Some SDKs also support idiomatic APIs for querying realms in their language.
+
+Further reading on SDK-specific methods for querying realms. 
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+    - :ref:`Query Engine - Java SDK <java-client-query-engine>`
+    - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
+
+   .. tab::
+      :tabid: swift
+
+      - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
+
+   .. tab::
+      :tabid: dotnet
+
+      - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
+
+   .. tab::
+      :tabid: node
+
+      - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
+      - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
+
+   .. tab::
+      :tabid: react-native
+
+      - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
+      - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
+
+   .. tab::
+      :tabid: kotlin
+
+      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>` 
+
+   .. tab::
+      :tabid: flutter
+
+      - :ref:`Realm Query Language - Flutter SDK <flutter-query-language>`
+      - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
+
 
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
