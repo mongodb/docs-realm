@@ -472,7 +472,7 @@ Users cannot write, even to their own documents.
          {
            "name": "everyone", 
            "applyWhen": {},
-           "read": {owner_id: "%%user.id"}
+           "read": {"owner_id": "%%user.id"}
            "write": false
          }
        ]
@@ -505,12 +505,12 @@ read documents for other departments.
            "name": "departmentAdmin", 
            "applyWhen": { "%%user.custom_data.isLocalAdmin": true},
            "read": {}
-           "write": {department: "%%user.custom_data.department"}
+           "write": {"department": "%%user.custom_data.department"}
          },
          {
            "name": "departmentMember", 
            "applyWhen": {},
-           "read": {department: "%%user.custom_data.department"}
+           "read": {"department": "%%user.custom_data.department"}
            "write": false
          },
        ]
@@ -567,7 +567,7 @@ default role, the user gets the default role permissions.
                  "arguments": ["%%user.id"]
                },
              "read": {},
-             "write": {owner_id: "%%user.custom_data.ownerId"},
+             "write": {"owner_id": "%%user.custom_data.ownerId"},
            },
            {
              "name": "shoppers", 
