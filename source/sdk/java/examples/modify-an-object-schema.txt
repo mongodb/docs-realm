@@ -18,8 +18,8 @@ Modify an Object Schema - Java SDK
 
       The following examples demonstrate how to add, delete, and modify 
       properties in a schema. First, make the required schema change.
-      Then, increment the schema version. Finally, if the change is destructive,
-      create a corresponding :ref:`migration function
+      Then, increment the schema version. Finally, if the change is 
+      breaking (destructive) create a corresponding :ref:`migration function
       <java-migration-function>` to move data from the original schema
       to the updated schema.
 
@@ -166,9 +166,9 @@ Modify an Object Schema - Java SDK
       You can make changes to the schema of a synchronized {+realm+} by
       modifying the :ref:`JSON Schema <configure-your-data-model>`
       defined in your application's backend. Synchronized {+realm+}s do
-      not require migration functions, since destructive changes to
+      not require migration functions, since breaking changes to
       synchronized schemas cause synchronization errors. {+sync+}
-      handles additive changes to synchronized {+realm+} schemas
+      handles non-breaking changes to synchronized {+realm+} schemas
       automatically. As a result, both old versions of your schema and
       new versions can synchronize as users upgrade their applications.
 
