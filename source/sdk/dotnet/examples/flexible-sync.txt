@@ -124,10 +124,10 @@ but a different query throws an exception. ``UpdateExisting`` defaults to true.
 
 .. note:: Duplicate Subscriptions 
 
-   {+service-short+} will automatically remove duplicate **unnamed** subscriptions
-   with the same query, and adding multiple identical **named** subscriptions is a 
-   :wikipedia:`no-op <NOP_(code)>`. The end resultin both cases is that duplicate 
-   subscriptions are ignored.
+   If you add a duplicate **unnamed** subscription with the same query, 
+   {+service-short+} automatically removes it; adding an identical 
+   **named** subscription is a :wikipedia:`no-op <NOP_(code)>`. Therefore, in 
+   both cases, duplicate subscriptions are ignored.
 
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
 block. Performing query updates is an expensive operation on the server. We
