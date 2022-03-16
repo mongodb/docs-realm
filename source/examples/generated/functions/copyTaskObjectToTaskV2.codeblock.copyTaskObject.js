@@ -1,7 +1,7 @@
 exports = function (changeEvent) {
   const db = context.services.get("mongodb-atlas").db("ExampleDB");
   const collection = db.collection("Task");
-  // If the event type is invalidate, the next const throws an error.
+  // If the event type is "invalidate", the next const throws an error.
   // Return early to avoid this.
   if (!changeEvent.documentKey) { return; }
   // The changed document's _id as an integer:
