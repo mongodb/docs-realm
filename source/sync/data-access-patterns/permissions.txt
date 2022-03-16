@@ -443,16 +443,16 @@ document, but can only write their own data.
      "Employees": {
        "roles": [
          {
-           name: "admin", 
-           applyWhen: { "%%user.custom_data.isAdmin": true},
-           read: {} // evaluates to the same as %%true
-           write: {}
+           "name": "admin", 
+           "applyWhen": { "%%user.custom_data.isAdmin": true},
+           "read": {} // evaluates to the same as true
+           "write": {}
          },
          {
-           name: "self",
-           applyWhen: {},
-           read: {}
-           write: {"employee_id": "%%user.id"}
+           "name": "self",
+           "applyWhen": {},
+           "read": {}
+           "write": {"employee_id": "%%user.id"}
          }
        ]
      }
@@ -470,10 +470,10 @@ Users cannot write, even to their own documents.
      "Employees": {
        "roles": [
          {
-           name: "everyone", 
-           applyWhen: {},
-           read: {owner_id: "%%user.id"}
-           write: false
+           "name": "everyone", 
+           "applyWhen": {},
+           "read": {"owner_id": "%%user.id"}
+           "write": false
          }
        ]
      }
@@ -496,22 +496,22 @@ read documents for other departments.
      "Employees": {
        "roles": [
          {
-           name: "globalAdmin", 
-           applyWhen: { "%%user.custom_data.isGlobalAdmin": true},
-           read: {}
-           write: {}
+           "name": "globalAdmin", 
+           "applyWhen": { "%%user.custom_data.isGlobalAdmin": true},
+           "read": {}
+           "write": {}
          },
          {
-           name: "departmentAdmin", 
-           applyWhen: { "%%user.custom_data.isLocalAdmin": true},
-           read: {}
-           write: {department: "%%user.custom_data.department"}
+           "name": "departmentAdmin", 
+           "applyWhen": { "%%user.custom_data.isLocalAdmin": true},
+           "read": {}
+           "write": {"department": "%%user.custom_data.department"}
          },
          {
-           name: "departmentMember", 
-           applyWhen: {},
-           read: {department: "%%user.custom_data.department"}
-           write: false
+           "name": "departmentMember", 
+           "applyWhen": {},
+           "read": {"department": "%%user.custom_data.department"}
+           "write": false
          },
        ]
      }
@@ -540,10 +540,10 @@ default role, the user gets the default role permissions.
    {
      "Employees": {
        "roles": [
-           name: "self",
-           applyWhen: {},
-           read: {}
-           write: {"employee_id": "%%user.id"}
+           "name": "self",
+           "applyWhen": {},
+           "read": {}
+           "write": {"employee_id": "%%user.id"}
        ]
      },
      "Items": {}, // an empty collection will thus conform to the defaultRoles
@@ -553,27 +553,27 @@ default role, the user gets the default role permissions.
      "defaultRoles": {
          "roles": [
            {
-             name: "admin", 
-             applyWhen: {"%%user.custom_data.isGlobalAdmin": true},
-             read: {}
-             write: {}
+             "name": "admin", 
+             "applyWhen": {"%%user.custom_data.isGlobalAdmin": true},
+             "read": {}
+             "write": {}
            },
            {
-             name: "owner", 
-             applyWhen: {
+             "name": "owner", 
+             "applyWhen": {
                "%%true": {
                  "%function": {
                  "name": "isOwner",
                  "arguments": ["%%user.id"]
                },
-             read: {},
-             write: {owner_id: "%%user.custom_data.ownerId"},
+             "read": {},
+             "write": {"owner_id": "%%user.custom_data.ownerId"},
            },
            {
-             name: "shoppers", 
-             applyWhen: {},
-             read: {}
-             write: false
+             "name": "shoppers", 
+             "applyWhen": {},
+             "read": {}
+             "write": false
            },
          ]
    }
