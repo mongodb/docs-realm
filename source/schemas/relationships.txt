@@ -238,6 +238,92 @@ or a null value in resolved GraphQL types and SDK models:
            }
          }
 
+Embedded Object Relationships with Foreign Collections
+------------------------------------------------------
+
+Embedded Objects can have relationships with foreign collections. Use 
+dot notation to access properties in embedded objects when creating
+relationships with foreign collections.
+
+.. _relationships-from-embedded-object-to-another-collection:
+
+Embedded Object to Another Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An embedded object can have a relationship with an object in a foreign 
+collection.
+
+.. code-block:: json
+
+   {
+     "title": "Person",
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "pet": {
+         "bsonType":"object",
+         "properties": {
+           "favoriteToyBrand": { "bsonType": "objectId" }
+         }
+       }
+       // ...additional model properties
+     }
+   }
+
+Use dot notation to specify the embedded object property that has a 
+relationship with the foreign collection. Then, you can specify the 
+foreign collection details and foreign key field.
+
+.. code-block:: json
+
+   { "pet.favoriteToyBrand": 
+      { 
+         "ref": "#/relationship/mongodb-atlas/example/ToyBrand", 
+         "foreign_key": "_id", 
+         "is_list": false }
+   }
+
+.. _relationships-to-embedded-object-within-list:
+
+Embedded Object Within a List
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An embedded object that is within a list property can have a relationship
+with a foreign collection.
+
+.. code-block:: json
+   :caption: ?
+
+   {
+     "title": "Person",
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "pets": {
+         "bsonType":"array",
+         "items": {
+           "bsonType": "object",
+           "properties": {
+             "favoriteToyBrand": { "bsonType": "objectId" }
+           }
+         }
+       }
+      // ...additional model properties
+     }
+   }
+
+The dot notation to access a embedded object property contained in a list 
+is: ``pets.[].favoriteToyBrand``. From there, you can specify the 
+foreign collection details and foreign key field.
+
+.. code-block:: json
+
+   {
+     "pets.[].favoriteToyBrand": {
+       "ref": "#/relationship/mongodb-atlas/example/ToyBrand",
+       "foreign_key": "_id",
+       "is_list": false
+     }
+   }
+
 .. _define-a-relationship:
 
 Define a Relationship
