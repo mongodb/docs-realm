@@ -242,8 +242,7 @@ Embedded Object Relationships
 -----------------------------
 
 Embedded Objects can have relationships with foreign collections. Use 
-dot notation to access properties in embedded objects when creating
-relationships with foreign collections.
+dot notation to access properties in embedded objects.
 
 .. _relationships-from-embedded-object-to-another-collection:
 
@@ -309,9 +308,9 @@ with a foreign collection.
      }
    }
 
-The dot notation to access a embedded object property contained in a list 
-is: ``pets.[].favoriteToyBrand``. From there, you can specify the 
-foreign collection details and foreign key field.
+To access a embedded object property contained in a list, use: 
+``field1.[].field2``, e.g. ``pets.[].favoriteToyBrand``. From there, 
+you can specify the foreign collection details and foreign key field.
 
 .. code-block:: json
 
