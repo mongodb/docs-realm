@@ -57,8 +57,17 @@ with the client's history. The most common causes of client resets are:
   primary key, requires you to terminate and re-enable sync. This creates a new
   synced realm file with a version unrelated to the client's file. Because
   this scenario requires a new realm file, you can only handle client resets
-  caused by destructive changes using the :ref:`manually recover unsynced changes
+  caused by breaking changes using the :ref:`manually recover unsynced changes
   <manually-recover-unsynced-changes>` strategy.
+
+- **Session role changes**: When using flexible sync, changes to a user's
+  :ref:`flexible sync session role <flex-sync-expansions-caveat>` result
+  in a client reset. The following scenarios all result in a client reset:
+
+  - server-side modifications to the session role
+  - changes to the value of any expansions in the "apply when", read, or
+    write expressions
+  - changes that qualify the user for a different session role
   
   .. include:: /includes/destructive-schema-change-app-update.rst
 

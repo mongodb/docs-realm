@@ -107,8 +107,8 @@ the client-side object model. For more details, see relevant sections below.
      - Breaking
      - Breaking
    * - :ref:`Change a property name <schema-update-change-property-name>`
-     - Breaking
-     - Breaking
+     - Breaking*
+     - Breaking*
    * - :ref:`Change property type but keep the name <schema-update-change-property-type-but-keep-name>`
      - Breaking
      - Breaking
@@ -118,6 +118,12 @@ the client-side object model. For more details, see relevant sections below.
    * - :ref:`Change property from required to optional <schema-update-change-property-from-required-to-optional>`
      - Breaking
      - Breaking
+
+.. tip:: Rename a property
+
+   While renaming a property is a breaking change, some of the Realm SDKs
+   offer a workaround to remap the property name. See 
+   :ref:`schema-update-change-property-name` for more details.
 
 .. _schema-update-add-object-type:
 
@@ -413,6 +419,20 @@ to both the server-side schema and the client-side object model.
 
 How to Change a Property Name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tip:: Change a property name
+
+   While changing a property name is a breaking change in both the server-side
+   schema and the client-side object model, some SDKs do offer an API to map
+   the name defined in a model class to a different internal name. This allows
+   you to avoid renaming a property and triggering migrations, but instead 
+   map the realm property name to something different to match your code. You
+   can use this API in these SDKs:
+
+   - :ref:`Java: Rename a Field <java-rename-field>`
+   - :ref:`.Net: Rename a Property <dotnet-rename-property>`
+   - :ref:`Node.js: Remap a Property <node-remap-a-property>`
+   - :ref:`React Native: Remap a Property <react-native-remap-a-property>`
 
 A breaking server-side schema change requires you to :ref:`terminate sync 
 <terminating-realm-sync>` in the backend, and then :ref:`re-enable 
