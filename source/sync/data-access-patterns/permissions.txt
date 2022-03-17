@@ -382,14 +382,14 @@ Available Expansions in Flexible Sync Rules Quick Reference
      - Yes
      - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
    * - :json-expansion:`%%this`, :json-expansion:`%%prev`, :json-expansion:`%%root`,  :json-expansion:`%%prevRoot`
-     - No. Realm evaluates "apply when" expressions at session start, so there's no document to evaluate.
+     - No. These expansions refer to the document. Realm evaluates "apply when" expressions at session start, so there's no document to evaluate.
      - No. These expansions might access non-queryable fields of the document, which is not possible.
    * - :json-expansion:`%%partition`
      - No
      - No
    * - :json-operator:`%stringToOid`, :json-operator:`%oidToString`
      - Yes
-     - Yes
+     - No
    * - :json-operator:`%function`
      - Yes
      - No. Realm expands the expansions at the start of the session, so the function would not operate on a per-document basis.
@@ -398,7 +398,7 @@ Available Expansions in Flexible Sync Rules Quick Reference
      - Yes
    * - :json-operator:`%in`, :json-operator:`%nin`
      - Yes
-     - Yes. However, note that you cannot currently have an array field as a queryable field.
+     - Yes. However, note that you cannot currently have an array field as a queryable field on a document.
    * - :json-operator:`%eq`, :json-operator:`%ne`, :json-operator:`%gt`, :json-operator:`%gte`, :json-operator:`%lt`, :json-operator:`%lte`  
      - Yes
      - Yes
