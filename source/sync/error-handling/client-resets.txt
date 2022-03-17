@@ -60,8 +60,14 @@ with the client's history. The most common causes of client resets are:
   caused by breaking changes using the :ref:`manually recover unsynced changes
   <manually-recover-unsynced-changes>` strategy.
 
-- **Session role changes**: If a user's :ref:`flexible sync session role <flexible-sync-roles>`
-  changes in between sync sessions, the client must perform a client reset.
+- **Session role changes**: When using flexible sync, changes to a user's
+  :ref:`flexible sync session role <flex-sync-expansions-caveat>` result
+  in a client reset. The following scenarios all result in a client reset:
+
+  - server-side modifications to the session role
+  - the value of any expansions in the "apply when", read, or
+    write expressions changes
+  - changes that qualify the user for a different session role
   
   .. include:: /includes/destructive-schema-change-app-update.rst
 
