@@ -21,7 +21,7 @@ namespace Examples
         public async Task HandleErrors()
         {
             // :code-block-start: set-log-level
-            Logger.LogLevel = LogLevel.Debug
+            Logger.LogLevel = LogLevel.Debug;
             // :code-block-end:
             
 

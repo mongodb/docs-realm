@@ -1,1 +1,1 @@
-Logger.LogLevel = LogLevel.Debug
+Logger.LogLevel = LogLevel.Debug;
