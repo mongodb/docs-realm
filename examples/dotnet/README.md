@@ -100,3 +100,15 @@ CHT organization of Atlas in a project called Realmtest [here](https://realm.mon
 If you need permissions for tasks like editing schemas or enabling/disabling
 Sync, you can request permissions from the current project owners,
 Caleb Thompson and Nathan Contino.
+
+
+# Upgrading Realm Version
+
+If you are writing code in unit tests that apply to either the `LocalOnly/`,
+`Examples/`, or `ConsoleTests/` folders and the changes require an update Realm
+version, you will have to update the following files for each folder,
+respectively:
+
+- `examples/dotnet/LocalOnly/LocalOnly.csproj`
+- `examples/dotnet/Examples/Examples.csproj`
+- `examples/dotnet/ConsoleTests/ConsoleTests.csproj` 
