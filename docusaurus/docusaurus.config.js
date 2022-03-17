@@ -4,7 +4,7 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/vsDark");
 
-const url = process.env.DOCUSAURUS_URL || "https://realm.io"
+const url = process.env.DOCUSAURUS_URL || "https://realm.io";
 const baseUrl = process.env.DOCUSAURUS_BASE_URL || "docs";
 
 /** @type {import('@docusaurus/types').Config} */
@@ -20,7 +20,74 @@ const config = {
   favicon: "img/realm-logo.png",
   organizationName: "mongodb",
   projectName: "docs-realm",
+  presets: [
+    [
+      "classic",
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
+        docs: {
+          // id: "main",
+          routeBasePath: "/",
+          path: "docs",
+          sidebarPath: require.resolve("./sidebars.js"),
+          // Please change this to your repo.
+        },
+        blog: false,
+        theme: {
+          customCss: require.resolve("./src/css/custom.css"),
+        },
+      }),
+    ],
+  ],
   plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "flutter",
+        lastVersion: "current",
+        includeCurrentVersion: true,
+        versions: {
+          current: {
+            label: "0.2.0+alpha",
+          },
+        },
+        path: "sdk-sites/flutter/docs",
+        routeBasePath: "sdk/flutter/",
+        sidebarPath: require.resolve("./sdk-sites/flutter/sidebars.js"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "kotlin",
+        lastVersion: "current",
+        includeCurrentVersion: true,
+        versions: {
+          current: {
+            label: "0.10.0",
+          },
+        },
+        path: "sdk-sites/kotlin/docs",
+        routeBasePath: "sdk/kotlin/",
+        sidebarPath: require.resolve("./sdk-sites/kotlin/sidebars.js"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "java",
+        lastVersion: "current",
+        includeCurrentVersion: true,
+        versions: {
+          current: {
+            label: "10.10.1",
+          },
+        },
+        path: "sdk-sites/java/docs",
+        routeBasePath: "sdk/java/",
+        sidebarPath: require.resolve("./sdk-sites/java/sidebars.js"),
+      },
+    ],
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
@@ -83,25 +150,6 @@ const config = {
       },
     ],
   ],
-  presets: [
-    [
-      "classic",
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
-        docs: {
-          id: "main",
-          routeBasePath: "/",
-          path: "docs",
-          sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
-        },
-        blog: false,
-        theme: {
-          customCss: require.resolve("./src/css/custom.css"),
-        },
-      }),
-    ],
-  ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -132,8 +180,8 @@ const config = {
               },
               {
                 label: "MongoDB Developer Hub",
-                href: "https://www.mongodb.com/developer/"
-              }
+                href: "https://www.mongodb.com/developer/",
+              },
             ],
           },
           {
@@ -153,7 +201,7 @@ const config = {
         darkTheme: darkCodeTheme,
         // careful -- adding a nonexistent language will break
         // the build without any error output!
-        additionalLanguages: ['kotlin', 'java', 'dart', 'aspnet'],
+        additionalLanguages: ["kotlin", "java", "dart", "groovy"],
       },
     }),
 };

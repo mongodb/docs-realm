@@ -13,7 +13,7 @@ namespace Examples
         App app;
         ObjectId testTaskId;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]

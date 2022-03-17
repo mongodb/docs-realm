@@ -1,0 +1,24 @@
+---
+title: Find Object by Primary Key
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import Intro from './_read-intro.md';
+import FindKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt';
+import FindJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java';
+
+<Intro />
+
+To find an object with a specific primary key value, open a realm
+and query the primary key field for the desired primary key value
+using [`RealmQuery.equalTo()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmQuery/#equalto):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{FindKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{FindJava}</CodeBlock>
+    </TabItem>
+</Tabs>

@@ -1,0 +1,71 @@
+---
+title: Overview
+---
+# App Services Overview
+
+You can connect your client apps to the Realm
+backend using the SDK. Backend functionality includes:
+
+- [Connect to a Realm App](https://docs.mongodb.com/realm/sdk/java/app-services/connect-to-a-realm-app/)
+- [Register Users](https://docs.mongodb.com/realm/sdk/java/app-services/register-users/)
+- [Authenticate Users](https://docs.mongodb.com/realm/sdk/java/app-services/authenticate-users/)
+- [Functions](/sdk/java/app-services/functions)
+- [MongoDB Data Access](/sdk/java/app-services/mongodb/overview)
+
+## The Realm App Client
+
+To connect to your Realm backend, start with an `App` object.
+This object provides all other functionality related to 
+the backend. Initialize an App with the Realm app ID, which you can 
+[find in the Realm UI](https://docs.mongodb.com/realm/get-started/find-your-project-or-app-id/#std-label-find-your-app-id).
+
+:::tip
+
+To learn how to initialize the Realm App client, see
+[Connect to a Realm App](/sdk/java/app-services/connect).
+:::
+
+## Authentication & User Management
+
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the Realm SDKs,
+however, you can use authentication providers with
+minimal backend setup and client-side code. With the authentication APIs,
+you can implement the following functionality:
+
+- Create new user accounts
+- User log in and log out
+- Multiple users logged on at the same time on the same device
+- Link user accounts from different providers
+- Store custom data for a particular user
+
+:::tip
+   To learn how to set up authentication in your app, see
+   [Authenticate Users](/sdk/java/app-services/users/authenticate-users).
+:::
+
+## Functions
+
+[Realm functions](/sdk/java/app-services/functions) enable you to define and
+execute server-side logic for your application. You can call these
+functions from your client applications via the SDK. These server-side
+functions can run under the context of the authenticated user, and thus
+honor the rules, roles, and permissions you have assigned to your
+collections.
+
+By using Realm functions, you provide a secure way for a variety of client
+applications to share complex functionality without having to reproduce that
+logic client-side.
+
+## Access MongoDB
+
+The SDK includes APIs for accessing a MongoDB Atlas instance directly.
+With these APIs, you can perform all of the standard CRUD operations
+from your client. For security, you configure server-side data access
+rules to dynamically determine read & write permissions for every object
+accessed.
+
+:::tip
+   To learn how to use the MongoDB APIs, see
+   [Query MongoDB](/sdk/java/app-services/mongodb/overview).
+:::

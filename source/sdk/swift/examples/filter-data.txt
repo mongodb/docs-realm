@@ -179,7 +179,18 @@ You can search for individual values by element, or search within a range.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
    - Find tasks where the ``progressMinutes`` property is within a given range of minutes.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections-contains.swift
+      :language: swift
+
+.. versionadded:: 10.23.0: The ``IN`` operator
+
+The Realm Swift Query API now supports the ``IN`` operator. Evaluates to ``true`` if the property referenced by the expression contains the value.
+
+.. example::
+
+   Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections-in.swift
       :language: swift
 
 Logical Operators

@@ -1,5 +1,5 @@
 const navBar = {
-  title: "Realm Docs",
+  title: "Realm SDK Docs",
   logo: {
     alt: "Realm Logo",
     src: "/img/realm-logo.png",
@@ -22,8 +22,13 @@ const navBar = {
           href: "/sdk/flutter/intro",
           label: "Flutter SDK",
         },
+        {
+          href: "/sdk/java/intro",
+          label: "Java SDK",
+        },
       ],
     },
+
     {
       type: "dropdown",
       label: "More",
@@ -43,8 +48,8 @@ const navBar = {
         },
         {
           href: "https://docs.mongodb.com/realm/cloud/",
-          label: "App Services"
-        }
+          label: "App Services",
+        },
       ],
     },
   ],

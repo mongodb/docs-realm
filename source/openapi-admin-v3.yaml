@@ -1727,7 +1727,10 @@ paths:
           required: false
         - name: errors_only
           in: query
-          description: Whether to only return errors.
+          description: |-
+            The value of this field does not matter. If included in the request,
+            this endpoint only returns error logs (even if the value is set to ``false``).
+            If this field is excluded from the request, this endpoint only returns non-error logs.
           schema:
             type: boolean
           required: false
@@ -1772,6 +1775,39 @@ paths:
             query matches more than this many logs, it returns documents in
             ascending order by date until the limit is reached.
           required: false
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum:
+              - TRIGGER_FAILURE
+              - DB_TRIGGER
+              - AUTH_TRIGGER
+              - SCHEDULED_TRIGGER
+              - FUNCTION
+              - SERVICE_FUNCTION
+              - STREAM_FUNCTION
+              - SERVICE_STREAM_FUNCTION
+              - AUTH
+              - WEBHOOK
+              - ENDPOINT
+              - PUSH
+              - API
+              - API_KEY
+              - GRAPHQL
+              - SYNC_CONNECTION_START
+              - SYNC_CONNECTION_END
+              - SYNC_SESSION_START
+              - SYNC_SESSION_END
+              - SYNC_CLIENT_WRITE
+              - SYNC_ERROR
+              - SYNC_OTHER
+              - SCHEMA_ADDITIVE_CHANGE
+              - SCHEMA_GENERATION
+              - SCHEMA_VALIDATION
+              - LOG_FORWARDER
+            description: The kind of log you would like to retrieve.
+            required: false
       responses:
         "200":
           description: Successfully retrieved.

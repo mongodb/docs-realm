@@ -7,7 +7,7 @@ var config = RealmConfiguration.DefaultConfiguration;
 // If the realm is synced realm
 var app = App.Create("myRealmAppId");
 var user = await app.LogInAsync(Credentials.Anonymous());
-config = new SyncConfiguration("myPartition", user);
+config = new PartitionSyncConfiguration("myPartition", user);
 
 if (!File.Exists(config.DatabasePath))
     FileUtil.CopyFileOrDirectory(Path.Combine(Application.dataPath,

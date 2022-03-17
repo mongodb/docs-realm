@@ -10,7 +10,7 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         string myRealmAppId = Config.appid;
         public class ProgressObj : RealmObject
         {
@@ -28,7 +28,7 @@ namespace Examples
             };
             app = App.Create(appConfig);
             user = app.LogInAsync(Credentials.Anonymous()).Result;
-            config = new SyncConfiguration("myPartition", user);
+            config = new PartitionSyncConfiguration("myPartition", user);
             try
             {
                 // :code-block-start: wait-for-changes-to-download-async-progress-notification
@@ -56,7 +56,7 @@ namespace Examples
             };
             app = App.Create(appConfig);
             user = app.LogInAsync(Credentials.Anonymous()).Result;
-            config = new SyncConfiguration("myPartition", user);
+            config = new PartitionSyncConfiguration("myPartition", user);
             var realm = Realm.GetInstance(config);
             // :code-block-start: upload-download-progress-notification
             var session = realm.SyncSession;

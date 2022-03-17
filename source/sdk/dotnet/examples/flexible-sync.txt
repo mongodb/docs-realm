@@ -109,8 +109,10 @@ Within the delegate, call the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
 method on the ``SubscriptionSet`` to add a query to the subscription.
 
-The ``Add()`` method takes a ``query``, and an optional subscription options object. The subscription
-options include:
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
+The ``Add()`` method takes a ``query``, and an optional subscription options object. 
+The subscription options include:
 
 - a ``Name`` string field 
 - a ``UpdateExisting`` boolean field.
@@ -120,11 +122,12 @@ existing name will replace the existing query with the new query. However, if
 you set ``UpdateExisting`` to false, adding a subscription with an existing name
 but a different query throws an exception. ``UpdateExisting`` defaults to true.
 
-.. note:: {+service-short+} Automatically Removes Duplicate Subscriptions 
+.. note:: Duplicate Subscriptions 
 
-   {+service-short+} will automatically remove duplicate unnamed subscriptions
-   with the same query. Also, adding multiple identical named subscriptions,
-   regardless of the value of ``UpdateExisting``, is a :wikipedia:`no-op <NOP_(code)>`.
+   If you add a duplicate **unnamed** subscription with the same query, 
+   {+service-short+} automatically removes it; adding an identical 
+   **named** subscription is a :wikipedia:`no-op <NOP_(code)>`. Therefore, in 
+   both cases, duplicate subscriptions are ignored.
 
 You can add a single query, or batch multiple queries within a ``SubscriptionSet.Update``
 block. Performing query updates is an expensive operation on the server. We

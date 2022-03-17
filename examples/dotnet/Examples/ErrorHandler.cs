@@ -13,7 +13,7 @@ namespace Examples
     {
         App app;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         bool didTriggerErrorHandler;
         string myRealmAppId = Config.appid;
 
@@ -21,16 +21,9 @@ namespace Examples
         public async Task HandleErrors()
         {
             // :code-block-start: set-log-level
-            var appConfig = new AppConfiguration(myRealmAppId)
-            {
-                //:uncomment-start:
-                //LogLevel = LogLevel.Debug,
-                //:uncomment-end:
-                // :hide-start:
-                DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
-                // :hide-end:
-            };
+            Logger.LogLevel = LogLevel.Debug;
             // :code-block-end:
+            
 
             // :code-block-start: customize-logging-function
             // :uncomment-start:
@@ -43,10 +36,14 @@ namespace Examples
                 // Do something with the message
             });
             // :code-block-end:
+            var appConfig = new AppConfiguration(myRealmAppId)
+            {
+                DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
+            };
 
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
-            config = new SyncConfiguration("myPartition", user);
+            config = new PartitionSyncConfiguration("myPartition", user);
             //:hide-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
             //:hide-end:

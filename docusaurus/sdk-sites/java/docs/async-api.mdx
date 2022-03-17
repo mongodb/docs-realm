@@ -1,0 +1,167 @@
+---
+title: 'Async API'
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import RealmCallbackJava from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-callback.java';
+import RealmCallbackKotlin from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-callback.kt';
+import AppCallbackJava from '!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.anonymous.java';
+import AppCallbackKotlin from '!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.anonymous.kt';
+import RealmAsyncTaskJava from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-async-task.java';
+import RealmAsyncTaskKotlin from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-async-task.kt';
+import RealmResultsJava from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-results.java';
+import RealmResultsKotlin from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.realm-results.kt';
+import MongoDBDataAccessJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java';
+import MongoDBDataAccessKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.kt';
+import Coroutines from '!!raw-loader!@site/docs/generated/java/local/AsyncTest.codeblock.coroutines.kt';
+
+The Java SDK lets you access network and disk
+resources in two ways: **synchronously** and **asynchronously**. While
+synchronous, or "sync", requests block execution until the request returns
+success or failure, asynchronous, or "async", requests assign a
+callback and proceed execution to the next line of code. When
+the request returns, the callback runs to process results.
+In the callback, you can check if the request executed
+successfully and either access the returned results or the returned
+error.
+
+## Asynchronous Calls
+
+Asynchronous API requests in the SDK end with the suffix "Async".
+There are several different ways an asynchronous request can behave,
+depending on which part of the SDK you're using.
+
+### `Realm.Callback`
+
+Asynchronous calls to open a realm, both with and without Sync,
+use a final parameter of type [`Realm.Callback`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.Callback.html).
+To retrieve returned values after the
+request completes, implement the `onSuccess()` method in the callback
+object passed as the final parameter to these asynchronous methods. You
+should also implement the `onError()` method to handle request failures,
+but it is not required.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{RealmCallbackKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{RealmCallbackJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### `App.Callback` {#app-callback}
+
+When you query App Service features like [Functions](/sdk/java/app-services/functions)
+and [user authentication](/sdk/java/app-services/users/authenticate-users),
+asynchronous calls accept a final
+parameter of type [`App.Callback`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/App.Callback.html).
+You can handle this callback with a lambda function that accepts a
+single parameter of type [`App.Result`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/App.Result.html).
+To retrieve a returned values from `App.Callback` requests:
+
+1. Use the `isSuccess()` method of the `App.Result` passed to the
+   callback function to determine if the query completed
+   successfully.
+
+1. If the query was successful, use the `get()` method to retrieve
+   the result of the query. If the query failed, use `getError()` to
+   retrieve the exception that caused the query to fail.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{AppCallbackKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{AppCallbackJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### `RealmAsyncTask`
+
+Asynchronous calls to [execute transactions](sdk/java/realm-database/write-transactions)
+on a realm return an instance of [`RealmAsyncTask`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmAsyncTask.html).
+You can optionally [specify an error handler](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.Transaction.OnError.html)
+or a [success notification](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.Transaction.OnSuccess.html)
+for `RealmAsyncTask` by passing additional parameters to the
+asynchronous call. Additionally, use
+[`cancel()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmAsyncTask.html#cancel--)
+to stop a transaction from completing. The lambda function passed
+to a `RealmAsyncTask` contains the write operations to include in the
+transaction.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{RealmAsyncTaskKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{RealmAsyncTaskJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### `RealmResults`
+
+Asynchronous reads from a realm using [`findAllAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmQuery.html#findAllAsync--)
+immediately return an empty
+[`RealmResults`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmResults.html)
+instance. The SDK executes the query on a background thread and
+populates the `RealmResults` instance with the results when the query
+completes. You can register a listener with [`addChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmResults.html#addChangeListener-io.realm.RealmChangeListener-)
+to receive a notification when the query completes.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{RealmResultsKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{RealmResultsJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### `RealmResultTask` {#realmresulttask}
+
+Asynchronous queries to Atlas return an instance of
+[`RealmResultTask`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/RealmResultTask.html).
+You can cancel `RealmResultTask` instances just like
+`RealmAsyncTask`. To access the values returned by your query, you
+can use:
+
+- [`get()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/RealmResultTask.html#get--)
+  to block until the operation completes
+
+- [`getAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/RealmResultTask.html#getAsync-io.realm.mongodb.App.Callback-)
+  to handle the result via an [`App.Callback`](#app-callback) instance
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{MongoDBDataAccessKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{MongoDBDataAccessJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+## Coroutines
+
+The SDK provides a set of [Kotlin extensions](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/)
+to request asynchronously using coroutines and flows instead of
+callbacks. You can use these extensions to [execute transactions](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/io.realm.-realm/execute-transaction-await.html),
+[watch for changes](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/add-change-listener.html),
+[read](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/io.realm.-realm/where.html),
+and [write](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/io.realm.-realm/create-object.html).
+
+<CodeBlock language="kotlin">{Coroutines}</CodeBlock>
+
+:::note Kotlin Flows use Frozen Objects
+The `toFlow()` extension method uses frozen Realm objects to safely
+communicate between threads.
+:::
+
+:::tip
+The SDK also includes Kotlin extensions that make specifying type
+parameters for Realm Database [reads](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/io.realm.-realm/where.html)
+and
+[writes](https://docs.mongodb.com/realm-sdks/java/latest/kotlin-extensions/io.realm.kotlin/io.realm.-realm/create-object.html)
+easier.
+:::

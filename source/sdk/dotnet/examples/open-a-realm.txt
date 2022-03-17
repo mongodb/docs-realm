@@ -75,13 +75,13 @@ The steps for opening a synced {+realm+} while online are:
 1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
 
 #. Create a 
-   :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
+   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
    object that includes the :ref:`partition name <partition-value>` and 
    the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
 
 #. Open a synced {+realm+} by calling the 
    :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-   method, passing in the ``SyncConfiguration`` object.
+   method, passing in the ``PartitionSyncConfiguration`` object.
    
 The following code demonstrates these steps:
 

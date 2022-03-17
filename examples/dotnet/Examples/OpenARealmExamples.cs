@@ -16,7 +16,7 @@ namespace Examples
     {
         App app;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -26,7 +26,7 @@ namespace Examples
             // :code-block-start: open-synced-realm
             user = await app.LogInAsync(
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             // Internal Note: this is so we can have a more "global" instance
             // or the realm object but the code snippet can show
@@ -144,7 +144,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             User user3;
-            SyncConfiguration config3;
+            PartitionSyncConfiguration config3;
             Realm realm3;
             // :code-block-start: check-if-offline
             // :replace-start: {
@@ -159,14 +159,14 @@ namespace Examples
                 // App must be online for user to authenticate
                 user3 = await app.LogInAsync(
                     Credentials.EmailPassword("caleb@mongodb.com", "shhhItsASektrit!"));
-                config3 = new SyncConfiguration("_part", user3);
+                config3 = new PartitionSyncConfiguration("_part", user3);
                 realm3 = await Realm.GetInstanceAsync(config3);
             }
             else
             {
                 // This works whether online or offline
                 user3 = app.CurrentUser;
-                config3 = new SyncConfiguration("_part", user3);
+                config3 = new PartitionSyncConfiguration("_part", user3);
                 realm3 = Realm.GetInstance(config3);
             }
             // :replace-end:
@@ -177,7 +177,7 @@ namespace Examples
         public async ThreadTask ScopesARealm()
         {
             // :code-block-start: scope
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new Type[]
                 {

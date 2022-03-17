@@ -21,7 +21,7 @@ namespace ConsoleTests
         {
             var app = App.Create(myRealmAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
-            var config = new SyncConfiguration("partition", user);
+            var config = new PartitionSyncConfiguration("partition", user);
 
             using var realm = await Realm.GetInstanceAsync();
             var foos = realm.All<TestClass>().Where(f => f.Bar > 5);

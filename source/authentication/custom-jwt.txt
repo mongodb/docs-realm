@@ -222,7 +222,8 @@ Some external authentication systems provide a `JSON Web Key Set
 <https://tools.ietf.org/html/rfc7517>`_ that describes the signing
 algorithm and signing keys the system uses to sign JWTs. You can use the
 JWKS to configure the provider instead of manually specifying the
-signing algorithm and keys.
+signing algorithm and keys. When enabled, each token must include a
+:data:`kid` header that specifies the Key ID of a key from the JWKS.
 
 .. tabs-realm-admin-interfaces::
 
@@ -475,7 +476,8 @@ document of the following form:
 
    {
      "alg": "HS256",
-     "typ": "JWT"
+     "typ": "JWT",
+     "kid": "<JWK Key ID>"
    }
 
 .. list-table::
@@ -504,11 +506,16 @@ document of the following form:
           * - RSA Signature SHA-256
             - ``"RS256"``
 
-
    * - .. data:: typ
 
      - Required. The type of the token. {+service-short+} expects a JSON web token
        so the value should be ``"JWT"``.
+
+   * - .. data:: kid
+
+     - Optional. The Key ID of a specific key to use from a set of keys
+       in a JWK. You must include the ``kid`` header when you :ref:`use
+       a JWK URL <custom-jwt-authentication-configuration-jwk-uri>`.
 
 .. _custom-jwt-authentication-jwt-payload:
 

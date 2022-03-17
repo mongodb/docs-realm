@@ -1,0 +1,139 @@
+---
+title: User API Keys
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import CreateKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.create-a-user-api-key.kt';
+import CreateJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.create-a-user-api-key.java';
+import LookUpKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.look-up-a-users-api-keys.kt';
+import LookUpJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.look-up-a-users-api-keys.java';
+import LookUpSpecificKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.look-up-a-specific-user-api-key.kt';
+import LookUpSpecificJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.look-up-a-specific-user-api-key.java';
+import DisableKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.disable-user-api-key.kt';
+import DisableJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.disable-user-api-key.java';
+import EnableKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.enable-user-api-key.kt';
+import EnableJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.enable-user-api-key.java';
+import DeleteKotlin from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.delete-user-api-key.kt';
+import DeleteJava from '!!raw-loader!@site/docs/generated/java/sync/UserAPIKeysTest.codeblock.delete-user-api-key.java';
+
+Application users can generate user API keys with the SDK. You
+can allow devices or services to communicate with App Services
+on behalf of a user by associating a unique user API key with each
+device or service.
+
+User API keys are always associated with a user object created by another
+non-anonymous authentication provider. Each user can associate up to 20
+user keys with their account.
+
+:::note User vs. Server API Keys
+User API keys are not the same as **server API keys**, which allow a
+user or service to directly authenticate with the backend using the
+API Key authentication provider. To learn more about server API keys,
+see [API Key Authentication](https://docs.mongodb.com/realm/authentication/api-key/#std-label-api-key-authentication).
+:::
+
+## Create a User API Key
+
+To create a new user API key, call [`user.ApiKeyAuth.create()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#create-java.lang.String-)
+or [`user.ApiKeyAuth.createAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#createAsync-java.lang.String-io.realm.mongodb.App.Callback-)
+with a logged in user. The backend will associate the user API key with
+the logged in user. You can then use the key to interact with the
+backend on the user's behalf. You cannot create user API keys for
+anonymous users.
+
+:::tip Store the API Key Value
+The SDK only returns the value of the user API key when you create it.
+Make sure to store the key value securely so that you can use it to log in.
+If you lose or do not store the key value there is no way to recover it.
+You will need to create a new user API key.
+:::
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{CreateKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{CreateJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+## Look up a User API Key
+
+To get a list of all user API keys associated with the logged in user,
+call [`user.ApiKeyAuth.fetchAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll--):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{LookUpKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{LookUpJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+To look up a specific user API key for the logged in user, pass the
+key's id to [`user.ApiKeyAuth.fetch()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetch-ObjectId-)
+or [`user.ApiKeyAuth.fetchAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#fetchAsync-ObjectId-io.realm.mongodb.App.Callback->):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{LookUpSpecificKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{LookUpSpecificJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+## Enable or Disable a User API Key
+
+You can temporarily disable user API keys when they are not needed.
+Later, when they are needed again, you can enable them.
+
+### Disable a User API Key
+
+To disable a specific user API key without deleting it, pass the
+key's id to [`user.ApiKeyAuth.disable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disable-ObjectId-)
+or [`user.ApiKeyAuth.disableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#disableAsync-ObjectId-io.realm.mongodb.App.Callback-):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{DisableKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{DisableJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### Enable a User API Key
+
+To enable a specific user API key that was previously disabled, pass the
+key's id to [`user.ApiKeyAuth.enable()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enable-ObjectId-)
+or [`user.ApiKeyAuth.enableAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#enableAsync-ObjectId-io.realm.mongodb.App.Callback-):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{EnableKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{EnableJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+## Delete a User API Key
+
+To permanently remove a specific user API key, pass the
+key's id to [`user.ApiKeyAuth.delete()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#delete-ObjectId-)
+or [`user.ApiKeyAuth.deleteAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/auth/ApiKeyAuth.html#deleteAsync-ObjectId-io.realm.mongodb.App.Callback-):
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{DeleteKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{DeleteJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+
+
