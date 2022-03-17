@@ -105,8 +105,8 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
-on the {+realm+}.
+When using a flexible synced realm, you can access a ``SubscriptionSet``, a
+collection of subscriptions, through the ``realm.subscriptions`` property.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
