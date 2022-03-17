@@ -111,8 +111,12 @@ method on the ``SubscriptionSet`` to add a query to the subscription.
 
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
-The ``Add()`` method takes a ``query``, and an optional subscription options object. 
-The subscription options include:
+The ``Add()`` method takes two arguments, a ``query`` and an optional 
+:dotnet-sdk:`SubscriptionOptions <reference/Realms.Sync.SubscriptionOptions.html>` object.
+
+Create the ``query`` argument using the :ref:`query engine <dotnet-client-query-engine>`.
+
+``SubscriptionOptions`` contains additional configuration for your subscription:
 
 - a ``Name`` string field 
 - a ``UpdateExisting`` boolean field.

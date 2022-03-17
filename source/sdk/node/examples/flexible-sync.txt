@@ -117,8 +117,21 @@ update existing subscriptions, as shown in the examples below.
 .. _node-sync-add-subscription:
 
 Add a Query to the List Of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-You can add queries to your subscriptions list. To do so, perform the following: 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Compose queries to add to your Flexible Sync subscriptions using the
+:ref:`query engine <react-native-client-query-engine>`:  
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+     :language: javascript
+
+.. important:: Flexible Sync Query Limitations
+
+   You cannot use all queries with Flexible Sync subscriptions. 
+   Refer to the :ref:`Flexible Sync RQL Limitations documentation <flexible-sync-rql-limitations>`
+   for information on which query types are not supported. 
+
+Add queries to your subscriptions list to sync the query's data. To do so, perform the following: 
 
 #. Create a transaction by passing a callback function to the ``update()``
    method of your subscriptions snapshot. The callback function provides a
