@@ -25,18 +25,28 @@ at the moment.
 
 Dart Types
 ----------
+
 {+client-database+} supports the following Dart language data types:
 
 - ``int``
 - ``double``
 - ``bool``
-- ``string``
-- ``object``
+- ``String``
 - ``null``
-- ``List<T>``, where T is any of the supported data types 
-  (see :ref:`Lists <dotnet-property-lists>`)
+- ``List<T>``, where T is any of the supported data types
 
-.. example:: Model with supported Dart data types
+.. _flutter-embed-realm-object:
 
-   TODO: add example with supported types. 
+Embed RealmObjects
+------------------
 
+You can also embed a :flutter-sdk:`RealmObject <realm/RealmObject-class.html>`
+in another ``RealmObject`` when creating models. 
+
+Example
+-------
+
+.. example:: Model with supported data types
+
+   .. literalinclude:: /examples/generated/flutter/data_types_test.codeblock.data-types-example-model.dart
+      :language: dart
