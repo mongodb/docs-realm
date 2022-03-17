@@ -305,47 +305,103 @@ cannot express solely in JSON expressions.
 Flexible Sync Session Roles and Rules
 -------------------------------------
 
-In flexible sync, a **session role** is a set of read and write rule
-expressions that Realm assigns to a user for the duration of a session.
-Realm evaluates these rule expressions to determine which permissions a
-user has for each document in a query result.
+In flexible sync, a **session role** determines which permissions apply for the
+duration of a sync session.
 
 A session role consists of:
 
 - A name 
-- An "apply when" :ref:`rule expression <expressions>`
+- An "apply when" :ref:`rule expression <rule-expressions>`
 - A set of :ref:`read <flexible-sync-read-permissions>` and :ref:`write 
   <flexible-sync-write-permissions>` rule expressions
 
 You define Flexible Sync session roles on a per-collection basis. Each
 "collection" when using Realm Sync corresponds to a Realm Object type.
 
-When a user begins a session by opening a synced realm, Realm determines
-which session role applies for the user for each collection in play.
-Realm evaluates each session role's "apply when" expression until it
-finds a matching role. Realm evaluates session roles in the order that
-they are defined in the configuration.
+When a user begins a session by opening a synced realm, Realm determines which
+session role applies for the user for each collection in play. Realm considers
+session roles in the order that you defined them in the configuration. It
+evaluates each session role's "apply when" expression until one evaluates to
+true. If no session role applies, the user has no permissions for that
+collection.
 
 .. tip::
 
-   Your session role "apply when" expressions can use :ref:`JSON
-   expansions <expansions>` to refer to :ref:`user metadata
+   Your session role "apply when" expressions can use :ref:`JSON expansions
+   <expansions>` to refer to :ref:`user metadata
    <configure-user-metadata-on-the-backend>` and :ref:`custom user data
-   <custom-user-data>` to determine the given user's role. However,
-   because Realm only evaluates session roles at the start of a session
-   -- that is, before any query for specific documents -- you can't
-   refer to a document or its field values to determine whether the
-   session role applies. Therefore, most apps just have one session role
-   and leave the per-document permission logic to that session role's
-   read and write rule expressions.
+   <custom-user-data>` and even call functions to determine the given user's
+   role. However, because Realm only evaluates session roles at the start of a
+   session -- that is, before any query for specific documents -- you can't
+   refer to a document or its field values to determine whether the session role
+   applies.
 
-The session role stays assigned for the duration of the session. If you
-make changes to an applied session role while a user is in the middle of
-a session, {+service-short+} does not evaluate the updated session role
-until the next time the user starts a new session. Likewise, if
-something changes that would qualify the user for a different session
-role, the user's current session role does not change until the next
-session.
+The session role stays assigned for the duration of the session. If you make
+changes to an applied session role while a user is in the middle of a session,
+{+service-short+} does not evaluate the updated session role until the next time
+the user starts a session. Likewise, if something changes that would qualify the
+user for a different session role, the user's current session role does not
+change until the next session.
+
+.. _flex-sync-expansions-caveat:
+
+.. important::
+
+   Realm triggers a :ref:`client reset <client-resets>` if anything about the
+   session role changed since the previous session.
+
+   At the start of a session, Realm expands all JSON expansions in the "apply
+   when", read, and write expressions and stores the result. This has the following
+   implications:
+
+   - If the value changes during a session, Realm continues to use the value as it was at the time of session start.
+   - On the next session, if the value is different from what it was at the start of this session, Realm triggers a client reset.
+   - You cannot use the :ref:`%function <application-components>` expansion operator in read and write rules. Functions would not operate on a per-document basis.
+   - You cannot store permissions information (such as "which document IDs may this user access?") in the user object.
+
+Available Expansions in Flexible Sync Rules Quick Reference
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - Expansion
+     - Can Use in "Apply When"?
+     - Can Use in Read & Write Rules?
+   * - :json-expansion:`%%true`, :json-expansion:`%%false`
+     - Yes
+     - Yes
+   * - :json-expansion:`%%values`, :json-expansion:`%%environment`
+     - Yes
+     - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   * - :json-expansion:`%%request`
+     - No
+     - No
+   * - :json-expansion:`%%user`
+     - Yes
+     - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   * - :json-expansion:`%%this`, :json-expansion:`%%prev`, :json-expansion:`%%root`,  :json-expansion:`%%prevRoot`
+     - No. These expansions refer to the document. Realm evaluates "apply when" expressions at session start, so there's no document to evaluate.
+     - No. These expansions might access non-queryable fields of the document, which is not possible.
+   * - :json-expansion:`%%partition`
+     - No
+     - No
+   * - :json-operator:`%stringToOid`, :json-operator:`%oidToString`
+     - Yes
+     - No
+   * - :json-operator:`%function`
+     - Yes
+     - No. Realm expands the expansions at the start of the session, so the function would not operate on a per-document basis.
+   * - :json-operator:`%exists`
+     - Yes
+     - Yes
+   * - :json-operator:`%in`, :json-operator:`%nin`
+     - Yes
+     - Yes. However, note that you cannot currently have an array field as a queryable field on a document.
+   * - :json-operator:`%eq`, :json-operator:`%ne`, :json-operator:`%gt`, :json-operator:`%gte`, :json-operator:`%lt`, :json-operator:`%lte`  
+     - Yes
+     - Yes
 
 .. _default-roles:
 
@@ -399,8 +455,8 @@ accidentally leak sensitive information.
   collection.
 
 - Write permissions require read permissions, so a user with write access to a
-  collection also has read access regardless of the defined read permission
-  rules.
+  collection also has read access regardless of the defined (or undefined) read
+  permission rule.
 
 .. _flexible-sync-read-permissions:
 
