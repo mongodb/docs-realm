@@ -105,8 +105,8 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-When using a flexible synced realm, you can access a :js-sdk:`SubscriptionSet <Realm.App.Sync.SubscriptionSet.html>`, a
-collection of subscriptions, through the ``realm.subscriptions`` property.
+When using a flexible synced realm, you can access a ``SubscriptionSet``, a
+collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.html#subscriptions>` property.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
@@ -120,12 +120,14 @@ Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 You can add queries to your subscriptions list. To do so, perform the following: 
 
-#. Create a transaction by passing a callback function to the ``update()``
-   method of your subscriptions snapshot. The callback function provides a
-   :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
+#. Create a transaction by passing a callback function to the
+   :js-sdk:`SubscriptionSet.update() <Realm.App.Sync.SubscriptionSet.html#update>`
+   method of your subscriptions snapshot. The callback function provides
+   a :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
    as an argument.
-#. Within the callback function, call the ``add()`` method on the
-   ``MutableSubscriptionSet`` to add a query to the subscription.
+#. Within the callback function, call the 
+   :js-sdk:`MutableSubscriptionSet.add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
+   method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
 .. tabs::
 
