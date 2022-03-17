@@ -48,8 +48,8 @@ Subscribe to Queryable Fields
 
 When configuring Flexible Sync on the backend, you specify which fields
 your client application can query. In the client application, use the 
-``Subscriptions`` API to manage a set of subscriptions to specific queries on 
-queryable fields.
+:js-sdk:`Subscriptions <Realm.App.Sync.Subscription.html>` API to manage
+a set of subscriptions to specific queries on queryable fields.
 
 You can:
 
@@ -105,7 +105,7 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-When using a flexible synced realm, you can access a ``SubscriptionSet``, a
+When using a flexible synced realm, you can access a :js-sdk:`SubscriptionSet <Realm.App.Sync.SubscriptionSet.html>`, a
 collection of subscriptions, through the ``realm.subscriptions`` property.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
@@ -120,8 +120,12 @@ Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 You can add queries to your subscriptions list. To do so, perform the following: 
 
-#. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
-#. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
+#. Create a transaction by passing a callback function to the ``update()``
+   method of your subscriptions snapshot. The callback function provides a
+   :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
+   as an argument.
+#. Within the callback function, call the ``add()`` method on the
+   ``MutableSubscriptionSet`` to add a query to the subscription.
 
 .. tabs::
 
@@ -227,7 +231,8 @@ Remove a Subscription by Query
 ``````````````````````````````
 You can remove a specific subscription by query by executing a transaction on
 the subscriptions set. Pass the query to the ``remove()`` method on the
-``MutableSubscriptionSet`` within a transaction.
+:js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
+within a transaction.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
@@ -239,7 +244,7 @@ Remove a Subscription by Name
 `````````````````````````````
 To remove a specific subscription by name, execute a transaction on
 the subscriptions set. Within the transaction, pass the name to the
-``removeByName()`` method on the ``MutableSubscriptionSet``.
+``removeByName()`` method on the :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-name.js
     :language: javascript
@@ -258,7 +263,8 @@ Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
-to the ``removeByObjectType()`` method on the ``MutableSubscriptionSet``.
+to the ``removeByObjectType()`` method on the
+:js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions-of-object-type.js
     :language: javascript
@@ -267,7 +273,8 @@ Remove All Subscriptions
 ````````````````````````
 To remove all subscriptions from the subscriptions set, execute a transaction on
 the subscriptions set. Call the ``removeAll()`` method
-on the ``MutableSubscriptionSet`` within the transaction
+on the :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
+within the transaction
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
     :language: javascript
