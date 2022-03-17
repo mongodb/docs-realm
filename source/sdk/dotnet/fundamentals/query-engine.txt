@@ -19,7 +19,7 @@ There are two ways to use the query engine with the .NET SDK:
 - :ref:`LINQ Syntax <dotnet-linq-syntax>`
 - :ref:`Realm Query Language <dotnet-realm-query-language>`
 
-It's recommended to use LINQ syntax for
+You should use LINQ syntax for
 querying when possible, as it's aligns with .NET conventions.  
 
 .. note:: About the examples on this page
@@ -46,10 +46,10 @@ LINQ Syntax
 {+client-database+}'s query engine implements standard `LINQ
 <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__
 syntax.
-See the exact scope of LINQ implemented on the `LINQ
+See the scope of LINQ implemented on the `LINQ
 Support page <https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
 
-There are several types of operators available to filter a
+There are several operators available to filter a
 :ref:`Realm collection <dotnet-client-collections>` with LINQ.
 Filters work by evaluating an operator expression for
 every :term:`object <Realm object>` in the collection being
@@ -235,8 +235,9 @@ Realm Query Language is a string-based query language to access the query engine
 .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.rql.cs
     :language: csharp
 
-Generally, it's recommended to use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries.
-However Realm Query Language is able to perform operations that LINQ syntax is not,
+You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
+unless your requirements extend beyond LINQ's current capabilities.
+Realm Query Language is able to perform operations that LINQ syntax is not,
 such as :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
 
 .. include:: /includes/tip-realm-query-language-reference-examples.rst
