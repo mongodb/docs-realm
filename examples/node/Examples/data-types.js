@@ -55,9 +55,6 @@ const PetOwnerSchema = {
 describe("Node.js Data Types", () => {
   afterEach(() => {
     if (realm && !realm.isClosed) {
-      realm.write(() => {
-        realm.deleteAll();
-      });
       realm.close();
     }
   });
@@ -152,14 +149,16 @@ describe("Node.js Data Types", () => {
     // :code-block-start: remove-fields-of-the-dictionary
     realm.write(() => {
       // remove the 'windows' and 'doors' field of the Summerhill House.
-      // :uncomment-start:
-      // summerHillHouse.remove(["windows", "doors"]);
-      // :uncomment-end:
+      summerHillHouse.remove(["windows", "doors"]);
     });
     // :code-block-end:
 
-    // expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
-    // expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
+    expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
+    expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
+    realm.write(() => {
+      realm.delete(johnDoe);
+      realm.delete(janeSmith);
+    });
   });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
@@ -202,8 +201,9 @@ describe("Node.js Data Types", () => {
     // :code-block-start: query-objects-with-mixed-values
     // To query for Blaise's birthDate, filter for his name to retrieve the realm object.
     // Use dot notation to access the birthDate property.
-    let blaiseBirthDate = realm.objects("Dog").filtered(`name = 'Blaise'`)[0]
-      .birthDate;
+    let blaiseBirthDate = realm
+      .objects("Dog")
+      .filtered(`name = 'Blaise'`)[0].birthDate;
     console.log(`Blaise's birth date is ${blaiseBirthDate}`);
     // :code-block-end:
     expect(blaiseBirthDate).toEqual(new Date("August 17, 2020"));
@@ -308,6 +308,9 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     expect(harryPotter.address.city).toBe("London");
+    realm.write(() => {
+      realm.delete(harryPotter);
+    });
   });
   test("should work with UUID", async () => {
     // :code-block-start: work-with-uuid
@@ -321,13 +324,7 @@ describe("Node.js Data Types", () => {
       },
     };
 
-    // :hide-start:
-    realm = await Realm.open({
-      // realm = await Realm.open({
-      // :hide-end:
-      // :uncomment-start:
-      // const realm = await Realm.open({
-      // :uncomment-end:
+    const realm = await Realm.open({
       schema: [ProfileSchema],
     });
 
@@ -352,6 +349,10 @@ describe("Node.js Data Types", () => {
       .filtered("name = 'Tim Doe.'")[0];
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
+    realm.write(() => {
+      realm.delete(realm.objects("Profile"));
+    });
+    realm.close();
   });
   test("should work with the Set data type", async () => {
     // :code-block-start: define-set-objects
@@ -461,6 +462,10 @@ describe("Node.js Data Types", () => {
 
     // conversion to array **doesn't** guarantee insertion order
     expect(setAsArr).not.toStrictEqual(additions);
+    realm.write(() => {
+      realm.delete(playerOne);
+      realm.delete(playerTwo);
+    });
   });
 
   test("should traverse a set", async () => {
@@ -499,6 +504,9 @@ describe("Node.js Data Types", () => {
     let totItems = 0;
     playerOne.inventory.forEach((item) => totItems++);
     expect(totItems).toBe(3);
+    realm.write(() => {
+      realm.delete(playerOne);
+    });
   });
 
   test("should convert set to array with insertion order", async () => {
@@ -523,12 +531,7 @@ describe("Node.js Data Types", () => {
 
     let playerOne;
     let levelsCompletedInOrder = [];
-    // :uncomment-start:
-    // const realm = await Realm.open({
-    // :uncomment-end:
-    // :remove-start:
-    realm = await Realm.open({
-      // :remove-end:
+    const realm = await Realm.open({
       schema: [characterSchema],
     });
     realm.write(() => {
@@ -572,11 +575,12 @@ describe("Node.js Data Types", () => {
     // :remove-start:
     expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 7, 12]);
     expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
+    realm.write(() => {
+      realm.delete(playerOne);
+    });
     // :remove-end:
     // close the realm
-    // :uncomment-start:
-    // realm.close();
-    // :uncomment-end:
+    realm.close();
     // :code-block-end:
   });
 });
