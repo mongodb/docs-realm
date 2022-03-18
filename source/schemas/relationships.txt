@@ -312,6 +312,11 @@ To access a embedded object property contained in a list, use:
 ``field1.[].field2``, e.g. ``pets.[].favoriteToyBrand``. From there, 
 you can specify the foreign collection details and foreign key field.
 
+.. tip:: Use the same syntax with dictionaries and sets
+
+   You can use this same ``field1.[].field2`` syntax when creating relationships
+   within dictionaries and sets.
+
 .. code-block:: json
 
    {
@@ -322,10 +327,12 @@ you can specify the foreign collection details and foreign key field.
      }
    }
 
-.. tip:: Use the same syntax with dictionaries and sets
+.. note:: Primitives versus lists, dictionaries, and sets in relationships
 
-   You can use this same ``field1.[].field2`` syntax when creating relationships
-   within dictionaries and sets.
+   In the example above, ``is_list`` is set to false. The field at the end
+   of the relationship string here is a primitive, not a list. The embedded 
+   object is *contained* in a list, but the ``favoriteToyBrand`` property 
+   itself is not a dictionary, set or list.
 
 .. _define-a-relationship:
 
