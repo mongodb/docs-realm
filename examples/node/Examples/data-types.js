@@ -55,9 +55,6 @@ const PetOwnerSchema = {
 describe("Node.js Data Types", () => {
   afterEach(() => {
     if (realm && !realm.isClosed) {
-      realm.write(() => {
-        realm.deleteAll();
-      });
       realm.close();
     }
   });
@@ -158,6 +155,10 @@ describe("Node.js Data Types", () => {
 
     expect(summerHillHouse.windows).toBe(undefined); // since windows has been removed as a field, it should be undefined
     expect(summerHillHouse.doors).toBe(undefined); // since doors has been removed as a field, it should be undefined
+    realm.write(() => {
+      realm.delete(johnDoe);
+      realm.delete(janeSmith);
+    });
   });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
@@ -307,6 +308,9 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     expect(harryPotter.address.city).toBe("London");
+    realm.write(() => {
+      realm.delete(harryPotter);
+    });
   });
   test("should work with UUID", async () => {
     // :code-block-start: work-with-uuid
@@ -346,7 +350,7 @@ describe("Node.js Data Types", () => {
     // test if johnDoeProfile's _id is a valid UUID field
     expect(UUID.isValid(johnDoeProfile._id)).toBe(true);
     realm.write(() => {
-      realm.deleteAll();
+      realm.delete(realm.objects("Profile"));
     });
     realm.close();
   });
@@ -458,6 +462,10 @@ describe("Node.js Data Types", () => {
 
     // conversion to array **doesn't** guarantee insertion order
     expect(setAsArr).not.toStrictEqual(additions);
+    realm.write(() => {
+      realm.delete(playerOne);
+      realm.delete(playerTwo);
+    });
   });
 
   test("should traverse a set", async () => {
@@ -496,6 +504,9 @@ describe("Node.js Data Types", () => {
     let totItems = 0;
     playerOne.inventory.forEach((item) => totItems++);
     expect(totItems).toBe(3);
+    realm.write(() => {
+      realm.delete(playerOne);
+    });
   });
 
   test("should convert set to array with insertion order", async () => {
@@ -565,7 +576,7 @@ describe("Node.js Data Types", () => {
     expect(Array.from(playerOne.levelsCompleted)).toStrictEqual([2, 5, 7, 12]);
     expect(levelsCompletedInOrder).toStrictEqual([5, 12, 2, 7]);
     realm.write(() => {
-      realm.deleteAll();
+      realm.delete(playerOne);
     });
     // :remove-end:
     // close the realm
