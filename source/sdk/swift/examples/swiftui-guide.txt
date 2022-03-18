@@ -254,6 +254,39 @@ searchable.
 .. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.codeblock.searchable.swift
    :language: swift
 
+Filter or Query a Realm with ObservedResults
+--------------------------------------------
+
+The :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>` property wrapper
+opens a realm and returns all objects of the specified type. However, you 
+can filter or query ``@ObservedResults`` to use only a subset of the objects
+in your view.
+
+Filter with an NSPredicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API 
+<ios-nspredicate-query>`, pass an :apple:`NSPredicate 
+<documentation/foundation/nspredicate>` as an argument to ``filter``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, filter: NSPredicate(format: "isFavorite == true")) var items
+
+Query with the Realm Type-Safe Query API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.24.0 
+   Use *where* to perform type-safe queries on ObservedResults.
+
+To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API 
+<ios-realm-swift-query-api>`, pass a query in a closure as an argument to 
+``where``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, where: ( { $0.isFavorite == true } )) var items
+
 Perform a Quick Write Outside of a Transaction
 ----------------------------------------------
 
