@@ -262,6 +262,9 @@ opens a realm and returns all objects of the specified type. However, you
 can filter or query ``@ObservedResults`` to use only a subset of the objects
 in your view.
 
+Filter with an NSPredicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API 
 <ios-nspredicate-query>`, pass an :apple:`NSPredicate 
 <documentation/foundation/nspredicate>` as an argument to ``filter``:
@@ -270,8 +273,11 @@ To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API
 
    @ObservedResults(Item.self, filter: NSPredicate(format: "isFavorite == true")) var items
 
+Query with the Realm Type-Safe Query API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. versionadded:: 10.24.0 
-   Use ``where`` to perform type-safe queries on ObservedResults.
+   Use *where* to perform type-safe queries on ObservedResults.
 
 To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API 
 <ios-realm-swift-query-api>`, pass a query in a closure as an argument to 
