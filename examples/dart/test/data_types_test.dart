@@ -10,7 +10,7 @@ part 'data_types_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late final int id; // Flutter SDK does not yet support ObjectId
+  late final int id;
 
   String? licensePlate;
   final bool isElectric = false;
@@ -22,7 +22,7 @@ class _Car {
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late final int id; // Flutter SDK does not yet support ObjectId
+  late final int id;
 
   late String name;
   late int age;
