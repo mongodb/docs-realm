@@ -95,6 +95,7 @@ source_constants = {
     'ui': 'Realm UI',
     'app': 'Realm app',
     'leftnav': 'left navigation menu',
+    'flutter-sdk-common': 'https://pub.dev/documentation/realm_common/latest/'
 }
 
 extlinks = {
