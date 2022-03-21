@@ -26,18 +26,25 @@ Prerequisites
 -------------
 - `Node.js version 12 LTS or greater <https://nodejs.org/en/about/releases/>`_
 
+
 Initialize the Template
 -----------------------
 
-Use :npm:`create-react-native <package/create-react-native-app>` with the flag
-``-t with-realm`` to initialize a React Native application using the Realm Expo
-template. 
+Before you initialize the template, install the `expo cli
+<https://docs.expo.dev/workflow/expo-cli/>`_ by running the following command:
+
+.. code-block:: shell
+   
+   npm install -g expo-cli
+
+Use ``expo init``  with the flag ``-t @realm/expo-template-ts`` to initialize a
+React Native application using the Realm Expo template. 
 
 Run the following command in your terminal: 
 
 .. code-block:: shell
    
-   npx create-react-native-app MyAwesomeRealmApp -t with-realm
+   expo init MyAwesomeRealmApp -t @realm/expo-template-ts
 
 Explore The File Structure
 --------------------------
