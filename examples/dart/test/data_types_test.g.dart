@@ -48,6 +48,8 @@ class Car extends _Car with RealmEntity, RealmObject {
 
   @override
   bool get isElectric => RealmObject.get<bool>(this, 'isElectric') as bool;
+  @override
+  set isElectric(bool value) => RealmObject.set(this, 'isElectric', value);
 
   @override
   double get milesDriven =>
