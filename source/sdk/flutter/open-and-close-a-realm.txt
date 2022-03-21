@@ -29,6 +29,53 @@ to generate an instance of that {+realm+}:
 
 You can now use that {+realm+} instance to work with objects in the database.
 
+.. _flutter-open-read-only-realm:
+
+Open a Read-Only Realm
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can open an existing Realm in read-only mode. To open a read-only realm, 
+add ``readOnly: true`` to your ``Configuration`` object.
+
+
+You can only open *existing* realms in read-only mode. 
+If you try to write to a read-only realm, it throws an error. 
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.read-only-realm.dart
+   :language: dart
+
+.. _flutter-open-in-memory-realm:
+
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your ``Configuration`` object. 
+In-memory realms **cannot** also be read-only.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.in-memory-realm.dart
+   :language: dart
+
+.. _flutter-set-custom-fifo:
+
+Set Custom FIFO Special Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Set a value for realm's `FIFO special files 
+<https://www.ibm.com/docs/en/zos/2.3.0?topic=csf-fifo-special-files>`_ location. 
+Opening a realm creates a number of lightweight FIFO special files 
+that coordinate access to the realm across threads and processes. 
+If the realm file is in a location that doesn't allow for the creation of 
+FIFO special files (e.g. FAT32 filesystems), then the realm cannot be opened.
+In this case, realm needs a different location to store these files. 
+Add ``fifoFilesFallbackPath: <Your Custom FIFO File Path>`` to your ``Configuration`` object.
+
+This property is ignored if the directory for the realm database file allows
+FIFO special files.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.fifo-file.dart
+   :language: dart
+
 .. _flutter-close-realm: 
 
 Close a Realm
