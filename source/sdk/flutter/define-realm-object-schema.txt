@@ -36,19 +36,24 @@ Create Model
          .. tab:: Flutter
             :tabid: flutter
 
-            TODO: add flutter import
+            .. code-block:: dart
+
+               import 'package:realm/realm.dart';
 
          .. tab:: Dart
             :tabid: dart
 
-            TODO: add dart import
+            .. code-block:: dart
+
+               import 'package:realm_dart/realm.dart';
 
    .. step:: Create Generated File Part Directive
 
-      Add a part directive to add the ``RealmObject`` file that you generate in step 4
-      in the same package as current file where you're creating your model.
+      Add a part directive to include the ``RealmObject`` file that you generate in step 4
+      in the same package as the file you're currently working on.
 
-      TODO: include example
+      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.part-directive.dart
+         :language: dart
 
    .. step:: Create RealmModel
 
@@ -57,15 +62,12 @@ Create Model
       at the top of the class definition. Prepend the class name with an underscore 
       to make it private. You'll generate the public ``RealmObject`` in step 4. 
 
-      TODO: include example
-
-   .. step:: Add Fields to Model
-
       Add fields to the ``RealmModel``. 
-      You can include all :ref:`supported data types <flutter-data-types>`.
+      You can add all :ref:`supported data types <flutter-data-types>`.
       Include additional behavior using :ref:`property annotations <flutter-property-annotations>`.
 
-      TODO: include example
+      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.create-realm-model.dart
+         :language: dart
 
       .. seealso::
 
@@ -92,8 +94,8 @@ Create Model
 
                dart run realm_dart generate
 
-      The generated file is created in the same directory as your model file. 
-      It has the name you specified in the part directive in step 2.
+      This command generates the file in the same directory as your model file. 
+      It has the name you specified in the part directive of step 2.
 
       .. tip:: Track the generated file
 
@@ -118,7 +120,8 @@ Create Model
       where you defined the ``RealmModel`` in step 2, access the ``RealmObject``
       by importing the file with the ``RealmModel``.
 
-      TODO: add example 
+      .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.codeblock.use-realm-object.dart
+         :language: dart
 
 .. _flutter-client-relationships:
 
@@ -145,7 +148,8 @@ To set up a many-to-one or one-to-one relationship,
 create a property in your model whose type is another model.
 Multiple objects can reference the same object. 
 
-TODO: example
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-one-models.dart
+   :language: dart
 
 .. _flutter-many-to-many-relationship:
 
@@ -155,7 +159,8 @@ Many-to-Many
 You can create a relationship between one object and any number of objects
 using a property of type List<T> in your application, where T is a Realm model class. 
 
-TODO: example
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-many-models.dart
+   :language: dart
 
 .. _flutter-property-annotations:
 
@@ -167,6 +172,30 @@ Use annotations to add functionality to properties in your Realm object models.
 .. seealso::
 
    :ref:`Supported Data Types - Flutter SDK <flutter-data-types>`
+
+.. _flutter-required-optional-properties:
+
+Required and Optional Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending 
+`?  <https://dart.dev/null-safety>`__. Include ``?`` to make properties optional.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 5
+
+.. _flutter-default-field-values:
+
+Default Field Values
+~~~~~~~~~~~~~~~~~~~~
+
+You can use the built-in language features to assign a default value to a property.
+Assign a default value in the property declaration.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 7
 
 .. _flutter-primary-key:
 
@@ -185,9 +214,9 @@ Important aspects of primary keys:
 - Only ``String`` and ``int`` can be primary keys.
 - Realm automatically indexes primary keys.
 
-.. example:: @PrimaryKey()
-
-   .. literalinclude:: TODO
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 2-3
 
 Ignored
 ~~~~~~~
@@ -196,16 +225,9 @@ If you add the `Ignored <{+flutter-sdk-common+}/realm_common/Ignored-class.html>
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator 
 <flutter-generate-realm-object>` doesn't include the property in the RealmObject schema.
 
-.. TODO: add example
-
-MapTo
-~~~~~
-
-The `MapTo <{+flutter-sdk-common+}/realm_common/MapTo-class.html>`_ annotation 
-indicates that a property should be persisted under a different name.
-It's useful when opening a Realm across different bindings where code style conventions can differ.
-
-.. TODO: add example
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 9-10
 
 Indexed
 ~~~~~~~
@@ -214,7 +236,20 @@ Add the `Indexed <{+flutter-sdk-common+}/realm_common/Indexed-class.html>`_ anno
 to create an index on the field. Indexes slightly slow down insertion, but can greatly 
 speed up queries.
 
-.. TODO: add example
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 12-13
+
+MapTo
+~~~~~
+
+The `MapTo <{+flutter-sdk-common+}/realm_common/MapTo-class.html>`_ annotation 
+indicates that a property should be persisted under a different name.
+It's useful when opening a Realm across different bindings where code style conventions can differ.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 15-16
 
 .. _flutter-generate-realm-object:
 
@@ -266,7 +301,7 @@ the generated file will be ``my_model.g.dart``.
       // ...model definition
 
 If you'd like to watch your data models to generate ``RealmObjects`` whenever there's a change, 
-include the ``--watch`` flag in your command: 
+include the ``--watch`` flag in your command. 
 
 .. tabs::
 
@@ -284,4 +319,21 @@ include the ``--watch`` flag in your command:
 
          dart run realm_dart generate --watch
 
-TODO: docs on ``--clean``
+To clean the generator caches, include the ``--clean`` flag in your command. 
+Cleaning the generator cache can be useful when debugging. 
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+
+         flutter pub run realm generate --clean
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate --clean

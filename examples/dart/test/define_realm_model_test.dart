@@ -1,3 +1,4 @@
+// Used in quickstart
 // :snippet-start: define-model
 // :state-start: dart
 import 'package:realm_dart/realm.dart';

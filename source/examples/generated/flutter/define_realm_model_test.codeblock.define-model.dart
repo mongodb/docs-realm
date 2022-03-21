@@ -1,3 +1,4 @@
+import 'package:realm_dart/realm.dart';
 
 
 part 'car.g.dart';
@@ -9,9 +10,4 @@ class _Car {
 
   late String? model;
   late int? miles;
-}
-tring? model;
-  late int? miles;
-}
-s;
 }
