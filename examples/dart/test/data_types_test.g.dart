@@ -6,7 +6,7 @@ part of 'data_types_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Car extends _Car with RealmObject {
+class Car extends _Car with RealmEntity, RealmObject {
   static var _defaultsSet = false;
 
   Car(
@@ -24,11 +24,12 @@ class Car extends _Car with RealmObject {
       });
     }
     RealmObject.set(this, 'id', id);
-    this.licensePlate = licensePlate;
+    RealmObject.set(this, 'licensePlate', licensePlate);
     RealmObject.set(this, 'isElectric', isElectric);
-    this.milesDriven = milesDriven;
-    this.owner = owner;
-    RealmObject.set<List<String>>(this, 'attributes', attributes.toList());
+    RealmObject.set(this, 'milesDriven', milesDriven);
+    RealmObject.set(this, 'owner', owner);
+    RealmObject.set<RealmList<String>>(
+        this, 'attributes', RealmList<String>(attributes));
   }
 
   Car._();
@@ -55,15 +56,20 @@ class Car extends _Car with RealmObject {
   set milesDriven(double value) => RealmObject.set(this, 'milesDriven', value);
 
   @override
-  List<String> get attributes =>
-      RealmObject.get<String>(this, 'attributes') as List<String>;
+  RealmList<String> get attributes =>
+      RealmObject.get<String>(this, 'attributes') as RealmList<String>;
   @override
-  set attributes(List<String> value) => throw RealmUnsupportedSetError();
+  set attributes(covariant RealmList<String> value) =>
+      throw RealmUnsupportedSetError();
 
   @override
   Person? get owner => RealmObject.get<Person>(this, 'owner') as Person?;
   @override
   set owner(covariant Person? value) => RealmObject.set(this, 'owner', value);
+
+  @override
+  Stream<RealmObjectChanges<Car>> get changes =>
+      RealmObject.getChanges<Car>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -82,15 +88,15 @@ class Car extends _Car with RealmObject {
   }
 }
 
-class Person extends _Person with RealmObject {
+class Person extends _Person with RealmEntity, RealmObject {
   Person(
     int id,
     String name,
     int age,
   ) {
     RealmObject.set(this, 'id', id);
-    this.name = name;
-    this.age = age;
+    RealmObject.set(this, 'name', name);
+    RealmObject.set(this, 'age', age);
   }
 
   Person._();
@@ -109,6 +115,10 @@ class Person extends _Person with RealmObject {
   int get age => RealmObject.get<int>(this, 'age') as int;
   @override
   set age(int value) => RealmObject.set(this, 'age', value);
+
+  @override
+  Stream<RealmObjectChanges<Person>> get changes =>
+      RealmObject.getChanges<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
