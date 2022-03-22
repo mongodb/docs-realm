@@ -11,6 +11,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "realm-database/overview",
+        "realm-database/async-api",
         {
           type: "category",
           label: "Realms",
@@ -153,12 +154,20 @@ const sidebars = {
         },
       ],
     },
-    "async-api",
-    "android-livedata",
-    "threading",
-    "testing",
-    "logging",
-    "troubleshooting",
+    {
+          type: "category",
+          label: "Best Practices",
+          collapsible: true,
+          collapsed: true,
+          items: [
+            "best-practices/android-livedata",
+            "best-practices/threading",
+            "best-practices/testing",
+            "best-practices/logging",
+            "best-practices/troubleshooting",
+          ],
+        },
+    
     {
       type: "link",
       label: "Release Notes",
