@@ -185,10 +185,9 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
 
 useObject
 `````````
-To find a {+realm+} object by it's primary key, pass the class (or the
-class name as a string) and the primary key to the ``useObject()`` hook.
+The ``useObject()`` Hook returns a {+realm+} object for a given primary key.  It is invoked with either the class model definition (this will add types to the returned object in TypeScript) or the class name as a string and the primary key.
 ``useObject()`` will return null if the object doesn't exist or has been
-deleted.
+deleted.  The Hook will automatically subscribe to updates and re-render the component using the Hook on any change to the object.
 
 In the following example, a ``Task`` object is retrieved using the
 ``useObject()`` hook, and its description is logged to the console.
