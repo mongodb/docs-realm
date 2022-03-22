@@ -1,7 +1,3 @@
-
-
-part 'car.g.dart';
-
 @RealmModel()
 class _Car {
   @PrimaryKey()
@@ -9,9 +5,4 @@ class _Car {
 
   late String? model;
   late int? miles;
-}
-tring? model;
-  late int? miles;
-}
-s;
 }
