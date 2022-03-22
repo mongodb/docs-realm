@@ -120,7 +120,7 @@ class FlexibleSync: XCTestCase {
                 }
             }
         }
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 20)
     }
 
     func testAddSubscriptionWithOnComplete() {
