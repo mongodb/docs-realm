@@ -61,7 +61,7 @@ Create Model
    .. step:: Create RealmModel
 
       Create the model for your Realm schema in a private class. 
-      You must include the annotation `RealmModel <{+flutter-sdk-common+}/realm_common/RealmModel-class.html>`_
+      You must include the annotation `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
       at the top of the class definition. Prepend the class name with an underscore 
       to make it private. You'll generate the public ``RealmObject`` in step 4. 
 
@@ -206,7 +206,7 @@ Assign a default value in the property declaration.
 PrimaryKey
 ~~~~~~~~~~~
 
-The `PrimaryKey <{+flutter-sdk-common+}/realm_common/PrimaryKey-class.html>`_ 
+The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__ 
 annotation indicates a primary key property. 
 The primary key is a unique identifier for an object in a realm.
 No other objects of the same type may share an object's primary key.
@@ -225,7 +225,7 @@ Important aspects of primary keys:
 Ignored
 ~~~~~~~
 
-If you add the `Ignored <{+flutter-sdk-common+}/realm_common/Ignored-class.html>`_ 
+If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator 
 <flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
 
@@ -236,7 +236,7 @@ annotation to a property in your ``RealmModel``, the :ref:`realm object generato
 Indexed
 ~~~~~~~
 
-Add the `Indexed <{+flutter-sdk-common+}/realm_common/Indexed-class.html>`_ annotation
+Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__ annotation
 to create an index on the field. Indexes slightly slow down insertion, but can greatly 
 speed up queries.
 
@@ -247,7 +247,7 @@ speed up queries.
 MapTo
 ~~~~~
 
-The `MapTo <{+flutter-sdk-common+}/realm_common/MapTo-class.html>`_ annotation 
+The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation 
 indicates that a property should be persisted under a different name.
 It's useful when opening a Realm across different bindings where code style conventions can differ.
 
