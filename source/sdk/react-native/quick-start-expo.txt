@@ -26,25 +26,32 @@ Prerequisites
 -------------
 - `Node.js version 12 LTS or greater <https://nodejs.org/en/about/releases/>`_
 
+Setup
+-----
 
-Initialize the Template
------------------------
+If you have never used Expo or React Native, follow the `Setting up the
+development environment <https://reactnative.dev/docs/environment-setup>`_ guide
+before continuing.
 
-Before you initialize the template, install the `expo cli
+Next, before you initialize the template you must install the `expo cli
 <https://docs.expo.dev/workflow/expo-cli/>`_ by running the following command:
 
 .. code-block:: shell
   
    npm install -g expo-cli
 
-Use ``expo init``  with the flag ``-t @realm/expo-template-ts`` to initialize a
+
+Initialize the Template
+-----------------------
+
+Use ``expo init``  with the flag ``--template @realm/expo-template-ts`` to initialize a
 React Native application using the Realm Expo template. 
 
 Run the following command in your terminal: 
 
 .. code-block:: shell
   
-   expo init MyAwesomeRealmApp -t @realm/expo-template-ts
+   expo init MyAwesomeRealmApp --template @realm/expo-template-ts
 
 Explore The File Structure
 --------------------------
@@ -98,5 +105,27 @@ following command from your application root:
 When the application builds, you will see something similar to the following image:
 
 .. image:: /images/realm-expo-template.png
+   :width: 400px
    :alt: Realm Expo Template on an iOS Simulator
-   :width: 600px
+
+When you run the commands above, the Expo `dev-client
+<https://docs.expo.dev/development/getting-started/>`_ will start automatically.
+If you close your Expo ``dev-client`` and want to restart it without waiting for
+the native build process again, you can simply run: 
+
+.. code-block:: shell
+   
+   npm start 
+
+However, if you made any `changes to the native code
+<https://docs.expo.dev/workflow/customizing/>`_, you will have to rerun ``npm
+run android`` or ``npm run ios`` to rebuild your native iOS/Android app.
+
+Deploying Your Application
+--------------------------
+To deploy your application, you can use the `Expo Application Services (EAS)
+<https://docs.expo.dev/eas/>`_, a suite of deeply integrated cloud services for
+Expo and React Native apps. EAS allows you to compile and :wikipedia:`sign
+<Code_signing>` your {+app+}, upload your app to the Apple App Store or Google
+Play Store with a single CLI command, and push bug fixes or small changes
+directly to app users.
