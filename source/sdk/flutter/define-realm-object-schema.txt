@@ -29,7 +29,7 @@ Create Model
 
    .. step:: Import Realm 
 
-      Import the Realm SDK package at the top of your file:
+      Import the Realm SDK package at the top of your file.
 
       .. tabs:: 
 
@@ -37,6 +37,7 @@ Create Model
             :tabid: flutter
 
             .. code-block:: dart
+               :caption: schemas.dart
 
                import 'package:realm/realm.dart';
 
@@ -44,6 +45,7 @@ Create Model
             :tabid: dart
 
             .. code-block:: dart
+               :caption: schemas.dart
 
                import 'package:realm_dart/realm.dart';
 
@@ -54,6 +56,7 @@ Create Model
 
       .. literalinclude:: /examples/generated/flutter/schemas.codeblock.part-directive.dart
          :language: dart
+         :caption: schemas.dart
 
    .. step:: Create RealmModel
 
@@ -68,6 +71,7 @@ Create Model
 
       .. literalinclude:: /examples/generated/flutter/schemas.codeblock.create-realm-model.dart
          :language: dart
+         :caption: schemas.dart
 
       .. seealso::
 
@@ -106,12 +110,10 @@ Create Model
          .. code-block:: 
 
             .
-            ├── ...rest of application
-            ├── bin
-            │   ├── models
-            │   │   ├── my_model.dart
-            │   │   └── my_model.g.dart // newly generated file
-            │   └── myapp.dart
+            ├── my_model.dart
+            ├── my_model.g.dart // newly generated file
+            ├── myapp.dart
+            └── ...rest of application
 
    .. step:: Use RealmObject in Application
 
@@ -122,6 +124,8 @@ Create Model
 
       .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.codeblock.use-realm-object.dart
          :language: dart
+         :caption: myapp.dart
+
 
 .. _flutter-client-relationships:
 
@@ -157,7 +161,7 @@ Many-to-Many
 ~~~~~~~~~~~~
 
 You can create a relationship between one object and any number of objects
-using a property of type List<T> in your application, where T is a Realm model class. 
+using a property of type ``List<T>`` in your application, where T is a Realm model class. 
 
 .. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-many-models.dart
    :language: dart
@@ -281,8 +285,8 @@ Running this creates a public class in a new file in the directory
 where you defined the ``RealmModel`` class per the :ref:`Create Model section <flutter-create-model>`.
 
 The generated file has the same base name as the file with your ``RealmModel``, 
-ending with ``.g.dart``. For example if the file with your ``RealmModel is ``my_model.dart``,
-the generated file will be ``my_model.g.dart``.
+ending with ``.g.dart``. For example if the file with your ``RealmModel`` 
+is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
 
 .. note:: 
 
