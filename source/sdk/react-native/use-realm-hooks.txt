@@ -83,7 +83,7 @@ import Realm and the ``createRealmContext()`` method.
 Next, define a Realm model using a JavaScript class. The ``Task``
 class below contains the following:
 
-- A ``generate()`` method to generate ``Task`` objects with specific values that you do not want the user to override. 
+- A ``generate()`` method that returns a ``Task`` insertion object, that automatically sets computed values, such as `_id` and `createdAt`. This insertion can be forwarded to `realm.create` to preform an insertion. 
 - A schema
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
