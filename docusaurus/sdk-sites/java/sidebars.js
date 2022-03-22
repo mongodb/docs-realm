@@ -4,8 +4,6 @@ const sidebars = {
     "intro",
     "install",
     "quick-start",
-    `async-api`,
-    "android-livedata",
     {
       type: "category",
       label: "Realm Database",
@@ -13,10 +11,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "realm-database/overview",
-        "realm-database/query-language",
-        "realm-database/write-transactions",
-        "realm-database/filter-data",
-        "realm-database/notifications",
+        "realm-database/async-api",
         {
           type: "category",
           label: "Realms",
@@ -98,6 +93,10 @@ const sidebars = {
             "realm-database/schemas/versions-and-migrations",
           ],
         },
+        "realm-database/filter-data",
+        "realm-database/query-language",
+        "realm-database/write-transactions",
+        "realm-database/notifications",
         "realm-database/freeze-objects",
       ],
     },
@@ -155,10 +154,20 @@ const sidebars = {
         },
       ],
     },
-    "threading",
-    "testing",
-    "logging",
-    "troubleshooting",
+    {
+          type: "category",
+          label: "Best Practices",
+          collapsible: true,
+          collapsed: true,
+          items: [
+            "best-practices/android-livedata",
+            "best-practices/threading",
+            "best-practices/testing",
+            "best-practices/logging",
+            "best-practices/troubleshooting",
+          ],
+        },
+    
     {
       type: "link",
       label: "Release Notes",

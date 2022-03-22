@@ -1,0 +1,1 @@
+part 'schemas.g.dart';

@@ -1,0 +1,343 @@
+.. _flutter-define-realm-object-schema:
+
+==========================================
+Define a Realm Object Schema - Flutter SDK
+==========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+An **object schema** is a configuration object that defines the properties and 
+relationships of a {+service-short+} object. {+service-short+} client 
+applications define object schemas with the native class implementation in their 
+respective language using the :term:`{+frontend-schema+}`.
+
+Object schemas specify constraints on object properties such as the data
+type of each property and whether or not a property is required. Schemas can 
+also define :ref:`relationships <flutter-client-relationships>` between object 
+types in a {+realm+}.
+
+.. _flutter-create-model:
+
+Create Model
+------------
+
+.. procedure:: 
+
+   .. step:: Import Realm 
+
+      Import the Realm SDK package at the top of your file.
+
+      .. tabs:: 
+
+         .. tab:: Flutter
+            :tabid: flutter
+
+            .. code-block:: dart
+               :caption: schemas.dart
+
+               import 'package:realm/realm.dart';
+
+         .. tab:: Dart
+            :tabid: dart
+
+            .. code-block:: dart
+               :caption: schemas.dart
+
+               import 'package:realm_dart/realm.dart';
+
+   .. step:: Create Generated File Part Directive
+
+      Add a part directive to include the ``RealmObject`` file that you generate in step 4
+      in the same package as the file you're currently working on.
+
+      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.part-directive.dart
+         :language: dart
+         :caption: schemas.dart
+
+   .. step:: Create RealmModel
+
+      Create the model for your Realm schema in a private class. 
+      You must include the annotation `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
+      at the top of the class definition. Prepend the class name with an underscore 
+      to make it private. You'll generate the public ``RealmObject`` in step 4. 
+
+      Add fields to the ``RealmModel``. 
+      You can add all :ref:`supported data types <flutter-data-types>`.
+      Include additional behavior using :ref:`property annotations <flutter-property-annotations>`.
+
+      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.create-realm-model.dart
+         :language: dart
+         :caption: schemas.dart
+
+      .. seealso::
+
+         - :ref:`Supported Data Types - Flutter SDK <flutter-data-types>`
+         - :ref:`Property Annotations - Flutter SDK <flutter-property-annotations>`
+
+   .. step:: Generate RealmObject
+
+      Generate the ``RealmObject``, which you'll use in your application: 
+
+      .. tabs::
+
+         .. tab:: Flutter
+            :tabid: flutter
+
+            .. code-block::
+
+               flutter pub run realm generate
+
+         .. tab:: Dart
+            :tabid: dart
+
+            .. code-block::
+
+               dart run realm_dart generate
+
+      This command generates the file in the same directory as your model file. 
+      It has the name you specified in the part directive of step 2.
+
+      .. tip:: Track the generated file
+
+         Track the generated file in your version control system, such as git. 
+
+      .. example:: File structure after generating model
+
+         .. code-block:: 
+
+            .
+            ├── my_model.dart
+            ├── my_model.g.dart // newly generated file
+            ├── myapp.dart
+            └── ...rest of application
+
+   .. step:: Use RealmObject in Application
+
+      Use the ``RealmObject`` that you generated in the previous step in your application.
+      Since you included the generated file as part of the same package 
+      where you defined the ``RealmModel`` in step 2, access the ``RealmObject``
+      by importing the file with the ``RealmModel``.
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.codeblock.use-realm-object.dart
+         :language: dart
+         :caption: myapp.dart
+
+
+.. _flutter-client-relationships:
+
+Define Relationship Properties
+------------------------------
+
+You can reference other Realm models from your Realm model. 
+This lets you create the following types of relationships between Realm objects: 
+
+- :ref:`Many-to-one <flutter-many-to-one-relationship>`
+- :ref:`Many-to-many <flutter-many-to-many-relationship>`
+
+.. important:: No directly embedding objects
+
+   You cannot directly embed one Realm object in another with the Flutter SDK
+   at this time. You can only reference another Realm object. 
+
+.. _flutter-many-to-one-relationship:
+
+Many-to-One
+~~~~~~~~~~~
+
+To set up a many-to-one or one-to-one relationship,
+create a property in your model whose type is another model.
+Multiple objects can reference the same object. 
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-one-models.dart
+   :language: dart
+
+.. _flutter-many-to-many-relationship:
+
+Many-to-Many
+~~~~~~~~~~~~
+
+You can create a relationship between one object and any number of objects
+using a property of type ``List<T>`` in your application, where T is a Realm model class. 
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-many-models.dart
+   :language: dart
+
+.. _flutter-property-annotations:
+
+Property Annotations
+--------------------
+
+Use annotations to add functionality to properties in your Realm object models.
+
+.. seealso::
+
+   :ref:`Supported Data Types - Flutter SDK <flutter-data-types>`
+
+.. _flutter-required-optional-properties:
+
+Required and Optional Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending 
+`?  <https://dart.dev/null-safety>`__. Include ``?`` to make properties optional.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 5
+
+.. _flutter-default-field-values:
+
+Default Field Values
+~~~~~~~~~~~~~~~~~~~~
+
+You can use the built-in language features to assign a default value to a property.
+Assign a default value in the property declaration.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 7
+
+.. _flutter-primary-key:
+
+PrimaryKey
+~~~~~~~~~~~
+
+The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__ 
+annotation indicates a primary key property. 
+The primary key is a unique identifier for an object in a realm.
+No other objects of the same type may share an object's primary key.
+
+Important aspects of primary keys: 
+
+- You cannot change a primary key after adding an object to a realm. 
+- Only add a primary key to one property in a RealmModel.
+- Only ``String`` and ``int`` can be primary keys.
+- Realm automatically indexes primary keys.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 2-3
+
+Ignored
+~~~~~~~
+
+If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
+annotation to a property in your ``RealmModel``, the :ref:`realm object generator 
+<flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 9-10
+
+Indexed
+~~~~~~~
+
+Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__ annotation
+to create an index on the field. Indexes slightly slow down insertion, but can greatly 
+speed up queries.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 12-13
+
+MapTo
+~~~~~
+
+The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation 
+indicates that a property should be persisted under a different name.
+It's useful when opening a Realm across different bindings where code style conventions can differ.
+
+.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 15-16
+
+.. _flutter-generate-realm-object:
+
+Generate the RealmObject
+------------------------
+
+Once you've completed your Realm model, you must generate the 
+:flutter-sdk:`RealmObject <realm/RealmObject-class.html>` class to use it in your application. 
+
+Run the following command to generate ``RealmObjects``: 
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+         
+         flutter pub run realm generate
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate
+
+Running this creates a public class in a new file in the directory 
+where you defined the ``RealmModel`` class per the :ref:`Create Model section <flutter-create-model>`.
+
+The generated file has the same base name as the file with your ``RealmModel``, 
+ending with ``.g.dart``. For example if the file with your ``RealmModel`` 
+is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
+
+.. note:: 
+
+   Remember to include the generated file in a part directive in 
+   your ``RealmModel`` definition file. 
+
+   .. code-block:: dart
+      :caption: my_model.dart
+      :emphasize-lines: 3
+
+      // ...import packages
+
+      part 'my_model.g.dart';
+
+      @RealmModel()
+      // ...model definition
+
+If you'd like to watch your data models to generate ``RealmObject``s whenever there's a change, 
+include the ``--watch`` flag in your command. 
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+
+         flutter pub run realm generate --watch
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate --watch
+
+To clean the generator caches, include the ``--clean`` flag in your command. 
+Cleaning the generator cache can be useful when debugging. 
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+
+         flutter pub run realm generate --clean
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate --clean

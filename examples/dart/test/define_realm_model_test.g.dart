@@ -6,15 +6,15 @@ part of 'define_realm_model_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Car extends _Car with RealmObject {
+class Car extends _Car with RealmEntity, RealmObject {
   Car(
     String make, {
     String? model,
     int? miles,
   }) {
     RealmObject.set(this, 'make', make);
-    this.model = model;
-    this.miles = miles;
+    RealmObject.set(this, 'model', model);
+    RealmObject.set(this, 'miles', miles);
   }
 
   Car._();
@@ -33,6 +33,10 @@ class Car extends _Car with RealmObject {
   int? get miles => RealmObject.get<int>(this, 'miles') as int?;
   @override
   set miles(int? value) => RealmObject.set(this, 'miles', value);
+
+  @override
+  Stream<RealmObjectChanges<Car>> get changes =>
+      RealmObject.getChanges<Car>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
