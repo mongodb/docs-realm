@@ -6,7 +6,7 @@ part of 'task_project_models_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Task extends _Task with RealmObject {
+class Task extends _Task with RealmEntity, RealmObject {
   static var _defaultsSet = false;
 
   Task(
@@ -25,11 +25,11 @@ class Task extends _Task with RealmObject {
       });
     }
     RealmObject.set(this, 'id', id);
-    this.name = name;
-    this.isComplete = isComplete;
-    this.assignee = assignee;
-    this.priority = priority;
-    this.progressMinutes = progressMinutes;
+    RealmObject.set(this, 'name', name);
+    RealmObject.set(this, 'isComplete', isComplete);
+    RealmObject.set(this, 'assignee', assignee);
+    RealmObject.set(this, 'priority', priority);
+    RealmObject.set(this, 'progressMinutes', progressMinutes);
   }
 
   Task._();
@@ -66,6 +66,10 @@ class Task extends _Task with RealmObject {
   set progressMinutes(int value) =>
       RealmObject.set(this, 'progressMinutes', value);
 
+  @override
+  Stream<RealmObjectChanges<Task>> get changes =>
+      RealmObject.getChanges<Task>(this);
+
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
@@ -81,7 +85,7 @@ class Task extends _Task with RealmObject {
   }
 }
 
-class Project extends _Project with RealmObject {
+class Project extends _Project with RealmEntity, RealmObject {
   Project(
     int id,
     String name, {
@@ -89,9 +93,9 @@ class Project extends _Project with RealmObject {
     Iterable<Task> tasks = const [],
   }) {
     RealmObject.set(this, 'id', id);
-    this.name = name;
-    this.quota = quota;
-    RealmObject.set<List<Task>>(this, 'tasks', tasks.toList());
+    RealmObject.set(this, 'name', name);
+    RealmObject.set(this, 'quota', quota);
+    RealmObject.set<RealmList<Task>>(this, 'tasks', RealmList<Task>(tasks));
   }
 
   Project._();
@@ -107,14 +111,20 @@ class Project extends _Project with RealmObject {
   set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
-  List<Task> get tasks => RealmObject.get<Task>(this, 'tasks') as List<Task>;
+  RealmList<Task> get tasks =>
+      RealmObject.get<Task>(this, 'tasks') as RealmList<Task>;
   @override
-  set tasks(covariant List<Task> value) => throw RealmUnsupportedSetError();
+  set tasks(covariant RealmList<Task> value) =>
+      throw RealmUnsupportedSetError();
 
   @override
   int? get quota => RealmObject.get<int>(this, 'quota') as int?;
   @override
   set quota(int? value) => RealmObject.set(this, 'quota', value);
+
+  @override
+  Stream<RealmObjectChanges<Project>> get changes =>
+      RealmObject.getChanges<Project>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

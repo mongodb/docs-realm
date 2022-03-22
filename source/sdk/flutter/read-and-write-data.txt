@@ -36,12 +36,24 @@ Retrieve a collection of all objects of a data model in the {+realm+} with the
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
    :language: dart
 
+.. _flutter-query-list-realm-objects:
+
+Query List of RealmObjects
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query any list of :flutter-sdk:`RealmObjects <realm/RealmObject-mixin.html>`.
+You must cast the the list as a :flutter-sdk:`RealmList <realm/RealmList-class.html>` 
+See :ref:`Filter Results <flutter-filter-results>` for more information on querying a ``RealmList``.
+
+.. literalinclude:: /examples/generated/flutter/read_and_write_data.codeblock.query-realm-list.dart
+   :language: dart
+
 .. _flutter-filter-results:
 
 Filter Results
 ~~~~~~~~~~~~~~
 
-Filter a collection to retrieve a specific segment
+Filter a ``RealmList`` to retrieve a specific segment
 of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
