@@ -210,29 +210,25 @@ Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
    :language: dart
 
-.. TODO(DOCSP-20543): refactor everything here. this is the roughest of sketches. 
-.. there's little confidence anything here is correct. the APIs for these operations 
-.. haven't been finished yet. 
-.. Listen for Changes to Objects
-.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+React to Changes
+~~~~~~~~~~~~~~~~
 
+Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
 
-.. Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
+To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
 
-.. To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
+   :language: dart
 
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
-..    :language: dart
+To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
 
-.. To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
+   :language: dart
 
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
-..    :language: dart
+To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
 
-.. To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
-
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
-..    :language: dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
+   :language: dart
 
 Close a Realm
 -------------
