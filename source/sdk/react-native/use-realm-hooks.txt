@@ -197,8 +197,7 @@ In the following example, a ``Task`` object is retrieved using the
 
 useQuery
 ````````
-To retrieve a collection of realm objects of a given type, pass the class (or
-the class name as a string) to the ``useQuery()`` hook.
+The ``useQuery()`` Hook, returns a collection of realm objects of a given type.  Just like `useObject` it is either invoked with either the Realm model class or the model name as a string.  It will also subscribe to updates to any of the objects in the collection and re-render the component using it on any change.
 
 In the following example, the ``Task`` class is passed to the ``useQuery()``
 hook and then the tasks are set as a prop of a ``TaskList`` component. 
