@@ -102,8 +102,7 @@ to the any classes you have created. Pass the configuration object to the
 Using the Realm Provider
 ------------------------
 
-Wrap the component needing access to {+service-short+}, typically the top layer of your application, with the ``RealmProvider`` component included in the Context object which was returned from `createRealmContext`.  The ``RealmProvider`` provides any child components access
-to the configured {+service-short+} through the Hooks included in the Context object.
+Wrap the component needing access to {+service-short+}, typically the top layer of your application, with the ``RealmProvider`` component included in the Context object which was returned from `createRealmContext`.  The ``RealmProvider`` provides any child components access to the configured {+service-short+} through the Hooks included in the Context object.
 
 .. tip:: Choosing Which Components to Wrap inside the Realm Provider
    
@@ -180,7 +179,9 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
 ``createdAt`` properties.
 
 .. seealso::
-  - :ref:`write to a realm <react-native-write-operations>`
+  
+   :ref:`write to a realm <react-native-write-operations>`
+
 
 useObject
 `````````
