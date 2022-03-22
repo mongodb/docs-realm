@@ -12,16 +12,27 @@ Query Engine - Java SDK
    :depth: 2
    :class: singlecol
 
-To filter data in your {+realm+}, you can leverage
-{+client-database+}'s query engine. {+client-database+}'s
-query engine uses a :wikipedia:`Fluent interface
-<Fluent_interface>` to construct multi-clause queries. See
-`RealmQuery API
+To filter data in your {+realm+}, use the {+client-database+} query engine. 
+
+There are two ways to access the query engine with the Java SDK:
+
+- :ref:`Fluent interface <java-query-fluent-interface>`
+- :ref:`Realm Query Language <java-realm-query-language>`
+
+You should use the Fluent interface for
+querying when possible, as it aligns with Java conventions.  
+
+.. _java-query-fluent-interface:
+
+Fluent Interface
+----------------
+
+The Java SDK uses a :wikipedia:`Fluent interface <Fluent_interface>`
+to construct multi-clause queries that are passed to the query engine.
+
+See `RealmQuery API
 <https://realm.io/docs/java/latest/api/io/realm/RealmQuery.html>`__
 for a complete list of available methods.
-
-Operators
----------
 
 There are several types of operators available to filter a
 :ref:`Realm collection <java-client-collections>`.
@@ -310,18 +321,23 @@ to a single value.
             :language: java
             :copyable: false
 
+.. _java-realm-query-language:
+
 Realm Query Language
 --------------------
 
-You can also query {+realm+}s using Realm Query Language, a language
-inspired by `NSPredicate
+You can also query {+realm+}s using :ref:`Realm Query Language <realm-query-language>`,
+a string-based query language inspired by `NSPredicate
 <https://academy.realm.io/posts/nspredicate-cheatsheet/>`_.
 
 .. seealso::
 
-   :ref:`Usage Examples - Realm Query Language <java-realm-query-language>`
+   :ref:`Usage Examples - Realm Query Language <java-filter-with-realm-query-language>`
+
+.. include:: /includes/tip-realm-query-language-reference-examples.rst
 
 Summary
 -------
 
-- There are several categories of **operators** available to filter results: comparison, logical, string and aggregate operators.
+- There are several categories of operators available to filter results:
+  comparison, logical, string and aggregate operators.

@@ -105,23 +105,42 @@ object type.
 
 Get Subscriptions
 ~~~~~~~~~~~~~~~~~
-To get a snapshot of current subscriptions, call ``getSubscriptions()`` method
-on the {+realm+}.
+When using a flexible synced realm, you can access a ``SubscriptionSet``, a
+collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.html#subscriptions>` property.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
     :language: javascript
 
-You can use this snapshot to add queries to the list of subscriptions and
+You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
 update existing subscriptions, as shown in the examples below.
 
 .. _react-native-sync-add-subscription:
 
 Add a Query to the List Of Subscriptions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-You can add queries to your subscriptions list. To do so, perform the following: 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Create a transaction by passing a callback function to the ``update()`` method of your subscriptions snapshot. The callback function provides a ``MutableSubscriptionSet`` as an argument. 
-#. Within the callback function, call the ``add()`` method on the ``MutableSubscriptionSet`` to add a query to the subscription.
+Compose queries to add to your Flexible Sync subscriptions using the
+:ref:`query engine <node-client-query-engine>`:  
+
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+     :language: javascript
+
+.. important:: Flexible Sync Query Limitations
+
+   You cannot use all queries with Flexible Sync subscriptions. 
+   Refer to the :ref:`Flexible Sync RQL Limitations documentation <flexible-sync-rql-limitations>`
+   for information on which query types are not supported. 
+
+Add queries to your subscriptions list to sync the query's data. To do so, perform the following: 
+
+#. Create a transaction by passing a callback function to the
+   :js-sdk:`SubscriptionSet.update() <Realm.App.Sync.SubscriptionSet.html#update>`
+   method of your ``SubscriptionSet``. The callback function provides
+   a :js-sdk:`MutableSubscriptionSet <Realm.App.Sync.MutableSubscriptionSet.html>`
+   as an argument.
+#. Within the callback function, call the 
+   :js-sdk:`add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
+   method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
 .. tabs::
 
@@ -146,7 +165,8 @@ You can add queries to your subscriptions list. To do so, perform the following:
           :language: javascript      
 
 The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
-subscription options object. The subscription options include:
+:js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
+The subscription options include:
 
 - a ``name`` string field
 - a ``throwOnUpdate`` boolean field.
@@ -160,8 +180,11 @@ but a different query throws an exception.
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can use the ``waitForSynchronization()`` method to wait for the server to
-acknowledge this set of subscriptions and return the matching objects: 
+If you have synchronously called the ``subscriptions.update()`` method, use the
+:js-sdk:`waitForSynchronization
+<Realm.App.Sync.SubscriptionSet.html#waitForSynchronization>` method to wait for
+the server to acknowledge this set of subscriptions and return the matching
+objects: 
 
 The ``waitForSynchronization()`` method returns a promise that resolves when
 synchronization is complete or rejects if there is an error during
@@ -183,7 +206,8 @@ You can use subscription state to:
 - Find out when a subscription set is superseded, and you should obtain a
   new instance of the subscription set to write a subscription change
 
-To the status of subscriptions, log the value of the subscription's ``state``.
+To the status of subscriptions, log the value of the subscription's
+:js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>`.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.log-subscription-state.js 
     :language: javascript
@@ -224,7 +248,8 @@ the client device.
 Remove a Subscription by Query
 ``````````````````````````````
 You can remove a specific subscription by query by executing a transaction on
-the subscriptions set. Pass the query to the ``remove()`` method on the
+the subscriptions set. Pass the query to the :js-sdk:`remove()
+<Realm.App.Sync.MutableSubscriptionSet.html#remove>` method on the
 ``MutableSubscriptionSet`` within a transaction.
 
 In the following example, the subscription to tasks with an owner named 'Ben' is
@@ -235,9 +260,11 @@ removed from the subscriptions set.
 
 Remove a Subscription by Name
 `````````````````````````````
-To remove a specific subscription by name, execute a transaction on
-the subscriptions set. Within the transaction, pass the name to the
-``removeByName()`` method on the ``MutableSubscriptionSet``.
+To remove a specific subscription by name, execute a transaction on the
+subscriptions set. Within the transaction, pass the name to the
+:js-sdk:`removeByName()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByName>` method on the
+``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-name.js
     :language: javascript
@@ -246,7 +273,8 @@ Remove a Subscription by Reference
 ``````````````````````````````````
 If you have a reference to a subscription, you can remove that subscription. To
 do so, execute a transaction on the subscriptions set. Within the transaction,
-pass the reference variable to the ``removeSubscription()`` method on the
+pass the reference variable to the :js-sdk:`removeSubscription
+<Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>` method on the
 ``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-reference.js
@@ -256,7 +284,9 @@ Remove All Subscriptions on an Object Type
 ``````````````````````````````````````````
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
-to the ``removeByObjectType()`` method on the ``MutableSubscriptionSet``.
+to the :js-sdk:`removeByObjectType
+<Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>` method on the
+``MutableSubscriptionSet``.
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions-of-object-type.js
     :language: javascript
@@ -264,8 +294,9 @@ to the ``removeByObjectType()`` method on the ``MutableSubscriptionSet``.
 Remove All Subscriptions
 ````````````````````````
 To remove all subscriptions from the subscriptions set, execute a transaction on
-the subscriptions set. Call the ``removeAll()`` method
-on the ``MutableSubscriptionSet`` within the transaction
+the subscriptions set. Call the :js-sdk:`removeAll()
+<Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` method on the
+``MutableSubscriptionSet`` within the transaction
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
     :language: javascript

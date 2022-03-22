@@ -29,11 +29,15 @@ function CardContainer({ href, children }) {
 }
 
 function CardLayout({ href, icon, title, description }) {
+  icon = "📄️🔗🗃️".includes(icon) ? (
+    icon
+  ) : (
+    <img src={useBaseUrl(`${icon}`)} style={{ height: 20, width: 20 }} />
+  );
   return (
     <CardContainer href={href}>
       <h2 className={clsx("text--truncate", styles.cardTitle)} title={title}>
-        <img src={useBaseUrl(`${icon}`)} style={{ height: 20, width: 20 }} />{" "}
-        {title}
+        {icon} {title}
       </h2>
       <div
         className={clsx("text--truncate", styles.cardDescription)}

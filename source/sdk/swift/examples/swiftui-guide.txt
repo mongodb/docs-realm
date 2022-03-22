@@ -254,6 +254,39 @@ searchable.
 .. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.codeblock.searchable.swift
    :language: swift
 
+Filter or Query a Realm with ObservedResults
+--------------------------------------------
+
+The :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>` property wrapper
+opens a realm and returns all objects of the specified type. However, you 
+can filter or query ``@ObservedResults`` to use only a subset of the objects
+in your view.
+
+Filter with an NSPredicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API 
+<ios-nspredicate-query>`, pass an :apple:`NSPredicate 
+<documentation/foundation/nspredicate>` as an argument to ``filter``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, filter: NSPredicate(format: "isFavorite == true")) var items
+
+Query with the Realm Type-Safe Query API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.24.0 
+   Use *where* to perform type-safe queries on ObservedResults.
+
+To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API 
+<ios-realm-swift-query-api>`, pass a query in a closure as an argument to 
+``where``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, where: ( { $0.isFavorite == true } )) var items
+
 Perform a Quick Write Outside of a Transaction
 ----------------------------------------------
 
@@ -282,3 +315,70 @@ opens an implicit write transaction and saves the new values to the database.
 
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
    :language: swift
+
+SwiftUI Realm Migrations
+------------------------
+
+.. seealso:: Swift SDK Migration Logic
+
+   For more general information about migration logic in the Realm Swift SDK, 
+   such as how to increment a schema or write a migration block, see:
+   :ref:`ios-modify-an-object-schema`.
+
+To perform a migration:
+
+- Update your schema and write a migration block, if required
+- Specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`
+  that uses this migration logic and/or updated schema version when you 
+  initialize your realm.
+- Provide this configuration to the first view in your hierarchy that uses realm
+
+For example, you might want to add a property to an existing object, such as
+the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.add-property-to-model.swift
+   :language: swift
+
+After you add your new property to the schema, you must increment the 
+schema version. Your ``Realm.Configuration`` might look like this:
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.realm-configuration-increment-schema.swift
+   :language: swift
+
+Declare this configuration somewhere that is accessible to the first view 
+in the hierarchy that needs it. Declaring this above your ``@main`` app 
+entrypoint makes it available everywhere, but you could also put it in 
+the file where you first open a realm.
+
+Then, pass this configuration as an environment object to the first view 
+in your hierarchy that opens a realm. If you are using the ``@ObservedResults`` 
+or ``@ObservedRealmObject`` property wrappers, these views implicitly 
+open a Realm, so they also need access to this configuration.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-as-environment-object.swift
+   :language: swift
+
+In the SwiftUI quickstart, the first view in the hiearchy that opens a realm 
+varies depending on whether you're using the app with or without Sync.
+
+Without sync, you can pass the realm configuration environment object directly
+to the ``LocalOnlyContentView``: 
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-environment-object-to-local-content-view.swift.code-block.rst
+
+Which opens a realm implicitly with:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.implicitly-open-realm.swift.code-block.rst
+
+However, for the Sync version of the quickstart, you open the Realm explicitly
+using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.auto-open-synced-realm.swift.code-block.rst
+
+So you must pass pass the environment object to the ``OpenSyncedRealmView``:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-to-synced-realm-view.swift.code-block.rst
+
+The important thing to remember is to make sure to pass the 
+``Realm.Configuration`` that encompasses your migration logic to any view 
+hierarchy that implicitly or explicitly opens a realm.

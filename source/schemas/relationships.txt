@@ -238,6 +238,102 @@ or a null value in resolved GraphQL types and SDK models:
            }
          }
 
+Embedded Object Relationships
+-----------------------------
+
+Embedded Objects can have relationships with foreign collections. Use 
+dot notation to access properties in embedded objects.
+
+.. _relationships-from-embedded-object-to-another-collection:
+
+Embedded Object to Another Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An embedded object can have a relationship with an object in a foreign 
+collection.
+
+.. code-block:: json
+
+   {
+     "title": "Person",
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "pet": {
+         "bsonType":"object",
+         "properties": {
+           "favoriteToyBrand": { "bsonType": "objectId" }
+         }
+       }
+       // ...additional model properties
+     }
+   }
+
+Use dot notation to specify the embedded object property that has a 
+relationship with the foreign collection. Then, you can specify the 
+foreign collection details and foreign key field.
+
+.. code-block:: json
+
+   { "pet.favoriteToyBrand": 
+      { 
+         "ref": "#/relationship/mongodb-atlas/example/ToyBrand", 
+         "foreign_key": "_id", 
+         "is_list": false }
+   }
+
+.. _relationships-to-embedded-object-within-list:
+
+Embedded Object Within a List
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An embedded object that is within a list property can have a relationship
+with a foreign collection.
+
+.. code-block:: json
+
+   {
+     "title": "Person",
+     "properties": {
+       "_id": { "bsonType": "objectId" },
+       "pets": {
+         "bsonType":"array",
+         "items": {
+           "bsonType": "object",
+           "properties": {
+             "favoriteToyBrand": { "bsonType": "objectId" }
+           }
+         }
+       }
+      // ...additional model properties
+     }
+   }
+
+To access a embedded object property contained in a list, use: 
+``field1.[].field2``, e.g. ``pets.[].favoriteToyBrand``. From there, 
+you can specify the foreign collection details and foreign key field.
+
+.. tip:: Use the same syntax with dictionaries and sets
+
+   You can use this same ``field1.[].field2`` syntax when creating relationships
+   within dictionaries and sets.
+
+.. code-block:: json
+
+   {
+     "pets.[].favoriteToyBrand": {
+       "ref": "#/relationship/mongodb-atlas/example/ToyBrand",
+       "foreign_key": "_id",
+       "is_list": false
+     }
+   }
+
+.. note:: Primitives versus lists, dictionaries, and sets in relationships
+
+   In the example above, ``is_list`` is set to false. The field at the end
+   of the relationship string here is a primitive, not a list. The embedded 
+   object is *contained* in a list, but the ``favoriteToyBrand`` property 
+   itself is not a dictionary, set or list.
+
 .. _define-a-relationship:
 
 Define a Relationship

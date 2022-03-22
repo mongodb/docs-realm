@@ -227,9 +227,11 @@ and relations between object instances.
 
 Each {+realm+} uses a versioned schema. When that schema changes, you
 must define a migration to move object data between schema versions.
-Additive schema changes happen automatically, but your SDK may require
-you to increase the local schema version to begin using the updated
-schema in your app. Destructive changes require a migration function.
+Non-breaking schema changes, also referred to as additive schema changes, 
+do not require a migration. After you increment the local schema version, 
+you can begin using the updated schema in your app. Breaking schema 
+changes, also called destructive schema changes, require a migration function.
+
 See your SDK's documentation for more information on migrations.
 
 Persistent or In-Memory Realms

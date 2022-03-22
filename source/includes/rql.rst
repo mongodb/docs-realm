@@ -1,15 +1,63 @@
 Overview
 --------
 
-{+client-database+} supports a string-based query language to constrain 
-searches when retrieving objects. Queries evaluate a predicate for every 
+Realm Query Language is a string-based query language to constrain 
+searches when retrieving objects from a realm. SDK-specific methods pass queries 
+to the Realm query engine, which retrives matching objects from the realm.
+
+Queries evaluate a predicate for every 
 object in the collection being queried. If the predicate resolves 
 to ``true``, {+client-database+} includes the object in the results 
 collection.
 
 You can use Realm Query Language in most Realm SDKs with your SDK's filter 
-or query methods. The Swift SDK is the exception, as it uses the NSPredicate 
-query API.
+or query methods. The Swift SDK is the exception, as it uses the 
+:ref:`NSPredicate query API <ios-nspredicate-query>`. 
+Some SDKs also support idiomatic APIs for querying realms in their language.
+
+Further reading on SDK-specific methods for querying realms. 
+
+.. tabs::
+
+   .. tab:: Java SDK
+      :tabid: java
+
+      - :ref:`Query Engine - Java SDK <java-client-query-engine>`
+      - :ref:`Query with Realm Query Language - Java SDK <java-filter-with-realm-query-language>`
+
+   .. tab:: Swift SDK
+      :tabid: swift
+
+      - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
+
+   .. tab:: .NET SDK
+      :tabid: dotnet
+
+      - :ref:`Query Engine - .NET SDK <dotnet-client-query-engine>`
+
+   .. tab:: Node.JS SDK
+      :tabid: node
+
+      - :ref:`Query Engine - Node.Js SDK <node-client-query-engine>`
+      - :ref:`Filter Queries - Node.Js SDK <node-filter-queries>`
+
+   .. tab:: React Native SDK
+      :tabid: react-native
+
+      - :ref:`Query Engine - React Native SDK <react-native-client-query-engine>`
+      - :ref:`Filter Queries - React Native SDK <react-native-filter-queries>`
+
+   .. tab:: Kotlin SDK
+      :tabid: kotlin
+
+      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>` 
+
+   .. tab:: Flutter SDK
+      :tabid: flutter
+
+      - :ref:`Realm Query Language - Flutter SDK <flutter-query-language>`
+      - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
+
 
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
