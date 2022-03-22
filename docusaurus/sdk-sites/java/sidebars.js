@@ -4,8 +4,6 @@ const sidebars = {
     "intro",
     "install",
     "quick-start",
-    `async-api`,
-    "android-livedata",
     {
       type: "category",
       label: "Realm Database",
@@ -155,6 +153,8 @@ const sidebars = {
         },
       ],
     },
+    "async-api",
+    "android-livedata",
     "threading",
     "testing",
     "logging",

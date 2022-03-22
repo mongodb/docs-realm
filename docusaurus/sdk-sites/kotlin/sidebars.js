@@ -17,6 +17,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "realm-database/overview",
+        "realm-database/frozen-architecture",
         "realm-database/open-and-close-a-realm",
         {
           type: "category",
@@ -60,7 +61,6 @@ const sidebars = {
         },
         "realm-database/query-language",
         "realm-database/write-transactions",
-        "realm-database/frozen-architecture",
         {
           type: "category",
           label: "Schemas",
