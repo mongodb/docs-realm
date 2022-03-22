@@ -8,7 +8,7 @@ function AppWrapper() {
   }
 
   return (
-    <RealmProvider sync={syncConfig}>
+    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner/>}>
       <App />
     </RealmProvider>
   );

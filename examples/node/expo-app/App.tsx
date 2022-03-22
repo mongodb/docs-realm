@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import Realm from 'realm';
 
 
@@ -173,7 +173,7 @@ function AppWrapper2() {
   }
 
   return (
-    <RealmProvider sync={syncConfig}>
+    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner/>}>
       <App />
     </RealmProvider>
   );
@@ -181,5 +181,6 @@ function AppWrapper2() {
 // :replace-end:
 // :code-block-end:
 
+const LoadingSpinner = () => (<Text>Mock Loading Spinner</Text>)
 
 export default AppWrapper;
