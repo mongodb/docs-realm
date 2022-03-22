@@ -15,7 +15,9 @@ class Encrypt: XCTestCase {
         // :hide-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
-        config.inMemoryIdentifier = "myEncryptedInMemoryRealm"
+        config.fileURL!.deleteLastPathComponent()
+        config.fileURL!.appendPathComponent("encryptedRealm")
+        config.fileURL!.appendPathExtension("realm")
         // :hide-end:
         do {
             // Open the encrypted realm
@@ -26,6 +28,7 @@ class Encrypt: XCTestCase {
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
         // :code-block-end:
+        try! FileManager().removeItem(at: config.fileURL!)
     }
 
     func testStoreInKeychain() {
@@ -82,7 +85,9 @@ class Encrypt: XCTestCase {
         // :hide-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
-        config.inMemoryIdentifier = "myEncryptedInMemoryRealm"
+        config.fileURL!.deleteLastPathComponent()
+        config.fileURL!.appendPathComponent("encryptedRealm")
+        config.fileURL!.appendPathExtension("realm")
         // :hide-end:
         do {
             // Open the realm with the configuration
@@ -95,6 +100,7 @@ class Encrypt: XCTestCase {
             fatalError("Error opening realm: \(error)")
         }
         // :code-block-end:
+        try! FileManager().removeItem(at: config.fileURL!)
     }
 
     func testBackgroundRefreshEncryption() {
