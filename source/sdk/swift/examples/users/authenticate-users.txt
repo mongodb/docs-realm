@@ -125,8 +125,19 @@ The value that you pass to the credential depends on whether or not you have
   :swift-sdk:`Credentials.google(serverAuthCode:)
   <Enums/Credentials.html#/s:10RealmSwift11CredentialsO6googleyACSS_tcACmF>`.
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google.swift
-   :language: swift
+.. tabs::
+
+   .. tab:: ID Token
+      :tabid: idToken
+
+      .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google-with-googleId.swift
+         :language: swift
+
+   .. tab:: Server Auth Code
+      :tabid: serverAuthCode
+
+      .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google-with-serverAuthCode.swift
+         :language: swift
 
 .. _ios-login-apple:
 
