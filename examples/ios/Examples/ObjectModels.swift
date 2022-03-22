@@ -205,7 +205,6 @@ class ObjectModels: XCTestCase {
             init<C: RealmCollection & _ObjcBridgeable>(collection: C) where C.ElementType == ObjectModelsExamples_MyModel {
                 self.collection = AnyRealmCollection(collection)
             }
-
         }
         // :code-block-end:
     }

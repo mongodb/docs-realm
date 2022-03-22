@@ -14,5 +14,4 @@ class ViewController {
     init<C: RealmCollection & _ObjcBridgeable>(collection: C) where C.ElementType == MyModel {
         self.collection = AnyRealmCollection(collection)
     }
-
 }
