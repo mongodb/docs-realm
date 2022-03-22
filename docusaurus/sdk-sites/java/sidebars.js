@@ -11,10 +11,6 @@ const sidebars = {
       collapsed: false,
       items: [
         "realm-database/overview",
-        "realm-database/query-language",
-        "realm-database/write-transactions",
-        "realm-database/filter-data",
-        "realm-database/notifications",
         {
           type: "category",
           label: "Realms",
@@ -96,6 +92,10 @@ const sidebars = {
             "realm-database/schemas/versions-and-migrations",
           ],
         },
+        "realm-database/filter-data",
+        "realm-database/query-language",
+        "realm-database/write-transactions",
+        "realm-database/notifications",
         "realm-database/freeze-objects",
       ],
     },
