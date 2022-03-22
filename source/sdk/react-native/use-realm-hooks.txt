@@ -167,8 +167,7 @@ hook.
 .. literalinclude:: /examples/generated/expo/App.codeblock.example-userealm-hook-usage.tsx
     :language: typescript
 
-Within the :js-sdk:`Realm.create() <Realm.html#create>` call, the
-``Task.generate()`` method defined in the ``Task`` class is used to instantiated
+The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method is used to instantiate
 a JavaScript object with default values for the ``_id``, ``isComplete``, and
 ``createdAt`` properties.
 
