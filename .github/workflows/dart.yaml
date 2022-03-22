@@ -1,0 +1,22 @@
+name: Dart/Flutter SDK Tests
+
+on:
+  pull_request:
+    paths:
+      - "examples/dart/**"
+
+defaults:
+  run:
+    working-directory: examples/dart # The working directory path
+
+jobs:
+  build:
+    name: Run Node Example App Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart run realm_dart install
+      - run: dart run test
