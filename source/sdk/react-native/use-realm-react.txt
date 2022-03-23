@@ -1,7 +1,7 @@
-.. _react-native-use-realm-hooks:
+.. _react-native-use-realm-react:
 
 ===============
-Use Realm Hooks
+Use Realm React
 ===============
 
 .. default-domain:: mongodb
@@ -14,43 +14,43 @@ Use Realm Hooks
 
 Overview
 --------
-:npm:`Realm Hooks <package/@realm/react>` provides an easy-to-use API to perform
+:npm:`Realm React <package/@realm/react>` provides an easy-to-use API to perform
 common Realm operations, such as querying or writing to a realm and listening to
 realm objects.
 
 Using Realm React allows you to avoid creating boilerplate code, such as
 creating your own listeners and state management. Realm React provides access to Realm through a
-set of Hooks, which return Realm data that are automatically subscribed to updates. This means that
-components using these Hooks will re-render on any changes to Realm data.
+set of hooks, which return Realm data that are automatically subscribed to updates. This means that
+components using these hooks will re-render on any changes to Realm data.
 
 
 .. _react-native-setup-realm-hooks:
 
-Setup Realm Hooks
+Setup Realm React
 -----------------
-To set up realm hooks, you can either start from scratch with a new application
+To set up Realm React, you can either start from scratch with a new application
 using the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
-or install Realm Hooks for an existing `React Native application
+or install Realm React for an existing `React Native application
 <https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_ .
 
 .. tabs::
 
    tabs:
      - id: create-a-new-app-with-realm-hooks-preconfigured
-       name: Create a New App with Realm Hooks
+       name: Create a New App with Realm React
        content: |
          If you don't have an existing application, we recommend developing with
          the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
          The Realm Expo template allows you to bootstrap your application with
-         `Expo <https://docs.expo.dev/>`_ and Realm Hooks preconfigured.
+         `Expo <https://docs.expo.dev/>`_ and Realm React preconfigured.
 
          To initialize the Realm Expo template, read the :ref:`Quick Start
          with Expo <react-native-client-quick-start-expo>` documentation.
 
      - id: use-npm-to-add-realm-hooks-to-an-old-app
-       name: Add Realm Hooks to an Existing App
+       name: Add Realm React to an Existing App
        content: |
-         To install Realm Hooks on an existing React Native application, run the
+         To install Realm React on an existing React Native application, run the
          following command in your terminal from the root of your application
          where your ``package.json`` file is located:
 
@@ -123,8 +123,8 @@ the TaskContext object to get it's ``RealmProvider``.
     :language: typescript
 
 Finally, wrap the ``RealmProvider`` component around the component that you want
-to give access to the Realm Hooks. In the example below, we give the entire
-app access to the Realm Hooks by wrapping the ``RealmProvider`` around
+to give access to the hooks. In the example below, we give the entire
+app access to the hooks by wrapping the ``RealmProvider`` around
 the ``App`` component which renders the application.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
@@ -146,8 +146,8 @@ waiting for {+sync+} to respond:
 .. literalinclude:: /examples/generated/expo/App.codeblock.dynamically-update-realm-config.tsx
     :language: typescript
 
-Use Realm Hooks In Child Components
------------------------------------
+Use Hooks In Child Components
+-----------------------------
 
 Once you have wrapped your component with your ``RealmProvider``, your component
 and it's child components will have access to the ``useRealm()``,
@@ -159,7 +159,7 @@ Import the ``Context`` object that you created. In the example below, the
 Context object is called "TaskContext" since it refers to the Realm Context of
 the Task. :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the TaskContext object to get it's Realm Hooks. 
+the TaskContext object to get it's hooks. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
     :language: typescript
@@ -207,7 +207,7 @@ hook and then the tasks are set as a prop of a ``TaskList`` component.
 
 Summary
 -------
-- You can set up Realm Hooks on an existing application by installing it through npm, or on a new application through the Realm Expo template.
-- A Realm Context opens a {+realm+} and contains a ``RealmProvider`` and a set of prebuilt Realm Hooks. 
+- You can set up Realm React on an existing application by installing it through npm, or on a new application through the Realm Expo template.
+- A Realm Context opens a {+realm+} and contains a ``RealmProvider`` and a set of prebuilt hooks. 
 - A ``RealmProvider`` provides access to the configured Realm using hooks, which can be used to display and modify data.
-- The prebuilt Realm Hooks provide functionality like interacting with a {+realm}, and finding {+realm+} object(s).
+- The prebuilt hooks provide functionality like interacting with a {+realm}, and finding {+realm+} object(s).
