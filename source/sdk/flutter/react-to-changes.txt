@@ -30,32 +30,140 @@ You can subscribe to changes on the following events:
 Register a Query Change Listener 
 --------------------------------
 
-TODO
+You can register a notification handler on any query within a Realm.
+The handler receives a :flutter-sdk:`RealmResultsChanges <realm/RealmResultsChanges-class.html>`,
+which includes description of changes since the last notification.
+This description consists of the following lists of indices:
+
+.. list-table::
+   
+   * - Property
+     - Type
+     - Description
+   
+   * - ``inserted``
+     - *List<int>*
+     - Indexes in the new collection which were added in this version.
+
+   * - ``modified``
+     - *List<int>*
+     -  Indexes of the objects in the new collection which were modified in this version.
+
+   * - ``deleted``
+     - *List<int>*
+     -  Indexes in the previous version of the collection which have been removed from this one.
+
+
+   * - ``newModified``
+     - *List<int>*
+     - Indexes of modified objects after deletions and insertions are accounted for.
+
+   * - ``moved``
+     - *List<int>*
+     - Indexes of the objects in the collection which moved.
+
+   * - ``results``
+     - *Results<T>*
+     - The results collection being monitored for changes.
+
+.. literalinclude:: TODO
+   :language: dart
 
 .. _flutter-realm-object-change-listener:
 
 Register a RealmObject Change Listener
 --------------------------------------
 
-TODO
+You can register a notification handler on a specific object within a realm.
+Realm notifies your handler when any of the object's properties change. 
+The handler receives a :flutter-sdk:`RealmObjectChanges <realm/RealmObjectChanges-class.html>`,
+which includes description of changes since the last notification.
+This description consists of the following properties:
+
+.. list-table::
+   
+   * - Property
+     - Type
+     - Description
+   
+   * - ``isDeleted``
+     - *bool*
+     - ``true`` if the object was deleted.
+
+   * - ``object``
+     - *RealmObject*
+     - Realm object being monitored for changes.
+
+   * - ``properties``
+     - *List<String>*
+     -  Names of the Realm object's properties that have changed.
+
+.. literalinclude:: TODO
+   :language: dart
 
 .. _flutter-realm-list-change-listener: 
 
 Register a RealmList Change Listener
 ------------------------------------
 
-TODO
+You can register a notification handler on a list within a Realm object.
+Realm notifies your handler when any of the object's properties change. 
+The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>`,
+which includes description of changes since the last notification.
+This description consists of the following properties:
+
+.. list-table::
+   
+   * - Property
+     - Type
+     - Description
+   
+   * - ``inserted``
+     - *List<int>*
+     - Indexes of items in the new list which were added in this version.
+
+   * - ``modified``
+     - *List<int>*
+     -  Indexes of the items in the new list which were modified in this version.
+
+   * - ``deleted``
+     - *List<int>*
+     -  Indexes of items in the previous version of the list which have been removed from this one.
+
+
+   * - ``newModified``
+     - *List<int>*
+     - Indexes of modified items after deletions and insertions are accounted for.
+
+   * - ``moved``
+     - *List<int>*
+     - Indexes of the items in the list which moved.
+
+   * - ``list``
+     - *RealmList<T>*
+     - List being monitored for changes.
+
+.. literalinclude:: TODO
+   :language: dart
 
 .. _flutter-pause-resume-change-listener:
 
 Pause and Resume a Change Listener
 ----------------------------------
 
-TODO
+Pause your subscription if you temporarily don't want to receive notifications. 
+You can later resume listening. 
 
-.. _flutter-unregister-change-listener:
+.. literalinclude:: TODO
+   :language: dart
 
-Unregister a Change Listener
-----------------------------
+.. _flutter-unsubscribe-change-listener:
 
-TODO
+Unsubscribe a Change Listener
+-----------------------------
+
+Unsubscribe from your change listener when you no longer want to receive
+notifications on updates to the data it's watching.
+
+.. literalinclude:: TODO
+   :language: dart
