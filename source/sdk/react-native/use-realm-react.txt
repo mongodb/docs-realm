@@ -73,7 +73,8 @@ following:
 
 Setup
 ~~~~~
-In the following example, we create a file where you will define a Realm object
+
+To begin, we recommend creating a file where you will define a Realm object
 type, a Realm configuration, and create a Realm Context. At the top of the file,
 import Realm and the ``createRealmContext()`` method.
 
@@ -83,8 +84,8 @@ import Realm and the ``createRealmContext()`` method.
 Next, define a Realm model using a JavaScript class. The ``Task``
 class below contains the following:
 
-- A ``generate()`` method that returns a ``Task`` insertion object, that automatically sets computed values, such as `_id` and `createdAt`. This insertion can be forwarded to `realm.create` to preform an insertion. 
-- A schema
+- A ``generate()`` method that returns a ``Task`` insertion object, that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to preform an insertion 
+- A schema 
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
     :language: typescript
