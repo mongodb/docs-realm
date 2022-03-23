@@ -16,10 +16,6 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: '13.2.1'
-      - name: Dependencies
-        run: |
-          cd examples/ios
-          pod install --repo-update
       - name: Build
         env:
           scheme: ${{ 'default' }}
