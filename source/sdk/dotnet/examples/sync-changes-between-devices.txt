@@ -149,11 +149,11 @@ Once you no longer wish to receive notifications, unregister the token by using 
 
 .. warning:: 
    
-   {+service-short+} will try to optimize download speeds by combining multiple changesets
-   into a single download message up to 16 MB. Since the progress callback is
+   {+service-short+} optimizes download speeds by combining multiple changesets
+   into a single download message, up to 16 MB. Since the progress callback is
    only invoked once before and after a download message is processed, this
    means that you'll likely see ``transferredBytes`` change in increments of roughly
-   16 MB rather than continuously as the message is being downloaded."
+   16 MB rather than continuously as the message is being downloaded.
 
 .. _dotnet-handle-sync-errors:
 
@@ -168,6 +168,13 @@ strongly typed handling logic.
 .. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.handle-errors.cs
    :language: csharp
 
+.. note:: Additional Exception Information
+
+   For security reasons, {+service-short+} may send only a minimal amount of 
+   information about an exception, but the server-side logs will contain more 
+   details. In these cases, the 
+   `HelpLink <https://docs.microsoft.com/en-us/dotnet/api/system.exception.helplink?view=net-6.0#system-exception-helplink>`_ 
+   property on the exception contains a link to the associated log entry.
 
 .. _dotnet-reset-a-client-realm-file:
 
