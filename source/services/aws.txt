@@ -188,7 +188,7 @@ This can also be expressed as the following JSON:
       ],
       "when": {
          "%%args.Bucket": {
-               "%in": "%%values.myS3Buckets"
+               "$in": "%%values.myS3Buckets"
          }
       }
    }
@@ -221,7 +221,7 @@ This can also be expressed as the following JSON:
       ],
       "when": {
          "%%args.Bucket": {
-               "%in": "realmReadWritableBucket"
+               "$in": "realmReadWritableBucket"
          }
       }
    }

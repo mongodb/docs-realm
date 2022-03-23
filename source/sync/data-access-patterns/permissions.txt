@@ -356,7 +356,8 @@ change until the next session.
 
    - If the value changes during a session, Realm continues to use the value as it was at the time of session start.
    - On the next session, if the value is different from what it was at the start of this session, Realm triggers a client reset.
-   - You cannot use the :ref:`%function <application-components>` expansion operator in read and write rules. Functions would not operate on a per-document basis.
+   - You cannot use the :json-operator:`%function` operator in read and
+     write rules. Functions would not operate on a per-document basis.
    - You cannot store permissions information (such as "which document IDs may this user access?") in the user object.
 
 Available Expansions in Flexible Sync Rules Quick Reference
@@ -369,37 +370,48 @@ Available Expansions in Flexible Sync Rules Quick Reference
    * - Expansion
      - Can Use in "Apply When"?
      - Can Use in Read & Write Rules?
+   
    * - :json-expansion:`%%true`, :json-expansion:`%%false`
      - Yes
      - Yes
+   
    * - :json-expansion:`%%values`, :json-expansion:`%%environment`
      - Yes
      - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   
    * - :json-expansion:`%%request`
      - No
      - No
+   
    * - :json-expansion:`%%user`
      - Yes
      - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   
    * - :json-expansion:`%%this`, :json-expansion:`%%prev`, :json-expansion:`%%root`,  :json-expansion:`%%prevRoot`
      - No. These expansions refer to the document. Realm evaluates "apply when" expressions at session start, so there's no document to evaluate.
      - No. These expansions might access non-queryable fields of the document, which is not possible.
+   
    * - :json-expansion:`%%partition`
      - No
      - No
+   
    * - :json-operator:`%stringToOid`, :json-operator:`%oidToString`
      - Yes
      - No
+   
    * - :json-operator:`%function`
      - Yes
      - No. Realm expands the expansions at the start of the session, so the function would not operate on a per-document basis.
-   * - :json-operator:`%exists`
+   
+   * - :json-operator:`$exists`
      - Yes
      - Yes
-   * - :json-operator:`%in`, :json-operator:`%nin`
+   
+   * - :json-operator:`$in`, :json-operator:`$nin`
      - Yes
      - Yes. However, note that you cannot currently have an array field as a queryable field on a document.
-   * - :json-operator:`%eq`, :json-operator:`%ne`, :json-operator:`%gt`, :json-operator:`%gte`, :json-operator:`%lt`, :json-operator:`%lte`  
+   
+   * - :json-operator:`$eq`, :json-operator:`$ne`, :json-operator:`$gt`, :json-operator:`$gte`, :json-operator:`$lt`, :json-operator:`$lte`  
      - Yes
      - Yes
 
@@ -637,4 +649,3 @@ default role, the user gets the default role permissions.
       }
     ]
   }
-
