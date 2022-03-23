@@ -113,7 +113,7 @@ with a number literal (such as ``0``) or another property (such as
              .. code-block:: java
 
                public class Task extends RealmObject {
-                 ObjectId id  = new ObjectId();
+                 ObjectId id = new ObjectId();
                  String name;
                  Boolean isComplete = false;
                  String assignee;
