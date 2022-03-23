@@ -21,9 +21,16 @@ custom authentication flow using a :ref:`serverless function
 authentication logic or flexibly integrate an external authentication
 system.
 
+When to Use Custom Function Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Custom function authentication is the most flexible form of
-authentication but also requires you to define and manage the
-authentication flow yourself.
+authentication. However, it also requires you to manually define and
+configure the authentication flow yourself.
+
+Before you define a custom function provider, consider if you can one
+use of the :ref:`built-in authentication providers
+<authentication-providers>` instead.
 
 Consider using the custom function provider in your app if:
 
@@ -32,8 +39,10 @@ Consider using the custom function provider in your app if:
   creating a :ref:`Custom JWT <custom-jwt-authentication>` provider
   instead.
 
-- You want to customize the authentication process. For example, you
-  could use a service to send customized confirmation emails.
+- You want to customize the authentication process beyond what's
+  available in a built-in provider. For example, you could use a service
+  to send customized confirmation emails instead of the default
+  email/password provider emails.
 
 .. important::
    
