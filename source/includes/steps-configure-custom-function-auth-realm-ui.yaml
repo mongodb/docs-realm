@@ -1,123 +1,50 @@
-title: Navigate to the Custom Function Provider Settings Page
-ref: navigate-to-the-custom-function-provider-settings-page
+title: Enable the Custom Function Provider
+ref: enable-the-custom-function-provider
 content: |
-  You can set up and enable the Custom Function authentication provider
-  in the Realm UI. To get to the settings page, click :guilabel:`App Users`
-  in the {+leftnav+}, select the :guilabel:`Providers` tab, and
-  then click :guilabel:`Custom Function Authentication`.
+  To enable the provider:
+
+  1. Click :guilabel:`App Users` in the {+leftnav+}.
+  
+  2. Select the :guilabel:`Providers` tab.
+  
+  3. Click :guilabel:`Custom Function Authentication`.
+
+  4. On the provider configuration screen, set the :guilabel:`Provider
+     Enabled` toggle to :guilabel:`On`.
 
   .. figure:: /images/auth-provider-list-custom-function-realm-ui.png
      :alt: The list of authentication providers in the Realm UI with the Custom Function provider highlighted.
      :width: 750px
      :lightbox:
 ---
-title: Enable the Provider
-ref: enable-the-provider
-content: |
-  To create new users and allow them to log in, you must enable the
-  Custom Function provider. To do so, set the :guilabel:`Provider
-  Enabled` toggle to :guilabel:`On`.
-
-  .. figure:: /images/provider-enabled-toggle.png
-     :alt: The toggle button to enable the provider from the Realm UI.
-     :width: 750px
-     :lightbox:
----
 title: Define the Authentication Function
 ref: define-the-authentication-function
 content: |
-  The authentication function must return a string ID value or an object 
-  containing a string ID value that uniquely identifies the user. {+service+} uses 
-  this value to look up an existing {+service-short+} user and automatically 
-  creates a new user if it does not match an existing user. If the function does 
-  not return a valid return value, {+backend+} throws an error and does not 
-  create or authenticate a user.
+  The provider uses a normal function to handle authentication. The
+  function should return a unique external ID string to identify the
+  user.
+
+  To define a new :ref:`authentication function <authentication-function>`:
   
-  Valid return values options include: 
-    
-  .. example:: 
+  1. Click the :guilabel:`Function` dropdown and select :guilabel:`New Function`.
   
-    A string ID value that uniquely identifies the user
-    
-    .. code-block:: shell
-    
-      return "5f650356a8631da45dd4784c"
-    
-    An object that contains a string ID value that uniquely identifies the user
-    
-    .. code-block:: shell
+  2. Enter a name for the function. This name must be unique among all
+     functions in your application.
+  
+  3. Define the source code in the function editor.
 
-      return { "id": "5f650356a8631da45dd4784c" }
-      return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
-
-  .. important:: Realm Generates New User ID Values
-     
-     The ID value that you return from the authentication function is
-     **not** the internal Realm user id (i.e. the value that
-     :json-expansion:`%%user` and :ref:`context.user <context-user>`
-     resolve to). Realm automatically generates a unique id for Custom
-     Function users when it creates them.
-
-  To define a new authentication function, click the
-  :guilabel:`Function` dropdown and select :guilabel:`New Function`.
+  4. Click :guilabel:`Save`
 
   .. figure:: /images/custom-function-dropdown.png
      :alt: The function selection dropdown in the Realm UI.
      :width: 750px
      :lightbox:
-
-  .. example::
-
-     An application implements a Custom Function authentication provider
-     that stores user data in the ``app.users`` MongoDB collection. The
-     app lets users log in by specifying their ``username`` but does not
-     require a password or any other type of authentication.
-
-     The application's authentication function queries the ``app.users``
-     collection for an existing user with the specified username. If the
-     user already exists, the function returns their stored ``id`` value. If
-     the user does not exist, the function stores a new user document in
-     the collection and returns that document's ``id`` value.
-
-     .. note::
-       {+service-short+} does not automatically create an ``app.users``
-       collection for your application. You can use your custom function with
-       an external authentication system and/or data that you store in a
-       MongoDB collection to identify and authenticate users.
-
-     .. code-block:: javascript
-        :emphasize-lines: 9, 12, 16, 20
-
-        exports = async function(loginPayload) {
-          // Get a handle for the app.users collection
-          const users = context.services
-            .get("mongodb-atlas")
-            .db("app")
-            .collection("users");
-
-          // Parse out custom data from the FunctionCredential
-          const { username } = loginPayload;
-
-          // Query for an existing user document with the specified username
-          const user = await users.findOne({ username });
-
-          if (user) {
-            // If the user document exists, return its unique ID
-            return user._id.toString();
-          } else {
-            // If the user document does not exist, create it and then return its unique ID
-            const result = await users.insertOne({ username });
-            return result.insertedId.toString();
-          }
-        };
 ---
 title: Deploy the Updated Application
 ref: deploy-the-updated-application
 content: |
-  Once you have written and saved the authentication function, you can
-  make Custom Function authentication available to client applications
-  by deploying your application. To deploy a draft application from the
-  Realm UI:
+  To make custom function authentication available to client
+  applications, deploy your application.
 
   1. Click :guilabel:`Deploy` in the {+leftnav+}
 
@@ -125,7 +52,4 @@ content: |
      :guilabel:`Review & Deploy Changes`.
 
   3. Review the diff of changes and then click :guilabel:`Deploy`.
-
-  Once the application successfully deploys, you will be able to create
-  and log in as a Custom Function user from a client application.
 ...
