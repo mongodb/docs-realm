@@ -143,11 +143,14 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
 
 Once you no longer wish to receive notifications, unregister the token by using ``token.Dispose()``
 
-.. warning:: 
+.. note:: 
    
-   The number of transferred and transferable bytes are estimates. Since the actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting over the network, the actual transmitted sizes will be much smaller for both transferable and transferred bytes.
+   The number of transferred and transferable bytes are estimates. Since the 
+   actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ 
+   before transmitting over the network, the actual transmitted sizes will be 
+   much smaller for both transferable and transferred bytes.
 
-.. warning:: 
+.. note:: 
    
    {+service-short+} optimizes download speeds by combining multiple changesets
    into a single download message, up to 16 MB. Since the progress callback is
