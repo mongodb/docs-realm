@@ -35,6 +35,16 @@ Consider using the custom function provider in your app if:
 - You want to customize the authentication process. For example, you
   could use a service to send customized confirmation emails.
 
+.. important::
+   
+   {+service-short+} does not perform any data validation or
+   authentication checks for the custom function provider.
+   
+   Make sure that you validate incoming data and that your
+   authentication system performs appropriate authentication checks,
+   such as requiring a password, :wikipedia:`two-factor authentication <Multi-factor_authentication>`, or a
+   :wikipedia:`single sign-on <Single_sign-on>` token.
+
 .. _authentication-function:
 
 The Authentication Function
@@ -52,15 +62,6 @@ to log in to an external service over HTTP or using a package from npm.
 
 .. literalinclude:: /authentication/custom-function/the-authentication-function.js
    :language: javascript
-
-.. important::
-   
-   {+service-short+} does not perform any data validation or
-   authentication checks for the Custom Function provider. Make sure
-   that you validate incoming data and that your authentication system
-   performs appropriate authentication checks, such as requiring a
-   password, two factor authentication, or a :wikipedia:`single sign-on
-   <Single_sign-on>` token.
 
 Receive a Custom Credential Payload
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
