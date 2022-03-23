@@ -33,7 +33,7 @@ Register a Query Change Listener
 You can register a notification handler on any query within a Realm.
 The handler receives a :flutter-sdk:`RealmResultsChanges <realm/RealmResultsChanges-class.html>`,
 which includes description of changes since the last notification.
-This description consists of the following lists of indices:
+``RealmResultsChanges`` contains the following lists of indices:
 
 .. list-table::
    
@@ -78,7 +78,7 @@ You can register a notification handler on a specific object within a realm.
 Realm notifies your handler when any of the object's properties change. 
 The handler receives a :flutter-sdk:`RealmObjectChanges <realm/RealmObjectChanges-class.html>`,
 which includes description of changes since the last notification.
-This description consists of the following properties:
+``RealmObjectChanges`` contains the following properties:
 
 .. list-table::
    
@@ -106,11 +106,11 @@ This description consists of the following properties:
 Register a RealmList Change Listener
 ------------------------------------
 
-You can register a notification handler on a list within a Realm object.
+You can register a notification handler on a list of ``RealmObjects`` within another ``RealmObject``.
 Realm notifies your handler when any of the object's properties change. 
 The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>`,
 which includes description of changes since the last notification.
-This description consists of the following properties:
+``RealmListChanges`` contains the following properties:
 
 .. list-table::
    
@@ -142,6 +142,10 @@ This description consists of the following properties:
    * - ``list``
      - *RealmList<T>*
      - List being monitored for changes.
+
+.. important:: 
+
+   You can only apply a change listener to a ``RealmList<T extends RealmObject>``.
 
 .. literalinclude:: TODO
    :language: dart
