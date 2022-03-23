@@ -1,7 +1,7 @@
 import XCTest
 import RealmSwift
 import GoogleSignIn
-import FBSDKLoginKit
+// import FBSDKLoginKit
 import SwiftUI
 
 class Authenticate: XCTestCase {
@@ -93,40 +93,40 @@ class Authenticate: XCTestCase {
     }
 
     func testFacebookCredentials() {
-        let expectation = XCTestExpectation(description: "login completes")
-        // :code-block-start: facebook
-        // This example demonstrates login logic for FBSDK version 8.x. If you're using
-        // a different version of FBSDK, you'll need to adapt this example for your version.
-        let loginManager = LoginManager()
-        loginManager.logIn(permissions: [ .email ]) { loginResult in
-            switch loginResult {
-            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                let credentials = Credentials.facebook(accessToken: accessToken.tokenString)
-                app.login(credentials: credentials) { result in
-                    DispatchQueue.main.async {
-                        switch result {
-                        case .failure(let error):
-                            print("Failed to log in to MongoDB Realm: \(error)")
-                        case .success(let user):
-                            print("Successfully logged in to MongoDB Realm using Facebook OAuth.")
-                            // Now logged in, do something with user
-                            // Remember to dispatch to main if you are doing anything on the UI thread
-                        }
-                    }
-                }
-            case .failed(let error):
-                print("Facebook login failed: \(error)")
-                // :hide-start:
-                expectation.fulfill()
-                // :hide-end:
-            case .cancelled:
-                print("The user cancelled the login flow.")
-
-            }
-        }
-        // :code-block-end:
-        expectation.fulfill()
-        wait(for: [expectation], timeout: 10)
+//        let expectation = XCTestExpectation(description: "login completes")
+//        // :code-block-start: facebook
+//        // This example demonstrates login logic for FBSDK version 8.x. If you're using
+//        // a different version of FBSDK, you'll need to adapt this example for your version.
+//        let loginManager = LoginManager()
+//        loginManager.logIn(permissions: [ .email ]) { loginResult in
+//            switch loginResult {
+//            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+//                let credentials = Credentials.facebook(accessToken: accessToken.tokenString)
+//                app.login(credentials: credentials) { result in
+//                    DispatchQueue.main.async {
+//                        switch result {
+//                        case .failure(let error):
+//                            print("Failed to log in to MongoDB Realm: \(error)")
+//                        case .success(let user):
+//                            print("Successfully logged in to MongoDB Realm using Facebook OAuth.")
+//                            // Now logged in, do something with user
+//                            // Remember to dispatch to main if you are doing anything on the UI thread
+//                        }
+//                    }
+//                }
+//            case .failed(let error):
+//                print("Facebook login failed: \(error)")
+//                // :hide-start:
+//                expectation.fulfill()
+//                // :hide-end:
+//            case .cancelled:
+//                print("The user cancelled the login flow.")
+//
+//            }
+//        }
+//        // :code-block-end:
+//        expectation.fulfill()
+//        wait(for: [expectation], timeout: 10)
     }
 
     func testJwtCredentials() {
