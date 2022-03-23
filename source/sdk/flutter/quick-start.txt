@@ -213,21 +213,40 @@ Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
 React to Changes
 ~~~~~~~~~~~~~~~~
 
-Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
+.. seealso:: Further Reading
 
-To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
+   :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
+Listen and respond to changes to a query, a single object, or a list within an object.
+The change listener is a Stream that invokes a callback function with an containing
+changes since last invocation as its argument.  
+
+To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
+<realm/RealmResultsChanges-class.html>`.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-query.dart
    :language: dart
 
-To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
+To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
+<realm/RealmObjectChanges-class.html>`. 
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-realm-object.dart
    :language: dart
 
-To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
+To listen to a list within a Realm object, use :flutter-sdk:`RealmList.changes.listen()
+<realm/RealmListChanges-class.html>`.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-realm-list.dart
+   :language: dart
+
+You can pause and resume subscriptions as well. 
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.pause-resume-subscriptions.dart
+   :language: dart
+
+Once you've finished listening to changes, close the change listener to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.close-subscription.dart
    :language: dart
 
 Close a Realm
