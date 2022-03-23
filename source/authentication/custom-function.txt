@@ -50,15 +50,15 @@ Consider using the custom function provider in your app if:
 The Authentication Function
 ---------------------------
 
-The authentication function is a serverless JavaScript function where
-you define your custom user authentication logic. It runs whenever a
-user logs in with a custom function provider credential and can create
-new users for first time logins.
+The authentication function is a JavaScript function that holds your
+custom user authentication code. It runs whenever a user logs in through
+the custom function provider. 
 
-The function maps data attached to the credential to a unique string ID
-for the user. In the function body, you write custom code to identify
-and authenticate the user. For example, you could use the provided data
-to log in to an external service over HTTP or using a package from npm.
+The function maps data provided at login, like a username and password
+or an access token, to a string that uniquely identifies the user in
+your external authentication system. For example, you could use the
+provided data to log in to an external service over HTTP or using a
+package from npm.
 
 .. literalinclude:: /authentication/custom-function/the-authentication-function.js
    :language: javascript
@@ -126,14 +126,14 @@ actual field names and values depend on your implementation.
                "pin": "24601"
             ])
 
-Return an External User ID
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Return an Authenticated User ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If authentication is successful, the function should return a unique
 string identifier for the user. For example, you could return the user
-ID value used by your external authentication system. The provider uses
-the external ID to map from your custom system to your app's internal
-user accounts.
+ID value used by your external authentication system. This is the user's
+*external ID*, which the provider uses to map from your custom system to
+your app's internal user accounts.
 
 .. important::
    
@@ -192,6 +192,24 @@ The identity object for the custom function provider is stored in the
          "id": "5f650356a8631da45dd4784c",
          "name": "James Bond"
        }
+
+Throw an Error for Failed Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the user provided invalid credentials or the function otherwise fails
+to authenticate the user, throw an error with a descriptive message.
+This returns a ``401 - Unauthorized`` error with the message attached to
+the SDK.
+
+.. code-block:: javascript
+
+   const auth = require("some-external-auth-system")
+   try {
+     const user = await auth.login(payload)
+     return user.id
+   } catch(err) {
+     throw new Error(`Authentication failed with reason: ${err.message}`)
+   }
 
 .. _config-custom-function:
 
