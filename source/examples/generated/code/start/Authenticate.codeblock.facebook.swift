@@ -1,10 +1,10 @@
-// This example demonstrates login logic for FBSDK version 8.x. If you're using
+// This example demonstrates login logic for FBSDK version 13.x. If you're using
 // a different version of FBSDK, you'll need to adapt this example for your version.
 let loginManager = LoginManager()
 loginManager.logIn(permissions: [ .email ]) { loginResult in
     switch loginResult {
     case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-        let credentials = Credentials.facebook(accessToken: accessToken.tokenString)
+        let credentials = Credentials.facebook(accessToken: accessToken!.tokenString)
         app.login(credentials: credentials) { result in
             DispatchQueue.main.async {
                 switch result {

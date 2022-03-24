@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -77,11 +77,14 @@
 		915E96A825FAB36500AABC09 /* LandingPageCodeExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915E96A725FAB36500AABC09 /* LandingPageCodeExamples.swift */; };
 		916AC598273036C100270C64 /* ClassProjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916AC597273036C100270C64 /* ClassProjection.swift */; };
 		917097DA279F182600F1D65B /* FlexibleSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917097D9279F182600F1D65B /* FlexibleSync.swift */; };
+		917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79527ECADC200F9BDDC /* FacebookCore */; };
+		917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79727ECADC200F9BDDC /* FacebookLogin */; };
+		917CA79B27ECB36700F9BDDC /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79A27ECB36700F9BDDC /* FacebookCore */; };
+		917CA79D27ECB36700F9BDDC /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 917CA79C27ECB36700F9BDDC /* FacebookLogin */; };
 		917D8C9F26167B69001B7A61 /* TestingAndDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */; };
 		917E73E726B8A9F80068242A /* MongoDBRemoteAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917E73E526B8A9F80068242A /* MongoDBRemoteAccess.swift */; };
 		917E73E826B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917E73E626B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift */; };
 		9185DB1925E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */; };
-		9185E85A27EB915E00CAAF2C /* TempTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9185E85927EB915E00CAAF2C /* TempTest.swift */; };
 		91B8A4D6278E24950018F72F /* TypeProjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8A4D5278E24950018F72F /* TypeProjection.swift */; };
 		91C687FD274D8AFE001A5DBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 489180152534E33600D53F19 /* LaunchScreen.storyboard */; };
 		91C687FF274D8AFE001A5DBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 489180102534E33600D53F19 /* Assets.xcassets */; };
@@ -179,7 +182,6 @@
 		917E73E526B8A9F80068242A /* MongoDBRemoteAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccess.swift; sourceTree = "<group>"; };
 		917E73E626B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MongoDBRemoteAccessAggregate.swift; sourceTree = "<group>"; };
 		9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalOnlyCompleteQuickStart.swift; sourceTree = "<group>"; };
-		9185E85927EB915E00CAAF2C /* TempTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempTest.swift; sourceTree = "<group>"; };
 		91B8A4D5278E24950018F72F /* TypeProjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeProjection.swift; sourceTree = "<group>"; };
 		91C68804274D8AFE001A5DBE /* SwiftUIExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91C68805274D8AFF001A5DBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/dachary.carey/workspace/docs-realm/examples/ios/Info.plist"; sourceTree = "<absolute>"; };
@@ -196,6 +198,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				917CA79D27ECB36700F9BDDC /* FacebookLogin in Frameworks */,
+				917CA79B27ECB36700F9BDDC /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,9 +214,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */,
 				9143E94B27EB79090082A5D6 /* RealmSwift in Frameworks */,
 				9143E94927EB79090082A5D6 /* Realm in Frameworks */,
 				9143E95327EB79BD0082A5D6 /* GoogleSignIn in Frameworks */,
+				917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +338,6 @@
 				914601F426A86B9000BC91EA /* Sync.m */,
 				914601F526A86B9000BC91EA /* Sync.swift */,
 				48BF341C25111194004139AF /* Task.swift */,
-				9185E85927EB915E00CAAF2C /* TempTest.swift */,
 				917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */,
 				48924B8B2514FEFC00CC9567 /* TestSetup.swift */,
 				4898DDAF25A3768600416375 /* Threading.swift */,
@@ -349,6 +354,7 @@
 				48DBFAD725101C3100391E2B /* Products */,
 				489180092534E33500D53F19 /* QuickStartSwiftUI */,
 				91C68806274D8B34001A5DBE /* SwiftUIExamples */,
+				917CA79927ECB36700F9BDDC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -361,6 +367,13 @@
 				91C68804274D8AFE001A5DBE /* SwiftUIExamples.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		917CA79927ECB36700F9BDDC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		91C68806274D8B34001A5DBE /* SwiftUIExamples */ = {
@@ -397,6 +410,10 @@
 			dependencies = (
 			);
 			name = RealmExamplesHostApp;
+			packageProductDependencies = (
+				917CA79A27ECB36700F9BDDC /* FacebookCore */,
+				917CA79C27ECB36700F9BDDC /* FacebookLogin */,
+			);
 			productName = App;
 			productReference = 4803B324251068F800CCAF97 /* RealmExamplesHostApp.app */;
 			productType = "com.apple.product-type.application";
@@ -437,6 +454,8 @@
 				9143E94827EB79090082A5D6 /* Realm */,
 				9143E94A27EB79090082A5D6 /* RealmSwift */,
 				9143E95227EB79BD0082A5D6 /* GoogleSignIn */,
+				917CA79527ECADC200F9BDDC /* FacebookCore */,
+				917CA79727ECADC200F9BDDC /* FacebookLogin */,
 			);
 			productName = RealmExampleTests;
 			productReference = 4896EE4C2510514B00D1FABF /* RealmExamples.xctest */;
@@ -483,7 +502,7 @@
 				};
 			};
 			buildConfigurationList = 48DBFAD125101C3100391E2B /* Build configuration list for PBXProject "RealmExamples" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -494,6 +513,7 @@
 			packageReferences = (
 				9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 48DBFAD725101C3100391E2B /* Products */;
 			projectDirPath = "";
@@ -625,7 +645,6 @@
 				48C072062511B6DB004B02BB /* ManageEmailPasswordUsers.m in Sources */,
 				482A85942576DC3400BA8700 /* QueryEngine.swift in Sources */,
 				4813483B25C244CA006209FC /* (null) in Sources */,
-				9185E85A27EB915E00CAAF2C /* TempTest.swift in Sources */,
 				48BF34182511095C004139AF /* RealmApp.swift in Sources */,
 				48944D9825C0BD520092B8AC /* Relationships.m in Sources */,
 				91FDC13B261E5DE3006A6E13 /* MutableSetExample.swift in Sources */,
@@ -703,17 +722,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = HostApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.docs.RealmExamplesHostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -723,17 +748,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = HostApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mongodb.docs.RealmExamplesHostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -879,7 +910,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -936,7 +967,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Examples/Info.plist;
 				INFOPLIST_PREPROCESS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1053,6 +1084,14 @@
 				version = 6.1.0;
 			};
 		};
+		917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 13.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1070,6 +1109,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		917CA79527ECADC200F9BDDC /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		917CA79727ECADC200F9BDDC /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		917CA79A27ECB36700F9BDDC /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		917CA79C27ECB36700F9BDDC /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
