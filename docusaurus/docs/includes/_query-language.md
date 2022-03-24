@@ -5,6 +5,9 @@ import Predicate from '!!raw-loader!@site/docs/generated/js/realm-query-language
 import Subquery from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.subquery.js';
 import KotlinRQLExample from '!!raw-loader!@site/docs/generated/kotlin/RQLTest.codeblock.rql-examples.kt';
 import SwiftRQLExample from '!!raw-loader!@site/docs/generated/swift/SwiftRQLExample.swift';
+import DotnetRQLExample from '!!raw-loader!@site/docs/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs';
+import NodeRQLExample from '!!raw-loader!@site/docs/generated/node/rql-data-models.codeblock.rql-data-models.js';
+import FlutterRQLExample from '!!raw-loader!@site/generated/flutter/task_project_models_test.codeblock.task-project-models.dart';
 import Comparison from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.comparison-operators.js';
 import Logical from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.logical-operators.js';
 import SDL from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.sort-distinct-limit.js';
@@ -12,17 +15,16 @@ import Set from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeb
 import Aggregate from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.aggregate-operators.js';
 import String from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.string-operators.js';
 
-
 ## Overview
 
-Realm Database supports a string-based query language to constrain 
-searches when retrieving objects. Queries evaluate a predicate for every 
-object in the collection being queried. If the predicate resolves 
-to `true`, Realm Database includes the object in the results 
+Realm Database supports a string-based query language to constrain
+searches when retrieving objects. Queries evaluate a predicate for every
+object in the collection being queried. If the predicate resolves
+to `true`, Realm Database includes the object in the results
 collection.
 
-You can use Realm Query Language in most Realm SDKs with your SDK's filter 
-or query methods. The Swift SDK is the exception, as it uses the NSPredicate 
+You can use Realm Query Language in most Realm SDKs with your SDK's filter
+or query methods. The Swift SDK is the exception, as it uses the NSPredicate
 query API.
 
 You can also use Realm Query Language to browse for data in
@@ -34,9 +36,9 @@ Filters consist of **expressions** in a predicate. An expression consists of
 one of the following:
 
 - The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s). For example, in the 
+- An operator and up to two argument expression(s). For example, in the
   expression `A + B`, the entirety of `A + B` is an expression, but `A`
-  and `B` are also argument expressions to the operator `+`. 
+  and `B` are also argument expressions to the operator `+`.
 - A value, such as a string (`'hello'`) or a number (`5`).
 
 <CodeBlock language="javascript">{Predicate}</CodeBlock>
@@ -50,10 +52,10 @@ embedded objects and relationships with dot notation.
 For example, consider a query on an object with a `workplace` property that
 refers to a Workplace object. The Workplace object has an embedded object
 property, `address`. You can chain dot notations to refer to the zipcode
-property of that address: 
+property of that address:
 
 ```javascript
-workplace.address.zipcode == 10012
+workplace.address.zipcode == 10012;
 ```
 
 ## Subqueries
@@ -108,12 +110,72 @@ to be completed.
 See the schema for these two classes, `Project` and `Task`, below:
 
 <Tabs groupId="sdks">
-  <TabItem value="kotlin" label="Kotlin SDK">
-    <CodeBlock language="kotlin">{KotlinRQLExample}</CodeBlock>
-  </TabItem>
-  <TabItem value="swift" label="Swift SDK">
-    <CodeBlock language="swift">{SwiftRQLExample}</CodeBlock>
-  </TabItem>
+<TabItem value="java" label="Java SDK">
+<Tabs groupId="java-sdk-languages">
+<TabItem value="java" label="Java">
+
+```java
+public class Task extends RealmObject {
+  ObjectId id  = new ObjectId();
+  String name;
+  Boolean isComplete = false;
+  String assignee;
+  Integer priority = 0;
+  Integer progressMinutes = 0;
+}
+
+public class Project extends RealmObject {
+  ObjectId id = new ObjectId();
+  String name;
+  RealmList<Task> tasks;
+  Integer quota = null;
+}
+```
+
+</TabItem>
+
+<TabItem value="kotlin" label="Kotlin">
+
+```kotlin
+open class Task(): RealmObject() {
+  var id: ObjectId = new ObjectId()
+  lateinit var name: String
+  var isComplete: Boolean = false
+  var assignee: String? = null
+  var priority: Int = 0
+  var progressMinutes: Int = 0
+}
+open class Project(): RealmObject() {
+  var id: ObjectId = new ObjectId()
+  lateinit var name: String
+  lateinit var tasks: RealmList<Task>
+  var quota: Int? = null
+}
+```
+
+</TabItem>
+
+</Tabs>
+</TabItem>
+
+<TabItem value="swift" label="Swift SDK">
+  <CodeBlock language="swift">{SwiftRQLExample}</CodeBlock>
+</TabItem>
+<TabItem value="dotnet" label=".NET SDK">
+  <CodeBlock language="dotnet">{DotnetRQLExample}</CodeBlock>
+</TabItem>
+<TabItem value="node" label="Node.js SDK">
+  <CodeBlock language="javascript">{NodeRQLExample}</CodeBlock>
+</TabItem>
+<TabItem value="react-native" label="React Native SDK">
+  <CodeBlock language="javascript">{NodeRQLExample}</CodeBlock>
+</TabItem>
+<TabItem value="kotlin" label="Kotlin SDK">
+  <CodeBlock language="kotlin">{KotlinRQLExample}</CodeBlock>
+</TabItem>
+<TabItem value="flutter" label="Flutter SDK">
+  <CodeBlock language="dart">{FlutterRQLExample}</CodeBlock>
+</TabItem>
 </Tabs>
 
 ## Operators
@@ -136,11 +198,11 @@ values.
 :::important Types Must Match
 
 The type on both sides of the operator must be equivalent. For
-example, comparing an ObjectId with string will result in a precondition 
+example, comparing an ObjectId with string will result in a precondition
 failure with a message like:
 
 ```
-"Expected object of type object id for property 'id' on object of type 
+"Expected object of type object id for property 'id' on object of type
 'User', but received: 11223344556677889900aabb (Invalid value)"
 ```
 
@@ -269,7 +331,6 @@ comparison operators to:
 - Find unassigned tasks by finding tasks where the `assignee` property is equal to `null`.
 - Find tasks within a certain time range by finding tasks where the `progressMinutes` property is between two numbers.
 
-
 <CodeBlock language="javascript">{Comparison}</CodeBlock>
 
 ### Logical Operators
@@ -348,7 +409,7 @@ You can use the following modifiers with the string operators:
 - `[c]` for case insensitivity.
 
 ```javascript
-"name CONTAINS[c] 'a'"
+"name CONTAINS[c] 'a'";
 ```
 
 <table>
@@ -502,7 +563,7 @@ If any values are `null`, they are not counted in the result.
 Evaluates to the number of objects in the given collection. This
 is currently only supported on to-many relationship
 collections and not on lists of primitives. In order to use `@count`
-on a list of primitives, consider wrapping the primitives in a 
+on a list of primitives, consider wrapping the primitives in a
 Realm object.
 
 </td>
@@ -550,7 +611,7 @@ excluding `null` values.
 
 #### Example
 
-These examples all query for projects containing tasks that meet 
+These examples all query for projects containing tasks that meet
 this criteria:
 
 - Projects with average task priority above 5.
@@ -631,7 +692,7 @@ We use the query engine's collection operators to find:
 
 ### Sort, Distinct, Limit
 
-You can use additional operators in your queries to sort and limit the 
+You can use additional operators in your queries to sort and limit the
 results collection.
 
 <table>
@@ -655,10 +716,10 @@ Description
 </td>
 <td>
 
-Specify the name of the property to compare. You can optionally 
+Specify the name of the property to compare. You can optionally
 specify ascending (`ASC`) or descending (`DESC`) order.
 If you specify multiple SORT fields, the query sorts by the first
-field, and then the second. For example, if you `SORT (priority, name)`, 
+field, and then the second. For example, if you `SORT (priority, name)`,
 the query returns sorted by priority, and then by name when priority
 value is the same.
 
@@ -672,10 +733,10 @@ value is the same.
 </td>
 <td>
 
-Specify a name of the property to compare. Remove duplicates 
-for that property in the results collection. If you specify multiple 
-DISTINCT fields, the query removes duplicates by the first field, and 
-then the second. For example, if you `DISTINCT (name, assignee)`, 
+Specify a name of the property to compare. Remove duplicates
+for that property in the results collection. If you specify multiple
+DISTINCT fields, the query removes duplicates by the first field, and
+then the second. For example, if you `DISTINCT (name, assignee)`,
 the query only removes duplicates where the values of both properties
 are the same.
 
@@ -697,13 +758,12 @@ Limit the results collection to the specified number.
 
 #### Example
 
-We use the query engine's sort, distinct, and limit operators to find: 
+We use the query engine's sort, distinct, and limit operators to find:
 
 - Tasks where the assignee is Ali
 
   - Sorted by priority in descending order
   - Enforcing uniqueness by name
   - Limiting the results to 5 tasks
-
 
 <CodeBlock language="javascript">{SDL}</CodeBlock>
