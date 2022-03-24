@@ -1,21 +1,17 @@
 import { View, FlatList, StyleSheet } from 'react-native';
 import { Realm } from '@realm/react';
-
-import { Task } from '../models/Task';
 import TaskItem from './TaskItem';
+import TaskContext, { Task } from '../models/Task';
+const { RealmProvider } = TaskContext;
+const { useRealm, useQuery, useObject } = TaskContext;
 
-interface TaskListProps {
-  tasks: Realm.Results<Task> | [];
-  onToggleTaskStatus: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
-}
-
-function TaskList({tasks, onToggleTaskStatus, onDeleteTask}: TaskListProps) {
+// :code-block-start: tasklist-use-query-example
+function TaskList({onToggleTaskStatus, onDeleteTask}) {
+  const tasks = useQuery("Task");
   return (
     <View style={styles.listContainer}>
       <FlatList
         data={tasks}
-        keyExtractor={task => task._id.toString()}
         renderItem={({item}) => (
           <TaskItem
             description={item.description}
@@ -29,6 +25,7 @@ function TaskList({tasks, onToggleTaskStatus, onDeleteTask}: TaskListProps) {
     </View>
   );
 }
+// :code-block-end:
 
 const styles = StyleSheet.create({
   listContainer: {

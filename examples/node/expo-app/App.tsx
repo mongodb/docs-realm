@@ -39,11 +39,11 @@ function App() {
   // :uncomment-end:
   // :code-block-end:
 
-  const id = 123;
+  // const id = 123;
   
   // :code-block-start: example-useobject-hook-usage
-  const myTask = useObject("Task", id);
-  console.log(myTask.description);
+  const myTask = useObject(Task, new Realm.BSON.ObjectId());
+  console.log(myTask?.description);
   // :code-block-end:
 
   // :code-block-start: example-userealm-hook-usage
@@ -123,12 +123,15 @@ function App() {
         {tasks.length === 0 ? (
           <IntroText />
         ) : (
-          <TaskList tasks={tasks} onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
+          <TaskList onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
         )}
       </View>
     </SafeAreaView>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   screen: {
