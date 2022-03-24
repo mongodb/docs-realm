@@ -198,13 +198,16 @@ In the following example, a ``Task`` object is retrieved using the
 
 useQuery
 ````````
-The ``useQuery()`` Hook, returns a collection of realm objects of a given type.  Just like `useObject` it is either invoked with either the Realm model class or the model name as a string.  It will also subscribe to updates to any of the objects in the collection and re-render the component using it on any change.
+The ``useQuery()`` Hook, returns a collection of realm objects of a given type.  Just like ``useObject`` it is either invoked with either the Realm model class or the model name as a string.  It will also subscribe to updates to any of the objects in the collection and re-render the component using it on any change.
 
-In the following example, the ``Task`` class is passed to the ``useQuery()``
-hook and then the tasks are set as a prop of a ``TaskList`` component. 
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.example-usequery-hook-usage.tsx
+In the following example, a ``TaskList`` component is created. The ``Task``
+class is passed to the ``useQuery()`` and the tasks are set as a ``data`` prop
+of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
+
+.. literalinclude:: /examples/generated/expo/TaskList.codeblock.tasklist-use-query-example.tsx
     :language: typescript
+    :emphasize-lines: 2, 6
 
 Summary
 -------
