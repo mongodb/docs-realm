@@ -2,6 +2,14 @@ import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
 
+void cleanUpRealm(Realm realm, Configuration config, List<Type> typesToDelete) {
+  realm = Realm(config);
+  realm.write(() {
+    typesToDelete.forEach((type) => realm.deleteAll<Car>());
+  });
+  realm.close();
+}
+
 void main() {
   group('Open and Close a Realm', () {
     test('open a Realm', () {
@@ -15,31 +23,14 @@ void main() {
       // :snippet-end:
       expect(realm.isClosed, true);
     });
-
-    group('In-memory realm', () {
-      test('Configuration inMemory - no files after closing realm', () {
-        // :snippet-start: in-memory-realm
-        var config = Configuration([Car.schema], inMemory: true);
-        var realm = Realm(config);
-        // :snippet-end:
-        realm.write(() => realm.add(Car('Tesla')));
-        realm.close();
-        expect(Realm.existsSync(config.path), false);
-      });
-
-      test('Configuration inMemory can not be readOnly', () {
-        Configuration config = Configuration([Car.schema], inMemory: true);
-        var realm = Realm(config);
-
-        config.isReadOnly = true;
-        expect(
-            () => Realm(config),
-            throwsA(RealmException(
-                "Realm at path '${config.path}' already opened with different read permissions")));
-        realm.close();
-      });
+    test('Configuration - FIFO files fallback path', () {
+      // :snippet-start: fifo-file
+      var config =
+          Configuration([Car.schema], fifoFilesFallbackPath: "./fifo_folder");
+      var realm = Realm(config);
+      // :snippet-end:
+      realm.close();
     });
-
     group('Read-only realm', () {
       test('Configuration readOnly - reading is possible', () {
         Configuration initConfig = Configuration([Car.schema]);
@@ -53,30 +44,28 @@ void main() {
         // :snippet-end:
         var cars = realm.all<Car>();
         expect(cars.isNotEmpty, true);
-        realm.close();
-      });
 
-      test('Configuration readOnly - writing on read-only Realms throws', () {
-        Configuration config = Configuration([Car.schema]);
-        var realm = Realm(config);
+        var enteredCatch = false;
+        try {
+          realm.write(() => realm.deleteAll<Car>());
+        } catch (_err) {
+          enteredCatch = true;
+        }
+        expect(enteredCatch, true);
         realm.close();
-
-        config = Configuration([Car.schema], readOnly: true);
-        realm = Realm(config);
-        expect(
-            () => realm.write(() {}),
-            throwsA(RealmException(
-                "Can't perform transactions on read-only Realms.")));
-        realm.close();
+        cleanUpRealm(realm, Configuration([Car.schema]), [Car]);
       });
     });
-    test('Configuration - FIFO files fallback path', () {
-      // :snippet-start: fifo-file
-      var config =
-          Configuration([Car.schema], fifoFilesFallbackPath: "./fifo_folder");
-      var realm = Realm(config);
-      // :snippet-end:
-      realm.close();
+    group('In-memory realm', () {
+      test('Configuration inMemory - no files after closing realm', () {
+        // :snippet-start: in-memory-realm
+        var config = Configuration([Car.schema], inMemory: true);
+        var realm = Realm(config);
+        // :snippet-end:
+        realm.write(() => realm.add(Car('Tesla')));
+        realm.close();
+        // expect(Realm.existsSync(config.path), false);
+      });
     });
   });
 }
