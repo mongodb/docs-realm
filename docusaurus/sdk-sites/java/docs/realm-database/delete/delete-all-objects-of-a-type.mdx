@@ -1,23 +1,24 @@
 ---
 title: Delete All Objects of a Type
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import DeleteAllKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.kt';
-import DeleteAllJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DeleteAllKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.kt";
+import DeleteAllJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.java";
 
 Realm Database supports deleting all instances of a Realm object from
 a realm. The following code demonstrates how to delete all
-`Turtle` instances from a realm with [`realm.delete()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#delete-java.lang.Class-):
+`Turtle` instances from a realm with [`realm.delete()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#delete-java.lang.Class-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DeleteAllKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{DeleteAllJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DeleteAllKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DeleteAllJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note

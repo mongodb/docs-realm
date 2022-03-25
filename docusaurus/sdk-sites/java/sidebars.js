@@ -155,19 +155,19 @@ const sidebars = {
       ],
     },
     {
-          type: "category",
-          label: "Best Practices",
-          collapsible: true,
-          collapsed: true,
-          items: [
-            "best-practices/android-livedata",
-            "best-practices/threading",
-            "best-practices/testing",
-            "best-practices/logging",
-            "best-practices/troubleshooting",
-          ],
-        },
-    
+      type: "category",
+      label: "Best Practices",
+      collapsible: true,
+      collapsed: true,
+      items: [
+        "best-practices/android-livedata",
+        "best-practices/threading",
+        "best-practices/testing",
+        "best-practices/logging",
+        "best-practices/troubleshooting",
+      ],
+    },
+
     {
       type: "link",
       label: "Release Notes",
@@ -176,7 +176,7 @@ const sidebars = {
     {
       type: "link",
       label: "API Reference",
-      href: "https://docs.mongodb.com/realm/api/",
+      href: "https://www.mongodb.com/docs/realm/api/",
     },
   ],
 };

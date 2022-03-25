@@ -1,11 +1,12 @@
 ---
 title: Update a Collection
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import UpdateCollKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-a-collection.kt';
-import UpdateCollJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-a-collection.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import UpdateCollKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-a-collection.kt";
+import UpdateCollJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-a-collection.java";
 
 Realm Database supports collection-wide updates. A collection update
 applies the same update to specific properties of several
@@ -16,16 +17,16 @@ collection. Thanks to the implicit inverse
 relationship between the `Turtle`'s
 `owner` property and the TurtleEnthusiast's `turtles` property,
 Realm Database automatically updates Josephine's list of turtles
-when you use [`setObject()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmResults.html#setObject-java.lang.String-io.realm.RealmModel-)
+when you use [`setObject()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html#setObject-java.lang.String-io.realm.RealmModel-)
 to update the "owner" property for all turtles in the collection.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateCollKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateCollJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateCollKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateCollJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note

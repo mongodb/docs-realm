@@ -1,22 +1,22 @@
 ---
-title: 'Collections'
+title: "Collections"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import ListJava from '!!raw-loader!@site/docs/generated/java/local/FrogListExampleKt.codeblock.complete.kt';
-import ListKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogListExample.codeblock.complete.java';
-import ItemJava from '!!raw-loader!@site/docs/generated/java/local/JavaItem.codeblock.complete.java';
-import ItemKotlin from '!!raw-loader!@site/docs/generated/java/local/Item.codeblock.complete.kt';
-import ExampleListAdapterJava from '!!raw-loader!@site/docs/generated/java/local/ExampleListAdapter.codeblock.complete.java';
-import ListAdapterUsageJava from '!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.list-adapter.java';
-import ExampleListAdapterKotlin from '!!raw-loader!@site/docs/generated/java/local/ExampleListAdapter.codeblock.complete.kt';
-import ListAdapterUsageKotlin from '!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.list-adapter.kt';
-import ExampleRecyclerViewAdapterJava from '!!raw-loader!@site/docs/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.java';
-import RecyclerViewAdapterUsageJava from '!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.java';
-import ExampleRecyclerViewAdapterKotlin from '!!raw-loader!@site/docs/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.kt';
-import RecyclerViewAdapterUsageKotlin from '!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.kt';
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ListJava from "!!raw-loader!@site/docs/generated/java/local/FrogListExampleKt.codeblock.complete.kt";
+import ListKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogListExample.codeblock.complete.java";
+import ItemJava from "!!raw-loader!@site/docs/generated/java/local/JavaItem.codeblock.complete.java";
+import ItemKotlin from "!!raw-loader!@site/docs/generated/java/local/Item.codeblock.complete.kt";
+import ExampleListAdapterJava from "!!raw-loader!@site/docs/generated/java/local/ExampleListAdapter.codeblock.complete.java";
+import ListAdapterUsageJava from "!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.list-adapter.java";
+import ExampleListAdapterKotlin from "!!raw-loader!@site/docs/generated/java/local/ExampleListAdapter.codeblock.complete.kt";
+import ListAdapterUsageKotlin from "!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.list-adapter.kt";
+import ExampleRecyclerViewAdapterJava from "!!raw-loader!@site/docs/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.java";
+import RecyclerViewAdapterUsageJava from "!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.java";
+import ExampleRecyclerViewAdapterKotlin from "!!raw-loader!@site/docs/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.kt";
+import RecyclerViewAdapterUsageKotlin from "!!raw-loader!@site/docs/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.kt";
 
 A Realm collection is an
 object that contains zero or more instances of a Realm object. Unlike
@@ -50,18 +50,18 @@ where `T` can be the following types:
 - `Date`
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ListKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{ListJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ListKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ListJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Nullability
 Unlike lists of Realm objects, these lists can contain
 null values. If null values shouldn't be allowed, use the
-[`@Required`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/annotations/Required/) annotation.
+[`@Required`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/annotations/Required/) annotation.
 :::
 
 ## List Collections
@@ -80,7 +80,7 @@ cannot add or remove elements on the results collection.
 Results have an associated query that determines their
 contents.
 
-The [`RealmResults`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmResults/)
+The [`RealmResults`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/RealmResults/)
 class inherits from [`AbstractList`](https://docs.oracle.com/javase/7/docs/api/java/util/AbstractList.html)
 and behaves similarly:
 
@@ -176,19 +176,19 @@ you to add or remove objects directly, because their contents
 are determined by a query.
 
 :::note Example
-   Consider a Realm type called Person with a field called
-   `emails`: a collection of strings representing
-   email addresses. You control this data. Your application
-   needs to add and remove email addresses from your Person
-   instances. Therefore, use a **list** to define the field
-   type of `emails`.
+Consider a Realm type called Person with a field called
+`emails`: a collection of strings representing
+email addresses. You control this data. Your application
+needs to add and remove email addresses from your Person
+instances. Therefore, use a **list** to define the field
+type of `emails`.
 
-   On the other hand, when you query the realm for all
-   Persons over the age of 25, it would not make sense for
-   you to add or remove Persons directly to the resulting
-   collection. The contents of that collection only change
-   when the query matches a different set of Persons.
-   Therefore, Realm Database gives you a **results** collection.
+On the other hand, when you query the realm for all
+Persons over the age of 25, it would not make sense for
+you to add or remove Persons directly to the resulting
+collection. The contents of that collection only change
+when the query matches a different set of Persons.
+Therefore, Realm Database gives you a **results** collection.
 
 :::info Inverse one-to-many relationship property exception
 Since Realm Database automatically determines the contents of
@@ -202,7 +202,7 @@ property is actually a results collection, not a list.
 
 :::important Adapters Require Managed Objects
 
-The Realm Database adapters only accept *managed*
+The Realm Database adapters only accept _managed_
 Realm object instances tied to an instance of a realm.
 To display non-managed objects, use the general-use Android
 `RecyclerView.Adapter` for recycler views or `ArrayAdapter` for
@@ -215,8 +215,8 @@ or [`ListView`](https://developer.android.com/reference/android/widget/ListView)
 components. Realm offers **adapters** to help display data
 contained in collections of
 Realm objects that implement the `OrderedRealmCollections`
-interface, including [`RealmResults`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmResults/)
-and [`RealmList`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmList/).
+interface, including [`RealmResults`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/RealmResults/)
+and [`RealmList`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/RealmList/).
 When you use these adapters, UI components automatically update to
 reflect changes to data in your realm.
 
@@ -225,7 +225,6 @@ reflect changes to data in your realm.
 <details>
   <summary>Adapters Hosted on JCenter</summary>
   <div>
-
 
 The Realm adapters are currently hosted on the
 [JCenter](https://mvnrepository.com/repos/jcenter)
@@ -259,8 +258,7 @@ have two options for using the Realm adapters in your Android apps:
   GitHub repository. The interfaces used by these adapters are unlikely
   to change in the Java SDK.
 
-
-  </div>
+    </div>
 </details>
 
 To use the adapters, add the following dependencies to your application
@@ -276,16 +274,16 @@ dependencies {
 ### Example Models
 
 The adapter examples all use the following data models for a
-Realm object named ``Item``. This class contains a single
+Realm object named `Item`. This class contains a single
 piece of string data called "name" and an identifier number called "id":
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ItemKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{ItemJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ItemKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ItemJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Display Collections in a ListView
@@ -309,7 +307,6 @@ The following code instantiates a `ListView` and attaches an
 </TabItem>
 <TabItem value="java" label="Java">
 <CodeBlock language="java">{ExampleListAdapterJava}</CodeBlock>
-
 
 The following code instantiates a `ListView` and attaches an
 `ExampleListAdapter` to display list data in an activity:

@@ -1,13 +1,14 @@
 ---
 title: Upsert an Object
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import UpsertKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.kt';
-import UpsertJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.java';
-import CopyOrUpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt';
-import CopyOrUpdateJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import UpsertKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.kt";
+import UpsertJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.upsert-an-object.java";
+import CopyOrUpdateKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt";
+import CopyOrUpdateJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java";
 
 An **upsert** is a write operation that either inserts a new object
 with a given primary key or updates an existing object that already has
@@ -19,33 +20,33 @@ adding any new entries.
 
 This code demonstrates how to upsert an object with
 realm. We create a new turtle enthusiast named "Drew" and then
-update their name to "Andy" using [`insertOrUpdate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#insertOrUpdate-io.realm.RealmModel-):
+update their name to "Andy" using [`insertOrUpdate()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#insertOrUpdate-io.realm.RealmModel-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpsertKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpsertJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpsertKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpsertJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
-You can also use [`copyToRealmOrUpdate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...-)
+You can also use [`copyToRealmOrUpdate()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...-)
 to either create a new object based on a supplied object or update an
 existing object with the same primary key value. Use
-[`ImportFlag.CHECK_SAME_VALUES_BEFORE_SET`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/ImportFlag.html#CHECK_SAME_VALUES_BEFORE_SET)
+[`ImportFlag.CHECK_SAME_VALUES_BEFORE_SET`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/ImportFlag.html#CHECK_SAME_VALUES_BEFORE_SET)
 to only update fields that are different in the supplied object.
 
 This code demonstrates how to insert an object or, if an object already
 exists with the same primary key, update only those fields that differ:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{CopyOrUpdateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{CopyOrUpdateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CopyOrUpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CopyOrUpdateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note

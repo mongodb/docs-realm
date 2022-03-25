@@ -101,7 +101,7 @@ const sidebars = {
     {
       type: "link",
       label: "API Reference",
-      href: "https://docs.mongodb.com/realm-sdks/kotlin/latest/",
+      href: "https://www.mongodb.com/docs/realm-sdks/kotlin/latest/",
     },
   ],
 };

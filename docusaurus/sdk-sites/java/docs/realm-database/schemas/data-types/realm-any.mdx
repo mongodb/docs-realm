@@ -1,18 +1,18 @@
 ---
-title: 'RealmAny'
+title: "RealmAny"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import FrogAnyKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogAnyKt.codeblock.complete.kt';
-import UsageKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.kt';
-import FrogAnyJava from '!!raw-loader!@site/docs/generated/java/local/FrogAny.codeblock.complete.java';
-import UsageJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.java';
-import NotificationsJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.java';
-import NotificationsKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.kt';
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FrogAnyKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogAnyKt.codeblock.complete.kt";
+import UsageKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.kt";
+import FrogAnyJava from "!!raw-loader!@site/docs/generated/java/local/FrogAny.codeblock.complete.java";
+import UsageJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.java";
+import NotificationsJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.java";
+import NotificationsKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.kt";
 
-You can use the [`RealmAny`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmAny.html)
+You can use the [`RealmAny`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmAny.html)
 data type to create Realm object fields that can contain any of several
 underlying types. You can store multiple `RealmAny` instances in
 `RealmList`, `RealmDictionary`, or `RealmSet` fields. To change
@@ -21,18 +21,18 @@ with a different underlying value. `RealmAny` fields are indexable, but
 cannot be used as primary keys.
 
 :::note `RealmAny` Type Compatibility
-`RealmAny` objects can refer to any supported field type *except*:
+`RealmAny` objects can refer to any supported field type _except_:
 
 - `RealmAny`
 - `RealmList`
 - `RealmSet`
 - `RealmDictionary`
-:::
+  :::
 
 ## Usage
 
 To create a `RealmAny` instance, use the
-[`RealmAny.valueOf()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmAny.html#valueOf-->)
+[`RealmAny.valueOf()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmAny.html#valueOf-->)
 method to assign an initial value or `RealmAny.nullValue()` to assign no
 value. `RealmAny` instances are immutable just like `String` or
 `Integer` instances; if you want to assign a new value to a
@@ -45,14 +45,22 @@ both cases when working with instances.
 :::
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock title="Realm Object" language="kotlin">{FrogAnyKotlin}</CodeBlock>
-        <CodeBlock title="Usage" language="kotlin">{UsageKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock title="Realm Object" language="java">{FrogAnyJava}</CodeBlock>
-        <CodeBlock title="Usage" language="java">{UsageJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Realm Object" language="kotlin">
+      {FrogAnyKotlin}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="kotlin">
+      {UsageKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Realm Object" language="java">
+      {FrogAnyJava}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="java">
+      {UsageJava}
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Queries
@@ -68,16 +76,16 @@ across types.
 ## Notifications
 
 To subscribe to changes to a `RealmAny` field, use
-[`realmObject.addChangeListener`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener-)
+[`realmObject.addChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener-)
 on the enclosing object. You can use the
-[`ObjectChangeSet`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/ObjectChangeSet.html)
+[`ObjectChangeSet`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/ObjectChangeSet.html)
 parameter to determine if the `RealmAny` field changed.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{NotificationsJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{NotificationsJava}</CodeBlock>
+  </TabItem>
 </Tabs>

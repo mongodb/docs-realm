@@ -1,15 +1,16 @@
 ---
 title: Custom User Data
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import ReadKotlin from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.read-custom-user-data.kt';
-import ReadJava from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.read-custom-user-data.java';
-import CreateKotlin from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.create-custom-user-data.kt';
-import CreateJava from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.create-custom-user-data.java';
-import UpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.update-custom-user-data.kt';
-import UpdateJava from '!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.update-custom-user-data.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ReadKotlin from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.read-custom-user-data.kt";
+import ReadJava from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.read-custom-user-data.java";
+import CreateKotlin from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.create-custom-user-data.kt";
+import CreateJava from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.create-custom-user-data.java";
+import UpdateKotlin from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.update-custom-user-data.kt";
+import UpdateJava from "!!raw-loader!@site/docs/generated/java/sync/AccessCustomUserDataTest.codeblock.update-custom-user-data.java";
 
 You can read arbitrary data about your application users, known as
 custom user data, directly within your java application. For example,
@@ -18,7 +19,7 @@ timezone.
 
 ## Prerequisites
 
-To read or write custom data for a user, you must first [Enable Custom User Data](https://docs.mongodb.com/realm/users/enable-custom-user-data/#std-label-enable-custom-user-data-procedure).
+To read or write custom data for a user, you must first [Enable Custom User Data](https://www.mongodb.com/docs/realm/users/enable-custom-user-data/#std-label-enable-custom-user-data-procedure).
 
 ## Read a User's Custom Data
 
@@ -26,16 +27,16 @@ You can read the custom user data of a currently logged in user
 through that user's `User` object. You cannot edit custom user data
 through a `User` object.
 To access the data, call the
-[`User.customData()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/User.html#getCustomData--)
+[`User.customData()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/User.html#getCustomData--)
 method on the `User` object of a logged in user:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ReadKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ReadJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ReadKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ReadJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::warning Custom Data May Be Stale
@@ -50,7 +51,7 @@ user data can be stale for no more than 30 minutes.
 
 :::tip Manual Refresh
 If you require the most recent version of custom user data, use
-[`User.refreshCustomData()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/User.html#refreshCustomData--)
+[`User.refreshCustomData()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/User.html#refreshCustomData--)
 to request the latest version of a user's custom data.
 :::
 
@@ -78,12 +79,12 @@ document containing the user ID of the currently logged in user and a
 `favoriteColor` value into the custom user data collection:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{CreateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{CreateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CreateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CreateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You can add any number of arbitrary fields and values to the custom user
@@ -106,12 +107,12 @@ the the document containing the user ID of the currently logged in user
 in the custom user data collection:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::tip

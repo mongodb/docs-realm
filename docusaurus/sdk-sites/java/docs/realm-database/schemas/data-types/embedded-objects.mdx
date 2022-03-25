@@ -1,19 +1,20 @@
 ---
-title: 'Embedded Objects'
+title: "Embedded Objects"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import DefineKotlin from '!!raw-loader!@site/docs/embedded/DefineEmbeddedObjects.kt';
-import DefineJava from '!!raw-loader!@site/docs/embedded/DefineEmbeddedObjects.java';
-import CreateKotlin from '!!raw-loader!@site/docs/embedded/CreateEmbeddedObject.kt';
-import CreateJava from '!!raw-loader!@site/docs/embedded/CreateEmbeddedObject.java';
-import UpdateKotlin from '!!raw-loader!@site/docs/embedded/UpdateEmbeddedObject.kt';
-import UpdateJava from '!!raw-loader!@site/docs/embedded/UpdateEmbeddedObject.java';
-import ReplaceKotlin from '!!raw-loader!@site/docs/embedded/ReplaceEmbeddedObject.kt';
-import ReplaceJava from '!!raw-loader!@site/docs/embedded/ReplaceEmbeddedObject.java';
-import QueryKotlin from '!!raw-loader!@site/docs/embedded/QueryEmbeddedObjects.kt';
-import QueryJava from '!!raw-loader!@site/docs/embedded/QueryEmbeddedObjects.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DefineKotlin from "!!raw-loader!@site/docs/embedded/DefineEmbeddedObjects.kt";
+import DefineJava from "!!raw-loader!@site/docs/embedded/DefineEmbeddedObjects.java";
+import CreateKotlin from "!!raw-loader!@site/docs/embedded/CreateEmbeddedObject.kt";
+import CreateJava from "!!raw-loader!@site/docs/embedded/CreateEmbeddedObject.java";
+import UpdateKotlin from "!!raw-loader!@site/docs/embedded/UpdateEmbeddedObject.kt";
+import UpdateJava from "!!raw-loader!@site/docs/embedded/UpdateEmbeddedObject.java";
+import ReplaceKotlin from "!!raw-loader!@site/docs/embedded/ReplaceEmbeddedObject.kt";
+import ReplaceJava from "!!raw-loader!@site/docs/embedded/ReplaceEmbeddedObject.java";
+import QueryKotlin from "!!raw-loader!@site/docs/embedded/QueryEmbeddedObjects.kt";
+import QueryJava from "!!raw-loader!@site/docs/embedded/QueryEmbeddedObjects.java";
 
 **Embedded objects** are objects nested inside of parent objects. An
 embedded object inherits the lifecycle of its parent object and cannot
@@ -42,17 +43,17 @@ should use relationships instead.
 
 To define an embedded object, derive a class from `RealmObject`
 and set the `embedded` property of the
-[`RealmClass`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/annotations/RealmClass/)
+[`RealmClass`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/annotations/RealmClass/)
 annotation to `true`. You can reference an embedded object type from parent
 object types in the same way as you would define a relationship:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DefineKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{DefineJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DefineKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DefineJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Create an Embedded Object
@@ -61,12 +62,12 @@ To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{CreateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{CreateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CreateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CreateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Update an Embedded Object Property
@@ -75,12 +76,12 @@ To update a property in an embedded object, modify the property in a
 write transaction:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{UpdateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Overwrite an Embedded Object
@@ -89,12 +90,12 @@ To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ReplaceKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{ReplaceJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ReplaceKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ReplaceJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Query a Collection on Embedded Object Properties
@@ -108,12 +109,10 @@ access embedded objects through a query for the parent object type.
 :::
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{QueryKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{QueryJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{QueryKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{QueryJava}</CodeBlock>
+  </TabItem>
 </Tabs>
-
-

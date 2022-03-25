@@ -1,17 +1,18 @@
 ---
-title: 'RealmDictionary'
+title: "RealmDictionary"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import FrogDictionaryKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogDictionaryKt.codeblock.complete.kt';
-import UsageKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmDictionary.kt';
-import FrogDictionaryJava from '!!raw-loader!@site/docs/generated/java/local/FrogDictionary.codeblock.complete.java';
-import UsageJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmDictionary.java';
-import NotificationsJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmdictionary-notifications.java';
-import NotificationsKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmdictionary-notifications.kt';
 
-You can use the [`RealmDictionary`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmDictionary.html)
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FrogDictionaryKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogDictionaryKt.codeblock.complete.kt";
+import UsageKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmDictionary.kt";
+import FrogDictionaryJava from "!!raw-loader!@site/docs/generated/java/local/FrogDictionary.codeblock.complete.java";
+import UsageJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmDictionary.java";
+import NotificationsJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmdictionary-notifications.java";
+import NotificationsKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmdictionary-notifications.kt";
+
+You can use the [`RealmDictionary`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmDictionary.html)
 data type to manage a collection of unique `String` keys paired with
 values. `RealmDictionary` implements Java's `Map` interface, so it works
 just like the built-in `HashMap` class, except managed `RealmDictionary`
@@ -29,34 +30,42 @@ like to store in your `RealmDictionary`. Currently, `RealmDictionary`
 instances can only use keys of type `String`.
 
 - Add an object to a `RealmDictionary` with
-  [`RealmDictionary.put()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmDictionary.html#put-E-)
+  [`RealmDictionary.put()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmDictionary.html#put-E-)
   (or the `[]` operator in Kotlin).
 
 - Add multiple objects to a `RealmDictionary` with
-  [`RealmDictionary.putAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmDictionary.html#putAll-Map-).
+  [`RealmDictionary.putAll()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmDictionary.html#putAll-Map-).
 
 - Check if the dictionary contains an specific key with
-  [`RealmDictionary.containsKey()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmDictionary.html#containsKey-String-).
+  [`RealmDictionary.containsKey()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmDictionary.html#containsKey-String-).
 
 - Check if the dictionary contains a specific value with
-  [`RealmDictionary.containsValue()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmDictionary.html#containsValue-Object-).
+  [`RealmDictionary.containsValue()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmDictionary.html#containsValue-Object-).
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock title="Realm Object" language="kotlin">{FrogDictionaryKotlin}</CodeBlock>
-        <CodeBlock title="Usage" language="kotlin">{UsageKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock title="Realm Object" language="java">{FrogDictionaryJava}</CodeBlock>
-        <CodeBlock title="Usage" language="java">{UsageJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Realm Object" language="kotlin">
+      {FrogDictionaryKotlin}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="kotlin">
+      {UsageKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Realm Object" language="java">
+      {FrogDictionaryJava}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="java">
+      {UsageJava}
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Notifications
 
 To subscribe to changes to a `RealmDictionary`, pass a
-[`MapChangeListener`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/MapChangeListener.html)
-implementation to [`realmSet.addChangeListener`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmMap.html#addChangeListener-io.realm.MapChangeListener-) on your dictionary
+[`MapChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/MapChangeListener.html)
+implementation to [`realmSet.addChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmMap.html#addChangeListener-io.realm.MapChangeListener-) on your dictionary
 instance. Your `MapChangeListener` implementation must define an
 `onChange()` method, which accepts a reference to the changed `RealmDictionary`
 and a set of changes as parameters. You can access the keys
@@ -64,10 +73,10 @@ added to the dictionary as well as the keys removed from the dictionary
 through the `MapChangeSet` parameter.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{NotificationsJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{NotificationsJava}</CodeBlock>
+  </TabItem>
 </Tabs>

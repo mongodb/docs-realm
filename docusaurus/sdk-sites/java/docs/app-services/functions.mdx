@@ -1,11 +1,12 @@
 ---
-title: 'Call a Function'
+title: "Call a Function"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import CallKotlin from '!!raw-loader!@site/docs/generated/java/sync/FunctionTest.codeblock.call-a-function.kt';
-import CallJava from '!!raw-loader!@site/docs/generated/java/sync/FunctionTest.codeblock.call-a-function.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import CallKotlin from "!!raw-loader!@site/docs/generated/java/sync/FunctionTest.codeblock.call-a-function.kt";
+import CallJava from "!!raw-loader!@site/docs/generated/java/sync/FunctionTest.codeblock.call-a-function.java";
 
 You can use **Functions** to execute logic in the backend. The examples
 in this section demonstrate calling a simple function named `sum` that
@@ -13,25 +14,25 @@ takes two arguments, adds them, and returns the result:
 
 ```javascript
 // sum: adds two numbers
-exports = function(a, b) {
- return a + b;
+exports = function (a, b) {
+  return a + b;
 };
 ```
 
 ## Call a Function by Name
 
 To execute a function from the SDK, use
-[`app.getFunctions()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/App.html#getFunctions-io.realm.mongodb.User-)
-to retrieve a [Functions](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html)
+[`app.getFunctions()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/App.html#getFunctions-io.realm.mongodb.User-)
+to retrieve a [Functions](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html)
 manager. Pass the name and parameters of the Function you would like to
-call to [`functions.callFunction()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List--)
-or [`functions.callFunctionAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback-):
+call to [`functions.callFunction()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html#callFunction-java.lang.String-java.util.List--)
+or [`functions.callFunctionAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/functions/Functions.html#callFunctionAsync-java.lang.String-java.util.List--io.realm.mongodb.App.Callback-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{CallKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{CallJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CallKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CallJava}</CodeBlock>
+  </TabItem>
 </Tabs>

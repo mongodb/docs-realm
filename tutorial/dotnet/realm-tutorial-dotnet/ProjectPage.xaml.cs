@@ -84,7 +84,7 @@ namespace RealmDotnetTutorial
                         Console.WriteLine("NO USER OBJECT: This error occurs if " +
                             "you do not have the trigger configured on the backend " +
                             "or when there is a network connectivity issue. See " +
-                            "https://docs.mongodb.com/realm/tutorial/realm-app/#triggers");
+                            "https://www.mongodb.com/docs/realm/tutorial/realm-app/#triggers");
 
                         await DisplayAlert("No User object",
                             "The User object for this user was not found on the server. " +

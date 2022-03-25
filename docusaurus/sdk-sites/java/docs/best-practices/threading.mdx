@@ -1,11 +1,12 @@
 ---
 title: Threading
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import RefreshKotlin from '!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.refresh-realm.kt';
-import RefreshJava from '!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.refresh-realm.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import RefreshKotlin from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.refresh-realm.kt";
+import RefreshJava from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.refresh-realm.java";
 
 To make your Android apps fast and responsive, you must
 balance the computing time needed to lay out the visuals and
@@ -25,31 +26,31 @@ The SDK enables simple and safe multithreaded code when you
 follow these three rules:
 
 Avoid writes on the UI thread if you write on a background thread:
-  You can write to a realm from any thread, but there can be only one
-  writer at a time. Consequently, write transactions block
-  each other. A write on the UI thread may result in your
-  app appearing unresponsive while it waits for a write on a
-  background thread to complete. If you are using
-  Sync, avoid writing on the UI thread as Sync writes on a background
-  thread.
+You can write to a realm from any thread, but there can be only one
+writer at a time. Consequently, write transactions block
+each other. A write on the UI thread may result in your
+app appearing unresponsive while it waits for a write on a
+background thread to complete. If you are using
+Sync, avoid writing on the UI thread as Sync writes on a background
+thread.
 
 Don't pass live objects, collections, or realms to other threads:
-  Live objects, collections, and realm instances are
-  **thread-confined**: that is, they are only valid on the
-  thread on which they were created.
-  This means you cannot pass live instances to other
-  threads. However, Realm Database offers several mechanisms for
-  sharing objects across threads.
+Live objects, collections, and realm instances are
+**thread-confined**: that is, they are only valid on the
+thread on which they were created.
+This means you cannot pass live instances to other
+threads. However, Realm Database offers several mechanisms for
+sharing objects across threads.
 
 Don't lock to read:
-  Realm Database's Multiversion Concurrency Control architecture
-  eliminates the need to lock for read operations. The
-  values you read will never be corrupted or in a
-  partially-modified state. You can freely read from realms
-  on any thread without the need for locks or mutexes.
-  Unnecessarily locking would be a performance bottleneck
-  since each thread might need to wait its turn before
-  reading.
+Realm Database's Multiversion Concurrency Control architecture
+eliminates the need to lock for read operations. The
+values you read will never be corrupted or in a
+partially-modified state. You can freely read from realms
+on any thread without the need for locks or mutexes.
+Unnecessarily locking would be a performance bottleneck
+since each thread might need to wait its turn before
+reading.
 
 ## Communication Across Threads
 
@@ -99,20 +100,20 @@ in common Android use cases.
 When you open a realm, it reflects the most recent successful write
 commit and remains on that version until it is **refreshed**. This means
 that the realm does not see changes that happened on another thread
-until the next refresh. Realms on any Looper thread 
+until the next refresh. Realms on any Looper thread
 (including the UI thread) automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually refresh
 realm instances that are tied to non-looping threads or that have
 auto-refresh disabled. To refresh a realm, call
-[`Realm.refresh()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#refresh--):
+[`Realm.refresh()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#refresh--):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{RefreshKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{RefreshJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RefreshKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RefreshJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Refresh on Write
