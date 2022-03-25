@@ -158,7 +158,7 @@ namespace RealmDotnetTutorial
         {
             Console.WriteLine("One or more functions is missing on the backend. " +
                 "Check your set up. For more information , see" +
-                "https://docs.mongodb.com/realm/tutorial/realm-app/#functions");
+                "https://www.mongodb.com/docs/realm/tutorial/realm-app/#functions");
         }
 
     }

@@ -39,7 +39,7 @@ const navBar = {
           label: "Realm Studio",
         },
         {
-          href: "https://docs.mongodb.com/realm-legacy/docs/",
+          href: "https://www.mongodb.com/docs/realm-legacy/docs/",
           label: "Realm (Legacy)",
         },
         {
@@ -47,7 +47,7 @@ const navBar = {
           label: "MongoDB Stitch (Legacy)",
         },
         {
-          href: "https://docs.mongodb.com/realm/cloud/",
+          href: "https://www.mongodb.com/docs/realm/cloud/",
           label: "App Services",
         },
       ],

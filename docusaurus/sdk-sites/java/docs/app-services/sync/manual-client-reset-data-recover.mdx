@@ -1,23 +1,24 @@
 ---
 title: Manual Client Reset Data Recovery
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import ManualKotlin from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.kt';
-import ManualJava from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.java';
-import PotatoKotlin from '!!raw-loader!@site/docs/generated/java/sync/Potato.codeblock.potato-kotlin-definition.kt';
-import PotatoJava from '!!raw-loader!@site/docs/generated/java/sync/PotatoJava.codeblock.potato-java-definition.java';
-import OnionKotlin from '!!raw-loader!@site/docs/generated/java/sync/Onion.codeblock.onion-kotlin-definition.kt';
-import OnionJava from '!!raw-loader!@site/docs/generated/java/sync/OnionJava.codeblock.onion-java-definition.java';
-import RiceKotlin from '!!raw-loader!@site/docs/generated/java/sync/Rice.codeblock.rice-kotlin-definition.kt';
-import RiceJava from '!!raw-loader!@site/docs/generated/java/sync/RiceJava.codeblock.rice-java-definition.java';
-import LastSyncedKotlin from '!!raw-loader!@site/docs/generated/java/sync/LastSynced.codeblock.last-synced-kotlin-definition.kt';
-import LastSyncedJava from '!!raw-loader!@site/docs/generated/java/sync/LastSyncedJava.codeblock.last-synced-java-definition.java';
-import TrackLastSyncedKotlin from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.kt';
-import TrackLastSyncedJava from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.java';
-import HandleManualKotlin from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.handle-manual-reset.kt';
-import HandleManualJava from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.handle-manual-reset.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ManualKotlin from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.kt";
+import ManualJava from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-manually-recover-unsynced-changes.java";
+import PotatoKotlin from "!!raw-loader!@site/docs/generated/java/sync/Potato.codeblock.potato-kotlin-definition.kt";
+import PotatoJava from "!!raw-loader!@site/docs/generated/java/sync/PotatoJava.codeblock.potato-java-definition.java";
+import OnionKotlin from "!!raw-loader!@site/docs/generated/java/sync/Onion.codeblock.onion-kotlin-definition.kt";
+import OnionJava from "!!raw-loader!@site/docs/generated/java/sync/OnionJava.codeblock.onion-java-definition.java";
+import RiceKotlin from "!!raw-loader!@site/docs/generated/java/sync/Rice.codeblock.rice-kotlin-definition.kt";
+import RiceJava from "!!raw-loader!@site/docs/generated/java/sync/RiceJava.codeblock.rice-java-definition.java";
+import LastSyncedKotlin from "!!raw-loader!@site/docs/generated/java/sync/LastSynced.codeblock.last-synced-kotlin-definition.kt";
+import LastSyncedJava from "!!raw-loader!@site/docs/generated/java/sync/LastSyncedJava.codeblock.last-synced-java-definition.java";
+import TrackLastSyncedKotlin from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.kt";
+import TrackLastSyncedJava from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.keep-track-of-last-synced-time.java";
+import HandleManualKotlin from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.handle-manual-reset.kt";
+import HandleManualJava from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.handle-manual-reset.java";
 
 :::caution Manual Recovery is Manual
 Manual recovery requires significant amounts of code, schema concessions,
@@ -52,7 +53,7 @@ following steps demonstrate the process at a high level:
 1. **Strategy implementation**: The SDK calls your strategy
    implementation.
 
-1. **Close all instances of the realm**: Close *all open instances* of
+1. **Close all instances of the realm**: Close _all open instances_ of
    the realm experiencing the
    client reset. If your application architecture makes this difficult
    (for instance, if your app uses many realm instances simultaneously
@@ -61,7 +62,7 @@ following steps demonstrate the process at a high level:
    request to the user in a dialog.
 
 1. **Move the realm to a backup file**: Call `executeClientReset()`
-   on the provided [`ClientResetRequiredError`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupFile()).
+   on the provided [`ClientResetRequiredError`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupFile()>).
    This method moves the current copy of the client realm file to a
    backup file.
 
@@ -72,22 +73,22 @@ following steps demonstrate the process at a high level:
 
 1. **Download all realm data from the backend**: Download the entire set
    of data in the realm before you proceed. If your sync configuration
-   doesn't specify the [`waitForInitialRemoteData()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit))
-   option, you can call [`syncSession.downloadAllServerChanges()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#downloadAllServerChanges(long,java.util.concurrent.TimeUnit))
+   doesn't specify the [`waitForInitialRemoteData()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>)
+   option, you can call [`syncSession.downloadAllServerChanges()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#downloadAllServerChanges(long,java.util.concurrent.TimeUnit)>)
    after opening the realm.
 
-1. **Open the realm backup**: Use the [`getBackupRealmConfiguration()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupRealmConfiguration())
+1. **Open the realm backup**: Use the [`getBackupRealmConfiguration()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/ClientResetRequiredError.html#getBackupRealmConfiguration()>)
    method of the provided `ClientResetRequiredError` to open an
    instance of the client realm file from the backup file. You must open
-   this instance as a [`DynamicRealm`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/DynamicRealm.html),
+   this instance as a [`DynamicRealm`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/DynamicRealm.html),
    a type of realm that uses text field lookups for all data access.
 
 1. **Migrate unsynced changes**: Query the backup realm for data to
    recover. Insert, delete or update data in the new realm accordingly.
 
 To handle client resets with the "manually recover unsynced changes"
-strategy,  pass an instance of [`ManuallyRecoverUnsyncedChangesStrategy`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/ManuallyRecoverUnsyncedChangesStrategy.html)
-to the [`defaultSyncClientResetStrategy()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy))
+strategy, pass an instance of [`ManuallyRecoverUnsyncedChangesStrategy`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/ManuallyRecoverUnsyncedChangesStrategy.html)
+to the [`defaultSyncClientResetStrategy()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy)>)
 builder method when you instantiate your `App`. Your
 `ManuallyRecoverUnsyncedChangesStrategy` instance must implement the
 following methods:
@@ -98,12 +99,12 @@ following methods:
 The following example implements this strategy:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ManualKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ManualJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ManualKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ManualJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note `handleManualReset()` Implementation
@@ -135,16 +136,28 @@ updating that timestamp to the current time whenever a change occurs,
 you can keep track of when objects were changed:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock title="Potato.kt" language="kotlin">{PotatoKotlin}</CodeBlock>
-        <CodeBlock title="Onion.kt" language="kotlin">{OnionKotlin}</CodeBlock>
-        <CodeBlock title="Rice.kt" language="kotlin">{RiceKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock title="Potato.java" language="java">{PotatoJava}</CodeBlock>
-        <CodeBlock title="Onion.java" language="java">{OnionJava}</CodeBlock>
-        <CodeBlock title="Rice.java" language="java">{RiceJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Potato.kt" language="kotlin">
+      {PotatoKotlin}
+    </CodeBlock>
+    <CodeBlock title="Onion.kt" language="kotlin">
+      {OnionKotlin}
+    </CodeBlock>
+    <CodeBlock title="Rice.kt" language="kotlin">
+      {RiceKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Potato.java" language="java">
+      {PotatoJava}
+    </CodeBlock>
+    <CodeBlock title="Onion.java" language="java">
+      {OnionJava}
+    </CodeBlock>
+    <CodeBlock title="Rice.java" language="java">
+      {RiceJava}
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Track Successful Syncs
@@ -157,18 +170,22 @@ realm, paired with an upload progress listener, to record whenever a
 realm finishes syncing successfully.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock title="LastSynced.kt" language="kotlin">{LastSyncedKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock title="LastSynced.java" language="java">{LastSyncedJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="LastSynced.kt" language="kotlin">
+      {LastSyncedKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="LastSynced.java" language="java">
+      {LastSyncedJava}
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
-You can use [`syncSession.addUploadProgressListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener))
+You can use [`syncSession.addUploadProgressListener()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)>)
 to listen for upload progress events in your `App`. Implement
 `onChange()` to handle these events. Call
-[`Progress.isTransferComplete()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/Progress.html#isTransferComplete())
+[`Progress.isTransferComplete()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/Progress.html#isTransferComplete()>)
 to check if the upload has completed. When `isTransferComplete()` returns true,
 all clientside updates, inserts, and deletes in the realm have
 successfully synced to the backend, and you can
@@ -177,17 +194,17 @@ update the `LastSynced` time to the current time. To prevent
 don't update the `LastSynced` time if it's been less than, say,
 10ms since you last updated the time.
 
-Register your progress listener with [`ProgressMode.INDEFINITELY`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/ProgressMode.html#INDEFINITELY) to subscribe
+Register your progress listener with [`ProgressMode.INDEFINITELY`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/ProgressMode.html#INDEFINITELY) to subscribe
 your listener to all future upload progress events, instead of just the
 current upload's progress events.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{TrackLastSyncedKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{TrackLastSyncedJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{TrackLastSyncedKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{TrackLastSyncedJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Manual Recovery with Last Updated Time and Last Synced Time
@@ -205,22 +222,22 @@ You can follow along with the implementation of these operations in the
 code samples below.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{HandleManualKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{HandleManualJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{HandleManualKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{HandleManualJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::info This Example is Simplified
-This example keeps track of the last time each *object* was updated. As
+This example keeps track of the last time each _object_ was updated. As
 a result, the recovery operation overwrites the entire object in the
 new realm if any field was updated after the last successful sync
 of the backup realm. This could overwrite fields updated by other
 clients with old data from this client. If your realm objects contain
 multiple fields containing important data, consider keeping track of
-the last updated time of each *field* instead, and recovering each
+the last updated time of each _field_ instead, and recovering each
 field individually.
 :::
 
@@ -237,8 +254,8 @@ Other possible implementations include:
   to each realm.
 
 - **Track changes by field**:
-  Instead of tracking a "last updated time" for every *object*, track the
-  "last updated time" for every *field*. Update fields individually using
+  Instead of tracking a "last updated time" for every _object_, track the
+  "last updated time" for every _field_. Update fields individually using
   this logic to avoid overwriting field writes from other clients with
   old data. Recommended for applications with many fields per-object
   where conflicts must be resolved at the field level.

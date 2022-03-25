@@ -1,33 +1,33 @@
 ---
 title: Sort Queries
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Sort from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.sort.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Sort from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.sort.kt";
 
 To sort results, specify a sort in the query passed to
-[`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html)
+[`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html)
 with the `SORT` keyword. Similarly, use `DISTINCT`
 to constrain results to unique values of a field, and
 `LIMIT` to cap the number of results. The SDK
 provides convenience methods on `RealmQuery` so you don't have
 to manually write the keywords:
 
-- [`realmQuery.sort()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/sort.html)
-- [`realmQuery.distinct()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/distinct.html)
-- [`realmQuery.limit()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/limit.html)
+- [`realmQuery.sort()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/sort.html)
+- [`realmQuery.distinct()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/distinct.html)
+- [`realmQuery.limit()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/limit.html)
 
 When used on the same query in both RQL and method form, `SORT`,
 `DISTINCT`, and `LIMIT` execute in the order they're added
 to the query. This can impact the results returned from your query.
 
-
 <CodeBlock language="kotlin">{Sort}</CodeBlock>
 
 :::note `find()` is Synchronous
 
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
+[`find()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
 runs a synchronous query on the thread it is called from.
 As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
+logic that could delay the UI thread. Prefer [`asFlow()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
 in time sensitive environments.
 :::

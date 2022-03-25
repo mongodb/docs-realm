@@ -1,13 +1,14 @@
 ---
 title: Bundle a Realm
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import CopyKotlin from '!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.copy-a-realm-file.kt';
-import CopyJava from '!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.copy-a-realm-file.java';
-import UseKotlin from '!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.use-bundled-realm-file.kt';
-import UseJava from '!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.use-bundled-realm-file.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import CopyKotlin from "!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.copy-a-realm-file.kt";
+import CopyJava from "!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.copy-a-realm-file.java";
+import UseKotlin from "!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.use-bundled-realm-file.kt";
+import UseJava from "!!raw-loader!@site/docs/generated/java/sync/BundleTest.codeblock.use-bundled-realm-file.java";
 
 The SDK supports **bundling** realm files. When you bundle
 a realm file, you include a database and all of its data in your
@@ -22,13 +23,13 @@ generated the bundled file.
 :::caution Synced Realm Bundling and Client Maximum Offline Time
 
 If your application has enabled advanced backend compaction by configuring a
-[client maximum offline time](https://docs.mongodb.com/realm/sync/configure/optimize-sync-atlas-usage/#std-label-client-maximum-offline-time),
+[client maximum offline time](https://www.mongodb.com/docs/realm/sync/configure/optimize-sync-atlas-usage/#std-label-client-maximum-offline-time),
 users could experience a client reset the first time they open the
 bundled realm file. This can happen if:
 
 - the bundled realm file was generated more than
- **client maximum offline time** days before the user syncs the
- realm for the first time.
+  **client maximum offline time** days before the user syncs the
+  realm for the first time.
 
 Users experiencing a client reset download the full state of the
 realm from the application backend. This negates the
@@ -36,14 +37,14 @@ advantages of bundling a realm file. To prevent client resets and
 preserve the advantages of realm file bundling:
 
 - Avoid using a client maximum offline time in applications that
- bundle a synchronized realm.
+  bundle a synchronized realm.
 
 - If your application does use a client maximum offline time, ensure
- that your application download always includes a recently synced
- realm file. Generate a new file each application version,
- and ensure that no version ever stays current for more than
- **client maximum offline time** number of days.
-:::
+  that your application download always includes a recently synced
+  realm file. Generate a new file each application version,
+  and ensure that no version ever stays current for more than
+  **client maximum offline time** number of days.
+  :::
 
 ## Overview
 
@@ -67,7 +68,7 @@ To create and bundle a realm file with your application:
 1. Open a realm and add the data you wish to bundle. If using a
    synchronized realm, allow time for the realm to fully sync.
 
-1. Use [`realm.writeCopyTo()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#writeCopyTo-java.io.File-)
+1. Use [`realm.writeCopyTo()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#writeCopyTo-java.io.File-)
    method to copy the realm to a new file:
 
    <Tabs groupId="java-sdk-languages">
@@ -114,17 +115,17 @@ folder (`<app name>`) in Android Studio and selecting
 ## Open a Realm from a Bundled Realm File
 
 Now that you have a copy of the realm included with your production
-application, you need to add code to use it. Use [`builder.assetFile()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#assetFile-java.lang.String-)
+application, you need to add code to use it. Use [`builder.assetFile()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#assetFile-java.lang.String-)
 method when configuring your realm to open the realm
 from the bundled file:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UseKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UseJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UseKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UseJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Differences Between Synced Realms and Local-only Realms

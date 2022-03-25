@@ -1,18 +1,19 @@
 ---
 title: Iteration
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Iteration from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.iteration.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Iteration from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.iteration.kt";
 
 You can iterate through results using `Flows`.
 
 :::tip Learn About Flows
 
 To learn more about Kotlin Flows, check out
-[the *kotlinx.coroutines* documentation on Flows](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/).
+[the _kotlinx.coroutines_ documentation on Flows](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/).
 :::
 
-To convert your results into a `Flow`, call [`realmQuery.asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html).
+To convert your results into a `Flow`, call [`realmQuery.asFlow()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html).
 Then iterate through the results with [`flow.collect()`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html):
 
 <CodeBlock language="kotlin">{Iteration}</CodeBlock>
@@ -20,9 +21,9 @@ Then iterate through the results with [`flow.collect()`](https://kotlin.github.i
 :::note `find()` is Synchronous
 
 You can also iterate through results returned via
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html).
+[`find()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html).
 `find()` runs a synchronous query on the thread it is called from.
 As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
+logic that could delay the UI thread. Prefer [`asFlow()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
 in time sensitive environments.
 :::

@@ -1,20 +1,20 @@
 ---
-title: 'Update'
+title: "Update"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import UpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.kt';
-import UpdateJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.java';
-import UpdateMultipleKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.kt';
-import UpdateMultipleJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.java';
-import UpsertKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.kt';
-import UpsertJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.java';
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import UpdateKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.kt";
+import UpdateJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-a-single-document.java";
+import UpdateMultipleKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.kt";
+import UpdateMultipleJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.update-multiple-documents.java";
+import UpsertKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.kt";
+import UpsertJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.upsert-a-single-document.java";
 
 These code snippets demonstrate how to update data stored in a MongoDB
 collection from a mobile application. Update operations use queries
-to specify which documents to update and [update operators](https://docs.mongodb.com/manual/reference/operator/update/)
+to specify which documents to update and [update operators](https://www.mongodb.com/docs/manual/reference/operator/update/)
 to describe how to mutate documents that match the query. Update
 operations return a [`Task`](https://developer.android.com/reference/com/google/android/play/core/tasks/Task)
 that resolves to an object that contains the results of the operation.
@@ -22,7 +22,7 @@ that resolves to an object that contains the results of the operation.
 ## Update a Single Document
 
 You can update a single document using
-[`collection.updateOne()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#updateOne-Bson-Bson-).
+[`collection.updateOne()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#updateOne-Bson-Bson-).
 
 The following snippet updates a single document in a
 [collection of documents](/sdk/java/app-services/mongodb/overview#sample)
@@ -31,12 +31,12 @@ where the `name` field contains the value "petunia" and changes the value
 of the first matched document's `sunlight` field to "partial":
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Running this snippet produces output resembling the following:
@@ -48,7 +48,7 @@ V/EXAMPLE: successfully updated a document.
 ## Update Multiple Documents
 
 You can update multiple documents using
-[`collection.updateMany()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#updateMany-Bson-Bson-).
+[`collection.updateMany()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#updateMany-Bson-Bson-).
 
 The following snippet updates multiple documents in a
 [collection of documents](/sdk/java/app-services/mongodb/overview#sample)
@@ -57,14 +57,13 @@ where the `_partition` field contains the value "Store 47" and changes
 the value of the `_partition` field of each matching document to "Store 51":
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateMultipleKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateMultipleJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateMultipleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateMultipleJava}</CodeBlock>
+  </TabItem>
 </Tabs>
-
 
 Running this snippet produces output resembling the following:
 
@@ -95,15 +94,13 @@ document matches the query, MongoDB creates a new document that includes
 both the query and specified updates:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpsertKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpsertJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpsertKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpsertJava}</CodeBlock>
+  </TabItem>
 </Tabs>
-
-
 
 Running this snippet produces output resembling the following:
 

@@ -1,29 +1,30 @@
 ---
 title: Testing
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import InitKotlin from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.initialize-realm-with-context.kt';
-import InitJava from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.initialize-realm-with-context.java';
-import LooperKotlin from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-logic-looper.kt';
-import LooperJava from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-logic-looper.java';
-import WaitKotlin from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.wait-for-async.kt';
-import WaitJava from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.wait-for-async.java';
-import IntTestKotlin from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-integration-testing.kt';
-import IntTestJava from '!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-integration-testing.java';
-import AnnotationsKotlin from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.annotations.kt';
-import AnnotationsJava from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.annotations.java';
-import PowermockKotlin from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.bootstrap-powermock.kt';
-import PowermockJava from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.bootstrap-powermock.java';
-import MockRealmComponentsKotlin from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-realm-components.kt';
-import MockRealmComponentsJava from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-realm-components.java';
-import MockRealmKotlin from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-a-realm.kt';
-import MockRealmJava from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-a-realm.java';
-import UnitTestActivityKotlin from '!!raw-loader!@site/docs/generated/java/local/UnitTestActivity.codeblock.unit-test-activity.kt';
-import TestKotlin from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.test-unit-testing.kt';
-import UnitTestActivityJava from '!!raw-loader!@site/docs/generated/java/local/UnitTestActivity.codeblock.unit-test-activity.java';
-import TestJava from '!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.test-unit-testing.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import InitKotlin from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.initialize-realm-with-context.kt";
+import InitJava from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.initialize-realm-with-context.java";
+import LooperKotlin from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-logic-looper.kt";
+import LooperJava from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-logic-looper.java";
+import WaitKotlin from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.wait-for-async.kt";
+import WaitJava from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.wait-for-async.java";
+import IntTestKotlin from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-integration-testing.kt";
+import IntTestJava from "!!raw-loader!@site/docs/generated/java/sync/TestTest.codeblock.test-integration-testing.java";
+import AnnotationsKotlin from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.annotations.kt";
+import AnnotationsJava from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.annotations.java";
+import PowermockKotlin from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.bootstrap-powermock.kt";
+import PowermockJava from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.bootstrap-powermock.java";
+import MockRealmComponentsKotlin from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-realm-components.kt";
+import MockRealmComponentsJava from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-realm-components.java";
+import MockRealmKotlin from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-a-realm.kt";
+import MockRealmJava from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.mock-a-realm.java";
+import UnitTestActivityKotlin from "!!raw-loader!@site/docs/generated/java/local/UnitTestActivity.codeblock.unit-test-activity.kt";
+import TestKotlin from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.test-unit-testing.kt";
+import UnitTestActivityJava from "!!raw-loader!@site/docs/generated/java/local/UnitTestActivity.codeblock.unit-test-activity.java";
+import TestJava from "!!raw-loader!@site/docs/generated/java/local/TestTest.codeblock.test-unit-testing.java";
 
 You can test your application using unit tests or integration tests.
 **Unit tests** only assess the logic written in your application's code.
@@ -37,9 +38,9 @@ or a backend using Android's built-in instrumented tests.
 Android uses specific file paths and folder names in Android projects
 for unit tests and instrumented tests:
 
-| Test Type | Path |
-|-----------|------|
-| Unit Tests | `/app/src/test` |
+| Test Type          | Path                   |
+| ------------------ | ---------------------- |
+| Unit Tests         | `/app/src/test`        |
 | Instrumented Tests | `/app/src/androidTest` |
 
 Because the SDK uses C++ code via Android Native for data
@@ -84,19 +85,19 @@ use.
 
 Because the `onActivity()` method runs on a different thread, you
 should block your test from executing further until this initial setup
-completes. 
+completes.
 
 The following example uses an `ActivityScenario`, an empty testing
 activity, and a `CountDownLatch` to demonstrate how to set up an
 environment where you can test your app:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{InitKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{InitJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{InitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{InitJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Looper Thread
@@ -108,7 +109,7 @@ loop coordinated by the `Looper`. Test functions normally don't have
 a `Looper` object, and configuring one to work in your tests can be
 very error-prone.
 
-Instead, you can use the [`Activity.runOnUiThread()`](https://developer.android.com/reference/android/app/Activity#runOnUiThread(java.lang.Runnable))
+Instead, you can use the [`Activity.runOnUiThread()`](<https://developer.android.com/reference/android/app/Activity#runOnUiThread(java.lang.Runnable)>)
 method of your test activity to execute logic on a thread that already
 has a `Looper` configured. Combine `Activity.runOnUiThread()` with
 a `CountDownLatch` as described in the [delay section](#delay)
@@ -118,12 +119,12 @@ call, you can interact with the SDK just like you normally would in your
 application code:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{LooperKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{LooperJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LooperKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LooperJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 #### Delay Test Execution While Async Calls Complete {#delay}
@@ -136,12 +137,12 @@ uses Java's built-in [`CountDownLatch`](https://docs.oracle.com/en/java/javase/1
 Follow these steps to use a `CountDownLatch` in your own tests:
 
 1. Instantiate a `CountDownLatch` with a count of 1.
-#. After running the async logic your test needs to wait for, call that
+   #. After running the async logic your test needs to wait for, call that
    `CountDownLatch` instance's `countDown()` method.
-#. When you need to wait for async logic, add a `try`/`catch` block
+   #. When you need to wait for async logic, add a `try`/`catch` block
    that handles an `InterruptedException`. In that block,
    call that `CountDownLatch` instance's `await()` method.
-#. Pass a timeout interval and unit to `await()`, and wrap
+   #. Pass a timeout interval and unit to `await()`, and wrap
    the call in a `Assert.assertTrue()` assertion. If the logic takes
    too long, the `await()` call times out, returning false and failing
    the test.
@@ -151,12 +152,12 @@ wait for authentication and opening a realm asynchronously on a separate
 thread:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{WaitKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{WaitJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{WaitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{WaitJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 #### Testing Backend
@@ -170,7 +171,7 @@ production backend for testing purposes for the following reasons:
   your tests will include a setup or teardown method that deletes all
   users or large chunks of data
 
-You can use [environments](https://docs.mongodb.com/realm/manage-apps/configure/config/environments/#std-label-appconfig-environment)
+You can use [environments](https://www.mongodb.com/docs/realm/manage-apps/configure/config/environments/#std-label-appconfig-environment)
 to manage separate apps for testing and production.
 
 #### Testing Atlas Cluster
@@ -189,12 +190,12 @@ The following example shows a full Junit instrumented `androidTest`
 example running Realm Database in integration tests:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{IntTestKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{IntTestJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{IntTestKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{IntTestJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::tip See Also
@@ -241,35 +242,35 @@ with the SDK, add the following annotations to each unit test class that
 mocks the SDK:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{AnnotationsKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{AnnotationsJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AnnotationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AnnotationsJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Then, bootstrap Powermock globally in the test class:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PowermockKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PowermockJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PowermockKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PowermockJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Next, mock the components of the SDK that might query native C++ code
 so we don't hit the limitations of the test environment:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{MockRealmComponentsKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{MockRealmComponentsJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{MockRealmComponentsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{MockRealmComponentsJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Once you've completed the setup required for mocking, you can start
@@ -279,12 +280,12 @@ a type are instantiated, so even code that references the default
 realm in your application won't break your tests:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{MockRealmKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{MockRealmJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{MockRealmKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{MockRealmJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 After mocking a realm, you'll have to configure data for your test
@@ -300,14 +301,14 @@ The tests use mocking to simulate those operations when that activity is
 started during a unit test:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UnitTestActivityKotlin}</CodeBlock>
-        <CodeBlock language="kotlin">{TestKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UnitTestActivityJava}</CodeBlock>
-        <CodeBlock language="kotlin">{TestKotlin}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UnitTestActivityKotlin}</CodeBlock>
+    <CodeBlock language="kotlin">{TestKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UnitTestActivityJava}</CodeBlock>
+    <CodeBlock language="kotlin">{TestKotlin}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::tip See Also

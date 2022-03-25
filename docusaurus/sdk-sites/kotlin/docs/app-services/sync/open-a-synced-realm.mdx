@@ -1,9 +1,10 @@
 ---
 title: Open a Synced Realm
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Open from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt';
-import Configure from '!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Open from "!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.open-a-synced-realm.kt";
+import Configure from "!!raw-loader!@site/docs/generated/kotlin/SyncTest.codeblock.configure-a-synced-realm.kt";
 
 :::note Flexible Sync
 
@@ -15,7 +16,7 @@ only use the SDK with Partition-Based Sync applications.
 
 Before you can access a synced realm from the client, you must:
 
-1. [Enable sync](https://docs.mongodb.com/realm/sync/configure/enable-sync/#std-label-enable-sync)
+1. [Enable sync](https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#std-label-enable-sync)
    in the Realm UI.
 
 1. Install the sync distribution of the Kotlin SDK
@@ -25,21 +26,19 @@ Before you can access a synced realm from the client, you must:
 1. [Authenticate a user](sdk/kotlin/app-services/authenticate-users) in
    your client project.
 
-Open a Synced Realm
--------------------
+## Open a Synced Realm
 
 To open a synced {+realm+}, pass a user, a partition, and a set of
 Realm object schemas to
-[`SyncConfiguration.Builder()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/-builder.html).
-Then, pass the configuration to [`Realm.open()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/open.html)
+[`SyncConfiguration.Builder()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/-builder.html).
+Then, pass the configuration to [`Realm.open()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/open.html)
 to open an instance of the realm:
 
 <CodeBlock language="kotlin">{Open}</CodeBlock>
 
-Configure a Synced Realm
-------------------------
+## Configure a Synced Realm
 
 To adjust specific configuration settings, use the options provided by
-[`SyncConfiguration.Builder`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/index.html):
+[`SyncConfiguration.Builder`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-sync-configuration/-builder/index.html):
 
 <CodeBlock language="kotlin">{Configure}</CodeBlock>

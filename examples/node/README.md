@@ -55,7 +55,7 @@ case file for your section. Create a new file in either the `Examples/js` or `Ex
 (whichever corresponds to the file's language). The file can have any name, but for consistency it
 should use the same name as its corresponding page in the docs whenever possible.
 
-For example, the code blocks on https://docs.mongodb.com/realm/node/authenticate live in
+For example, the code blocks on https://www.mongodb.com/docs/realm/node/authenticate live in
 `Examples/js/authenticate.js` and `Examples/ts/authenticate.ts`.
 
 > 🧪&nbsp;&nbsp;**Jest Global Variables**

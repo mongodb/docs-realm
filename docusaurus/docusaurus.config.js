@@ -163,7 +163,7 @@ const config = {
             items: [
               {
                 label: "Realm App Services Documentation",
-                to: "https://docs.mongodb.com/realm/",
+                to: "https://www.mongodb.com/docs/realm/",
               },
             ],
           },

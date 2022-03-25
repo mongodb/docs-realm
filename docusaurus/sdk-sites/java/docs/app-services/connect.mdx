@@ -1,13 +1,14 @@
 ---
 title: Connect to a Realm App
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import AccessKotlin from '!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.java';
-import AccessJava from '!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.kt';
-import AdvancedKotlin from '!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.java';
-import AdvancedJava from '!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.kt';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import AccessKotlin from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.java";
+import AccessJava from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.kt";
+import AdvancedKotlin from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.java";
+import AdvancedJava from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.kt";
 
 The SDK is the interface to the backend. It provides access to
 authentication, Functions, and Sync.
@@ -19,15 +20,15 @@ with `Realm.init()` before creating any instance of an `App`.
 
 ## Access the App Client
 
-Pass your App ID, which you can [find in the Realm UI](https://docs.mongodb.com/realm/get-started/find-your-project-or-app-id/#std-label-find-your-app-id).
-  
+Pass your App ID, which you can [find in the Realm UI](https://www.mongodb.com/docs/realm/get-started/find-your-project-or-app-id/#std-label-find-your-app-id).
+
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{AccessKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{AccessJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AccessKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AccessJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Multiple App Instances
@@ -45,12 +46,12 @@ and keys for local encryption, you can use the `AppConfiguration`
 Builder to control details of your `App`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{AdvancedKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{AdvancedJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AdvancedKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AdvancedJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Advanced Configuration is Optional

@@ -28,7 +28,7 @@ or query methods. The Swift SDK is the exception, as it uses the NSPredicate
 query API.
 
 You can also use Realm Query Language to browse for data in
-[Realm Studio](https://docs.mongodb.com/realm/studio/#std-label-realm-studio).
+[Realm Studio](https://www.mongodb.com/docs/realm/studio/#std-label-realm-studio).
 
 ## Expressions
 
