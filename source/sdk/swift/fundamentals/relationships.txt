@@ -19,10 +19,11 @@ relationship by setting an object property's type to another object in the
 :ref:`model <ios-object-models-and-schemas>`.
 
 {+client-database+} doesn't use bridge tables or explicit joins to define 
-relationships as you would in a relational database. Instead, access 
-related objects by reading and writing to the property that defines the 
-relationship. {+client-db-short+} executes read operations lazily. Querying 
-a relationship is as performant as reading a property.
+relationships as you would in a relational database. {+client-db-short+}
+handles relationships through embedded objects or reference properties to 
+other {+client-db-short+} objects. You read from and write to these 
+properties directly. This makes querying relationships as performant as 
+querying against any other property.
 
 There are three primary types of relationships between objects:
 
@@ -57,9 +58,9 @@ Realm does not delete the referenced object, though, unless it is
 To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-A **to-many** relationship means that an object to more than one other object. 
-A to-many relationship in {+client-database+} is a list property that 
-contains references to other objects.
+A **to-many** relationship means that an object relates to more than one 
+other object. In {+client-database+}, a to-many relationship is a list of 
+references to other objects.
 
 .. tip::
 
@@ -77,16 +78,19 @@ to it. You must explicitly define a property in the object's model as an
 inverse relationship. Inverse relationships can link back to objects in 
 a to-one or to-many relationship.
 
-For example, consider a task tracker with a to-many relationship "User has 
+For example, consider a task tracker with the to-many relationship "User has 
 many Tasks". This does not automatically create the inverse relationship 
-"Task belongs to User". If you specify an inverse relationship from task 
-to user, you can query on that. If you don't specify the inverse 
-relationship, you must run a separate query to look up the user to whom 
-the task is assigned.
+"Task belongs to User". To create the inverse relationship, add a User 
+property on the Task that points back to the task's owner. When you specify 
+the inverse relationship from task to user, you can query on that. If you 
+don't specify the inverse relationship, you must run a separate query to 
+look up the user to whom the task is assigned.
 
-You cannot manually set the value of an inverse relationship property.
-Instead, {+client-database+} updates implicit relationships when you add or
-remove an object in the relationship.
+.. important::
+
+   You cannot manually set the value of an inverse relationship property.
+   Instead, {+client-database+} updates implicit relationships when you add 
+   or remove an object in the relationship.
 
 Relationships can be many-to-one or many-to-many. So following inverse 
 relationships can result in zero, one, or many objects.
