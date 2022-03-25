@@ -18,7 +18,6 @@ function TaskList({onToggleTaskStatus, onDeleteTask}) {
             isComplete={item.isComplete}
             onToggleStatus={() => onToggleTaskStatus(item)}
             onDelete={() => onDeleteTask(item)}
-            // Don't spread the Realm item as such: {...item}
           />
         )}
       />
