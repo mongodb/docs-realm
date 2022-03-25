@@ -241,12 +241,13 @@ CSV
 
 .. note::
 
-   The above IP list only applies to outgoing requests from Realm functions.
-   This includes triggers and HTTPS endpoints that make outgoing requests.
+   The above IP list only applies to outgoing requests from Realm functions,
+   including triggers and HTTPS endpoints that make outgoing requests.
 
-   To handle requests from Sync, we recommend allowlisting the entire subnet of
-   the app's region and cloud provider. You can find the Deployment Region in
-   the Realm UI under :guilabel:`App Settings > General > Deployment Region`.
+   For requests that originate from the Sync server, we recommend allowlisting
+   the entire subnet of the app's Deployment Region and cloud provider. You can
+   find the Deployment Region in the Realm UI under :guilabel:`App Settings >
+   General > Deployment Region`.
    
 
 .. _security-allowed-request-origins:
