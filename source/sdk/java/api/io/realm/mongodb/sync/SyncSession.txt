@@ -18,7 +18,7 @@ io.realm.mongodb.sync
 =====================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
  | 		io.realm.mongodb.sync.SyncSession
 
 
@@ -116,7 +116,7 @@ Method Summary
    * - public **boolean**
      - | :ref:`downloadAllServerChanges <io_realm_mongodb_sync_SyncSession_downloadAllServerChanges>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -159,12 +159,12 @@ Method Summary
        
        
    
-   * - public `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__ 
+   * - public `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__ 
      - | :ref:`getServerUrl <io_realm_mongodb_sync_SyncSession_getServerUrl>` ()
        | 
        
        
-       Returns the `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  describing the remote Realm which this session connects to and synchronizes changes with.
+       Returns the `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  describing the remote Realm which this session connects to and synchronizes changes with.
        
        
        
@@ -252,7 +252,7 @@ Method Summary
    * - public **boolean**
      - | :ref:`uploadAllLocalChanges <io_realm_mongodb_sync_SyncSession_uploadAllLocalChanges>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -279,7 +279,7 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
 
 
 
@@ -347,7 +347,7 @@ addConnectionChangeListener
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the listener is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the listener is ``null`` .
           
           
           
@@ -642,7 +642,7 @@ downloadAllServerChanges
    
    * - | public **boolean** :ref:`downloadAllServerChanges <io_realm_mongodb_sync_SyncSession_downloadAllServerChanges>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -668,15 +668,15 @@ downloadAllServerChanges
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
           
           
           
-       - `InterruptedException <https://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html>`__  - if the download took longer than the specified timeout or the thread was interrupted while downloading was in progress. The download will continue in the background even after this exception is thrown.
+       - `InterruptedException <https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html>`__  - if the download took longer than the specified timeout or the thread was interrupted while downloading was in progress. The download will continue in the background even after this exception is thrown.
           
           
           
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``timeout``  is less than or equal to ``0``  or ``unit``  is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``timeout``  is less than or equal to ``0``  or ``unit``  is ``null`` .
           
           
           
@@ -713,11 +713,11 @@ downloadAllServerChanges
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
           
           
           
-       - `InterruptedException <https://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html>`__  - if the thread was interrupted while downloading was in progress.
+       - `InterruptedException <https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html>`__  - if the thread was interrupted while downloading was in progress.
           
           
           
@@ -862,13 +862,13 @@ getServerUrl
 .. list-table::
    :header-rows: 1
    
-   * - | public `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  :ref:`getServerUrl <io_realm_mongodb_sync_SyncSession_getServerUrl>` ()
+   * - | public `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  :ref:`getServerUrl <io_realm_mongodb_sync_SyncSession_getServerUrl>` ()
        | 
        
        
        
    
-   * - Returns the `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  describing the remote Realm which this session connects to and synchronizes changes with.
+   * - Returns the `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  describing the remote Realm which this session connects to and synchronizes changes with.
        
        
        
@@ -879,7 +879,7 @@ getServerUrl
        
        **Returns**
        
-       `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  describing the remote Realm.
+       `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  describing the remote Realm.
        
        
        
@@ -1120,7 +1120,7 @@ removeConnectionChangeListener
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the listener is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the listener is ``null`` .
           
           
           
@@ -1362,7 +1362,7 @@ uploadAllLocalChanges
    
    * - | public **boolean** :ref:`uploadAllLocalChanges <io_realm_mongodb_sync_SyncSession_uploadAllLocalChanges>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -1388,15 +1388,15 @@ uploadAllLocalChanges
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
           
           
           
-       - `InterruptedException <https://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html>`__  - if the upload took longer than the specified timeout or the thread was interrupted while uploading was in progress. The upload will continue in the background even after this exception is thrown.
+       - `InterruptedException <https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html>`__  - if the upload took longer than the specified timeout or the thread was interrupted while uploading was in progress. The upload will continue in the background even after this exception is thrown.
           
           
           
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``timeout``  is less than or equal to ``0``  or ``unit``  is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``timeout``  is less than or equal to ``0``  or ``unit``  is ``null`` .
           
           
           
@@ -1433,11 +1433,11 @@ uploadAllLocalChanges
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if called on the Android main thread.
           
           
           
-       - `InterruptedException <https://docs.oracle.com/javase/7/docs/api/java/lang/InterruptedException.html>`__  - if the thread was interrupted while downloading was in progress.
+       - `InterruptedException <https://docs.oracle.com/javase/8/docs/api/java/lang/InterruptedException.html>`__  - if the thread was interrupted while downloading was in progress.
           
           
           

@@ -18,7 +18,7 @@ io.realm
 ========
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
  | 		**io.realm.BaseRealm**
  | 					io.realm.DynamicRealm
 
@@ -110,9 +110,9 @@ Method Summary
    
    * - public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>` 
      - | :ref:`createEmbeddedObject <io_realm_DynamicRealm_createEmbeddedObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className, 
        |  :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>`  parentObject, 
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  parentProperty
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  parentProperty
        | )
        
        
@@ -123,8 +123,8 @@ Method Summary
    
    * - public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>` 
      - | :ref:`createObject <io_realm_DynamicRealm_createObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className, 
-       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  primaryKeyValue
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className, 
+       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  primaryKeyValue
        | )
        
        
@@ -135,7 +135,7 @@ Method Summary
    
    * - public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>` 
      - | :ref:`createObject <io_realm_DynamicRealm_createObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -146,7 +146,7 @@ Method Summary
    
    * - public **void**
      - | :ref:`delete <io_realm_DynamicRealm_delete>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -304,7 +304,7 @@ Method Summary
    
    * - public :ref:`RealmQuery <io_realm_RealmQuery>` 
      - | :ref:`where <io_realm_DynamicRealm_where>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -321,7 +321,7 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
 - Methods inherited from class **io.realm.BaseRealm**: ``setAutoRefresh`` , ``isAutoRefresh`` , ``refresh`` , ``isInTransaction`` , ``addListener`` , ``removeListener`` , ``asFlowable`` , ``removeAllListeners`` , ``writeCopyTo`` , ``writeEncryptedCopyTo`` , ``waitForChange`` , ``stopWaitForChange`` , ``beginTransaction`` , ``commitTransaction`` , ``cancelTransaction`` , ``freeze`` , ``isFrozen`` , ``getNumberOfActiveVersions`` , ``checkIfValid`` , ``checkAllowQueriesOnUiThread`` , ``checkAllowWritesOnUiThread`` , ``checkIfInTransaction`` , ``checkIfValidAndInTransaction`` , ``getPath`` , ``getConfiguration`` , ``getVersion`` , ``close`` , ``isClosed`` , ``isEmpty`` , ``getSchema`` , ``deleteAll`` , ``migrateRealm`` , ``finalize`` 
 
 
@@ -396,7 +396,7 @@ addChangeListener
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the change listener is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the change listener is ``null`` .
           
           
           
@@ -645,9 +645,9 @@ createEmbeddedObject
    :header-rows: 1
    
    * - | public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>`  :ref:`createEmbeddedObject <io_realm_DynamicRealm_createEmbeddedObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className, 
        |  :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>`  parentObject, 
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  parentProperty
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  parentProperty
        | )
        
        
@@ -687,7 +687,7 @@ createEmbeddedObject
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``clazz``  is not an embedded class or if the property in the parent class cannot hold objects of the appropriate type.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``clazz``  is not an embedded class or if the property in the parent class cannot hold objects of the appropriate type.
           
           
           
@@ -785,8 +785,8 @@ createObject
    :header-rows: 1
    
    * - | public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>`  :ref:`createObject <io_realm_DynamicRealm_createObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className, 
-       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  primaryKeyValue
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className, 
+       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  primaryKeyValue
        | )
        
        
@@ -814,11 +814,11 @@ createObject
           
           
           
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the model clazz does not have an primary key defined.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the model clazz does not have an primary key defined.
           
           
           
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``primaryKeyValue``  doesn't have a value that can be converted to the expected value.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``primaryKeyValue``  doesn't have a value that can be converted to the expected value.
           
           
           
@@ -847,7 +847,7 @@ createObject
    :header-rows: 1
    
    * - | public :ref:`DynamicRealmObject <io_realm_DynamicRealmObject>`  :ref:`createObject <io_realm_DynamicRealm_createObject>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -923,7 +923,7 @@ delete
    :header-rows: 1
    
    * - | public **void** :ref:`delete <io_realm_DynamicRealm_delete>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -948,7 +948,7 @@ delete
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or called from an incorrect thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or called from an incorrect thread.
           
           
           
@@ -1033,7 +1033,7 @@ executeTransaction
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` .
           
           
           
@@ -1445,7 +1445,7 @@ executeTransactionAsync
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
           
           
           
@@ -1611,7 +1611,7 @@ executeTransactionAsync
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
           
           
           
@@ -1777,7 +1777,7 @@ executeTransactionAsync
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the realm is opened from another thread.
           
           
           
@@ -1848,7 +1848,7 @@ executeTransactionAsync
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the Realm is opened from another thread.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the ``transaction``  is ``null`` , or if the Realm is opened from another thread.
           
           
           
@@ -1889,9 +1889,9 @@ freeze
        
        
    
-   * - Returns a frozen snapshot of the current Realm. This Realm can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ . A frozen Realm has its own lifecycle and can be closed by calling **close()**, but fully closing the Realm that spawned the frozen copy will also close the frozen Realm.
+   * - Returns a frozen snapshot of the current Realm. This Realm can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ . A frozen Realm has its own lifecycle and can be closed by calling **close()**, but fully closing the Realm that spawned the frozen copy will also close the frozen Realm.
        
-       Frozen data can be queried as normal, but trying to mutate it in any way or attempting to register any listener will throw an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
+       Frozen data can be queried as normal, but trying to mutate it in any way or attempting to register any listener will throw an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
        
        
        
@@ -1985,7 +1985,7 @@ getInstance
           
           
           
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``configuration``  argument is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``configuration``  argument is ``null`` .
           
           
           
@@ -2148,13 +2148,13 @@ getInstanceAsync
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if a null :ref:`RealmConfiguration <io_realm_RealmConfiguration>`  or a null :ref:`Callback <io_realm_DynamicRealm_Transaction_Callback>`  is provided.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if a null :ref:`RealmConfiguration <io_realm_RealmConfiguration>`  or a null :ref:`Callback <io_realm_DynamicRealm_Transaction_Callback>`  is provided.
           
           
           
           
           
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if it is called from a non-Looper or `android.app.IntentService <https://developer.android.com/reference/android/app/IntentService>`__  thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if it is called from a non-Looper or `android.app.IntentService <https://developer.android.com/reference/android/app/IntentService>`__  thread.
           
           
           
@@ -2328,7 +2328,7 @@ removeAllChangeListeners
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if you try to remove listeners from a non-Looper Thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if you try to remove listeners from a non-Looper Thread.
           
           
           
@@ -2415,13 +2415,13 @@ removeChangeListener
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the change listener is ``null`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the change listener is ``null`` .
           
           
           
           
           
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if you try to remove a listener from a non-Looper Thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if you try to remove a listener from a non-Looper Thread.
           
           
           
@@ -2481,7 +2481,7 @@ where
    :header-rows: 1
    
    * - | public :ref:`RealmQuery <io_realm_RealmQuery>`  :ref:`where <io_realm_DynamicRealm_where>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  className
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  className
        | )
        
        
@@ -2511,7 +2511,7 @@ where
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the class doesn't exist.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the class doesn't exist.
           
           
           
