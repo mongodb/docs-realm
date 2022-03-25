@@ -876,7 +876,7 @@ paths:
         - sync
       operationId: adminGetSync
       summary: Get sync information for a specific linked MongoDB cluster.
-      description: Retrieve partition field data when using [Partition-Based Sync](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/). 
+      description: Retrieve partition field data when using [Partition-Based Sync](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/).
       responses:
         "200":
           description: Successfully retrieved.
@@ -2913,12 +2913,11 @@ paths:
         "204":
           description: No Content
 
-
   "/groups/{groupId}/apps/{appId}/endpoints":
     parameters:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
-    
+
     get:
       tags:
         - endpoints
@@ -2934,7 +2933,7 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/Endpoint"
-    
+
     post:
       tags:
         - endpoints
@@ -2942,7 +2941,7 @@ paths:
       summary: Create an endpoint
       description: Create a new [endpoint](https://docs.mongodb.com/realm/endpoints/).
       requestBody:
-        description: A valid [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the new endpoint.
+        description: A valid [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/http_endpoints/#appschema-endpoints) for the new endpoint.
         required: true
         content:
           application/json:
@@ -2961,7 +2960,7 @@ paths:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
       - "$ref": "#/components/parameters/EndpointId"
-    
+
     get:
       tags:
         - endpoints
@@ -2975,7 +2974,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Endpoint"
-    
+
     put:
       tags:
         - endpoints
@@ -2983,7 +2982,7 @@ paths:
       summary: Modify an endpoint
       description: Modify an existing [endpoint](https://docs.mongodb.com/realm/endpoints/) configuration.
       requestBody:
-        description: A valid, updated [configuration object](https://docs.mongodb.com/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the endpoint.
+        description: A valid, updated [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/http_endpoints/#appschema-endpoints) for the endpoint.
         required: true
         content:
           application/json:
@@ -2996,7 +2995,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/Endpoint"
-    
+
     delete:
       tags:
         - endpoints
@@ -3009,8 +3008,6 @@ paths:
             application/json:
               schema:
                 properties: {}
-
-
 
 components:
   parameters:
@@ -3542,9 +3539,9 @@ components:
     LogForwarder:
       type: object
       properties:
-        _id: {type: string}
-        name: {type: string}
-        disabled: {type: boolean}
+        _id: { type: string }
+        name: { type: string }
+        disabled: { type: boolean }
         log_types:
           type: array
           items:
@@ -4105,7 +4102,7 @@ components:
           type: boolean
           description: |-
             If `true`:
-            
+
             - the relationship may point to many foreign documents.
             - the local field must be defined as an array in the collection schema.
     SchemaMetadata:
