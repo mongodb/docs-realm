@@ -239,6 +239,17 @@ CSV
    Note to docs writer: the hosted csv and json files are managed in the
    docs-realm-sdks repo: https://github.com/10gen/docs-realm-sdks
 
+.. note::
+
+   The above IP list only applies to outgoing requests from Realm functions,
+   including triggers and HTTPS endpoints that make outgoing requests.
+
+   For requests that originate from the Sync server, we recommend allowlisting
+   the entire subnet of the app's Deployment Region and cloud provider. You can
+   find the Deployment Region in the Realm UI under :guilabel:`App Settings >
+   General > Deployment Region`.
+   
+
 .. _security-allowed-request-origins:
 
 Allowed Request Origins
