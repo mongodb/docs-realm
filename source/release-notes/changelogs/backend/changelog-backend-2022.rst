@@ -1,9 +1,15 @@
 .. _backend_20220317:
 
-17 March 2022 Release (Upcoming)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+25 March 2022 Release
+~~~~~~~~~~~~~~~~~~~~~
+- Performance improvements for Functions, particularly aimed at decreasing the 
+  runtime for those dependencies that make external requests. 
 
-- On 17 March 2022, MongoDB Atlas moves to Let's Encrypt as the new Certificate Authority for TLS certificates for all Realm services.
+17 March 2022 Release
+~~~~~~~~~~~~~~~~~~~~~
+
+- On 17 March 2022, MongoDB Atlas moves to Let's Encrypt as the new Certificate 
+  Authority for TLS certificates for all Realm services.
 
 .. _backend_20220126:
 
