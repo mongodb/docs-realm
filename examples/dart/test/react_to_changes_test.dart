@@ -69,9 +69,8 @@ void main() {
       });
 
       // Listen for changes on RealmResults
-      final frodoAndSam =
-          fellowshipOfTheRing.members.query('species == "Hobbit"');
-      final frodoAndSamSubscription = frodoAndSam.changes.listen((changes) {
+      final hobbits = fellowshipOfTheRing.members.query('species == "Hobbit"');
+      final hobbitsSubscription = hobbits.changes.listen((changes) {
         // ... all the same data as above
       });
       // :snippet-end:
@@ -86,7 +85,7 @@ void main() {
       // :snippet-start: cancel-subscription
       await subscription.cancel();
       // :snippet-end:
-      await frodoAndSamSubscription.cancel();
+      await hobbitsSubscription.cancel();
     });
     test("RealmObject change listener", () async {
       // :snippet-start: realm-object-change-listener

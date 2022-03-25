@@ -11,8 +11,7 @@ final subscription = characters.changes.listen((changes) {
 });
 
 // Listen for changes on RealmResults
-final frodoAndSam =
-    fellowshipOfTheRing.members.query('species == "Hobbit"');
-final frodoAndSamSubscription = frodoAndSam.changes.listen((changes) {
+final hobbits = fellowshipOfTheRing.members.query('species == "Hobbit"');
+final hobbitsSubscription = hobbits.changes.listen((changes) {
   // ... all the same data as above
 });
