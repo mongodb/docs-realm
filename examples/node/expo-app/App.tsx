@@ -40,9 +40,9 @@ function App() {
   // :code-block-end:
 
   // const id = 123;
-  
+  const id = new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4");
   // :code-block-start: example-useobject-hook-usage
-  const myTask = useObject(Task, new Realm.BSON.ObjectId());
+  const myTask = useObject<Task>("Task", id); 
   console.log(myTask?.description);
   // :code-block-end:
 
@@ -55,7 +55,9 @@ function App() {
       return;
     }
     realm.write(() => {
-      realm.create("Task", Task.generate(description));
+      let t1;
+      realm.create("Task", t1 = Task.generate(description));
+      console.log(t1._id)
     });
   }
   // :code-block-end:

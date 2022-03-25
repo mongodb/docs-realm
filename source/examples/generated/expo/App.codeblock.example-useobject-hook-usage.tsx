@@ -1,2 +1,2 @@
-const myTask = useObject("Task", id);
-console.log(myTask.description);
+const myTask = useObject<Task>("Task", id); 
+console.log(myTask?.description);
