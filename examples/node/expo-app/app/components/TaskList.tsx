@@ -7,7 +7,7 @@ const { useRealm, useQuery, useObject } = TaskContext;
 
 // :code-block-start: tasklist-use-query-example
 function TaskList({onToggleTaskStatus, onDeleteTask}) {
-  const tasks = useQuery("Task");
+  const tasks = useQuery(Task);
   return (
     <View style={styles.listContainer}>
       <FlatList

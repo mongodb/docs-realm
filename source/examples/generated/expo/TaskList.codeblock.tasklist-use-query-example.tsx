@@ -1,5 +1,5 @@
 function TaskList({onToggleTaskStatus, onDeleteTask}) {
-  const tasks = useQuery("Task");
+  const tasks = useQuery(Task);
   return (
     <View style={styles.listContainer}>
       <FlatList

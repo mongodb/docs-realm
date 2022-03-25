@@ -39,13 +39,6 @@ function App() {
   // :uncomment-end:
   // :code-block-end:
 
-  // const id = 123;
-  const id = new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4");
-  // :code-block-start: example-useobject-hook-usage
-  const myTask = useObject<Task>("Task", id); 
-  console.log(myTask?.description);
-  // :code-block-end:
-
   // :code-block-start: example-userealm-hook-usage
   // :uncomment-start:
   // const realm = useRealm();
@@ -55,9 +48,7 @@ function App() {
       return;
     }
     realm.write(() => {
-      let t1;
-      realm.create("Task", t1 = Task.generate(description));
-      console.log(t1._id)
+      realm.create("Task", Task.generate(description));
     });
   }
   // :code-block-end:
@@ -127,11 +118,18 @@ function App() {
         ) : (
           <TaskList onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
         )}
+        <SampleTask _id ={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
       </View>
     </SafeAreaView>
   );
 }
 
+  // :code-block-start: example-useobject-hook-usage
+const SampleTask = ({ _id}) => {
+  const myTask = useObject<Task>("Task", _id);
+  return (<View><Text>Task: {myTask?.description} </Text></View>)
+}
+// :code-block-end:
 
 
 
