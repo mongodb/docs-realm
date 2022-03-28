@@ -4,8 +4,8 @@ final subscription = characters.changes.listen((changes) {
   changes.inserted; // indexes of inserted properties
   changes.modified; // indexes of modified properties
   changes.deleted; // indexes of deleted properties
-  changes
-      .newModified; // indexes of modified properties after deletions and insertions are accounted for.
+  changes.newModified; // indexes of modified properties
+  // after deletions and insertions are accounted for.
   changes.moved; // indexes of moved properties
   changes.results; // the full List of properties
 });
