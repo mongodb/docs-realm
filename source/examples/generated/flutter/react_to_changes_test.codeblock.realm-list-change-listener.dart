@@ -4,7 +4,7 @@ final fellowshipSubscription =
   changes.modified; // indexes of modified Realm objects
   changes.deleted; // indexes of deleted Realm objects
   changes.newModified; // indexes of modified Realm objects
-  // after deletions and insertions are accounted for.
+  // after deletions and insertions are accounted for
   changes.moved; // indexes of moved Realm objects
   changes.list; // the full RealmList of Realm objects
 });
