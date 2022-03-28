@@ -2,16 +2,20 @@ title: Navigate to the Authentication Provider Configuration Screen
 ref: navigate-to-the-authentication-provider-configuration-screen
 content: |
   You can configure and enable user metadata in the {+ui+}. To
-  get to the configuration page, click :guilabel:`Authentication` in the
-  {+leftnav+} and then select the :guilabel:`Authentication Providers`
-  tab. Press the :guilabel:`EDIT` button for the provider whose metadata
-  you want to configure.
+  get to the configuration page:
+  
+  - Click :guilabel:`Authentication` in the {+leftnav+}.
+  - Select the :guilabel:`Authentication Providers` tab. 
+  - Press the :guilabel:`EDIT` button for the provider whose metadata
+    you want to configure.
 ---
 title: Configure User Metadata
 ref: configure-user-metadata
 content: |
-  To configure metadata in your Google or Facebook authentication provider,
-  select the appropriate checkboxes next to the metadata fields you want to 
+
+  **Google or Facebook**
+
+  Select the appropriate checkboxes next to the metadata fields you want to 
   enable.
   
   .. figure:: /images/configure-user-metadata-google-facebook-realm-ui.png
@@ -19,10 +23,17 @@ content: |
      :width: 750px
      :lightbox:
 
-  To configure metadata in a custom JWT authentication provider, press the 
-  :guilabel:`Add Field` button. Specify whether the field is required
-  or optional and define a path and field name. For more details, see:
-  :ref:`JWT metadata fields 
+  **Custom JWT Authentication**
+
+  You can specify the metadata fields that your identity provider supports. 
+  After you press the :guilabel:`Add Field` button, you define:
+
+  - The path
+  - The field name
+  - Whether it is an optional or required field
+
+
+  For more details, see: :ref:`JWT metadata fields 
   <custom-jwt-authentication-configuration-metadata-fields>`.
 
   .. figure:: /images/configure-user-metadata-custom-jwt-realm-ui.png
@@ -30,15 +41,14 @@ content: |
      :width: 750px
      :lightbox:
   
-  When you have configured the metadata that you would like to read from the
-  authentication provider, press the :guilabel:`Save Draft` button.
+  After you configure the metadata you want to access, press 
+  the :guilabel:`Save Draft` button.
 ---
 title: Deploy the Updated Application
 ref: deploy-the-updated-application
 content: |
-  Once you have configured the metadata you want to access, you can
-  make metadata available to client applications by deploying
-  your application. To deploy a draft application from the {+ui+}:
+  After you update requested metadata, you must deploy your application. To 
+  deploy a draft application from the {+ui+}:
   
   1. Click :guilabel:`Deploy` in the {+leftnav+}.
   
