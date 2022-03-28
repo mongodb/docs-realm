@@ -91,8 +91,8 @@ public class LinkUserIdentitiesTest extends RealmTest {
                             //expectation.fulfill();
                             // :hide-end:
                             if (result.isSuccess()) {
-                                Log.v("EXAMPLE", "Successfully linked existing user 
-                                   identity with email/password user: " + result.get());
+                                Log.v("EXAMPLE", "Successfully linked existing user " + 
+                                   "identity with email/password user: " + result.get());
                             } else {
                                 Log.e("EXAMPLE", "Failed to link user identities with: " + 
                                    result.getError());

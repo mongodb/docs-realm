@@ -87,8 +87,8 @@ class LinkUserIdentitiesTest : RealmTest() {
                             if (result.isSuccess) {
                                 Log.v(
                                     "EXAMPLE",
-                                    "Successfully linked existing user identity 
-                                       with email/password user: ${result.get()}"
+                                    "Successfully linked existing user identity " +
+                                    "with email/password user: ${result.get()}"
                                 )
                             } else {
                                 Log.e(
