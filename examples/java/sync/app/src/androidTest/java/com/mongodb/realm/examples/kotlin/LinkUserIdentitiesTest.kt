@@ -74,6 +74,7 @@ class LinkUserIdentitiesTest : RealmTest() {
 
                         // link joe to another existing user
                         // :code-block-start: link-users
+                        // The user has previously created an email/password account
                         user.linkCredentialsAsync(
                             Credentials.emailPassword(
                                 email,
@@ -86,7 +87,8 @@ class LinkUserIdentitiesTest : RealmTest() {
                             if (result.isSuccess) {
                                 Log.v(
                                     "EXAMPLE",
-                                    "Successfully linked existing user identity with email/password user: ${result.get()}"
+                                    "Successfully linked existing user identity 
+                                       with email/password user: ${result.get()}"
                                 )
                             } else {
                                 Log.e(
