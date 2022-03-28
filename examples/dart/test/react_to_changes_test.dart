@@ -2,7 +2,7 @@
 
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
-
+import './utils.dart';
 part 'react_to_changes_test.g.dart';
 
 // :snippet-start: sample-data-models
@@ -46,12 +46,8 @@ void main() {
     });
     // :snippet-end:
     tearDownAll(() {
-      realm.write(() {
-        realm.deleteAll<Character>();
-        realm.deleteAll<Fellowship>();
-      });
-      print('closing realm...');
       realm.close();
+      Realm.deleteRealm(realm.config.path);
     });
 
     test("Query change listener", () async {
@@ -62,8 +58,8 @@ void main() {
         changes.inserted; // indexes of inserted properties
         changes.modified; // indexes of modified properties
         changes.deleted; // indexes of deleted properties
-        changes
-            .newModified; // indexes of modified properties after deletions and insertions are accounted for.
+        changes.newModified; // indexes of modified properties
+        // after deletions and insertions are accounted for.
         changes.moved; // indexes of moved properties
         changes.results; // the full List of properties
       });
@@ -91,8 +87,7 @@ void main() {
       // :snippet-start: realm-object-change-listener
       final frodoSubscription = frodo.changes.listen((changes) {
         changes.isDeleted; // if the object has been deleted
-        changes
-            .object; // the RealmObject being listened to, in this case `frodo`
+        changes.object; // the RealmObject being listened to, `frodo`
         changes.properties; // the changed properties
       });
       // :snippet-end:
@@ -107,8 +102,8 @@ void main() {
         changes.inserted; // indexes of inserted Realm objects
         changes.modified; // indexes of modified Realm objects
         changes.deleted; // indexes of deleted Realm objects
-        changes
-            .newModified; // indexes of modified Realm objects after deletions and insertions are accounted for.
+        changes.newModified; // indexes of modified Realm objects
+        // after deletions and insertions are accounted for.
         changes.moved; // indexes of moved Realm objects
         changes.list; // the full RealmList of Realm objects
       });

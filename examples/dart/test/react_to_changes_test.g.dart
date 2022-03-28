@@ -10,13 +10,11 @@ class Character extends _Character with RealmEntity, RealmObject {
   Character(
     String name,
     String species,
-    int age, {
-    Iterable<String> items = const [],
-  }) {
+    int age,
+  ) {
     RealmObject.set(this, 'name', name);
     RealmObject.set(this, 'species', species);
     RealmObject.set(this, 'age', age);
-    RealmObject.set<RealmList<String>>(this, 'items', RealmList<String>(items));
   }
 
   Character._();
@@ -37,13 +35,6 @@ class Character extends _Character with RealmEntity, RealmObject {
   set age(int value) => RealmObject.set(this, 'age', value);
 
   @override
-  RealmList<String> get items =>
-      RealmObject.get<String>(this, 'items') as RealmList<String>;
-  @override
-  set items(covariant RealmList<String> value) =>
-      throw RealmUnsupportedSetError();
-
-  @override
   Stream<RealmObjectChanges<Character>> get changes =>
       RealmObject.getChanges<Character>(this);
 
@@ -55,8 +46,6 @@ class Character extends _Character with RealmEntity, RealmObject {
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('species', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
-      SchemaProperty('items', RealmPropertyType.string,
-          collectionType: RealmCollectionType.list),
     ]);
   }
 }

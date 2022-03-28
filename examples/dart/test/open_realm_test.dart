@@ -1,14 +1,7 @@
 import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
-
-void cleanUpRealm(Realm realm, Configuration config, List<Type> typesToDelete) {
-  realm = Realm(config);
-  realm.write(() {
-    typesToDelete.forEach((type) => realm.deleteAll<Car>());
-  });
-  realm.close();
-}
+import './utils.dart';
 
 void main() {
   group('Open and Close a Realm', () {
@@ -22,6 +15,7 @@ void main() {
       realm.close();
       // :snippet-end:
       expect(realm.isClosed, true);
+      cleanUpRealm(realm, config);
     });
     test('Configuration - FIFO files fallback path', () {
       // :snippet-start: fifo-file
@@ -29,7 +23,7 @@ void main() {
           Configuration([Car.schema], fifoFilesFallbackPath: "./fifo_folder");
       var realm = Realm(config);
       // :snippet-end:
-      realm.close();
+      cleanUpRealm(realm, config);
     });
     group('Read-only realm', () {
       test('Configuration readOnly - reading is possible', () {
@@ -52,8 +46,7 @@ void main() {
           enteredCatch = true;
         }
         expect(enteredCatch, true);
-        realm.close();
-        cleanUpRealm(realm, Configuration([Car.schema]), [Car]);
+        cleanUpRealm(realm, config);
       });
     });
     group('In-memory realm', () {
@@ -63,8 +56,8 @@ void main() {
         var realm = Realm(config);
         // :snippet-end:
         realm.write(() => realm.add(Car('Tesla')));
-        realm.close();
-        // expect(Realm.existsSync(config.path), false);
+        expect(Realm.existsSync(config.path), true);
+        cleanUpRealm(realm, config);
       });
     });
   });
