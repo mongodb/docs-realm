@@ -131,6 +131,19 @@ Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
 are *thread-confined*. That means you may only use them on the thread
 where you created them.
 
+Sendable Conformance
+````````````````````
+
+.. versionadded:: 10.20.0
+
+   @ThreadSafe wrapper and ThreadSafeReference conform to ``Sendable``
+
+If you are using Swift 5.6 or higher, both the :swift-sdk:`@ThreadSafe 
+property wrapper <Classes.html#/s:10RealmSwift10ThreadSafeC>` and 
+:swift-sdk:`ThreadSafeReference 
+<Structs/ThreadSafeReference.html#/s:10RealmSwift19ThreadSafeReferenceV2toACyxGx_tcfc>`  
+conform to :apple:`Sendable <documentation/swift/sendable>`.
+
 .. _ios-thread-safe-wrapper:
 
 Use the @ThreadSafe Wrapper
