@@ -103,7 +103,7 @@ The relevant files are as follows:
        the {+realm+}.
 
    * - TaskList.tsx
-     - A React component that gets a list of Task objects from the {+realm+} and renders each object as a ``TaskItem`` component.
+     - A React component that gets a list of Task objects from the {+realm+} and renders each object as a ``TaskItem``  component.
 
    * - TaskItem.tsx
      - A React component that displays the task's description, a checkbox to
@@ -148,9 +148,14 @@ run android`` or ``npm run ios`` to rebuild your native iOS/Android app.
 
 Deploying Your Application
 --------------------------
-To deploy your application, you can use the `Expo Application Services (EAS)
+To deploy your application, we recommend using the `Expo Application Services (EAS)
 <https://docs.expo.dev/eas/>`_, a suite of deeply integrated cloud services for
 Expo and React Native apps. EAS allows you to compile and :wikipedia:`sign
 <Code_signing>` your {+app+}, upload your app to the Apple App Store or Google
 Play Store with a single CLI command, and push bug fixes or small changes
-directly to app users.
+directly to app users. 
+
+Alternatively, read the `Expo Distribution Overview
+<https://docs.expo.dev/distribution/introduction/>`_ guide to learn how to
+create native builds, deploy to appstores and avoid common rejections, and
+manage different release environments.
