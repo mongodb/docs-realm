@@ -331,7 +331,12 @@ To perform a migration:
 - Specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`
   that uses this migration logic and/or updated schema version when you 
   initialize your realm.
-- Provide this configuration to the first view in your hierarchy that uses realm
+
+From here, you have two options to pass the configuration object. You can either:
+- Use environment injection to provide this configuration to the first view 
+  in your hierarchy that uses realm
+- Explicitly provide the configuration to a Realm property wrapper that takes
+  a configuration object, such as ``@ObservedResults`` or ``@AsyncOpen``.
 
 For example, you might want to add a property to an existing object, such as
 the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
@@ -350,10 +355,14 @@ in the hierarchy that needs it. Declaring this above your ``@main`` app
 entrypoint makes it available everywhere, but you could also put it in 
 the file where you first open a realm.
 
-Then, pass this configuration as an environment object to the first view 
-in your hierarchy that opens a realm. If you are using the ``@ObservedResults`` 
-or ``@ObservedRealmObject`` property wrappers, these views implicitly 
-open a Realm, so they also need access to this configuration.
+Pass the Configuration Object as an Environment Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have declared the configuration, you can pass it as an environment 
+object to the first view in your hierarchy that opens a realm. If you are 
+using the ``@ObservedResults`` or ``@ObservedRealmObject`` property wrappers, 
+these views implicitly open a Realm, so they also need access to this 
+configuration.
 
 .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-as-environment-object.swift
    :language: swift
@@ -382,3 +391,14 @@ So you must pass pass the environment object to the ``OpenSyncedRealmView``:
 The important thing to remember is to make sure to pass the 
 ``Realm.Configuration`` that encompasses your migration logic to any view 
 hierarchy that implicitly or explicitly opens a realm.
+
+Explicitly Pass the Updated Configuration to a Realm SwiftUI Property Wrapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can explicitly pass the configuration object to a Realm SwiftUI
+property wrapper that takes a configuration object, such as ``@ObservedResults``
+or ``@AutoOpen``. In this case, you might pass it directly to ``@ObservedResults``
+in our ``ItemsView``.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.explicitly-provide-config-to-property-wrappers.swift
+   :language: swift
