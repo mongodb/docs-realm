@@ -126,7 +126,7 @@ function App() {
 
   // :code-block-start: example-useobject-hook-usage
 const SampleTask = ({ _id}) => {
-  const myTask = useObject<Task>("Task", _id);
+  const myTask = useObject(Task, _id);
   return (<View><Text>Task: {myTask?.description} </Text></View>)
 }
 // :code-block-end:
@@ -158,7 +158,7 @@ function AppWrapper() {
 }
 // :code-block-end:
 
-const app = new Realm.App({id: "sample-id"});
+const app = new Realm.App({id: "-id"});
 
 // :code-block-start: dynamically-update-realm-config
 // :replace-start: {
