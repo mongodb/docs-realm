@@ -333,27 +333,30 @@ To perform a migration:
   initialize your realm.
 
 From here, you have two options to pass the configuration object. You can either:
+
 - Use environment injection to provide this configuration to the first view 
   in your hierarchy that uses realm
 - Explicitly provide the configuration to a Realm property wrapper that takes
   a configuration object, such as ``@ObservedResults`` or ``@AsyncOpen``.
 
-For example, you might want to add a property to an existing object, such as
-the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
+.. example:: 
 
-.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.add-property-to-model.swift
-   :language: swift
+   For example, you might want to add a property to an existing object, such as
+   the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
 
-After you add your new property to the schema, you must increment the 
-schema version. Your ``Realm.Configuration`` might look like this:
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.add-property-to-model.swift
+      :language: swift
 
-.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.realm-configuration-increment-schema.swift
-   :language: swift
+   After you add your new property to the schema, you must increment the 
+   schema version. Your ``Realm.Configuration`` might look like this:
 
-Declare this configuration somewhere that is accessible to the first view 
-in the hierarchy that needs it. Declaring this above your ``@main`` app 
-entrypoint makes it available everywhere, but you could also put it in 
-the file where you first open a realm.
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.realm-configuration-increment-schema.swift
+      :language: swift
+
+   Declare this configuration somewhere that is accessible to the first view 
+   in the hierarchy that needs it. Declaring this above your ``@main`` app 
+   entrypoint makes it available everywhere, but you could also put it in 
+   the file where you first open a realm.
 
 Pass the Configuration Object as an Environment Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
