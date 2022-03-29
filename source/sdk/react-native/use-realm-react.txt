@@ -18,7 +18,7 @@ Overview
 common Realm operations, such as querying or writing to a realm and listening to
 realm objects.
 
-Using Realm React allows you to avoid creating boilerplate code, such as
+Using Realm React helps you avoid creating boilerplate code, such as
 creating your own listeners and state management. Realm React provides access to Realm through a
 set of hooks, which return Realm data that are automatically subscribed to updates. This means that
 components using these hooks will re-render on any changes to Realm data.
@@ -31,7 +31,7 @@ Setup Realm React
 To set up Realm React, you can either start from scratch with a new application
 using the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
 or install Realm React for an existing `React Native application
-<https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_ .
+<https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_.
 
 .. tabs::
 
@@ -39,7 +39,7 @@ or install Realm React for an existing `React Native application
      - id: create-a-new-app-with-realm-hooks-preconfigured
        name: Create a New App with Realm React
        content: |
-         If you don't have an existing application, we recommend developing with
+         If you don't have an existing application, we recommend developing it with
          the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
          The Realm Expo template allows you to bootstrap your application with
          `Expo <https://docs.expo.dev/>`_ and Realm React preconfigured.
@@ -68,13 +68,13 @@ The ``createRealmContext()`` method creates a Realm :reactjs:`Context
 <Realm.html#~Configuration>`. The ``Realm Context`` object contains the
 following: 
 
-- A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component, and provides any of its child components with access to the hooks.
-- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to get access to the opened {+realm+}, query the {+realm+}, etc.
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component and provides any of its child components with access to the hooks.
+- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened {+realm+}, query the {+realm+}, etc.
 
 Setup
 ~~~~~
 
-To begin, we recommend creating a file where you will define a Realm object
+We recommend creating a file where you will define a Realm object
 type, a Realm configuration, and create a Realm Context. At the top of the file,
 import Realm and the ``createRealmContext()`` method.
 
@@ -84,16 +84,16 @@ import Realm and the ``createRealmContext()`` method.
 Next, define a Realm model using a JavaScript class. The ``Task``
 class below contains the following:
 
-- A ``generate()`` method that returns a ``Task`` insertion object, that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to preform an insertion 
+- A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
 - A schema 
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
     :language: typescript
 
 Finally, create a ``Realm.Configuration`` object and set its ``schema`` property
-to the any classes you have created. Pass the configuration object to the
+to the classes you have created. Pass the configuration object to the
 ``createRealmContext()`` method. Export the return value of
-``createRealmContext()`` so you can use the ``Context`` object in other files.
+``createRealmContext()``, so you can use the ``Context`` object in other files.
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.create-realm-context.ts
     :language: typescript
@@ -103,7 +103,11 @@ to the any classes you have created. Pass the configuration object to the
 Using the Realm Provider
 ------------------------
 
-Wrap the component needing access to {+service-short+}, typically the top layer of your application, with the ``RealmProvider`` component included in the Context object which was returned from `createRealmContext`.  The ``RealmProvider`` provides any child components access to the configured {+service-short+} through the Hooks included in the Context object.
+Wrap the component needing access to {+service-short+}, typically the top layer
+of your application, with the ``RealmProvider`` component included in the
+Context object, which was returned from ``createRealmContext``.  The
+``RealmProvider`` provides child components access to the configured
+{+service-short+} through the hooks included in the Context object.
 
 .. tip:: Choosing Which Components to Wrap inside the Realm Provider
    
@@ -118,7 +122,7 @@ Import the ``Context`` object that you created. In the example below, the
 Context object is called "TaskContext" since it refers to the Realm Context of
 the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the TaskContext object to get it's ``RealmProvider``. 
+the TaskContext object to get its ``RealmProvider``. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
     :language: typescript
@@ -126,7 +130,7 @@ the TaskContext object to get it's ``RealmProvider``.
 Wrap the ``RealmProvider`` around the component that you want
 to give access to the configured Realm. In the example below, we give the entire
 app access to the Realm by wrapping the ``RealmProvider`` around
-the ``App`` component which renders the application.
+the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
     :language: typescript
@@ -134,7 +138,7 @@ the ``App`` component which renders the application.
 Dynamically Update the {+service-short+} Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can dynamically update the {+service-short+} configuration, by setting
+You can dynamically update the {+service-short+} configuration by setting
 :reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
 component. The props you set on the ``RealmProvider`` will overwrite any
 property passed into ``createRealmContext()``.
@@ -151,31 +155,31 @@ Use Hooks In Child Components
 -----------------------------
 
 Once you have wrapped your component with your ``RealmProvider``, your component
-and it's child components will have access to the ``useRealm()``,
+and its child components will have access to the ``useRealm()``,
 ``useObject()``, and ``useQuery()`` hooks.
 
 Usage
 ~~~~~
 Import the ``Context`` object that you created. In the example below, the
-Context object is called "TaskContext" since it refers to the Realm Context of
+Context object, called TaskContext, refers to the Realm Context of
 the Task. :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the TaskContext object to get it's hooks. 
+the TaskContext object to get its hooks. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
     :language: typescript
 
 useRealm
 ````````
-The ``useRealm()`` hook returns the opened {+realm+} instance. In the following
-example, a ``handleAddTask()`` method is created for the ``App`` component. The
-``handleAddTask()`` method writes to the realm returned by the ``useRealm()``
-hook.
+The ``useRealm()`` hook returns the opened {+realm+} instance.
+
+The ``handleAddTask()`` method of the ``App`` component writes to the realm
+returned by the ``useRealm()`` hook in the following example.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.example-userealm-hook-usage.tsx
     :language: typescript
 
-The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method is used to instantiate
+The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method instantiates
 a JavaScript object with default values for the ``_id``, ``isComplete``, and
 ``createdAt`` properties.
 
@@ -186,22 +190,28 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
 
 useObject
 `````````
-The ``useObject()`` Hook returns a {+realm+} object for a given primary key.  It is invoked with either the class model definition (this will add types to the returned object in TypeScript) or the class name as a string and the primary key.
-``useObject()`` will return null if the object doesn't exist or has been
-deleted.  The Hook will automatically subscribe to updates and re-render the component using the Hook on any change to the object.
+The ``useObject()`` hook returns a {+realm+} object for a given primary key. You
+can invoke it with the class model definition (this will add types to the
+returned object in TypeScript) or the class name as a string and the primary
+key. The ``useObject()`` method returns null if the object doesn't exist or you have
+deleted it.  The hook will automatically subscribe to updates and re-render the
+component using the hook on any change to the object.
 
-In the following example, a ``Task`` object is retrieved using the
-``useObject()`` hook, and its description is logged to the console.
+In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
+and its description is logged to the console.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.example-useobject-hook-usage.tsx
     :language: typescript
 
 useQuery
 ````````
-The ``useQuery()`` Hook, returns a collection of realm objects of a given type.  Just like ``useObject`` it is either invoked with either the Realm model class or the model name as a string.  It will also subscribe to updates to any of the objects in the collection and re-render the component using it on any change.
+The ``useQuery()`` hook returns a collection of realm objects of a given type.
+Like ``useObject``, it is either invoked with the Realm model class or the model
+name as a string.  The ``useQuery()`` method subscribes to updates to any
+objects in the collection and re-renders the component using it on any change.
 
 
-In the following example, a ``TaskList`` component is created. The ``Task``
+In the following example, of a ``TaskList`` component, The ``Task``
 class is passed to the ``useQuery()`` and the tasks are set as a ``data`` prop
 of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 
@@ -217,7 +227,7 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 
 Summary
 -------
-- You can set up Realm React on an existing application by installing it through npm, or on a new application through the Realm Expo template.
+- You can set up Realm React on an existing application by installing it through NPM, or on a new application through the Realm Expo template.
 - A Realm Context opens a {+realm+} and contains a ``RealmProvider`` and a set of prebuilt hooks. 
-- A ``RealmProvider`` provides access to the configured Realm using hooks, which can be used to display and modify data.
-- The prebuilt hooks provide functionality like interacting with a {+realm+}, and finding {+realm+} object(s).
+- A ``RealmProvider`` provides access to the configured Realm using hooks to display and modify data.
+- The prebuilt hooks provide functionality like interacting with a {+realm+} and finding {+realm+} object(s).
