@@ -17,9 +17,13 @@ Overview
 
 The :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
 provides a fully working React Native application that you can use to bootstrap
-your app development project with Realm. This documentation covers how to
-initialize, build and run the template on both Android and iOS, and the template's
-file structure and core features.
+your app development project with Realm. The Realm Expo template uses
+:npm:`Realm React package <package/@realm/react>`, 
+read the :ref:`Realm React documentation <react-native-use-realm-react>` 
+to learn more about working with it.
+
+This documentation covers how to initialize, build and run the template on both
+Android and iOS, and the template's file structure and core features.
 
 
 Prerequisites
@@ -90,8 +94,7 @@ The relevant files are as follows:
 
    * - Task.ts
      - A typescript file that defines a Task :ref:`object schema
-       <react-native-object-schemas>` and returns a ``RealmProvider`` and the
-       ``Realm React Hooks``.
+       <react-native-object-schemas>` and returns a ``RealmProvider`` and the hooks.
       
    * - App.ts
      - The entry point to the application, which contains methods to create,
