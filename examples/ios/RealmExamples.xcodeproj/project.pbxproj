@@ -84,6 +84,10 @@
 		917D8C9F26167B69001B7A61 /* TestingAndDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917D8C9E26167B69001B7A61 /* TestingAndDebugging.swift */; };
 		917E73E726B8A9F80068242A /* MongoDBRemoteAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917E73E526B8A9F80068242A /* MongoDBRemoteAccess.swift */; };
 		917E73E826B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917E73E626B8A9F80068242A /* MongoDBRemoteAccessAggregate.swift */; };
+		91809D0D27F371E100F7CDD8 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 91809D0C27F371E100F7CDD8 /* Realm */; };
+		91809D0F27F371E100F7CDD8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91809D0E27F371E100F7CDD8 /* RealmSwift */; };
+		91809D1127F372C700F7CDD8 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 91809D1027F372C700F7CDD8 /* Realm */; };
+		91809D1327F372C700F7CDD8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91809D1227F372C700F7CDD8 /* RealmSwift */; };
 		9185DB1925E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9185DB1825E82C0300AF1389 /* LocalOnlyCompleteQuickStart.swift */; };
 		91B8A4D6278E24950018F72F /* TypeProjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8A4D5278E24950018F72F /* TypeProjection.swift */; };
 		91C687FD274D8AFE001A5DBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 489180152534E33600D53F19 /* LaunchScreen.storyboard */; };
@@ -208,6 +212,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91809D1327F372C700F7CDD8 /* RealmSwift in Frameworks */,
+				91809D1127F372C700F7CDD8 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +233,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91809D0F27F371E100F7CDD8 /* RealmSwift in Frameworks */,
+				91809D0D27F371E100F7CDD8 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +441,10 @@
 			dependencies = (
 			);
 			name = QuickStartSwiftUI;
+			packageProductDependencies = (
+				91809D1027F372C700F7CDD8 /* Realm */,
+				91809D1227F372C700F7CDD8 /* RealmSwift */,
+			);
 			productName = QuickStartSwiftUI;
 			productReference = 489180082534E33500D53F19 /* QuickStartSwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -476,6 +488,10 @@
 			dependencies = (
 			);
 			name = SwiftUIExamples;
+			packageProductDependencies = (
+				91809D0C27F371E100F7CDD8 /* Realm */,
+				91809D0E27F371E100F7CDD8 /* RealmSwift */,
+			);
 			productName = QuickStartSwiftUI;
 			productReference = 91C68804274D8AFE001A5DBE /* SwiftUIExamples.app */;
 			productType = "com.apple.product-type.application";
@@ -1131,6 +1147,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
+		};
+		91809D0C27F371E100F7CDD8 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		91809D0E27F371E100F7CDD8 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		91809D1027F372C700F7CDD8 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		91809D1227F372C700F7CDD8 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
