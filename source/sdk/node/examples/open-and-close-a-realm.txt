@@ -155,23 +155,6 @@ to :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>`.
 ``Realm.writeCopyTo()`` copies the realm's data to a new realm, but adds different configuration options. 
 In the output realm's configuration, you *must* specify the `path`.
 
-.. code-block:: javascript
-   :emphasize-lines: 13
-
-   const localRealmConfig = {
-      schema: [Car],
-   };
-   const localRealm = await Realm.open(localRealmConfig);
-
-   const syncConfig = {
-      schema: [Car], // predefined schema
-      sync: {
-         user: app.currentUser, // already logged in user
-         partitionValue: "myPartition",
-      },
-   };
-   const syncedRealm = await localRealm.writeCopyTo(syncConfig);
-
 The configuration change can include modifications to :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>`: 
 
@@ -184,13 +167,17 @@ property of the ``Configuration``:
 - Encrypted realm to unencrypted realm
 - Unencrypted realm to encrypted realm
 
+.. example:: Convert Local Realm to Synced Realm
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-local-as-synced.js
+      :language: javascript
+      :emphasize-lines: 15
+
 You can also combine changes to configuration. For example, you can open a
 local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
 as an encrypted synced realm.
 
-.. example:: Upgrade User to Sync and Encrypt Data
 
-   TODO
 
 .. seealso:: 
 
