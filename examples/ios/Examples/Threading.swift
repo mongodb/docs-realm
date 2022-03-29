@@ -249,6 +249,18 @@ class Threading: XCTestCase {
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
     }
+
+    func testCreateSerialQueueToUseRealm() {
+        // :code-block-start: use-realm-with-serial-queue
+        // Initialize a serial queue, and
+        // perform realm operations on it
+        let serialQueue = DispatchQueue(label: "serial-queue")
+        serialQueue.async {
+            let realm = try! Realm(configuration: .defaultConfiguration, queue: serialQueue)
+            // Do something with Realm on the non-main thread
+        }
+        // :code-block-end:
+    }
 }
 
 // :replace-end:

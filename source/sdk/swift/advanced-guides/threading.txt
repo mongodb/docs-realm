@@ -122,6 +122,18 @@ several options depending on your use case:
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
 
+.. _ios-use-serial-queues-for-non-main-threads:
+
+Create a Serial Queue to use Realm on a Background Thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When using Realm on a background thread, create a serial queue. Realm Database 
+does not support using realms in concurrent queues, such as the ``global()`` 
+queue.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-realm-with-serial-queue.swift
+   :language: swift
+
 .. _ios-thread-safe-reference:
 
 Pass Instances Across Threads
