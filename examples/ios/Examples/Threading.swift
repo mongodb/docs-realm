@@ -251,7 +251,6 @@ class Threading: XCTestCase {
     }
 
     func testCreateSerialQueueToUseRealm() {
-        let expectation = XCTestExpectation(description: "it completes")
         // :code-block-start: use-realm-with-serial-queue
         // Initialize a serial queue, and
         // perform realm operations on it
@@ -268,9 +267,7 @@ class Threading: XCTestCase {
         //          // Do something with Realm on the non-main thread
         //     }
         // }
-        expectation.fulfill() // :remove:
         // :code-block-end:
-        wait(for: [expectation], timeout: 10)
     }
 }
 
