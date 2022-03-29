@@ -1,0 +1,1 @@
+../../../../../node_modules/expo-manifests/ios/EXManifests/EXManifestsManifestFactory.h

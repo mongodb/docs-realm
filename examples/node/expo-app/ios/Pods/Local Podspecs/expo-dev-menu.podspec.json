@@ -1,0 +1,222 @@
+{
+  "name": "expo-dev-menu",
+  "version": "0.9.3",
+  "summary": "Expo/React Native module with the developer menu.",
+  "description": "Expo/React Native module with the developer menu.",
+  "license": "MIT",
+  "authors": "650 Industries, Inc.",
+  "homepage": "https://docs.expo.dev",
+  "platforms": {
+    "ios": "11.0"
+  },
+  "swift_versions": "5.2",
+  "source": {
+    "git": "https://github.com/expo/expo.git"
+  },
+  "static_framework": true,
+  "requires_arc": true,
+  "header_dir": "EXDevMenu",
+  "resource_bundles": {
+    "EXDevMenu": [
+      "assets/*.ios.js",
+      "assets/dev-menu-packager-host",
+      "assets/*.ttf"
+    ]
+  },
+  "xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "EX_DEV_MENU_ENABLED=1",
+    "OTHER_SWIFT_FLAGS": "-DEX_DEV_MENU_ENABLED=1"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES"
+  },
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "preserve_paths": "ios/**/*.{h,m,mm,swift}",
+  "exclude_files": [
+    "ios/*Tests/**/*",
+    "vendored/**/*"
+  ],
+  "default_subspecs": "Main",
+  "testspecs": [
+    {
+      "name": "Tests",
+      "test_type": "unit",
+      "requires_app_host": false,
+      "source_files": "ios/Tests/**/*",
+      "dependencies": {
+        "Quick": [
+
+        ],
+        "Nimble": [
+
+        ],
+        "React-CoreModules": [
+
+        ]
+      },
+      "platforms": {
+        "ios": "12.0"
+      }
+    },
+    {
+      "name": "UITests",
+      "test_type": "unit",
+      "requires_app_host": true,
+      "source_files": "ios/UITests/**/*",
+      "dependencies": {
+        "React-CoreModules": [
+
+        ],
+        "React": [
+
+        ]
+      },
+      "platforms": {
+        "ios": "12.0"
+      }
+    }
+  ],
+  "subspecs": [
+    {
+      "name": "GestureHandler",
+      "source_files": "vendored/react-native-gesture-handler/**/*.{h,m}",
+      "private_header_files": "vendored/react-native-gesture-handler/**/*.h",
+      "compiler_flags": "-w -Xanalyzer -analyzer-disable-all-checks"
+    },
+    {
+      "name": "Reanimated",
+      "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DRNVERSION=64 -Wno-comma -Wno-shorten-64-to-32 -Wno-documentation -w -Xanalyzer -analyzer-disable-all-checks -x objective-c++",
+      "private_header_files": "vendored/react-native-reanimated/**/*.h",
+      "source_files": "vendored/react-native-reanimated/**/*.{h,m,mm,cpp}",
+      "preserve_paths": "vendored/react-native-reanimated/Common/cpp/hidden_headers/**",
+      "pod_target_xcconfig": {
+        "USE_HEADERMAP": "YES",
+        "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_TARGET_SRCROOT)\" \"$(PODS_ROOT)/RCT-Folly\" \"$(PODS_ROOT)/boost\"  \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/Headers/Private/React-Core\" "
+      },
+      "xcconfig": {
+        "CLANG_CXX_LIBRARY": "libc++",
+        "CLANG_CXX_LANGUAGE_STANDARD": "c++14",
+        "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/RCT-Folly\" \"${PODS_ROOT}/Headers/Public/React-hermes\" \"${PODS_ROOT}/Headers/Public/hermes-engine\"",
+        "OTHER_CFLAGS": "$(inherited) -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DRNVERSION=64"
+      },
+      "dependencies": {
+        "FBLazyVector": [
+
+        ],
+        "FBReactNativeSpec": [
+
+        ],
+        "RCTRequired": [
+
+        ],
+        "RCTTypeSafety": [
+
+        ],
+        "React-Core": [
+
+        ],
+        "React-CoreModules": [
+
+        ],
+        "React-Core/DevSupport": [
+
+        ],
+        "React-RCTActionSheet": [
+
+        ],
+        "React-RCTNetwork": [
+
+        ],
+        "React-RCTAnimation": [
+
+        ],
+        "React-RCTLinking": [
+
+        ],
+        "React-RCTBlob": [
+
+        ],
+        "React-RCTSettings": [
+
+        ],
+        "React-RCTText": [
+
+        ],
+        "React-RCTVibration": [
+
+        ],
+        "React-RCTImage": [
+
+        ],
+        "React-Core/RCTWebSocket": [
+
+        ],
+        "React-cxxreact": [
+
+        ],
+        "React-jsi": [
+
+        ],
+        "React-jsiexecutor": [
+
+        ],
+        "React-jsinspector": [
+
+        ],
+        "ReactCommon/turbomodule/core": [
+
+        ],
+        "Yoga": [
+
+        ],
+        "DoubleConversion": [
+
+        ],
+        "glog": [
+
+        ],
+        "React-callinvoker": [
+
+        ],
+        "RCT-Folly": [
+
+        ]
+      }
+    },
+    {
+      "name": "SafeAreaView",
+      "source_files": "vendored/react-native-safe-area-context/**/*.{h,m}",
+      "private_header_files": "vendored/react-native-safe-area-context/**/*.h",
+      "compiler_flags": "-w -Xanalyzer -analyzer-disable-all-checks"
+    },
+    {
+      "name": "Vendored",
+      "dependencies": {
+        "expo-dev-menu/GestureHandler": [
+
+        ],
+        "expo-dev-menu/Reanimated": [
+
+        ],
+        "expo-dev-menu/SafeAreaView": [
+
+        ]
+      }
+    },
+    {
+      "name": "Main",
+      "dependencies": {
+        "React-Core": [
+
+        ],
+        "expo-dev-menu-interface": [
+
+        ],
+        "expo-dev-menu/Vendored": [
+
+        ]
+      }
+    }
+  ],
+  "swift_version": "5.2"
+}

@@ -1,0 +1,98 @@
+{
+  "name": "expo-dev-launcher",
+  "version": "0.10.4",
+  "summary": "Pre-release version of the Expo development launcher package for testing.",
+  "description": "Pre-release version of the Expo development launcher package for testing.",
+  "license": "MIT",
+  "authors": "650 Industries, Inc.",
+  "homepage": "https://docs.expo.dev",
+  "platforms": {
+    "ios": "11.0"
+  },
+  "swift_versions": "5.2",
+  "source": {
+    "git": "https://github.com/github_account/expo-development-client.git",
+    "tag": "0.10.4"
+  },
+  "static_framework": true,
+  "source_files": "ios/**/*.{h,m,swift,cpp}",
+  "preserve_paths": "ios/**/*.{h,m,swift}",
+  "exclude_files": [
+    "ios/Unsafe/**/*.{h,m,mm,swift,cpp}",
+    "ios/Tests/**/*.{h,m,swift}"
+  ],
+  "requires_arc": true,
+  "header_dir": "EXDevLauncher",
+  "resource_bundles": {
+    "EXDevLauncher": [
+      "ios/assets",
+      "ios/main.jsbundle",
+      "ios/Views/EXDevLauncherErrorView.storyboard"
+    ]
+  },
+  "xcconfig": {
+    "GCC_PREPROCESSOR_DEFINITIONS": "EX_DEV_LAUNCHER_ENABLED=1 EX_DEV_LAUNCHER_VERSION=0.10.4",
+    "OTHER_SWIFT_FLAGS": "-DEX_DEV_LAUNCHER_ENABLED=1"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES"
+  },
+  "dependencies": {
+    "React-Core": [
+
+    ],
+    "expo-dev-menu-interface": [
+
+    ],
+    "EXManifests": [
+
+    ],
+    "EXUpdatesInterface": [
+
+    ],
+    "expo-dev-menu": [
+
+    ]
+  },
+  "default_subspecs": "Main",
+  "testspecs": [
+    {
+      "name": "Tests",
+      "test_type": "unit",
+      "platforms": {
+        "ios": "12.0"
+      },
+      "source_files": "ios/Tests/**/*.{h,m,swift}",
+      "dependencies": {
+        "Quick": [
+
+        ],
+        "Nimble": [
+
+        ],
+        "React-CoreModules": [
+
+        ],
+        "OHHTTPStubs": [
+
+        ]
+      }
+    }
+  ],
+  "subspecs": [
+    {
+      "name": "Unsafe",
+      "source_files": "ios/Unsafe/**/*.{h,m,mm,swift,cpp}",
+      "compiler_flags": "-x objective-c++ -std=c++1z -fno-objc-arc"
+    },
+    {
+      "name": "Main",
+      "dependencies": {
+        "expo-dev-launcher/Unsafe": [
+
+        ]
+      }
+    }
+  ],
+  "swift_version": "5.2"
+}
