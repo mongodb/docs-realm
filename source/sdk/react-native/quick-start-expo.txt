@@ -117,7 +117,7 @@ run the following command from your application root:
 
 .. code-block:: shell
    
-   npm run android
+   expo run:android
 
 To run your application on an :apple:`iOS simulator
 <documentation/xcode/running-your-app-in-the-simulator-or-on-a-device>`, run the
@@ -125,12 +125,12 @@ following command from your application root:
 
 .. code-block:: shell
    
-   npm run ios
+   expo run:ios
 
 When the application builds, you will see something similar to the following image:
 
 .. image:: /images/realm-expo-template.png
-   :width: 400px
+   :width: 300px
    :alt: Realm Expo Template on an iOS Simulator
 
 When you run the commands above, the Expo `dev-client
@@ -140,11 +140,11 @@ the native build process again, you can simply run:
 
 .. code-block:: shell
    
-   npm start 
+   expo start --dev-client
 
 However, if you made any `changes to the native code
-<https://docs.expo.dev/workflow/customizing/>`_, you will have to rerun ``npm
-run android`` or ``npm run ios`` to rebuild your native iOS/Android app.
+<https://docs.expo.dev/workflow/customizing/>`_, you will have to re-run ``expo
+run:ios`` or ``expo run:android`` to rebuild your native iOS/Android app.
 
 Deploying Your Application
 --------------------------
