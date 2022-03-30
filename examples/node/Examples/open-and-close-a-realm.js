@@ -246,7 +246,7 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     const syncedConfig = {
       schema: [Car], // predefined schema
-      path: "copyLocalToSynced.realm", // must include in output configuration
+      path: Math.random().toString() + "copyLocalToSynced.realm", // must include in output configuration
       // sync: {
       //   user: app.currentUser, // already logged in user
       //   partitionValue: "myPartition",
@@ -261,8 +261,8 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     // clean up
     localRealm.close();
-    await syncedRealm.syncSession.uploadAllLocalChanges();
-    await syncedRealm.syncSession.downloadAllServerChanges();
+    // await syncedRealm.syncSession.uploadAllLocalChanges();
+    // await syncedRealm.syncSession.downloadAllServerChanges();
     syncedRealm.close();
     Realm.deleteFile(localConfig);
     Realm.deleteFile(syncedConfig);
@@ -275,7 +275,7 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     const syncedEncryptedConfig = {
       schema: [Car], // predefined schema
-      path: "syncedEncrypted.realm", // must include in output configuration
+      path: Math.random().toString() + "syncedEncrypted.realm", // must include in output configuration
       sync: {
         user: app.currentUser, // already logged in user
         partitionValue: "myPartition",
