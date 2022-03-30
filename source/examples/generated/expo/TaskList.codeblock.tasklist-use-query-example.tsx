@@ -4,6 +4,7 @@ function TaskList({onToggleTaskStatus, onDeleteTask}) {
     <View style={styles.listContainer}>
       <FlatList
         data={tasks}
+        keyExtractor={task => task._id.toString()}
         renderItem={({item}) => (
           <TaskItem
             description={item.description}
