@@ -142,6 +142,54 @@ the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of the
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
       :language: javascript
 
+.. _react-native-open-existing-realm-different-configuration:
+
+Open Existing Realm with Different Configuration
+------------------------------------------------
+
+.. versionadded:: 10.14.0
+
+To open an existing realm with a different configuration, pass the new 
+:js-sdk:`Configuration <Realm.html#~Configuration>`
+to :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>`. 
+``Realm.writeCopyTo()`` copies the realm's data to a new realm, but adds different configuration options. 
+In the output realm's configuration, you *must* specify the `path`. 
+A realm file cannot already exist at that path. 
+
+The configuration change can include modifications to :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>`: 
+
+- Local realm to synced realm
+- Synced Realm to local realm
+
+The configuration change can also include changes to ``encryptionKey`` 
+property of the ``Configuration``: 
+
+- Encrypted realm to unencrypted realm
+- Unencrypted realm to encrypted realm
+
+.. example:: Convert Local Realm to Synced Realm
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-local-as-synced.js
+      :language: javascript
+      :emphasize-lines: 15-16
+
+You can also combine changes to configuration. For example, you can open a
+local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
+as an encrypted synced realm.
+
+.. example:: Convert Synced Encrypted to Local Unencrypted Realm
+
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.sync-encrypted-to-local-unencrypted.js
+      :language: javascript
+      :emphasize-lines: 19-20
+
+.. seealso:: 
+
+   - :ref:`Open a Flexible Synced Realm - React Native SDK <react-native-flexible-sync-open-realm>`
+   - :ref:`Open a Partition-Based Synced Realm - React Native SDK <react-native-encrypt-a-realm>`
+   - :ref:`Encrypt a Realm - React Native SDK <react-native-partition-sync-open-realm>`
+
 .. _react-native-close-a-realm:
 
 Close a Realm
