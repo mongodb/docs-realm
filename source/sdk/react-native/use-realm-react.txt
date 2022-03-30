@@ -190,12 +190,13 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
 
 useObject
 `````````
-The ``useObject()`` hook returns a {+realm+} object for a given primary key. You
-can invoke it with the class model definition (this will add types to the
-returned object in TypeScript) or the class name as a string and the primary
-key. The ``useObject()`` method returns null if the object doesn't exist or you have
-deleted it.  The hook will automatically subscribe to updates and re-render the
-component using the hook on any change to the object.
+The ``useObject()`` hook returns a {+service-short+} object for a given
+:ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
+model definition (this will add types to the returned object in TypeScript) or
+the class name as a string and the primary key. The ``useObject()`` method
+returns null if the object doesn't exist or you have deleted it.  The hook will
+automatically subscribe to updates and re-render the component using the hook on
+any change to the object.
 
 In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
 and its description is logged to the console.
