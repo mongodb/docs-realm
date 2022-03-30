@@ -75,7 +75,7 @@ Setup
 ~~~~~
 
 We recommend creating a file where you will define a Realm object
-type, a Realm configuration, and create a Realm Context. At the top of the file,
+type, a Realm configuration, and create a Realm ``Context``. At the top of the file,
 import Realm and the ``createRealmContext()`` method.
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.add-imports-to-task.ts
@@ -105,9 +105,9 @@ Using the Realm Provider
 
 Wrap the component needing access to {+service-short+}, typically the top layer
 of your application, with the ``RealmProvider`` component included in the
-Context object, which was returned from ``createRealmContext``.  The
+``Context`` object, which was returned from ``createRealmContext``.  The
 ``RealmProvider`` provides child components access to the configured
-{+service-short+} through the hooks included in the Context object.
+{+service-short+} through the hooks included in the ``Context`` object.
 
 .. tip:: Choosing Which Components to Wrap inside the Realm Provider
    
@@ -119,10 +119,10 @@ Context object, which was returned from ``createRealmContext``.  The
 Usage
 ~~~~~
 Import the ``Context`` object that you created. In the example below, the
-Context object is called "TaskContext" since it refers to the Realm Context of
+Context object is called "TaskContext" since it refers to the Realm ``Context`` of
 the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the TaskContext object to get its ``RealmProvider``. 
+the ``TaskContext`` object to get its ``RealmProvider``. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
     :language: typescript
@@ -161,10 +161,10 @@ and its child components will have access to the ``useRealm()``,
 Usage
 ~~~~~
 Import the ``Context`` object that you created. In the example below, the
-Context object, called TaskContext, refers to the Realm Context of
+Context object, called TaskContext, refers to the Realm ``Context`` of
 the Task. :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the TaskContext object to get its hooks. 
+the ``TaskContext`` object to get its hooks. 
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
     :language: typescript
@@ -228,6 +228,6 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 Summary
 -------
 - You can set up Realm React on an existing application by installing it through NPM, or on a new application through the Realm Expo template.
-- A Realm Context opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
+- A Realm ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
 - A ``RealmProvider`` provides access to the configured {+realm+} using hooks to display and modify data.
 - The pre-built hooks provide functionality like interacting with a {+realm+} and finding {+realm+} object(s).
