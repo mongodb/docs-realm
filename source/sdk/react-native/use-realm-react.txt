@@ -85,7 +85,7 @@ Next, define a Realm model using a JavaScript class. The ``Task``
 class below contains the following:
 
 - A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
-- A schema 
+- A ``schema`` property that defines this Realm Object Model. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` to learn more.
 
 .. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
     :language: typescript

@@ -1,5 +1,5 @@
 function AppWrapper() {
-  if (!RealmProvider) {
+  if (!app.currentUser) {
     return null;
   }
   return (
