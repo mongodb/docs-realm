@@ -1,0 +1,56 @@
+Realm reserves some keywords for the Realm Query Language and other purposes.
+You cannot use reserved keywords as field names.
+
+Realm reserves the following keywords with any capitalization:
+
+- and
+- asc
+- ascending
+- beginswith
+- between
+- contains
+- desc
+- descending
+- distinct
+- endswith
+- falsepredicate
+- inf
+- infinity
+- like
+- limit
+- nan
+- nil
+- null
+- or
+- sort
+- subquery
+- truepredicate
+
+This means, for example, you cannot use ``descending``, ``Descending``,
+``DESCENDING``, or ``DeScEnDiNG`` as a field name.
+
+Realm also reserves the following keywords with the given exact capitalization:
+
+- ALL
+- ANY
+- B64
+- FALSE
+- IN
+- NONE
+- NOT
+- SOME
+- TRUE
+- all
+- any
+- false
+- in
+- none
+- not
+- oid
+- some
+- true
+- uuid
+
+This means, for example, you cannot use ``true`` or ``TRUE``, since both
+capitalizations are specifically reserved, but you can use ``True`` or ``tRUE``
+as a field name.
