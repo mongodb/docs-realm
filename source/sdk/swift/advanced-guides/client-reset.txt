@@ -32,13 +32,115 @@ A client reset erases all local data and downloads a new copy of the
 data stored in MongoDB Atlas. Performing a client reset loses all local
 changes made since the client last successfully synced.
 
-Example
--------
+.. _ios-discard-unsynced-changes:
+
+Discard Unsynced Changes
+------------------------
+
+.. versionadded:: 10.25.0
+
+Starting in 10.25.0, the Swift SDK provides the option to specify a client 
+reset strategy in your :swift-sdk:`SyncConfiguration 
+<Structs/SyncConfiguration.html>`. This is the :swift-sdk:`.clientResetMode 
+<Structs/SyncConfiguration.html#/s:10RealmSwift17SyncConfigurationV15clientResetModeAA06ClientfG0Ovp>`
+property. 
+
+.. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.specify-client-reset-mode.swift
+   :language: swift
+
+This property takes :swift-sdk:`an enum representing the different client 
+reset strategies <Enums/ClientResetMode.html>`: 
+
+- ``.discardLocal`` 
+- ``.manual``
+
+If you do not specify ``.clientResetMode`` in your configuration, it 
+defaults to ``.manual``.
+
+.. _ios-manual-mode:
+
+Manual Client Reset Mode
+````````````````````````
+
+When you specify ``.manual`` for ``.clientResetMode``, or if you do not 
+specify a client reset mode, you can implement your own client reset handler.
+
+In ``.manual`` mode, the local realm file is copied into a recovery directory, 
+and deleted from its original location. The next time your app opens the realm 
+for that partition, you can re-download the realm and use it as normal. You 
+can choose to write a handler to incorporate any local changes that exist
+in the old copied realm file into the newly downloaded realm.
+
+For an example of what this handler might include, see: :ref:`Manual Client 
+Reset Handler <ios-manual-client-reset-handler>`. If you are using a version
+of the Swift SDK older than 10.25.0, there is no ``.clientResetMode`` and 
+you must implement your own manual client reset handler.
+
+.. _ios-discard-local-changes-mode:
+
+Discard Local Changes Client Reset Mode
+```````````````````````````````````````
+
+When you specify ``.discardLocal`` for ``.clientResetMode``, Realm 
+automatically perform a client reset with minimal code and minimal disruption 
+to your application workflow. This client reset mode restores your local 
+realm file to a syncable state without closing the realm or missing 
+notifications.
+
+This strategy comes with a downside: it permanently deletes all local 
+unsynced changes made since the last successful sync of the realm. Do 
+not use discard local changes mode if your application cannot lose local 
+data that has not yet synced to the backend.
+
+If the client reset operation cannot complete in discard local changes mode, 
+the client reset process reverts to manual mode.
+
+The :swift-sdk:`.discardLocal 
+<Enums/ClientResetMode.html#/s:10RealmSwift15ClientResetModeO12discardLocalyACyAA0A0VcSg_yAF_AFtcSgtcACmF>` 
+version of client reset mode can take a before and after block. This gives 
+you the option to specify additional logic to execute before or after a 
+client reset occurs. You might use these blocks to send reporting or perform
+custom recovery logic, such as copying the realm to a local directory and 
+using your own logic to apply local changes.
+
+.. important:: You Still Need a Manual Client Reset Handler
+
+   Some conditions, such as :ref:`breaking or destructive schema changes, 
+   <destructive-changes-synced-schema>` may cause ``.discardLocal`` 
+   client reset mode to fail. When Realm cannot perform the discard local 
+   client reset operation, the process reverts to manual mode. For this
+   reason, you should continue to provide :ref:`a manual client reset 
+   handler <ios-manual-client-reset-handler>` even if you prefer to use 
+   ``discardLocal`` mode.
+
+.. example::
+
+   You can specify a before and after block to execute during the client 
+   reset process. You might use this to perform recovery logic that is 
+   important to your application. For example, you might want to copy the
+   realm file to a location to perform some operations after reset:
+
+   .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.before-client-reset-block.swift
+      :language: swift
+
+   And then you might want to apply the local changes to your new realm file
+   after the client reset is complete, or do any setup you would do when
+   first downloading a realm file from the server.
+
+   .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.after-client-reset-block.swift
+      :language: swift
+
+.. _ios-manual-client-reset-handler:
+
+Manual Client Reset Handler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, the SDK performs client resets automatically on startup when
 instructed to do so by the server. When a client reset occurs, the SDK
 creates a backup of local data. By default, the SDK makes no effort to
-recover lost local changes from this backup.
+recover lost local changes from this backup. However, you can manually
+override the client reset handler to transfer data from the backup 
+copy to the new {+realm+}.
 
 If you override the client reset handler, you can access this backup
 copy through the path stored in the :objc-sdk:`SyncError
