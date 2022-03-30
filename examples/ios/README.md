@@ -147,7 +147,7 @@ open the workspace in Xcode and select the "QuickStartSwiftUI" target.
 ### Annotate for Bluehawk
 
 Code examples are extracted using
-[Bluehawk](https://github.com/MongoCaleb/bluehawk). In the source files, you can annotate code like so:
+[Bluehawk](https://github.com/mongodb-university/bluehawk). In the source files, you can annotate code like so:
 
 ```swift
 // :code-block-start: [id]
