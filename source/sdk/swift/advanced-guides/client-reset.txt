@@ -28,9 +28,9 @@ In other words, the client app must carry out a client reset on a given
 synced {+realm+} if the server is restored to a version older than the
 version on the client.
 
-A client reset erases all local data and downloads a new copy of the
-data stored in MongoDB Atlas. Performing a client reset loses all local
-changes made since the client last successfully synced.
+A client reset discards local data and reverts to the data stored in 
+MongoDB Atlas. Performing a client reset loses all local changes made 
+since the client last successfully synced.
 
 .. _ios-discard-unsynced-changes:
 
@@ -117,8 +117,9 @@ using your own logic to apply local changes.
 
    You can specify a before and after block to execute during the client 
    reset process. You might use this to perform recovery logic that is 
-   important to your application. For example, you might want to copy the
-   realm file to a location to perform some operations after reset:
+   important to your application. For example, in the ``before`` block, 
+   you might want to copy the realm file to a location to perform some 
+   operations after reset:
 
    .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.before-client-reset-block.swift
       :language: swift
@@ -133,7 +134,7 @@ using your own logic to apply local changes.
 .. _ios-manual-client-reset-handler:
 
 Manual Client Reset Handler
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 By default, the SDK performs client resets automatically on startup when
 instructed to do so by the server. When a client reset occurs, the SDK
