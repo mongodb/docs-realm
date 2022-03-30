@@ -148,7 +148,7 @@ const app = new Realm.App({id: "-id"});
 //   }
 // }
 function AppWrapper2() {
-  if (!RealmProvider) {
+  if (!app.currentUser) {
     return null;
   }
   const syncConfig = {
