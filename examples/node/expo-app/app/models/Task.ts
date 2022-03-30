@@ -7,6 +7,7 @@ export class Task extends Realm.Object {
   _id!: Realm.BSON.ObjectId;
   description!: string;
   isComplete!: boolean;
+  createdAt!: Date;
 
   // the Task.generate() method creates Task objects with fields with default values
   static generate(description: string) {
