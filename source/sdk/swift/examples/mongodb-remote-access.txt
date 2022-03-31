@@ -81,8 +81,8 @@ Async/Await Query MongoDB
 
 .. versionadded:: 10.16.0
 
-If you're using Swift 5.5 with an iOS target of 15.0 or higher, you can use 
-the :swift-sdk:`async/await versions of the MongoCollection methods<Extensions/MongoCollection.html>`.
+The Realm Swift SDK provides :swift-sdk:`async/await versions of the 
+MongoCollection methods<Extensions/MongoCollection.html>`.
 
 All of the methods on this page are compatible with the async/await syntax.
 This example illustrates that syntax for the ``collection.insertOne()`` method. 
@@ -91,6 +91,8 @@ You can see the completion handler version in :ref:`Insert a Single Document
 
 .. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.async-await-insert.swift
    :language: swift
+
+.. include:: /includes/swift-async-await-support.rst
 
 .. _ios-mongodb-create-documents:
 
