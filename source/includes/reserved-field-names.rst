@@ -29,8 +29,10 @@ Realm reserves the following keywords with any capitalization:
    - subquery
    - truepredicate
 
-This means, for example, you cannot use ``descending``, ``Descending``,
-``DESCENDING``, or ``DeScEnDiNG`` as a field name.
+.. example::
+
+   You cannot use ``descending``, ``Descending``, ``DESCENDING``, or
+   ``DeScEnDiNG`` as a field name.
 
 Realm also reserves the following keywords with the given exact capitalization:
 
@@ -57,6 +59,7 @@ Realm also reserves the following keywords with the given exact capitalization:
    - true
    - uuid
 
-This means, for example, you cannot use ``true`` or ``TRUE``, since both
-capitalizations are specifically reserved, but you can use ``True`` or ``tRUE``
-as a field name.
+.. example::
+
+   You cannot use ``true`` or ``TRUE``, since both capitalizations are
+   specifically reserved, but you can use ``True`` or ``tRUE`` as a field name.

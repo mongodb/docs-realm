@@ -63,11 +63,6 @@ below for your SDK.
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
 <realm-studio>`.
 
-Reserved Field Names
---------------------
-
-.. include:: /includes/reserved-field-names.rst
-
 Expressions
 -----------
 
