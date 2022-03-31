@@ -53,21 +53,19 @@ called :ref:`expansions <expansions>`, and can use built-in
 Expression Syntax
 -----------------
 
-Each field name in an expression must be an :ref:`expansion
-<expansions>`, a string that represents dynamic, runtime information
-such as:
+An expression is either a boolean value (i.e. ``true`` or ``false``) or
+a JSON object.
 
-- the data in a MongoDB document (:json-expansion:`%%root`)
-- the user that called an action (:json-expansion:`%%user`)
-- the partition key of a synced realm partition (:json-expansion:`%%partition`)
-- the arguments that were passed to a service action (:json-expansion:`%%args`)
+Expression object field names can be a value, an :ref:`expansion
+<expansions>`, or an :ref:`operator <operators>`. Each field must
+contain one of a value, an expansion, or a nested expression.
 
 Expression object have the following format:
 
 .. code-block:: javascript
 
    {
-     <Expansion>: <Value | Expression>,
+     <Value | Expansion | Operator>: <Value | Expression>,
      ...
    }
 
@@ -151,11 +149,16 @@ Expansions
 ----------
 
 An expansion is a variable that represents a dynamic value in an
-expression. Expansions can represent the user that issued a request, the
-request metadata, data that the user is trying to access, and more.
+expression. Expansions are denoted by two percent signs followed by the
+expansion name. They can represent:
 
-Expansion variables are denoted by strings that begin with two percent signs
-(``%%``).
+- the data in a MongoDB document (:json-expansion:`%%root`)
+- a user interacting with your app (:json-expansion:`%%user`)
+- an incoming request (:json-expansion:`%%request`)
+- a static value (:json-expansion:`%%partition`)
+- your app's environment (:json-expansion:`%%environment`)
+- the partition key of a synced realm partition (:json-expansion:`%%partition`)
+- the arguments that were passed to a service action (:json-expansion:`%%args`)
 
 When your app evaluates an expression, it replaces each expansion in the
 expression with a specific value determined by your app's configuration
@@ -343,7 +346,7 @@ User Expansions
       | **Usable In:** Any Expression
           
       The user's metadata. The exact contents will vary depending on
-      the :doc:`authentication provider </authentication/providers>`
+      the :ref:`authentication provider <authentication-providers>`
       identities associated with the user.
    
       .. example::
@@ -360,8 +363,8 @@ User Expansions
       | **Type:** ``object[]``
       | **Usable In:** Any Expression
       
-      A list of all :doc:`authentication provider
-      </authentication/providers>` identities associated with the user.
+      A list of all :ref:`authentication provider
+      <authentication-providers>` identities associated with the user.
       An identity consists of a unique identifier given to a user by an
       authorization provider along with the provider's type:
       
@@ -440,7 +443,7 @@ Service Expansions
 
    .. example::
    
-      The following is a :doc:`Twilio service </services/twilio>` rule that
+      The following is a :ref:`Twilio service <twilio-service>` rule that
       evaluates to ``true`` if the sender's phone number (the ``from``
       argument) matches a specific value:
    
@@ -520,7 +523,7 @@ application:
 
 .. json-operator:: %function
    
-   Calls a :doc:`function </functions>` with the specified name and
+   Calls a :ref:`function <functions>` with the specified name and
    arguments. Evaluates to the value that the function returns.
    
    .. example::
