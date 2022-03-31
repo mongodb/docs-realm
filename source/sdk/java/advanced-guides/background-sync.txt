@@ -12,19 +12,18 @@ Sync a Realm in the Background - Java SDK
    :depth: 2
    :class: singlecol
 
-
-
 If you need to sync data when your app isn't running, you can sync realms
 in a background process.
 
-## Prerequisites
+Prerequisites
+-------------
 
 To get started with background synchronization, you need to add the
 following dependencies to your Android application:
 
 - :android:`androidx.work:work-runtime <reference/androidx/work/package-summary>`,
   to enqueue jobs
-- :android:`androidx.concurrent:concurrent-futures <reference/androidx/concurrent/futures/package-summary`,
+- :android:`androidx.concurrent:concurrent-futures <reference/androidx/concurrent/futures/package-summary>`,
   to return job results from a background worker
 
 Example
@@ -50,7 +49,7 @@ to synchronize the realm fully with the backend.
 
 You can execute this logic as a background process using a subclass of
 :android:`ListenableWorker <reference/androidx/work/ListenableWorker.html>`.
-Put your synchronization logic in the `startWork()` method:
+Put your synchronization logic in the ``startWork()`` method of your worker:
 
 .. tabs-realm-languages::
    
