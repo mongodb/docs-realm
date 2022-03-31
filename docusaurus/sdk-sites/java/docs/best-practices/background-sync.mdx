@@ -24,16 +24,19 @@ following dependencies to your Android application:
 
 ## Example
 
-Background sync requires two things: synchronization logic, and the job
-that periodically performs that logic.
+Background sync requires two things:
+
+- synchronization logic
+- a scheduled job that periodically performs that logic
 
 ### Synchronization Logic
 
 First, write the custom logic that synchronizes your realm. Treat this
-logic as a standalone connection to your backend, including:
+logic as a standalone connection to your backend. As a result, you'll
+need to:
 
-- initializing the Realm SDK
-- an authenticated user to open the realm
+- initialize the Realm SDK
+- authenticate a user to open the realm
 
 You can use a user's cached credentials if the user recently used the app.
 
@@ -75,6 +78,9 @@ changes in the background when the device is *not*:
 
 - low on battery
 - using a metered data source
+
+Use [`Constraints`](https://developer.android.com/reference/androidx/work/Constraints.Builder)
+to describe the environment where your background sync runs.
 
 Your repeat interval depends on how frequently data updates in the
 realm and how often users open your application. If the realm frequently
