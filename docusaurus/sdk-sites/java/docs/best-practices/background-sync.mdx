@@ -1,0 +1,92 @@
+---
+title: 'Sync a Realm in the Background'
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import WorkerKotlin from '!!raw-loader!@site/docs/generated/java/sync/RealmBackgroundWorkerKt.codeblock.background-sync-realm.kt';
+import WorkerJava from '!!raw-loader!@site/docs/generated/java/sync/RealmBackgroundWorker.codeblock.background-sync-realm.java';
+import EnqueueKotlin from '!!raw-loader!@site/docs/generated/java/sync/CustomApplication.codeblock.background-sync-realm.kt';
+import EnqueueJava from '!!raw-loader!@site/docs/generated/java/sync/CustomApplicationJava.codeblock.background-sync-realm.java';
+
+If you need to sync data when your app isn't running, you can sync realms
+in a background process.
+
+## Prerequisites
+
+To get started with background synchronization, you need to add the
+following dependencies to your Android application:
+
+- [`androidx.work:work-runtime`](https://developer.android.com/reference/androidx/work/package-summary),
+  to enqueue jobs
+- [`androidx.concurrent:concurrent-futures`](https://developer.android.com/reference/androidx/concurrent/futures/package-summary),
+  to return job results from a background worker
+
+## Example
+
+Background sync requires two things: synchronization logic, and the job
+that periodically performs that logic.
+
+### Synchronization Logic
+
+First, write the custom logic that synchronizes your realm. Treat this
+logic as a standalone connection to your backend, including:
+
+- initializing the Realm SDK
+- an authenticated user to open the realm
+
+You can use a user's cached credentials if the user recently used the app.
+
+Open the realm, then use [`SyncSession.downloadAllServerChanges()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/mongodb/sync/SyncSession/#downloadallserverchanges)
+and [`SyncSession.uploadAllLocalChanges()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/mongodb/sync/SyncSession/#uploadalllocalchanges)
+to synchronize the realm fully with the backend.
+
+You can execute this logic as a background process using a subclass of
+[`ListenableWorker`](https://developer.android.com/reference/androidx/work/ListenableWorker.html).
+Put your synchronization logic in the `startWork()` method:
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{WorkerKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{WorkerJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+### Worker
+
+To create a worker that periodically performs background sync:
+
+1. Create a set of constraints that specify the conditions required for
+   your worker.
+
+1. Specify how frequently your worker should execute.
+
+1. Enqueue your worker with the Android OS. Assign it a unique identifier
+   so that you can update the job in the future.
+
+You can create the background sync job inside an Application subclass in
+your app to guarantee that the logic only executes once every time your
+application runs.
+
+Since synchronizing a realm uses data, you should consider only downloading
+changes in the background when the device is *not*:
+
+- low on battery
+- using a metered data source
+
+Your repeat interval depends on how frequently data updates in the
+realm and how often users open your application. If the realm frequently
+updates throughout the day, consider setting a repeat interval of 1-3 hours.
+If the realm only updates a small number of times each day, it's best to
+set a higher repeat interval and only background sync once or twice a day.
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{EnqueueKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{EnqueueJava}</CodeBlock>
+    </TabItem>
+</Tabs>
