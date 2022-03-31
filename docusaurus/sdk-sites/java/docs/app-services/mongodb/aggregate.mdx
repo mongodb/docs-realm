@@ -1,27 +1,28 @@
 ---
 title: Aggregate
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import FilterKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.kt';
-import FilterJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.java';
-import GroupKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.kt';
-import GroupJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.java';
-import ProjectKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.kt';
-import ProjectJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.java';
-import AddKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.kt';
-import AddJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.java';
-import UnwindKotlin from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.kt';
-import UnwindJava from '!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FilterKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.kt";
+import FilterJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-filter.java";
+import GroupKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.kt";
+import GroupJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-group.java";
+import ProjectKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.kt";
+import ProjectJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-project.java";
+import AddKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.kt";
+import AddJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-addfields.java";
+import UnwindKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.kt";
+import UnwindJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.aggregate-documents-unwind-arrays.java";
 
 You can execute an aggregation pipeline using
-[`collection.aggregate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List-).
+[`collection.aggregate()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List-).
 
 These code snippets demonstrate how to configure and run
 aggregation operations on a collection. Aggregation operations run all
 documents in a collection through a series of data aggregation stages called an
-[aggregation pipeline](https://docs.mongodb.com/manual/core/aggregation-pipeline/).
+[aggregation pipeline](https://www.mongodb.com/docs/manual/core/aggregation-pipeline/).
 Aggregation pipelines can filter and shape documents as well as collect
 summary data about groups of related documents.
 
@@ -32,8 +33,8 @@ that resolves to a collection of documents processed by the pipeline.
 
 ## Filter Documents
 
-You can use the [`$match`](https://docs.mongodb.com/manual/reference/operator/aggregation/match/)
-stage to filter documents according with a [query filter](https://docs.mongodb.com/manual/tutorial/query-documents/).
+You can use the [`$match`](https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/)
+stage to filter documents according with a [query filter](https://www.mongodb.com/docs/manual/tutorial/query-documents/).
 
 ```javascript
 {
@@ -48,17 +49,17 @@ The following `$match` stage filters documents to include
 only those where the `type` field has a value equal to "perennial":
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{FilterKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{FilterJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FilterKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FilterJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Group Documents
 
-You can use the [`$group`](https://docs.mongodb.com/manual/reference/operator/aggregation/group/)
+You can use the [`$group`](https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/)
 stage to aggregate summary data for one or more documents. MongoDB
 groups documents based on the expression defined in the `_id` field
 value of the `$group` stage. You can reference a specific document
@@ -69,19 +70,19 @@ collection by their `type` value and aggregates a count of the
 number of each type:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{GroupKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{GroupJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{GroupKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{GroupJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Project Document Fields
 
-You can use the [`$project`](https://docs.mongodb.com/manual/reference/operator/aggregation/project/)
+You can use the [`$project`](https://www.mongodb.com/docs/manual/reference/operator/aggregation/project/)
 stage to include or omit specific fields from documents. Additionally,
-you can calculate new fields using [aggregation operators](https://docs.mongodb.com/manual/reference/operator/aggregation/).
+you can calculate new fields using [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/).
 Projections work in two ways:
 
 - Explicitly include fields with a value of 1. This has the side-effect
@@ -96,12 +97,12 @@ vice versa.
 
 .. note::
 
-   The `_id` field is a special case: it is always included in every
-   query unless explicitly specified otherwise. For this reason, you
-   *can* exclude the `_id` field with a `0` value while simultaneously
-   including other fields, like `_partition`, with a `1`. Only the
-   special case of exclusion of the `_id` field allows both exclusion
-   and inclusion in one `$project` stage.
+The `_id` field is a special case: it is always included in every
+query unless explicitly specified otherwise. For this reason, you
+_can_ exclude the `_id` field with a `0` value while simultaneously
+including other fields, like `_partition`, with a `1`. Only the
+special case of exclusion of the `_id` field allows both exclusion
+and inclusion in one `$project` stage.
 
 ```javascript
 {
@@ -110,7 +111,7 @@ vice versa.
    ...
  }
 }
-````
+```
 
 The following `$project` stage omits the `_id` field, includes
 the `name` field, and creates a new field named `storeNumber`.
@@ -128,18 +129,18 @@ The `storeNumber` is generated using two aggregation operators:
    passed to this operation would return a value of "42".
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ProjectKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ProjectJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ProjectKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ProjectJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Add Fields to Documents
 
-You can use the [`$addFields`](https://docs.mongodb.com/manual/reference/operator/aggregation/addFields/)
-stage to add new fields with calculated values using [aggregation operators](https://docs.mongodb.com/manual/reference/operator/aggregation/).
+You can use the [`$addFields`](https://www.mongodb.com/docs/manual/reference/operator/aggregation/addFields/)
+stage to add new fields with calculated values using [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/).
 
 :::tip
 `$addFields` is similar to `$project` but does not allow you to
@@ -151,17 +152,17 @@ The following `$addFields` stage creates a new field named
 that transform the value of the `_partition` field.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{AddKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{AddJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AddKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AddJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Unwind Array Values
 
-You can use the [`$unwind`](https://docs.mongodb.com/manual/reference/operator/aggregation/unwind/)
+You can use the [`$unwind`](https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/)
 stage to transform a single document containing an array into multiple
 documents containing individual values from that array. When you unwind
 an array field, MongoDB copies each document once for each element of
@@ -184,12 +185,12 @@ called `itemIndex` to each new document that specifies the
 element's position index in the original array:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UnwindKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UnwindJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UnwindKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UnwindJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Consider the following document from the a collection of purchases:

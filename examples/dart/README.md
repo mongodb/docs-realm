@@ -12,37 +12,22 @@ Run these commands to setup the application:
 
 1. Disable Realm analytics. Set env variable `REALM_DISABLE_ANALYTICS=exists` either globally ( for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and upload analytics unneccessary.
 
-2. Initialize the realm-dart submodule:
-
-```sh
-git submodule init
-git submodule update
-```
-
-3. get the realm-dart dependencies
-
-```sh
-cd realm-dart
-dart pub get
-cd ..
-```
-
-4. get all packages for the example project:
+2. get all packages for the example project:
 
 ```sh
 dart pub get
 ```
 
-5. run the generator to generate the required Realm object definitions. (If asked "Found 4 declared outputs which already exist on disk.Delete these files?" use option 1. Delete):
+3. Run the generator to generate the required Realm object definitions. (If asked "Found 4 declared outputs which already exist on disk.Delete these files?" use option 1. Delete):
 
 ```sh
 dart run build_runner build
 ```
 
-6. Run the project:
+4. Run the project's tests **without concurrency**:
 
 ```sh
-dart run
+dart run test --concurrency=1
 ```
 
 ## API

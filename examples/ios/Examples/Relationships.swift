@@ -6,6 +6,7 @@
 //     "ToOneRelationship_": ""
 //   }
 // }
+import Foundation
 import RealmSwift
 
 // :code-block-start: inverse-relationship

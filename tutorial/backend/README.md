@@ -24,7 +24,7 @@ To authenticate with the `realm-cli`, you must create an API key with **Project
 Owner** permissions for your project in the **Project Access Manager** view.
 Click the **Access Manager** at the top of the Atlas view to find it. Please
 follow the [instructions on the MongoDB documentation
-site](https://docs.mongodb.com/realm/deploy/realm-cli-reference/#authenticate-a-cli-user)
+site](https://www.mongodb.com/docs/realm/deploy/realm-cli-reference/#authenticate-a-cli-user)
 for more information.
 
 Once created, pass the API keys to `realm-cli login` to log in:
@@ -49,7 +49,7 @@ Congratulations! You now have a working MongoDB Realm backend with Sync enabled.
 ## Issues & Pull Requests
 
 If you find an issue or have a suggestion, please let us know using the feedback
-widget on the [docs site](http://docs.mongodb.com/realm/tutorial).
+widget on the [docs site](http://www.mongodb.com/docs/realm/tutorial).
 
 This repo is automatically derived from our main docs repo. If you'd like to
 submit a pull request -- thanks! -- please feel free to do so at

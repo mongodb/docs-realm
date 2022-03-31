@@ -60,14 +60,14 @@ rst_epilog = '\n'.join([
     '.. |copy| unicode:: U+000A9',
     '.. |year| replace:: {0}'.format(datetime.date.today().year),
     '.. |ent-build| replace:: MongoDB Enterprise',
-    '.. |hardlink| replace:: http://docs.mongodb.com/realm/',
+    '.. |hardlink| replace:: http://www.mongodb.com/docs/realm/',
     '.. |atlas-full| replace:: MongoDB Atlas',
     '.. |atlas| replace:: Atlas',
     '.. |compass| replace:: MongoDB Compass',
     '.. |realm| replace:: realm',
     '.. |realms| replace:: realms',
     '.. |realm-cli| replace:: ``realm-cli``',
-    '.. _compass: https://docs.mongodb.com/compass'
+    '.. _compass: https://www.mongodb.com/docs/compass'
 ])
 
 source_constants = {
@@ -100,20 +100,20 @@ source_constants = {
 extlinks = {
     # MongoDB Docs Sites
     # Snooty doesn't support anchor links with the :doc: directive, so we use this instead
-    'admin-api-endpoint': ('https://docs.mongodb.com/realm/admin/api/v3/#%s', ''),
+    'admin-api-endpoint': ('https://www.mongodb.com/docs/realm/admin/api/v3/#%s', ''),
     'manual': ('http://docs.mongodb.org/manual%s', ''),
     'atlas': ('https://docs.atlas.mongodb.com%s', ''),
-    'adl': ('https://docs.mongodb.com/datalake%s', ''),
+    'adl': ('https://www.mongodb.com/docs/datalake%s', ''),
     'facebook': ('https://developers.facebook.com/%s', ''),
     'mms-docs': ('https://docs.cloud.mongodb.com%s', ''),
     'mms-home': ('https://cloud.mongodb.com%s', ''),
-    'guides': ('https://docs.mongodb.com/guides%s', ''),
-    'java-sdk': ('https://docs.mongodb.com/realm-sdks/java/10.0.1/%s', ''),
-    'kotlin-sdk': ('https://docs.mongodb.com/realm-sdks/kotlin/10.0.1/%s', ''),
-    'swift-sdk': ('https://docs.mongodb.com/realm-sdks/swift/10.8.0-beta.0/%s', ''),
-    'objc-sdk': ('https://docs.mongodb.com/realm-sdks/objc/10.8.0-beta.0/%s', ''),
-    'js-sdk': ('https://docs.mongodb.com/realm-sdks/js/latest/%s', ''),
-    'dotnet-sdk': ('https://docs.mongodb.com/realm-sdks/dotnet/latest/%s', ''),
+    'guides': ('https://www.mongodb.com/docs/guides%s', ''),
+    'java-sdk': ('https://www.mongodb.com/docs/realm-sdks/java/10.0.1/%s', ''),
+    'kotlin-sdk': ('https://www.mongodb.com/docs/realm-sdks/kotlin/10.0.1/%s', ''),
+    'swift-sdk': ('https://www.mongodb.com/docs/realm-sdks/swift/10.8.0-beta.0/%s', ''),
+    'objc-sdk': ('https://www.mongodb.com/docs/realm-sdks/objc/10.8.0-beta.0/%s', ''),
+    'js-sdk': ('https://www.mongodb.com/docs/realm-sdks/js/latest/%s', ''),
+    'dotnet-sdk': ('https://www.mongodb.com/docs/realm-sdks/dotnet/latest/%s', ''),
     # True External Links
     'android': ('https://developer.android.com/%s', ''),
     'apollo': ('https://www.apollographql.com/%s', ''),

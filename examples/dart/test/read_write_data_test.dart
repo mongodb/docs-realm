@@ -41,6 +41,8 @@ void main() {
         realm.deleteMany(realm.all<Person>());
         realm.deleteMany(realm.all<Team>());
       });
+      realm.close();
+      Realm.deleteRealm(realm.config.path);
     });
   });
 }

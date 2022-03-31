@@ -77,9 +77,9 @@ to compare `RealmConfiguration` objects. This prevents the SDK from
 opening a single realm file with different schemas, durability levels,
 or writability settings. However, configurations that include lambda
 functions, such as those passed to
-[`initialData()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction-)
+[`initialData()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction-)
 and
-[`compactOnLaunch()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-)
+[`compactOnLaunch()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-)
 can break this `equals()` comparison, since two different lambdas are
 never considered equal using Java's built-in comparison.
 To avoid this error when using lambdas, you can either:
@@ -106,7 +106,7 @@ To avoid this error when using lambdas, you can either:
                return 37
            }
        }).build()
-    ```
+   ```
 
 ## Kapt Exceptions During Builds
 
@@ -139,7 +139,7 @@ accessor values instead, or use the Realm object
 This section details information you should keep in mind when debugging
 Realm applications with Android Studio to avoid incorrect
 value reporting. When you watch a Realm object,
-you'll see values displayed in the object's fields. These values 
+you'll see values displayed in the object's fields. These values
 are incorrect because the field values themselves are not used. This is
 because Realm creates a proxy object behind the scenes, overriding
 the getters and setters to access the persisted data in the
@@ -157,8 +157,8 @@ three watch values:
 
 The code from lines `107` to `111` alters the `person` instance by
 changing the name and age in a write transaction. On line `113`, the
-`person` watch instance reports incorrect values for the *field* watch
-values. The watch values that use the *accessors* report values that are
+`person` watch instance reports incorrect values for the _field_ watch
+values. The watch values that use the _accessors_ report values that are
 correct.
 
 ## NDK Debugging

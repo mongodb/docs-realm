@@ -1,9 +1,10 @@
 ---
 title: Frozen Architecture
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Deletes from '!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt';
-import Listeners from '!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.change-listeners.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Deletes from "!!raw-loader!@site/docs/generated/kotlin/MigrateFromJavaToKotlinSDKTest.codeblock.deletes.kt";
+import Listeners from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.change-listeners.kt";
 
 Unlike the other Realm SDKs, the Kotlin SDK
 does not provide live objects and collections that
@@ -20,10 +21,10 @@ you may have used in other Realm SDKs.
 ### Access a Live Version of Frozen Object
 
 In order to modify objects, they must be live. You can convert a frozen
-object to a live object in a transaction with [`mutableRealm.findLatest()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/find-latest.html).
+object to a live object in a transaction with [`mutableRealm.findLatest()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/find-latest.html).
 Live objects are only accessible inside of a write transaction within
-a [`write`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-or [`writeBlocking`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html)
+a [`write`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
+or [`writeBlocking`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html)
 closure.
 
 Objects returned from a write closure become frozen objects when the
@@ -33,11 +34,11 @@ write transaction completes.
 
 ## Thread-safe Realms
 
-The [`Realm`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html)
+The [`Realm`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/index.html)
 class is no longer thread-confined, so you can share a single realm
 across multiple threads. You no longer need to handle the realm
 lifecycle explicitly with calls to
-[`Realm.close()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/close.html)
+[`Realm.close()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/close.html)
 
 ### Access Changes
 

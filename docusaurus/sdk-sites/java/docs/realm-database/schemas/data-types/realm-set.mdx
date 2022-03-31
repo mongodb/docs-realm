@@ -1,20 +1,20 @@
 ---
-title: 'RealmSet'
+title: "RealmSet"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import FrogSetKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogSetKt.codeblock.complete.kt';
-import SnackKotlin from '!!raw-loader!@site/docs/generated/java/local/SnackKt.codeblock.complete.kt';
-import UsageKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmSet.kt';
-import FrogSetJava from '!!raw-loader!@site/docs/generated/java/local/FrogSet.codeblock.complete.java';
-import SnackJava from '!!raw-loader!@site/docs/generated/java/local/Snack.codeblock.complete.java';
-import UsageJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmSet.java';
-import NotificationsJava from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmset-notifications.java';
-import NotificationsKotlin from '!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmset-notifications.kt';
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FrogSetKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogSetKt.codeblock.complete.kt";
+import SnackKotlin from "!!raw-loader!@site/docs/generated/java/local/SnackKt.codeblock.complete.kt";
+import UsageKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmSet.kt";
+import FrogSetJava from "!!raw-loader!@site/docs/generated/java/local/FrogSet.codeblock.complete.java";
+import SnackJava from "!!raw-loader!@site/docs/generated/java/local/Snack.codeblock.complete.java";
+import UsageJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmSet.java";
+import NotificationsJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmset-notifications.java";
+import NotificationsKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmset-notifications.kt";
 
-You can use the [`RealmSet`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html)
+You can use the [`RealmSet`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html)
 data type to manage a collection of unique keys. `RealmSet` implements
 Java's `Set` interface, so it works just like the built-in `HashSet`
 class, except managed `RealmSet` instances persist their contents to a
@@ -26,7 +26,7 @@ any `RealmSet` instances that contain the object.
 Because `RealmSet` implements `RealmCollection`, it has some useful
 mathematical methods, such as `sum`, `min`, and `max`. For a complete
 list of available `RealmSet` methods, see
-[the RealmSet API reference](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html).
+[the RealmSet API reference](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html).
 
 :::note `RealmSet` Limitations
 Objects containing `RealmSet` fields currently cannot use the
@@ -38,7 +38,7 @@ following `Realm` methods:
 - `Realm.createObjectFromJson()`
 - `Realm.createOrUpdateAllFromJson()`
 - `Realm.createOrUpdateObjectFromJson()`
-:::
+  :::
 
 ## Usage
 
@@ -47,35 +47,47 @@ type `RealmSet<E>`, where `E` defines the keys you would like to
 store in your `RealmSet`.
 
 - Add an object to a `RealmSet` with
-  [`RealmSet.add()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html#add-E-).
+  [`RealmSet.add()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html#add-E-).
 
 - Add multiple objects with
-  [`RealmSet.addAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html#addAll-Collection-).
+  [`RealmSet.addAll()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html#addAll-Collection-).
 
 - Check if the set contains a specific object with
-  [`RealmSet.contains()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html#contains-Object-).
+  [`RealmSet.contains()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html#contains-Object-).
 
 - Check if the set contains all of multiple objects with
-  [`RealmSet.containsAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html#containsAll-Collection-).
+  [`RealmSet.containsAll()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html#containsAll-Collection-).
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock title="Realm Object" language="kotlin">{FrogSetKotlin}</CodeBlock>
-        <CodeBlock title="Set Contents" language="kotlin">{SnackKotlin}</CodeBlock>
-        <CodeBlock title="Usage" language="kotlin">{UsageKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock title="Realm Object" language="java">{FrogSetJava}</CodeBlock>
-        <CodeBlock title="Set Contents" language="java">{SnackJava}</CodeBlock>
-        <CodeBlock title="Usage" language="java">{UsageJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Realm Object" language="kotlin">
+      {FrogSetKotlin}
+    </CodeBlock>
+    <CodeBlock title="Set Contents" language="kotlin">
+      {SnackKotlin}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="kotlin">
+      {UsageKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Realm Object" language="java">
+      {FrogSetJava}
+    </CodeBlock>
+    <CodeBlock title="Set Contents" language="java">
+      {SnackJava}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="java">
+      {UsageJava}
+    </CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Notifications
 
 To subscribe to changes to a `RealmSet`, pass a
-[`SetChangeListener`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/SetChangeListener.html)
-implementation to [`realmSet.addChangeListener`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmSet.html#addChangeListener-io.realm.SetChangeListener-) on your set instance.
+[`SetChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/SetChangeListener.html)
+implementation to [`realmSet.addChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmSet.html#addChangeListener-io.realm.SetChangeListener-) on your set instance.
 Your `SetChangeListener` implementation must define an
 `onChange()` method, which accepts a reference to the changed `RealmSet`
 and a set of changes as parameters. You can access the number of items
@@ -83,10 +95,10 @@ added to the set as well as the number of items removed from the set
 through the `SetChangeSet` parameter.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{NotificationsJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{NotificationsJava}</CodeBlock>
+  </TabItem>
 </Tabs>

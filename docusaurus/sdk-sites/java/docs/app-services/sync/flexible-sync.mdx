@@ -1,40 +1,41 @@
 ---
 title: Flexible Sync
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import ExplicitKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.kt';
-import ExplicitJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.java';
-import ImplicitKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.kt';
-import ImplicitJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.java';
-import AddKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.add-a-subscription.kt';
-import AddJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.add-a-subscription.java';
-import WaitKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.kt';
-import WaitJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.java';
-import UpdateByNameKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.kt';
-import UpdateByNameJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.java';
-import UpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.kt';
-import UpdateJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.java';
-import RemoveSingleKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-single-subscription.kt';
-import RemoveSingleJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-single-subscription.java';
-import RemoveTypeKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.kt';
-import RemoveTypeJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.java';
-import RemoveAllKotlin from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.kt';
-import RemoveAllJava from '!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ExplicitKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.kt";
+import ExplicitJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.explicitly-named-subscription.java";
+import ImplicitKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.kt";
+import ImplicitJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.implicitly-named-subscription.java";
+import AddKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.add-a-subscription.kt";
+import AddJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.add-a-subscription.java";
+import WaitKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.kt";
+import WaitJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.wait-for-subscription-sync.java";
+import UpdateByNameKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.kt";
+import UpdateByNameJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-name.java";
+import UpdateKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.kt";
+import UpdateJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.update-subscriptions-by-query.java";
+import RemoveSingleKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-single-subscription.kt";
+import RemoveSingleJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-single-subscription.java";
+import RemoveTypeKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.kt";
+import RemoveTypeJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions-to-an-object-type.java";
+import RemoveAllKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.kt";
+import RemoveAllJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.remove-all-subscriptions.java";
 
 Flexible Sync uses subscriptions and permissions to determine which
 data to sync between your backend and client.
 
 To use Flexible Sync in the SDK:
 
-- [Configure Flexible Sync on the backend](https://docs.mongodb.com/realm/sync/configure/enable-sync/#std-label-enable-flexible-sync)
+- [Configure Flexible Sync on the backend](https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#std-label-enable-flexible-sync)
 - [Connect to your backend](/sdk/java/app-services/connect)
 - [Authenticate a user](/sdk/java/app-services/users/authenticate-users)
 - [Open the synced Realm with a Flexible Sync configuration](/sdk/java/app-services/sync/open-a-synced-realm#flexible)
 - [Add subscriptions to the client application](#subscribe)
 
-You can add, update, and remove query subscriptions to determine which data 
+You can add, update, and remove query subscriptions to determine which data
 syncs to the client device.
 
 :::caution Flexible Sync is currently in preview.
@@ -48,26 +49,26 @@ We do not recommend using Flexible Sync in production applications while it is s
 :::
 
 :::tip See Also
-This page details how to manage subscriptions for Flexible Sync. 
+This page details how to manage subscriptions for Flexible Sync.
 
 For general information about using Realm Sync with the SDK,
 such as how to sync changes in the background or pause a sync session,
 see: [Open a Synced Realm](/sdk/java/app-services/sync/open-a-synced-realm).
 
 For information about setting up permissions for Flexible Sync, see:
-[Flexible Sync Rules & Permissions](https://docs.mongodb.com/realm/sync/data-access-patterns/permissions/#std-label-flexible-sync-rules-and-permissions).
+[Flexible Sync Rules & Permissions](https://www.mongodb.com/docs/realm/sync/data-access-patterns/permissions/#std-label-flexible-sync-rules-and-permissions).
 :::
 
 ## Subscribe to Queryable Fields {#subscribe}
 
 When you configure Flexible Sync on the backend, you specify which fields
-your client application can query. In the client application, use the 
-`subscriptions` API to manage a set of subscriptions to specific queries on 
+your client application can query. In the client application, use the
+`subscriptions` API to manage a set of subscriptions to specific queries on
 queryable fields.
 
 :::info
 Flexible Sync does not support all the operators available in Realm Query
-Language. See [Flexible Sync RQL Limitations](https://docs.mongodb.com/realm/reference/realm-query-language/#std-label-flexible-sync-rql-limitations)
+Language. See [Flexible Sync RQL Limitations](https://www.mongodb.com/docs/realm/reference/realm-query-language/#std-label-flexible-sync-rql-limitations)
 for details.
 :::
 
@@ -78,7 +79,7 @@ You can:
 - Update subscriptions with new queries
 - Remove individual subscriptions or all subscriptions for an object type
 
-Data matching the subscription, where the user has the appropriate 
+Data matching the subscription, where the user has the appropriate
 permissions, syncs between clients and the backend application.
 
 You can specify an optional string name for your subscription.
@@ -90,7 +91,7 @@ update, and delete elsewhere in your app.
 :::
 
 When you create a subscription, Realm looks for data matching a query on a
-specific object type. You can have multiple subscription sets on different 
+specific object type. You can have multiple subscription sets on different
 object types. You can also have multiple queries on the same object type.
 
 ### Example
@@ -99,12 +100,12 @@ You can create a subscription with an explicit name. Then, you can
 search for that subscription by name to update or remove it.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ExplicitKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ExplicitJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ExplicitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ExplicitJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You can also search subscriptions by query. If you omit the name when
@@ -112,23 +113,23 @@ creating a subscription, this is the only way to look up your
 subscription.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ImplicitKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ImplicitJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ImplicitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ImplicitJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note Duplicate subscriptions
-Subscription names must be unique. Adding a subscription 
+Subscription names must be unique. Adding a subscription
 with the same name as an existing subscription throws an error.
 
-If you do not explicitly name a subscription, and instead subscribe 
-to the same unnamed query more than once, Realm does not persist 
-duplicate queries to the subscription set. 
+If you do not explicitly name a subscription, and instead subscribe
+to the same unnamed query more than once, Realm does not persist
+duplicate queries to the subscription set.
 
-If you subscribe to the same query more than once under different names, 
+If you subscribe to the same query more than once under different names,
 Realm persists both subscriptions to the subscription set.
 :::
 
@@ -138,81 +139,81 @@ Add a subscription in a subscriptions write block. You append each
 new subscription to the client's Realm subscriptions.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{AddKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{AddJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AddKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AddJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::important Object Links
-You must add both an object and its linked object to the subscription 
+You must add both an object and its linked object to the subscription
 set to see a linked object.
 
-If your subscription results contain an object with a property that links 
+If your subscription results contain an object with a property that links
 to an object not contained in the results, the link appears to be nil.
-There is no way to distinguish whether that property's value is 
+There is no way to distinguish whether that property's value is
 legitimately nil, or whether the object it links to exists but is out of
 view of the query subscription.
 :::
 
 ### Wait for Subscription Changes to Sync
 
-Writing an update to the subscription set locally is only one component 
+Writing an update to the subscription set locally is only one component
 of changing a subscription. After the local subscription change, the client
-synchronizes with the server to resolve any updates to the data due to 
-the subscription change. This could mean adding or removing data from the 
-synced realm. Use the [`waitForInitialRemoteData()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit))
+synchronizes with the server to resolve any updates to the data due to
+the subscription change. This could mean adding or removing data from the
+synced realm. Use the [`waitForInitialRemoteData()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>)
 builder method to force your application to block until client subscription
 data synchronizes to the backend before opening the realm:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{WaitKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{WaitJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{WaitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{WaitJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
-You can also use [`SubscriptionSet.waitForSynchronization()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronization(java.lang.Long,java.util.concurrent.TimeUnit))
-or [`SubscriptionSet.waitForSynchronizationAsync()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronizationAsync(java.lang.Long,java.util.concurrent.TimeUnit,io.realm.mongodb.sync.SubscriptionSet.StateChangeCallback))
+You can also use [`SubscriptionSet.waitForSynchronization()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronization(java.lang.Long,java.util.concurrent.TimeUnit)>)
+or [`SubscriptionSet.waitForSynchronizationAsync()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronizationAsync(java.lang.Long,java.util.concurrent.TimeUnit,io.realm.mongodb.sync.SubscriptionSet.StateChangeCallback)>)
 to delay execution until subscription sync completes after instantiating
 a sync connection.
 
 #### SubscriptionSet.State Enum
 
-Additionally, you can watch the state of the subscription set with the 
-[`SubscriptionSet.State`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.State.html) enum.
+Additionally, you can watch the state of the subscription set with the
+[`SubscriptionSet.State`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.State.html) enum.
 You can use subscription state to:
 
 - Show a progress indicator while data is downloading
 - Find out when a subscription set becomes superseded
 
 You can access the state of your application's subscription set using
-[`SubscriptionSet.getState()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#getState()).
+[`SubscriptionSet.getState()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#getState()>).
 
 ##### Superseded
 
 `SUPERSEDED` is a `SubscriptionSet.State` that can occur when another
-thread writes a subscription on a different instance of the 
-subscription set. If the state becomes `SUPERSEDED`, you must obtain 
+thread writes a subscription on a different instance of the
+subscription set. If the state becomes `SUPERSEDED`, you must obtain
 a new instance of the subscription set before you can write to it.
 
 ### Update Subscriptions with a New Query
 
-You can update subscriptions using [`SubscriptionSet.update()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#update(io.realm.mongodb.sync.SubscriptionSet.UpdateCallback)).
-In this example, we use [`MutableSubscriptionSet.addOrUpdate()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#addOrUpdate(io.realm.mongodb.sync.Subscription))
+You can update subscriptions using [`SubscriptionSet.update()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SubscriptionSet.html#update(io.realm.mongodb.sync.SubscriptionSet.UpdateCallback)>).
+In this example, we use [`MutableSubscriptionSet.addOrUpdate()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#addOrUpdate(io.realm.mongodb.sync.Subscription)>)
 to update the query for the subscription named "my frog subscription":
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateByNameKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateByNameJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateByNameKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateByNameJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You cannot update subscriptions created without a name. However, you can
@@ -220,12 +221,12 @@ look up unnamed subscriptions by their query, remove them from the
 subscription set, then add a new subscription with an updated query:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{UpdateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Remove Subscriptions
@@ -242,51 +243,51 @@ synced data that matched the query from the client device.
 #### Remove a Single Subscription
 
 You can remove a specific subscription query
-using [`MutableSubscriptionSet.remove()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#remove(io.realm.mongodb.sync.Subscription)).
+using [`MutableSubscriptionSet.remove()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#remove(io.realm.mongodb.sync.Subscription)>).
 You can either look up the subscription by name, then pass the returned
 subscription to `remove()`, or pass the subscription name directly to
 `remove()`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{RemoveSingleKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{RemoveSingleJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RemoveSingleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RemoveSingleJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 #### Remove All Subscriptions to an Object Type
 
 If you want to remove all subscriptions to a specific object type, pass
-a class to [`removeAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll(java.lang.Class)):
+a class to [`removeAll()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll(java.lang.Class)>):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{RemoveTypeKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{RemoveTypeJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RemoveTypeKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RemoveTypeJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 #### Remove All Subscriptions
 
 To remove all subscriptions from the subscription set, use
-[`removeAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll())
+[`removeAll()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll()>)
 with no arguments:
 
 :::caution Empty Subscription Set Errors
-If you remove all subscriptions and do not add a new one, you'll 
+If you remove all subscriptions and do not add a new one, you'll
 get an error. A realm opened with a flexible sync configuration needs
 at least one subscription to sync with the server.
 :::
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{RemoveAllKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{RemoveAllJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RemoveAllKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RemoveAllJava}</CodeBlock>
+  </TabItem>
 </Tabs>

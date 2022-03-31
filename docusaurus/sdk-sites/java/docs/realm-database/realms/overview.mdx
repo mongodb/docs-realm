@@ -1,6 +1,7 @@
 ---
-title: 'Overview'
+title: "Overview"
 ---
+
 # Realm Overview
 
 ## The Realm Lifecycle
@@ -70,19 +71,19 @@ databases but has distinct differences from both. To underscore these
 differences, it's helpful to highlight what a realm **is not**:
 
 A realm is not a single, application-wide database.
-    Unlike other applications, which store all of their data in a single
-    database, apps often split data across multiple realms to
-    organize data more efficiently and to enforce access controls.
+Unlike other applications, which store all of their data in a single
+database, apps often split data across multiple realms to
+organize data more efficiently and to enforce access controls.
 
 A realm is not a table.
-    Tables typically only store one kind of information, such as street
-    addresses or items in a store inventory, whereas a realm can contain
-    any number of object types.
+Tables typically only store one kind of information, such as street
+addresses or items in a store inventory, whereas a realm can contain
+any number of object types.
 
 A realm is not a collection of schemaless documents.
-    Application objects are similar to documents, but every object in a
-    realm conforms to a defined schema for its object type. An object
-    cannot contain a field that is not described by its schema.
+Application objects are similar to documents, but every object in a
+realm conforms to a defined schema for its object type. An object
+cannot contain a field that is not described by its schema.
 
 ## Realm Schema
 
@@ -151,47 +152,47 @@ overhead as a small number of large transactions.
 
 Unexpected file size growth usually happens for one of three reasons:
 
-- *You open a realm on a background thread and forget to close it
-  again.* As a result, Realm Database retains a reference to the
+- _You open a realm on a background thread and forget to close it
+  again._ As a result, Realm Database retains a reference to the
   older version of data on the background thread. Because
   the SDK automatically updates realms to the most
   recent version on threads with loopers, the UI thread and other
   Looper threads do not have this problem.
 
-- *You hold references to too many versions of frozen objects.*
+- _You hold references to too many versions of frozen objects._
   Frozen objects preserve the version of a realm that existed when
   the object was first frozen. If you need to freeze a large number of
-  objects, consider using [`realm.copyFromRealm()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#copyFromRealm-E-)
+  objects, consider using [`realm.copyFromRealm()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#copyFromRealm-E-)
   instead to only preserve the data you need.
 
-- *You read some data from a realm. Then, you block the thread with
-   a long-running operation. Meanwhile, you write many times to the
-   realm on other threads.* This causes the SDK to
-   create many intermediate versions. You can avoid this by:
+- _You read some data from a realm. Then, you block the thread with
+  a long-running operation. Meanwhile, you write many times to the
+  realm on other threads._ This causes the SDK to
+  create many intermediate versions. You can avoid this by:
 
-   - batching the writes
+  - batching the writes
 
-   - avoiding leaving the realm open while otherwise blocking the
-     background thread.
+  - avoiding leaving the realm open while otherwise blocking the
+    background thread.
 
 ### Compact a Realm
 
 You can remove unused space by **compacting** the realm file:
 
-- **Manually**: call [`compactRealm()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration-).
+- **Manually**: call [`compactRealm()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#compactRealm-io.realm.RealmConfiguration-).
 
-- **Automatically**: specify the [`compactOnLaunch()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-)
+- **Automatically**: specify the [`compactOnLaunch()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#compactOnLaunch-io.realm.CompactOnLaunchCallback-)
   builder option when opening the first connection to a realm in your
   Android application.
 
 :::tip Implement Compacting in Your Production Application
-Every production application should implement compacting to 
+Every production application should implement compacting to
 periodically reduce the realm file size.
 :::
 
 ### Limit the Maximum Number of Active Versions
 
-You can set [`maxNumberOfActiveVersions()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#maxNumberOfActiveVersions-long-)
+You can set [`maxNumberOfActiveVersions()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#maxNumberOfActiveVersions-long-)
 when building your `RealmConfiguration` to throw an
 `IllegalStateException` if your application opens more versions of
 a realm than the permitted number. Versions are created when
@@ -209,12 +210,13 @@ Android device. To back up a realm, find your realm file
 and copy it to a safe location. You should close
 all instances of the realm before copying it.
 
-Alternatively, you can also use [`realm.writeCopyTo()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#writeCopyTo-java.io.File-)
+Alternatively, you can also use [`realm.writeCopyTo()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#writeCopyTo-java.io.File-)
 to write a compacted version of a realm to a destination file.
 
 :::tip Back Up to an External Location
 If you want to back up a realm to an external location like
 Google Drive, see the following article series:
+
 - [Part 1](https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-java-c429ade2b4ed#.80ibsc7wm)
 - [Part 2](https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322)
 - [Part 3](https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se)

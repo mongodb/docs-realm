@@ -1,19 +1,20 @@
 ---
-title: 'Versions and Migrations'
+title: "Versions and Migrations"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import PersonV1Kotlin from '!!raw-loader!@site/docs/migrations/PersonClassV1/PersonClassV1.kt';
-import PersonV1Java from '!!raw-loader!@site/docs/migrations/PersonClassV1/PersonClassV1.java';
-import PersonV2Kotlin from '!!raw-loader!@site/docs/migrations/PersonClassV2/PersonClassV2.kt';
-import PersonV2Java from '!!raw-loader!@site/docs/migrations/PersonClassV2/PersonClassV2.java';
-import PersonV3Kotlin from '!!raw-loader!@site/docs/migrations/PersonClassV3/PersonClassV3.kt';
-import PersonV3Java from '!!raw-loader!@site/docs/migrations/PersonClassV3/PersonClassV3.java';
-import PersonV4Kotlin from '!!raw-loader!@site/docs/migrations/PersonClassV4/PersonClassV4.kt';
-import PersonV4Java from '!!raw-loader!@site/docs/migrations/PersonClassV4/PersonClassV4.java';
-import LocalMigrationKotlin from '!!raw-loader!@site/docs/migrations/LocalMigration/LocalMigration.kt';
-import LocalMigrationJava from '!!raw-loader!@site/docs/migrations/LocalMigration/LocalMigration.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import PersonV1Kotlin from "!!raw-loader!@site/docs/migrations/PersonClassV1/PersonClassV1.kt";
+import PersonV1Java from "!!raw-loader!@site/docs/migrations/PersonClassV1/PersonClassV1.java";
+import PersonV2Kotlin from "!!raw-loader!@site/docs/migrations/PersonClassV2/PersonClassV2.kt";
+import PersonV2Java from "!!raw-loader!@site/docs/migrations/PersonClassV2/PersonClassV2.java";
+import PersonV3Kotlin from "!!raw-loader!@site/docs/migrations/PersonClassV3/PersonClassV3.kt";
+import PersonV3Java from "!!raw-loader!@site/docs/migrations/PersonClassV3/PersonClassV3.java";
+import PersonV4Kotlin from "!!raw-loader!@site/docs/migrations/PersonClassV4/PersonClassV4.kt";
+import PersonV4Java from "!!raw-loader!@site/docs/migrations/PersonClassV4/PersonClassV4.java";
+import LocalMigrationKotlin from "!!raw-loader!@site/docs/migrations/LocalMigration/LocalMigration.kt";
+import LocalMigrationJava from "!!raw-loader!@site/docs/migrations/LocalMigration/LocalMigration.java";
 
 ## Schema Version
 
@@ -48,21 +49,21 @@ a migration function when you open the out-of-date realm.
 
 During a migration, you can add and remove properties from schemas.
 The editable schema exposed via a
-[`DynamicRealm`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/DynamicRealm.html)
+[`DynamicRealm`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/DynamicRealm.html)
 also provides convenience functions for renaming fields. This gives you
 full control over the behavior of your data during schema changes.
 
 :::important Migrations During Application Development
 During development of an application, `RealmObject` classes can
 change frequently. You can use the
-[`RealmConfiguration.Builder.deleteRealmIfMigrationNeeded()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/RealmConfiguration/Builder/#deleterealmifmigrationneeded) option to delete a realm instead
+[`RealmConfiguration.Builder.deleteRealmIfMigrationNeeded()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/RealmConfiguration/Builder/#deleterealmifmigrationneeded) option to delete a realm instead
 of performing a migration. This can come in handy during development
 when schemas often change.
 :::
 
 ## Example
 
-The following examples demonstrate how to add, delete, and modify 
+The following examples demonstrate how to add, delete, and modify
 properties in a schema. First, make the required schema change.
 Then, increment the schema version. Finally, if the change is destructive,
 create a corresponding migration function to move data from the
@@ -80,12 +81,12 @@ specifying and using versions 0, 1, and 2.
 A realm using schema version `0` has a `Person` object type:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PersonV1Kotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PersonV1Java}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PersonV1Kotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PersonV1Java}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### A. Add a Property
@@ -94,12 +95,12 @@ The following example adds a `lastName` property to the
 original Person schema:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PersonV2Kotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PersonV2Java}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PersonV2Kotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PersonV2Java}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### B. Delete a Property
@@ -109,12 +110,12 @@ The following example uses a combined
 `lastName` property in the original Person schema:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PersonV3Kotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PersonV3Java}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PersonV3Kotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PersonV3Java}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### C. Modify a Property Type or Rename a Property
@@ -124,12 +125,12 @@ original Person schema by renaming it to `birthday` and changing the
 type to `Date`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PersonV4Kotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PersonV4Java}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PersonV4Kotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PersonV4Java}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### D. Migration Functions
@@ -141,10 +142,10 @@ migration function to set the value of `fullName` based on the existing
 on `age`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{LocalMigrationKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{LocalMigrationJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LocalMigrationKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LocalMigrationJava}</CodeBlock>
+  </TabItem>
 </Tabs>

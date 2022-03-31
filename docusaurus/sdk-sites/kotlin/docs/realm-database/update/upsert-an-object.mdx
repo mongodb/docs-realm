@@ -1,24 +1,25 @@
 ---
 title: Upsert an Object
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Upsert from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.upsert-an-object.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Upsert from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.upsert-an-object.kt";
 
 The **upsert** operation either inserts a new instance of an object or
 updates an existing object that meets certain criteria.
 
 To upsert into a realm:
 
-1. Open a write transaction with [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-   or [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+1. Open a write transaction with [`realm.write()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
+   or [`realm.writeBlocking()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
 
-1. Query the transaction's mutable realm with [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
+1. Query the transaction's mutable realm with [`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
    Specify the object type as a type parameter passed to `query()`.
    Filter your criteria with unique identifying criteria for the
    object you want to upsert.
 
 1. Insert a new object with the same primary key as the object returned
-   by the previous query (if it exists) with [`copyToRealm()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/copy-to-realm.html).
+   by the previous query (if it exists) with [`copyToRealm()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/copy-to-realm.html).
    If an object matching your filter already exists, realm updates the
    existing object. If no object exists that matches your filter, realm
    inserts a new object.

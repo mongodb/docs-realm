@@ -1,15 +1,16 @@
 ---
 title: Notifications
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import RealmJava from '!!raw-loader!@site/docs/notifications/RealmNotification.java';
-import RealmKotlin from '!!raw-loader!@site/docs/notifications/RealmNotification.kt';
-import CollectionKotlin from '!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.kt';
-import CollectionJava from '!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.java';
-import ObjectKotlin from '!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.kt';
-import ObjectJava from '!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import RealmJava from "!!raw-loader!@site/docs/notifications/RealmNotification.java";
+import RealmKotlin from "!!raw-loader!@site/docs/notifications/RealmNotification.kt";
+import CollectionKotlin from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.kt";
+import CollectionJava from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.java";
+import ObjectKotlin from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.kt";
+import ObjectJava from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.java";
 
 ## Register a Realm Change Listener
 
@@ -34,15 +35,15 @@ activity, you want to have an indicator that lights up when
 any change is made. In that case, a realm notification
 handler would be a great way to drive the code that controls
 the indicator. The following code shows how to observe a realm
-for changes with with [`realm.addChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmResults.html#addChangeListener-io.realm.OrderedRealmCollectionChangeListener-):
+for changes with with [`realm.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html#addChangeListener-io.realm.OrderedRealmCollectionChangeListener-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{RealmKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{RealmJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RealmKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RealmJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::important Automatic Refresh
@@ -96,15 +97,15 @@ list or other view that represents the collection in the UI.
 ### Example
 
 The following code shows how to observe a collection for
-changes with [`collection.addChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener-):
+changes with [`collection.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{CollectionKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{CollectionJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CollectionKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CollectionJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Register an Object Change Listener
@@ -131,24 +132,24 @@ for as long as you need the notifications.
 
 The following code shows how create a new instance of a class
 in a realm and observe that instance for changes with
-[`object.addChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener-):
+[`object.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ObjectKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ObjectJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ObjectKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ObjectJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Unregister a Change Listener
 
 You can unregister a change listener by passing your change listener to
-[`realm.removeChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#removeChangeListener-io.realm.RealmChangeListener-).
+[`realm.removeChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#removeChangeListener-io.realm.RealmChangeListener-).
 You can unregister all change listeners currently subscribed to changes
 in a realm or any of its linked objects or collections with
-[`realm.removeAllChangeListeners()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#removeAllChangeListeners--).
+[`realm.removeAllChangeListeners()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#removeAllChangeListeners--).
 
 ## Notifications in System Apps on Custom ROMs
 

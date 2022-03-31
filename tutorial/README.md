@@ -35,7 +35,7 @@ To authenticate with the `realm-cli`, you must create an API key with **Project
 Owner** permissions for your project in the **Project Access Manager** view.
 Click the **Access Manager** at the top of the Atlas view to find it. Please
 follow the [instructions on the MongoDB documentation
-site](https://docs.mongodb.com/realm/deploy/realm-cli-reference/#authenticate-a-cli-user)
+site](https://www.mongodb.com/docs/realm/deploy/realm-cli-reference/#authenticate-a-cli-user)
 for more information.
 
 Once created, pass the API keys to `realm-cli login` to log in:

@@ -1,11 +1,12 @@
 ---
 title: Freeze Objects
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import FreezeKotlin from '!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.kt';
-import FreezeJava from '!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FreezeKotlin from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.kt";
+import FreezeJava from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.java";
 
 Live, thread-confined objects work fine in most cases.
 However, some apps -- those based on reactive, event
@@ -37,23 +38,23 @@ the following throws an exception:
 - Opening a write transaction on a frozen realm.
 - Modifying a frozen object.
 - Adding a change listener to a frozen realm, collection, or object.
-:::
+  :::
 
 Once frozen, you cannot unfreeze an object. You
 can use `isFrozen()` to check if an object is frozen.
 This method is always thread-safe.
 
 To freeze an object, collection, or realm, use the
-[`freeze()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmObject.html#freeze--)
+[`freeze()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#freeze--)
 method:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{FreezeKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{FreezeJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FreezeKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FreezeJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::important Frozen Objects and Realm Size

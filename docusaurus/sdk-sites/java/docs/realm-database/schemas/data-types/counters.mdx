@@ -1,18 +1,18 @@
 ---
-title: 'Counters'
+title: "Counters"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import HauntedHouseKotlin from '!!raw-loader!@site/docs/generated/java/local/HauntedHouseKt.codeblock.complete.kt';
-import HauntedHouseJava from '!!raw-loader!@site/docs/generated/java/local/HauntedHouse.codeblock.complete.java';
-import IDKotlin from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-increment-decrement.kt';
-import IDJava from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-increment-decrement.java';
-import SetKotlin from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-set.kt';
-import SetJava from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-set.java';
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import HauntedHouseKotlin from "!!raw-loader!@site/docs/generated/java/local/HauntedHouseKt.codeblock.complete.kt";
+import HauntedHouseJava from "!!raw-loader!@site/docs/generated/java/local/HauntedHouse.codeblock.complete.java";
+import IDKotlin from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-increment-decrement.kt";
+import IDJava from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-increment-decrement.java";
+import SetKotlin from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-set.kt";
+import SetJava from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.counter-set.java";
 
-Realm Database offers [`MutableRealmInteger`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/MutableRealmInteger/),
+Realm Database offers [`MutableRealmInteger`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/MutableRealmInteger/),
 a wrapper around numeric values, to help better synchronize numeric
 changes across multiple clients.
 
@@ -39,12 +39,12 @@ The following example demonstrates a `MutableRealmInteger` field that
 counts the number of ghosts found in a haunted house:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{HauntedHouseKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{HauntedHouseJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{HauntedHouseKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{HauntedHouseJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::important Counter Fields Must be Final
@@ -57,8 +57,8 @@ marked final.
 
 ## Usage
 
-The [`counter.increment()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/MutableRealmInteger/#increment)
-and [`counter.decrement()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/MutableRealmInteger/#decrement)
+The [`counter.increment()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/MutableRealmInteger/#increment)
+and [`counter.decrement()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/MutableRealmInteger/#decrement)
 operators ensure that increments and decrements from multiple distributed
 clients aggregate correctly.
 
@@ -66,16 +66,16 @@ To change a `MutableRealmInteger` value, call `increment()` or
 `decrement()` within a write transaction:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{IDKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{IDJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{IDKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{IDJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You can assign a `MutableRealmInteger` a new value with a call to
-[`counter.set()`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/MutableRealmInteger/#set)
+[`counter.set()`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/MutableRealmInteger/#set)
 within a write transaction.
 
 :::warning Counter Resets
@@ -89,12 +89,12 @@ not advised unless fuzzy counting is acceptable.
 :::
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{SetKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-         <CodeBlock language="java">{SetJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{SetKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{SetJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Since `MutableRealmInteger` instances retain a reference to their

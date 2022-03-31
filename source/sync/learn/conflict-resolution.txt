@@ -20,7 +20,7 @@ data independently. This can happen due to latency between device and
 server or loss of connectivity. In this event, {+service-short+} automatically 
 uses conflict resolution strategies to merge the changes. Specifically,
 {+service-short+} handles conflict resolution using `operational transformation 
-<https://docs.mongodb.com/realm/sync/protocol/#operational-transformation>`__,
+<https://www.mongodb.com/docs/realm/sync/protocol/#operational-transformation>`__,
 a set of rules that guarantee strong eventual consistency, meaning all clients' versions
 will eventually converge to identical states. This will be true even if changes were
 made in a different order. 

@@ -1,19 +1,20 @@
 ---
 title: Find Objects of a Type
 ---
-import CodeBlock from '@theme/CodeBlock';
-import FindAll from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.find-all-objects-of-a-type.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import FindAll from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.find-all-objects-of-a-type.kt";
 
 To find all objects of a type, open a realm
-and pass the type as a type parameter to [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html):
+and pass the type as a type parameter to [`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html):
 
 <CodeBlock language="kotlin">{FindAll}</CodeBlock>
 
 :::note `find()` is Synchronous
 
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
+[`find()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
 runs a synchronous query on the thread it is called from.
 As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
+logic that could delay the UI thread. Prefer [`asFlow()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
 in time sensitive environments.
 :::

@@ -4,6 +4,22 @@ import 'package:realm_dart/realm.dart';
 
 void main() {
   group('CRUD Operations', () {
+    setUpAll(() {
+      final realm = Realm(Configuration([Car.schema]));
+      realm.write(() {
+        realm.deleteAll<Car>();
+      });
+      realm.close();
+      Realm.deleteRealm(realm.config.path);
+    });
+    tearDownAll(() {
+      final realm = Realm(Configuration([Car.schema]));
+      realm.write(() {
+        realm.deleteAll<Car>();
+      });
+      realm.close();
+      Realm.deleteRealm(realm.config.path);
+    });
     test('Create Realm Object', () {
       var config = Configuration([Car.schema]);
       Realm realm = Realm(config);
@@ -21,6 +37,7 @@ void main() {
       realm.write(() {
         realm.delete(car); // clean up
       });
+      realm.close();
     });
 
     test('Query All Realm Objects', () {
@@ -41,6 +58,7 @@ void main() {
       realm.write(() {
         realm.deleteMany(cars); // clean up
       }); // clean up
+      realm.close();
     });
     test('Query Realm Objects with Filter', () {
       var config = Configuration([Car.schema]);
@@ -57,6 +75,7 @@ void main() {
       realm.write(() {
         realm.deleteMany(realm.all<Car>());
       }); // clean up
+      realm.close();
     });
 
     test('Query Realm Objects with Sort', () {
@@ -81,6 +100,7 @@ void main() {
       realm.write(() {
         realm.deleteMany(sortedCars);
       });
+      realm.close();
     });
 
     test('Update Realm Object', () {
@@ -102,6 +122,7 @@ void main() {
       realm.write(() {
         realm.delete(car); // clean up
       });
+      realm.close();
     });
 
     test('Delete One Realm Object', () {
@@ -119,6 +140,7 @@ void main() {
       // :snippet-end:
       var cars = realm.all<Car>();
       expect(cars.length, 0);
+      realm.close();
     });
     test('Delete Many Realm Objects', () {
       var config = Configuration([Car.schema]);
@@ -135,28 +157,7 @@ void main() {
       });
       // :snippet-end:
       expect(cars.length, 0);
+      realm.close();
     });
   });
-
-  // group('Listen for Changes', () {
-  //   var config = Configuration([Car.schema]);
-  //   var realm = Realm(config);
-  //   test('Listen to Entire Realm', () {
-  //     // :snippet-start: listen-to-entire-realm
-  //     // TODO(DOCSP-20543): add code example. sdk not yet ready as of 1/19 (i think)
-  //     // :snippet-end:
-  //   });
-  //   test('Listen to Collection of Realm Objects', () {
-  //     // :snippet-start: listen-to-collection-realm-objects
-  //     // TODO(DOCSP-20543): add code example. sdk not yet ready as of 1/19 (i think)
-  //     // :snippet-end:
-  //   });
-  //   test('Listen to Singe Realm Object', () {
-  //     // :snippet-start: listen-to-single-realm-object
-  //     // TODO(DOCSP-20543): add code example. sdk not yet ready as of 1/19 (i think)
-  //     // :snippet-end:
-  //   });
-  //   // realm.close();
-  //   // Realm.deleteRealm(config.path);
-  // });
 }
