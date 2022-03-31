@@ -22,13 +22,8 @@ initialize and work with the Realm Expo template.
 
 The Realm Expo template uses:
 
--  `Expo <https://docs.expo.dev/>`_, a framework to develop, build and deploy
-   React Native applications quickly.
-- :npm:`Realm React <package/@realm/react>`, an NPM package that provides an
-   easy-to-use API to perform common Realm operations, such as querying or
-   writing to a {+realm+} and listening to realm objects. Read the :ref:`Realm
-   React documentation <react-native-use-realm-react>` to learn more about
-   working with it.
+-  `Expo <https://docs.expo.dev/>`_, a framework to develop, build and deploy React Native applications quickly.
+- :npm:`Realm React <package/@realm/react>`, an NPM package that provides an easy-to-use API to perform common Realm operations, such as querying or writing to a {+realm+} and listening to realm objects. Read the :ref:`Realm React documentation <react-native-use-realm-react>` to learn more about working with it.
 
 
 Prerequisites
@@ -42,7 +37,7 @@ Next, before you initialize the template, you must install the `expo cli
 <https://docs.expo.dev/workflow/expo-cli/>`_ by running the following command:
 
 .. code-block:: shell
-  
+
    npm install -g expo-cli
 
 
@@ -55,30 +50,26 @@ To initialize a React Native application using the Realm Expo template use the E
    .. tab::
       :tabid: javascript
 
-      .. code-block:: javascript
+      Use ``expo init``  with the flag ``--template @realm/expo-template-js`` to initialize a
+      React Native application using the Realm Expo template with JavaScript. 
 
-         Use ``expo init``  with the flag ``--template @realm/expo-template-js`` to initialize a
-         React Native application using the Realm Expo template with JavaScript. 
+      Run the following command in your terminal: 
 
-         Run the following command in your terminal: 
-
-         .. code-block:: shell
-
-            expo init MyAwesomeRealmAppJS --template @realm/expo-template-js
+      .. code-block:: shell
+      
+         expo init MyAwesomeRealmAppJS --template @realm/expo-template-js
 
    .. tab::
       :tabid: typescript
 
-      .. code-block:: typescript
+      Use ``expo init``  with the flag ``--template @realm/expo-template-ts`` to initialize a
+      React Native application using the Realm Expo template with TypeScript. 
 
-         Use ``expo init``  with the flag ``--template @realm/expo-template-ts`` to initialize a
-         React Native application using the Realm Expo template with TypeScript. 
+      Run the following command in your terminal: 
 
-         Run the following command in your terminal: 
+      .. code-block:: shell
 
-         .. code-block:: shell
-
-            expo init MyAwesomeRealmApp --template @realm/expo-template-ts
+         expo init MyAwesomeRealmApp --template @realm/expo-template-ts
 
 Explore The File Structure
 --------------------------
