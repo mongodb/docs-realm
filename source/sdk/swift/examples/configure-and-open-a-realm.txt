@@ -233,9 +233,11 @@ This enables you to specify a partition value whose data should sync to the real
 
       .. seealso::
          
-         This example uses async/await introduced in Swift 5.5 for iOS 15. If you're
-         using an older version of Swift or need to support older platforms, see:
+         The Realm Swift SDK supports async/await syntax for opening a realm. 
+         For completion handler syntax, see:
          :ref:`Legacy Realm Sync Open Methods <ios-realm-open-legacy>`. 
+
+         .. include:: /includes/swift-async-await-support.rst
 
       Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
       object with the desired :ref:`partition value <partition-value>` to 
