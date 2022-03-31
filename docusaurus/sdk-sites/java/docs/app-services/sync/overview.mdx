@@ -1,32 +1,33 @@
 ---
 title: Overview
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import SyncKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.sync-data.kt';
-import SyncJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.sync-data.java';
-import PauseKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.kt';
-import PauseJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.java';
-import ResumeKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.kt';
-import ResumeJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.java';
-import ConnectionKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.kt';
-import ConnectionJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.java';
-import ULKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.kt';
-import ULJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.java';
-import DLKotlin from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-download-progress.kt';
-import DLJava from '!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-download-progress.java';
-import ErrorKotlin from '!!raw-loader!@site/docs/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.kt';
-import ErrorJava from '!!raw-loader!@site/docs/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import SyncKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.sync-data.kt";
+import SyncJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.sync-data.java";
+import PauseKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.kt";
+import PauseJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.java";
+import ResumeKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.kt";
+import ResumeJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.java";
+import ConnectionKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.kt";
+import ConnectionJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.java";
+import ULKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.kt";
+import ULJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.java";
+import DLKotlin from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-download-progress.kt";
+import DLJava from "!!raw-loader!@site/docs/generated/java/sync/SyncDataTest.codeblock.check-download-progress.java";
+import ErrorKotlin from "!!raw-loader!@site/docs/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.kt";
+import ErrorJava from "!!raw-loader!@site/docs/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.java";
 
 # Sync Overview
 
-Realm Sync automatically synchronizes data between client applications and 
-a [Realm App](https://docs.mongodb.com/realm/cloud/#std-label-realm-cloud).
-When a client  device is online, the SDK asynchronously synchronizes data in a 
+Realm Sync automatically synchronizes data between client applications and
+a [Realm App](https://www.mongodb.com/docs/realm/cloud/#std-label-realm-cloud).
+When a client device is online, the SDK asynchronously synchronizes data in a
 background thread between the device and the backend.
 
-When you use Sync in your client application, your implementation must match 
+When you use Sync in your client application, your implementation must match
 the Sync Mode you select in your backend App configuration. The Sync Mode
 options are:
 
@@ -37,16 +38,16 @@ You can only use one Sync Mode for your application. The Kotlin
 SDK only supports Partition-Based Sync.
 
 :::tip See Also
-[Enable Realm Sync](https://docs.mongodb.com/realm/sync/configure/enable-sync/#std-label-enable-realm-sync)
+[Enable Realm Sync](https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#std-label-enable-realm-sync)
 :::
 
 ## Partition-Based Sync
 
-When you select [Partition-Based Sync](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/#std-label-partition-based-sync)
+When you select [Partition-Based Sync](https://www.mongodb.com/docs/realm/sync/data-access-patterns/partitions/#std-label-partition-based-sync)
 for your backend App configuration, your client implementation must
-include a  partition value. This is the value of the
-[partition key](https://docs.mongodb.com/realm/sync/data-access-patterns/partitions/#std-label-partition-key)
-field you select when you configure Partition-Based Sync. 
+include a partition value. This is the value of the
+[partition key](https://www.mongodb.com/docs/realm/sync/data-access-patterns/partitions/#std-label-partition-key)
+field you select when you configure Partition-Based Sync.
 
 The partition value determines which data the client application can access.
 
@@ -74,7 +75,7 @@ Subscription sets are based on a specific type of Realm object. You
 might have multiple subscriptions if you have many types of Realm
 objects.
 
-To use Flexible Sync in your client application, open a synced realm 
+To use Flexible Sync in your client application, open a synced realm
 with a flexible sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
@@ -97,12 +98,12 @@ The following code reads a collection of `Task` objects, then writes a
 new `Task` to the realm:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{SyncKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{SyncJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{SyncKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{SyncJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Pause or Resume a Sync Session
@@ -121,95 +122,95 @@ designed or tested for these use cases, and you could encounter a range
 of issues when using it this way.
 
 To pause a currently active sync session, call
-[`syncSession.stop()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#stop--):
+[`syncSession.stop()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#stop--):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{PauseKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{PauseJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{PauseKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{PauseJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 To resume a currently paused sync session, call
-[`syncSession.start()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#start--):
+[`syncSession.start()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#start--):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ResumeKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ResumeJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ResumeKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ResumeJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Check the Current Network Connection
 
 The SDK manages communication with the backend at two levels:
-**connection state** and **session state**. *Connection state* tracks
+**connection state** and **session state**. _Connection state_ tracks
 the state of the network connection between a client device and your
-backend App. *Session state* refers to a single user's synchronization
+backend App. _Session state_ refers to a single user's synchronization
 state, which can be paused and resumed in the SDK at will. As a
-result, you must check *both* states to determine whether
+result, you must check _both_ states to determine whether
 a user's local changes can sync to the backend. Synchronization
 only occurs when the connection state is "connected" and the session
 state is "active".
 
-To check the current network connection, call [`syncSession.getConnectionState()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#getConnectionState--):
+To check the current network connection, call [`syncSession.getConnectionState()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#getConnectionState--):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ConnectionKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ConnectionJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ConnectionKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ConnectionJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You can also subscribe to session connection changes on your
-with [`syncSession.addConnectionChangeListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addConnectionChangeListener-io.realm.mongodb.sync.ConnectionListener-).
+with [`syncSession.addConnectionChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addConnectionChangeListener-io.realm.mongodb.sync.ConnectionListener-).
 
 ## Check Upload & Download Progress for a Sync Session
 
 To subscribe to progress updates for uploads, call
-[`syncSession.addUploadProgressListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)).
+[`syncSession.addUploadProgressListener()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)>).
 The passed `ProgressMode` determines which upload events your listener receives,
 and the passed `ProgressListener` determines your response logic to events:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ULKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ULJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ULKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ULJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
-To subscribe to progress updates for uploads, call [`syncSession.addDownloadProgressListener()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addDownloadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)).
+To subscribe to progress updates for uploads, call [`syncSession.addDownloadProgressListener()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncSession.html#addDownloadProgressListener(io.realm.mongodb.sync.ProgressMode,io.realm.mongodb.sync.ProgressListener)>).
 The passed `ProgressMode` determines which download events your listener receives,
 and the passed `ProgressListener` determines your response logic to events:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DLKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{DLJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DLKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DLJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Handle Sync Errors
 
 You can configure an error handler to detect and respond to any errors that
 occur in the synchronization process. To define an error handler, pass an
-`ErrorHandler` implementation to [`SyncConfiguration.Builder.errorHandler()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler-):
+`ErrorHandler` implementation to [`SyncConfiguration.Builder.errorHandler()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler-):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ErrorKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ErrorJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ErrorKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ErrorJava}</CodeBlock>
+  </TabItem>
 </Tabs>

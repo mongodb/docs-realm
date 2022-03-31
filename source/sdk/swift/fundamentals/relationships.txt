@@ -12,20 +12,18 @@ Relationships - Swift SDK
    :depth: 2
    :class: singlecol
 
-{+service+} allows you to define explicit relationships between the
-types of objects in a {+app+}. A relationship is an object property that
-references another {+service-short+} object rather than one of the
-primitive data types. You define relationships by setting the type of an
-object property to another object type in the :ref:`property schema
-<property-schema>`.
+{+client-database+} allows you to define explicit relationships between 
+objects. A relationship is an object property that references another 
+{+client-db-short+} object instead of a primitive data type. Define a 
+relationship by setting an object property's type to another object in the 
+:ref:`model <ios-object-models-and-schemas>`.
 
-Relationships are direct references to other objects in a {+realm+},
-which means that you don't need bridge tables or explicit joins to
-define a relationship like you would in a relational database. Instead
-you can access related objects by reading and writing to the property
-that defines the relationship. {+client-database+} executes read
-operations lazily as they come in, so querying a relationship is just as
-performant as reading a regular property.
+{+client-database+} doesn't use bridge tables or explicit joins to define 
+relationships as you would in a relational database. {+client-db-short+}
+handles relationships through embedded objects or reference properties to 
+other {+client-db-short+} objects. You read from and write to these 
+properties directly. This makes querying relationships as performant as 
+querying against any other property.
 
 There are three primary types of relationships between objects:
 
@@ -41,15 +39,14 @@ Key Concepts
 To-One Relationship
 ~~~~~~~~~~~~~~~~~~~
 
-A **to-one** relationship means that an object is related in a specific
-way to no more than one other object. You define a to-one relationship
-for an object type in its :ref:`object schema
-<ios-object-models-and-schemas>` by specifying a property where the type
+A **to-one** relationship means that an object relates to one other object. 
+You define a to-one relationship for an object type in its :ref:`object 
+schema <ios-object-models-and-schemas>`. Specify a property where the type 
 is the related {+service-short+} object type.
 
-Setting a relationship field to null removes the connection between
-objects, but {+client-database+} does not delete the referenced object
-unless that object is :ref:`embedded <ios-embedded-objects>`.
+Setting a relationship field to null removes the connection between objects. 
+Realm does not delete the referenced object, though, unless it is 
+:ref:`an embedded object <ios-embedded-objects>`.
 
 .. tip::
 
@@ -61,9 +58,9 @@ unless that object is :ref:`embedded <ios-embedded-objects>`.
 To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-A **to-many** relationship means that an object is related in a specific
-way to multiple objects. A to-many relationship in {+client-database+}
-is a list property containing references to other objects.
+A **to-many** relationship means that an object relates to more than one 
+other object. In {+client-database+}, a to-many relationship is a list of 
+references to other objects.
 
 .. tip::
 
@@ -75,21 +72,27 @@ is a list property containing references to other objects.
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
-An **inverse relationship** links an object back to any other objects that refer
-to it in a defined to-one or to-many relationship. Relationship definitions are
-unidirectional, so you must explicitly define a property in the object's model
-as an inverse relationship.
+Relationship definitions in {+client-database+} are unidirectional. An 
+**inverse relationship** links an object back to an object that refers 
+to it. You must explicitly define a property in the object's model as an 
+inverse relationship. Inverse relationships can link back to objects in 
+a to-one or to-many relationship.
 
-For example, the to-many relationship "User has many Tasks" does not
-automatically create the inverse relationship "Task belongs to User". If you
-don't specify the inverse relationship in the object model, you would need to
-run a separate query to look up the user that is assigned to a given task.
+For example, consider a task tracker with the to-many relationship "User has 
+many Tasks". This does not automatically create the inverse relationship 
+"Task belongs to User". To create the inverse relationship, add a User 
+property on the Task that points back to the task's owner. When you specify 
+the inverse relationship from task to user, you can query on that. If you 
+don't specify the inverse relationship, you must run a separate query to 
+look up the user to whom the task is assigned.
 
-{+client-database+} automatically updates implicit relationships whenever an
-object is added or removed in the specified relationship. You cannot manually
-set the value of an inverse relationship property.
+.. important::
 
-Since relationships are many-to-one or many-to-many, following inverse
+   You cannot manually set the value of an inverse relationship property.
+   Instead, {+client-database+} updates implicit relationships when you add 
+   or remove an object in the relationship.
+
+Relationships can be many-to-one or many-to-many. So following inverse 
 relationships can result in zero, one, or many objects.
 
 .. tip::
@@ -100,10 +103,10 @@ relationships can result in zero, one, or many objects.
 Summary
 -------
 
-- A **relationship** is an object property that allows an object to
-  reference other objects of the same or another object type.
+- A **relationship** is when an object property references another object 
+  instead of a primitive type.
 
-- Relationships are direct references. You can access related objects
-  directly through a relationship property without writing any type of join.
+- Relationships are direct references. You can access related objects 
+  through a relationship property without writing a join.
 
 - {+client-database+} supports to-one, to-many, and inverse relationships.

@@ -268,7 +268,9 @@ struct LogoutButton: View {
 /// and deleting items in the group.
 struct ItemsView: View {
     @ObservedRealmObject var group: Group
-    @ObservedResults(Item.self) var items
+    // :code-block-start: explicitly-provide-config-to-property-wrappers
+    @ObservedResults(Item.self, configuration: config) var items
+    // :code-block-end:
     @Binding var searchFilter: String
 
     /// The button to be displayed on the top left.

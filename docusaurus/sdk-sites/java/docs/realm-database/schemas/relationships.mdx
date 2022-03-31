@@ -1,17 +1,18 @@
 ---
-title: 'Relationships'
+title: "Relationships"
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import ToOneKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogManyToOneExampleKt.codeblock.complete.kt';
-import ToOneJava from '!!raw-loader!@site/docs/generated/java/local/FrogManyToOneExample.codeblock.complete.java';
-import ToManyKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogManyToManyExampleKt.codeblock.complete.kt';
-import ToManyJava from '!!raw-loader!@site/docs/generated/java/local/FrogManyToManyExample.codeblock.complete.java';
-import InverseToadKotlin from '!!raw-loader!@site/docs/generated/java/local/ToadInverseRelationshipExampleKt.codeblock.complete.kt';
-import InverseToadJava from '!!raw-loader!@site/docs/generated/java/local/ToadInverseRelationshipExample.codeblock.complete.java';
-import InverseFrogKotlin from '!!raw-loader!@site/docs/generated/java/local/FrogInverseRelationshipExampleKt.codeblock.complete.kt';
-import InverseFrogJava from '!!raw-loader!@site/docs/generated/java/local/FrogInverseRelationshipExample.codeblock.complete.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ToOneKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogManyToOneExampleKt.codeblock.complete.kt";
+import ToOneJava from "!!raw-loader!@site/docs/generated/java/local/FrogManyToOneExample.codeblock.complete.java";
+import ToManyKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogManyToManyExampleKt.codeblock.complete.kt";
+import ToManyJava from "!!raw-loader!@site/docs/generated/java/local/FrogManyToManyExample.codeblock.complete.java";
+import InverseToadKotlin from "!!raw-loader!@site/docs/generated/java/local/ToadInverseRelationshipExampleKt.codeblock.complete.kt";
+import InverseToadJava from "!!raw-loader!@site/docs/generated/java/local/ToadInverseRelationshipExample.codeblock.complete.java";
+import InverseFrogKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogInverseRelationshipExampleKt.codeblock.complete.kt";
+import InverseFrogJava from "!!raw-loader!@site/docs/generated/java/local/FrogInverseRelationshipExample.codeblock.complete.java";
 
 A relationship is an object property that references another Realm object.
 
@@ -57,12 +58,12 @@ To set up a many-to-one or one-to-one relationship, create a field
 whose type is a Realm object in your application:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ToOneKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ToOneJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ToOneKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ToOneJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 Each `Frog` references either zero `Frog` instances or one other
@@ -78,12 +79,12 @@ and any number of objects using a field of type `RealmList<?>`
 where `T` is a Realm object in your application:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{ToManyKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{ToManyJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ToManyKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ToManyJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 `RealmList`s are containers of `RealmObject`s, but otherwise behave
@@ -127,26 +128,26 @@ Consider the following class defining a `Toad` with a list of
 `frogFriends`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{InverseToadKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{InverseToadJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{InverseToadKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{InverseToadJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 You can provide a link in the opposite direction, from `Frog` to `Toad`,
-with the [`@LinkingObjects`](https://docs.mongodb.com/realm/sdk/java/api/io/realm/annotations/LinkingObjects/)
+with the [`@LinkingObjects`](https://www.mongodb.com/docs/realm/sdk/java/api/io/realm/annotations/LinkingObjects/)
 annotation on a `final` (in Java) or `val` (in Kotlin) field of type
 `RealmResults<T>`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{InverseFrogKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{InverseFrogJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{InverseFrogKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{InverseFrogJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::important Mark Inverse Properties as Final

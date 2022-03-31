@@ -1,3 +1,4 @@
+
 part 'car.g.dart';
 
 @RealmModel()

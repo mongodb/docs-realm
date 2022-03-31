@@ -1,11 +1,12 @@
 ---
 title: Write Transactions
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import TransactionKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.kt';
-import TransactionJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import TransactionKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.kt";
+import TransactionJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.run-a-transaction.java";
 
 ## Overview
 
@@ -18,7 +19,7 @@ state of the realm, we call them writes.
 Realm handles writes in terms of **transactions**. A
 transaction is a list of read and write operations that
 Realm treats as a single indivisible operation. In other
-words, a transaction is *all or nothing*: either all of the
+words, a transaction is _all or nothing_: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
 
@@ -57,17 +58,17 @@ the transaction immediately after the callback.
 ### Example
 
 The following code shows how to run a transaction with
-[`write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-or [`writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+[`write()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
+or [`writeBlocking()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
 If the code in the callback throws an exception, Realm
 cancels the transaction. Otherwise, Realm commits the
 transaction.
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{TransactionKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{TransactionJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{TransactionKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{TransactionJava}</CodeBlock>
+  </TabItem>
 </Tabs>

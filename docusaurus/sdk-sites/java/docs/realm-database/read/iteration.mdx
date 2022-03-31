@@ -1,12 +1,13 @@
 ---
 title: Iteration
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import Intro from './_read-intro.md';
-import IterateKotlin from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.iterate.kt';
-import IterateJava from '!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.iterate.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import Intro from "./_read-intro.md";
+import IterateKotlin from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.iterate.kt";
+import IterateJava from "!!raw-loader!@site/docs/generated/java/local/WritesTest.codeblock.iterate.java";
 
 <Intro />
 
@@ -18,10 +19,10 @@ elements will not change, even if an element is deleted or modified.
 
 `Iterator` objects created from `RealmResults` use snapshots
 automatically. `Iterator` objects created from `RealmList`
-instances do *not* use snapshots. Use
-[`realmList.createSnapshot()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmList.html#createSnapshot--)
+instances do _not_ use snapshots. Use
+[`realmList.createSnapshot()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmList.html#createSnapshot--)
 or
-[`realmResults.createSnapshot()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/RealmResults.html#createSnapshot--)
+[`realmResults.createSnapshot()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html#createSnapshot--)
 to manually generate a snapshot you can iterate over manually.
 
 The following code demonstrates how to iterate over a collection
@@ -29,10 +30,10 @@ safely using either an implicit snapshot created from a `RealmResults`
 `Iterator` or a manual snapshot created from a `RealmList`:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{IterateKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{IterateJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{IterateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{IterateJava}</CodeBlock>
+  </TabItem>
 </Tabs>

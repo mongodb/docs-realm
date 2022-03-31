@@ -1,15 +1,16 @@
 ---
 title: Modify an Object
 ---
-import CodeBlock from '@theme/CodeBlock';
-import Modify from '!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.modify-an-object.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import Modify from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.modify-an-object.kt";
 
 To modify an object stored within a realm:
 
-1. Open a write transaction with [`realm.write()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
-   or [`realm.writeBlocking()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+1. Open a write transaction with [`realm.write()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
+   or [`realm.writeBlocking()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
 
-1. Query the transaction's mutable realm with [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
+1. Query the transaction's mutable realm with [`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
    Specify the object type as a type parameter passed to `query()`.
    To ensure your query returns the correct object, filter with unique
    identifying information such as a primary key value.
@@ -17,7 +18,6 @@ To modify an object stored within a realm:
 1. Change an object property within the
    [write transaction](/sdk/kotlin/realm-database/write-transactions).
    The SDK automatically persists changes to the realm.
-
 
 <CodeBlock language="kotlin">{Modify}</CodeBlock>
 

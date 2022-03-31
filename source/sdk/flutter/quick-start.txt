@@ -32,7 +32,7 @@ stored within {+client-database+}.
 You can define your application's data model via Dart
 classes in your application code with
 a Realm object schema. 
-You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-class.html>`
+You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
 class that's used within your application.
 
 .. seealso:: Further Reading
@@ -210,29 +210,44 @@ Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
 .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
    :language: dart
 
-.. TODO(DOCSP-20543): refactor everything here. this is the roughest of sketches. 
-.. there's little confidence anything here is correct. the APIs for these operations 
-.. haven't been finished yet. 
-.. Listen for Changes to Objects
-.. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+React to Changes
+~~~~~~~~~~~~~~~~
 
+Listen and respond to changes to a query, a single object, or a list within an object.
+The change listener is a Stream that invokes a callback function with an containing
+changes since last invocation as its argument.  
 
-.. Listen and respond to changes to an entire {+realm+} database, a collection or a single object. 
+To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
+<realm/RealmResultsChanges-class.html>`.
 
-.. To listen to an entire {+realm+}, use the `Realm.addListener(Event, ListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Realm/addListener.html>`__ method. 
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.query-change-listener.dart
+   :language: dart
 
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-entire-realm.dart
-..    :language: dart
+To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
+<realm/RealmObjectChanges-class.html>`. 
 
-.. To listen to an a collection of {+realm+} objects, use the `Results<RealmObject>.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/Results/addListener.html>`__ method. 
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-object-change-listener.dart
+   :language: dart
 
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-collection-realm-objects.dart
-..    :language: dart
+To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
+<realm/RealmListChanges-class.html>`.
 
-.. To listen to an a single {+realm+} object, use the `RealmObject.addListener(ResultsListenerCallback) <https://pub.dev/documentation/realm/latest/realm/RealmObject/addListener.html>`__ method. 
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-list-change-listener.dart
+   :language: dart
 
-.. .. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.listen-to-single-realm-object.dart
-..    :language: dart
+You can pause and resume subscriptions as well. 
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.pause-resume-subscription.dart
+   :language: dart
+
+Once you've finished listening to changes, close the change listener to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.cancel-subscription.dart
+   :language: dart
+
+.. seealso:: Further Reading
+
+   :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`
 
 Close a Realm
 -------------

@@ -1,26 +1,27 @@
 ---
 title: Delete All Objects in a Realm
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import DeleteAllKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all.kt';
-import DeleteAllJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DeleteAllKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all.kt";
+import DeleteAllJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-all.java";
 
 It is possible to delete all objects from a realm. This
 does not affect the schema of the realm. Deleting all objects can be
 useful for quickly clearing out your realm while prototyping.
 
 The following code demonstrates how to delete everything
-from a realm with [`deleteAll()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/Realm.html#deleteAll--):
+from a realm with [`deleteAll()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#deleteAll--):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DeleteAllKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{DeleteAllJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DeleteAllKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DeleteAllJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note

@@ -21,14 +21,14 @@ io.realm
 
 
 
-- `java.util.Collection <https://docs.oracle.com/javase/7/docs/api/java/util/Collection.html>`__ 
+- `java.util.Collection <https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html>`__ 
 - **io.realm.internal.ManageableObject**
-- `java.lang.Iterable <https://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html>`__ 
+- `java.lang.Iterable <https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html>`__ 
 
 
 ``RealmCollection``  is the root of the collection hierarchy that Realm supports. It defines operations on data collections and the behavior that they will have in all implementations of ``RealmCollection`` s.
 
-Realm collections are "live" views to the underlying data. This means that they automatically will be kept up to date. As a consequence, using methods like `Collections.unmodifiableCollection(Collection) <https://docs.oracle.com/javase/7/docs/api/java/util/Collections/unmodifiableCollection(Collection).html>`__  will not prevent a collection from being modified.
+Realm collections are "live" views to the underlying data. This means that they automatically will be kept up to date. As a consequence, using methods like `Collections.unmodifiableCollection(Collection) <https://docs.oracle.com/javase/8/docs/api/java/util/Collections/unmodifiableCollection(Collection).html>`__  will not prevent a collection from being modified.
 
 
 
@@ -46,7 +46,7 @@ Method Summary
    
    * - public **double**
      - | :ref:`average <io_realm_RealmCollection_average>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -57,7 +57,7 @@ Method Summary
    
    * - public **boolean**
      - | :ref:`contains <io_realm_RealmCollection_contains>` (
-       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  object
+       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  object
        | )
        
        
@@ -130,9 +130,9 @@ Method Summary
        
        
    
-   * - public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__ 
+   * - public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__ 
      - | :ref:`max <io_realm_RealmCollection_max>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -141,9 +141,9 @@ Method Summary
        
        
    
-   * - public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__ 
+   * - public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__ 
      - | :ref:`maxDate <io_realm_RealmCollection_maxDate>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -152,9 +152,9 @@ Method Summary
        
        
    
-   * - public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__ 
+   * - public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__ 
      - | :ref:`min <io_realm_RealmCollection_min>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -163,9 +163,9 @@ Method Summary
        
        
    
-   * - public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__ 
+   * - public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__ 
      - | :ref:`minDate <io_realm_RealmCollection_minDate>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -174,9 +174,9 @@ Method Summary
        
        
    
-   * - public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__ 
+   * - public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__ 
      - | :ref:`sum <io_realm_RealmCollection_sum>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -241,7 +241,7 @@ average
    :header-rows: 1
    
    * - | public **double** :ref:`average <io_realm_RealmCollection_average>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -273,11 +273,11 @@ average
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -323,7 +323,7 @@ contains
    :header-rows: 1
    
    * - | public **boolean** :ref:`contains <io_realm_RealmCollection_contains>` (
-       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  object
+       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  object
        | )
        
        
@@ -357,7 +357,7 @@ contains
        
        **Throws**
        
-       - `NullPointerException <https://docs.oracle.com/javase/7/docs/api/java/lang/NullPointerException.html>`__  - if the object to look for is ``null``  and this ``Collection``  doesn't support ``null``  elements.
+       - `NullPointerException <https://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html>`__  - if the object to look for is ``null``  and this ``Collection``  doesn't support ``null``  elements.
           
           
           
@@ -416,11 +416,11 @@ deleteAllFromRealm
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the corresponding Realm is closed or in an incorrect thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the corresponding Realm is closed or in an incorrect thread.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -459,11 +459,11 @@ freeze
        
        
    
-   * - Returns a frozen snapshot of this collection. The frozen copy can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
+   * - Returns a frozen snapshot of this collection. The frozen copy can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
        
        Freezing a collection also creates a Realm which has its own lifecycle, but if the live Realm that spawned the original collection is fully closed (i.e. all instances across all threads are closed), the frozen Realm and this collection will be closed as well.
        
-       Frozen collections can be queried as normal, but trying to mutate it in any way or attempting to register a listener will throw an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
+       Frozen collections can be queried as normal, but trying to mutate it in any way or attempting to register a listener will throw an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
        
        
        
@@ -487,7 +487,7 @@ freeze
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if this method is called from inside a write transaction.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if this method is called from inside a write transaction.
           
           
           
@@ -734,8 +734,8 @@ max
 .. list-table::
    :header-rows: 1
    
-   * - | public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__  :ref:`max <io_realm_RealmCollection_max>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+   * - | public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__  :ref:`max <io_realm_RealmCollection_max>` (
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -767,11 +767,11 @@ max
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -816,8 +816,8 @@ maxDate
 .. list-table::
    :header-rows: 1
    
-   * - | public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__  :ref:`maxDate <io_realm_RealmCollection_maxDate>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+   * - | public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__  :ref:`maxDate <io_realm_RealmCollection_maxDate>` (
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -849,11 +849,11 @@ maxDate
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if fieldName is not a Date field.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if fieldName is not a Date field.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -898,8 +898,8 @@ min
 .. list-table::
    :header-rows: 1
    
-   * - | public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__  :ref:`min <io_realm_RealmCollection_min>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+   * - | public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__  :ref:`min <io_realm_RealmCollection_min>` (
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -931,11 +931,11 @@ min
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -980,8 +980,8 @@ minDate
 .. list-table::
    :header-rows: 1
    
-   * - | public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__  :ref:`minDate <io_realm_RealmCollection_minDate>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+   * - | public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__  :ref:`minDate <io_realm_RealmCollection_minDate>` (
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -1013,11 +1013,11 @@ minDate
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if fieldName is not a Date field.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if fieldName is not a Date field.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -1062,8 +1062,8 @@ sum
 .. list-table::
    :header-rows: 1
    
-   * - | public `Number <https://docs.oracle.com/javase/7/docs/api/java/lang/Number.html>`__  :ref:`sum <io_realm_RealmCollection_sum>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+   * - | public `Number <https://docs.oracle.com/javase/8/docs/api/java/lang/Number.html>`__  :ref:`sum <io_realm_RealmCollection_sum>` (
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -1095,11 +1095,11 @@ sum
        
        **Throws**
        
-       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
+       - `java.lang.IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the field is not a number type.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -1156,7 +1156,7 @@ where
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm instance has been closed or queries are not otherwise available.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm instance has been closed or queries are not otherwise available.
           
           
           

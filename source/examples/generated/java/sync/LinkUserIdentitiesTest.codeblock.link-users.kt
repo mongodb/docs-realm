@@ -1,3 +1,4 @@
+// The user has previously created an email/password account
 user.linkCredentialsAsync(
     Credentials.emailPassword(
         email,
@@ -7,7 +8,8 @@ user.linkCredentialsAsync(
     if (result.isSuccess) {
         Log.v(
             "EXAMPLE",
-            "Successfully linked existing user identity with email/password user: ${result.get()}"
+            "Successfully linked existing user identity 
+               with email/password user: ${result.get()}"
         )
     } else {
         Log.e(

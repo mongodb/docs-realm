@@ -1,10 +1,8 @@
 title: Pull the Latest Version of Your App
 ref: pull-the-latest-version-of-your-app
 content: |
-  To configure the Custom Function provider with {+cli-bin+}, you need a local
-  copy of your application's configuration files.
-  
-  To pull a local copy of the latest version of your app, run the following:
+  To pull a local copy of the latest version of your app, run the
+  following:
   
   .. code-block:: bash
      
@@ -18,89 +16,25 @@ content: |
 title: Define the Authentication Function
 ref: define-the-authentication-function
 content: |
-  The authentication function must return a string ID value or an object 
-  containing a string ID value that uniquely identifies the user. {+service+} uses 
-  this value to look up an existing {+service-short+} user and automatically 
-  creates a new user if it does not match an existing user. If the function does 
-  not return a valid return value, {+backend+} throws an error and does not 
-  create or authenticate a user.
-  
-  Valid return values options include: 
-  
-  .. example:: 
-  
-    A string ID value that uniquely identifies the user
-    
-    .. code-block:: shell
-    
-      return "5f650356a8631da45dd4784c"
-    
-    An object that contains a string ID value that uniquely identifies the user
-    
-    .. code-block:: shell
+  The provider uses a normal function to handle authentication. The
+  function should return a unique external ID string to identify the
+  user. user.
 
-      return { "id": "5f650356a8631da45dd4784c" }
-      return { "id": "5f650356a8631da45dd4784c", "name": "James Bond" }
-      
-  .. important:: Realm Generates New User ID Values
+  Save the :ref:`authentication function <authentication-function>` code
+  in the ``functions`` directory.
      
-     The ID value that you return from the authentication function is
-     **not** the internal {+service-short+} user id (i.e. the value that
-     :json-expansion:`%%user` and :ref:`context.user <context-user>`
-     resolve to). {+backend+} automatically generates a unique id for Custom
-     Function users when it creates them.
-  
-  To create the authentication function, write the function code and
-  then follow the steps in :doc:`Define a Function
-  </functions/define-a-function>` to add it to your application.
-  
-  .. example::
+  .. code-block:: shell
      
-     An application implements a Custom Function authentication provider
-     that stores user data in the ``app.users`` MongoDB collection. The
-     app lets users log in by specifying their ``username`` but does not
-     require a password or any other type of authentication.
-     
-     The application's authentication function queries the ``users``
-     collection for an existing user with the specified username. If the
-     user already exists, the function returns their stored ``id`` value. If
-     the user does not exist, the function stores a new user document in
-     the collection and returns that document's ``id`` value.
-     
-     .. code-block:: javascript
-        :emphasize-lines: 9, 12, 16, 20
-        
-        exports = async function(loginPayload) {
-          // Get a handle for the app.users collection
-          const users = context.services
-            .get("mongodb-atlas")
-            .db("app")
-            .collection("users");
-          
-          // Parse out custom data from the FunctionCredential
-          const { username } = loginPayload;
-          
-          // Query for an existing user document with the specified username
-          const user = await users.findOne({ username });
-          
-          if (user) {
-            // If the user document exists, return its unique ID
-            return user._id.toString();
-          } else {
-            // If the user document does not exist, create it and then return its unique ID
-            const result = await users.insertOne({ username });
-            return result.insertedId.toString();
-          }
-        };
+     touch functions/handleCustomFunctionAuthentication.js
 ---
 title: Add a Provider Configuration File
 ref: add-a-provider-configuration-file
 content: |
-  To enable and configure the Custom Function authentication provider, define a
-  a :ref:`configuration object <appconfig-auth>` for it in
+  To enable and configure the Custom Function authentication provider,
+  define a a :ref:`configuration object <appconfig-auth>` for it in
   ``/auth/providers.json``.
   
-  Custom Function provider configurations have the following form:
+  Custom function provider configurations have the following form:
   
   .. code-block:: json
      :caption: /auth/providers.json

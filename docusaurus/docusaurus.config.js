@@ -163,7 +163,7 @@ const config = {
             items: [
               {
                 label: "Realm App Services Documentation",
-                to: "https://docs.mongodb.com/realm/",
+                to: "https://www.mongodb.com/docs/realm/",
               },
             ],
           },
@@ -201,7 +201,14 @@ const config = {
         darkTheme: darkCodeTheme,
         // careful -- adding a nonexistent language will break
         // the build without any error output!
-        additionalLanguages: ["kotlin", "java", "dart", "groovy"],
+        additionalLanguages: [
+          "kotlin",
+          "java",
+          "dart",
+          "groovy",
+          "csharp",
+          "swift",
+        ],
       },
     }),
 };

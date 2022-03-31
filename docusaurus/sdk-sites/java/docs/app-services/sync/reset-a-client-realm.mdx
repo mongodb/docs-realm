@@ -1,17 +1,18 @@
 ---
 title: Reset a Client Realm
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import DiscardKotlin from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.kt';
-import DiscardJava from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.java';
-import DiscardDestructKotlin from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.kt';
-import DiscardDestructJava from '!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DiscardKotlin from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.kt";
+import DiscardJava from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes.java";
+import DiscardDestructKotlin from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.kt";
+import DiscardDestructJava from "!!raw-loader!@site/docs/generated/java/sync/ClientResetTest.codeblock.client-reset-discard-unsynced-changes-with-simple-manual-fallback.java";
 
 :::tip Learn More About Client Resets
 To learn about the causes of and strategies for handling client
-resets, check out the [Client Reset](https://docs.mongodb.com/realm/sync/error-handling/client-resets/#std-label-client-resets)
+resets, check out the [Client Reset](https://www.mongodb.com/docs/realm/sync/error-handling/client-resets/#std-label-client-resets)
 documentation.
 :::
 
@@ -46,16 +47,16 @@ cannot lose data already written to the client realm file but not yet
 synced to the backend.
 
 The "discard unsynced changes" strategy can handle every kind of client
-reset error *except* for client resets triggered by
+reset error _except_ for client resets triggered by
 destructive schema changes.
 
 If your application experiences a destructive schema change, this strategy
 falls back to a mode that mimics the "manually recover unsynced changes"
 strategy.
 
-To handle client resets with the "discard unsynced changes" strategy, 
+To handle client resets with the "discard unsynced changes" strategy,
 pass an instance of `DiscardUnsyncedChangesStrategy` to the
-[`defaultSyncClientResetStrategy()`](https://docs.mongodb.com/realm-sdks/java/latest/io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy))
+[`defaultSyncClientResetStrategy()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.DiscardUnsyncedChangesStrategy)>)
 builder method when you instantiate your `App`. Your
 `DiscardUnsyncedChangesStrategy` instance must implement the following
 methods:
@@ -74,18 +75,19 @@ methods:
 The following example implements this strategy:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DiscardKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{DiscardJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DiscardKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DiscardJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ### Discard Unsynced Changes after Destructive Schema Changes {#destructive}
 
 :::caution Destructive Schema Changes May Require an App Schema Update
 After a destructive schema change:
+
 - All clients must perform a client reset.
 - Clients that use models destructively affected by the schema change must update local object models.
 
@@ -99,12 +101,12 @@ example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{DiscardDestructKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{DiscardDestructJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DiscardDestructKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DiscardDestructJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 ## Manually Recover Unsynced Changes

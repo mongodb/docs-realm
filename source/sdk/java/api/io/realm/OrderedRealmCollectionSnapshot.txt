@@ -18,9 +18,9 @@ io.realm
 ========
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
- | 		`java.util.AbstractCollection <https://docs.oracle.com/javase/7/docs/api/java/util/AbstractCollection.html>`__ 
- | 					`java.util.AbstractList <https://docs.oracle.com/javase/7/docs/api/java/util/AbstractList.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+ | 		`java.util.AbstractCollection <https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html>`__ 
+ | 					`java.util.AbstractList <https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html>`__ 
  | 								**io.realm.OrderedRealmCollectionImpl**
  | 											io.realm.OrderedRealmCollectionSnapshot
 
@@ -172,7 +172,7 @@ Method Summary
    
    * - public :ref:`RealmResults <io_realm_RealmResults>` 
      - | :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `java.lang.String[] <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldNames, 
+       |  `java.lang.String[] <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldNames, 
        |  :ref:`io.realm.Sort[] <io_realm_Sort>`  sortOrders
        | )
        
@@ -186,9 +186,9 @@ Method Summary
    
    * - public :ref:`RealmResults <io_realm_RealmResults>` 
      - | :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName1, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName1, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder1, 
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName2, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName2, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder2
        | )
        
@@ -202,7 +202,7 @@ Method Summary
    
    * - public :ref:`RealmResults <io_realm_RealmResults>` 
      - | :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder
        | )
        
@@ -216,7 +216,7 @@ Method Summary
    
    * - public :ref:`RealmResults <io_realm_RealmResults>` 
      - | :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -247,9 +247,9 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class `java.util.AbstractCollection <https://docs.oracle.com/javase/7/docs/api/java/util/AbstractCollection.html>`__ : ``iterator`` , ``size`` , ``isEmpty`` , ``contains`` , ``toArray`` , ``toArray`` , ``add`` , ``remove`` , ``containsAll`` , ``addAll`` , ``removeAll`` , ``retainAll`` , ``clear`` , ``toString`` 
-- Methods inherited from class `java.util.AbstractList <https://docs.oracle.com/javase/7/docs/api/java/util/AbstractList.html>`__ : ``add`` , ``get`` , ``set`` , ``add`` , ``remove`` , ``indexOf`` , ``lastIndexOf`` , ``clear`` , ``addAll`` , ``iterator`` , ``listIterator`` , ``listIterator`` , ``subList`` , ``equals`` , ``hashCode`` , ``removeRange`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.util.AbstractCollection <https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html>`__ : ``iterator`` , ``size`` , ``isEmpty`` , ``contains`` , ``toArray`` , ``toArray`` , ``add`` , ``remove`` , ``containsAll`` , ``addAll`` , ``removeAll`` , ``retainAll`` , ``clear`` , ``toString`` 
+- Methods inherited from class `java.util.AbstractList <https://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html>`__ : ``add`` , ``get`` , ``set`` , ``add`` , ``remove`` , ``indexOf`` , ``lastIndexOf`` , ``clear`` , ``addAll`` , ``iterator`` , ``listIterator`` , ``listIterator`` , ``subList`` , ``equals`` , ``hashCode`` , ``removeRange`` 
 - Methods inherited from class **io.realm.OrderedRealmCollectionImpl**: ``isValid`` , ``isManaged`` , ``contains`` , ``get`` , ``first`` , ``first`` , ``last`` , ``last`` , ``deleteFromRealm`` , ``deleteAllFromRealm`` , ``iterator`` , ``listIterator`` , ``listIterator`` , ``sort`` , ``sort`` , ``sort`` , ``sort`` , ``size`` , ``min`` , ``minDate`` , ``max`` , ``maxDate`` , ``sum`` , ``average`` , ``remove`` , ``remove`` , ``removeAll`` , ``set`` , ``retainAll`` , ``deleteLastFromRealm`` , ``deleteFirstFromRealm`` , ``clear`` , ``add`` , ``add`` , ``addAll`` , ``addAll`` , ``createSnapshot`` , ``getRealm`` 
 
 
@@ -355,11 +355,11 @@ deleteAllFromRealm
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the corresponding Realm is closed or in an incorrect thread.
+       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the corresponding Realm is closed or in an incorrect thread.
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm has been closed or called from an incorrect thread.
           
           
           
@@ -420,7 +420,7 @@ deleteFirstFromRealm
        
        **Throws**
        
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called on the wrong thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called on the wrong thread.
           
           
           
@@ -489,13 +489,13 @@ deleteFromRealm
        
        **Throws**
        
-       - `IndexOutOfBoundsException <https://docs.oracle.com/javase/7/docs/api/java/lang/IndexOutOfBoundsException.html>`__  - if ``location < 0 || location >= size()`` .
+       - `IndexOutOfBoundsException <https://docs.oracle.com/javase/8/docs/api/java/lang/IndexOutOfBoundsException.html>`__  - if ``location < 0 || location >= size()`` .
           
           
           
           
           
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called from the wrong thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called from the wrong thread.
           
           
           
@@ -556,7 +556,7 @@ deleteLastFromRealm
        
        **Throws**
        
-       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called from the wrong thread.
+       - `java.lang.IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the Realm is closed or the method is called from the wrong thread.
           
           
           
@@ -599,11 +599,11 @@ freeze
        
        
    
-   * - Returns a frozen snapshot of this collection. The frozen copy can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
+   * - Returns a frozen snapshot of this collection. The frozen copy can be read and queried from any thread without throwing an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
        
        Freezing a collection also creates a Realm which has its own lifecycle, but if the live Realm that spawned the original collection is fully closed (i.e. all instances across all threads are closed), the frozen Realm and this collection will be closed as well.
        
-       Frozen collections can be queried as normal, but trying to mutate it in any way or attempting to register a listener will throw an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
+       Frozen collections can be queried as normal, but trying to mutate it in any way or attempting to register a listener will throw an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
        
        
        
@@ -961,7 +961,7 @@ sort
    :header-rows: 1
    
    * - | public :ref:`RealmResults <io_realm_RealmResults>`  :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `java.lang.String[] <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldNames, 
+       |  `java.lang.String[] <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldNames, 
        |  :ref:`io.realm.Sort[] <io_realm_Sort>`  sortOrders
        | )
        
@@ -988,7 +988,7 @@ sort
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
           
           
           
@@ -1199,9 +1199,9 @@ sort
    :header-rows: 1
    
    * - | public :ref:`RealmResults <io_realm_RealmResults>`  :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName1, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName1, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder1, 
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName2, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName2, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder2
        | )
        
@@ -1228,7 +1228,7 @@ sort
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
           
           
           
@@ -1295,7 +1295,7 @@ sort
    :header-rows: 1
    
    * - | public :ref:`RealmResults <io_realm_RealmResults>`  :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName, 
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName, 
        |  :ref:`Sort <io_realm_Sort>`  sortOrder
        | )
        
@@ -1322,7 +1322,7 @@ sort
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
           
           
           
@@ -1353,7 +1353,7 @@ sort
    :header-rows: 1
    
    * - | public :ref:`RealmResults <io_realm_RealmResults>`  :ref:`sort <io_realm_OrderedRealmCollectionSnapshot_sort>` (
-       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
@@ -1379,7 +1379,7 @@ sort
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
           
           
           
@@ -1440,7 +1440,7 @@ where
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - 
           
           
           

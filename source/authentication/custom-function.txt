@@ -12,41 +12,216 @@ Custom Function Authentication
    :depth: 2
    :class: singlecol
 
-.. _custom-function-authentication-overview:
-
 Overview
 --------
 
-The Custom Function authentication provider allows you to use a
-:doc:`{+service-short+} Function </functions>` to implement your own user
-authentication logic or flexibly integrate an external authentication
-system. You can use the Custom Function provider to integrate with any
-authentication system as long as the system maintains a unique ID value
-for each user.
+The **custom function** authentication provider allows you to define a
+custom authentication flow using a :ref:`serverless function
+<functions>`. You can use this provider to implement your own user
+authentication logic or integrate an external authentication system.
 
-The **authentication function** is a :doc:`{+service-short+} Function </functions>`
-that you define to handle authentication logic for users that log in
-with the Custom Function provider. You can use the function to
-coordinate with an external authentication system and/or use data that
-you store in MongoDB to identify and authenticate users.
+When to Use Custom Function Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. important:: Validate and Authenticate Custom Function Users
+Custom function authentication is the most flexible form of
+authentication. However, it also requires you to manually define and
+configure the authentication flow yourself.
 
-   {+service-short+} does not perform any data validation or authentication
-   checks for the Custom Function provider. Make sure that you validate
-   incoming data and that your authentication system performs
-   appropriate authentication checks, such as requiring a password, two
-   factor authentication, or a :wikipedia:`single sign-on
-   <Single_sign-on>` token.
+Before you define a custom function provider, consider if you can one
+use of the :ref:`built-in authentication providers
+<authentication-providers>` instead.
 
-.. _custom-function-authentication-configuration:
+Consider using the custom function provider in your app if:
+
+- You want to use an external authentication service that does not have
+  a built-in provider. If the service uses JSON web tokens, consider
+  creating a :ref:`Custom JWT <custom-jwt-authentication>` provider
+  instead.
+
+- You want to customize the authentication process beyond what's
+  available in a built-in provider. For example, you could use a service
+  to send customized confirmation emails instead of the default
+  email/password provider emails.
+
+.. important::
+   
+   {+service-short+} does not perform any data validation or
+   authentication checks for the custom function provider.
+   
+   Make sure that you validate incoming data and that your
+   authentication system performs appropriate authentication checks,
+   such as requiring a password, :wikipedia:`two-factor authentication <Multi-factor_authentication>`, or a
+   :wikipedia:`single sign-on <Single_sign-on>` token.
+
+.. _authentication-function:
+
+The Authentication Function
+---------------------------
+
+The authentication function is a JavaScript function that holds your
+custom user authentication code. It runs whenever a user logs in through
+the custom function provider. 
+
+The function maps data provided at login, like a username and password
+or an access token, to a string that uniquely identifies the user in
+your external authentication system. For example, you could use the
+provided data to log in to an external service over HTTP or using a
+package from npm.
+
+.. literalinclude:: /authentication/custom-function/the-authentication-function.js
+   :language: javascript
+
+Receive a Custom Credential Payload
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``payload`` object passed to the function contains data that was
+included with the custom function provider credential in the client app.
+The function accepts any value provided from your client app, so the
+actual field names and values depend on your implementation.
+
+.. example::
+
+   The following code examples show how to create a function credential
+   using the Realm SDKs. The credential includes a ``payload`` object
+   that is passed to the authentication function.
+
+   .. tabs-realm-languages::
+   
+      .. tab::
+         :tabid: javascript
+   
+         .. code-block:: javascript
+         
+            const credentials = Realm.Credentials.function({
+              username: "mongolover",
+              pin: "24601",
+            });
+   
+      .. tab::
+         :tabid: java
+   
+         .. code-block:: java
+            
+            import org.bson.Document;
+            import static java.util.Map.entry;
+   
+            val credentials: Credentials = Credentials.customFunction(
+              Document(
+                Map.ofEntries(
+                  entry("username", "mongolover"),
+                  entry("pin", "24601")
+                )
+              )
+            )
+   
+      .. tab::
+         :tabid: c-sharp
+   
+         .. code-block:: csharp
+         
+            var credentials = Credentials.Function(new {
+              username = "mongolover",
+              pin = "24601"
+            })
+   
+      .. tab::
+         :tabid: swift
+   
+         .. code-block:: swift
+         
+            let credentials = Credentials.function(payload: [
+               "username": "mongolover",
+               "pin": "24601"
+            ])
+
+Return an Authenticated User ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If authentication is successful, the function should return a unique
+string identifier for the user. For example, you could return the user
+ID value used by your external authentication system. This is the user's
+*external ID*, which the provider uses to map from your custom system to
+your app's internal user accounts.
+
+.. important::
+   
+   The user's external ID is *not* the same as the user's internal
+   account ID, which is exposed as the ``id`` field of a user object.
+   You access the user's internal ID with ``%%user.id`` in expressions,
+   ``context.user.id`` in functions, and the ``User.id`` property in the
+   SDKs.
+
+If an existing user is already associated with the external ID, the
+provider logs that user in.
+
+If the provider has no record of a given external ID, it creates a new
+:ref:`user account <user-accounts>`, adds a custom function provider
+identity, and then logs in the new user.
+
+The identity object for the custom function provider is stored in the
+:ref:`user object <user-objects>` and resembles the following:
+
+.. code-block:: json
+   :emphasize-lines: 4-7
+   
+   {
+     "id": "<Internal User Account ID>",
+     "identities": [
+        {
+          "providerType": "custom-function",
+          "id": "<External User ID>",
+        }
+     ]
+   }
+
+.. example:: 
+  
+    The authentication function should return a unique external ID as a
+    string:
+    
+    .. code-block:: javascript
+    
+      return "5f650356a8631da45dd4784c"
+    
+    You can also return an object that contains the external ID as its
+    ``id`` value:
+    
+    .. code-block:: javascript
+
+      return { "id": "5f650356a8631da45dd4784c" }
+
+    If you want to define a display name for the user, define it in the
+    ``name`` field of the returned object:
+    
+    .. code-block:: javascript
+       :emphasize-lines: 3
+
+       return {
+         "id": "5f650356a8631da45dd4784c",
+         "name": "James Bond"
+       }
+
+Throw an Error for Failed Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the user provided invalid credentials or the function otherwise fails
+to authenticate the user, throw an error with a descriptive message.
+This returns a ``401 - Unauthorized`` error with the message attached to
+the SDK.
+
+.. literalinclude:: /authentication/custom-function/throw-error-for-failed-auth.js
+   :language: javascript
+
 .. _config-custom-function:
 
-Configuration
--------------
+Set Up the Custom Function Provider
+-----------------------------------
+
+You can configure custom function authentication using any supported
+deployment method.
 
 .. tabs-realm-admin-interfaces::
-
+   
    .. tab::
       :tabid: ui
 
@@ -57,59 +232,73 @@ Configuration
 
       .. include:: /includes/steps/configure-custom-function-auth-import-export.rst
 
-.. _custom-function-authentication-examples:
+Configure Custom User Data
+--------------------------
 
-Examples
---------
+You can associate :ref:`custom data <custom-user-data>` in a MongoDB
+Atlas collection with user accounts in your app. This can be helpful if
+you often need to access a user's data but is not required to use the
+custom function provider.
 
-For code examples that demonstrate how to register and log in using
-Custom Function authentication, see the documentation for the Realm SDKs:
+A user's custom data document may contain any data. For apps that use
+the custom function provider, we recommend storing both the user's
+internal user account ID and their external ID.
 
-.. tabs-realm-sdks::
+For example, you might use the following format:
 
-   .. tab::
-      :tabid: android
+.. code-block:: json
 
-      To register or log in a Custom Function user from the Android Client SDK, see the
-      :ref:`Java SDK guide to Custom Function authentication <java-login-custom-function>`.
+   {
+     "_id": "<Generated ObjectId>",
+     "user_id": "<Internal User ID>",
+     "external_id": "<External User ID>"
+   }
 
-   .. tab::
-      :tabid: ios
+You can use the following approach to create custom user documents for
+custom function provider users:
 
-      To register or log in a Custom Function user from the iOS Client SDK, see the
-      :ref:`Swift SDK guide to Custom Function authentication <ios-login-custom-function>`.
+1. Configure custom user data for a collection in your linked cluster.
+   The User ID field stores the user's internal account ID.
 
-   .. tab::
-      :tabid: web
-
-      To register or log in a Custom Function user from the Web Client SDK, see the
-      :ref:`Web SDK guide to Custom Function authentication <web-login-custom-function>`.
-
-   .. tab::
-      :tabid: node
+   .. code-block:: json
+      :caption: /auth/custom_user_data.json
+      :emphasize-lines: 5
       
-      To register or log in a Custom Function user from the Node Client SDK, see the
-      :ref:`Node SDK guide to Custom Function authentication <node-login-custom-function>`.
+      {
+        "mongo_service_name": "mongodb-atlas",
+        "database_name": "myApp",
+        "collection_name": "users",
+        "user_id_field": "user_id",
+        "enabled": true
+      }
 
-   .. tab::
-      :tabid: react-native
+2. Configure the custom function authentication provider and return a
+   unique external user ID from the authentication function. Realm
+   stores this ID in the ``id`` field of the user's ``custom-function``
+   identity.
 
-      To register or log in a Custom Function user from the React Native Client SDK, see the
-      :ref:`React Native SDK guide to Custom Function authentication <react-native-login-custom-function>`.
+   .. literalinclude:: /authentication/custom-function/handleCustomFunctionAuth.js
+      :language: javascript
 
-   .. tab::
-      :tabid: dotnet
+3. Set up an authentication trigger that listens for ``CREATE`` events
+   from the ``custom-function`` provider. In the trigger function, add a
+   new document to the custom user data collection that includes both
+   the user's internal ID and external ID.
 
-      To register or log in a Custom Function user from the .NET Client SDK, see the
-      :ref:`.NET SDK guide to Custom Function authentication <dotnet-login-custom-function>`.
+   .. literalinclude:: /authentication/custom-function/onNewCustomFunctionUser.js
+      :language: javascript
 
-.. _custom-function-authentication-summary:
+Log In from a Realm SDK
+-----------------------
 
-Summary
--------
+To log in from a client application, use a Custom Function credential
+that contains your login payload data.
 
-- Custom Function authentication allows you to define your
-  authentication process in a {+service-short+} Function.
-- The {+service-short+} Function that you use for authentication should return a
-  unique ID for each user based on the information passed from the
-  client SDK.
+For examples, refer to the documentation for a specific SDK:
+
+- :ref:`Swift SDK <ios-login-custom-function>`
+- :ref:`Java SDK <java-login-custom-function>`
+- :ref:`.NET SDK <dotnet-login-custom-function>`
+- :ref:`React Native SDK <react-native-login-custom-function>`
+- :ref:`Node.js SDK <node-login-custom-function>`
+- :ref:`Web SDK <web-login-custom-function>`

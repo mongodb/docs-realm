@@ -1,18 +1,19 @@
 ---
 title: Android LiveData
 ---
-import CodeBlock from '@theme/CodeBlock';
-import RealmDependency from '!!raw-loader!@site/docs/generated/java/sync/build.codeblock.realm-dependency.gradle';
-import LiveDataDependency from '!!raw-loader!@site/docs/generated/java/sync/build.codeblock.livedata-dependency.gradle';
-import SyncEnable from '!!raw-loader!@site/docs/generated/java/sync/build.codeblock.sync-enable.gradle';
-import DatabindingEnable from '!!raw-loader!@site/docs/generated/java/sync/build.codeblock.databinding-enable.gradle';
-import OnInactive from '!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.oninactive.kt';
-import Listener from '!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.listener.kt';
-import CounterModelConstructor from '!!raw-loader!@site/docs/generated/java/sync/CounterModel.codeblock.constructor.kt';
-import GetCounterModel from '!!raw-loader!@site/docs/generated/java/sync/CounterFragment.codeblock.getcountermodel.kt';
-import CounterFragment from '!!raw-loader!@site/docs/generated/java/sync/counter_fragment.xml';
-import Binding from '!!raw-loader!@site/docs/generated/java/sync/CounterFragment.codeblock.binding.kt';
-import OnActive from '!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.onactive.kt';
+
+import CodeBlock from "@theme/CodeBlock";
+import RealmDependency from "!!raw-loader!@site/docs/generated/java/sync/build.codeblock.realm-dependency.gradle";
+import LiveDataDependency from "!!raw-loader!@site/docs/generated/java/sync/build.codeblock.livedata-dependency.gradle";
+import SyncEnable from "!!raw-loader!@site/docs/generated/java/sync/build.codeblock.sync-enable.gradle";
+import DatabindingEnable from "!!raw-loader!@site/docs/generated/java/sync/build.codeblock.databinding-enable.gradle";
+import OnInactive from "!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.oninactive.kt";
+import Listener from "!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.listener.kt";
+import CounterModelConstructor from "!!raw-loader!@site/docs/generated/java/sync/CounterModel.codeblock.constructor.kt";
+import GetCounterModel from "!!raw-loader!@site/docs/generated/java/sync/CounterFragment.codeblock.getcountermodel.kt";
+import CounterFragment from "!!raw-loader!@site/docs/generated/java/sync/counter_fragment.xml";
+import Binding from "!!raw-loader!@site/docs/generated/java/sync/CounterFragment.codeblock.binding.kt";
+import OnActive from "!!raw-loader!@site/docs/generated/java/sync/LiveRealmObject.codeblock.onactive.kt";
 
 This page contains instructions to quickly get Realm Database and Sync
 integrated into an example Android application that uses [Android LiveData](https://developer.android.com/reference/androidx/lifecycle/LiveData).
@@ -25,9 +26,9 @@ This quick start guide uses Sync to synchronize data
 changes between clients. Before you begin, ensure you have:
 
 - [Installed the Java SDK](/sdk/java/install)
-- [Created a Realm App](https://docs.mongodb.com/realm/manage-apps/create/create-with-realm-ui/#std-label-create-a-realm-app)
-- [Enabled anonymous authentication](https://docs.mongodb.com/realm/authentication/anonymous/#std-label-anonymous-authentication-configuration)
-- [Enabled Sync](https://docs.mongodb.com/realm/sync/configure/enable-sync/#std-label-enable-sync)
+- [Created a Realm App](https://www.mongodb.com/docs/realm/manage-apps/create/create-with-realm-ui/#std-label-create-a-realm-app)
+- [Enabled anonymous authentication](https://www.mongodb.com/docs/realm/authentication/anonymous/#std-label-anonymous-authentication-configuration)
+- [Enabled Sync](https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#std-label-enable-sync)
 
 :::note Follow this Guide Without Sync
 To use this quick start without Sync, disable the Sync features
@@ -70,7 +71,7 @@ git checkout start
 :::important Start and Final Branches
 The `realm-android-livedata` repository contains two branches:
 `final` and `start`. The `final` branch is a finished version
-of the app as it should look *after* you complete this tutorial.
+of the app as it should look _after_ you complete this tutorial.
 To walk through this tutorial, please check out the `start`
 branch.
 :::
@@ -91,6 +92,7 @@ You'll also have to add the Android LiveData Dependency to the
 
 Next, enable Sync in the SDK by creating the
 following top-level block in your app level `build.gradle` file:
+
 <CodeBlock language="groovy">{SyncEnable}</CodeBlock>
 
 Then, enable DataBinding by creating the following block in the

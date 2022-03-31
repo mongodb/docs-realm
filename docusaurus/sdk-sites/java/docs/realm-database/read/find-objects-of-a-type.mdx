@@ -1,32 +1,33 @@
 ---
 title: Find Objects of a Type
 ---
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CodeBlock from '@theme/CodeBlock';
-import Intro from './_read-intro.md';
-import FindAllKotlin from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.kt';
-import FindAllJava from '!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.java';
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import Intro from "./_read-intro.md";
+import FindAllKotlin from "!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.kt";
+import FindAllJava from "!!raw-loader!@site/docs/generated/java/sync/ReadsTest.codeblock.get-all-objects.java";
 
 <Intro />
 
 To find all objects of a type, open a realm
-and pass the type as a type parameter to [`realm.query()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html):
+and pass the type as a type parameter to [`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html):
 
 <Tabs groupId="java-sdk-languages">
-    <TabItem value="kotlin" label="Kotlin">
-        <CodeBlock language="kotlin">{FindAllKotlin}</CodeBlock>
-    </TabItem>
-    <TabItem value="java" label="Java">
-        <CodeBlock language="java">{FindAllJava}</CodeBlock>
-    </TabItem>
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FindAllKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FindAllJava}</CodeBlock>
+  </TabItem>
 </Tabs>
 
 :::note `find()` is Synchronous
 
-[`find()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
+[`find()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html)
 runs a synchronous query on the thread it is called from.
 As a result, avoid using `find()` on the UI thread or in
-logic that could delay the UI thread. Prefer [`asFlow()`](https://docs.mongodb.com/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
+logic that could delay the UI thread. Prefer [`asFlow()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-element-query/as-flow.html)
 in time sensitive environments.
 :::
