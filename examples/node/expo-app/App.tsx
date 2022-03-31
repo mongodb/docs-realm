@@ -1,5 +1,7 @@
 import { useCallback, useMemo } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import Realm from 'realm';
+
 
 import TaskContext, { Task } from "./app/models/Task";
 import IntroText from "./app/components/IntroText";
@@ -7,33 +9,50 @@ import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 
-const { useRealm, useQuery, RealmProvider } = TaskContext;
+// :code-block-start: import-task-context
+// :uncomment-start:
+// import TaskContext from "./app/models/Task";
+
+// :uncomment-end:
+const { RealmProvider } = TaskContext;
+// :code-block-end:
+
+// :code-block-start: get-access-to-the-hooks
+// :uncomment-start:
+// import TaskContext from "./app/models/Task";
+
+// :uncomment-end:
+const { useRealm, useQuery, useObject } = TaskContext;
+// :code-block-end:
 
 function App() {
   const realm = useRealm();
-  const result = useQuery(Task);
 
-  const tasks = useMemo(() => result.sorted("createdAt"), [result]);
+  // :code-block-start: example-usequery-hook-usage
+  const tasks = useQuery("Task");
+  // :uncomment-start:
 
+  //return (
+  //  <TaskList tasks={tasks} />
+  //);
+
+  // :uncomment-end:
+  // :code-block-end:
+
+  // :code-block-start: example-userealm-hook-usage
+  // :uncomment-start:
+  // const realm = useRealm();
+  // :uncomment-end:
   const handleAddTask = useCallback(
     (description: string): void => {
-      if (!description) {
-        return;
-      }
-
-      // Everything in the function passed to "realm.write" is a transaction and will
-      // hence succeed or fail together. A transcation is the smallest unit of transfer
-      // in Realm so we want to be mindful of how much we put into one single transaction
-      // and split them up if appropriate (more commonly seen server side). Since clients
-      // may occasionally be online during short time spans we want to increase the probability
-      // of sync participants to successfully sync everything in the transaction, otherwise
-      // no changes propagate and the transaction needs to start over when connectivity allows.
-      realm.write(() => {
-        realm.create("Task", Task.generate(description));
-      });
-    },
-    [realm],
-  );
+    if (!description) {
+      return;
+    }
+    realm.write(() => {
+      realm.create("Task", Task.generate(description));
+    });
+  },[realm]);
+  // :code-block-end:
 
   const handleToggleTaskStatus = useCallback(
     (task: Task): void => {
@@ -78,12 +97,22 @@ function App() {
         {tasks.length === 0 ? (
           <IntroText />
         ) : (
-          <TaskList tasks={tasks} onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
+          <TaskList onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
         )}
+        <SampleTask _id ={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
       </View>
     </SafeAreaView>
   );
 }
+
+  // :code-block-start: example-useobject-hook-usage
+const SampleTask = ({ _id}) => {
+  const myTask = useObject(Task, _id);
+  return (<View><Text>Task: {myTask?.description} </Text></View>)
+}
+// :code-block-end:
+
+
 
 const styles = StyleSheet.create({
   screen: {
@@ -97,8 +126,9 @@ const styles = StyleSheet.create({
   },
 });
 
+// :code-block-start: wrap-app-within-realm-provider
 function AppWrapper() {
-  if (!RealmProvider) {
+  if (!app.currentUser) {
     return null;
   }
   return (
@@ -107,5 +137,34 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
+// :code-block-end:
+
+const app = new Realm.App({id: "-id"});
+
+// :code-block-start: dynamically-update-realm-config
+// :replace-start: {
+//   "terms": {
+//     "AppWrapper2": "AppWrapper"
+//   }
+// }
+function AppWrapper2() {
+  if (!app.currentUser) {
+    return null;
+  }
+  const syncConfig = {
+    user: app.currentUser,
+    partitionValue: "ExpoTemplate"
+  }
+
+  return (
+    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner/>}>
+      <App />
+    </RealmProvider>
+  );
+}
+// :replace-end:
+// :code-block-end:
+
+const LoadingSpinner = () => (<Text>Mock Loading Spinner</Text>)
 
 export default AppWrapper;
