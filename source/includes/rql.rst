@@ -15,7 +15,8 @@ or query methods. The Swift SDK is the exception, as it uses the
 :ref:`NSPredicate query API <ios-nspredicate-query>`. 
 Some SDKs also support idiomatic APIs for querying realms in their language.
 
-Further reading on SDK-specific methods for querying realms. 
+For further reading on SDK-specific methods for querying realms, select the tab
+below for your SDK.
 
 .. tabs::
 
@@ -63,7 +64,7 @@ You can also use Realm Query Language to browse for data in :ref:`Realm Studio
 <realm-studio>`.
 
 Expressions
-~~~~~~~~~~~
+-----------
 
 Filters consist of **expressions** in a predicate. An expression consists of
 one of the following:
@@ -78,7 +79,7 @@ one of the following:
    :language: javascript
 
 Dot Notation
-~~~~~~~~~~~~
+------------
 
 When referring to an object property, you can use **dot notation** to refer
 to child properties of that object. You can even refer to the properties of
@@ -94,7 +95,7 @@ property of that address:
    workplace.address.zipcode == 10012
 
 Subqueries
-~~~~~~~~~~
+----------
 
 You can iterate through a collection property with another query using the
 ``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
@@ -264,7 +265,7 @@ with a number literal (such as ``0``) or another property (such as
 
 
 Operators
-~~~~~~~~~
+---------
 
 There are several types of operators available to query a
 Realm collection. With these operators, you can:
@@ -277,7 +278,7 @@ Realm collection. With these operators, you can:
 - Sort and limit results
 
 Comparison Operators
-````````````````````
+~~~~~~~~~~~~~~~~~~~~
 
 The most straightforward operation in a search is to compare
 values.
@@ -342,7 +343,7 @@ values.
       :language: javascript
 
 Logical Operators
-`````````````````
+~~~~~~~~~~~~~~~~~
 
 You can make compound predicates using logical operators.
 
@@ -377,7 +378,7 @@ You can make compound predicates using logical operators.
 
 
 String Operators
-````````````````
+~~~~~~~~~~~~~~~~
 
 You can compare string values using these string operators.
 Regex-like wildcards allow more flexibility in search.
