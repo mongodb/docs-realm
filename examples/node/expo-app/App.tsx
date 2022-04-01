@@ -149,7 +149,7 @@ const app = new Realm.App({id: "-id"});
 // }
 function AppWrapper2() {
   if (!app.currentUser) {
-    return null;
+    return (<LoginUserScreen />);
   }
   const syncConfig = {
     user: app.currentUser,
