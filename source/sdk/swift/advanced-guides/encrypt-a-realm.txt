@@ -55,6 +55,10 @@ on the device and stores the data unencrypted in your {+atlas+}
 Multiple Processes
 ~~~~~~~~~~~~~~~~~~
 
+Realm forbids opening the same encrypted realm from multiple processes.
+Attempting to do so will throw the error: "Encrypted interprocess sharing is
+currently unsupported."
+
 If multiple processes need to access a {+realm+} simultaneously, use an 
 unencrypted {+realm+}. Encrypted {+realms+} cannot be accessed by 
 multiple processes at the same time. 
@@ -67,6 +71,7 @@ One possible tool to encrypt and decrypt fields is :apple:`Apple's
 CryptoKit framework <documentation/cryptokit>`. You can use :github:`Swift 
 Crypto <apple/swift-crypto>` to simplify app 
 development with CryptoKit.
+
 
 Example
 -------
