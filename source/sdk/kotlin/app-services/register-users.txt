@@ -1,0 +1,31 @@
+.. _kotlin-manage-email-password-users:
+
+===========================
+Register Users - Kotlin SDK
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+When you have enabled the :ref:`email/password provider
+<email-password-authentication>` in your {+app+}, you can register a new
+account, confirm an email address, and reset a user's password from
+client code.
+
+.. _kotlin-register-an-email-password-account:
+
+Register a New User Account
+---------------------------
+
+To register a new user, pass a user-provided email and password to
+:kotlin-sdk:`app.emailPasswordAuth.registerUser()
+<{+kotlin-sync-prefix+}io.realm.mongodb/-email-password-auth/register-user.html>`:
+
+.. literalinclude:: /examples/generated/kotlin/RegistrationTest.codeblock.email-password-registration.kt
+   :language: kotlin
+   :copyable: false

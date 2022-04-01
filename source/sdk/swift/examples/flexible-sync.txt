@@ -1,8 +1,8 @@
 .. _ios-flexible-sync:
 
-=======================
-Flexible Sync - iOS SDK
-=======================
+=========================
+Flexible Sync - Swift SDK
+=========================
 
 .. default-domain:: mongodb
 
@@ -84,6 +84,17 @@ You can specify an optional string name for your subscription.
 When you create a subscription, Realm looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
+
+.. important:: Object Links
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be nil.
+   There is no way to distinguish whether that property's value is 
+   legitimately nil, or whether the object it links to exists but is out of
+   view of the query subscription.
 
 .. example::
 

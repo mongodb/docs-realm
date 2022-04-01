@@ -1,0 +1,86 @@
+---
+title: Quick Start
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import Model from "!!raw-loader!@site/docs/generated/kotlin/RealmModels.codeblock.quick-start-model.kt";
+import OpenARealm from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt";
+import Create from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-create.kt";
+import Read from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read.kt";
+import ReadFiltered from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-read-filtered.kt";
+import Update from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-update.kt";
+import Delete from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt";
+import QuickStart from "!!raw-loader!@site/docs/generated/kotlin/QuickStartTest.codeblock.quick-start.kt";
+
+This page contains information to quickly get Realm Database
+integrated into your app. Before you begin, ensure you have installed
+the Kotlin SDK for your platform:
+
+- [Android](/sdk/kotlin/install/android)
+- [Kotlin Multiplatform](/sdk/kotlin/install/kotlin-multiplatform)
+
+## Define Your Object Model
+
+Your application's **data model** defines the structure of data
+stored within Realm Database.
+You can define your application's data model via Kotlin
+classes in your application code with
+[Realm Object Models](https://www.mongodb.com/docs/realm/sync/data-model/create-a-schema/#std-label-create-schema-from-rom).
+
+To define your application's data model, add the following class
+definition to your application code:
+
+<CodeBlock language="kotlin">{Model}</CodeBlock>
+
+## Open a Realm
+
+Use [RealmConfiguration](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/index.html)
+to control the specifics of the realm you
+would like to open, including the name, location, and schema.
+Pass your configuration to the [Realm factory constructor](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/index.html)
+to generate an instance of that realm:
+
+<CodeBlock language="kotlin">{OpenARealm}</CodeBlock>
+
+## Create, Read, Update, and Delete Objects
+
+Once opened, you can create objects within a realm in a
+write transaction block.
+
+To create a new `Task`, instantiate an instance of the
+`Task` class and add it to the realm in a write transaction block:
+
+<CodeBlock language="kotlin">{Create}</CodeBlock>
+
+You can retrieve a collection of all tasks in the realm with
+[query.find()](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/find.html):
+
+<CodeBlock language="kotlin">{Read}</CodeBlock>
+
+You can also filter a collection to retrieve a more specific collection
+of objects:
+
+<CodeBlock language="kotlin">{ReadFiltered}</CodeBlock>
+
+:::note Realm Query Language
+
+You can find more information about string Realm Database queries in
+the [Realm Query Language Reference](sdk/kotlin/realm-database/query-language).
+:::
+
+To modify a task, update its properties in a write transaction block:
+
+<CodeBlock language="kotlin">{Update}</CodeBlock>
+
+Finally, you can delete a task by calling [mutableRealm.delete()](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-mutable-realm/delete.html)
+in a write transaction block:
+
+<CodeBlock language="kotlin">{Delete}</CodeBlock>
+
+## Complete Example
+
+If you're running this project in a fresh KMM template project, you can
+copy and paste into the `Greeting.greeting()` method in the
+`commonMain` module.
+
+<CodeBlock language="kotlin">{QuickStart}</CodeBlock>

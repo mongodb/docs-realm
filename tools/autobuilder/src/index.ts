@@ -6,7 +6,7 @@ import {
 } from "mongodb-stitch-server-sdk";
 
 // Add expected errors here.
-const expectedErrors: RegExp[] = [];
+const expectedErrors: RegExp[] = [/(WARNING|ERROR)\(sdk\/java\/api.*/];
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
@@ -85,7 +85,7 @@ async function main(): Promise<string[] | undefined> {
   try {
     console.log("Checking for ongoing build...");
     build =
-      (await nextInStream(ongoingBuildStream, 3 * 60 * 1000)).fullDocument ??
+      (await nextInStream(ongoingBuildStream, 10 * 60 * 1000)).fullDocument ??
       null;
 
     console.log("Ongoing build found.");
@@ -97,7 +97,7 @@ async function main(): Promise<string[] | undefined> {
     });
 
     console.log("Waiting for build to complete...");
-    const timeoutMs = 3 * 60 * 1000; // allow a lot of time for autobuilder to complete
+    const timeoutMs = 10 * 60 * 1000; // allow a lot of time for autobuilder to complete
     build = (await nextInStream(stream, timeoutMs)).fullDocument ?? null;
   } catch (error) {
     console.warn(`Update never received: ${error.message}`);

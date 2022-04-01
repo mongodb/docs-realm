@@ -1,0 +1,91 @@
+---
+title: "RealmAny"
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FrogAnyKotlin from "!!raw-loader!@site/docs/generated/java/local/FrogAnyKt.codeblock.complete.kt";
+import UsageKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.kt";
+import FrogAnyJava from "!!raw-loader!@site/docs/generated/java/local/FrogAny.codeblock.complete.java";
+import UsageJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany.java";
+import NotificationsJava from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.java";
+import NotificationsKotlin from "!!raw-loader!@site/docs/generated/java/local/DataTypesTest.codeblock.realmany-notifications.kt";
+
+You can use the [`RealmAny`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmAny.html)
+data type to create Realm object fields that can contain any of several
+underlying types. You can store multiple `RealmAny` instances in
+`RealmList`, `RealmDictionary`, or `RealmSet` fields. To change
+the value of a `RealmAny` field, assign a new `RealmAny` instance
+with a different underlying value. `RealmAny` fields are indexable, but
+cannot be used as primary keys.
+
+:::note `RealmAny` Type Compatibility
+`RealmAny` objects can refer to any supported field type _except_:
+
+- `RealmAny`
+- `RealmList`
+- `RealmSet`
+- `RealmDictionary`
+  :::
+
+## Usage
+
+To create a `RealmAny` instance, use the
+[`RealmAny.valueOf()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmAny.html#valueOf-->)
+method to assign an initial value or `RealmAny.nullValue()` to assign no
+value. `RealmAny` instances are immutable just like `String` or
+`Integer` instances; if you want to assign a new value to a
+`RealmAny` field, you must create a new `RealmAny` instance.
+
+:::important Null `RealmAny` Values
+`RealmAny` instances are always optional. Additionally, instances
+can contain a value of type `RealmAny.Type.NULL`. Be sure to check for
+both cases when working with instances.
+:::
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Realm Object" language="kotlin">
+      {FrogAnyKotlin}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="kotlin">
+      {UsageKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Realm Object" language="java">
+      {FrogAnyJava}
+    </CodeBlock>
+    <CodeBlock title="Usage" language="java">
+      {UsageJava}
+    </CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Queries
+
+You can query a `RealmAny` field just like any other data type.
+Operators that only work with certain types, such as string
+and arithmetic operators, ignore values that do not contain that type.
+Negating such operators matches values that do not contain the type.
+Type queries match the underlying type, rather than `RealmAny`.
+Arithmetic operators convert numeric values implicitly to compare
+across types.
+
+## Notifications
+
+To subscribe to changes to a `RealmAny` field, use
+[`realmObject.addChangeListener`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-io.realm.RealmChangeListener-)
+on the enclosing object. You can use the
+[`ObjectChangeSet`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/ObjectChangeSet.html)
+parameter to determine if the `RealmAny` field changed.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{NotificationsJava}</CodeBlock>
+  </TabItem>
+</Tabs>

@@ -177,11 +177,19 @@ class QueryEngineForTypeSafeQuery: XCTestCase {
         print("Unassigned tasks: \(unassignedTasks.count)")
         // :code-block-end:
 
-        // :code-block-start: tsq-collections
+        // :code-block-start: tsq-collections-in
+        let taskAssigneeInAliOrJamie = tasks.where {
+            let assigneeNames = ["Ali", "Jamie"]
+            return $0.assignee.in(assigneeNames)
+        }
+        print("Tasks IN Ali or Jamie: \(taskAssigneeInAliOrJamie.count)")
+        // :code-block-end:
+
+        // :code-block-start: tsq-collections-contains
         let aliOrJamiesTasks = tasks.where {
             $0.assignee.contains("Ali") || $0.assignee.contains("Jamie")
         }
-        print("Tasks IN Ali or Jamie: \(aliOrJamiesTasks.count)")
+        print("Tasks where assignee contains Ali or Jamie: \(aliOrJamiesTasks.count)")
 
         let progressBetween30and60 = tasks.where {
             $0.progressMinutes.contains(30...60)

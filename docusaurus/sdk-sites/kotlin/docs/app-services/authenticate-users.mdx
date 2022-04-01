@@ -1,0 +1,62 @@
+---
+title: Authenticate Users
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import Anonymous from "!!raw-loader!@site/docs/generated/kotlin/AuthenticationTest.codeblock.anonymous-authentication.kt";
+import EmailPassword from "!!raw-loader!@site/docs/generated/kotlin/AuthenticationTest.codeblock.email-password-authentication.kt";
+import LogOut from "!!raw-loader!@site/docs/generated/kotlin/AuthenticationTest.codeblock.log-out.kt";
+
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a `Credentials` object and pass
+it to [`app.login()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-app/login.html)
+method to authenticate a user and create a [`User`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-user/index.html)
+object for that user.
+Each authentication provider corresponds to a
+[`static helper method`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-authentication-provider/index.html)
+used to instantiate `Credentials` objects for that
+authentication provider.
+
+## Log In
+
+You can authenticate users with [`app.login()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-app/login.html).
+
+If successful, `app.login()`returns a `User` object.
+In the event of a failure, `app.login()` throws an
+exception of type [`AppException`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/io.realm.mongodb/-app-exception/index.html).
+
+### Anonymous User
+
+The [anonymous authentication provider](https://www.mongodb.com/docs/realm/authentication/anonymous/)
+enables users to log in to your application with short-term accounts
+that store no persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+[`AuthenticationProvider.ANONYMOUS()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html).
+Then pass the generated credential to `app.login()`.
+
+<CodeBlock language="kotlin">{Anonymous}</CodeBlock>
+
+### Email/Password User
+
+The [Email/Password authentication provider](https://www.mongodb.com/docs/realm/authentication/email-password/)
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling [`AuthenticationProvider.EMAIL_PROVIDER()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-authentication-provider/-e-m-a-i-l_-p-a-s-s-w-o-r-d/index.html)
+with the user's email and password. Then pass the generated credential
+to `app.login()`.
+
+<CodeBlock language="kotlin">{EmailPassword}</CodeBlock>
+
+## Log Out
+
+You can log out any user, regardless of the authentication provider used
+to log in, using [`user.logOut()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-user/log-out.html). This method:
+
+- deletes locally stored user credentials from the device
+
+- immediately halts any synchronization to and from the user's realms
+
+Because logging out halts synchronization, you should only log out after
+all local updates have uploaded to the server.
+
+<CodeBlock language="kotlin">{LogOut}</CodeBlock>

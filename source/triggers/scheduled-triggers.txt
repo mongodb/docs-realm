@@ -21,6 +21,8 @@ You can use scheduled triggers to do work that happens on a periodic
 basis, such as updating a document every minute, generating a nightly
 report, or sending an automated weekly email newsletter.
 
+.. _scheduled-trigger-example:
+
 Example
 -------
 
@@ -390,3 +392,13 @@ describes valid field values and expressions:
           .. code-block:: text
 
              */25 * * * *
+
+Performance Optimization
+------------------------
+
+Use the Query API with a a :manual:`$match</reference/operator/aggregation/match/>`
+expression to reduce the number of documents your {+service-short+} Function looks at.
+This helps your Function improve performance and not reach
+:ref:`{+service-short+} Function memory limits <function-constraints>`. 
+
+:ref:`Refer the Example section for a Scheduled Trigger using a $match expression. <scheduled-trigger-example>`

@@ -1,8 +1,9 @@
 .. _migrate-schema-partner-collection:
+.. _partner_collections:
 
-===============================
-Make Destructive Schema Changes
-===============================
+============================
+Make Breaking Schema Changes
+============================
 
 .. default-domain:: mongodb
 
@@ -15,14 +16,14 @@ Make Destructive Schema Changes
 Overview
 --------
 If you need to make changes to an object schema that is used in {+sync+}, you 
-can make :ref:`additive changes <additive-changes-synced-schema>` without any 
-additional work. :ref:`Destructive changes <destructive-changes-synced-schema>`, 
-however, require additional steps. A destructive change includes renaming an 
-existing field or changing a field's data type.
+can make :ref:`non-breaking <additive-changes-synced-schema>` without any 
+additional work. :ref:`Breaking changes <destructive-changes-synced-schema>`, 
+however, require additional steps. A breaking or destructive change includes 
+renaming an existing field or changing a field's data type.
 
 For more information, see :ref:`<synced-schema-overview>`.
 
-If you need to make a destructive schema change, you have two choices: 
+If you need to make a breaking schema change, you have two choices: 
 
 - :ref:`Terminate sync <terminating-realm-sync>` in the backend and then 
   :ref:`re-enable <enable-sync>` it from the start.

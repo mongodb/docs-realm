@@ -137,6 +137,11 @@ Realm Database stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at a specific path that
 you define when you open the realm.
 
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement a ``shouldCompactOnLaunch`` 
+   callback to periodically reduce the realm file size.
+
 .. note:: Auxiliary Realm Files
    
    Realm Database creates additional files for each {+realm+}.

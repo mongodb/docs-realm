@@ -1,0 +1,784 @@
+.. _java-read-and-write-data:
+
+============================
+Read & Write Data - Java SDK
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+About the Examples on this Page
+-------------------------------
+
+.. note::
+
+   The examples on this page use the data model of a project
+   management app that has two {+service-short+} object types: ``Project``
+   and ``Task``. A ``Project`` has zero or more ``Tasks``.
+
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. tabs-realm-languages::
+     
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/ProjectTask.codeblock.projecttask.kt
+            :language: kotlin
+            :caption: ProjectTask.kt
+            :copyable: false
+
+         .. literalinclude:: /examples/generated/java/sync/Project.codeblock.project.kt
+            :language: kotlin
+            :caption: Project.kt
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/ProjectTask.codeblock.projecttask.java
+            :language: java
+            :caption: ProjectTask.java
+            :copyable: false
+
+         .. literalinclude:: /examples/generated/java/sync/Project.codeblock.project.java
+            :language: java
+            :caption: Project.java
+            :copyable: false
+
+.. _java-read-from-realm:
+
+Read from Realm Database
+------------------------
+
+A read from a :term:`{+realm+}` generally consists of the following
+steps:
+
+- Get all :ref:`objects <java-realm-objects>` of a certain type from the {+realm+}.
+- Optionally, :ref:`filter <java-filter-results>` the results using the :ref:`query engine <java-client-query-engine>`.
+- Optionally, :ref:`sort <java-sort-results>` the results.
+
+All query, filter, and sort operations return a
+:ref:`results collection <java-results-collections>`. The results
+collections are live, meaning they always contain the latest
+results of the associated query.
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Live Queries <java-live-queries>`
+
+.. _java-find-a-specific-object-by-primary-key:
+
+Find a Specific Object by Primary Key
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To find an object with a specific primary key value, open a {+realm+}
+and query the primary key field for the desired primary key value
+using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java.lang.String-Decimal128->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java
+         :language: java
+         :copyable: false
+
+.. _java-query-all-objects-of-a-given-type:
+
+Query All Objects of a Given Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first step of any read is to **get all objects** of a
+certain type in a {+realm+}. With this results collection, you
+can operate on all instances on a type or filter and sort to
+refine the results.
+
+.. example::
+
+   In order to access all instances of ``ProjectTask`` and ``Project``, use
+   the :java-sdk:`where() <io/realm/RealmResults.html#where-->` method
+   to specify a class:
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.get-all-objects.java
+            :language: java
+            :copyable: false
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.get-all-objects.kt
+            :language: kotlin
+            :copyable: false
+
+.. _java-filter-queries-based-on-object-properties:
+.. _java-filter-results:
+
+Filter Queries Based on Object Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **filter** selects a subset of results based on the
+value(s) of one or more object properties. {+client-database+} provides a
+full-featured :ref:`query engine <java-client-query-engine>` you
+can use to define filters. The most common use case is to
+find objects where a certain property matches a certain
+value. Additionally, you can compare strings, aggregate over
+collections of numbers, and use logical operators to build
+up complex queries.
+
+.. example::
+
+   In the following example, we use the query
+   engine's comparison operators to:
+
+   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.filter-results.java
+            :language: java
+            :copyable: false
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.filter-results.kt
+            :language: kotlin
+            :copyable: false
+
+.. _java-sort-query-results:
+.. _java-sort-results:
+
+Sort Query Results
+~~~~~~~~~~~~~~~~~~
+
+A **sort** operation allows you to configure the order in
+which {+client-database+} returns queried objects. You can sort based on
+one or more properties of the objects in the results
+collection.
+
+{+client-database+} only guarantees a consistent order of results when the
+results are sorted.
+
+.. example::
+
+   The following code sorts the projects by name in reverse
+   alphabetical order (i.e. "descending" order).
+
+   .. tabs-realm-languages::
+
+      .. tab::
+          :tabid: java
+
+          .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.sort-results.java
+            :language: java
+            :copyable: false
+
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.sort-results.kt
+            :language: kotlin
+            :copyable: false
+
+.. _java-query-a-relationship:
+
+Query a Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Person`` and
+      ``Dog``. This arrangement allows each person to own a single dog:
+
+      .. literalinclude:: /examples/generated/java/sync/Person.codeblock.complete.kt
+         :language: kotlin
+         :emphasize-lines: 10
+         :copyable: false
+
+      .. literalinclude:: /examples/generated/java/sync/Dog.codeblock.complete.kt
+         :language: kotlin
+         :copyable: false
+
+      To query this relationship, use dot notation in a
+      :ref:`query <java-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-a-relationship.kt
+         :language: kotlin
+         :emphasize-lines: 15
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Human`` and
+      ``Cat``. This arrangement allows each human to own a single cat:
+
+      .. literalinclude:: /examples/generated/java/sync/Human.codeblock.complete.java
+         :language: java
+         :emphasize-lines: 12
+         :copyable: false
+
+      .. literalinclude:: /examples/generated/java/sync/Cat.codeblock.complete.java
+         :language: java
+         :copyable: false
+
+      To query this relationship, use dot notation in a
+      :ref:`query <java-client-query-engine>` to access any property
+      of the linked object:
+
+      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-a-relationship.java
+         :language: java
+         :emphasize-lines: 16
+         :copyable: false
+
+.. seealso::
+
+   :ref:`Fundamentals: Relationships <java-relationships>`
+
+.. _java-query-an-inverse-relationship:
+
+Query an Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      Consider the following relationship between classes ``Dog`` and
+      ``Person``. In this example, all dogs link to their owner (or
+      multiple owners, if multiple person objects refer to the same dog).
+      Realm calculates the owners of each dog for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. include:: /examples/generated/java/sync/Dog.codeblock.complete.kt.code-block.rst
+
+      .. include:: /examples/generated/java/sync/Person.codeblock.complete.kt.code-block.rst
+
+      To query this relationship, use dot notation in a
+      :ref:`query <java-client-query-engine>` to access any property
+      of the linked object:
+
+      .. include:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-an-inverse-relationship.kt.code-block.rst
+
+   .. tab::
+      :tabid: java
+
+      Consider the following relationship between classes ``Cat`` and
+      ``Human``. In this example, all cats link to their human (or
+      multiple humans, if multiple human objects refer to the same cat).
+      Realm calculates the owners of each cat for you based on the field
+      name you provide to the ``@LinkingObjects`` annotation:
+
+      .. include:: /examples/generated/java/sync/Cat.codeblock.complete.java.code-block.rst
+
+      .. include:: /examples/generated/java/sync/Human.codeblock.complete.java.code-block.rst
+
+      To query this relationship, use dot notation in a
+      :ref:`query <java-client-query-engine>` to access any property
+      of the linked object:
+
+      .. include:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-an-inverse-relationship.java.code-block.rst
+
+.. seealso::
+
+   :ref:`Fundamentals: Inverse Relationships <java-inverse-relationships>`
+
+.. _java-aggregate-data:
+
+Aggregate Data
+~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.codeblock.aggregate-operators.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.codeblock.aggregate-operators.java
+         :language: java
+         :copyable: false
+
+.. _java-write-operations:
+.. _java-realm-database-writes:
+
+Write Operations
+----------------
+
+All write operations to a {+realm+} must occur within a
+**write transaction**. For more information about how to perform a write
+transaction, see :ref:`Write Transactions <java-write-transactions>`.
+
+.. important:: Realm Object Writes are File Writes
+
+   Whenever you create, update, or delete a {+service-short+} object,
+   your changes update the representation of that object in
+   {+client-database+} and emit
+   :ref:`notifications <java-react-to-changes>` to any subscribed
+   listeners. As a result, you should only write to {+service-short+}
+   objects when necessary to persist data.
+
+.. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
+
+.. _java-create-a-new-object:
+
+Create a New Object
+~~~~~~~~~~~~~~~~~~~
+
+Use :java-sdk:`realm.createObject() <io/realm/Realm.html#createObject(java.lang.Class)>`
+in a transaction to create a persistent instance of a Realm object in a
+realm. You can then modify the returned object with other field values
+using accessors and mutators.
+
+.. example::
+
+   This code demonstrates how to create an object with 
+   :java-sdk:`createObject() <io/realm/Realm.html#createObject-java.lang.Class-java.lang.Object->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.create-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 3
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.create-an-object.java
+            :language: java
+            :emphasize-lines: 3
+            :copyable: false
+
+You can also insert objects into a {+realm+} from JSON. {+service-short+}
+supports creating objects from ``String``,
+:android:`JSONObject <reference/org/json/JSONObject.html>`, and
+:android:`InputStream <reference/java/io/InputStream.html>` types.
+{+service-short+} ignores any properties present in the JSON that are
+not defined in the {+service-short+} object schema.
+
+.. example::
+
+   This code demonstrates how to create a single object from JSON with 
+   :java-sdk:`createObjectFromJson() <io/realm/Realm.html#createObjectFromJson-java.lang.Class-java.lang.String->`
+   or multiple objects from JSON with
+   :java-sdk:`createAllFromJson() <io/realm/Realm.html#createAllFromJson-java.lang.Class-java.lang.String->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.create-an-object-json.kt
+            :language: kotlin
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.create-an-object-json.java
+            :language: java
+            :copyable: false
+
+.. _java-modify-an-object:
+.. _java-update:
+
+Modify an Object
+~~~~~~~~~~~~~~~~
+
+Within a transaction, you can update a {+service-short+} object the same
+way you would update any other object in your language of
+choice. Just assign a new value to the property or update
+the property.
+
+.. example::
+
+   This code changes the turtle's name to "Archibald" and
+   sets Archibald's age to 101 by assigning new values to properties:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 6,7
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-an-object.java
+            :language: java
+            :emphasize-lines: 6,7
+            :copyable: false
+
+.. _java-upsert:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+An **upsert** is a write operation that either inserts a new object
+with a given primary key or updates an existing object that already has
+that primary key. We call this an upsert because it is an "**update** or
+**insert**" operation. This is useful when an object may or may not
+already exist, such as when bulk importing a dataset into an existing
+{+realm+}. Upserting is an elegant way to update existing entries while
+adding any new entries.
+
+.. example::
+
+   This code demonstrates how to upsert an object with
+   {+realm+}. We create a new turtle enthusiast named "Drew" and then
+   update their name to "Andy" using :java-sdk:`insertOrUpdate()
+   <io/realm/Realm.html#insertOrUpdate-io.realm.RealmModel->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.upsert-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 14-16
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.upsert-an-object.java
+            :language: java
+            :emphasize-lines: 14-16
+            :copyable: false
+
+You can also use :java-sdk:`copyToRealmOrUpdate()
+<io/realm/Realm.html#copyToRealmOrUpdate-E-io.realm.ImportFlag...->` to
+either create a new object based on a supplied object or update an
+existing object with the same primary key value. Use the
+``CHECK_SAME_VALUES_BEFORE_SET``
+:java-sdk:`ImportFlag <io/realm/ImportFlag.html>` to only update fields
+that are different in the supplied object:
+
+.. example::
+
+   This code demonstrates how to insert an object or, if an object already
+   exists with the same primary key, update only those fields that differ:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt
+            :language: kotlin
+            :emphasize-lines: 15-16
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java
+            :language: java
+            :emphasize-lines: 16
+            :copyable: false
+
+
+.. _java-batch-update:
+
+Update a Collection
+~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} supports collection-wide updates. A collection update
+applies the same update to specific properties of several
+objects in a collection at once.
+
+.. example::
+
+   The following code demonstrates how to update a
+   collection. Thanks to the :ref:`implicit inverse
+   relationship <java-inverse-relationship>` between the Turtle's
+   ``owner`` property and the TurtleEnthusiast's ``turtles`` property,
+   {+client-database+} automatically updates Josephine's list of turtles
+   when you use :java-sdk:`setObject()
+   <io/realm/RealmResults.html#setObject-java.lang.String-io.realm.RealmModel->`
+   to update the "owner" property for all turtles in the collection.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-a-collection.kt
+            :language: kotlin
+            :emphasize-lines: 11,12
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-a-collection.java
+            :language: java
+            :emphasize-lines: 9,10
+            :copyable: false
+
+.. _java-iteration:
+
+Iteration
+~~~~~~~~~
+
+Because {+realm+} collections always reflect the latest state, they
+can appear, disappear, or change while you iterate over a collection.
+To get a stable collection you can iterate over, you can create a
+**snapshot** of a collection's data. A snapshot guarantees the order of
+elements will not change, even if an element is deleted or modified.
+
+``Iterator`` objects created from ``RealmResults`` use snapshots
+automatically. ``Iterator`` objects created from ``RealmList``
+instances do *not* use snapshots. Use
+:java-sdk:`RealmList.createSnapshot() <io/realm/RealmList.html#createSnapshot-->`
+or
+:java-sdk:`RealmResults.createSnapshot() <io/realm/RealmResults.html#createSnapshot-->`
+to manually generate a snapshot you can iterate over manually:
+
+.. example::
+
+   The following code demonstrates how to iterate over a collection
+   safely using either an implicit snapshot created from a ``RealmResults``
+   ``Iterator`` or a manual snapshot created from a ``RealmList``:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.iterate.kt
+            :language: kotlin
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.iterate.java
+            :language: java
+            :copyable: false
+
+.. _java-delete-an-object:
+
+Delete an Object
+~~~~~~~~~~~~~~~~
+
+To delete an object from a {+realm+}, use either the dynamic or static
+versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
+<io/realm/RealmObject.html>` subclass.
+
+.. important:: Do not use objects after delete
+
+   {+client-database+} throws an error if you try to use an object after
+   it has been deleted.
+
+.. example::
+
+   The following code shows how to delete one object from
+   its {+realm+} with :java-sdk:`deleteFromRealm()
+   <io/realm/RealmObject.html#deleteFromRealm-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-an-object.kt
+            :language: kotlin
+            :emphasize-lines: 6
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-an-object.java
+            :language: java
+            :emphasize-lines: 4
+            :copyable: false
+
+.. _java-delete-multiple-objects:
+
+Delete Multiple Objects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete an object from a {+realm+}, use the ``deleteAllFromRealm()``
+method of the :java-sdk:`RealmResults <io/realm/RealmResults.html>`
+instance that contains the objects you would like to delete. You can
+filter the ``RealmResults`` down to a subset of objects using the
+:java-sdk:`where() <io/realm/Realm.html#where-java.lang.Class->` method.
+
+.. example::
+
+   The following code demonstrates how to delete a
+   collection from a {+realm+} with :java-sdk:`deleteAllFromRealm()
+   <io/realm/RealmResults.html#deleteAllFromRealm-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-a-collection.kt
+            :language: kotlin
+            :emphasize-lines: 6
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-a-collection.java
+            :language: java
+            :emphasize-lines: 4
+            :copyable: false
+
+.. _java-delete-object-and-dependent-objects:
+
+Delete an Object and its Dependent Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes, you have :ref:`dependent objects
+<java-client-relationships>` that you want to delete when
+you delete the parent object. We call this a **chaining
+delete**. {+client-database+} does not delete the dependent
+objects for you. If you do not delete the objects yourself,
+they will remain orphaned in your {+realm+}. Whether or not
+this is a problem depends on your application's needs.
+
+Currently, the best way to delete dependent objects is to
+iterate through the dependencies and delete them before
+deleting the parent object.
+
+.. example::
+
+   The following code demonstrates how to perform a
+   chaining delete by first deleting all of Ali's turtles,
+   then deleting Ali:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.cascading-deletes.kt
+            :language: kotlin
+            :emphasize-lines: 6
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.cascading-deletes.java
+            :language: java
+            :emphasize-lines: 5
+            :copyable: false
+
+.. _java-delete-all-object-of-a-specific-type:
+
+Delete All Objects of a Specific Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{+client-database+} supports deleting all instances of a :ref:`{+service-short+} type
+<java-realm-objects>` from a {+realm+}.
+
+.. example::
+
+   The following code demonstrates how to delete all
+   Turtle instances from a {+realm+} with :java-sdk:`delete()
+   <io/realm/Realm.html#delete-java.lang.Class->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.kt
+            :language: kotlin
+            :emphasize-lines: 2
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.java
+            :language: java
+            :emphasize-lines: 2
+            :copyable: false
+
+.. _java-delete-all-objects-in-a-realm:
+
+Delete All Objects in a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to delete all objects from the {+realm+}. This
+does not affect the schema of the {+realm+}. This is useful for
+quickly clearing out your {+realm+} while prototyping.
+
+.. example::
+
+   The following code demonstrates how to delete everything
+   from a {+realm+} with :java-sdk:`deleteAll()
+   <io/realm/Realm.html#deleteAll-->`:
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all.kt
+            :language: kotlin
+            :emphasize-lines: 2
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all.java
+            :language: java
+            :emphasize-lines: 2
+            :copyable: false

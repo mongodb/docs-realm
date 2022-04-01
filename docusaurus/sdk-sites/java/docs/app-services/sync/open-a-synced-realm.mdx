@@ -1,0 +1,129 @@
+---
+title: Open a Synced Realm
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import ConfigureKotlin from "!!raw-loader!@site/docs/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.kt";
+import ConfigureJava from "!!raw-loader!@site/docs/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.java";
+import OpenKotlin from "!!raw-loader!@site/docs/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt";
+import OpenJava from "!!raw-loader!@site/docs/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java";
+import FlexibleKotlin from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.kt";
+import FlexibleJava from "!!raw-loader!@site/docs/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.java";
+
+## Prerequisites
+
+Before you can access a synced realm from the client, you must:
+
+1. [Enable sync](https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#std-label-enable-sync)
+   in the Realm UI.
+
+1. Install the sync distribution of the Kotlin SDK
+   for [Android](sdk/kotlin/install/android) or
+   [Kotlin Multiplatform](sdk/kotlin/install/kotlin-multiplatform).
+
+1. [Authenticate a user](sdk/kotlin/app-services/authenticate-users) in
+   your client project.
+
+Synced realms store data on both the client device
+and in your synced data source. Opening a synced realm works exactly
+like opening a local realm, except you use `SyncConfiguration`
+to customize the settings for synced realms.
+
+## Synced Realm Configuration
+
+To configure settings for a realm, create a
+[`SyncConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.html) with a
+[`SyncConfiguration.Builder`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html).
+The following example configures a synced realm with:
+
+- partition-based sync
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- explicit waiting for all backend changes to synchronize to the device
+  before returning an open realm
+- automatic compaction when launching the realm to save file space
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ConfigureKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ConfigureJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::important Production Applications Should Handle Client Resets
+Applications used in production environments should handle client
+reset errors. To learn more, see [Reset a Client Realm](/sdk/java/app-services/sync/reset-a-client-realm).
+:::
+
+## Open a Synced Realm While Online
+
+To open a synced realm, call
+[`Realm.getInstanceAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback-),
+passing in a [`SyncConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.html)
+object. The following code demonstrates how to create a realm with
+specific sync settings created using a `SyncConfiguration` object:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{OpenKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{OpenJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+The code above shows how to open the realm asynchronously
+with `Realm.getInstanceAsync()`. This returns an open realm _after_
+synchronizing all data from the backend.
+You can also open a realm synchronously by using [`Realm.getInstance()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstance-io.realm.RealmConfiguration-)
+instead. This returns an open realm immediately, _before_ synchronizing
+all data from the backend. This may lead to temporary data
+inconsistencies while the remote data is downloaded, and is generally
+not recommended. You can use the [`waitForInitialRemoteData()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData--)
+configuration option to force the SDK to synchronize data with the backend
+before opening the realm to avoid these inconsistencies.
+
+The partition value specifies which subset of your data to sync.
+This is typically a user ID, project ID, store ID, or some other
+category identifier in your app that has particular relevance to
+the current user.
+
+## Open a Synced Realm While Offline {#offline}
+
+You can open a synced realm when offline with the exact same syntax
+that you use to open a synced realm while online. Not all SDKs follow this
+pattern, so cross-platform developers should consult the documentation
+for each SDK to learn more.
+
+## Open a Synced Realm with a Flexible Sync Configuration {#flexible}
+
+To open a Flexible Sync realm, call
+the [`initialSubscriptions()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.Builder.html#initialSubscriptions(io.realm.mongodb.sync.SyncConfiguration.InitialFlexibleSyncSubscriptions)>)
+sync configuration builder method with an instance of
+[`SyncConfiguration.InitialFlexibleSyncSubscriptions()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.InitialFlexibleSyncSubscriptions.html).
+While partition-based Sync requires a partition
+value when you instantiate your `SyncConfiguration`, you should omit
+the partition value when you use Flexible Sync. In the `configure()` method, instantiate
+an `UnmanagedSubscription` with a name and query using
+[`Subscription.create()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/Subscription.html#create(java.lang.String,io.realm.RealmQuery)>).
+Pass your new subscription
+to the `add()` method of the [`MutableSubscriptionSet`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/MutableSubscriptionSet.html)
+parameter to add it to your subscriptions:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FlexibleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FlexibleJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::tip See Also
+For more information about subscriptions, see
+[the Flexible Sync documentation](/sdk/java/app-services/sync/flexible-sync).
+:::

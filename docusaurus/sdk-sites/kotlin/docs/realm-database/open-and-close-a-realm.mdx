@@ -1,0 +1,25 @@
+---
+title: Open and Close a Realm
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import Open from "!!raw-loader!@site/docs/generated/kotlin/OpenARealmTest.codeblock.open-a-realm.kt";
+import Close from "!!raw-loader!@site/docs/generated/kotlin/OpenARealmTest.codeblock.close-a-realm.kt";
+
+## Open a Realm
+
+To open a realm, create a
+[`RealmConfiguration`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/index.html) with
+[`RealmConfiguration.Builder`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-configuration/-builder/index.html)
+and pass the resulting `RealmConfiguration` to
+[`Realm.open()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/-companion/open.html):
+
+<CodeBlock language="kotlin">{Open}</CodeBlock>
+
+## Close a Realm
+
+You can close a realm with [`realm.close()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-s-d-k/io.realm/-realm/close.html).
+The `close()` method blocks until all write transactions on the
+realm have completed.
+
+<CodeBlock language="kotlin">{Close}</CodeBlock>

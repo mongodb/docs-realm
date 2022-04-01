@@ -38,6 +38,13 @@ final class Item: Object, ObjectKeyIdentifiable {
     /// A flag indicating whether the user "favorited" the item.
     @Persisted var isFavorite = false
 
+    // :state-start: migration
+    // :code-block-start: add-property-to-model
+    /// Users can enter a description, which is an empty string by default
+    @Persisted var itemDescription = ""
+    // :code-block-end:
+    // :state-end:
+    
     /// The backlink to the `Group` this item is a part of.
     @Persisted(originProperty: "items") var group: LinkingObjects<Group>
 }
@@ -57,6 +64,13 @@ final class Group: Object, ObjectKeyIdentifiable {
 // MARK: Main Views
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
 /// For now, it always displays the LocalOnlyContentView.
+// :state-start: migration
+// :code-block-start: realm-configuration-increment-schema
+let config = Realm.Configuration(schemaVersion: 2)
+// :code-block-end:
+// :state-end:
+// :state-start: migration
+// :code-block-start: pass-environment-object-to-local-content-view
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
@@ -66,15 +80,25 @@ struct ContentView: SwiftUI.App {
                 SyncContentView(app: app)
             } else {
                 LocalOnlyContentView()
+                // :emphasize-start:
+                // :code-block-start: pass-realm-config-as-environment-object
+                    .environment(\.realmConfiguration, config)
+                // :code-block-end:
+                // :emphasize-end:
             }
         }
     }
 }
+// :code-block-end:
+// :state-end:
 
 /// The main content view if not using Sync.
+// :code-block-start: implicitly-open-realm
 struct LocalOnlyContentView: View {
     @State var searchFilter: String = ""
+    // :emphasize-start:
     @ObservedResults(Group.self) var groups
+    // :emphasize-end:
     
     var body: some View {
         if let group = groups.first {
@@ -91,10 +115,13 @@ struct LocalOnlyContentView: View {
         }
     }
 }
+// :code-block-end:
 
 /// This view observes the Realm app object.
 /// Either direct the user to login, or open a realm
 /// with a logged-in user.
+// :state-start: migration
+// :code-block-start: pass-realm-config-to-synced-realm-view
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
     @ObservedObject var app: RealmSwift.App
@@ -103,13 +130,19 @@ struct SyncContentView: View {
         if let user = app.currentUser {
             // If there is a logged in user, pass the user ID as the
             // partitionValue to the view that opens a realm.
-            OpenSyncedRealmView().environment(\.partitionValue, user.id)
+            OpenSyncedRealmView()
+                .environment(\.partitionValue, user.id)
+            // :emphasize-start:
+                .environment(\.realmConfiguration, config)
+            // :emphasize-end:
         } else {
             // If there is no user logged in, show the login view.
             LoginView()
         }
     }
 }
+// :code-block-end:
+// :state-end:
 
 /// This view opens a synced realm.
 // :code-block-start: auto-open-synced-realm
@@ -119,7 +152,9 @@ struct OpenSyncedRealmView: View {
     // no network connection, AutoOpen will open a realm on the device.
     // We can use an empty string as the partitionValue here because we're
     // injecting the user.id as an environment value from the LoginView.
+    // :emphasize-start:
     @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
+    // :emphasize-end:
     // :hide-start:
     @State var searchFilter: String = ""
     // :hide-end:
@@ -137,6 +172,7 @@ struct OpenSyncedRealmView: View {
             ProgressView("Waiting for user to log in...")
         // The realm has been opened and is ready for use.
         // Show the content view.
+            // :emphasize-start:
         case .open(let realm):
             ItemsView(group: {
                 if realm.objects(Group.self).count == 0 {
@@ -145,6 +181,7 @@ struct OpenSyncedRealmView: View {
                     }
                 }
                 return realm.objects(Group.self).first!
+                // :emphasize-end:
             }(), searchFilter: $searchFilter, leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
             // The realm is currently being downloaded from the server.
             // Show a progress view.
@@ -231,7 +268,9 @@ struct LogoutButton: View {
 /// and deleting items in the group.
 struct ItemsView: View {
     @ObservedRealmObject var group: Group
-    @ObservedResults(Item.self) var items
+    // :code-block-start: explicitly-provide-config-to-property-wrappers
+    @ObservedResults(Item.self, configuration: config) var items
+    // :code-block-end:
     @Binding var searchFilter: String
 
     /// The button to be displayed on the top left.

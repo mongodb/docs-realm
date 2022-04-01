@@ -1,9 +1,9 @@
 .. _ios-swiftui-combine-quick-start:
 .. _ios-swiftui-quick-start:
 
-===============================
-Use Realm Database with SwiftUI
-===============================
+======================================
+Realm Database with SwiftUI QuickStart
+======================================
 
 .. default-domain:: mongodb
 
@@ -23,6 +23,13 @@ Prerequisites
 
 Overview
 --------
+
+.. seealso:: Use Realm Database with SwiftUI
+
+   This page provides a small working app to get you up and running with
+   Realm and SwiftUI quickly. If you'd like to see additional examples,
+   including more explanation about Realm's SwiftUI features, see:
+   :ref:`<ios-swiftui-examples>`.
 
 This page contains all of the code for a working Realm and SwiftUI app.
 The app starts on the **ItemsView**, where you can edit a list of items:
@@ -59,6 +66,8 @@ the top of the file, import the Realm and SwiftUI frameworks:
 
    Just want to dive right in with the complete code? Jump to
    :ref:`swiftui-complete-code` below.
+
+.. _swiftui_quickstart-define-models:
 
 Define Models
 ~~~~~~~~~~~~~
@@ -177,7 +186,15 @@ across devices. Before you can add sync to this app, make sure to:
 
 - :ref:`Create a {+app+} <create-a-realm-app>`.
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
-- :ref:`Enable {+sync+} <enable-sync>` with Development Mode on.
+- :ref:`Enable {+sync+} <enable-sync>`.
+
+  1. Use :ref:`Partition-Based Sync <partition-based-sync>`
+  #. Specify a cluster and database.
+  #. Turn on Development Mode.
+  #. Use ``_partition`` as a partition key.
+  #. For Permissions, select the template: 
+     :guilabel:`User can only read and write their own data.`
+  #. Enable Sync, and deploy your application updates.
 
 .. tip::
 
@@ -269,6 +286,62 @@ Here's the code for the OpenSyncedRealmView:
 
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.open-synced-realm-view.swift
    :language: swift
+
+When you run the app and see the main UI, there are no items in the view. 
+That's because we're using anonymous login, so this is the first time this 
+specific user logs in. There aren't any objects matching this user's 
+``partitionValue`` - in our case, the user ID. When you start creating 
+objects, those objects write to Realm - both on the device, and in the 
+linked database you specified in the Sync configuration. 
+
+We never updated the client object model to have a ``_partition`` field. 
+How does Realm know which objects the user has permission to read and write?
+
+The realm file itself has the ``partitionValue``. You passed the ``user.id`` 
+as an environment object to the OpenSyncedRealmView, which uses it in the 
+configuration to open the realm. The objects that the user writes to the 
+realm file have that ``partitionValue`` appended as the value for the 
+partition field you specified in the Sync configuration. If you look in 
+the linked database, you see both the ``Group`` objects and the ``Item`` 
+objects contain a field ``_partition``. The value of this field is the 
+user ID of the logged-in user who created the objects:
+
+.. figure:: /images/swiftui-quickstart-group.png
+   :alt: screencapture of Group objects in Atlas showing _partition field and user ID value
+   :figwidth: 400px
+
+.. figure:: /images/swiftui-quickstart-item.png
+   :alt: screencapture of Item objects in Atlas showing _partition field and user ID value
+   :figwidth: 400px
+
+And you can see in the :guilabel:`Schema` that Development Mode has 
+inferred, you now have a ``_partition`` in the schema, even though you 
+haven't defined it explicitly in the client object model:
+
+.. code-block:: json
+
+   {
+     "title": "Group",
+     "bsonType": "object",
+     "required": [
+       "_id",
+       "_partition"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "_partition": {
+         "bsonType": "string"
+       },
+       "items": {
+         "bsonType": "array",
+         "items": {
+           "bsonType": "objectId"
+         }
+       }
+     }
+   }
 
 Authenticate Users with MongoDB Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

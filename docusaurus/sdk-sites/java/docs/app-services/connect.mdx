@@ -1,0 +1,60 @@
+---
+title: Connect to a Realm App
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import AccessKotlin from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.java";
+import AccessJava from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.access-app-client.kt";
+import AdvancedKotlin from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.java";
+import AdvancedJava from "!!raw-loader!@site/docs/generated/java/sync/InitializeTest.codeblock.advanced-access-app-client.kt";
+
+The SDK is the interface to the backend. It provides access to
+authentication, Functions, and Sync.
+
+## Prerequisites
+
+You must [initialize the SDK](/sdk/java/quick-start#initialize-realm)
+with `Realm.init()` before creating any instance of an `App`.
+
+## Access the App Client
+
+Pass your App ID, which you can [find in the Realm UI](https://www.mongodb.com/docs/realm/get-started/find-your-project-or-app-id/#std-label-find-your-app-id).
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AccessKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AccessJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::note Multiple App Instances
+You can create multiple `App` instances to connect to multiple
+backends or to the same backend with different configurations. All
+`App` instances that share the same App ID use the same underlying
+connection.
+:::
+
+## Configuration
+
+For more granular control of the details of your app connection,
+such as custom timeouts for connections, codecs used for MongoDB Data Access,
+and keys for local encryption, you can use the `AppConfiguration`
+Builder to control details of your `App`:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AdvancedKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AdvancedJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::note Advanced Configuration is Optional
+For most use cases, you only need your application's App ID to connect
+to the backend. The other settings demonstrated here are optional.
+:::

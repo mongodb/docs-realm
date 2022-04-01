@@ -1,0 +1,328 @@
+---
+title: Authenticate Users
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import AnonKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.anonymous.java";
+import AnonJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.anonymous.kt";
+import EPKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.email-password.java";
+import EPJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.email-password.kt";
+import APIKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.api-key.java";
+import APIJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.api-key.kt";
+import JWTKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.custom-jwt.java";
+import JWTJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.custom-jwt.kt";
+import FunctionKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.custom-function.java";
+import FunctionJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.custom-function.kt";
+import FBKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.facebook.java";
+import FBJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.facebook.kt";
+import ElGoogKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthActivity.codeblock.google.java";
+import ElGoogJava from "!!raw-loader!@site/docs/generated/java/sync/AuthActivity.codeblock.google.kt";
+import AppleKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.apple.java";
+import AppleJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.apple.kt";
+import LogOutKotlin from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.log-out.java";
+import LogOutJava from "!!raw-loader!@site/docs/generated/java/sync/AuthenticationTest.codeblock.log-out.kt";
+
+The SDK provides an API for authenticating users using any enabled
+authentication provider. Instantiate a `Credentials` object and pass
+it to either of the `app.login()` or `app.loginAsync()` methods to
+authenticate a user login and create a `User` object. Each
+authentication provider corresponds to a static helper method used to
+instantiate `Credentials` objects using that authentication provider.
+
+## Log In
+
+You can authenticate users with either the `app.login()` or
+`app.loginAsync()` methods of your application's instance of the
+`io.realm.mongodb.App` class. While the `app.login()` method blocks
+code execution in the calling thread until the supplied credentials have
+either succeeded or failed to authenticate a user, the
+`app.loginAsync()` method allows execution to continue, handling
+success or failure with a callback function that is guaranteed to
+execute on the same thread that called `app.loginAsync()`.
+
+If successful, the `app.login()` method returns a `User` object.
+In the event of a failure, the `app.login()` method throws an
+exception of type `ObjectServerError`.
+
+Pass a callback to the `app.loginAsync()` method to handle success or
+failure. This callback accepts a single parameter of type
+`App.Result`. The `isSuccess()` method of the `App.Result` object
+passed to the callback returns a boolean that indicates whether the
+operation succeeded. In the event of a failure, you can view the
+error that caused the failure using the `getError()` method.
+
+### User Sessions
+
+MongoDB Realm manages sessions with access tokens and refresh tokens. Client
+SDKs supply the logic to manage tokens, and provide them with requests.
+
+The SDK stores these tokens in
+[Shared Preferences](https://developer.android.com/guide/topics/data/data-storage.html#pref).
+
+### Anonymous User
+
+The [anonymous authentication provider](https://www.mongodb.com/docs/realm/authentication/anonymous/)
+enables users to log in to your application with short-term accounts
+that store no persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+`Credentials.anonymous()` and then pass the generated credential to
+`app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AnonKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AnonJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Email/Password User
+
+The [Email/Password authentication provider](https://www.mongodb.com/docs/realm/authentication/email-password/)
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling `Credentials.emailPassword()`
+with the user's email and password. Then pass the generated credential
+to `app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{EPKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{EPJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### API Key User
+
+The [API Key authentication provider](https://www.mongodb.com/docs/realm/authentication/api-key/)
+enables users to log in to your application with an API Key generated
+automatically in the client SDK. To log in with API Key authentication, create an
+API Key credential by calling `Credentials.apiKey()`
+with an API Key. Then pass the generated credential
+to `app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{APIKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{APIJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Custom JWT User
+
+The [Custom JWT authentication provider](https://www.mongodb.com/docs/realm/authentication/custom-jwt/)
+enables users to log in to your application with a custom JSON Web Token.
+To log in with custom JWT authentication, create a
+custom JWT credential by calling `Credentials.jwt()`
+with your custom JWT. Then pass the generated credential
+to `app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{JWTKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{JWTJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Custom Function User
+
+The [Custom Function authentication provider](https://www.mongodb.com/docs/realm/authentication/custom-function/)
+enables users to log in to your application using a
+Function defined in your backend. To log in with custom
+function authentication, create a credential by calling
+[`Credentials.customFunction()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/Credentials.html#customFunction-Document-).
+The `customFunction()` method expects a
+Document that contains the properties and values used by the Realm auth function.
+For example, suppose the backend function expects the input parameter to include
+a field named `username`, like this:
+
+```javascript
+exports = async function(loginPayload) {
+   const { username } = loginPayload;
+   ...
+}
+```
+
+The document you pass to `Credentials.customFunction()` might look like this:
+
+```javascript
+Document("username", "bob");
+```
+
+You then pass the generated credential to `app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FunctionKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FunctionJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Facebook User
+
+The [Facebook authentication provider](https://www.mongodb.com/docs/realm/authentication/facebook/) allows
+you to authenticate users through a Facebook app using their existing Facebook
+account.
+
+:::important Do Not Store Facebook Profile Picture URLs
+Facebook profile picture URLs include the user's access token to grant
+permission to the image. To ensure security, do not store a URL that
+includes a user's access token. Instead, access the URL directly from
+the user's metadata fields when you need to fetch the image.
+:::
+
+Follow the official [Facebook Login for Android Quickstart](https://developers.facebook.com/docs/facebook-login/android)
+to set up the authentication flow for your
+application. In the login completion handler, get the logged in user's access
+token from the Facebook [`LoginResult`](https://developers.facebook.com/docs/reference/android/current/class/LoginResult).
+Use the access token to create a Facebook credential and then log the
+user into your backend.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FBKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FBJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Google User
+
+The [Google authentication provider](https://www.mongodb.com/docs/realm/authentication/google/)
+allows you to authenticate users through their existing Google account.
+
+To set up your application for Google User authentication:
+
+1. In the [Google Cloud Platform console](https://console.cloud.google.com/apis/credentials),
+   create an OAuth 2.0 client ID of type "Web application".
+
+1. Configure your backend to use that client ID and the associated
+   client secret.
+
+1. Enable OpenID Connect on the backend.
+
+Use Google's official [Sign-In for Android](https://developers.google.com/identity/sign-in/android)
+to authenticate Google users in your Android application:
+
+:::info Code Example Below
+For an implementation of these instructions, check out the code block
+below.
+:::
+
+1. Add the Google Sign-In for Android dependency to the `dependencies`
+   block of your application level `build.gradle`:
+
+   ```groovy
+   com.google.android.gms:play-services-auth:19.2.0
+   ```
+
+1. Create a [GoogleSignInOptions](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions)
+   with the following builder options:
+
+   - [default sign in](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-builder-googlesigninoptions-googlesigninoptions)
+   - an [ID token request](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestidtoken-string-serverclientid).
+     Pass your OAuth 2.0 client ID as the `serverClientId`.
+
+1. Use the `GoogleSignInOptions` to create a `GoogleSignInClient`
+   with [`GoogleSignIn.getClient()`](<https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getClient(android.content.Context,%20com.google.android.gms.auth.api.signin.GoogleSignInOptions)>)
+
+1. Use the `GoogleSignInClient` to create an `Intent` capable of
+   triggering Google Sign-In.
+
+1. Use [`registerForActivityResult()`](<https://developer.android.com/reference/androidx/activity/result/ActivityResultCaller#registerForActivityResult(androidx.activity.result.contract.ActivityResultContract%3CI,O%3E,androidx.activity.result.ActivityResultCallback%3CO%3E)>)
+   to configure a callback. Your callback should use [`GoogleSignIn.getSignedInAccountFromIntent()`](<https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignIn#getSignedInAccountFromIntent(android.content.Intent)>)
+   to access the result of Google Sign-In: a `Task<GoogleSignInAccount>`.
+
+1. Use the [`launch()`](<https://developer.android.com/reference/androidx/activity/result/ActivityResultLauncher#launch(I)>)
+   method of the [`ActivityResultLauncher`](https://developer.android.com/reference/androidx/activity/result/ActivityResultLauncher)
+   returned in the previous step to start Google Sign-In. Pass the
+   `launch()` method your Google Sign-In `Intent`.
+
+1. Use `isSuccessful()` to handle Google Sign-In errors.
+
+1. Access the result of the task (a [`GoogleSignInAccount`](https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInAccount))
+   with `getResult()`.
+
+1. Access the ID token for the `GoogleSignInAccount` with `getIdToken()`.
+
+1. Create a Realm `Credentials` object with [`Credentials.google()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/Credentials.html#google-java.lang.String-io.realm.mongodb.auth.GoogleAuthType-).
+   Pass the ID token as the first parameter, and [`GoogleAuthType.ID_TOKEN`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/auth/GoogleAuthType.html#ID_TOKEN) as the second parameter.
+
+1. Use the [`app.login()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials-)
+   or [`app.loginAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/App.html#loginAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback-)
+   methods to authenticate with the Realm backend using the token.
+
+The following code implements this flow, starting with a method call to
+`loginWithGoogle()`:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ElGoogKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ElGoogJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::tip See Also
+To learn more about Google Sign-In for Android, check out the
+official [Google Sign-In for Android Integration Guide](https://developers.google.com/identity/sign-in/android/start-integrating).
+:::
+
+### Apple User
+
+The [Sign-in with Apple authentication provider](https://www.mongodb.com/docs/realm/authentication/apple/)
+enables users to log in to your application with a custom token provided
+by Apple. To log in with Sign-in with Apple authentication, create a
+Sign-in with Apple credential by calling `Credentials.apple()`
+with the token provided by Apple. Then pass the generated credential
+to `app.login()` or `app.loginAsync()`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{AppleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{AppleJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::tip
+If you get a `Login failed` error saying that the
+`token contains an invalid number of segments`, verify that you're
+passing a UTF-8-encoded string version of the JWT.
+:::
+
+## Log a User Out
+
+You can log out any user, regardless of the authentication provider used
+to log in, using the `user.logOut()` or `user.logOutAsync()`
+methods. Both methods:
+
+- delete locally stored user credentials from the device
+
+- immediately halt any synchronization to and from the user's realms
+
+Because logging out halts synchronization, you should only log out after
+all local realm updates have uploaded to the server.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LogOutKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LogOutJava}</CodeBlock>
+  </TabItem>
+</Tabs>

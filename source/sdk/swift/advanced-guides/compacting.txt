@@ -29,6 +29,13 @@ file. In some situations, unused space may comprise a significant
 portion of a {+realm+} file. If file size grows large enough to 
 negatively impact performance, compact the {+realm+}. 
 
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement a :swift-sdk:`shouldCompactOnLaunch 
+   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV21shouldCompactOnLaunchSbSi_SitcSgvp>` 
+   callback to periodically reduce the realm file size. For more information
+   about how often to compact a realm, see: :ref:`<ios-when-to-compact-a-realm>`.
+
 .. _ios-how-to-compact-a-realm:
 
 Compact a Realm
@@ -93,13 +100,59 @@ How Compacting Works
 
 If the file contains a lot of data, this can be an expensive operation.
 
-Best Practices
-~~~~~~~~~~~~~~
+.. _ios-when-to-compact-a-realm:
+
+When to Compact a Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Compacting a realm can be an expensive operation that can block 
+the UI thread. Your application should not compact every time you open 
+a {+realm+}. Instead, try to optimize compacting so your application does 
+it just often enough to prevent the file size from growing too large. 
+If your application runs in a resource-constrained environment,
+you may want to compact when you reach a certain file size or when the 
+file size negatively impacts performance.
+
+These recommendations can help you start optimizing compaction for your 
+application:
+
+- Set the max file size to a multiple of your average realm state
+  size. If your average realm state size is 10MB, you might set the max 
+  file size to 20MB or 40MB, depending on expected usage and device
+  constraints.
+- As a starting point, compact realms when more than 50% of the realm file 
+  size is no longer in use. Divide the currently used bytes by the total 
+  file size to determine the percentage of space that is currently used. 
+  Then, check for that to be less than 50%. This means that greater than 
+  50% of your realm file size is unused space, and it is a good time to 
+  compact. After experimentation, you may find a different percentage 
+  works best for your application.
+
+These calculations might look like this in your ``shouldCompactOnLaunch`` 
+callback:
+
+.. code-block:: swift
+
+   // Set a maxFileSize equal to 20MB in bytes
+   let maxFileSize = 20 * 1024 * 1024
+   // Check for the realm file size to be greater than the max file size, 
+   // and the amount of bytes currently used to be less than 50% of the
+   // total realm file size
+   return (realmFileSizeInBytes > maxFileSize) && (Double(usedBytes) / Double(realmFileSizeInBytes)) < 0.5
 
 Experiment with conditions to find the right balance of how often to 
-compact a {+realm+} file. Because the operation can be 
-expensive, don't compact every time you open a {+realm+}. Do compact 
-often enough to prevent the file size from growing too large.
+compact {+realm+} files in your application.
+
+Compact a Realm Asynchronously
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use the Swift async/await syntax to open a realm asynchronously,
+you can compact a realm in the background.
+
+.. literalinclude:: /examples/generated/code/start/Compacting.codeblock.async-compact.swift
+   :language: swift
+
+.. include:: /includes/swift-async-await-support.rst
 
 Summary
 -------
@@ -112,3 +165,5 @@ Summary
 - Define conditions for ``shouldCompactOnLaunch()`` to compact a {+realm+}.
 
 - Compacting cannot occur if another process is accessing the {+realm+}.
+
+- You can compact a realm in the background when you use async/await syntax.

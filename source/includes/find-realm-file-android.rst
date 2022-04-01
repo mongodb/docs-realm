@@ -6,13 +6,13 @@ You can get your {+realm+} file path with the
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/android/local/RealmFileLocationTest.codeblock.get-realm-file-location.java
+      .. literalinclude:: /examples/generated/java/local/RealmFileLocationTest.codeblock.get-realm-file-location.java
          :language: java
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/android/local/RealmFileLocationTest.codeblock.get-realm-file-location.kt
+      .. literalinclude:: /examples/generated/java/local/RealmFileLocationTest.codeblock.get-realm-file-location.kt
          :language: kotlin
 
 {+service-short+} Studio does not currently support accessing {+realm+}

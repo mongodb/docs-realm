@@ -1,24 +1,56 @@
 import XCTest
 import RealmSwift
 import GoogleSignIn
-import FBSDKLoginKit
+import FacebookLogin
+import SwiftUI
 
 class Authenticate: XCTestCase {
-    func testGoogleCredentials() {
+    func testGoogleSignInWithServerAuthCode() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: google
+        // :code-block-start: google-with-serverAuthCode
         func sign(_ signIn: GIDSignIn!, didSignInFor googleUser: GIDGoogleUser!, withError error: Error!) {
             if let error = error {
-                if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
-                    print("The user has not signed in before or they have since signed out.")
-                } else {
-                    print("\(error.localizedDescription)")
-                }
+              print("\(error.localizedDescription)")
                 return
             }
-            // Signed in successfully, forward credentials to MongoDB Realm.
-            let credentials = Credentials.google(serverAuthCode: googleUser.serverAuthCode)
+            // Upon first successful sign-in, forward serverAuthCode credentials to MongoDB Realm.
+            // Upon subsequent sign-ins, this returns nil.
+            let credentials = Credentials.google(serverAuthCode: googleUser.serverAuthCode!)
+
+            app.login(credentials: credentials) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to log in to MongoDB Realm: \(error)")
+                    case .success(let user):
+                        print("Successfully logged in to MongoDB Realm using Google OAuth.")
+                        // Now logged in, do something with user
+                        // Remember to dispatch to main if you are doing anything on the UI thread
+                    }
+                }
+            }
+        }
+        // :code-block-end:
+        expectation.fulfill()
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testGoogleSignInWithId() {
+        let expectation = XCTestExpectation(description: "login completes")
+
+        // :code-block-start: google-with-googleId
+        func sign(_ signIn: GIDSignIn!, didSignInFor googleUser: GIDGoogleUser!, withError error: Error!) {
+            if let error = error {
+              print("\(error.localizedDescription)")
+                return
+            }
+
+            // Get the ID token for the authenticated user so you can pass it to Realm
+            let idToken = googleUser.authentication.idToken!
+
+            let credentials = Credentials.googleId(token: idToken)
+
             app.login(credentials: credentials) { result in
                 DispatchQueue.main.async {
                     switch result {
@@ -63,13 +95,13 @@ class Authenticate: XCTestCase {
     func testFacebookCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
         // :code-block-start: facebook
-        // This example demonstrates login logic for FBSDK version 8.x. If you're using
+        // This example demonstrates login logic for FBSDK version 13.x. If you're using
         // a different version of FBSDK, you'll need to adapt this example for your version.
         let loginManager = LoginManager()
         loginManager.logIn(permissions: [ .email ]) { loginResult in
             switch loginResult {
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                let credentials = Credentials.facebook(accessToken: accessToken.tokenString)
+                let credentials = Credentials.facebook(accessToken: accessToken!.tokenString)
                 app.login(credentials: credentials) { result in
                     DispatchQueue.main.async {
                         switch result {
@@ -140,6 +172,8 @@ class Authenticate: XCTestCase {
         }
         // :code-block-end:
         wait(for: [expectation], timeout: 10)
+        // Delete this user so it doesn't interfere with the DeleteUsers tests
+        app.currentUser?.delete()
     }
 
     func testApiKeyCredentials() {

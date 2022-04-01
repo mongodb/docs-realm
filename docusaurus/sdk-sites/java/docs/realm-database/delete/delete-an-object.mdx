@@ -1,0 +1,68 @@
+---
+title: Delete an Object
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DeleteKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-an-object.kt";
+import DeleteJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.delete-an-object.java";
+import CascadeDeleteKotlin from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.cascading-deletes.kt";
+import CascadeDeleteJava from "!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.cascading-deletes.java";
+
+To delete an object from a realm, use either the dynamic or static
+versions of [`realmObject.deleteFromRealm()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#deleteFromRealm()>)
+
+:::important Do not use objects after delete
+Realm Database throws an error if you try to use an object after
+it has been deleted.
+:::
+
+The following code shows how to delete one object from
+a realm with `deleteFromRealm()`:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DeleteKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DeleteJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::note
+
+You can only delete objects from a realm within a
+[write transaction](/sdk/java/realm-database/write-transactions).
+:::
+
+## Delete an Object and its Dependent Objects
+
+Sometimes, you have related objects that you want to delete when
+you delete an object. Realm Database does not delete related
+objects for you. If you do not delete the objects yourself,
+they will remain orphaned in your realm. This may or may not be a problem
+in your application.
+
+Currently, the best way to delete dependent objects is to
+iterate through the dependencies and delete them before
+deleting the parent object.
+
+The following code demonstrates how to delete related objects, then a
+parent object, by first deleting all of Ali's turtles,
+then deleting Ali:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CascadeDeleteKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CascadeDeleteJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::note
+
+You can only delete objects from a realm within a
+[write transaction](/sdk/java/realm-database/write-transactions).
+:::

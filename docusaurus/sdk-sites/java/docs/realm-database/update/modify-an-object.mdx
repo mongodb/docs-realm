@@ -1,0 +1,30 @@
+---
+title: Modify an Object
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+import UpdateKotlin from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-an-object.kt';
+import UpdateJava from '!!raw-loader!@site/docs/generated/java/sync/WritesTest.codeblock.update-an-object.java';
+
+Within a transaction, you can update a Realm object the same
+way you would update any other object in your language of
+choice. Just assign a new value to the property or update
+the property.
+
+This code changes the turtle's name to "Archibald" and
+sets Archibald's age to 101 by assigning new values to properties:
+
+<Tabs groupId="java-sdk-languages">
+    <TabItem value="kotlin" label="Kotlin">
+        <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+    </TabItem>
+    <TabItem value="java" label="Java">
+        <CodeBlock language="java">{UpdateJava}</CodeBlock>
+    </TabItem>
+</Tabs>
+
+:::note
+You can only modify objects in a realm within a
+[write transaction](/sdk/java/realm-database/write-transactions).
+:::

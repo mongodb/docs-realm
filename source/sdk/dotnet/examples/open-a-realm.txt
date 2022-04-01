@@ -75,13 +75,13 @@ The steps for opening a synced {+realm+} while online are:
 1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
 
 #. Create a 
-   :dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html>` 
+   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
    object that includes the :ref:`partition name <partition-value>` and 
    the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
 
 #. Open a synced {+realm+} by calling the 
    :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-   method, passing in the ``SyncConfiguration`` object.
+   method, passing in the ``PartitionSyncConfiguration`` object.
    
 The following code demonstrates these steps:
 
@@ -133,6 +133,10 @@ to open a synced realm.
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.open-a-flexible-synced-realm.cs
    :language: csharp
 
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, see: :ref:`<dotnet-sync-add-subscription>`.
 
 Scoping the Realm
 -----------------

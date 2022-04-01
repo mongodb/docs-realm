@@ -1,0 +1,30 @@
+.. _kotlin-find-objects-of-a-type:
+
+===================================
+Find Objects of a Type - Kotlin SDK
+===================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+To find all objects of a type, open a realm
+and pass the type as a type parameter to :kotlin-sdk:`realm.query()
+<{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`:
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.find-all-objects-of-a-type.kt
+   :language: kotlin
+   :copyable: false
+
+.. note:: :file:`find()` is Synchronous
+
+   :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/find.html>`
+   runs a synchronous query on the thread it is called from.
+   As a result, avoid using :file:`find()` on the UI thread or in
+   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
+   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>` in
+   time sensitive environments.

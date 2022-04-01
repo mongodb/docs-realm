@@ -1,0 +1,250 @@
+---
+title: Filter Data
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import TeacherKotlin from "!!raw-loader!@site/docs/generated/java/local/TeacherKt.codeblock.complete.kt";
+import StudentKotlin from "!!raw-loader!@site/docs/generated/java/local/StudentKt.codeblock.complete.kt";
+import TeacherJava from "!!raw-loader!@site/docs/generated/java/local/Teacher.codeblock.complete.java";
+import StudentJava from "!!raw-loader!@site/docs/generated/java/local/Student.codeblock.complete.java";
+import FiltersKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.filters.kt";
+import FiltersJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.filters.java";
+import LinkKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.link-queries.kt";
+import LinkJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.link-queries.java";
+import InverseKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.link-queries-inverse.kt";
+import InverseJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.link-queries-inverse.java";
+import SortKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.sort.kt";
+import SortJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.sort.java";
+import LimitKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.limit.kt";
+import LimitJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.limit.java";
+import UniqueKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.unique.kt";
+import UniqueJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.unique.java";
+import ChainKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.chain-queries.kt";
+import ChainJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.chain-queries.java";
+import RawKotlin from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.realm-query-language.kt";
+import RawJava from "!!raw-loader!@site/docs/generated/java/local/FilterDataTest.codeblock.realm-query-language.java";
+
+## About the Examples on This Page
+
+The examples in this page use two Realm object types: `Teacher` and
+`Student`.
+
+See the schema for these two classes below:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock title="Teacher.kt" language="kotlin">
+      {TeacherKotlin}
+    </CodeBlock>
+    <CodeBlock title="Student.kt" language="kotlin">
+      {StudentKotlin}
+    </CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock title="Teacher.java" language="java">
+      {TeacherJava}
+    </CodeBlock>
+    <CodeBlock title="Student.java" language="java">
+      {StudentJava}
+    </CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Filters
+
+You can build filters using the operator methods of the
+[fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)
+exposed by the
+[`RealmQuery`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html) class:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FiltersKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FiltersJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+This gives you a new instance of the class [`RealmResults`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html),
+containing teachers with the name "Ms. Langtree" or "Mrs. Jacobs".
+
+`RealmQuery` includes several methods that can execute queries:
+
+- [`findAll()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#findAll--)
+  blocks until it finds all objects that meet the query conditions
+
+- [`findAllAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#findAllAsync--)
+  returns immediately and finds all objects that meet the query
+  conditions asynchronously on a background thread
+
+- [`findFirst()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#findFirst--)
+  blocks until it finds the first object that meets the query conditions
+
+- [`findFirstAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#findFirstAsync--)
+  returns immediately and finds the first object that meets the query
+  conditions asynchronously on a background thread
+
+Queries return a collection of matching
+objects via a `RealmResults`.
+
+## Link Queries
+
+When referring to an object property, you can use **dot notation** to refer
+to child properties of that object. You can refer to the properties of
+[embedded objects](/sdk/java/realm-database/schemas/data-types/embedded-objects) and
+[relationships](/sdk/java/realm-database/schemas/relationships)
+with dot notation.
+
+For example, consider a query for all teachers with a student named
+"Wirt" or "Greg":
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LinkKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LinkJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+You can even use dot notation to query inverse relationships:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{InverseKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{InverseJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Sort Results
+
+You can define the order of query results using
+[`sort()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#sort-java.lang.String-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{SortKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{SortJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Sorts organize results in ascending order by default. To organize results
+in descending order, pass `Sort.DESCENDING` as a second argument.
+You can resolve sort order ties between identical property values
+by passing an array of properties instead of a single property: in the
+event of a tie, Realm Database sorts the tied objects by subsequent
+properties in order.
+
+:::important Order Matters with Sort, Distinct, and Limit
+Realm Database applies the `distinct()`, `sort()` and
+`limit()` methods in the order you specify. Depending on the
+data set this can alter the query result. Generally, you should
+apply `limit()` last to avoid unintended result sets.
+:::
+
+:::important String Sorting Limitations
+Realm Database uses non-standard sorting for upper and lowercase
+letters, sorting them together rather than sorting uppercase first.
+As a result, `'- !"#0&()*,./:;?_+<=>123aAbBcC...xXyYzZ` is the
+actual sorting order. Additionally, sorting
+strings only supports the `Latin Basic`, `Latin Supplement`,
+`Latin Extended A`, and `Latin Extended B (UTF-8 range 0–591)`
+character sets.
+:::
+
+## Limit Results
+
+You can cap the number of query results to a specific maximum number
+using [`limit()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#limit-long-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LimitKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LimitJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Limited result collections automatically update like any other query
+result. Consequently, objects might drop out of the collection as
+underlying data changes.
+
+:::important Pagination is Not Necessary for Realm Database Optimization
+Some databases encourage paginating results with limits to avoid
+reading unnecessary data from disk or using too much memory.
+
+Since realm queries are lazy, there is no need to
+take such measures. The SDK only loads objects from query
+results when they are explicitly accessed.
+:::
+
+:::caution Deleted Notifications in Limited Results
+Collection notifications report objects as deleted when they drop out
+of the result set. When a query uses a limit, objects can drop out of
+the result set even if they were not deleted or changed -- instead, another
+object might have taken their place in the limited result set.
+:::
+
+## Unique Results
+
+You can reduce query results to unique values for a given field or fields
+using [`distinct()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#distinct-java.lang.String-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UniqueKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UniqueJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+You can only call `distinct()` on `integer`, `long`, `short`, and `String`
+fields. All other field types will throw an exception. As with sorting,
+you can specify multiple fields to resolve ties.
+
+## Chain Queries
+
+You can apply additional filters to a results collection by calling
+[`where()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html#where--):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ChainKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ChainJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+The `where()` method returns a `RealmQuery` that you can resolve into
+a `RealmResults` using a `find` method. Filtered results can only
+return objects of the same type as the original results set.
+
+## Query with Realm Query Language
+
+Use [`realmQuery.rawPredicate()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmQuery.html#rawPredicate-java.lang.String-) to query
+realms using [Realm Query Language](/sdk/java/realm-database/query-language),
+a language inspired by
+[NSPredicate](https://academy.realm.io/posts/nspredicate-cheatsheet).
+Realm Query Language can use either the class and property names defined
+in your Realm Model classes or the internal names defined with `@RealmField`.
+You can combine raw predicates with other raw predicates or type-safe
+predicates created with `RealmQuery`:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RawKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RawJava}</CodeBlock>
+  </TabItem>
+</Tabs>

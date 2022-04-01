@@ -1,0 +1,101 @@
+---
+title: Read
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FindKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.kt";
+import FindJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-a-single-document.java";
+import FindMultipleKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.kt";
+import FindMultipleJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.find-multiple-documents.java";
+import CountKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.count-documents.kt";
+import CountJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.count-documents.java";
+
+These code snippets demonstrate how to read data stored in a MongoDB
+collection from a mobile application. Read operations use [queries](https://www.mongodb.com/docs/manual/core/document/#document-query-filter)
+to specify which documents to return from the database. Read operations return a
+[`Task`](https://developer.android.com/reference/com/google/android/play/core/tasks/Task) that resolves to
+either a single matched document (in the case of `findOne()`), a `long`
+numeric value (in the case of `count()`) or an iterator that allows you to
+traverse the collection of matched documents (in the case of `find()`).
+
+## Find a Single Document
+
+You can find a single document using [`collection.findOne()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#findOne--).
+
+The following snippet finds a single document from the a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores
+where the plant document's `type`
+field contains the string value "perennial":
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FindKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FindJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Running this snippet produces output similar to the following:
+
+```
+V/EXAMPLE: successfully found a document: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
+```
+
+## Find Multiple Documents
+
+You can find multiple documents using [`collection.find()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#find--).
+
+The following snippet finds all documents in a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores
+that contain a field named `_partition` with a value of "Store 42":
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FindMultipleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FindMultipleJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: successfully found all plants for Store 42:
+V/EXAMPLE: Plant [id=5f18..., name=venus flytrap, sunlight=full, color=white, type=perennial, partition=Store 42]
+V/EXAMPLE: Plant [id=5f18..., name=sweet basil, sunlight=partial, color=green, type=annual, partition=Store 42]
+V/EXAMPLE: Plant [id=5f18..., name=thai basil, sunlight=partial, color=green, type=perennial, partition=Store 42]
+V/EXAMPLE: Plant [id=5f18..., name=helianthus, sunlight=full, color=yellow, type=annual, partition=Store 42]
+```
+
+## Count Documents in the Collection
+
+You can count documents in a collection using
+[`collection.count()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#count--).
+You can specify an optional query to
+determine which documents to count. If you don't specify a query, the
+action counts all documents in the collection.
+
+The following snippet counts the number of documents in a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CountKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CountJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: successfully counted, number of documents in the collection: 5
+```

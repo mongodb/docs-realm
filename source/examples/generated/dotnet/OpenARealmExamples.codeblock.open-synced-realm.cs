@@ -1,6 +1,6 @@
 user = await app.LogInAsync(
     Credentials.EmailPassword("foo@foo.com", "foobar"));
-config = new SyncConfiguration("myPart", user);
+config = new PartitionSyncConfiguration("myPart", user);
 try
 {
     realm = await Realm.GetInstanceAsync(config);

@@ -20,6 +20,24 @@ Query MongoDB - React Native SDK
    in a chain of plant stores. For more information on the collection schema and
    document contents, see :ref:`Example Data <react-native-mongodb-example-dataset>`.
 
+Use Cases
+---------
+
+There are a variety of reasons you might want to query a MongoDB data source. 
+Working with data in your client via Realm Sync is not always practical or 
+possible. You might want to query MongoDB when:
+
+- The data set is large or the client device has constraints against loading 
+  the entire data set
+- You are :ref:`creating or updating custom user data 
+  <react-native-access-custom-user-data>`
+- You are retrieving documents that are not modeled in Realm
+- Your app needs to access collections that don't have strict schemas
+- A non-Realm service generates collections that you want to access
+
+While not exhaustive, these are some common use cases for querying MongoDB 
+directly.
+
 .. _react-native-mongodb-connect:
 
 Connect to a Linked Cluster
@@ -446,7 +464,7 @@ first document it finds.
 
 The following snippet deletes one document in a :ref:`collection of documents
 that describe plants for sale in a group of stores
-<android-mongodb-example-dataset>`. This operation queries for a document where
+<react-native-mongodb-example-dataset>`. This operation queries for a document where
 the ``color`` field has a value of "green" and deletes the first document that
 matches the query:
 

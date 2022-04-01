@@ -27,6 +27,14 @@ in their access token when they log in. You can access the data in the
 <context-get-user-information>`, the :json-expansion:`%%user` expansion,
 and their client application access token.
 
+.. note::
+
+   Because {+service+} stores the custom user data in the access token
+   in the HTTP header, you should keep the custom user data payload
+   small (say, less than 16KB). Other services might limit the HTTP
+   header size, which means that large custom user data objects can
+   cause integration issues.
+
 {+service+} does not manage custom user documents so you are responsible for
 creating and deleting them. The underlying data is a regular MongoDB
 document, so you can use standard CRUD operations through the
@@ -135,7 +143,7 @@ Access Custom User Data from a Client Application
       .. tip:: Access Custom User Data
          
          Learn how to :ref:`access Custom User Data from an Android
-         application <android-access-custom-user-data>`.
+         application <java-access-custom-user-data>`.
 
    .. tab::
       :tabid: ios

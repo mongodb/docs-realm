@@ -1,6 +1,7 @@
 # Realm Unity Tutorial
 
-Follow along at https://docs.mongodb.com/realm/tutorial/unity/
+Follow along at https://www.mongodb.com/docs/realm/tutorial/unity/
+
 ## Troubleshooting
 
 The most common issue is schema mismatch due to frequent little tweaks to the
@@ -16,7 +17,7 @@ schema as you develop your app.
 ## Issues & Pull Requests
 
 If you find an issue or have a suggestion, please let us know using the feedback
-widget on the [docs site](http://docs.mongodb.com/realm/tutorial).
+widget on the [docs site](http://www.mongodb.com/docs/realm/tutorial).
 
 This repo is automatically derived from our main docs repo. If you'd like to
 submit a pull request -- thanks! -- please feel free to do so at

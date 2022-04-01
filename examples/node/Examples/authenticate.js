@@ -66,7 +66,7 @@ describe("user authentication", () => {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.serverApiKey(apiKey);
+    const credentials = Realm.Credentials.apiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
@@ -155,5 +155,21 @@ describe("user authentication", () => {
     } catch (err) {
       console.error(err.message);
     }
+  });
+  test("Delete user", async () => {
+    const credentials = Realm.Credentials.anonymous();
+    await app.logIn(credentials);
+    const uid = app.currentUser.id;
+    const preDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(preDeleteMatchesLen).toBe(1);
+    // :snippet-start: delete-user
+    await app.deleteUser(app.currentUser);
+    // :snippet-end:
+    const postDeleteMatchesLen = Object.keys(app.allUsers).filter(
+      (id) => id === uid
+    ).length;
+    expect(postDeleteMatchesLen).toBe(0);
   });
 });

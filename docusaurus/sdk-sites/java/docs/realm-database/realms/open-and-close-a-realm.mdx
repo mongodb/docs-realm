@@ -1,0 +1,204 @@
+---
+title: Open and Close a Realm
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import OpenKotlin from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.kt";
+import OpenJava from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.java";
+import CloseKotlin from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.kt";
+import CloseJava from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.java";
+import ConfigureKotlin from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.kt";
+import ConfigureJava from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.java";
+import ReadOnlyKotlin from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.read-only.kt";
+import ReadOnlyJava from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.read-only.java";
+import InMemoryKotlin from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.in-memory.kt";
+import InMemoryJava from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.in-memory.java";
+import DynamicKotlin from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.dynamic.kt";
+import DynamicJava from "!!raw-loader!@site/docs/generated/java/local/RealmTypesTest.codeblock.dynamic.java";
+import SetDefaultKotlin from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.set-default-realm.kt";
+import SetDefaultJava from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.set-default-realm.java";
+import UseDefaultKotlin from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.use-default-realm.kt";
+import UseDefaultJava from "!!raw-loader!@site/docs/generated/java/local/OpenARealmTest.codeblock.use-default-realm.java";
+
+A **realm** is a set of related objects that conform to a pre-defined
+schema. Realms may contain more than one type of data as long as a
+schema exists for each type.
+
+Every realm stores data in a separate realm file that
+contains a binary encoding of each object in the realm. You can
+set up reactive event handlers (notifications) that call a
+function any time an object in a realm is created,
+modified, or deleted.
+
+Interacting with realms in an Android
+application uses the following high-level series of steps:
+
+1. Create a configuration for the realm you want to open.
+1. Open the realm using the config.
+1. Close the realm to free up resources when you're finished.
+
+## Open a Realm
+
+To open a realm, create a
+[`RealmConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.html) with
+[`RealmConfiguration.Builder`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html) and
+pass the resulting `RealmConfiguration` to
+[`getInstance()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstance-io.realm.RealmConfiguration-)
+or [`getInstanceAsync()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstanceAsync-io.realm.RealmConfiguration-io.realm.Realm.Callback-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{OpenKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{OpenJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Close a Realm
+
+It is important to remember to call [`close()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#close--)
+when finished with a realm instance to free resources. Neglecting to
+close realms can lead to an `OutOfMemoryError`.
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CloseKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CloseJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Realm Configuration
+
+To configure settings for a realm, create a
+[`RealmConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.html) with a
+[`RealmConfiguration.Builder`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html).
+The following example configures a local realm with:
+
+- the file name "alternate-realm"
+- synchronous reads explicitly allowed on the UI thread
+- synchronous writes explicitly allowed on the UI thread
+- automatic compaction when launching the realm to save file space
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ConfigureKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ConfigureJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Read-Only Realms
+
+It's sometimes useful to ship a prepared realm file with your app
+that contains shared data that does not frequently change. You can use
+the [`readOnly()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#readOnly--)
+method when configuring your realm to make it read-only. This can
+prevent accidental writes to the realm and causes the realm to
+throw an `IllegalStateException` if a write occurs.
+
+:::warning Read-Only Realm Files are Writeable
+Read-only realms are only enforced as read-only in process; the
+realm file itself is still writeable. As a result, it is still
+possible for other process to write to a read-only realm.
+:::
+
+Use `readOnly()` when configuring your realm to make it read-only:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ReadOnlyKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ReadOnlyJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### In-Memory Realms
+
+:::important In-Memory Realms May Persist to Disk Under High Memory Pressure
+When memory runs low on an Android device, in-memory realms
+may :wikipedia:`swap <Memory_paging#Terminology>` temporarily from main
+memory to disk space. However, all files created by an in-memory
+realm are deleted when that realm closes or all references
+to that realm fall out of scope.
+:::
+
+To create a realm that does not persist data between application runs,
+use [`inMemory()`](<https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.Builder.html#inMemory()>)
+when configuring your realm:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DynamicKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DynamicJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Dynamic Realms
+
+Conventional realms define a schema using `RealmObject` subclasses
+or the `RealmModel` interface. A
+:java-sdk:`DynamicRealm <io/realm/DynamicRealm.html>` uses strings to
+define a schema at runtime. Opening a dynamic realm uses the same
+configuration as a conventional realm, but dynamic realms ignore
+all configured schema, migration, and schema versions.
+
+.. important:: Dynamic Realms Lack Type-Safety
+
+Dynamic realms offer flexibility at the expense of type safety and
+performance. As a result, only use dynamic realms when that
+flexibility is required, such as during migrations, manual client
+resets, and when working with string-based data like CSV files or JSON.
+
+To open a Dynamic Realm with a mutable schema, use the
+[`DynamicRealm`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/DynamicRealm.html)
+class:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DynamicKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DynamicJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## The Default Realm
+
+You can save any [`RealmConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmConfiguration.html)
+or [`SyncConfiguration`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/sync/SyncConfiguration.html)
+as the default for your application using the
+[`setDefaultConfiguration()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#setDefaultConfiguration-io.realm.RealmConfiguration-)
+method:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{SetDefaultKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{SetDefaultJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+You can then use
+[`getDefaultConfiguration()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getDefaultConfiguration--)
+to access that configuration, or
+[`getDefaultInstance()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getDefaultInstance--)
+to open a realm with that configuration:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UseDefaultKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UseDefaultJava}</CodeBlock>
+  </TabItem>
+</Tabs>

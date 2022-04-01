@@ -1,7 +1,7 @@
 .. _template-apps:
 
 =============
-Template Apps 
+Template Apps
 =============
 
 .. default-domain:: mongodb
@@ -15,11 +15,11 @@ Template Apps
 Overview
 --------
 
-You can get up and running with a {+app+} using one of our premade template apps. 
+You can get up and running with a {+app+} using one of our premade template apps.
 Template Realm apps bring together many of the building blocks available in {+service+}
-and start you off with a prebuilt {+app+} that you can customize. You can create a 
+and start you off with a prebuilt {+app+} that you can customize. You can create a
 template app in the :ref:`{+ui+} <create-a-realm-app>`, with :ref:`{+cli+} <create-app-cli>`,
-or the :ref:`Admin API <create-app-api>`. 
+or the :ref:`Admin API <create-app-api>`.
 
 
 Template Apps Available
@@ -47,11 +47,15 @@ Template Apps Available
 
    * - Kotlin + Realm Sync Starter
      - ``android.kotlin.todo``
-     - Android app using the :ref:`Realm Kotlin SDK <android-intro>` to sync data to Realm's server.
+     - Android app written in Kotlin using the :ref:`Realm Java SDK <java-intro>` to sync data to Realm's server.
+
+   * - SwiftUI + Realm Sync Starter
+     - ``swiftui.todo``
+     - iOS app using SwiftUI and the :ref:`Realm Swift SDK <ios-intro>` to sync data to Realm's server.
 
    * - Swift + Realm Sync Starter
      - ``ios.swift.todo``
-     - iOS app using the :ref:`Realm Swift SDK <ios-intro>` to sync data to Realm's server.
+     - iOS app using UIKit and the :ref:`Realm Swift SDK <ios-intro>` to sync data to Realm's server.
 
    * - React Native + Realm Sync Starter
      - ``react-native.todo``
@@ -72,6 +76,12 @@ Create a Template App
       Follow the procedure described in the 
       :ref:`Create a Realm App with Realm UI <create-a-realm-app>` guide, making sure to choose
       the :guilabel:`Create App from Template` tab in the :guilabel:`Create a new Realm App` step. 
+
+      .. note:: iOS with UIKit
+
+         If you want to use the iOS with UIKit template app, select :guilabel:`SwiftUI + Realm Sync Starter`
+         in the list of template apps, but specify ``ios.swift.todo`` when you pull the
+         client code using the {+cli-bin+}.
 
    .. tab:: {+cli-bin+}
       :tabid: cli

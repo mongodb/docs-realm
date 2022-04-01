@@ -1,0 +1,211 @@
+---
+title: Notifications
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import RealmJava from "!!raw-loader!@site/docs/notifications/RealmNotification.java";
+import RealmKotlin from "!!raw-loader!@site/docs/notifications/RealmNotification.kt";
+import CollectionKotlin from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.kt";
+import CollectionJava from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.collection-notifications.java";
+import ObjectKotlin from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.kt";
+import ObjectJava from "!!raw-loader!@site/docs/generated/java/sync/NotificationsTest.codeblock.object-notifications.java";
+
+## Register a Realm Change Listener
+
+You can register a notification handler on an entire realm.
+The SDK calls the notification handler whenever any write
+transaction involving that realm is committed. The
+handler receives no information about the change.
+
+This is useful when you want to know that there has been a
+change but do not care to know specifically what changed.
+For example, proof of concept apps often use this
+notification type and simply refresh the entire UI when
+anything changes. As the app becomes more sophisticated and
+performance-sensitive, the app developers shift to more
+granular notifications.
+
+### Example
+
+Suppose you are writing a real-time collaborative app. To
+give the sense that your app is buzzing with collaborative
+activity, you want to have an indicator that lights up when
+any change is made. In that case, a realm notification
+handler would be a great way to drive the code that controls
+the indicator. The following code shows how to observe a realm
+for changes with with [`realm.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmResults.html#addChangeListener-io.realm.OrderedRealmCollectionChangeListener-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{RealmKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{RealmJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::important Automatic Refresh
+All threads that contain a `Looper` automatically refresh
+`RealmObject` and `RealmResult` instances when new changes are
+written to the realm. As a result, it isn't necessary to fetch
+those objects again when reacting to a `RealmChangeListener`, since
+those objects are already updated and ready to be redrawn to the
+screen.
+:::
+
+## Register a Collection Change Listener
+
+You can register a notification handler on a specific
+collection within a realm. The handler receives a
+description of changes since the last notification.
+Specifically, this description consists of three lists of
+indices:
+
+- The indices of the objects that were deleted.
+- The indices of the objects that were inserted.
+- The indices of the objects that were modified.
+
+Stop notification delivery by calling the `removeChangeListener()` or
+`removeAllChangeListeners()` methods. Notifications also stop if:
+
+- the object on which the listener is registered gets garbage collected.
+- the realm instance closes.
+
+Keep a strong reference to the object you’re listening to
+for as long as you need the notifications.
+
+:::important Order Matters
+In collection notification handlers, always apply changes
+in the following order: deletions, insertions, then
+modifications. Handling insertions before deletions may
+result in unexpected behavior.
+:::
+
+Realm Database emits an initial notification after retrieving the
+collection. After that, Realm Database delivers collection
+notifications asynchronously whenever a write transaction
+adds, changes, or removes objects in the collection.
+
+Unlike realm notifications, collection notifications contain
+detailed information about the change. This enables
+sophisticated and selective reactions to changes. Collection
+notifications provide all the information needed to manage a
+list or other view that represents the collection in the UI.
+
+### Example
+
+The following code shows how to observe a collection for
+changes with [`collection.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{CollectionKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{CollectionJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Register an Object Change Listener
+
+You can register a notification handler on a specific object
+within a realm. Realm Database notifies your handler:
+
+- When the object is deleted.
+- When any of the object's properties change.
+
+The handler receives information about what fields changed
+and whether the object was deleted.
+
+Stop notification delivery by calling the `removeChangeListener()` or
+`removeAllChangeListeners()` methods. Notifications also stop if:
+
+- the object on which the listener is registered gets garbage collected.
+- the realm instance closes.
+
+Keep a strong reference of the object you’re listening to
+for as long as you need the notifications.
+
+### Example
+
+The following code shows how create a new instance of a class
+in a realm and observe that instance for changes with
+[`object.addChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener-):
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{ObjectKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{ObjectJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Unregister a Change Listener
+
+You can unregister a change listener by passing your change listener to
+[`realm.removeChangeListener()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#removeChangeListener-io.realm.RealmChangeListener-).
+You can unregister all change listeners currently subscribed to changes
+in a realm or any of its linked objects or collections with
+[`realm.removeAllChangeListeners()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#removeAllChangeListeners--).
+
+## Notifications in System Apps on Custom ROMs
+
+The SDK uses named pipes in order to support notifications and
+access to the realm file from multiple processes. While this is
+allowed by default for normal user apps, it is disallowed for system
+apps.
+
+You can define a system apps by setting `android:sharedUserId="android.uid.system"`
+in the Android manifest. When working with a system app, you may see a
+security violation in Logcat that looks something like this:
+
+```
+05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:99): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
+05-24 14:08:08.984  6921  6921 W .realmsystemapp: type=1400 audit(0.0:100): avc: denied { write } for name="realm.testapp.com.realmsystemapp-Bfqpnjj4mUvxWtfMcOXBCA==" dev="vdc" ino=14660 scontext=u:r:system_app:s0 tcontext=u:object_r:apk_data_file:s0 tclass=dir permissive=0
+```
+
+In order to fix this you need to adjust the SELinux security rules in
+the ROM. This can be done by using the tool `audit2allow`, which ships
+as part of AOSP:
+
+1. Pull the current policy from the device:
+
+   ```sh
+   adb pull /sys/fs/selinux/policy
+   ```
+
+1. Copy the SELinux error inside a text file called `input.txt`.
+
+1. Run the `audit2allow` tool:
+
+   ```sh
+   audit2allow -p policy -i input.txt
+   ```
+
+1. The tool should output a rule you can add to your existing policy
+   to enable the use of Realm Database.
+
+An example of such a policy is provided below:
+
+```
+# Allow system_app to create named pipes required by Realm
+# Credit: https://github.com/mikalackis/platform_vendor_ariel/blob/master_oreo/sepolicy/system_app.te
+allow system_app fuse:fifo_file create;
+allow system_app system_app_data_file:fifo_file create;
+allow system_app system_app_data_file:fifo_file { read write };
+allow system_app system_app_data_file:fifo_file open;
+```
+
+:::info audit2allow
+`audit2allow` is produced when compiling AOSP/ROM and only runs on
+Linux. You can read more about it [here](https://source.android.com/security/selinux/validate#using_audit2allow).
+:::
+
+:::note Changes in Android Oreo and Above
+Since Android Oreo, Google changed the way it configures SELinux.
+The default security policies are now much more modularized.
+Read more about that [here](https://source.android.com/security/selinux/images/SELinux_Treble.pdf).
+:::

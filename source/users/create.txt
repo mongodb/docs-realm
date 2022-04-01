@@ -10,8 +10,68 @@ Create a User
    :depth: 1
    :class: singlecol
 
+Create a User Upon First Authentication
+---------------------------------------
+
+For most :ref:`authentication providers <authentication-providers>`, 
+{+backend+} automatically creates a :ref:`user object <user-objects>` the 
+first time a user authenticates through the authentication provider. The 
+only exception is :ref:`email/password user authentication 
+<email-password-authentication>`, in which you must register and confirm 
+a user before the user can authenticate.
+
+.. include:: /includes/apple-account-deletion-requirements.rst
+
+Create an Email/Password User
+-----------------------------
+
+When you use :ref:`email/password user authentication 
+<email-password-authentication>`, you must register a user, which creates 
+the user object. You can register users in your client application
+using your preferred SDK, or you can manually create email/password users.
+
+Create an Email/Password User in the SDK
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each SDK offers an API that enables you to register an email/password user. 
+After registering the user, you must confirm the user before the they can 
+authenticate.
+
+.. tabs-realm-sdks::
+   
+   .. tab::
+      :tabid: node
+      
+      Learn how to :ref:`register an email/password user from a Node
+      application <node-register-new-user>`.
+
+   .. tab::
+      :tabid: react-native
+      
+      Learn how to :ref:`register an email/password user from a React Native
+      application <react-native-register-new-user>`.
+
+   .. tab::
+      :tabid: android
+
+      Learn how to :ref:`register an email/password user from an Android
+      application <java-register-a-new-user-account>`.
+
+   .. tab::
+      :tabid: ios
+
+      Learn how to :ref:`register an email/password user from an iOS
+      application <ios-register-a-new-user-account>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      Learn how to :ref:`register an email/password user from a .NET
+      application <dotnet-email-password-register-new-user>`.
+
+
 Manually Create an Email/Password User
---------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can create a new :ref:`Email/Password <email-password-authentication>` user
 from the UI or CLI. Manually-created users bypass any configured user
@@ -122,8 +182,6 @@ A manually-confirmed user continues to appear in the :guilabel:`PENDING`
 user list until they log in to your application for the first time, at
 which point {+backend+} moves them into the list of confirmed users and
 transitions their :guilabel:`User Status` to ``confirmed``.
-
-.. include:: /includes/seealso-client-guides-manage-email-password-users.rst
 
 Re-run the User Confirmation Workflow
 -------------------------------------

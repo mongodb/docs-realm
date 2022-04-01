@@ -1,0 +1,48 @@
+.. _flutter-data-types:
+
+=========================
+Data Types - Flutter SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The Flutter SDK currently only supports Dart-language data types. 
+The Flutter SDK **does not** support MongoDB.BSON types or Realm-specific types
+at the moment.
+
+
+.. _flutter-dart-types:
+
+Dart Types
+----------
+
+Realm supports the following Dart language data types:
+
+- ``int``
+- ``double``
+- ``bool``
+- ``String``
+- ``List<T>``, where T is any of the supported data types or a 
+  `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
+
+.. _flutter-reference-realm-object:
+
+Reference Realm Objects
+-----------------------
+
+You can also reference one or more Realm objects from another. Learn more in the 
+:ref:`relationship properties documentation <flutter-client-relationships>`.
+
+Example
+-------
+
+.. example:: Model with supported data types
+
+   .. literalinclude:: /examples/generated/flutter/data_types_test.codeblock.data-types-example-model.dart
+      :language: dart

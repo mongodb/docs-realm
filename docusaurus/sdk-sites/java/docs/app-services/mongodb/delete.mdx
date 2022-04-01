@@ -1,0 +1,71 @@
+---
+title: "Delete"
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import DeleteKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.delete-a-single-document.kt";
+import DeleteJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.delete-a-single-document.java";
+import DeleteMultipleKotlin from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.delete-documents.kt";
+import DeleteMultipleJava from "!!raw-loader!@site/docs/generated/java/sync/MongoDBDataAccessTest.codeblock.delete-documents.java";
+
+These code snippets demonstrate how to delete documents that
+are stored in a MongoDB collection from a mobile application.
+Delete operations use a query to specify which documents to delete
+and return a [`Task`](https://developer.android.com/reference/com/google/android/play/core/tasks/Task)
+that resolves to an object that contains the results of the execution
+of the operation.
+
+## Delete a Single Document
+
+You can delete a single document from a collection using
+[`collection.deleteOne()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#deleteOne-Bson-).
+
+The following snippet deletes one document in a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores. This operation queries for a
+document where the `color` field has a value of "green" and deletes
+the first document that matches the query:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DeleteKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DeleteJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: successfully deleted a document.
+```
+
+## Delete Multiple Documents
+
+You can delete multiple items from a collection using
+[`collection.deleteMany()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/mongodb/mongo/MongoCollection.html#deleteMany-Bson-).
+
+The following snippet deletes all documents in a
+[collection of documents](/sdk/java/app-services/mongodb/overview#sample)
+that describe plants for sale in a group of stores
+that match the query that matches documents containing both
+a `sunlight` field value of "full" and a `type` field value of
+"annual".
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{DeleteMultipleKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{DeleteMultipleJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+Running this snippet produces output resembling the following:
+
+```
+V/EXAMPLE: succcessfully deleted 2 documents.
+```

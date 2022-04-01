@@ -1,0 +1,85 @@
+.. _kotlin-intro:
+
+===============================
+MongoDB Realm Kotlin SDK (Beta)
+===============================
+
+.. toctree::
+   :titlesonly:
+   
+   Install </sdk/kotlin/install>
+   Quick Start </sdk/kotlin/quick-start>
+   Realm Database </sdk/kotlin/realm-database>
+   Sync </sdk/kotlin/sync>
+   App Services </sdk/kotlin/app-services>
+   API Reference <https://www.mongodb.com/docs/realm-sdks/kotlin/latest/>
+   Release Notes <https://github.com/realm/realm-kotlin/blob/releases/CHANGELOG.md>
+   Migrate from Java SDK to Kotlin SDK </sdk/kotlin/migrate-from-java-sdk-to-kotlin-sdk>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+   
+.. include:: /includes/note-beta-sdk.rst
+
+The {+service+} :github:`Kotlin SDK <realm/realm-kotlin>`
+allows you to use {+client-database+} from:
+
+- Android and iOS applications written with
+  `Kotlin Multiplatform Mobile (KMM)
+  <https://kotlinlang.org/docs/mobile/home.html>`__
+
+- standalone Android applications
+
+.. note:: Sync Support In Development
+
+   The SDK currently supports some, but not all, {+sync+} functionality. For
+   more information about supported behavior, see
+   :kotlin-sdk:`the API reference <library-sync/io.realm.mongodb/index.html>`.
+
+Local Realm Database
+--------------------
+
+With the {+service+} Kotlin SDK, you can access objects
+stored in a local instance of {+client-database+}. With
+{+client-database+}, you can:
+
+Define an Object Schema
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Define your object schema with marked Kotlin classes:
+
+.. literalinclude:: /examples/generated/kotlin/RealmModels.codeblock.landing-page-model.kt
+   :language: kotlin
+   :copyable: false
+
+
+Query Realm Database
+~~~~~~~~~~~~~~~~~~~~
+
+Query for stored objects:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.landing-page-query.kt
+   :language: kotlin
+   :copyable: false
+
+Update Objects
+~~~~~~~~~~~~~~
+
+Update objects in {+client-database+} by updating field values on an
+instance of the object within a transaction:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.landing-page-update.kt
+   :language: kotlin
+   :copyable: false
+
+Get Started
+-----------
+
+To start using the {+service+} Kotlin SDK
+in your application, see the installation guide for :ref:`Kotlin Multiplatform
+<kotlin-install-kotlin-multiplatform>` or :ref:`Android
+<kotlin-install-kotlin-multiplatform>`. Once you've installed the SDK,
+check out the :ref:`Quick Start <kotlin-client-quick-start-local>`.

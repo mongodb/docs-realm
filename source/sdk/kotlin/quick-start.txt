@@ -1,0 +1,110 @@
+.. _kotlin-client-quick-start:
+.. _kotlin-client-quick-start-local:
+
+========================
+Quick Start - Kotlin SDK
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This page contains information to quickly get {+client-database+}
+integrated into your app. Before you begin, ensure you have installed
+the Kotlin SDK for your platform:
+
+- :ref:`Android <kotlin-install-android>`
+- :ref:`Kotlin Multiplatform <kotlin-install-kotlin-multiplatform>`
+
+Define Your Object Model
+------------------------
+
+Your application's **data model** defines the structure of data
+stored within {+client-database+}.
+You can define your application's data model via Kotlin
+classes in your application code with
+:ref:`Realm Object Models <create-schema-from-rom>`.
+
+To define your application's data model, add the following class
+definition to your application code:
+
+.. literalinclude:: /examples/generated/kotlin/RealmModels.codeblock.quick-start-model.kt
+   :language: kotlin
+   :copyable: false
+
+Open a Realm
+------------
+
+Use :kotlin-sdk:`RealmConfiguration
+<{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>`
+to control the specifics of the {+realm+} you
+would like to open, including the name, location, and schema.
+Pass your configuration to the :kotlin-sdk:`Realm factory constructor
+<{+kotlin-local-prefix+}io.realm/-realm/-companion/index.html>`
+to generate an instance of that {+realm+}:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-open-a-realm.kt
+   :language: kotlin
+   :copyable: false
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once opened, you can create objects within a {+realm+} in a
+:kotlin-sdk:`write transaction block
+<{+kotlin-local-prefix+}io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
+
+To create a new :file:`Task`, instantiate an instance of the
+:file:`Task` class and add it to the {+realm+} in a write transaction block:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-create.kt
+   :language: kotlin
+   :copyable: false
+
+You can retrieve a collection of all tasks in the {+realm+} with
+:kotlin-sdk:`query.find() <{+kotlin-local-prefix+}io.realm.query/find.html>`:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-read.kt
+   :language: kotlin
+   :copyable: false
+
+You can also filter a collection to retrieve a more specific collection
+of objects:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-read-filtered.kt
+   :language: kotlin
+   :copyable: false
+
+.. note:: Realm Query Language
+
+   You can find more information about string {+client-database+} queries in
+   :ref:`Realm Query Language <kotlin-query-language>`.
+
+To modify a task, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-update.kt
+   :language: kotlin
+   :copyable: false
+
+Finally, you can delete a task by calling :kotlin-sdk:`mutableRealm.delete()
+<{+kotlin-local-prefix+}io.realm/-mutable-realm/delete.html>`
+in a write transaction block:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start-delete.kt
+   :language: kotlin
+   :copyable: false
+
+Complete Example
+----------------
+
+If you're running this project in a fresh KMM template project, you can
+copy and paste into the :file:`Greeting.greeting()` method in the
+:file:`commonMain` module.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.codeblock.quick-start.kt
+   :language: kotlin
+   :copyable: false

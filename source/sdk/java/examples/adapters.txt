@@ -1,0 +1,182 @@
+.. _java-adapters:
+
+==============================
+Display Collections - Java SDK
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Android applications usually display collection data in the UI using the
+built-in
+:android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
+or :android:`ListView <reference/android/widget/ListView>` components.
+{+service-short+} offers **adapters** to help display data
+contained in :ref:`collections <java-client-collections>` of
+{+service-short+} objects that implement the ``OrderedRealmCollections``
+interface, including :ref:`RealmResults <java-results-collections>`
+and :ref:`RealmList <java-list-collections>`. When you use
+these adapters, UI components automatically update to reflect changes to
+underlying {+service-short+} objects.
+
+Install Adapters
+----------------
+
+To use the adapters, add the following dependencies to your application
+level ``build.gradle`` file:
+
+.. code-block:: gradle
+   :copyable: false
+
+   dependencies {
+      implementation 'io.realm:android-adapters:4.0.0'
+      implementation 'androidx.recyclerview:recyclerview:1.1.0'
+   }
+
+The {+service-short+} adapters are currently hosted on the
+`JCenter <https://mvnrepository.com/repos/jcenter>`_
+artifact repository. If you have not already registered ``jcenter`` as a
+repository for your Android application, you can add it to your project
+with the following lines in your project level ``build.gradle`` file:
+
+.. code-block:: gradle
+   :emphasize-lines: 3, 9
+   :copyable: false
+
+   buildscript {
+       repositories {
+           jcenter()
+       }
+   }
+
+   allprojects {
+       repositories {
+           jcenter()
+       }
+   }
+
+You can find the source code for the {+service-short+} Android adapters
+in the :github:`realm/realm-android-adapters` GitHub repository.
+
+.. _java-adapters-model-item:
+
+Example Models
+--------------
+
+The examples on this page all use the following data models for a
+{+service-short+} object named ``Item``. This class contains a single
+piece of string data named "name" and an identifier number named "id":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/JavaItem.codeblock.complete.java
+         :language: java
+         :copyable: false
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/Item.codeblock.complete.kt
+         :language: kotlin
+         :copyable: false
+
+.. _java-adapters-listview:
+
+Display Collections in a ListView
+---------------------------------
+
+You can display {+service-short+} objects in a
+:android:`ListView <reference/android/widget/ListView>` by extending
+:github:`RealmBaseAdapter
+<realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmBaseAdapter.java>`.
+The adapter uses the ``ListAdapter`` interface, so implementation works
+just like any implementation of ``ListAdapter``, but provides support
+for automatically-updating {+service-short+} objects.
+
+The following example demonstrates how to use a subclass of
+``RealmBaseAdapter`` to display
+:ref:`Item <java-adapters-model-item>` objects in a ``ListView``:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/ExampleListAdapter.codeblock.complete.java
+         :language: java
+         :copyable: false
+
+      The following code instantiates a ``ListView`` and attaches an
+      ``ExampleListAdapter`` to display list data in an activity:
+
+      .. literalinclude:: /examples/generated/java/local/AdapterTest.codeblock.list-adapter.java
+         :language: java
+         :copyable: false
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/ExampleListAdapter.codeblock.complete.kt
+         :language: kotlin
+
+      The following code instantiates a ``ListView`` and attaches an
+      ``ExampleListAdapter`` to display list data in an activity:
+
+      .. literalinclude:: /examples/generated/java/local/AdapterTest.codeblock.list-adapter.kt
+         :language: kotlin
+         :copyable: false
+
+.. _java-adapters-recyclerview:
+
+Display Collections in a RecyclerView
+-------------------------------------
+
+You can display {+service-short+} objects in a
+:android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
+by extending :github:`RealmRecyclerViewAdapter
+<realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmRecyclerViewAdapter.java>`.
+The adapter extends ``RecyclerView.Adapter``, so implementation works
+just like any ``RecyclerView`` adapter, but provides support
+for automatically-updating {+service-short+} objects.
+
+The following example demonstrates how to use a subclass of
+``RealmRecyclerViewAdapter`` to display
+:ref:`Item <java-adapters-model-item>` objects in a ``RecyclerView``:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.java
+         :language: java
+         :copyable: false
+
+      The following code instantiates a ``RecyclerView`` and attaches an
+      ``ExampleRecyclerViewAdapter`` to display list data in an activity:
+
+      .. literalinclude:: /examples/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.java
+         :language: java
+         :copyable: false
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/ExampleRecyclerViewAdapter.codeblock.complete.kt
+         :language: kotlin
+         :copyable: false
+
+      The following code instantiates a ``RecyclerView`` and attaches an
+      ``ExampleRecyclerViewAdapter`` to display list data in an activity:
+
+      .. literalinclude:: /examples/generated/java/local/AdapterTest.codeblock.recycler-view-adapter.kt
+         :language: kotlin
+         :copyable: false

@@ -1,0 +1,135 @@
+---
+title: Java SDK
+description: Build Android applications with Realm in Java or Kotlin.
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FrogKotlin from "!!raw-loader!@site/docs/generated/java/local/Frog.codeblock.frog-definition-local.kt";
+import FrogJava from "!!raw-loader!@site/docs/generated/java/local/FrogJava.codeblock.frog-definition-local.java";
+import QueryKotlin from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.query.kt";
+import QueryJava from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.query.java";
+import UpdateKotlin from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.update.kt";
+import UpdateJava from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.update.java";
+import NotificationsKotlin from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.notifications.kt";
+import NotificationsJava from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.notifications.java";
+import LiveKotlin from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.live-objects.kt";
+import LiveJava from "!!raw-loader!@site/docs/generated/java/local/LandingPageTest.codeblock.live-objects.java";
+import UpdateSyncKotlin from "!!raw-loader!@site/docs/generated/java/sync/LandingPageTest.codeblock.update.kt";
+import UpdateSyncJava from "!!raw-loader!@site/docs/generated/java/sync/LandingPageTest.codeblock.update.java";
+
+With the [Java SDK](https://github.com/realm/realm-java), you can use
+Realm Database and Sync to build Android applications written in Java or
+Kotlin.
+
+## Realm Database
+
+The Java SDK provides access to objects stored in a local
+instance of Realm Database.
+
+### Define an Object Schema
+
+Define your object schemas with annotated Kotlin or Java classes:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FrogKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FrogJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Query
+
+Query for stored objects using Android-native queries:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{QueryKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{QueryJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Update
+
+Update objects in Realm Database by updating field values within a
+transaction:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Watch for Updates
+
+Receive object notifications automatically when objects stored in
+Realm Database change:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{NotificationsKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{NotificationsJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+### Live Objects
+
+Live objects keep all instances of an object up-to-date with the data
+persisted in the database:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{LiveKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{LiveJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## App Services
+
+Realm App Services is a backend for client applications hosted
+in the cloud. The Java SDK optionally contains the ability
+to access App Services. With App Services, you can:
+
+- Use built-in user management to register
+  accounts and [log in](/sdk/java/app-services/users/authenticate-users)
+  across devices.
+
+- Back up and synchronize user data across devices with [Sync](/sdk/java/app-services/sync/overview).
+
+- Execute logic on the backend with [Functions](/sdk/java/app-services/functions).
+
+- React to events on the backend with [Triggers](https://www.mongodb.com/docs/realm/triggers/overview/).
+
+### Realm Sync
+
+Automatically sync data between realms on client devices and your backend
+MongoDB Atlas data store with Realm Sync:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{UpdateSyncKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{UpdateSyncJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Get Started
+
+To start using the SDK in your Android application, see [the installation guide](/sdk/java/install).
+
+Then, check out the [Quick Start](/sdk/java/quick-start).
+
+To get started with App Services, try the [Quick Start with Sync](/sdk/java/app-services/sync/quick-start).

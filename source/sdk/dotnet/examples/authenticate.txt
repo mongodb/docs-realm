@@ -151,8 +151,7 @@ property. The ``CurrentUser`` object is persisted in local storage, so even if
 the app shuts down after the initial authentication, you do not need to call 
 ``LoginAsync`` again (unless the user logged out). Instead, use 
 :dotnet-sdk:`Realm.GetInstance(config) <reference/Realms.Realm.html#Realms_Realm_GetInstance_Realms_RealmConfigurationBase_>`, 
-where ``config`` is a 
-:dotnet-sdk:`SyncConfiguration <reference/Realms.Sync.SyncConfiguration.html#Realms_Sync_SyncConfiguration__ctor_System_Nullable_MongoDB_Bson_ObjectId__Realms_Sync_User_System_String_>` 
+where ``config`` is a :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
 object. This approach results in a faster start-up and also enables the user to 
 work offline.
 

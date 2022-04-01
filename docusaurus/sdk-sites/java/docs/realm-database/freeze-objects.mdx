@@ -1,0 +1,67 @@
+---
+title: Freeze Objects
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import FreezeKotlin from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.kt";
+import FreezeJava from "!!raw-loader!@site/docs/generated/java/local/ThreadingTest.codeblock.freeze-objects.java";
+
+Live, thread-confined objects work fine in most cases.
+However, some apps -- those based on reactive, event
+stream-based architectures, for example -- need to send
+immutable copies across threads. In this case,
+you can **freeze** objects, collections, and realms.
+
+Freezing creates an immutable view of a specific object,
+collection, or realm that still exists on disk and does not
+need to be deeply copied when passed around to other
+threads. You can freely share a frozen object across threads
+without concern for thread issues.
+
+Frozen objects are not live and do not automatically update. They are
+effectively snapshots of the object state at the time of freezing. When
+you freeze a realm all child objects and collections also become
+frozen. You can't modify frozen objects, but you can read the primary
+key from a frozen object, query a live realm for the underlying
+object, and then update that live object instance.
+
+Frozen objects remain valid for as long as the realm that
+spawned them stays open. Avoid closing realms that contain frozen
+objects until all threads are done working with those frozen objects.
+
+:::warning Frozen Object Exceptions
+When working with frozen objects, an attempt to do any of
+the following throws an exception:
+
+- Opening a write transaction on a frozen realm.
+- Modifying a frozen object.
+- Adding a change listener to a frozen realm, collection, or object.
+  :::
+
+Once frozen, you cannot unfreeze an object. You
+can use `isFrozen()` to check if an object is frozen.
+This method is always thread-safe.
+
+To freeze an object, collection, or realm, use the
+[`freeze()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/RealmObject.html#freeze--)
+method:
+
+<Tabs groupId="java-sdk-languages">
+  <TabItem value="kotlin" label="Kotlin">
+    <CodeBlock language="kotlin">{FreezeKotlin}</CodeBlock>
+  </TabItem>
+  <TabItem value="java" label="Java">
+    <CodeBlock language="java">{FreezeJava}</CodeBlock>
+  </TabItem>
+</Tabs>
+
+:::important Frozen Objects and Realm Size
+Frozen objects preserve an entire copy of the realm that contains
+them at the moment they were frozen. As a result, freezing a large
+number of objects can cause a realm to consume more memory and
+storage than it might have without frozen objects. If you need to
+separately freeze a large number of objects for long periods of time,
+consider copying what you need out of the realm instead.
+:::

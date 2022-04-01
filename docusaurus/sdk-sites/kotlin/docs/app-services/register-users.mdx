@@ -1,0 +1,16 @@
+---
+title: Register Users
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import EmailPasswordRegistration from "!!raw-loader!@site/docs/generated/kotlin/RegistrationTest.codeblock.email-password-registration.kt";
+
+When you have enabled the [email/password authentication provider](https://www.mongodb.com/docs/realm/authentication/email-password/#std-label-email-password-authentication)
+in your Realm App, you can register a new account from client code.
+
+## Register a New User Account
+
+To register a new user, pass a user-provided email and password to
+[`app.emailPasswordAuth.registerUser()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-multiplatform%20-s-d-k%20-%20-sync/io.realm.mongodb/-email-password-auth/register-user.html)
+
+<CodeBlock language="kotlin">{EmailPasswordRegistration}</CodeBlock>

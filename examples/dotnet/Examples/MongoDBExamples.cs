@@ -14,7 +14,7 @@ namespace Examples
     {
         App app;
         Realms.Sync.User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         MongoClient mongoClient;
@@ -26,7 +26,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
-            config = new SyncConfiguration("myPart", user);
+            config = new PartitionSyncConfiguration("myPart", user);
 
             // :code-block-start: mongo-setup
             mongoClient = user.GetMongoClient("mongodb-atlas");

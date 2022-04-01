@@ -1,22 +1,37 @@
-exports = async function(payload, response) {
-  // Convert the webhook body from BSON to an EJSON object
-  const body = EJSON.parse(payload.body.text());
+// This function is the endpoint's request handler.
+// It has two arguments:
+// - `request`: an object that represents the incoming HTTP request
+// - `response`: an object that configures the response sent back to callers
+exports = async function (request, response) {
+  // 1. Parse the incoming request
+  // Query params, e.g. '?arg1=hello&arg2=world' => { arg1: "hello", arg2: "world" }
+  const { arg1, arg2 } = request.query;
+  // Headers, e.g. { "Content-Type": ["application/json"] }
+  const contentTypes = request.headers["Content-Type"];
+  // Body (if provided in a POST, PUT, or PATCH) is a BSON.Binary object
+  const bodyJson = JSON.parse(request.body.text());
 
-  // Execute application logic, such as working with MongoDB
-  if(body.someField) {
-    const mdb = context.services.get('mongodb-atlas');
-    const requests = mdb.db("demo").collection("requests")
-    const { insertedId } = await requests.insertOne({ someField: body.someField });
-    // Respond with an affirmative result
-    response.setStatusCode(200)
-    response.setBody(`Successfully saved "someField" with _id: ${insertedId}.`);
-  } else {
-    // Respond with a malformed request error
-    response.setStatusCode(400)
-    response.setBody(`Could not find "someField" in the webhook request body.`);
-  }
-  // This return value does nothing because we already modified the response object.
-  // If you do not modify the response object and you enable *Respond with Result*,
-  // Realm will include this return value as the response body.
-  return { msg: "finished!" };
-}
+  // 2. Run the endpoint logic
+  // You might call an external service over HTTP...
+  await context.http.post({
+    url: "https://example.com",
+    body: { msg: "This request could do anything you want!" },
+    encodeBodyAsJSON: true,
+  });
+  // ...or run queries and store data in a linked MongoDB cluster
+  await context.services
+    .get("mongodb-atlas")
+    .db("myDb")
+    .collection("myCollection")
+    .insertOne({ date: new Date(), requestBody: bodyJson });
+
+  // 3. Configure the response
+  // You can manually configure the response that's sent back to the caller...
+  response.setStatusCode(200); // Set an HTTP Status code like "200 - OK"
+  response.setBody(JSON.stringify({ ok: true })); // Return a custom response payload
+  response.addHeader("Content-Type", "application/json"); // Modify the response headers
+
+  // ...or just return a value and use the default response configuration.
+  // If you manually configure the `response` object, then the return value does nothing.
+  return { ok: true };
+};

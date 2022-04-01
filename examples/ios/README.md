@@ -7,15 +7,13 @@ The backend that this app actually hits is located in the [example-testers Realm
 
 ## Get Started
 
-### Install Dependencies
+### Install SwiftLint
 
-This project uses CocoaPods to manage dependencies. To get started, run:
-
->⚠️ Minimum required CocoaPods version is 1.10.
-
-```bash
-pod install --repo-update
-```
+This project uses Swift Package Manager to manage dependencies. As of March 2022,
+there isn't a good way to install SwiftLint with SPM. Follow the installation 
+instructions from [SwiftLint](https://github.com/realm/SwiftLint) to install
+it locally. SwiftLint runs when you run the tests, and if you don't install
+it locally, you get an error and the project does not build.
 
 ### Run Tests
 

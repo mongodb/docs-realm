@@ -1,0 +1,87 @@
+.. _flutter-open-close-realm: 
+
+==================================
+Open & Close a Realm - Flutter SDK
+==================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _flutter-open-realm:
+
+Open a Realm
+------------
+
+Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
+to control the specifics of the {+realm+} you
+would like to open, including schema.
+
+Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
+to generate an instance of that {+realm+}:
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
+   :language: dart
+
+You can now use that {+realm+} instance to work with objects in the database.
+
+.. _flutter-open-read-only-realm:
+
+Open a Read-Only Realm
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can open an existing realm in read-only mode. To open a read-only realm, 
+add ``readOnly: true`` to your ``Configuration`` object.
+
+
+You can only open *existing* realms in read-only mode. 
+If you try to write to a read-only realm, it throws an error. 
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.read-only-realm.dart
+   :language: dart
+
+.. _flutter-open-in-memory-realm:
+
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your ``Configuration`` object. 
+In-memory realms **cannot** also be read-only.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.in-memory-realm.dart
+   :language: dart
+
+.. _flutter-set-custom-fifo:
+
+Set Custom FIFO Special Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Set a value for Realm's `FIFO special files 
+<https://www.ibm.com/docs/en/zos/2.3.0?topic=csf-fifo-special-files>`_ location. 
+Opening a realm creates a number of lightweight FIFO special files 
+that coordinate access to the realm across threads and processes. 
+If the realm file is in a location that doesn't allow for the creation of 
+FIFO special files (such as FAT32 filesystems), then the realm cannot be opened.
+In this case, Realm needs a different location to store these files. 
+Add ``fifoFilesFallbackPath: <Your Custom FIFO File Path>`` to your ``Configuration`` object.
+
+This property is ignored if the directory for the realm file allows
+FIFO special files.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.fifo-file.dart
+   :language: dart
+
+.. _flutter-close-realm: 
+
+Close a Realm
+-------------
+
+Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.close-realm.dart
+   :language: dart

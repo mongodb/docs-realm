@@ -196,9 +196,9 @@ Configuration
           
           * - Deployment Model
             - Value
-          * - :ref:`Global Deployment <realm-global-deployment>`
+          * - :ref:`Global Deployment <global-deployment>`
             - ``"GLOBAL"``
-          * - :ref:`Local Deployment <realm-local-deployment>`
+          * - :ref:`Local Deployment <local-deployment>`
             - ``"LOCAL"``
    
    * - | ``location``
@@ -206,9 +206,9 @@ Configuration
      - The name of the :ref:`cloud region <realm-regions>`
        that the application is deployed in.
 
-       - :ref:`Local applications <realm-local-deployment>` process all
+       - :ref:`Local applications <local-deployment>` process all
           application requests and database writes in this region.
 
-       - :ref:`Global applications <realm-global-deployment>` process
+       - :ref:`Global applications <global-deployment>` process
          all database writes in this region, but serve other application
          requests in the nearest deployment region.

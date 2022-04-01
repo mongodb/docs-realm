@@ -13,16 +13,8 @@ for a given change event.
    :manual:`Query on Embedded Documents </tutorial/query-embedded-documents>` in
    the MongoDB server manual.
 
-.. example::
-   
-   The following :guilabel:`Match Expression` configures a trigger to fire only
-   if the change event object specifies that the ``status`` field in a document
-   changed.
-   
-   .. code-block:: javascript
-   
-      {
-        "updateDescription.updatedFields.status": {
-          "$exists": true
-        }
-      }
+.. tip:: Performance Optimization
+
+   Limit the number of fields that the Trigger processes by using a 
+   **$match** expression.
+   :ref:`Learn more. <database-triggers-match-expression>`

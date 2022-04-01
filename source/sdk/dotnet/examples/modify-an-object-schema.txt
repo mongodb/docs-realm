@@ -82,6 +82,16 @@ renaming it to ``Birthday`` and changing the type to ``DateTimeOffset``:
 Migration Functions
 -------------------
 
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete 
+   the realm instead of migrating it. Use the 
+   :dotnet-sdk:`ShouldDeleteIfMigrationNeeded <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration_ShouldDeleteIfMigrationNeeded>` 
+   flag to delete the database automatically when a schema mismatch would
+   require a migration. 
+
+   Never release an app to production with this flag set to ``true``.
+
 To migrate the {+realm+} to conform to the updated ``Person`` schema, the
 set the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
 ``4`` and define a migration function to set the value of

@@ -1,6 +1,8 @@
 import Realm from "realm";
 import BSON from "bson";
 
+jest.useFakeTimers();
+
 // const alphabetized = (fieldName, arr) =>
 //   arr.sort((l, r) => (l[fieldName][0] < r[fieldName][0] ? -1 : 1));
 const ObjectId = (value) => new Realm.BSON.ObjectId(value);

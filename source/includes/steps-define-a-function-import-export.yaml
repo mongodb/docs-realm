@@ -16,6 +16,14 @@ content: |
      
      touch functions/myFunction.js
   
+  .. tip::
+     
+     You can define functions inside of nested folders in the
+     ``functions`` directory. Use slashes in a function name to indicate
+     its directory path.
+  
+  Once you've created the function's ``.js`` file, write the function source code, e.g.:
+
   .. code-block:: javascript
      
      exports = async function hello(...args) {
@@ -131,7 +139,7 @@ content: |
         
         {
             "%%request.remoteIPAddress": {
-                "%nin": [
+                "$nin": [
                     "248.88.57.58",
                     "19.241.23.116",
                     "147.64.232.1"

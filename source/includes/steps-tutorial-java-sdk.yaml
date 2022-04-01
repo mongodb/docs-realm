@@ -1,0 +1,510 @@
+---
+title: Clone the Client App Repository
+ref: clone-the-client-app-repository
+content: |
+
+  We've already put together a task tracker Android application that has
+  most of the code you'll need. You can clone the client application
+  repository directly from :github:`GitHub <mongodb-university/realm-tutorial-android-kotlin>`: 
+
+  .. code-block:: console
+
+     git clone --branch start https://github.com/mongodb-university/realm-tutorial-android-kotlin.git
+
+  .. tip::
+   
+     The ``start`` branch is an incomplete version of the app that we will
+     complete in this tutorial. To view the finished app, check out the
+     ``final`` branch and update the app's ``build.gradle`` with your
+     :ref:`Realm app ID <find-your-app-id>` (see "Connect to Your MongoDB Realm
+     App" below).
+
+---
+title: Open the Project in Android Studio
+ref: open-the-project-in-android-studio
+content: |
+
+  Once the installation is complete, use Android Studio to open the
+  project:
+
+  1. Open Android Studio.
+
+  2. In the "Welcome to Android Studio" window, click the
+     "Open an existing Android Studio project" option.
+
+  3. In the file navigator opened by Android Studio, navigate to the
+     directory where, in the previous step, you cloned the
+     ``realm-tutorial-android-kotlin`` repository.
+
+  4. Select the ``realm-tutorial-android-kotlin`` folder.
+
+  5. Click "Open".
+
+  6. Run the project using the ``Run`` button.
+
+  This should run the gradle build automatically and launch a
+  (nonfunctional) login screen with the text "Task Tracker" at the top of
+  the screen:
+
+  .. figure:: /images/task-tracker-login.png
+     :figwidth: 300px
+     :alt: The login screen of the Task Tracker Android app.
+
+---
+title: Explore the App Structure
+ref: explore-the-app-structure
+content: |
+
+  In the Android Studio Project view, you can see the source files of the task
+  tracker application in the ``app`` folder and its subfolders. 
+
+  TaskTracker stores files that describe the UI logic for Android
+  views in the ``app/java/com/mongodb/tasktracker`` directory. Files
+  that describe data models or how those data models relate to the UI
+  belong in the ``app/java/com/mongodb/tasktracker/model`` directory.
+
+  The relevant files are as follows:
+
+  .. cssclass:: config-table
+  .. list-table::
+     :header-rows: 1
+     :widths: 20 80
+
+     * - File
+       - Purpose
+
+     * - TaskTracker
+       - A subclass of the Android :android:`Application
+         <reference/android/app/Application>` class. Responsible for:
+
+         - initializing the connection to {+service+}
+
+         - creating the Realm ``App`` object used by all other classes
+           to communicate with the Realm backend
+
+         - defining a Kotlin extension method called ``TAG()`` used
+           in logging methods throughout the app, which dynamically
+           fetches class names for logging tags.
+
+     * - LoginActivity
+       - View launched whenever a user is not currently logged in.
+         Allows users to create email/password accounts in the connected
+         MongoDB Realm application and login to existing accounts.
+
+     * - ProjectActivity
+       - Displays the list of projects that the currently logged in user
+         has access to.
+
+     * - MemberActivity
+       - Displays the list of users that have access to a project, and
+         allows the owner of that project to edit the list of users.
+
+     * - TaskActivity
+       - Displays the list of tasks in a project and allows and project
+         member to create new tasks as well as edit and delete existing
+         tasks.
+
+     * - Project
+       - Model describing in-app projects. Subclass of
+         the ``RealmObject`` class, which allows you to store objects of
+         this class in a {+realm+}.
+
+     * - ProjectAdapter
+       - Adapter that allows the display of a list of projects in an
+         Android RecyclerView.
+
+     * - Member
+       - Model describing in-app members of a project. Does not extend
+         the ``RealmObject`` class, since we will fetch members of a
+         project using a Realm Function rather than a Realm Database
+         query.
+
+     * - MemberAdapter
+       - Adapter that allows the display of a list of members in an
+         Android RecyclerView.
+
+     * - Task
+       - Model describing in-app tasks that make up the contents of a
+         project. Subclass of the ``RealmObject`` class, which allows
+         you to store objects of this class in a {+realm+}.
+
+     * - TaskStatus
+       - Enum class capturing the various possible states of an in-app
+         task. Provides a single place to define the strings that Realm
+         stores in Realm Database to persist task status state between
+         devices and app runs.
+
+     * - TaskAdapter
+       - Adapter that allows the display of a list of tasks in an
+         Android RecyclerView.
+
+     * - User
+       - Model describing in-app user data, including the list of
+         projects to which that user belongs.
+
+---
+title: Connect to Your MongoDB Realm App
+ref: connect-to-your-mongodb-realm-app
+content: |
+
+  Tasktracker uses the Gradle dependency management system to manage the
+  Realm Java SDK. The Maven and Ant build systems are not currently
+  supported.
+
+  Android Studio projects contain two ``build.gradle`` files by default:
+
+  - a top-level **project** ``build.gradle`` file which defines build
+    configurations for all project modules
+  - a module-level **app** ``build.gradle`` file which allows you to
+    configure build settings for that module (your app) only
+
+  You can find the project ``build.gradle`` at the root of the
+  TaskTracker project, and the app ``build.gradle`` in the ``app``
+  directory of your project. See the location of these files
+  in the directory graphic below:
+
+  .. code-block:: text
+     :emphasize-lines: 2, 4
+
+     .
+     |-- build.gradle       // project gradle file
+     |-- app
+     |   |-- build.gradle   // app gradle file
+     |   |-- src
+     |-- gradle
+     |   |-- wrapper
+     |-- gradle.properties
+     |-- gradlew
+     |-- gradlew.bat
+     |-- local.properties
+     |-- settings.gradle
+     |-- Task Tracker.iml
+
+  Open the **app** ``build.gradle`` file, where we'll configure your
+  app's connection to {+service+}. In the ``android.buildTypes``
+  section, define your App ID, which ``TaskTracker`` uses to
+  instantiate a connection to your {+app+} whenever this Android app
+  runs:
+
+  .. code-block:: groovy
+     :emphasize-lines: 2, 4, 7
+
+     buildTypes {
+        def appId = "<your app ID here>"  // Replace with proper Application ID
+        debug {
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+        }
+        release {
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+     }
+
+  Replace ``<your app ID here>`` with your Realm app ID, which you can
+  :ref:`find in the Realm UI <find-your-app-id>`.
+
+---
+title: Create the Realm App
+ref: create-realm-app
+content: |
+
+  Navigate to ``TaskTracker``. Android automatically runs the
+  ``onCreate()`` lifecycle method of this class when you launch
+  the Task Tracker app. This happens because ``TaskTracker`` is
+  configured as the global ``Application`` reference in
+  ``AndroidManifest.xml``. This allows us to run certain logic
+  once each time you run the app, such as:
+
+  - initializing {+service-short+}
+  - defining the global ``App`` reference using the ``appId``
+    variable you just configured in your app-level
+    ``build.gradle`` file
+  - setting the {+service-short+} log level
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskTracker.codeblock.initialize-realm-and-create-app.kt
+     :language: kotlin
+     
+  You don't need to make any changes to this file right now,
+  but it is useful to know where to configure these global
+  settings in case you need to change the log level or debug
+  issues with your App connection.
+
+---
+title: Enable Authentication
+ref: enable-authentication
+content: |
+
+  Navigate to ``LoginActivity``, which contains all login and user
+  registration logic. The UI for ``LoginActivity`` contains text entry
+  fields for email and password entry, as well as buttons to either
+  register a user account or login to an existing account. We need to
+  implement the logic to handle user login and user account creation.
+
+  You'll find this logic in the ``login()`` method, where a boolean
+  value called ``createuser`` controls where the method submits user
+  credentials to create a new account or to login to an existing
+  account.
+
+  First, let's implement the logic that registers a new user:
+
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.create-user.kt
+     :language: kotlin
+
+  Now, implement the logic to log in with an existing user. Once
+  logged in successfully, call the ``onLoginSuccess()`` method, which
+  closes the ``LoginActivity`` and resumes the calling activity
+  (typically ``ProjectActivity``):
+
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.login-user.kt
+     :language: kotlin
+
+  Don't forget to call the ``onLoginFailed()`` method in the event of a
+  login or account creation failure with a message describing the error.
+
+---
+title: Implement the Projects List
+ref: implement-the-projects-list
+content: |
+
+  ``ProjectActivity`` displays a list of projects that the current user
+  can access. For each user, TaskTracker stores the list of accessible
+  projects in the ``User`` object. Tasktracker stores each ``User``
+  object in a special :ref:`{+realm+} <sync-partitions>` with a value of
+  the following format: ``user=<user-id>``.
+
+  .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
+
+  To access the user's list of projects, we need to open a connection to
+  that {+realm+} and access the ``User`` object. To get started, open
+  the user's {+realm+} in the ``else`` block of the ``onStart()`` method
+  of ``ProjectActivity``:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.set-up-user-realm.kt
+     :language: kotlin
+
+  Next, we need to query the {+realm+} to get a copy of the ``User``
+  object containing the user's list of projects. Because each user
+  should only ever be able to access their own user object, this realm
+  only contains one object: the custom data belonging to the currently
+  logged in user. An :ref:`authentication trigger
+  <authentication-triggers>` automatically creates and initializes this
+  object when the user creates an account. Add the code that queries for
+  the user object in ``getProjects()``:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.fetch-synced-user-safely.kt
+     :language: kotlin
+
+  Because it can take a few seconds for the trigger to create this
+  object after a login, we should handle the case where the user object
+  doesn't yet exist immediately after account creation. To accomplish 
+  this, in the event that our query doesn't return a user object, we'll
+  watch the {+realm+} for changes and only set up the project's Recycler
+  View once the trigger runs:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.user-init-change-listener.kt
+     :language: kotlin
+
+  .. note:: Always Enabling the User's Personal Project
+
+     Users shouldn't have to wait for a Trigger to complete just to
+     write tasks to their personal project. But Task Tracker doesn't
+     display any projects until the user's custom user data object has
+     been initialized by a Trigger. To work around this, we automatically
+     create a temporary fake custom user data object whenever custom
+     user data isn't yet available, so the Recycler View has something
+     to display. Since tasks are written to a separate {+realm+}, using
+     an in-memory {+realm+} for the fake custom user data doesn't impact
+     creating and syncing tasks.
+
+  Finally, we need to guarantee that ``ProjectActivity`` always closes
+  the user {+realm+} when the app closes or the user logs out. To
+  accomplish this, add logic that calls the ``realm.close()`` method
+  when ``ProjectActivity`` stops or finishes:
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-stop-close-realm.kt
+     :language: kotlin
+
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-destroy-close-realm.kt
+     :language: kotlin
+
+---
+title: Implement the Tasks List
+ref: implement-the-tasks-list
+content: |
+
+  Navigate to the ``TaskActivity`` file, where we'll display the list
+  of tasks that belong to a particular project. TaskTracker stores the
+  list of tasks belonging to each project in a special :ref:`{+realm+}
+  <sync-partitions>` with a value of the following format:
+  ``project=<user-id>`` (where ``<user-id>`` is equal to the user ID of
+  the user who owns the project). We'll begin by initializing a
+  connection to this {+realm+} when the activity starts:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.set-up-project-realm.kt
+     :language: kotlin
+
+  Next, we'll query the realm for the list of tasks belonging to this
+  project. Fortunately the query isn't too complicated: since every task
+  within this {+realm+} belongs to this project, there's no need to
+  filter the query at all. However, we do want to make sure that tasks
+  always appear in the same order on the page, so users don't have to
+  hunt through the full list every time they reload this activity. To
+  accomplish this, we'll add a ``sort()`` to the Realm Database query
+  that organizes the tasks by ``_id``. Once you've queried for the
+  list of tasks, pass the ``RealmResult`` to the ``TaskAdapter`` and set
+  that adapter as the ``RecyclerView's`` adapter:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.fetch-tasks-for-project-sorted-by-id.kt
+     :language: kotlin
+
+  ``TaskActivity`` needs to allow users to create a new task in the project. To
+  handle this, write logic in the floating action button's
+  ``setPositiveButton()`` callback that creates a new task based on the user's
+  input in ``inputText`` and adds that task to the {+realm+}:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.add-new-task-to-project.kt
+     :language: kotlin
+
+  Finally, we need to guarantee that ``TaskActivity`` always closes
+  the user {+realm+} when the app closes or the user logs out. To
+  accomplish this, add logic that calls the ``realm.close()`` method
+  when ``TaskActivity`` finishes or stops:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-destroy-close-realm.kt
+     :language: kotlin
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-stop-close-realm.kt
+     :language: kotlin
+
+---
+title: Add Logic to Update and Delete Tasks to the TaskAdapter
+ref: add-logic-to-update-and-delete-tasks-to-the-taskadapter
+content: |
+
+  The ``TaskAdapter`` extends the ``RealmRecyclerViewAdapter`` to
+  automatically display ``RealmResults``, as well as synced changes to
+  the items in a ``RealmResults`` collection, in a Recycler View. While
+  ``RealmRecyclerViewAdapter`` gives you a lot of functionality by
+  default, it does **not** define the UI for displaying items in a
+  ``RealmResults`` collection or any user interaction with those items.
+  Fortunately, ``TaskAdapter`` already includes a layout and most
+  boilerplate code for you. You'll just have to implement two methods:
+  ``changeStatus``, which updates the status of a task, and
+  ``removeAt``, which deletes a task from the {+realm+}.
+
+  We'll begin by implementing the logic for ``changeStatus``, which:
+
+  1. Connects to the project realm using the ``partition`` member variable of the adapter.
+  #. Queries the realm for the Task with the specified ``_id`` value.
+  #. Sets the ``statusEnum`` property of the Task to the specified status value.
+
+  Don't forget to read and write from the {+realm+} within a transaction!
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.change-task-status.kt
+     :language: kotlin
+
+  The logic that deletes a task is similar to the logic that updates a
+  task, but it removes the task from the {+realm+} instead of updating
+  any properties:
+
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.delete-task.kt
+     :language: kotlin
+
+---
+title: Implement the Manage Team View
+ref: implement-the-manage-team-view
+content: |
+
+  A user can add and remove team members to their own Project using the
+  Manage Team view. Since this logic edits the custom user data objects
+  of other users (which the currently logged in user cannot edit), we
+  need to call out to our Realm functions we defined earlier, which
+  handle edits to other user's custom user data objects securely:
+
+  Navigate to ``MemberActivity``, which defines the view
+  that pops up when a user clicks the "options" action on their project
+  in ``ProjectActivity``. Just like ``ProjectActivity`` and
+  ``TaskActivity``, ``MemberActivity`` fetches the data for the
+  Recycler View in the ``setUpRecyclerView`` method. However, instead of
+  querying against a realm, we'll instead use a call to the
+  ``getMyTeamMembers`` function. This function returns a list of team
+  members as objects of the ``Document`` type, so we'll use Kotlin's
+  built-in ``map`` function to transform the objects in the list
+  returned by the function from type ``Document`` to type ``Member``,
+  which is the type of data that ``MemberAdapter`` expects. You can
+  access {+service-short+} Functions through the function manager
+  found in your project-global {+service-short+} app:
+
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.get-team-members.kt
+     :language: kotlin
+
+  Similar to ``TaskActivity``, we'll use the floating action button in
+  ``MemberActivity`` to add users to the project. To handle this, write
+  logic in the floating action button's ``setPositiveButton()`` callback
+  that adds a new user to the project using the ``addTeamMember()``
+  {+service-short+} function. Because the team members displayed in this
+  view aren't :ref:`live Realm Objects <java-live-object>`, this
+  RecyclerView's adapter isn't a subclass of
+  ``RealmRecyclerViewAdapter``, and we'll have to manually update our
+  local copy of the list of team members to reflect the success of this
+  method when we add a team member. To do this, call
+  ``setUpRecyclerView()`` to reload the list of team members from the
+  backend when the ``addTeamMember()`` {+service-short+} Function
+  successfully adds a team member:
+
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.add-new-member-to-project.kt
+     :language: kotlin
+
+---
+title: Handle Team Member Removals in MemberAdapter
+ref: handle-team-member-removals-in-memberadapter
+content: |
+
+  ``MemberAdapter`` handles the display of a list of team members
+  in a RecyclerView. All of the logic to handle this display is already
+  provided for you except for the logic that handles removing a team
+  member from a project when the user selects "Remove User". To
+  implement this logic, we'll have to call the ``removeTeamMember()``
+  {+service-short+} Function. When the ``removeTeamMember()``
+  {+service-short+} Function successfully removes a team member, we'll
+  have to manually remove that team member from the list of team members
+  with ``data.removeAt()``. Once you've removed the object from the
+  underlying dataset, just call ``notifyItemRemoved()`` with the item's
+  position in the dataset and the UI should automatically stop
+  displaying the removed team member:
+
+  .. literalinclude:: /tutorial/generated/code/final/MemberAdapter.codeblock.remove-user-from-project.kt
+     :language: kotlin
+
+---
+title: Run and Test
+ref: run-and-test
+content: |
+
+  Once you have completed the code, you can run the app and check
+  functionality.
+
+  Click the :guilabel:`Run` button in Android Studio. If the app builds
+  successfully, here are some things you can try in the app:
+
+  1. Create a user with email *first@example.com*.
+  #. Explore the app, then log out or launch a second instance of the app
+     on another virtual device.
+  #. Create another user with email *second@example.com*.
+  #.  Navigate to *second@example.com*'s project.
+  #. Add, update, and remove some tasks.
+  #. Navigate back to the list of projects in ``ProjectActivity`` with
+     the back button.
+  #. Click the three dots "options" menu on "My Project".
+  #. Add *first@example.com* to your team by clicking the floating action
+     button and entering "*first@example.com*".
+  #. Log out and log in as *first@example.com*.
+  #. You should see two projects in the projects list, one of them labeled "*second@example.com*'s project".
+  #. Navigate to *second@example.com*'s project.
+  #. Collaborate by adding, updating, and removing some new tasks.
+
+  .. tip::
+   
+     If something isn't working for you, you can check out the ``final`` branch of 
+     this repo to compare your code with our finished solution.

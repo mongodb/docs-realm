@@ -1,0 +1,89 @@
+.. _java-write-transactions:
+
+=============================
+Write Transactions - Java SDK
+=============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+:term:`{+client-database+}` uses a highly efficient storage engine
+to persist objects. You can **create** objects in a :term:`{+realm+}`,
+**update** objects in a {+realm+}, and eventually **delete**
+objects from a {+realm+}. Because these operations modify the
+state of the {+realm+}, we call them writes.
+
+{+service-short+} handles writes in terms of **transactions**. A
+transaction is a list of read and write operations that
+{+service-short+} treats as a single indivisible operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
+operations in the transaction take effect.
+
+.. note::
+   
+   All writes must happen in a transaction.
+
+A {+realm+} allows only one open write transaction at a time. {+service-short+}
+blocks other writes on other threads until the open
+transaction is complete. Consequently, there is no race
+condition when reading values from the {+realm+} within a
+transaction.
+
+When you are done with your transaction, {+service-short+} either
+**commits** it or **cancels** it:
+
+- When {+service-short+} **commits** a transaction, {+service-short+} writes
+  all changes to disk. For :term:`synced {+realms+} <{+sync+}>`, {+service-short+} queues the change
+  for synchronization with :term:`{+service+}`.
+- When {+service-short+} **cancels** a write transaction or an operation in
+  the transaction causes an error, all changes are discarded
+  (or "rolled back").
+
+.. _java-open-a-transaction:
+
+Run a Transaction
+~~~~~~~~~~~~~~~~~
+
+{+service-short+} represents each transaction as a callback function
+that contains zero or more read and write operations. To run
+a transaction, define a transaction callback and pass it to
+the {+realm+}'s ``write`` method. Within this callback, you are
+free to create, read, update, and delete on the {+realm+}. If
+the code in the callback throws an exception when {+service-short+} runs
+it, {+service-short+} cancels the transaction. Otherwise, {+service-short+} commits
+the transaction immediately after the callback.
+
+.. example::
+
+   The following code shows how to run a transaction with
+   :java-sdk:`executeTransaction() <io/realm/Realm.html#executeTransaction-io.realm.Realm.Transaction->`
+   or :java-sdk:`executeTransactionAsync() <io/realm/Realm.html#executeTransactionAsync-io.realm.Realm.Transaction->`.
+   If the code in the callback throws an exception, {+service-short+}
+   cancels the transaction. Otherwise, {+service-short+} commits the
+   transaction.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: kotlin
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.run-a-transaction.kt
+            :language: kotlin
+            :copyable: false
+
+      .. tab::
+         :tabid: java
+
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.run-a-transaction.java
+            :language: java
+            :copyable: false
+
+.. seealso::
+
+   :ref:`Usage Example: Read and Write Data <java-read-and-write-data>`

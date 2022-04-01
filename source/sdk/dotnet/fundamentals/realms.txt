@@ -110,6 +110,13 @@ specify a path.
 The default realm file is named ``default.realm`` and is located where the OS 
 stores app-specific data.
 
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement :dotnet-sdk:`ShouldCompactOnLaunch 
+   <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration_ShouldCompactOnLaunch>` 
+   to periodically reduce the realm file size. For more information
+   about compacting a realm, see: :ref:`<dotnet-compact-realm>`.
+
 .. note:: Auxiliary Realm Files
    
    Realm Database creates additional files for each {+realm+}.

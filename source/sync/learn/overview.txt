@@ -182,12 +182,12 @@ This guide focuses on configuring sync with an SDK. For in-depth documentation
 that includes details on how to install and use the Realm SDKs more generally,
 check out the SDK docs:
 
-- :ref:`Android SDK <android-intro>`
+- :ref:`Java SDK <java-intro>`
 - :ref:`Swift SDK <ios-intro>`
 - :ref:`.NET SDK <dotnet-intro>`
 - :ref:`Node.js SDK <node-intro>`
 - :ref:`React Native SDK <react-native-intro>`
-- :ref:`Kotlin Multiplatform SDK (Alpha) <kotlin-multiplatform-intro>`
+- :ref:`Kotlin SDK (Alpha) <kotlin-intro>`
 - :ref:`Flutter SDK (Preview) <flutter-intro>`
 
 .. note::
@@ -291,16 +291,17 @@ access patterns.
 Flexible Sync Data Access Rules
 ```````````````````````````````
 
-Flexible Sync does not require you to define a partition strategy, but instead
-enables you to specify which data to sync by querying for matching objects 
-in a client application. Realm then evaluates :ref:`rules and roles 
-<flexible-sync-permissions>` to determine which of those matching objects 
-a user can read and write.
+Flexible Sync does not require you to define a partition strategy.
+Instead, you specify which data to sync through queries for
+matching objects in a client application. Realm then evaluates
+:ref:`session roles and rules <flexible-sync-roles>` to determine which
+of those matching objects a user can read and write.
 
-You can define rules on specific collections. Default roles provide read and 
-write permissions when more specific rules do not apply. Default roles apply 
-to all collections a Realm app can access, but you can restrict a rule to a 
-specific collection by specifying the collection name.
+You can define session roles on specific collections. Default roles
+provide read and write permissions when more specific session roles do
+not apply. Default roles apply to all collections a Realm app can
+access, but you can restrict a session role to a specific collection by
+specifying the collection name.
 
 Configure and Enable Sync
 -------------------------
@@ -339,11 +340,11 @@ Best Practices
 In addition to the information in this guide, we recommend following these best
 practices to ensure optimal performance and a smooth user experience:
 
-Avoid destructive changes:
+Avoid breaking changes:
   Once you've enabled sync, there are limitations on how you can modify your
-  data model. Specifically, sync does not support destructive changes to your
+  data model. Specifically, sync does not support breaking changes to your
   object types such as changing a given property's type. If you want to make a
-  destructive change you need to terminate and re-enable sync with the updated
+  breaking change you need to terminate and re-enable sync with the updated
   data models.
 
 Define a client reset handler:
@@ -360,9 +361,9 @@ Define a client maximum offline time:
   time they connect to the backend.
 
 Deployment model and geographic regions:
-  Use a local {+service-short+} :ref:`deployment model<realm-local-deployment>`
-  when building a {+sync+} application. Configure your {+app+} and MongoDB data
-  source to run within the same geographic region and cloud provider.
+  Use a :ref:`local deployment model <local-deployment>` when building a
+  {+sync+} application. Configure your {+app+} and MongoDB data source
+  to run within the same geographic region and cloud provider.
 
 Atlas oplog:
   {+sync+} requires access to the :atlas:`oplog </reference/atlas-oplog>` of

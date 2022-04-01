@@ -216,20 +216,25 @@ that every user syncs all of your app's data to their device. This approach is
 functionally a decision not to partition data and is suitable only for basic
 applications or relatively small public data sets.
 
-- **Data Security:** All data in the firehose partition is public. If a
-  given user has read or write access to the partition, they can read or write
-  *any* document.
+- **Data Security:** All data in the firehose partition is public to clients 
+  with an open {+realm+} that uses the partition. 
+  If a given user has read or write access to the partition, 
+  they can read or write *any* document.
 
 - **Storage Capacity:** Every user syncs every document in the firehose
   partition, so all data must fit within your most restrictive storage
   limitation. You should only use this strategy for data sets that are
   relatively small and that do not grow quickly.
 
-.. tip::
 
-   The most straightforward way to configure a firehose is to set the partition
-   key as an optional field not present in any document. Realm maps any document
-   that doesn't include a partition value to the *null partition*.
+The most straightforward way to configure a firehose is to set the partition
+key as an optional field not present in any document. Realm maps any document
+that doesn't include a partition value to the **null partition**.
+
+You can also set a **static partition value**, where the partition value is 
+a property that doesn't change based on the user or data. 
+For example, you could configure {+realm+}s across all clients to use the 
+partition value ``"MyPartitionValue"``.
 
 .. example::
    

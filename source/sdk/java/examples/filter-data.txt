@@ -1,0 +1,335 @@
+.. _java-filter-data:
+
+======================
+Filter Data - Java SDK
+======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+About the Examples on This Page
+-------------------------------
+
+The examples in this page use two Realm object types: ``Teacher``
+and ``Student``.
+
+See the schema for these two classes below:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/TeacherKt.codeblock.complete.kt
+         :language: kotlin
+         :caption: Teacher.kt
+         :copyable: false
+
+      .. literalinclude:: /examples/generated/java/local/StudentKt.codeblock.complete.kt
+         :language: kotlin
+         :caption: Student.kt
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/Teacher.codeblock.complete.java
+         :language: java
+         :caption: Teacher.java
+         :copyable: false
+
+      .. literalinclude:: /examples/generated/java/local/Student.codeblock.complete.java
+         :language: java
+         :caption: Student.java
+         :copyable: false
+
+.. _java-client-filters:
+
+Filters
+-------
+
+You can build filters using the operator methods of the
+:wikipedia:`fluent interface <Fluent_interface>` exposed by the
+:java-sdk:`RealmQuery <io/realm/RealmQuery.html>` class:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.filters.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.filters.java
+         :language: java
+         :copyable: false
+
+This gives you a new instance of the class :java-sdk:`RealmResults <io/realm/RealmResults.html>`,
+containing teachers with the name "Ms. Langtree" or "Mrs. Jacobs".
+
+``RealmQuery`` includes several methods that can execute queries:
+
+- :java-sdk:`findAll() <io/realm/RealmQuery.html#findAll-->` blocks until
+  it finds all objects that meet the query conditions
+
+- :java-sdk:`findAllAsync() <io/realm/RealmQuery.html#findAllAsync-->`
+  returns immediately and finds all objects that meet the query
+  conditions asynchronously on a background thread
+
+- :java-sdk:`findFirst() <io/realm/RealmQuery.html#findFirst-->` blocks
+  until it finds the first object that meets the query conditions
+
+- :java-sdk:`findFirstAsync() <io/realm/RealmQuery.html#findFirstAsync-->`
+  returns immediately and finds the first object that meets the query
+  conditions asynchronously on a background thread
+
+Queries return a list of references to the matching {+service-short+}
+objects using the :ref:`RealmResults <java-results-collections>` type.
+
+.. seealso::
+
+   - :ref:`Fundamentals: Query Engine <java-client-query-engine>`
+   - :ref:`Fundamentals: Results Collections <java-results-collections>`
+
+.. _java-link-queries:
+
+Link Queries
+~~~~~~~~~~~~
+
+When referring to an object property, you can use **dot notation** to refer
+to child properties of that object. You can refer to the properties of
+:ref:`embedded objects <java-embedded-objects>` and :ref:`relationships
+<java-client-relationships>` with dot notation.
+
+For example, consider a query for all teachers with a student named
+"Wirt" or "Greg":
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.link-queries.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.link-queries.java
+         :language: java
+         :copyable: false
+
+You can even use dot notation to query inverse relationships:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.link-queries-inverse.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.link-queries-inverse.java
+         :language: java
+         :copyable: false
+
+.. _java-sort-results:
+
+Sort Results
+------------
+
+You can define the order of query results using the
+:java-sdk:`sort() <io/realm/RealmQuery.html#sort-java.lang.String->`
+method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.sort.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.sort.java
+         :language: java
+         :copyable: false
+
+Sorts organize results in ascending order by default. To organize results
+in descending order, pass ``Sort.DESCENDING`` as a second argument.
+You can resolve sort order ties between identical property values
+by passing an array of properties instead of a single property: in the
+event of a tie, {+client-database+} sorts the tied objects by subsequent
+properties in order.
+
+.. important::
+
+   {+client-database+} applies the ``distinct()``, ``sort()`` and
+   ``limit()`` methods in the order you specify. Depending on the
+   data set this can alter the query result. Generally, you should
+   apply ``limit()`` last to avoid unintended result sets.
+
+.. important:: String Sorting Limitations
+
+   {+service-short+} uses non-standard sorting for upper and lowercase
+   letters, sorting them together rather than sorting uppercase first.
+   As a result, ``'- !"#0&()*,./:;?_+<=>123aAbBcC...xXyYzZ`` is the
+   actual sorting order in {+client-database+}. Additionally, sorting
+   strings only supports the ``Latin Basic``, ``Latin Supplement``,
+   ``Latin Extended A``, and ``Latin Extended B (UTF-8 range 0–591)``
+   character sets.
+
+.. _java-limit-results:
+
+Limit Results
+-------------
+
+You can cap the number of query results to a specific maximum number
+using the :java-sdk:`limit() <io/realm/RealmQuery.html#limit-long->`
+method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.limit.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.limit.java
+         :language: java
+         :copyable: false
+
+Limited result collections automatically update like any other query
+result. Consequently, objects might drop out of the collection as
+underlying data changes.
+
+.. important:: Pagination is Not Necessary for {+client-database+} Optimization
+
+   Some databases encourage paginating results with limits to avoid
+   reading unnecessary data from disk or using too much memory.
+
+   Since {+client-database+} queries are lazy, there is no need to
+   take such measures. {+client-database+} only loads objects from query
+   results when they are explicitly accessed.
+
+.. warning:: Deleted Notifications in Limited Results
+
+   :ref:`Collection notifications <java-collection-notifications>`
+   report objects as deleted when they drop out of the result set.
+   This does not necessarily mean that they have been deleted from the
+   underlying {+realm+}, just that they are no longer part of the
+   query result.
+
+.. _java-unique-results:
+
+Unique Results
+--------------
+
+You can reduce query results to unique values for a given field or fields
+using the :java-sdk:`distinct()
+<io/realm/RealmQuery.html#distinct-java.lang.String->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.unique.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.unique.java
+         :language: java
+         :copyable: false
+
+You can only call ``distinct()`` on integer, long, short, and ``String``
+fields; other field types will throw an exception. As with sorting,
+you can specify multiple fields to resolve ties.
+
+.. _java-chain-queries:
+
+Chain Queries
+-------------
+
+You can apply additional filters to a results collection by calling the
+:java-sdk:`where() <io/realm/RealmResults.html#where-->` method:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.chain-queries.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.chain-queries.java
+         :language: java
+         :copyable: false
+
+The ``where()`` method returns a ``RealmQuery`` that you can resolve into
+a ``RealmResults`` using a ``find`` method. Filtered results can only
+return objects of the same type as the original results set, but are
+otherwise able to use any :ref:`filters <java-client-filters>`.
+
+.. _java-filter-with-realm-query-language:
+
+Query with Realm Query Language
+-------------------------------
+
+.. versionadded:: 10.4.0
+
+You can use :java-sdk:`RealmQuery.rawPredicate()
+<io/realm/RealmQuery.html#rawPredicate-java.lang.String->` to query
+{+realm+}s using :ref:`Realm Query Language <realm-query-language>`.
+
+Realm Query Language can use either the class and property names defined
+in your Realm Model classes or the internal names defined with ``@RealmField``.
+You can combine raw predicates with other raw predicates or type-safe
+predicates created with ``RealmQuery``:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.realm-query-language.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FilterDataTest.codeblock.realm-query-language.java
+         :language: java
+         :copyable: false
+
+.. include:: /includes/tip-realm-query-language-reference-examples.rst

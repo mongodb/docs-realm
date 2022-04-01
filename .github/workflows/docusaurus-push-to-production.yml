@@ -1,0 +1,36 @@
+# @format
+
+name: Docusaurus Push to Production
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "docusaurus/**"
+
+jobs:
+  production-deploy:
+    if: github.repository == 'mongodb/docs-realm'
+    runs-on: ubuntu-latest
+    env:
+      DOCUSAURUS_URL: "http://realm-io.s3-website-us-east-1.amazonaws.com"
+      DOCUSAURUS_BASE_URL: "docs"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - run: cd docusaurus && npm install && npm run build
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: "realm-io"
+          AWS_ACCESS_KEY_ID: ${{ secrets.REALM_IO_PRODUCTION_S3_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.REALM_IO_PRODUCTION_S3_KEY }}
+          AWS_REGION: "us-east-1"
+          SOURCE_DIR: "docusaurus/build/"
+          DEST_DIR: "$DOCUSAURUS_BASE_URL"
+      - run: |
+          echo "Pushed to: ${DOCUSAURUS_URL}/${DOCUSAURUS_BASE_URL}/index.html"

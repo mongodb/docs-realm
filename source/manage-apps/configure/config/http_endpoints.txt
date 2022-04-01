@@ -10,7 +10,8 @@ HTTP Endpoint Configuration Files
    
    app/
    └── http_endpoints/
-       └── <Service Name>/
+       ├── config.json
+       └── [Deprecated] <Service Name>/
            ├── config.json
            ├── rules/
            │   └── <Rule Name>.json
@@ -19,11 +20,121 @@ HTTP Endpoint Configuration Files
                    ├── config.json
                    └── source.js
 
-HTTP Service Configuration
---------------------------
+.. _appconfig-endpoints:
 
-HTTP endpoints are grouped into named HTTP services. You define each HTTP
-service in its own subdirectory within ``/http_endpoints``.
+Endpoint Configuration
+----------------------
+
+Define the configurations for your app's :ref:`custom endpoints
+<https-endpoints>` in ``http_endpoints/config.json``.
+
+.. code-block:: json
+   
+   {
+     "route": "<Endpoint route name>",
+     "http_method": "<HTTP method>",
+     "function_name": "<Endpoint function name",
+     "validation_method": "<Authorization scheme>",
+     "respond_result": <boolean>,
+     "fetch_custom_user_data": <boolean>,
+     "create_user_on_auth": <boolean>,
+     "disabled": <boolean>
+   }
+
+.. list-table::
+   :header-rows: 1
+   :widths: 10 30
+
+   * - Field
+     - Description
+    
+   * - | ``route``
+       | string
+     
+     - The endpoint :ref:`route <endpoint-route>`.
+    
+   * - | ``http_method``
+       | string
+     
+     - The type of :mdn:`HTTP method <Web/HTTP/Methods>` that the
+       endpoint handles. Specify ``*`` to handle all methods with a
+       single endpoint.
+
+       One of:
+
+       - ``"GET"``
+       - ``"POST"``
+       - ``"PUT"``
+       - ``"PATCH"``
+       - ``"DELETE"``
+       - ``"DELETE"``
+       - ``"*"``
+    
+   * - | ``function_name``
+       | string
+     
+     - The name of the :ref:`function <appconfig-functions>` associated
+       with the endpoint. The function should use the :ref:`endpoint
+       function signature <endpoint-function>`.
+    
+   * - | ``validation_method``
+       | string
+     
+     - The :ref:`endpoint authorization scheme <endpoint-authorization>`
+       used to validate incoming requests.
+
+       One of:
+
+       - ``"SECRET_AS_QUERY_PARAM"``
+       - ``"VERIFY_PAYLOAD"``
+       - ``"NO_VALIDATION"``
+   
+   * - | ``respond_result``
+       | boolean
+     
+     - If ``true``, the endpoint returns a customizable HTTP response to
+       the client. You configure the response by calling the methods on
+       the :ref:`Response <endpoint-response-object>` object. If you do
+       not configure the response, the endpoint returns a ``200 - Ok``
+       response with the value returned from the endpont function as the
+       request body.
+
+       If ``false``, requests return a ``204 - No Content`` response
+       with no data in the body.
+    
+   * - | ``fetch_custom_user_data``
+       | boolean
+     
+     - If ``true``, the authenticated user's :ref:`custom user data
+       <custom-user-data>` document is available via
+       ``context.user.custom_data``.
+
+       If ``false``, the user's custom data is not queried and
+       ``context.user.custom_data`` is an empty object.
+    
+   * - | ``create_user_on_auth``
+       | boolean
+     
+     - If ``true``, {+service-short+} automatically creates a new user
+       if the provided user credentials authenticate but aren't
+       associated with an existing user.
+       
+       This setting is useful for apps that integrate with external
+       authentication system through the Custom JWT authentication
+       provider. If a request includes a valid JWT from the external
+       system that doesn't correspond to a registered user, this creates
+       a new user with the JWT as an identity.
+   
+   * - | ``disabled``
+       | boolean
+     
+     - Enables (``false``) or disables (``true``) the endpoint.
+
+[Deprecated] HTTP Service Configuration
+---------------------------------------
+
+Deprecated legacy HTTP services are grouped into named services within
+``/http_endpoints``.
 
 .. code-block:: json
    :caption: http_endpoints/<Service Name>/config.json
@@ -56,8 +167,8 @@ service in its own subdirectory within ``/http_endpoints``.
      - Additional configuration options for the service. HTTP Endpoints
        currently have no additional configuration options.
 
-Service Action Rules
---------------------
+[Deprecated] Service Action Rules
+---------------------------------
 
 You define :ref:`service action rules <service-rules>` in the service's
 ``rules/`` sub-directory. Each rule maps to its own ``.json`` configuration file
@@ -97,8 +208,8 @@ with the same name as the rule.
 
 .. _config-incoming-webhooks:
 
-Incoming Webhooks
------------------
+[Deprecated] Incoming Webhooks
+------------------------------
 
 Configuration
 ~~~~~~~~~~~~~

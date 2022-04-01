@@ -205,7 +205,7 @@ Fill in the code with the following query:
 Now that you've defined the query, you need to create the hook to call it in the application. 
 We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
 In our hook, we'll pass the project as a dynamic variable to the query. We'll also
-set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling() <poll interval>) <docs/react/data/queries/#startpolling>` function
+set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling() <docs/react/data/queries/#startpolling>` function
 so that the data doesn't get stale if another team member adds tasks to the project.
 We also must call the :apollo:`stopPolling() <docs/react/data/queries/#stoppolling>` function
 when the component unmounts, so there isn't a memory leak.
@@ -497,7 +497,7 @@ options to keep practicing and learn more:
   task tracker tutorials for the following platforms:
   
   - :doc:`iOS (Swift) </tutorial/ios-swift>`
-  - :doc:`Android (Kotlin) </tutorial/android-kotlin>`
+  - :doc:`Android (Kotlin) </tutorial/java-sdk>`
   - :doc:`React Native (JavaScript) </tutorial/react-native>`
   - :doc:`Node.js (JavaScript) CLI </tutorial/nodejs-cli>`
 

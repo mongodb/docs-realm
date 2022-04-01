@@ -23,32 +23,6 @@ user's original anonymous identity with their new permanent identity.
 You can link identities using the ``linkCredentials()`` method  
 of the ``User`` object of a logged-in User.
 
-.. tabs-realm-languages::
-
-      .. tab::
-         :tabid: typescript
-
-         .. code-block:: typescript
-            :emphasize-lines: 6
-
-            async function linkAccounts(user: Realm.User, email: string, password: string) {
-              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
-                email,
-                password
-              );
-              await user.linkCredentials(emailPasswordUserCredentials);
-            }
-            
-      .. tab::
-         :tabid: javascript
-
-         .. code-block:: javascript
-            :emphasize-lines: 6
-
-            async function linkAccounts(user, email, password) {
-              const emailPasswordUserCredentials = Realm.Credentials.emailPassword(
-                email,
-                password
-              );
-              await user.linkCredentials(emailPasswordUserCredentials);
-            }
+.. literalinclude:: /examples/generated/web/authentication-link-identities.test.codeblock.link-accounts.js
+   :language: javascript
+   :emphasize-lines: 6

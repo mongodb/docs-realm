@@ -1,3 +1,4 @@
+// Used in quickstart
 // :snippet-start: define-model
 // :state-start: dart
 import 'package:realm_dart/realm.dart';
@@ -17,7 +18,7 @@ part 'define_realm_model_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late final String make;
+  late String make;
 
   late String? model;
   late int? miles;

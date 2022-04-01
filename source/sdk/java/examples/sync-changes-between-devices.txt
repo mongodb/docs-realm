@@ -1,0 +1,287 @@
+.. _java-sync-changes-between-devices:
+
+=======================================
+Sync Changes Between Devices - Java SDK
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Prerequisites
+-------------
+
+Before you can access a synced {+realm+} from the client, you must:
+
+1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
+
+#. :ref:`Initialize the app <java-quick-start-init-app>`
+
+#. Enable {+sync+} in your application by adding the following to the
+   top level of your application-level :file:`build.gradle` file:
+
+   .. code-block:: groovy
+
+      realm { syncEnabled = true }
+
+#. :ref:`Authenticate a user <java-quick-start-authenticate>` in
+   your client project.
+
+.. _java-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+.. include:: /includes/java-open-synced-realm.rst
+
+.. _java-sync-data:
+
+Sync Data
+---------
+
+The syntax to :ref:`read <java-realm-database-reads>`, :ref:`write
+<java-realm-database-writes>`, and
+:ref:`watch for changes <java-client-notifications>` on a
+synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
+local data, a background thread efficiently integrates, uploads, and downloads changesets.
+
+.. important:: When Using Sync, Avoid Writes on the Main Thread
+
+   The fact that {+service-short+} performs sync integrations on a background thread means
+   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   could appear to hang as it waits for the background sync thread to finish a write
+   transaction. Therefore, it's a best practice :ref:`never to write on the main thread
+   when using {+sync+} <java-threading-three-rules>`.
+
+The following code reads a collection of ``Task`` objects, then writes a
+new ``Task`` to the {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.sync-data.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.sync-data.java
+         :language: java
+         :copyable: false
+
+.. seealso::
+
+   :ref:`Threading <java-threading>`
+
+.. _java-pause-or-resume-a-sync-session:
+
+Pause or Resume a Sync Session
+------------------------------
+
+To pause a currently active sync session, call
+:java-sdk:`stop() <io/realm/mongodb/sync/SyncSession.html#stop-->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.pause-sync-session.java
+         :language: java
+         :copyable: false
+
+
+.. |pause_func_name| replace:: ``.stop()``
+.. include:: /includes/note-details-about-pause.rst
+
+To resume a currently paused sync session, call
+:java-sdk:`start() <io/realm/mongodb/sync/SyncSession.html#start-->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.resume-sync-session.java
+         :language: java
+         :copyable: false
+
+.. _java-check-network-connection:
+
+Check the Current Network Connection
+------------------------------------
+
+To check the current network connection, call :java-sdk:`getConnectionState() <io/realm/mongodb/sync/SyncSession.html#getConnectionState-->` on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-current-network-connection.java
+         :language: java
+         :copyable: false
+
+.. warning:: Connection States vs. Session States
+
+   The SDK manages communication with {+backend+} at two levels:
+   **connection state** and **session state**. *Connection state* tracks
+   the state of the network connection between a client device and your
+   backend {+app+}. *Session state* refers to a single user's
+   synchronization state, which can be :ref:`paused and resumed
+   <java-pause-or-resume-a-sync-session>` in the SDK at will. As a
+   result, you must check *both* states to determine whether
+   a user's local changes will sync to the backend. Synchronization
+   only occurs when the connection state is "connected" and the session
+   state is "active".
+
+You can also subscribe to connection changes on your ``SyncSession``
+with :java-sdk:`addConnectionChangeListener()
+<io/realm/mongodb/sync/SyncSession.html#addConnectionChangeListener-io.realm.mongodb.sync.ConnectionListener->`,
+which works similarly to :ref:`upload and download listeners
+<java-check-sync-progress>`.
+
+.. _java-check-sync-progress:
+
+Check Upload & Download Progress for a Sync Session
+---------------------------------------------------
+
+To subscribe to progress updates for uploads,
+call :java-sdk:`addUploadProgressListener()
+<io/realm/mongodb/sync/SyncSession.html#addUploadProgressListener-io.realm.mongodb.sync.ProgressMode-io.realm.mongodb.sync.ProgressListener->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`
+with a :java-sdk:`ProgressMode <io/realm/mongodb/sync/ProgressMode.html>`
+and a :java-sdk:`ProgressListener() <io/realm/mongodb/sync/ProgressListener.html>`.
+The ``ProgressMode`` passed determines which upload events your listener
+receives:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-upload-progress.java
+         :language: java
+         :copyable: false
+
+To subscribe to progress updates for uploads,
+call :java-sdk:`addDownloadProgressListener()
+<io/realm/mongodb/sync/SyncSession.html#addDownloadProgressListener-io.realm.mongodb.sync.ProgressMode-io.realm.mongodb.sync.ProgressListener->`
+on your :java-sdk:`SyncSession <io/realm/mongodb/sync/SyncSession.html>`
+with a :java-sdk:`ProgressMode <io/realm/mongodb/sync/ProgressMode.html>`
+and a :java-sdk:`ProgressListener() <io/realm/mongodb/sync/ProgressListener.html>`.
+The ``ProgressMode`` passed determines which upload events your listener
+receives:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-download-progress.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/SyncDataTest.codeblock.check-download-progress.java
+         :language: java
+         :copyable: false
+
+
+.. _java-handle-sync-errors:
+
+Handle Sync Errors
+------------------
+
+You can configure an error handler to detect and respond to any errors that
+occur in the {+sync+} process. To define an error handler, pass an
+:java-sdk:`ErrorHandler <io/realm/mongodb/sync/SyncSession.ErrorHandler.html>`
+to the :java-sdk:`SyncConfiguration.Builder.errorHandler()
+<io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler->`
+builder method:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/ErrorHandlerTest.codeblock.error-handler.java
+         :language: java
+         :copyable: false
+
+.. _java-reset-a-client-realm-file:
+
+Reset a Client Realm File
+-------------------------
+
+You can customize behavior in the event of a
+:ref:`client reset <java-client-resets>` with a custom client reset
+handler:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+       :tabid: kotlin
+
+       .. literalinclude:: /examples/generated/java/sync/ClientResetTest.codeblock.client-reset.kt
+         :language: kotlin
+         :copyable: false
+
+   .. tab::
+       :tabid: java
+
+       .. literalinclude:: /examples/generated/java/sync/ClientResetTest.codeblock.client-reset.java
+         :language: java
+         :copyable: false
+
+.. tip::
+
+   To see how to recover unsynced local changes in a client reset, check out
+   this :github:`example on GitHub
+   <mongodb/realm-practice/blob/main/node/index.js#L49>`.

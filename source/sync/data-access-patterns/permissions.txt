@@ -20,6 +20,10 @@ MongoDB Realm enforces data access rules for all requests to a :term:`synced
 cluster`. Sync rules are dynamic :ref:`JSON expressions <expressions>` that
 specify a given user's ability to view and modify synced data.
 
+The way Sync rules work depends on whether you are using
+:ref:`Partition-Based Sync <partition-based-rules-and-permissions>` or
+:ref:`Flexible Sync <flexible-sync-rules-and-permissions>`.
+
 .. important:: Non-Sync Rules
    
    This page describes data access rules for synced clusters. Non-synced cluster
@@ -296,104 +300,175 @@ cannot express solely in JSON expressions.
        data in the requested partition.
 
 .. _flexible-sync-rules-and-permissions:
+.. _flexible-sync-roles:
 
-Flexible Sync Rules and Permissions
------------------------------------
+Flexible Sync Session Roles and Rules
+-------------------------------------
 
-Flexible Sync Rule Behavior
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In flexible sync, a **session role** determines which permissions apply for the
+duration of a sync session.
 
-Flexible Sync rules apply on a per-collection basis. They are coupled to 
-your app's data model by the :ref:`queryable field <queryable-fields>` or 
-user metadata. Consider the following behavior when designing your schemas 
+A session role consists of:
+
+- A name 
+- An "apply when" :ref:`rule expression <rule-expressions>`
+- A set of :ref:`read <flexible-sync-read-permissions>` and :ref:`write 
+  <flexible-sync-write-permissions>` rule expressions
+
+You define Flexible Sync session roles on a per-collection basis. Each
+"collection" when using Realm Sync corresponds to a Realm Object type.
+
+When a user begins a session by opening a synced realm, Realm determines which
+session role applies for the user for each collection in play. Realm considers
+session roles in the order that you defined them in the configuration. It
+evaluates each session role's "apply when" expression until one evaluates to
+true. If no session role applies, the user has no permissions for that
+collection.
+
+.. tip::
+
+   Your session role "apply when" expressions can use :ref:`JSON expansions
+   <expansions>` to refer to :ref:`user metadata
+   <configure-user-metadata-on-the-backend>` and :ref:`custom user data
+   <custom-user-data>` and even call functions to determine the given user's
+   role. However, because Realm only evaluates session roles at the start of a
+   session -- that is, before any query for specific documents -- you can't
+   refer to a document or its field values to determine whether the session role
+   applies.
+
+The session role stays assigned for the duration of the session. If you make
+changes to an applied session role while a user is in the middle of a session,
+{+service-short+} does not evaluate the updated session role until the next time
+the user starts a session. Likewise, if something changes that would qualify the
+user for a different session role, the user's current session role does not
+change until the next session.
+
+.. _flex-sync-expansions-caveat:
+
+.. important::
+
+   Realm triggers a :ref:`client reset <client-resets>` if anything about the
+   session role changed since the previous session.
+
+   At the start of a session, Realm expands all JSON expansions in the "apply
+   when", read, and write expressions and stores the result. This has the following
+   implications:
+
+   - If the value changes during a session, Realm continues to use the value as it was at the time of session start.
+   - On the next session, if the value is different from what it was at the start of this session, Realm triggers a client reset.
+   - You cannot use the :json-operator:`%function` operator in read and
+     write rules. Functions would not operate on a per-document basis.
+   - You cannot store permissions information (such as "which document IDs may this user access?") in the user object.
+
+Available Expansions in Flexible Sync Rules Quick Reference
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - Expansion
+     - Can Use in "Apply When"?
+     - Can Use in Read & Write Rules?
+   
+   * - :json-expansion:`%%true`, :json-expansion:`%%false`
+     - Yes
+     - Yes
+   
+   * - :json-expansion:`%%values`, :json-expansion:`%%environment`
+     - Yes
+     - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   
+   * - :json-expansion:`%%request`
+     - No
+     - No
+   
+   * - :json-expansion:`%%user`
+     - Yes
+     - Yes with an :ref:`important caveat <flex-sync-expansions-caveat>`
+   
+   * - :json-expansion:`%%this`, :json-expansion:`%%prev`, :json-expansion:`%%root`,  :json-expansion:`%%prevRoot`
+     - No. These expansions refer to the document. Realm evaluates "apply when" expressions at session start, so there's no document to evaluate.
+     - No. These expansions might access non-queryable fields of the document, which is not possible.
+   
+   * - :json-expansion:`%%partition`
+     - No
+     - No
+   
+   * - :json-operator:`%stringToOid`, :json-operator:`%oidToString`
+     - Yes
+     - No
+   
+   * - :json-operator:`%function`
+     - Yes
+     - No. Realm expands the expansions at the start of the session, so the function would not operate on a per-document basis.
+   
+   * - :json-operator:`$exists`
+     - Yes
+     - Yes
+   
+   * - :json-operator:`$in`, :json-operator:`$nin`
+     - Yes
+     - Yes. However, note that you cannot currently have an array field as a queryable field on a document.
+   
+   * - :json-operator:`$eq`, :json-operator:`$ne`, :json-operator:`$gt`, :json-operator:`$gte`, :json-operator:`$lt`, :json-operator:`$lte`  
+     - Yes
+     - Yes
+
+.. _default-roles:
+
+Default Roles
+~~~~~~~~~~~~~
+
+You can create one or more default session roles that apply across all
+collections. If a collection does not have any custom session roles
+defined, session role resolution reverts to default session roles. 
+
+.. tip::
+
+   Because session roles apply only at the session level and not on a
+   per-document level, most apps only need one (default) session role
+   with per-document logic in that session role's read
+   and write rules. With Flexible Sync, session roles can be thought of
+   as a way to group read and write rule expressions to organize
+   your code.
+
+.. seealso::
+
+   :ref:`flexible-sync-custom-and-default-roles`
+
+
+Flexible Sync Rules
+~~~~~~~~~~~~~~~~~~~
+
+You define a read and write rule expression pair for every session role.
+
+Rule expressions can refer to the :ref:`queryable fields
+<queryable-fields>` of your data model.
+
+In response to a Flexible Sync subscription query, Realm evaluates the
+read and write rule expressions for each document that matches the query.
+The client only receives documents where the rule expression evaluates to "true".
+
+Consider the following behavior when designing your schemas 
 to ensure that you have appropriate data access granularity and don't 
 accidentally leak sensitive information.
 
 - Sync rules apply dynamically based on the value of the queryable field or 
   user metadata. One user may have full read & write access to a document 
   while another user has only read permissions or is unable to access the 
-  document entirely. You control these permissions by defining 
+  document. You control these permissions by defining 
   :ref:`JSON expressions <expressions>`.
 
-- Sync rules apply on a per-collection basis to all documents in a query. 
-  If a user has read or write permission for a given collection, then they 
-  can read or modify all synced fields of any document that matches the 
-  sync query in the collection.
+- There are no field-level permissions. Sync rules apply to all
+  documents in a query on a per-collection basis. If a user has read or
+  write permission for a given collection, then they can read or modify
+  all synced fields of any document that matches the sync query in the
+  collection.
 
 - Write permissions require read permissions, so a user with write access to a
-  collection also has read access regardless of the defined read permission
-  rules.
-
-Roles
-`````
-
-When a user submits a query to the {+app+}, Sync determines which role 
-applies for the user.
-
-A role consists of:
-
-- A name 
-- An Apply When rule :ref:`expression <expressions>`
-- A set of :ref:`read <flexible-sync-read-permissions>` and :ref:`write 
-  <flexible-sync-write-permissions>` permissions
-
-A role might also include a collection name, if it is a collection-specific
-role.
-
-A role applies for the duration of the session. If you make changes to an
-applied role while a user is in the middle of a session, {+service-short+}
-does not evaluate the updated role until the next time the user starts a 
-session.
-
-Because roles apply at the collection level, a user could have different roles
-for different collections.
-
-Roles resolve to a lower level of permissions until the user's metadata 
-evaluates to ``true`` for a given role. At that point, the user receives 
-the corresponding permissions for the duration of their session.
-
-.. _default-roles:
-
-Default Roles
-`````````````
-
-You can create one or more default roles that apply across all collections. 
-If a collection does not have any custom roles defined, role resolution 
-reverts to default roles. 
-
-.. seealso::
-
-   :ref:`flexible-sync-custom-and-default-roles`
-
-.. _flexible-sync-permissions:
-
-Flexible Sync Permissions
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Realm enforces dynamic, user-specific read and write permissions to secure the
-data in each collection and query. You define permissions with :ref:`JSON 
-rule expressions <expressions>` that control whether or not a given user has 
-read or write access to the data in a given collection and query. Realm 
-evaluates a user's permissions at the beginning of each session.
-
-.. tip::
-   
-   Your rule expressions can use :ref:`JSON expansions <expansions>` to 
-   dynamically determine a user's permissions based on the context of 
-   their request. However, the user can only use expansions that do not 
-   refer directly to a document or the document's values. 
-
-Configure Flexible Sync Permissions
-```````````````````````````````````
-
-Flexible Sync rules must be configured on either:
-
-- The values of :ref:`queryable fields <queryable-fields>`
-- User data, including :ref:`metadata <configure-user-metadata-on-the-backend>`
-  and :ref:`custom user data <custom-user-data>`
-
-If you configure rules on anything else, Flexible Sync cannot assign the 
-correct role.
+  collection also has read access regardless of the defined (or undefined) read
+  permission rule.
 
 .. _flexible-sync-read-permissions:
 
@@ -417,10 +492,11 @@ before and after it's modified.
 Flexible Sync Permission Strategies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These common flexible sync permission strategies rely on role names 
-stored in :ref:`custom user data <custom-user-data>`. When a logged-in 
-user's role name matches the name in the ``applyWhen`` rule, the user has 
-the corresponding read and write permissions for that role.
+These common flexible sync permission strategies rely on session role
+names stored in :ref:`custom user data <custom-user-data>`. When a
+logged-in user's session role name matches the name in the ``applyWhen``
+rule, the user has the corresponding read and write permissions for that
+session role.
 
 Admin Read/Write, User Write Self
 `````````````````````````````````
@@ -432,22 +508,19 @@ document, but can only write their own data.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
-           name: "admin", 
-           applyWhen: { "%%user.custom_data.isAdmin": true},
-           read: {} // evaluates to the same as %%true
-           write: {}
+     "Employees": [{
+           "name": "admin", 
+           "applyWhen": { "%%user.custom_data.isAdmin": true},
+           "read": {}, // evaluates to the same as true
+           "write": {}
          },
          {
-           name: "self",
-           applyWhen: {},
-           read: {}
-           write: {"employee_id": "%%user.id"}
+           "name": "self",
+           "applyWhen": {},
+           "read": {},
+           "write": {"employee_id": "%%user.id"}
          }
-       ]
-     }
+      ]
    }
 
 Document Owner Read Only
@@ -459,53 +532,56 @@ Users cannot write, even to their own documents.
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
-           name: "everyone", 
-           applyWhen: {},
-           read: {owner_id: "%%user.id"}
-           write: false
+     "Employees": [{
+           "name": "everyone", 
+           "applyWhen": {},
+           "read": {"owner_id": "%%user.id"},
+           "write": false
          }
-       ]
-     }
+     ]
    }
 
 Global Admin, Department Admin, Department Member
 `````````````````````````````````````````````````
 
-In this permission strategy, users with the ``globalAdmin`` role can read and 
-write to any document. Users with the ``departmentAdmin`` role can read any
-document, but can only write to documents in their department. Users with
-the ``departmentMember`` role can read any document in their department,
-but can't write to any documents. Members can only read documents in their
-own departments; they cannot read documents for other departments.
+In this permission strategy, users with the ``globalAdmin`` session role
+can read and write to any document. Users with the ``departmentAdmin``
+session role can read any document, but can only write to documents in
+their department. Users with the ``departmentMember`` session role can
+read any document in their department, but can't write to any documents.
+Members can only read documents in their own departments; they cannot
+read documents for other departments.
 
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-         {
-           name: "globalAdmin", 
-           applyWhen: { "%%user.custom_data.isGlobalAdmin": true},
-           read: {}
-           write: {}
-         },
-         {
-           name: "departmentAdmin", 
-           applyWhen: { "%%user.custom_data.isLocalAdmin": true},
-           read: {}
-           write: {department: "%%user.custom_data.department"}
-         },
-         {
-           name: "departmentMember", 
-           applyWhen: {},
-           read: {department: "%%user.custom_data.department"}
-           write: false
-         },
-       ]
-     }
+    "Employees": [{
+        "name": "globalAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isGlobalAdmin": true
+        },
+        "read": {},
+        "write": {}
+      },
+      {
+        "name": "departmentAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isLocalAdmin": true
+        },
+        "read": {},
+        "write": {
+          "department": "%%user.custom_data.department"
+        }
+      },
+      {
+        "name": "departmentMember",
+        "applyWhen": {},
+        "read": {
+          "department": "%%user.custom_data.department"
+        },
+        "write": false
+      }
+    ]
    }
 
 .. _flexible-sync-custom-and-default-roles:
@@ -513,63 +589,63 @@ own departments; they cannot read documents for other departments.
 Custom and Default Roles
 ````````````````````````
 
-This permission strategy combines custom and default roles. The custom role 
-applies to the ``Employees`` collection. The ``Items`` collection has no
-custom role, and therefore the default role applies. The ``Store`` collection
-is not listed in the configuration, and has no custom role, so it also 
-evaluates to the default role.
+This permission strategy combines custom and default roles. The custom
+session role applies to the ``Employees`` collection. The ``Store`` 
+collection is not listed in the configuration, and has no custom session 
+role, so it also evaluates to the default role.
 
-Sync attempts to find a matching role by traversing the roles in descending
-order. List the most specific custom roles first, getting gradually more 
-general, so the user "falls through" to the correct role. If no role applies,
-and you have defined a default role, the user gets the default role 
-permissions.
+Sync attempts to find a matching session role by traversing the session
+roles in descending order. List the most specific custom session roles
+first, getting gradually more general, so the user "falls through" to
+the correct session role. If no role applies, and you have defined a
+default role, the user gets the default role permissions.
 
 .. code-block:: json
 
    {
-     "Employees": {
-       "roles": [
-           name: "self",
-           applyWhen: {},
-           read: {}
-           write: {"employee_id": "%%user.id"}
-       ]
-     },
-     "Items": {}, // an empty collection will thus conform to the defaultRoles
-     // the Stores collection is not listed but is part of the syncing schema and 
-     // thus will conform to the defaultRoles, the same as: "Stores": {}, 
-
-     "defaultRoles": {
-         "roles": [
-           {
-             name: "admin", 
-             applyWhen: {"%%user.custom_data.isGlobalAdmin": true},
-             read: {}
-             write: {}
-           },
-           {
-             name: "owner", 
-             applyWhen: {
-               "%%true": {
-                 "%function": {
-                 "name": "isOwner",
-                 "arguments": ["%%user.id"]
-               },
-             read: {},
-             write: {owner_id: "%%user.custom_data.ownerId"},
-           },
-           {
-             name: "shoppers", 
-             applyWhen: {},
-             read: {}
-             write: false
-           },
-         ]
-   }
-
-Summary
--------
-
-- **Sync rules** allow you to control who can read and write data in a given :term:`{+realm+}`.
-- You can define rules in the {+ui+} or by importing them with :term:`{+cli+}`.
+    "rules": {
+      "Employees": [
+        {
+          "name": "employeeWriteSelf",
+          "applyWhen": {},
+          "read": {},
+          "write": {
+            "employee_id": "%%user.id"
+          }
+        }
+      ]
+    },
+    "defaultRoles": [
+      {
+        "name": "admin",
+        "applyWhen": {
+          "%%user.custom_data.isGlobalAdmin": true
+        },
+        "read": {},
+        "write": {}
+      },
+      {
+        "name": "owner",
+        "applyWhen": {
+          "%%true": {
+            "%function": {
+              "name": "isOwner",
+              "arguments": [
+                "%%user.id"
+              ]
+            }
+          }
+        },
+        "read": {},
+        "write": {
+          "owner_id": "%%user.custom_data.ownerId"
+        }
+      },
+      {
+        "name": "shoppers",
+        "applyWhen": {},
+        "read": {},
+        "write": false
+      }
+    ]
+  }

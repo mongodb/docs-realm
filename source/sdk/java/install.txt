@@ -1,0 +1,137 @@
+.. _java-install:
+
+========================
+Install Realm - Java SDK
+========================
+
+.. default-domain:: mongodb
+
+Overview
+--------
+
+.. include:: /includes/java-sdk-supported-platforms.rst
+
+This page details how to install {+service-short+} in your project
+and get started.
+
+Prerequisites
+-------------
+
+- :android:`Android Studio <studio/index.html>` version 1.5.1 or higher.
+- Java Development Kit (JDK) 9 or higher.
+- An emulated or hardware Android device for testing.
+- Android API Level 16 or higher (Android 4.1 and above).
+
+.. include:: /includes/android-6-trusted-certificate.rst
+
+Installation
+------------
+
+{+service+} only supports the Gradle build system. Follow these steps
+to add the {+service+} Java SDK to your project.
+
+.. note:: A note on ProGuard
+
+   Because {+service+} provides a ProGuard configuration as part
+   of the {+service+} library, you do not need to add any
+   {+service+}-specific rules to your ProGuard configuration.
+
+.. include:: /includes/steps/install-java.rst
+
+Installation Size
+-----------------
+
+Once your app is built for release and split for distribution, the SDK
+should only add about 800KB to your APK in most cases. The releases are
+significantly larger because they include support for more architectures,
+such as ARM7, ARMv7, ARM64, x86, and MIPS. The APK file contains all
+supported architectures, but the Android installer only installs native
+code for the device’s architecture. This means that the installed app
+is smaller than the size of the APK file.
+
+You can reduce the size of the Android APK itself by splitting the APK
+into a version for each architecture. Use the Android Build Tool ABI
+Split support by adding the following to your :file:`build.gradle`:
+
+.. code-block:: gradle
+
+   android {
+       splits {
+           abi {
+               enable true
+               reset()
+               include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+           }
+       }
+   }
+
+Select the architectures that you’d like to include to build a separate
+APK for each.
+
+.. seealso::
+
+   See the :android:`Android Tools documentation about ABI Splits
+   <studio/build/configure-apk-splits.html>`
+   for more information, or the :github:`example on GitHub
+   <realm/realm-java/tree/master/examples/gridViewExample>`.
+
+If you don’t want to handle multiple APKs, you can restrict the number
+of architectures supported in a single APK. This is done by adding
+``abiFilters`` to your :file:`build.gradle`:
+
+.. code-block:: gradle
+
+   android {
+       defaultConfig {
+           ndk {
+               abiFilters 'armeabi-v7a', 'arm64-v8a', 'mips', 'x86', 'x86_64'
+           }
+       }
+   }
+
+.. seealso::
+
+   For more details about ABI splits and filters, see
+   `Controlling APK Size When Using Native Libraries
+   <https://android.jlelse.eu/controlling-apk-size-when-using-native-libraries-45c6c0e5b70a>`__.
+
+Customize Dependecies Defined by the Realm Gradle Plugin
+--------------------------------------------------------
+
+{+service-short+} uses a Gradle plugin because it makes it easier to set
+up a large number of dependencies. Unfortunately this also makes it a
+bit harder to ignore specific transitive dependencies.
+
+If you want to customize {+service-short+} beyond what is exposed by the
+plugin, you can manually set up all the dependencies and ignore the
+Gradle plugin. The following example demonstrates how to set up the SDK
+for an Android application using Kotlin manually:
+
+.. code-block:: gradle
+
+   buildscript {
+       ext.kotlin_version = '1.5.21'
+       ext.realm_version = '{+java-sdk-version+}'
+       repositories {
+           jcenter()
+           mavenCentral()
+       }
+       dependencies {
+           classpath "io.realm:realm-transformer:$realm_version"
+           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       }
+   }
+
+   apply plugin: 'com.android.application'
+   apply plugin: 'kotlin-android'
+   apply plugin: 'kotlin-kapt'
+
+   import io.realm.transformer.RealmTransformer
+   android.registerTransform(new RealmTransformer(project))
+
+   dependencies {
+     api "io.realm:realm-annotations:$realm_version"
+     api "io.realm:realm-android-library:$realm_version"
+     api "io.realm:realm-android-kotlin-extensions:$realm_version"
+     kapt "io.realm:realm-annotations-processor:$realm_version"
+   }

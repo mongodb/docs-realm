@@ -17,29 +17,55 @@ Rule Expressions
 Overview
 --------
 
-A **rule expression** is a JSON document that you use to configure data access
-in your application. For example, you can write a rule expression to control
-whether a user can read or write to a given document or synced partition.
+A **rule expression** is a JSON object that you write to control data
+access with :ref:`rules <rules>`. Each expression defines the conditions
+under which a user can take some action. For example, you can write an
+expression to control whether a user can read or write data in a MongoDB
+document or a synced realm.
 
-{+service-short+} evaluates expressions to boolean values and uses the result to
-control your app's behavior and determine whether or not to allow specific user
-actions.
+When {+service-short+} evaluates a rule, it resolves each expression
+associated with the rule to a boolean value, either ``true`` or
+``false``.
+
+You can define simple, static expressions that use hardcoded values:
+
+.. code-block:: json
+   :caption: A "static" expression that only matches the hardcoded ID
+
+   { "id": "5f6aae9a82989d521a606369" }
+
+You can also write expressions that support arbitrary logic to express
+dynamic requirements and complex or custom workflows. A dynamic
+expression can include variables that reflect the current context,
+called :ref:`expansions <expansions>`, and can use built-in
+:ref:`operators <operators>` to transform data:
+
+.. code-block:: json
+   :caption: A "dynamic" expression that varies based on the requesting user and their IP location
+   
+   {
+     "owner": "%%user.id",
+     "%%request.remoteIPAddress": {
+       "$in": "%%values.allowedClientIPAddresses"
+     }
+   }
 
 Expression Syntax
 -----------------
 
-Each field name in an expression must be an :ref:`expansion <expansions>`, a
-string that represents dynamic, runtime information, such as the logged in
-:doc:`user </authentication>` that called an action (:json-expansion:`%%user`)
-or the arguments that were passed the action (:json-expansion:`%%args`).
+An expression is either a boolean value (i.e. ``true`` or ``false``) or
+a JSON object.
 
-Expressions documents have the following general format:
+Expression object field names can be a value, an :ref:`expansion
+<expansions>`, or an :ref:`operator <operators>`. Each field must
+contain one of a value, an expansion, or a nested expression.
+
+Expression object have the following format:
 
 .. code-block:: javascript
 
    {
-     <field1>: <value1|expression1>,
-     <field2>: <value2|expression2>,
+     <Value | Expansion | Operator>: <Value | Expression>,
      ...
    }
 
@@ -87,17 +113,18 @@ operation.
    .. code-block:: json
 
       {
-        "%%args.url": { "%exists": true },
+        "%%args.url": { "$exists": true },
         "%%args.body.userId": "%%user.id"
       }
 
 Expression Evaluation
 ---------------------
 
-{+service+} evaluates expressions by first replacing expansions with their
-runtime values and then evaluating each field of the expanded expression
-document to a boolean expression. If all fields in an expression evaluate to
-``true``, the expression also evaluates to ``true``.
+{+service+} evaluates expressions by first replacing expansions with
+their runtime values and then evaluating each field of the expanded
+expression document to a boolean expression. If all fields in an
+expression evaluate to ``true``, the expression also evaluates to
+``true``.
 
 Expression fields evaluate based on the following rules:
 
@@ -118,235 +145,273 @@ Expression fields evaluate based on the following rules:
 
 .. _expansions:
 
-Expression Expansions
----------------------
+Expansions
+----------
 
-An expression expansion is a variable that represents a dynamic, runtime value
-in your app. Depending on the rule, these might represent the user that issued a
-given request, the metadata for that request, a document that the user is trying
-to access, and more.
+An expansion is a variable that represents a dynamic value in an
+expression. Expansions are denoted by two percent signs followed by the
+expansion name. They can represent:
 
-Expansion variables are denoted by strings that begin with two percent signs
-(``%%``).
+- the data in a MongoDB document (:json-expansion:`%%root`)
+- a user interacting with your app (:json-expansion:`%%user`)
+- an incoming request (:json-expansion:`%%request`)
+- a static value (:json-expansion:`%%partition`)
+- your app's environment (:json-expansion:`%%environment`)
+- the partition key of a synced realm partition (:json-expansion:`%%partition`)
+- the arguments that were passed to a service action (:json-expansion:`%%args`)
 
-General Logic
-~~~~~~~~~~~~~
+When your app evaluates an expression, it replaces each expansion in the
+expression with a specific value determined by your app's configuration
+and the context at the time of evaluation.
 
-You can use the following expansions in any expression to represent boolean
-values.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 30
-
-   * - Name
-     - Type
-     - Description
-
-   * - .. json-expansion:: %%true
-     - boolean
-     - Always evaluates to ``true``. This is useful when comparing with
-       a function (:json-operator:`%function`) that returns a boolean
-       value.
-
-   * - .. json-expansion:: %%false
-     - boolean
-     - Always evaluates to ``false``. This is useful when comparing with
-       a function (:json-operator:`%function`) that returns a boolean
-       value.
-
-.. _expansions-application:
-
-Application Components
-~~~~~~~~~~~~~~~~~~~~~~
-
-You can use the following expansions in any expression to access components of
-your application.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 30
-
-   * - Name
-     - Type
-     - Description
-
-   * - .. json-expansion:: %%values
-     - Object
-     - An object that includes all :doc:`global values </values-and-secrets>`.
-       You can access a specific value from this document. Each property of the
-       object maps the name of a value to its corresponding JSON or a secret.
-       
-       .. example::
-          
-          The following JSON expression evaluates to ``true`` if the current
-          user's ``id`` value is listed in the ``admin_ids`` :doc:`value
-          </values-and-secrets>`:
-          
-          .. code-block:: json
-             
-             {
-               "%%user.id": { "%in": "%%values.admin_ids" }
-             }
+.. note::
    
-   * - .. json-expansion:: %%environment
-     - Object
-     
-     - An object that represents the current environment as well as its
-       :ref:`environment values <environment-values>`. Each property of the
-       object maps the name of an environment value to its value in the current
-       environment.
-       
-       .. example::
-          
-          The following is a rule expression that evaluates to ``true`` if the
-          current environment is ``"production"`` and the ``"baseUrl"``
-          environment value is defined:
-          
-          .. code-block:: json
-          
-             {
-               "%%environment.tag": "production",
-               "%%environment.values.baseUrl": { "%exists": true }
-             }
+   Some expansions, like :json-expansion:`%%user`, are available in all
+   expressions. Others are limited to specific contexts, like
+   :json-expansion:`%%root` which is only available in linked collection
+   rule expressions.
 
-   * - .. json-expansion:: %%request
-     - Document
-     - A document that includes :doc:`context request </functions/context>`
-       information about the external HTTP request that triggered the function
-       call.
-
-
-.. _user-object:
-.. _expansions-user:
-
-Authenticated User
+Logical Expansions
 ~~~~~~~~~~~~~~~~~~
 
-The :json-expansion:`%%user` expansion represents the
-currently authenticated :doc:`user </authentication>` and
-allows you to access their information. You can use this
-expansion to create expressions that evaluate based on the
-user that initiated a request or action.
+.. json-expansion:: %%true
+   
+   | **Type:** ``boolean``
+   | **Usable In:** Any Expression
+   
+   Evaluates to ``true``. Use this to assert that a nested expression
+   must evaluate to ``true``.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 15 10 30
+.. json-expansion:: %%false
+   
+   | **Type:** ``boolean``
+   | **Usable In:** Any Expression
 
-   * - Name
-     - Type
-     - Description
+   Evaluates to ``false``. Use this to assert that a nested expression
+   must evaluate to ``false``.
 
-   * - .. json-expansion:: %%user
-     - Document
-     - A document containing information and data about the
-       authenticated :doc:`user </authentication>`.
+Value Expansions
+~~~~~~~~~~~~~~~~
 
-   * - .. json-expansion:: %%user.id
-     - String
-     - The authenticated user's id.
+.. json-expansion:: %%values
+   
+   | **Type:** ``object``
+   | **Usable In:** Any Expression
 
-   * - .. json-expansion:: %%user.type
-     - String
+   Represents your application's :ref:`values <values-and-secrets>`.
+   Each field of the object maps a value name to its corresponding JSON
+   value or secret.
 
-     - The type of user that initiated the request. Evaluates to
-       ``"server"`` for :doc:`API key </authentication/api-key>` users
-       and ``"normal"`` for all other users.
+   .. example::
+      
+      The following expression evaluates to ``true`` if the value
+      ``admin_ids`` is a list that contains the user's account ID:
+      
+      .. code-block:: json
+         
+         {
+           "%%user.id": { "$in": "%%values.admin_ids" }
+         }
 
-   * - .. json-expansion:: %%user.custom_data
-     - Document
-     - The user's custom data. The exact contents vary depending on
-       the :doc:`custom user data </users/enable-custom-user-data/>`
-       available.
+Environment Expansions
+~~~~~~~~~~~~~~~~~~~~~~
 
-       .. example::
+.. json-expansion:: %%environment
+   
+   | **Type:** ``object``
+   | **Usable In:** Any Expression
 
-          .. code-block:: json
+   Represents the current :ref:`environment <realm-app-environments>`.
+   You can read the environment name (``tag``) and access environment
+   values.
+   
+   Each property of the object maps the name of an environment value to
+   its value in the current environment.
 
-             "custom_data": {
-               "primaryLanguage": "English",
-             }
-
-   * - .. json-expansion:: %%user.data
-     - Document
-     - The user's metadata. The exact contents will vary depending on
-       the :doc:`authentication provider </authentication/providers>`
-       identities associated with the user.
-
-       .. example::
-
-          .. code-block:: json
-
-             "data": {
-               "name": "Joe Mango",
-               "email": "joe.mango@example.com"
-             }
-
-   * - .. json-expansion:: %%user.identities
-     - Array of Documents
-
-     - A list of all :doc:`authentication provider
-       </authentication/providers>` identities associated with the user.
-       An identity consists of a unique identifier given to a user by an
-       authorization provider along with the provider's type:
-
-       .. example::
-
-          .. code-block:: json
-
-             "identities": [
-               {
-                 "id": "5bce299457c70db9bd73b8-aajddbkuvomsvcrjjfoxs",
-                 "providerType": "local-userpass"
-               }
-             ]
-
-.. example::
-
-   The following is a MongoDB role's Apply When expression
-   that evaluates to ``true`` only if a document's ``owner_id`` and
-   ``owner_name`` values match the values of ``%%user.id`` and
-   ``%%user.data.name``:
-
-   .. code-block:: javascript
-
+   .. code-block:: json
+      
       {
-        "owner_id": "%%user.id",
-        "owner_name": "%%user.data.name"
+        "tag": "<Environment Name>"
+        "values": {
+          "<ValueName>": <Value>
+        }
       }
 
-.. _mongodb-expansions:
+   .. example::
+      
+      The following is a rule expression that evaluates to ``true`` if the
+      current environment is ``"production"`` and the ``"baseUrl"``
+      environment value is defined:
+      
+      .. code-block:: json
+      
+         {
+           "%%environment.tag": "production",
+           "%%environment.values.baseUrl": { "%exists": true }
+         }
 
-MongoDB Documents
-~~~~~~~~~~~~~~~~~
+Request Expansions
+~~~~~~~~~~~~~~~~~~
 
-You can use the following expansions in :ref:`rule expressions <expressions>`
-and :ref:`schema <schemas>` validation expressions:
+.. json-expansion:: %%request
+   
+   | **Type:** ``object``
+   | **Usable In:** Any Expression
+   
+   Represents the incoming :ref:`request <context-request>`.
+   
+   .. code-block:: typescript
+      
+      {
+        "httpMethod": "<HTTP Method>",
+        "httpReferrer": "<HTTP Referer Header>",
+        "httpUserAgent": "<HTTP User Agent>",
+        "rawQueryString": "<URL Query String>",
+        "remoteIPAddress": "<IP Address>",
+        "requestHeaders": {
+          "<Header Name>": ["<Header Value>", ...]
+        },
+        "service": "<Service Name>",
+        "action": "<Endpoint Function or Service Action Name>",
+        "webhookUrl": "<HTTPS Endpoint Route>"
+      }
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 30
+User Expansions
+~~~~~~~~~~~~~~~
 
-   * - Name
-     - Type
-     - Description
+.. json-expansion:: %%user
+   
+   | **Type:** ``object``
+   | **Usable In:** Any Expression
 
-   * - .. json-expansion:: %%this
-     - any
-     - The value of a particular field as it exists at the end of a database operation.
+   Represents the user that initiated the request. The :ref:`user object
+   <user-objects>` contains account information, metadata from
+   authentication providers, and custom data from your app.
 
-   * - .. json-expansion:: %%prev
-     - any
+   .. code-block:: json
+      
+      {
+        "id": "<User Account ID>",
+        "type": "<normal | server>",
+        "data": {
+          "<Field Name>": <Value>,
+          ...
+        }
+        "custom_data": {
+          "<Field Name>": <Value>,
+          ...
+        }
+        "identities": [
+          {
+            "providerType": "<Auth Provider Name>",
+            "id": "<Provider User ID"
+          }
+      }
+   
+   .. json-expansion:: %%user.id
+      
+      | **Type:** ``string``
+      | **Usable In:** Any Expression
+          
+      The authenticated user's id.
+   
+   .. json-expansion:: %%user.type
+      
+      | **Type:** ``"normal" | "server"``
+      | **Usable In:** Any Expression
+          
+      The type of user that initiated the request. Evaluates to
+      ``"server"`` for :ref:`API key <api-key-authentication>` users and
+      ``"normal"`` for all other users.
+   
+   .. json-expansion:: %%user.custom_data
+      
+      | **Type:** ``object``
+      | **Usable In:** Any Expression
+          
+      The user's custom data. The exact contents vary depending on
+      your :ref:`custom user data <custom-user-data>` configuration.
 
-     - The value of a particular field before it is changed by a write operation.
+      .. example::
+         
+         .. code-block:: json
+            
+            "custom_data": {
+              "primaryLanguage": "English",
+            }
+   
+   .. json-expansion:: %%user.data
+      
+      | **Type:** ``object``
+      | **Usable In:** Any Expression
+          
+      The user's metadata. The exact contents will vary depending on
+      the :ref:`authentication provider <authentication-providers>`
+      identities associated with the user.
+   
+      .. example::
+  
+         .. code-block:: json
+  
+            "data": {
+              "name": "Joe Mango",
+              "email": "joe.mango@example.com"
+            }
+   
+   .. json-expansion:: %%user.identities
+      
+      | **Type:** ``object[]``
+      | **Usable In:** Any Expression
+      
+      A list of all :ref:`authentication provider
+      <authentication-providers>` identities associated with the user.
+      An identity consists of a unique identifier given to a user by an
+      authorization provider along with the provider's type:
+      
+      .. example::
+ 
+         .. code-block:: json
+ 
+            "identities": [
+              {
+                "id": "5bce299457c70db9bd73b8-aajddbkuvomsvcrjjfoxs",
+                "providerType": "local-userpass"
+              }
+            ]
 
-   * - .. json-expansion:: %%root
-     - Document
-     - The full document as it exists at the end of a database operation.
+.. _mongodb-document-expansions:
 
-   * - .. json-expansion:: %%prevRoot
-     - Document
-     - The full document before it is changed by a write operation.
+MongoDB Document Expansions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. json-expansion:: %%this
+   
+   | **Type:** ``any``
+   | **Usable In:** :ref:`MongoDB Data Sources <mongodb-service>`
+   
+
+   The value of a particular field as it exists at the end of a database operation.
+
+.. json-expansion:: %%prev
+   
+   | **Type:** ``any``
+   | **Usable In:** :ref:`MongoDB Data Sources <mongodb-service>`
+   
+   The value of a particular field before it is changed by a write operation.
+
+.. json-expansion:: %%root
+   
+   | **Type:** ``object``
+   | **Usable In:** :ref:`MongoDB Data Sources <mongodb-service>`
+   
+   The full document as it exists at the end of a database operation.
+
+.. json-expansion:: %%prevRoot
+   
+   | **Type:** ``object``
+   | **Usable In:** :ref:`MongoDB Data Sources <mongodb-service>`
+   
+   The full document before it is changed by a write operation.
 
 .. example::
 
@@ -364,113 +429,85 @@ and :ref:`schema <schemas>` validation expressions:
         ]
       }
 
-.. _service-expansions:
-
 Service Expansions
 ~~~~~~~~~~~~~~~~~~
 
-You can use the following expansions in :ref:`third-party service rules
-<service-rules>`:
+.. json-expansion:: %%args
+   
+   | **Type:** ``object``
+   | **Usable In:** :ref:`Third-Party Services [Deprecated] <third-party-services>`
+   
+   A document containing the values passed as arguments to a
+   :ref:`service action <service-actions>`. You can access each
+   argument by its parameter name.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 30
+   .. example::
+   
+      The following is a :ref:`Twilio service <twilio-service>` rule that
+      evaluates to ``true`` if the sender's phone number (the ``from``
+      argument) matches a specific value:
+   
+      .. code-block:: javascript
+   
+         {
+           "%%args.from": "+15558675309"
+         }
 
-   * - Name
-     - Type
-     - Description
 
-   * - .. json-expansion:: %%args
-     - Document
-     - A document containing the values passed as arguments to a
-       :ref:`service action <service-actions>`. You can access each
-       argument by its parameter name.
+.. json-expansion:: %%partition
+   
+   | **Type:** ``string | number | BSON.ObjectId``
+   | **Usable In:** :ref:`Partion-based Sync <sync-rules>`
+   
+   The partition key value of the current partition being evaluated.
 
-.. example::
+.. _operators:
 
-   The following is a :doc:`Twilio service </services/twilio>` rule that
-   evaluates to ``true`` if the sender's phone number (the ``from``
-   argument) matches a specific value:
+Operators
+---------
 
-   .. code-block:: javascript
+An expression operator represents an action or operation within an
+expression. Operators take in one or more arguments and evaluate to a
+result value. The type and value of the result depends on the operator
+you use and the arguments you pass to it.
 
-      {
-        "%%args.from": "+15558675309"
-      }
+Expression operators are denoted by strings that begin with either a
+single percent sign (``%``) or a dollar sign (``$``). You can use them
+in any expression.
 
-.. _sync-expansions:
+Convert EJSON Values
+~~~~~~~~~~~~~~~~~~~~
 
-Sync Expansions
-~~~~~~~~~~~~~~~
+The following operators allow you to convert values between BSON/EJSON
+and JSON representations:
 
-You can use the following expansions in :ref:`sync rules
-<sync-rules>`:
+.. json-operator:: %stringToOid
+   
+   Converts a 12-byte or 24-byte string to an EJSON ``objectId`` object.
+   
+   .. example::
+      
+      .. code-block:: json
+            
+         {
+           "_id": {
+             "%stringToOid": "%%user.id"
+           }
+         }
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 10 30
+.. json-operator:: %oidToString
 
-   * - Name
-     - Type
-     - Description
-
-   * - .. json-expansion:: %%partition
-     - any
-     - The partition key value of the current partition being evaluated.
-
-.. _expression-operators:
-
-Expression Operators
---------------------
-
-An expression operator represents an action or operation that Realm executes
-whenever it evaluates an expression. Operators take in one or more arguments and
-evaluate to a result value. The type and value of the result depends on the
-operator you use and the arguments you pass to it.
-
-Expression operators are denoted by strings that begin with a single percent
-sign (``%``).
-
-EJSON Conversion
-~~~~~~~~~~~~~~~~
-
-The following operators allow you to convert values between BSON/EJSON and JSON
-representations:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 40
-
-   * - Operator
-     - Description
-
-   * - .. json-operator:: %stringToOid
-
-     - Converts a 12-byte or 24-byte string to an EJSON ``objectId`` object.
-
-       .. example::
-
-          .. code-block:: json
-             
-             {
-               "_id": {
-                 "%stringToOid": "%%user.id"
-               }
-             }
-
-   * - .. json-operator:: %oidToString
-
-     - Converts an EJSON ``objectId`` object to a string.
-
-       .. example::
-
-          .. code-block:: json
-             
-             {
-               "string_id": {
-                 "%oidToString": "%%root._id"
-               }
-             }
+   Converts an EJSON ``objectId`` object to a string.
+   
+   .. example::
+   
+      .. code-block:: json
+         
+         {
+           "string_id": {
+             "%oidToString": "%%root._id"
+           }
+         }
 
 .. important:: No Inner Operations
    
@@ -478,180 +515,157 @@ representations:
    evaluate JSON operators. You must provide either a literal string/EJSON
    object or an expansion that evaluates to one.
 
-Application Components
-~~~~~~~~~~~~~~~~~~~~~~
+Call a Function
+~~~~~~~~~~~~~~~
 
-The following operators allow you access other components of your Realm
-application and are available in all expressions:
+The following operators allow you to call functions in your Realm
+application:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 40
-
-   * - Operator
-     - Description
-
-   * - .. json-operator:: %function
-     - Calls a :doc:`function </functions>` with the specified name and
-       arguments. Evaluates to the value that the function returns.
-
-       .. example::
-
-          .. code-block:: json
-
-             {
-               "%%true": {
-                 "%function": {
-                   "name": "isEven",
-                   "arguments": [42]
-                 }
-               }
+.. json-operator:: %function
+   
+   Calls a :ref:`function <functions>` with the specified name and
+   arguments. Evaluates to the value that the function returns.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         {
+           "%%true": {
+             "%function": {
+               "name": "isEven",
+               "arguments": [42]
              }
+           }
+         }
 
-Existence Operators
-~~~~~~~~~~~~~~~~~~~
+Check Existence
+~~~~~~~~~~~~~~~
 
-The following operators allow you to determine if a value exists in a given
-context and are available in all expressions:
+The following operators allow you to determine if a value exists in an
+object or array:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 10 40
+.. json-operator:: $exists
 
-   * - Operator
-     - Description
+   Checks if the field it is assigned to has any value. Evaluates to a
+   boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         {
+           "url": { "$exists": true }
+         }
 
-   * - .. json-operator:: %exists
+.. json-operator:: $in
 
-     - Checks if the field it is assigned to has any value. Evaluates to
-       a boolean representing the result.
+   Checks a specified array of values to see if the array contains the
+   value of the field that this operator is assigned to. Evaluates to a
+   boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         {
+           "url": {
+             "$in": [
+               "https://www.example.com",
+               "https://www.mongodb.com"
+             ]
+           }
+         }
 
-       .. example::
+.. json-operator:: $nin
 
-          .. code-block:: json
+   Checks a specified array of values to see if the array does not
+   contain the value of the field that this operator is assigned to.
+   Evaluates to a boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         {
+           "url": {
+             "$nin": [
+               "https://www.example.com",
+               "https://www.mongodb.com"
+             ]
+           }
+         }
 
-             {
-               "url": { "%exists": true }
-             }
+Compare Values
+~~~~~~~~~~~~~~
 
-   * - .. json-operator:: %in
+The following operators allow you to compare values, including
+:ref:`expanded <expansions>` values:
 
-     - Checks a specified array of values to see if the array contains
-       the value of the field that this operator is assigned to.
-       Evaluates to a boolean representing the result.
+.. json-operator:: $eq
 
-       .. example::
+   Checks if the field it is assigned to is equal to the specified
+   value. Evaluates to a boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "score": { "$eq": 42 } }
 
-          .. code-block:: json
+.. json-operator:: $ne
 
-             {
-               "url": {
-                 "%in": [
-                   "https://www.example.com",
-                   "https://www.mongodb.com"
-                 ]
-               }
-             }
+   Checks if the field it is assigned to is not equal to the specified
+   value. Evaluates to a boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "numPosts": { "$ne": 0 } }
 
-   * - .. json-operator:: %nin
+.. json-operator:: $gt
 
-     - Checks a specified array of values to see if the array does not
-       contain the value of the field that this operator is assigned to.
-       Evaluates to a boolean representing the result.
+   Checks if the field it is assigned to is strictly greater than
+   the specified value. Evaluates to a boolean representing the
+   result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "score": { "$gt": 0 } }
 
+.. json-operator:: $gte
 
-       .. example::
+   Checks if the field it is assigned to is greater than or equal to
+   the specified value. Evaluates to a boolean representing the
+   result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "score": { "$gte": 0 } }
 
-          .. code-block:: json
+.. json-operator:: $lt
 
-             {
-               "url": {
-                 "%nin": [
-                   "https://www.example.com",
-                   "https://www.mongodb.com"
-                 ]
-               }
-             }
+   Checks if the field it is assigned to is strictly less than the
+   specified value. Evaluates to a boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "score": { "$lt": 0 } }
 
-Comparison Operators
-~~~~~~~~~~~~~~~~~~~~
+.. json-operator:: $lte
 
-The following operators allow you to compare values, including :ref:`expanded
-<expansions>` values, and are available in all expressions:
-
-.. list-table::
-   :header-rows: 1
-   :widths: 10 40
-
-   * - Operator
-     - Description
-
-   * - .. json-operator:: %eq
-
-     - Checks if the field it is assigned to is equal to the specified
-       value. Evaluates to a boolean representing the result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "score": { "%eq": 42 } }
-
-   * - .. json-operator:: %ne
-
-     - Checks if the field it is assigned to is not equal to the
-       specified value. Evaluates to a boolean representing the result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "numPosts": { "%ne": 0 } }
-
-   * - .. json-operator:: %gt
-
-     - Checks if the field it is assigned to is strictly greater than
-       the specified value. Evaluates to a boolean representing the
-       result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "score": { "%gt": 0 } }
-
-   * - .. json-operator:: %gte
-
-     - Checks if the field it is assigned to is greater than or equal to
-       the specified value. Evaluates to a boolean representing the
-       result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "score": { "%gte": 0 } }
-
-   * - .. json-operator:: %lt
-
-     - Checks if the field it is assigned to is strictly less than
-       the specified value. Evaluates to a boolean representing the
-       result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "score": { "%lt": 0 } }
-
-   * - .. json-operator:: %lte
-
-     - Checks if the field it is assigned to is less than or equal to
-       the specified value. Evaluates to a boolean representing the
-       result.
-
-       .. example::
-
-          .. code-block:: json
-
-             { "score": { "%lte": 0 } }
+   Checks if the field it is assigned to is less than or equal to the
+   specified value. Evaluates to a boolean representing the result.
+   
+   .. example::
+      
+      .. code-block:: json
+         
+         { "score": { "$lte": 0 } }

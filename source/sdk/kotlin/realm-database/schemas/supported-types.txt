@@ -1,0 +1,46 @@
+.. _kotlin-supported-types:
+
+============================
+Supported Types - Kotlin SDK
+============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Realm Database supports the following field data types:
+
+- :file:`Boolean`
+- :file:`Integer`
+- :file:`Short`
+- :file:`Long`
+- :file:`Double`
+- :file:`Float`
+- :file:`String`
+- :file:`Char`
+- :file:`Date`
+- Any :file:`RealmObject` subclass
+- :file:`RealmList`
+
+The :file:`Byte`, :file:`Short`, :file:`Integer`, and :file:`Long` types
+are all stored as :file:`Long` values
+within Realm Database. Similarly, Realm Database stores objects
+of the :file:`Float` and :file:`float` types as type :file:`Double`.
+
+Realm Database does not support fields with modifiers :file:`final` and
+:file:`volatile`, though you can use fields with those modifiers if you
+:kotlin-sdk:`ignore <{+kotlin-local-prefix+}io.realm.annotations/-ignore/index.html>`
+them. If you choose to provide custom constructors, you must declare a
+public constructor with no arguments.
+
+Updating Strings and Byte Arrays
+--------------------------------
+
+Since {+client-database+} operates on fields as a whole, it's not possible
+to directly update individual elements of strings or byte arrays. Instead,
+you'll need to read the whole field, make your modification to individual
+elements, and then write the entire field back again in a transaction block.

@@ -19,13 +19,12 @@ Overview
 This page contains information on how to install and integrate {+service+} into
 your Unity project. 
 
-.. note:: Known Issues When Developing With Unity
+.. note:: Known Issue When Developing With Unity on Windows
 
-   The following is a list of known issues when integrating {+service-short+} with Unity:
-
-   - The {+service-short+} .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip. Set your `build settings: Architecture <https://docs.unity3d.com/Manual/BuildSettingsStandalone.html>`_ to "Intel64" in order to allow building for MacOS.
-
-   - On Windows, your project may crash when running multiple instances of your project since multiple processes are attempting to access the same {+realm+}. To avoid these crashes, explicitly specify different names for each respective {+realm+}. 
+   On Windows, if you are using {+sync+}, your project may crash when running
+   multiple instances of your project since multiple processes are attempting to
+   access the same synced {+realm+}. If you are using a local {+realm+}, you are
+   able to run multiple instances of your project without crashes. 
 
 Prerequisites
 -------------
@@ -125,4 +124,3 @@ of the :doc:`{+service-short+} .NET SDK </sdk/dotnet>` with Unity!
 - `MongoDB Youtube Channel: Getting Started with the Realm SDK for Unity <https://www.youtube.com/watch?v=df2qo8G2ZfU>`_
 - `MongoDB Youtube Channel: Build an Infinite Runner Game with Unity and the Realm Unity SDK <https://www.youtube.com/watch?v=8S0NuFwFazY>`_
 - `dodoTV42 Youtube Channel: How to SAVE and LOAD data in Unity3D with Realm SDK <https://www.youtube.com/watch?v=8jo_S02HLkI>`_
-- `Chris Paliqaw's Blog Post: Migrating from Unity PlayerPrefs to MongoDB Realm <https://medium.com/@chris_paliqaw/migrating-from-unity-playerprefs-to-mongodb-realm-part-1-4eb4dc24bae8>`_

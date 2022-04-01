@@ -17,7 +17,7 @@ namespace Examples
 
         App app;
         User user;
-        SyncConfiguration config;
+        PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -25,7 +25,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new SyncConfiguration("foo", user);
+            config = new PartitionSyncConfiguration("foo", user);
             //:hide-start:
             config.Schema = new[]
             {
@@ -104,6 +104,7 @@ namespace Examples
             var null_or_empty = tasks.Where(t => string.IsNullOrEmpty(t.Assignee));
 
             // :code-block-end:
+
             Assert.AreEqual(1, tasksStartWitE.Count());
             Assert.AreEqual(1, tasksContains.Count());
             Assert.AreEqual(0, null_or_empty.Count());
@@ -127,9 +128,14 @@ namespace Examples
                 "Tasks.@sum.ProgressMinutes > 100");
             // :code-block-end:
 
+            // :code-block-start: rql
+            var elvisProjects = projects.Filter("Tasks.Assignee == 'Elvis'");
+            // :code-block-end:
+
             Assert.AreEqual(1, avgPriority.Count());
             Assert.AreEqual(0, highPriProjects.Count()); // 0 because the project has one lower than 5
             Assert.AreEqual(1, longRunningProjects.Count());
+            Assert.AreEqual(1, elvisProjects.Count());
             return;
         }
 

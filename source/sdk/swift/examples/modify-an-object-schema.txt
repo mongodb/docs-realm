@@ -33,6 +33,15 @@ in a ``migrationBlock``. This might include changes such as:
 - Changing a field's type
 - Converting from an object to an embedded object
 
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete 
+   the realm instead of migrating it. Use the 
+   :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
+   flag to delete the database automatically when a schema mismatch would
+   require a migration. 
+
+   Never release an app to production with this flag set to ``true``.
 
 Automatically Update Schema
 ---------------------------

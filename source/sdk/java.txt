@@ -1,0 +1,307 @@
+.. _java-intro:
+
+======================
+MongoDB Realm Java SDK
+======================
+
+.. toctree::
+   :titlesonly:
+   
+   Install </sdk/java/install>
+   Quick Start </sdk/java/quick-start-local>
+   Quick Start with Sync </sdk/java/quick-start-sync>
+   Quick Start with LiveData </sdk/java/livedata>
+   Fundamentals </sdk/java/fundamentals>
+   Data Types </sdk/java/data-types>
+   Usage Examples </sdk/java/examples>
+   Advanced Guides </sdk/java/advanced-guides>
+   Troubleshooting </sdk/java/troubleshooting>
+   API Reference </sdk/java/api>
+   Kotlin Extensions API Reference <https://www.mongodb.com/docs/realm-sdks/java/latest/kotlin-extensions/>
+   Upgrade from Stitch to Realm </sdk/java/migrate>
+   Release Notes <https://github.com/realm/realm-java/blob/releases/CHANGELOG.md>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+service+} Java SDK allows you to use {+client-database+} and
+backend {+app+}s using Java or Kotlin.
+
+.. include:: /includes/java-sdk-supported-platforms.rst
+
+Local Realm Database
+--------------------
+
+With the {+service+} Java SDK, you can access objects stored in a local
+instance of {+client-database+}. With {+client-database+}, you can:
+
+Define an Object Schema
+~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Define your object schema <java-define-a-realm-object-schema>`
+with annotated Kotlin or Java classes:
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/Frog.codeblock.frog-definition-local.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/FrogJava.codeblock.frog-definition-local.java
+         :language: java
+
+Query Realm Database
+~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Query <java-client-query-engine>` for stored objects using
+Android-native queries:
+
+.. tabs-realm-languages::
+     
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.query.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.query.java
+         :language: java
+
+Update Live Objects
+~~~~~~~~~~~~~~~~~~~
+
+:ref:`Update <java-modify-an-object>` objects in {+client-database+} by
+updating field values on an instance of the object within a transaction:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.update.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.update.java
+         :language: java
+
+Watch for Object Updates
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Receive object updates and notifications automatically
+<java-react-to-changes>` when objects stored in {+client-database+}
+change:
+
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.notifications.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.notifications.java
+         :language: java
+
+Always Access the Latest Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Live objects <java-live-object>` keep all instances
+of an object up to date at all times:
+
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.live-objects.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/local/LandingPageTest.codeblock.live-objects.java
+         :language: java
+
+.. seealso::
+
+   To get started with {+client-database+}, try our
+   :ref:`Local-only Quick Start <java-client-quick-start-local>`.
+
+Realm Apps
+----------
+
+{+app+}s are backends for client applications hosted by MongoDB in the cloud.
+They provide the ability to synchronize data stored in
+{+client-database+}, called **{+sync+}**, as well as a layer of backend
+functionality collectively called **App Services**.
+The {+service+} Java SDK optionally contains the ability to access
+these {+app+}s running in the cloud. In addition to local
+{+client-database+} in the SDK, {+app+}s provide the
+following functionality:
+
+Realm Sync
+~~~~~~~~~~
+
+Automatically sync data between {+realm+}s on client devices and your backend
+MongoDB Atlas data store with :ref:`{+sync+} <java-sync-changes-between-devices>`:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
+
+      .. literalinclude:: /examples/generated/java/sync/LandingPageTest.codeblock.update.kt
+         :language: kotlin
+
+   .. tab::
+      :tabid: java
+
+      .. literalinclude:: /examples/generated/java/sync/LandingPageTest.codeblock.update.java
+         :language: java
+
+App Services
+~~~~~~~~~~~~
+
+- Use {+service-short+}'s built-in user management to enable
+  :ref:`user account creation <java-register-a-new-user-account>`
+  and user :ref:`authentication <java-authenticate-users>` across
+  devices.
+
+- Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
+  in your backend {+app+} using a
+  :ref:`{+atlas+} database <mongodb-service>`.
+
+- Execute logic in your backend {+app+} from a client application using
+  :ref:`Functions <java-call-a-function>`.
+
+- React to events in your backend {+app+} using
+  :ref:`Triggers <triggers>`.
+
+.. seealso::
+
+   To get started with {+service+}, try the our
+   :ref:`Quick Start with Sync <java-client-quick-start-sync>`.
+
+Get Started
+-----------
+
+To start using the {+service+} Java SDK
+in your Android application, see :ref:`the installation guide
+<java-install>` to add the SDK dependency. Then check
+out the :ref:`Quick Start <java-client-quick-start-local>`.
+
+To learn more about the concepts that underlie {+client-database+},
+such as the :ref:`Asynchronous API <java-async-api>`, the 
+:ref:`Query Engine <java-client-query-engine>`, and more,
+check out the Fundamentals.
+
+For practical code samples of common tasks in {+client-database+} and
+{+app+}s, take a look at the Examples.
+
+.. list-table::
+   :header-rows: 1
+   :class: index-table
+
+   * - Get Started
+     - Fundamentals
+     - Examples
+     - Realm Apps Examples
+
+   * - :doc:`Install Realm for Android </sdk/java/install>`
+
+       :doc:`Quick Start </sdk/java/quick-start-local>`
+
+       :doc:`Quick Start with Sync </sdk/java/quick-start-sync>`
+
+       :doc:`Quick Start with LiveData </sdk/java/livedata>`
+
+       :doc:`Upgrade from Stitch to Realm </sdk/java/migrate>`
+
+     - :doc:`Asynchronous API </sdk/java/fundamentals/async-api>`
+
+       :doc:`Realms </sdk/java/fundamentals/realms>`
+
+       :doc:`Live Queries </sdk/java/fundamentals/live-queries>`
+
+       :doc:`Query Engine </sdk/java/fundamentals/query-engine>`
+
+       :doc:`Write Transactions </sdk/java/fundamentals/write-transactions>`
+
+       :doc:`Relationships </sdk/java/fundamentals/relationships>`
+
+       :doc:`Object Models & Schemas </sdk/java/fundamentals/object-models-and-schemas>`
+
+       :doc:`Schema Versions & Migrations </sdk/java/fundamentals/schema-versions-and-migrations>`
+
+       :doc:`Application Services </sdk/java/fundamentals/application-services>`
+
+     - :doc:`Define a Realm Object Schema </sdk/java/examples/define-a-realm-object-model>`
+
+       :doc:`Open & Close a Local Realm </sdk/java/examples/open-and-close-a-realm>`
+
+       :doc:`Read & Write Data </sdk/java/examples/read-and-write-data>`
+
+       :doc:`Filter Data </sdk/java/examples/filter-data>`
+
+       :doc:`React to Changes </sdk/java/examples/react-to-changes>`
+
+       :doc:`Display Collections </sdk/java/examples/adapters>`
+
+       :doc:`Modify an Object Schema </sdk/java/examples/modify-an-object-schema>`
+
+       :doc:`Log Realm Events </sdk/java/examples/log-realm-events>`
+
+     - :doc:`Connect to a MongoDB Realm Backend App </sdk/java/examples/connect-to-mongodb-realm-backend-app>`
+
+       :doc:`Authenticate Users </sdk/java/examples/authenticate-users>`
+
+       :doc:`Sync Changes Between Devices </sdk/java/examples/sync-changes-between-devices>`
+
+       :doc:`Reset a Client Realm </sdk/java/examples/reset-a-client-realm>`
+
+       :doc:`Call a Function </sdk/java/examples/call-a-function>`
+
+       :doc:`Manage Email/Password Users </sdk/java/examples/email-password-users>`
+
+       :doc:`Create & Manage User API Keys </sdk/java/examples/manage-user-api-keys>`
+
+       :doc:`Query MongoDB </sdk/java/examples/mongodb-remote-access>`
+
+Advanced Guides
+---------------
+
+.. list-table::
+   :header-rows: 1
+   :class: index-table
+
+   * - Realm Database
+     - Realm Apps
+
+   * - :doc:`Encryption </sdk/java/advanced-guides/encryption>`
+
+       :doc:`Threading </sdk/java/advanced-guides/threading>`
+
+       :doc:`Testing </sdk/java/advanced-guides/testing>`
+
+     - :doc:`Link User Identities </sdk/java/advanced-guides/link-user-identities>`
+
+       :doc:`Multi-User Applications </sdk/java/advanced-guides/multi-user-applications>`
+
+       :doc:`Custom User Data </sdk/java/advanced-guides/custom-user-data>`

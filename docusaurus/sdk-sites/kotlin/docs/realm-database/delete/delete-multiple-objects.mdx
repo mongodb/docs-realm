@@ -1,0 +1,26 @@
+---
+title: Delete Multiple Objects
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import DeleteMultiple from "!!raw-loader!@site/docs/generated/kotlin/CRUDTest.codeblock.delete-an-object.kt";
+
+To delete an object from a realm:
+
+1. Open a write transaction with [`realm.write()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write.html)
+   or [`realm.writeBlocking()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm/write-blocking.html).
+
+1. Query the transaction's mutable realm with [`realm.query()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm.query/-realm-query/query.html).
+   Specify the object type as a type parameter passed to `query()`.
+   Filter the set of returned objects by specifying a query.
+
+1. Delete the set of [`RealmResults`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-results/index.html)
+   returned by the query with [`realmResults.delete()`](https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-multiplatform%20-s-d-k/io.realm/-realm-results/delete.html).
+
+<CodeBlock language="kotlin">{DeleteMultiple}</CodeBlock>
+
+:::note
+
+You can only delete objects in a realm within a
+[write transaction](/sdk/kotlin/realm-database/write-transactions).
+:::

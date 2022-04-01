@@ -38,10 +38,8 @@ user's API keys.
 
 .. include:: /includes/note-store-user-api-key-value.rst
 
-.. code-block:: javascript
-   
-   const user = app.currentUser;
-   const key = await user.apiKeys.create("apiKeyName");
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.create-api-key.js
+   :language: javascript
 
 .. _web-api-key-look-up-user-key:
 
@@ -52,13 +50,8 @@ To get an array that lists all of a user's API keys, call
 ``ApiKeyAuth.fetchAll()``. You can also find a specific API key by calling
 ``ApiKeyAuth.fetch()`` with the key's ``_id``.
 
-.. code-block:: javascript
-   
-   const user = app.currentUser;
-   // List all of a user's keys
-   const keys = await user.apiKeys.fetchAll();
-   // Get a specific key by its ID
-   const key = await user.apiKeys.fetch("5eb5931548d79bc784adf46e");
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.look-up-api-key.js
+   :language: javascript
 
 .. _web-api-key-enable-disable:
 
@@ -69,17 +62,8 @@ You can enable or disable a user API key by calling ``ApiKeyAuth.enable()`` or
 ``ApiKeyAuth.disable()`` with the key's ``_id``. When a key is disabled, it
 cannot be used to log in on behalf of the user.
 
-.. code-block:: javascript
-   
-   // Get the ID of a User API Key
-   const user = app.currentUser;
-   const apiKeys = await user.apiKeys.fetchAll();
-   const keyId = apiKeys[0]["_id"];
-   
-   // Enable the User API Key
-   await user.apiKey.enable(keyId);
-   // Disable the User API Key
-   await user.apiKey.disable(keyId);
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.enable-disable-api-key.js
+   :language: javascript
 
 .. _web-api-key-delete:
 
@@ -90,12 +74,5 @@ You can permanently delete a user API key by calling ``ApiKeyAuth.delete()``
 with the key's ``_id``. Deleted keys can no longer be used to log in on behalf
 of the user.
 
-.. code-block:: javascript
-   
-   // Get the ID of a User API Key
-   const user = app.currentUser;
-   const apiKeys = await user.apiKeys.fetchAll();
-   const keyId = apiKeys[0]["_id"];
-   
-   // Delete the User API Key
-   await user.apiKey.delete(keyId);
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.delete-api-key.js
+   :language: javascript

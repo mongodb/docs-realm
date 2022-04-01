@@ -12,30 +12,15 @@ Query Engine - .NET SDK
    :depth: 2
    :class: singlecol
 
-To filter data in your {+realm+}, you can leverage
-{+client-database+}'s query engine. {+client-database+}'s
-query engine implements standard `LINQ
-<https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__
-syntax. See the exact scope of LINQ implemented on the `LINQ
-Support page
-<https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
+To filter data in your {+realm+}, use the {+client-database+} query engine. 
 
+There are two ways to use the query engine with the .NET SDK:
 
-Operators
----------
+- :ref:`LINQ Syntax <dotnet-linq-syntax>`
+- :ref:`Realm Query Language <dotnet-realm-query-language>`
 
-There are several types of operators available to filter a
-:ref:`Realm collection <dotnet-client-collections>`.
-Filters work by evaluating an operator expression for
-every :term:`object <Realm object>` in the collection being
-filtered. If the expression resolves to ``true``, {+realm+}
-includes the object in the results collection.
-
-An expression consists of one of the following:
-
-- The name of a property of the object currently being evaluated
-- An operator
-- A value of any type used by {+realm+} (string, date, number, boolean, etc.)
+You should use LINQ syntax for
+querying when possible, as it aligns with .NET conventions.  
 
 .. note:: About the examples on this page
 
@@ -52,6 +37,30 @@ An expression consists of one of the following:
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.classes.cs
       :language: csharp
+
+.. _dotnet-linq-syntax:
+
+LINQ Syntax
+-----------
+
+{+client-database+}'s query engine implements standard `LINQ
+<https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__
+syntax.
+See the scope of LINQ implemented on the `LINQ
+Support page <https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
+
+There are several operators available to filter a
+:ref:`Realm collection <dotnet-client-collections>` with LINQ.
+Filters work by evaluating an operator expression for
+every :term:`object <Realm object>` in the collection being
+filtered. If the expression resolves to ``true``, {+realm+}
+includes the object in the results collection.
+
+An expression consists of one of the following:
+
+- The name of a property of the object currently being evaluated
+- An operator
+- A value of any type used by {+realm+} (string, date, number, boolean, etc.)
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
@@ -214,6 +223,27 @@ table. Regex-like wildcards allow more flexibility in search.
    ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
    parameter is a boolean value (where "true" means "case sensitive").
 
+.. _dotnet-realm-query-language:
+
+Realm Query Language
+--------------------
+
+You can also use :dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>`
+to query {+realm+}s using :ref:`Realm Query Language <realm-query-language>`.
+Realm Query Language is a string-based query language to access the query engine.
+
+.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.rql.cs
+    :language: csharp
+
+You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
+unless your requirements extend beyond LINQ's current capabilities.
+Realm Query Language is able to perform operations that LINQ syntax is not,
+such as :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
+
+.. include:: /includes/tip-realm-query-language-reference-examples.rst
+
+.. _dotnet-realm-query-language-aggregation:
+
 Aggregate Operators
 ~~~~~~~~~~~~~~~~~~~
 
@@ -260,4 +290,3 @@ You can apply any of the following aggregate operators:
 
    .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.codeblock.aggregate.cs
       :language: csharp
-
