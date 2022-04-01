@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 // :code-block-start: wrap-app-within-realm-provider
 function AppWrapper() {
   if (!app.currentUser) {
-    return null;
+    return (<LoginUserScreen />);
   }
   return (
     <RealmProvider>
@@ -149,7 +149,7 @@ const app = new Realm.App({id: "-id"});
 // }
 function AppWrapper2() {
   if (!app.currentUser) {
-    return null;
+    return (<LoginUserScreen />);
   }
   const syncConfig = {
     user: app.currentUser,
@@ -164,6 +164,8 @@ function AppWrapper2() {
 }
 // :replace-end:
 // :code-block-end:
+
+const LoginUserScreen = () => (<Text>Mock Login Screen</Text>)
 
 const LoadingSpinner = () => (<Text>Mock Loading Spinner</Text>)
 

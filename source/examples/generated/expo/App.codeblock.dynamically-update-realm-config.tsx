@@ -1,6 +1,6 @@
 function AppWrapper() {
   if (!app.currentUser) {
-    return null;
+    return (<LoginUserScreen />);
   }
   const syncConfig = {
     user: app.currentUser,
