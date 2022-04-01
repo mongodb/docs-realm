@@ -1,0 +1,82 @@
+.. _react-native-test-and-debug:
+
+===============================
+Test & Debug - React Native SDK
+===============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+.. _react-native-test:
+
+Testing
+-------
+
+You can use popular React Native testing libraries with Realm, such as `Jest <https://jestjs.io/>`__,
+`Jasmine <https://jasmine.github.io/>`__, and `Mocha <https://mochajs.org/>`__.
+
+.. seealso:: 
+
+   `Official React Native Testing Documentation <https://reactnative.dev/docs/testing-overview>`__
+
+Clean Up Tests
+~~~~~~~~~~~~~~
+
+When testing the Realm React Native SDK, you must with 
+:js-sdk:`Realm.close() <react-native-close-a-realm>` after you're done with it to prevent memory leaks. 
+
+You may also want to delete the realm file  with :js-sdk:`Realm.deleteFile() <>`
+during clean up to keep your tests idempotent.
+
+.. literalinclude:: /examples/generated/node/test-and-debug.codeblock.clean-up-test.js
+  :language: javascript
+  :emphasize-lines: 8, 10
+
+.. _react-native-debug:
+
+Debugging
+---------
+
+Realm provides differing levels of support for various React Native debuggers. 
+
+.. seealso::
+
+   `Official React Native Debugging Documentation <https://reactnative.dev/docs/debugging>`__
+
+Safari Developer Tools
+~~~~~~~~~~~~~~~~~~~~~~
+
+If you're a MacOS user, you can use Safari Developer Tools to debug the iOS version
+of your React Native app with Realm. 
+
+To set up Safari Developer Tools with your React Native app, refer to 
+`the official documentation <https://reactnative.dev/docs/debugging#safari-developer-tools>`__. 
+
+Flipper
+~~~~~~~
+
+`Flipper <https://fbflipper.com/>`__ is a platform for debugging React Native apps.
+You can currently only only use Flipper with the `Realm React Native SDK Hermes release
+<https://github.com/realm/realm-js/issues/3940>`__. 
+`Hermes <https://hermesengine.dev/>`__ is a JavaScript engine optimized for React Native.
+
+
+Chrome Developer Tools
+~~~~~~~~~~~~~~~~~~~~~~
+
+While Realm works with the `Chrome Developer Tools on React Native
+<https://reactnative.dev/docs/debugging#chrome-developer-tools>`__,
+the debugger's performance degrades significantly
+after integrating Realm into their React Native projects. 
+This is due to the blocking nature of the RPC calls made by Realm. 
+
+If you are able, you should use the Safari Developer Tools or Flipper 
+instead of the Chrome Developer Tools. 
+
+
+
+
