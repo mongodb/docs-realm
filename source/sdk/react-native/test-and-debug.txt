@@ -28,9 +28,9 @@ Clean Up Tests
 ~~~~~~~~~~~~~~
 
 When testing the Realm React Native SDK, you must close realms with 
-:js-sdk:`Realm.close() <react-native-close-a-realm>` after you're done with it to prevent memory leaks. 
+:js-sdk:`Realm.close() <Realm.html#close>` after you're done with it to prevent memory leaks. 
 
-You may also want to delete the realm file  with :js-sdk:`Realm.deleteFile() <>`
+You should also delete the realm file  with :js-sdk:`Realm.deleteFile() <Realm.html#.deleteFile>`
 during clean up to keep your tests idempotent.
 
 .. literalinclude:: /examples/generated/node/test-and-debug.codeblock.clean-up-test.js
