@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 // :code-block-start: wrap-app-within-realm-provider
 function AppWrapper() {
   if (!app.currentUser) {
-    return null;
+    return (<LoginUserScreen />);
   }
   return (
     <RealmProvider>
