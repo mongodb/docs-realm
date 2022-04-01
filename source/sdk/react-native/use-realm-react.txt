@@ -118,11 +118,11 @@ of your application, with the ``RealmProvider`` component included in the
 
 Usage
 ~~~~~
-Import the ``Context`` object that you created. In the example below, the
-``Context`` object is called ``TaskContext`` since it refers to the {+service-short+} ``Context`` of
-the Task. You can :mdn:`Destructure
+Import the ``Task`` model and the ``Context`` object that you created. In the
+example below, the ``Context`` object, called ``TaskContext``, refers to the
+``Context`` of the Task. :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
-the ``TaskContext`` object to get its ``RealmProvider``. 
+the ``TaskContext`` object to get its hooks.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
     :language: typescript
@@ -134,6 +134,16 @@ the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
     :language: typescript
+
+.. tip:: Authenticating Users
+
+   You may want to ensure that the user logs in before redirecting them to the 
+   ``App`` component. Check the user authentication status, and return the
+   ``RealmProvider`` wrapped ``App`` component if the user has logged in. If a user
+   hasn't logged in, you can render a login screen component that you create. To
+   learn more about authentication with {+service+} read the :ref:`Authenticate
+   Users <react-native-authenticate-users>` documentation.
+
 
 Dynamically Update the {+service-short+} Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
