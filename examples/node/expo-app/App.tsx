@@ -19,7 +19,7 @@ const { RealmProvider } = TaskContext;
 
 // :code-block-start: get-access-to-the-hooks
 // :uncomment-start:
-// import TaskContext from "./app/models/Task";
+// import TaskContext, { Task } from "./app/models/Task";
 
 // :uncomment-end:
 const { useRealm, useQuery, useObject } = TaskContext;
