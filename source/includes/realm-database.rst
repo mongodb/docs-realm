@@ -215,7 +215,7 @@ simulated in-library form of memory mapping instead.
 
    Realm forbids opening the same encrypted realm from multiple processes.
    Attempting to do so will throw the error:
-   "{+encrypted-interprocess-error-message+}"
+   "{+encrypted-interprocess-sharing-error-message+}"
 
 Indexes
 ~~~~~~~
