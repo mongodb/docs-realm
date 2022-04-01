@@ -15,4 +15,145 @@ Quick Start with Expo - React Native SDK
 Overview
 --------
 
-TO DO: Add more content to this page 
+The :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
+provides a fully working React Native application that you can use to bootstrap
+your app development project with Realm. This documentation covers how to
+initialize and work with the Realm Expo template.
+
+The Realm Expo template uses:
+
+-  `Expo <https://docs.expo.dev/>`_, a framework to develop, build and deploy React Native applications quickly.
+- :npm:`Realm React <package/@realm/react>`, an NPM package that provides an easy-to-use API to perform common Realm operations, such as querying or writing to a {+realm+} and listening to realm objects. Read the :ref:`Realm React documentation <react-native-use-realm-react>` to learn more about working with it.
+
+
+Prerequisites
+-------------
+- `Node.js version 12 LTS or greater <https://nodejs.org/en/about/releases/>`_
+
+Setup
+-----
+
+Next, before you initialize the template, you must install the `expo cli
+<https://docs.expo.dev/workflow/expo-cli/>`_ by running the following command:
+
+.. code-block:: shell
+
+   npm install -g expo-cli
+
+
+Initialize the Template
+-----------------------
+To initialize a React Native application using the Realm Expo template use the Expo CLI.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      Use ``expo init``  with the flag ``--template @realm/expo-template-js`` to initialize a
+      React Native application using the Realm Expo template with JavaScript. 
+
+      Run the following command in your terminal: 
+
+      .. code-block:: shell
+      
+         expo init MyAwesomeRealmAppJS --template @realm/expo-template-js
+
+   .. tab::
+      :tabid: typescript
+
+      Use ``expo init``  with the flag ``--template @realm/expo-template-ts`` to initialize a
+      React Native application using the Realm Expo template with TypeScript. 
+
+      Run the following command in your terminal: 
+
+      .. code-block:: shell
+
+         expo init MyAwesomeRealmApp --template @realm/expo-template-ts
+
+Explore The File Structure
+--------------------------
+
+The relevant files are as follows:
+
+.. cssclass:: config-table
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - File
+     - Purpose
+
+   * - Task.ts
+     - A typescript file that defines a Task :ref:`object schema
+       <react-native-object-schemas>` and returns a ``RealmProvider`` and the hooks.
+      
+   * - App.ts
+     - The entry point to the application, which contains methods to create,
+       update, and delete tasks. The ``RealmProvider`` component wraps around
+       the ``App`` component, providing your entire application with access to
+       the {+realm+}.
+
+   * - TaskList.tsx
+     - A React component that gets a list of Task objects from the {+realm+} and renders each object as a ``TaskItem``  component.
+
+   * - TaskItem.tsx
+     - A React component that displays the task's description, a checkbox to
+       toggle the task's completion status, and a button to delete the task.
+
+.. seealso::
+
+   Once you have explored your file structure, we recommend reading the
+   :ref:`Realm React <react-native-use-realm-react>` documentation to learn how
+   to work with Realm React.
+
+Build and Run the Application
+-----------------------------
+
+To run your application on an :android:`Android emulator <studio/run/emulator>`,
+run the following command from your application root:
+
+.. code-block:: shell
+   
+   expo run:android
+
+To run your application on an :apple:`iOS simulator
+<documentation/xcode/running-your-app-in-the-simulator-or-on-a-device>`, run the
+following command from your application root:
+
+.. code-block:: shell
+   
+   expo run:ios
+
+When the application builds, you will see something similar to the following image:
+
+.. image:: /images/realm-expo-template.png
+   :width: 300px
+   :alt: Realm Expo Template on an iOS Simulator
+
+When you run the commands above, the Expo `dev-client
+<https://docs.expo.dev/development/getting-started/>`_ will start automatically.
+If you close your Expo ``dev-client`` and want to restart it without waiting for
+the native build process again, you can simply run: 
+
+.. code-block:: shell
+   
+   expo start --dev-client
+
+However, if you made any `changes to the native code
+<https://docs.expo.dev/workflow/customizing/>`_, you will have to re-run ``expo
+run:ios`` or ``expo run:android`` to rebuild your native iOS/Android app.
+
+Deploying Your Application
+--------------------------
+To deploy your application, we recommend using the `Expo Application Services (EAS)
+<https://docs.expo.dev/eas/>`_, a suite of deeply integrated cloud services for
+Expo and React Native apps. EAS allows you to compile and :wikipedia:`sign
+<Code_signing>` your {+app+}, upload your app to the Apple App Store or Google
+Play Store with a single CLI command, and push bug fixes or small changes
+directly to app users. 
+
+Alternatively, read the `Expo Distribution Overview
+<https://docs.expo.dev/distribution/introduction/>`_ guide to learn how to
+create native builds, deploy to app stores, avoid common app store rejections, and
+manage different release environments.

@@ -1,0 +1,235 @@
+.. _react-native-use-realm-react:
+
+===============
+Use Realm React
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+:npm:`Realm React <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
+common {+service-short+} operations, such as querying or writing to a {+realm+}
+and listening to {+realm+} objects.
+
+Realm React helps you avoid creating boilerplate code, such as creating
+your own listeners and state management. Realm React provides access to
+{+service+} through a set of hooks, which return {+realm+} data that
+automatically react to changes. This means that components using these hooks
+will re-render on any changes to data in the {+realm+}.
+
+
+.. _react-native-setup-realm-hooks:
+
+Setup Realm React
+-----------------
+To set up Realm React, you can either start from scratch with a new application
+using the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`
+or install Realm React for an existing `React Native application
+<https://reactnative.dev/docs/environment-setup#creating-a-new-application>`_.
+
+.. tabs::
+
+   tabs:
+     - id: create-a-new-app-with-realm-hooks-preconfigured
+       name: Create a New App with Realm React
+       content: |
+         If you don't have an existing application, we recommend developing it with
+         the :github:`Realm Expo template <expo/examples/tree/master/with-realm>`.
+         The Realm Expo template allows you to bootstrap your application with
+         `Expo <https://docs.expo.dev/>`_ and Realm React preconfigured.
+
+         To initialize the Realm Expo template, read the :ref:`Quick Start
+         with Expo <react-native-client-quick-start-expo>` documentation.
+
+     - id: use-npm-to-add-realm-hooks-to-an-old-app
+       name: Add Realm React to an Existing App
+       content: |
+         To install Realm React on an existing React Native application, run the
+         following command in your terminal from the root of your application
+         where your ``package.json`` file is located:
+
+         .. code-block:: shell
+
+            npm install @realm/react
+
+.. _react-native-realm-context:
+
+Create a Realm Context
+----------------------
+
+The ``createRealmContext()`` method creates a :reactjs:`React Context
+<docs/context.html>` object for a {+realm+} with a given :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>`. The ``Context`` object contains the
+following: 
+
+- A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component and provides any of its child components with access to the hooks.
+- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened {+realm+}, query the {+realm+}, etc.
+
+Setup
+~~~~~
+
+We recommend creating a file where you will define a {+service-short+} object type, a {+service-short+}
+configuration, and create a {+service-short+} ``Context``. At the top of the file, import
+{+service-short+} and the ``createRealmContext()`` method.
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.add-imports-to-task.ts
+    :language: typescript
+
+Next, define a {+frontend-schema+} using a JavaScript class. The ``Task``
+class below contains the following:
+
+- A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
+- A ``schema`` property that defines this {+frontend-schema+}. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` documentation to learn more.
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
+    :language: typescript
+
+Finally, create a ``Realm.Configuration`` object and set its ``schema`` property
+to the classes you have created. Pass the configuration object to the
+``createRealmContext()`` method. Export the return value of
+``createRealmContext()``, so you can use the ``Context`` object in other files.
+
+.. literalinclude:: /examples/generated/expo/Task.codeblock.create-realm-context.ts
+    :language: typescript
+
+.. _react-native-realm-provider:
+
+Using the Realm Provider
+------------------------
+
+Wrap the component needing access to {+service-short+}, typically the top layer
+of your application, with the ``RealmProvider`` component included in the
+``Context`` object, which was returned from ``createRealmContext``.  The
+``RealmProvider`` provides child components access to the configured
+{+service-short+} through the hooks included in the ``Context`` object.
+
+.. tip:: Choosing Which Components to Wrap inside the Realm Provider
+   
+   For simple use-cases, you may want to wrap your entire application in the
+   ``RealmProvider`` component, such as the example below. For additional security,
+   you may only want to give access to the opened {+realm+} to specific screens, or
+   after the user has logged in.
+
+Usage
+~~~~~
+Import the ``Context`` object that you created. In the example below, the
+``Context`` object is called ``TaskContext`` since it refers to the {+service-short+} ``Context`` of
+the Task. You can :mdn:`Destructure
+<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
+the ``TaskContext`` object to get its ``RealmProvider``. 
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
+    :language: typescript
+
+Wrap the ``RealmProvider`` around the component that you want
+to give access to the configured {+realm+}. In the example below, we give the entire
+app access to the {+realm+} by wrapping the ``RealmProvider`` around
+the ``App`` component, which renders the application.
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
+    :language: typescript
+
+Dynamically Update the {+service-short+} Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can dynamically update the {+service-short+} configuration by setting
+:reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
+component. The props you set on the ``RealmProvider`` will overwrite any
+property passed into ``createRealmContext()``.
+
+In the following example, we update the RealmProvider with a :js-sdk:`sync
+configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
+property that is used to render a temporary ``LoadingSpinner`` component while
+waiting for {+sync+} to open:
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.dynamically-update-realm-config.tsx
+    :language: typescript
+
+Use Hooks In Child Components
+-----------------------------
+
+Once you have wrapped your component with your ``RealmProvider``, your component
+and its child components will have access to the ``useRealm()``,
+``useObject()``, and ``useQuery()`` hooks.
+
+Usage
+~~~~~
+Import the ``Context`` object that you created. In the example below, the
+``Context`` object, called ``TaskContext``, refers to the ``Context`` of
+the Task. :mdn:`Destructure
+<Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
+the ``TaskContext`` object to get its hooks. 
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
+    :language: typescript
+
+useRealm
+````````
+The ``useRealm()`` hook returns the opened {+realm+} instance.
+
+The ``handleAddTask()`` method of the ``App`` component writes to the {+realm+}
+returned by the ``useRealm()`` hook in the following example.
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.example-userealm-hook-usage.tsx
+    :language: typescript
+
+The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method instantiates
+a JavaScript object with default values for the ``_id``, ``isComplete``, and
+``createdAt`` properties.
+
+.. seealso::
+  
+   Read the :ref:`write to a {+realm+} <react-native-write-operations>` documentation to learn more about modifying {+service-short+} data. 
+
+
+useObject
+`````````
+The ``useObject()`` hook returns a {+service-short+} object for a given
+:ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
+model definition (this will add types to the returned object in TypeScript) or
+the class name as a string and the primary key. The ``useObject()`` method
+returns null if the object doesn't exist or you have deleted it.  The hook will
+automatically subscribe to updates and re-render the component using the hook on
+any change to the object.
+
+In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
+and its description is logged to the console.
+
+.. literalinclude:: /examples/generated/expo/App.codeblock.example-useobject-hook-usage.tsx
+    :language: typescript
+
+useQuery
+````````
+The ``useQuery()`` hook returns a collection of {+realm+} objects of a given type.
+Like ``useObject``, it is either invoked with the {+frontend-schema+} class or the model
+name as a string.  The ``useQuery()`` method subscribes to updates to any
+objects in the collection and re-renders the component using it on any change.
+
+
+In the following example, of a ``TaskList`` component, The ``Task``
+class is passed to the ``useQuery()`` and the tasks are set as a ``data`` prop
+of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
+
+.. literalinclude:: /examples/generated/expo/TaskList.codeblock.tasklist-use-query-example.tsx
+    :language: typescript
+    :emphasize-lines: 2, 6
+
+.. tip::
+
+   To learn how to render a :ref:`filtered <react-native-filter-results>` or
+   :ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`Read
+   & Write Data <react-native-read-and-write-data>` docs.
+
+Summary
+-------
+- You can set up Realm React on an existing application by installing it through NPM, or on a new application through the Realm Expo template.
+- A {+service-short+} ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
+- A ``RealmProvider`` provides access to the configured {+realm+} using hooks to display and modify data.
+- The pre-built hooks provide functionality like interacting with a {+realm+} and finding {+realm+} object(s).
