@@ -24,8 +24,7 @@ unique ID value but no other metadata fields or configuration options.
 .. warning::
 
    An Anonymous user object is not intended to persist data. Once a user logs 
-   out, either by explicit logout or because the refresh token expires, the 
-   user cannot retrieve any previous user data.
+   out, the user cannot retrieve any previous user data.
 
 Potential use cases for anonymous authentication include:
 
@@ -44,9 +43,12 @@ Account Linking
 
 When someone authenticates anonymously, the provider generates an anonymous 
 user object. If the app does not explicitly log this anonymous user out, 
-the same anonymous user is reused. The anonymous user persists until 
-explicit logout, or until the refresh token expires, which is currently 
-60 days. When the refresh token expires, login fails.
+the same anonymous user is reused. The anonymous user persists until either
+of these things occur:
+
+- Explicit logout.
+- User deletion. Realm deletes anonymous user objects that have been inactive 
+  for 90 days.
 
 To persist data associated with an Anonymous user, you can associate
 that existing Anonymous identity with a user account created by a
