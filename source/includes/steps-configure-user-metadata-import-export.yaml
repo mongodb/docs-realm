@@ -19,13 +19,13 @@ content: |
 title: Configure User Metadata
 ref: configure-user-metadata
 content: |
-  The authentication provider :ref:`metadata_fields <config-auth-providers>` 
-  for your app live in ``/auth/providers.json``. Update this object to request
-  user metadata from the authentication provider.
+  You can find authentication provider :ref:`metadata_fields 
+  <config-auth-providers>` for your app in ``/auth/providers.json``. 
+  Update this array to request user metadata from the authentication provider.
 
   **Google or Facebook**
 
-  This object resembles:
+  This array resembles:
 
   .. code-block:: javascript
      :caption: /auth/providers.json
@@ -45,9 +45,9 @@ content: |
 
   **Custom JWT authentication** 
   
-  The metadata_fields object has an additional property. This property, 
-  ``name``, represents the path to the field. The ``field_name`` represents 
-  the name of the field.
+  The metadata_fields arary has an additional property, ``field_name``. 
+  In custom JWT authentication, ``name`` represents the path to the field. 
+  The ``field_name`` represents the name of the field.
 
   .. code-block:: javascript
      :caption: /auth/providers.json

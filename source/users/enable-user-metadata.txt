@@ -17,12 +17,12 @@ Overview
 
 {+service+} can read user metadata from authentication providers. Then, 
 {+service-short+} exposes each user's data in a field of their :ref:`user 
-object <user-objects>`. For example, you might want to access a user's name 
-or email, their birthday, or their gender.
+object <user-objects>`. For example, you might want to access a user's name, 
+email, birthday, or gender.
 
 You can configure {+service+} to request metadata with the access token 
 when users log in. You can access that data from the logged-in user's 
-object with your preferred client SDK.
+object with a client SDK.
 
 Configuration
 -------------
@@ -52,19 +52,9 @@ the user's account. These metadata fields vary depending on provider.
        - ``first_name``
        - ``last_name``
        - ``picture``
-       - ``gender``
-       - ``birthday``\*
-       - ``min_age``\*
-       - ``max_age``\*
        - ``email``
 
      - - Custom
-
-Google
-~~~~~~
-
-You must enable the Google+ API in Google's app settings to enable metadata 
-fields denoted by ``*``.
 
 Custom JWT
 ~~~~~~~~~~
