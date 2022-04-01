@@ -117,18 +117,9 @@ using your own logic to apply local changes.
 
    You can specify a before and after block to execute during the client 
    reset process. You might use this to perform recovery logic that is 
-   important to your application. For example, in the ``before`` block, 
-   you might want to copy the realm file to a location to perform some 
-   operations after reset:
+   important to your application.
 
-   .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.before-client-reset-block.swift
-      :language: swift
-
-   And then you might want to apply the local changes to your new realm file
-   after the client reset is complete, or do any setup you would do when
-   first downloading a realm file from the server.
-
-   .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.after-client-reset-block.swift
+   .. literalinclude:: /examples/generated/code/start/ClientReset.codeblock.client-reset-discard-changes-with-blocks.swift
       :language: swift
 
 .. _ios-manual-client-reset-handler:
