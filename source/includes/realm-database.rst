@@ -211,6 +211,12 @@ Encryption
 memory mapping does not support encryption, encrypted {+realm+}s use a
 simulated in-library form of memory mapping instead.
 
+.. note::
+
+   Realm forbids opening the same encrypted realm from multiple processes.
+   Attempting to do so will throw the error:
+   "{+encrypted-interprocess-error-message+}"
+
 Indexes
 ~~~~~~~
 
