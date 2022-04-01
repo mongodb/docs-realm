@@ -15,22 +15,21 @@ Enable User Metadata
 Overview
 --------
 
-You can read metadata about your application users from authentication 
-providers, and configure {+service+} to automatically expose each user's data
-in a field of their :ref:`user object <user-objects>`. For example, you
-might want to access a user's name or email, their birthday, or their gender.
+{+service+} can read user metadata from authentication providers. Then, 
+{+service-short+} exposes each user's data in a field of their :ref:`user 
+object <user-objects>`. For example, you might want to access a user's name, 
+email, birthday, or gender.
 
-You can configure {+service+} to request user metadata from the authentication 
-provider and include it in their access token when they log in. You can 
-access the data from the logged-in user's object with your preferred client 
-SDK.
+You can configure {+service+} to request metadata with the access token 
+when users log in. You can access that data from the logged-in user's 
+object with a client SDK.
 
 Configuration
 -------------
 
-When you configure authentication providers for your application, you can 
-specify optional metadata fields that you want to access through your 
-user's account. These metadata fields vary depending on provider.
+You can define the metadata to request when you configure authentication 
+providers. Specify optional metadata fields that you want to access through 
+the user's account. These metadata fields vary depending on provider.
 
 .. list-table::
    :header-rows: 1
@@ -53,23 +52,16 @@ user's account. These metadata fields vary depending on provider.
        - ``first_name``
        - ``last_name``
        - ``picture``
-       - ``gender``
-       - ``birthday``\*
-       - ``min_age``\*
-       - ``max_age``\*
        - ``email``
 
      - - Custom
 
-:ref:`Google <google-authentication>` requires you to enable the Google+ 
-API in your Google app settings to enable metadata fields listed above 
-with ``*``.
+Custom JWT
+~~~~~~~~~~
 
-When you configure a :ref:`custom JWT <custom-jwt-authentication>` 
-authentication provider for your {+app+}, you can specify the metadata 
-fields that your identity provider supports. When you press the 
-:guilabel:`Add Field` button, you get to define the path, the field name, 
-and whether or not the field is required.
+:ref:`JWT authentication <custom-jwt-authentication>` metadata is completely 
+customizable. You specify JWT authentication metadata to request when you 
+configure it.
 
 .. _enable-user-metadata-procedure:
 
