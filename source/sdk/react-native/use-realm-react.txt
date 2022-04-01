@@ -219,7 +219,7 @@ useQuery
 The ``useQuery()`` hook returns a collection of {+realm+} objects of a given type.
 Like ``useObject``, it is either invoked with the {+frontend-schema+} class or the model
 name as a string.  The ``useQuery()`` method subscribes to updates to any
-objects in the collection and re-renders the component using it on any change.
+objects in the collection and re-renders the component using it on any change to the query results.
 
 
 In the following example, of a ``TaskList`` component, The ``Task``
@@ -238,7 +238,7 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 
 Summary
 -------
-- You can set up Realm React on an existing application by installing it through NPM, or on a new application through the Realm Expo template.
-- A {+service-short+} ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
+- You can set up Realm React on an existing application by installing it through npm, or on a new application through the Realm Expo template.
+- A Realm ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
 - A ``RealmProvider`` provides access to the configured {+realm+} using hooks to display and modify data.
-- The pre-built hooks provide functionality like interacting with a {+realm+} and finding {+realm+} object(s).
+- The pre-built hooks provide functionality including interacting with a {+realm+} and finding {+realm+} object(s).
