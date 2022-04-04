@@ -122,6 +122,7 @@ A **primary key** is a property that uniquely identifies an object. You can
 create a primary key with any of the following types (or their nullable counterparts):
 
 - ``ObjectId``
+- ``UUID``
 - ``string``
 - ``char``
 - ``byte``
@@ -129,8 +130,7 @@ create a primary key with any of the following types (or their nullable counterp
 - ``int``
 - ``long``
 
-You may define a primary key on a **single 
-property** for an 
+You may define a primary key on a **single property** for an 
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
 {+client-database+} automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
@@ -179,6 +179,7 @@ You can index properties with the following types:
 - ``char``
 - ``string``
 - ``ObjectId``
+- ``UUID``
 
 .. seealso::
 
