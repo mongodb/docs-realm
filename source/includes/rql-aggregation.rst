@@ -17,11 +17,7 @@ single value.
        If any values are ``null``, they are not counted in the result.
 
    * - | ``@count``
-     - Evaluates to the number of objects in the given collection. This
-       is currently only supported on to-many relationship
-       collections and not on lists of primitives. In order to use ``@count`` 
-       on a list of primitives, consider wrapping the primitives in a 
-       {+service-short+} object.
+     - Evaluates to the number of objects in the given collection.
 
    * - | ``@max``
      - Evaluates to the highest value of a given numerical property across a collection.
