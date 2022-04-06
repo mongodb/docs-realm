@@ -186,3 +186,11 @@ To migrate to the converted HTTPS endpoint URLs:
       :caption: Converted HTTPS Endpoint URL
       
       https://data.mongodb-api.com/app/myapp-abcde/endpoint/myHttpService/handleIncomingEvent
+
+Differing Behavior between Webhooks and Their Converted Endpoints
+-----------------------------------------------------------------
+
+If you’ve configured your HTTPS endpoint to use :ref:`Respond with Result <configure-endpoints>`,
+and your webhook function returns a result but does not invoke ``response.setBody()``,
+the generated endpoint will return the function value.
+The webhook, in contrast, only returns values specified by ``response.setBody()``.
