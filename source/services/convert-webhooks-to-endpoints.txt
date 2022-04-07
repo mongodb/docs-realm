@@ -190,9 +190,25 @@ To migrate to the converted HTTPS endpoint URLs:
 .. _differences-webhooks-converted-endpoints: 
 
 Differences between Webhooks and Their Converted Endpoints
------------------------------------------------------------------
+----------------------------------------------------------
 
 If you configured your converted HTTPS endpoint to use :ref:`Respond with Result <configure-endpoints>`
 and the webhook function it's based on returns a value but does not invoke ``response.setBody()``,
 the generated endpoint includes the function's return value as its response body.
 The webhook, in contrast, only returns a body specified by ``response.setBody()``.
+
+.. example:: 
+
+   .. code-block:: javascript
+
+      exports = function({ query, headers, body}, response){
+         response.setStatusCode(200);
+         return "Hello world";
+      };
+   
+   The webhook for this function only responds with status code ``200`` without a body.
+
+   For the endpoint, if you enable **Respond with Result**, the endpoint responds 
+   with status code ``200`` *and* the body ``"Hello world"``. 
+   If you don't enable **Respond with Result**, the endpoint only responds 
+   with status code ``200``. 
