@@ -43,10 +43,8 @@ The Java SDK does not yet support the Gradle Plugin syntax. Fortunately,
 you can still add the SDK to projects that use this syntax.
 :::
 
-- Add a `buildscript` block
-- Within the `buildscript` block, add a `repositories` block.
+- Add a `buildscript` block that contains a `repositories` block and a `dependencies` block.
 - Add the `mavenCentral()` repository to the `buildscript.repositories` block.
-- Within the `buildscript` block, add a `dependencies` block.
 - Add the `io.realm:realm-gradle-plugin` dependency to the `buildscript.dependencies` block.
 
 <pre><code parentName="pre" {...{
@@ -192,7 +190,6 @@ dependencies {
 
 - Apply the `kotlin-kapt` plugin if your application uses Kotlin
 - Apply the `realm-android` plugin
-- Enable view binding in Android's build features
 
 
 <pre><code parentName="pre" {...{
@@ -214,13 +211,6 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
     }
-
-    // highlight-start
-    buildFeatures {
-        viewBinding = true
-    }
-    // highlight-end
-
     compileOptions {
         sourceCompatibility 1.11
         targetCompatibility 1.11
