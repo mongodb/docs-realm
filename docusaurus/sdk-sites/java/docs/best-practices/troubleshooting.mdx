@@ -1,6 +1,7 @@
 ---
 title: Troubleshooting
 ---
+import {variables} from '@site/variables';
 
 This page contains solutions for common errors in the Java SDK.
 
@@ -185,3 +186,102 @@ crashlytics {
 :::note
 The values `androidNdkOut` and `androidNdkLibsOut` are not needed.
 :::
+
+## Installation Size
+
+Once your app is built for release and split for distribution, the SDK
+should only add about 800KB to your APK in most cases. The releases are
+significantly larger because they include support for more architectures,
+such as ARM7, ARMv7, ARM64, x86, and MIPS. The APK file contains all
+supported architectures, but the Android installer only installs native
+code for the device’s architecture. This means that the installed app
+is smaller than the size of the APK file.
+
+You can reduce the size of the Android APK itself by splitting the APK
+into a version for each architecture. Use the Android Build Tool ABI
+Split support by adding the following to your `build.gradle`:
+
+```groovy
+android {
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+}
+```
+
+Select the architectures that you’d like to include to build a separate
+APK for each.
+
+:::note See Also
+
+Check out the [Android Tools documentation on ABI Splits](https://developer.android.com/studio/build/configure-apk-splits.html)
+or [our example on GitHub](https://github.com/realm/realm-java/tree/master/examples/gridViewExample)
+for more information about releasing multiple APKs.
+:::
+
+If you don’t want to handle multiple APKs, you can restrict the number
+of architectures supported in a single APK. This is done by adding
+`abiFilters` to your `build.gradle`:
+
+```groovy
+android {
+    defaultConfig {
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'mips', 'x86', 'x86_64'
+        }
+    }
+}
+```
+
+:::note See Also
+For more details about ABI splits and filters, see
+[Controlling APK Size When Using Native Libraries](https://android.jlelse.eu/controlling-apk-size-when-using-native-libraries-45c6c0e5b70a).
+:::
+
+## Customize Dependecies Defined by the Realm Gradle Plugin
+
+The SDK uses a Gradle plugin to make it easier to set
+up a large number of dependencies. Unfortunately this also makes it a
+bit harder to ignore specific transitive dependencies.
+
+If you want to customize the SDK installation beyond what is exposed by the
+plugin, you can manually set up all the dependencies and ignore the
+Gradle plugin. The following example demonstrates how to set up the SDK
+for an Android application using Kotlin manually:
+
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
+buildscript {
+    ext.kotlin_version = '${variables.kotlin_version}'
+    ext.realm_version = '${variables.java_sdk_version}'
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.realm:realm-transformer:${variables.java_sdk_version}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${variables.kotlin_version}"
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+import io.realm.transformer.RealmTransformer
+android.registerTransform(new RealmTransformer(project))
+
+dependencies {
+    api "io.realm:realm-annotations:${variables.java_sdk_version}"
+    api "io.realm:realm-android-library:${variables.java_sdk_version}"
+    api "io.realm:realm-android-kotlin-extensions:${variables.java_sdk_version}"
+    kapt "io.realm:realm-annotations-processor:${variables.java_sdk_version}"
+}
+`}
+</code></pre>

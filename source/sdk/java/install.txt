@@ -9,8 +9,6 @@ Install Realm - Java SDK
 Overview
 --------
 
-.. include:: /includes/java-sdk-supported-platforms.rst
-
 This page details how to install {+service-short+} in your project
 and get started.
 
@@ -18,7 +16,7 @@ Prerequisites
 -------------
 
 - :android:`Android Studio <studio/index.html>` version 1.5.1 or higher.
-- Java Development Kit (JDK) 9 or higher.
+- Java Development Kit (JDK) 11 or higher.
 - An emulated or hardware Android device for testing.
 - Android API Level 16 or higher (Android 4.1 and above).
 
@@ -28,108 +26,218 @@ Installation
 {+service+} only supports the Gradle build system. Follow these steps
 to add the {+service+} Java SDK to your project.
 
-.. note:: A note on ProGuard
+.. note:: ProGuard
 
    Because {+service+} provides a ProGuard configuration as part
    of the {+service+} library, you do not need to add any
    {+service+}-specific rules to your ProGuard configuration.
 
-.. include:: /includes/steps/install-java.rst
+Project Gradle Configuration
+----------------------------
 
-Installation Size
+To add local-only Realm Database to your application, make
+the following changes to your project-level Gradle build
+file, typically found at :file:`<project>/build.gradle`:
+
+.. tabs::
+
+   .. tab:: Gradle Plugin Syntax
+      :tabid: gradle-plugin
+
+      .. tip::
+       
+         The Java SDK does not yet support the Gradle Plugin syntax. Fortunately,
+         you can still add the SDK to projects that use this syntax.
+   
+      - Add a ``buildscript`` block
+      - Within the ``buildscript`` block, add a ``repositories`` block.
+      - Add the ``mavenCentral()`` repository to the ``buildscript.repositories`` block.
+      - Within the ``buildscript`` block, add a ``dependencies`` block.
+      - Add the ``io.realm:realm-gradle-plugin`` dependency to the ``buildscript.dependencies`` block.
+   
+      .. code-block:: groovy
+         :emphasize-lines: 1-8
+   
+         buildscript {
+             repositories {
+                 mavenCentral()
+             }
+             dependencies {
+                 classpath "io.realm:realm-gradle-plugin:{+java-sdk-version+}"
+             }
+         }
+   
+         plugins {
+             id 'com.android.application' version '7.1.2' apply false
+             id 'com.android.library' version '7.1.2' apply false
+             id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+             id "org.jetbrains.kotlin.kapt" version "1.6.20" apply false
+         }
+   
+         task clean(type: Delete) {
+             delete rootProject.buildDir
+         }
+   
+   
+   .. tab:: Gradle Legacy Syntax
+      :tabid: gradle-legacy
+
+      - Add the ``io.realm:realm-gradle-plugin`` dependency to the ``buildscript.dependencies`` block.
+      - Add the ``mavenCentral()`` repository to the ``allprojects.repositories`` block.
+
+      .. code-block:: groovy
+         :emphasize-lines: 7, 14
+
+         buildscript {
+             repositories {
+                 google()
+             }
+             dependencies {
+                 classpath "com.android.tools.build:gradle:3.5.1"
+                 classpath "io.realm:realm-gradle-plugin:{+java-sdk-version+}"
+             }
+         }
+         
+         allprojects {
+             repositories {
+                 google()
+                 mavenCentral()
+             }
+             dependencies {
+             }
+         }
+         
+         task clean(type: Delete) {
+             delete rootProject.buildDir
+         }
+
+Application Module Gradle Configuration
+---------------------------------------
+
+Then, make the following changes to your application-level
+Gradle build file, typically found at :file:`<project>/app/build.gradle`:
+
+.. tabs::
+
+   .. tab:: Gradle Plugin Syntax
+      :tabid: gradle-plugin
+
+      - Apply the ``kotlin-kapt`` plugin if your application uses Kotlin
+      - Beneath the ``plugins`` block, apply the ``realm-android`` plugin.
+
+
+      .. code-block:: groovy
+         :emphasize-lines: 4, 7
+
+         plugins {
+             id 'com.android.application'
+             id 'org.jetbrains.kotlin.android'
+             id 'org.jetbrains.kotlin.kapt'
+         }
+         
+         apply plugin: "realm-android"
+         
+         android {
+             compileSdk 31
+         
+             defaultConfig {
+                 applicationId "com.mongodb.example-realm-application"
+                 minSdk 28
+                 targetSdk 31
+                 versionCode 1
+                 versionName "1.0"
+         
+                 testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+             }
+         
+             buildTypes {
+                 release {
+                     minifyEnabled false
+                     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                 }
+             }
+             compileOptions {
+                 sourceCompatibility JavaVersion.VERSION_11
+                 targetCompatibility JavaVersion.VERSION_11
+             }
+             kotlinOptions {
+                 jvmTarget = '11'
+             }
+         }
+         
+         dependencies {
+             implementation 'io.realm:realm-gradle-plugin:10.10.1'
+             implementation 'androidx.core:core-ktx:1.7.0'
+             implementation 'androidx.appcompat:appcompat:1.4.1'
+             implementation 'com.google.android.material:material:1.5.0'
+             implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+             testImplementation 'junit:junit:4.13.2'
+             androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+             androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+         }
+
+
+   .. tab:: Gradle Legacy Syntax
+      :tabid: gradle-legacy
+
+      - Apply the `kotlin-kapt` plugin if your application uses Kotlin
+      - Apply the `realm-android` plugin
+      - Enable view binding in Android's build features
+
+      .. code-block:: groovy
+         :emphasize-lines: 3-4, 15-17
+      
+         apply plugin: 'com.android.application'
+         apply plugin: 'kotlin-android'
+         apply plugin: 'kotlin-kapt'
+         apply plugin: 'realm-android'
+      
+         android {
+             compileSdkVersion 29
+             buildToolsVersion "29.0.2"
+             defaultConfig {
+                 applicationId "com.mongodb.example-realm-application"
+                 minSdkVersion 21
+                 targetSdkVersion 29
+             }
+      
+             buildFeatures {
+                 viewBinding = true
+             }
+      
+             compileOptions {
+                 sourceCompatibility 1.11
+                 targetCompatibility 1.11
+             }
+             kotlinOptions {
+                 jvmTarget = '11'
+             }
+         }
+      
+         dependencies {
+             implementation fileTree(dir: 'libs', include: ['*.jar'])
+             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+             implementation "androidx.appcompat:appcompat:1.1.0"
+             implementation "androidx.core:core-ktx:1.2.0"
+         }
+
+After updating the ``build.gradle`` files, resolve the dependencies by
+clicking :guilabel:`File > Sync Project with Gradle Files`.
+
+Enable Realm Sync
 -----------------
 
-Once your app is built for release and split for distribution, the SDK
-should only add about 800KB to your APK in most cases. The releases are
-significantly larger because they include support for more architectures,
-such as ARM7, ARMv7, ARM64, x86, and MIPS. The APK file contains all
-supported architectures, but the Android installer only installs native
-code for the device’s architecture. This means that the installed app
-is smaller than the size of the APK file.
+To use Realm Sync in your application, create a ``realm`` block in your
+application module ``build.gradle``. Within this block, set ``syncEnabled``
+to ``true``.
 
-You can reduce the size of the Android APK itself by splitting the APK
-into a version for each architecture. Use the Android Build Tool ABI
-Split support by adding the following to your :file:`build.gradle`:
+.. code-block:: groovy
 
-.. code-block:: gradle
-
-   android {
-       splits {
-           abi {
-               enable true
-               reset()
-               include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-           }
-       }
+   realm {
+       syncEnabled = true
    }
 
-Select the architectures that you’d like to include to build a separate
-APK for each.
+Supported Platforms
+-------------------
 
-.. seealso::
-
-   See the :android:`Android Tools documentation about ABI Splits
-   <studio/build/configure-apk-splits.html>`
-   for more information, or the :github:`example on GitHub
-   <realm/realm-java/tree/master/examples/gridViewExample>`.
-
-If you don’t want to handle multiple APKs, you can restrict the number
-of architectures supported in a single APK. This is done by adding
-``abiFilters`` to your :file:`build.gradle`:
-
-.. code-block:: gradle
-
-   android {
-       defaultConfig {
-           ndk {
-               abiFilters 'armeabi-v7a', 'arm64-v8a', 'mips', 'x86', 'x86_64'
-           }
-       }
-   }
-
-.. seealso::
-
-   For more details about ABI splits and filters, see
-   `Controlling APK Size When Using Native Libraries
-   <https://android.jlelse.eu/controlling-apk-size-when-using-native-libraries-45c6c0e5b70a>`__.
-
-Customize Dependecies Defined by the Realm Gradle Plugin
---------------------------------------------------------
-
-{+service-short+} uses a Gradle plugin because it makes it easier to set
-up a large number of dependencies. Unfortunately this also makes it a
-bit harder to ignore specific transitive dependencies.
-
-If you want to customize {+service-short+} beyond what is exposed by the
-plugin, you can manually set up all the dependencies and ignore the
-Gradle plugin. The following example demonstrates how to set up the SDK
-for an Android application using Kotlin manually:
-
-.. code-block:: gradle
-
-   buildscript {
-       ext.kotlin_version = '1.5.21'
-       ext.realm_version = '{+java-sdk-version+}'
-       repositories {
-           jcenter()
-           mavenCentral()
-       }
-       dependencies {
-           classpath "io.realm:realm-transformer:$realm_version"
-           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-       }
-   }
-
-   apply plugin: 'com.android.application'
-   apply plugin: 'kotlin-android'
-   apply plugin: 'kotlin-kapt'
-
-   import io.realm.transformer.RealmTransformer
-   android.registerTransform(new RealmTransformer(project))
-
-   dependencies {
-     api "io.realm:realm-annotations:$realm_version"
-     api "io.realm:realm-android-library:$realm_version"
-     api "io.realm:realm-android-kotlin-extensions:$realm_version"
-     kapt "io.realm:realm-annotations-processor:$realm_version"
-   }
+.. include:: /includes/java-sdk-supported-platforms.rst
