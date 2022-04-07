@@ -49,10 +49,8 @@ file, typically found at :file:`<project>/build.gradle`:
          The Java SDK does not yet support the Gradle Plugin syntax. Fortunately,
          you can still add the SDK to projects that use this syntax.
    
-      - Add a ``buildscript`` block
-      - Within the ``buildscript`` block, add a ``repositories`` block.
+      - Add a ``buildscript`` block that contains a ``repositories`` block and a ``dependencies`` block.
       - Add the ``mavenCentral()`` repository to the ``buildscript.repositories`` block.
-      - Within the ``buildscript`` block, add a ``dependencies`` block.
       - Add the ``io.realm:realm-gradle-plugin`` dependency to the ``buildscript.dependencies`` block.
    
       .. code-block:: groovy
@@ -86,7 +84,7 @@ file, typically found at :file:`<project>/build.gradle`:
       - Add the ``mavenCentral()`` repository to the ``allprojects.repositories`` block.
 
       .. code-block:: groovy
-         :emphasize-lines: 7, 14
+         :emphasize-lines: 7, 13
 
          buildscript {
              repositories {
@@ -125,7 +123,6 @@ Gradle build file, typically found at :file:`<project>/app/build.gradle`:
       - Apply the ``kotlin-kapt`` plugin if your application uses Kotlin
       - Beneath the ``plugins`` block, apply the ``realm-android`` plugin.
 
-
       .. code-block:: groovy
          :emphasize-lines: 4, 7
 
@@ -139,17 +136,14 @@ Gradle build file, typically found at :file:`<project>/app/build.gradle`:
          
          android {
              compileSdk 31
-         
              defaultConfig {
                  applicationId "com.mongodb.example-realm-application"
                  minSdk 28
                  targetSdk 31
                  versionCode 1
                  versionName "1.0"
-         
                  testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
              }
-         
              buildTypes {
                  release {
                      minifyEnabled false
@@ -182,10 +176,9 @@ Gradle build file, typically found at :file:`<project>/app/build.gradle`:
 
       - Apply the ``kotlin-kapt`` plugin if your application uses Kotlin
       - Apply the ``realm-android`` plugin
-      - Enable view binding in Android's build features
 
       .. code-block:: groovy
-         :emphasize-lines: 3-4, 15-17
+         :emphasize-lines: 3-4
       
          apply plugin: 'com.android.application'
          apply plugin: 'kotlin-android'
@@ -193,18 +186,13 @@ Gradle build file, typically found at :file:`<project>/app/build.gradle`:
          apply plugin: 'realm-android'
       
          android {
-             compileSdkVersion 29
+             compileSdkVersion 31
              buildToolsVersion "29.0.2"
              defaultConfig {
                  applicationId "com.mongodb.example-realm-application"
-                 minSdkVersion 21
-                 targetSdkVersion 29
+                 minSdkVersion 28
+                 targetSdkVersion 31
              }
-      
-             buildFeatures {
-                 viewBinding = true
-             }
-      
              compileOptions {
                  sourceCompatibility 1.11
                  targetCompatibility 1.11
