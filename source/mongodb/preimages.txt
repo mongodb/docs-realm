@@ -1,8 +1,8 @@
-.. _trigger-preimages:
+.. _preimages:
 
-=========================================
-View & Disable Collection-level Preimages
-=========================================
+==================
+Document Preimages
+==================
 
 .. default-domain:: mongodb
 
@@ -15,33 +15,40 @@ View & Disable Collection-level Preimages
 Overview
 --------
 
-You can configure :ref:`database triggers <database-trigger>` to include a
-**document preimage** in their change events. A preimage is a snapshot of a
-modified document from just *before* the modification was applied.
+You can configure :ref:`database triggers <database-trigger>` to include
+a **document preimage** in their change events. A preimage is a snapshot
+of a modified document immediately *before* the modification was
+applied.
 
 To support document preimages, Realm includes additional information in the
 linked cluster's :manual:`oplog </core/replica-set-oplog>`. This adds a small
 amount of storage overhead to each operation on the collection and may cause
-performance issues for collections with a high write throughput. Once you have
-enabled preimages for a collection, any trigger on the collection may enable
-document preimages with no additional overhead.
+performance issues for collections with a high write throughput.
 
-.. tip::
+Enable Document Preimages
+-------------------------
 
-   For information on how to enable document preimages for a specific trigger,
-   see :ref:`Create a Database Trigger <create-a-database-trigger>`.
+Your app automatically enables document preimages for a collection when
+you define a trigger on that collection that uses preimages. Once you
+have enabled preimages for a collection, any trigger on the collection
+may enable document preimages with no additional overhead.
+
+For information on how to enable document preimages for a specific
+trigger, see :ref:`Create a Database Trigger
+<create-a-database-trigger>`.
 
 View Preimage-Enabled Collections
 ---------------------------------
 
-To see a list of collections that are configured to store document preimages in
-their oplog, navigate to the :guilabel:`Linked Data Source` configuration screen
-and find the :guilabel:`Preimage Preferences by Collection` table.
+To see a list of collections that are configured to store document
+preimages in their oplog, navigate to the :guilabel:`Linked Data Source`
+configuration screen and find the :guilabel:`Preimage Preferences by
+Collection` table.
 
-The table lists every collection that stores preimages in the oplog. This
-includes all collections in the linked cluster, even if no triggers currently
-use the preimages for a collection or if the triggers are in a different Realm
-app.
+The table lists every collection that stores preimages in the oplog.
+This includes all collections in the linked cluster, even if no triggers
+currently use the preimages for a collection or if the triggers are in a
+different Realm app.
 
 Disable Preimages for a Collection
 ----------------------------------
