@@ -55,46 +55,72 @@ might resemble the following code:
 Unsynced Documents
 ------------------
 
-If the collection in which you create and modify objects is also
-accessed by :ref:`{+sync+} clients <sync>`, you must ensure that the
-data conforms to the {+service-short+} :ref:`object schema
-<object-schema>` defined on the collection. Consider the following
-scenario:
+If a document in a :ref:`synced <sync>` collection does not conform to
+the collection's schema, it cannot be synced to client apps. If there
+are 100,000 or more unsyncable documents, {+service-short+} pauses sync
+for the app.
 
-- You have a collection of objects that is used by {+sync+} clients. The 
-  **object schema** for the collection looks like this:
+{+service-short+} stores a information about unsyncable documents in the
+``__realm_sync.unsynced_documents`` collection.
 
-  .. code-block:: js
-     :copyable: false
+.. important::
 
-     type Person = {
-       _id: BSON.ObjectId;
-       name: string;
-       address: string;
-       age: number;
+   You can read from the ``__realm_sync.unsynced_documents`` collection,
+   but you should not modify it in any way.
+
+A common cause for unsyncable documents is data added or modified
+outside of the context of your app.
+
+Consider the following scenario:
+
+1. An app has a ``pets`` collection with the following schema:
+
+  .. code-block:: json
+
+     {
+       "title": "Pet",
+       "required": ["_id", "type", "name", "age"],
+       "properties": {
+         "_id": { "bsonType: "objectId" },
+         "type": { "bsonType: "string" },
+         "name": { "bsonType: "string" },
+         "age": { "bsonType: "int" }
+       }
      };
+
+#. Someone adds a document directly to the ``pets`` collection using a
+   MongoDB driver, MongoDB compass, or a {+service-short+} system
+   function. The document's ``age`` field contains a string, not a
+   number, which does not match your app's schema. MongoDB does not
+   natively enforce your app's schema, so it allows the insert without a
+   warning or error.
+
+   .. code-block:: json
+      :emphasize-lines: 5
+      
+      {
+        "_id": "5ae782e48f25b9dc5c51c4a5",
+        "type": "dog",
+        "name": "Fido",
+        "age": "7"
+      }
   
-- Using a {+service-short+} client (say, {+compass+}), you create and
-  insert a document into the collection. The ``age`` property of this
-  document has a value of "forty two". 
-  
-- Because of MongoDB's flexible schema, there is no error when inserting
-  the document. However, because the the Sync object schema defines the
-  ``age`` property as type ``number``, the object fails schema
-  validation and is not pushed to Sync.
+#. Once inserted, the document fails schema validation in your app and
+   cannot be synced. The app stores the failure in the
+   ``unsynced_documents`` collection:
 
-- The collection is now divergent: Sync clients do not see the new
-  document, but {+service+} clients do. 
-
-The same scenario holds true if a valid document is modified outside of
-{+sync+} such that one or more properties no longer conform to the Sync
-schema. 
-
-Any document that fails the object schema validation is added to the
-``__realm_sync.unsynced_documents`` collection (along with the reason
-for the failure) and will also be logged in the Realm UI ``Logs``
-console. If there are 100,000 or more documents that can't be synced,
-the Realm app is paused.
+   .. code-block:: json
+      
+      {
+        "_id": "6183021879247167daacd8dc",
+        "appId": "6183021373247568dcdcd3ed",
+        "documentId": "5ae782e48f25b9dc5c51c4a5",
+        "ns": {
+          "db": "myDatabase",
+          "coll": "pets"
+        },
+        "reason": "invalid schema"
+      }
 
 **Summary**
   If your data is used by Sync clients but can also be created or
@@ -102,8 +128,3 @@ the Realm app is paused.
   modifications match the defined object schema on the collection. For
   documents that have failed, you can replace, update, or delete &
   re-add each document.
-
-.. important::
-
-   You can read from the ``__realm_sync.unsynced_documents`` collection,
-   but you should not modify it in any way.
