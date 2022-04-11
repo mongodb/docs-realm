@@ -93,15 +93,6 @@ downloading any existing data from the server in the background.
 .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
       :language: javascript
 
-
-.. warning:: Read-only Realms Must Not Be Synced in the Background
-
-   If a {+realm+} has read-only {+realm+} level permissions, then you must
-   asynchronously open the {+realm+}. Opening a file-level read-only {+realm+}
-   without the asynchronous API will cause an error if your session is online.
-   Synced realms are opened asynchronously by default. Learn how to :ref:`open a
-   synced {+realm+} <react-native-partition-sync-open-realm>`.
-
 .. _react-native-pause-or-resume-a-sync-session:
 
 Pause or Resume a Sync Session
