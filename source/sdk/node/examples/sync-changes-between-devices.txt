@@ -191,12 +191,12 @@ your :js-sdk:`Realm.App <Realm.App.html>`.
 Multiplex Sync Sessions
 -----------------------
 
-To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing() <Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`. 
+Enable :wikipedia:`session multiplexing <Session_multiplexing>` for multiple sync sessions of a Realm app. 
+Only use session multiplexing if you see errors about reaching the file descriptor limit,
+and you know you are using many sync sessions.
 
-.. warning::
-
-   Only use session multiplexing if you see errors about reaching the file descriptor limit,
-   and you know you are using many sync sessions.
+To enable session multiplexing, call :js-sdk:`Realm.App.Sync.enableSessionMultiplexing()
+<Realm.App.Sync.html#.enableSessionMultiplexing>` with your :js-sdk:`Realm.App <Realm.App.html>`. 
 
 .. example::
    
