@@ -75,18 +75,18 @@ Consider the following scenario:
 
 1. An app has a ``pets`` collection with the following schema:
 
-  .. code-block:: json
-
-     {
-       "title": "Pet",
-       "required": ["_id", "type", "name", "age"],
-       "properties": {
-         "_id": { "bsonType: "objectId" },
-         "type": { "bsonType: "string" },
-         "name": { "bsonType: "string" },
-         "age": { "bsonType: "int" }
-       }
-     };
+   .. code-block:: json
+ 
+      {
+        "title": "Pet",
+        "required": ["_id", "type", "name", "age"],
+        "properties": {
+          "_id": { "bsonType: "objectId" },
+          "type": { "bsonType: "string" },
+          "name": { "bsonType: "string" },
+          "age": { "bsonType: "int" }
+        }
+      };
 
 #. Someone adds a document directly to the ``pets`` collection using a
    MongoDB driver, MongoDB compass, or a {+service-short+} system
