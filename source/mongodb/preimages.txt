@@ -20,18 +20,56 @@ a **document preimage** in their change events. A preimage is a snapshot
 of a modified document immediately *before* the modification was
 applied.
 
-To support document preimages, Realm includes additional information in the
-linked cluster's :manual:`oplog </core/replica-set-oplog>`. This adds a small
-amount of storage overhead to each operation on the collection and may cause
-performance issues for collections with a high write throughput.
+To support document preimages, Realm includes additional information in
+the linked cluster's :manual:`oplog </core/replica-set-oplog>`. This
+adds a small amount of storage overhead for each operation on the
+collection and may cause performance issues for collections with a high
+write throughput.
+
+.. example::
+   
+   For any write operation, like ``updateOne``, on a collection with
+   preimages enabled:
+   
+   .. code-block:: js
+      
+      pets.updateOne(
+         { name: "Fido" },
+         { $inc: { age: 1 } }
+      )
+
+   The change event for the operation includes:
+   
+   - the document preimage in the ``fullDocumentBeforeChange`` field
+     
+     .. code-block:: json
+        :caption: Preimage - the full document as it existed before the change
+        :emphasize-lines: 3
+     
+        {
+           "name": "Fido",
+           "age": 3
+        }
+   
+   - the document postimage in the ``fullDocument`` field
+     
+     .. code-block:: json
+        :caption: Postimage - the full document immediately after the change
+        :emphasize-lines: 3
+     
+        {
+           "name": "Fido",
+           "age": 4
+        }
 
 Enable Document Preimages
 -------------------------
 
 Your app automatically enables document preimages for a collection when
 you define a trigger on that collection that uses preimages. Once you
-have enabled preimages for a collection, any trigger on the collection
-may use document preimages with no additional overhead.
+have enabled preimages for a collection, you can configure any number of
+triggers on the collection to include a document preimage in the change
+event.
 
 For information on how to enable document preimages for a trigger, see
 :ref:`Create a Database Trigger <create-a-database-trigger>`.
