@@ -2233,7 +2233,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/NewFunction"
+                properties: 
+                  _id: 
+                    type: string
+                    description: Unique identifier for the function.
+                  name: 
+                    type: string
+                    description: Name for the function specified in the `name` field of the request.
     parameters:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
