@@ -35,16 +35,14 @@ use to :ref:`update fields <mongodb-update-operators-fields>` or
 Temporary ``_id__baas_transaction`` Field
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While running update operations, {+backend+} temporarily adds a
-reserved field, ``_id_baas_transaction``, to documents.
-Once a document is successfully updated, {+backend+} removes this
-field. 
+While running update operations, {+backend+} temporarily adds a reserved
+field, ``_id_baas_transaction``, to documents. This allows Realm to
+ensure reads and writes reflect the correct state of the data. Once a
+document is successfully updated, {+backend+} removes this field.
 
-If you need to modify data in the linked {+atlas+} data source while
-ensuring the ``_id_baas_transaction`` field isn't persisted, refer to the
-:ref:`Accessing Application Data with Another Tool <accessing-application-data-with-another-tool>`
-documentation. 
-
+If you modify data used by your app outside of {+service-short+}, you
+may need to consider this field. For more information, see
+:ref:`Transactional Locks <transactional-locks>`.
 
 Methods
 -------

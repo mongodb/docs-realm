@@ -62,7 +62,7 @@
 ~~~~~~~~~~~~~~~~~~~~
 
 - Deprecated the :github:`Stitch JS SDK <mongodb/stitch-js-sdk>`.
-- Released the :ref:`Trigger Preimages <trigger-preimages>` option for GA.
+- Released the :ref:`Trigger Preimages <preimages>` option for GA.
 
 .. _backend_20210715:
 
