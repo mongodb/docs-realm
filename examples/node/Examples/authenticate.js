@@ -66,7 +66,7 @@ describe("user authentication", () => {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.apiKey(apiKey);
+    const credentials = Realm.Credentials.apiKey(RANDOM_VAR_TO_MAKE_TEST_FAIL);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);
