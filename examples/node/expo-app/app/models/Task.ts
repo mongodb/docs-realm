@@ -31,13 +31,14 @@ export class Task extends Realm.Object {
     },
   };
 }
-// :code-block-end: 
+// :code-block-end:
 
 // :code-block-start: create-realm-context
 const config = {
   schema: [Task],
   // :hide-start:
   deleteRealmIfMigrationNeeded: true,
+  path: "derp.realm",
   // :hide-end:
 };
 export default createRealmContext(config);
