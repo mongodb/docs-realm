@@ -35,14 +35,14 @@ with the client's history. The most common causes of client resets are:
   the earlier version and lose any changes that were saved on the client but not
   yet synced with the server.
 
-- **Disabling and re-enabling sync**: Turning Sync off then on again in
+- **Disabling and re-enabling sync**: Turning Sync off and then on again in
   the Realm UI causes all clients to require a client reset.
 
 - **Client/Backend schema mismatch**: If a client application attempts
   to synchronize with the backend while using a Realm Object schema that
   does not exist in the backend, that client must perform a client reset.
   This only applies in one direction: if the backend schema contains a
-  Realm Object class not used in a client, that client will *not*
+  Realm Object class not used in a client, that client does *not*
   need to client reset.
 
 - **Client maximum offline time**: When a client has not synchronized with
@@ -54,14 +54,20 @@ with the client's history. The most common causes of client resets are:
 
 - **Breaking schema changes**: A :ref:`breaking or destructive change
   <destructive-changes-synced-schema>`, like changing a property type or a
-  primary key, requires you to terminate and re-enable sync. This creates a new
+  primary key, requires you to terminate and re-enable Sync. This creates a new
   synced realm file with a version unrelated to the client's file. Because
   this scenario requires a new realm file, you can only handle client resets
   caused by breaking changes using the :ref:`manually recover unsynced changes
   <manually-recover-unsynced-changes>` strategy.
 
-- **Session role changes**: When using flexible sync, changes to a user's
-  :ref:`flexible sync session role <flex-sync-expansions-caveat>` result
+- **Upgrading from a Shared to Dedicated cluster**: When you :ref:`upgrade from 
+  a shared to a dedicated cluster <upgrade-shared-cluster>`, you must 
+  terminate Sync on the old cluster. After you upgrade, you can re-enable Sync.
+  Turning Sync off and then on again causes all clients to require a 
+  client reset.
+
+- **Session role changes**: When using Flexible Sync, changes to a user's
+  :ref:`Flexible Sync session role <flex-sync-expansions-caveat>` result
   in a client reset. The following scenarios all result in a client reset:
 
   - server-side modifications to the session role
