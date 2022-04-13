@@ -1,4 +1,4 @@
-let beforeClientResetBlock: (Realm) -> Void = { beforeRealm in
+let beforeClientResetBlock: (Realm) -> Void = { before in
     // This block could be used to back-up a realm file, send reporting, etc.
 }
 

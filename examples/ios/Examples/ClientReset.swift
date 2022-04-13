@@ -26,7 +26,7 @@ class ClientReset: XCTestCase {
 
     func testSpecifyClientResetMode() async {
         // :code-block-start: client-reset-discard-changes-with-blocks
-        let beforeClientResetBlock: (Realm) -> Void = { beforeRealm in
+        let beforeClientResetBlock: (Realm) -> Void = { before in
             // This block could be used to back-up a realm file, send reporting, etc.
         }
 
