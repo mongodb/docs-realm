@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:js": "jest --selectProjects JavaScript",
+    "test:js": "jest --selectProjects JavaScript --forceExit --detectOpenHandles",
     "test:ts": "jest --selectProjects TypeScript",
     "lint": "eslint Examples/*",
     "prettier": "prettier --write Examples/*"
