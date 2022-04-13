@@ -141,7 +141,7 @@ describe("Open and Close a Realm", () => {
     const realmFileBehavior = {
       type: "downloadBeforeOpen",
       timeOut: 1000,
-      timeOutBehavior: "openLocal",
+      timeOutBehavior: "openLocalRealm",
     };
 
     const config = {
