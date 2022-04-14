@@ -184,7 +184,7 @@ key value is immutable.
 
       Override :objc-sdk:`+[RLMObject primaryKey]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)primaryKey>` to
-      set the model’s primary key.
+      set the model's primary key.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key.m
          :language: objectivec
@@ -194,7 +194,7 @@ key value is immutable.
 
       Override `Object.primaryKey()
       <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)primaryKey>`_
-      to set the model’s primary key.
+      to set the model's primary key.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key-objc-dynamic.swift
          :language: swift
@@ -206,7 +206,7 @@ Index a Property
 
 Indexes make queries using equality and IN operators faster in exchange
 for slightly slower writes. Indexes take up more space in the realm
-file. It’s best to only add indexes when optimizing the read performance
+file. It's best to only add indexes when optimizing the read performance
 for specific situations.
 
 Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
@@ -255,8 +255,8 @@ Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
 Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
-Ignored properties behave exactly like normal properties. They can’t be
-used in queries and won’t trigger Realm notifications. You can still
+Ignored properties behave exactly like normal properties. They can't be
+used in queries and won't trigger Realm notifications. You can still
 observe them using :apple:`KVO
 <library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`.
 
@@ -272,7 +272,7 @@ observe them using :apple:`KVO
       .. deprecated:: 10.10.0 
          ``ignoredProperties()``
 
-      If you don’t want to save a field in your model to its realm,
+      If you don't want to save a field in your model to its realm,
       leave the ``@Persisted`` notation off the property attribute.
 
       Additionally, if you mix ``@Persisted`` and ``@objc dynamic`` 
@@ -285,7 +285,7 @@ observe them using :apple:`KVO
    .. tab:: Objective C
       :tabid: objective-c
 
-      If you don’t want to save a field in your model to its realm,
+      If you don't want to save a field in your model to its realm,
       override :objc-sdk:`+[RLMObject ignoredProperties]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)ignoredProperties>`
       and return a list of ignored property names.
@@ -296,7 +296,7 @@ observe them using :apple:`KVO
    .. tab:: Swift pre-10.10.0
       :tabid: swift-pre-10.10.0
 
-      If you don’t want to save a field in your model to its realm,
+      If you don't want to save a field in your model to its realm,
       override `Object.ignoredProperties()
       <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)ignoredProperties>`_
       and return a list of ignored property names.
