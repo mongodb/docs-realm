@@ -354,6 +354,19 @@ accepts a case from the ``OpenBehavior`` enum:
 
 .. include:: /examples/generated/code/start/Sync.codeblock.specify-download-behavior.swift.code-block.rst
 
+.. _ios-open-a-synced-realm-offline:
+
+Open a Synced Realm Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/offline-login.rst
+
+This only works if you do not require your Realm app to ``always`` :ref:`download
+changes before opening the realm <ios-specify-download-behavior>`.
+
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.offline-login.swift
+   :language: swift
+
 .. _ios-close-a-realm:
 
 Close a Realm
