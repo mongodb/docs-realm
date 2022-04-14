@@ -693,7 +693,51 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
          .. tab::
             :tabid: cli
 
-            TODO(DOCSP-11189): add CLI instructions for backend config 
+            To enable and configure the Custom JWT authentication provider with 
+            :ref:`realm-cli <realm-cli-quickstart>`, define a :ref:`configuration <appconfig-auth>`
+            object for it in ``/auth/providers.json``.
+
+            Custom JWT configurations for Firebase have the following form. 
+
+            .. code-block:: javascript
+               :caption: /auth/providers.json
+               :emphasize-lines: 6-7, 9, 15
+
+                {
+                  "custom-token": {
+                    "name": "custom-token",
+                    "type": "custom-token",
+                    "config": {
+                        "audience": ["<Firebase Project ID>"], // required
+                        "jwkURI": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", // required
+                        "signingAlgorithm": "",
+                        "useJWKURI": true // required
+                    },
+                    "secret_config": {
+                        "signingKeys": []
+                    },
+                    "disabled": false,
+                    "metadata_fields": [ // optional but recommended
+                        {
+                            "required": false,
+                            "name": "firebase.identities.email",
+                            "field_name": "emails"
+                        },
+                        {
+                            "required": false,
+                            "name": "firebase.sign_in_provider",
+                            "field_name": "signInProvider"
+                        },
+                        {
+                            "required": false,
+                            "name": "user_id",
+                            "field_name": "userId"
+                        }
+                        ...any other fields you want to map into Realm
+                    ]
+                  },
+                  ...rest of config
+                }
 
    .. step::  Log In to Realm Using Firebase JWT with Client SDK
 
@@ -710,8 +754,6 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
          refer to the :ref:`examples section <custom-jwt-authentication-examples>`. 
       
       .. example:: Log using Firebase JWT with Realm Web SDK
-
-         TODO(DOCSP-11189): literalinclude the code 
 
          .. code-block:: javascript
 
