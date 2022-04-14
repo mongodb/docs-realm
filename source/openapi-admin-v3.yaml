@@ -2233,11 +2233,11 @@ paths:
           content:
             application/json:
               schema:
-                properties: 
-                  _id: 
+                properties:
+                  _id:
                     type: string
                     description: Unique identifier for the function.
-                  name: 
+                  name:
                     type: string
                     description: Name for the function specified in the `name` field of the request.
     parameters:
@@ -2947,7 +2947,7 @@ paths:
       summary: Create an endpoint
       description: Create a new [endpoint](https://www.mongodb.com/docs/realm/endpoints/).
       requestBody:
-        description: A valid [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the new endpoint.
+        description: A valid [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/http_endpoints/) for the new endpoint.
         required: true
         content:
           application/json:
@@ -2988,7 +2988,7 @@ paths:
       summary: Modify an endpoint
       description: Modify an existing [endpoint](https://www.mongodb.com/docs/realm/endpoints/) configuration.
       requestBody:
-        description: A valid, updated [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/https_endpoints/#appschema-endpoints) for the endpoint.
+        description: A valid, updated [configuration object](https://www.mongodb.com/docs/realm/manage-apps/configure/config/http_endpoints/) for the endpoint.
         required: true
         content:
           application/json:
