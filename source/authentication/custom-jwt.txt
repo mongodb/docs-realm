@@ -619,7 +619,7 @@ Firebase JWT Authentication
 
 `Firebase <https://firebase.google.com/>`__ is a popular app development platform.
 You can use the `Firebase Authentication <https://firebase.google.com/docs/auth>`__
-service to authenticate users with a variety of authentication providers. 
+service to authenticate users. 
 If you're using Firebase Authentication, you can also use Realm Custom JWT authentication
 to access Realm services with the same credentials. 
 
@@ -660,6 +660,7 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
 
                .. list-table::
                   :header-rows: 1
+                  :widths: 50 50
 
                   * - Path
 
@@ -686,7 +687,7 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
                     - email
 
             #. Set :guilabel:`Audience` to your `Firebase Project ID <https://firebase.google.com/docs/projects/learn-more#project-id>`__.
-               You *must* set :guilabel:`Audience` to use a Firebase as a 
+               You *must* set :guilabel:`Audience` to use your Firebase Project ID as a 
                Custom JWT provider even though it's labeled as optional in the UI. 
 
          .. tab::
