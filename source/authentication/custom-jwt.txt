@@ -620,10 +620,10 @@ Firebase JWT Authentication
 `Firebase <https://firebase.google.com/>`__ is a popular app development platform.
 You can use the `Firebase Authentication <https://firebase.google.com/docs/auth>`__
 service to authenticate users with a variety of authentication providers. 
-If you're using Firebase Authentication, you can also use Realm custom JWT authentication
+If you're using Firebase Authentication, you can also use Realm Custom JWT authentication
 to access Realm services with the same credentials. 
 
-To set up Firebase Authentication as your custom JWT provider in Realm: 
+To set up Firebase Authentication as your Custom JWT provider in Realm: 
 
 .. procedure:: 
 
@@ -687,16 +687,36 @@ To set up Firebase Authentication as your custom JWT provider in Realm:
 
             #. Set :guilabel:`Audience` to your `Firebase Project ID <https://firebase.google.com/docs/projects/learn-more#project-id>`__.
                You *must* set :guilabel:`Audience` to use a Firebase as a 
-               custom JWT provider even though it's labeled as optional in the UI. 
+               Custom JWT provider even though it's labeled as optional in the UI. 
 
          .. tab::
             :tabid: cli
 
-            TODO
+            TODO(DOCSP-11189): add CLI instructions for backend config 
 
-   .. step::  Log In to Realm Using Firebase JWT
+   .. step::  Log In to Realm Using Firebase JWT with Client SDK
 
-      Now that you've 
+      Now that you've configured Realm to work with Firebase JWTs, you can
+      log users in using Firebase and Realm client SDKs in languages supported by both. 
+
+      #. Log the user into Firebase. See the relevant `Firebase SDK documentation 
+         <https://firebase.google.com/docs/auth>`__. 
+      #. Retrieve the user's Firebase JWT. See the documentation on 
+         `using a client Firebase SDK to get ID tokens 
+         <https://firebase.google.com/docs/auth/admin/verify-id-tokens#retrieve_id_tokens_on_clients>`__. 
+      #. Pass the Firebase JWT to a a Realm SDK Custom JWT authentication method. 
+         For more information how to use Realm SDKs to perform Custom JWT authentication, 
+         refer to the :ref:`examples section <custom-jwt-authentication-examples>`. 
+      
+      .. example:: Log using Firebase JWT with Realm Web SDK
+
+         TODO(DOCSP-11189): literalinclude the code 
+
+         .. code-block:: javascript
+
+            const token = await getIdToken(firebaseUser);
+            const credentials = Realm.Credentials.jwt(token);
+            const realmUser = await realmApp.logIn(credentials);
 
 
 .. _custom-jwt-authentication-examples:
