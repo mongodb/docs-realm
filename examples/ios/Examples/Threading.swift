@@ -1,7 +1,8 @@
 // :replace-start: {
 //   "terms": {
 //     "ThreadingExamples_": "",
-//     "fileprivate ": ""
+//     "fileprivate ": "",
+//     "ReadWriteDataExamples_": ""
 //   }
 // }
 import XCTest
@@ -129,6 +130,40 @@ class Threading: XCTestCase {
         try! thawedRealm.write {
            thawedTask!.status = "Done"
         }
+        // :code-block-end:
+    }
+
+    func testAppendToFrozenCollection() {
+        let hiddenRealm = try! Realm()
+        let person = ReadWriteDataExamples_Person(value: ["name": "Timmy"])
+        let dog = ReadWriteDataExamples_Dog(value: ["name": "Lassie", "age": 79, "color": "Brown and white", "currentCity": "Yorkshire"])
+        try! hiddenRealm.write {
+            hiddenRealm.add(person)
+            hiddenRealm.add(dog)
+        }
+        let frozenRealm = hiddenRealm.freeze()
+        // :code-block-start: append-to-frozen-collection
+        // Get a copy of frozen objects.
+        // Here, we're getting them from a frozen realm,
+        // but you might also be passing them across threads.
+        let frozenTimmy = frozenRealm.objects(ReadWriteDataExamples_Person.self).where {
+            $0.name == "Timmy"
+        }.first!
+        let frozenLassie = frozenRealm.objects(ReadWriteDataExamples_Dog.self).where {
+            $0.name == "Lassie"
+        }.first!
+        // Confirm the objects are frozen.
+        assert(frozenTimmy.isFrozen == true)
+        assert(frozenLassie.isFrozen == true)
+        // Thaw the frozen objects. You must thaw both the object
+        // you want to append and the collection you want to append it to.
+        let thawedTimmy = frozenTimmy.thaw()
+        let thawedLassie = frozenLassie.thaw()
+        let realm = try! Realm()
+        try! realm.write {
+            thawedTimmy?.dogs.append(thawedLassie!)
+        }
+        XCTAssertEqual(thawedTimmy?.dogs.first?.name, "Lassie")
         // :code-block-end:
     }
 
