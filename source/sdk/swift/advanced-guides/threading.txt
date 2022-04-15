@@ -386,20 +386,21 @@ Thawing an object or collection also thaws the {+realm+} it references.
 Append to a Frozen Collection
 `````````````````````````````
 
-When you append to a frozen collection, you must thaw both the collection 
-and the object that you want to append. In this example, we query for two 
-objects in a frozen Realm:
+When you append to a frozen :ref:`collection <ios-client-collections>`, 
+you must thaw both the collection and the object that you want to append. 
+In this example, we query for two objects in a frozen Realm:
 
-- A Person object that has a List property of Dog objects
+- A Person object that has a :ref:`List <ios-list-collections>` property 
+  of Dog objects
 - A Dog object
 
 Then we must thaw both objects before we can append the Dog to 
 the Dog List collection on the Person. If we thaw only the Person object
 but not the Dog, Realm throws an error.
 
-You might also be passing these objects across threads instead
-of querying for them. A common case might be calling a function on a 
-background thread to do some work instead of blocking the UI.
+The same rule applies when passing frozen objects across threads. A common 
+case might be calling a function on a background thread to do some work 
+instead of blocking the UI.
 
 .. literalinclude:: /examples/generated/code/start/Threading.codeblock.append-to-frozen-collection.swift
    :language: swift
