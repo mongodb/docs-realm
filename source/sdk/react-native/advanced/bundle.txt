@@ -22,8 +22,8 @@ initial download the first time a user opens your application. Instead,
 users must only download the synced changes that occurred since you
 generated the bundled file.
 
-Overview
---------
+Procedure
+---------
 
 Follow these steps to create and bundle a {+realm+} file for your React Native application.
 On a high level you:
@@ -47,7 +47,7 @@ On a high level you:
 
 .. procedure:: 
 
-   .. step:: Create a Realm File for Bundling
+   .. step:: Create Realm File for Bundling
 
       The easiest way to create a bundled realm for your React Native app is 
       to write a separate Node.Js script to create the bundle. 
@@ -90,7 +90,7 @@ On a high level you:
 
       .. _react-native-bundle-realm-file:
 
-   .. step:: Bundle a Realm File in Your Production Application
+   .. step:: Bundle Realm File in Your Production Application
 
       Now that you have a copy of the {+realm+} that contains the initial data,
       bundle it with your production application.
@@ -98,6 +98,14 @@ On a high level you:
       Add the bundled {+realm+} file made in the previous section to your production
       application. Where you place the bundled realm differs for iOS and Android 
       builds. 
+
+      .. note:: Add bundled realm to Expo apps
+
+         If you'd like to add a bundled realm to an Expo app, you must first 
+         eject your app. To learn how to do this and it's implications for your app,
+         refer to the `Expo documentation on adding custom native code 
+         <https://docs.expo.dev/workflow/customizing/>`__.
+
 
       .. tabs:: 
 
@@ -124,20 +132,32 @@ On a high level you:
 
       .. _react-native-open-a-realm-from-a-bundled-realm-file:
 
-   .. step:: Open a Realm from a Bundled Realm File
+   .. step:: Open a Realm from Bundle
 
-      TODO add info about ``Realm.copyBundledRealmFiles()``. 
+      To add the bundled realm file to your app's document directory, call 
+      :js-sdk:`Realm.copyBundledRealmFiles() <Realm.html#.copyBundledRealmFiles>`
+      before you :ref:`open the realm <react-native-open-close-realm>`. 
+
+      ``Realm.copyBundledRealmFiles()`` adds all ``*.realm`` files from the application
+      bundle to the application documents directory. This method doesn't override 
+      any existing files with the same name, so it's safe to call every time the 
+      app starts. 
+
+      Open the bundled realm with the same name and configuration that you specified when you initially 
+      created the bundled realm in step one with ``writeCopyTo()``.
 
       Now that you have a copy of the {+realm+} included with your production
       application, you need to add code to use it. 
 
-      Create a :js-sdk:`Configuration <Realm.html#~Configuration>` with the path 
-      to the bundled {+realm+} as the value for the ``path`` field. Pass that configuration 
-      to the :js-sdk:`Realm.open() <Realm.html#.open>` method. Now you can work with the data 
-      from your bundled {+realm+} in the {+realm+} you've just opened. 
+      TODO: literal include
 
-      .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.open-bundled-realm.js
-            :language: javascript
+      .. code-block:: javascript
+
+         Realm.copyBundledRealmFiles(); // this copies *.realm from the app bundle into the documents folder, so will copy myRealm.realm into a place where we can start modifying it
+
+         const realm = await Realm.open({ 
+            path: 'myRealm.realm' // this tells it to use myRealm.realm from the documents dir, which got copied in by copyBundledRealmFiles
+         });
 
       .. _react-native-bundle-synced-realm:
 
