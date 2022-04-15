@@ -617,11 +617,9 @@ algorithm specified in the ``"alg"`` field of the header.
 Firebase JWT Authentication
 ---------------------------
 
-`Firebase <https://firebase.google.com/>`__ is a popular app development platform.
 You can use the `Firebase Authentication <https://firebase.google.com/docs/auth>`__
-service to authenticate users. 
-If you're using Firebase Authentication, you can also use Realm Custom JWT authentication
-to access Realm services with Firebase credentials. 
+service to authenticate users into Realm apps as well as Firebase apps. 
+Use Realm Custom JWT authentication to access Realm services with Firebase credentials. 
 
 To set up Firebase Authentication as your Custom JWT provider in Realm: 
 
@@ -683,9 +681,13 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
 
                     - email
 
-            #. Set :guilabel:`Audience` to your `Firebase Project ID <https://firebase.google.com/docs/projects/learn-more#project-id>`__.
-               You *must* set :guilabel:`Audience` to use your Firebase Project ID as a 
-               Custom JWT provider even though it's labeled as optional in the UI. 
+            #. Set :guilabel:`Audience` to your `Firebase Project ID
+               <https://firebase.google.com/docs/projects/learn-more#project-id>`__.
+
+               .. important:: You must set Audience to Firebase Project ID
+
+                  You *must* set :guilabel:`Audience` to use your Firebase Project ID as a 
+                  Custom JWT provider even though it's labeled as optional in the UI. 
 
          .. tab::
             :tabid: cli
@@ -706,7 +708,9 @@ To set up Firebase Authentication as your Custom JWT provider in Realm:
                     "type": "custom-token",
                     "config": {
                         "audience": ["<Firebase Project ID>"], // required
-                        "jwkURI": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", // required
+                        // "jwkURI" is required with this URL as the value
+                        "jwkURI": 
+                          "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", 
                         "signingAlgorithm": "",
                         "useJWKURI": true // required
                     },
