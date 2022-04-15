@@ -1,4 +1,5 @@
 import * as Realm from "realm-web";
+import { getIdToken } from "firebase/auth";
 import { APP_ID } from "../realm.config.json";
 
 const app = new Realm.App({ id: APP_ID });
@@ -130,6 +131,19 @@ describe("Log in user", () => {
     loginCustomJwt("eyJ0eXAi...Q3NJmnU8oP3YkZ8").then((user) => {
       console.log("Successfully logged in!", user);
     });
+    // :snippet-end:
+  });
+  test.skip("Firebase with Custom JWT", async () => {
+    const realmApp = app;
+    const firebaseUser = {};
+    // :snippet-start: custom-jwt-firebase
+    // ... log user into Firebase & initialize Realm app
+
+    // Using modular Firebase Web v9 SDK method auth.getIdToken()
+    // See Firebase docs - https://firebase.google.com/docs/reference/js/auth#getidtoken
+    const token = await getIdToken(firebaseUser);
+    const credentials = Realm.Credentials.jwt(token);
+    const realmUser = await realmApp.logIn(credentials);
     // :snippet-end:
   });
   // TODO
