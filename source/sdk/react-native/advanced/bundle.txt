@@ -25,18 +25,7 @@ generated the bundled file.
 Overview
 --------
 
-To create and bundle a {+realm+} file with your application:
-
-#. :ref:`Create a {+realm+} file <react-native-create-a-realm-for-bundling>` that
-   contains the data you'd like to bundle.
-
-#. :ref:`Add the bundled {+realm+} file <react-native-bundle-realm-file>` 
-   to your production application.
-
-#. In your production application,
-   :ref:`open the {+realm+} from the bundled asset file
-   <react-native-open-a-realm-from-a-bundled-realm-file>`. For synchronized
-   {+realm+}s, you must include the partition key.
+Follow these steps to create and bundle a {+realm+} file with your React Native application.
 
 .. note:: Bundle Synchronized Realms
 
@@ -49,81 +38,81 @@ To create and bundle a {+realm+} file with your application:
 
 .. _react-native-create-a-realm-for-bundling:
 
-Create a Realm File for Bundling
---------------------------------
+.. procedure:: 
 
-1. Build a temporary {+realm+} app that shares the data model of your
-   application.
+   .. step:: Create a Realm File for Bundling
 
-#. Open a {+realm+} and add the data you wish to bundle. If using a
-   synchronized {+realm+}, allow time for the {+realm+} to fully sync.
+      #. Build a temporary {+realm+} app that shares the data model of your
+         application.
 
-#. Use the :js-sdk:`writeCopyTo() <Realm.html#writeCopyTo>` 
-   method to copy the {+realm+} to a new file:
+      #. Open a {+realm+} and add the data you wish to bundle. If using a
+         synchronized {+realm+}, allow time for the {+realm+} to fully sync.
 
-   .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.copy-realm-to-new-file.js
-      :language: javascript
+      #. Use the :js-sdk:`writeCopyTo() <Realm.html#writeCopyTo>`
+         method to copy the {+realm+} to a new file:
 
-   ``writeCopyTo()`` automatically compacts your {+realm+} to the smallest
-   possible size before copying.
+         .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.copy-realm-to-new-file.js
+            :language: javascript
 
-   .. note:: Differences Between Synchronized Realms and Local-only Realms
+         ``writeCopyTo()`` automatically compacts your {+realm+} to the smallest
+         possible size before copying.
 
-      The above example uses a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
-      to configure a synchronized {+realm+} for the ``sync`` field of the 
-      :js-sdk:`Configuration <Realm.html#~Configuration>`.
-      To create a copy of a local {+realm+}, do not include the ``sync`` field 
-      in your Configuration object.
+         .. note:: Differences Between Synchronized Realms and Local-only Realms
 
-#. Note the filepath of the bundled {+realm+} file, which can be found at the location specified in the argument 
-   passed to ``writeCopyTo()`` in the previous step. You'll need this file to use
-   the bundled {+realm+} in your production application, as described in the next 
-   section.
+            The above example uses a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
+            to configure a synchronized {+realm+} for the ``sync`` field of the 
+            :js-sdk:`Configuration <Realm.html#~Configuration>`.
+            To create a copy of a local {+realm+}, do not include the ``sync`` field 
+            in your Configuration object.
 
-   .. code-block::
-      :caption: temp_realm_app
-      :emphasize-lines: 2
+      #. Note the filepath of the bundled {+realm+} file, which can be found at the location specified in the argument 
+         passed to ``writeCopyTo()`` in the previous step. You'll need this file to use
+         the bundled {+realm+} in your production application, as described in the next 
+         section.
 
-      .
-      ├── copyOfDefault.realm
-      ... rest of files in _temp_ application
+         .. code-block::
+            :caption: temp_realm_app
+            :emphasize-lines: 2
 
-.. _react-native-bundle-realm-file:
+            .
+            ├── copyOfDefault.realm
+            ... rest of files in _temp_ application
 
-Bundle a Realm File in Your Production Application
-----------------------------------------------------
+      .. _react-native-bundle-realm-file:
 
-Now that you have a copy of the {+realm+} that contains the initial data,
-bundle it with your production application.
+   .. step:: Bundle a Realm File in Your Production Application
 
-Add the bundled {+realm+} file made in the previous section to your production
-application. 
+      Now that you have a copy of the {+realm+} that contains the initial data,
+      bundle it with your production application.
 
-.. code-block::
-   :caption: prod_realm_app
-   :emphasize-lines: 2
+      Add the bundled {+realm+} file made in the previous section to your production
+      application. 
 
-   .
-   ├── copyOfDefault.realm 
-   ... rest of files in _prod_ application
+      .. code-block::
+         :caption: prod_realm_app
+         :emphasize-lines: 2
 
-.. _react-native-open-a-realm-from-a-bundled-realm-file:
+         .
+         ├── copyOfDefault.realm 
+         ... rest of files in _prod_ application
 
-Open a Realm from a Bundled Realm File
---------------------------------------
+      .. _react-native-open-a-realm-from-a-bundled-realm-file:
 
-Now that you have a copy of the {+realm+} included with your production
-application, you need to add code to use it. 
+   .. step:: Open a Realm from a Bundled Realm File
 
-Create a :js-sdk:`Configuration <Realm.html#~Configuration>` with the path 
-to the bundled {+realm+} as the value for the ``path`` field. Pass that configuration 
-to the :js-sdk:`Realm.open() <Realm.html#.open>` method. Now you can work with the data 
-from your bundled {+realm+} in the {+realm+} you've just opened. 
+      Now that you have a copy of the {+realm+} included with your production
+      application, you need to add code to use it. 
 
-.. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.open-bundled-realm.js
-      :language: javascript
+      Create a :js-sdk:`Configuration <Realm.html#~Configuration>` with the path 
+      to the bundled {+realm+} as the value for the ``path`` field. Pass that configuration 
+      to the :js-sdk:`Realm.open() <Realm.html#.open>` method. Now you can work with the data 
+      from your bundled {+realm+} in the {+realm+} you've just opened. 
 
-.. _react-native-bundle-synced-realm:
+      .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.open-bundled-realm.js
+            :language: javascript
+
+      .. _react-native-bundle-synced-realm:
+
 
 Bundle a Synchronized Realm
 ---------------------------
