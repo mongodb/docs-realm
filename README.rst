@@ -44,6 +44,6 @@ This project adheres to the `Contributor Covenant Code of Conduct <https://www.c
 CLA
 ---
 
-Realm welcomes all contributions! The only requirement we have is that, like many other projects, we need to have a `Contributor License Agreement <https://en.wikipedia.org/wiki/Contributor_License_Agreement>`__ (CLA) in place before we can accept any external code. Our own CLA is a modified version of the Apache Software Foundation’s CLA.
+Realm welcomes all contributions! The only requirement we have is that, like many other projects, we need to have a `Contributor License Agreement <https://en.wikipedia.org/wiki/Contributor_License_Agreement>`__ (CLA) in place before we can accept any external code. Our own CLA is a modified version of the Apache Software Foundation's CLA.
 
 `Please submit your CLA electronically using our Google form <https://docs.google.com/forms/d/e/1FAIpQLSeQ9ROFaTu9pyrmPhXc-dEnLD84DbLuT_-tPNZDOL9J10tOKQ/viewform>`__ so we can accept your submissions. The GitHub username you file there will need to match that of your Pull Requests. If you have any questions or cannot file the CLA electronically, you can email `help@realm.io`.

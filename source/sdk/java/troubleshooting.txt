@@ -15,15 +15,15 @@ Troubleshooting - Java SDK
 Couldn't load "librealm-jni.so"
 -------------------------------
 
-If your app uses native libraries that don’t ship with support for
-64-bit architectures, Android will fail to load Realm’s
+If your app uses native libraries that don't ship with support for
+64-bit architectures, Android will fail to load Realm's
 ``librealm-jni.so`` file on ARM64 devices. This happens because Android
 cannot load 32-bit and 64-bit native libraries concurrently. Ideally,
 all libraries could provide the same set of supported ABIs, but
 sometimes that may not be doable when using a 3rd-party library.
 
-To work around this issue, you can exclude Realm’s ARM64 library from
-the APK file by adding the following code to the application’s
+To work around this issue, you can exclude Realm's ARM64 library from
+the APK file by adding the following code to the application's
 ``build.gradle``. You can refer to Mixing 32- and 64-bit Dependencies in Android for more information.
 
 .. code-block:: gradle
@@ -151,7 +151,7 @@ should only add about 800KB to your APK in most cases. The releases are
 significantly larger because they include support for more architectures,
 such as ARM7, ARMv7, ARM64, x86, and MIPS. The APK file contains all
 supported architectures, but the Android installer only installs native
-code for the device’s architecture. This means that the installed app
+code for the device's architecture. This means that the installed app
 is smaller than the size of the APK file.
 
 You can reduce the size of the Android APK itself by splitting the APK
@@ -170,7 +170,7 @@ Split support by adding the following to your :file:`build.gradle`:
        }
    }
 
-Select the architectures that you’d like to include to build a separate
+Select the architectures that you'd like to include to build a separate
 APK for each.
 
 .. seealso::
@@ -180,7 +180,7 @@ APK for each.
    for more information, or the :github:`example on GitHub
    <realm/realm-java/tree/master/examples/gridViewExample>`.
 
-If you don’t want to handle multiple APKs, you can restrict the number
+If you don't want to handle multiple APKs, you can restrict the number
 of architectures supported in a single APK. This is done by adding
 ``abiFilters`` to your :file:`build.gradle`:
 

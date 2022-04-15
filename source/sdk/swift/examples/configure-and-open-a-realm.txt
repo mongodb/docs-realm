@@ -461,7 +461,7 @@ instance of ``SomeSwiftType`` before
 To avoid such issues, consider doing one of the following:
 
 - Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
-- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application’s lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
+- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application's lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
 - Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
 
 .. _use-realm-when-the-device-is-locked:

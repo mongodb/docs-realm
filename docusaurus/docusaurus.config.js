@@ -131,7 +131,7 @@ const config = {
           //
           // This parameter controls the importance given to the length of a document and its fields. This
           // value must be between 0 and 1, and by default it has a value of 0.75. Reducing this value
-          // reduces the effect of different length documents on a term’s importance to that document.
+          // reduces the effect of different length documents on a term's importance to that document.
           b: 0.75,
           // This controls how quickly the boost given by a common word reaches saturation. Increasing it
           // will slow down the rate of saturation and lower values result in quicker saturation. The
