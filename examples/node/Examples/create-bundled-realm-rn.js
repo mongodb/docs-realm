@@ -8,7 +8,7 @@ const Dog = {
     type: "string",
   },
 };
-afterAll(() => Realm.deleteFile({ path: "bundle.realm" }));
+// afterAll(() => Realm.deleteFile({ path: "bundle.realm" }));
 test("create bundled realm", async () => {
   // :snippet-start: create-react-native-bundle
   // open realm

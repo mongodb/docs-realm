@@ -1,14 +1,36 @@
 import { useCallback, useMemo } from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import Realm from "realm";
-import run from "./app/utils/bundle-realm";
-
 import TaskContext, { Task } from "./app/models/Task";
 import IntroText from "./app/components/IntroText";
 import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 
+console.log("opening app");
+Realm.copyBundledRealmFiles();
+const Dog = {
+  name: "Dog",
+  properties: {
+    name: "string",
+    age: "int",
+    type: "string",
+  },
+};
+const config = {
+  schema: [Dog],
+  path: "bundle.realm",
+};
+(async () => {
+  try {
+    const realm = await Realm.open(config);
+    console.log(realm, "opened");
+    const res = realm.objects("Dog");
+    console.log(res.length);
+  } catch (err) {
+    console.error(err);
+  }
+})();
 // :code-block-start: import-task-context
 // :uncomment-start:
 // import TaskContext from "./app/models/Task";
@@ -27,7 +49,6 @@ const { useRealm, useQuery, useObject } = TaskContext;
 
 function App() {
   const realm = useRealm();
-  run();
   // :code-block-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
@@ -155,9 +176,9 @@ const app = new Realm.App({ id: "-id" });
 //   }
 // }
 function AppWrapper2() {
-  // if (!app.currentUser) {
-  //   return <LoginUserScreen />;
-  // }
+  if (!app.currentUser) {
+    return <LoginUserScreen />;
+  }
   const syncConfig = {
     user: app.currentUser,
     partitionValue: "ExpoTemplate",
@@ -173,5 +194,6 @@ function AppWrapper2() {
 // :code-block-end:
 
 const LoadingSpinner = () => <Text>Mock Loading Spinner</Text>;
+const LoginUserScreen = () => <Text>Mock Login Screen</Text>;
 
 export default AppWrapper;

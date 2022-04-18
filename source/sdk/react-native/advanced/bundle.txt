@@ -40,8 +40,8 @@ On a high level you:
    SDK version 10.12.0 introduced the ability to bundle synchronized {+realm+}s.
    Before version 10.12.0, you could only bundle local {+realm+}s.
 
-   :ref:`See the Bundle a Synchronized Realm section for details on considerations and limitations
-   when bundling a synchronized {+realm+}. <react-native-bundle-synced-realm>`
+   For details on considerations and limitations when bundling a synchronized {+realm+},
+   :ref:`see the Bundle a Synchronized Realm section <react-native-bundle-synced-realm>`.
 
 .. _react-native-create-a-realm-for-bundling:
 
@@ -79,16 +79,15 @@ On a high level you:
    .. step:: Bundle Realm File in Your Production Application
 
       Now that you have a copy of the {+realm+} that contains the initial data,
-      bundle it with your production application.
-
-      Add the bundled {+realm+} file made in the previous section to your production
-      application. Where you place the bundled realm differs for iOS and Android 
+      add the bundled {+realm+} file to your production application.
+      Where you place the bundled realm differs for iOS and Android 
       builds. 
 
       .. note:: Add bundled realm to Expo apps
 
-         If you'd like to add a bundled realm to an Expo app, you must first 
-         eject your app. To learn how to do this and it's implications for your app,
+         If you'd like to add a bundled realm to a React Native app buit with Expo,
+         you must first eject your app.
+         To learn how to do this and it's implications for your app,
          refer to the `Expo documentation on adding custom native code 
          <https://docs.expo.dev/workflow/customizing/>`__.
 
@@ -132,17 +131,10 @@ On a high level you:
       Now that you have a copy of the {+realm+} included with your production
       application, you need to add code to use it. 
 
-      .. code-block:: javascript
+      .. literalinclude:: /examples/generated/rn/App.codeblock.open-bundle-realm-rn.js
+         :language: javascript
 
-         Realm.copyBundledRealmFiles(); 
-
-         const realm = await Realm.open({ 
-            schema: [Dog] 
-            path: 'bundled.realm'
-         });
-
-      .. _react-native-bundle-synced-realm:
-
+.. _react-native-bundle-synced-realm:
 
 Bundle a Synchronized Realm
 ---------------------------
