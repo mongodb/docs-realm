@@ -22,6 +22,11 @@ initial download the first time a user opens your application. Instead,
 users must only download the synced changes that occurred since you
 generated the bundled file.
 
+.. warning:: Does Not Apply to Expo Apps
+
+   This procedure doesn't work for :ref:`React Native apps created with Expo
+   <react-native-client-quick-start-expo>`.
+
 Procedure
 ---------
 
@@ -32,8 +37,6 @@ On a high level you:
 #. Copy the bundled realm to the iOS and/or Android builds for your application. 
 #. Call ``Realm.copyBundledRealmFiles()``  before you open the bundled Realm in 
    your React Native JavaScript code. 
-
-
 
 .. note:: Bundle Synchronized Realms
 
@@ -82,15 +85,6 @@ On a high level you:
       add the bundled {+realm+} file to your production application.
       Where you place the bundled realm differs for iOS and Android 
       builds. 
-
-      .. note:: Add bundled realm to Expo apps
-
-         If you'd like to add a bundled realm to a React Native app buit with Expo,
-         you must first eject your app.
-         To learn how to do this and it's implications for your app,
-         refer to the `Expo documentation on adding custom native code 
-         <https://docs.expo.dev/workflow/customizing/>`__.
-
 
       .. tabs:: 
 
