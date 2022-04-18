@@ -1,13 +1,22 @@
 import Realm from 'realm';
-import {render} from '@testing-library/react-native';
+import {render, act, waitFor} from '@testing-library/react-native';
 import {Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {OpenBundledRealm} from '../App';
+import OpenBundledRealm from '../OpenBundledRealm';
 // TODO: test doesn't get the component state after useEffect called.
 // refactor for that. not sure how to do.
-test.skip('can open a bundled realm', async () => {
-  const node = render(<OpenBundledRealm />);
-  await new setTimeout(() => undefined, 1000);
+test('can open a bundled realm', async () => {
+  let node;
+  await act(async () => {
+    await waitFor(
+      () => {
+        const {toJSON} = render(<OpenBundledRealm />);
+        node = toJSON;
+      },
+      {timeout: 1000},
+    );
+  });
 
-  console.log(node.toJSON());
+  const numDogs = parseInt(node().children[0]);
+  expect(numDogs).toBeGreaterThan(0);
 });

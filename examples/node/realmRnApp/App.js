@@ -16,7 +16,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {useState, useEffect} from 'react';
 import {
   Colors,
   DebugInstructions,
@@ -24,16 +23,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Realm from 'realm';
-
-const Dog = {
-  name: 'Dog',
-  properties: {
-    name: 'string',
-    age: 'int',
-    type: 'string',
-  },
-};
+import OpenBundledRealm from './OpenBundledRealm';
 
 const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -62,35 +52,6 @@ const Section = ({children, title}) => {
     </View>
   );
 };
-
-export function OpenBundledRealm() {
-  const [numDogs, setNumDogs] = useState(null);
-
-  useEffect(() => {
-    let realm;
-    if (!numDogs) {
-      (async () => {
-        // :snippet-start: open-bundle-realm-rn
-        Realm.copyBundledRealmFiles();
-
-        realm = await Realm.open({
-          schema: [Dog],
-          path: 'bundle.realm',
-        });
-        // :snippet-end:
-        const dogCount = realm.objects('Dog').length;
-        console.log(dogCount);
-        setNumDogs(dogCount);
-      })();
-    }
-    return () => !realm?.isClosed && realm?.close();
-  }, [numDogs]);
-  useEffect(() => {
-    console.log(numDogs);
-  }, [numDogs]);
-
-  return <Text>{numDogs}</Text>;
-}
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
