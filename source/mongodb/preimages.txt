@@ -15,21 +15,19 @@ Document Preimages
 Overview
 --------
 
-You can configure :ref:`database triggers <database-trigger>` to include
-a **document preimage** in their change events. A preimage is a snapshot
-of a modified document immediately *before* the modification was
-applied.
+Every :ref:`database trigger <database-trigger>` execution has a related 
+change event. You can configure these change events to include 
+**document preimages**. A preimage is a snapshotof a document *before* 
+a change.
 
-To support document preimages, Realm includes additional information in
-the linked cluster's :manual:`oplog </core/replica-set-oplog>`. This
-adds a small amount of storage overhead for each operation on the
-collection and may cause performance issues for collections with a high
-write throughput.
+Realm stores preimage information in the linked cluster's 
+:manual:`oplog </core/replica-set-oplog>`. This adds storage overhead for 
+each operation on the collection. This may cause performance issues for 
+collections with a high write throughput.
 
 .. example::
    
-   For any write operation, like ``updateOne``, on a collection with
-   preimages enabled:
+   Consider ``updateOne`` in a collection with preimages:
    
    .. code-block:: js
       
@@ -38,7 +36,7 @@ write throughput.
          { $inc: { age: 1 } }
       )
 
-   The change event for the operation includes:
+   Preimages add this data to each change event for write operations:
    
    - the document preimage in the ``fullDocumentBeforeChange`` field
      
@@ -65,43 +63,45 @@ write throughput.
 Enable Document Preimages
 -------------------------
 
-Your app automatically enables document preimages for a collection when
-you define a trigger on that collection that uses preimages. Once you
-have enabled preimages for a collection, you can configure any number of
-triggers on the collection to include a document preimage in the change
-event.
+You can enable preimages when you configure a database trigger. Document 
+Preimage is a setting on trigger configuration. Toggle this to enable 
+document preimages for the collection. 
 
-For information on how to enable document preimages for a trigger, see
-:ref:`Create a Database Trigger <create-a-database-trigger>`.
+For more information, see :ref:`Create a Database Trigger 
+<create-a-database-trigger>`.
+
+.. _view-preimage-enabled-collections:
 
 View Preimage-Enabled Collections
 ---------------------------------
 
-To see a list of collections that are configured to store document
-preimages in their oplog, navigate to the :guilabel:`Linked Data Source`
-configuration screen and find the :guilabel:`Preimage Preferences by
-Collection` table.
+To view the list of collections that store document preimages: 
 
-The table lists every collection that stores preimages in the oplog.
-This includes all collections in the linked cluster, even if no triggers
-currently use the preimages for a collection or if the triggers are in a
-different Realm app.
+1. Navigate to the :guilabel:`Linked Data Source` configuration screen.
+2. Expand the :guilabel:`Advanced Configuration` section.
+
+This section contains the :guilabel:`Preimage Preferences by Collection` 
+table.
+
+This table lists every collection that stores preimages in the oplog. 
+Enabling preimages for a collection applies to all collections. This 
+includes collections tied to triggers in a different Realm app. Collections 
+with no triggers that use preimages also appear here.
 
 Disable Preimages for a Collection
 ----------------------------------
 
-You can disable collection-level preimages in the {+ui+}. Once disabled, the
-oplog no longer includes preimages for documents in the collection. To disable
+You can disable collection-level preimages in the Realm UI. To disable 
 preimages for a collection:
 
-1. (Optional) Disable document preimages for all triggers on the collection.
-   When collection-level preimages are disabled, triggers on the collection that
-   still have preimages enabled (including triggers in other Realm apps) will
-   continue to execute but will not include the ``fullDocumentBeforeChange``
-   field in change events.
+1. (Optional) Disable document preimages for triggers in the collection.
+   Triggers with preimages work after disabling preimages. But they don't 
+   have the ``fullDocumentBeforeChange`` field in change events. This 
+   includes triggers in other Realm apps.
 
 2. Disable sync, if the collection is part of a :ref:`synced cluster <sync>`.
 
-3. On the linked cluster configuration screen, find the collection in the
-   :guilabel:`Preimage Preferences by Collection` table and then click
-   :guilabel:`Disable`.
+3. View :ref:`the Preimage Preferences By Collection 
+   <view-preimage-enabled-collections>` table. Press the
+   :guilabel:`Disable` button for a collection. This turns off preimages for 
+   that collection.
