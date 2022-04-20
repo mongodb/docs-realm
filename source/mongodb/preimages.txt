@@ -17,7 +17,7 @@ Overview
 
 Every :ref:`database trigger <database-trigger>` execution has a related 
 change event. You can configure these change events to include 
-**document preimages**. A preimage is a snapshotof a document *before* 
+**document preimages**. A preimage is a snapshot of a document *before* 
 a change.
 
 Realm stores preimage information in the linked cluster's 
@@ -63,12 +63,10 @@ collections with a high write throughput.
 Enable Document Preimages
 -------------------------
 
-You can enable preimages when you configure a database trigger. Document 
-Preimage is a setting on trigger configuration. Toggle this to enable 
-document preimages for the collection. 
-
-For more information, see :ref:`Create a Database Trigger 
-<create-a-database-trigger>`.
+You can enable preimages when you :ref:`configure a database trigger 
+<create-a-database-trigger>`. :guilabel:`Document Preimage` is a setting 
+on trigger configuration. Toggle this to enable document preimages for the 
+collection. 
 
 .. _view-preimage-enabled-collections:
 
@@ -99,9 +97,15 @@ preimages for a collection:
    have the ``fullDocumentBeforeChange`` field in change events. This 
    includes triggers in other Realm apps.
 
-2. Disable sync, if the collection is part of a :ref:`synced cluster <sync>`.
+2. :ref:`Terminate sync <terminating-realm-sync>`, if the collection is part 
+   of a :ref:`synced cluster <sync>`.
 
 3. View :ref:`the Preimage Preferences By Collection 
    <view-preimage-enabled-collections>` table. Press the
    :guilabel:`Disable` button for a collection. This turns off preimages for 
    that collection.
+
+4. :ref:`Re-enable Sync <re-enable-realm-sync>`, if the collection is part 
+   of a synced cluster.
+
+.. include:: /includes/warn-terminate-sync-client-reset.rst
