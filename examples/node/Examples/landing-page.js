@@ -18,6 +18,9 @@ describe("Node Landing Page", () => {
     };
     // open a local realm with the 'Cat' schema
     const realm = await Realm.open({
+      // :hide-start:
+      path: "landing-page",
+      // :hide-end:
       schema: [Cat],
     });
     // :code-block-end:
@@ -106,9 +109,15 @@ describe("Node Landing Page", () => {
     // :code-block-start:  node-landing-access-the-latest-data
     // always access the latest data
     const realmInstanceA = await Realm.open({
+      // :hide-start:
+      path: "landing-page",
+      // :hide-end:
       schema: [Cat],
     });
     const realmInstanceB = await Realm.open({
+      // :hide-start:
+      path: "landing-page",
+      // :hide-end:
       schema: [Cat],
     });
     // get a reference to a single cat object

@@ -57,7 +57,7 @@ describe("user authentication", () => {
     // :code-block-end:
   });
 
-  test("server api key login", async () => {
+  test.skip("server api key login", async () => {
     process.env.realmServerApiKey = "lolthisisntreallyakey";
     // :code-block-start: server-api-key-login
     // Get the API key from the local environment

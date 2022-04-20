@@ -53,11 +53,6 @@ const PetOwnerSchema = {
 // :code-block-end:
 
 describe("Node.js Data Types", () => {
-  afterEach(() => {
-    if (realm && !realm.isClosed) {
-      realm.close();
-    }
-  });
   test("should create, update and query Realm dictionaries", async () => {
     // :code-block-start: define-dictionary-in-schema
     const PersonSchema = {
@@ -70,6 +65,7 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     realm = await Realm.open({
+      path: "data-type-realm",
       schema: [PersonSchema],
     });
 
@@ -159,6 +155,8 @@ describe("Node.js Data Types", () => {
       realm.delete(johnDoe);
       realm.delete(janeSmith);
     });
+
+    realm.close();
   });
   test("should work with Mixed Type", async () => {
     // :code-block-start: define-mixed-in-schema
@@ -172,6 +170,7 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     realm = await Realm.open({
+      path: "data-type-realm",
       schema: [DogSchema],
     });
 
@@ -201,9 +200,8 @@ describe("Node.js Data Types", () => {
     // :code-block-start: query-objects-with-mixed-values
     // To query for Blaise's birthDate, filter for his name to retrieve the realm object.
     // Use dot notation to access the birthDate property.
-    let blaiseBirthDate = realm
-      .objects("Dog")
-      .filtered(`name = 'Blaise'`)[0].birthDate;
+    let blaiseBirthDate = realm.objects("Dog").filtered(`name = 'Blaise'`)[0]
+      .birthDate;
     console.log(`Blaise's birth date is ${blaiseBirthDate}`);
     // :code-block-end:
     expect(blaiseBirthDate).toEqual(new Date("August 17, 2020"));
@@ -220,9 +218,12 @@ describe("Node.js Data Types", () => {
       realm.delete(Euclid);
       realm.delete(Pythagoras);
     });
+
+    realm.close();
   });
   test("should create and read and delete an embedded object", async () => {
     realm = await Realm.open({
+      path: "data-type-realm",
       schema: [AddressSchema, ContactSchema],
     });
 
@@ -260,10 +261,13 @@ describe("Node.js Data Types", () => {
       );
     });
     // :code-block-end:
+
+    realm.close();
   });
   // update and delete an embedded object
   test("should update and overwrite an embedded object", async () => {
     realm = await Realm.open({
+      path: "data-type-realm",
       schema: [AddressSchema, ContactSchema],
     });
     const harryAddress = {
@@ -311,6 +315,8 @@ describe("Node.js Data Types", () => {
     realm.write(() => {
       realm.delete(harryPotter);
     });
+
+    realm.close();
   });
   test("should work with UUID", async () => {
     // :code-block-start: work-with-uuid
@@ -325,6 +331,7 @@ describe("Node.js Data Types", () => {
     };
 
     const realm = await Realm.open({
+      path: "data-type-realm",
       schema: [ProfileSchema],
     });
 
@@ -368,6 +375,7 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-end:
     realm = await Realm.open({
+      path: "data-type-realm",
       schema: [characterSchema],
     });
 
@@ -466,6 +474,7 @@ describe("Node.js Data Types", () => {
       realm.delete(playerOne);
       realm.delete(playerTwo);
     });
+    realm.close();
   });
 
   test("should traverse a set", async () => {
@@ -483,6 +492,7 @@ describe("Node.js Data Types", () => {
     let playerOne;
     try {
       realm = await Realm.open({
+        path: "data-type-realm",
         schema: [characterSchema],
       });
       realm.write(() => {
@@ -507,6 +517,7 @@ describe("Node.js Data Types", () => {
     realm.write(() => {
       realm.delete(playerOne);
     });
+    realm.close();
   });
 
   test("should convert set to array with insertion order", async () => {
@@ -532,6 +543,7 @@ describe("Node.js Data Types", () => {
     let playerOne;
     let levelsCompletedInOrder = [];
     const realm = await Realm.open({
+      path: "data-type-realm",
       schema: [characterSchema],
     });
     realm.write(() => {
