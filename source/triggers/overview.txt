@@ -22,8 +22,7 @@ When a Trigger observes an event that matches your
 configuration, it *"fires."* The Trigger passes this event object as the 
 argument to its linked Function. 
 
-You can configure the event that causes a Trigger to fire. A Trigger might 
-fire on:
+A Trigger might fire on:
 
 - A specific *operation type* in a given Collection.
 - An authentication event, such as user creation or deletion.
@@ -66,13 +65,14 @@ Maximum Executions Per Second
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} limits the execution of Trigger
-Functions. Triggers can execute 2500 per second per Trigger. {+service-short+}
-manages a queue for Trigger executions. A Trigger's associated Function 
-calls go into a queue. When capacity becomes available, {+service-short+} 
-executes the Function calls. 
+Functions. A Trigger can execute up to 2500 times per second. When a 
+Trigger calls a Function, this call goes into a queue. When capacity 
+becomes available, {+service-short+} executes the Function call.
 
-Your application's execution rate may be lower than 2500 per second. This 
-varies depending on your {+atlas-short+} instance size.
+.. note::
+
+   Your application's execution rate may be lower than 2500 per second. This 
+   varies depending on your {+atlas-short+} instance size.
 
 Database Triggers with *event ordering* work differently. Each ordered 
 Trigger processes events in sequence. {+service-short+} waits for each event 
