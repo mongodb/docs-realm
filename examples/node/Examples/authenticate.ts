@@ -28,7 +28,10 @@ describe("user authentication", () => {
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
     const username = "joe.jasper" + randomInt.toString() + "@example.com";
-    await app.emailPasswordAuth.registerUser({ email: username, password: "passw0rd" });
+    await app.emailPasswordAuth.registerUser({
+      email: username,
+      password: "passw0rd",
+    });
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
@@ -53,7 +56,7 @@ describe("user authentication", () => {
     // :code-block-end:
   });
 
-  test("server api key login", async () => {
+  test.skip("server api key login", async () => {
     process.env.realmServerApiKey = "lolthisisntreallyakey";
     // :code-block-start: server-api-key-login
     // Get the API key from the local environment
