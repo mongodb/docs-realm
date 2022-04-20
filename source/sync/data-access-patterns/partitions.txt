@@ -16,22 +16,33 @@ Partitions
 Overview
 --------
 
-A **partition** represents a subset of the documents in a synced cluster that
-are related in some way and have the same read/write permissions for a given
-user. Realm directly maps partitions to individual synced ``.realm`` files so
-each object in a synced realm has a corresponding document in the partition.
+**Partitions** are the abstraction between the Realm object model and the 
+MongoDB document model. Each model operates under different constraints 
+and assumptions.
 
-Partitions bridge the gap between the Realm data model and the MongoDB document
-model, which operate under different constraints and assumptions:
+A MongoDB Atlas cluster consists of several remote servers. These servers 
+provide the storage for your synced data. The Atlas cluster stores 
+documents in collections. Each MongoDB collection maps to a different Realm 
+object type. Each document in a collection represents a specific Realm object.
 
-- A MongoDB cluster is composed of multiple remote servers with access to enough
-  storage capacity to store all of your synced data. Each object type maps to
-  its own collection.
+A synced realm is a local file on a device. A synced realm may contain 
+some or all the objects relevant to the end user. A client app 
+may use more than one synced realm to access all the objects that the 
+application needs.
 
-- A synced realm is a specific local file and often has significant storage and
-  memory constraints imposed by the device. Realms generally contain multiple
-  object types but only a subset of all objects that are relevant to the end
-  user.
+Partitions link objects in Realm Database to documents in MongoDB. When 
+you initialize a synced realm file, one of its parameters is a partition 
+value. Your client app creates objects in the synced realm. When those 
+objects sync, the partition value becomes a field in the MongoDB documents. 
+The value of this field determines which MongoDB documents the client 
+can access. 
+
+At a high level:
+
+- A partition maps to a subset of the documents in a synced cluster. 
+- All documents in a partition have the same read/write permissions for a given user. 
+- Realm maps each partition to an individual synced ``.realm`` file. 
+- Each object in a synced realm has a corresponding document in the partition.
 
 .. figure:: /images/partitioning.png
    :alt: A diagram that explains partitioning using groups of shapes and colors. MongoDB collections group by shape (equivalent to object types) while realms group by color (equivalent to partition value).
@@ -49,44 +60,33 @@ Key Terms
 Partition Key
 ~~~~~~~~~~~~~
 
-The **partition key** is the name of the field that Realm uses to determine
-which partition a given document in a synced MongoDB cluster belongs to. Your
-app's partition key is a central part of the sync data model that you should
-consider during development. Once you have chosen a partition key and
-:ref:`enabled sync <enable-sync>`, you cannot reassign the partition key to a
-different field. If you need to change a partition key, you can terminate sync
-and then enable it with the new partition key; however, this requires all client
-applications to reset and sync data into new realms.
+A **partition key** is a named field that you specify when you 
+:ref:`configure Realm Sync <enable-sync>`. Realm Sync uses this key to 
+determine which partition contains a given document.
 
-.. include:: /includes/warn-terminate-sync-client-reset.rst
+Depending on your data model and the complexity of your app, your partition 
+key could be either:
 
-Depending on your data model and the complexity of your app, your partition key
-could be either:
+- A property that already exists in each document and that logically 
+  partitions data. For example, consider an app where every document is 
+  private to a specific user. You might store the user's ID value in an 
+  ``owner_id`` field and then use that as the partition key.
+- A synthetic property that you create to partition data (e.g. 
+  ``_partition``). You might use this when your app does not include a 
+  natural partition key.
 
-- A property that already exists in each document and that logically partitions
-  data. For example, if every document is private to a specific user you might
-  indicate the user's ID value in an ``owner_id`` field and then use that as the
-  partition key.
-
-- A synthetic property that you create specifically to partition data (e.g.
-  ``_partition``). This is useful for more complex data models that don't
-  include a natural partition key or that require granular access permissions.
-
-You can require that every synced object includes the partition key or allow
-objects to optionally omit it. If you specify that the partition key is
-optional, Realm maps any object that does not include it to a single default
-partition called the *null partition*.
+You can make the partition key required or optional on your objects. 
+Realm maps any object that does not include a partition key to a default 
+partition - *null partition*.
 
 Consider the following when choosing a partition key:
 
-- Partition keys must have one of the following property types: ``String``,
-  ``ObjectID``, ``Long``, or ``UUID``.
-
-- {+service-short+} clients should never modify the partition value directly.
-  Any field that clients can modify cannot be used as a partition key.
-
-- Partition keys use the same field name in every synced document. The partition
-  key should not collide with any field name in any object's model.
+- Partition keys must be one of these types: ``String``, ``ObjectID``, 
+  ``Long``, or ``UUID``.
+- Realm clients should never modify the partition value directly. You 
+  cannot use any field that clients can modify as a partition key.
+- Partition keys use the same field name in every synced document. The 
+  partition key should not collide with any field name in any object's model.
 
 .. example::
    
@@ -141,25 +141,42 @@ Consider the following when choosing a partition key:
         }
       }
 
+.. _change-partition-key:
+
+Change a Partition Key
+``````````````````````
+
+Your app's partition key is a central part of a Sync-enabled app's data 
+model. When you set a partition key in your Sync configuration, you cannot 
+later reassign the key's field. If you need to change a partition key, you 
+must terminate sync. Then, you can enable it again with the new partition 
+key. However, this requires all client applications to reset and sync data 
+into new realms.
+
+.. include:: /includes/warn-terminate-sync-client-reset.rst
+
 .. _partition-value:
 
 Partition Value
 ~~~~~~~~~~~~~~~
 
-A **partition value** is a value of the partition key field for a given
-document. Documents with the same partition value belong to the same partition,
-sync to the same realm file, and share user-level data access permissions.
+A **partition value** is a value of the partition key field for a given 
+document. Documents with the same partition value belong to the same 
+partition. They sync to the same realm file, and share user-level data 
+access permissions.
 
-A partition's value is the identifier for its corresponding synced realm. To
-work with the data in a given partition from a client application, you specify
-the partition's value when you open its corresponding synced realm. If you
-change a partition value in {+atlas-short+}, Realm interprets the change as a
-delete from the old partition and an insert into the new partition.
+A partition's value is the identifier for its corresponding synced realm. 
+You specify the partition's value when you open it as a synced realm in 
+the client. If you change a partition value in Atlas, Realm interprets 
+the change as two operations:
+
+- A delete from the old partition.
+- An insert into the new partition.
 
 .. warning::
 
-   If you modify a document's partition value, you will lose any local changes
-   to the data that have not yet been synced.
+   If you change a document's partition value, you lose client-side unsynced 
+   changes to the object.
 
 .. _partition-strategy:
 .. _partition-strategies:
@@ -167,82 +184,75 @@ delete from the old partition and an insert into the new partition.
 Partition Strategy
 ------------------
 
-A **partition strategy** is a specific partition key and value pattern that you
-use to divide objects into partitions for a particular use case. Realm uses 
-:ref:`partitions <sync-partitions>` to map objects between synced realms on 
-client devices and documents stored in MongoDB Atlas. Partitions are a
-core part of your synced data model that determine each user's read and write
-access to objects in the partition.
+A **partition strategy** is a key/value pattern to divide objects into 
+partitions. Different use cases call for different partition strategies. 
+You can compose partition strategies within the same app to form a larger 
+strategy. This enables you to handle arbitrarily complex use cases.
 
-You can compose individual partition strategies within the same app to form a
-larger strategy that handles arbitrarily complex use cases. The exact strategy
-that you should use depends on your app's data model and access patterns. For
-example, you might make some data, like announcements or an organizational
-chart, available in a public partition but restrict other data, like personal
-information, to privileged users.
+Which strategy to use depends on your app's data model and access patterns. 
+Consider an app with both public and private data. You might put some data, 
+like announcements, in a public partition. You might restrict other data, 
+like personal information, to privileged users.
 
-When developing a partition strategy, there are two primary areas to consider:
+When developing a partition strategy, consider:
 
-- **Data Security:** Your users likely need individualized read and write access to
-  data depending on some conditions. A partition strategy should consider which
-  users need to access which partitions to make sure that a given user always
-  has the same data access permissions for every document in a partition.
+- **Data Security:** Users may need different read and write access 
+  permissions to subsets of data. Consider the permissions users need for 
+  types of documents. A user has the same permissions for every document 
+  in a partition.
 
-- **Storage Capacity:** Your client applications may have limited on-device storage
-  space available to them depending on the device and platform. A partition
-  strategy should take storage limitations into account to make sure a user's
-  synced data can be stored on their device.
+- **Storage Capacity:** Your client apps may have limited on-device storage 
+  on some devices and platforms. A partition strategy should take storage 
+  limitations into account. Make sure a user can store their synced data 
+  on their device.
 
 .. tip:: Combine Strategies
    
-   To use multiple strategies in the same app, you can use a generic partition
-   key field name like ``_partition`` with a partition value structured like a
-   query string. For example:
+   You can use a partition key name like ``_partition`` with a query string 
+   as the value. This lets you use multiple strategies in the same app. 
+   For example:
    
    .. code-block:: javascript
    
       _partitionKey: "user_id=abcdefg"
       _partitionKey: "team_id=1234&city='New York, NY'"
    
-   You can use functions and rule expressions to parse the string and determine
-   whether or not a given user has access to a {+realm+} based on the combined
-   strategy.
+   You can use functions and rule expressions to parse the string. 
+   Sync can determine whether a user has access to a partition based on 
+   the combined strategy.
 
 .. _partition-strategy-firehose:
 
 Firehose Strategy
 ~~~~~~~~~~~~~~~~~
 
-A firehose partition strategy groups all documents into a single partition so
-that every user syncs all of your app's data to their device. This approach is
-functionally a decision not to partition data and is suitable only for basic
-applications or relatively small public data sets.
+A firehose partition strategy groups all documents into a single partition. 
+With this structure, every user syncs all of your app's data to their device. 
+This approach is functionally a decision to not partition data. This works 
+for basic applications or small public data sets.
 
-- **Data Security:** All data in the firehose partition is public to clients 
-  with an open {+realm+} that uses the partition. 
-  If a given user has read or write access to the partition, 
+- **Data Security.** All data is public to clients with a {+realm+} that 
+  uses the partition. If a user has read or write access to the partition, 
   they can read or write *any* document.
 
-- **Storage Capacity:** Every user syncs every document in the firehose
-  partition, so all data must fit within your most restrictive storage
-  limitation. You should only use this strategy for data sets that are
-  relatively small and that do not grow quickly.
+- **Storage Capacity.** Every user syncs every document in the partition. 
+  All data must fit within your most restrictive storage limitation. Use 
+  this strategy only when data sets are small and do not grow quickly.
 
 
-The most straightforward way to configure a firehose is to set the partition
-key as an optional field not present in any document. Realm maps any document
-that doesn't include a partition value to the **null partition**.
+One way to create a firehose is to set the partition key as an optional 
+field. Don't include a value for this field in any document. Realm maps 
+any document that doesn't include a partition value to the **null partition**.
 
-You can also set a **static partition value**, where the partition value is 
-a property that doesn't change based on the user or data. 
-For example, you could configure {+realm+}s across all clients to use the 
-partition value ``"MyPartitionValue"``.
+You can also set a **static partition value**. This is when the partition 
+value doesn't change based on the user or data. For example, {+realm+}s 
+across all clients could use the partition value ``"MyPartitionValue"``.
 
 .. example::
    
-   A local sports app lets users download and browse game scores and statistics
-   for historical high school baseball games. Consider the following documents
-   in the ``games`` and ``teams`` collections:
+   An app lets users browse scores and statistics for local high school 
+   baseball games. Consider the following documents in the ``games`` and 
+   ``teams`` collections:
    
    .. code-block:: javascript
       
@@ -261,11 +271,11 @@ partition value ``"MyPartitionValue"``.
         { name: "Uptown Bombers" }
       ]
    
-   The total number of historical games is relatively small, and a small number
-   of local teams only play a few games each year, so most devices should be
-   able to download all of the game data for easy offline access. In this case,
-   the firehose strategy is appropriate, and the documents don't need to have a
-   partition key.
+   The total number of games is small. A small number of local teams only 
+   play a few games each year. Most devices should be able to download all 
+   game data for easy offline access. In this case, the firehose strategy 
+   is appropriate. The data is public and documents don't need a partition 
+   key.
    
    The strategy maps the collections to the following realms:
    
@@ -288,19 +298,18 @@ partition value ``"MyPartitionValue"``.
 User Strategy
 ~~~~~~~~~~~~~
 
-A user partition strategy groups private documents that belong to a user into a
-partition specific to that user. This approach is effective when each document
-has a specific owner, often identified by a username or ID, and no other users
-need access to the data.
+A user partition strategy groups private documents for each user. These 
+documents go into a partition specific to that user. This works when each 
+document has an owner, and nobody else needs the data. A username or ID that 
+identifies the owner makes a natural partition key.
 
-- **Data Security:** Data in a user partition is specific to a given user and
-  may contain information private to that user. In general, each user syncs only
-  their own partition and other users cannot access documents in the partition.
+- **Data Security.** Data in a user partition is specific to a given user. 
+  It may contain information private to that user. Each user syncs only 
+  their own partition. Other users cannot access documents in the partition.
 
-- **Storage Capacity:** In general, each user only syncs data from their own
-  partition, so their data must fit within their device's storage constraints.
-  You can use this strategy when data has specific owners that each own a
-  manageable amount of data.
+- **Storage Capacity.** Each user only syncs data from their own partition. 
+  Their data must fit within their device's storage constraints. Use this 
+  strategy only when each user has a manageable amount of data.
 
 .. example::
    
@@ -324,16 +333,16 @@ need access to the data.
         { owner_id: "dog_enthusiast_95", song_id: 1, rating: 1 }
       ]
    
-   Every document includes the ``owner_id`` field, which is a good partition key
-   for a user partition strategy because it naturally maps documents to individual
-   users. This limits the data on each device to only include playlists and ratings
-   that are relevant for the device's user.
+   Every document includes the ``owner_id`` field. This is a good partition 
+   key for a user partition strategy. It naturally maps documents to 
+   individual users. This limits the data on each device to playlists and 
+   ratings for the device's user.
    
-   - Users have read and write access to their user realm, which contains playlists
-     they have created and ratings that they've given to songs.
+   - Users have read and write access to their user realm. This contains 
+     playlists they have created and ratings that they've given to songs.
      
-   - Every user has read access to the {+realm+} for partition value ``PUBLIC``,
-     which contains playlists that are available to all users.
+   - Every user has read access to the {+realm+} for partition value ``PUBLIC``.
+     This contains playlists that are available to all users.
    
    The strategy maps the collections to the following realms:
    
@@ -361,28 +370,27 @@ need access to the data.
 Team Strategy
 ~~~~~~~~~~~~~
 
-A team partition strategy groups private documents shared by a team of users
-(e.g. a store location's employee, a band's members, etc) into a partition
-specific to that group. All users in the team share access and ownership of the
-team's documents.
+A team partition strategy groups private documents shared by a team of users. 
+A team might include a store location's employees or a band's members. Each 
+team has a partition specific to that group. All users in the team share 
+access and ownership of the team's documents.
 
-- **Data Security:** Data in a team partition is specific to a given team and
-  may contain information private to that team but not necessarily private to
-  any specific member of the team. In general each user syncs partitions for the
-  teams they belong to and users not in a given team cannot access documents in
-  the team's partition.
+- **Data Security.** Data in a team partition is specific to a given team. 
+  It may contain data private to the team but not to a member of the team. 
+  Each user syncs partitions for the teams they belong to. Users not in a 
+  team cannot access documents in the team's partition.
 
-- **Storage Capacity:** In general, each user only syncs data from their own
-  teams. The combined data from any given user's teams must fit within their
-  device's storage constraints. You can use this strategy when data belongs to
-  specific teams and each user belongs to a manageable number of teams. If a
-  user may belong to many teams, you may need to limit the number of team
-  partitions that they sync at any time.
+- **Storage Capacity:** Each user only syncs data from their own teams. The 
+  data from a user's teams must fit within their device's storage constraints. 
+  Use this strategy when users belong to a manageable number of teams. If 
+  users belong to many teams, the combined realms could contain a lot of 
+  data. You may need to limit the number of team partitions synced at a 
+  time.
 
 .. example::
    
-   A productivity app lets users create projects where they can collaborate on
-   tasks with other users. Consider the following documents in the ``projects``
+   An app lets users create projects to collaborate with other users. 
+   Consider the following documents in the ``projects``
    and ``tasks`` collections:
    
    .. code-block:: javascript
@@ -401,16 +409,16 @@ team's documents.
         { status: "todo", owner_id: "cli-team", text: "Choose a CLI framework" }
       ]
    
-   Every document includes the ``owner_id`` field, which is a good partition key
-   for a team partition strategy because it naturally maps documents to individual
-   teams. This limits the data on each device to only include projects and tasks
-   that are relevant for the device's user.
+   Every document includes the ``owner_id`` field. This is a good partition 
+   key for a team partition strategy. It naturally maps documents to 
+   individual teams. This limits the data on each device. Users only have 
+   projects and tasks that are relevant to them.
    
-   - Users have read and write access to partitions owned by a team that they're
-     a member of.
+   - Users have read and write access to partitions owned by teams where 
+     they're a member.
      
-   - Team membership could be determined by data stored in a ``teams`` or
-     ``users`` collection:
+   - Data stored in a ``teams`` or ``users`` collection can map users to 
+     team membership:
      
      .. code-block:: javascript
         
@@ -450,28 +458,28 @@ team's documents.
 Channel Strategy
 ~~~~~~~~~~~~~~~~
 
-A channel partition strategy groups documents relevant to a common topic or
-domain into a partition specific to that area. Users can choose to access or
-subscribe to specific channels, often identified by a name or ID, from a public
-list.
+A channel partition strategy groups documents for a common topic or domain. 
+Each topic or domain has its own partition. Users can choose to access or 
+subscribe to specific channels. A name or ID may identify these channels 
+in a public list.
 
-- **Data Security:** Data in a channel partition is specific to a given topic or
-  area that a user can choose to access. You can limit a user's access to
-  specific channels or prevent them from accessing channels entirely, but if a
-  user has read or write permission for a channel then they can access any
-  document in the partition.
+- **Data Security.** Data in a channel partition is specific to a topic or 
+  area. Users can choose to access these channels. You can limit a user's 
+  access to a subset of channels. You could prevent users from accessing 
+  channels entirely. When user has read or write permission for a channel, 
+  they can access any document in the partition.
 
-- **Storage Capacity:** Users can choose to sync data from any allowed channel.
-  The combined data from all of the channels a given user accesses must fit
-  within their device's storage constraints. You can use this strategy to
-  partition public or semi-private data sets that would otherwise not fit within
+- **Storage Capacity.** Users can choose to sync data from any allowed 
+  channel. All data from a user's channels must fit within their device's 
+  storage constraints. Use this strategy to partition public or semi-private 
+  data sets. This strategy breaks up data sets that would not fit within 
   storage constraints.
 
 .. example::
    
-   A social app lets users create chatrooms based on specific topics. Users
-   can search for and join channels for any topic that interests them. Consider
-   the following documents in the ``chatrooms`` and ``messages`` collections:
+   An app lets users create chatrooms based on topics. Users can search 
+   for and join channels for any topic that interests them. Consider 
+   these documents in the ``chatrooms`` and ``messages`` collections:
    
    .. code-block:: javascript
       
@@ -488,18 +496,18 @@ list.
         { topic: "sports", text: "I can't believe how they scored that goal.", timestamp: 1625773000383 }
       ]
    
-   Every document includes the ``topic`` field, which is a good partition key for
-   a channel partition strategy because it naturally maps documents to individual
-   channels. This limits the data on each device to only include messages and
-   metadata for chatrooms that the user has subscribed to.
+   Every document includes the ``topic`` field. This is a good partition 
+   key for a channel partition strategy. It naturally maps documents to 
+   individual channels. This reduces the data on each device. Data only 
+   contains messages and metadata for channels the user has chosen.
    
-   - Users could have read and write access to chatrooms that they're subscribed
-     to, which would allow them to modify or delete any message, even those sent
-     by other users. To limit write permissions, you could give users read-only
-     access and handle sending messages with a serverless function.
+   - Users have read and write access to chatrooms where they're subscribed. 
+     Users can change or delete any message - even those sent by other users. 
+     To limit write permissions, you could give users read-only access. 
+     Then, handle sending messages with a serverless function.
    
-   - You could determine which channels a user has subscribed to by storing the
-     subscription in either the ``chatrooms`` or ``users`` collection:
+   - Store the use's subscribed channels in either the ``chatrooms`` 
+     or ``users`` collection:
      
      .. code-block:: javascript
         
@@ -538,24 +546,23 @@ list.
 Region Strategy
 ~~~~~~~~~~~~~~~
 
-A region partition strategy groups documents that are relevant to a specific
-location or region into partitions specific to those areas.
+A region partition strategy groups documents related to a location or region. 
+Each partition contains documents specific to those areas.
 
-- **Data Security:** Data in a region partition is specific to a given
-  geographic area. You can limit a user's access to just the region they're
-  currently in or give access to data on a region-by-region basis.
+- **Data Security.** Data is specific to a given geographic area. You can 
+  limit a user's access to their current region. Alternately, give access 
+  to data on a region-by-region basis.
 
-- **Storage Capacity:** The storage implications of a region strategy depend on
-  the size and usage patterns for each region. Users typically only sync data in
-  their own region, so at a minimum the data for any given region should fit
-  within a device's storage constraints. If users sync multiple regions, you may
-  consider partitioning into smaller subregions to minimize syncing unneeded
-  data.
+- **Storage Capacity.** Storage needs vary depending on size and usage 
+  patterns for the region. Users might only sync data in their own region. 
+  The data for any region should fit within a device's storage constraints. 
+  If users sync multiple regions, partition into smaller subregions. This 
+  helps avoid syncing unneeded data.
 
 .. example::
    
-   A food delivery app lets users search for nearby restaurants and order from
-   their menus. Consider the following documents in the ``restaurants``
+   An app lets users search for nearby restaurants and order from their 
+   menus. Consider the following documents in the ``restaurants``
    collection:
    
    .. code-block:: javascript
@@ -569,11 +576,11 @@ location or region into partitions specific to those areas.
         { city: "Chicago, IL", name: "Nando's", menu: [ ... ] }
       ]
    
-   Every document includes the ``city`` field, which is a good partition key for
-   a region partition strategy because it naturally maps documents to specific
-   physical areas. This limits the data on each device to only include messages
-   and metadata for the user's current city. Users have read access to
-   restaurants in their current region, which you could determine in your
+   Every document includes the ``city`` field. This is a good partition 
+   key for a region partition strategy. It naturally maps documents to 
+   specific physical areas. This limits data to messages and metadata 
+   for a user's current city. Users have read access to restaurants in 
+   their current region. You could determine the user's region in your 
    application logic.
    
    The strategy maps the collections to the following realms:
@@ -597,28 +604,26 @@ location or region into partitions specific to those areas.
 Bucket Strategy
 ~~~~~~~~~~~~~~~
 
-A bucket partition strategy groups documents that range along a particular
-dimension into partitions that each contain documents from a discrete subrange.
-In time-based bucket strategies, you can use scheduled triggers to move
-documents to a new partition when they fall out of their bucket range.
+A bucket partition strategy groups documents by range. When documents range 
+along a dimension, a partition contains a subrange. Consider time-based 
+bucket ranges. Triggers move documents to new partitions when they fall 
+out of their bucket range.
 
-- **Data Security:** You can use permissions to limit users to
-  read or write only specific buckets. Data may flow between buckets, so
-  consider the access permissions for a document across all possible buckets,
-  not just its current bucket.
+- **Data Security.** Limit users to read or write only specific buckets. 
+  Data may flow between buckets. Consider access permissions for a document 
+  across all possible buckets.
 
-- **Storage Capacity:** The storage implications of a bucket strategy depend on
-  the size and usage patterns for each bucket. Consider which buckets users need
-  to access and limit the size of buckets to fit within a device's storage
-  constraints. If users sync many buckets, especially for disjoint data,
-  consider partitioning into smaller buckets to minimize syncing unneeded data.
+- **Storage Capacity.** Storage needs vary based on size and usage patterns 
+  for each bucket. Consider which buckets users need to access. Limit the 
+  size of buckets to fit within a device's storage constraints. If users 
+  sync many buckets, partition into smaller buckets. This helps avoid 
+  syncing unneeded data.
 
 .. example::
    
-   An IoT app shows real-time views of sensor readings that come in several
-   times a second. It groups readings into time buckets based on the number of
-   seconds since the reading was taken. Consider the following documents in the
-   ``readings`` collection:
+   An IoT app shows real-time views of sensor readings several times a 
+   second. Buckets derive from the number of seconds since the reading 
+   came in. Consider these documents in the ``readings`` collection:
    
    .. code-block:: javascript
       
@@ -630,13 +635,13 @@ documents to a new partition when they fall out of their bucket range.
         { bucket: "60s<t<=300s", timestamp: 1625772933383 , data: { ... } }
       ]
    
-   Every document includes the ``bucket`` field, which maps documents to
-   specific time ranges. This limits the data on each device to only include
-   sensor readings for the time period a user is viewing.
+   Every document includes the ``bucket`` field. This field maps documents 
+   to specific time ranges. A user's device only contains sensor readings 
+   for the window they view.
    
-   - Users have read access to sensor readings for any time bucket they view
+   - Users have read access to sensor readings for any time bucket.
    
-   - The sensors use their own client apps with write access to upload readings
+   - Sensors use client apps with write access to upload readings.
    
    The strategy maps the collections to the following realms:
    
