@@ -16,7 +16,7 @@ Partitions
 Overview
 --------
 
-**Partition** is the abstraction between the Realm object model and the 
+**Partitions** are the abstraction between the Realm object model and the 
 MongoDB document model. Each model operates under different constraints 
 and assumptions.
 
@@ -26,16 +26,16 @@ documents in collections. Each MongoDB collection maps to a different Realm
 object type. Each document in a collection represents a specific Realm object.
 
 A synced realm is a local file on a device. A synced realm may contain 
-some or all the objects that are relevant to the end user. A client app 
+some or all the objects relevant to the end user. A client app 
 may use more than one synced realm to access all the objects that the 
 application needs.
 
-The partition is the link between the objects in the client app and the 
-documents in MongoDB. When you initialize a synced realm file, one of its 
-parameters is a partition value. Your client app creates objects in the 
-synced realm. When those objects sync, the partition value becomes a 
-field in the MongoDB documents. The value of this field determines which 
-documents in MongoDB the client can access. 
+Partitions link objects in Realm Database to documents in MongoDB. When 
+you initialize a synced realm file, one of its parameters is a partition 
+value. Your client app creates objects in the synced realm. When those 
+objects sync, the partition value becomes a field in the MongoDB documents. 
+The value of this field determines which MongoDB documents the client 
+can access. 
 
 At a high level:
 
@@ -63,15 +63,6 @@ Partition Key
 A **partition key** is a named field that you specify when you 
 :ref:`configure Realm Sync <enable-sync>`. Realm Sync uses this key to 
 determine which partition contains a given document.
-
-Your app's partition key is a central part of a Sync-enabled app's data 
-model. When you set a partition key in your Sync configuration, you cannot 
-later reassign the key's field. If you need to change a partition key, you 
-must terminate sync. Then, you can enable it again with the new partition 
-key. However, this requires all client applications to reset and sync data 
-into new realms.
-
-.. include:: /includes/warn-terminate-sync-client-reset.rst
 
 Depending on your data model and the complexity of your app, your partition 
 key could be either:
@@ -149,6 +140,20 @@ Consider the following when choosing a partition key:
           }
         }
       }
+
+.. _change-partition-key:
+
+Change a Partition Key
+``````````````````````
+
+Your app's partition key is a central part of a Sync-enabled app's data 
+model. When you set a partition key in your Sync configuration, you cannot 
+later reassign the key's field. If you need to change a partition key, you 
+must terminate sync. Then, you can enable it again with the new partition 
+key. However, this requires all client applications to reset and sync data 
+into new realms.
+
+.. include:: /includes/warn-terminate-sync-client-reset.rst
 
 .. _partition-value:
 
