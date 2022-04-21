@@ -42,13 +42,10 @@ Unsupported Query Operators in Flexible Sync
      - Unsupported Operators
 
    * - Comparison Operators
-     - ``BETWEEN``, ``IN``
-    
-   * - Case-Insensitive Queries
-     - ``[c]``
+     - ``IN``
 
    * - String Operators
-     - ``beginsWith``, ``endsWith``, ``contains``, ``like``, ``in``
+     - ``in``
 
    * - Aggregate Operators
      - ``@avg``, ``@count``, ``@max``, ``@min``, ``@sum``
@@ -59,9 +56,11 @@ Unsupported Query Operators in Flexible Sync
    * - Query Suffixes
      - ``DISTINCT``, ``SORT``, ``LIMIT``
 
-The recommended workaround for the ``BETWEEN`` comparison operator is to
-combine range operators with ``AND`` for this type of query, instead. For 
-example, ``field > 100 AND field < 200``.
+Case insensitive queries (``[c]``) cannot use indexes effectively.
+As a result, case insensitive queries are not recommended, since they could lead to
+performance problems.
+
+Flexible Sync only supports ``@avg`` and ``@count`` for array fields.
 
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
