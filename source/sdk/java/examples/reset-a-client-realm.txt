@@ -39,9 +39,9 @@ strategies restore realm to a syncable state, but have tradeoffs:
 Both options let you write custom logic to recover local changes. Neither 
 option can recover local changes for you. 
 
-Discard unsynced changes is an improved version of manual recovery. However, 
-this strategy cannot handle every client reset error. You must maintain a 
-manual client reset handler as a fallback.
+Discard unsynced changes is a less complex alternative to manual recovery. 
+However, this strategy cannot handle every client reset error. You must 
+maintain a manual client reset handler as a fallback.
 
 .. _java-discard-unsynced-changes:
 
@@ -50,9 +50,9 @@ Discard Unsynced Changes
 
 .. versionadded:: 10.10.0
 
-The **discard unsynced changes** performs client resets "seamlessly." This 
-strategy requires minimal code and minimal disruption. This strategy 
-does not close the realm or miss notifications.
+**Discard unsynced changes** is a client reset strategy provided by the SDK. 
+This strategy requires minimal code. This strategy performs a reset without 
+closing the realm or missing notifications.
 
 It *does* delete all local changes made since the last successful sync. 
 Do not use this strategy if your application cannot lose unsynced data. 
@@ -63,8 +63,8 @@ required for a manual recovery is quite complex. This is not recommended
 for most applications.
 
 Discard unsynced changes cannot handle :ref:`breaking or destructive schema 
-changes <destructive-changes-synced-schema>`. With breaking changes, this 
-strategy falls back to manual recovery mode.
+changes <destructive-changes-synced-schema>`. When breaking changes occur, 
+the SDK falls back to manual recovery mode.
 
 To use this strategy, pass an instance of 
 :java-sdk:`DiscardUnsyncedChangesStrategy
@@ -75,13 +75,14 @@ builder method when you instantiate your ``App``. Your
 ``DiscardUnsyncedChangesStrategy`` instance must implement the following
 methods:
 
-- ``onBeforeReset()``. Realm calls this block when it receives a client 
-  reset error from the backend.
-- ``onAfterReset()``. Realm calls this block after successfully executing 
+- ``onBeforeReset()``. The SDK calls this block when it receives a client 
+  reset error from the backend. This occurs before the SDK executes the 
+  client reset strategy.
+- ``onAfterReset()``. The SDK calls this block after successfully executing 
   this strategy. This block provides a frozen copy of the original realm. 
   It also returns a live instance of the realm in a syncable state.
 - ``onError()``: Mimics the "manually recover unsynced changes" strategy. 
-  Realm calls this method during a breaking schema change.  
+  The SDK calls this method during a breaking schema change.  
   
   .. seealso::
 
@@ -115,7 +116,7 @@ Discard Unsynced Changes after Breaking Schema Changes
 
 The discard unsynced changes strategy cannot handle breaking changes. You 
 must manually handle the client reset in the ``onError()`` method. This 
-example discards unsynced changes to handle the client reset:
+example manually discards unsynced changes to handle the client reset:
 
 .. tabs-realm-languages::
 
