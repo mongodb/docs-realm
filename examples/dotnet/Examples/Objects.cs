@@ -5,7 +5,7 @@ using MongoDB.Bson;
 using Realms;
 using static Examples.ObjectModelsAndSchemas;
 
-namespace ObjectExamples.Models
+namespace Examples.Models
 {
     // :code-block-start: embedded
     // :replace-start: {
