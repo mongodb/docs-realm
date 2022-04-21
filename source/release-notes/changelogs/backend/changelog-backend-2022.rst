@@ -1,5 +1,13 @@
 .. _backend_20220317:
 
+20 April 2022 Release
+~~~~~~~~~~~~~~~~~~~~~
+
+- Introduced ability to accept null values as optional types in Realm Schema.
+- Added ability to download logs from the UI.
+- Added Flexible Sync support for queries using ``BETWEEN`` and the string operators ``BEGINSWITH``, ``ENDSWITH``, ``CONTAINS``.
+- Added Flexible Sync support for queries on arrays of primitives.
+
 25 March 2022 Release
 ~~~~~~~~~~~~~~~~~~~~~
 - Performance improvements for Functions, particularly aimed at decreasing the 
