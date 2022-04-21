@@ -3,6 +3,8 @@ import BSON from "bson";
 
 const ObjectId = (value: string) => new Realm.BSON.ObjectId(value);
 
+jest.useFakeTimers();
+
 // :code-block-start: plant-document-type
 type Plant = {
   _id: BSON.ObjectId;

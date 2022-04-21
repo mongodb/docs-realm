@@ -75,7 +75,7 @@ describe("Log in user", () => {
     // :snippet-start: api-key-auth
     async function loginApiKey(apiKey) {
       // Create an API Key credential
-      const credentials = Realm.Credentials.apiKey(apiKey);
+      const credentials = Realm.Credentials.serverApiKey(apiKey);
       try {
         // Authenticate the user
         const user = await app.logIn(credentials);
