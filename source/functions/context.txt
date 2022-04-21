@@ -54,8 +54,8 @@ The ``context`` object exposes the following interfaces:
 
 .. _context-functions:
 
-Call a Function
----------------
+Call a Function (``context.functions``)
+---------------------------------------
 
 You can call any :ref:`function <functions>` in your application
 through the ``context.functions`` interface.
@@ -97,8 +97,8 @@ through the ``context.functions`` interface.
 
 .. _context-environment:
 
-Check the App Environment
--------------------------
+Check the App Environment (``context.environment``)
+---------------------------------------------------
 
 You can access information about your app's current :ref:`environment
 <realm-app-environments>` configuration and access environment-specific
@@ -150,8 +150,8 @@ values through the ``context.environment`` interface.
 
 .. _context-services:
 
-Connect to a Data Source or Service
------------------------------------
+Connect to a Data Source or Service (``context.services``)
+----------------------------------------------------------
 
 You can access a client for a linked cluster, data lake, or third-party
 service through the ``context.services`` interface.
@@ -223,8 +223,8 @@ service through the ``context.services`` interface.
 
 .. _context-request:
 
-Get Request Metadata
---------------------
+Get Request Metadata (``context.request``)
+------------------------------------------
 
 You can access information about the incoming request with the
 :ref:`context.request <context-request>` interface.
@@ -360,8 +360,8 @@ You can access information about the incoming request with the
 
 .. _context-user:
 
-Get User Data
--------------
+Get User Data (``context.user``)
+--------------------------------
 
 You can access information about the application or system user that
 called a function with the ``context.user`` interface.
@@ -439,8 +439,8 @@ called a function with the ``context.user`` interface.
 
 .. _context-values:
 
-Reference a Value
------------------
+Reference a Value (``context.values``)
+--------------------------------------
 
 You can access your app's static :ref:`values <values-and-secrets>` in a
 function with the ``context.values`` interface.
@@ -477,8 +477,8 @@ function with the ``context.values`` interface.
 
 .. _context-http:
 
-Send an HTTP Request
---------------------
+Send an HTTP Request (``context.http``)
+---------------------------------------
 
 You can send HTTPS requests through a built-in client with the
 ``context.http`` interface.
