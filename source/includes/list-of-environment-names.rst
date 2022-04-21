@@ -1,4 +1,4 @@
-- ``"no-environment"``
+- ``""``
 - ``"development"``
 - ``"testing"``
 - ``"qa"``
