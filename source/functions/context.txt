@@ -229,6 +229,13 @@ Get Request Metadata (``context.request``)
 You can access information about the incoming request with the
 :ref:`context.request <context-request>` interface.
 
+.. tip::
+   
+   The ``context.request`` interface does not include request body
+   payloads. In HTTPS endpoint functions, you can access the request
+   body and other request details from the provided ``request``
+   argument.
+
 .. method:: context.request
    
    An object that contains information about the HTTP request that
