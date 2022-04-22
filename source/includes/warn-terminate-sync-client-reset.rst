@@ -1,8 +1,8 @@
 .. warning:: Restore Sync after Terminating Sync
- 
-   When you terminate and re-enable {+sync+}, clients can no longer Sync. 
-   Your client must implement a client reset handler to restore Sync. This 
-   handler can discard or attempt to recover unsynchronized changes.
+
+ When you terminate and re-enable {+sync+}, clients can no longer Sync. 
+ Your client must implement a client reset handler to restore Sync. This 
+ handler can discard or attempt to recover unsynchronized changes.
 
  .. tabs-realm-sdks::
 
