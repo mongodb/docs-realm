@@ -1,8 +1,8 @@
-.. warning:: Recovering Unsynchronized Changes after Terminating Sync
- 
- Terminating and re-enabling {+sync+} prevents unsynchronized client changes
- from automatically syncing. To recover any unsynchronized changes, implement a
- manual client reset that handles this case in your client applications:
+.. warning:: Restore Sync after Terminating Sync
+
+ When you terminate and re-enable {+sync+}, clients can no longer Sync. 
+ Your client must implement a client reset handler to restore Sync. This 
+ handler can discard or attempt to recover unsynchronized changes.
 
  .. tabs-realm-sdks::
 
