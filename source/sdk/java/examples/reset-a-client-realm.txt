@@ -78,10 +78,10 @@ methods:
 - ``onAfterReset()``. The SDK calls this block after successfully executing 
   this strategy. This block provides a frozen copy of the original realm. 
   It also returns a live instance of the realm in a syncable state.
-- ``onError()``: Behaves similar to 
+- ``onError()``. The SDK calls this method during a breaking schema change. 
+  Behaves similarly to 
   :java-sdk:`defaultClientResetStrategy() 
-  <io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.ManuallyRecoverUnsyncedChangesStrategy)>`. 
-  The SDK calls this method during a breaking schema change.  
+  <io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.ManuallyRecoverUnsyncedChangesStrategy)>`.  
   
   .. seealso::
 
