@@ -218,7 +218,7 @@ describe("Open and Close a Realm", () => {
 
 describe("Convert Realm using writeCopyTo()", () => {
   const Car = {
-    name: "SportsCar",
+    name: "SportsCar22",
     properties: {
       make: "string",
       model: "string",
@@ -232,9 +232,10 @@ describe("Convert Realm using writeCopyTo()", () => {
     await app.logIn(Realm.Credentials.anonymous());
   });
   afterEach(async () => {
-    await app.deleteUser(app.currentUser);
-    await app.currentUser?.logOut();
-    // Realm.clearTestState();
+    if (app.currentUser) {
+      await app.deleteUser(app.currentUser);
+      await app.currentUser?.logOut();
+    }
   });
   test("Open local realm as synced realm with `writeCopyTo()`", async () => {
     // :snippet-start: open-local-as-synced
@@ -246,11 +247,11 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     const syncedConfig = {
       schema: [Car], // predefined schema
-      path: Math.random().toString() + "copyLocalToSynced.realm", // must include in output configuration
-      // sync: {
-      //   user: app.currentUser, // already logged in user
-      //   partitionValue: "myPartition",
-      // },
+      path: "copyLocalToSynced.realm", // must include in output configuration
+      sync: {
+        user: app.currentUser, // already logged in user
+        partitionValue: "myPartition",
+      },
     };
     localRealm.writeCopyTo(syncedConfig);
     const syncedRealm = await Realm.open(syncedConfig);
@@ -268,6 +269,16 @@ describe("Convert Realm using writeCopyTo()", () => {
     Realm.deleteFile(syncedConfig);
   });
   test("sync encrypted to local unencrypted", async () => {
+    const Car = {
+      name: "SportsCar23",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+        _id: "string",
+      },
+      primaryKey: "_id",
+    };
     await app.logIn(Realm.Credentials.anonymous());
     // :snippet-start: sync-encrypted-to-local-unencrypted
     const encryptionKey = new Int8Array(64); // Create a secure key
@@ -275,7 +286,7 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     const syncedEncryptedConfig = {
       schema: [Car], // predefined schema
-      path: Math.random().toString() + "syncedEncrypted.realm", // must include in output configuration
+      path: "syncedEncrypted.realm", // must include in output configuration
       sync: {
         user: app.currentUser, // already logged in user
         partitionValue: "myPartition",
