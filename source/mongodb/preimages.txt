@@ -36,7 +36,7 @@ collections with a high write throughput.
          { $inc: { age: 1 } }
       )
 
-   Preimages add this data to each change event for write operations:
+   Preimages add the following data to write operation change events
    
    - the document preimage in the ``fullDocumentBeforeChange`` field
      
@@ -93,9 +93,9 @@ You can disable collection-level preimages in the Realm UI. To disable
 preimages for a collection:
 
 1. (Optional) Disable document preimages for triggers in the collection.
-   Triggers with preimages work after disabling preimages. But they don't 
-   have the ``fullDocumentBeforeChange`` field in change events. This 
-   includes triggers in other Realm apps.
+   Triggers with preimages continue to fire after disabling preimages. 
+   But they don't have the ``fullDocumentBeforeChange`` field in change 
+   events. This includes triggers in other Realm apps.
 
 2. :ref:`Terminate sync <terminating-realm-sync>`, if the collection is part 
    of a :ref:`synced cluster <sync>`.
