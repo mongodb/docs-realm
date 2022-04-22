@@ -17,7 +17,7 @@ Reset a Client Realm - Java SDK
    To learn about the causes of and strategies for handling client
    resets, check out the Sync :ref:`Client Resets <client-resets>` page.
 
-The realm file in your client handles reads and writes on the device. When 
+The SDK reads and writes to a realm file on the device. When 
 you use Realm Sync, this local realm syncs with the application backend. 
 Some conditions can cause the realm to be unable to sync with the backend. 
 When this occurs, you get a **client reset error**. 
@@ -55,12 +55,9 @@ This strategy requires minimal code. This strategy performs a reset without
 closing the realm or missing notifications.
 
 It *does* delete all local changes made since the last successful sync. 
-Do not use this strategy if your application cannot lose unsynced data. 
-
-This strategy provides a frozen copy of the realm from before reset. You 
-can attempt to recover changes from this frozen realm. However, the code 
-required for a manual recovery is quite complex. This is not recommended 
-for most applications.
+This includes any data already written to the realm but not yet synced to
+the application backend. Do not use this strategy if your application 
+cannot lose unsynced data. 
 
 Discard unsynced changes cannot handle :ref:`breaking or destructive schema 
 changes <destructive-changes-synced-schema>`. When breaking changes occur, 
@@ -81,7 +78,9 @@ methods:
 - ``onAfterReset()``. The SDK calls this block after successfully executing 
   this strategy. This block provides a frozen copy of the original realm. 
   It also returns a live instance of the realm in a syncable state.
-- ``onError()``: Mimics the "manually recover unsynced changes" strategy. 
+- ``onError()``: Behaves similar to 
+  :java-sdk:`defaultClientResetStrategy() 
+  <io/realm/mongodb/AppConfiguration.Builder.html#defaultSyncClientResetStrategy(io.realm.mongodb.sync.ManuallyRecoverUnsyncedChangesStrategy)>`. 
   The SDK calls this method during a breaking schema change.  
   
   .. seealso::

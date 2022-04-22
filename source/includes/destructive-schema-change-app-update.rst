@@ -3,6 +3,6 @@
    After a breaking schema change:
 
    - All clients must perform a client reset.
-   - Clients affected by the schema change must update their local object models.
+   - You must update client models affected by the breaking schema change.
 
 
