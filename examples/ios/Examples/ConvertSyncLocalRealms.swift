@@ -245,7 +245,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // to avoid issues in future test runs.
         if Realm.fileExists(for: samConfig) {
             try Realm.deleteFiles(for: samConfig)
-            print("Successfully deleted existing realm at path")
+            print("Successfully deleted realm at path")
         } else {
             print("No file currently exists at path")
         }
