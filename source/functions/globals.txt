@@ -10,9 +10,16 @@ Global Modules
    :depth: 2
    :class: singlecol
 
-You can access built-in global modules in your :ref:`function
-<functions>` source code. The modules support common data
-transformation, encoding, and processing work.
+All :ref:`functions <functions>` have access to built-in global modules
+that support common data transformation, encoding, and processing work.
+You can access the modules in your function source code via global
+variables specific to each module.
+
+.. seealso::
+   
+   These global modules are *not* the same as the Node.js built-in modules.
+   For more information on supported Node.js modules, including how to
+   import them, see :ref:`Built-in Module Support <builtin-module-support>`.
 
 .. list-table::
    :header-rows: 1
@@ -21,17 +28,24 @@ transformation, encoding, and processing work.
    * - Module
      - Description
    
+   * - :ref:`JSON Web Tokens <function-utils-jwt>`
+     - Methods to read and write JSON Web Tokens.
+   
+   * - :ref:`Cryptography <function-utils-crypto>`
+     - Methods that implement cryptographic algorithms like hashes and
+       signatures.
+   
    * - :ref:`JSON <json>`
-     - Includes methods that convert between string and object
+     - Methods that convert between string and object
        representations of :wikipedia:`JSON <JSON>` data.
    
    * - :ref:`EJSON <ejson>`
-     - Includes methods that convert between string and object
+     - Methods that convert between string and object
        representations of :manual:`Extended JSON
        </reference/mongodb-extended-json>` data.
    
    * - :ref:`BSON <bson>`
-     - Includes methods that create :wikipedia:`Binary JSON <BSON>`
+     - Methods that create :wikipedia:`Binary JSON <BSON>`
        objects and convert between various BSON data types and
        encodings.
 
@@ -912,7 +926,7 @@ algorithms with the ``utils.crypto`` interface.
 
 .. _json:
 
-JSON (JavaScript Object Notation)
+JSON (JavaScript Object Notation)
 ---------------------------------
 
 The ``JSON`` global module provides :mdn:`JSON methods
