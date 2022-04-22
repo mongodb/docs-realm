@@ -31,7 +31,7 @@ export class Task extends Realm.Object {
     },
   };
 }
-// :code-block-end: 
+// :code-block-end:
 
 // :code-block-start: create-realm-context
 const config = {

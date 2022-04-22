@@ -1,14 +1,36 @@
 import { useCallback, useMemo } from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
-import Realm from 'realm';
-
-
+import Realm from "realm";
 import TaskContext, { Task } from "./app/models/Task";
 import IntroText from "./app/components/IntroText";
 import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 
+console.log("opening app");
+Realm.copyBundledRealmFiles();
+const Dog = {
+  name: "Dog",
+  properties: {
+    name: "string",
+    age: "int",
+    type: "string",
+  },
+};
+const config = {
+  schema: [Dog],
+  path: "bundle.realm",
+};
+(async () => {
+  try {
+    const realm = await Realm.open(config);
+    console.log(realm, "opened");
+    const res = realm.objects("Dog");
+    console.log(res.length);
+  } catch (err) {
+    console.error(err);
+  }
+})();
 // :code-block-start: import-task-context
 // :uncomment-start:
 // import TaskContext from "./app/models/Task";
@@ -27,7 +49,6 @@ const { useRealm, useQuery, useObject } = TaskContext;
 
 function App() {
   const realm = useRealm();
-
   // :code-block-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
@@ -45,13 +66,15 @@ function App() {
   // :uncomment-end:
   const handleAddTask = useCallback(
     (description: string): void => {
-    if (!description) {
-      return;
-    }
-    realm.write(() => {
-      realm.create("Task", Task.generate(description));
-    });
-  },[realm]);
+      if (!description) {
+        return;
+      }
+      realm.write(() => {
+        realm.create("Task", Task.generate(description));
+      });
+    },
+    [realm]
+  );
   // :code-block-end:
 
   const handleToggleTaskStatus = useCallback(
@@ -75,7 +98,7 @@ function App() {
       //   task.isComplete = !task.isComplete;
       // });
     },
-    [realm],
+    [realm]
   );
 
   const handleDeleteTask = useCallback(
@@ -87,7 +110,7 @@ function App() {
         // realm?.delete(realm?.objectForPrimaryKey('Task', id));
       });
     },
-    [realm],
+    [realm]
   );
 
   return (
@@ -97,22 +120,27 @@ function App() {
         {tasks.length === 0 ? (
           <IntroText />
         ) : (
-          <TaskList onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
+          <TaskList
+            onToggleTaskStatus={handleToggleTaskStatus}
+            onDeleteTask={handleDeleteTask}
+          />
         )}
-        <SampleTask _id ={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
+        <SampleTask _id={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
       </View>
     </SafeAreaView>
   );
 }
 
-  // :code-block-start: example-useobject-hook-usage
-const SampleTask = ({ _id}) => {
+// :code-block-start: example-useobject-hook-usage
+const SampleTask = ({ _id }) => {
   const myTask = useObject(Task, _id);
-  return (<View><Text>Task: {myTask?.description} </Text></View>)
-}
+  return (
+    <View>
+      <Text>Task: {myTask?.description} </Text>
+    </View>
+  );
+};
 // :code-block-end:
-
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -128,9 +156,9 @@ const styles = StyleSheet.create({
 
 // :code-block-start: wrap-app-within-realm-provider
 function AppWrapper() {
-  if (!app.currentUser) {
-    return (<LoginUserScreen />);
-  }
+  // if (!app.currentUser) {
+  //   return <LoginUserScreen />;
+  // }
   return (
     <RealmProvider>
       <App />
@@ -139,7 +167,7 @@ function AppWrapper() {
 }
 // :code-block-end:
 
-const app = new Realm.App({id: "-id"});
+const app = new Realm.App({ id: "-id" });
 
 // :code-block-start: dynamically-update-realm-config
 // :replace-start: {
@@ -149,15 +177,15 @@ const app = new Realm.App({id: "-id"});
 // }
 function AppWrapper2() {
   if (!app.currentUser) {
-    return (<LoginUserScreen />);
+    return <LoginUserScreen />;
   }
   const syncConfig = {
     user: app.currentUser,
-    partitionValue: "ExpoTemplate"
-  }
+    partitionValue: "ExpoTemplate",
+  };
 
   return (
-    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner/>}>
+    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
       <App />
     </RealmProvider>
   );
@@ -165,6 +193,7 @@ function AppWrapper2() {
 // :replace-end:
 // :code-block-end:
 
-const LoadingSpinner = () => (<Text>Mock Loading Spinner</Text>)
+const LoadingSpinner = () => <Text>Mock Loading Spinner</Text>;
+const LoginUserScreen = () => <Text>Mock Login Screen</Text>;
 
 export default AppWrapper;
