@@ -39,7 +39,7 @@ describe("test models", async () => {
   let realm;
   const config = {
     schema: [TaskModel, ProjectModel],
-    path: "testing.realm",
+    path: "realm-files/testing-realm",
   };
   beforeEach(async () => {
     realm = await Realm.open(config);
