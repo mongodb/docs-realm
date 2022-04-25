@@ -43,11 +43,24 @@ Overview
    GraphQL requires MongoDB version 4.0 or greater.
 
 The {+service+} :graphql:`GraphQL <>` API allows client applications to access
-data stored in a linked MongoDB cluster using any standard GraphQL client.
+data stored in a linked {+atlas+} cluster using any standard GraphQL client.
+
+{+service+} takes a code-first approach to GraphQL schema generation.
 {+service-short+} automatically creates GraphQL types for every linked
 collection that has a defined :doc:`schema <schemas>` and evaluates
 :doc:`role-based permissions </mongodb/define-roles-and-permissions>` for all
-GraphQL requests.
+GraphQL requests. 
+
+To learn how to make data available through the GraphQL API, see
+:doc:`Expose Data in a Collection </graphql/expose-data>`.
+
+To learn how to define custom queries and mutations, see :ref:`Define
+Custom Resolvers <graphql-custom-resolvers>`. You can use custom resolvers to
+extend
+
+To learn about the types and operations that you can use with the {+service-short+}
+GraphQL API, see :doc:`GraphQL Types & Resolvers
+</graphql/types-and-resolvers>`.
 
 .. note:: Create an Atlas Cluster for Free
 
@@ -60,16 +73,6 @@ GraphQL requests.
    If you don't have any data yet but you still want to explore the
    GraphQL API, consider adding a :atlas:`sample data set
    </sample-data>` to your cluster.
-
-To learn how to make data available through the GraphQL API, see
-:doc:`Expose Data in a Collection </graphql/expose-data>`.
-
-To learn how to define custom queries and mutations, see :doc:`Define a
-Custom Query or Mutation </graphql/custom-resolvers>`.
-
-To learn about the types and operations that you can use with the {+service-short+}
-GraphQL API, see :doc:`GraphQL Types & Resolvers
-</graphql/types-and-resolvers>`.
 
 Why GraphQL?
 ------------
