@@ -215,3 +215,102 @@ describe("Open and Close a Realm", () => {
     }
   });
 });
+
+describe("Convert Realm using writeCopyTo()", () => {
+  const Car = {
+    name: "SportsCar22",
+    properties: {
+      make: "string",
+      model: "string",
+      miles: "int",
+      _id: "string",
+    },
+    primaryKey: "_id",
+  };
+  const app = new Realm.App({ id: "demo_app-cicfi" });
+  beforeEach(async () => {
+    await app.logIn(Realm.Credentials.anonymous());
+  });
+  afterEach(async () => {
+    if (app.currentUser) {
+      await app.deleteUser(app.currentUser);
+      await app.currentUser?.logOut();
+    }
+  });
+  test("Open local realm as synced realm with `writeCopyTo()`", async () => {
+    // :snippet-start: open-local-as-synced
+    const localConfig = {
+      schema: [Car],
+      path: "localOnly.realm",
+    };
+    const localRealm = await Realm.open(localConfig);
+
+    const syncedConfig = {
+      schema: [Car], // predefined schema
+      path: "copyLocalToSynced.realm", // must include in output configuration
+      sync: {
+        user: app.currentUser, // already logged in user
+        partitionValue: "myPartition",
+      },
+    };
+    localRealm.writeCopyTo(syncedConfig);
+    const syncedRealm = await Realm.open(syncedConfig);
+    // :snippet-end:
+
+    expect(localRealm.isClosed).toBe(false);
+    expect(localRealm.isClosed).toBe(false);
+
+    // clean up
+    localRealm.close();
+    // await syncedRealm.syncSession.uploadAllLocalChanges();
+    // await syncedRealm.syncSession.downloadAllServerChanges();
+    syncedRealm.close();
+    Realm.deleteFile(localConfig);
+    Realm.deleteFile(syncedConfig);
+  });
+  test("sync encrypted to local unencrypted", async () => {
+    const Car = {
+      name: "SportsCar23",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+        _id: "string",
+      },
+      primaryKey: "_id",
+    };
+    await app.logIn(Realm.Credentials.anonymous());
+    // :snippet-start: sync-encrypted-to-local-unencrypted
+    const encryptionKey = new Int8Array(64); // Create a secure key
+    // ... store key ...
+
+    const syncedEncryptedConfig = {
+      schema: [Car], // predefined schema
+      path: "syncedEncrypted.realm", // must include in output configuration
+      sync: {
+        user: app.currentUser, // already logged in user
+        partitionValue: "myPartition",
+      },
+      encryptionKey,
+    };
+    const syncedEncryptedRealm = await Realm.open(syncedEncryptedConfig);
+
+    const localUnencryptedConfig = {
+      schema: [Car], // predefined schema
+      path: "copyLocalUnencrypted.realm", // must include in output configuration
+    };
+    syncedEncryptedRealm.writeCopyTo(localUnencryptedConfig);
+    const localUnencryptedRealm = await Realm.open(syncedEncryptedConfig);
+    // :snippet-end:
+    expect(syncedEncryptedRealm.isClosed).toBe(false);
+    expect(localUnencryptedRealm.isClosed).toBe(false);
+
+    // clean up
+    await syncedEncryptedRealm.syncSession.uploadAllLocalChanges();
+    await syncedEncryptedRealm.syncSession.downloadAllServerChanges();
+    syncedEncryptedRealm.close();
+    localUnencryptedRealm.close();
+    Realm.deleteFile(localUnencryptedConfig);
+    Realm.deleteFile(syncedEncryptedConfig);
+  });
+});
