@@ -47,19 +47,19 @@ data stored in a linked {+atlas+} cluster using any standard GraphQL client.
 
 {+service+} takes a code-first approach to GraphQL schema generation.
 {+service-short+} automatically creates GraphQL types for every linked
-collection that has a defined :doc:`schema <schemas>` and evaluates
-:doc:`role-based permissions </mongodb/define-roles-and-permissions>` for all
+collection that has a defined :ref:`schema <schemas>` and evaluates
+:ref:`role-based permissions <define-roles-and-permissions>` for all
 GraphQL requests. 
 
 To learn how to make data available through the GraphQL API, see
-:doc:`Expose Data in a Collection </graphql/expose-data>`.
+:ref:`Expose Data in a Collection <graphql-expose-data>`.
 
 To learn about the generated types and operations that you can use with the {+service-short+}
-GraphQL API, see the documentation for :ref:`GraphQL types & resolvers
+GraphQL API, see :ref:`GraphQL Types & Resolvers
 <graphql-types-and-resolvers>`.
 
 To extend the generated GraphQL API's functionality with custom queries and mutations,
-see the documentation for :ref:`defining custom resolvers <graphql-custom-resolvers>`.
+see :ref:`Define a Custom Resolver <graphql-custom-resolvers>`.
 
 
 .. note:: Create an Atlas Cluster for Free
@@ -67,8 +67,8 @@ see the documentation for :ref:`defining custom resolvers <graphql-custom-resolv
    The GraphQL API lets you access data that you have stored in a
    `MongoDB Atlas
    <https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`__ cluster or
-   data lake. To get started, create a free cluster and :doc:`link it to
-   your {+app+} </mongodb/link-a-data-source>`.
+   data lake. To get started, create a free cluster and :ref:`link it to
+   your {+app+} <link-a-data-source>`.
 
    If you don't have any data yet but you still want to explore the
    GraphQL API, consider adding a :atlas:`sample data set
@@ -103,13 +103,13 @@ GraphQL Operations
 ------------------
 
 {+service-short+} automatically generates types and resolvers for data that you
-:doc:`expose to the GraphQL API </graphql/expose-data>`. The generated
+:ref:`expose to the GraphQL API <graphql-expose-data>`. The generated
 types and operations are all named after the base type name for each
 exposed collection. If you don't define a type name, {+service-short+} uses the
 collection name instead.
 
 For more information on how to expose a collection and name its data
-type, see :doc:`Expose Data in a Collection </graphql/expose-data>`.
+type, see :ref:`Expose Data in a Collection <graphql-expose-data>`.
 
 Queries
 ~~~~~~~
