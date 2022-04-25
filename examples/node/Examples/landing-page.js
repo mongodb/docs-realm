@@ -19,7 +19,7 @@ describe("Node Landing Page", () => {
     // open a local realm with the 'Cat' schema
     const realm = await Realm.open({
       // :hide-start:
-      path: "landing-page",
+      path: "realm-files/landing-page",
       // :hide-end:
       schema: [Cat],
     });
@@ -110,13 +110,13 @@ describe("Node Landing Page", () => {
     // always access the latest data
     const realmInstanceA = await Realm.open({
       // :hide-start:
-      path: "landing-page",
+      path: "realm-files/landing-page",
       // :hide-end:
       schema: [Cat],
     });
     const realmInstanceB = await Realm.open({
       // :hide-start:
-      path: "landing-page",
+      path: "realm-files/landing-page",
       // :hide-end:
       schema: [Cat],
     });
