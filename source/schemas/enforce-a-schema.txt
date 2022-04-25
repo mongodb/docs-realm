@@ -43,3 +43,28 @@ Procedure
       :tabid: cli
       
       .. include:: /includes/steps/enforce-a-schema-cli.rst
+
+.. _validate-null-types:
+
+Validate Null Types
+-------------------
+
+{+service+}'s default behavior is to only accept a single type for each field. 
+Schema fields are not nullable by default because ``null`` is a unique 
+:manual:`BSON type </reference/bson-types/>`.
+
+You can configure {+service+} to pass schema validation when you use ``null`` 
+values with optional fields.
+Enabling null type validation allows the value for a field to be persisted as
+the type in the schema or the :manual:`BSON null </reference/bson-types/>` type.
+If you do not enable null type schema validation, {+service-short+} rejects ``null``
+values passed to optional fields. Even if you enable null type validation,
+required fields are never nullable.
+
+
+To enable null type schema validation: 
+
+#. In the left navigation menu below the :guilabel:`Manage` header, select :guilabel:`App Settings`.
+#. On the :guilabel:`General` tab, navigate to the :guilabel:`Null Type Schema Validation`
+   section. Toggle the switch to :guilabel:`ON`.
+#. Click the :guilabel:`Save` button. 
