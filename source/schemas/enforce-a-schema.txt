@@ -49,22 +49,22 @@ Procedure
 Validate Null Types
 -------------------
 
-You can configure {+service-short+} to pass schema validation for any ``null`` values
+{+service+}'s default behavior is to only accept a single :manual:`BSON type
+</reference/bson-types/>` for each field. 
+Schema fields are not nullable by default because ``null`` is a unique BSON type.
+
+You can configure {+service-short+} to pass schema validation for ``null`` values
 when their field types are set as optional in the schema.
 Enabling null type validation allows the value for a field to be persisted as
 the type in the schema or the :manual:`BSON null </reference/bson-types/>` type.
 If you do not enable null type schema validation, {+service-short+} rejects ``null``
-values passed to optional fields. 
-
-.. note:: 
-
-   Schema fields are not nullable by default because ``null`` is a unique BSON type.
-   The default schema behavior is to accept only a single type for a field.
+values passed to optional fields. Even if you enable null type validation,
+required fields are never nullable.
 
 
 To enable null type schema validation: 
 
-#. In the left navigation menu, select :guilabel:`App Settings` below :guilabel:`Manage`.
+#. In the left navigation menu below the :guilabel:`Manage` header, select :guilabel:`App Settings`.
 #. On the :guilabel:`General` tab, navigate to the :guilabel:`Null Type Schema Validation`
    section. Toggle the switch to :guilabel:`ON`.
 #. Click the :guilabel:`Save` button. 
