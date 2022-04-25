@@ -20,7 +20,7 @@ describe("Define a Realm Object Schema", () => {
 
     // :code-block-start: define-a-realm-object-schema-js-classes-open-and-access-properties
     const realm = await Realm.open({
-      path: "realm-files/myrealm",
+      path: "myrealm",
       schema: [Car],
     });
 

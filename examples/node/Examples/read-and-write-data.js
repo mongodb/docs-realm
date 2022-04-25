@@ -40,7 +40,7 @@ describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [TaskSchema],
     });
 
@@ -70,7 +70,7 @@ describe("Read & Write Data", () => {
   test("should query an object type", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [TaskSchema],
     });
 
@@ -101,7 +101,7 @@ describe("Read & Write Data", () => {
   test("should return objects from filter queries", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [TaskSchema],
     });
     let task, task2, task3;
@@ -156,7 +156,7 @@ describe("Read & Write Data", () => {
   test("should return objects from sorted queries", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [TaskSchema, PersonSchema, DogSchema],
     });
     let task, task2, task3, task4;
@@ -279,7 +279,7 @@ describe("Read & Write Data", () => {
   test("should write a new object", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
     // :code-block-start: read-and-write-create-a-new-object
@@ -307,7 +307,7 @@ describe("Read & Write Data", () => {
   test("should update an object", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
     let dog;
@@ -339,7 +339,7 @@ describe("Read & Write Data", () => {
   test("should upsert an object", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
     let person;
@@ -382,7 +382,7 @@ describe("Read & Write Data", () => {
   test("should bulk update a collection", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
 
@@ -435,7 +435,7 @@ describe("Read & Write Data", () => {
   test("should delete an object", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
 
@@ -461,7 +461,7 @@ describe("Read & Write Data", () => {
   test("should delete multiple objects", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [DogSchema, PersonSchema],
     });
     let dog1; // dog1 is the only dog declared because the other dogs are deleted in the code example 'read-and-write-delete-multiple-objects'
@@ -503,7 +503,7 @@ describe("Read & Write Data", () => {
   test("should delete all objects of a specific type", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [CatSchema],
     });
 
@@ -529,7 +529,7 @@ describe("Read & Write Data", () => {
   test("should delete all objects", async () => {
     // a realm is opened
     const realm = await Realm.open({
-      path: "realm-files/myrealm2",
+      path: "myrealm2",
       schema: [CatSchema, TaskSchema],
     });
     let cat1, cat2, task1, task2;

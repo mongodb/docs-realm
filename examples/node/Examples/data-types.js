@@ -65,7 +65,7 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [PersonSchema],
     });
 
@@ -170,7 +170,7 @@ describe("Node.js Data Types", () => {
     // :code-block-end:
 
     realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [DogSchema],
     });
 
@@ -223,7 +223,7 @@ describe("Node.js Data Types", () => {
   });
   test("should create and read and delete an embedded object", async () => {
     realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [AddressSchema, ContactSchema],
     });
 
@@ -267,7 +267,7 @@ describe("Node.js Data Types", () => {
   // update and delete an embedded object
   test("should update and overwrite an embedded object", async () => {
     realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [AddressSchema, ContactSchema],
     });
     const harryAddress = {
@@ -331,7 +331,7 @@ describe("Node.js Data Types", () => {
     };
 
     const realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [ProfileSchema],
     });
 
@@ -375,7 +375,7 @@ describe("Node.js Data Types", () => {
     };
     // :code-block-end:
     realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [characterSchema],
     });
 
@@ -492,7 +492,7 @@ describe("Node.js Data Types", () => {
     let playerOne;
     try {
       realm = await Realm.open({
-        path: "realm-files/data-type-realm",
+        path: "data-type-realm",
         schema: [characterSchema],
       });
       realm.write(() => {
@@ -543,7 +543,7 @@ describe("Node.js Data Types", () => {
     let playerOne;
     let levelsCompletedInOrder = [];
     const realm = await Realm.open({
-      path: "realm-files/data-type-realm",
+      path: "data-type-realm",
       schema: [characterSchema],
     });
     realm.write(() => {
