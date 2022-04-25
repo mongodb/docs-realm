@@ -1,0 +1,62 @@
+.. _read-preference:
+
+===============
+Read Preference
+===============
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can configure the :manual:`read preference </core/read-preference>`
+for a :doc:`linked MongoDB Atlas cluster </mongodb>` to control the type
+of :manual:`replica set member </core/replica-set-members>` that {+service+}
+routes database read requests to. You can also specify a :manual:`tag
+set </core/read-preference/#replica-set-read-preference-tag-sets>` to
+target specific members of the replica set.
+
+You cannot set the read preference on a :ref:`linked Data Lake <data-lake-caveats>`.
+
+By default, {+service-short+} uses a read preference of ``primary``, which routes
+all read requests through the :manual:`primary node
+</core/replica-set-primary>` of a replica set.
+
+When To Specify Read Preference
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The default read preference (``primary``) should be sufficient for most
+use cases. Consider specifying a cluster read preference when you need
+to do the following:
+
+- Read from a specific secondary that has a custom configuration, such
+  as an analytics node with special indexes optimized for reporting
+  workloads.
+
+- Read from a node in a specific region of a globally distributed
+  replica set.
+
+- Maintain read availability during a replica set failover, i.e.,
+  continue to read potentially stale data when there is no ``primary``
+  node.
+
+Procedure
+---------
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/specify-cluster-read-preference-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/specify-cluster-read-preference-import-export.rst

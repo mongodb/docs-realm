@@ -612,6 +612,156 @@ algorithm specified in the ``"alg"`` field of the header.
      signingKey
    )
 
+.. _custom-jwt-authentication-firebase: 
+
+Firebase JWT Authentication
+---------------------------
+
+You can use the `Firebase Authentication <https://firebase.google.com/docs/auth>`__
+service to authenticate users into Realm apps as well as Firebase apps. 
+Use Realm Custom JWT authentication to access Realm services with Firebase credentials. 
+
+To set up Firebase Authentication as your Custom JWT provider in Realm: 
+
+.. procedure:: 
+
+   .. step:: Configure Firebase Authentication
+
+      Follow `the official docs <https://firebase.google.com/docs/auth>`__ to set up
+      Firebase Authentication for your project.
+
+   .. step::  Configure Realm JWT Authentication
+
+      .. tabs-realm-admin-interfaces::
+
+         .. tab::
+            :tabid: ui
+
+            #. Enable JWT Authentication. 
+            #. Set :guilabel:`Verification Method` to :guilabel:`Use a JWK URI`.
+            #. Add the following URL for :guilabel:`JWK URI`:
+
+               .. code-block::
+
+                  https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com
+            
+            #. While you don't *need* to add any data for :guilabel:`Metadata Fields`, 
+               it is useful for getting basic user information from the Firebase JWT 
+               into your :ref:`Realm User object <user-objects>`. 
+
+               The following is a basic mapping from the Firebase JWT to a Realm user.
+               You can add these to the table in the UI. Modify as you wish following
+               the :ref:`Metadata Fields documentation <custom-jwt-authentication-configuration-metadata-fields>`.
+
+               .. list-table::
+                  :header-rows: 1
+                  :widths: 50 50
+
+                  * - Path
+
+                    - Field Name
+                  
+                  * - firebase.identities.email
+                    
+                    - emails
+                  
+                  * - firebase.sign_in_provider
+
+                    - signInProvider
+                  
+                  * - user_id
+
+                    - userId
+                  
+                  * - email_verified
+
+                    - emailVerified
+
+                  * - email
+
+                    - email
+
+            #. Set :guilabel:`Audience` to your `Firebase Project ID
+               <https://firebase.google.com/docs/projects/learn-more#project-id>`__.
+
+               .. important:: You must set Audience to Firebase Project ID
+
+                  You *must* set :guilabel:`Audience` to use your Firebase Project ID as a 
+                  Custom JWT provider even though it's labeled as optional in the UI. 
+
+         .. tab::
+            :tabid: cli
+
+            To enable and configure the Custom JWT authentication provider with 
+            :ref:`realm-cli <realm-cli-quickstart>`, define a :ref:`configuration <appconfig-auth>`
+            object for it in ``/auth/providers.json``.
+
+            Custom JWT configurations for Firebase have the following form. 
+
+            .. code-block:: javascript
+               :caption: /auth/providers.json
+               :emphasize-lines: 6-9, 11, 17
+
+                {
+                  "custom-token": {
+                    "name": "custom-token",
+                    "type": "custom-token",
+                    "config": {
+                        "audience": ["<Firebase Project ID>"], // required
+                        // "jwkURI" is required with this URL as the value
+                        "jwkURI": 
+                          "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com", 
+                        "signingAlgorithm": "",
+                        "useJWKURI": true // required
+                    },
+                    "secret_config": {
+                        "signingKeys": []
+                    },
+                    "disabled": false,
+                    "metadata_fields": [ // optional but recommended
+                        {
+                            "required": false,
+                            "name": "firebase.identities.email",
+                            "field_name": "emails"
+                        },
+                        {
+                            "required": false,
+                            "name": "firebase.sign_in_provider",
+                            "field_name": "signInProvider"
+                        },
+                        {
+                            "required": false,
+                            "name": "user_id",
+                            "field_name": "userId"
+                        }
+                        ...any other fields you want to map into Realm
+                    ]
+                  },
+                  ...rest of config
+                }
+
+      For more details, refer to the :ref:`JWT authentication configuration documentation 
+      <config-custom-jwt>`.
+
+   .. step::  Log In to Realm Using Firebase JWT with Client SDK
+
+      Now that you've configured Realm to work with Firebase JWTs, you can
+      log users in using Firebase and Realm client SDKs in languages supported by both. 
+
+      #. Log the user into Firebase. See the relevant `Firebase SDK documentation 
+         <https://firebase.google.com/docs/auth>`__. 
+      #. Retrieve the user's Firebase JWT. See the documentation on 
+         `using a client Firebase SDK to get  a user's JWT
+         <https://firebase.google.com/docs/auth/admin/verify-id-tokens#retrieve_id_tokens_on_clients>`__. 
+      #. Pass the Firebase JWT to a a Realm SDK Custom JWT authentication method. 
+         For more information how to use Realm SDKs to perform Custom JWT authentication, 
+         refer to :ref:`Custom JWT Examples <custom-jwt-authentication-examples>`. 
+      
+      .. example:: Log using Firebase JWT with Realm Web SDK
+
+         .. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.custom-jwt-firebase.js
+            :language: javascript
+
 .. _custom-jwt-authentication-examples:
 
 Examples

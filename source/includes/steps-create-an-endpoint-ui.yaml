@@ -17,7 +17,7 @@ content: |
   An endpoint's route determines the URL used to call the endpoint. You
   can define at most one handler for a given route and HTTP method
   combination in your app.
-  
+
   1. Enter a name for the endpoint in the :guilabel:`Route` field. Route
      names must begin with a forward slash (``/``) and may contain
      additional forward slashes to indicate a nested path.
@@ -42,14 +42,15 @@ content: |
   To send an :mdn:`HTTP Response <Web/HTTP/Messages#HTTP_Responses>` to
   clients that call the endpoint, enable :guilabel:`Respond With
   Result`.
-  
+
   By default, the endpoint responds to incoming requests with a basic
   :mdn:`HTTP 200 <Web/HTTP/Status/200>` response that includes the
   endpoint function return value as its ``body`` field.
-  
+
   You can configure a custom HTTP response from within the endpoint
-  function using the ``response`` object. For more information, see
-  :ref:`endpoint-response-object`.
+  function using the ``response`` object. If you use ``response.setBody(value)``,
+  the endpoint returns that value, not the function return value.
+  For more information, see :ref:`endpoint-response-object`.
 ---
 title: Configure Request Authorization
 ref: configure-request-authorization
@@ -89,7 +90,7 @@ content: |
   Every endpoint is associated with a :ref:`function <functions>` that
   it calls for each incoming request. You can either :ref:`define a new
   function <create-a-function>` or reference an existing function by name.
-  
+
   Endpoint functions have the following signature:
 
   .. code-block:: javascript
@@ -97,7 +98,7 @@ content: |
      exports = async function(request, response) {
        // ... your code here
      }
-  
+
   {+service-short+} calls endpoint functions with two arguments:
 
   .. list-table::
@@ -156,7 +157,7 @@ content: |
   function that they call. To configure an endpoint's user
   authentication, :ref:`modify the underlying function configuration
   <create-a-function>`.
-  
+
   For more information on how to authenticate endpoint requests, see
   :ref:`Endpoint Authentication <endpoint-authentication>`.
 ---
@@ -166,4 +167,3 @@ content: |
   You must save changes to your endpoint before they take effect. To do
   so, click :guilabel:`Save` from either the :guilabel:`Settings` screen
   or the :guilabel:`Function Editor`.
-...

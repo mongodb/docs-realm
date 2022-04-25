@@ -26,6 +26,14 @@ see :ref:`dotnet-realm-encryption`.
    :dotnet-sdk:`RealmFileAccessErrorException <reference/Realms.Exceptions.RealmFileAccessErrorException.html>` 
    when you call ``GetInstance``.
 
+Accessing an Encrypted Realm from Multiple Process
+--------------------------------------------------
+
+Realm forbids opening the same encrypted realm from multiple processes.
+Attempting to do so will throw the error:
+"{+encrypted-interprocess-sharing-error-message+}"
+
+
 Example
 -------
 

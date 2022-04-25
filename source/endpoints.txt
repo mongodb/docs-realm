@@ -187,6 +187,14 @@ The second argument of an endpoint function is a ``response`` object
 that represents HTTPS response sent back to the caller. The object
 includes methods that you can call to configure the response.
 
+.. note:: Difference in Response Converting from Webhooks to Endpoints
+
+   If you're :ref:`converting your webhooks to endpoints <convert-webhooks-to-endpoints>`, 
+   there can be slight differences in behavior for how your Realm function
+   handles the the HTTP response. For more information, refer to the documentation on 
+   :ref:`differences between webhooks and their converted endpoints 
+   <differences-webhooks-converted-endpoints>`.
+
 .. list-table::
    :header-rows: 1
    :widths: 40 60

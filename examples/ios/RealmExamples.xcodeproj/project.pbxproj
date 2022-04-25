@@ -65,11 +65,12 @@
 		48FE4E8B2666A93600720F92 /* MapExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FE4E8A2666A93600720F92 /* MapExample.swift */; };
 		911366EB27BC0C6100DF865D /* ConvertSyncLocalRealms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911366EA27BC0C6100DF865D /* ConvertSyncLocalRealms.swift */; };
 		9136A4DB26409A7E00FFA03B /* AnyRealmValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9136A4DA26409A7E00FFA03B /* AnyRealmValue.swift */; };
-		9143E94927EB79090082A5D6 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9143E94827EB79090082A5D6 /* Realm */; };
-		9143E94B27EB79090082A5D6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9143E94A27EB79090082A5D6 /* RealmSwift */; };
 		9143E95327EB79BD0082A5D6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9143E95227EB79BD0082A5D6 /* GoogleSignIn */; };
 		914601F626A86B9100BC91EA /* Sync.m in Sources */ = {isa = PBXBuildFile; fileRef = 914601F426A86B9000BC91EA /* Sync.m */; };
 		914601F726A86B9100BC91EA /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914601F526A86B9000BC91EA /* Sync.swift */; };
+		914E8AD427F4BE7D00B8591D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 914E8AD327F4BE7D00B8591D /* Realm */; };
+		914E8AD627F4BE7D00B8591D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 914E8AD527F4BE7D00B8591D /* RealmSwift */; };
+		914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914E8AD727F4C08100B8591D /* ClientReset.swift */; };
 		915C666A27B41B0900E7BDB4 /* BundleRealms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915C666927B41B0900E7BDB4 /* BundleRealms.swift */; };
 		915C667427BAADA100E7BDB4 /* seed.realm in Resources */ = {isa = PBXBuildFile; fileRef = 915C667327BAADA100E7BDB4 /* seed.realm */; };
 		915C667527BAADA100E7BDB4 /* seed.realm in Resources */ = {isa = PBXBuildFile; fileRef = 915C667327BAADA100E7BDB4 /* seed.realm */; };
@@ -174,6 +175,7 @@
 		9136A4DA26409A7E00FFA03B /* AnyRealmValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyRealmValue.swift; sourceTree = "<group>"; };
 		914601F426A86B9000BC91EA /* Sync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sync.m; sourceTree = "<group>"; };
 		914601F526A86B9000BC91EA /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		914E8AD727F4C08100B8591D /* ClientReset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientReset.swift; sourceTree = "<group>"; };
 		915C666927B41B0900E7BDB4 /* BundleRealms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleRealms.swift; sourceTree = "<group>"; };
 		915C667327BAADA100E7BDB4 /* seed.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = seed.realm; sourceTree = "<group>"; };
 		915E96A725FAB36500AABC09 /* LandingPageCodeExamples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPageCodeExamples.swift; sourceTree = "<group>"; };
@@ -216,9 +218,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				917CA79827ECADC200F9BDDC /* FacebookLogin in Frameworks */,
-				9143E94B27EB79090082A5D6 /* RealmSwift in Frameworks */,
-				9143E94927EB79090082A5D6 /* Realm in Frameworks */,
 				9143E95327EB79BD0082A5D6 /* GoogleSignIn in Frameworks */,
+				914E8AD427F4BE7D00B8591D /* Realm in Frameworks */,
+				914E8AD627F4BE7D00B8591D /* RealmSwift in Frameworks */,
 				917CA79627ECADC200F9BDDC /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +288,7 @@
 				48E63FB7252646A700F883B1 /* Authenticate.swift */,
 				915C666927B41B0900E7BDB4 /* BundleRealms.swift */,
 				916AC597273036C100270C64 /* ClassProjection.swift */,
+				914E8AD727F4C08100B8591D /* ClientReset.swift */,
 				91CEF605260E325000A029E0 /* Compacting.m */,
 				91CEF5FD260E308100A029E0 /* Compacting.swift */,
 				48BF3415251076E4004139AF /* CompleteQuickStart.swift */,
@@ -433,6 +436,8 @@
 			dependencies = (
 			);
 			name = QuickStartSwiftUI;
+			packageProductDependencies = (
+			);
 			productName = QuickStartSwiftUI;
 			productReference = 489180082534E33500D53F19 /* QuickStartSwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -453,11 +458,11 @@
 			);
 			name = RealmExamples;
 			packageProductDependencies = (
-				9143E94827EB79090082A5D6 /* Realm */,
-				9143E94A27EB79090082A5D6 /* RealmSwift */,
 				9143E95227EB79BD0082A5D6 /* GoogleSignIn */,
 				917CA79527ECADC200F9BDDC /* FacebookCore */,
 				917CA79727ECADC200F9BDDC /* FacebookLogin */,
+				914E8AD327F4BE7D00B8591D /* Realm */,
+				914E8AD527F4BE7D00B8591D /* RealmSwift */,
 			);
 			productName = RealmExampleTests;
 			productReference = 4896EE4C2510514B00D1FABF /* RealmExamples.xctest */;
@@ -476,6 +481,8 @@
 			dependencies = (
 			);
 			name = SwiftUIExamples;
+			packageProductDependencies = (
+			);
 			productName = QuickStartSwiftUI;
 			productReference = 91C68804274D8AFE001A5DBE /* SwiftUIExamples.app */;
 			productType = "com.apple.product-type.application";
@@ -513,9 +520,9 @@
 			);
 			mainGroup = 48DBFACD25101C3100391E2B;
 			packageReferences = (
-				9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				914E8AD227F4BE7D00B8591D /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 48DBFAD725101C3100391E2B /* Products */;
 			projectDirPath = "";
@@ -630,6 +637,7 @@
 				48BD8FE72580017D009DE2E6 /* OpenCloseRealm.m in Sources */,
 				914601F626A86B9100BC91EA /* Sync.m in Sources */,
 				48944DA025C0E79C0092B8AC /* EmbeddedObjects.m in Sources */,
+				914E8AD827F4C08100B8591D /* ClientReset.swift in Sources */,
 				48F38B562527926500DDEB65 /* Functions.swift in Sources */,
 				48924BBB2515309F00CC9567 /* MultipleUsers.m in Sources */,
 				916AC598273036C100270C64 /* ClassProjection.swift in Sources */,
@@ -1070,20 +1078,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = exactVersion;
-				version = 10.24.2;
-			};
-		};
 		9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
 			requirement = {
 				kind = exactVersion;
 				version = 6.1.0;
+			};
+		};
+		914E8AD227F4BE7D00B8591D /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.25.0;
 			};
 		};
 		917CA79427ECADC200F9BDDC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
@@ -1097,20 +1105,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9143E94827EB79090082A5D6 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		9143E94A27EB79090082A5D6 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9143E94727EB79090082A5D6 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		9143E95227EB79BD0082A5D6 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9143E95127EB79BD0082A5D6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		914E8AD327F4BE7D00B8591D /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 914E8AD227F4BE7D00B8591D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		914E8AD527F4BE7D00B8591D /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 914E8AD227F4BE7D00B8591D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		917CA79527ECADC200F9BDDC /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;

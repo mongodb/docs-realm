@@ -70,11 +70,11 @@ Create a Template App
 
 .. tabs::
    
-   .. tab:: Realm UI
+   .. tab:: {+ui+}
       :tabid: ui
       
       Follow the procedure described in the 
-      :ref:`Create a Realm App with Realm UI <create-a-realm-app>` guide, making sure to choose
+      :ref:`Create a Realm App with Realm UI <create-a-realm-app>` guide, and select
       the :guilabel:`Create App from Template` tab in the :guilabel:`Create a new Realm App` step. 
 
       .. note:: iOS with UIKit
@@ -83,7 +83,7 @@ Create a Template App
          in the list of template apps, but specify ``ios.swift.todo`` when you pull the
          client code using the {+cli-bin+}.
 
-   .. tab:: {+cli-bin+}
+   .. tab:: {+cli+}
       :tabid: cli
 
       Follow the procedure described in the 
@@ -98,14 +98,14 @@ Create a Template App
       :tabid: api
 
       Follow the procedure described in the 
-      :ref:`Create a Realm App with Realm API <create-app-api>` guide, making sure to choose
+      :ref:`Create a Realm App with Realm API <create-app-api>` guide, and select
       the :guilabel:`Template` tab in the :guilabel:`Create a new Realm App` step. 
       When calling the create endpoint you should include a request body that looks like this:
 
       .. code-block:: json
          
          { 
-            "name": "<Ap pName>",
+            "name": "<AppName>",
             "template_id": "<Chosen Template App ID>",
             "data_source": {
                "name": "mongodb-atlas",
@@ -126,12 +126,12 @@ navigate to your template app in the {+ui+}. You can:
 
 1. Learn more about what your chosen template app includes.
 
-2. Follow on screen guides for customizing your app.
+2. Follow on-screen guides for customizing your app.
 
 3. Use the {+cli-bin+} to download the code for your app so you can build the frontend 
    (if one is included) and interact with the {+app+} through the cli. 
 
-   If you already have {+cli-bin+} set up, you can use the {+cli-bin+} 
+   If you already have {+cli-bin+} set up, you can use the {+cli-bin+}
    :ref:`pull command <realm-cli-pull>` to download the code. Otherwise, click the 
    :guilabel:`CLI` button in the welcome section and follow the instructions that pop up.
 

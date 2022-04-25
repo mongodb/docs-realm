@@ -1,8 +1,8 @@
 title: Pull the Latest Version of Your App
 ref: pull-the-latest-version-of-your-app
 content: |
-  To configure user metadata with {+cli-bin+}, you need a local copy of your
-  application's configuration files.
+  To update your app with {+cli-bin+}, you need a local copy of its 
+  configuration files.
   
   To pull a local copy of the latest version of your app, run the following:
   
@@ -13,16 +13,19 @@ content: |
   .. tip::
      
      You can also download a copy of your application's configuration files from
-     the :guilabel:`Deploy > Export App` screen in the {+ui+}.
+     the {+ui+}. Go to the :guilabel:`Deploy > Export App` screen from
+     the Realm Application Dashboard.
 ---
 title: Configure User Metadata
 ref: configure-user-metadata
 content: |
-  To configure your application to read user metadata from the authentication
-  provider, update the :ref:`metadata_fields <config-auth-providers>` in
-  the ``/auth/providers.json``:
+  You can find authentication provider :ref:`metadata_fields 
+  <config-auth-providers>` for your app in ``/auth/providers.json``. 
+  Update this array to request user metadata from the authentication provider.
 
-  For Google or Facebook, this object resembles:
+  **Google or Facebook**
+
+  This array resembles:
 
   .. code-block:: javascript
      :caption: /auth/providers.json
@@ -40,9 +43,11 @@ content: |
        ]
      }
 
-  For custom JWT authentication, the metadata_fields object has an additional
-  property, ``name``, which represents the path to the field. The 
-  ``field_name`` represents the name of the field.
+  **Custom JWT authentication** 
+  
+  The metadata_fields array has an additional property, ``field_name``. 
+  In custom JWT authentication, ``name`` represents the path to the field. 
+  The ``field_name`` represents the name of the field.
 
   .. code-block:: javascript
      :caption: /auth/providers.json

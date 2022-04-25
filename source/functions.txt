@@ -87,7 +87,7 @@ on the actions that are available to you, see :ref:`mongodb-actions`.
 Constraints
 ~~~~~~~~~~~
 
-- Function runtime is limited to 120 seconds.
+- Function runtime is subject to a 120 second timeout.
 
 - Function memory usage is limited to 256MB.
 
@@ -202,10 +202,6 @@ Guides
      - Learn how to import and call uploaded Node.js packages within
        a {+service-short+} Function.
 
-   * - :doc:`Access Function Context </functions/access-function-context>`
-     - Learn how to access runtime information and interfaces to other
-       components of your application from within a function.
-
 Reference Documentation
 -----------------------
 
@@ -220,11 +216,8 @@ Reference Documentation
      - Includes detailed information about specific application
        ``context`` modules as well as examples of runtime data objects.
 
-   * - :doc:`Utility Packages </functions/utilities>`
+   * - :doc:`Global Modules </functions/globals>`
      - Includes detailed information about global utility packages.
-
-   * - :doc:`JSON & BSON </functions/json-and-bson/>`
-     - Details built-in global modules for working with JavaScript and MongoDB data formats.
 
    * - :doc:`Built-In Module Support </functions/built-in-module-support>`
      - Details which standard Node modules and APIs are available in {+service-short+} functions.
@@ -240,7 +233,6 @@ Reference Documentation
 
    Define a Function </functions/define-a-function>
    Call a Function </functions/call-a-function>
-   Access Function Context </functions/access-function-context>
 
 .. toctree::
    :titlesonly:
@@ -256,7 +248,6 @@ Reference Documentation
    :caption: Reference
    :hidden:
 
-   Function Context Reference </functions/context>
-   Utility Packages </functions/utilities>
-   JSON & BSON </functions/json-and-bson>
+   Context </functions/context>
+   Global Modules </functions/globals>
    JavaScript Feature Compatibility </functions/js-feature-compatibility>

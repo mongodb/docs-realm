@@ -34,7 +34,7 @@ Injecting Realm Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Another way to test {+client-db-short+}-related code is to have all the 
-methods you’d like to test accept a {+realm+} instance as an argument. This 
+methods you'd like to test accept a {+realm+} instance as an argument. This 
 enables you to pass in different {+realms+} when running the app and when 
 testing it. 
 
@@ -91,9 +91,9 @@ duplicated when testing, which can lead to difficult-to-debug issues.
 Expose all the code that you need for testing to your unit test 
 targets. Use the ``public`` access modifier or :apple:`@testable <library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html>`.
 
-Since you’re using {+client-db-short+} as a dynamic framework, you’ll 
+Since you're using {+client-db-short+} as a dynamic framework, you'll 
 need to make sure your unit test target can find {+client-db-short+}. 
-Add the parent path to ``RealmSwift.framework`` to your unit test’s 
+Add the parent path to ``RealmSwift.framework`` to your unit test's 
 “Framework Search Paths”.
 
 .. _ios-debugging:
@@ -118,8 +118,8 @@ Debugging apps using {+client-db-short+}'s Swift API must be done through
 the LLDB console.
 
 Although the LLDB script allows inspecting the contents of your {+realm+} 
-variables in Xcode’s UI, this doesn’t yet work for Swift. Those 
-variables will show incorrect data. Instead, use LLDB’s ``po``
+variables in Xcode's UI, this doesn't yet work for Swift. Those 
+variables will show incorrect data. Instead, use LLDB's ``po``
 command to inspect the contents of data stored in a {+realm+}.
 
 .. _ios-resolve-build-issues:

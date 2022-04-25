@@ -13,4 +13,12 @@ public class QuickStartTest {
             // continue running the test until the quick start has completed execution
         }
     }
+
+    @Test
+    public void testBackgroundTask() throws Exception {
+        ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
+        while(scenario.getState() != Lifecycle.State.DESTROYED) {
+            // continue running the test until the quick start has completed execution
+        }
+    }
 }

@@ -127,7 +127,7 @@ To specify a property as an object type's primary key, set the schema's
 
 .. note::
    
-   A **primary key** is a string or integer property that uniquely identifies an
+   A **primary key** is a property that uniquely identifies an
    object. {+client-database+} automatically :ref:`indexes <node-indexes>`
    primary key properties, which allows you to efficiently read and modify
    objects based on their primary key.
@@ -154,7 +154,7 @@ To specify a property as an object type's primary key, set the schema's
 Index a Property
 ~~~~~~~~~~~~~~~~
 
-Realm supports indexing for string, integer, boolean, ``Date``, and ``ObjectId``
+Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``, and ``ObjectId``
 properties. To define an index for a given property, set ``indexed`` to
 ``true``.
 
@@ -165,7 +165,7 @@ properties. To define an index for a given property, set ``indexed`` to
    Indexes are particularly useful for equality comparison, such as querying for
    an object based on the value of a property.
    
-   It’s best to only add indexes when optimizing the read performance for
+   It's best to only add indexes when optimizing the read performance for
    specific situations.
 
 .. example::

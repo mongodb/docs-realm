@@ -164,10 +164,10 @@ const sidebars = {
         "best-practices/threading",
         "best-practices/testing",
         "best-practices/logging",
+        "best-practices/background-sync",
         "best-practices/troubleshooting",
       ],
     },
-
     {
       type: "link",
       label: "Release Notes",

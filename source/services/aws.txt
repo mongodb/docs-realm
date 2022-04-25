@@ -188,7 +188,7 @@ This can also be expressed as the following JSON:
       ],
       "when": {
          "%%args.Bucket": {
-               "%in": "%%values.myS3Buckets"
+               "$in": "%%values.myS3Buckets"
          }
       }
    }
@@ -200,7 +200,7 @@ This can also be expressed as the following JSON:
 The ``S3`` service includes the :aws-go:`GetObject <s3/#S3.GetObject>`
 action, which takes an input object of type of :aws-go:`GetObjectInput
 <s3/#GetObjectInput>`. You can reference any of the properties on the
-``GetObjectInput`` object in a rule’s :guilabel:`When` expression with the
+``GetObjectInput`` object in a rule's :guilabel:`When` expression with the
 :json-expansion:`%%args` expansion.
 
 In the following example, we create a rule that enables the ``GetObject``
@@ -221,7 +221,7 @@ This can also be expressed as the following JSON:
       ],
       "when": {
          "%%args.Bucket": {
-               "%in": "realmReadWritableBucket"
+               "$in": "realmReadWritableBucket"
          }
       }
    }

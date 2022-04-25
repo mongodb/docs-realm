@@ -19,44 +19,38 @@ Authentication Providers
    Google Authentication </authentication/google>
    Apple ID Authentication  </authentication/apple>
 
-{+service+} provides several authentication providers that you can
-integrate into a client application to allow users to log in
-to your {+app+}.
+Users log in to your client application using authentication providers. 
+{+app+}s provide several authentication provider options.
 
-- For applications where you want users to be able to view or manipulate
-  data without registering or creating an account, you can use
-  :ref:`Anonymous Authentication <anonymous-authentication>`.
+- :ref:`Anonymous Authentication <anonymous-authentication>` allows users 
+  to view or edit data without creating an account.
+- :doc:`Facebook </authentication/facebook>` and 
+  :doc:`Google </authentication/google>` allow users to log in with 
+  existing credentials.
+- These authentication providers log users in with new credentials:
+  - :ref:`Email/Password auth <email-password-authentication>`
+  - :ref:`API Key auth <api-key-authentication>`
+  - :doc:`Custom JWT Auth </authentication/custom-jwt>`
+  - :doc:`Custom Function Auth </authentication/custom-function>`
 
-- For applications where end users create an account or log in with
-  existing credentials, you can use providers that integrate with
-  existing login services (:doc:`Facebook </authentication/facebook>`
-  and :doc:`Google </authentication/google>`), or use providers that
-  allow you or your end users to create new credentials
-  (:ref:`Email/Password <email-password-authentication>`, :ref:`API Keys
-  <api-key-authentication>`, :doc:`Custom JWT Auth
-  </authentication/custom-jwt>` and :doc:`Custom Function Auth
-  </authentication/custom-function>`).
+Use a single provider when all users authenticate in the same way. For 
+more flexibility, you can enable multiple providers. Link user accounts 
+from one provider to another with client SDKs.
 
-You can use a single provider if you want all users to
-authenticate in the same way, or you can enable multiple
-providers for more flexibility. You can also link a user
-account from one provider to a user account from another
-provider by using the client SDKs.
+.. example::
 
-An example of an app that would benefit from multiple
-authentication providers is a blog or news service. The
-typical user of such an app would authenticate anonymously
-so that they don't need to register. However, the blog
-authors or journalists would need to sign in with some other
-provider to be authorized to publish new content.
+   A blog or news service app might use multiple authentication providers. 
+   A reader might authenticate anonymously with no need to register. 
+   Journalists would sign in through an account with authorization to 
+   publish content. In this example, an anonymous user might have read-only 
+   access. The journalist with an account would have write access.
 
 .. _auth-provider-list:
 
 Authentication Providers
 ------------------------
 
-The following is a list of the authentication providers
-available in {+service-short+}:
+{+service-short+} provides these authentication providers for user login:
 
 .. list-table::
    :header-rows: 1
@@ -67,58 +61,58 @@ available in {+service-short+}:
 
    * - | :doc:`Anonymous </authentication/anonymous>`
        | ``anon-user``
-     - Mechanism for authenticating without credentials. This allows
-       users to create and interact with data without creating an
-       identity. You can later link the data
-       from the Anonymous session with a new identity; see your client
-       SDK documentation for details.
+     - Authenticate without credentials. Allow users to create and interact 
+       with data without creating an identity. This is great for a read-only 
+       user, or one who does not need to persist important data. You can 
+       later link the data from the Anonymous session with a permanent 
+       identity. See the client SDK documentation for details.
 
    * - | :doc:`Email/Password </authentication/email-password>`
        | ``local-userpass``
-     - Mechanism for authenticating with an email address and password.
-       Requires implementing scripts with the SDKs for confirming an
-       email and resetting a password.
+     - Authenticate with an email address and password. Client applications 
+       must implement email confirmation and password reset functionality. 
+       Realm SDKs provide methods to simplify or customize this 
+       implementation.
 
    * - | :doc:`API Key </authentication/api-key>`
        | ``api-key``
-     - Mechanism for logging in with API keys generated in the
-       {+service-short+} admin console or by your end users.
+     - Log in with API keys generated in the {+service-short+} admin console 
+       or by your end users.
 
    * - | :doc:`Apple ID </authentication/apple>`
        | ``oauth2-apple``
-     - OAuth2-based mechanism for logging in with an Apple ID.
+     - Use OAuth2 to log in with an Apple ID.
 
    * - | :doc:`Google </authentication/google>`
        | ``oauth2-google``
-     - OAuth2-based mechanism for logging in with an
+     - Use OAuth2 to log in with an
        `existing Google account <https://developers.google.com/identity/sign-in/web/>`_.
 
    * - | :doc:`Facebook </authentication/facebook>`
        | ``oauth2-facebook``
-     - OAuth2-based mechanism for logging in with an
+     - Use OAuth2 to log in with an
        `existing Facebook account <https://developers.facebook.com/docs/facebook-login/>`_.
 
    * - | :doc:`Custom JWT </authentication/custom-jwt>`
        | ``custom-token``
-     - Allow users to log in with JWT-based credentials generated by
-       a service external to {+service-short+}.
+     - Log in with JWT-based credentials generated by a service external 
+       to {+service-short+}.
 
    * - | :doc:`Custom Function </authentication/custom-function>`
        | ``custom-function``
-     - Allow users to log in with arbitrary credentials according to
-       custom authentication logic that you define.
+     - Log in with arbitrary credentials according to custom authentication 
+       logic that you define.
 
 .. _user-metadata:
 
 User Metadata
 -------------
 
-Each authentication provider can associate a distinct set of metadata
-fields with an application user. Some providers (such as Email/Password)
-always add specific fields, whereas others allow you to configure the
-data to associate with each user. The following table describes the
-metadata fields that each authentication provider includes in a user
-object:
+Each authentication provider can associate metadata fields with an 
+application user. Some providers, such as Email/Password, always add 
+specific fields. Others allow you to configure the data to associate with 
+each user. Authentication providers include these metadata fields in a 
+user object:
 
 .. list-table::
    :header-rows: 1
@@ -128,62 +122,40 @@ object:
      - Details
    
    * - :doc:`Anonymous </authentication/anonymous>`
-     - Anonymous users are not associated with any metadata.
+     - Anonymous users have no metadata.
    
    * - :doc:`Email/Password </authentication/email-password>`
-     - Email/Password users are always associated with the following
-       metadata fields:
-   
-       .. list-table::
-          :header-rows: 1
-          :widths: 10 20
-          
-          * - Field
-            - Description
-          
-          * - ``email``
-            - The user's email address.
+     - Email/Password users always have an ``email`` field. This contains 
+       the user's email address.
    
    * - :doc:`API Key (Server & User) </authentication/api-key>`
-     - API Key users are always associated with the following metadata
-       fields:
-   
-       .. list-table::
-          :header-rows: 1
-          :widths: 10 20
-          
-          * - Field
-            - Description
-          
-          * - ``name``
-            - The name associated with the API key that the user
-              authenticated with.
+     - API Key users always have a ``name`` field. When you create an API 
+       key, you give it a name. When users authenticate with API keys, 
+       the ``name`` field contains the key name.
    
    * - OAuth 2.0 (:doc:`Facebook </authentication/facebook>` & :doc:`Google </authentication/google>`)
-     - OAuth 2.0 users can be associated with data provided by the
-       external authentication service according to the provider's
-       :guilabel:`Metadata Fields` configuration. Users must explicitly
-       grant your application permission to access the data.
+     - OAuth 2.0 authentication services can provide user metadata. Specify 
+       the metadata you want to access in the provider's
+       :guilabel:`Metadata Fields` configuration. Each user must grant 
+       your app permission to access the requested data.
    
    * - :doc:`Custom Function </authentication/custom-function>`
-     - Custom Function authentication users are not automatically
-       associated with any data.
+     - Custom Function authentication users do not have metadata.
    
    * - :doc:`Custom JWT </authentication/custom-jwt>`
-     - Custom JWT authentication users can be associated with any data
-       included in the JWT returned from the external authentication
-       system. The provider's :guilabel:`Metadata Fields` configuration
-       maps fields in the JWT to fields that appear in the user object's
-       ``data`` and ``identity`` fields.
+     - You can add metadata to JWT users. This metadata comes from data 
+       in the JWT that the authentication system returns. Use the 
+       :guilabel:`Metadata Fields` configuration to specify the expected 
+       metadata. This configuration maps fields in the JWT to fields in 
+       the user object.
 
 Summary
 -------
 
-- {+service+} supports various **authentication providers** to allow
-  users to log in to your app.
+- {+service-short+}'s **authentication providers** allow users to log in 
+  to your app.
 
 - You can link a specific user across
   multiple providers.
 
-- Each authentication provider has different metadata about a user's
-  identity.
+- Each authentication provider has metadata about a user's identity.

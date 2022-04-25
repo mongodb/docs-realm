@@ -122,6 +122,18 @@ several options depending on your use case:
 - To keep and share many read-only views of the object in your app, copy
   the object from the {+realm+}.
 
+.. _ios-use-serial-queues-for-non-main-threads:
+
+Create a Serial Queue to use Realm on a Background Thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When using Realm on a background thread, create a serial queue. Realm Database 
+does not support using realms in concurrent queues, such as the ``global()`` 
+queue.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-realm-with-serial-queue.swift
+   :language: swift
+
 .. _ios-thread-safe-reference:
 
 Pass Instances Across Threads
@@ -130,6 +142,19 @@ Pass Instances Across Threads
 Instances of ``Realm``, ``Results``, ``List``, and managed ``Objects``
 are *thread-confined*. That means you may only use them on the thread
 where you created them.
+
+Sendable Conformance
+````````````````````
+
+.. versionadded:: 10.20.0
+
+   @ThreadSafe wrapper and ThreadSafeReference conform to ``Sendable``
+
+If you are using Swift 5.6 or higher, both the :swift-sdk:`@ThreadSafe 
+property wrapper <Classes.html#/s:10RealmSwift10ThreadSafeC>` and 
+:swift-sdk:`ThreadSafeReference 
+<Structs/ThreadSafeReference.html#/s:10RealmSwift19ThreadSafeReferenceV2toACyxGx_tcfc>`  
+conform to :apple:`Sendable <documentation/swift/sendable>`.
 
 .. _ios-thread-safe-wrapper:
 
@@ -354,7 +379,31 @@ on a live object, collection, or {+realm+} returns itself.
 Thawing an object or collection also thaws the {+realm+} it references.
 
 .. literalinclude:: /examples/generated/code/start/Threading.codeblock.thaw.swift
-         :language: swift
+   :language: swift
+
+.. _ios-append-to-frozen-collection:
+
+Append to a Frozen Collection
+`````````````````````````````
+
+When you append to a frozen :ref:`collection <ios-client-collections>`, 
+you must thaw both the collection and the object that you want to append. 
+In this example, we query for two objects in a frozen Realm:
+
+- A Person object that has a :ref:`List <ios-list-collections>` property 
+  of Dog objects
+- A Dog object
+
+We must thaw both objects before we can append the Dog to 
+the Dog List collection on the Person. If we thaw only the Person object
+but not the Dog, Realm throws an error.
+
+The same rule applies when passing frozen objects across threads. A common 
+case might be calling a function on a background thread to do some work 
+instead of blocking the UI.
+
+.. literalinclude:: /examples/generated/code/start/Threading.codeblock.append-to-frozen-collection.swift
+   :language: swift
 
 .. _ios-mvcc:
 

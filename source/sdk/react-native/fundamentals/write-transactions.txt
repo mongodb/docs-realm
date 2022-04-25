@@ -13,12 +13,13 @@ Write Transactions - React Native SDK
    :depth: 2
    :class: singlecol
 
-A write transaction is a function that can modify the state of objects in a
-given realm. Write transactions let you create, modify, or delete Realm objects
-and can encapsulate multiple operations into a single, idempotent update. In
-other words a transaction is *all or nothing*: either all of the operations in
-the transaction succeed or, if any operation fails, none of the operations in
-the transaction take effect.
+A write transaction is a function that modifies objects in a realm. Write 
+transactions let you create, modify, or delete Realm objects. They handle 
+operations in a single, idempotent update. A transaction is 
+*all or nothing*. Either:
+
+- All the operations in the transaction succeed, or; 
+- If any operation fails, none of the operations complete.
 
 .. important::
    
@@ -27,8 +28,8 @@ the transaction take effect.
 .. example::
    
    Write transactions are callback functions that you pass to a {+realm+}
-   instance to modify objects in that realm. For examples of specific write
-   operations, see :ref:`react-native-write-operations`.
+   instance. For examples of specific write operations, see 
+   :ref:`react-native-write-operations`.
    
    .. code-block:: javascript
       
@@ -51,24 +52,24 @@ the transaction take effect.
 Transaction Lifecycle
 ---------------------
 
-A given {+realm+} only processes one write transaction at a time. When a
-{+realm+} receives a write transaction, it adds the transaction to a queue and
-evaluates each transaction individually in the order they arrived.
+A given {+realm+} only processes one write transaction at a time. When you 
+make a write transaction, the {+realm+} adds the transaction to a queue. The 
+{+realm+} evaluates each transaction in the order it arrived.
 
-After processing a transaction, {+service-short+} either **commits** it or
+After processing a transaction, {+client-db-short+} either **commits** it or
 **cancels** it:
 
-- {+service-short+} applies all operations in a **committed** transaction to
-  the realm. Once applied, Realm automatically updates :ref:`live queries
-  <react-native-live-queries>` and calls any notification listeners that refer to
-  created, modified, and deleted objects.
+- After a **commit**, the {+realm+} applies all operations in the transaction. 
+  Once applied, the {+realm+} automatically updates :ref:`live queries
+  <react-native-live-queries>`. It notifies listeners of created, modified, 
+  and deleted objects.
   
   .. note::
      
-     In :term:`synced {+realms+} <{+sync+}>`, {+service-short+} also queues
-     the change to be sent to :term:`{+service+}` whenever a network is
-     available.
+     When using :ref:`Sync <sync>`, {+service-short+} also queues
+     the changes to send to :term:`{+service+}`. {+service-short+} sends 
+     these changes when a network is available.
 
-- {+service-short+} does not apply any operations in a **cancelled**
-  transaction to the {+realm+}. Realm cancels a transaction if any operation in
-  the transaction is invalid or fails.
+- {+client-db-short+} does not apply any operations in a **cancelled**
+  transaction. {+client-db-short+} cancels a transaction if an operation 
+  fails or is invalid.

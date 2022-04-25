@@ -233,9 +233,11 @@ This enables you to specify a partition value whose data should sync to the real
 
       .. seealso::
          
-         This example uses async/await introduced in Swift 5.5 for iOS 15. If you're
-         using an older version of Swift or need to support older platforms, see:
+         The Realm Swift SDK supports async/await syntax for opening a realm. 
+         For completion handler syntax, see:
          :ref:`Legacy Realm Sync Open Methods <ios-realm-open-legacy>`. 
+
+         .. include:: /includes/swift-async-await-support.rst
 
       Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
       object with the desired :ref:`partition value <partition-value>` to 
@@ -352,6 +354,20 @@ accepts a case from the ``OpenBehavior`` enum:
 
 .. include:: /examples/generated/code/start/Sync.codeblock.specify-download-behavior.swift.code-block.rst
 
+.. _ios-open-a-synced-realm-offline:
+
+Open a Synced Realm Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/offline-login.rst
+
+You can only open a synced realm offline if you do not require your client 
+app to ``always`` :ref:`download changes before opening the realm 
+<ios-specify-download-behavior>`.
+
+.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.offline-login.swift
+   :language: swift
+
 .. _ios-close-a-realm:
 
 Close a Realm
@@ -459,7 +475,7 @@ instance of ``SomeSwiftType`` before
 To avoid such issues, consider doing one of the following:
 
 - Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
-- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application’s lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
+- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application's lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
 - Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
 
 .. _use-realm-when-the-device-is-locked:
