@@ -28,7 +28,10 @@ describe("user authentication", () => {
   test("email/password login", async () => {
     const randomInt = Math.floor(Math.random() * Math.floor(200000));
     const username = "joe.jasper" + randomInt.toString() + "@example.com";
-    await app.emailPasswordAuth.registerUser({ email: username, password: "passw0rd" });
+    await app.emailPasswordAuth.registerUser({
+      email: username,
+      password: "passw0rd",
+    });
     // :code-block-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
@@ -62,7 +65,7 @@ describe("user authentication", () => {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.apiKey(apiKey);
+    const credentials = Realm.Credentials.serverApiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);

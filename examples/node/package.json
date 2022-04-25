@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:js": "jest --selectProjects JavaScript",
-    "test:ts": "jest --selectProjects TypeScript",
+    "test:js": "jest --selectProjects JavaScript --runInBand --detectOpenHandles --forceExit",
+    "test:ts": "jest --selectProjects TypeScript --runInBand --detectOpenHandles --forceExit",
     "lint": "eslint Examples/*",
     "prettier": "prettier --write Examples/*"
   },
