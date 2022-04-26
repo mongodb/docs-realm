@@ -4021,6 +4021,13 @@ components:
                 **Only Available for Scheduled Triggers** -- A [cron
                 expression](https://www.mongodb.com/docs/realm/triggers/cron-expressions)
                 that defines the trigger schedule.
+            unordered:
+              type: boolean
+              description: |-
+                **Only Available for Database Triggers** -- If ``true``,
+                event ordering is disabled and this trigger can process
+                events in parallel. If ``false``, event ordering is
+                enabled and the trigger executes serially.
         event_processors:
           type: object
           description: |-
