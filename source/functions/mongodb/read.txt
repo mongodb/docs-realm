@@ -13,11 +13,11 @@ Read Data from MongoDB Atlas - Functions
 Overview
 --------
 
-The examples on this page demonstrate how to read documents in Atlas
-from a function with the MongoDB Query API. You'll learn about the
-:ref:`methods <mongodb-query-methods>` that you can call to query data,
-the :ref:`operators <mongodb-query-operators>` that let you write
-expressive match filters, and some :ref:`patterns
+The examples on this page demonstrate how to use the MongoDB Query API
+in a function to read documents from your Atlas cluster. You'll learn
+about the :ref:`methods <mongodb-query-methods>` that you can call to
+query data, the :ref:`operators <mongodb-query-operators>` that let you
+write expressive match filters, and some :ref:`patterns
 <mongodb-query-patterns>` for combining them to handle common use cases.
 
 .. include:: /mongodb/crud-snippets/data-model.rst
@@ -359,27 +359,35 @@ The following comparison operators are available:
 
    * - Comparison Operator
      - Description
+   
    * - :manual:`$eq </reference/operator/query/eq>`
      - Matches documents where the value of a field equals a specified
        value.
+   
    * - :manual:`$ne </reference/operator/query/ne>`
      - Matches documents where the value of a field does not equal a
        specified value.
+   
    * - :manual:`$gt </reference/operator/query/gt>`
      - Matches documents where the value of a field is strictly greater
        than a specified value.
+   
    * - :manual:`$gte </reference/operator/query/gte>`
      - Matches documents where the value of a field is greater than or
        equal to a specified value.
+   
    * - :manual:`$lt </reference/operator/query/lt>`
      - Matches documents where the value of a field is strictly less
        than a specified value.
+   
    * - :manual:`$lte </reference/operator/query/lte>`
      - Matches documents where the value of a field is less than or
        equal to a specified value.
+   
    * - :manual:`$in </reference/operator/query/in>`
      - Matches documents where the value of a field is included in a
        specified array of values.
+   
    * - :manual:`$nin </reference/operator/query/nin>`
      - Matches documents where the value of a field is not included in
        a specified array of values.
@@ -420,15 +428,19 @@ The following logical operators are available:
 
    * - Logical Operator
      - Description
+   
    * - :manual:`$and </reference/operator/query/and>`
      - Matches documents where the value of a field matches *all* of the
        specified expressions.
+   
    * - :manual:`$or </reference/operator/query/or>`
      - Matches documents where the value of a field matches *any* of the
        specified expressions.
+   
    * - :manual:`$nor </reference/operator/query/or>`
      - Matches documents where the value of a field matches *none* of
        the specified expressions.
+   
    * - :manual:`$not </reference/operator/query/not>`
      - Inverts the boolean result of the specified logical expression.
 
