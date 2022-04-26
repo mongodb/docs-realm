@@ -1,5 +1,4 @@
-import Realm from "realm";
-import BSON from "bson";
+import Realm, { BSON } from "realm";
 
 const ObjectId = (value: string) => new Realm.BSON.ObjectId(value);
 
@@ -35,9 +34,8 @@ async function getPlantsCollection() {
   }
   // :code-block-start: collection-type
   type Document = Realm.Services.MongoDB.Document;
-  type MongoDBCollection<
-    T extends Document
-  > = Realm.Services.MongoDB.MongoDBCollection<T>;
+  type MongoDBCollection<T extends Document> =
+    Realm.Services.MongoDB.MongoDBCollection<T>;
   // :code-block-end:
   // :code-block-start: plants-collection-handle
   const mongodb = app.currentUser.mongoClient("mongodb-atlas");
@@ -65,9 +63,8 @@ describe("Create Documents", () => {
   test("Insert a Single Document", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: insert-a-single-document
-    type InsertOneResult = Realm.Services.MongoDB.InsertOneResult<
-      BSON.ObjectId
-    >;
+    type InsertOneResult =
+      Realm.Services.MongoDB.InsertOneResult<BSON.ObjectId>;
     const result = await plants.insertOne({
       // :hide-start:
       _id: new BSON.ObjectId("5f879f83fc9013565c23360e"),
@@ -91,9 +88,8 @@ describe("Create Documents", () => {
   test("Insert Multiple Documents", async () => {
     const plants = await getPlantsCollection();
     // :code-block-start: insert-multiple-documents
-    type InsertManyResult = Realm.Services.MongoDB.InsertManyResult<
-      BSON.ObjectId
-    >;
+    type InsertManyResult =
+      Realm.Services.MongoDB.InsertManyResult<BSON.ObjectId>;
     const result = await plants.insertMany([
       {
         // :hide-start:
