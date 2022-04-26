@@ -19,8 +19,12 @@ item has a ``name``, an inventory ``quantity``, and an array of customer
       "reviews": {
         "bsonType": "array",
         "items": {
-          "username": { "bsonType": "string" },
-          "comment": { "bsonType": "string" }
+          "bsonType": "object",
+          "required": ["username", "comment"],
+          "properties": {
+            "username": { "bsonType": "string" },
+            "comment": { "bsonType": "string" }
+          }
         }
       }
     }
