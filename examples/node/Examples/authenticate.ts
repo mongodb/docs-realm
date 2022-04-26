@@ -20,7 +20,9 @@ describe("user authentication", () => {
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
-      console.error("Failed to log in", err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
     // :code-block-end:
   });
@@ -51,7 +53,9 @@ describe("user authentication", () => {
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
-      console.error("Failed to log in", err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
     // :code-block-end:
   });
@@ -71,7 +75,9 @@ describe("user authentication", () => {
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
-      console.error("Failed to log in", err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
     // :code-block-end:
   });
@@ -88,7 +94,9 @@ describe("user authentication", () => {
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
-      console.error("Failed to log in", err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
     // :code-block-end:
   });
@@ -124,7 +132,9 @@ describe("user authentication", () => {
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
-      console.error("Failed to log in", err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
     // :code-block-end:
   });
@@ -158,7 +168,9 @@ describe("user authentication", () => {
       }
       // :code-block-end:
     } catch (err) {
-      console.error(err.message);
+      if (err instanceof Error) {
+        console.error("Failed to log in", err.message);
+      }
     }
   });
 });
