@@ -1,6 +1,8 @@
-=========================
-Run Aggregation Pipelines
-=========================
+.. _mongodb-aggregate:
+
+===========================================
+Aggregate Data in MongoDB Atlas - Functions
+===========================================
 
 .. default-domain:: mongodb
 
@@ -13,11 +15,12 @@ Run Aggregation Pipelines
 Overview
 --------
 
-The code snippets on this page demonstrate how configure and run
-:manual:`aggregation pipelines </core/aggregation-pipeline>` against a
-collection. Aggregation operations run all documents in a collection
-through a series of data :ref:`aggregation stages
-<realm-aggregation-stages>` that allow you to filter and shape
+The examples on this page demonstrate how to use the MongoDB Query API
+in a function to aggregate documents in your Atlas cluster.
+
+MongoDB :manual:`aggregation pipelines </core/aggregation-pipeline>` run
+all documents in a collection through a series of data :ref:`aggregation
+stages <mongodb-aggregation-stages>` that allow you to filter and shape
 documents as well as collect summary data about groups of related
 documents.
 
@@ -32,22 +35,33 @@ store. Each document contains a list of the purchased ``items``,
 including the item ``name`` and the purchased ``quantity``, as well as a
 unique ID value for the customer that purchased the items.
 
-.. code-block:: javascript
-
-  // store.purchases
+.. code-block:: json
+   :caption: The JSON schema for store.purchases
+   
   {
-      _id:      <ObjectID>,
-      customerId: <ObjectID>,
-      items: [ { name: <string>, quantity: <int> } ]
+    "title": "Purchase",
+    "required": ["_id", "customerId", "items"],
+    "properties": {
+      "_id": { "bsonType": "objectId" },
+      "customerId": { "bsonType": "objectId" },
+      "items": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["name", "quantity"],
+          "properties": {
+            "name": { "bsonType": "string" },
+            "quantity": { "bsonType": "int" }
+          }
+        }
+      }
+    }
   }
 
 .. include:: /mongodb/crud-snippets/setup.rst
 
-Methods
--------
-
-Aggregate Documents in a Collection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Run an Aggregation Pipeline
+---------------------------
 
 You can execute an aggregation pipeline using the
 :method:`collection.aggregate()` action.
@@ -62,7 +76,7 @@ number of items each customer purchases at a time,
 
 .. include:: /mongodb/crud-snippets/aggregate/functions.rst
 
-.. _realm-aggregation-stages:
+.. _mongodb-aggregation-stages:
 
 Aggregation Stages
 ------------------

@@ -524,8 +524,8 @@ Aggregation Pipeline Stage Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} does not support the following :manual:`aggregation pipeline stages
-</reference/operator/aggregation-pipeline/>` when you :doc:`run an aggregation
-pipeline </mongodb/run-aggregation-pipelines>` in the context of an
+</reference/operator/aggregation-pipeline/>` when you :ref:`run an aggregation
+pipeline <mongodb-aggregate>` in the context of an
 :ref:`application user <user-accounts>`. All aggregation pipeline stages are
 available to the system user except for ``$indexStats``.
 
@@ -594,8 +594,8 @@ Aggregation Pipeline Operator Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} supports all :manual:`aggregation pipeline operators
-</reference/operator/aggregation/>` when you :doc:`run an aggregation pipeline
-</mongodb/run-aggregation-pipelines>` in the :ref:`system user
+</reference/operator/aggregation/>` when you :ref:`run an aggregation pipeline
+<mongodb-aggregate>` in the :ref:`system user
 <system-functions>` context. {+service-short+} supports all pipeline operators
 in an :ref:`application user <user-accounts>` context with the following
 exceptions:
