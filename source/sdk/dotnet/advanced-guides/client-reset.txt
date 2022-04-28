@@ -14,15 +14,15 @@ Client Resets - .NET SDK
    :class: singlecol
 
 When using :doc:`{+sync+} </sync>`, it is possible that your client app will 
-need to handle a **client reset**. While not a common event, it can be caused 
-when Sync was terminated on the server. For example, a developer deploys a 
-change that includes a destructive schema change. To fix this, you must stop 
-Sync, modify the schema, and then re-enable Sync. This process causes the 
+need to handle a **client reset**. While not a common event, you need to perform 
+a client reset when Sync is terminated on the server. For example, when a developer 
+deploys a change that includes a destructive schema change. To fix this, you must 
+stop Sync, modify the schema, and then re-enable Sync. This process causes the 
 server to send a client reset message to the clients.
 
 By default, the SDK handles client reset messages automatically, but only on app 
-startup. Until the app is restarted, users will not receive any new data from the 
-server, and any changes they make will be lost when the app is restarted and the 
+startup. Until the app is restarted, users will receive no new data from the server,
+and any changes on the device are lost when the app is restarted and the 
 reset happens.
 
 .. warning::
@@ -31,34 +31,35 @@ reset happens.
    data stored in MongoDB Atlas. Performing a client reset loses all local
    changes made since the client last successfully synced.
 
-.. versionadded:: 10.11.1
-
-Starting in version 10.11.1, the .NET SDK provides the option to specify a client 
-reset strategy in your :dotnet-sdk:`FlexibleSyncConfiguration 
+The .NET SDK provides the option to specify a client 
+reset strategy in your :dotnet-sdk:`PartitionSyncConfiguration 
+<reference/Realms.Sync.PartitionSyncConfiguration.html>` and 
+:dotnet-sdk:`FlexibleSyncConfiguration 
 <reference/Realms.Sync.FlexibleSyncConfiguration.html>`. The 
 :dotnet-sdk:`ClientResetHandler<TBD>` property can be set to either the 
-:dotnet-sdk:`DiscardLocalResetHandler<TBD>` method or the 
-:dotnet-sdk:`ManualRecoveryHandler<TBD>` method. If you do not specify a 
-``ClientResetHandler``, the default is ``ManualRecoveryHandler``.  
+:dotnet-sdk:`DiscardLocalResetHandler<TBD>` method (for ``PartitionSyncConfiguration``), 
+or the :dotnet-sdk:`ManualRecoveryHandler<TBD>` method for either configuration 
+type. If you do not specify a ``ClientResetHandler``, the default is 
+``ManualRecoveryHandler``.  
 
 Using the DiscardLocalResetHandler
 ----------------------------------
-When you specify a ``DiscardLocalResetHandler``, Realm 
-automatically performs a client reset with minimal code and minimal disruption 
-to your application workflow. This client reset mode restores your local 
-realm file to a syncable state without closing the realm and while maintaining  
-notifications.
+When you specify a ``DiscardLocalResetHandler`` on a 
+``PartitionSyncConfiguration`` object, the SDK automatically performs 
+a client reset with minimal code and minimal disruption to your application 
+workflow. This client reset mode restores your local realm file to a syncable 
+state without closing the realm and while maintaining notifications.
 
 Be aware that this strategy *permanently deletes* all local unsynced changes 
-made since the last successful sync. To ensure local changes are incorporated,
-specify the :dotnet-sdk:`OnBeforeReset<TBD>` and
-:dotnet-sdk:`OnAfterReset<TBD>` callback methods. Within the ``OnBeforeReset`` 
-callback method, you can copy the existing data to a temporary realm, and then 
-manually merge the data into the reset realm in the ``OnAfterReset`` callback 
-method.
+made since the last successful sync. For a better user experience, consider using 
+the :dotnet-sdk:`OnBeforeReset<TBD>` and :dotnet-sdk:`OnAfterReset<TBD>` callback 
+methods. Within the ``OnBeforeReset`` callback method, notify the user 
+that a reset is about to happen, and then in the ``OnAfterReset`` callback method, 
+notify the user when the reset is complete.
 
 If the client reset operation cannot complete when using the 
-``DiscardLocalResetHandler`` method, the client reset process reverts to manual 
+``DiscardLocalResetHandler`` method -- as in the case of a destructive schema 
+change -- the client reset process reverts to manual 
 mode. You specify the method for handling a manual reset with the 
 :dotnet-sdk:`ManualResetFallback <TBD>` callback method.
 

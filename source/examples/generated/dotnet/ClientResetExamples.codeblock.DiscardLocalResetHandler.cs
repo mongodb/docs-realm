@@ -1,26 +1,28 @@
 private void SetupRealm()
 {
-    var fsConfig = new FlexibleSyncConfiguration(user);
-    fsConfig.ClientResetHandler = new DiscardLocalResetHandler()
+    var config = new PartitionSyncConfiguration("myPartition", user);
+    config.ClientResetHandler = new DiscardLocalResetHandler()
     {
         OnBeforeReset = HandleBeforeResetCallbak,
         OnAfterReset = HandleAfterResetCallback,
         ManualResetFallback = HandleManualResetCallback
     };
 
-    var realm = await Realm.GetInstanceAsync(fsConfig);
+    var realm = await Realm.GetInstanceAsync(config);
 }
 
 private void HandleBeforeResetCallbak(Realm beforeFrozen)
 {
-    // This method is useful if you want to make a backup of the
-    // existing Realm before it is reset by the system.
+    // Notify the user that a reset is going to happen.
+    // This method may also be useful if you want to make a backup
+    // of the existing Realm before it is reset by the system.
 }
 
 private void HandleAfterResetCallback(Realm beforeFrozen, Realm after)
 {
-    // This method is useful if you want to merge in changes that
-    // were in the "before" Realm into the re-created Realm
+    // Notify the user when the reset is complete.
+    // This method may also be useful if you want to merge in changes
+    // that were in the "before" Realm into the re-created Realm
 }
 
 private void HandleManualResetCallback(ClientResetException clientResetException)
