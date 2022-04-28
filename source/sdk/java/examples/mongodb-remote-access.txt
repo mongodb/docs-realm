@@ -617,16 +617,15 @@ Running this snippet produces output resembling the following:
 Aggregate Documents in a Collection
 -----------------------------------
 
+Aggregation operations run all documents in a collection through a
+series of data aggregation stages called an :manual:`aggregation
+pipeline </core/aggregation-pipeline>`. Aggregation allows you to filter
+and transform documents, collect summary data about groups of related
+documents, and other complex data operations.
+
 You can execute an aggregation pipeline using
 :java-sdk:`collection.aggregate()
 <io/realm/mongodb/mongo/MongoCollection.html#aggregate-java.util.List->`.
-
-These code snippets demonstrate how to configure and run aggregation
-operations on a collection. Aggregation operations run all documents in
-a collection through a series of data aggregation stages called an
-:manual:`aggregation pipeline </core/aggregation-pipeline>`. Aggregation
-pipelines can filter and shape documents as well as collect summary data
-about groups of related documents.
 
 An aggregation operation accepts a list of aggregation stages as input
 and returns a
