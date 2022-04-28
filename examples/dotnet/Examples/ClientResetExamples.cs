@@ -149,8 +149,6 @@ namespace Examples
         }
         // :code-block-end:
 
-
-        [Test]
         public async Task HandleManualClientReset()
         // :code-block-start: ManualClientReset
         // :replace-start: {
@@ -166,13 +164,16 @@ namespace Examples
         // :uncomment-end:
         {
             fsApp = App.Create(myRealmAppId);
-            fsUser = fsApp.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            fsUser = fsApp.LogInAsync(
+                Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
-            fsConfig.ClientResetHandler = new ManualRecoveryHandler(HandleSessionError);
+            fsConfig.ClientResetHandler =
+                new ManualRecoveryHandler(HandleSessionError);
             //:hide-start:
             fsConfig.Schema = new[] { typeof(User) };
             //:hide-end:
+
             var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }
 
