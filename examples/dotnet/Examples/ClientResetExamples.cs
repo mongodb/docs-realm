@@ -16,63 +16,69 @@ namespace Examples
     {
         App app;
         RealmUser user;
-        PartitionSyncConfiguration config;
+
         const string myRealmAppId = Config.appid;
         Realm realm;
+        App fsApp;
+        Realm fsRealm;
+        RealmUser fsUser;
 
 
-        [Test]
-        public async Task ResetsTheClient()
-        {
-            app = App.Create(myRealmAppId);
+        // this is the old way. No longer applies, but keeping the
+        // code for now, just in case...
 
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+        /*[Test]
+         public async Task ResetsTheClient()
+         {
+             app = App.Create(myRealmAppId);
 
-            config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
-            config.Schema = new[] { typeof(User) };
-            //:hide-end:
-            realm = await Realm.GetInstanceAsync(config);
+             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
-            // :code-block-start: handle
-            Session.Error += (sender, err) =>
-            {
-                if (err.Exception is ClientResetException clientResetEx)
-                {
-                    var session = (Session)sender;
-                    Console.WriteLine("Client Reset requested for " +
-                        session.Path + "due to " + clientResetEx.Message);
+             config = new PartitionSyncConfiguration("myPart", user);
+             //:hide-start:
+             config.Schema = new[] { typeof(User) };
+             //:hide-end:
+             realm = await Realm.GetInstanceAsync(config);
 
-                    // Prompt user to perform client reset immediately. If they don't do it,
-                    // they won't receive any data from the server until they restart the app
-                    // and all changes they make will be discarded when the app restarts.
-                    var didUserConfirmReset = true;
-                    if (didUserConfirmReset)
-                    {
-                        // Close the Realm before doing the reset as it'll need
-                        // to be deleted and all objects obtained from it will be
-                        // invalidated.
-                        realm.Dispose();
-                        var didReset = clientResetEx.InitiateClientReset();
-                        if (didReset)
-                        {
-                            // Navigate the user back to the main page or reopen the
-                            // the Realm and reinitialize the current page.
-                        }
-                        else
-                        {
-                            // Reset failed - notify user that they'll need to restart the app.
-                        }
-                        // :hide-start:
-                        Assert.IsTrue(didReset);
-                        // :hide-end:
-                    }
-                }
-            };
-            // :code-block-end:
-            TestingExtensions.SimulateError(realm.SyncSession,
-                ErrorCode.DivergingHistories, "diverging histories!", false);
-        }
+             // :code-block-start: handle
+             Session.Error += (sender, err) =>
+             {
+                 if (err.Exception is ClientResetException clientResetEx)
+                 {
+                     var session = (Session)sender;
+                     Console.WriteLine("Client Reset requested for " +
+                         session.Path + "due to " + clientResetEx.Message);
+
+                     // Prompt user to perform client reset immediately. If they don't do it,
+                     // they won't receive any data from the server until they restart the app
+                     // and all changes they make will be discarded when the app restarts.
+                     var didUserConfirmReset = true;
+                     if (didUserConfirmReset)
+                     {
+                         // Close the Realm before doing the reset as it'll need
+                         // to be deleted and all objects obtained from it will be
+                         // invalidated.
+                         realm.Dispose();
+                         var didReset = clientResetEx.InitiateClientReset();
+                         if (didReset)
+                         {
+                             // Navigate the user back to the main page or reopen the
+                             // the Realm and reinitialize the current page.
+                         }
+                         else
+                         {
+                             // Reset failed - notify user that they'll need to restart the app.
+                         }
+                         // :hide-start:
+                         Assert.IsTrue(didReset);
+                         // :hide-end:
+                     }
+                 }
+             };
+             // :code-block-end:
+             TestingExtensions.SimulateError(realm.SyncSession,
+                 ErrorCode.DivergingHistories, "diverging histories!", false);
+         }*/
 
         [Test]
         public async Task HandleAutoClientReset()
@@ -81,8 +87,12 @@ namespace Examples
         // private void SetupRealm()
         // :uncomment-end:
         {
-            var fsConfig = new FlexibleSyncConfiguration(user);
-            fsConfig.ClientResetHandler = new DiscardLocalResetHandler()
+            // :hide-start:
+            app = App.Create(myRealmAppId);
+            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            // :hide-end:
+            var config = new PartitionSyncConfiguration("myPartition", user);
+            config.ClientResetHandler = new DiscardLocalResetHandler()
             {
                 OnBeforeReset = HandleBeforeResetCallbak,
                 OnAfterReset = HandleAfterResetCallback,
@@ -92,19 +102,21 @@ namespace Examples
             //:hide-start:
             config.Schema = new[] { typeof(User) };
             //:hide-end:
-            var realm = await Realm.GetInstanceAsync(fsConfig);
+            var realm = await Realm.GetInstanceAsync(config);
         }
 
         private void HandleBeforeResetCallbak(Realm beforeFrozen)
         {
-            // This method is useful if you want to make a backup of the
-            // existing Realm before it is reset by the system.
+            // Notify the user that a reset is going to happen.
+            // This method may also be useful if you want to make a backup
+            // of the existing Realm before it is reset by the system.
         }
 
         private void HandleAfterResetCallback(Realm beforeFrozen, Realm after)
         {
-            // This method is useful if you want to merge in changes that
-            // were in the "before" Realm into the re-created Realm
+            // Notify the user when the reset is complete.
+            // This method may also be useful if you want to merge in changes
+            // that were in the "before" Realm into the re-created Realm
         }
 
         private void HandleManualResetCallback(ClientResetException clientResetException)
@@ -141,50 +153,58 @@ namespace Examples
         [Test]
         public async Task HandleManualClientReset()
         // :code-block-start: ManualClientReset
+        // :replace-start: {
+        //  "terms": {
+        //   "fsApp": "app",
+        //   "fsUser":"user",
+        //   "fsConfig":"config",
+        //   "fsrealm":"realm"
+        //   }
+        // }
         // :uncomment-start:
         // private void SetupRealm()
         // :uncomment-end:
         {
-            var fsConfig = new FlexibleSyncConfiguration(user);
-            fsConfig.OnSessionError = HandleSessionError;
+            fsApp = App.Create(myRealmAppId);
+            fsUser = fsApp.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+
+            var fsConfig = new FlexibleSyncConfiguration(fsUser);
+            fsConfig.ClientResetHandler = new ManualRecoveryHandler(HandleSessionError);
             //:hide-start:
-            config.Schema = new[] { typeof(User) };
+            fsConfig.Schema = new[] { typeof(User) };
             //:hide-end:
-            var realm = await Realm.GetInstanceAsync(fsConfig);
+            var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }
 
-        private void HandleSessionError(Session session, SessionException error)
+        private void HandleSessionError(ClientResetException clientResetException)
         {
-            if (error is ClientResetException clientResetException)
+            Console.WriteLine($"Client Reset requested: {clientResetException.Message}");
+
+            // Prompt user to perform a client reset immediately. If they don't do it,
+            // they won't receive any data from the server until they restart the app
+            // and all changes they make will be discarded when the app restarts.
+            var didUserConfirmReset = ShowUserAConfirmationDialog();
+            if (didUserConfirmReset)
             {
-                Console.WriteLine("Client Reset requested for " +
-                session.Path + "due to " + error.Message);
+                // Close the Realm before doing the reset. It must be 
+                // deleted as part of the reset.
+                fsRealm.Dispose();
 
-                // Prompt user to perform client reset immediately. If they don't do it,
-                // they won't receive any data from the server until they restart the app
-                // and all changes they make will be discarded when the app restarts.
-                var didUserConfirmReset = ShowUserAConfirmationDialog();
-                if (didUserConfirmReset)
+                // perform the client reset
+                var didReset = clientResetException.InitiateClientReset();
+                if (didReset)
                 {
-                    // Close the Realm before doing the reset. It must be 
-                    // deleted as part of the reset.
-                    realm.Dispose();
-
-                    // perform the client reset
-                    var didReset = clientResetException.InitiateClientReset();
-                    if (didReset)
-                    {
-                        // Navigate the user back to the main page or reopen the
-                        // the Realm and reinitialize the current page.
-                    }
-                    else
-                    {
-                        // Reset failed - notify user that they'll need to
-                        // restart the app.
-                    }
+                    // Navigate the user back to the main page or reopen the
+                    // the Realm and reinitialize the current page.
+                }
+                else
+                {
+                    // Reset failed - notify user that they'll need to
+                    // restart the app.
                 }
             }
         }
+        // :replace-end:
         // :code-block-end:
 
         private bool ShowUserAConfirmationDialog()
