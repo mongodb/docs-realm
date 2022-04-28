@@ -50,7 +50,7 @@ describe("Flexible Sync Tests", () => {
     const bensTasks = tasks.filtered('owner == "Ben"');
     // :code-block-end:
 
-    // :code-block-start: subscribe-to-queryable-fields-await-form
+    // :code-block-start: subscribe-to-queryable-fields
     await realm.subscriptions.update((mutableSubs) => {
       mutableSubs.add(longRunningTasks, {
         name: "longRunningTasksSubscription",
@@ -63,42 +63,18 @@ describe("Flexible Sync Tests", () => {
     });
     // :code-block-end:
 
-    // :code-block-start: subscribe-to-queryable-fields
-    realm.subscriptions.update((mutableSubs) => {
-      mutableSubs.add(longRunningTasks, {
-        name: "longRunningTasksSubscription",
-      });
-
-      mutableSubs.add(bensTasks);
-
-      mutableSubs.add(realm.objects("Team"), {
-        name: "teamsSubscription",
-        throwOnUpdate: true,
-      });
-    });
-    // :code-block-end:
-
     // :code-block-start: log-subscription-state
     console.log(realm.subscriptions.state); // log the subscription state
     // :code-block-end:
 
-    // :code-block-start: wait-for-synchronization
-    try {
-      realm.subscriptions.update((mutableSubs) => {
-        mutableSubs.add("Person"); // At this point, data may or may not be downloaded.
-      });
-      await realm.subscriptions.waitForSynchronization(); // wait for the server to acknowledge this set of subscriptions and return the matching objects
-      // New data is made available
-    } catch (error) {
-      console.log(error);
-    }
-    // :code-block-end:
-
     // :code-block-start: update-subscriptions
     realm.subscriptions.update((mutableSubs) => {
-      mutableSubs.add(tasks.filtered('status == "completed" && progressMinutes > 180'), {
-        name: "longRunningTasksSubscription",
-      });
+      mutableSubs.add(
+        tasks.filtered('status == "completed" && progressMinutes > 180'),
+        {
+          name: "longRunningTasksSubscription",
+        }
+      );
     });
     // :code-block-end:
 
