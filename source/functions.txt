@@ -93,14 +93,14 @@ Constraints
 
 - Functions support most commonly used ES6+ features, but some features that are
   uncommon or unsuited to serverless workloads are not supported. For more
-  information, see :ref:`JavaScript Feature Compatibility <js-feature-compat>`.
+  information, see :ref:`JavaScript Support <js-support>`.
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <docs/v10.18.1/api/net.html>` built-in module.
 
 - {+service-short+} supports a subset of built-in Node modules. For a 
   full list of supported and unsupported modules, see
-  :ref:`Built-In Module Support <builtin-module-support>`.
+  :ref:`Built-In Module Support <js-support-builtin-modules>`.
 
 - There is an 18 MB limit for incoming webhook and function requests. For
   functions called from an SDK, this limit applies to the total size of all
@@ -166,7 +166,6 @@ the following guides:
 
 - :doc:`Add External Dependencies </functions/add-external-dependencies>`
 - :doc:`Import External Dependencies </functions/import-external-dependencies>`
-- :doc:`Built-In Module Support </functions/built-in-module-support>`
 
 .. note:: Create Your Own Modules
 
@@ -219,11 +218,9 @@ Reference Documentation
    * - :doc:`Global Modules </functions/globals>`
      - Includes detailed information about global utility packages.
 
-   * - :doc:`Built-In Module Support </functions/built-in-module-support>`
-     - Details which standard Node modules and APIs are available in {+service-short+} functions.
-
-   * - :doc:`JavaScript Feature Compatibility </functions/js-feature-compatibility>`
-     - Details the JavaScript syntax and built-ins that are available in {+service-short+} functions.
+   * - :doc:`JavaScript Support </functions/javascript-support>`
+     - JavaScript syntax and built-ins that are available in
+       {+service-short+} functions, including Node.js built-in modules.
 
 
 .. toctree::
@@ -241,7 +238,7 @@ Reference Documentation
 
    Add External Dependencies </functions/add-external-dependencies>
    Import External Dependencies </functions/import-external-dependencies>
-   Built-In Module Support </functions/built-in-module-support>
+   JavaScript Support </functions/javascript-support>
 
 .. toctree::
    :titlesonly:
@@ -251,4 +248,3 @@ Reference Documentation
    Context </functions/context>
    Query MongoDB Atlas </functions/mongodb>
    Global Modules </functions/globals>
-   JavaScript Feature Compatibility </functions/js-feature-compatibility>
