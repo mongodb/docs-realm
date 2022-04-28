@@ -1,8 +1,8 @@
-.. _builtin-module-support:
+.. _js-support:
 
-=======================
-Built-In Module Support
-=======================
+==================
+JavaScript Support
+==================
 
 .. default-domain:: mongodb
 
@@ -12,11 +12,160 @@ Built-In Module Support
    :depth: 2
    :class: singlecol
 
-Overview
---------
+{+service+} :ref:`functions <functions>` fully support JavaScript ES5
+syntax as well as most modern JavaScript features included in EcmaScript
+2015 (ES6) and more recent releases. They can also access most Node.js
+built-in modules.
 
-You can :ref:`import and use <import-external-dependencies>` many
-standard Node modules in your {+service+} :ref:`functions <functions>`.
+.. _js-support-builtin-syntax:
+
+Syntax
+------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 40
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`arrow function expressions <Web/JavaScript/Reference/Functions/Arrow_functions>`
+     - Yes
+   
+   * - :mdn:`classes <Web/JavaScript/Reference/Classes>`
+     - Yes
+   
+   * - :mdn:`super <Web/JavaScript/Reference/Operators/super>`
+     - Yes
+   
+   * - :mdn:`generators <Web/JavaScript/Reference/Statements/function*>`
+     - Yes
+   
+   * - :mdn:`default function parameters <Web/JavaScript/Reference/Functions/Default_parameters>`
+     - Yes
+   
+   * - :mdn:`rest parameters <Web/JavaScript/Reference/Functions/rest_parameters>`
+     - Yes
+   
+   * - :mdn:`spread iterables <Web/JavaScript/Reference/Operators/Spread_syntax>`
+     - Yes
+   
+   * - :mdn:`object literal extensions <Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015>`
+     - Yes
+   
+   * - :mdn:`for...of loops <Web/JavaScript/Reference/Statements/for...of>`
+     - Yes
+   
+   * - :mdn:`for await...of loops <Web/JavaScript/Reference/Statements/for-await...of>`
+     - Yes
+   
+   * - :mdn:`octal and binary literals <Web/JavaScript/Reference/Lexical_grammar#Binary>`
+     - Yes
+   
+   * - :mdn:`template literals <Web/JavaScript/Reference/Template_literals>`
+     - Yes
+   
+   * - :mdn:`destructuring assignment <Web/JavaScript/Reference/Operators/Destructuring_assignment>`
+     - Yes
+   
+   * - :mdn:`new.target <Web/JavaScript/Reference/Operators/new.target>`
+     - Yes
+   
+   * - :mdn:`RegExp -y and -u flags <Web/JavaScript/Guide/Regular_Expressions#Advanced_searching_with_flags_2>`
+     - No
+   
+   * - :mdn:`Exponentiation (**) <Web/JavaScript/Reference/Operators/Exponentiation>`
+     - Yes
+
+.. _js-support-builtin-objects:
+
+Built-In Objects
+----------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 40
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`TypedArray <Web/JavaScript/Reference/Global_Objects/TypedArray>`
+     - Yes
+   
+   * - :mdn:`Map <Web/JavaScript/Reference/Global_Objects/Map>`
+     - Yes
+   
+   * - :mdn:`Set <Web/JavaScript/Reference/Global_Objects/Set>`
+     - Yes
+   
+   * - :mdn:`WeakMap <Web/JavaScript/Reference/Global_Objects/WeakMap>`
+     - Yes
+   
+   * - :mdn:`WeakSet <Web/JavaScript/Reference/Global_Objects/WeakSet>`
+     - No
+   
+   * - :mdn:`Proxy <Web/JavaScript/Reference/Global_Objects/Proxy>`
+     - No
+   
+   * - :mdn:`Reflect <Web/JavaScript/Reference/Global_Objects/Reflect>`
+     - No
+   
+   * - :mdn:`Promise <Web/JavaScript/Reference/Global_Objects/Promise>`
+     - Yes
+   
+   * - :mdn:`Symbol <Web/JavaScript/Reference/Global_Objects/Symbol>`
+     - Yes
+
+.. _js-support-builtin-methods:
+.. _js-support-builtin-properties:
+
+Built-In Methods & Properties
+-----------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 60 40
+   
+   * - Feature
+     - Supported
+   
+   * - :mdn:`Object static methods <Web/JavaScript/Reference/Global_Objects/Object#Static_methods>`
+     - Yes
+   
+   * - :mdn:`String static methods <Web/JavaScript/Reference/Global_Objects/String#Static_methods>`
+     - Yes
+   
+   * - :mdn:`String.prototype methods <Web/JavaScript/Reference/Global_Objects/String#Instance_methods>`
+     - Yes
+   
+   * - :mdn:`RegExp.prototype properties <Web/JavaScript/Reference/Global_Objects/RegExp#Instance_properties>`
+     - No
+   
+   * - :mdn:`Function.name <Web/JavaScript/Reference/Global_Objects/Function/name>`
+     - Yes
+   
+   * - :mdn:`Array static methods <Web/JavaScript/Reference/Global_Objects/Array#Static_methods>`
+     - No
+   
+   * - :mdn:`Array.prototype methods <Web/JavaScript/Reference/Global_Objects/Array#Instance_methods>`
+     - Yes
+   
+   * - :mdn:`Number static methods <Web/JavaScript/Reference/Global_Objects/Number#Static_methods>`
+     - No
+   
+   * - :mdn:`Math methods <Web/JavaScript/Reference/Global_Objects/Math#Static_methods>`
+     - No
+
+.. _js-support-builtin-modules:
+
+Built-In Modules
+----------------
+
+You can :ref:`import and use <import-external-dependencies>` standard
+Node built-in modules in :ref:`functions <functions>`. {+service+}
+supports most built-ins with either full or partial support. Some
+built-ins that are not suited for serverless workloads are not
+supported.
 
 .. note::
    
@@ -28,7 +177,7 @@ standard Node modules in your {+service+} :ref:`functions <functions>`.
 .. _fully-supported-modules:
 
 Fully Supported Modules
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} fully supports the following built-in modules:
 
@@ -42,11 +191,10 @@ Fully Supported Modules
 
   .. note::
   
-    The built-in :nodejs:`punycode module is deprecated
+    The :nodejs:`built-in punycode module is deprecated
     <docs/v10.18.1/api/punycode.html>`. However, {+service-short+}
-    provides the :github:`userland punycode module
-    <bestiejs/punycode.js>` automatically. You can import the module
-    with:
+    provides the :npm:`punycode <package/punycode>` module from ``npm``
+    automatically. You can import the module with:
     
     .. code-block:: javascript
     
@@ -64,14 +212,15 @@ Fully Supported Modules
 .. _partially-supported-modules:
 
 Partially Supported Modules
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} supports a subset of the functionality of the following modules.
 
 .. _partially-supported-module-dgram:
 
-dgram
-~~~~~
+``dgram``
++++++++++
+
 {+service-short+} supports the following ``dgram`` APIs:
 
 - :nodejs:`socket.addMembership <api/dgram.html#dgram_socket_addmembership_multicastaddress_multicastinterface>`
@@ -94,7 +243,8 @@ dgram
 .. _partially-supported-module-dns:
 
 dns
-~~~
++++
+
 {+service-short+} supports the :nodejs:`dns
 <docs/v10.18.1/api/dns.html>` module with the following **exceptions**:
 
@@ -104,7 +254,8 @@ dns
 .. _partially-supported-module-fs:
 
 fs
-~~~
+++
+
 {+service-short+} supports the following ``fs`` APIs:
 
 - :nodejs:`accessSync <docs/v10.18.1/api/fs.html#fs_fs_accesssync_path_mode>`
@@ -115,8 +266,8 @@ fs
 
 .. _partially-supported-module-http:
 
-http, http/2 and https
-~~~~~~~~~~~~~~~~~~~~~~
+``http``, ``http/2`` and ``https``
+++++++++++++++++++++++++++++++++++
 
 {+service-short+} supports all of the :nodejs:`http <docs/v10.18.1/api/http.html>` 
 and :nodejs:`https <docs/v10.18.1/api/https.html>` APIs **except** 
@@ -128,8 +279,9 @@ Similarly, {+service-short+} supports only the client-side APIs of
 
 .. _partially-supported-module-process:
 
-process
-~~~~~~~
+``process``
++++++++++++
+
 {+service-short+} supports the following ``process`` APIs:
 
 - :nodejs:`hrTime <docs/v10.18.1/api/process.html#process_process_hrtime_time>`
@@ -139,16 +291,18 @@ process
 
 .. _partially-supported-module-util:
 
-util
-~~~~
+``util``
+++++++++
+
 {+service-short+} supports the :nodejs:`util <docs/v10.18.1/api/util.html>` module with the following **exceptions**:
 
 - {+service-short+} does **not** support :nodejs:`util.TextEncoder <docs/v10.18.1/api/util.html#util_class_util_textencoder>` 
 - {+service-short+} does **not** support :nodejs:`util.TextDecoder <docs/v10.18.1/api/util.html#util_class_util_textdecoder>` 
 
 
-crypto
-~~~~~~
+``crypto``
+++++++++++
+
 {+service-short+} supports the :nodejs:`crypto <api/crypto.html>` module with
 the following **exceptions**:
 
@@ -159,7 +313,7 @@ the following **exceptions**:
 .. _unsupported-modules:
 
 Unsupported Modules
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 {+service-short+} functions **do not** support the following built-in
 modules:
