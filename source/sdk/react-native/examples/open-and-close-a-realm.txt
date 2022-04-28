@@ -155,7 +155,7 @@ to :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>`.
 ``Realm.writeCopyTo()`` copies the realm's data to a new realm, but adds different configuration options. 
 In the output realm's configuration, you *must* specify the ``path``. 
 
-If you write to a realm file that already exists, the data is written object by object
+If you write the copied realm to a realm file that already exists, the data is written object by object
 without replacing the objects that are already there. The schemas of the realm you
 copy and the realm you are writing to must be compatible for the copy operation
 to succeed. Only objects in the schemas of both configurations are copied over.
