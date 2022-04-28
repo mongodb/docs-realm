@@ -1,6 +1,8 @@
-================
-Update Documents
-================
+.. _mongodb-write:
+
+=======================================
+Write Data in MongoDB Atlas - Functions
+=======================================
 
 .. default-domain:: mongodb
 
@@ -13,15 +15,8 @@ Update Documents
 Overview
 --------
 
-The code snippets on this page demonstrate how to update documents that are
-stored in a MongoDB collection. Update operations use standard MongoDB query
-syntax to specify which documents to update and :manual:`update operators
-</reference/operator/update>` to describe the changes to apply to matching
-documents.
-
-This page also covers several different update operators that you can
-use to :ref:`update fields <mongodb-update-operators-fields>` or
-:ref:`update array values <mongodb-update-operators-arrays>`.
+The examples on this page demonstrate how to use the MongoDB Query API
+in a function to insert, update, and delete data in your Atlas cluster.
 
 .. include:: /includes/data-lake-no-writes-note.rst
 
@@ -29,29 +24,68 @@ use to :ref:`update fields <mongodb-update-operators-fields>` or
 
 .. include:: /mongodb/crud-snippets/setup.rst
 
+.. _mongodb-insert:
 
-.. _id__baas_transaction:
+Insert
+------
 
-Temporary ``_id__baas_transaction`` Field
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Insert operations take one or more documents and add them to a MongoDB collection.
 
-While running update operations, {+backend+} temporarily adds a reserved
-field, ``_id_baas_transaction``, to documents. This allows Realm to
-ensure reads and writes reflect the correct state of the data. Once a
-document is successfully updated, {+backend+} removes this field.
+They return documents that describe the results of the operation.
 
-If you modify data used by your app outside of {+service-short+}, you
-may need to consider this field. For more information, see
-:ref:`Transactional Locks <transactional-locks>`.
+.. _mongodb-insert-a-single-document:
 
-Methods
--------
+Insert a Single Document (``insertOne()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Update a Single Document
-~~~~~~~~~~~~~~~~~~~~~~~~
+You can insert a single document using the
+:method:`collection.insertOne()` method.
+
+The following :ref:`function <functions>` snippet inserts a single item
+document into the ``items`` collection:
+
+.. include:: /mongodb/crud-snippets/insertOne/functions.rst
+
+
+.. _mongodb-insert-one-or-more-documents:
+
+Insert One or More Documents (``insertMany()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can insert multiple documents at the same time using the
+:method:`collection.insertMany()` method.
+
+The following :ref:`function <functions>` snippet inserts multiple item
+documents into the ``items`` collection:
+
+.. include:: /mongodb/crud-snippets/insertMany/functions.rst
+
+.. _mongodb-update:
+
+Update
+------
+
+Update operations find existing documents in a MongoDB collection and
+modify their data. You use standard MongoDB query syntax to specify
+which documents to update and :manual:`update operators
+</reference/operator/update>` to describe the changes to apply to
+matching documents.
+
+.. note::
+   
+   While running update operations, {+backend+} temporarily adds a
+   reserved field, ``_id_baas_transaction``, to documents. If you modify
+   data used by your app outside of {+service-short+}, you may need to
+   consider this field. For more information, see :ref:`Transactional
+   Locks <transactional-locks>`.
+
+.. _mongodb-update-a-single-document:
+
+Update a Single Document (``updateOne()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can update a single document using the
-:method:`collection.updateOne()` action.
+:method:`collection.updateOne()` method.
 
 The following :ref:`function <functions>` snippet updates the ``name``
 of a single document in the ``items`` collection from ``lego`` to
@@ -59,11 +93,13 @@ of a single document in the ``items`` collection from ``lego`` to
 
 .. include:: /mongodb/crud-snippets/updateOneSetField/functions.rst
 
-Update One or More Documents
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _mongodb-update-one-or-more-documents:
+
+Update One or More Documents (``updateMany()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can update multiple documents in a collection using the
-:method:`collection.updateMany()` action.
+:method:`collection.updateMany()` method.
 
 The following :ref:`function <functions>` snippet updates all documents
 in the ``items`` collection by multiplying their ``quantity`` values by
@@ -71,8 +107,7 @@ in the ``items`` collection by multiplying their ``quantity`` values by
 
 .. include:: /mongodb/crud-snippets/updateMany/functions.rst
 
-Options
--------
+.. _mongodb-upsert-documents:
 
 Upsert Documents
 ~~~~~~~~~~~~~~~~
@@ -94,10 +129,12 @@ game"`` and the ``quantity`` value set to ``5``:
 .. _mongodb-update-operators-fields:
 
 Field Update Operators
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
+
+Field operators let you modify the fields and values of a document.
 
 Set the Value of a Field
-~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++
 
 You can use the :manual:`$set </reference/operator/update/set/>`
 operator to set the value of a single field without affecting other
@@ -108,7 +145,7 @@ fields in a document.
    { "$set": { "<Field Name>": <Value>, ... } }
 
 Rename a Field
-~~~~~~~~~~~~~~
+++++++++++++++
 
 You can use the :manual:`$rename </reference/operator/update/rename/>`
 operator to change the name of a single field in a document.
@@ -118,7 +155,7 @@ operator to change the name of a single field in a document.
    { "$rename": { "<Current Field Name>": <New Field Name>, ... } }
 
 Increment a Value
-~~~~~~~~~~~~~~~~~
++++++++++++++++++
 
 You can use the :manual:`$inc </reference/operator/update/inc/>`
 operator to add a specified number to the current value of a field. The
@@ -129,7 +166,7 @@ number can be positive or negative.
    { "$inc": { "<Field Name>": <Increment Number>, ... } }
 
 Multiply a Value
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
 You can use the :manual:`$mul </reference/operator/update/mul/>`
 operator to multiply a specified number with the current value of a
@@ -142,10 +179,12 @@ field. The number can be positive or negative.
 .. _mongodb-update-operators-arrays:
 
 Array Update Operators
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
+
+Array operators let you work with values inside of arrays.
 
 Push an Element Into an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++
 
 You can use the :manual:`$push </reference/operator/update/push>`
 operator to add a value to the end of an array field.
@@ -155,7 +194,7 @@ operator to add a value to the end of an array field.
    { "$push": { "<Array Field Name>": <New Array Element>, ... } }
 
 Pop the Last Element out of an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++
 
 You can use the :manual:`$pop </reference/operator/update/pop>` operator
 to remove either the first or last element of an array field. Specify
@@ -166,7 +205,7 @@ to remove either the first or last element of an array field. Specify
    { "$pop": { "<Array Field Name>": <-1 | 1>, ... } }
 
 Add a Unique Element to an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++
 
 You can use the :manual:`$addToSet
 </reference/operator/update/addToSet>` operator to add a value to an
@@ -178,7 +217,7 @@ value is already present, ``$addToSet`` does nothing.
    { "$addToSet": { "<Array Field Name>": <Potentially Unique Value>, ... } }
 
 Remove Elements from an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++
 
 You can use the :manual:`$pull </reference/operator/update/pull>`
 operator to remove all instances of any values that match a specified
@@ -189,7 +228,7 @@ condition from an array field.
    { "$pull": { "<Array Field Name>": <Value | Expression>, ... } }
 
 Update All Elements in an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++++++++++++++++++++++++++++++++
 
 You can use the :manual:`$[] (All Positional Update)
 </reference/operator/update/positional-all>` operator to update all elements in
@@ -227,7 +266,7 @@ an array field:
       { "_id" : 3, "grades" : [ 15, 110, 100 ] }
 
 Update Specific Elements in an Array
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++
 
 You can use the :manual:`$[element] (Filtered Positional Update)
 </reference/operator/update/positional-filtered>` operator to update specific
@@ -271,3 +310,88 @@ elements in an array field based on an array filter:
       { "_id" : 1, "grades" : [ 15, 92, 90 ] }
       { "_id" : 2, "grades" : [ 18, 100, 100 ] }
       { "_id" : 3, "grades" : [ 15, 100, 100 ] }
+
+.. _mongodb-delete:
+
+Delete
+------
+
+Delete operations find existing documents in a MongoDB collection and
+remove them. You use standard MongoDB query syntax to specify which
+documents to delete.
+
+.. _mongodb-delete-a-single-document:
+
+Delete a Single Document (``deleteOne()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete a single document from a collection using the
+:method:`collection.deleteOne()` method.
+
+The following :ref:`function <functions>` snippet deletes one document
+in the ``items`` collection that has a ``name`` value of ``lego``:
+
+.. include:: /mongodb/crud-snippets/deleteOne/functions.rst
+
+.. _mongodb-delete-one-or-more-documents:
+
+Delete One or More Documents (``deleteMany()``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can delete multiple items from a collection using the
+:method:`collection.deleteMany()` method.
+
+The following snippet deletes all documents in the ``items`` collection
+that do not have any ``reviews``:
+
+.. include:: /mongodb/crud-snippets/deleteMany/functions.rst
+
+.. _bulk-writes:
+
+Bulk Writes
+-----------
+
+A bulk write combines multiple write operations into a single operation.
+You can issue a bulk write command using the
+:method:`collection.bulkWrite()` method.
+
+.. include:: /mongodb/crud-snippets/bulkWrite/functions.rst
+
+.. _transactions:
+
+Transactions
+------------
+
+MongoDB supports :manual:`multi-document transactions
+</core/transactions/>` that let you read and write multiple documents
+atomically, even across collections.
+
+To perform a transaction:
+
+1. Obtain and start a client session with ``client.startSession()``.
+
+#. (Optional) Define a read and write settings object for the
+   transaction. Pass this object to the method called in the next step.
+
+#. Use the ``session.withTransaction()`` method to start a transaction.
+
+#. Execute the MongoDB queries that you would like to include in
+   your transaction in the callback for this function, which needs to
+   either be ``async`` or return a ``Promise``. Be sure to pass the
+   ``session`` to each query to ensure that it is included in the
+   transaction.
+
+#. If the callback encounters an error, you should abort the transaction
+   with ``session.abortTransaction()`` in a
+   ``Promise`` rejection handler with ``Promise.catch()`` or a
+   ``try ... catch`` exception handler.
+
+#. When the transaction is complete, call ``session.endSession()`` to
+   end the session and free resources.
+
+The following example creates two users, "henry" and "michelle", and
+a uses a transaction to move "browniePoints" between those users
+atomically:
+
+.. literalinclude:: /mongodb/crud-snippets/transactions/transactions.js
+   :language: javascript
