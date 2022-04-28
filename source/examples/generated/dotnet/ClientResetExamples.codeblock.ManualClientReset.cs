@@ -1,10 +1,13 @@
 private void SetupRealm()
 {
     app = App.Create(myRealmAppId);
-    user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+    user = app.LogInAsync(
+        Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
     var config = new FlexibleSyncConfiguration(user);
-    config.ClientResetHandler = new ManualRecoveryHandler(HandleSessionError);
+    config.ClientResetHandler =
+        new ManualRecoveryHandler(HandleSessionError);
+
     var realm = await Realm.GetInstanceAsync(config);
 }
 
