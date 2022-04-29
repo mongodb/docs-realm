@@ -120,7 +120,7 @@ Add a Query to the List Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Compose queries to add to your Flexible Sync subscriptions using the
-:ref:`query engine <node-client-query-engine>`:  
+:ref:`query engine <react-native-client-query-engine>`:  
 
 .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
      :language: javascript
@@ -142,28 +142,11 @@ Add queries to your subscriptions list to sync the query's data. To do so, perfo
    :js-sdk:`add() <Realm.App.Sync.MutableSubscriptionSet.html#add>`
    method on the ``MutableSubscriptionSet`` to add a query to the subscription.
 
-.. tabs::
+The following example shows how to subscribe to the queries created above.
 
-   .. tab:: Asynchronously Add a Query
-      :tabid: asynchronous-add-a-query-to-subscriptions
-
-      You can asynchronously add a single query or multiple queries within a ``subscription.update``
-      transaction. The following example shows how to subscribe to the queries created earlier.
-  
-      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields-await-form.js
-          :language: javascript
-
-   
-   .. tab:: Synchronously Add a Query
-      :tabid: synchronous-add-a-query-to-subscriptions
-
-      You can synchronously add a single query or multiple queries within a ``subscriptions.update()``
-      transaction. If you synchronously add queries, you must call the :ref:`waitForSynchronization
-      <react-native-flexible-sync-wait-for-sync>` method afterward.
-      
-      .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
-          :language: javascript      
-
+.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
+     :language: javascript
+     
 The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
 :js-sdk:`SubscriptionOptions <Realm.App.Sync.html#.SubscriptionOptions>` object.
 The subscription options include:
@@ -180,24 +163,8 @@ but a different query throws an exception.
 
 Check the Status of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you have synchronously called the ``subscriptions.update()`` method, use the
-:js-sdk:`waitForSynchronization
-<Realm.App.Sync.SubscriptionSet.html#waitForSynchronization>` method to wait for
-the server to acknowledge this set of subscriptions and return the matching
-objects: 
-
-The ``waitForSynchronization()`` method returns a promise that resolves when
-synchronization is complete or rejects if there is an error during
-synchronization. Wrap the method call in a :mdn:`try...catch
-<Web/JavaScript/Reference/Statements/try...catch>` statement to handle any
-exceptions that are thrown.
-
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.wait-for-synchronization.js
-    :language: javascript
-
-In addition to the ``waitForSynchronization()`` method, you can check the
-subscription state to see if the server has acknowledged the subscription and
-the device has downloaded the data locally.
+You can check the subscription state to see if the server has acknowledged the
+subscription and the device has downloaded the data locally.
 
 You can use subscription state to:
 
