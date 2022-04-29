@@ -26,12 +26,6 @@ serverless manner. When you :doc:`call a function
 the current application as well as information about the request to
 execute the function and the logged in user that sent the request.
 
-By default, Realm Functions have no Node.js modules available for
-import. If you would like to make use of any such modules, you can
-:doc:`add external dependencies </functions/add-external-dependencies>`
-to make them available to
-:doc:`import into your Realm Functions </functions/import-external-dependencies>`.
-
 Use Cases
 ~~~~~~~~~
 
@@ -148,34 +142,6 @@ call :method:`context.runningAsSystem()`.
    or webhook, then {+service-short+} resolves the dynamic references to the
    :ref:`system user <system-user>` instead.
 
-.. _external-dependencies:
-
-External Dependencies
-~~~~~~~~~~~~~~~~~~~~~
-
-An **external dependency** is an external library that includes logic
-you'd rather not implement yourself, such as string parsing, convenience
-functions for array manipulations, and data structure or algorithm
-implementations.
-
-{+service-short+} allows you to use external dependencies from the :npm:`npm registry <>`
-and then import those dependencies into your functions using standard JavaScript
-module syntax. {+service-short+} automatically transpiles dependencies and supports most
-built-in Node.js modules. To get started with external dependencies, check out
-the following guides:
-
-- :doc:`Add External Dependencies </functions/add-external-dependencies>`
-- :doc:`Import External Dependencies </functions/import-external-dependencies>`
-
-.. note:: Create Your Own Modules
-
-   Though most npm modules are written by third parties, you can also
-   create and publish your own npm modules to house logic specific to
-   your application. You can make your modules available to the Node.js
-   community or reserve them for private use. For more information,
-   check out npm's guide on `Contributing packages to the registry
-   <https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry>`_.
-
 Guides
 ------
 
@@ -189,17 +155,12 @@ Guides
    * - :doc:`Define a Function </functions/define-a-function>`
      - Learn how to write and add new functions to your {+app+}.
 
-   * - :doc:`Add an External Dependency </functions/add-external-dependencies>`
-     - Learn how to make Node.js packages available for import in your
-       {+service-short+} Functions.
+   * - :doc:`External Dependencies </functions/dependencies>`
+     - Learn how to add and use Node.js packages from ``npm`` in your functions.
 
    * - :doc:`Call a Function </functions/call-a-function>`
      - Learn how to execute functions that you've defined from a client
        application or from another {+service-short+} component.
-
-   * - :doc:`Import an External Dependency </functions/import-external-dependencies>`
-     - Learn how to import and call uploaded Node.js packages within
-       a {+service-short+} Function.
 
 Reference Documentation
 -----------------------
@@ -236,8 +197,7 @@ Reference Documentation
    :caption: External Dependencies
    :hidden:
 
-   Add External Dependencies </functions/add-external-dependencies>
-   Import External Dependencies </functions/import-external-dependencies>
+   External Dependencies </functions/dependencies>
    JavaScript Support </functions/javascript-support>
 
 .. toctree::

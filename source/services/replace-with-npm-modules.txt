@@ -20,14 +20,15 @@ service.
 
 To migrate from a deprecated service:
 
-1. Install and :ref:`upload <add-external-dependencies>` the official
-   service library from ``npm``.
+1. :ref:`Add a library <add-external-dependencies>` for the service from
+   ``npm`` to your app.
 
-2. Replace calls to the built-in service actions with calls to the
-   corresponding methods in the official library.
+2. :ref:`Import the library <import-external-dependencies>` in your
+   functions. Replace any calls to the built-in service actions with
+   calls to the corresponding methods in the imported library.
 
-3. If the service has webhooks, :ref:`convert
-   <convert-webhooks-to-endpoints>` them to endpoints.
+3. If the service has webhooks, :ref:`convert them to HTTPS endpoints
+   <convert-webhooks-to-endpoints>`.
 
 HTTP Service
 ------------

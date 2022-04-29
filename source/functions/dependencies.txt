@@ -1,0 +1,132 @@
+.. _external-dependencies:
+
+=====================
+External Dependencies
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+An **external dependency** is a library that includes code that you
+can't or don't want to implement yourself. For example, you might use an
+official library for an external service or a custom implementation of
+a data structure or algorithm.
+
+{+service-short+} automatically transpiles dependencies and also
+supports most built-in Node.js modules.
+
+.. note:: Create Your Own Modules
+   
+   Though most npm modules are written by third parties, you can also
+   create and publish your own npm modules to house logic specific to
+   your application. You can make your modules available to the Node.js
+   community or reserve them for private use. For more information,
+   check out npm's guide on `Contributing packages to the registry
+   <https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry>`_.
+
+.. _add-external-dependencies:
+
+Add an External Package
+-----------------------
+
+To import and use an external dependency, you first need to add the
+dependency to your application. You can either :ref:`add packages by
+name <dependencies-add-by-name>` or :ref:`upload a directory of
+dependencies <dependencies-upload-zip>`.
+
+.. important:: Override Existing Dependencies
+   
+   You can only use one method at a time to specify the external
+   packages your app can use. The most recent method that you used to
+   specify dependencies is the source of truth and overrides previous
+   specifications.
+   
+   For example, a package added by name through the UI overrides any
+   copies of the same package that you've added previously, including
+   those in an :ref:`uploaded dependency directory
+   <dependencies-upload-zip>`.
+
+.. _dependencies-add-by-name:
+
+Add Packages by Name and Version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can add packages from the :npm:`npm registry <>` to your app by
+name. You can either add a specific version or use the latest version.
+
+.. tabs::
+
+   .. tab:: UI
+      :tabid: ui 
+
+      .. include:: /includes/steps/add-external-dependencies-ui.rst
+
+   .. tab:: CLI
+      :tabid: cli
+
+      .. include:: /includes/steps/add-external-dependencies-cli.rst
+   
+   .. tab:: Github Auto Deploy
+      :tabid: github
+      
+      .. include:: /includes/steps/add-external-dependencies-github.rst
+
+.. _dependencies-upload-zip:
+
+Upload a Dependency Directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can upload a zipped ``node_modules`` directory of packages to your
+app. Zipped dependency directories may not exceed 15MB.
+
+.. include:: /includes/steps/upload-external-dependencies.rst
+
+.. _import-external-dependencies:
+
+Import a Package in a Function
+------------------------------
+
+You can import built-in modules and external packages that you've added
+to your app and then use them in your functions. To import a package,
+call ``require()`` with the package name from within the function body.
+
+.. important:: Where Do I Import Modules?
+   
+   Node.js projects commonly place ``require()`` calls in the global
+   scope of each file, but {+service-short+} does not support this
+   pattern. You *must* place {+service-short+} ``require()`` calls
+   within a function scope.
+
+Import a Full Module
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+   :emphasize-lines: 2
+
+   exports = () => {
+      const R = require("ramda");
+      return R.map(x => x*2, [1,2,3]);
+   }
+
+Import a Module Subfolder
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: javascript
+   :emphasize-lines: 2
+
+   exports = function(arg){
+      const cloneDeep = require("lodash/cloneDeep");
+
+      var original = { name: "Deep" };
+      var copy = cloneDeep(original);
+      copy.name = "John";
+
+      console.log(`original: ${original.name}`);
+      console.log(`copy: ${copy.name}`);
+      return (original != copy);
+   };
