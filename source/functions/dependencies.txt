@@ -9,12 +9,12 @@ External Dependencies
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 3
+   :depth: 2
    :class: singlecol
 
 An **external dependency** is a library that includes code that you
 can't or don't want to implement yourself. For example, you might use an
-official library for an external services or a custom implementation of
+official library for an external service or a custom implementation of
 a data structure or algorithm.
 
 {+service-short+} automatically transpiles dependencies and also
@@ -41,10 +41,14 @@ dependencies <dependencies-upload-zip>`.
 
 .. important:: Override Existing Dependencies
    
-   You can only use one method at a time to specify the external packages
-   your app can use. For example, a package added by name through the UI
-   overrides any copies of the same package that you've added previously,
-   including those in an :ref:`uploaded dependency directory
+   You can only use one method at a time to specify the external
+   packages your app can use. The most recent method that you used to
+   specify dependencies is the source of truth and overrides previous
+   specifications.
+   
+   For example, a package added by name through the UI overrides any
+   copies of the same package that you've added previously, including
+   those in an :ref:`uploaded dependency directory
    <dependencies-upload-zip>`.
 
 .. _dependencies-add-by-name:

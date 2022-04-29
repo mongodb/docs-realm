@@ -37,8 +37,11 @@ content: |
 title: Check Operation Success
 ref: add-external-dependencies-github-check-operation-success
 content: |
-  Once it finishes adding the dependencies, the CLI tells you if all packages 
-  were successfully added. 
+  The {+service-short+} GitHub app automatically deploys your updated
+  app configuration after you push the commit. You can check the status
+  of the deployment and confirm that all packages were successfully
+  added from the :guilabel:`Deployment` screen of the {+ui+}.
 
-  If anything fails during the installation, none of the dependencies are installed. 
-  Remove the failing dependencies from the ``package.json`` file and try again.
+  If anything fails during deployment, none of the dependencies are
+  installed. Remove the failing dependencies from the ``package.json``
+  file and try again.
