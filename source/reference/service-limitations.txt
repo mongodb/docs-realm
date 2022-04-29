@@ -189,8 +189,10 @@ your query.
 Request Traffic
 ---------------
 
-{+service+} throttles request traffic that exceeds 5,000 requests per
-second. You can have this limit raised by `filing a support ticket
+{+service+} limits request traffic to 5,000 concurrent requests. Any 
+requests made beyond this limit return an HTTP response status code of 
+`429 - Too Many Requests <https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429>`_.
+You can request a higher limit by `filing a support ticket
 <https://support.mongodb.com/welcome>`__.
 
 .. _mongodb-service-limitations-rules:

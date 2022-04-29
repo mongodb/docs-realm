@@ -26,8 +26,10 @@ relationships in synced SDK data models and GraphQL operations by
 replacing the values in a source field with the foreign documents that
 they reference.
 
+.. include:: /includes/note-partition-relationships.rst
+
 Relationships are unidirectional and don't enforce uniqueness or other
-foreign key contraints. If you reference a non-existent foreign value in
+foreign key constraints. If you reference a non-existent foreign value in
 a source field, Realm automatically omits the reference from resolved
 relationships.
 
