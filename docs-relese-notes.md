@@ -1,3 +1,48 @@
+# April 29, 2022
+
+## SDK Docs
+
+### .Net SDK
+Usage Examples
+- Open a Realm: Make `FlexibleSyncConfiguration` a link to API docs
+- Authenticate Users: Add section about "Offline Login"
+
+### Node.js SDK
+- Usage Examples -> Open and Close a Realm: Add documentation for opening local realm as synced and synced realm as local
+- Fix broken JS/TS tests
+
+### React Native SDK
+- Usage Examples -> Open and Close a Realm: Add documentation for opening local realm as synced and synced realm as local
+
+### Flutter SDK
+- Move Flutter SDK pages about Realm Database to a new Realm Database section
+
+### Web SDK
+- MongoDB Realm -> Manage Email/Password Users: Correct a link to retry a user confirmation function
+
+## MongoDB Cloud Docs
+
+### Schemas
+- Enforce a Schema: add a section about validating null types
+- Relationships: add a note about the fact that relationships cannot span partitions
+
+### Functions
+- JavaScript Support: New page that combines "Built-In Module Support" & "JavaScript Feature Compatibility"
+- External Dependencies: New page that combines "Add External Dependencies" and "Import External Dependencies"
+
+Query MongoDB Atlas
+- Move the Query MongoDB Atlas section to Functions in the navigation
+- Rename "Find Documents" to "Read Data from MongoDB Atlas - Functions" & expand an example
+- Aggregate: Rename "Run Aggregation Pipelines" to "Aggregate Data in MongoDB Atlas - Functions", expand code example
+
+### Logs
+- View Logs in the Realm UI: New page
+
+### Reference
+- Realm Admin API: Add `unordered` field to DB triggers
+- Realm Query Language: Remove `@avg` from Flex Sync supported operation on array fields
+- Service Limitations: Update Request Traffic limits info
+
 # April 22, 2022
 
 ## SDK Docs
