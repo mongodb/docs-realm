@@ -1,0 +1,47 @@
+=========================================
+View Logs in the {+ui+}
+=========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can view, filter, search, and download an application's logs in the {+ui+}. 
+In the left-hand navigation, under :guilabel:`Manage`, select :guilabel:`Logs`:
+
+.. figure:: /images/logs-ui.png
+   :alt: View Logs in the {+service-short+} UI
+
+
+Customize the Logs
+------------------
+On the Logs screen, you can do the following:
+
+**Filter the log entries**
+   Drop-down menus enable filtering by predefined types of log entry, the status 
+   of entries. You can also specify a date range, filter by user ID, and show 
+   only entries associated with a specific request ID. 
+
+**Limit the number of log entries in the view**
+   In the text field with the placeholder text :guilabel:`Max # of Logs`, enter 
+   the maximum number of results you want to display on the page. If there are 
+   more records beyond your limit, you will see a :guilabel:`Load More` button 
+   at the bottom of the list of log entries.
+
+**Download the results**
+   Click the download button, to the right of the :guilabel:`Apply` button, to 
+   download the log entries that meet your filter criteria (or all log entries 
+   if you haven't specified any filters). When you click this button, a dialog 
+   appears confirming the filters that will be applied and prompting you to 
+   (optionally) limit the number of results. The resulting collection of log 
+   entries is in a .zip file that contains a single JSON file. 
+
+   .. figure:: /images/logs-ui-download.png
+      :alt: Download Logs in the {+service-short+} UI
