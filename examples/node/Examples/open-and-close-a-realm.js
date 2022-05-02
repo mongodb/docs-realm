@@ -302,10 +302,12 @@ describe("Convert Realm using writeCopyTo()", () => {
       realm2.create("Car2", { _id: "4", model: "Model B", miles: 1, seats: 1 });
       realm2.create("Car", { _id: "3", model: "Model A", miles: 1, make: "a" });
       realm2.create("Car", { _id: "4", model: "Model B", miles: 1, make: "a" });
+      realm2.create("Car", { _id: "1", model: "Model B", miles: 1, make: "a" });
     });
     realm2.writeCopyTo(realm1Config);
 
     const combinedRealm = await Realm.open(realm1Config);
+    expect(combinedRealm.objectForPrimaryKey("Car", "1").model).toBe("Model B");
     expect(combinedRealm.objects("Car").length).toBe(4);
     expect(() => combinedRealm.objects("Car2")).toThrow(
       "Object type 'Car2' not found in schema."
