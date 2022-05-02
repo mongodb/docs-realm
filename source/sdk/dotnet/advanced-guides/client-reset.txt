@@ -75,15 +75,14 @@ mode. You specify the method for handling a manual reset with the
 Using the ManualRecoveryHandler
 -------------------------------
 
-To handle manual client resets, set the :dotnet-sdk:`OnSessionError <TBD>` callback
-of the ``FlexibleSyncConfiguration`` object. The callback takes two parameters:
-a :dotnet-sdk:`Session <reference/Realms.Sync.Session>` object and a 
-:dotnet-sdk:`SessionException <reference/Realms.Sync.Exceptions.SessionException.html>`
-object. 
+To handle manual client resets, set the :dotnet-sdk:`ClientResetHandler<TBD>` 
+property of the ``FlexibleSyncConfiguration`` object to a 
+:dotnet-sdk:`ManualRecoveryHandler(ClientResetException)<TBD>` method. Be sure to 
+use the overload of the ``ManualRecoveryHandler`` that takes a 
+:dotnet-sdk:`ClientResetException <reference/Realms.Sync.Exceptions.ClientResetException.html>` 
+parameter.
 
-Within the handler, cast the SessionException to a 
-:dotnet-sdk:`ClientResetException <reference/Realms.Sync.Exceptions.ClientResetException.html>`,
-dispose the existing realm, and call the 
+Within the ``ManualRecoveryHandler``, dispose the existing realm, and then call the 
 :dotnet-sdk:`InitiateClientReset() <reference/Realms.Sync.Exceptions.ClientResetException.html#Realms_Sync_Exceptions_ClientResetException_InitiateClientReset>` 
 method.
 
