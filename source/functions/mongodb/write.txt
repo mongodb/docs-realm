@@ -76,8 +76,8 @@ matching documents.
    While running update operations, {+backend+} temporarily adds a
    reserved field, ``_id_baas_transaction``, to documents. If you modify
    data used by your app outside of {+service-short+}, you may need to
-   consider this field. For more information, see :ref:`Transactional
-   Locks <transactional-locks>`.
+   unset this field. For more information, see :ref:`Transactional Locks
+   <transactional-locks>`.
 
 .. _mongodb-update-a-single-document:
 
@@ -370,24 +370,61 @@ To perform a transaction:
 
 1. Obtain and start a client session with ``client.startSession()``.
 
-#. (Optional) Define a read and write settings object for the
-   transaction. Pass this object to the method called in the next step.
+#. Call ``session.withTransaction()`` to define the transaction. The
+   method takes an async callback function and, optionally, a
+   configuration object that defines custom :manual:`read and write
+   settings
+   </core/transactions/#read-concern-write-concern-read-preference>` for
+   the transaction.
+   
+   .. code-block:: javascript
+      
+      session.withTransaction(async () => {
+         // ... Run MongoDB operations in this callback
+      }, {
+          readPreference: "primary",
+          readConcern: { level: "local" },
+          writeConcern: { w: "majority" },
+      })
 
-#. Use the ``session.withTransaction()`` method to start a transaction.
-
-#. Execute the MongoDB queries that you would like to include in
-   your transaction in the callback for this function, which needs to
-   either be ``async`` or return a ``Promise``. Be sure to pass the
+#. In the transaction callback function, run the MongoDB queries that
+   you would like to include in the transaction. Be sure to pass the
    ``session`` to each query to ensure that it is included in the
    transaction.
 
-#. If the callback encounters an error, you should abort the transaction
-   with ``session.abortTransaction()`` in a
-   ``Promise`` rejection handler with ``Promise.catch()`` or a
-   ``try ... catch`` exception handler.
+   .. code-block:: javascript
+      :emphasize-lines: 4
+
+      await accounts.updateOne(
+        { name: userSubtractPoints },
+        { $inc: { browniePoints: -1 * pointVolume } },
+        { session }
+      );
+
+#. If the callback encounters an error, call
+   ``session.abortTransaction()`` to stop the transaction. An aborted
+   transaction does not modify any data.
+
+   .. code-block:: javascript
+      :emphasize-lines: 4
+      
+      try {
+        // ...
+      } catch (err) {
+        await session.abortTransaction();
+      }
 
 #. When the transaction is complete, call ``session.endSession()`` to
    end the session and free resources.
+
+   .. code-block:: javascript
+      :emphasize-lines: 4
+      
+      try {
+        // ...
+      } finally {
+        await session.endSession();
+      }
 
 The following example creates two users, "henry" and "michelle", and
 a uses a transaction to move "browniePoints" between those users
