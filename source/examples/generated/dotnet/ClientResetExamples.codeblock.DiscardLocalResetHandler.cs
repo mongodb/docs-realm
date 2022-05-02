@@ -3,7 +3,7 @@ private void SetupRealm()
     var config = new PartitionSyncConfiguration("myPartition", user);
     config.ClientResetHandler = new DiscardLocalResetHandler()
     {
-        OnBeforeReset = HandleBeforeResetCallbak,
+        OnBeforeReset = HandleBeforeResetCallback,
         OnAfterReset = HandleAfterResetCallback,
         ManualResetFallback = HandleManualResetCallback
     };
@@ -11,7 +11,7 @@ private void SetupRealm()
     var realm = await Realm.GetInstanceAsync(config);
 }
 
-private void HandleBeforeResetCallbak(Realm beforeFrozen)
+private void HandleBeforeResetCallback(Realm beforeFrozen)
 {
     // Notify the user that a reset is going to happen.
     // This method may also be useful if you want to make a backup

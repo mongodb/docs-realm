@@ -2,7 +2,7 @@ private void SetupRealm()
 {
     app = App.Create(myRealmAppId);
     user = app.LogInAsync(
-        Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+        Credentials.EmailPassword("valerie@mongodb.com", "astral")).Result;
 
     var config = new FlexibleSyncConfiguration(user);
     config.ClientResetHandler =
