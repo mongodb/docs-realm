@@ -45,7 +45,6 @@ Overview
 The {+service+} :graphql:`GraphQL <>` API allows client applications to access
 data stored in a linked {+atlas+} cluster using any standard GraphQL client.
 
-{+service+} takes a code-first approach to GraphQL schema generation.
 {+service-short+} automatically creates GraphQL types for every linked
 collection that has a defined :ref:`schema <schemas>` and evaluates
 :ref:`role-based permissions <define-roles-and-permissions>` for all
@@ -84,6 +83,12 @@ circumvents the need for multiple costly round trips to the server.
 
 To learn more about GraphQL, check out the :graphql:`official GraphQL
 tutorial <learn>`.
+
+Approach to Schema Definition
+-----------------------------
+
+{+service-short+} generates the GraphQL schema and resolvers based on user-defined
+:ref:`schemas <schemas>` for MongoDB collections. 
 
 Limitations
 -----------
