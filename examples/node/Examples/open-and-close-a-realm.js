@@ -262,11 +262,62 @@ describe("Convert Realm using writeCopyTo()", () => {
 
     // clean up
     localRealm.close();
-    // await syncedRealm.syncSession.uploadAllLocalChanges();
-    // await syncedRealm.syncSession.downloadAllServerChanges();
     syncedRealm.close();
     Realm.deleteFile(localConfig);
     Realm.deleteFile(syncedConfig);
+  });
+  test("writing over realm doesn't replace data", async () => {
+    const Car = {
+      name: "Car",
+      properties: {
+        make: "string",
+        model: "string",
+        miles: "int",
+        _id: "string",
+      },
+      primaryKey: "_id",
+    };
+    const realm1Config = { schema: [Car], path: "realm1.realm" };
+    const realm1 = await Realm.open(realm1Config);
+    realm1.write(() => {
+      realm1.create("Car", { _id: "1", model: "Model X", make: "a", miles: 1 });
+      realm1.create("Car", { _id: "2", model: "Model Y", make: "a", miles: 1 });
+    });
+    realm1.close();
+
+    const OtherCar = {
+      name: "Car2",
+      properties: {
+        seats: "int",
+        model: "string",
+        miles: "int",
+        _id: "string",
+      },
+      primaryKey: "_id",
+    };
+    const realm2Config = { schema: [Car, OtherCar], path: "realm2.realm" };
+    const realm2 = await Realm.open(realm2Config);
+    realm2.write(() => {
+      realm2.create("Car2", { _id: "3", model: "Model A", miles: 1, seats: 1 });
+      realm2.create("Car2", { _id: "4", model: "Model B", miles: 1, seats: 1 });
+      realm2.create("Car", { _id: "3", model: "Model A", miles: 1, make: "a" });
+      realm2.create("Car", { _id: "4", model: "Model B", miles: 1, make: "a" });
+      realm2.create("Car", { _id: "1", model: "Model B", miles: 1, make: "a" });
+    });
+    realm2.writeCopyTo(realm1Config);
+
+    const combinedRealm = await Realm.open(realm1Config);
+    expect(combinedRealm.objectForPrimaryKey("Car", "1").model).toBe("Model B");
+    expect(combinedRealm.objects("Car").length).toBe(4);
+    expect(() => combinedRealm.objects("Car2")).toThrow(
+      "Object type 'Car2' not found in schema."
+    );
+
+    // clean up
+    realm2.close();
+    combinedRealm.close();
+    Realm.deleteFile(realm1Config);
+    Realm.deleteFile(realm2Config);
   });
   test("sync encrypted to local unencrypted", async () => {
     const Car = {
