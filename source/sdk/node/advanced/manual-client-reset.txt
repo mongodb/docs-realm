@@ -9,7 +9,7 @@ Manual Client Reset Data Recovery - Node SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 This page explains how to manually recover unsynced realm data after a client reset 
@@ -152,7 +152,7 @@ manual client reset data recovery strategy.
       In the realm's :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`, 
       set the ``clientReset`` field to manual mode and include an ``error`` callback function.
       You'll define the error callback function in the 
-      :ref:`Create Callback to Handle Client Reset section <node-create-callback-client-reset>`.
+      :ref:`Create Callback to Handle Client Reset section <node-manual-client-reset-create-callback>`.
 
       .. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
          :language: javascript
