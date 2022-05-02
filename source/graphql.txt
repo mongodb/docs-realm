@@ -54,8 +54,7 @@ To learn how to make data available through the GraphQL API, see
 :ref:`Expose Data in a Collection <graphql-expose-data>`.
 
 To learn about the generated types and operations that you can use with the {+service-short+}
-GraphQL API, see :ref:`GraphQL Types & Resolvers
-<graphql-types-and-resolvers>`.
+GraphQL API, see :ref:`GraphQL Types & Resolvers <graphql-types-and-resolvers>`.
 
 To extend the generated GraphQL API's functionality with custom queries and mutations,
 see :ref:`Define a Custom Resolver <graphql-custom-resolvers>`.
@@ -87,8 +86,21 @@ tutorial <learn>`.
 Approach to Schema Definition
 -----------------------------
 
-{+service-short+} generates the GraphQL schema and resolvers based on user-defined
-:ref:`schemas <schemas>` for MongoDB collections. 
+{+service+} takes a unique approach to schema definition. You
+generates the GraphQL schema and resolvers from JSON schemas
+for MongoDB collections. This differs from the traditional `code-first and schema-first
+approaches <https://blog.logrocket.com/code-first-vs-schema-first-development-graphql/>`__
+to GraphQL schema development.
+
+To define your GraphQL schema with {+service-short+}:
+
+#. :ref:`Define a JSON schema <schemas>` for a MongoDB collection in your {+atlas+} cluster.
+   You can :ref:`enforce the shape of the collection schema <enforce-a-schema>`
+   based on custom definitions or use a generated schema based on the documents in the collection.
+#. Configure {+service-short+} to :ref:`generate the GraphQL schema and resolvers
+   <graphql-expose-data>` based on your collection JSON schema. 
+#. Optionally extend the functionality of your generated GraphQL schema with
+   :ref:`custom resolvers <graphql-custom-resolvers>`.
 
 Limitations
 -----------
