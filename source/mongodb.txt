@@ -71,12 +71,9 @@ actions </mongodb/actions>` to work with data in a :ref:`linked data
 source <link-a-data-source>` from a function:
 
 - :doc:`Read </functions/mongodb/read>`
-- :doc:`Insert </mongodb/insert-documents>`
-- :doc:`Update </mongodb/update-documents>`
-- :doc:`Delete </mongodb/delete-documents>`
+- :doc:`Write </functions/mongodb/write>`
 - :doc:`Aggregate </functions/mongodb/aggregate>`
-- :doc:`Bulk Writes </mongodb/bulk-write>`
-- :doc:`Watch for Document Changes </mongodb/watch-documents>`
+- :doc:`Watch </mongodb/watch-documents>`
 
 .. important:: Define Collection Rules
 
@@ -102,88 +99,3 @@ source <link-a-data-source>` from a function:
    For more information on which operations are unsupported,
    see :doc:`CRUD & Aggregation APIs
    </mongodb/crud-and-aggregation-apis>`.
-
-Related Content
----------------
-
-Configuration Guides
-~~~~~~~~~~~~~~~~~~~~
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 50
-
-   * - Guide
-     - Description
-
-   * - :doc:`Link a MongoDB Data Source </mongodb/link-a-data-source>`
-     - Learn how to connect a MongoDB Atlas cluster or Data Lake to your application.
-
-   * - :doc:`Define Roles and Permissions </mongodb/define-roles-and-permissions>`
-     - Learn how to set up role based data access controls on your
-       MongoDB collections.
-
-   * - :doc:`Filter Incoming Queries </mongodb/filter-incoming-queries>`
-     - Learn how to add additional query parameters to incoming queries
-       to secure data and improve query efficiency.
-
-   * - :doc:`Configure Advanced Rules </mongodb/configure-advanced-rules>`
-     - Learn how to specify complex MongoDB collection rules by
-       modifying the underlying configuration file directly in the
-       {+ui+}.
-
-   * - :doc:`Read Preference </mongodb/read-preference>`
-     - Learn how to specify which replica set members {+service+} reads data
-       from.
-
-Usage Guides
-~~~~~~~~~~~~
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 50
-
-   * - Guide
-     - Description
-
-   * - :doc:`Insert Documents </mongodb/insert-documents>`
-     - Learn how to insert one or more documents into a MongoDB
-       collection.
-
-   * - :doc:`Find Documents </functions/mongodb/read>`
-     - Learn how to find documents in a collection, including
-       patterns and operators that you can use to refine your query.
-
-   * - :doc:`Update Documents </mongodb/update-documents>`
-     - Learn how to update documents in a collection, including
-       operators for manipulating specific fields.
-
-   * - :doc:`Delete Documents </mongodb/delete-documents>`
-     - Learn how to remove one or more documents from a MongoDB
-       collection.
-
-   * - :doc:`Bulk Writes </mongodb/bulk-write>`
-     - Learn how to execute an :manual:`bulkWrite
-       </core/bulk-write-operations>` operation on a collection.
-
-   * - :doc:`Wire Protocol </mongodb/wire-protocol>`
-     - Learn how to connect to MongoDB through {+service+} using standard
-       MongoDB driver clients.
-
-Reference Documentation
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 50
-
-   * - Guide
-     - Description
-
-   * - :doc:`MongoDB Actions </mongodb/actions>`
-     - Look up detailed examples and parameters for all MongoDB service
-       actions.
-
-   * - :doc:`CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>`
-     - Look up support for specific MongoDB client operations in
-       {+service+}.
