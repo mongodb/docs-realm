@@ -1,0 +1,39 @@
+.. _kotlin-serialization:
+
+==========================
+Serialization - Kotlin SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The serialization methods used by libraries such as
+`GSON <https://github.com/google/gson>`__ do not work with the SDK
+by default.
+
+This happens because the SDK compiler plugin injects hidden fields
+into object models, prefixed with ``io_realm_kotlin_``. The SDK uses
+these hidden fields to manage internal object state. Any library that
+relies on fields instead of getters and setters needs to ignore these
+hidden fields.
+
+To use the SDK with external libraries such as GSON, exclude the hidden
+fields from serialization using a prefix match:
+
+.. code-block:: kotlin
+   :copyable: false
+
+   var gson: Gson = GsonBuilder()
+       .registerTypeAdapter(Date::class.java, CustomDateTypeAdapter())
+       .setExclusionStrategies(object: ExclusionStrategy {
+           override fun shouldSkipField(f: FieldAttributes?): Boolean =
+               f?.name?.startsWith("io_realm_kotlin_") ?: false
+           override fun shouldSkipClass(clazz: Class<*>?): Boolean =
+               false
+       })
+       .create()
