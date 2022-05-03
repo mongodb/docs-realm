@@ -82,7 +82,13 @@ describe("Client Reset with Seamless Loss", () => {
     expect(clientResetSuccess).toBe(true);
   });
 
-  test("Discard unsynced changes after destructive schema changes", async () => {
+  // skipping because there's no way to manually trigger destructive schema changes
+  // client reset from `realm.syncSession._simulateError`. error code `211` should have
+  // worked to trigger client reset w destructive schema changes but didn't.
+  // this is a known issue being investigated by the JS team.
+  // once there is a way to trigger client reset w destructive schema changes from
+  // the test, this test will probably have to be refactored slightly to make work.
+  test.skip("Discard unsynced changes after destructive schema changes", async () => {
     const DogSchema = {
       name: "Doggo4",
       properties: {
@@ -101,37 +107,36 @@ describe("Client Reset with Seamless Loss", () => {
       // In the error handler, this reference is called `realm`
       async function handleSyncError(session, syncError) {
         console.error(JSON.stringify(syncError, null, 2));
-        // if (syncError.name == "ClientReset") {
-        console.log("derp", JSON.parse(JSON.stringify(session)));
-        console.log(syncError);
-        try {
-          console.log("error type is ClientReset....");
-          const path = realm.path; // realm.path will no be accessible after realm.close()
-          realm.close();
-          Realm.App.Sync.initiateClientReset(app, path);
+        if (syncError.name == "ClientReset") {
+          console.log(syncError);
+          try {
+            console.log("error type is ClientReset....");
+            const path = realm.path; // realm.path will no be accessible after realm.close()
+            realm.close();
+            Realm.App.Sync.initiateClientReset(app, path);
 
-          // Download Realm from the server.
-          // Ensure that the backend state is fully downloaded before proceeding,
-          // which is the default behavior.
-          realm = await Realm.open(config);
+            // Download Realm from the server.
+            // Ensure that the backend state is fully downloaded before proceeding,
+            // which is the default behavior.
+            realm = await Realm.open(config);
+            // :remove-start:
+            expect(realm.isClosed).toBe(false);
+            resolve(true);
+            // :remove-end:
+            // :uncomment-start:
+            // realm.close();
+            // :uncomment-end:
+          } catch (err) {
+            console.error(JSON.stringify(err, null, 2));
+            reject(err); // :remove:
+          }
+        } else {
+          // ...handle other error types
           // :remove-start:
-          expect(realm.isClosed).toBe(false);
-          resolve(true);
+          console.log(syncError);
+          reject("not a client reset error :(");
           // :remove-end:
-          // :uncomment-start:
-          // realm.close();
-          // :uncomment-end:
-        } catch (err) {
-          console.error(JSON.stringify(err, null, 2));
-          reject(err); // :remove:
         }
-        // } else {
-        // ...handle other error types
-        // :remove-start:
-        console.log(syncError);
-        reject("not a client reset error :(");
-        // :remove-end:
-        // }
       }
 
       const config = {
