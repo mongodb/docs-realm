@@ -2417,7 +2417,8 @@ paths:
       operationId: adminGetHostingConfig
       summary: Get Hosting Configuration
       description: |
-        Returns the current hosting configuration. Hosting is active if `status: "setup_ok"`.
+        Returns the current hosting configuration. Hosting is active 
+        if the response includes `status: "setup_ok"`.
       responses:
         200:
           description: Successfully get hosting configuration
@@ -2431,13 +2432,13 @@ paths:
       operationId: adminEnableDisableHosting
       summary: Enable/Disable Hosting
       description: |
-        Enable or disable Realm Hosting for your Realm app. 
+        Enable or disable Realm Hosting for your app. 
         Changes to hosting can take a few minutes to take effect.
         This endpoint does not notify you when the changes have taken effect, 
         only that the change operation was successfully received by the server.
 
         You can see the status of if the hosting enablement/disablement is complete 
-        by calling the [Get Hosting configuration](#operation/adminGetHostingConfig) endpoint.
+        by calling the [Get Hosting Configuration](#operation/adminGetHostingConfig) endpoint.
 
       requestBody:
         content:
