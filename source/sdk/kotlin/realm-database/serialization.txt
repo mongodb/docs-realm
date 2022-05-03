@@ -16,7 +16,7 @@ Serialization methods used by libraries that depend on reflection, such as
 `GSON <https://github.com/google/gson>`__ do not work with the SDK
 by default.
 
-This happens because the SDK compiler plugin injects a hidden field
+This is because the SDK compiler plugin injects a hidden field
 into object models, prefixed with ``io_realm_kotlin_``. The SDK uses
 this hidden field to manage internal object state. Any library that
 relies on fields instead of getters and setters needs to ignore this
