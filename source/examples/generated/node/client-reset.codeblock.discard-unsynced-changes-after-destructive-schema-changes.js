@@ -4,7 +4,6 @@ async function handleSyncError(session, syncError) {
   if (syncError.name == "ClientReset") {
     const path = realm.path; // realm.path will no be accessible after realm.close()
     realm.close();
-    // TODO: do i need this here now that it's deprecated?
     Realm.App.Sync.initiateClientReset(app, path);
 
     // Download Realm from the server.

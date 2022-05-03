@@ -101,14 +101,6 @@ discarding all unsynced changes:
 Manually Recover Unsynced Changes
 ---------------------------------
 
-.. note:: Manual Recovery Replaces ``Realm.App.Sync.initiateClientReset()``
-
-   This strategy works just like the deprecated
-   ``Realm.App.Sync.initiateClientReset()`` method of performing client resets.
-   Applications that use deprecated client reset handling can switch
-   directly to the "manually recover unsynced changes" strategy with
-   no logic changes.
-
 Manual recovery requires significant amounts of code, schema concessions,
 and custom conflict resolution logic. To learn more about the **manually
 recover unsynced changes** client reset strategy, see the

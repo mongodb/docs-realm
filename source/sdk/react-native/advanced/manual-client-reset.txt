@@ -18,15 +18,8 @@ caused by a destructive schema change.
 Manual recovery requires significant amounts of code, schema concessions,
 and custom conflict resolution logic.
 You should only perform a manual recovery of unsynced realm data if 
-**all** the following are true:
-
-#. You cannot lose unsynced data. 
-
-#. Your client reset is caused by a :ref:`destructive schema change 
-   <destructive-changes-synced-schema>`. 
-
-If all of these criteria are not true for your application, use the 
-:ref:`discard unsynced changes <react-native-discard-unsynced-changes>`
+you cannot lose unsynced data. 
+Otherwise, use the :ref:`discard unsynced changes <react-native-discard-unsynced-changes>`
 client reset strategy instead.
 
 The specifics of manual recovery depend heavily upon your application

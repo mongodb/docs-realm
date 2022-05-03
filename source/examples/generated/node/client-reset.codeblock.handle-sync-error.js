@@ -4,7 +4,6 @@ async function handleSyncError(_session, error) {
     realm.close(); // you must close all realms before proceeding
 
     // pass your realm app instance, and realm path to initiateClientReset()
-    // TODO: do i need this now that it's deprecated?
     Realm.App.Sync.initiateClientReset(app, realmPath);
 
     realm = await Realm.open(config);
