@@ -95,7 +95,7 @@ describe("Client Reset with Seamless Loss", () => {
     };
     const app = new Realm.App({ id: REALM_APP_ID });
     await app.logIn(new Realm.Credentials.anonymous());
-    await new Promise((resolve, reject) => {
+    const clientResetSuccess = await new Promise((resolve, reject) => {
       // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
       // Once you have opened your Realm, you will have to keep a reference to it.
       // In the error handler, this reference is called `realm`
@@ -116,7 +116,7 @@ describe("Client Reset with Seamless Loss", () => {
           realm = await Realm.open(config);
           // :remove-start:
           expect(realm.isClosed).toBe(false);
-          resolve();
+          resolve(true);
           // :remove-end:
           // :uncomment-start:
           // realm.close();
@@ -176,13 +176,14 @@ describe("Client Reset with Seamless Loss", () => {
           });
         });
         realm.syncSession._simulateError(
-          126,
+          211,
           "Simulate Client Reset",
           "realm::sync::ProtocolError",
           true
         );
       });
     });
+    expect(clientResetSuccess).toBe(true);
   });
 });
 
