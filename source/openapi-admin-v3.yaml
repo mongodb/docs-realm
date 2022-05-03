@@ -2410,6 +2410,55 @@ paths:
       - "$ref": "#/components/parameters/GroupId"
       - "$ref": "#/components/parameters/AppId"
       - "$ref": "#/components/parameters/DraftId"
+  "/groups/{groupId}/apps/{appId}/hosting/config":
+    get:
+      tags:
+        - hosting
+      operationId: adminGetHostingConfig
+      summary: Get Hosting Configuration
+      description: |
+        Returns the current hosting configuration. Hosting is active 
+        if the response includes `status: "setup_ok"`.
+      responses:
+        200:
+          description: Successfully get hosting configuration
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HostingConfiguration"
+    patch:
+      tags:
+        - hosting
+      operationId: adminEnableDisableHosting
+      summary: Enable/Disable Hosting
+      description: |
+        Enable or disable Realm Hosting for your app. 
+        Changes to hosting can take up to 15 minutes to take effect.
+        This endpoint does not notify you when the changes have taken effect, 
+        only that the change operation was successfully received by the server.
+
+        You can see if the hosting enablement/disablement is complete 
+        by calling the [Get Hosting Configuration](#operation/adminGetHostingConfig) endpoint.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  description: |
+                    Set to `true` to enable Realm Hosting.
+                    Set to `false` to disable Realm Hosting.
+      responses:
+        204:
+          description: |
+            Successfully enabled/disabled Realm Hosting.
+
+    parameters:
+      - "$ref": "#/components/parameters/GroupId"
+      - "$ref": "#/components/parameters/AppId"
   "/groups/{groupId}/apps/{appId}/hosting/assets":
     get:
       tags:
@@ -3925,7 +3974,7 @@ components:
           enum:
             - DATABASE
             - AUTHENTICATION
-            - SCHEDULE
+            - SCHEDULED
         function_id:
           type: string
           description: The ID of the function associated with the trigger.
@@ -4070,6 +4119,31 @@ components:
         hash:
           type: string
           description: The MD5 checksum hash for the asset
+    HostingConfiguration:
+      properties:
+        enabled:
+          type: boolean
+        status:
+          type: string
+          enum:
+            - setup_ok
+            - change_in_progress
+            - change_failed
+            - change_failed_fatal
+        default_domain:
+          type: object
+          properties:
+            provider_type:
+              type: string
+              example: aws
+            config:
+              type: object
+              properties:
+                app_default_domain:
+                  type: string
+                  description: Default domain of hosted Realm app provided by Realm.
+                  example: myapp-qldqx.mongodbstitch.com
+
     HostedAssetMetadata:
       properties:
         appId:
