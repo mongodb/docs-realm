@@ -14,12 +14,6 @@ Query MongoDB - Node.js SDK
    :depth: 2
    :class: singlecol
 
-.. note:: Example Dataset
-
-   The examples on this page use a MongoDB collection that describes inventory
-   in a chain of plant stores. For more information on the collection schema and
-   document contents, see :ref:`Example Data <node-mongodb-example-dataset>`.
-
 Use Cases
 ---------
 
@@ -37,6 +31,41 @@ possible. You might want to query MongoDB when:
 
 While not exhaustive, these are some common use cases for querying MongoDB 
 directly.
+
+.. _node-mongodb-example-dataset:
+
+.. example:: Example Data
+
+   .. include:: /includes/mongodb-data-access-example-plant-documents.rst
+
+   Documents in the ``plants`` collection use the following schema:
+
+   .. tabs::
+      
+      .. tab:: JSON Schema
+         :tabid: json-schema
+         
+         .. code-block:: json
+            
+            {
+            "title": "Plant",
+            "bsonType": "object",
+            "required": ["_id", "_partition", "name"],
+            "properties": {
+               "_id": { "bsonType": "objectId" },
+               "_partition": { "bsonType": "string" },
+               "name": { "bsonType": "string" },
+               "sunlight": { "bsonType": "string" },
+               "color": { "bsonType": "string" },
+               "type": { "bsonType": "string" }
+            }
+            }
+      
+      .. tab:: TypeScript
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/generated/code/start/mongodb.codeblock.plant-document-type.ts
+            :language: typescript
 
 .. _node-mongodb-connect:
 
@@ -667,39 +696,3 @@ Running this snippet produces output resembling the following:
          :copyable: false
 
 .. include:: /includes/aggregation-stages.rst
-
-.. _node-mongodb-example-dataset:
-
-Example Data
-------------
-
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
-
-Documents in the ``plants`` collection use the following schema:
-
-.. tabs::
-   
-   .. tab:: JSON Schema
-      :tabid: json-schema
-      
-      .. code-block:: json
-         
-         {
-           "title": "Plant",
-           "bsonType": "object",
-           "required": ["_id", "_partition", "name"],
-           "properties": {
-             "_id": { "bsonType": "objectId" },
-             "_partition": { "bsonType": "string" },
-             "name": { "bsonType": "string" },
-             "sunlight": { "bsonType": "string" },
-             "color": { "bsonType": "string" },
-             "type": { "bsonType": "string" }
-           }
-         }
-   
-   .. tab:: TypeScript
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.plant-document-type.ts
-         :language: typescript
