@@ -51,12 +51,6 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
    
    :ref:`Threading <dotnet-client-threading>`
 
-.. TODO: OTHER SECTIONS
-.. _dotnet-sync-changes-in-the-background:
-
-.. Sync Changes in the Background
-.. ------------------------------
-
 .. _dotnet-pause-or-resume-a-sync-session:
 
 Pause or Resume a Sync Session
@@ -83,19 +77,13 @@ methods:
 .. literalinclude:: /examples/generated/dotnet/DataSyncExamples.codeblock.pause-synced-realm.cs
    :language: csharp
 
-.. |pause_func_name| replace:: ``.Stop()``
-.. include:: /includes/note-details-about-pause.rst
-
-.. _dotnet-check-network-connection:
-
-.. Check the Current Network Connection
-.. ------------------------------------
-
 .. _dotnet-check-sync-progress:
 
 Check Upload & Download Progress for a Sync Session
 ---------------------------------------------------
-You can check on the status of your current changes by :ref:`waiting for changes to be uploaded or downloaded <dotnet-check-sync-progress-wait-for-upload-or-download>` or by :ref:`displaying a progress bar <dotnet-check-sync-progress-display-progress-bar>`.
+You can check on the status of your current changes by 
+:ref:`waiting for changes to be uploaded or downloaded <dotnet-check-sync-progress-wait-for-upload-or-download>` 
+or by :ref:`displaying a progress bar <dotnet-check-sync-progress-display-progress-bar>`.
 
 .. _dotnet-check-sync-progress-wait-for-upload-or-download:
 
@@ -110,7 +98,34 @@ property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
 methods.
 
+
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
+   :language: csharp
+
+
+
+To get the current state of a Sync session, use the :dotnet-sdk:`Realms.Sync.SyncSession
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>`
+property, and then set an event handler for the  
+:dotnet-sdk:`PropertyChanged <reference/Realms.Sync.Session.html#Realms_Sync_Session_PropertyChanged>` 
+event. The event handler is a standard 
+`.NET PropertyChangedEventHandler delegate 
+<https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventhandler?view=net-6.0>`_ 
+that takes in a `sender` object and  
+`PropertyChangedEventArgs <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventargs?view=net-6.0>`_ 
+object. You cast the sender to a `Session` and check the if the event argument's 
+`PropertyName` property is `Session.ConnectionState`. You can then get the 
+:dotnet-sdk:`ConnectionState <reference/Realms.Sync.Session.html#Realms_Sync_Session_ConnectionState>` 
+value, which will be one of the following:
+
+- Connecting
+- Connected
+- Disconnected
+
+The following code demonstrates setting the event handler, casting the session 
+object, and checking the Sync status:
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.connection-state.cs
    :language: csharp
 
 .. _dotnet-check-sync-progress-display-progress-bar:
