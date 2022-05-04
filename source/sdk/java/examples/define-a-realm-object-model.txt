@@ -150,6 +150,8 @@ types:
 Define a Relationship Field
 ---------------------------
 
+.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
+
 .. warning:: Always Define Accessors and Mutators for Client-Modified Fields
 
    {+service-short+} objects use getters and setters to persist updated
@@ -179,6 +181,8 @@ whose type is a {+service-short+} object in your application:
       :tabid: java
 
       .. include:: /examples/generated/java/local/FrogManyToOneExample.codeblock.complete.java.code-block.rst
+
+.. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
 Each ``Frog`` references either zero ``Frog`` instances or one other ``Frog`` instance. Nothing
 prevents multiple ``Frog`` instances from referencing the same ``Frog``
