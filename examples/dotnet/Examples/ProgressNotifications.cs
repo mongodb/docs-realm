@@ -69,8 +69,10 @@ namespace Examples
                        // :hide-start:
                        progressNotificationTriggered = true;
                        // :hide-end:
-                       Console.WriteLine($"transferred bytes: {progress.TransferredBytes}");
-                       Console.WriteLine($"transferable bytes: {progress.TransferableBytes}");
+                       Console.WriteLine($@"transferred bytes:
+                            {progress.TransferredBytes}");
+                       Console.WriteLine($@"transferable bytes:
+                            {progress.TransferableBytes}");
                    });
             // :code-block-end: upload-download-progress-notification
             var id = 2;
