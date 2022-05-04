@@ -86,13 +86,13 @@ describe("Client Reset with Seamless Loss", () => {
     expect(clientResetSuccess).toBe(true);
   });
 
-  // skipping because there's no way to manually trigger destructive schema changes
+  // skipping because there's no way to manually trigger breaking schema changes
   // client reset from `realm.syncSession._simulateError`. error code `211` should have
-  // worked to trigger client reset w destructive schema changes but didn't.
+  // worked to trigger client reset w breaking schema changes but didn't.
   // this is a known issue being investigated by the JS team.
-  // once there is a way to trigger client reset w destructive schema changes from
+  // once there is a way to trigger client reset w breaking schema changes from
   // the test, this test will probably have to be refactored slightly to make work.
-  test.skip("Discard unsynced changes after destructive schema changes", async () => {
+  test.skip("Discard unsynced changes after breaking schema changes", async () => {
     const DogSchema = {
       name: "Doggo4",
       properties: {
@@ -127,9 +127,7 @@ describe("Client Reset with Seamless Loss", () => {
             expect(realm.isClosed).toBe(false);
             resolve(true);
             // :remove-end:
-            // :uncomment-start:
-            // realm.close();
-            // :uncomment-end:
+            realm.close();
           } catch (err) {
             console.error(JSON.stringify(err, null, 2));
             reject(err); // :remove:
