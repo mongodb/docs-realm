@@ -38,20 +38,14 @@ GraphQL API
 Overview
 --------
 
-.. note:: Version Requirement
-
-   GraphQL requires MongoDB version 4.0 or greater.
-
 The {+service+} :graphql:`GraphQL <>` API allows client applications to access
 data stored in a linked {+atlas+} cluster using any standard GraphQL client.
 
 {+service-short+} automatically creates GraphQL types for every linked
 collection that has a defined :ref:`schema <schemas>` and evaluates
-:ref:`role-based permissions <define-roles-and-permissions>` for all
-GraphQL requests. 
-
-To learn how to make data available through the GraphQL API, see
-:ref:`Expose Data in a Collection <graphql-expose-data>`.
+:ref:`role-based permissions <define-roles-and-permissions>` for all GraphQL requests.
+To learn how to make data available through the GraphQL API,
+see :ref:`Expose Data in a Collection <graphql-expose-data>`.
 
 To learn about the generated types and operations that you can use with the {+service-short+}
 GraphQL API, see :ref:`GraphQL Types & Resolvers <graphql-types-and-resolvers>`.
@@ -83,13 +77,11 @@ circumvents the need for multiple costly round trips to the server.
 To learn more about GraphQL, check out the :graphql:`official GraphQL
 tutorial <learn>`.
 
-Approach to Schema Definition
------------------------------
+How {+service-short+} Creates GraphQL Schemas
+---------------------------------------------
 
-{+service+} takes a unique approach to schema definition. You
-generates the GraphQL schema and resolvers from JSON schemas
-for MongoDB collections. This differs from the traditional `code-first and schema-first approaches
-<https://blog.logrocket.com/code-first-vs-schema-first-development-graphql/>`__
+Using {+service+}, you generate the GraphQL schema and resolvers from JSON schemas
+for MongoDB collections. This differs from the traditional code-first and schema-first approaches
 to GraphQL schema development.
 
 To define your GraphQL schema with {+service-short+}:
@@ -97,24 +89,10 @@ To define your GraphQL schema with {+service-short+}:
 #. :ref:`Define a JSON schema <schemas>` for a MongoDB collection in your {+atlas+} cluster.
    You can :ref:`enforce the shape of the collection schema <enforce-a-schema>`
    based on custom definitions or use a generated schema based on the documents in the collection.
-#. Configure {+service-short+} to :ref:`generate the GraphQL schema and resolvers
+#. :ref:`Generate the GraphQL schema and resolvers
    <graphql-expose-data>` based on your collection JSON schema. 
 #. Optionally extend the functionality of your generated GraphQL schema with
    :ref:`custom resolvers <graphql-custom-resolvers>`.
-
-Limitations
------------
-
-- The GraphQL API can process a maximum of {+max-graphql-resolvers+}
-  resolvers for a given query or mutation. If an operation specifies
-  more than {+max-graphql-resolvers+} resolvers, the entire operation
-  fails with the error message ``"max number of queries reached"``.
-
-- The GraphQL API can resolve :ref:`relationships <relationships>` to a
-  maximum depth of {+max-graphql-relationship-depth+} for a given query
-  or mutation. If an operation specifies a relationship deeper than
-  {+max-graphql-relationship-depth+} resolvers, the entire operation
-  fails with the error message ``"max relationship depth exceeded"``.
 
 GraphQL Operations
 ------------------
@@ -228,3 +206,17 @@ generated mutation types, see :ref:`Mutation Resolvers
        title
      }
    }
+
+Limitations
+-----------
+
+- The GraphQL API can process a maximum of {+max-graphql-resolvers+}
+  resolvers for a given query or mutation. If an operation specifies
+  more than {+max-graphql-resolvers+} resolvers, the entire operation
+  fails with the error message ``"max number of queries reached"``.
+
+- The GraphQL API can resolve :ref:`relationships <relationships>` to a
+  maximum depth of {+max-graphql-relationship-depth+} for a given query
+  or mutation. If an operation specifies a relationship deeper than
+  {+max-graphql-relationship-depth+} resolvers, the entire operation
+  fails with the error message ``"max relationship depth exceeded"``.
