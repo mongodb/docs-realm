@@ -341,6 +341,12 @@ you can specify the foreign collection details and foreign key field.
 Define a Relationship
 ---------------------
 
+When you define a relationship, keep these limitations in mind:
+
+- The reference field must not be ``_id``
+- The reference field must not be a ``required`` field
+- The foreign key must be the ``_id`` field of the collection the field is referencing
+
 1. Define Schemas
 ~~~~~~~~~~~~~~~~~
 
