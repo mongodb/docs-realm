@@ -355,10 +355,22 @@ Running this snippet produces output resembling the following:
 Watch for Changes
 -----------------
 
-You can call :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`
-to automatically react whenever a document in the collection is added, modified,
-or deleted. Each notification specifies a document that changed, how it changed,
-and the full document after the operation that caused the event.
+You can call :js-sdk:`collection.watch()
+<Realm.MongoDBCollection.html#watch>` to subscribe to real-time
+:ref:`notification events <database-events>` whenever a document in the
+collection is added, modified, or deleted. Each notification specifies a
+document that changed, how it changed, and the full document after the
+operation that caused the event.
+
+{+service-short+} uses MongoDB :ref:`change streams <changeStreams>` on
+watched collections to listen for changes and broadcasts notifications
+to subscribed client applications. This is useful for cases where you
+want to know when something happened while a user is online. For
+example:
+
+- Track the location of a delivery
+- Get the most up-to-date score and stats for a game
+- Update a chat thread when a user sends a new message
 
 .. note::
 
