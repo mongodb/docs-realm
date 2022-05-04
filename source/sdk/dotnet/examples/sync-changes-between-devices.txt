@@ -86,11 +86,9 @@ example, you might want specific code to run only after all of the data is
 synced with the {+backend+}. You might also want to provide users with the 
 status of {+sync-short+} operations. 
 
-You can set up your {+sync-short+} session to 
-:ref:`wait for changes to be uploaded or downloaded 
-<dotnet-check-sync-progress-wait-for-upload-or-download>`. You can also 
-configure your {+sync-short+} session to :ref:`notify when the {+sync-short+} state 
-changes <dotnet-sync-status-change>`.
+You can set up your {+sync-short+} session to wait for changes to be uploaded 
+or downloaded. You can also configure your {+sync-short+} session to
+notify when the {+sync-short+} state changes.
 
 .. _dotnet-check-sync-progress-wait-for-upload-or-download:
 
@@ -103,7 +101,7 @@ property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
 :dotnet-sdk:`session.WaitForDownloadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
-methods.
+methods. For example:
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
    :language: csharp
@@ -124,9 +122,7 @@ The ``session.GetProgressObservable`` method takes in the following two paramete
 
 - A :dotnet-sdk:`ProgressDirection 
   <latest/reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
-  parameter that can be set to 
-  :dotnet-sdk:`ProgressDirection <reference/Realms.Sync.ProgressDirection.html>```.Upload`` 
-  or :dotnet-sdk:`ProgressDirection <reference/Realms.Sync.ProgressDirection.html>```.Download``.
+  parameter that can be set to ``Upload`` or ``Download``.
   
 - A :dotnet-sdk:`ProgressMode <reference/Realms.Sync.ProgressMode.html>` parameter 
   that can be set to ``ReportIndefinitely``
@@ -142,10 +138,11 @@ bytes to be transferred.
 
 .. note:: 
    
-   The number of transferred and transferable bytes are estimates. Since the 
-   actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ 
-   before transmitting over the network, the actual transmitted sizes will be 
-   much smaller for both transferable and transferred bytes.
+   The number of transferred and transferable bytes are only _estimates_. 
+   The {+sync-short+} changesets are compressed with 
+   `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so 
+   the actual size of transmitted bytes will be smaller than the reported number  
+   of both transferable and transferred bytes.
 
 .. example::
    In the following example, we subscribe to a progress 
@@ -169,16 +166,18 @@ bytes to be transferred.
 
 Get Connection State Changes
 ----------------------------
-To get the connection state of a :dotnet-sdk:`Realms.Sync.SyncSession
+To get the connection state of a :dotnet-sdk:`SyncSession
 <reference/Realms.Realm.html#Realms_Realm_SyncSession>`, set an event handler
-for the :dotnet-sdk:`PropertyChanged <reference/Realms.Sync.Session.html#Realms_Sync_Session_PropertyChanged>`
+on the :dotnet-sdk:`PropertyChanged <reference/Realms.Sync.Session.html#Realms_Sync_Session_PropertyChanged>`
 event. The event handler is a standard
 `.NET PropertyChangedEventHandler delegate
 <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventhandler?view=net-6.0>`_
 that takes in a `sender` object and
 `PropertyChangedEventArgs <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventargs?view=net-6.0>`_
-object. You cast the sender to a ``Session`` and check the if the event argument's
-``PropertyName`` property is ``Session.ConnectionState``. You can then get the
+object. 
+In the event handler, cast the sender to a ``Session`` object and check the if 
+the event argument's ``PropertyName`` property is ``Session.ConnectionState``. 
+You can then get the
 :dotnet-sdk:`ConnectionState <reference/Realms.Sync.Session.html#Realms_Sync_Session_ConnectionState>`
 value, which will be one of the following:
 

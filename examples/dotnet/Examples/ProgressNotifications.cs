@@ -121,19 +121,19 @@ namespace Examples
             if (e.PropertyName == nameof(Session.ConnectionState))
             {
                 var session = (Session)sender;
-                var newState = session.ConnectionState;
+                var currentState = session.ConnectionState;
 
-                if (newState == ConnectionState.Connecting)
+                if (currentState == ConnectionState.Connecting)
                 {
                     //session is connecting
                 }
 
-                if (newState == ConnectionState.Connected)
+                if (currentState == ConnectionState.Connected)
                 {
                     //session is connected
                 }
 
-                if (newState == ConnectionState.Disconnected)
+                if (currentState == ConnectionState.Disconnected)
                 {
                     //session has been disconnected
                 }
