@@ -1,7 +1,7 @@
 // Once you have opened your Realm, you will have to keep a reference to it.
 // In the error handler, this reference is called `realm`
 async function handleSyncError(session, syncError) {
-  if (syncError.name == "ClientReset") {
+  if (syncError.name === "ClientReset") {
     const path = realm.path; // realm.path will no be accessible after realm.close()
     realm.close();
     Realm.App.Sync.initiateClientReset(app, path);
