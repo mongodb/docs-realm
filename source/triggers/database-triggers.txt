@@ -451,9 +451,14 @@ limit the number of fields that the Trigger processes by using a
 
 .. note:: Project is inclusive only
 
-  A projection expression is inclusive. If you want to exclude a single 
-  field, the projection expression must include every field *except* the 
-  one you want to exclude.
+  When using Triggers, a projection expression is inclusive *only*. 
+  Project does not support mixing inclusions and exclusions. When using 
+  Triggers, you must include ``operation_type``, which means the project 
+  expression must be an inclusive one.
+  
+  If you want to exclude a single field, the projection expression must 
+  include every field *except* the one you want to exclude. The exception 
+  is ``_id``, which is included by default.
 
 .. example::
    
