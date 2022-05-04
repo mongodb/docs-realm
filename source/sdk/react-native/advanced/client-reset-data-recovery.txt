@@ -12,8 +12,7 @@ Manual Client Reset Data Recovery - React Native SDK
    :depth: 3
    :class: singlecol
 
-This page explains how to manually recover unsynced realm data after a client reset 
-caused by a destructive schema change.
+This page explains how to manually recover unsynced realm data after a client reset.
 
 Manual recovery requires significant amounts of code, schema concessions,
 and custom conflict resolution logic.
@@ -28,11 +27,11 @@ most manual recoveries. The :ref:`Track Changes by Object Strategy section
 <react-native-client-reset-track-changes-by-object>` demonstrates
 one method of recovering unsynced changes during a client reset.
 
-.. warning:: Avoid Making Destructive Schema Changes in Production
+.. warning:: Avoid Making Breaking Schema Changes in Production
 
-   Do not expect to recover all unsynced data after a destructive schema
+   Do not expect to recover all unsynced data after a breaking schema
    change. The best way to preserve user data is to never make a
-   destructive schema change at all.
+   breaking schema change at all.
 
 .. include:: /includes/destructive-schema-change-app-update.rst
 

@@ -4,6 +4,10 @@ import { ObjectId } from "bson";
 const REALM_APP_ID = "myapp-zufnj";
 
 describe("Client Reset with Seamless Loss", () => {
+  // these tests can take longer than most, causing timeouts that make
+  // the Github Actions CI fail
+  jest.setTimeout(20000);
+
   const DogSchema = {
     name: "Doggo3",
     properties: {
@@ -261,9 +265,10 @@ describe("Manual client reset", () => {
         const realmPath = realm.path; // realm.path will not be accessible after realm.close()
         realm.close(); // you must close all realms before proceeding
 
-        // pass your realm app instance, and realm path to initiateClientReset()
+        // pass your realm app instance and realm path to initiateClientReset()
         Realm.App.Sync.initiateClientReset(app, realmPath);
 
+        // Redownload the realm
         realm = await Realm.open(config);
         const oldRealm = await Realm.open(error.config);
 

@@ -55,8 +55,8 @@ synced to the backend.
 
 The "discard unsynced changes" strategy can handle every kind of client
 reset error *except* for client resets triggered by
-:ref:`destructive schema changes <destructive-changes-synced-schema>`.
-If your application experiences a destructive schema change, this strategy
+:ref:`breaking schema changes <destructive-changes-synced-schema>`.
+If your application experiences a breaking schema change, this strategy
 falls back to a mode that mimics the "manually recover unsynced changes"
 strategy.
 
@@ -79,14 +79,14 @@ The following example implements this strategy:
 .. literalinclude:: /examples/generated/node/client-reset.codeblock.discard-unsynced-changes.js
    :language: javascript
 
-.. _react-native-discard-unsynced-changes-after-destructive-schema-changes:
+.. _react-native-discard-unsynced-changes-after-breaking-schema-changes:
 
-Discard Unsynced Changes after Destructive Schema Changes
+Discard Unsynced Changes after breaking Schema Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/destructive-schema-change-app-update.rst
 
-If your application experiences a destructive schema change, the "discard
+If your application experiences a breaking schema change, the "discard
 unsynced changes" strategy cannot handle the resulting client reset
 automatically. Instead, you must provide a manual client reset
 implementation in the SyncConfiguration ``error()`` callback. The following
