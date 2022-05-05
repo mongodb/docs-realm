@@ -14,15 +14,28 @@ The {+app+} client is the interface to the {+backend+}
 backend. It provides access to the :ref:`authentication
 <flutter-authenticate>` and {+sync+}.
 
+Before You Begin
+----------------
+
+#. :ref:`Create a {+app+} <create-a-realm-app>`
+
 .. _flutter-access-the-app-client:
 
 Access the App Client
 ---------------------
 
-Pass the App ID for your {+app+}, which you can :ref:`find in the Realm UI
-<find-your-app-id>`.
+#. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
+#. Create an :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`
+   object with your {+app+}'s App ID as the argument.
+#. Create an :flutter-sdk:`App <realm/App-class.html>`
+   with the ``AppConfiguration`` you just created. You use this 
+   ``App`` instance to access {+service+} features throughout your client application.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   final appConfig = AppConfiguration(APP_ID);
+   final app = App(appConfig);
+
 
 .. note::
 
@@ -33,15 +46,20 @@ CODE_BLOCK
 
 .. _flutter-app-client-configuration:
 
-Configuration
--------------
+Advanced Configuration
+----------------------
 
-For more granular control of the details of your app connection,
-such as custom timeouts for connections and keys for local encryption,
-use the :flutter-sdk:`FLUTTER_AppConfiguration.Builder
-<>` to control details of your ``App``:
+Add additional configuration for more granular control of the details of your app client,
+such as custom timeouts for connections and keys for local encryption.
+You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`:
 
-CODE_BLOCK
+.. code-block:: dart
+
+   final appConfig = AppConfiguration(APP_ID, 
+     defaultRequestTimeout: const Duration(seconds: 120),
+     localAppVersion: '2.0'
+     // ... see reference docs for all available configuration options
+   );
 
 .. note:: 
 
