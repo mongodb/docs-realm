@@ -449,6 +449,17 @@ In the :guilabel:`Project Expression` field,
 limit the number of fields that the Trigger processes by using a 
 :manual:`$project </reference/operator/aggregation/project>` expression. 
 
+.. note:: Project is inclusive only
+
+  When using Triggers, a projection expression is inclusive *only*. 
+  Project does not support mixing inclusions and exclusions.
+  The project expression must be inclusive because Triggers require you 
+  to include ``operation_type``. 
+  
+  If you want to exclude a single field, the projection expression must 
+  include every field *except* the one you want to exclude.
+  You can only explicitly exclude ``_id``, which is included by default.
+
 .. example::
    
    A trigger is configured with the following :guilabel:`Project Expression`:
