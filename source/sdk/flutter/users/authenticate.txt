@@ -101,3 +101,20 @@ the app shuts down after the initial authentication, you do not need to call
 where ``config`` is a :flutter-sdk:`FLUTTER_PartitionSyncConfiguration <>` 
 object. This approach results in a faster start-up and also enables the user to 
 work offline.
+
+.. _flutter-delete-user:
+
+Delete a User
+-------------
+
+Call the :flutter-sdk:`FLUTTER_App.deleteUser() <>` on a user object to delete 
+the user's account from your Realm application. This deletes the account from
+the server in addition to clearing local data.
+
+CODE_BLOCK
+
+To use your app in the future, the user must sign up for a new account. 
+They can use the same credentials (depending on the authentication provider),
+but will not have the same User ID as their deleted account.
+
+

@@ -9,3 +9,35 @@ Link User Identities - Flutter SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+Realm provides :ref:`many authentication providers <authentication-providers>` 
+to log users into your app. Each provider creates a unique user identity. 
+Realm lets you merge multiple credentials into one user identity.
+
+You can link identities using the 
+:flutter-sdk:`LinkCredentialsAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_LinkCredentialsAsync_Realms_Sync_Credentials_>`. 
+This links authentication providers to a logged-in 
+:flutter-sdk:`User <reference/Realms.Sync.User.html>` object. 
+
+CODE_BLOCK
+
+Example
+-------
+
+Consider an application that offers :ref:`anonymous login 
+<anonymous-authentication>`. This allows users to explore the app without 
+registering. If users like the application, they create permanent 
+accounts. They sign up with SSO or email/password authentication. By default, 
+this creates a new ``User`` object. The app must link the new 
+identity with the original User.
+
+We must first register the new :ref:`email/password
+<email-password-authentication>` user before linking. 
+
+.. TODO: add this content when 3rd-party auth is supported 
+.. If you are using any of 
+.. the other :ref:`Auth Providers <authentication>`, this step is unnecessary.
+.. The following example uses  :ref:`Google authentication <google-authentication>`
+.. instead of EmailPassword:
+
+.. CODE_BLOCK
