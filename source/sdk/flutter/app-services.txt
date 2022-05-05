@@ -24,14 +24,13 @@ You can connect your client apps to the {+service-short+}
 backend using the Flutter SDK. Backend functionality includes:
 
 - :doc:`Connect to a Realm App </sdk/flutter/app-services/connect-to-app>`
-- :doc:`Register Users </sdk/flutter/users/register>`
-- :doc:`Register Users </sdk/flutter/users/authenticate>`
+- :doc:`Authenticate Users </sdk/flutter/users/authenticate>`
 
 The Realm App Client
 --------------------
 
 To connect to your {+service-short+} backend, start with a 
-:kotlin-sdk:`App <{+kotlin-sync-prefix+}io.realm.mongodb/-app/index.html>` object.
+:flutter-sdk:`App <realm/App-class.html>` object.
 This object provides all other functionality related to 
 the backend. Initialize an App with the Realm app ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
@@ -39,7 +38,7 @@ the backend. Initialize an App with the Realm app ID, which you can
 .. tip::
 
    To learn how to initialize the Realm App client, see
-   :ref:`kotlin-connect-to-backend`.
+   :ref:`flutter-connect-to-backend`.
 
 Authentication & User Management
 --------------------------------
