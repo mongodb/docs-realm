@@ -82,9 +82,10 @@ database for every type of synced object.
 
    By default, enabling Development Mode before you have defined 
    permissions creates default permissions that allow any user to access 
-   any data. However, if your application requires permissions during schema 
+   any data. If your application requires permissions during schema 
    development, you can :ref:`specify data access rules <sync-rules>` after 
-   enabling Development Mode.
+   enabling Development Mode. However, to make changes to the schema,
+   a user must have write access to all data.
 
 .. example::
 
