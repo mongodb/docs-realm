@@ -32,7 +32,7 @@ namespace Examples
         {
             // :hide-start:
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("valerie@mongodb.com", "astral")).Result;
+            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :hide-end:
             var config = new PartitionSyncConfiguration("myPartition", user);
             config.ClientResetHandler = new DiscardLocalResetHandler()
@@ -108,7 +108,7 @@ namespace Examples
         {
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("valerie@mongodb.com", "astral")).Result;
+                Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
 
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
