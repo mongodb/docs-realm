@@ -1,8 +1,8 @@
-.. _kotlin-delete-multiple-objects:
+.. _kotlin-update-collection:
 
-====================================
-Delete Multiple Objects - Kotlin SDK
-====================================
+================================
+Update a Collection - Kotlin SDK
+================================
 
 .. default-domain:: mongodb
 
@@ -12,29 +12,28 @@ Delete Multiple Objects - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-To delete multiple objects from a realm at the same time:
+To update a collection of objects in a realm:
 
 1. Open a write transaction with :kotlin-sdk:`realm.write()
    <{+kotlin-local-prefix+}io.realm/-realm/write.html>` or
    :kotlin-sdk:`realm.writeBlocking()
    <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`.
 
-#. Query the transaction's mutable realm for the objects you want to delete
+#. Query the transaction's mutable realm for all objects of that type
    with :kotlin-sdk:`realm.query()
    <{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`.
    Specify the object type as a type parameter passed to :file:`query()`.
    Filter the set of returned objects by specifying a query.
 
-#. Delete the set of :kotlin-sdk:`RealmResults
+#. Update elements of the set of :kotlin-sdk:`RealmResults
    <{+kotlin-local-prefix+}io.realm/-realm-results/index.html>`
-   returned by the query with :kotlin-sdk:`realmResults.delete()
-   <{+kotlin-local-prefix+}io.realm/-realm-results/delete.html>`.
+   returned by the query.
 
-.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.delete-multiple-objects.kt
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.update-a-collection.kt
    :language: kotlin
    :copyable: false
 
 .. note::
 
-   You can only delete objects from a realm within a
+   You can only update objects within a
    :ref:`write transaction <kotlin-write-transactions>`.
