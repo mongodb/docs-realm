@@ -24,5 +24,5 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.0")
-    compileOnly("io.realm.kotlin:library-base:0.11.0") // DON'T FORGET TO UPDATE VERSION IN SHARED/PROJECT GRADLE
+    compileOnly("io.realm.kotlin:library-base:0.11.1") // DON'T FORGET TO UPDATE VERSION IN SHARED/PROJECT GRADLE
 }
