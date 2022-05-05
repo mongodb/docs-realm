@@ -83,7 +83,7 @@ Monitor Sync Progress and Status
 --------------------------------
 You may want to know the status of {+sync-short+} operations in your app. For 
 example, you might want specific code to run only after all of the data is 
-synced with the {+backend+}. You might also want to provide users with the 
+synced with {+backend+}. You might also want to provide users with the 
 status of {+sync-short+} operations. 
 
 You can set up your {+sync-short+} session to wait for changes to be uploaded 
@@ -172,10 +172,10 @@ on the :dotnet-sdk:`PropertyChanged <reference/Realms.Sync.Session.html#Realms_S
 event. The event handler is a standard
 `.NET PropertyChangedEventHandler delegate
 <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventhandler?view=net-6.0>`_
-that takes in a `sender` object and
+that takes in a ``sender`` object and
 `PropertyChangedEventArgs <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventargs?view=net-6.0>`_
 object. 
-In the event handler, cast the sender to a ``Session`` object and check the if 
+In the event handler, cast the sender to a ``Session`` object and check if 
 the event argument's ``PropertyName`` property is ``Session.ConnectionState``. 
 You can then get the
 :dotnet-sdk:`ConnectionState <reference/Realms.Sync.Session.html#Realms_Sync_Session_ConnectionState>`
