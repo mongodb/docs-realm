@@ -1,0 +1,62 @@
+===========================================
+Application Services Overview - Flutter SDK
+===========================================
+
+.. toctree::
+   :titlesonly:
+   
+   Overview </sdk/flutter/app-services>
+   Connect to a Realm App </sdk/flutter/app-services/connect-to-app>
+
+.. _flutter-mongodb-realm-cloud:
+.. _flutter-application-services:
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can connect your client apps to the {+service-short+} 
+backend using the Flutter SDK. Backend functionality includes:
+
+- :doc:`Connect to a Realm App </sdk/flutter/app-services/connect-to-app>`
+- :doc:`Register Users </sdk/flutter/users/register>`
+- :doc:`Register Users </sdk/flutter/users/authenticate>`
+
+The Realm App Client
+--------------------
+
+To connect to your {+service-short+} backend, start with a 
+:kotlin-sdk:`App <{+kotlin-sync-prefix+}io.realm.mongodb/-app/index.html>` object.
+This object provides all other functionality related to 
+the backend. Initialize an App with the Realm app ID, which you can 
+:ref:`find in the Realm UI <find-your-app-id>`.
+
+.. tip::
+
+   To learn how to initialize the Realm App client, see
+   :ref:`kotlin-connect-to-backend`.
+
+Authentication & User Management
+--------------------------------
+
+One of the most challenging aspects of client development is implementing a 
+robust and secure authentication system. With the {+service-short+} SDKs,
+however, you can use any of the {+service+} authentication providers with
+minimal backend setup and client-side code. With the authentication APIs,
+you can implement the following functionality:
+
+- Create new user accounts
+- User log in and log out
+- Multiple users logged on at the same time on the same device
+- Link user accounts from different providers
+- Store custom data for a particular user
+
+.. tip::
+
+   To learn how to set up authentication in your app, see
+   :ref:`kotlin-authenticate`.
