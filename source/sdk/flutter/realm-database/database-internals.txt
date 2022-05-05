@@ -1,11 +1,8 @@
-.. _flutter-realm-database: 
-.. _flutter-realm-database-overview: 
+.. _flutter-realm-database-internals:
 
-=====================================
-Realm Database Overview - Flutter SDK
-=====================================
-
-.. default-domain:: mongodb
+======================================
+Realm Database Internals - Flutter SDK
+======================================
 
 .. contents:: On this page
    :local:
@@ -13,44 +10,18 @@ Realm Database Overview - Flutter SDK
    :depth: 2
    :class: singlecol
 
-{+client-database+} is a reactive, object-oriented, cross-platform,
-mobile database:
-
-- **Reactive**: query the current state of data
-  and subscribe to state changes like the result of a query, or even
-  changes to a single object.
-
-- **Object-oriented**: organizes data as objects, rather than rows,
-  documents, or columns.
-
-- **Cross-platform**: use the same database on iOS, Android,
-  Linux, macOS, or Windows. Just define a schema for each SDK you use.
-
-- **Mobile**: designed for the low-power, battery-sensitive, real-time
-  environment of a mobile device.
-
-{+client-database+} is an alternative to
-`SQLite <https://www.sqlite.org/index.html>`__ and
-:apple:`Core Data <documentation/coredata>`.
+{+client-database+} uses a completely unique database engine,
+file format, and design. 
 
 This page explains some of the implementation details and inner workings
-of {+client-database+}. This page is for you if you are:
+of {+client-database+}.
+
+This page is for you if you are:
 
 - a developer interested in learning more about {+client-database+}
 
 - comparing {+client-database+} with competing databases
 
-
-This explanation begins with a deep dive into database internals,
-continues with a high-level introduction to some of the features of
-{+client-database+}.
-
-Database Internals
-------------------
-
-{+client-database+} uses a completely unique database engine,
-file format, and design. This section describes some of the high-level
-details of those choices.
 
 Native Database Engine
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -201,39 +172,3 @@ complies with ACID with the following design choices:
 - :wikipedia:`Durability <Durability_(database_systems)>`: writes to
   disk immediately when a transaction is committed. In the event of an
   app crash, for example, changes are not lost or corrupted.
-
-Features
---------
-
-{+client-database+} supports many popular database features.
-
-Queries
-~~~~~~~
-
-You can query {+client-database+} using platform-native queries or a
-raw query language that works across platforms.
-
-
-Indexes
-~~~~~~~
-
-Indexes are implemented as trees containing values of a given property
-instead of a unique internal object key. This means that indexes only
-support one column, and thus only one property, at a time.
-
-Schemas
-~~~~~~~
-
-Every {+realm+} object has a schema. That schema is defined via a native
-object in your SDK's language. Object schemas can include embedded lists
-and relations between object instances.
-
-Each {+realm+} uses a versioned schema. When that schema changes, you
-must define a migration to move object data between schema versions.
-Non-breaking schema changes, also referred to as additive schema changes, 
-happen automatically. However, your SDK may require you to increase the 
-local schema version to begin using the updated schema in your app. 
-Breaking schema changes, also called destructive schema changes, require 
-a migration function.
-
-See your SDK's documentation for more information on migrations.

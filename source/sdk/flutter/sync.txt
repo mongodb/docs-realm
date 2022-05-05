@@ -1,0 +1,60 @@
+=========================
+Device Sync - Flutter SDK
+=========================
+
+.. toctree::
+   :titlesonly:
+   
+   Overview </sdk/flutter/sync>
+   Open Synced Realm </sdk/flutter/sync/open-synced-realm>
+   Manage Sync Session </sdk/flutter/sync/manage-sync-session>
+   
+Realm Sync automatically synchronizes data between client applications and 
+a :ref:`MongoDB Realm backend application <realm-cloud>`. When a client 
+device is online, {+sync-short+} asynchronously synchronizes data in the 
+background between the device and your backend {+app+}. 
+
+The Flutter SDK only supports Flexible Sync. You must configure your backend {+app+}
+to use :ref:`Flexible Sync <flexible-sync>`.  
+
+.. note:: 
+
+   The Flutter SDK does not support :ref:`Partition-Based Sync <partition-based-sync>`.
+
+.. seealso::
+
+   :ref:`enable-realm-sync`
+
+.. _flutter-flexible-sync-fundamentals:
+
+What is Flexible Sync?
+----------------------
+
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+} 
+configuration, your client implementation must include subscriptions to 
+queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
+by synchronizing data that matches query subscriptions you maintain in the 
+client application. 
+
+A subscription set contains a set of queries. Realm Flexible Sync returns 
+documents matching those queries, where the user has the appropriate 
+:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
+read and write the documents. If documents match the query, but the client 
+does not have the permission to read or write them, they do not sync to 
+the client application.
+
+You can form Flexible Sync queries using :ref:`Realm Query Language <realm-query-language>`.
+
+Subscription sets are based on a specific type of :ref:`realm object
+<flutter-define-realm-object-schema>`. 
+To sync data for many types of realm objects, you must have multiple subscriptions.
+
+To use Flexible Sync in your client application, open a synced realm 
+with a flexible sync configuration. Then, manage subscriptions
+to determine which documents to sync.
+
+Next Steps
+----------
+
+#. :ref:`Open a Synced Realm <flutter-open-synced-realm>`
+#. :ref:`Manage a Sync Session <flutter-manage-sync-session>`

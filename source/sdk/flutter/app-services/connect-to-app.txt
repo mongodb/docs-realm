@@ -1,0 +1,49 @@
+.. _flutter-connect-to-backend:
+
+====================================================
+Connect to a MongoDB Realm Backend App - Flutter SDK
+====================================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+app+} client is the interface to the {+backend+}
+backend. It provides access to the :ref:`authentication
+<flutter-authenticate>` and {+sync+}.
+
+.. _flutter-access-the-app-client:
+
+Access the App Client
+---------------------
+
+Pass the App ID for your {+app+}, which you can :ref:`find in the Realm UI
+<find-your-app-id>`.
+
+CODE_BLOCK
+
+.. note::
+
+   You can create multiple ``App`` instances to connect to multiple
+   {+app+}s or to the same {+app+} with different configurations. All
+   ``App`` instances that share the same App ID use the same underlying
+   connection.
+
+.. _flutter-app-client-configuration:
+
+Configuration
+-------------
+
+For more granular control of the details of your app connection,
+such as custom timeouts for connections and keys for local encryption,
+use the :flutter-sdk:`FLUTTER_AppConfiguration.Builder
+<>` to control details of your ``App``:
+
+CODE_BLOCK
+
+.. note:: 
+
+   For most use cases, you only need your application's App ID to connect
+   to {+service+}. The other settings demonstrated here are optional.

@@ -4,10 +4,85 @@
 Authenticate Users - Flutter SDK
 ================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+{+service+} provides an API for authenticating users using any enabled
+authentication provider. Instantiate a ``Credentials_FLUTTER`` object and pass
+it to :flutter-sdk:`FLUTTER_app.login() <>`
+method to authenticate a user and create a :flutter-sdk:`FLUTTER_User<>`
+object for that user.
+Each authentication provider corresponds to a
+:flutter-sdk:`FLUTTER_static helper method<>`
+used to instantiate ``Credentials`` objects for that
+authentication provider.
+
+.. _flutter-register:
+
+Register a New User Account
+---------------------------
+
+To register a new user, pass a user-provided email and password to
+:flutter-sdk:`FLUTTER_app.emailPasswordAuth.registerUser()
+<>`:
+
+CODE_BLOCK
+
+.. _flutter-login:
+
+Log In
+------
+
+You can authenticate users with :flutter-sdk:`FLUTTER_app.login() <>`.
+
+If successful, ``app.login()`` returns a ``User`` object.
+
+.. _flutter-login-anonymous:
+
+Anonymous User
+~~~~~~~~~~~~~~
+
+The :ref:`anonymous authentication provider <anonymous-authentication>`
+enables users to log in to your application with short-term accounts
+that store no persistent personal information. To log in with anonymous
+authentication, create an anonymous credential by calling
+:flutter-sdk:`FLUTTER_AuthenticationProvider.ANONYMOUS()
+<>`
+and then pass the generated credential to
+``app.login()``.
+
+CODE_BLOCK
+
+.. _flutter-login-email-password:
+
+Email/Password User
+~~~~~~~~~~~~~~~~~~~
+
+The :ref:`Email/Password authentication provider <email-password-authentication>`
+enables users to log in to your application with an email username and
+a password. To log in with email/password authentication, create an
+email/password credential by calling :flutter-sdk:`FLUTTER_AuthenticationProvider.EMAIL_PROVIDER() <>`
+with the user's email and password. Then pass the generated credential
+to ``app.login()``.
+
+CODE_BLOCK
+
+.. _flutter-logout:
+
+Log a User Out
+--------------
+
+You can log out any user, regardless of the authentication provider used
+to log in, using :flutter-sdk:`FLUTTER_user.logOut() <>`. This method:
+
+- Deletes locally stored user credentials from the device
+
+- Immediately halts any synchronization to and from the user's {+realm+}s
+
+Because logging out halts synchronization, you should only log out after
+all local Realm updates have uploaded to the server.
+
+CODE_BLOCK
