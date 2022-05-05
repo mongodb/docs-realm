@@ -58,13 +58,13 @@ unique ID value for the customer that purchased the items.
     }
   }
 
-.. include:: /mongodb/crud-snippets/setup.rst
+.. include:: /functions/mongodb/api/snippets/setup.rst
 
 Run an Aggregation Pipeline
 ---------------------------
 
 You can execute an aggregation pipeline using the
-:method:`collection.aggregate()` action.
+:method:`collection.aggregate()` method.
 
 The following :ref:`function <functions>` snippet groups all documents
 in the ``purchases`` collection by their ``customerId`` value and
@@ -74,7 +74,7 @@ documents the pipeline adds a new field that calculates the average
 number of items each customer purchases at a time,
 ``averageNumItemsPurchased``, to each customer's document:
 
-.. include:: /mongodb/crud-snippets/aggregate/functions.rst
+.. include:: /functions/mongodb/api/snippets/aggregate.rst
 
 .. _mongodb-aggregation-stages:
 
