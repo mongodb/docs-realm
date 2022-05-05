@@ -86,3 +86,18 @@ Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
 CODE_BLOCK
+
+.. _flutter-retrieve-current-user:
+
+Retrieve Current User
+---------------------
+
+Once you have an authenticated user, you can retrieve the User object with the 
+:flutter-sdk:`FLUTTER_App.CurrentUser <>` 
+property. The ``CurrentUser`` object is persisted in local storage, so even if 
+the app shuts down after the initial authentication, you do not need to call 
+``LoginAsync`` again (unless the user logged out). Instead, use 
+:flutter-sdk:`FLUTTER_Realm.GetInstance(config) <>`, 
+where ``config`` is a :flutter-sdk:`FLUTTER_PartitionSyncConfiguration <>` 
+object. This approach results in a faster start-up and also enables the user to 
+work offline.

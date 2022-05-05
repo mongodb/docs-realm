@@ -9,3 +9,32 @@ Open a Synced Realm - Flutter SDK
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+Before You Begin
+----------------
+
+To open a {+realm+} with Flexible Sync in a Flutter application:
+
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+- :ref:`Initialize the app <flutter-connect-to-backend>`
+- :ref:`Authenticate a user <flutter-authenticate>` in your client project.
+
+Open a Synced Realm
+-------------------
+
+To open a synced {+realm+}, pass a user, a partition, and a set of
+Realm object schemas to :flutter-sdk:`FLUTTER_SyncConfiguration.Builder() <>`.
+Then, pass the configuration to :flutter-sdk:`FLUTTER_Realm.open() <>` to open
+an instance of the realm:
+
+CODE_BLOCK
+
+
+Configure a Synced Realm
+------------------------
+
+To adjust specific configuration settings, use the options provided by
+:flutter-sdk:`FLUTTER_SyncConfiguration.Builder <>`:
+
+CODE_BLOCK
+
