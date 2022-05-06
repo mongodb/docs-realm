@@ -1,0 +1,78 @@
+.. _kotlin-relationships:
+
+==========================
+Relationships - Kotlin SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A relationship is an object property that references another Realm object.
+
+Relationships are direct references to other objects in a realm, which
+means that you don't need bridge tables or explicit joins to define a
+relationship like you would in a relational database. Instead, you can
+access related objects by reading and writing to the property that
+defines the relationship. Realm Database executes read operations
+lazily, so querying objects with relationship fields doesn't slow
+queries.
+
+There are two primary types of relationships between objects:
+
+- To-One Relationship
+- To-Many Relationship
+
+.. note:: One-to vs. Many-to Relationships
+
+   In Realm Database, there is no way to limit object references from
+   other objects within the same realm. As a result, there is no way to
+   restrict a relationship to "one to one/one to many" instead of "many to
+   one/many to many".
+
+You can define relationships in your object schema using the following
+types:
+
+- ``RealmObject``
+- ``RealmList <? extends RealmObject>``
+
+To-One Relationship
+-------------------
+
+A to-one relationship means that an object is related 
+to no more than one other object. Setting a relationship field to ``null``
+removes the connection between objects, but Realm Database does not
+delete the referenced object.
+
+To set up a many-to-one or one-to-one relationship, create a field
+whose type is a Realm object in your application:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.codeblock.to-one-relationship.kt
+   :language: kotlin
+   :copyable: false
+
+Each ``Sushi`` references either zero ``Fish`` instances or one other
+``Fish`` instance. Nothing prevents multiple Frog instances from
+referencing the same Frog as a best friend; the distinction between a
+many-to-one and a one-to-one relationship is up to your application.
+
+To-Many Relationship
+--------------------
+
+A to-many relationship means that an object is related in a specific way
+to multiple objects. You can create a relationship between one object
+and any number of objects using a field of type ``RealmList<?>`` where
+``T`` is a Realm object in your application:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.codeblock.to-many-relationship.kt
+   :language: kotlin
+   :copyable: false
+
+RealmLists are containers of RealmObjects, but otherwise behave like a
+regular collection. The same object can occur in multiple to-many
+relationships; the distinction between a many-to-many and a one-to-many
+relationship is up to your application.

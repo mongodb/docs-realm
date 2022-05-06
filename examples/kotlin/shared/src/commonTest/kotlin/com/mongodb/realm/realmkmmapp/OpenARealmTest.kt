@@ -12,8 +12,6 @@ class OpenARealmTest: RealmTest() {
         runBlocking {
             // :code-block-start: open-a-realm
             val config = RealmConfiguration.Builder(setOf(Frog::class))
-                // specify name so realm doesn't just use the "default.realm" file
-                .name(REALM_NAME)
                 // :hide-start:
                 .directory("/tmp/") // default location for jvm is... in the project root
                 // :hide-end:

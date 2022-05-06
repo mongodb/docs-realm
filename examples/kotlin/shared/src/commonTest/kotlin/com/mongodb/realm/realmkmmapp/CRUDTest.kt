@@ -9,6 +9,7 @@ import io.realm.internal.platform.runBlocking
 import io.realm.notifications.InitialResults
 import io.realm.notifications.ResultsChange
 import io.realm.query
+import io.realm.query.RealmQuery
 import io.realm.query.Sort
 import kotlin.random.Random
 import kotlin.test.Test
@@ -535,6 +536,29 @@ class CRUDTest: RealmTest() {
             }
             asyncCall.cancel() // :hide:
             realm.close()
+        }
+    }
+
+    @Test
+    fun updateCollectionTest() {
+        runBlocking {
+            val config =
+                RealmConfiguration.Builder(schema = setOf(Frog::class))
+                    // :hide-start:
+                    .directory("/tmp/")
+                    .name(getRandom())
+                    // :hide-end:
+                    .build()
+            val realm = Realm.open(config)
+            // :code-block-start: update-a-collection
+            val tadpoles: RealmQuery<Frog> =
+                realm.query<Frog>("age > $0", 2)
+            for (tadpole in tadpoles.find()) {
+                realm.write {
+                    findLatest(tadpole)?.name = tadpole.name + " Jr."
+                }
+            }
+            // :code-block-end:
         }
     }
 }
