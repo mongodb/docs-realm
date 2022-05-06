@@ -6,7 +6,8 @@ import {
 } from "mongodb-stitch-server-sdk";
 
 // Add expected errors here.
-const expectedErrors: RegExp[] = [/(WARNING|ERROR)\(sdk\/java\/api.*/];
+const expectedErrors: RegExp[] = [/(WARNING|ERROR)\(sdk\/java\/api.*/,
+ /ERROR #98124  WEBPACK/];
 
 const STITCH_APP_ID = "workerpool-boxgs";
 
