@@ -8,7 +8,7 @@ public async Task SetupRealm()
     {
         var realm = Realm.GetInstance(config);
         var session = realm.SyncSession;
-        session.PropertyChanged += SyncSession_PropertyChanged;
+        session.PropertyChanged += SyncSessionPropertyChanged;
         realm.Dispose();
     }
     catch (Exception ex)
@@ -17,7 +17,7 @@ public async Task SetupRealm()
     }
 }
 
-private void SyncSession_PropertyChanged(object sender, PropertyChangedEventArgs e)
+private void SyncSessionPropertyChanged(object sender, PropertyChangedEventArgs e)
 {
     if (e.PropertyName == nameof(Session.ConnectionState))
     {

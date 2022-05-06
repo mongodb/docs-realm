@@ -88,7 +88,7 @@ status of {+sync-short+} operations.
 
 You can set up your {+sync-short+} session to wait for changes to be uploaded 
 or downloaded. You can also configure your {+sync-short+} session to
-notify when the {+sync-short+} state changes.
+notify when the {+sync-short+} connection status changes.
 
 .. _dotnet-check-sync-progress-wait-for-upload-or-download:
 
@@ -108,10 +108,10 @@ methods. For example:
 
 .. _dotnet-sync-status-change:
 
-Get Notified When {+sync-short+} State Changes
+Monitor {+sync-short+} Progress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To be notified of {+sync-short+} state changes, get the 
+To monitor {+sync-short+} progress, get the 
 sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
 <reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
 progress notification by calling the 
