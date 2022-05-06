@@ -32,11 +32,11 @@ Aggregation
 
 {+service-short+} supports all :manual:`aggregation pipeline
 stages </reference/operator/aggregation-pipeline/>` in
-:ref:`system functions <function-system-user>` except for ``$currentOp``
+:ref:`system functions <system-functions>` except for ``$currentOp``
 and ``$indexStats``.
 
 For security reasons, only a subset of aggregation pipeline stages are
-supported in :ref:`user functions <function-active-user>`.
+supported in :ref:`user functions <user-functions>`.
 
 For a list of pipeline stages that are available and their allowed function
 context, see :ref:`Aggregation <mongodb-crud-and-aggregation-apis-aggregation>`.
@@ -168,8 +168,8 @@ Query Options
 -------------
 
 {+service-short+} supports all query options in :ref:`system functions
-<function-system-user>`. {+service-short+} does not support certain options for
-CRUD operations run from :ref:`user functions <function-active-user>`. For a
+<system-functions>`. {+service-short+} does not support certain options for
+CRUD operations run from :ref:`user functions <user-functions>`. For a
 list of specific options that are available when you connect to MongoDB through
 {+service-short+}, see :ref:`Query Options
 <mongodb-crud-and-aggregation-apis-query-options>`.

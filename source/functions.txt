@@ -12,193 +12,346 @@ Functions
    :depth: 2
    :class: singlecol
 
-Introduction
-------------
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   Query MongoDB Atlas </functions/mongodb>
+   Context </functions/context>
+   Global Modules </functions/globals>
+   External Dependencies </functions/dependencies>
+   JavaScript Support </functions/javascript-support>
 
-Realm Functions allow you to define and execute server-side logic for
-your application. You can call functions from your client applications
-as well as from other functions and in JSON expressions throughout
-Realm.
+Overview
+--------
 
-Functions are written in modern JavaScript (ES6+) and execute in a
-serverless manner. When you :doc:`call a function
-</functions/call-a-function>`, you can dynamically access components of
-the current application as well as information about the request to
-execute the function and the logged in user that sent the request.
+A **{+service-short+} Function** is a piece of server-side JavaScript
+code that you write to define your app's behavior. You can call your
+app's functions directly from a client app or define services that
+integrate and call functions automatically.
 
-Use Cases
+Functions can call other functions and include a built-in client for
+working with data in {+atlas+} clusters. They also include helpful
+global utilities, support common Node.js built-in modules, and can
+import and use external packages from the npm registry.
+
+Functions are Serverless
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a function is called, your app routes the request to a managed app
+server that evaluates your code and returns the result. This model makes
+functions *serverless*, which means that you don't have to deploy and
+manage a server to run the code. Instead, you write the function source
+code and your app handles the execution environment.
+
+Functions have Context
+~~~~~~~~~~~~~~~~~~~~~~
+
+A function runs in a :ref:`context <function-context>` that reflects its
+execution environment. The context includes the user that called the
+function, how they called it, and the state of your app when they called
+it. You can use context to run user-specific code and work with other
+parts of your app.
+
+When To Use Functions
+~~~~~~~~~~~~~~~~~~~~~
+
+Functions can run arbitrary JavaScript code that you define, which means
+you can use them for almost anything. Common use cases include
+low-latency, short-running tasks like data movement, transformations,
+and validation. You can also use them to connect to external services
+and abstract away implementation details from your client applications.
+
+In addition to functions that you invoke directly, you also write
+functions for various services like HTTPS Endpoints, Triggers, and
+GraphQL custom resolvers. These services automatically call functions to
+handle specific events. For example, whenever a database trigger
+observes a change event it calls its associated function with the change
+event as an argument. In the trigger function, you can then access
+information from the change event and response appropriately.
+
+How to Write a Function
+-----------------------
+
+The code for a function is essentially a named JavaScript source file,
+which means you can define multiple JavaScript functions in a single
+function file. The file must export a single JavaScript function from to
+serve as the entrypoint for incoming calls. When you call a function by
+name, you're actually calling the JavaScript function assigned to
+``exports`` in the function's source file.
+
+For example, here's a simple function that accepts a ``name`` argument,
+adds a log message, and returns a greeting for the provided name:
+
+.. literalinclude:: /functions/examples/simple-function.js
+   :language: javascript
+
+You can use modern JavaScript syntax and import packages to define more
+complex functions:
+
+.. io-code-block::
+
+   .. input:: /functions/examples/complex-function.js
+      :language: javascript
+
+   .. output:: /functions/examples/complex-function-output.rst
+      :language: text
+
+Functions automatically serialize returned values to :manual:`Extended
+JSON </reference/mongodb-extended-json>`. This is useful to preserve
+type information but may not be what your application expects.
+
+For example, the values in the object returned from the following
+function are converted into structured EJSON values:
+
+.. io-code-block::
+   
+   .. input::
+      :language: javascript
+
+      exports = function() {
+        return {
+          pi: 3.14159,
+          today: new Date(),
+        }
+      }
+   
+   .. output::
+      :language: json
+      
+      {
+        "pi": {
+          "$numberDouble": "3.14159"
+        },
+        "today": {
+          "$date": {
+            "$numberLong": "1652297239913"
+          }
+        }
+      }
+     
+To return a value as standard JSON, call ``JSON.stringify()`` on the
+value and then return the stringified result:
+
+.. io-code-block::
+   
+   .. input::
+      :language: javascript
+
+      exports = function() {
+        return JSON.stringify({
+          pi: 3.14159,
+          today: new Date(),
+        })
+      }
+   
+   .. output::
+      :language: json
+      
+      "{\"pi\":3.14159,\"today\":\"2022-05-11T19:27:32.207Z\"}"
+
+.. _user-functions:
+.. _system-functions:
+
+User and System Functions
+-------------------------
+
+A function can run in two contexts depending on how they're configured
+and called:
+
+- A **user function** runs in the context of a specific :ref:`user
+  <user-accounts>` of your application. Typically this is the logged in
+  user that called the function. User functions are subject to
+  :ref:`rules <rules>` and :ref:`schema validation <schemas>`.
+
+- A **system function** runs as the :ref:`system user <system-user>`
+  instead of a specific application user. System functions have full
+  access to MongoDB CRUD and Aggregation APIs and bypass all rules and
+  schema validation.
+
+.. note:: Dynamic ``context.user`` references
+   
+   References to :ref:`context.user <context-user>` always resolve to
+   the authenticated user that called a function if there was one, even
+   if the function runs as a system function. To determine if a function
+   is running as a system function, call :method:`context.runningAsSystem()`.
+   
+   If a function executes without being called by an authenticated user,
+   such as in a trigger or webhook, then dynamic references resolve to
+   the :ref:`system user <system-user>` which has no ``id`` or other
+   associated data.
+
+.. _define-a-function:
+
+Define a Function
+-----------------
+
+You can create and manage functions in your application from the Realm
+UI or by importing the function configuration and source code with
+{+cli+} or GitHub deployment.
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/define-a-function-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/define-a-function-import-export.rst
+
+Call a Function
+---------------
+
+You can call a function from other functions, from a connected client
+application, or with Realm CLI.
+
+The examples in this section demonstrate calling a simple function named
+``sum`` that takes two arguments, adds them, and returns the result:
+
+.. code-block:: javascript
+   
+   // sum: adds two numbers
+   exports = function sum(a, b) {
+     return a + b;
+   };
+
+.. _call-function-from-function:
+
+Functions
 ~~~~~~~~~
 
-You can use functions to handle low-latency, short-running connection
-logic and other server-side interactions. Functions are particularly
-useful when you want to work with multiple services, behave dynamically
-based on the current user, or abstract away implementation details from
-your client applications. You can use external Node.js packages and
-import them into your functions to streamline data processing and reuse
-shared code.
+You can call a function through the :ref:`context.functions
+<context-functions>` interface, which is available as a global variable
+in any function. This include HTTPS endpoints, triggers, and GraphQL
+customer resolvers. The called function runs in the same context as the
+function that called it.
 
-Realm also uses functions internally for HTTPS endpoints and
-triggers. The functions that you create for these components are regular
-Realm functions that take specific arguments depending on the service.
+.. code-block:: javascript
+   
+   // difference: subtracts b from a using the sum function
+   exports = function difference(a, b) {
+     return context.functions.execute("sum", a, -1 * b);
+   };
 
-Behavior
-~~~~~~~~
+.. _call-function-from-realm-cli:
 
-- Realm automatically serializes values returned from functions to
-  :manual:`Extended JSON </reference/mongodb-extended-json>`.
-  
-  .. tip:: Return JSON instead of EJSON
-     
-     If you return a JavaScript object from a function, it may include EJSON
-     value documents instead of raw JSON values. This is useful to preserve type
-     information but may not be what your application expects.
-     
-     Instead, to return an object as JSON, call ``JSON.stringify()`` on the
-     object and then return the stringified result, as in the following example:
-     
-     .. code-block:: javascript
-        :emphasize-lines: 5
-        
-        const plants = context.services.get("mongodb-atlas").db("example").collection("plants");
-        const plant = await plants.findOne();
-        // Return e.g. { "_id": "5f87976b7b800b285345a8b6", ... }
-        // instead of { "_id": { "$oid": "5f87976b7b800b285345a8b6" } }
-        return JSON.stringify(plant);
+{+cli+}
+~~~~~~~~~
 
-- Functions do not continue to execute after they return. You cannot use
-  functions with asynchronous callbacks or event listeners. If you need
-  to do asynchronous work in a function, use a :mdn:`Promise
-  <Web/JavaScript/Reference/Global_Objects/Promise>`.
+You can call a function through {+cli+} with the :ref:`function run
+<realm-cli-function-run>` command. The command returns the function
+result as EJSON as well as any log or error messages.
+
+.. code-block:: sh
+   
+   realm-cli function run \
+     --function=sum \
+     --args=1 --args=2
+
+By default, functions run in the :ref:`system context
+<system-functions>`. To call a function in the context of a specific
+user, include their User ID in the ``--user`` argument.
+
+.. code-block:: sh
+   :empahsize-lines: 4
+   
+   realm-cli function run \
+     --function=sum \
+     --args=1 --args=2 \
+     --user=61a50d82532cbd0de95c7c89
+
+.. _call-function-json-expression:
+
+Rule Expressions
+~~~~~~~~~~~~~~~~
+
+You can call a function from a :ref:`rule expression <expressions>` by
+using the :json-operator:`%function` operator. The operator evaluates to
+the return value of the function. If the function throws an error, the
+expression evaluates to ``false``.
+
+.. code-block:: json
+   
+   {
+     "numGamesPlayed": {
+       "%function": {
+         "name": "sum",
+         "arguments": [
+           "%%root.numWins",
+           "%%root.numLosses"
+         ]
+       }
+     }
+   }
+
+Realm SDKs
+~~~~~~~~~~
+
+.. include:: /includes/important-sanitize-client-data-in-functions.rst
+
+You can call a function from client applications that are connected with
+an SDK or over the wire protocol.
+
+.. tabs-realm-sdks::
+
+   .. tab::
+      :tabid: android
+
+      To execute a function from the Android Client SDK, see the
+      :ref:`Java SDK guide for calling a function <java-call-a-function>`.
+
+   .. tab::
+      :tabid: ios
+
+      To execute a function from the iOS Client SDK, see the
+      :ref:`Swift SDK guide for calling a function <ios-call-a-function>`.
+
+   .. tab::
+      :tabid: web
+
+      To execute a function from the Web Client SDK, see the
+      :ref:`Web SDK guide for calling a function <web-call-a-function>`.
+
+   .. tab::
+      :tabid: node
+      
+      To execute a function from the Node Client SDK, see the
+      :ref:`Node SDK guide for calling a function <node-call-a-function>`.
+
+   .. tab::
+      :tabid: react-native
+
+      To execute a function from the React Native Client SDK, see the
+      :ref:`React Native SDK guide for calling a function <react-native-call-a-function>`.
+
+   .. tab::
+      :tabid: dotnet
+
+      To execute a function from the .NET Client SDK, see the
+      :ref:`.NET SDK guide for calling a function <dotnet-call-a-function>`.
 
 .. _function-constraints:
 
 Constraints
-~~~~~~~~~~~
+-----------
 
-- Function runtime is subject to a 120 second timeout.
+- Functions are capped at 120 seconds of runtime per request, after
+  which a function will time out and fail.
 
-- Function memory usage is limited to 256MB.
+- Functions may use up to 256MB of memory at any time.
 
-- Functions support most commonly used ES6+ features, but some features that are
-  uncommon or unsuited to serverless workloads are not supported. For more
-  information, see :ref:`JavaScript Support <js-support>`.
+- Functions support most commonly used ES6+ features and Node.js
+  built-in modules. However, some features that are uncommon or unsuited
+  to serverless workloads are not supported. For more information, see
+  :ref:`JavaScript Support <js-support>`.
 
 - A function may open a maximum of 5 sockets using the :nodejs:`net
   <docs/v10.18.1/api/net.html>` built-in module.
 
-- {+service-short+} supports a subset of built-in Node modules. For a 
-  full list of supported and unsupported modules, see
-  :ref:`Built-In Module Support <js-support-builtin-modules>`.
-
-- There is an 18 MB limit for incoming webhook and function requests. For
-  functions called from an SDK, this limit applies to the total size of all
-  arguments you pass to the function.
-
-Concepts
---------
-
-.. _function-active-user:
-
-Active User
-~~~~~~~~~~~
-
-The **active user** of a given function execution is the authenticated
-:ref:`user <user-accounts>` that called the function. Functions inherit
-the user context of other functions that call them.
-
-{+service+} evaluates rules in the context of the active user and resolves
-dynamic references like :ref:`context.user <context-user>` and
-:json-expansion:`%%user` to their :doc:`user object </authentication>`.
-
-.. _function-run-as-system:
-.. _function-system-user:
-.. _system-functions:
-
-System Functions
-~~~~~~~~~~~~~~~~
-
-A **System Function** is a function that runs as the :ref:`system user
-<system-user>` rather than an :ref:`application user <user-accounts>`.
-System functions have full access to MongoDB CRUD and Aggregation APIs
-and bypass all rules and schema validation.
-
-You can configure a Function to run as the :ref:`system user
-<system-user>` by enabling its :guilabel:`Run As System` configuration
-option. To determine if a function executes as a system user at runtime,
-call :method:`context.runningAsSystem()`.
-
-.. note:: System Function Active User
-   
-   {+service-short+} always resolves dynamic references like :ref:`context.user
-   <context-user>` and :json-expansion:`%%user` to the authenticated
-   user that called a function if there was one. If a function executes
-   without being called by an authenticated user, such as in a trigger
-   or webhook, then {+service-short+} resolves the dynamic references to the
-   :ref:`system user <system-user>` instead.
-
-Guides
-------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 50
-
-   * - Guide
-     - Description
-
-   * - :doc:`Define a Function </functions/define-a-function>`
-     - Learn how to write and add new functions to your {+app+}.
-
-   * - :doc:`External Dependencies </functions/dependencies>`
-     - Learn how to add and use Node.js packages from ``npm`` in your functions.
-
-   * - :doc:`Call a Function </functions/call-a-function>`
-     - Learn how to execute functions that you've defined from a client
-       application or from another {+service-short+} component.
-
-Reference Documentation
------------------------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 20 50
-
-   * - Subject
-     - Description
-
-   * - :doc:`Function Context </functions/context>`
-     - Includes detailed information about specific application
-       ``context`` modules as well as examples of runtime data objects.
-
-   * - :doc:`Global Modules </functions/globals>`
-     - Includes detailed information about global utility packages.
-
-   * - :doc:`JavaScript Support </functions/javascript-support>`
-     - JavaScript syntax and built-ins that are available in
-       {+service-short+} functions, including Node.js built-in modules.
-
-
-.. toctree::
-   :titlesonly:
-   :caption: Work with Realm Functions
-   :hidden:
-
-   Define a Function </functions/define-a-function>
-   Call a Function </functions/call-a-function>
-
-.. toctree::
-   :titlesonly:
-   :caption: External Dependencies
-   :hidden:
-
-   External Dependencies </functions/dependencies>
-   JavaScript Support </functions/javascript-support>
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-   :hidden:
-
-   Context </functions/context>
-   Query MongoDB Atlas </functions/mongodb>
-   Global Modules </functions/globals>
+- Incoming requests are limited to a maximum size of 18 MB. This limit
+  applies to the total size of all arguments passed to the function as
+  well as any request headers or payload if the function is called
+  through an HTTPS endpoint.

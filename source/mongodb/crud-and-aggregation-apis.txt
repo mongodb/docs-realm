@@ -17,31 +17,27 @@ CRUD & Aggregation APIs
 Overview
 --------
 
-Linked data sources can run most CRUD and Aggregation operations;
-however, {+service+} does not support all operations available in
-standard tools and clients. This page lists support for specific MongoDB
-operations, operators, options, and stages.
+This page lists :ref:`MongoDB data source <data-sources>` support for
+MongoDB commands, operators, options, and aggregation stages.
 
 For information on how to read and write data in MongoDB from a
 function, see :ref:`Query MongoDB Atlas <functions-mongodb>`.
 
-For a high-level overview of MongoDB feature availability in
-{+service+}, see :ref:`Service Limitations
-<mongodb-service-limitations>`.
+For more information on supported features and limitations, see
+:ref:`Service Limitations <mongodb-service-limitations>`.
 
 .. note::
 
    Support for an operation may depend on whether you're running the
    operation as an application user or as a system user.
 
-   - A *user function* runs in the context of a specific application
-     user. This is the default behavior for all functions. User
-     functions are enforce data access permissions and schema
-     validation, which makes some operations untenable.
+   - A :ref:`user function <user-functions>` runs in the context of a
+     specific application user and enforces data access permissions and
+     schema validation, which makes some operations untenable.
    
-   - A *system function* runs as a generic system user and is not
-     subject to rules or schema validation. Some operations are only
-     available in system functions.
+   - A :ref:`system function <system-functions>` runs as a generic
+     system user and is not subject to rules or schema validation. Some
+     operations are only available in system functions.
 
 .. _mongodb-crud-and-aggregation-apis-crud-operations:
 
@@ -55,9 +51,9 @@ Query Operators
 
 {+service+} supports most :manual:`query operators
 </reference/operator/query>` for queries that run in a
-:ref:`user function <function-active-user>`. However, some evaluation
+:ref:`user function <user-functions>`. However, some evaluation
 operators and all geospatial and bitwise operators are only available
-in :ref:`system functions <function-system-user>`.
+in :ref:`system functions <system-functions>`.
 
 Comparison Operator Availability
 ++++++++++++++++++++++++++++++++
@@ -267,9 +263,9 @@ Update Operators
 
 {+service+} supports most :manual:`update operators
 </reference/operator/update>` for queries that run in a
-:ref:`user function <function-active-user>`. However, some array update
+:ref:`user function <user-functions>`. However, some array update
 operators are only available in :ref:`system functions
-<function-system-user>`.
+<system-functions>`.
 
 Field Update Operator Availability
 ++++++++++++++++++++++++++++++++++
@@ -484,8 +480,8 @@ Query Options
 ~~~~~~~~~~~~~
 
 {+service+} does not support configuring the following options for any
-CRUD operation in :ref:`user functions <function-active-user>`. All query
-options are available in :ref:`system functions <function-system-user>`.
+CRUD operation in :ref:`user functions <user-functions>`. All query
+options are available in :ref:`system functions <system-functions>`.
 
 Query Option Availability
 +++++++++++++++++++++++++
