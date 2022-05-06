@@ -1,23 +1,15 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
 using Realms.Sync;
-using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
 using ThreadTask = System.Threading.Tasks.Task;
-using System.Collections.Generic;
-using Realms.Exceptions;
-using ObjectExamples.Models;
 
 namespace Examples
 {
     public class FunctionExamples
     {
         App app;
-        ObjectId testTaskId;
         User user;
         PartitionSyncConfiguration config;
         const string myRealmAppId = Config.appid;
