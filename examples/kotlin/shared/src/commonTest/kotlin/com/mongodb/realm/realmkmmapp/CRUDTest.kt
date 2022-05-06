@@ -543,7 +543,7 @@ class CRUDTest: RealmTest() {
     fun updateCollectionTest() {
         runBlocking {
             val config =
-                RealmConfiguration.Builder(schema = setOf(com.mongodb.realm.realmkmmapp.Frog::class))
+                RealmConfiguration.Builder(schema = setOf(Frog::class))
                     // :hide-start:
                     .directory("/tmp/")
                     .name(getRandom())
