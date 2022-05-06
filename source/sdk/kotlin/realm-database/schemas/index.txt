@@ -1,8 +1,8 @@
 .. _kotlin-indices:
 
-====================
-Indices - Kotlin SDK
-====================
+==========================
+Index a Field - Kotlin SDK
+==========================
 
 .. default-domain:: mongodb
 
@@ -12,9 +12,9 @@ Indices - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Indexes speed up some queries, but have a negative impact on insert and
-update operation speed. Indexes also consume additional space on disk.
-To index a field, use the
+Indexes speed up some queries, but slow down inserts and updates.
+Realm Database stores indexes on disk, which makes your
+realm files larger. To index a field, use the
 :kotlin-sdk:`@Index <{+kotlin-local-prefix+}io.realm.annotations/-index/index.html>`
 annotation:
 
@@ -34,11 +34,6 @@ realm's data in an easy to traverse form. The index stores the value
 of a specific field ordered by the value of the field. The ordering of
 the index entries supports efficient equality matches and range-based
 query operations.
-
-Adding an index to a field makes writing slightly slower, but makes
-certain queries faster. Indexes require space in your realm file, so
-adding an index to a field will increase disk space consumed by your
-realm file.
 
 You can index fields with the following types:
 

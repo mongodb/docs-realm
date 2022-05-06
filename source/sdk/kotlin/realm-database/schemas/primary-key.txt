@@ -28,9 +28,12 @@ subject to the following limitations:
   in a realm. Attempting to insert a duplicate primary key value results
   in an error.
 
-- Primary key values are immutable. To change the primary key value of
+- Primary key **values** are immutable. To change the primary key value of
   an object, you must delete the original object and insert a new object
   with a different primary key value.
+
+- You cannot change the primary key **field** for an object type after
+  adding any object of that type to a realm.
 
 You can create a primary key with any of the following types:
 
@@ -48,6 +51,3 @@ primary key into a realm results in an error.
 
 Realm Database automatically indexes primary key fields, which allows
 you to efficiently read and modify objects based on their primary key.
-
-You cannot change the primary key field for an object type after adding
-any object of that type to a realm.

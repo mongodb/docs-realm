@@ -19,14 +19,13 @@ means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead, you can
 access related objects by reading and writing to the property that
 defines the relationship. Realm Database executes read operations
-lazily, so querying objects with relationship fields doesn't have a
-performance impact.
+lazily, so querying objects with relationship fields doesn't slow
+queries.
 
-There are three primary types of relationships between objects:
+There are two primary types of relationships between objects:
 
 - To-One Relationship
 - To-Many Relationship
-- Inverse Relationship
 
 .. note:: One-to vs. Many-to Relationships
 
