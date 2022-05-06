@@ -12,33 +12,43 @@ Authenticate Users - Flutter SDK
 
 {+service+} provides an API for authenticating users using any enabled
 authentication provider. Instantiate a ``Credentials_FLUTTER`` object and pass
-it to :flutter-sdk:`FLUTTER_app.login() <>`
-method to authenticate a user and create a :flutter-sdk:`FLUTTER_User<>`
+it to :flutter-sdk:`App.logIn() <realm/App/logIn.html>`
+method to authenticate a user and create a :flutter-sdk:`User<realm/User-class.html>`
 object for that user.
 Each authentication provider corresponds to a
-:flutter-sdk:`FLUTTER_static helper method<>`
-used to instantiate ``Credentials`` objects for that
+static constructor method
+used to instantiate :flutter-sdk:`Credentials <realm/Credentials-class.html>` objects for that
 authentication provider.
+
+Before You Begin
+----------------
+
+#. :ref:`Creat a {+app+} <create-a-realm-app>`.
+#. Enable and configure one or more {+service+} :ref:`authentication providers <authentication-providers>`.
 
 .. _flutter-register:
 
 Register a New User Account
 ---------------------------
 
-To register a new user, pass a user-provided email and password to
-:flutter-sdk:`FLUTTER_app.emailPasswordAuth.registerUser()
-<>`:
+Realm registers accounts differently depending on the authentication provider: 
 
-CODE_BLOCK
+- You do not need to register anonymous users. 
+- To register an email/password user, refer to the :ref:`Manage Email/Password User
+  Registration documentation <flutter-manage-email-password-users-register>`.
+- If you are using Google, Facebook, Apple, or Custom JWT authentication,
+  registration is handled by these third-party services. You only need to 
+
+
 
 .. _flutter-login:
 
 Log In
 ------
 
-You can authenticate users with :flutter-sdk:`FLUTTER_app.login() <>`.
+You can authenticate users with :flutter-sdk:`App.logIn() <realm/App/logIn.html>`.
 
-If successful, ``app.login()`` returns a ``User`` object.
+If successful, ``app.logIn`` returns a ``User`` object.
 
 .. _flutter-login-anonymous:
 
@@ -49,12 +59,14 @@ The :ref:`anonymous authentication provider <anonymous-authentication>`
 enables users to log in to your application with short-term accounts
 that store no persistent personal information. To log in with anonymous
 authentication, create an anonymous credential by calling
-:flutter-sdk:`FLUTTER_AuthenticationProvider.ANONYMOUS()
-<>`
+:flutter-sdk:`Credentials.anonymous() <realm/Credentials/Credentials.anonymous.html>`
 and then pass the generated credential to
-``app.login()``.
+``app.logIn``.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   final anonCredentials = Credentials.anonymous();
+   final app = await app.logIn(anonCredentials);
 
 .. _flutter-login-email-password:
 
@@ -64,11 +76,14 @@ Email/Password User
 The :ref:`Email/Password authentication provider <email-password-authentication>`
 enables users to log in to your application with an email username and
 a password. To log in with email/password authentication, create an
-email/password credential by calling :flutter-sdk:`FLUTTER_AuthenticationProvider.EMAIL_PROVIDER() <>`
+email/password credential by calling :flutter-sdk:`Credentials.emailPassword() <realm/Credentials/Credentials.emailPassword.html>`
 with the user's email and password. Then pass the generated credential
-to ``app.login()``.
+to ``app.logIn``.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   final emailPwCredentials = Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
+   final app = await app.logIn(emailPwCredentials);
 
 .. _flutter-logout:
 
@@ -76,7 +91,7 @@ Log a User Out
 --------------
 
 You can log out any user, regardless of the authentication provider used
-to log in, using :flutter-sdk:`FLUTTER_user.logOut() <>`. This method:
+to log in, using :flutter-sdk:`User.logOut() <realm/User/logout.html>`. This method:
 
 - Deletes locally stored user credentials from the device
 
@@ -85,7 +100,10 @@ to log in, using :flutter-sdk:`FLUTTER_user.logOut() <>`. This method:
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   final emailPwCredentials = Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
+   final app = await app.logIn(emailPwCredentials);
 
 .. _flutter-retrieve-current-user:
 
@@ -93,28 +111,30 @@ Retrieve Current User
 ---------------------
 
 Once you have an authenticated user, you can retrieve the User object with the 
-:flutter-sdk:`FLUTTER_App.CurrentUser <>` 
-property. The ``CurrentUser`` object is persisted in local storage, so even if 
+:flutter-sdk:`App.currentUser <realm/App/currentUser.html>` 
+property. The ``currentUser`` object is persisted in local storage, so even if 
 the app shuts down after the initial authentication, you do not need to call 
-``LoginAsync`` again (unless the user logged out). Instead, use 
-:flutter-sdk:`FLUTTER_Realm.GetInstance(config) <>`, 
-where ``config`` is a :flutter-sdk:`FLUTTER_PartitionSyncConfiguration <>` 
-object. This approach results in a faster start-up and also enables the user to 
-work offline.
+``logIn`` again (unless the user logged out). 
 
-.. _flutter-delete-user:
+.. code-block:: dart
 
-Delete a User
--------------
+   final user = app.currentUser;
 
-Call the :flutter-sdk:`FLUTTER_App.deleteUser() <>` on a user object to delete 
-the user's account from your Realm application. This deletes the account from
-the server in addition to clearing local data.
+.. TODO(DOCSP-22353): add delete user documentation
 
-CODE_BLOCK
+.. .. _flutter-delete-user:
 
-To use your app in the future, the user must sign up for a new account. 
-They can use the same credentials (depending on the authentication provider),
-but will not have the same User ID as their deleted account.
+.. Delete a User
+.. -------------
+
+.. Call the :flutter-sdk:`FLUTTER_App.deleteUser() <>` on a user object to delete 
+.. the user's account from your Realm application. This deletes the account from
+.. the server in addition to clearing local data.
+
+.. CODE_BLOCK
+
+.. To use your app in the future, the user must sign up for a new account. 
+.. They can use the same credentials (depending on the authentication provider),
+.. but will not have the same User ID as their deleted account.
 
 

@@ -48,7 +48,6 @@ Queries
 You can query {+client-database+} using platform-native queries or a
 raw query language that works across platforms.
 
-
 Indexes
 ~~~~~~~
 
@@ -70,3 +69,30 @@ happen automatically. However, your SDK may require you to increase the
 local schema version to begin using the updated schema in your app. 
 Breaking schema changes, also called destructive schema changes, require 
 a migration function.
+
+Sync
+~~~~
+
+{+sync+} adds network synchronization between a {+backend+} backend and
+client devices on top of all of the functionality of {+client-database+}.
+When you use {+client-database+} with Sync, {+realm+}s exist on device
+just like when you only use {+client-database+}. However, changes to
+the data stored in those {+realm+}s synchronize between all client
+devices through a backend {+backend+} instance. That backend also stores
+{+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
+
+{+sync+} relies on a worker client that communicates with your
+application backend in a dedicated thread in your application.
+Additionally, synced {+realm+}s keep a history of changes to contained
+objects. Sync uses this history to resolve conflicts between client
+changes and backend changes.
+
+Applications that use {+sync+} define their schema on the backend using
+`JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
+Client applications must match that backend schema to synchronize data.
+However, if you prefer to define your initial schema in your application's
+programming language, you can use :ref:`Development Mode
+<concept-development-mode>` to create a backend JSON Schema based on
+native SDK objects as you write your application. However, once your
+application is used for production purposes, you should alter your
+schema using JSON Schema on the backend.
