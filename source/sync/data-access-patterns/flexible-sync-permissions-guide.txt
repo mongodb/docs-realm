@@ -30,10 +30,6 @@ These assume you have already created a Realm app.
    :ref:`flexible-sync-rules-and-permissions`
 
 
-
-
-
-
 .. _read-write-own-data:
 
 Read & Write Own Data
@@ -93,7 +89,53 @@ panel and fill out the following information:
 Write Own Data, Read All Data
 -----------------------------
 
-.. TODO
+In this case, users can write their own data and read all data. Consider a recipe 
+app where users can access all recipes and add new recipes that can be viewed 
+by everyone using the app. 
+
+To set this up, log in to the Realm UI. Click :guilabel:`Sync` on the left hand
+panel and fill out the following information:
+
+- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
+- Press the toggle to enable Development Mode.
+- Select the cluster you want to sync.
+- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
+  database` and type a name for the database Realm will use to store your synced
+  objects. You can name it anything you want. A common strategy would be to name
+  the database after the app you're making.
+- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This lets
+  your permissions expressions (which you'll set next) to use the any fields
+  called ``owner_id``.
+- :guilabel:`Define Permissions`: use the template dropdown to
+  select the template called "Users can read all data but only write their own data".
+
+  This populates the rule expression box with something like the following:
+
+  .. code-block:: json
+     :emphasize-lines: 6-7
+  
+     {
+        "defaultRoles": [
+          {
+            "name": "owner-write", 
+            "applyWhen": {},
+            "read": true,
+            "write": {"owner_id": "%%user.id"}
+          }    
+        ]  
+      }
+
+  Note that only the "write" expression uses the ``owner_id`` field we
+  marked as "queryable" above. It also uses the ``%%user`` expansion to read the
+  requesting user's id. The "read" expression is set to ``true``.
+
+  When a client accesses the data through Sync, Realm evaluates these
+  expressions to determine permissions. This expression says the requesting user
+  may read all data, but write if the document's ``owner_id`` field is equal to 
+  the user's ID.
+
+- You can skip :guilabel:`Advanced Configuration` for now.
+- Click :guilabel:`Save Changes` to enable Sync with these permissions.
 
 .. _admin-privileges:
 
