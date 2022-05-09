@@ -33,8 +33,8 @@ Access the App Client
 
 .. code-block:: dart
 
-   final appConfig = AppConfiguration(APP_ID);
-   final app = App(appConfig);
+   AppConfiguration appConfig = AppConfiguration(APP_ID);
+   App app = App(appConfig);
 
 
 .. note::
@@ -55,7 +55,7 @@ You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppC
 
 .. code-block:: dart
 
-   final appConfig = AppConfiguration(APP_ID, 
+   AppConfiguration appConfig = AppConfiguration(APP_ID, 
      defaultRequestTimeout: const Duration(seconds: 120),
      localAppVersion: '2.0'
      // ... see reference docs for all available configuration options

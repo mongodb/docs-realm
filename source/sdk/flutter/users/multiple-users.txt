@@ -32,8 +32,7 @@ User Account States
 When a user first logs in through a {+service-short+} SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
-out, unless you actively :ref:`remove the user <flutter-remove-user>` or 
-:ref:`delete the user <flutter-delete-users>`.
+out, unless you actively :ref:`remove the user <flutter-remove-user>`.
 
 The following states describe an on-device user at any given time:
 
@@ -68,22 +67,29 @@ The {+service-short+} SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
 the application's :ref:`active user <active-user>`.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   Credentials emailPwCredentials = Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
+   User currentUser = await app.logIn(emailPwCredentials);
+
+.. seealso:: 
+
+   :ref:`Log In Users - Flutter SDK <flutter-login>`
 
 .. _flutter-list-all-users-on-the-device:
-.. _flutter-list-users:
 
 List All Users on the Device
 ----------------------------
 
-You can access a list of all :ref:`user accounts <user-accounts>` that are
-stored on the device by reading the 
-:flutter-sdk:`FLUTTER_App.AllUsers <>` 
-property. This list includes all users that have logged in to the
-client app on a given device regardless of whether they are currently
-authenticated.
+You can access an `Iterable <https://api.dart.dev/stable/2.17.0/dart-core/Iterable-class.html>`__
+of all :ref:`user accounts <user-accounts>` that are stored on the device
+by reading the :flutter-sdk:`App.users <realm/App/users.html>` property.
+This Iterable includes all users that have logged in to the client app
+on a given device regardless of whether they are currently authenticated.
 
-CODE_BLOCK
+.. code-block:: dart
+
+   Iterable<User> users = app.users;
 
 
 .. _flutter-remove-user:
@@ -92,10 +98,12 @@ Remove a User from the Device
 -----------------------------
 
 You can remove all information about a user from the device and automatically
-log the user out with a call to 
-:flutter-sdk:`FLUTTER_RemoveUserAsync() <>`:
+log the user out by passing the ``User`` object to
+:flutter-sdk:`app.removeUser() <realm/App/removeUser.html>`:
 
-CODE_BLOCK
+.. code-block:: dart
+
+   await app.removeUser(app.currentUser);
 
 .. _flutter-change-active-user:
 
@@ -104,6 +112,9 @@ Change the Active User
 
 You can switch an app's :ref:`active user <active-user>` to another
 logged in user by calling 
-:flutter-sdk:`FLUTTER_SwitchUser() <>`:
+:flutter-sdk:`app.switchUser() <realm/App/switchUser.html>` on the ``User`` object
+you are switching to:
 
-CODE_BLOCK
+.. code-block:: dart
+
+  app.switchUser(someUser);
