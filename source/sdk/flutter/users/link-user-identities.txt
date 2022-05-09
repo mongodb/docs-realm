@@ -14,12 +14,12 @@ Realm provides :ref:`many authentication providers <authentication-providers>`
 to log users into your app. Each provider creates a unique user identity. 
 Realm lets you merge multiple credentials into one user identity.
 
-You can link identities using the 
-:flutter-sdk:`LinkCredentialsAsync() <reference/Realms.Sync.User.html#Realms_Sync_User_LinkCredentialsAsync_Realms_Sync_Credentials_>`. 
-This links authentication providers to a logged-in 
-:flutter-sdk:`User <reference/Realms.Sync.User.html>` object. 
+You can link identities by passing the :flutter-sdk:`Credentials <realm/Credentials-class.html>`
+that you want to link to :flutter-sdk:`User.linkCredentials() <realm/User/linkCredentials.html>`. 
 
-CODE_BLOCK
+.. code-block:: dart
+   
+   User linkedCredentialUser = await app.currentUser.linkCredentials(credentials);
 
 Example
 -------
@@ -40,4 +40,13 @@ We must first register the new :ref:`email/password
 .. The following example uses  :ref:`Google authentication <google-authentication>`
 .. instead of EmailPassword:
 
-.. CODE_BLOCK
+.. code-block:: dart
+   
+   // on app start without registration
+   Credentials anonCredentials = Credentials.anonymous();
+
+   // ... user interacts with app
+   //... user decides to sign up for app, logging user in
+
+   // link anonymous credentials to logged in user's credentials
+   User linkedCredentialUser = await app.currentUser.linkCredentials(anonCredentials);
