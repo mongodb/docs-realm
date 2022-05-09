@@ -1,3 +1,100 @@
+# May 6, 2022
+
+## SDK Docs
+
+### Java SDK
+Usage Examples
+- Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+
+### Swift SDK
+Usage Examples
+- Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+
+### .Net SDK
+Usage Examples
+- Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+- Sync Changes Between Devices: Add new section about checking Connection State, related updates
+
+### Node.js SDK
+Usage Examples
+- Open and Close a Realm: Clarify behavior if you write a copied realm to a realm file that already exists
+- Reset a Client Realm: Add documentation for the Discard Unsynced Changes client reset strategy
+- Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+
+Advanced Guides
+- Manual Client Reset Data Recovery: New page showing how to manually recover unsynced changes after a client reset
+- Multi-User Applications: Fix a code example include pointing at the wrong code snippet
+
+### React Native SDK
+Usage Examples
+- Open and Close a Realm: Clarify behavior if you write a copied realm to a realm file that already exists
+- Reset a Client Realm: Add documentation for the Discard Unsynced Changes client reset strategy
+- Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+
+Advanced Guides
+- Manual Client Reset Data Recovery: New page showing how to manually recover unsynced changes after a client reset
+- Multi-User Applications: Fix a code example include pointing at the wrong code snippet
+
+### Kotlin SDK
+Realm Database
+- Serialization: New page on using serialization methods from libraries that depend on reflection
+- Schemas
+  - New pages for:
+    - Ignore a Field
+    - Index a Field
+    - Optional Fields
+    - Primary Keys
+    - Relationships
+    - Timestamps
+  - Supported Types: Update supported types
+- Update/Update a Collection: New page about how to update a collection
+
+### Flutter SDK
+- Realm Database/Define a Realm Object Schema: Add info about relationship limitations, link to UI to create relationships
+
+## MongoDB Cloud Docs
+Realm Sync
+- Configure and Update Your Data Model/Enable or Disable Development Mode: Add note about user needing write access to data in order to use Dev Mode to update schema
+- Data Access Patterns/Flexible Sync: Update eligible field types to clarify array support
+
+Schemas
+- Relationships: Add info about relationship limitations
+- Remove a Schema: New page with procedure to remove a schema
+
+Rules
+- Configure Advanced Rules: Add link to relationship configuration reference
+
+GraphQL API 
+- GraphQL Overview: Clarify how Realm GraphQL uses a code-first approach, add limitations
+
+Functions
+- Call a Function: Add callout reminding devs to sanitize client data to protect against code injection
+- Query MongoDB Atlas
+  - Write: New page combining Insert, Update, Delete, Transactions, and Bulk Writes
+  - MongoDB API Reference: Move & combine content from old location (MongoDB Actions)
+
+Triggers
+- Database Triggers: Add note about Project Expressions being inclusive only
+
+Static Hosting
+- Enable Hosting: Remove CLI from static hosting page as you can't currently use it w/static hosting
+
+Reference
+- Realm Admin API: Add API endpoints to get and update Realm Hosting config
+- Realm Query Language: Remove ``IN`` and collection operators from unsupported Flexible Sync operators
+
+- Remove legacy links from sidebars for SEO purposes
+
+## Various Dependency Updates
+- Bump async from 2.6.3 to 2.6.4
+- Bump cross-fetch from 3.1.4 to 3.1.5
+- Bump ejs from 3.1.6 to 3.1.7
+
 # April 29, 2022
 
 ## SDK Docs
