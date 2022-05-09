@@ -1,4 +1,4 @@
-Every :doc:`MongoDB Atlas data source </mongodb/link-a-data-source>`
+Every :ref:`{+atlas+} data source <data-sources>`
 linked to your app is configured as a service in the ``/services``
 directory. Each data source maps to its own sub-directory with the same
 name as the service.
