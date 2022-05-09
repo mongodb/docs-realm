@@ -1,0 +1,111 @@
+.. _flutter-custom-user-data:
+
+==============================
+Custom User Data - Flutter SDK
+==============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can store arbitrary custom user data  about your  
+users in {+realm+}. For example,
+you might store a user's preferred language, date of birth, or local
+timezone. Before writing and reading this data, you must enable custom user data 
+in the backend. To learn more, see :ref:`Enable Custom User Data <custom-user-data>`.
+
+.. important::
+
+   Currently you can only **read** custom user data with the Flutter SDK.
+   In a future update to the SDK, you will be able to write custom user data
+   from the SDK as well.
+
+   You can create, update, or delete custom user data using one of the other
+   Realm SDKs, with Realm functions, or by directly querying {+atlas+}.  
+
+Before You Begin
+----------------
+
+To use custom user data, you must first enable custom user data
+on the {+backend+}:
+
+#. :ref:`Create a {+app+} <create-a-realm-app>`.
+#. :ref:`Enable custom user data <enable-custom-user-data-procedure>`.
+
+.. TODO: add back into the docs when there's a way to use MongoDB data access 
+.. with custom user data
+.. To **create, update, or delete** custom user data, you will need the following
+.. information from your custom user data configuration:
+
+.. - The :term:`custom user data cluster`
+.. - The :term:`custom user data database`
+.. - The :term:`custom user data collection` in which custom
+..   user data documents are stored
+.. - The :term:`user ID field` used to map custom user data documents
+..   to users (via :term:`user ID`)
+
+.. You can find this information in the {+ui+}. In the left sidebar, click  
+.. :guilabel:`App Users`,  and then select the :guilabel:`Custom User Data` tab.
+
+.. _flutter-read-custom-user-data:
+
+Read a User's Custom User Data
+------------------------------
+
+You retrieve custom user data in the  :flutter-sdk:`User.customData <realm/User/customData.html>`
+property of a logged in user:
+
+.. code-block:: dart 
+
+   final customUserData = app.currentUser.customData;
+
+   
+{+backend+} **does not dynamically update** the value of the 
+``User.customData``  immediately when underlying data changes. Instead, {+backend+} 
+fetches the most recent version of custom user data whenever a user 
+refreshes their :ref:`access token <user-sessions>` or when you explicitly 
+call :flutter-sdk:`User.refreshCustomData() <realm/User/refreshCustomData.html>`,
+which ensures your app has the latest custom user data.
+
+.. code-block:: dart
+
+   // refreshCustomData() returns the updated custom data object
+   final updatedCustomData = await app.currentUser.refreshCustomData();
+
+   // Now when you access User.customData it's the value
+   // returned from User.refreshCustomData()
+   DeepCollectionEquality.equals(
+     updatedCustomData,
+     app.currentUser.customData
+   ); // evaluates to true
+
+
+.. TODO: add back in once you can interact w MongoDB from Realm Flutter
+.. .. _flutter-create-custom-user-data:
+
+.. Create a User's Custom User Data Document
+.. -----------------------------------------
+
+.. To create custom user data for a user, create a MongoDB document in the
+.. custom user data collection. The user ID field of the document must
+.. contain the the user's :term:`user ID`. The following example uses
+.. :ref:`MongoDB Data Access <>` to insert a
+.. document containing the user ID of the currently logged in user and several 
+.. custom properties into the custom user data collection:
+
+.. CODE_BLOCK
+
+.. .. _flutter-update-custom-user-data:
+
+.. Update a User's Custom Data
+.. ---------------------------
+
+.. Updating custom user data uses the same code as writing. The following example 
+.. finds and updates the data by using the 
+.. :flutter-sdk:`FLUTTER_UpdateOneAsync() <>` 
+.. method, and then refreshes the data to ensure the latest changes are available:
+.. CODE_BLOCK
