@@ -1,0 +1,183 @@
+.. _flexible-sync-permissions-guide:
+
+===============================
+Flexible Sync Permissions Guide
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This page shows how to set up your flexible sync app's permissions for the
+following common use cases:
+
+- :ref:`read-write-own-data`
+- :ref:`write-own-data-read-all-data`
+- :ref:`admin-privileges`
+- :ref:`restricted-news-feed`
+- :ref:`dynamic-collaboration` - not currently possible.
+- :ref:`tiered-privileges`
+
+These assume you have already created a Realm app.
+
+.. seealso::
+
+   :ref:`create-realm-apps`
+   :ref:`flexible-sync-rules-and-permissions`
+
+
+
+
+
+
+.. _read-write-own-data:
+
+Read & Write Own Data
+---------------------
+
+In this case, users may not read or write any data but their own. Consider a
+notes app where the user wants their notes to be persisted and shared across
+their own devices but kept private to their user account.
+
+To set this up, log in to the Realm UI. Click :guilabel:`Sync` on the left hand
+panel and fill out the following information:
+
+- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
+- Press the toggle to enable Development Mode.
+- Select the cluster you wish to sync.
+- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
+  database` and type a name for the database Realm will use to store your synced
+  objects. You can name it anything you want. A common strategy would be to name
+  the database after the app you're making.
+- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This lets
+  your permissions expressions (which you'll set next) to use the any fields
+  called ``owner_id``.
+- :guilabel:`Define Permissions`: use the template dropdown to
+  select the template called "Users can only read and write their own data".
+
+  This populates the rule expression box with something like the following:
+
+  .. code-block:: json
+     :emphasize-lines: 6-7
+  
+     {
+       "defaultRoles": [
+         {
+           "name": "owner-read-write", 
+           "applyWhen": {},
+           "read": {"owner_id": "%%user.id"},
+           "write": {"owner_id": "%%user.id"}
+         }
+       ]  
+     }
+
+  Note that the "read" and "write" expressions use the ``owner_id`` field we
+  marked as "queryable" above. It also uses the ``%%user`` expansion to read the
+  requesting user's id.
+
+  When a client accesses the data through Sync, Realm evaluates these
+  expressions to determine permissions. This expression says the requesting user
+  may read or write if the document's ``owner_id`` field is equal to the user's
+  ID.
+
+- You can skip :guilabel:`Advanced Configuration` for now.
+- Click :guilabel:`Save Changes` to enable Sync with these permissions.
+
+
+.. _write-own-data-read-all-data:
+
+Write Own Data, Read All Data
+-----------------------------
+
+.. TODO
+
+.. _admin-privileges:
+
+Admin Privileges
+----------------
+
+In this permission strategy, users with the ``admin`` role can read and 
+write any document. Users who do not have the ``admin`` role can read any
+document, but can only write their own data.
+
+.. code-block:: json
+
+   {
+     "Employees": [{
+           "name": "admin", 
+           "applyWhen": { "%%user.custom_data.isAdmin": true},
+           "read": {}, // evaluates to the same as true
+           "write": {}
+         },
+         {
+           "name": "self",
+           "applyWhen": {},
+           "read": {},
+           "write": {"employee_id": "%%user.id"}
+         }
+      ]
+   }
+
+.. _restricted-news-feed:
+
+Restricted News Feed
+--------------------
+
+
+.. _dynamic-collaboration:
+
+Dynamic Collaboration
+---------------------
+
+.. TODO
+
+.. _tiered-privileges:
+
+Tiered Privileges
+-----------------
+
+In this permission strategy, users with the ``globalAdmin`` session role
+can read and write to any document. Users with the ``departmentAdmin``
+session role can read any document, but can only write to documents in
+their department. Users with the ``departmentMember`` session role can
+read any document in their department, but can't write to any documents.
+Members can only read documents in their own departments; they cannot
+read documents for other departments.
+
+.. code-block:: json
+
+   {
+    "Employees": [{
+        "name": "globalAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isGlobalAdmin": true
+        },
+        "read": {},
+        "write": {}
+      },
+      {
+        "name": "departmentAdmin",
+        "applyWhen": {
+          "%%user.custom_data.isLocalAdmin": true
+        },
+        "read": {},
+        "write": {
+          "department": "%%user.custom_data.department"
+        }
+      },
+      {
+        "name": "departmentMember",
+        "applyWhen": {},
+        "read": {
+          "department": "%%user.custom_data.department"
+        },
+        "write": false
+      }
+    ]
+   }
+
+
