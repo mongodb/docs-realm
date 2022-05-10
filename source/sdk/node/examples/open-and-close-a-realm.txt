@@ -23,7 +23,7 @@ Open a Local Realm
 
 .. include:: /includes/js-open-an-in-memory-realm.rst
 
-_.. _node-open-a-synced-realm:
+.. _node-open-a-synced-realm:
 
 Open a Synced Realm
 -------------------
@@ -32,6 +32,9 @@ You can open a Synced {+realm+} with a Flexible Sync or Partition-Based Sync. If
 you have not yet decided or are unsure which to use, read the :ref:`Choose Your
 Sync Mode <sync-modes>` page.
 
+By default, {+service-short+} syncs all data from the server before returning.
+If you want to sync data in the background, read the :ref:`Open a Synced Realm
+While Offline <node-open-synced-realm-offline>` section.
 
 .. _node-flexible-sync-open-realm:
 
@@ -58,10 +61,6 @@ Open a Partition-Based Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/node-open-a-synced-realm.rst
-
-The following example shows how to open a synced {+realm+} with a predefined
-``CarSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-the currently logged in user, and a partition value of "myPartition".
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
    :language: javascript

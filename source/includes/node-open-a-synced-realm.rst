@@ -3,5 +3,3 @@ Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
 object, which must include the ``sync`` property defining a 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
 In the SyncConfiguration, you must include include ``user`` and ``partitionValue``.
-
-By default, {+service-short+} syncs all data from the server before returning.
