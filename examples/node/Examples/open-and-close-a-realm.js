@@ -130,15 +130,23 @@ describe("Open and Close a Realm", () => {
 
     const app = new Realm.App({ id: "demo_app-cicfi" });
 
-    try {
-      await app.logIn(new Realm.Credentials.anonymous());
-    } catch (err) {
-      console.error("failed to login user", err.message);
-    }
+    // :code-block-start: use-cached-user-to-login
+    // Log the user into the backend app.
+    // The first time you login, the user must have a network connection.
+    const getUser = async () => {
+      // Check for an existing user.
+      // If the user is offline but credentials are
+      // cached, this returns the existing user.
+      if (app.currentUser) return app.currentUser;
+      // If the device has no cached user credentials, log them in.
+      const credentials = Realm.Credentials.anonymous();
+      return await app.logIn(credentials);
+    };
+    // :code-block-end:
 
     // :code-block-start: open-synced-realm-offline-with-car-schema
     // :code-block-start: open-synced-realm-config
-    const realmFileBehavior = {
+    const openRealmBehaviorConfig = {
       type: "downloadBeforeOpen",
       timeOut: 1000,
       timeOutBehavior: "openLocalRealm",
@@ -147,10 +155,10 @@ describe("Open and Close a Realm", () => {
     const config = {
       schema: [Car], // predefined schema
       sync: {
-        user: app.currentUser, // already logged in user
+        user: await getUser(), // already logged in user
         partitionValue: "myPartition",
-        existingRealmFileBehavior: realmFileBehavior,
-        newRealmFileBehavior: realmFileBehavior,
+        existingRealmFileBehavior: openRealmBehaviorConfig,
+        newRealmFileBehavior: openRealmBehaviorConfig,
       },
     };
     // :code-block-end:
@@ -184,23 +192,30 @@ describe("Open and Close a Realm", () => {
 
     const app = new Realm.App({ id: "demo_app-cicfi" });
 
-    try {
-      await app.logIn(new Realm.Credentials.anonymous());
-    } catch (err) {
-      console.error("failed to login user", err.message);
-    }
+    // Log the user into the backend app.
+    // The first time you login, the user must have a network connection.
+    const getUser = async () => {
+      // Check for an existing user.
+      // If the user is offline but credentials are
+      // cached, this returns the existing user.
+      if (app.currentUser) return app.currentUser;
+      // If the device has no cached user credentials, log them in.
+      const credentials = Realm.Credentials.anonymous();
+      return await app.logIn(credentials);
+    };
+
     // :code-block-start: open-synced-realm-with-background-sync
-    const OpenRealmBehaviorConfiguration = {
+    const openRealmBehaviorConfig = {
       type: "openImmediately",
     };
 
     const config = {
       schema: [Car], // predefined schema
       sync: {
-        user: app.currentUser,
+        user: await getUser(),
         partitionValue: "myPartition",
-        newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-        existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+        newRealmFileBehavior: openRealmBehaviorConfig,
+        existingRealmFileBehavior: openRealmBehaviorConfig,
       },
     };
     // :code-block-end:

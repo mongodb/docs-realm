@@ -65,7 +65,6 @@ Open a Partition-Based Synced Realm
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
    :language: javascript
 
-
 .. _node-open-synced-realm-offline:
 
 Open a Synced Realm While Offline
@@ -83,6 +82,9 @@ login flow and access the cached user. Use this to open a {+realm+} offline.
    existing account on a client, the client must have a network connection.
    Checking for cached user credentials lets you open a realm offline, but
    only if the user has previously logged in while online.
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.use-cached-user-to-login.js
+   :language: javascript
 
 The ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields in your
 ``SyncConfiguration`` allow you to specify :js-sdk:`OpenRealmBehaviorConfiguration
