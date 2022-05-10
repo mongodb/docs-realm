@@ -144,24 +144,9 @@ describe("Open and Close a Realm", () => {
     };
     // :code-block-end:
 
-    const openRealmBehaviorConfig = {
-      type: "downloadBeforeOpen",
-      timeOut: 1000,
-      timeOutBehavior: "openLocalRealm",
-    };
-
-    const fileBehavior = {
-      newRealmFileBehavior: openRealmBehaviorConfig,
-      existingRealmFileBehavior: openRealmBehaviorConfig,
-    };
-
     // :code-block-start: open-synced-realm-offline-with-car-schema
     // :code-block-start: open-synced-realm-config
-    // :replace-start: {
-    //  "terms": {
-    //   "openRealmBehaviorConfiguration": "openRealmBehaviorConfig"}
-    // }
-    const openRealmBehaviorConfiguration = {
+    const openRealmBehaviorConfig = {
       type: "downloadBeforeOpen",
       timeOut: 1000,
       timeOutBehavior: "openLocalRealm",
@@ -172,10 +157,10 @@ describe("Open and Close a Realm", () => {
       sync: {
         user: await getUser(), // already logged in user
         partitionValue: "myPartition",
-        ...fileBehavior,
+        existingRealmFileBehavior: openRealmBehaviorConfig,
+        newRealmFileBehavior: openRealmBehaviorConfig,
       },
     };
-    // :replace-end:
     // :code-block-end:
     // :remove-start:
     nock.disableNetConnect();
@@ -219,17 +204,6 @@ describe("Open and Close a Realm", () => {
       return await app.logIn(credentials);
     };
 
-    const openRealmBehaviorConfig = {
-      type: "downloadBeforeOpen",
-      timeOut: 1000,
-      timeOutBehavior: "openLocalRealm",
-    };
-
-    const fileBehavior = {
-      newRealmFileBehavior: openRealmBehaviorConfig,
-      existingRealmFileBehavior: openRealmBehaviorConfig,
-    };
-
     // :code-block-start: open-synced-realm-with-background-sync
     const openRealmBehaviorConfig = {
       type: "openImmediately",
@@ -239,7 +213,7 @@ describe("Open and Close a Realm", () => {
       schema: [Car], // predefined schema
       sync: {
         user: await getUser(),
-        partitionValue: "myPartition",
+        flexible: true,
         newRealmFileBehavior: openRealmBehaviorConfig,
         existingRealmFileBehavior: openRealmBehaviorConfig,
       },
