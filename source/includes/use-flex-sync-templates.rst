@@ -1,5 +1,5 @@
   - Log in to the Realm UI, and then click :guilabel:`Sync` in the left hand 
-    panel
+    panel.
   - Under :guilabel:`Sync Type`, choose :guilabel:`Flexible`
   - Press the toggle to enable :guilabel:`Development Mode`.
   - Select the cluster you want to sync.
