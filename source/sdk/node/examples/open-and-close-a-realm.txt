@@ -23,10 +23,20 @@ Open a Local Realm
 
 .. include:: /includes/js-open-an-in-memory-realm.rst
 
+_.. _node-open-a-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+You can open a Synced {+realm+} with a Flexible Sync or Partition-Based Sync. If
+you have not yet decided or are unsure which to use, read the :ref:`Choose Your
+Sync Mode <sync-modes>` page.
+
+
 .. _node-flexible-sync-open-realm:
 
 Open a Flexible Synced Realm
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To open a {+realm+} using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
 Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
@@ -45,36 +55,57 @@ In the SyncConfiguration, you must include include a ``user`` and ``flexible:tru
 .. _node-partition-sync-open-realm:
 
 Open a Partition-Based Synced Realm
------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. include:: /includes/node-open-a-synced-realm.rst
 
-.. warning:: 
+The following example shows how to open a synced {+realm+} with a predefined
+``CarSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
+the currently logged in user, and a partition value of "myPartition".
 
-   When attempting to synchronize a {+realm+} while not connected to 
-   the Internet, you must pass ``Realm.open()`` a :js-sdk:`Configuration <Realm.html#~Configuration>`
-   object that contains the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties. If you 
-   don't include these properties, ``Realm.open()`` continues trying
-   to connect to the server indefinitely without opening. 
-   
-   For more information about connecting to your synced {+realm+} 
-   while offline, see :ref:`Open Immediately with Background Sync <node-open-immediately-with-background-sync>`.
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
+   :language: javascript
 
-.. _node-sync-all-data-before-opening:
 
-Sync All Data before Opening
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _node-open-synced-realm-offline:
 
-By default, {+service-short+} syncs all data from the server before returning. 
+Open a Synced Realm While Offline
+---------------------------------
 
-.. example:: 
+.. include:: /includes/offline-login.rst
 
-   The following example shows how to open a synced {+realm+} with with a 
-   ``SyncConfiguration`` object that uses a predefined
-   ``CarSchema`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-   the currently logged in user, and a partition value of "myPartition".
+When your Realm application authenticates a user, it caches the user's 
+credentials. You can check for existing user credentials to bypass the 
+login flow and access the cached user. Use this to open a {+realm+} offline. 
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
+.. note:: Initial login requires a network connection
+
+   When a user signs up for your app, or logs in for the first time with an 
+   existing account on a client, the client must have a network connection.
+   Checking for cached user credentials lets you open a realm offline, but
+   only if the user has previously logged in while online.
+
+The ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields in your
+``SyncConfiguration`` allow you to specify :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`  
+
+The :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` allows you to specify
+options for background synchronization. Set the ``newRealmFileBehavior`` and
+``existingRealmFileBehavior`` fields in your ``SyncConfiguration`` to an
+``OpenRealmBehaviorConfiguration`` object to open a {+realm+} using those
+options in a new or existing file. 
+
+.. _node-open-immediately-with-background-sync:
+
+Open Immediately with Background Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the user's device is not connected to the internet or you're uncertain of
+it's connection status, connect to the {+realm+} immediately to sync data from
+the server in the background. 
+
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
       :language: javascript
 
 .. _node-open-after-timeout-with-background-sync:
@@ -82,78 +113,29 @@ By default, {+service-short+} syncs all data from the server before returning.
 Open After Timeout with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you don't need to sync all data before returning the {+realm+}, configure the
-``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of your
-SyncConfiguration to automatically open the realm after a timeout period elapses. You
-can use a single :js-sdk:`OpenRealmBehaviorConfiguration <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`
-for both ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
-that contains the following property values:  
+If you want to sync data but you're in an environment where it's uncertain if
+the user has an Internet connection, you can specify a ``timeOut`` that
+automatically opens the {+realm+} after a timeout period elapses or when the
+{+realm+} has completely downloaded, whichever comes first. 
 
-- ``type``: "downloadBeforeOpen"
-- ``timeOut``: <time in milliseconds>
-- ``timeOutBehavior``: "openLocalRealm"
-
-These properties force the ``Realm.open()`` method to return an open {+realm+} after ``timeOut`` milliseconds, or when the {+realm+} has completely downloaded, whichever comes first. 
-If the {+realm+} doesn't finish downloading before the timeout, the initial realm sync continues in the background. For example: 
+If the {+realm+} doesn't finish downloading before the timeout, the initial
+realm sync continues in the background. 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
   :language: javascript
 
-This configuration is also useful if you're attempting to sync in an environment 
-where it's uncertain if the user has an Internet connection.
-
-.. example::
-  
-  The following example shows opening a synced {+realm+} with a 
-  ``Configuration`` object using a predefined ``Car`` :doc:`schema </sdk/node/examples/define-a-realm-object-model>`, 
-  the currently logged in user, a partition value of "myPartition", and a 
-  :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`. The SyncConfiguration includes  
-  ``existingRealmFileBehavior`` and ``newRealmFileBehavior`` set to allow the user 
-  to work with the local {+realm+} if the device doesn't fully sync within the ``timeOut``
-  period of 1000 milliseconds.  
-
-  .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-offline-with-car-schema.js
-    :language: javascript
-
-.. _node-open-immediately-with-background-sync:
-
-Open Immediately with Background Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When you want to connect to the {+realm+} immediately and sync data from the server 
-in the background, you must use  a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` that includes the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` 
-properties. This configuration is useful if a user's device is not connected to the Internet or you're not certain if it's 
-connected. 
-
-Create a :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set the
-``type`` property to a value of "openImmediately". This configuration opens a local {+realm+} 
-immediately without attempting to sync with the server. The client continues  
-attempting to connect with the server in the background. 
-
-Then create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
-include the ``sync`` property defining a :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
-OpenRealmBehaviorConfiguration object as the value for
-the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` properties of the
-``SyncConfiguration``. 
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
-      :language: javascript
-
 .. _node-open-existing-realm-different-configuration:
+.. _node-copy-data-and-open-new-realm:
 
-Open Existing Realm with Different Configuration
-------------------------------------------------
+Copy Data and Open a New Realm
+------------------------------
 
 .. versionadded:: 10.14.0
 
-To open an existing realm with a different configuration, pass the new 
-:js-sdk:`Configuration <Realm.html#~Configuration>`
-to :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>`. 
-``Realm.writeCopyTo()`` copies the realm's data to a new realm, but adds different configuration options. 
-In the output realm's configuration, you *must* specify the ``path``. 
+To copy data from an existing {+realm+} to a new realm with different
+configuration options, you can use the :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
+
+In the new realm's configuration, you *must* specify the ``path``. 
 
 If you write the copied realm to a realm file that already exists, the data is written object by object.
 The copy operation replaces objects if there already exists objects for given primary keys.
