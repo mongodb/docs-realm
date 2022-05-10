@@ -1,7 +1,7 @@
   - Log in to the Realm UI, and then click :guilabel:`Sync` in the left hand 
     panel.
-  - Under :guilabel:`Sync Type`, choose :guilabel:`Flexible`
-  - Press the toggle to enable :guilabel:`Development Mode`.
+  - Under :guilabel:`Sync Type`, choose :guilabel:`Flexible`.
+  - Set the toggle to enable :guilabel:`Development Mode`.
   - Select the cluster you want to sync.
   - :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
     database` and type a name for the database Realm will use to store your synced

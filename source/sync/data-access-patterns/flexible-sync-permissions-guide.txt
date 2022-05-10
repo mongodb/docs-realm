@@ -128,8 +128,8 @@ Administrator Privileges
 In this permission strategy, users with a specific "administrator" role can 
 read and write any document. Users who do not have the specified role can only 
 read and write their own data. To make this strategy work, you first need to 
-configure Custom User Data in order to define which users have administrator 
-permissions. 
+define which users have administrator permissions. You do this by enabling 
+Custom User Data and defining the document that contains the user data.
 
 In the custom user data document that you define, you create   
 a field that is used to indicate whether the user has administrative 
@@ -153,17 +153,16 @@ Configure Custom User Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {+service+} stores MongoDB documents that correspond to custom user data
-in a :term:`linked MongoDB Atlas cluster <linked cluster>`. When you
-configure custom user data for your application, you specify the cluster, 
-database, collection, and finally the :term:`user ID field`, which is used to 
-map a custom user data document to an authenticated user's :term:`user ID`.
-To enable custom user data, follow these steps:
+in a linked MongoDB Atlas cluster. When you configure custom user data for your 
+application, you specify the cluster, database, collection, and finally a 
+UYser ID field, which maps a custom user data document to an 
+authenticated user's ID. To enable custom user data, follow these steps:
 
 .. include:: /includes/define-custom-user-data.rst
 
 Set Up Admin Privileges
 ~~~~~~~~~~~~~~~~~~~~~~~
-One you have custom user data enabled, you can set up the Admin Privileges 
+After you have custom user data enabled, you can implement the Admin Privileges 
 strategy. To do so, follow these steps:
 
 .. include:: /includes/use-flex-sync-templates

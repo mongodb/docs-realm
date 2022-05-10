@@ -1,4 +1,4 @@
-  - Log in to the Realm UI, and then click :guilabel:`App Usaers` in the left 
+  - Log in to the Realm UI, and then click :guilabel:`App Users` in the left 
     hand panel.
 
   - Select the :guilabel:`Custom User Data` tab.
@@ -22,9 +22,9 @@
     maps to a specific user. The field must be present in every
     document that maps to a user, and must contain the user's ID *as a string*.
   
-  .. note::
-     
-     If two documents contain the same user ID, {+service-short+} only
-     maps the first matching document to the user.
+    .. note::
+        
+       If two documents in this collection contain the same user ID, 
+       {+service-short+} uses the first matching document to the user.
 
   - Save and deploy the changes.
