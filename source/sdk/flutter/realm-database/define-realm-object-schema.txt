@@ -426,7 +426,22 @@ To add a property to a schema:
    developer sets the {+realm+}'s :ref:`schema version <flutter-schema-version>`
    to ``2``.
 
-   TODO: add example code
+   .. code-block:: dart
+      :emphasize-lines: 5
+
+      @RealmModel()
+      class _Person {
+         late String firstName;
+         late String lastName;
+         late int age;
+      }
+
+   .. code-block:: dart
+      :emphasize-lines: 2
+
+      Realm realm = Realm(
+        Configuration([Person.schema], schema: 2 )
+      );
 
 .. _flutter-delete-a-property:
 
@@ -451,7 +466,12 @@ Deleting a property does not impact existing objects.
    developer sets the {+realm+}'s :ref:`schema version <flutter-schema-version>` to
    ``2``.
 
-   TODO: add code example
+   .. code-block:: dart
+      :emphasize-lines: 2
+
+      Realm realm = Realm(
+        Configuration([Dog.schema], schema: 2 )
+      );
 
 .. _flutter-update-schema-of-synced-realm:
 
