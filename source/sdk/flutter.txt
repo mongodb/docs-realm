@@ -26,32 +26,19 @@ Flutter SDK (Alpha)
 
 The {+service+} Flutter SDK enables client applications written in 
 `Dart <https://dart.dev/>`__ for the `Flutter <https://flutter.dev/>`__ 
-platform to access data stored in local {+realm+}s.
+platform to access data stored in {+realm+}s, sync data with {+atlas+}, 
+and use {+service+}.
 
-.. include:: /includes/note-flutter-local-realm-only.rst
+Beta Limitations
+----------------
 
-Supported Realm Features
-------------------------
-
-The alpha version of the SDK supports the following Realm features:
-
-- Create Realm objects
-- Retrieve, query, sort, and filter Realm objects
-- Update Realm objects
-- Delete Realm objects
-- Implement change notifications
-
-Alpha Limitations
-~~~~~~~~~~~~~~~~~
-
-Because this is an alpha version of the SDK, functionality is limited and there 
+Because this is an beta version of the SDK, functionality is limited and there 
 are specific configuration considerations:
 
-- The alpha version of the SDK enables working with a local-only (on device) 
-  Realm database. Atlas Device Sync functionality is not yet implemented.
-
-- The SDK doesn't have built-in functionality to interact with 
-  :ref:`{+service+} application services<realm-cloud>`.
+- The beta version of the SDK does not yet have certain Realm database features.
+- The SDK doesn't have built-in functionality to interact with all of
+  {+service+}. Learn more about how to :ref:`use the SDK with currently supported App Services
+  <flutter-application-services>`.
 
 Get Started
 -----------
@@ -67,7 +54,6 @@ Dart Standalone Realm
 
 In addition to using Realm with Flutter, you can also use Realm with projects
 that just use Dart, like a CLI application or web server. 
-
 
 The usage for Realm with Dart is the same as the Flutter SDK, except you must 
 install and set up a separate package. 

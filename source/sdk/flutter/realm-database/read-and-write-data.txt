@@ -77,7 +77,24 @@ Write Operations
 ----------------
 
 Once you've opened a {+realm+}, you can create objects within it using a
-:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+:flutter-sdk:`Realm.write() transaction block <realm/Realm/write.html>`.
+All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
+If an operation in the write transaction fails, the whole transaction fails,
+Realm throws an error, and no changes from the transaction block are applied to the {+realm+}.
+
+.. code-block:: dart
+
+   realm.write((){
+     // ...write data to realm
+   });
+
+You can also return values from the write transaction callback function.
+
+.. code-block:: dart
+
+   Car fordFusion = realm.write((){
+     return realm.add(Car('Ford', model: 'Fusion', miles: 101));
+   });
 
 .. _flutter-create-objects:
 

@@ -37,7 +37,7 @@ Realm registers accounts differently depending on the authentication provider:
 - To register an email/password user, refer to the :ref:`Manage Email/Password User
   Registration documentation <flutter-manage-email-password-users-register>`.
 - If you are using Google, Facebook, Apple, or Custom JWT authentication,
-  registration is handled by these third-party services. You only need to 
+  registration is handled by these third-party services.
 
 .. _flutter-login:
 
@@ -100,8 +100,7 @@ all local Realm updates have uploaded to the server.
 
 .. code-block:: dart
 
-   Credentials emailPwCredentials = Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
-   App app = await app.logIn(emailPwCredentials);
+   await user.logOut();
 
 .. _flutter-retrieve-current-user:
 
