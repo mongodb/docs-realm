@@ -144,9 +144,24 @@ describe("Open and Close a Realm", () => {
     };
     // :code-block-end:
 
+    const openRealmBehaviorConfig = {
+      type: "downloadBeforeOpen",
+      timeOut: 1000,
+      timeOutBehavior: "openLocalRealm",
+    };
+
+    const fileBehavior = {
+      newRealmFileBehavior: openRealmBehaviorConfig,
+      existingRealmFileBehavior: openRealmBehaviorConfig,
+    };
+
     // :code-block-start: open-synced-realm-offline-with-car-schema
     // :code-block-start: open-synced-realm-config
-    const openRealmBehaviorConfig = {
+    // :replace-start: {
+    //  "terms": {
+    //   "openRealmBehaviorConfiguration": "openRealmBehaviorConfig"}
+    // }
+    const openRealmBehaviorConfiguration = {
       type: "downloadBeforeOpen",
       timeOut: 1000,
       timeOutBehavior: "openLocalRealm",
@@ -157,10 +172,10 @@ describe("Open and Close a Realm", () => {
       sync: {
         user: await getUser(), // already logged in user
         partitionValue: "myPartition",
-        existingRealmFileBehavior: openRealmBehaviorConfig,
-        newRealmFileBehavior: openRealmBehaviorConfig,
+        ...fileBehavior,
       },
     };
+    // :replace-end:
     // :code-block-end:
     // :remove-start:
     nock.disableNetConnect();
@@ -202,6 +217,17 @@ describe("Open and Close a Realm", () => {
       // If the device has no cached user credentials, log them in.
       const credentials = Realm.Credentials.anonymous();
       return await app.logIn(credentials);
+    };
+
+    const openRealmBehaviorConfig = {
+      type: "downloadBeforeOpen",
+      timeOut: 1000,
+      timeOutBehavior: "openLocalRealm",
+    };
+
+    const fileBehavior = {
+      newRealmFileBehavior: openRealmBehaviorConfig,
+      existingRealmFileBehavior: openRealmBehaviorConfig,
     };
 
     // :code-block-start: open-synced-realm-with-background-sync

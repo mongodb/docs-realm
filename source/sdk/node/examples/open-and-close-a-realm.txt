@@ -75,16 +75,14 @@ Open a Synced Realm While Offline
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.use-cached-user-to-login.js
    :language: javascript
 
-The ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields in your
-``SyncConfiguration`` allow you to specify :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`  
-
-The :js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` allows you to specify
-options for background synchronization. Set the ``newRealmFileBehavior`` and
-``existingRealmFileBehavior`` fields in your ``SyncConfiguration`` to an
-``OpenRealmBehaviorConfiguration`` object to open a {+realm+} using those
-options in a new or existing file. 
+The following subsections show how to open a {+realm+} using the cached user,
+and :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>`. The
+``OpenRealmBehaviorConfiguration`` allows you to specify configuration options
+for background synchronization. The ``newRealmFileBehavior`` and
+``existingRealmFileBehavior`` fields are set to the
+``OpenRealmBehaviorConfiguration`` object to open a {+realm+} using those options in a
+new or existing file. 
 
 .. _node-open-immediately-with-background-sync:
 
