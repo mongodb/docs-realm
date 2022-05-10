@@ -29,11 +29,6 @@ These assume you have already created a Realm app.
    :ref:`create-realm-apps`
    :ref:`flexible-sync-rules-and-permissions`
 
-
-
-
-
-
 .. _read-write-own-data:
 
 Read & Write Own Data
@@ -53,7 +48,7 @@ panel and fill out the following information:
   database` and type a name for the database Realm will use to store your synced
   objects. You can name it anything you want. A common strategy would be to name
   the database after the app you're making.
-- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This lets
+- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This allows 
   your permissions expressions (which you'll set next) to use the any fields
   called ``owner_id``.
 - :guilabel:`Define Permissions`: use the template dropdown to
@@ -93,34 +88,139 @@ panel and fill out the following information:
 Write Own Data, Read All Data
 -----------------------------
 
-.. TODO
+In this case, users can read all data, but write only their own data. Consider a 
+recipe app where users can read all recipes and add new recipes. The recipes 
+they add can be viewed by everyone using the app. 
+
+To set this up, log in to the Realm UI. Click :guilabel:`Sync` on the left hand
+panel and fill out the following information:
+
+- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
+- Press the toggle to enable Development Mode.
+- Select the cluster you want to sync.
+- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
+  database` and type a name for the database Realm will use to store your synced
+  objects. You can name it anything you want. A common strategy would be to name
+  the database after the app you're making.
+- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This allows 
+  your permissions expressions (which you'll set next) to use the any fields
+  called ``owner_id``.
+- :guilabel:`Define Permissions`: use the template dropdown to
+  select the template called "Users can read all data but only write their own data".
+
+  This populates the rule expression box with the following:
+
+  .. code-block:: json
+     :emphasize-lines: 6-7
+  
+     {
+        "defaultRoles": [
+          {
+            "name": "owner-write", 
+            "applyWhen": {},
+            "read": true,
+            "write": {"owner_id": "%%user.id"}
+          }    
+        ]  
+      }
+
+  Note that the "read" expression is set to ``true``, indicating that 
+  no matter which user is authenticated, they can access all of the data. 
+  The "write" expression uses the ``owner_id`` field we marked as "queryable" 
+  above and uses the ``%%user`` expansion to match against the requesting user's 
+  id. 
+
+  When a user accesses the data through Sync, Realm evaluates these
+  expressions to determine permissions. This expression says the requesting user
+  may read all data, but write only if the document's ``owner_id`` field is equal 
+  to the user's ID.
+
+- Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
+  to enable Sync with these permissions.
 
 .. _admin-privileges:
 
-Admin Privileges
-----------------
+Administrator Privileges
+------------------------
 
-In this permission strategy, users with the ``admin`` role can read and 
-write any document. Users who do not have the ``admin`` role can read any
-document, but can only write their own data.
+In this permission strategy, users with a specific "administrator" role can 
+read and write any document. Users who do not have the specified role can only 
+read and write their own data.
+
+To make this strategy work, you first need to :ref:`enable custom user data
+<custom-user-data>`. In the custom user data document that you define, create  
+a field that is used to indicate whether the user has administrative 
+privileges. While there are many ways to set this up, one approach is to add 
+a boolean property called ``isAdmin``, which is set to ``true`` for those 
+users with the elevated permissions. Another is to create a string field 
+called ``role``, in which one of the expected values might be "admin". 
+
+In the following example, the custom user object we have created has 3 fields: 
+``firstName``, ``lastName``, and ``isGlobalAdmin``:
 
 .. code-block:: json
 
    {
-     "Employees": [{
-           "name": "admin", 
-           "applyWhen": { "%%user.custom_data.isAdmin": true},
-           "read": {}, // evaluates to the same as true
-           "write": {}
-         },
-         {
-           "name": "self",
-           "applyWhen": {},
-           "read": {},
-           "write": {"employee_id": "%%user.id"}
-         }
-      ]
+      "firstName": "Lily",
+      "lastName": "Realmster",
+      "isGlobalAdmin": true
    }
+
+To set up an Admin Privileges strategy, log in to the Realm UI. Click 
+:guilabel:`Sync` on the left hand panel and follow these steps:
+
+- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
+- Press the toggle to enable Development Mode.
+- Select the cluster you wish to sync.
+- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
+  database` and type a name for the database Realm will use to store your synced
+  objects. You can name it anything you want. A common strategy would be to name
+  the database after the app you're making.
+- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This lets
+  your permissions expressions (which you'll set next) to use the any fields
+  called ``owner_id``.
+- :guilabel:`Define Permissions`: use the template dropdown to
+  select the template called "Users can read and write their own data, admins 
+  can read and write all data".
+
+  This populates the rule expression box with the following:
+
+.. code-block:: json
+
+   {
+     "defaultRoles": [
+       {
+         "name": "admin", 
+         "applyWhen": { "%%user.custom_data.isGlobalAdmin": true},
+         "read": true,
+         "write": true
+       },
+       {
+         "name": "user", 
+         "applyWhen": {},
+         "read": {"owner_id": "%%user.id"},
+         "write": {"owner_id": "%%user.id"}
+       }
+     ]  
+   }
+
+.. note:: Change the default settings
+
+   The generated expression has two objects in the "defaultRoles" 
+   array. The first defines the permissions for an administrator. Note that the 
+   auto-generated expression assumes there is a boolean field in the custom user 
+   data document named ``isGlobalAdmin``. Depending on how you defined your custom 
+   user data document, you may need to change this. 
+   
+   The second section of the "defaultRoles" array defines the rules for all other 
+   users. The default is to restrict user access to read and write only their own 
+   data. You can change either or both of these fields to ``true``, enabling 
+   users to read and/or write all data. See the previous sections to learn more 
+   about these strategies.
+
+- Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
+  to enable Sync with these permissions.
+
 
 .. _restricted-news-feed:
 
