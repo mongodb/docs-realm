@@ -110,7 +110,6 @@ describe("Client Reset with Seamless Loss", () => {
       // Once you have opened your Realm, you will have to keep a reference to it.
       // In the error handler, this reference is called `realm`
       async function handleSyncError(session, syncError) {
-        console.error(JSON.stringify(syncError, null, 2));
         if (syncError.name == "ClientReset") {
           console.log(syncError);
           try {
@@ -129,7 +128,7 @@ describe("Client Reset with Seamless Loss", () => {
             // :remove-end:
             realm.close();
           } catch (err) {
-            console.error(JSON.stringify(err, null, 2));
+            console.error(err);
             reject(err); // :remove:
           }
         } else {

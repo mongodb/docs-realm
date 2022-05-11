@@ -3,7 +3,7 @@ async function handleSyncError(_session, error) {
     const realmPath = realm.path; // realm.path will not be accessible after realm.close()
     realm.close(); // you must close all realms before proceeding
 
-    // Pass your realm app instance and realm path to initiateClientReset()
+    // pass your realm app instance and realm path to initiateClientReset()
     Realm.App.Sync.initiateClientReset(app, realmPath);
 
     // Redownload the realm
