@@ -5,10 +5,10 @@ const config = {
     partitionValue: "MyPartitionValue",
     clientReset: {
       mode: "discardLocal",
-      clientResyncBefore: (realm) => {
+      clientResetBefore: (realm) => {
         console.log("Beginning client reset for ", realm.path);
       },
-      clientResyncAfter: (beforeRealm, afterRealm) => {
+      clientResetAfter: (beforeRealm, afterRealm) => {
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);
       },
