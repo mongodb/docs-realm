@@ -165,16 +165,17 @@ and clean the Xcode build folder.
 Issues Opening Realm Before Loading the UI
 ------------------------------------------
 
-If you open a {+realm+} and immediately see crashes with error messages 
-related to properties being optional or required, these issues may be 
-related to your :ref:`object model <ios-define-a-realm-object-schema>`. 
-These errors occur after you open a {+realm+}, but before you get to the 
-UI, and can cause your application to crash. 
+You may open a {+realm+} and immediately see crashes with error messages 
+related to properties being optional or required. Issues with your 
+:ref:`object model <ios-define-a-realm-object-schema>` can cause 
+these types of crashes. These errors occur after you open a {+realm+}, 
+but before you get to the UI. 
 
 Realm has a "schema discovery" phase when a {+realm+} opens on the device.
 At this time, Realm examines the schema for any objects that it manages.
-You can specify that a given {+realm+} manage only a :ref:`subset of objects 
-<ios-provide-a-subset-of-classes-to-a-realm>` in your application. 
+You can specify that a given {+realm+} should manage only a :ref:`subset 
+of objects <ios-provide-a-subset-of-classes-to-a-realm>` in your 
+application. 
 
 If you see errors related to properties during schema discovery, these are 
 likely due to schema issues and not issues with data from a specific object.
