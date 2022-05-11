@@ -159,3 +159,35 @@ and clean the Xcode build folder.
       :tabid: carthage
 
       .. include:: /includes/steps/troubleshoot-carthage-install.rst
+
+.. _ios-schema-discovery-issues:
+
+Issues Opening Realm Before Loading the UI
+------------------------------------------
+
+If you open a {+realm+} and immediately see crashes with error messages 
+related to properties being optional or required, these issues may be 
+related to your :ref:`object model <ios-define-a-realm-object-schema>`. 
+These errors occur after you open a {+realm+}, but before you get to the 
+UI, and can cause your application to crash. 
+
+Realm has a "schema discovery" phase when a {+realm+} opens on the device.
+At this time, Realm examines the schema for any objects that it manages.
+You can specify that a given {+realm+} manage only a :ref:`subset of objects 
+<ios-provide-a-subset-of-classes-to-a-realm>` in your application. 
+
+If you see errors related to properties during schema discovery, these are 
+likely due to schema issues and not issues with data from a specific object.
+For example, you may see schema discovery errors if you :ref:`define a to-one
+relationship <ios-define-a-to-one-relationship-property>` as required 
+instead of optional.
+
+To debug these crashes, check the :ref:`schema 
+<ios-define-a-realm-object-schema>` you've defined.
+
+You can tell these are schema discovery issues because they occur before 
+the UI loads. This means that no UI element is attempting to incorrectly
+use a property, and there aren't any objects in memory that could have
+bad data. If you get errors related to properties *after* the UI loads,
+this is probably not due to invalid schema. Instead, those errors are 
+likely a result of incorrect, wrongly-typed or missing data.
