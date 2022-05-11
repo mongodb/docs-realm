@@ -38,19 +38,10 @@ In this case, users may not read or write any data but their own. Consider a
 notes app where the user wants their notes to be persisted and shared across
 their own devices but kept private to their user account.
 
-To set this up, log in to the Realm UI. Click :guilabel:`Sync` on the left hand
-panel and fill out the following information:
+To set this up, follow these steps:
 
-- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
-- Press the toggle to enable Development Mode.
-- Select the cluster you wish to sync.
-- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
-  database` and type a name for the database Realm will use to store your synced
-  objects. You can name it anything you want. A common strategy would be to name
-  the database after the app you're making.
-- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This allows 
-  your permissions expressions (which you'll set next) to use the any fields
-  called ``owner_id``.
+.. include:: /includes/use-flex-sync-templates
+
 - :guilabel:`Define Permissions`: use the template dropdown to
   select the template called "Users can only read and write their own data".
 
@@ -79,8 +70,8 @@ panel and fill out the following information:
   may read or write if the document's ``owner_id`` field is equal to the user's
   ID.
 
-- You can skip :guilabel:`Advanced Configuration` for now.
-- Click :guilabel:`Save Changes` to enable Sync with these permissions.
+- Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
+  to enable Sync with these permissions.
 
 
 .. _write-own-data-read-all-data:
@@ -92,19 +83,10 @@ In this case, users can read all data, but write only their own data. Consider a
 recipe app where users can read all recipes and add new recipes. The recipes 
 they add can be viewed by everyone using the app. 
 
-To set this up, log in to the Realm UI. Click :guilabel:`Sync` on the left hand
-panel and fill out the following information:
+To set this up, follow these steps:
 
-- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
-- Press the toggle to enable Development Mode.
-- Select the cluster you want to sync.
-- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
-  database` and type a name for the database Realm will use to store your synced
-  objects. You can name it anything you want. A common strategy would be to name
-  the database after the app you're making.
-- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This allows 
-  your permissions expressions (which you'll set next) to use the any fields
-  called ``owner_id``.
+.. include:: /includes/use-flex-sync-templates
+
 - :guilabel:`Define Permissions`: use the template dropdown to
   select the template called "Users can read all data but only write their own data".
 
@@ -145,10 +127,11 @@ Administrator Privileges
 
 In this permission strategy, users with a specific "administrator" role can 
 read and write any document. Users who do not have the specified role can only 
-read and write their own data.
+read and write their own data. To make this strategy work, you first need to 
+define which users have administrator permissions. You do this by enabling 
+Custom User Data and defining the document that contains the user data.
 
-To make this strategy work, you first need to :ref:`enable custom user data
-<custom-user-data>`. In the custom user data document that you define, create  
+In the custom user data document that you define, you create   
 a field that is used to indicate whether the user has administrative 
 privileges. While there are many ways to set this up, one approach is to add 
 a boolean property called ``isAdmin``, which is set to ``true`` for those 
@@ -166,19 +149,24 @@ In the following example, the custom user object we have created has 3 fields:
       "isGlobalAdmin": true
    }
 
-To set up an Admin Privileges strategy, log in to the Realm UI. Click 
-:guilabel:`Sync` on the left hand panel and follow these steps:
+Configure Custom User Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- :guilabel:`Sync Type`: choose :guilabel:`Flexible`
-- Press the toggle to enable Development Mode.
-- Select the cluster you wish to sync.
-- :guilabel:`Define a Database Name`: select :guilabel:`+Add a new
-  database` and type a name for the database Realm will use to store your synced
-  objects. You can name it anything you want. A common strategy would be to name
-  the database after the app you're making.
-- :guilabel:`Select Queryable Fields`: type in ``owner_id``. This lets
-  your permissions expressions (which you'll set next) to use the any fields
-  called ``owner_id``.
+{+service+} stores MongoDB documents that correspond to custom user data
+in a linked MongoDB Atlas cluster. When you configure custom user data for your 
+application, you specify the cluster, database, collection, and finally a 
+User ID field, which maps a custom user data document to an 
+authenticated user's ID. To enable custom user data, follow these steps:
+
+.. include:: /includes/define-custom-user-data.rst
+
+Set Up Admin Privileges
+~~~~~~~~~~~~~~~~~~~~~~~
+After you have custom user data enabled, you can implement the Admin Privileges 
+strategy. To do so, follow these steps:
+
+.. include:: /includes/use-flex-sync-templates
+
 - :guilabel:`Define Permissions`: use the template dropdown to
   select the template called "Users can read and write their own data, admins 
   can read and write all data".
@@ -220,6 +208,10 @@ To set up an Admin Privileges strategy, log in to the Realm UI. Click
 
 - Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
   to enable Sync with these permissions.
+
+.. seealso:: Enable Custom User Data
+
+   :ref:`<custom-user-data>`
 
 
 .. _restricted-news-feed:
