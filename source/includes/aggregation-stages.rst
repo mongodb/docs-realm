@@ -20,15 +20,15 @@ documents according to standard MongoDB :manual:`query syntax
    The following ``$match`` stage filters documents to include
    only those where the ``type`` field has a value equal to "perennial":
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$match": {
-          "type": {
-            "$eq": "perennial"
-          },
-        }
-      }
+      .. input:: /examples/generated/code/start/mongodb.codeblock.filter-documents.js
+          :language: js
+
+      .. output:: /examples/generated/code/start/mongodb.codeblock.filter-documents-result.js
+          :language: js
+          :visible: false
 
 Group Documents
 ~~~~~~~~~~~~~~~
@@ -52,19 +52,21 @@ with a ``$``.
 
 .. example::
 
+   TODO)DOCSP-13346): change description of example to reflect this
    The following ``$group`` stage arranges documents by the value of their
    ``_partition`` field and calculates the number of plant documents
    that each unique ``_partition`` value appears in.
 
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$group": {
-          "_id": "$_partition",
-          "numItems": { "$sum": 1 }
-        }
-      }
+      .. input:: /examples/generated/code/start/mongodb.codeblock.group-documents.js
+          :language: js
+
+      .. output:: /examples/generated/code/start/mongodb.codeblock.group-documents-result.js
+          :language: js
+          :visible: false
 
 Project Document Fields
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,15 +122,15 @@ vice versa.
       since arrays index from ``0``. For example, the value ["Store", "42"]
       passed to this operation would return a value of "42".
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$project": {
-          "_id": 0,
-          "name": 1,
-          "storeNumber": { "$arrayElemAt": [ { "$split": [ "$_partition", " " ] }, 1 ] }
-        }
-      }
+      .. input:: /examples/generated/code/start/mongodb.codeblock.project-document-fields.js
+          :language: js
+
+      .. output:: /examples/generated/code/start/mongodb.codeblock.project-document-fields-result.js
+          :language: js
+          :visible: false
 
 Add Fields to Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,13 +152,15 @@ with calculated values using :manual:`aggregation operators
    ``storeNumber`` where the value is the output of two aggregate operators
    that transform the value of the ``_partition`` field.
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$addFields": {
-          "storeNumber": { "$arrayElemAt": [ { "$split": [ "$_partition", " " ] }, 1 ] }
-        }
-      }
+      .. input:: /examples/generated/code/start/mongodb.codeblock.add-fields-to-documents.js
+          :language: js
+
+      .. output:: /examples/generated/code/start/mongodb.codeblock.add-fields-to-documents-result.js
+          :language: js
+          :visible: false
 
 Unwind Array Values
 ~~~~~~~~~~~~~~~~~~~
@@ -180,19 +184,21 @@ but replaces the array value with the array element in each copy.
 
 .. example::
 
+   TODO (DOCSP-13346): rehash this example explaining what's happening here.
    The following ``$unwind`` stage creates a new document for each
    element of the ``items`` array in each document. It also adds a field
-   called ``itemIndex`` to each new document that specifies the
+   called ``colors`` to each new document that specifies the
    element's position index in the original array:
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$unwind": {
-          "path": "$items",
-          "includeArrayIndex": "itemIndex"
-         }
-      }
+      .. input:: /examples/generated/code/start/mongodb.codeblock.unwind-array-values.js
+          :language: js
+
+      .. output:: /examples/generated/code/start/mongodb.codeblock.unwind-array-values-result.js
+          :language: js
+          :visible: false
 
 Consider the following document from the a collection of purchases:
 

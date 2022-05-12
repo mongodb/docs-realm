@@ -29,7 +29,7 @@ async function getPlantsCollection() {
 }
 
 beforeAll(async () => {
-  app = new Realm.App({ id: "example-testers-kvjdy" });
+  app = new Realm.App({ id: "myapp-zufnj" });
   await app.logIn(Realm.Credentials.anonymous());
   const plants = await getPlantsCollection();
   await plants.deleteMany({});
@@ -424,92 +424,106 @@ describe("Aggregation Stages", () => {
       // :snippet-end:
     )
   });
-  test("Filter Documents with $match", async () => {
-    const plants = await getPlantsCollection();
-    const result = await plants.aggregate([
-      // prettier-ignore
-      // :snippet-start: filter-documents-match-input
-      {
-        $match: {
-          type: {
-            $eq: "perennial",
-          },
-        },
-      },
-      // :snippet-end:
-    ]);
-    expect(result).toEqual(
-      //prettier-ignore
-      // :snippet-start: filter-documents-match-output
-      [{
-        _id: ObjectId("5f87976b7b800b285345a8b4"),
-        name: "venus flytrap",
-        sunlight: "full",
-        color: "white",
-        type: "perennial",
-        _partition: "Store 42",
-      },
-      {
-        _id: ObjectId("5f87976b7b800b285345a8b6"),
-        name: "thai basil",
-        sunlight: "partial",
-        color: "green",
-        type: "perennial",
-        _partition: "Store 42",
-      },
-      {
-        _id: ObjectId("5f87a0dffc9013565c233612"),
-        name: "wisteria lilac",
-        sunlight: "partial",
-        color: "purple",
-        type: "perennial",
-        _partition: "Store 42",
-      },
-      {
-        _id: ObjectId("5f87a0dffc9013565c233613"),
-        name: "daffodil",
-        sunlight: "full",
-        color: "yellow",
-        type: "perennial",
-        _partition: "Store 42",
-      },
-      {
-        _id: ObjectId("5f1f63055512f2cb67f460a3"),
-        _partition: "Store 47",
-        color: "green",
-        sunlight: "full",
-        type: "perennial",
-        name: "sweet basil",
-      },]
-      // :snippet-end:
-    );
-  });
-  test("Group Documents with $group", async () => {
-    const plants = await getPlantsCollection();
-    const result = await plants.aggregate([
-      // prettier-ignore
-      // :snippet-start: group-documents-input
-      {
-        "$group": {
-          "_id": "$_partition",
-          "numItems": { "$sum": 1 }
-        }
-      },
-      // :snippet-end:
-    ]);
-    expect(result).toEqual(
-      // :code-block-start: group-documents-output
-      [
-        { _id: "Store 42", numItems: 5 },
-        { _id: "Store 47", numItems: 1 },
-      ]
-      // :code-block-end:
-    );
-  });
-  // TODO: resume here
-  test("Project Document Fields with $project", async () => {});
-  test("Add Fields to Document with $addFields", async () => {});
-  test("Unwind Array Fields with $unwind", async () => {});
+  // test("Filter Documents with $match", async () => {
+  //   const plants = await getPlantsCollection();
+  //   const result = await plants.aggregate([
+  //     // prettier-ignore
+  //     // :snippet-start: filter-documents-match-input
+  //     {
+  //       $match: {
+  //         type: {
+  //           $eq: "perennial",
+  //         },
+  //       },
+  //     },
+  //     // :snippet-end:
+  //   ]);
+  //   expect(result).toEqual(
+  //     //prettier-ignore
+  //     // :snippet-start: filter-documents-match-output
+  //     [{
+  //       _id: ObjectId("5f87976b7b800b285345a8b4"),
+  //       name: "venus flytrap",
+  //       sunlight: "full",
+  //       color: "white",
+  //       type: "perennial",
+  //       _partition: "Store 42",
+  //     },
+  //     {
+  //       _id: ObjectId("5f87976b7b800b285345a8b6"),
+  //       name: "thai basil",
+  //       sunlight: "partial",
+  //       color: "green",
+  //       type: "perennial",
+  //       _partition: "Store 42",
+  //     },
+  //     {
+  //       _id: ObjectId("5f87a0dffc9013565c233612"),
+  //       name: "wisteria lilac",
+  //       sunlight: "partial",
+  //       color: "purple",
+  //       type: "perennial",
+  //       _partition: "Store 42",
+  //     },
+  //     {
+  //       _id: ObjectId("5f87a0dffc9013565c233613"),
+  //       name: "daffodil",
+  //       sunlight: "full",
+  //       color: "yellow",
+  //       type: "perennial",
+  //       _partition: "Store 42",
+  //     },
+  //     {
+  //       _id: ObjectId("5f1f63055512f2cb67f460a3"),
+  //       _partition: "Store 47",
+  //       color: "green",
+  //       sunlight: "full",
+  //       type: "perennial",
+  //       name: "sweet basil",
+  //     },]
+  //     // :snippet-end:
+  //   );
+  // });
+  // test("Group Documents with $group", async () => {
+  //   const plants = await getPlantsCollection();
+  //   const result = await plants.aggregate([
+  //     // prettier-ignore
+  //     // :snippet-start: group-documents-input
+  //     {
+  //       "$group": {
+  //         "_id": "$_partition",
+  //         "numItems": { "$sum": 1 }
+  //       }
+  //     },
+  //     // :snippet-end:
+  //   ]);
+  //   expect(result).toEqual(
+  //     // :code-block-start: group-documents-output
+  //     [
+  //       { _id: "Store 42", numItems: 5 },
+  //       { _id: "Store 47", numItems: 1 },
+  //     ]
+  //     // :code-block-end:
+  //   );
+  // });
+  // // TODO: resume here
+  // test("Project Document Fields with $project", async () => {
+  //   const plants = await getPlantsCollection();
+  //   const result = await plants.aggregate([
+  //     // :snippet-start: group-documents-input
+  //     {
+  //       $project: {
+  //         _id: 0,
+  //         name: 1,
+  //         storeNumber: { $arrayElemAt: [{ $split: ["$_partition", " "] }, 1] },
+  //       },
+  //     },
+  //     // :snippet-end:
+  //   ]);
+  //   console.debug(JSON.stringify(result, null, 2));
+  // });
+  // test("Add Fields to Document with $addFields", async () => {});
+  // test("Unwind Array Fields with $unwind", async () => {});
 });
 
 describe("Watch for Changes", () => {
