@@ -107,9 +107,11 @@ Open After Timeout with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to sync data but you're in an environment where it's uncertain if
-the user has an Internet connection, you can specify a ``timeOut`` that
-automatically opens the {+realm+} after a timeout period elapses or when the
-{+realm+} has completely downloaded, whichever comes first. 
+the user has an Internet connection, specify a ``timeOut``. This
+automatically opens the {+realm+} when either: 
+
+- the timeout period elapses.
+- the {+realm+} has completely downloaded.
 
 If the {+realm+} doesn't finish downloading before the timeout, the initial
 realm sync continues in the background. 
