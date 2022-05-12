@@ -1,3 +1,42 @@
+# May 12, 2022
+
+## SDK Docs
+
+### Swift SDK
+- Test and Debug: Add section to help diagnose and debug schema discovery errors
+
+### Node.js SDK
+- Quick Start: Typo fix
+
+Usage Examples
+- Reset a Client Realm: Fix incorrect syntax in client reset code examples
+- Open and Close a Realm: Add "open a realm offline" examples
+- Authenticate Users: Add "offline login" example
+
+### React Native SDK
+Usage Examples
+- Reset a Client Realm
+  - Fix title case in section title
+  - Fix incorrect syntax in client reset code examples
+- Open and Close a Realm: Add "open a realm offline" examples
+- Authenticate Users: Add "offline login" example
+
+## MongoDB Cloud Docs
+
+MongoDB Data Access -> Rename to MongoDB Data Sources
+- Move the content from the *Link a Data Source* page onto *MongoDB Data Sources* page
+- Rearrange ToC so this section now includes the following pages:
+  - CRUD & Aggregation APIs
+  - Read Preference
+  - Wire Protocol
+  - Document Preimages
+  - Internal Database Usage
+- Various updates across pages within the section
+
+Starting Wednesday, May 11, there was a publishing freeze on MongoDB Cloud Docs.
+This is a temporary freeze while we do some infrastructure adjustments; we hope
+to be publishing to these docs again next week.
+
 # May 6, 2022
 
 ## SDK Docs
