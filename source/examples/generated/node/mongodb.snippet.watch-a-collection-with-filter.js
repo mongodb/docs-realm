@@ -8,3 +8,8 @@ for await (const change of plants.watch({
   const { documentKey, fullDocument } = change;
   console.log(`new document: ${documentKey}`, fullDocument);
 }
+st.",
+  });
+}
+expect.assertions(1);
+return;

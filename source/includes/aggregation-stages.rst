@@ -23,10 +23,10 @@ documents according to standard MongoDB :manual:`query syntax
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/code/start/mongodb.codeblock.filter-documents.js
+      .. input:: /examples/generated/node/mongodb.codeblock.filter-documents.js
           :language: js
 
-      .. output:: /examples/generated/code/start/mongodb.codeblock.filter-documents-result.js
+      .. output:: /examples/generated/node/mongodb.codeblock.filter-documents-result.js
           :language: js
           :visible: false
 
@@ -52,19 +52,18 @@ with a ``$``.
 
 .. example::
 
-   TODO)DOCSP-13346): change description of example to reflect this
    The following ``$group`` stage arranges documents by the value of their
-   ``_partition`` field and calculates the number of plant documents
-   that each unique ``_partition`` value appears in.
+   ``type`` field and calculates the number of plant documents
+   that each unique ``type`` value appears in.
 
 
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/code/start/mongodb.codeblock.group-documents.js
+      .. input:: /examples/generated/node/mongodb.codeblock.group-documents.js
           :language: js
 
-      .. output:: /examples/generated/code/start/mongodb.codeblock.group-documents-result.js
+      .. output:: /examples/generated/node/mongodb.codeblock.group-documents-result.js
           :language: js
           :visible: false
 
@@ -125,10 +124,10 @@ vice versa.
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/code/start/mongodb.codeblock.project-document-fields.js
+      .. input:: /examples/generated/node/mongodb.codeblock.project-document-fields.js
           :language: js
 
-      .. output:: /examples/generated/code/start/mongodb.codeblock.project-document-fields-result.js
+      .. output:: /examples/generated/node/mongodb.codeblock.project-document-fields-result.js
           :language: js
           :visible: false
 
@@ -139,6 +138,10 @@ You can use the :manual:`$addFields
 </reference/operator/aggregation/addFields/>` stage to add new fields
 with calculated values using :manual:`aggregation operators
 </reference/operator/aggregation>`.
+
+.. code-block:: javascript
+
+   { $addFields: { <newField>: <expression>, ... } }
 
 .. note::
 
@@ -155,10 +158,10 @@ with calculated values using :manual:`aggregation operators
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/code/start/mongodb.codeblock.add-fields-to-documents.js
+      .. input:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents.js
           :language: js
 
-      .. output:: /examples/generated/code/start/mongodb.codeblock.add-fields-to-documents-result.js
+      .. output:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents-result.js
           :language: js
           :visible: false
 
@@ -184,54 +187,22 @@ but replaces the array value with the array element in each copy.
 
 .. example::
 
-   TODO (DOCSP-13346): rehash this example explaining what's happening here.
-   The following ``$unwind`` stage creates a new document for each
-   element of the ``items`` array in each document. It also adds a field
-   called ``colors`` to each new document that specifies the
-   element's position index in the original array:
+   The following example uses the ``$unwind`` stage for each object's ``type`` and ``color``
+   combination. The aggregation pipeline has the following steps: 
+
+   #. Use ``$group`` stage with ``$addToSet`` to create new documents
+      for each ``type`` with a new field ``colors`` that contains an array 
+      of all the the colors for that flower type that occur in the collection.
+   #. Use ``$unwind`` stage to create separate documents for each combination of 
+      type and color.
+   #. Use ``$sort`` stage to sort the results in alphabetical order.
 
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/code/start/mongodb.codeblock.unwind-array-values.js
+      .. input:: /examples/generated/node/mongodb.codeblock.unwind-array-values.js
           :language: js
 
-      .. output:: /examples/generated/code/start/mongodb.codeblock.unwind-array-values-result.js
+      .. output:: /examples/generated/node/mongodb.codeblock.unwind-array-values-result.js
           :language: js
           :visible: false
-
-Consider the following document from the a collection of purchases:
-
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        items: [
-          { name: "Baseball", quantity: 5 },
-          { name: "Baseball Mitt", quantity: 1 },
-          { name: "Baseball Bat", quantity: 1 },
-        ]
-      }
-
-If we apply the example ``$unwind`` stage to this document, the stage
-outputs the following three documents:
-
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 0,
-        items: { name: "Baseball", quantity: 5 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 1,
-        items: { name: "Baseball Mitt", quantity: 1 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 2,
-        items: { name: "Baseball Bat", quantity: 1 }
-      }
