@@ -1,4 +1,4 @@
-const realmFileBehavior = {
+const openRealmBehaviorConfig = {
   type: "downloadBeforeOpen",
   timeOut: 1000,
   timeOutBehavior: "openLocalRealm",
@@ -7,9 +7,9 @@ const realmFileBehavior = {
 const config = {
   schema: [Car], // predefined schema
   sync: {
-    user: app.currentUser, // already logged in user
+    user: await getUser(), // already logged in user
     partitionValue: "myPartition",
-    existingRealmFileBehavior: realmFileBehavior,
-    newRealmFileBehavior: realmFileBehavior,
+    existingRealmFileBehavior: openRealmBehaviorConfig,
+    newRealmFileBehavior: openRealmBehaviorConfig,
   },
 };
