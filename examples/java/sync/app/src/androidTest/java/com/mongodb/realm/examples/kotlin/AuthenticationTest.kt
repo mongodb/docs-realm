@@ -1,15 +1,12 @@
 package com.mongodb.realm.examples.kotlin
 
 import android.util.Log
-import androidx.test.core.app.ActivityScenario
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.RuntimeExecutionException
 import com.mongodb.realm.examples.Expectation
 import com.mongodb.realm.examples.RealmTest
 import com.mongodb.realm.examples.YOUR_APP_ID
@@ -17,11 +14,59 @@ import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
+import java.util.concurrent.atomic.AtomicReference
 import org.junit.Assert
 import org.junit.Test
 
 
 class AuthenticationTest : RealmTest() {
+
+    @Test
+    fun testOfflineLogin() {
+        val expectation = Expectation()
+        activity!!.runOnUiThread {
+
+            // :code-block-start: offline
+            // Log the user into the backend app.
+            // The first time you login, the user must have a network connection.
+            val appID = YOUR_APP_ID // replace this with your App ID
+            val app = App(
+                AppConfiguration.Builder(appID)
+                    .build()
+            )
+            // Check for an existing user.
+            // If the user is offline but credentials are
+            // cached, this returns the existing user.
+            val user =
+                AtomicReference<User?>()
+            user.set(app.currentUser())
+            if (user.get() == null) {
+                // If the device has no cached user
+                // credentials, log them in.
+                val anonymousCredentials =
+                    Credentials.anonymous()
+                app.loginAsync(
+                    anonymousCredentials
+                ) { it: App.Result<User?> ->
+                    // :hide-start:
+                    Assert.assertEquals(true, it.isSuccess)
+                    // :hide-end:
+                    if (it.isSuccess) {
+                        Log.v("AUTH", "Successfully authenticated anonymously.")
+                        user.set(app.currentUser())
+                    } else {
+                        Log.e("AUTH", it.error.toString())
+                    }
+                    // :hide-start:
+                    expectation.fulfill()
+                    // :hide-end:
+                }
+            }
+            // :code-block-end:
+        }
+        expectation.await()
+    }
+
     @Test fun testAnonymous() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
