@@ -24,11 +24,11 @@ documents according to standard MongoDB :manual:`query syntax
       :copyable: true
 
       .. input:: /examples/generated/node/mongodb.codeblock.filter-documents.js
-          :language: js
+         :language: js
 
       .. output:: /examples/generated/node/mongodb.codeblock.filter-documents-result.js
-          :language: js
-          :visible: false
+         :language: js
+         :visible: false
 
 Group Documents
 ~~~~~~~~~~~~~~~
@@ -61,11 +61,11 @@ with a ``$``.
       :copyable: true
 
       .. input:: /examples/generated/node/mongodb.codeblock.group-documents.js
-          :language: js
+         :language: js
 
       .. output:: /examples/generated/node/mongodb.codeblock.group-documents-result.js
-          :language: js
-          :visible: false
+         :language: js
+         :visible: false
 
 Project Document Fields
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -125,11 +125,11 @@ vice versa.
       :copyable: true
 
       .. input:: /examples/generated/node/mongodb.codeblock.project-document-fields.js
-          :language: js
+         :language: js
 
       .. output:: /examples/generated/node/mongodb.codeblock.project-document-fields-result.js
-          :language: js
-          :visible: false
+         :language: js
+         :visible: false
 
 Add Fields to Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,11 +159,11 @@ with calculated values using :manual:`aggregation operators
       :copyable: true
 
       .. input:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents.js
-          :language: js
+         :language: js
 
       .. output:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents-result.js
-          :language: js
-          :visible: false
+         :language: js
+         :visible: false
 
 Unwind Array Values
 ~~~~~~~~~~~~~~~~~~~
@@ -201,8 +201,8 @@ but replaces the array value with the array element in each copy.
       :copyable: true
 
       .. input:: /examples/generated/node/mongodb.codeblock.unwind-array-values.js
-          :language: js
+         :language: js
 
       .. output:: /examples/generated/node/mongodb.codeblock.unwind-array-values-result.js
-          :language: js
-          :visible: false
+         :language: js
+         :visible: false
