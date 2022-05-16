@@ -38,6 +38,41 @@ possible. You might want to query MongoDB when:
 While not exhaustive, these are some common use cases for querying MongoDB 
 directly.
 
+.. _react-native-mongodb-example-dataset:
+
+.. example:: Example Data
+
+   .. include:: /includes/mongodb-data-access-example-plant-documents.rst
+
+   Documents in the ``plants`` collection use the following schema:
+
+   .. tabs::
+      
+      .. tab:: JSON Schema
+         :tabid: json-schema
+         
+         .. code-block:: json
+            
+            {
+            "title": "Plant",
+            "bsonType": "object",
+            "required": ["_id", "_partition", "name"],
+            "properties": {
+               "_id": { "bsonType": "objectId" },
+               "_partition": { "bsonType": "string" },
+               "name": { "bsonType": "string" },
+               "sunlight": { "bsonType": "string" },
+               "color": { "bsonType": "string" },
+               "type": { "bsonType": "string" }
+            }
+            }
+      
+      .. tab:: TypeScript
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/generated/node/mongodb.codeblock.plant-document-type.ts
+            :language: typescript
+
 .. _react-native-mongodb-connect:
 
 Connect to a Linked Cluster
@@ -53,13 +88,13 @@ in the cluster.
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.plants-collection-handle.js
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.plants-collection-handle.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.plants-collection-handle.ts
+      .. literalinclude:: /examples/generated/node/mongodb.codeblock.plants-collection-handle.ts
          :language: typescript
 
 Read Operations
@@ -84,34 +119,27 @@ The following snippet finds the document that describes "venus flytrap" plants i
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.ts
+            :language: typescript
 
 .. _react-native-find-multiple-documents:
 .. _react-native-mongodb-findMany:
@@ -132,33 +160,28 @@ The following snippet finds all documents that describe perennial plants in the
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents.js
-         :language: javascript
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.js
+            :language: js
+
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
 
 .. _react-native-count-documents:
 .. _react-native-mongodb-count:
@@ -178,34 +201,27 @@ documents that describe plants for sale in a group of stores
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.ts
+            :language: typescript
 
 Write Operations
 ----------------
@@ -227,34 +243,28 @@ in a group of stores <react-native-mongodb-example-dataset>`:
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.js
+            :language: js
+
 
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document.ts
-         :language: typescript
 
-Running this snippet produces output resembling the following:
+      .. io-code-block::
+         :copyable: true
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document-result.js
-         :language: javascript
-         :copyable: false
+         .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.ts
+            :language: typescript
 
 .. _react-native-insert-multiple-documents:
 .. _react-native-mongodb-insertMany:
@@ -270,37 +280,30 @@ The following snippet inserts three documents describing plants into a
 <react-native-mongodb-example-dataset>`:
 
 .. tabs-realm-languages::
-   
+
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents.ts
-         :language: typescript
 
-Running this snippet produces output resembling the following:
+      .. io-code-block::
+         :copyable: true
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
+         .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.ts
+            :language: typescript
 
 .. _react-native-update-a-single-document:
 .. _react-native-mongodb-updateOne:
@@ -322,34 +325,27 @@ matched document's ``sunlight`` field to "partial":
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document.ts
-         :language: typescript
 
-Running this snippet produces output resembling the following:
+      .. io-code-block::
+         :copyable: true
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document-result.js
-         :language: javascript
-         :copyable: false
+         .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.ts
+            :language: typescript
 
 .. _react-native-update-multiple-documents:
 .. _react-native-mongodb-updateMany:
@@ -371,34 +367,27 @@ documents that describe plants for sale in a group of stores
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents.ts
-         :language: typescript
 
-Running this snippet produces output resembling the following:
+      .. io-code-block::
+         :copyable: true
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
+         .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.ts
+            :language: typescript
 
 .. _react-native-upsert-documents:
 .. _react-native-mongodb-upsert:
@@ -421,34 +410,27 @@ MongoDB automatically creates a new one.
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.ts
+            :language: typescript
 
 .. _react-native-delete-a-single-document:
 .. _react-native-mongodb-deleteOne:
@@ -472,34 +454,27 @@ matches the query:
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.ts
+            :language: typescript
 
 .. _react-native-delete-multiple-documents:
 .. _react-native-mongodb-deleteMany:
@@ -520,34 +495,27 @@ stores <react-native-mongodb-example-dataset>`:
    
    .. tab::
       :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents.js
-         :language: javascript
+
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents.ts
-         :language: typescript
+      .. io-code-block::
+         :copyable: true
 
-Running this snippet produces output resembling the following:
+         .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.ts
+            :language: typescript
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.ts
+            :language: typescript
 
 Real-time Change Notifications
 ------------------------------
@@ -638,68 +606,25 @@ The following snippet groups all documents in the ``plants`` collection by their
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection.js
-         :language: javascript
+      .. io-code-block::
+         :copyable: true
+
+         .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.js
+            :language: js
+
+         .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
+            :language: js
 
    .. tab::
       :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection.ts
-         :language: typescript
 
-Running this snippet produces output resembling the following:
+      .. io-code-block::
+         :copyable: true
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection-result.js
-         :language: javascript
-         :copyable: false
+         .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.ts
+            :language: typescript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection-result.ts
-         :language: typescript
-         :copyable: false
+         .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.ts
+            :language: typescript
 
 .. include:: /includes/aggregation-stages.rst
-
-.. _react-native-mongodb-example-dataset:
-
-Example Data
-------------
-
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
-
-Documents in the ``plants`` collection use the following schema:
-
-.. tabs::
-   
-   .. tab:: JSON Schema
-      :tabid: json-schema
-      
-      .. code-block:: json
-         
-         {
-           "title": "Plant",
-           "bsonType": "object",
-           "required": ["_id", "_partition", "name"],
-           "properties": {
-             "_id": { "bsonType": "objectId" },
-             "_partition": { "bsonType": "string" },
-             "name": { "bsonType": "string" },
-             "sunlight": { "bsonType": "string" },
-             "color": { "bsonType": "string" },
-             "type": { "bsonType": "string" }
-           }
-         }
-   
-   .. tab:: TypeScript
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.plant-document-type.ts
-         :language: typescript
