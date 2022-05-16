@@ -60,11 +60,11 @@ public class AuthenticationTest extends RealmTest {
                     } else {
                         Log.e("AUTH", it.getError().toString());
                     }
-                    // :hide-start:
-                    expectation.fulfill();
-                    // :hide-end:
                 });
             }
+            // :hide-start:
+            expectation.fulfill();
+            // :hide-end:
             // :code-block-end:
         });
         expectation.await();

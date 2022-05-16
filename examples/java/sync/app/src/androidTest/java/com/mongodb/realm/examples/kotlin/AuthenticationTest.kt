@@ -57,11 +57,11 @@ class AuthenticationTest : RealmTest() {
                     } else {
                         Log.e("AUTH", it.error.toString())
                     }
-                    // :hide-start:
-                    expectation.fulfill()
-                    // :hide-end:
                 }
             }
+            // :hide-start:
+            expectation.fulfill()
+            // :hide-end:
             // :code-block-end:
         }
         expectation.await()
