@@ -28,7 +28,7 @@ class Person extends _Person with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Person._);
-    return const SchemaObject(Person, [
+    return const SchemaObject(Person, 'Person', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
     ]);
   }
@@ -65,7 +65,7 @@ class Team extends _Team with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Team._);
-    return const SchemaObject(Team, [
+    return const SchemaObject(Team, 'Team', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),

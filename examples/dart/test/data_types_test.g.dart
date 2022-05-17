@@ -77,7 +77,7 @@ class Car extends _Car with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Car._);
-    return const SchemaObject(Car, [
+    return const SchemaObject(Car, 'Car', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('licensePlate', RealmPropertyType.string, optional: true),
       SchemaProperty('isElectric', RealmPropertyType.bool),
@@ -126,7 +126,7 @@ class Person extends _Person with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Person._);
-    return const SchemaObject(Person, [
+    return const SchemaObject(Person, 'Person', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),

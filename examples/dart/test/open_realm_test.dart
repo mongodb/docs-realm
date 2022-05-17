@@ -5,9 +5,9 @@ import './utils.dart';
 
 void main() {
   group('Open and Close a Realm', () {
-    test('open a Realm', () {
+    test('Open a Realm', () {
       // :snippet-start: open-realm
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       var realm = Realm(config);
       // :snippet-end:
       expect(realm.isClosed, false);
@@ -19,21 +19,21 @@ void main() {
     });
     test('Configuration - FIFO files fallback path', () {
       // :snippet-start: fifo-file
-      var config =
-          Configuration([Car.schema], fifoFilesFallbackPath: "./fifo_folder");
+      var config = Configuration.local([Car.schema],
+          fifoFilesFallbackPath: "./fifo_folder");
       var realm = Realm(config);
       // :snippet-end:
       cleanUpRealm(realm, config);
     });
     group('Read-only realm', () {
       test('Configuration readOnly - reading is possible', () {
-        Configuration initConfig = Configuration([Car.schema]);
+        Configuration initConfig = Configuration.local([Car.schema]);
         var realm = Realm(initConfig);
         realm.write(() => realm.add(Car("Mustang")));
         realm.close();
 
         // :snippet-start: read-only-realm
-        var config = Configuration([Car.schema], readOnly: true);
+        var config = Configuration.local([Car.schema], isReadOnly: true);
         realm = Realm(config);
         // :snippet-end:
         var cars = realm.all<Car>();
@@ -52,7 +52,7 @@ void main() {
     group('In-memory realm', () {
       test('Configuration inMemory - no files after closing realm', () {
         // :snippet-start: in-memory-realm
-        var config = Configuration([Car.schema], inMemory: true);
+        var config = Configuration.inMemory([Car.schema], "inMemoryRealm");
         var realm = Realm(config);
         // :snippet-end:
         realm.write(() => realm.add(Car('Tesla')));

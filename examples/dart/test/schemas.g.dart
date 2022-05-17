@@ -42,7 +42,7 @@ class Car extends _Car with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Car._);
-    return const SchemaObject(Car, [
+    return const SchemaObject(Car, 'Car', [
       SchemaProperty('make', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
@@ -86,7 +86,7 @@ class Bike extends _Bike with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Bike._);
-    return const SchemaObject(Bike, [
+    return const SchemaObject(Bike, 'Bike', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
@@ -131,7 +131,7 @@ class Person extends _Person with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Person._);
-    return const SchemaObject(Person, [
+    return const SchemaObject(Person, 'Person', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
@@ -175,7 +175,7 @@ class Scooter extends _Scooter with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Scooter._);
-    return const SchemaObject(Scooter, [
+    return const SchemaObject(Scooter, 'Scooter', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
@@ -223,7 +223,7 @@ class ScooterShop extends _ScooterShop with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(ScooterShop._);
-    return const SchemaObject(ScooterShop, [
+    return const SchemaObject(ScooterShop, 'ScooterShop', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,

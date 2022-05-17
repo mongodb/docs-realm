@@ -5,7 +5,7 @@ import 'package:realm_dart/realm.dart';
 void main() {
   group('CRUD Operations', () {
     setUpAll(() {
-      final realm = Realm(Configuration([Car.schema]));
+      final realm = Realm(Configuration.local([Car.schema]));
       realm.write(() {
         realm.deleteAll<Car>();
       });
@@ -13,7 +13,7 @@ void main() {
       Realm.deleteRealm(realm.config.path);
     });
     tearDownAll(() {
-      final realm = Realm(Configuration([Car.schema]));
+      final realm = Realm(Configuration.local([Car.schema]));
       realm.write(() {
         realm.deleteAll<Car>();
       });
@@ -21,7 +21,7 @@ void main() {
       Realm.deleteRealm(realm.config.path);
     });
     test('Create Realm Object', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
       Car? addedCar;
       // :snippet-start: create-realm-object
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('Query All Realm Objects', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
 
       realm.write(() {
@@ -61,7 +61,7 @@ void main() {
       realm.close();
     });
     test('Query Realm Objects with Filter', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
       realm.write(() {
         realm.add(Car('Tesla', model: 'Model Y', miles: 42));
@@ -79,7 +79,7 @@ void main() {
     });
 
     test('Query Realm Objects with Sort', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
       // :snippet-start: query-realm-objects-with-sort
       realm.write(() {
@@ -104,7 +104,7 @@ void main() {
     });
 
     test('Update Realm Object', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
 
       final car = Car('Tesla', model: 'Model Y', miles: 42);
@@ -126,7 +126,7 @@ void main() {
     });
 
     test('Delete One Realm Object', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
 
       final car = Car('Tesla', model: 'Model Y', miles: 42);
@@ -143,7 +143,7 @@ void main() {
       realm.close();
     });
     test('Delete Many Realm Objects', () {
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       Realm realm = Realm(config);
 
       realm.write(() {
