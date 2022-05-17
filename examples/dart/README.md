@@ -34,4 +34,58 @@ dart run test --concurrency=1
 
 For API usage, refer to the tests in the realm-dart repo: https://github.com/realm/realm-dart/blob/master/test/realm_test.dart
 
-> The "Dart" name and logo and the "Flutter" name and logo are trademarks owned by Google.
+## Using Unpublished Version of realm_dart
+
+Sometimes you may need to use an unpublished version of the `realm_dart` package
+for testing features before a release. To do this, you must pull the unpublished version of the
+realm_dart package locally, download the realm binary, and add it to the
+realm-docs (this) project.
+
+**Note:** All the files you add here won't be committed to git as they're already
+in the `.gitignore` file in the `examples/dart` directory.
+
+**Note:** In the future, the Realm Dart SDK team plans for pre-release versions
+to be published to [pub.dev](https://pub.dev).
+
+### 1. Add latest version of realm-dart to the realm-docs project
+
+Get the latest version of the realm-dart project, and add it with this directory,
+`examples/dart`.
+
+```sh
+git clone https://github.com/realm/realm-dart.git
+```
+
+### 2. Download the realm binary for your OS
+
+Now you must download the realm binary that accompanies the release for your OS.
+
+1. Go to the realm-dart Github repo [Realm Dart CI Github action](https://github.com/realm/realm-dart/actions/workflows/ci.yml).
+1. Click the latest passing workflow run.
+1. Scroll down to the bottom of the Workflow to the **Artifacts** section.
+1. Download the artifact for your OS (ex. `librealm-macos`).
+1. Unzip the binary. It has a name like `librealm_dart.dylib`.
+1. Add this binary file to the following location within the `docs-realm` repo:
+   `examples/dart/binary/<your OS>/librealm_dart.dylib`.
+   The names for the OS folders are `macos`, `linux`, `windows`.
+
+If you're using MacOS, the operating system may give you a security warning when you try
+to run the file. You can address this by following [these steps](https://thewiredshopper.com/apple-cannot-check-for-malicious-software-error/).
+
+### 3. Add local version of realm_dart to your pubspec.yaml
+
+Update your `pubspec.yaml` to point to your local version of realm-dart.
+
+```yaml
+dependencies:
+  realm_dart:
+    path: ./realm-dart
+```
+
+In the future if you're changing the project to use the version of realm_dart
+published to pub.dev, change this back to:
+
+```yaml
+dependencies:
+  realm_dart: <my version number>
+```
