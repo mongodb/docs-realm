@@ -1,3 +1,5 @@
+.. TODO (DOCSP-22362): add the SubscriptionSet methods
+
 .. _flutter-manage-sync-session:
 
 ===================================
@@ -16,8 +18,6 @@ data to sync with your {+app+}.
 You can add, update, and remove query subscriptions to determine which data 
 syncs to the client device.
 
-.. include:: /includes/note-flexible-sync-preview.rst
-
 .. include:: /includes/note-flexible-sync-prerequisite.rst
 
 .. note:: Realm .NET SDK Version Requirement
@@ -32,7 +32,7 @@ Before You Begin
 To use Flexible Sync in a Flutter application:
 
 - :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-- :ref:`Initialize the app <flutter-connect-to-backend>`
+- :ref:`Initialize the app client <flutter-connect-to-backend>`
 - :ref:`Authenticate a user <flutter-authenticate>` in your client project.
 - :ref:`Open the synced Realm <flutter-open-synced-realm>`
 
@@ -43,7 +43,7 @@ Manage Your Subscriptions
 
 When configuring Flexible Sync on the backend, you specify which fields your
 client application can query. In the client application, use the
-:flutter-sdk:`FLUTTER_subscriptions <>` API to
+:flutter-sdk:`Realm.subscriptions <realm/Realm/subscriptions.html>` property to
 manage a set of subscriptions to specific queries on queryable fields.
 
 You can:
@@ -71,9 +71,8 @@ Get Subscriptions
 ~~~~~~~~~~~~~~~~~
 
 When using flexible sync, you can access a
-:flutter-sdk:`FLUTTER_SubscriptionSet <>`, a
-collection of subscriptions, through the :flutter-sdk:`FLUTTER_Realm.Subscriptions
-<>` property.
+:flutter-sdk:`SubscriptionSet <realm/SubscriptionSet-class.html>`, a
+collection of subscriptions, through the ``Realm.Subscriptions`` property.
 
 CODE_BLOCK
 

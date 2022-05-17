@@ -10,31 +10,37 @@ Open a Synced Realm - Flutter SDK
    :depth: 2
    :class: singlecol
 
+This page describes how to open a synced {+realm+}. To learn how to open and configure non-synced
+{+realm+}s, see :ref:`Open and Close a Realm <flutter-open-close-realm>`.
+
 Before You Begin
 ----------------
 
-To open a {+realm+} with Flexible Sync in a Flutter application:
+Before you open a {+realm+} with Flexible Sync in a Flutter application:
 
-- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
-- :ref:`Initialize the app <flutter-connect-to-backend>`
-- :ref:`Authenticate a user <flutter-authenticate>` in your client project.
+#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
+#. :ref:`Initialize the {+app+} client <flutter-connect-to-backend>`
+#. :ref:`Authenticate a user <flutter-authenticate>` in your client project.
 
 Open a Synced Realm
 -------------------
 
-To open a synced {+realm+}, pass a user, a partition, and a set of
-Realm object schemas to :flutter-sdk:`FLUTTER_SyncConfiguration.Builder() <>`.
-Then, pass the configuration to :flutter-sdk:`FLUTTER_Realm.open() <>` to open
-an instance of the realm:
+To open a synced {+realm+}, pass a logged in user, a list of
+Realm object schemas, and additional optional parameters to the
+:flutter-sdk:`Configuration.sync() <realm/Configuration/sync.html>` constructor.
+Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
+to open an instance of the realm:
 
-CODE_BLOCK
+.. code-block:: dart
 
+   await app.logIn(Credentials.anonymous());
 
-Configure a Synced Realm
-------------------------
+   FlexibleSyncConfiguration config = Configuration.sync(
+     app.currentUser,
+     [Car.schema]
+   );
 
-To adjust specific configuration settings, use the options provided by
-:flutter-sdk:`FLUTTER_SyncConfiguration.Builder <>`:
+   Realm syncedRealm = Realm(config);
 
-CODE_BLOCK
-
+Once you open a synced {+realm+}, :ref:`configure and manage the sync session
+<flutter-manage-sync-session>`.
