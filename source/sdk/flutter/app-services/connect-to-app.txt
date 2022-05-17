@@ -31,11 +31,8 @@ Access the App Client
    with the ``AppConfiguration`` you just created. You use this 
    ``App`` instance to access {+service+} features throughout your client application.
 
-.. code-block:: dart
-
-   AppConfiguration appConfig = AppConfiguration(APP_ID);
-   App app = App(appConfig);
-
+.. literalinclude:: /examples/generated/flutter/app_services_test.codeblock.access-app-client.dart
+   :language: dart
 
 .. note::
 
@@ -53,13 +50,8 @@ Add additional configuration for more granular control of the details of your ap
 such as custom timeouts for connections and keys for local encryption.
 You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`:
 
-.. code-block:: dart
-
-   AppConfiguration appConfig = AppConfiguration(APP_ID, 
-     defaultRequestTimeout: const Duration(seconds: 120),
-     localAppVersion: '2.0'
-     // ... see reference docs for all available configuration options
-   );
+.. literalinclude:: /examples/generated/flutter/app_services_test.codeblock.app-client-advanced-configuration.dart
+   :language: dart
 
 .. note:: 
 
