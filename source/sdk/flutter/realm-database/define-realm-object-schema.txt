@@ -1,5 +1,3 @@
-.. TODO(DOCSP-22732): refactor examples with Configuration.local()
-
 .. _flutter-define-realm-object-schema:
 
 ==========================================
@@ -442,7 +440,7 @@ To add a property to a schema:
       :emphasize-lines: 2
 
       Realm realm = Realm(
-        Configuration([Person.schema], schema: 2 )
+        Configuration.local([Person.schema], schema: 2 )
       );
 
 .. _flutter-delete-a-property:
@@ -472,7 +470,7 @@ Deleting a property does not impact existing objects.
       :emphasize-lines: 2
 
       Realm realm = Realm(
-        Configuration([Dog.schema], schema: 2 )
+        Configuration.local([Dog.schema], schema: 2 )
       );
 
 .. _flutter-update-schema-of-synced-realm:

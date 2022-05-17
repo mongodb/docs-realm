@@ -1,4 +1,4 @@
-final config = Configuration([Person.schema, Team.schema]);
+final config = Configuration.local([Person.schema, Team.schema]);
 final realm = Realm(config);
 final heroes = Team('Millenium Falcon Crew', crew: [
   Person('Luke'),

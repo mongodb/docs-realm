@@ -125,14 +125,12 @@ there's a change to ``_Car``, run:
          
          dart run realm_dart generate --watch
 
-.. TODO(DOCSP-22732): refactor examples with Configuration.local()
-
 Open a Realm
 ------------
 
 Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
 to control the specifics of the {+realm+} you
-would like to open, including schema.
+would like to open, including schema and whether the {+realm+} is local-only or synced.
 
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:

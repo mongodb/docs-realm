@@ -21,15 +21,16 @@ Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
 to control the specifics of the {+realm+} you
 would like to open, including schema.
 
-.. TODO(DOCSP-22732): refactor wth Configuration.local()
-
 .. _flutter-open-local-only-realm:
 
 Open a Local-Only Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a {+realm+} that only persists data locally,
-pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`.
+create a configuration with :flutter-sdk:`Configuration.local() <realm/Realm-class.html>`.
+You must provide a list of schemas as an argument.
+
+Pass the ``Configuration`` to the :flutter-sdk:`Realm <realm/Realm-class.html>` constructor.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
    :language: dart
@@ -44,19 +45,19 @@ Open a Synced Realm
 To open a {+realm+} that synchronizes data with {+atlas+} using {+sync+}, 
 refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 
-.. TODO(DOCSP-22732): refactor wth Configuration.inMemory()
-
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a realm that runs entirely in memory without being written to a file,
-add ``inMemory: true`` to your ``Configuration`` object. 
+create your ``Configuration`` with :flutter-sdk:`Configuration.inMemory() <realm/Configuration/inMemory.html>`. 
+You must provide a list of schemas as an argument.
 In-memory realms **cannot** also be read-only.
+
+Pass the ``Configuration`` to the :flutter-sdk:`Realm <realm/Realm-class.html>` constructor.
+
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.in-memory-realm.dart
    :language: dart
-
-.. TODO(DOCSP-22732): refactor wth Configuration.local()
 
 .. _flutter-configure-realm: 
 
@@ -64,8 +65,6 @@ Configure a Realm
 -----------------
 
 You can add optional properties to the {+realm+}'s ``Configuration``. 
-
-.. TODO(DOCSP-22732): refactor wth Configuration.local()
 
 .. _flutter-open-read-only-realm:
 
