@@ -144,6 +144,7 @@ In the following example, the custom user object we have created has 3 fields:
 .. code-block:: json
 
    {
+      "_id" : "1234",
       "firstName": "Lily",
       "lastName": "Realmster",
       "isGlobalAdmin": true
@@ -209,15 +210,106 @@ strategy. To do so, follow these steps:
 - Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
   to enable Sync with these permissions.
 
-.. seealso:: Enable Custom User Data
-
-   :ref:`<custom-user-data>`
-
 
 .. _restricted-news-feed:
 
 Restricted News Feed
 --------------------
+
+TODO: list of subscribed to <16KB
+TODO: must do client reset when that array changes
+TODO: permissions to edit CUD -- do this as function. still need to create 2nd data source
+
+
+
+In this permission strategy, users can create their own content and subscribe 
+to other creators' content. As with the Admin Privileges scenario, we will 
+make use of a Custom User Data collection to define which authors' content 
+a user is subscribed to read.
+
+Flexible {+sync-short+} supports querying arrays, so we will create an array 
+within a user data object. This array contains IDs of the authors that this user 
+is authorized to "follow". We then set up a subscription that says, in essence, 
+"Give me all documents where I am the author, or the author's ID is in the array  
+of authors in my custom user data."
+ 
+Configure Custom User Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To enable custom user data, follow these steps:
+
+.. include:: /includes/define-custom-user-data.rst
+
+Set Up Restricted Permissions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the custom user data object, create an array that holds the _id values of 
+each author the user is following. In this example, we'll call it "subscriptions". 
+Our user data object looks like the following, where Lily Realmster 
+(``"_id": "1234"``) is subscribed to all documents written by users "456" 
+and "789":
+
+.. code-block:: json
+
+   {
+      "_id" : "1234",
+      "firstName": "Lily",
+      "lastName": "Realmster",
+      "subscriptions": [
+        "456",
+        "789"
+      ]
+   }
+
+You can now implement the Restricted Privileges strategy. To do so, follow these 
+steps:
+
+.. include:: /includes/use-flex-sync-templates
+
+- :guilabel:`Define Permissions`: use the template dropdown to
+  select the template called "Users can only read and write their own data". 
+  This populates the rule expression box with the following, which is not 
+  *exactly what we want*, but provides most of the logic for us:
+
+  .. code-block:: json
+
+    {
+      "defaultRoles": [
+        {
+          "name": "owner-read-write", 
+          "applyWhen": {},
+          "read": {"owner_id": "%%user.id"},
+          "write": {"owner_id": "%%user.id"}
+        }
+      ]  
+    }
+
+  Note that a user can currently read only their own documents 
+  (``"read": {"owner_id": "%%user.id"}``). We need to add an ``$or`` statement to 
+  include all documents written by a subscribed author. Those authors' IDs are 
+  stored in an array, so we also use the ``$in`` operator. The expression looks 
+  like this:
+
+  .. code-block:: json
+
+    {
+      "defaultRoles": [
+        {
+          "name": "owner-write", 
+          "applyWhen": {},
+          "read": {"$or" : [
+              {"owner_id": "%%user.id"},
+              {"owner_id": {"$in": [
+                "%%user.custom_data.subscriptions"
+              ]}}
+            ]},
+          "write": {"owner_id": "%%user.id"}
+        }    
+      ]
+    }
+
+- Update the rule expression box with this new logic and save the changes.
+
 
 
 .. _dynamic-collaboration:
@@ -273,3 +365,7 @@ read documents for other departments.
    }
 
 
+
+.. seealso:: Enable Custom User Data
+
+   :ref:`<custom-user-data>`
