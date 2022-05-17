@@ -1,6 +1,6 @@
-// To customize audit event serialization, your object must
-// conform to the `CustomAuditRepresentable` protocol.
-class Person: Object, CustomAuditRepresentable {
+// To customize event serialization, your object must
+// conform to the `CustomEventRepresentable` protocol.
+class Person: Object, CustomEventRepresentable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
     @Persisted var employeeId: Int
@@ -12,10 +12,10 @@ class Person: Object, CustomAuditRepresentable {
         self.employeeId = employeeId
     }
     
-    // To conform to `CustomAuditRepresentable`, your object
-    // must implement a `customAuditRepresentation` func that
-    // defines your customized audit event serialization
-    func customAuditRepresentation() -> String {
+    // To conform to `CustomEventRepresentable`, your object
+    // must implement a `customEventRepresentation` func that
+    // defines your customized event serialization
+    func customEventRepresentation() -> String {
         if employeeId == 0 {
             return "invalid json"
         }

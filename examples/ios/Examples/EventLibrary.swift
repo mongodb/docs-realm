@@ -1,16 +1,16 @@
 // :replace-start: {
 //   "terms": {
-//     "Audit_": ""
+//     "EventLibrary_": ""
 //   }
 // }
 
 import XCTest
 import RealmSwift
 
-// :code-block-start: custom-audit-representable
-// To customize audit event serialization, your object must
-// conform to the `CustomAuditRepresentable` protocol.
-class Audit_Person: Object, CustomAuditRepresentable {
+// :code-block-start: custom-event-representable
+// To customize event serialization, your object must
+// conform to the `CustomEventRepresentable` protocol.
+class EventLibrary_Person: Object, CustomEventRepresentable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
     @Persisted var employeeId: Int
@@ -22,10 +22,10 @@ class Audit_Person: Object, CustomAuditRepresentable {
         self.employeeId = employeeId
     }
     
-    // To conform to `CustomAuditRepresentable`, your object
-    // must implement a `customAuditRepresentation` func that
-    // defines your customized audit event serialization
-    func customAuditRepresentation() -> String {
+    // To conform to `CustomEventRepresentable`, your object
+    // must implement a `customEventRepresentation` func that
+    // defines your customized event serialization
+    func customEventRepresentation() -> String {
         if employeeId == 0 {
             return "invalid json"
         }
@@ -34,7 +34,7 @@ class Audit_Person: Object, CustomAuditRepresentable {
 }
 // :code-block-end:
 
-class Audit: XCTestCase {
+class EventLibrary: XCTestCase {
     var user: User!
     var collection: MongoCollection!
     var start: Date!
@@ -60,18 +60,18 @@ class Audit: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testDefaultAuditInitilization() {
-        // :code-block-start: default-audit-configuration
+    func testDefaultEventInitilization() {
+        // :code-block-start: default-event-configuration
         var config = user.configuration(partitionValue: "Some partition value")
-        config.auditConfiguration = AuditConfiguration()
+        config.eventConfiguration = EventConfiguration()
         // :code-block-end:
     }
     
-    func testAuditInitilizationWithParams() async {
-        // :code-block-start: audit-configuration-with-params
-        let auditSyncUser = await login()
+    func testEventInitilizationWithParams() async {
+        // :code-block-start: event-configuration-with-params
+        let eventSyncUser = await login()
         var config = user.configuration(partitionValue: "Some partition value")
-        config.auditConfiguration = AuditConfiguration(metadata: ["username": "Jason Bourne"], syncUser: auditSyncUser, partitionPrefix: "audit-")
+        config.eventConfiguration = EventConfiguration(metadata: ["username": "Jason Bourne"], syncUser: eventSyncUser, partitionPrefix: "event-")
         // :code-block-end:
         
         func login() async -> User? {
@@ -89,42 +89,42 @@ class Audit: XCTestCase {
         }
     }
     
-    func testInvokeAuditRealm() {
+    func testInvokeEventRealm() {
         var config = user.configuration(partitionValue: "Some partition value")
-        config.auditConfiguration = AuditConfiguration()
-        // :code-block-start: invoke-audit-realm
+        config.eventConfiguration = EventConfiguration()
+        // :code-block-start: invoke-event-realm
         let realm = try! Realm(configuration: config)
-        let audit = realm.audit!
+        let events = realm.events!
         // :code-block-end:
     }
     
     func recordReadAndWriteEvents() {
         var config = user.configuration(partitionValue: "Some partition value")
-        config.auditConfiguration = AuditConfiguration()
+        config.eventConfiguration = EventConfiguration()
         let realm = try! Realm(configuration: config)
-        let audit = realm.audit!
+        let events = realm.events!
         // :code-block-start: record-read-and-write-events
         // Read event
-        audit.beginScope(activity: "read object")
+        events.beginScope(activity: "read object")
         var person = realm.objects(Person.self).first!
-        audit.endScope()
-        audit.beginScope(activity: "mutate object")
+        events.endScope()
+        events.beginScope(activity: "mutate object")
         // Write event
         try! realm.write {
             // Change name from "Anthony" to "Tony"
             person.name = "Tony"
         }
-        audit.endScope()
+        events.endScope()
         // :code-block-end:
     }
     
     func recordCustomEvents() {
         var config = user.configuration(partitionValue: "Some partition value")
-        config.auditConfiguration = AuditConfiguration()
+        config.eventConfiguration = EventConfiguration()
         let realm = try! Realm(configuration: config)
-        let audit = realm.audit!
+        let events = realm.events!
         // :code-block-start: record-custom-events
-        audit.recordEvent(activity: "event", eventType: "press Home button")
+        events.recordEvent(activity: "event", eventType: "press Home button")
         // :code-block-end:
     }
 }
