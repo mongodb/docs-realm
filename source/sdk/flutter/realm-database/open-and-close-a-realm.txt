@@ -41,11 +41,29 @@ You can now use that {+realm+} instance to work with objects in the database.
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
 
-TODO
+To open a {+realm+} that synchronizes data with {+atlas+} using {+sync+}, 
+refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 
-.. TODO (DOCSP-22361): once sync feature is merged/deployed, add content here,
-.. also linking to the dedicated page in the Sync section
+.. TODO(DOCSP-22732): refactor wth Configuration.inMemory()
 
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To create a realm that runs entirely in memory without being written to a file,
+add ``inMemory: true`` to your ``Configuration`` object. 
+In-memory realms **cannot** also be read-only.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.in-memory-realm.dart
+   :language: dart
+
+.. TODO(DOCSP-22732): refactor wth Configuration.local()
+
+.. _flutter-configure-realm: 
+
+Configure a Realm
+-----------------
+
+You can add optional properties to the {+realm+}'s ``Configuration``. 
 
 .. TODO(DOCSP-22732): refactor wth Configuration.local()
 
@@ -56,7 +74,6 @@ Open a Read-Only Realm
 
 You can open an existing realm in read-only mode. To open a read-only realm, 
 add ``readOnly: true`` to your ``Configuration`` object.
-
 
 You can only open *existing* realms in read-only mode. 
 If you try to write to a read-only realm, it throws an error. 
