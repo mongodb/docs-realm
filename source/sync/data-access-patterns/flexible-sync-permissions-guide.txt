@@ -210,15 +210,18 @@ strategy. To do so, follow these steps:
 - Skip :guilabel:`Advanced Configuration`, and then click :guilabel:`Save Changes` 
   to enable Sync with these permissions.
 
-.. seealso:: Enable Custom User Data
-
-   :ref:`<custom-user-data>`
-
 
 .. _restricted-news-feed:
 
 Restricted News Feed
 --------------------
+
+TODO: list of subscribed to <16KB
+TODO: must do client reset when that array changes
+TODO: permissions to edit CUD -- do this as function. still need to create 2nd data source
+
+
+
 In this permission strategy, users can create their own content and subscribe 
 to other creators' content. As with the Admin Privileges scenario, we will 
 make use of a Custom User Data collection to define which authors' content 
@@ -237,17 +240,14 @@ To enable custom user data, follow these steps:
 
 .. include:: /includes/define-custom-user-data.rst
 
-.. seealso:: Enable Custom User Data
-
-   :ref:`<custom-user-data>`
-
 Set Up Restricted Permissions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the custom user data object, create an array that holds the _id values of 
 each author the user is following. In this example, we'll call it "subscriptions". 
-Our user data object looks like the following, where Lily Realmster (_id "1234") 
-is subscribed to all documents written by users "456" and "789":
+Our user data object looks like the following, where Lily Realmster 
+(``"_id": "1234"``) is subscribed to all documents written by users "456" 
+and "789":
 
 .. code-block:: json
 
@@ -285,7 +285,7 @@ steps:
     }
 
   Note that a user can currently read only their own documents 
-  (``"read": {"owner_id": "%%user.id"}``). We need to add an ``or`` statement to 
+  (``"read": {"owner_id": "%%user.id"}``). We need to add an ``$or`` statement to 
   include all documents written by a subscribed author. Those authors' IDs are 
   stored in an array, so we also use the ``$in`` operator. The expression looks 
   like this:
@@ -299,7 +299,9 @@ steps:
           "applyWhen": {},
           "read": {"$or" : [
               {"owner_id": "%%user.id"},
-              {"owner_id": {"$in": "%%user.custom_data.subscriptions"}}
+              {"owner_id": {"$in": [
+                "%%user.custom_data.subscriptions"
+              ]}}
             ]},
           "write": {"owner_id": "%%user.id"}
         }    
@@ -363,3 +365,7 @@ read documents for other departments.
    }
 
 
+
+.. seealso:: Enable Custom User Data
+
+   :ref:`<custom-user-data>`
