@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Realms;
@@ -7,7 +7,7 @@ using RealmUser = Realms.Sync.User;
 using User = Examples.Models.User;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
-//using Realms.Sync.ErrorHandling;
+using Realms.Sync.ErrorHandling;
 using static Realms.Sync.SyncConfigurationBase;
 
 namespace Examples
@@ -22,7 +22,7 @@ namespace Examples
         App fsApp;
         Realm fsRealm;
         RealmUser fsUser;
-        /*
+
         [Test]
         public async Task HandleAutoClientReset()
         // :code-block-start: DiscardLocalResetHandler
@@ -154,7 +154,6 @@ namespace Examples
         private bool ShowUserAConfirmationDialog()
         {
             return true;
-        }*/
+        }
     }
-
 }
