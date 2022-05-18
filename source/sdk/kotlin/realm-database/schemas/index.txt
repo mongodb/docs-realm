@@ -1,0 +1,46 @@
+.. _kotlin-indices:
+
+==========================
+Index a Field - Kotlin SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Indexes speed up some queries, but slow down inserts and updates.
+Realm Database stores indexes on disk, which makes your
+realm files larger. To index a field, use the
+:kotlin-sdk:`@Index <{+kotlin-local-prefix+}io.realm.annotations/-index/index.html>`
+annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.codeblock.index.kt
+   :language: kotlin
+   :copyable: false
+
+Indexes support the efficient execution of queries in Realm Database.
+Without indexes, Realm Database must perform a collection scan, i.e.,
+scan every document in a collection, to select those documents that
+match a query. If an appropriate index exists for a query, Realm
+Database can use the index to limit the number of documents that it
+must inspect.
+
+Indexes are special data structures that store a small portion of a
+realm's data in an easy to traverse form. The index stores the value
+of a specific field ordered by the value of the field. The ordering of
+the index entries supports efficient equality matches and range-based
+query operations.
+
+You can index fields with the following types:
+
+- ``String``
+- ``Byte``
+- ``Short``
+- ``Int``
+- ``Long``
+- ``Boolean``
+- ``RealmInstant``

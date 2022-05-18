@@ -1,0 +1,53 @@
+.. _kotlin-primary-keys:
+
+=========================
+Primary Keys - Kotlin SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Define a primary key for an object type with the ``@PrimaryKey`` annotation:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.codeblock.primary-key.kt
+   :language: kotlin
+   :copyable: false
+
+Realm Database treats fields marked with the ``@PrimaryKey`` annotation
+as primary keys for their corresponding object schema. Primary keys are
+subject to the following limitations:
+
+- You can define only one primary key per object schema.
+
+- Primary key values must be unique across all instances of an object
+  in a realm. Attempting to insert a duplicate primary key value results
+  in an error.
+
+- Primary key **values** are immutable. To change the primary key value of
+  an object, you must delete the original object and insert a new object
+  with a different primary key value.
+
+- You cannot change the primary key **field** for an object type after
+  adding any object of that type to a realm.
+
+You can create a primary key with any of the following types:
+
+- ``String``
+- ``Byte``
+- ``Char``
+- ``Short``
+- ``Int``
+- ``Long``
+
+Optional fields can contain a value of null as a primary key value,
+but only for one object of a particular type, since each primary key
+value must be unique. Attempting to insert an object with an existing
+primary key into a realm results in an error.
+
+Realm Database automatically indexes primary key fields, which allows
+you to efficiently read and modify objects based on their primary key.

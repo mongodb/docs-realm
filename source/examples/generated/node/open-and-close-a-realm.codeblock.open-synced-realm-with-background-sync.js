@@ -1,13 +1,13 @@
-const OpenRealmBehaviorConfiguration = {
+const openRealmBehaviorConfig = {
   type: "openImmediately",
 };
 
 const config = {
   schema: [Car], // predefined schema
   sync: {
-    user: app.currentUser,
+    user: await getUser(),
     partitionValue: "myPartition",
-    newRealmFileBehavior: OpenRealmBehaviorConfiguration,
-    existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
+    newRealmFileBehavior: openRealmBehaviorConfig,
+    existingRealmFileBehavior: openRealmBehaviorConfig,
   },
 };

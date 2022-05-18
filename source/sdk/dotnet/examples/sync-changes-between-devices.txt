@@ -51,12 +51,6 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
    
    :ref:`Threading <dotnet-client-threading>`
 
-.. TODO: OTHER SECTIONS
-.. _dotnet-sync-changes-in-the-background:
-
-.. Sync Changes in the Background
-.. ------------------------------
-
 .. _dotnet-pause-or-resume-a-sync-session:
 
 Pause or Resume a Sync Session
@@ -83,19 +77,18 @@ methods:
 .. literalinclude:: /examples/generated/dotnet/DataSyncExamples.codeblock.pause-synced-realm.cs
    :language: csharp
 
-.. |pause_func_name| replace:: ``.Stop()``
-.. include:: /includes/note-details-about-pause.rst
-
-.. _dotnet-check-network-connection:
-
-.. Check the Current Network Connection
-.. ------------------------------------
-
 .. _dotnet-check-sync-progress:
 
-Check Upload & Download Progress for a Sync Session
----------------------------------------------------
-You can check on the status of your current changes by :ref:`waiting for changes to be uploaded or downloaded <dotnet-check-sync-progress-wait-for-upload-or-download>` or by :ref:`displaying a progress bar <dotnet-check-sync-progress-display-progress-bar>`.
+Monitor Sync Progress and Status
+--------------------------------
+You may want to know the status of {+sync-short+} operations in your app. For 
+example, you might want specific code to run only after all of the data is 
+synced with {+backend+}. You might also want to provide users with the 
+status of {+sync-short+} operations. 
+
+You can set up your {+sync-short+} session to wait for changes to be uploaded 
+or downloaded. You can also configure your {+sync-short+} session to
+notify when the {+sync-short+} connection status changes.
 
 .. _dotnet-check-sync-progress-wait-for-upload-or-download:
 
@@ -108,16 +101,17 @@ property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
 :dotnet-sdk:`session.WaitForDownloadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
-methods.
+methods. For example:
 
 .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
    :language: csharp
 
-.. _dotnet-check-sync-progress-display-progress-bar:
+.. _dotnet-sync-status-change:
 
-Display a Progress Bar
-~~~~~~~~~~~~~~~~~~~~~~
-You can use progress notifications to display a progress bar. First, get the 
+Monitor {+sync-short+} Progress
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To monitor {+sync-short+} progress, get the 
 sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
 <reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
 progress notification by calling the 
@@ -126,29 +120,41 @@ method.
 
 The ``session.GetProgressObservable`` method takes in the following two parameters:
 
-- A ``ProgressDirection`` parameter that can be set to ``ProgressDirection.Upload`` or ``ProgressDirection.Download`` to register notifications for either event.
-- A ``ProgressMode`` parameter that can be set to ``ProgressMode.ReportIndefinitely`` for the notifications to continue until the callback is unregistered, or ``ProgressMode.ForCurrentlyOutstandingWork`` for the notifications to continue until only the currently transferable bytes are synced.
+- A :dotnet-sdk:`ProgressDirection 
+  <latest/reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
+  parameter that can be set to ``Upload`` or ``Download``.
+  
+- A :dotnet-sdk:`ProgressMode <reference/Realms.Sync.ProgressMode.html>` parameter 
+  that can be set to ``ReportIndefinitely``
+  for the notifications to continue until the callback is unregistered, or 
+  ``ForCurrentlyOutstandingWork`` for the notifications to continue until only 
+  the currently transferable bytes are synced.
+
+When you `Subscribe <https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1.subscribe?view=net-6.0#system-iobservable-1-subscribe(system-iobserver((-0)))>`_ 
+to the notifications, you receive a 
+:dotnet-sdk:`SyncProgress <reference/Realms.Sync.SyncProgress.html>` 
+object that provides the total number of transferrable bytes and the remaining 
+bytes to be transferred.
+
+.. note:: 
+   
+   The number of transferred and transferable bytes are only estimates. 
+   The {+sync-short+} changesets are compressed with 
+   `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so 
+   the actual size of transmitted bytes will be smaller than the reported number  
+   of both transferable and transferred bytes.
 
 .. example::
-   In the following example, an application developer registers a progress observable on the ``session`` to
-   listen for upload events indefinitely. When this callback is triggered, the console prints
-   the number of transferred bytes and the number of transferable bytes.
-
-   .. note:: 
-   
-      The following snippet requires the `System.Reactive <https://www.nuget.org/packages/System.Reactive/>`_ NuGet package. 
+   In the following example, we subscribe to a progress 
+   observable on the ``session`` to listen for upload events indefinitely. When 
+   this callback is triggered, it prints the number of transferred 
+   bytes and the number of transferable bytes to the console.
 
    .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
       :language: csharp
 
-Once you no longer wish to receive notifications, unregister the token by using ``token.Dispose()``
-
-.. note:: 
-   
-   The number of transferred and transferable bytes are estimates. Since the 
-   actual changesets are compressed through `gzip <https://www.gnu.org/software/gzip/>`_ 
-   before transmitting over the network, the actual transmitted sizes will be 
-   much smaller for both transferable and transferred bytes.
+   Once you no longer wish to receive notifications, unregister the token by using 
+   ``token.Dispose()``
 
 .. note:: 
    
@@ -157,6 +163,34 @@ Once you no longer wish to receive notifications, unregister the token by using 
    only invoked once before and after a download message is processed, this
    means that you'll likely see ``transferredBytes`` change in increments of roughly
    16 MB rather than continuously as the message is being downloaded.
+
+Get Connection State Changes
+----------------------------
+To get the connection state of a :dotnet-sdk:`SyncSession
+<reference/Realms.Realm.html#Realms_Realm_SyncSession>`, set an event handler
+on the :dotnet-sdk:`PropertyChanged <reference/Realms.Sync.Session.html#Realms_Sync_Session_PropertyChanged>`
+event. The event handler is a standard
+`.NET PropertyChangedEventHandler delegate
+<https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventhandler?view=net-6.0>`_
+that takes in a ``sender`` object and
+`PropertyChangedEventArgs <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.propertychangedeventargs?view=net-6.0>`_
+object. 
+In the event handler, cast the sender to a ``Session`` object and check if 
+the event argument's ``PropertyName`` property is ``Session.ConnectionState``. 
+You can then get the
+:dotnet-sdk:`ConnectionState <reference/Realms.Sync.Session.html#Realms_Sync_Session_ConnectionState>`
+value, which will be one of the following:
+
+- Connecting
+- Connected
+- Disconnected
+
+The following code demonstrates setting the event handler, casting the session
+object, and checking the Sync status:
+
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.connection-state.cs
+   :language: csharp
+
 
 .. _dotnet-handle-sync-errors:
 

@@ -1,0 +1,27 @@
+.. _kotlin-timestamps:
+
+=======================
+Timestamps - Kotlin SDK
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You cannot store Kotlin's built-in ``Date`` or ``Instant`` types in Realm
+Database. Instead, use the
+:kotlin-sdk:`RealmInstant <{+kotlin-local-prefix+}io.realm/-realm-instant/index.html>`
+type, which stores time information as a UNIX epoch timestamp.
+
+If you need timestamp data in a form other than ``RealmInstant``, you
+can add conversion code to your model class based on the following
+example:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.codeblock.timestamp-workaround.kt
+   :language: kotlin
+   :copyable: false
+

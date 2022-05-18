@@ -17,27 +17,31 @@ CRUD & Aggregation APIs
 Overview
 --------
 
-You can access most of the CRUD and Aggregation functionality of MongoDB
-version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
-does not support all operations available in standard tools and clients.
-This page lists specific MongoDB operations that are not available when
-you connect to {+atlas+} through {+backend+}. For a high-level overview of
-MongoDB feature availability in {+service+}, see
-:ref:`Service Limitations <mongodb-service-limitations>`.
+Linked data sources can run most CRUD and Aggregation operations;
+however, {+service+} does not support all operations available in
+standard tools and clients. This page lists support for specific MongoDB
+operations, operators, options, and stages.
+
+For information on how to read and write data in MongoDB from a
+function, see :ref:`Query MongoDB Atlas <functions-mongodb>`.
+
+For a high-level overview of MongoDB feature availability in
+{+service+}, see :ref:`Service Limitations
+<mongodb-service-limitations>`.
 
 .. note::
 
-   The following tables track operation support with the labels "User
-   Function" and ":term:`System Function <system function>`". A
-   "User Function" is a :term:`Function <{+service-short+} Function>` run
-   using an :ref:`application user's user context only
-   <function-active-user>`. This is the default behavior for all
-   Functions, and in this kind of Function all
-   rules, roles, and permissions apply to the active
-   user. A "System Function" is a Function run without regard
-   for rules, roles, and permissions. You can learn more about how to
-   run a Functions as a :term:`system user` in the
-   :ref:`Functions overview <function-system-user>`.
+   Support for an operation may depend on whether you're running the
+   operation as an application user or as a system user.
+
+   - A *user function* runs in the context of a specific application
+     user. This is the default behavior for all functions. User
+     functions are enforce data access permissions and schema
+     validation, which makes some operations untenable.
+   
+   - A *system function* runs as a generic system user and is not
+     subject to rules or schema validation. Some operations are only
+     available in system functions.
 
 .. _mongodb-crud-and-aggregation-apis-crud-operations:
 

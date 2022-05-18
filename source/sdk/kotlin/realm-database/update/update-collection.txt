@@ -1,0 +1,37 @@
+.. _kotlin-update-collection:
+
+================================
+Update a Collection - Kotlin SDK
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+To update a collection of objects in a realm:
+
+1. Query a realm for a collection of objects
+   with :kotlin-sdk:`realm.query()
+   <{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`.
+
+#. Open a write transaction with :kotlin-sdk:`realm.write()
+   <{+kotlin-local-prefix+}io.realm/-realm/write.html>` or
+   :kotlin-sdk:`realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`.
+
+#. Update elements of the set of :kotlin-sdk:`RealmResults
+   <{+kotlin-local-prefix+}io.realm/-realm-results/index.html>`
+   returned by the query.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.codeblock.update-a-collection.kt
+   :language: kotlin
+   :copyable: false
+
+.. note::
+
+   You can only update objects within a
+   :ref:`write transaction <kotlin-write-transactions>`.

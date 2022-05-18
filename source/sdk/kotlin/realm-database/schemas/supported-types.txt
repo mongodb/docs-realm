@@ -14,28 +14,27 @@ Supported Types - Kotlin SDK
 
 Realm Database supports the following field data types:
 
-- :file:`Boolean`
-- :file:`Integer`
-- :file:`Short`
-- :file:`Long`
-- :file:`Double`
-- :file:`Float`
-- :file:`String`
-- :file:`Char`
-- :file:`Date`
-- Any :file:`RealmObject` subclass
-- :file:`RealmList`
+- ``String``
+- ``Byte``
+- ``Char``
+- ``Short``
+- ``Int``
+- ``Long``
+- ``Boolean``
+- ``Double``
+- ``Float``
+- ``RealmInstant``
+- Any ``RealmObject`` subclass
+- ``RealmList``
 
-The :file:`Byte`, :file:`Short`, :file:`Integer`, and :file:`Long` types
-are all stored as :file:`Long` values
-within Realm Database. Similarly, Realm Database stores objects
-of the :file:`Float` and :file:`float` types as type :file:`Double`.
+Realm Database stores all non-decimal numeric types as ``Long`` values.
+Similarly, Realm Database stores all decimal numeric types as ``Double``
+values.
 
-Realm Database does not support fields with modifiers :file:`final` and
-:file:`volatile`, though you can use fields with those modifiers if you
-:kotlin-sdk:`ignore <{+kotlin-local-prefix+}io.realm.annotations/-ignore/index.html>`
-them. If you choose to provide custom constructors, you must declare a
-public constructor with no arguments.
+Realm Database does not support fields with modifiers ``final`` and
+``volatile``, though you can use fields with those modifiers if you
+:ref:`ignore <kotlin-ignore>` them. If you choose to provide custom
+constructors, you must declare a public constructor with no arguments.
 
 Updating Strings and Byte Arrays
 --------------------------------

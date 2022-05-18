@@ -1,9 +1,8 @@
-.. _mongodb-service:
-.. _mongodb-data-access:
+.. _data-sources:
 
-======================
-MongoDB Atlas Overview
-======================
+====================
+MongoDB Data Sources
+====================
 
 .. default-domain:: mongodb
 
@@ -16,85 +15,172 @@ MongoDB Atlas Overview
 .. toctree::
    :titlesonly:
    :hidden:
-
-   Atlas Clusters & Data Lakes </mongodb/data-sources>
-
-.. toctree::
-   :titlesonly:
-   :caption: Reference
-   :hidden:
    
-   Watch for Changes </mongodb/watch-documents>
    CRUD & Aggregation APIs </mongodb/crud-and-aggregation-apis>
+   Read Preference </mongodb/read-preference>
+   Wire Protocol </mongodb/wire-protocol>
+   Document Preimages </mongodb/preimages>
+   Internal Database Usage </mongodb/internal-database-usage>
 
 Overview
 --------
 
-{+service+} provides a first-class service interface for `{+atlas+}
-<https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ that 
-enables secure querying of one or more {+atlas-short+} data sources. You can use
-the :manual:`Query API </tutorial/query-documents>` syntax to access your data 
-directly in your client application code or from a :doc:`{+service-short+} Function
-</functions>`.
+A **data source** represents a `{+atlas+}
+<https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_
+instance in the same project as your app. You use data sources to store
+and retreive your application's data.
 
-The :ref:`MongoDB service <mongodb-service>` secures your data with a
-dynamic, role-based :guilabel:`Rules` engine that proxies and modifies
-incoming queries
-based on rules that you define. There are three types of MongoDB
-collection rules: :ref:`roles <roles>`, :ref:`filters
-<filters>`, and :ref:`schemas <schemas>`.
+Most apps connect to a single data source, but you can configure
+multiple data sources if your data is spread across instances. You
+define a unique name for each data source linked to your application and
+use the name to refer to the data source throughout your app.
 
-Get Started
-~~~~~~~~~~~
+Read, Write, and Aggregate Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To get started with the MongoDB service, :doc:`link a data source to
-your application </mongodb/link-a-data-source>` and :doc:`define roles
-and permissions </mongodb/define-roles-and-permissions>` for a
-collection. After you've created at least one role, you can start to
-work with data in the collection.
+You can read and write data in a data source from a server-side function
+or connect from a client application. You write queries using standard
+MongoDB query syntax.
 
-.. _crud-aggregation-operations:
+.. code-block:: javascript
 
-CRUD & Aggregation Operations
------------------------------
+   exports = async function() {
+      const mongodb = context.services.get("mongodb-atlas");
+      return mongodb
+         .db("myDatabase")
+         .collection("myCollection")
+         .findOne()
+   }
 
-{+service+} allows you to securely work with data in a {+atlas+} cluster
-directly from your client applications and :doc:`Functions </functions>`
-using standard, platform-idiomatic MongoDB query syntax. You can also
-access a linked `{+atlas+} Data Lake
-<https://www.mongodb.com/atlas/data-lake?tck=docs_realm>`_ from a
-:ref:`system function <system-functions>`.
+To learn how to work with a data source in a function, refer to the
+following guides:
 
-The following guides demonstrate how to use the MongoDB query language
-to work with data in a :ref:`linked data source <link-a-data-source>`
-from a function:
+- :ref:`Read Data from MongoDB Atlas <mongodb-read>`
+- :ref:`Write Data in MongoDB Atlas <mongodb-write>`
+- :ref:`Aggregate Data in MongoDB Atlas <mongodb-aggregate>`
 
-- :doc:`Read </functions/mongodb/read>`
-- :doc:`Write </functions/mongodb/write>`
-- :doc:`Aggregate </functions/mongodb/aggregate>`
-- :doc:`Watch </mongodb/watch-documents>`
+To learn how to work with a data source from a Realm SDK, refer to the
+docs for the SDK:
 
-.. important:: Define Collection Rules
+- :ref:`Query MongoDB - Swift SDK <ios-mongodb-data-access>`
+- :ref:`Query MongoDB - .NET SDK <dotnet-mongodb-data-access>`
+- :ref:`Query MongoDB - Java SDK <java-mongodb-data-access>`
+- :ref:`Query MongoDB - Node.js SDK <node-mongodb-data-access>`
+- :ref:`Query MongoDB - React Native SDK <react-native-mongodb-data-access>`
+- :ref:`Query MongoDB - Web SDK <web-mongodb-data-access>`
 
-   When working with a linked {+atlas+} cluster outside of a
-   :ref:`system function <system-functions>`, {+backend+} dynamically
-   determines which documents and fields in a collection each
-   :doc:`application user </authentication>` can read and write for all
-   incoming query operations by evaluating :ref:`collection rules
-   <rules>` that you define.
+.. note::
 
-   **If you do not define rules for a collection, queries on
-   the collection will fail.**   
+   Linked data sources do not support all MongoDB CRUD and Aggregation
+   operations. Some operations are not available when you query MongoDB
+   as a specific :ref:`user <users-and-authentication>` due to overhead
+   from schema validation and data access rules. You can bypass some
+   limitations by querying MongoDB as the :ref:`system user
+   <system-user>` instead.
+   
+   For more information on which operations are supported, see
+   :ref:`CRUD & Aggregation APIs <mongodb-crud-and-aggregation-apis>`.
 
-.. note:: Advanced MongoDB Queries
+Secure and Validate Data
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-   {+service+} does not support all MongoDB CRUD and Aggregation
-   operations when you query MongoDB as a specific
-   :doc:`user </authentication>`. You can bypass this limitation by
-   querying MongoDB from a :term:`system function` that
-   runs as the :ref:`system user <system-user>`, which has
-   access to the full MongoDB CRUD and Aggregation APIs.
+Data sources allow you to define :ref:`access rules <rules>` and
+:ref:`document schemas <schemas>` for the data they contain. Rules
+dynamically authorize users to read and write subsets of your data and
+schemas control the shape and contents of each document.
 
-   For more information on which operations are unsupported,
-   see :doc:`CRUD & Aggregation APIs
-   </mongodb/crud-and-aggregation-apis>`.
+Read and write operations on a linked data source are secure by default.
+A user cannot read or write any data unless a rule explicitly allows
+them to. Any data inserted or modified by an authorized user must
+conform to the corresponding schema.
+
+If you do not define rules for a collection, queries on the collection
+will fail. This means that you can safely expose a properly configured
+data source interface in client applications without risking data
+corruption or leaks.
+
+Automatically Sync Data
+~~~~~~~~~~~~~~~~~~~~~~~
+
+{+sync+} applications store data and sync data changes to a linked
+cluster, called the *synced cluster*. The sync protocol ensures that
+your data is eventually consistent across all sync clients and the
+synced cluster.
+
+To learn more about {+sync+} and how it interacts with your app's data
+sources, see :ref:`{+sync+} <sync-overview>`.
+
+.. note:: Version 4.4 Required for Sync
+   
+   In order to use {+sync+}, your cluster must run MongoDB version
+   4.4 or newer.
+
+React to Changing Data
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can create database triggers that run functions automatically in
+response to changing data. Triggers use MongoDB change streams to
+observe the data source and execute a function whenever a change event
+matches the trigger configuration. A trigger function can run arbitrary
+code and can access a change event for detailed information about the
+change that caused it to run.
+
+To learn more about how triggers work and how to define your own, see
+:ref:`Database Triggers <database-trigger>`.
+
+.. important::
+
+   Triggers are only available for data sources that support change
+   streams. You cannot define triggers on a linked Data Lake or
+   Serverless Instance.
+
+.. _link-a-data-source:
+
+Link a Data Source
+------------------
+
+A configured data source in your app is *linked* to the underlying
+instance in {+atlas-short+}. You can link multiple instances to your app
+and even create multilpe data sources that link to the same underyling
+instance.
+
+You can configure a new linked data source in the {+ui+} or by defining
+and pushing a configuration file with {+cli+} or GitHub deployment:
+
+.. tabs-realm-admin-interfaces::
+   
+   .. tab::
+      :tabid: ui
+      
+      .. include:: /includes/steps/link-a-data-source-realm-ui.rst
+   
+   .. tab::
+      :tabid: cli
+      
+      .. include:: /includes/steps/link-a-data-source-import-export.rst
+
+Data Source Limitations
+-----------------------
+
+A linked data source can represent one of several instance {+atlas+}
+instance types. Depending on the type of the underlying instance, not
+all functionality is supported.
+
+Once you've linked a data source, you cannot change the underlying
+instance type. Instead, you can link a new data source with another
+instance type.
+
+.. _data-lake-caveats:
+
+Data Lakes
+~~~~~~~~~~
+
+For the most part, you can interact with a linked Data Lake just as you
+would with a linked Atlas cluster. However, there are some caveats to
+keep in mind when working with a Data Lake:
+
+- Data Lakes :adl:`do not support write operations </supported-unsupported/mql-support>`.
+- You can only access a Data Lake from a :ref:`system function <system-functions>`.
+- You cannot connect to a Data Lake via the wire protocol.
+- You cannot define :ref:`roles and permissions <define-roles-and-permissions>` for a Data Lake.
+- You cannot set a :ref:`Read Preference <read-preference>` for a linked Data Lake.

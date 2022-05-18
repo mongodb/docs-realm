@@ -64,10 +64,10 @@ control on individual collections.
 
 Eligible Field Types
 ~~~~~~~~~~~~~~~~~~~~
-
-Any top-level primitive field with a scalar type can be a queryable field. 
-Flexible Sync does not currently support embedded objects as 
-queryable fields. Flexible Sync queries only support arrays of primitives, not objects.
+Flexible Sync only supports top-level primitive fields with a scalar type as 
+queryable fields. You can also include arrays of these primitives as queryable 
+fields. Flexible Sync does not support embedded objects or arrays of 
+objects as queryable fields.
 
 .. seealso:: Realm Query Language - Flexible Sync Limitations
 

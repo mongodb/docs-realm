@@ -4,7 +4,7 @@ import io.realm.Realm
 import io.realm.internal.platform.runBlocking
 import io.realm.mongodb.App
 import io.realm.mongodb.Credentials
-import io.realm.mongodb.SyncConfiguration
+import io.realm.mongodb.sync.SyncConfiguration
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,9 +18,6 @@ class SyncTest: RealmTest() {
         runBlocking {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
-                // :hide-start:
-                .directory(TMP_PATH)
-                // :hide-end:
                 // specify name so realm doesn't just use the "default.realm" file for this user
                 .name(PARTITION)
                 .build()
@@ -41,10 +38,7 @@ class SyncTest: RealmTest() {
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, PARTITION, setOf(/*realm object models here*/))
-                .directory(TMP_PATH) // :hide:
-                // specify name so realm doesn't just use the "default.realm" file for this user
-                .name(PARTITION)
+            val config = SyncConfiguration.Builder(user,PARTITION, setOf(/*realm object models here*/))
                 .maxNumberOfActiveVersions(10)
                 .build()
             val realm = Realm.open(config)
