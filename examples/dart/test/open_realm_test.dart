@@ -15,7 +15,7 @@ void main() {
       realm.close();
       // :snippet-end:
       expect(realm.isClosed, true);
-      cleanUpRealm(realm, config);
+      cleanUpRealm(realm);
     });
     test('Configuration - FIFO files fallback path', () {
       // :snippet-start: fifo-file
@@ -23,7 +23,7 @@ void main() {
           fifoFilesFallbackPath: "./fifo_folder");
       var realm = Realm(config);
       // :snippet-end:
-      cleanUpRealm(realm, config);
+      cleanUpRealm(realm);
     });
     group('Read-only realm', () {
       test('Configuration readOnly - reading is possible', () {
@@ -46,18 +46,18 @@ void main() {
           enteredCatch = true;
         }
         expect(enteredCatch, true);
-        cleanUpRealm(realm, config);
+        cleanUpRealm(realm);
       });
     });
     group('In-memory realm', () {
       test('Configuration inMemory - no files after closing realm', () {
         // :snippet-start: in-memory-realm
-        var config = Configuration.inMemory([Car.schema], "inMemoryRealm");
+        var config = Configuration.inMemory([Car.schema]);
         var realm = Realm(config);
         // :snippet-end:
         realm.write(() => realm.add(Car('Tesla')));
         expect(Realm.existsSync(config.path), true);
-        cleanUpRealm(realm, config);
+        cleanUpRealm(realm);
       });
     });
   });

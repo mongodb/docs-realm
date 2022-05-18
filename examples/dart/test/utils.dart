@@ -1,8 +1,9 @@
 import 'package:realm_dart/realm.dart';
 
-void cleanUpRealm(Realm realm, Configuration config) {
+Future<void> cleanUpRealm(Realm realm, [App? app]) async {
+  await app?.currentUser?.logOut();
   if (!realm.isClosed) {
     realm.close();
   }
-  Realm.deleteRealm(config.path);
+  Realm.deleteRealm(realm.config.path);
 }

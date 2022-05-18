@@ -31,16 +31,8 @@ Realm object schemas, and additional optional parameters to the
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
 to open an instance of the realm:
 
-.. code-block:: dart
-
-   await app.logIn(Credentials.anonymous());
-
-   FlexibleSyncConfiguration config = Configuration.sync(
-     app.currentUser,
-     [Car.schema]
-   );
-
-   Realm syncedRealm = Realm(config);
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.codeblock.open-flexible-sync-realm.dart
+   :language: dart
 
 Once you open a synced {+realm+}, :ref:`configure and manage the sync session
 <flutter-manage-sync-session>`.

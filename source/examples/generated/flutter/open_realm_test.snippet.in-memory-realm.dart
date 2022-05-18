@@ -1,2 +1,2 @@
-var config = Configuration.inMemory([Car.schema], "inMemoryRealm");
+var config = Configuration.inMemory([Car.schema]);
 var realm = Realm(config);
