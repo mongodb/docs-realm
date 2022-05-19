@@ -297,8 +297,8 @@ F. Implement the Projects List
 ------------------------------
 
 As defined by our data model, a ``Project`` is an :term:`embedded object` inside
-of a ``User`` document. This means that we can use :doc:`custom user data
-</users/enable-custom-user-data>` to access a given user's list of projects
+of a ``User`` document. This means that we can use :ref:`custom user data
+<custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
 To  update the app if other users add the current user to their project, we use the 
@@ -506,20 +506,20 @@ options to keep practicing and learn more:
 - Dive deeper into the docs to learn more about MongoDB Realm. You'll find
   information and guides on features like:
   
-  - Serverless :doc:`functions </functions>` that handle backend logic and
+  - Serverless :ref:`functions <functions>` that handle backend logic and
     connect your app to external services. You can call functions from a
-    client app, either directly or as a :doc:`custom GraphQL resolver
-    </graphql/custom-resolvers>`.
+    client app, either directly or as a :ref:`custom GraphQL resolver
+    <graphql-custom-resolvers>`.
   
-  - :doc:`Triggers </triggers>` and :ref:`HTTPS endpoints <https-endpoints>`,
+  - :ref:`Triggers <triggers>` and :ref:`HTTPS endpoints <https-endpoints>`,
     which automatically call functions in response to events as they occur. You
-    can define :doc:`database triggers </triggers/database-triggers>` which
-    respond to changes in your data, :doc:`authentication triggers
-    </triggers/authentication-triggers>` which respond to user management and
-    authentication events, and :doc:`scheduled triggers
-    </triggers/scheduled-triggers>` which run on a fixed schedule.
+    can define :ref:`database triggers <database-trigger>` which
+    respond to changes in your data, :ref:`authentication triggers
+    <authentication-triggers>` which respond to user management and
+    authentication events, and :ref:`scheduled triggers
+    <scheduled-trigger>` which run on a fixed schedule.
 
-  - Built-in :doc:`authentication providers </authentication/providers>` and
+  - Built-in :ref:`authentication providers <authentication-providers>` and
     and user management tools. You can allow users to log in through multiple
     methods, like API keys and Google OAuth, and associate :ref:`custom data
     <custom-user-data>` with every user.
