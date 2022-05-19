@@ -138,4 +138,30 @@ void main() {
       expect(linkedCredentialUser.identities.length, 2);
     });
   });
+
+  // TODO: once custom user data functionality is expanded, refactor below tests
+  // to have more info
+  group('Custom user data', () {
+    late User user;
+    setUp(() async {
+      user = await app.logIn(
+          Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+    });
+    test('Read custom user data', () async {
+      // :snippet-start: read-custom-user-data
+      final customUserData = user.customData;
+      // :snippet-end:
+      expect(customUserData, isNull);
+    });
+    test('Refresh custom user data', () async {
+      // :snippet-start: refresh-custom-user-data
+      // refreshCustomData() returns the updated custom data object
+      final updatedCustomData = await user.refreshCustomData();
+
+      // Now when you access User.customData it's the value
+      // returned from User.refreshCustomData()
+      // :snippet-end:
+      expect(updatedCustomData, user.customData);
+    });
+  });
 }
