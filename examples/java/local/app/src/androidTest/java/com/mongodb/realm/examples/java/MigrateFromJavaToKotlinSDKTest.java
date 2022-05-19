@@ -31,7 +31,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
     public void testOpenARealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             RealmConfiguration config =
                     new RealmConfiguration.Builder()
                     .build();
@@ -41,7 +41,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             Log.v("EXAMPLE",
             "Successfully opened a realm: "
                     + realm.getPath());
-            // :code-block-end:
+            // :snippet-end:
             realm = Realm.getInstance(config);
             realm.close();
             expectation.fulfill();
@@ -66,14 +66,14 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
-                // :code-block-start: write-async
+                // :snippet-start: write-async
                 realm.executeTransactionAsync(
                         transactionRealm -> {
                     SampleJava sample = new SampleJava();
                     sample.stringField = "Sven";
                     transactionRealm.copyToRealm(sample);
                 });
-                // :code-block-end:
+                // :snippet-end:
             } catch (RealmFileException ex) {
                 Log.v("EXAMPLE",
                         "Error opening the realm.");
@@ -101,14 +101,14 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             Realm realm;
             try {
                 realm = Realm.getInstance(config);
-                // :code-block-start: write-sync
+                // :snippet-start: write-sync
                 realm.executeTransaction(
                         transactionRealm -> {
                     SampleJava sample = new SampleJava();
                     sample.stringField = "Sven";
                     transactionRealm.copyToRealm(sample);
                 });
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -139,7 +139,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             Realm realm;
             try {
                 realm = Realm.getInstance(config);
-                // :code-block-start: query-filters
+                // :snippet-start: query-filters
                 RealmResults<SampleJava> samples =
                         realm
                             .where(SampleJava.class)
@@ -151,7 +151,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                             .beginsWith("stringField",
                                     "N")
                             .findAll();
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -182,7 +182,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             Realm realm;
             try {
                 realm = Realm.getInstance(config);
-                // :code-block-start: query-sort-limit-distinct
+                // :snippet-start: query-sort-limit-distinct
                 RealmResults<SampleJava> aggregates =
                         realm.where(SampleJava.class)
                         .distinct("stringField")
@@ -190,7 +190,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                 Sort.ASCENDING)
                         .limit(2)
                         .findAll();
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -228,7 +228,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                     sample.stringField = "not sven";
                     transactionRealm.copyToRealm(sample);
                 });
-                // :code-block-start: deletes
+                // :snippet-start: deletes
                 SampleJava sample =
                         realm.where(SampleJava.class)
                                 .findFirst();
@@ -245,7 +245,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                 .where(SampleJava.class)
                                 .findFirst()
                                 .deleteFromRealm());
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -286,7 +286,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                         realm.copyToRealm(sample);
                     }
                 });
-                // :code-block-start: notifications
+                // :snippet-start: notifications
                 realm.where(SampleJava.class).findAllAsync()
                     .addChangeListener(
                             (samples, changeSet) -> {
@@ -306,7 +306,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                                 changeSet
                                     .getDeletionRanges()));
                     });
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -336,7 +336,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
 
             Realm realm;
             try {
-                // :code-block-start: threading
+                // :snippet-start: threading
                 realm = Realm.getInstance(config);
                 // :hide-start:
                 realm.executeTransaction(new Realm.Transaction() {
@@ -379,7 +379,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                             "Separate thread sample: "
                             + threadSample);
                 });
-                // :code-block-end:
+                // :snippet-end:
                 Log.v("EXAMPLE",
                         "Successfully opened a realm: "
                                 + realm.getPath());
@@ -400,7 +400,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
     public void testMigration() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: migrations
+            // :snippet-start: migrations
             RealmConfiguration config =
                 new RealmConfiguration.Builder()
                         .name(getRandom()) // :hide:
@@ -429,7 +429,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             Log.v("EXAMPLE",
             "Successfully opened a realm: "
                     + realm.getPath());
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
         });
         expectation.await();

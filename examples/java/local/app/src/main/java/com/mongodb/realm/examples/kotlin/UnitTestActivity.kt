@@ -1,4 +1,4 @@
-// :code-block-start: unit-test-activity
+// :snippet-start: unit-test-activity
 package com.mongodb.realm.examples.kotlin
 
 import android.os.AsyncTask
@@ -127,4 +127,4 @@ class UnitTestActivity : AppCompatActivity() {
         val TAG = UnitTestActivity::class.java.name
     }
 }
-// :code-block-end:
+// :snippet-end:

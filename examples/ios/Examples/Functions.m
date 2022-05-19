@@ -7,7 +7,7 @@
 @implementation FunctionsObjc
 - (void)testCallFunction {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
-    // :code-block-start: call-a-function
+    // :snippet-start: call-a-function
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     
     // ... log in ...
@@ -29,7 +29,7 @@
         // :remove-end:
     }];
 
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];

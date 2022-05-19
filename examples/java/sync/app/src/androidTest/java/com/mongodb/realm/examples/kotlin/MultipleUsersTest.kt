@@ -64,7 +64,7 @@ class MultipleUsersTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
             try {
-            // :code-block-start: add-a-new-user
+            // :snippet-start: add-a-new-user
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
             // Log in as Joe
@@ -93,7 +93,7 @@ class MultipleUsersTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
             } catch (e: Exception) {
                 Log.v("EXAMPLE", "Failed with exception: ${e.message}")
             }
@@ -107,12 +107,12 @@ class MultipleUsersTest : RealmTest() {
             try {
                 val appID: String = YOUR_APP_ID // replace this with your App ID
                 val app = App(AppConfiguration.Builder(appID).build())
-                // :code-block-start: list-all-on-device-users
+                // :snippet-start: list-all-on-device-users
                 val users = app.allUsers()
                 for ((key) in users) {
                     Log.v("EXAMPLE", "User: $key")
                 }
-                // :code-block-end:
+                // :snippet-end:
             } catch (e: Exception) {
                 Log.v("EXAMPLE", "Failed with exception: ${e.message}")
             }
@@ -130,7 +130,7 @@ class MultipleUsersTest : RealmTest() {
             val joeCredentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
             app.loginAsync(joeCredentials) { it: App.Result<User?> ->
                 if (it.isSuccess) {
-                    // :code-block-start: switch-the-active-user
+                    // :snippet-start: switch-the-active-user
                     // Joe is already logged in and is the currently active user
                     val joe = app.currentUser()
                     // Log in as Emma
@@ -153,7 +153,7 @@ class MultipleUsersTest : RealmTest() {
                             Log.e("EXAMPLE", "Failed to log in: ${result.error.errorMessage}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
@@ -171,7 +171,7 @@ class MultipleUsersTest : RealmTest() {
                 val app = App(AppConfiguration.Builder(appID).build())
                 // Log in as Joe
                 val credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword)
-                // :code-block-start: remove-a-user-from-device
+                // :snippet-start: remove-a-user-from-device
                 app.loginAsync(credentials) {
                     if (it.isSuccess) {
                         val user = it.get()
@@ -190,7 +190,7 @@ class MultipleUsersTest : RealmTest() {
                         Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             } catch (e: Exception ) {
                 Log.v("EXAMPLE", "Failed with exception: ${e.message}");
             }

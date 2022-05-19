@@ -32,7 +32,7 @@ class DataTypesTest : RealmTest() {
                 //       "FrogAnyKt": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmany
+                // :snippet-start: realmany
                 val frog = realm.createObject(FrogAnyKt::class.java)
                 frog.name = "George Washington"
 
@@ -77,7 +77,7 @@ class DataTypesTest : RealmTest() {
                 Log.v("EXAMPLE", "Best friend: " +
                         frog.bestFriend?.asRealmModel(GroupOfPeople::class.java)
                                 ?.people.toString())
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill()
             }
@@ -103,7 +103,7 @@ class DataTypesTest : RealmTest() {
                 //       "FrogStateKt": "FrogState"
                 //    }
                 // }
-                // :code-block-start: realmenum
+                // :snippet-start: realmenum
                 val frog = realm.createObject(FrogEnumKt::class.java)
                 frog.name = "Jonathan Livingston Applesauce"
                 // set the state using the enum
@@ -111,7 +111,7 @@ class DataTypesTest : RealmTest() {
 
                 // fetching the state returns an enum
                 val currentJonathanState: FrogStateKt = frog.stateEnum
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill()
             }
@@ -136,7 +136,7 @@ class DataTypesTest : RealmTest() {
             //       "FrogAnyKt": "Frog"
             //    }
             // }
-            // :code-block-start: realmany-notifications
+            // :snippet-start: realmany-notifications
             var frog: FrogAnyKt? = null
 
             realm.executeTransaction { r: Realm? ->
@@ -167,7 +167,7 @@ class DataTypesTest : RealmTest() {
                 frog?.bestFriend = RealmAny.valueOf("Greg")
                 expectation.fulfill() // :hide:
             }
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         }
         expectation.await()
@@ -192,7 +192,7 @@ class DataTypesTest : RealmTest() {
                 //       "SnackKt": "Snack"
                 //    }
                 // }
-                // :code-block-start: realmSet
+                // :snippet-start: realmSet
                 val frog = realm.createObject(FrogSetKt::class.java)
                 frog.name = "Jonathan Livingston Applesauce"
 
@@ -230,7 +230,7 @@ class DataTypesTest : RealmTest() {
                 flies.deleteFromRealm()
                 // deleting flies object reduced the size of the set by one
                 Assert.assertTrue(sizeOfSetBeforeDelete == set.size + 1)
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill()
             }
@@ -256,7 +256,7 @@ class DataTypesTest : RealmTest() {
             //       "SnackKt": "Snack"
             //    }
             // }
-            // :code-block-start: realmset-notifications
+            // :snippet-start: realmset-notifications
             var frog :FrogSetKt? = null
             realm.executeTransaction { r: Realm? ->
                 frog = realm.createObject(FrogSetKt::class.java)
@@ -288,7 +288,7 @@ class DataTypesTest : RealmTest() {
                 set.addAll(Arrays.asList(water, verySmallRocks))
                 expectation.fulfill() // :hide:
             }
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         }
         expectation.await()
@@ -311,7 +311,7 @@ class DataTypesTest : RealmTest() {
                 //       "FrogDictionaryKt": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmDictionary
+                // :snippet-start: realmDictionary
                 val frog =
                     realm.createObject(FrogDictionaryKt::class.java)
                 frog.name = "George Washington"
@@ -356,7 +356,7 @@ class DataTypesTest : RealmTest() {
                 )
                 // but greg object IS now null:
                 Assert.assertEquals(dictionary["small frog"], null)
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill()
             }
@@ -381,7 +381,7 @@ class DataTypesTest : RealmTest() {
             //       "FrogDictionaryKt": "Frog"
             //    }
             // }
-            // :code-block-start: realmdictionary-notifications
+            // :snippet-start: realmdictionary-notifications
             var frog: FrogDictionaryKt? = null
             realm.executeTransaction { r: Realm? ->
                 frog = realm.createObject(FrogDictionaryKt::class.java)
@@ -417,7 +417,7 @@ class DataTypesTest : RealmTest() {
                         Pair("feathered frog", beatrice)))
                 expectation.fulfill() // :hide:
             }
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         }
         expectation.await()

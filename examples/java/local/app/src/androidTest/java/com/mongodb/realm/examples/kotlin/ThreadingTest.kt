@@ -20,12 +20,12 @@ class ThreadingTest : RealmTest() {
                 .name("refresh-realm")
                 .build()
             val realm = Realm.getInstance(config)
-            // :code-block-start: refresh-realm
+            // :snippet-start: refresh-realm
             if (!realm.isAutoRefresh) {
                 // manually refresh
                 realm.refresh()
             }
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }
@@ -49,7 +49,7 @@ class ThreadingTest : RealmTest() {
                 )
             }
 
-            // :code-block-start: freeze-objects
+            // :snippet-start: freeze-objects
             val realm = Realm.getInstance(config)
 
             // Get an immutable copy of the realm that can be passed across threads
@@ -71,7 +71,7 @@ class ThreadingTest : RealmTest() {
             val frozenFrog: Frog = frog.freeze()
             Assert.assertTrue(frozenFrog.isFrozen)
             Assert.assertTrue(frozenFrog.realm.isFrozen)
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill()
             realm.close()
         }

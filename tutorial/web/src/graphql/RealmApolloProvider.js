@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 
 // Create an ApolloClient that connects to the provided Realm.App's GraphQL API
-// :code-block-start: createRealmApolloClient
+// :snippet-start: createRealmApolloClient
 const createRealmApolloClient = (app) => {
   const link = new HttpLink({
     // Realm apps use a standard GraphQL endpoint, identified by their App ID
@@ -35,9 +35,9 @@ const createRealmApolloClient = (app) => {
 
   return new ApolloClient({ link, cache });
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: realmApolloProvider
+// :snippet-start: realmApolloProvider
 export default function RealmApolloProvider({ children }) {
   // :state-start: final
   const app = useRealmApp();
@@ -50,4 +50,4 @@ export default function RealmApolloProvider({ children }) {
   // :state-uncomment-end:
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
-// :code-block-end:
+// :snippet-end:

@@ -4,12 +4,12 @@ private var gExpectation: XCTestExpectation?
 
 import UIKit
 
-// :code-block-start: complete-quick-start
-// :code-block-start: import-realm
+// :snippet-start: complete-quick-start
+// :snippet-start: import-realm
 import RealmSwift
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model
+// :snippet-start: model
 // QsTask is the Task model for this QuickStart
 class QsTask: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
@@ -22,15 +22,15 @@ class QsTask: Object {
         self.name = name
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 // Entrypoint. Call this to run the example.
 func runExample() {
     // Instantiate the app
-    // :code-block-start: initialize-app
+    // :snippet-start: initialize-app
     let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID
-    // :code-block-end:
-    // :code-block-start: authenticate-user
+    // :snippet-end:
+    // :snippet-start: authenticate-user
     // Log in anonymously.
     app.login(credentials: Credentials.anonymous) { (result) in
         // Remember to dispatch back to the main thread in completion handlers
@@ -46,12 +46,12 @@ func runExample() {
             }
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 func onLogin() {
     // Now logged in, do something with user
-    // :code-block-start: open-realm
+    // :snippet-start: open-realm
     let user = app.currentUser!
 
     // The partition determines which subset of data to access.
@@ -73,16 +73,16 @@ func onLogin() {
             onRealmOpened(realm)
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 func onRealmOpened(_ realm: Realm) {
-    // :code-block-start: get-all-tasks
+    // :snippet-start: get-all-tasks
     // Get all tasks in the realm
     let tasks = realm.objects(QsTask.self)
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: watch-for-changes
+    // :snippet-start: watch-for-changes
     // Retain notificationToken as long as you want to observe
     let notificationToken = tasks.observe { (changes) in
         switch changes {
@@ -98,7 +98,7 @@ func onRealmOpened(_ realm: Realm) {
             fatalError("\(error)")
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     // Delete all from the realm
     try! realm.write {
@@ -106,12 +106,12 @@ func onRealmOpened(_ realm: Realm) {
     }
 
     // Add some tasks
-    // :code-block-start: create-task
+    // :snippet-start: create-task
     let task = QsTask(name: "Do laundry")
     try! realm.write {
         realm.add(task)
     }
-    // :code-block-end:
+    // :snippet-end:
     let anotherTask = QsTask(name: "App design")
     try! realm.write {
         realm.add(anotherTask)
@@ -123,47 +123,47 @@ func onRealmOpened(_ realm: Realm) {
     }
     print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
 
-    // :code-block-start: modify-write-block
+    // :snippet-start: modify-write-block
     // All modifications to a realm must happen in a write block.
     let taskToUpdate = tasks[0]
     try! realm.write {
         taskToUpdate.status = "InProgress"
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: filter
+    // :snippet-start: filter
     let tasksInProgress = tasks.where {
         $0.status == "InProgress"
     }
     print("A list of all tasks in progress: \(tasksInProgress)")
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: delete
+    // :snippet-start: delete
     // All modifications to a realm must happen in a write block.
     let taskToDelete = tasks[0]
     try! realm.write {
         // Delete the QsTask.
         realm.delete(taskToDelete)
     }
-    // :code-block-end:
+    // :snippet-end:
 
     print("A list of all tasks after deleting one: \(tasks)")
 
-    // :code-block-start: logout
+    // :snippet-start: logout
     app.currentUser?.logOut { (error) in
         // Logged out or error occurred
         // :hide-start:
         gExpectation!.fulfill()
         // :hide-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: invalidate-notification-token
+    // :snippet-start: invalidate-notification-token
     // Invalidate notification tokens when done observing
     notificationToken.invalidate()
-    // :code-block-end:
+    // :snippet-end:
 }
-// :code-block-end:
+// :snippet-end:
 
 class QuickStartTest: XCTestCase {
     func testRunExample() {

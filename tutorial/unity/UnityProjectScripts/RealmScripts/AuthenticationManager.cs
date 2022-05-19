@@ -49,7 +49,7 @@ public class AuthenticationManager : MonoBehaviour
     }
     // :state-end:
 
-    // :code-block-start: add-sync-login-click-handler
+    // :snippet-start: add-sync-login-click-handler
     // :state-start: sync
     // OnPressLoginWithBackend() is an asynchronous method that calls
     // RealmController.SetLoggedInUser to login and passes the currentPlayer to
@@ -73,9 +73,9 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
     // :state-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: add-sync-register-click-handler
+    // :snippet-start: add-sync-register-click-handler
     // :state-start: sync
     // OnPressRegister() passes RealmController.OnPressRegister() the values of
     // the userInput and  passInput TextFields in order to register a user
@@ -99,9 +99,9 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
     // :state-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: add-sync-togglable-ui-methods
+    // :snippet-start: add-sync-togglable-ui-methods
     // :state-start: sync
     // SwitchToLoginUI() switches the UI to the Login UI mode
     private static void SwitchToLoginUI()
@@ -118,7 +118,7 @@ public class AuthenticationManager : MonoBehaviour
         toggleLoginOrRegisterUIButton.text = "Have an account already? Login";
     }
     // :state-end:
-    // :code-block-end:
+    // :snippet-end:
     #endregion
     #region UnityLifecycleMethods
     // Start() is inherited from MonoBehavior and is called on the frame when a
@@ -140,7 +140,7 @@ public class AuthenticationManager : MonoBehaviour
         };
         // :state-end:
 
-        // :code-block-start: sync-auth-manager-start
+        // :snippet-start: sync-auth-manager-start
         // :state-uncomment-start: sync
         logoutButton.clicked += RealmController.LogOutBackend;
         // passInput = root.Q<TextField>("password-input");
@@ -173,7 +173,7 @@ public class AuthenticationManager : MonoBehaviour
         //     }
         // };
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
     }
     #endregion
 }

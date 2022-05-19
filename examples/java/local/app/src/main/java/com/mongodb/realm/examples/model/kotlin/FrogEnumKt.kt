@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogEnumKt": "Frog",
@@ -30,4 +30,4 @@ open class FrogEnumKt  // realm-required empty constructor
         }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

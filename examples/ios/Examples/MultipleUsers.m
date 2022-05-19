@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "MyRealmApp.h"
 
-// :code-block-start: link-identity-objc
+// :snippet-start: link-identity-objc
 @interface LinkIdentitiesExample : NSObject
 @end
 
@@ -79,7 +79,7 @@
 }
 
 @end 
-// :code-block-end:
+// :snippet-end:
 
 @interface MultipleUsersObjc : XCTestCase
 

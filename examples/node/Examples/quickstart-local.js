@@ -1,15 +1,15 @@
-// :code-block-start: import-realm
+// :snippet-start: import-realm
 import Realm from "realm";
-// :code-block-end:
+// :snippet-end:
 
 describe("QuickStart Local", () => {
   test("should define an object model, open a realm, perform crud operations, and watch a collection", async () => {
-    // :code-block-start: complete
+    // :snippet-start: complete
     // :uncomment-start:
     //import Realm from "realm";
     // :uncomment-end:
 
-    // :code-block-start: define-an-object-model
+    // :snippet-start: define-an-object-model
     const TaskSchema = {
       name: "Task",
       properties: {
@@ -19,17 +19,17 @@ describe("QuickStart Local", () => {
       },
       primaryKey: "_id",
     };
-    // :code-block-end:
+    // :snippet-end:
 
     async function quickStart() {
-      // :code-block-start: open-a-realm
+      // :snippet-start: open-a-realm
       const realm = await Realm.open({
         path: "realm-files/myrealm",
         schema: [TaskSchema],
       });
-      // :code-block-end:
+      // :snippet-end:
 
-      // :code-block-start: create-realm-objects
+      // :snippet-start: create-realm-objects
       // Add a couple of Tasks in a single, atomic transaction
       let task1, task2;
       realm.write(() => {
@@ -47,13 +47,13 @@ describe("QuickStart Local", () => {
         console.log(`created two tasks: ${task1.name} & ${task2.name}`);
       });
       // use task1 and task2
-      // :code-block-end:
+      // :snippet-end:
       // :hide-start:
       expect(task1.name).toBe("go grocery shopping");
       expect(task2.name).toBe("go exercise");
       // :hide-end:
 
-      // :code-block-start: find-sort-and-filter-objects
+      // :snippet-start: find-sort-and-filter-objects
       // query realm for all instances of the "Task" type.
       const tasks = realm.objects("Task");
       console.log(`The lists of tasks are: ${tasks.map((task) => task.name)}`);
@@ -73,7 +73,7 @@ describe("QuickStart Local", () => {
           (taskByName) => taskByName.name
         )}`
       );
-      // :code-block-end:
+      // :snippet-end:
 
       // :hide-start:
       expect(tasks.length).toBe(2);
@@ -84,7 +84,7 @@ describe("QuickStart Local", () => {
       let taskHasBeenDeleted = false;
       // :hide-end:
 
-      // :code-block-start: watch-a-collection
+      // :snippet-start: watch-a-collection
       // Define the collection notification listener
       function listener(tasks, changes) {
         // :hide-start:
@@ -119,26 +119,26 @@ describe("QuickStart Local", () => {
       }
       // Observe collection notifications.
       tasks.addListener(listener);
-      // :code-block-end:
+      // :snippet-end:
 
-      // :code-block-start: modify-an-object
+      // :snippet-start: modify-an-object
       realm.write(() => {
         task1.status = "InProgress";
       });
-      // :code-block-end:
+      // :snippet-end:
 
       // :hide-start:
       expect(task1.status).toBe("InProgress");
       // :hide-end:
 
-      // :code-block-start: delete-an-object
+      // :snippet-start: delete-an-object
       realm.write(() => {
         // Delete the task from the realm.
         realm.delete(task1);
         // Discard the reference.
         task1 = null;
       });
-      // :code-block-end:
+      // :snippet-end:
 
       // :hide-start:
       // wait 1 second until the collection listener has registered the modification and deletion events
@@ -151,14 +151,14 @@ describe("QuickStart Local", () => {
       });
       // :hide-end:
 
-      // :code-block-start: close-a-realm
+      // :snippet-start: close-a-realm
       // Remember to close the realm
       realm.close();
-      // :code-block-end:
+      // :snippet-end:
     }
     quickStart().catch((error) => {
       console.log(`An error occurred: ${error}`);
     });
-    // :code-block-end:
+    // :snippet-end:
   });
 });

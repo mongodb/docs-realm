@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "HauntedHouseKt": "HauntedHouse"
@@ -14,4 +14,4 @@ open class HauntedHouseKt: RealmObject() {
     val ghosts: MutableRealmInteger = MutableRealmInteger.valueOf(0)
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

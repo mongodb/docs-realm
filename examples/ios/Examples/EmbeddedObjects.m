@@ -6,7 +6,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: models
+// :snippet-start: models
 // Define an embedded object
 @interface EmbeddedObjectObjcExamples_Address : RLMEmbeddedObject
 @property NSString *street;
@@ -40,7 +40,7 @@ RLM_ARRAY_TYPE(EmbeddedObjectObjcExamples_Address)
 @property RLMArray<EmbeddedObjectObjcExamples_Address *><EmbeddedObjectObjcExamples_Address> *addresses;
 @end
 
-// :code-block-end:
+// :snippet-end:
 
 @interface EmbeddedObjectsObjc : XCTestCase
 @end

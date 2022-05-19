@@ -1,6 +1,6 @@
 package com.mongodb.realm.examples.model.java
 
-// :code-block-start: potato-kotlin-definition
+// :snippet-start: potato-kotlin-definition
 import io.realm.DynamicRealmObject
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -34,4 +34,4 @@ open class Potato : RealmObject {
         lastUpdated = obj.getLong("lastUpdated")
     }
 }
-// :code-block-end:
+// :snippet-end:

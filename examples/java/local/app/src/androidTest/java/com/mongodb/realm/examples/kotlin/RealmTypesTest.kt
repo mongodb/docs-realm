@@ -16,7 +16,7 @@ class RealmTypesTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: read-only
+            // :snippet-start: read-only
             val config = RealmConfiguration.Builder()
                 .assetFile("readonly.realm")
                 // :hide-start:
@@ -25,7 +25,7 @@ class RealmTypesTest : RealmTest() {
                 .readOnly() // :emphasize:
                 .modules(BundledRealmModule())
                 .build()
-            // :code-block-end:
+            // :snippet-end:
             //val realm = Realm.getInstance(config)
             //realm.close()
             expectation.fulfill()
@@ -38,13 +38,13 @@ class RealmTypesTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: in-memory
+            // :snippet-start: in-memory
             val config = RealmConfiguration.Builder()
                 .inMemory() // :emphasize:
                 .name("kt.transient.realm")
                 .build()
             val realm = Realm.getInstance(config)
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill()
         }
@@ -56,7 +56,7 @@ class RealmTypesTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: dynamic
+            // :snippet-start: dynamic
             val config = RealmConfiguration.Builder()
                 .allowWritesOnUiThread(true)
                 .allowQueriesOnUiThread(true)
@@ -96,7 +96,7 @@ class RealmTypesTest : RealmTest() {
             val frogs = dynamicRealm.where("Frog")
                 .equalTo("name", "Wirt Jr.")
                 .findAll()
-            // :code-block-end:
+            // :snippet-end:
             dynamicRealm.close();
             expectation.fulfill()
         }

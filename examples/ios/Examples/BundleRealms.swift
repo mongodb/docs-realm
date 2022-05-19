@@ -11,7 +11,7 @@ import Foundation
 class BundleRealms: XCTestCase {
 
     func testCopyRealm() async throws {
-        // :code-block-start: copy-synced-realm-for-bundling
+        // :snippet-start: copy-synced-realm-for-bundling
         let app = App(id: YOUR_REALM_APP_ID)
 
         // Log in the user whose realm you want to copy for bundling
@@ -69,11 +69,11 @@ class BundleRealms: XCTestCase {
         let daenerysCopiedTasks = copiedTasks.where { $0.owner == "Daenerys" }
         XCTAssertEqual(daenerysCopiedTasks.count, 1)
         print("Copied realm opens and contains this many tasks: \(daenerysCopiedTasks.count)")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testOpenCopiedRealm() async throws {
-        // :code-block-start: open-bundled-synced-realm
+        // :snippet-start: open-bundled-synced-realm
         let app = App(id: YOUR_REALM_APP_ID)
 
         // Log in an app user who will use the bundled realm
@@ -116,7 +116,7 @@ class BundleRealms: XCTestCase {
 
         daenerysTasks = tasks.where { $0.owner == "Daenerys" }
         XCTAssertEqual(daenerysTasks.count, 2)
-        // :code-block-end:
+        // :snippet-end:
         // Delete the task we just added to avoid messing with XCTAsserts
         try realm.write {
             realm.delete(task)

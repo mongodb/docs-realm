@@ -8,7 +8,7 @@ class Authenticate: XCTestCase {
     func testGoogleSignInWithServerAuthCode() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: google-with-serverAuthCode
+        // :snippet-start: google-with-serverAuthCode
         func sign(_ signIn: GIDSignIn!, didSignInFor googleUser: GIDGoogleUser!, withError error: Error!) {
             if let error = error {
               print("\(error.localizedDescription)")
@@ -31,7 +31,7 @@ class Authenticate: XCTestCase {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         expectation.fulfill()
         wait(for: [expectation], timeout: 10)
     }
@@ -39,7 +39,7 @@ class Authenticate: XCTestCase {
     func testGoogleSignInWithId() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: google-with-googleId
+        // :snippet-start: google-with-googleId
         func sign(_ signIn: GIDSignIn!, didSignInFor googleUser: GIDGoogleUser!, withError error: Error!) {
             if let error = error {
               print("\(error.localizedDescription)")
@@ -64,7 +64,7 @@ class Authenticate: XCTestCase {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         expectation.fulfill()
         wait(for: [expectation], timeout: 10)
     }
@@ -72,7 +72,7 @@ class Authenticate: XCTestCase {
     func testAppleCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: apple
+        // :snippet-start: apple
         // Fetch IDToken via the Apple SDK
         let credentials = Credentials.apple(idToken: "<token>")
         app.login(credentials: credentials) { (result) in
@@ -88,13 +88,13 @@ class Authenticate: XCTestCase {
                 // Remember to dispatch to main if you are doing anything on the UI thread
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testFacebookCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
-        // :code-block-start: facebook
+        // :snippet-start: facebook
         // This example demonstrates login logic for FBSDK version 13.x. If you're using
         // a different version of FBSDK, you'll need to adapt this example for your version.
         let loginManager = LoginManager()
@@ -124,7 +124,7 @@ class Authenticate: XCTestCase {
 
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         expectation.fulfill()
         wait(for: [expectation], timeout: 10)
     }
@@ -132,7 +132,7 @@ class Authenticate: XCTestCase {
     func testJwtCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: jwt
+        // :snippet-start: jwt
         let credentials = Credentials.jwt(token: "<jwt>")
         app.login(credentials: credentials) { (result) in
             switch result {
@@ -147,14 +147,14 @@ class Authenticate: XCTestCase {
                 // Remember to dispatch to main if you are doing anything on the UI thread
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testCustomFunctionCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: function
+        // :snippet-start: function
         let params: Document = ["username": "bob"]
 
         app.login(credentials: Credentials.function(payload: params)) { (result) in
@@ -170,7 +170,7 @@ class Authenticate: XCTestCase {
                 // :hide-end:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
         // Delete this user so it doesn't interfere with the DeleteUsers tests
         app.currentUser?.delete()
@@ -179,7 +179,7 @@ class Authenticate: XCTestCase {
     func testApiKeyCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: api-key
+        // :snippet-start: api-key
         let credentials = Credentials.userAPIKey("<api-key>")
         app.login(credentials: credentials) { (result) in
             switch result {
@@ -194,14 +194,14 @@ class Authenticate: XCTestCase {
                 // Remember to dispatch to main if you are doing anything on the UI thread
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testEmailPasswordCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: email-password
+        // :snippet-start: email-password
         let email = "skroob@example.com"
         let password = "12345"
         app.login(credentials: Credentials.emailPassword(email: email, password: password)) { (result) in
@@ -217,13 +217,13 @@ class Authenticate: XCTestCase {
                 // Remember to dispatch to main if you are doing anything on the UI thread
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testAsyncAwaitLogin() async {
         let expectation = XCTestExpectation(description: "login completes")
-        // :code-block-start: async-await
+        // :snippet-start: async-await
         func login() async {
             do {
                 let app = App(id: YOUR_REALM_APP_ID)
@@ -238,7 +238,7 @@ class Authenticate: XCTestCase {
                 print("Failed to log in user: \(error.localizedDescription)")
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         await login()
         wait(for: [expectation], timeout: 10)
     }
@@ -246,7 +246,7 @@ class Authenticate: XCTestCase {
     func testAnonymousCredentials() {
         let expectation = XCTestExpectation(description: "login completes")
 
-        // :code-block-start: anonymous
+        // :snippet-start: anonymous
         let anonymousCredentials = Credentials.anonymous
         app.login(credentials: anonymousCredentials) { (result) in
             switch result {
@@ -261,7 +261,7 @@ class Authenticate: XCTestCase {
                 // :hide-end:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
@@ -275,10 +275,10 @@ class Authenticate: XCTestCase {
                 print("Login failed: \(error.localizedDescription)")
             case .success(let user):
                 print("Successfully logged in as user \(user)")
-                // :code-block-start: read-user-metadata
+                // :snippet-start: read-user-metadata
                 // First, log in a user. Then, access user metadata
                 print("The logged-in user's email is: \(user.profile.email)")
-                // :code-block-end:
+                // :snippet-end:
                 expectation.fulfill()
             }
         }
@@ -286,7 +286,7 @@ class Authenticate: XCTestCase {
     }
 
     func testShowOfflineLogin() async throws {
-        // :code-block-start: offline-login
+        // :snippet-start: offline-login
         // Log the user into the backend app.
         // The first time you login, the user must have a network connection.
         func getUser() async throws -> User {
@@ -315,7 +315,7 @@ class Authenticate: XCTestCase {
         // offline.
         let realm = try await Realm(configuration: configuration)
         print("Successfully opened realm: \(realm)")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     override func tearDown() {
@@ -323,14 +323,14 @@ class Authenticate: XCTestCase {
             return
         }
         let expectation = XCTestExpectation(description: "logout completes")
-        // :code-block-start: logout
+        // :snippet-start: logout
         app.currentUser?.logOut { (error) in
             // user is logged out or there was an error
             // :hide-start:
             expectation.fulfill()
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 }

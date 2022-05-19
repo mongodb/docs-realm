@@ -32,7 +32,7 @@ namespace Examples
                 realm.RemoveAll<Business>();
             });
 
-            // :code-block-start:create
+            // :snippet-start:create
             var address = new Address() // Create an Address
             {
                 Street = "123 Fake St.",
@@ -54,7 +54,7 @@ namespace Examples
             {
                 realm.Add(contact);
             });
-            //:code-block-end:
+            //:snippet-end:
 
             var contacts = realm.All<Contact>();
             // Test that the Contact document has been created
@@ -70,7 +70,7 @@ namespace Examples
             using (var realm = await Realm.GetInstanceAsync(config))
             {
 
-                // :code-block-start:update
+                // :snippet-start:update
                 var resultContact = realm.All<Contact>() // Find the First Contact (Sorted By Name)
                     .OrderBy(c => c.Name)
                     .FirstOrDefault();
@@ -82,7 +82,7 @@ namespace Examples
                     resultContact.Address.City = "Los Angeles";
                     resultContact.Address.PostalCode = "90210";
                 });
-                //:code-block-end:
+                //:snippet-end:
 
                 // Test that the Contact embedded Address's Street has been updated
                 Assert.AreEqual(resultContact.Address.Street, "Hollywood Upstairs Medical College");
@@ -96,7 +96,7 @@ namespace Examples
             using (var realm = await Realm.GetInstanceAsync(config))
             {
 
-                // :code-block-start:overwrite
+                // :snippet-start:overwrite
                 var oldContact = realm.All<Contact>() // Find the first contact
                 .OrderBy(c => c.Name)
                 .FirstOrDefault();
@@ -114,7 +114,7 @@ namespace Examples
                 {
                     oldContact.Address = newAddress;
                 });
-                //:code-block-end:
+                //:snippet-end:
 
                 /* Test that the Contact field's Embedded Address has been overwritten
                  * with the new Address by checking the Address Street. */
@@ -148,7 +148,7 @@ namespace Examples
                     realm.Add(newContact);
                 });
 
-                // :code-block-start:query
+                // :snippet-start:query
                 // Find All Contacts with an Address of "Los Angeles"
                 var losAngelesContacts = realm.All<Contact>()
                     .Filter("address.city == 'Los Angeles'");
@@ -159,7 +159,7 @@ namespace Examples
                     Console.WriteLine(contact.Name);
                     Console.WriteLine(contact.Address.Street);
                 }
-                //:code-block-end:
+                //:snippet-end:
 
                 // Test that the query worked and that the Contacts returned 
                 // actually are from 'Los Angeles'. 
@@ -183,7 +183,7 @@ namespace Examples
             return;
         }
 
-        // :code-block-start:embedded-classes
+        // :snippet-start:embedded-classes
         public class Address : EmbeddedObject
         {
             [MapTo("street")]
@@ -232,6 +232,6 @@ namespace Examples
             [MapTo("addresses")]
             public IList<Address> Addresses { get; }
         }
-        //:code-block-end:
+        //:snippet-end:
     }
 }

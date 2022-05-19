@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "DefinitelyNotJavaTask": "Task"
@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // :code-block-start: initialize-realm-local
+        // :snippet-start: initialize-realm-local
         Realm.init(this); // context, usually an Activity or Application
-        // :code-block-end:
+        // :snippet-end:
 
         String realmName = "My Project";
         RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // :code-block-start: watch-for-changes-local
+        // :snippet-start: watch-for-changes-local
         // all DefinitelyNotJavaTasks in the realm
         RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasks = uiThreadRealm.where(DefinitelyNotJavaTask.class).findAllAsync();
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.v("QUICKSTART", "Updated range: " + range.startIndex + " to " + (range.startIndex + range.length - 1));                            }
             }
         });
-        // :code-block-end:
+        // :snippet-end:
     }
 
 
@@ -104,32 +104,32 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            // :code-block-start: open-a-realm-local
+            // :snippet-start: open-a-realm-local
             String realmName = "My Project";
             RealmConfiguration config = new RealmConfiguration.Builder().name(realmName).build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: create-object-local
+            // :snippet-start: create-object-local
             DefinitelyNotJavaTask DefinitelyNotJavaTask = new DefinitelyNotJavaTask("New DefinitelyNotJavaTask");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(DefinitelyNotJavaTask);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: read-object-local
+            // :snippet-start: read-object-local
             // all DefinitelyNotJavaTasks in the realm
             RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasks = backgroundThreadRealm.where(DefinitelyNotJavaTask.class).findAll();
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: filter-collection-local
+            // :snippet-start: filter-collection-local
             // you can also filter a collection
             RealmResults<DefinitelyNotJavaTask> DefinitelyNotJavaTasksThatBeginWithN = DefinitelyNotJavaTasks.where().beginsWith("name", "N").findAll();
             RealmResults<DefinitelyNotJavaTask> openDefinitelyNotJavaTasks = DefinitelyNotJavaTasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update-object-local
+            // :snippet-start: update-object-local
             DefinitelyNotJavaTask otherDefinitelyNotJavaTask = DefinitelyNotJavaTasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
@@ -137,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 DefinitelyNotJavaTask innerOtherDefinitelyNotJavaTask = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("_id", otherDefinitelyNotJavaTask.getName()).findFirst();
                 innerOtherDefinitelyNotJavaTask.setStatus(TaskStatus.Complete);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: delete-object-local
+            // :snippet-start: delete-object-local
             DefinitelyNotJavaTask yetAnotherDefinitelyNotJavaTask = DefinitelyNotJavaTasks.get(0);
             String yetAnotherDefinitelyNotJavaTaskName = yetAnotherDefinitelyNotJavaTask.getName();
             // all modifications to a realm must happen inside of a write block
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 DefinitelyNotJavaTask innerYetAnotherDefinitelyNotJavaTask = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("_id", yetAnotherDefinitelyNotJavaTaskName).findFirst();
                 innerYetAnotherDefinitelyNotJavaTask.deleteFromRealm();
             });
-            // :code-block-end:
+            // :snippet-end:
 
             // because this background thread uses synchronous realm transactions, at this point all
             // transactions have completed and we can safely close the realm
@@ -156,4 +156,4 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

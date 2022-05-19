@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogRealmModelExample": "Frog"
@@ -32,5 +32,5 @@ public class FrogRealmModelExample implements RealmModel { // :emphasize:
     public void setOwner(String owner) { this.owner = owner; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:
 

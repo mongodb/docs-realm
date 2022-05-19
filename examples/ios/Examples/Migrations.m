@@ -16,7 +16,7 @@
 // correct but the functionality was manually verified in a realm app.
 
 
-// :code-block-start: model-v1
+// :snippet-start: model-v1
 // In the first version of the app, the Person model
 // has separate fields for first and last names,
 // and an age property.
@@ -31,9 +31,9 @@
     return @[@"firstName", @"lastName", @"age"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v1-update1
+// :snippet-start: model-v1-update1
 // In a new version, you add a property
 // on the Person model.
 @interface MigrationObjcExampleV1Update1_Person : RLMObject
@@ -51,9 +51,9 @@
     return @[@"firstName", @"lastName", @"email", @"age"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v1-update2
+// :snippet-start: model-v1-update2
 // In a new version, you remove a property
 // on the Person model.
 @interface MigrationObjcExampleV1Update2_Person : RLMObject
@@ -70,9 +70,9 @@
     return @[@"firstName", @"lastName"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v2
+// :snippet-start: model-v2
 // In version 2, the Person model has one
 // combined field for the full name and age as a Int. 
 // A manual migration will be required to convert from 
@@ -87,9 +87,9 @@
     return @[@"fullName", @"age"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v3
+// :snippet-start: model-v3
 // In version 3, the Person model has one
 // combined field for the full name and age as a String. 
 // A manual migration will be required to convert from 
@@ -104,7 +104,7 @@
     return @[@"fullName", @"age"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
 @interface MigrationsObjc : XCTestCase
 @end
@@ -115,7 +115,7 @@
 }
 
 - (void)testRenameProperty {
-    // :code-block-start: rename-property
+    // :snippet-start: rename-property
     RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
     // :remove-start:
     // Prevent schema version from affecting other unit tests
@@ -129,11 +129,11 @@
             [migration renamePropertyForClass:[MigrationObjcExampleV3_Person className] oldName:@"age" newName:@"yearsSinceBirth"];
         }
     };
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testLocalMigration {
-    // :code-block-start: local-migration
+    // :snippet-start: local-migration
     RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
     // :remove-start:
     // Prevent schema version from affecting other unit tests
@@ -161,12 +161,12 @@
     // Now that we've told Realm how to handle the schema change, opening the realm
     // will automatically perform the migration
     RLMRealm *realm = [RLMRealm defaultRealm];
-    // :code-block-end:
+    // :snippet-end:
     (void)realm;
 }
 
 - (void)testLocalMigration2 {
-    // :code-block-start: local-migration2
+    // :snippet-start: local-migration2
     RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
     // :remove-start:
     // Prevent schema version from affecting other unit tests
@@ -200,12 +200,12 @@
     // Now that we've told Realm how to handle the schema change, opening the realm
     // will automatically perform the migration
     RLMRealm *realm = [RLMRealm defaultRealm];
-    // :code-block-end:
+    // :snippet-end:
     (void)realm;
 }
 
 - (void) testUpdateSchemaVersionSyntax {
-    // :code-block-start: update-schema-version
+    // :snippet-start: update-schema-version
     // When you open the realm, specify that the schema
     // is now using a newer version.
     RLMRealmConfiguration *config = [[RLMRealmConfiguration alloc] init];
@@ -218,7 +218,7 @@
     // Use this configuration when opening realms
     [RLMRealmConfiguration setDefaultConfiguration:config];
     RLMRealm *realm = [RLMRealm defaultRealm];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

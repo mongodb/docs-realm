@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogInverseRelationshipExample": "Frog",
@@ -36,4 +36,4 @@ public class FrogInverseRelationshipExample extends RealmObject {
     public void setOwner(String owner) { this.owner = owner; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

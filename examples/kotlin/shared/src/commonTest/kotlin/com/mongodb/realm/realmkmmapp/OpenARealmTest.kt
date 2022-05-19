@@ -10,7 +10,7 @@ class OpenARealmTest: RealmTest() {
     fun openAndCloseARealmTest() {
         val REALM_NAME = getRandom()
         runBlocking {
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             val config = RealmConfiguration.Builder(setOf(Frog::class))
                 // :hide-start:
                 .directory("/tmp/") // default location for jvm is... in the project root
@@ -18,10 +18,10 @@ class OpenARealmTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-end:
-            // :code-block-start: close-a-realm
+            // :snippet-end:
+            // :snippet-start: close-a-realm
             realm.close()
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

@@ -27,7 +27,7 @@ class LandingPageTest : RealmTest() {
                 credentials
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
-                    // :code-block-start: update
+                    // :snippet-start: update
                     // Sync uses SyncConfiguration instead of RealmConfiguration,
                     // and requires both a logged-in user and a partition value
                     val config : SyncConfiguration =
@@ -62,7 +62,7 @@ class LandingPageTest : RealmTest() {
                         // :hide-end:
                     } // when the transaction completes, the frog's name and species
                     // are updated in the database and synced to the connected Realm App
-                    // :code-block-end:
+                    // :snippet-end:
                 }
             }
         }

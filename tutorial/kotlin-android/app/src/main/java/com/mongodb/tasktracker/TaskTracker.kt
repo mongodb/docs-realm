@@ -28,14 +28,14 @@ class TaskTracker : Application() {
         super.onCreate()
         // Initialize the Realm SDK
         Realm.init(this)
-        // :code-block-start: initialize-realm-and-create-app
+        // :snippet-start: initialize-realm-and-create-app
         taskApp = App(
             AppConfiguration.Builder(BuildConfig.MONGODB_REALM_APP_ID)
                 .defaultSyncErrorHandler { session, error ->
                     Log.e(TAG(), "Sync error: ${error.errorMessage}")
                 }
             .build())
-        // :code-block-end:
+        // :snippet-end:
 
         // Enable more logging in debug mode
         if (BuildConfig.DEBUG) {

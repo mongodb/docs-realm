@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.RealmObject;
 
 public class Snack extends RealmObject {
@@ -9,4 +9,4 @@ public class Snack extends RealmObject {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 }
-// :code-block-end:
+// :snippet-end:

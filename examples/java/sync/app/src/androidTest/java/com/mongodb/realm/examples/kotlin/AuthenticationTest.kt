@@ -26,7 +26,7 @@ class AuthenticationTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: offline
+            // :snippet-start: offline
             // Log the user into the backend app.
             // The first time you login, the user must have a network connection.
             val appID = YOUR_APP_ID // replace this with your App ID
@@ -62,7 +62,7 @@ class AuthenticationTest : RealmTest() {
             // :hide-start:
             expectation.fulfill()
             // :hide-end:
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -70,7 +70,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testAnonymous() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: anonymous
+            // :snippet-start: anonymous
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -94,7 +94,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -102,7 +102,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testEmailPassword() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: email-password
+            // :snippet-start: email-password
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -129,7 +129,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -137,7 +137,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testAPIKey() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: api-key
+            // :snippet-start: api-key
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -161,7 +161,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -169,7 +169,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testCustomFunction() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: custom-function
+            // :snippet-start: custom-function
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -194,7 +194,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -202,7 +202,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testCustomJWT() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: custom-jwt
+            // :snippet-start: custom-jwt
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -228,7 +228,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -241,7 +241,7 @@ class AuthenticationTest : RealmTest() {
                     .build()
             )
             val YOUR_FACEBOOK_SDK_APP_ID = "960466841104579"
-            // :code-block-start: facebook
+            // :snippet-start: facebook
             FacebookSdk.setApplicationId(YOUR_FACEBOOK_SDK_APP_ID)
             FacebookSdk.sdkInitialize(activity)
             val callbackManager = CallbackManager.Factory.create()
@@ -276,7 +276,7 @@ class AuthenticationTest : RealmTest() {
                         Log.e("AUTH", "Failed to authenticate with Facebook: ${exception.message}")
                     }
                 })
-            // :code-block-end:
+            // :snippet-end:
         }
         LoginManager.getInstance().logIn(activity, null)
     }
@@ -302,7 +302,7 @@ class AuthenticationTest : RealmTest() {
     @Test fun testSignInWithApple() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: apple
+            // :snippet-start: apple
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(
                 AppConfiguration.Builder(appID)
@@ -328,7 +328,7 @@ class AuthenticationTest : RealmTest() {
                 expectation.fulfill()
                 // :hide-end:
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -349,7 +349,7 @@ class AuthenticationTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated anonymously.")
                     user = app.currentUser()
-                    // :code-block-start: log-out
+                    // :snippet-start: log-out
                     user?.logOutAsync {
                         // :hide-start:
                         Assert.assertEquals(true, it.isSuccess)
@@ -363,7 +363,7 @@ class AuthenticationTest : RealmTest() {
                         expectation.fulfill()
                         // :hide-end:
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("AUTH", it.error.toString())
                 }

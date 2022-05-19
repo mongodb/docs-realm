@@ -39,10 +39,10 @@ final class Item: Object, ObjectKeyIdentifiable {
     @Persisted var isFavorite = false
 
     // :state-start: migration
-    // :code-block-start: add-property-to-model
+    // :snippet-start: add-property-to-model
     /// Users can enter a description, which is an empty string by default
     @Persisted var itemDescription = ""
-    // :code-block-end:
+    // :snippet-end:
     // :state-end:
     
     /// The backlink to the `Group` this item is a part of.
@@ -65,12 +65,12 @@ final class Group: Object, ObjectKeyIdentifiable {
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
 /// For now, it always displays the LocalOnlyContentView.
 // :state-start: migration
-// :code-block-start: realm-configuration-increment-schema
+// :snippet-start: realm-configuration-increment-schema
 let config = Realm.Configuration(schemaVersion: 2)
-// :code-block-end:
+// :snippet-end:
 // :state-end:
 // :state-start: migration
-// :code-block-start: pass-environment-object-to-local-content-view
+// :snippet-start: pass-environment-object-to-local-content-view
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
@@ -81,19 +81,19 @@ struct ContentView: SwiftUI.App {
             } else {
                 LocalOnlyContentView()
                 // :emphasize-start:
-                // :code-block-start: pass-realm-config-as-environment-object
+                // :snippet-start: pass-realm-config-as-environment-object
                     .environment(\.realmConfiguration, config)
-                // :code-block-end:
+                // :snippet-end:
                 // :emphasize-end:
             }
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 // :state-end:
 
 /// The main content view if not using Sync.
-// :code-block-start: implicitly-open-realm
+// :snippet-start: implicitly-open-realm
 struct LocalOnlyContentView: View {
     @State var searchFilter: String = ""
     // :emphasize-start:
@@ -115,13 +115,13 @@ struct LocalOnlyContentView: View {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 /// This view observes the Realm app object.
 /// Either direct the user to login, or open a realm
 /// with a logged-in user.
 // :state-start: migration
-// :code-block-start: pass-realm-config-to-synced-realm-view
+// :snippet-start: pass-realm-config-to-synced-realm-view
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
     @ObservedObject var app: RealmSwift.App
@@ -141,11 +141,11 @@ struct SyncContentView: View {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 // :state-end:
 
 /// This view opens a synced realm.
-// :code-block-start: auto-open-synced-realm
+// :snippet-start: auto-open-synced-realm
 struct OpenSyncedRealmView: View {
     // @AutoOpen attempts to connect to the server and download remote changes
     // before the realm opens, which might take a moment. However, if there is
@@ -194,7 +194,7 @@ struct OpenSyncedRealmView: View {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 struct ErrorView: View {
     var error: Error
@@ -268,9 +268,9 @@ struct LogoutButton: View {
 /// and deleting items in the group.
 struct ItemsView: View {
     @ObservedRealmObject var group: Group
-    // :code-block-start: explicitly-provide-config-to-property-wrappers
+    // :snippet-start: explicitly-provide-config-to-property-wrappers
     @ObservedResults(Item.self, configuration: config) var items
-    // :code-block-end:
+    // :snippet-end:
     @Binding var searchFilter: String
 
     /// The button to be displayed on the top left.
@@ -279,7 +279,7 @@ struct ItemsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // :code-block-start: searchable
+                // :snippet-start: searchable
                 // The list shows the items in the realm.
                 List {
                     ForEach(items) { item in
@@ -293,7 +293,7 @@ struct ItemsView: View {
                         Text(itemsFiltered.name).searchCompletion(itemsFiltered.name)
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
                 .listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)

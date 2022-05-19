@@ -37,7 +37,7 @@ namespace ReadExamples
         {
             var realm = Realm.GetInstance("");
 
-            // :code-block-start: get-all
+            // :snippet-start: get-all
             //:replace-start: {
             // "terms": {
             //   "ReadsProject": "Project",
@@ -46,13 +46,13 @@ namespace ReadExamples
             var projects = realm.All<ReadsProject>();
             var tasks = realm.All<ReadsTask>();
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: sort
+            // :snippet-start: sort
             var projectsSorted = projects.OrderByDescending(p => p.Name);
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: primary-key
+            // :snippet-start: primary-key
             //:replace-start: {
             // "terms": {
             //   "ReadsProject": "Project",
@@ -74,7 +74,7 @@ namespace ReadExamples
             // Find specific object by primary key
             var obj = realm.Find<ReadsTask>(1);
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
         }
 

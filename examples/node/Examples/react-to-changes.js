@@ -18,7 +18,7 @@ describe("React to Changes", () => {
     let dog;
     let hasRealmChanged = false; // boolean value to test if a change has registered
 
-    // :code-block-start: react-to-changes-register-change-listener
+    // :snippet-start: react-to-changes-register-change-listener
     // Define a listener callback function
     function onRealmChange() {
       console.log("Something changed!");
@@ -43,7 +43,7 @@ describe("React to Changes", () => {
     // :hide-end:
     // Remember to remove the listener when you're done!
     realm.removeListener("change", onRealmChange);
-    // :code-block-end:
+    // :snippet-end:
 
     // if 'hasRealmChanged' is true, the listener has successfully been registered and fired
     expect(hasRealmChanged).toBe(true);
@@ -67,7 +67,7 @@ describe("React to Changes", () => {
     let dogHasBeenModified = false;
     let dogHasBeenDeleted = false;
 
-    // :code-block-start: react-to-changes-register-collection-change-listener
+    // :snippet-start: react-to-changes-register-collection-change-listener
     // You can define a listener for any collection of Realm objects
     const dogs = realm.objects("Dog");
     // Define a listener callback function for changes to any Dog
@@ -126,7 +126,7 @@ describe("React to Changes", () => {
     // :hide-end:
     // Remember to remove the listener when you're done!
     dogs.removeListener(onDogsChange);
-    // :code-block-end:
+    // :snippet-end:
 
     expect(dogHasBeenInserted).toBe(true);
     expect(dogHasBeenModified).toBe(true);
@@ -145,7 +145,7 @@ describe("React to Changes", () => {
     let dogHasBeenDeleted = false;
     let propertyHasChanged = false;
 
-    // :code-block-start: react-to-changes-register-realm-object-change-listener
+    // :snippet-start: react-to-changes-register-realm-object-change-listener
 
     // Define a listener callback function for changes to a specific Dog
     function onDogChange(dog, changes) {
@@ -191,7 +191,7 @@ describe("React to Changes", () => {
     // :hide-end:
     // Remember to remove the listeners when you're done!
     dog.removeListener(onDogChange);
-    // :code-block-end:
+    // :snippet-end:
 
     expect(propertyHasChanged).toBe(true);
     expect(dogHasBeenDeleted).toBe(true);
@@ -232,14 +232,14 @@ describe("React to Changes", () => {
       );
     }
 
-    // :code-block-start: react-to-changes-remove-all-listeners
+    // :snippet-start: react-to-changes-remove-all-listeners
     // Remove all listeners from a realm
     realm.removeAllListeners();
     // Remove all listeners from a collection
     dogs.removeAllListeners();
     // Remove all listeners from an object
     dog.removeAllListeners();
-    // :code-block-end:
+    // :snippet-end:
 
     // a change occurs on the realm, collection, and object, but the listeners will not fire because they have been removed
     realm.write(() => {

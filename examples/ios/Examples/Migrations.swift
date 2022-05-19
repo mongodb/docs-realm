@@ -15,7 +15,7 @@ import RealmSwift
 // the migrations in here directly. The tests in this file mostly test that the syntax is 
 // correct but the functionality was manually verified in a realm app.
 
-// :code-block-start: model-v1
+// :snippet-start: model-v1
 // In the first version of the app, the Person model
 // has separate fields for first and last names,
 // and an age property.
@@ -24,9 +24,9 @@ class MigrationExampleV1_Person: Object {
     @Persisted var lastName = ""
     @Persisted var age = 0
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v1-update1
+// :snippet-start: model-v1-update1
 // In a new version, you add a property
 // on the Person model.
 class MigrationExampleV1Update1_Person: Object {
@@ -39,9 +39,9 @@ class MigrationExampleV1Update1_Person: Object {
     @Persisted var age = 0
 
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v1-update2
+// :snippet-start: model-v1-update2
 // In a new version, you remove a property
 // on the Person model.
 class MigrationExampleV1Update2_Person: Object {
@@ -53,9 +53,9 @@ class MigrationExampleV1Update2_Person: Object {
     // automatically, but must update the schema version.
 
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v2
+// :snippet-start: model-v2
 // In version 2, the Person model has one
 // combined field for the full name and age as a Int. 
 // A manual migration will be required to convert from 
@@ -64,9 +64,9 @@ class MigrationExampleV2_Person: Object {
     @Persisted var fullName = ""
     @Persisted var age = 0
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: model-v3
+// :snippet-start: model-v3
 // In version 3, the Person model has one
 // combined field for the full name and age as a String. 
 // A manual migration will be required to convert from 
@@ -75,7 +75,7 @@ class MigrationExampleV2_Person: Object {
     @Persisted var fullName = ""
     @Persisted var age = "0"
  }
-// :code-block-end:
+// :snippet-end:
 
 class Migrations: XCTestCase {
     override func tearDown() {
@@ -83,7 +83,7 @@ class Migrations: XCTestCase {
     }
 
     func testRenameProperty() {
-        // :code-block-start: rename-property
+        // :snippet-start: rename-property
         let config = Realm.Configuration(
             // :hide-start:
             // Prevent schema version from affecting other unit tests
@@ -97,12 +97,12 @@ class Migrations: XCTestCase {
                     migration.renameProperty(onType: MigrationExampleV1_Person.className(), from: "age", to: "yearsSinceBirth")
                 }
             })
-        // :code-block-end: rename-property
+        // :snippet-end: rename-property
         print(config)
     }
 
     func testLocalMigration() {
-        // :code-block-start: local-migration
+        // :snippet-start: local-migration
         // In application(_:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
             // :hide-start:
@@ -130,13 +130,13 @@ class Migrations: XCTestCase {
         // Now that we've told Realm how to handle the schema change, opening the file
         // will automatically perform the migration
         let realm = try! Realm()
-        // :code-block-end:
+        // :snippet-end:
         // Quash unused variable warning
         XCTAssert(realm.isEmpty)
     }
 
     func testLocalMigration2() {
-        // :code-block-start: local-migration2
+        // :snippet-start: local-migration2
         // In application(_:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
             // :hide-start:
@@ -169,13 +169,13 @@ class Migrations: XCTestCase {
         // Now that we've told Realm how to handle the schema change, opening the file
         // will automatically perform the migration
         let realm = try! Realm()
-        // :code-block-end:
+        // :snippet-end:
         // Quash unused variable warning
         XCTAssert(realm.isEmpty)
     }
 
     func testUpdateSchemaVersionSyntax() {
-        // :code-block-start: update-schema-version
+        // :snippet-start: update-schema-version
         // When you open the realm, specify that the schema
         // is now using a newer version.
         let config = Realm.Configuration(
@@ -187,7 +187,7 @@ class Migrations: XCTestCase {
         // Use this configuration when opening realms
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
-        // :code-block-end:
+        // :snippet-end:
         print(config)
     }
 

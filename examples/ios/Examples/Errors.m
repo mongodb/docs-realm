@@ -18,7 +18,7 @@
 
 
 - (void)testErrorHandlerMethod {
-    // :code-block-start: create-error-handler
+    // :snippet-start: create-error-handler
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // Access the sync manager for the app
     RLMSyncManager *syncManager = [app syncManager];
@@ -26,11 +26,11 @@
     syncManager.errorHandler = ^(NSError *error, RLMSyncSession *session) {
         // handle error
     };
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testClientReset {
-    // :code-block-start: client-reset
+    // :snippet-start: client-reset
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     [[app syncManager] setErrorHandler:^(NSError *error, RLMSyncSession *session) {
         if (error.code == RLMSyncErrorClientResetError) {
@@ -41,7 +41,7 @@
         }
         // Handle other errors...
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

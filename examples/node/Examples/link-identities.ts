@@ -59,7 +59,7 @@ afterAll(async () => {
 */
 describe("Linking Identities Tests", () => {
   test.skip("links anon identity with email/pass identity", async () => {
-    // :code-block-start: link-identities
+    // :snippet-start: link-identities
     async function linkAccounts(
       user: Realm.User,
       email: string,
@@ -74,7 +74,7 @@ describe("Linking Identities Tests", () => {
       );
       return linkedAccount;
     }
-    // :code-block-end:
+    // :snippet-end:
 
     const anonUser = await app.logIn(Realm.Credentials.anonymous());
     anonUser.logOut();

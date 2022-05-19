@@ -21,7 +21,7 @@ class ThreadingExamples_Email: Object {
     @Persisted var read = false
 }
 
-// :code-block-start: write-async-extension
+// :snippet-start: write-async-extension
 fileprivate extension Realm {
     func writeAsync<T: ThreadConfined>(_ passedObject: T, errorHandler: @escaping ((_ error: Swift.Error) -> Void) = { _ in return }, block: @escaping ((Realm, T?) -> Void)) {
         let objectReference = ThreadSafeReference(to: passedObject)
@@ -42,7 +42,7 @@ fileprivate extension Realm {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class Threading: XCTestCase {
     override func setUp() {
@@ -54,7 +54,7 @@ class Threading: XCTestCase {
     }
 
     func testFreeze() {
-        // :code-block-start: freeze
+        // :snippet-start: freeze
         let realm = try! Realm()
 
         // :hide-start:
@@ -89,7 +89,7 @@ class Threading: XCTestCase {
         assert(frozenTask.isFrozen)
         // Frozen objects have a reference to a frozen realm
         assert(frozenTask.realm!.isFrozen)
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testThaw() {
@@ -101,7 +101,7 @@ class Threading: XCTestCase {
 
         let frozenRealm = realm.freeze()
 
-        // :code-block-start: thaw
+        // :snippet-start: thaw
         // Read from a frozen realm
         let frozenTasks = frozenRealm.objects(Task.self)
 
@@ -130,7 +130,7 @@ class Threading: XCTestCase {
         try! thawedRealm.write {
            thawedTask!.status = "Done"
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testAppendToFrozenCollection() {
@@ -142,7 +142,7 @@ class Threading: XCTestCase {
             hiddenRealm.add(dog)
         }
         let frozenRealm = hiddenRealm.freeze()
-        // :code-block-start: append-to-frozen-collection
+        // :snippet-start: append-to-frozen-collection
         // Get a copy of frozen objects.
         // Here, we're getting them from a frozen realm,
         // but you might also be passing them across threads.
@@ -164,12 +164,12 @@ class Threading: XCTestCase {
             thawedTimmy?.dogs.append(thawedLassie!)
         }
         XCTAssertEqual(thawedTimmy?.dogs.first?.name, "Lassie")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testPassAcrossThreads() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: pass-across-threads
+        // :snippet-start: pass-across-threads
         let person = ThreadingExamples_Person(name: "Jane")
         let realm = try! Realm()
 
@@ -194,13 +194,13 @@ class Threading: XCTestCase {
                 expectation.fulfill() // :remove:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testThreadSafeWrapper() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: threadsafe-wrapper
+        // :snippet-start: threadsafe-wrapper
         let realm = try! Realm()
 
         let person = ThreadingExamples_Person(name: "Jane")
@@ -231,7 +231,7 @@ class Threading: XCTestCase {
                 expectation.fulfill() // :remove:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
         wait(for: [expectation], timeout: 10)
     }
@@ -242,7 +242,7 @@ class Threading: XCTestCase {
             return "Test"
         }
 
-        // :code-block-start: threadsafe-wrapper-function-parameter
+        // :snippet-start: threadsafe-wrapper-function-parameter
         func loadNameInBackground(@ThreadSafe person: ThreadingExamples_Person?) async {
             let newName = await someLongCallToGetNewName()
             let realm = try! await Realm()
@@ -259,7 +259,7 @@ class Threading: XCTestCase {
             realm.add(person)
         }
         await loadNameInBackground(person: person)
-        // :code-block-end:
+        // :snippet-end:
 
         XCTAssertEqual(person.name, "Test")
         wait(for: [expectation], timeout: 10)
@@ -267,7 +267,7 @@ class Threading: XCTestCase {
 
     func testWriteAsyncExtension() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: use-write-async-extension
+        // :snippet-start: use-write-async-extension
         let realm = try! Realm()
         let readEmails = realm.objects(ThreadingExamples_Email.self).where {
             $0.read == true
@@ -281,12 +281,12 @@ class Threading: XCTestCase {
             realm.delete(readEmails)
             expectation.fulfill() // :remove:
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testCreateSerialQueueToUseRealm() {
-        // :code-block-start: use-realm-with-serial-queue
+        // :snippet-start: use-realm-with-serial-queue
         // Initialize a serial queue, and
         // perform realm operations on it
         let serialQueue = DispatchQueue(label: "serial-queue")
@@ -294,7 +294,7 @@ class Threading: XCTestCase {
             let realm = try! Realm(configuration: .defaultConfiguration, queue: serialQueue)
             // Do something with Realm on the non-main thread
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 

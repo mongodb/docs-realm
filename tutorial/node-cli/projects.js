@@ -8,7 +8,7 @@ const main = require("./main");
 const tasks = require("./tasks");
 const manageTeam = require("./manageTeam");
 
-// :code-block-start: getProjects
+// :snippet-start: getProjects
 async function getProjects() {
   // :state-start: final
   const user = users.getAuthedUser();
@@ -32,7 +32,7 @@ async function getProjects() {
   // return projects;
   // :state-uncomment-end:
 }
-// :code-block-end:
+// :snippet-end:
 
 exports.showProjects = async () => {
   const projects = await getProjects();

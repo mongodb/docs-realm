@@ -33,14 +33,14 @@ public class RealmController : MonoBehaviour
         // :state-start: start
         // TODO: within a write transaction, increment the number of token's collected in the current playthrough/run's stat
         // :state-end:
-        // :code-block-start: collect-token-fn
+        // :snippet-start: collect-token-fn
         // :state-start: sync local
         realm.Write(() =>
         {
             currentStat.TokensCollected += 1;
         });
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     // DefeatEnemy() performs a write transaction to update the current
@@ -51,14 +51,14 @@ public class RealmController : MonoBehaviour
         // TODO: within a write transaction, increment the number of enemies
         // defeated in the current playthrough/run's stat
         // :state-end:
-        // :code-block-start: defeat-enemy-fn
+        // :snippet-start: defeat-enemy-fn
         // :state-start: sync local
         realm.Write(() =>
         {
             currentStat.EnemiesDefeated += 1;
         });
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     // DeleteCurrentStat() performs a write transaction to delete the current
@@ -71,7 +71,7 @@ public class RealmController : MonoBehaviour
         // TODO: within a write transaction, delete the current Stat object, and
         // its reference in the current Player object
         // :state-end:
-        // :code-block-start: delete-current-stat-method
+        // :snippet-start: delete-current-stat-method
         // :state-start: local sync
         realm.Write(() =>
         {
@@ -79,7 +79,7 @@ public class RealmController : MonoBehaviour
             currentPlayer.Stats.Remove(currentStat);
         });
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     // :state-start: start local
@@ -90,7 +90,7 @@ public class RealmController : MonoBehaviour
     }
     // :state-end:
 
-    // :code-block-start: logout-backend
+    // :snippet-start: logout-backend
     // :state-start: sync
     // LogOutBackend() is an asynchronous method that logs out 
     // the current MongoDB Realm User
@@ -100,9 +100,9 @@ public class RealmController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     // :state-end: 
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: realmcontroller-press-register-sync
+    // :snippet-start: realmcontroller-press-register-sync
     // :state-start: sync
     // OnPressRegister() is an asynchronous method that registers a user,
     // creates a new Player and Stat object OnPressRegister takes a userInput
@@ -128,7 +128,7 @@ public class RealmController : MonoBehaviour
         return currentPlayer;
     }
     // :state-end:
-    // :code-block-end:
+    // :snippet-end:
 
     // PlayerWon() calculates and returns the final score for the current
     // playthrough once the player has won the game
@@ -192,7 +192,7 @@ public class RealmController : MonoBehaviour
         // otherwise create a new player and give the new player a new Stat
         // object
         // :state-end:
-        // :code-block-start: realm-controller-set-logged-in-user
+        // :snippet-start: realm-controller-set-logged-in-user
         // :state-start: local
         // query the realm to find any Player objects with the matching name
         var matchedPlayers = realm.All<Player>().Where(p => p.Name == userInput);
@@ -226,12 +226,12 @@ public class RealmController : MonoBehaviour
             });
         }
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
         StartGame();
     }
     // :state-end:
 
-    // :code-block-start: realmcontroller-set-logged-in-user-synced
+    // :snippet-start: realmcontroller-set-logged-in-user-synced
     // :state-uncomment-start: sync
     // // SetLoggedInUser() is an asynchronous method that logs in as a Realms.Sync.User, creates a new Stat object for the current playthrough
     // // and returns the Player object that corresponds to the logged in Realms.Sync.User
@@ -262,7 +262,7 @@ public class RealmController : MonoBehaviour
     //     return currentPlayer;
     // }
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
     #endregion
 
@@ -311,15 +311,15 @@ public class RealmController : MonoBehaviour
         // // TODO: open a realm and return it
         // return null;
         // :state-uncomment-end:
-        // :code-block-start: get-realm-fn
+        // :snippet-start: get-realm-fn
         // :state-start: local
         return Realm.GetInstance();
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
     // :state-end:
 
-    // :code-block-start: get-realm-synced-realm-controller
+    // :snippet-start: get-realm-synced-realm-controller
     // :state-uncomment-start: sync
     // // GetRealm() is an asynchronous method that returns a synced realm
     // // GetRealm() takes a logged in Realms.Sync.User as a parameter
@@ -329,7 +329,7 @@ public class RealmController : MonoBehaviour
     //     return await Realm.GetInstanceAsync(syncConfiguration);
     // }
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
     // StartGame() records how long the player has been playing during the
     // current playthrough (i.e since logging in or since last losing or
     // winning)

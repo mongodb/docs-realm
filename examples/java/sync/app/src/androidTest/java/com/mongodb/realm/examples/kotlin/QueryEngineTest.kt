@@ -46,7 +46,7 @@ class QueryEngineTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: comparison-operators
+                            // :snippet-start: comparison-operators
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             Log.i("EXAMPLE", "High priority tasks: " + tasksQuery.greaterThan("priority", 5).count())
                             Log.i("EXAMPLE", "Just-started or short tasks: " + tasksQuery.between("progressMinutes", 1, 10).count())
@@ -55,7 +55,7 @@ class QueryEngineTest : RealmTest() {
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -91,7 +91,7 @@ class QueryEngineTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
-                            // :code-block-start: logical-operators
+                            // :snippet-start: logical-operators
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             Log.i("EXAMPLE", "Ali has completed " +
                                         tasksQuery.equalTo("assignee", "Ali").and()
@@ -99,7 +99,7 @@ class QueryEngineTest : RealmTest() {
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -135,7 +135,7 @@ class QueryEngineTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
-                            // :code-block-start: string-operators
+                            // :snippet-start: string-operators
                             val projectsQuery = realm.where(Project::class.java)
                             // Pass Case.INSENSITIVE as the third argument for case insensitivity.
                             Log.i("EXAMPLE", "Projects that start with 'e': "
@@ -145,7 +145,7 @@ class QueryEngineTest : RealmTest() {
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -181,7 +181,7 @@ class QueryEngineTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
-                            // :code-block-start: aggregate-operators
+                            // :snippet-start: aggregate-operators
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             /*
                             Aggregate operators do not support dot-notation, so you
@@ -194,7 +194,7 @@ class QueryEngineTest : RealmTest() {
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {

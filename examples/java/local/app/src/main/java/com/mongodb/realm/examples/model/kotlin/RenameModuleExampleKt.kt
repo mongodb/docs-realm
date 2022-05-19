@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "RenameModuleExampleKt": "MyModule"
@@ -17,4 +17,4 @@ import io.realm.annotations.RealmNamingPolicy
 // :emphasize-end:
 open class RenameModuleExampleKt
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

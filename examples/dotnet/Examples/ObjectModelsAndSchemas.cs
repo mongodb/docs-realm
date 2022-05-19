@@ -9,7 +9,7 @@ namespace Examples
     {
         // Used by 3 tests in Objects.cs
 
-        // :code-block-start: dog_class
+        // :snippet-start: dog_class
         // :replace-start: {
         //  "terms": {
         //   "Dog_OMAS": "Dog" }
@@ -47,6 +47,6 @@ namespace Examples
             */
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 }

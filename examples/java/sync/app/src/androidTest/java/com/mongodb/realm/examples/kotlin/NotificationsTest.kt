@@ -38,7 +38,7 @@ class NotificationsTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
-                            // :code-block-start: collection-notifications
+                            // :snippet-start: collection-notifications
                             val dogs = realm.where(Dog::class.java).findAll()
                             // Set up the collection notification handler.
                             val changeListener =
@@ -60,7 +60,7 @@ class NotificationsTest : RealmTest() {
                                 }
                             // Observe collection notifications.
                             dogs.addChangeListener(changeListener)
-                            // :code-block-end:
+                            // :snippet-end:
                             expectation.fulfill()
                         }
                     })
@@ -92,7 +92,7 @@ class NotificationsTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.")
-                            // :code-block-start: object-notifications
+                            // :snippet-start: object-notifications
                             // Create a dog in the realm.
                             var dog = Dog()
                             realm.executeTransaction { transactionRealm ->
@@ -124,7 +124,7 @@ class NotificationsTest : RealmTest() {
                             realm.executeTransaction { r: Realm? ->
                                 dog.name = "Wolfie" // -> "Field 'name' was changed."
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {

@@ -11,7 +11,7 @@ import TextInput from "@leafygreen-ui/text-input";
 import { uiColors } from "@leafygreen-ui/palette";
 import { useRealmApp } from "../RealmApp";
 
-// :code-block-start: useTeamMembers
+// :snippet-start: useTeamMembers
 function useTeamMembers() {
   const [teamMembers, setTeamMembers] = React.useState(null);
   const [newUserEmailError, setNewUserEmailError] = React.useState(null);
@@ -59,7 +59,7 @@ function useTeamMembers() {
     // :state-uncomment-end:
   };
 }
-// :code-block-end:
+// :snippet-end:
 
 export default function EditPermissionsModal({
   isEditingPermissions,

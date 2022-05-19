@@ -11,7 +11,7 @@ namespace ConsoleTests
     {
         const string myRealmAppId = "codesnippetbackend-drcpb";
 
-        //:code-block-start: async-console
+        //:snippet-start: async-console
         public static void Main(string[] args)
         {
             AsyncContext.Run(async () => await MainAsync(args));
@@ -34,7 +34,7 @@ namespace ConsoleTests
             await Task.Delay(10);
             //:hide-end:
         }
-        //:code-block-end:
+        //:snippet-end:
     }
 
     class TestClass : RealmObject

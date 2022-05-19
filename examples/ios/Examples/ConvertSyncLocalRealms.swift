@@ -31,7 +31,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         }
     }
 
-    // :code-block-start: convert-local-to-sync
+    // :snippet-start: convert-local-to-sync
     func testConvertLocalToSync() async throws {
         let app = App(id: YOUR_REALM_APP_ID)
 
@@ -128,9 +128,9 @@ class ConvertSyncAndLocalRealms: XCTestCase {
             return localRealm
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: convert-sync-to-local
+    // :snippet-start: convert-sync-to-local
     func testConvertSyncToLocal() async throws {
         let app = App(id: YOUR_REALM_APP_ID)
 
@@ -205,9 +205,9 @@ class ConvertSyncAndLocalRealms: XCTestCase {
 
         XCTAssertNotEqual(frodoLocalTasks.count, frodoSyncedTasks.count)
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: convert-sync-to-sync
+    // :snippet-start: convert-sync-to-sync
     func testConvertSyncToSync() async throws {
         let app = App(id: YOUR_REALM_APP_ID)
 
@@ -276,5 +276,5 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         let samTasksInFrodoRealm = frodoRealmTasks.where { $0.owner == "Sam" }
         XCTAssertEqual(samTasksInFrodoRealm.count, 0)
     }
-    // :code-block-end:
+    // :snippet-end:
 }

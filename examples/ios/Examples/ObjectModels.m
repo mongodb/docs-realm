@@ -7,7 +7,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: array-declaration
+// :snippet-start: array-declaration
 // ObjectModelsExamplesObjc_Task.h
 @interface ObjectModelsExamplesObjc_Task : RLMObject
 @property NSString *description;
@@ -34,9 +34,9 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
 @implementation ObjectModelsExamplesObjc_User
 @end
 // :remove-end:
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: define-a-model
+// :snippet-start: define-a-model
 // A dog has an _id primary key, a string name, an optional
 // string breed, and a date of birth.
 @interface ObjectModelsExamplesObjc_Dog : RLMObject
@@ -57,9 +57,9 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
     ];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: optional-required-properties
+// :snippet-start: optional-required-properties
 @interface OptionalRequiredPropertyObjcExample_Person : RLMObject
 // Required property - included in `requiredProperties`
 // return value array
@@ -84,9 +84,9 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
     return @[@"name"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: specify-a-primary-key
+// :snippet-start: specify-a-primary-key
 @interface ObjectModelsExamplesObjc_Project : RLMObject
 @property NSInteger id; // Intended primary key
 @property NSString *name;
@@ -98,9 +98,9 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
     return @"id";
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: index-a-property
+// :snippet-start: index-a-property
 @interface ObjectModelsExamplesObjc_Book : RLMObject
 @property int priceCents;
 @property NSString *title;
@@ -112,9 +112,9 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
     return @[@"title"];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: ignore-a-property
+// :snippet-start: ignore-a-property
 @interface ObjectModelsExamplesObjc_Person : RLMObject
 @property NSInteger tmpId;
 @property (readonly) NSString *name; // read-only properties are automatically ignored
@@ -130,7 +130,7 @@ RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
     return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
 @interface ObjectModelsExamplesObjc_TestProperties : RLMObject
 @property RLMDecimal128 *decimal;

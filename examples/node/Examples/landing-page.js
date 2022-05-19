@@ -3,7 +3,7 @@ import BSON from "bson";
 
 describe("Node Landing Page", () => {
   test("should define a realm object schema", async () => {
-    // :code-block-start: node-landing-define-object-schema
+    // :snippet-start: node-landing-define-object-schema
     // :uncomment-start:
     //import Realm from "realm";
     // :uncomment-end:
@@ -23,7 +23,7 @@ describe("Node Landing Page", () => {
       // :hide-end:
       schema: [Cat],
     });
-    // :code-block-end:
+    // :snippet-end:
     let cat1, cat2, cat3;
     realm.write(() => {
       cat1 = realm.create("Cat", {
@@ -50,7 +50,7 @@ describe("Node Landing Page", () => {
     expect(realm.objects("Cat")[1].name).toBe("Max");
     expect(realm.objects("Cat")[2].name).toBe("Clover");
 
-    // :code-block-start: node-landing-query-realm-database
+    // :snippet-start: node-landing-query-realm-database
     // retrieve the set of Cat objects
     const cats = realm.objects("Cat");
     console.log(`There are ${cats.length} cats`);
@@ -62,13 +62,13 @@ describe("Node Landing Page", () => {
     // filter for calico cats
     const calicoCats = cats.filtered("type == 'Calico'");
     console.log(`There are ${calicoCats.length} Calico cats`);
-    // :code-block-end:
+    // :snippet-end:
 
     expect(cats.length).toBe(3);
     expect(catsOlderThan7.length).toBe(2);
     expect(calicoCats.length).toBe(2);
 
-    // :code-block-start: node-landing-update-live-objects
+    // :snippet-start: node-landing-update-live-objects
     // find a cat named "Clover"
     const cloverCat = cats.filtered("name == 'Clover'");
     // update the Cat in a write transaction
@@ -77,10 +77,10 @@ describe("Node Landing Page", () => {
       cloverCat.age = 5;
     }); // when the transaction completes, the cat's age is updated in the database
     console.log(`Clover the cat is ${cloverCat.age} years old`);
-    // :code-block-end:
+    // :snippet-end:
     expect(cloverCat.age).toBe(5);
 
-    // :code-block-start:  node-landing-watch-for-object-updates
+    // :snippet-start:  node-landing-watch-for-object-updates
     // insert a cat into the database
     let aliceCat;
     realm.write(() => {
@@ -104,9 +104,9 @@ describe("Node Landing Page", () => {
       aliceCat.age = 15;
     });
 
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start:  node-landing-access-the-latest-data
+    // :snippet-start:  node-landing-access-the-latest-data
     // always access the latest data
     const realmInstanceA = await Realm.open({
       // :hide-start:
@@ -135,7 +135,7 @@ describe("Node Landing Page", () => {
     });
     // cat B instance automatically updates with the new name
     expect(calicoCatFromRealmInstanceB.name).toBe("Hestu");
-    // :code-block-end:
+    // :snippet-end:
 
     // close the realm, remove the listeners, and delete the objects
     aliceCat.removeListener(() => null);
@@ -163,7 +163,7 @@ describe("Node Landing Page", () => {
       },
     };
 
-    // :code-block-start: node-landing-sync-data-between-realms
+    // :snippet-start: node-landing-sync-data-between-realms
     var config = {
       schema: [Cat], // predefined schema
       sync: {
@@ -196,7 +196,7 @@ describe("Node Landing Page", () => {
     }); // when the transaction completes, the cat's name is updated in the database
     // and synced to the connected Realm App
 
-    // :code-block-end:
+    // :snippet-end:
 
     // close the realm, and delete the objects
     realm.write(() => {

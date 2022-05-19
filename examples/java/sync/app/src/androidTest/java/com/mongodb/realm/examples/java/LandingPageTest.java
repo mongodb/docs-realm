@@ -28,7 +28,7 @@ public class LandingPageTest extends RealmTest {
             Credentials credentials = Credentials.anonymous();
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
-                    // :code-block-start: update
+                    // :snippet-start: update
                     // Sync uses SyncConfiguration instead of RealmConfiguration,
                     // and requires both a logged-in user and a partition value
                     SyncConfiguration config = new SyncConfiguration.Builder(
@@ -62,7 +62,7 @@ public class LandingPageTest extends RealmTest {
                         // :hide-end:
                     }); // when the transaction completes, the frog's name and species
                     // are updated in the database and synced to the connected Realm App
-                    // :code-block-end:
+                    // :snippet-end:
                 }
             });
         });

@@ -159,7 +159,7 @@ Code examples are extracted using
 [Bluehawk](https://github.com/MongoCaleb/bluehawk). In the source files, you can annotate code like so:
 
 ```swift
-// :code-block-start: [id]
+// :snippet-start: [id]
 ... some code for the code example ...
 
 // :hide-start:
@@ -167,7 +167,7 @@ some code that should not be in the code example
 // :hide-end:
 
 ... some more code for the code example ...
-// :code-block-end:
+// :snippet-end:
 ```
 
 where _id_ is the name of the resulting code example when you run Bluehawk.
@@ -191,7 +191,7 @@ ManageEmailPasswordUsers.codeblock.confirm-new-user-email.swift
 ManageEmailPasswordUsers.codeblock.register-email.swift
 ```
 
-These files correspond to the `:code-block-start:` commands in `Examples/ManageEmailPasswordUsers.swift`.
+These files correspond to the `:snippet-start:` commands in `Examples/ManageEmailPasswordUsers.swift`.
 
 ### Include in Docs Source
 

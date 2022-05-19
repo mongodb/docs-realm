@@ -10,7 +10,7 @@ class RegistrationTest: RealmTest() {
     fun emailPasswordRegistrationTest() {
         val email = getRandom()
         val password = getRandom()
-        // :code-block-start: email-password-registration
+        // :snippet-start: email-password-registration
         val app: App = App.create(YOUR_APP_ID)
         runBlocking {
             app.emailPasswordAuth.registerUser(email, password)
@@ -18,7 +18,7 @@ class RegistrationTest: RealmTest() {
             val user = app.login(Credentials.emailPassword(email, password))
             Log.v("Successfully logged in ${user.identity}")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
 }

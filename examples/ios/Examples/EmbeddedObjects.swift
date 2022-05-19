@@ -6,7 +6,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: models
+// :snippet-start: models
 // Define an embedded object
 class EmbeddedObjectExamples_Address: EmbeddedObject {
     @Persisted var street: String?
@@ -42,7 +42,7 @@ class EmbeddedObjectExamples_Business: Object {
         self.addresses.append(objectsIn: addresses)
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class EmbeddedObjects: XCTestCase {
     override func setUp() {
@@ -67,7 +67,7 @@ class EmbeddedObjects: XCTestCase {
     }
 
     func testCreateEmbeddedObject() {
-        // :code-block-start: create-an-embedded-object
+        // :snippet-start: create-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
 
@@ -80,11 +80,11 @@ class EmbeddedObjects: XCTestCase {
             let contact = EmbeddedObjectExamples_Contact(name: "Nick Riviera", address: address)
             realm.add(contact)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testUpdateEmbeddedObjectProperty() {
-        // :code-block-start:  update-an-embedded-object-property
+        // :snippet-start:  update-an-embedded-object-property
         // Open the default realm
         let realm = try! Realm()
 
@@ -106,11 +106,11 @@ class EmbeddedObjects: XCTestCase {
             contact.address?.postalCode = "90210"
             print("Updated contact: \(contact)")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testOverwriteEmbeddedObject() {
-        // :code-block-start: overwrite-an-embedded-object
+        // :snippet-start: overwrite-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
 
@@ -136,11 +136,11 @@ class EmbeddedObjects: XCTestCase {
             contact.address = newAddress
             print("Updated contact: \(contact)")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testQueryEmbeddedObject() {
-        // :code-block-start: query-an-embedded-object
+        // :snippet-start: query-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
 
@@ -149,11 +149,11 @@ class EmbeddedObjects: XCTestCase {
             .filter("address.city = %@", "Los Angeles")
             .sorted(byKeyPath: "address.street")
         print("Los Angeles EmbeddedObjectExamples_Contacts: \(losAngelesContacts)")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testTypeSafeQueryEmbeddedObject() {
-        // :code-block-start: tsq-query-an-embedded-object
+        // :snippet-start: tsq-query-an-embedded-object
         // Open the default realm
         let realm = try! Realm()
 
@@ -164,7 +164,7 @@ class EmbeddedObjects: XCTestCase {
             }
             .sorted(byKeyPath: "address.street")
         print("Los Angeles EmbeddedObjectExamples_Contacts: \(losAngelesContacts)")
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

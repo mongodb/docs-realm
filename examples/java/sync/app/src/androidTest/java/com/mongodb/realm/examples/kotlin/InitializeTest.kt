@@ -12,20 +12,20 @@ class InitializeTest : RealmTest() {
 
     @Test
     fun testAccessAppClient() {
-        // :code-block-start: access-app-client
+        // :snippet-start: access-app-client
         val appID : String = YOUR_APP_ID // replace this with your App ID
         val app: App = App(AppConfiguration.Builder(appID).build())
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
     fun testAdvancedAccessAppClient() {
-        // :code-block-start: advanced-access-app-client
+        // :snippet-start: advanced-access-app-client
         val appID = YOUR_APP_ID // replace this with your App ID
         val app: App = App(AppConfiguration.Builder(appID)
             .appName("My App")
             .requestTimeout(30, TimeUnit.SECONDS)
             .build())
-        // :code-block-end:
+        // :snippet-end:
     }
 }

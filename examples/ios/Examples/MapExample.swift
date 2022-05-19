@@ -7,7 +7,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: models
+// :snippet-start: models
 class MapExamples_Dog: Object {
     @Persisted var name = ""
     @Persisted var currentCity = ""
@@ -15,7 +15,7 @@ class MapExamples_Dog: Object {
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
 }
-// :code-block-end:
+// :snippet-end:
 
 class MapExample: XCTestCase {
     override func setUp() {
@@ -27,7 +27,7 @@ class MapExample: XCTestCase {
     }
 
     func testMapExample() {
-        // :code-block-start: map
+        // :snippet-start: map
         let realm = try! Realm()
         // Record a dog's name and current city
         let dog = MapExamples_Dog()
@@ -65,7 +65,7 @@ class MapExample: XCTestCase {
             // this would assign `nil` to that entry rather than deleting it.
             dog.favoriteParksByCity["New York"] = nil
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

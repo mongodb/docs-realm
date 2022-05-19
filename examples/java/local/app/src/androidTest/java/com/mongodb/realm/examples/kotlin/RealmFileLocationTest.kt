@@ -17,10 +17,10 @@ class RealmFileLocationTest : RealmTest() {
                 .allowWritesOnUiThread(true)
                 .build()
 
-            // :code-block-start: get-realm-file-location
+            // :snippet-start: get-realm-file-location
             val realm = Realm.getInstance(config)
             Log.v("EXAMPLE", "Realm file path: ${realm.path}")
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }

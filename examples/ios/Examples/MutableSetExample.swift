@@ -7,13 +7,13 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: set-collections-model
+// :snippet-start: set-collections-model
 class MutableSetExamples_Dog: Object {
     @Persisted var name = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
 }
-// :code-block-end:
+// :snippet-end:
 
 class MutableSetExample: XCTestCase {
 
@@ -25,7 +25,7 @@ class MutableSetExample: XCTestCase {
     }
 
     func testMutableSet() {
-        // :code-block-start: set-collections
+        // :snippet-start: set-collections
         let realm = try! Realm()
 
         // Record a dog's name and current city
@@ -59,9 +59,9 @@ class MutableSetExample: XCTestCase {
         // Because 'citiesVisited' is a MutableSet, you only see
         // New York listed once, even though he has been there twice
         XCTAssert(dog.citiesVisited.count == 2)
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: set-intersection-methods
+        // :snippet-start: set-intersection-methods
         // Record another dog's name and give it a longer set of cities,
         // some of which overlap the first dog's set
         let dog2 = MutableSetExamples_Dog()
@@ -100,7 +100,7 @@ class MutableSetExample: XCTestCase {
         // Prints "New York" and "Toronto", because those are the cities both sets have in common
         // Because this method mutates the set in place, the set now only contains 2 elements
         XCTAssert(dog2.citiesVisited.count == 2)
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

@@ -9,13 +9,13 @@ import RealmSwift
 
 // MARK: Define an Object Schema
 
-// :code-block-start: coffee-drink-object
+// :snippet-start: coffee-drink-object
 class LandingPageExamples_CoffeeDrink: Object {
     @Persisted var name = ""
     @Persisted var hotOrCold: String?
     @Persisted var rating = 0
 }
-// :code-block-end:
+// :snippet-end:
 
 class LandingPageExamples_CoffeeShop: Object {
     // Required string property
@@ -50,7 +50,7 @@ class LandingPageExamples: XCTestCase {
     }
 
     func testWriteObject() {
-        // :code-block-start: write-an-object
+        // :snippet-start: write-an-object
         let realm = try! Realm()
         try! realm.write {
             // Add coffee shop and drink info here.
@@ -62,12 +62,12 @@ class LandingPageExamples: XCTestCase {
             shop.drinks.append(drink)
             realm.add(shop)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testQueryCoffeeRatings() {
 
-        // :code-block-start: query
+        // :snippet-start: query
         let realm = try! Realm()
 
         let drinks = realm.objects(LandingPageExamples_CoffeeDrink.self)
@@ -87,13 +87,13 @@ class LandingPageExamples: XCTestCase {
         }
         print("No info about drink temp: \(drinkTempNotSpecified.count)")
 
-        // :code-block-end:
+        // :snippet-end:
     }
 
     // MARK: Update Live Objects
 
     func testUpdateMapleLatte() {
-        // :code-block-start: update-live-objects
+        // :snippet-start: update-live-objects
         let realm = try! Realm()
         // Get a maple latte
         let mapleLatte = realm.objects(LandingPageExamples_CoffeeDrink.self).where {
@@ -107,7 +107,7 @@ class LandingPageExamples: XCTestCase {
             // Specify that the maple latte is a hot drink.
             mapleLatte.hotOrCold = "Hot"
         } // When the transaction completes, the drink details are updated in the database.
-        // :code-block-end:
+        // :snippet-end:
     }
 
     // MARK: Watch for Object Updates
@@ -115,7 +115,7 @@ class LandingPageExamples: XCTestCase {
     // and is not really tested, but makes a convenient full-program
     // example.
 
-    // :code-block-start: watch-for-object-updates
+    // :snippet-start: watch-for-object-updates
 
     var drinkNotificationToken: NotificationToken?
 
@@ -152,13 +152,13 @@ class LandingPageExamples: XCTestCase {
         }
     }
 
-    // :code-block-end:
+    // :snippet-end:
 
     // MARK: Always Access the Latest Data
 
     func testLiveObjectExample() {
 
-        // :code-block-start: always-access-the-latest-data
+        // :snippet-start: always-access-the-latest-data
         // Open the default realm.
         let realm = try! Realm()
 
@@ -181,7 +181,7 @@ class LandingPageExamples: XCTestCase {
         }
         // See that drink A instance updates with the new rating
         XCTAssert(drinkB.rating == drinkA.rating)
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

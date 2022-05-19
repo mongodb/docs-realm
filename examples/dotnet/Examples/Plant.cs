@@ -4,7 +4,7 @@ using Realms;
 
 namespace Examples.Models
 {
-    // :code-block-start: plant-class
+    // :snippet-start: plant-class
     public class Plant
     //:hide-start:
     : RealmObject
@@ -52,5 +52,5 @@ namespace Examples.Models
         Perennial,
         Annual
     }
-    // :code-block-end:
+    // :snippet-end:
 }

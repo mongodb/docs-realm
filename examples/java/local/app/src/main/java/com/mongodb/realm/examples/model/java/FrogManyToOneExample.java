@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogManyToOneExample": "Frog"
@@ -34,4 +34,4 @@ public class FrogManyToOneExample extends RealmObject {
     public void setBestFriend(FrogManyToOneExample bestFriend) { this.bestFriend = bestFriend; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

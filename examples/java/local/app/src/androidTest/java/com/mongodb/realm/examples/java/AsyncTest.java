@@ -24,7 +24,7 @@ public class AsyncTest extends RealmTest {
                     .allowWritesOnUiThread(true)
                     .build();
 
-            // :code-block-start: realm-callback
+            // :snippet-start: realm-callback
             Realm.getInstanceAsync(config, new Realm.Callback() {
                 @Override
                 public void onSuccess(@NotNull Realm realm) {
@@ -34,7 +34,7 @@ public class AsyncTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to get realm instance: " + e);
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
         });
         expectation.await();
@@ -54,7 +54,7 @@ public class AsyncTest extends RealmTest {
                 public void onSuccess(@NotNull Realm realm) {
                     Log.v("EXAMPLE", "Successfully fetched realm instance");
 
-                    // :code-block-start: realm-async-task
+                    // :snippet-start: realm-async-task
                     // transaction logic, success notification, error handler all via lambdas
                     realm.executeTransactionAsync(transactionRealm -> {
                         Item item = transactionRealm.createObject(Item.class);
@@ -81,7 +81,7 @@ public class AsyncTest extends RealmTest {
                             Log.e("EXAMPLE", "Failed the transaction: " + error);
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 }
                 public void onError(Exception e) {
                     Log.e("EXAMPLE", "Failed to get realm instance: " + e);
@@ -107,7 +107,7 @@ public class AsyncTest extends RealmTest {
                 public void onSuccess(@NotNull Realm realm) {
                     Log.v("EXAMPLE", "Successfully fetched realm instance");
 
-                    // :code-block-start: realm-results
+                    // :snippet-start: realm-results
                     RealmResults<Item> items = realm.where(Item.class).findAllAsync();
                     // length of items is zero when initially returned
                     items.addChangeListener(new RealmChangeListener<RealmResults<Item>>() {
@@ -117,7 +117,7 @@ public class AsyncTest extends RealmTest {
                             // items results now contains all matched objects (more than zero)
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 }
                 public void onError(Exception e) {
                     Log.e("EXAMPLE", "Failed to get realm instance: " + e);

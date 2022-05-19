@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import Realm from 'realm';
-// :code-block-start: using-change-listeners-functional-component
+// :snippet-start: using-change-listeners-functional-component
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   // :emphasize-start:
@@ -58,5 +58,5 @@ const TaskList = () => {
     </>
   );
 };
-// :code-block-end:
+// :snippet-end:
 export default TaskList;

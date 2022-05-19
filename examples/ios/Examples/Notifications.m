@@ -6,7 +6,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: register-an-object-change-listener
+// :snippet-start: register-an-object-change-listener
 @interface NotificationsObjcExamples_Dog : RLMObject
 @property NSString *name;
 @property int age;
@@ -50,9 +50,9 @@ void objectNotificationExample() {
     }];
 
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: register-a-collection-change-listener
+// :snippet-start: register-a-collection-change-listener
 @interface CollectionNotificationExampleViewController : UITableViewController
 @end
 
@@ -95,7 +95,7 @@ void objectNotificationExample() {
     }];
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
 @interface NotificationsObjc : XCTestCase
 @end
@@ -113,7 +113,7 @@ void objectNotificationExample() {
 }
 
 - (void)testSilentWrite {
-    // :code-block-start: silent-write
+    // :snippet-start: silent-write
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Observe realm notifications
@@ -129,11 +129,11 @@ void objectNotificationExample() {
     
     // Finally
     [token invalidate];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testRealmNotification {
-    // :code-block-start: register-a-realm-change-listener
+    // :snippet-start: register-a-realm-change-listener
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Observe realm notifications. Keep a strong reference to the notification token
@@ -147,11 +147,11 @@ void objectNotificationExample() {
 
     // Later, explicitly stop observing.
     [token invalidate];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testStopWatching {
-    // :code-block-start: stop-watching
+    // :snippet-start: stop-watching
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Observe and obtain token
@@ -161,7 +161,7 @@ void objectNotificationExample() {
 
     // Stop observing
     [token invalidate];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

@@ -34,7 +34,7 @@ namespace Examples
             });
 
             var id = mrc._id;
-            //:code-block-start:realmint-use
+            //:snippet-start:realmint-use
             var myObject = realm.Find<MyRealmClass>(id);
             // myObject.Counter == 0
 
@@ -64,7 +64,7 @@ namespace Examples
                 // RealmInteger<T> is implicitly convertable to T:
                 int bar = myObject.Counter;
             });
-            //:code-block-end:
+            //:snippet-end:
             Assert.AreEqual(0, myObject.Counter);
         }
 
@@ -72,7 +72,7 @@ namespace Examples
         public async Task WorkWithDictionaries()
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
-            //:code-block-start:query-dictionaries
+            //:snippet-start:query-dictionaries
             var storeInventory = new Inventory()
             {
                 Id = ObjectId.GenerateNewId().ToString()
@@ -111,7 +111,7 @@ namespace Examples
             var matches = realm.All<Inventory>().Filter("RequiredStringsDict['foo'] CONTAINS[c] 'bar'");
             // matches.Count() == 2
 
-            //:code-block-end:
+            //:snippet-end:
 
             Assert.IsNotNull(petunias);
             Assert.IsNotNull(matchesMoreThanFive);
@@ -123,7 +123,7 @@ namespace Examples
         {
             if (realm == null) realm = await Realm.GetInstanceAsync();
 
-            //:code-block-start:query-sets
+            //:snippet-start:query-sets
             //:replace-start: {
             //  "terms": {
             //   "PlantInventory": "Inventory"}
@@ -149,7 +149,7 @@ namespace Examples
             var moreThan100 = realm.All<PlantInventory>()
                 .Filter("DoubleSet.@values > 100");
             // :replace-end:
-            //:code-block-end:
+            //:snippet-end:
 
             Assert.IsNotNull(pricklyPear);
             Assert.IsNotNull(pricklyPearPlants);
@@ -170,7 +170,7 @@ namespace Examples
                 realm.Add<ListInventory>(listInventory);
             });
 
-            //:code-block-start:query-lists
+            //:snippet-start:query-lists
             //:replace-start: {
             //  "terms": {
             //   "ListInventory": "Inventory"}
@@ -186,7 +186,7 @@ namespace Examples
             // Find all Inventory items that have a green colored plant
             var greenPlants = realm.All<ListInventory>().Filter("Plants.Color CONTAINS[c] 'Green'");
             // :replace-end:
-            //:code-block-end:
+            //:snippet-end:
 
             Assert.IsNotNull(pricklyPearCacti);
             Assert.IsNotNull(pricklyPearCactiCactiPlants);
@@ -196,7 +196,7 @@ namespace Examples
         [Test]
         public void RealmValueTests()
         {
-            //:code-block-start:realmValues
+            //:snippet-start:realmValues
             // CS0029 - Cannot implicitly convert type:
             // :uncomment-start:
             // RealmValue myList = new List<Inventory>();
@@ -205,7 +205,7 @@ namespace Examples
             // These are valid uses of RealmValue:
             var rvList = new List<RealmValue>();
             var rvDict = new Dictionary<string, RealmValue>();
-            //:code-block-end:
+            //:snippet-end:
         }
 
         [TearDown]
@@ -220,7 +220,7 @@ namespace Examples
 
         }
 
-        //:code-block-start:sets
+        //:snippet-start:sets
         //:replace-start: {
         //  "terms": {
         //   "PlantInventory": "Inventory"}
@@ -249,9 +249,9 @@ namespace Examples
             public ISet<string> RequiredStrings { get; }
         }
         // :replace-end:
-        //:code-block-end:
+        //:snippet-end:
 
-        //:code-block-start:dictionaries
+        //:snippet-start:dictionaries
 
         public class Inventory : RealmObject
         {
@@ -276,7 +276,7 @@ namespace Examples
             [Required]
             public IDictionary<string, string> RequiredStringsDict { get; }
         }
-        //:code-block-end:
+        //:snippet-end:
 
         public class ListInventory : RealmObject
         {
@@ -289,7 +289,7 @@ namespace Examples
         }
 
 
-        //:code-block-start:realmvalue
+        //:snippet-start:realmvalue
         public class MyRealmValueObject : RealmObject
         {
             [PrimaryKey]
@@ -321,15 +321,15 @@ namespace Examples
                 var myString = obj.MyValue.AsString();
             }
         }
-        //:code-block-end:
+        //:snippet-end:
     }
 
-    // :code-block-start:realmint-class
+    // :snippet-start:realmint-class
     public class MyRealmClass : RealmObject
     {
         [PrimaryKey]
         public int _id { get; set; }
         public RealmInteger<int> Counter { get; set; }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

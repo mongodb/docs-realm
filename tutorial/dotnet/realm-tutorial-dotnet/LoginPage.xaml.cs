@@ -24,14 +24,14 @@ namespace RealmDotnetTutorial
         {
             try
             {
-                // :code-block-start:login-async
+                // :snippet-start:login-async
                 // :state-start: final
                 var user = await App.RealmApp.LogInAsync(Credentials.EmailPassword(email, password));
                 // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to LogInAsync
                 //// var user = await ...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
                 if (user != null)
                 {
                     var projectPage = new ProjectPage();
@@ -53,14 +53,14 @@ namespace RealmDotnetTutorial
         {
             try
             {
-                // :code-block-start:register-user
+                // :snippet-start:register-user
                 // :state-start: final
                 await App.RealmApp.EmailPasswordAuth.RegisterUserAsync(email, password);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: pass the email and password properties to RegisterUserAsync
                 //// await App...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
                 await DoLogin();
             }
             catch (Exception ex)

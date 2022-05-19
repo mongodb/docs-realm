@@ -7,7 +7,7 @@ using static Examples.ObjectModelsAndSchemas;
 
 namespace Examples.Models
 {
-    // :code-block-start: embedded
+    // :snippet-start: embedded
     // :replace-start: {
     //  "terms": {
     //      "Address10": "Address",
@@ -28,11 +28,11 @@ namespace Examples.Models
         public Address10 Address { get; set; } // embed a single address 
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
 
     // STAND-ALONE class; not used elsewhere
-    // :code-block-start: primary-key
+    // :snippet-start: primary-key
     // :replace-start: {
     //  "terms": {
     //      "Person_Required": "Person",
@@ -52,9 +52,9 @@ namespace Examples.Models
         public Person_Required Owner { get; set; }
     }
     //:replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: required
+    // :snippet-start: required
     // :replace-start: {
     //  "terms": {
     //      "Person_Required": "Person",
@@ -72,9 +72,9 @@ namespace Examples.Models
         public IList<Dog_OMAS> Dogs { get; }
     }
     //:replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: default
+    // :snippet-start: default
     // :replace-start: {
     //  "terms": {
     //      "PersonB": "Person" }
@@ -89,9 +89,9 @@ namespace Examples.Models
         public string Name { get; set; } = "foo";
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: index
+    // :snippet-start: index
     // :replace-start: {
     //  "terms": {
     //      "Person_Index": "Person",
@@ -109,9 +109,9 @@ namespace Examples.Models
         public IList<Dog_OMAS> Dogs { get; }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: rel-to-one
+    // :snippet-start: rel-to-one
     // :replace-start: {
     //     "terms": {
     //      "Person_Rel_One_to_One": "Person",
@@ -139,9 +139,9 @@ namespace Examples.Models
         public string Name { get; set; }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: rel-to-many
+    // :snippet-start: rel-to-many
     // :replace-start: {
     //  "terms": {
     //   "Person_Rel_One_to_Many": "Person",
@@ -169,9 +169,9 @@ namespace Examples.Models
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: inverse
+    // :snippet-start: inverse
     //  :replace-start: {
     //  "terms": {
     //   "Person_Inverse": "Person",
@@ -217,7 +217,7 @@ namespace Examples.Models
         public IQueryable<Person_Inverse> PeopleWithThatHobby { get; }
         // :replace-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
     class IgnorantRenamer
     {
@@ -226,7 +226,7 @@ namespace Examples.Models
         [MapTo("_id")]
         public ObjectId ID { get; set; }
         //:hide-end:
-        // :code-block-start: ignore
+        // :snippet-start: ignore
         // Rather than store an Image in Realm,
         // store the path to the Image...
         public string ThumbnailPath { get; set; }
@@ -235,9 +235,9 @@ namespace Examples.Models
         // in-memory when the app is running:
         [Ignored]
         public Image Thumbnail { get; set; }
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: rename
+        // :snippet-start: rename
         //:replace-start: {
         // "terms": {
         //   "PersonH": "Person"}
@@ -253,7 +253,7 @@ namespace Examples.Models
             public string Name { get; set; }
         }
         //:replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
         public class Image
         {
@@ -264,7 +264,7 @@ namespace Examples.Models
     {
         [PrimaryKey]
         public string _id { get; set; } = ObjectId.GenerateNewId().ToString();
-        // :code-block-start: custom-setter
+        // :snippet-start: custom-setter
         // This property will be stored in the Realm
         private string email { get; set; }
 
@@ -279,10 +279,10 @@ namespace Examples.Models
                 email = value;
             }
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
-    // :code-block-start: rename-class
+    // :snippet-start: rename-class
     //:replace-start: {
     // "terms": {
     //   "PersonI": "Person",
@@ -299,11 +299,11 @@ namespace Examples.Models
         public string Name { get; set; }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
 
 
-    // :code-block-start: subset
+    // :snippet-start: subset
     //:replace-start: {
     // "terms": {
     //      "Dog_OMAS": "Dog"}
@@ -332,7 +332,7 @@ namespace Examples.Models
         }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
     class Cat
     { }

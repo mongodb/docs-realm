@@ -25,14 +25,14 @@ class ErrorHandlerTest : RealmTest()  {
             ) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: error-handler
+                    // :snippet-start: error-handler
                     val user = app.currentUser()
                     val config = SyncConfiguration.Builder(user, partition)
                         .errorHandler { session, error ->
                             // do some error handling
                         }
                         .build()
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e( "EXAMPLE", "Failed login: ${it.error.errorMessage}")
                 }

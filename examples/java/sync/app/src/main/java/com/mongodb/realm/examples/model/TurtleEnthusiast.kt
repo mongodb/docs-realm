@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
@@ -12,4 +12,4 @@ open class TurtleEnthusiast(var name : String? = null, var age : Int = 0): Realm
     @LinkingObjects("owner")
     val turtles : RealmResults<Turtle>? = null
 }
-// :code-block-end:
+// :snippet-end:

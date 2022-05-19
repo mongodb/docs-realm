@@ -27,30 +27,30 @@ namespace Examples
         public async ThreadTask LogsOnManyWays()
         {
             {
-                // :code-block-start: logon_anon
+                // :snippet-start: logon_anon
                 var user = await app.LogInAsync(Credentials.Anonymous());
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
             {
-                // :code-block-start: logon_EP
+                // :snippet-start: logon_EP
                 var user = await app.LogInAsync(
                     Credentials.EmailPassword("caleb@example.com", "shhhItsASektrit!"));
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
             {
                 var apiKey = "F5ONly653MyQEq781wR4LT3nu3eGmIf0uDhHnkpsAkXyvsbPee8RqJyv6HVzM9dU";
-                // :code-block-start: logon_API
+                // :snippet-start: logon_API
                 var user = await app.LogInAsync(Credentials.ApiKey(apiKey));
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
             {
-                // :code-block-start: logon_Function
+                // :snippet-start: logon_Function
                 var functionParameters = new
                 {
                     username = "caleb",
@@ -61,7 +61,7 @@ namespace Examples
 
                 var user =
                     await app.LogInAsync(Credentials.Function(functionParameters));
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
@@ -71,20 +71,20 @@ namespace Examples
                     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
                     "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImNhbGViQGV4YW1wbGUuY29tIiwiaWF0IjoxNjAxNjc4ODcyLCJleHAiOjI1MTYyMzkwMjIsImF1ZCI6InNuaXBwZXRzZG9ub3RkZWxldGUtcXJvdXEifQ." +
                     "Qp-sRcKAyuS5ONeBDvZuSg6-YAzohCdU3yKLnz7MXbI";
-                // :code-block-start: logon_JWT
+                // :snippet-start: logon_JWT
                 var user =
                     await app.LogInAsync(Credentials.JWT(jwt_token));
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(UserState.LoggedIn, user.State);
                 await user.LogOutAsync();
             }
             try
             {
                 var facebookToken = "";
-                // :code-block-start: logon_fb
+                // :snippet-start: logon_fb
                 var user =
                     await app.LogInAsync(Credentials.Facebook(facebookToken));
-                // :code-block-end:
+                // :snippet-end:
             }
             catch (Exception e)
             {
@@ -93,10 +93,10 @@ namespace Examples
             try
             {
                 var googleAuthCode = "";
-                // :code-block-start: logon_google
+                // :snippet-start: logon_google
                 var user =
                     await app.LogInAsync(Credentials.Google(googleAuthCode, GoogleCredentialType.AuthCode));
-                // :code-block-end:
+                // :snippet-end:
             }
             catch (Exception e)
             {
@@ -105,10 +105,10 @@ namespace Examples
             try
             {
                 var appleToken = "";
-                // :code-block-start: logon_apple
+                // :snippet-start: logon_apple
                 var user =
                     await app.LogInAsync(Credentials.Apple(appleToken));
-                // :code-block-end:
+                // :snippet-end:
             }
 
             catch (Exception e)

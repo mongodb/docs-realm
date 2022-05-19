@@ -1,6 +1,6 @@
 import RealmSwift
 
-// :code-block-start: person-model
+// :snippet-start: person-model
 class Person: Object {
     // Required string property
     @Persisted var name: String = ""
@@ -11,4 +11,4 @@ class Person: Object {
     // Optional integral type property
     @Persisted var age: Int?
 }
-// :code-block-end:
+// :snippet-end:

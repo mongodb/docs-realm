@@ -5,7 +5,7 @@ class Functions: AnonymouslyLoggedInTestCase {
 
     func testCallFunction() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: call-a-function
+        // :snippet-start: call-a-function
         let app = App(id: YOUR_REALM_APP_ID)
 
         // ... log in ...
@@ -34,10 +34,10 @@ class Functions: AnonymouslyLoggedInTestCase {
             expectation.fulfill()
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
-    // :code-block-start: async-call-a-function
+    // :snippet-start: async-call-a-function
     func testAsyncCallFunction() async {
         let app = App(id: YOUR_REALM_APP_ID)
 
@@ -57,5 +57,5 @@ class Functions: AnonymouslyLoggedInTestCase {
             print("Function call failed: \(error.localizedDescription)")
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

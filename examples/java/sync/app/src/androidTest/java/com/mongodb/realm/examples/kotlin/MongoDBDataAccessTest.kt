@@ -30,7 +30,7 @@ class MongoDBDataAccessTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: example-data
+                    // :snippet-start: example-data
                     val user = app.currentUser()
                     val mongoClient =
                         user!!.getMongoClient("mongodb-atlas")
@@ -93,7 +93,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :hide-start:
                     expectation.fulfill()
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -115,7 +115,7 @@ class MongoDBDataAccessTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: instantiate-a-mongodb-collection-handle
+                    // :snippet-start: instantiate-a-mongodb-collection-handle
                     val user = app.currentUser()
                     val mongoClient =
                         user!!.getMongoClient("mongodb-atlas")
@@ -134,7 +134,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     // :hide-start:
                     expectation.fulfill()
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error.errorMessage}")
                 }
@@ -169,7 +169,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: insert-a-single-document
+                    // :snippet-start: insert-a-single-document
                     val plant = Plant(
                         ObjectId(),
                         "lily of the valley",
@@ -191,7 +191,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error.errorMessage}")
                 }
@@ -226,7 +226,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: insert-multiple-documents
+                    // :snippet-start: insert-multiple-documents
                     val plants = listOf(
                         Plant(
                             ObjectId(),
@@ -267,7 +267,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -304,7 +304,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: find-a-single-document
+                    // :snippet-start: find-a-single-document
                     val queryFilter = Document("type", "perennial")
                     mongoCollection.findOne(queryFilter)
                         .getAsync { task ->
@@ -318,7 +318,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 Log.e("EXAMPLE", "failed to find document with: ${task.error}")
                             }
                         }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
                 }
@@ -352,7 +352,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: find-multiple-documents
+                    // :snippet-start: find-multiple-documents
                     val queryFilter = Document("_partition", "Store 42")
                     val findTask = mongoCollection.find(queryFilter).iterator()
                     findTask.getAsync { task ->
@@ -369,7 +369,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to find documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -407,7 +407,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: count-documents
+                    // :snippet-start: count-documents
                     mongoCollection.count().getAsync { task ->
                         if (task.isSuccess) {
                             val count = task.get()
@@ -419,7 +419,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to count documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -456,7 +456,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: update-a-single-document
+                    // :snippet-start: update-a-single-document
                     val queryFilter = Document("name", "petunia")
                     val updateDocument = Document("\$set", Document("sunlight", "partial"))
                     mongoCollection.updateOne(queryFilter, updateDocument).getAsync { task ->
@@ -474,7 +474,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to update document with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -511,7 +511,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: update-multiple-documents
+                    // :snippet-start: update-multiple-documents
                     val queryFilter = Document("_partition", "Store 47")
                     val updateDocument = Document("\$set", Document("_partition", "Store 51"))
                     mongoCollection.updateMany(queryFilter, updateDocument).getAsync { task ->
@@ -529,7 +529,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to update documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -566,7 +566,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: upsert-a-single-document
+                    // :snippet-start: upsert-a-single-document
                     val queryFilter = Document("sunlight", "full")
                         .append("type", "perennial")
                         .append("color", "green")
@@ -588,7 +588,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 Log.e("EXAMPLE", "failed to update or insert document with: ${task.error}")
                             }
                         }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
                 }
@@ -622,7 +622,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: delete-a-single-document
+                    // :snippet-start: delete-a-single-document
                     val queryFilter = Document("color", "green")
                     mongoCollection.deleteOne(queryFilter).getAsync { task ->
                         if (task.isSuccess) {
@@ -639,7 +639,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to delete document with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -676,7 +676,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: delete-documents
+                    // :snippet-start: delete-documents
                     val queryFilter = Document("sunlight", "full").append("type", "annual")
                     mongoCollection.deleteMany(queryFilter).getAsync { task ->
                         if (task.isSuccess) {
@@ -693,7 +693,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to delete documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -730,7 +730,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: watch-documents
+                    // :snippet-start: watch-documents
                     val watcher = mongoCollection.watchAsync()
                     watcher[{ result ->
                         if (result.isSuccess) {
@@ -759,7 +759,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to insert document with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -796,7 +796,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: watch-documents-with-filter
+                    // :snippet-start: watch-documents-with-filter
                     val watcher = mongoCollection
                         .watchWithFilterAsync(Document("fullDocument._partition", "Store 42"))
                     watcher[{ result ->
@@ -835,7 +835,7 @@ class MongoDBDataAccessTest : RealmTest() {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
                 }
@@ -868,7 +868,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
 
-                    // :code-block-start: aggregate-documents-filter
+                    // :snippet-start: aggregate-documents-filter
                     // create an aggregation pipeline
                     val pipeline =
                         listOf(
@@ -901,7 +901,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "failed to aggregate documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -935,7 +935,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
 
-                    // :code-block-start: aggregate-documents-group
+                    // :snippet-start: aggregate-documents-group
                     // create an aggregation pipeline
                     val pipeline =
                         listOf(
@@ -967,7 +967,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "failed to aggregate documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -1001,7 +1001,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
 
-                    // :code-block-start: aggregate-documents-project
+                    // :snippet-start: aggregate-documents-project
                     // create an aggregation pipeline
                     val pipeline =
                         listOf(
@@ -1046,7 +1046,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "failed to aggregate documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -1079,7 +1079,7 @@ class MongoDBDataAccessTest : RealmTest() {
                         mongoDatabase.getCollection("plant-data-collection")
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
-                    // :code-block-start: aggregate-documents-addfields
+                    // :snippet-start: aggregate-documents-addfields
                     // create an aggregation pipeline
                     val pipeline =
                         listOf(
@@ -1122,7 +1122,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "failed to aggregate documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -1156,7 +1156,7 @@ class MongoDBDataAccessTest : RealmTest() {
                     Log.v("EXAMPLE",
                         "Successfully instantiated the MongoDB collection handle")
 
-                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // :snippet-start: aggregate-documents-unwind-arrays
                     // create an aggregation pipeline
                     val pipeline =
                         listOf(
@@ -1186,7 +1186,7 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "failed to aggregate documents with: ${task.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",

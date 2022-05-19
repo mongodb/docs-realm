@@ -81,7 +81,7 @@ public class ClientResetTest extends RealmTest {
                 Log.v("EXAMPLE",
                         "Successfully opened a realm for initial test data setup.");
 
-                // :code-block-start: keep-track-of-last-synced-time
+                // :snippet-start: keep-track-of-last-synced-time
                 // use a "last synced" singleton in the realm to keep track of when the
                 // realm last successfully completed a sync
                 app.getSync().getSession(config)
@@ -113,7 +113,7 @@ public class ClientResetTest extends RealmTest {
                         }
                         notificationRealm.close();
                 });
-                // :code-block-end:
+                // :snippet-end:
 
                 // insert some objects into the realm
                 realm.executeTransaction(transactionRealm -> {
@@ -195,7 +195,7 @@ public class ClientResetTest extends RealmTest {
         setupExpectation.await();
     }
 
-    // :code-block-start: handle-manual-reset
+    // :snippet-start: handle-manual-reset
     public void handleManualReset(App app, SyncSession session, ClientResetRequiredError error) {
         Log.w("EXAMPLE", "Beginning manual reset recovery.");
 
@@ -418,11 +418,11 @@ public class ClientResetTest extends RealmTest {
             e.printStackTrace();
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     @Test
     public void clientResetDiscardUnsyncedChanges() {
-        // :code-block-start: client-reset-discard-unsynced-changes
+        // :snippet-start: client-reset-discard-unsynced-changes
         String appID = YOUR_APP_ID; // replace this with your App ID
         App app = new App(new AppConfiguration.Builder(appID)
             .defaultSyncClientResetStrategy(new DiscardUnsyncedChangesStrategy() {
@@ -448,7 +448,7 @@ public class ClientResetTest extends RealmTest {
                 }
             })
             .build());
-        // :code-block-end:
+        // :snippet-end:
 
         Credentials anonymousCredentials = Credentials.anonymous();
         User user = app.login(anonymousCredentials);
@@ -497,7 +497,7 @@ public class ClientResetTest extends RealmTest {
 
     @Test
     public void clientResetManuallyRecoverUnsyncedChanges() {
-        // :code-block-start: client-reset-manually-recover-unsynced-changes
+        // :snippet-start: client-reset-manually-recover-unsynced-changes
         String appID = YOUR_APP_ID; // replace this with your App ID
         final App app = new App(new AppConfiguration.Builder(appID)
             .defaultSyncClientResetStrategy(new ManuallyRecoverUnsyncedChangesStrategy() {
@@ -508,7 +508,7 @@ public class ClientResetTest extends RealmTest {
                 }
             })
             .build());
-        // :code-block-end:
+        // :snippet-end:
 
         Credentials anonymousCredentials = Credentials.anonymous();
         User user = app.login(anonymousCredentials);
@@ -558,7 +558,7 @@ public class ClientResetTest extends RealmTest {
 
     @Test
     public void clientResetDiscardUnsyncedChangesWithSimpleManualFallback() {
-        // :code-block-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
+        // :snippet-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
         String appID = YOUR_APP_ID; // replace this with your App ID
         App app = null;
         AtomicReference<App> globalApp = new AtomicReference<>(app);
@@ -637,7 +637,7 @@ public class ClientResetTest extends RealmTest {
                 })
                 .build());
         globalApp.set(app);
-        // :code-block-end:
+        // :snippet-end:
 
         Credentials anonymousCredentials = Credentials.anonymous();
         User user = app.login(anonymousCredentials);

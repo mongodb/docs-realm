@@ -37,7 +37,7 @@ public class RealmQueryTest extends RealmTest {
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
-                    // :code-block-start: find-object-by-primary-key
+                    // :snippet-start: find-object-by-primary-key
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
@@ -73,7 +73,7 @@ public class RealmQueryTest extends RealmTest {
                             realm.close();
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -95,7 +95,7 @@ public class RealmQueryTest extends RealmTest {
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
-                    // :code-block-start: query-a-relationship
+                    // :snippet-start: query-a-relationship
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
@@ -133,7 +133,7 @@ public class RealmQueryTest extends RealmTest {
                             realm.close();
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -155,7 +155,7 @@ public class RealmQueryTest extends RealmTest {
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
-                    // :code-block-start: query-an-inverse-relationship
+                    // :snippet-start: query-an-inverse-relationship
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
@@ -191,7 +191,7 @@ public class RealmQueryTest extends RealmTest {
                             realm.close();
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }

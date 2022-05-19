@@ -20,7 +20,7 @@ const TasksProvider = ({ children, projectPartition }) => {
     const OpenRealmBehaviorConfiguration = {
       type: 'openImmediately',
     };
-    // :code-block-start: open-project-realm
+    // :snippet-start: open-project-realm
     const config = {
       schema: [Task.schema],
       sync: {
@@ -49,9 +49,9 @@ const TasksProvider = ({ children, projectPartition }) => {
     //// listener fires, use the setTasks() function to apply the updated Tasks
     //// list to the state.
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: clean-up
+    // :snippet-start: clean-up
     return () => {
       // cleanup function
       const projectRealm = realmRef.current;
@@ -66,10 +66,10 @@ const TasksProvider = ({ children, projectPartition }) => {
         setTasks([]);
       }
     };
-    // :code-block-end:
+    // :snippet-end:
   }, [user, projectPartition]);
 
-  // :code-block-start: create-task
+  // :snippet-start: create-task
   const createTask = (newTaskName) => {
     const projectRealm = realmRef.current;
     // :state-start: final
@@ -87,9 +87,9 @@ const TasksProvider = ({ children, projectPartition }) => {
     //// TODO: Create the Task in a write block.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: set-task-status
+  // :snippet-start: set-task-status
   const setTaskStatus = (task, status) => {
     // One advantage of centralizing the realm functionality in this provider is
     // that we can check to make sure a valid status was passed in here.
@@ -112,9 +112,9 @@ const TasksProvider = ({ children, projectPartition }) => {
     //// TODO: In a write block, update the Task's status.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: delete-task
+  // :snippet-start: delete-task
   // Define the function for deleting a task.
   const deleteTask = (task) => {
     const projectRealm = realmRef.current;
@@ -127,7 +127,7 @@ const TasksProvider = ({ children, projectPartition }) => {
     //// TODO: In a write block, delete the Task.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
   // Render the children within the TaskContext's provider. The value contains
   // everything that should be made available to descendants that use the

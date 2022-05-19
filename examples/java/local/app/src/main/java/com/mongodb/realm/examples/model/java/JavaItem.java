@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "JavaItem": "Item"
@@ -21,4 +21,4 @@ public class JavaItem extends RealmObject {
 }
 
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -12,7 +12,7 @@ namespace Examples
         public async Task LinksAUser()
         {
             {
-                // :code-block-start: link
+                // :snippet-start: link
                 // 1) A user logs on anonymously:
                 var anonUser = await app.LogInAsync(Credentials.Anonymous());
                 // 2) They create some data, and then decide they want to save
@@ -27,14 +27,14 @@ namespace Examples
                     email, password);
                 var officialUser = await anonUser.LinkCredentialsAsync(
                    Credentials.EmailPassword(email, password));
-                // :code-block-end:
+                // :snippet-end:
             }
             {
-                // :code-block-start: link2
+                // :snippet-start: link2
                 var anonUser = await app.LogInAsync(Credentials.Anonymous());
                 var officialUser = await anonUser.LinkCredentialsAsync(
                    Credentials.Google("<google-token>", GoogleCredentialType.AuthCode));
-                // :code-block-end:
+                // :snippet-end:
             }
             return;
         }

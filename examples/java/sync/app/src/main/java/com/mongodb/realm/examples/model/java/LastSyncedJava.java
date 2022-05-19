@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: last-synced-java-definition
+// :snippet-start: last-synced-java-definition
 // :replace-start: {
 //    "terms": {
 //       "LastSyncedJava": "LastSynced"
@@ -35,4 +35,4 @@ public class LastSyncedJava extends RealmObject {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -23,7 +23,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             val config = RealmConfiguration.Builder()
                 .build()
             var realm: Realm
@@ -33,7 +33,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                 "Successfully opened a realm: "
                         + realm.path
             )
-            // :code-block-end:
+            // :snippet-end:
             realm = Realm.getInstance(config)
             realm.close()
             expectation.fulfill()
@@ -58,7 +58,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                     "Successfully opened a realm: "
                                     + realm.path
                 )
-                // :code-block-start: write-async
+                // :snippet-start: write-async
                 realm.executeTransactionAsync {
                         transactionRealm: Realm ->
                     val sample: Sample =
@@ -68,7 +68,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                         sample
                     )
                 }
-                // :code-block-end:
+                // :snippet-end:
             } catch (ex: RealmFileException) {
                 Log.v(
                     "EXAMPLE",
@@ -98,7 +98,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             var realm: Realm
             try {
                 realm = Realm.getInstance(config)
-                // :code-block-start: write-sync
+                // :snippet-start: write-sync
                 realm.executeTransaction {
                         transactionRealm: Realm ->
                     val sample: Sample =
@@ -108,7 +108,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                         sample
                     )
                 }
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -143,7 +143,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             var realm: Realm
             try {
                 realm = Realm.getInstance(config)
-                // :code-block-start: query-filters
+                // :snippet-start: query-filters
                 val samples =
                     realm.where(
                         Sample::class.java
@@ -156,7 +156,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                             "stringField",
                             "N"
                         ).findAll()
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -191,7 +191,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             var realm: Realm
             try {
                 realm = Realm.getInstance(config)
-                // :code-block-start: query-sort-limit-distinct
+                // :snippet-start: query-sort-limit-distinct
                 val aggregates =
                     realm.where(
                         Sample::class.java
@@ -203,7 +203,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                         )
                         .limit(2)
                         .findAll()
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -251,7 +251,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                         sample
                     )
                 }
-                // :code-block-start: deletes
+                // :snippet-start: deletes
                 val sample =
                     realm.where(
                         Sample::class.java
@@ -270,7 +270,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                         Sample::class.java
                     ).findFirst()!!.deleteFromRealm()
                 }
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -313,7 +313,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                     sample.stringField = "not sven"
                     realm.copyToRealm(sample)
                 }
-                // :code-block-start: notifications
+                // :snippet-start: notifications
                 realm.where(Sample::class.java)
                     .findAllAsync()
                     .addChangeListener {
@@ -340,7 +340,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                                 ))
                         )
                     }
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -374,7 +374,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                 .build()
             var realm: Realm
             try {
-                // :code-block-start: threading
+                // :snippet-start: threading
                 realm = Realm.getInstance(config)
                 // :hide-start:
                 realm.executeTransaction { realm ->
@@ -422,7 +422,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                                 threadSample
                     )
                 }
-                // :code-block-end:
+                // :snippet-end:
                 Log.v(
                     "EXAMPLE", (
                             "Successfully opened a realm: "
@@ -450,7 +450,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: migrations
+            // :snippet-start: migrations
             val config =
                 RealmConfiguration.Builder()
                 .name(getRandom()) // :hide:
@@ -485,7 +485,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                 "Successfully opened a realm: "
                         + realm.path
             )
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill()
         }
         expectation.await()

@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
     const myProject = { name: "My Project", partition: `project=${user.id}` };
     setProjectData([myProject]);
 
-    // :code-block-start: open-user-realm
+    // :snippet-start: open-user-realm
     // :state-start: final
     const config = {
       sync: {
@@ -54,9 +54,9 @@ const AuthProvider = ({ children }) => {
     //// TODO: Open the user realm, which contains at most one user custom data object
     //// for the logged-in user.
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: user-realm-cleanup
+    // :snippet-start: user-realm-cleanup
     // :state-start: final
     return () => {
       // cleanup function
@@ -70,10 +70,10 @@ const AuthProvider = ({ children }) => {
     // :state-end: :state-uncomment-start: start
     //// TODO: Return a cleanup function that closes the user realm.
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
   }, [user]);
 
-  // :code-block-start: sign-in
+  // :snippet-start: sign-in
   // The signIn function takes an email and password and uses the
   // emailPassword authentication provider to log in.
   const signIn = async (email, password) => {
@@ -86,9 +86,9 @@ const AuthProvider = ({ children }) => {
     //// Use the setUser() function to set the logged-in user.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: sign-up
+  // :snippet-start: sign-up
   // The signUp function takes an email and password and uses the
   // emailPassword authentication provider to register the user.
   const signUp = async (email, password) => {
@@ -99,9 +99,9 @@ const AuthProvider = ({ children }) => {
     //// Registering only registers and does not log in.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: sign-out
+  // :snippet-start: sign-out
   // The signOut function calls the logOut function on the currently
   // logged in user
   const signOut = () => {
@@ -116,7 +116,7 @@ const AuthProvider = ({ children }) => {
     //// TODO: Log out the current user and use the setUser() function to set the current user to null.
     // :state-uncomment-end:
   };
-  // :code-block-end:
+  // :snippet-end:
 
   return (
     <AuthContext.Provider

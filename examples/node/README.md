@@ -91,14 +91,14 @@ succeeded, just that it completed.
 
 Code examples are extracted using [Bluehawk](https://github.com/MongoCaleb/bluehawk).
 
-To create a code example, wrap some code between `:code-block-start:` and `:code-block-end:`
+To create a code example, wrap some code between `:snippet-start:` and `:snippet-end:`
 comments and give the example an identifier that's unique among all examples within the file. If
 your test needs to run code that shouldn't be in the final generated output, wrap that code between
 `:hide-start:` and `:hide-end:` comments.
 
 ```js
 // This line is just a normal comment. It won't appear in any generated code.
-// :code-block-start: my-example
+// :snippet-start: my-example
 async function myExample() {
   // :hide-start:
   // We need this code to run the test, but it shouldn't be in the final code example.
@@ -108,7 +108,7 @@ async function myExample() {
   // Lines not in a hide block (including this comment!) will remain in the generated code.
   return await doSomethingFancy();
 }
-// :code-block-end:
+// :snippet-end:
 ```
 
 ### Generate Includable Example Code Blocks
@@ -129,7 +129,7 @@ done
 ```
 
 This processes each test file and outputs generated example code blocks to the
-`source/examples/generated/` directory. These files map directly from the `:code-block-start:`
+`source/examples/generated/` directory. These files map directly from the `:snippet-start:`
 comments in each file.
 
 For example, the annotated code block above generates the following includable code example:

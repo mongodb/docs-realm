@@ -28,11 +28,11 @@ namespace Examples
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new PartitionSyncConfiguration("myPart", user);
 
-            // :code-block-start: mongo-setup
+            // :snippet-start: mongo-setup
             mongoClient = user.GetMongoClient("mongodb-atlas");
             dbPlantInventory = mongoClient.GetDatabase("inventory");
             plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
-            // :code-block-end:
+            // :snippet-end:
 
             await InsertsOne();
             await InsertsMany();
@@ -41,7 +41,7 @@ namespace Examples
 
         public async Task InsertsOne()
         {
-            // :code-block-start: mongo-insert-one
+            // :snippet-start: mongo-insert-one
             var plant = new Plant
             {
                 Name = "Venus Flytrap",
@@ -53,13 +53,13 @@ namespace Examples
 
             var insertResult = await plantsCollection.InsertOneAsync(plant);
             var newId = insertResult.InsertedId;
-            // :code-block-end:
+            // :snippet-end:
 
         }
 
         public async Task InsertsMany()
         {
-            // :code-block-start: mongo-insert-many
+            // :snippet-start: mongo-insert-many
             var sweetBasil = new Plant
             {
                 Name = "Sweet Basil",
@@ -103,27 +103,27 @@ namespace Examples
 
             var insertResult = await plantsCollection.InsertManyAsync(listofPlants);
             var newIds = insertResult.InsertedIds;
-            // :code-block-end:
+            // :snippet-end:
         }
 
         [Test]
         public async Task ReadsDocuments()
         {
-            // :code-block-start: mongo-find-one
+            // :snippet-start: mongo-find-one
             var petunia = await plantsCollection.FindOneAsync(
                new { name = "Petunia" },
                null);
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual("Store 47", petunia.Partition);
-            // :code-block-start: mongo-find-many
+            // :snippet-start: mongo-find-many
             var allPerennials = await plantsCollection.FindAsync(
                 new { type = PlantType.Perennial.ToString() },
                 new { name = 1 });
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(2, allPerennials.Count());
-            // :code-block-start: mongo-count
+            // :snippet-start: mongo-count
             var allPlants = await plantsCollection.CountAsync();
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(5, allPlants);
         }
 
@@ -131,29 +131,29 @@ namespace Examples
         public async Task UpdatesDocuments()
         {
             {
-                // :code-block-start: mongo-update-one
+                // :snippet-start: mongo-update-one
                 var updateResult = await plantsCollection.UpdateOneAsync(
                     new { name = "Petunia" },
                     new BsonDocument("$set", new BsonDocument("sunlight", Sunlight.Partial.ToString()))
                     );
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                // :code-block-start: mongo-update-many
+                // :snippet-start: mongo-update-many
                 var filter = new { _partition = "Store 47" };
                 var updateDoc = new BsonDocument("$set",
                     new BsonDocument("_partition", "Area 51"));
 
                 var updateResult = await plantsCollection.UpdateManyAsync(
                     filter, updateDoc);
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(1, updateResult.MatchedCount);
                 Assert.AreEqual(1, updateResult.ModifiedCount);
             }
             {
-                // :code-block-start: mongo-upsert
+                // :snippet-start: mongo-upsert
                 var filter = new BsonDocument()
                     .Add("name", "Pothos")
                     .Add("type", PlantType.Perennial.ToString())
@@ -173,7 +173,7 @@ namespace Examples
                    "_partition": "Store 42"
                 }
                 */
-                // :code-block-end:
+                // :snippet-end:
 
                 var plant = await plantsCollection.FindOneAsync(filter);
                 Assert.AreEqual("Store 42", plant.Partition);
@@ -185,12 +185,12 @@ namespace Examples
         public async Task TearDown()
         {
 
-            // :code-block-start: mongo-delete-one
+            // :snippet-start: mongo-delete-one
             var filter = new BsonDocument("name", "Thai Basil");
             var deleteResult = await plantsCollection.DeleteOneAsync(filter);
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: mongo-delete-many
+            // :snippet-start: mongo-delete-many
             // :replace-start: {
             //  "terms": {
             //   "filter2": "filter",
@@ -199,7 +199,7 @@ namespace Examples
             var filter2 = new BsonDocument("type", PlantType.Annual);
             var deleteResult2 = await plantsCollection.DeleteManyAsync(filter);
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
             await plantsCollection.DeleteManyAsync();
             return;

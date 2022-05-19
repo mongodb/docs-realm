@@ -1,4 +1,4 @@
-// :code-block-start: test-integration-testing
+// :snippet-start: test-integration-testing
 package com.mongodb.realm.examples.java;
 
 import android.app.Activity;
@@ -29,7 +29,7 @@ import static com.mongodb.realm.examples.RealmTestKt.getRandomPartition;
 public class TestTest {
     @Test
     public void testTesting() {
-        // :code-block-start: initialize-realm-with-context
+        // :snippet-start: initialize-realm-with-context
         AtomicReference<Activity> testActivity = new AtomicReference<Activity>();
         ActivityScenario<BasicActivity> scenario = ActivityScenario.launch(BasicActivity.class);
 
@@ -48,12 +48,12 @@ public class TestTest {
         } catch (InterruptedException e) {
             Log.e("EXAMPLE", e.getMessage());
         }
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: wait-for-async
+        // :snippet-start: wait-for-async
         CountDownLatch testLatch = new CountDownLatch(1);
 
-        // :code-block-start: test-logic-looper
+        // :snippet-start: test-logic-looper
         testActivity.get().runOnUiThread(() -> {
             // instantiate an app connection
             String appID = YOUR_APP_ID; // replace this with your test application App ID
@@ -96,7 +96,7 @@ public class TestTest {
                 }
             });
         });
-        // :code-block-end:
+        // :snippet-end:
 
         // block until the async calls in the test succeed or error out
         try {
@@ -104,7 +104,7 @@ public class TestTest {
         } catch (InterruptedException e) {
             Log.e("EXAMPLE", e.getMessage());
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
-// :code-block-end:
+// :snippet-end:

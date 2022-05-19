@@ -47,7 +47,7 @@ public class QueryEngineTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                         Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                        // :code-block-start: comparison-operators
+                        // :snippet-start: comparison-operators
                         RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                         Log.i("EXAMPLE", "High priority tasks: " + tasksQuery.greaterThan("priority", 5).count());
                         Log.i("EXAMPLE", "Just-started or short tasks: " + tasksQuery.between("progressMinutes", 1, 10).count());
@@ -56,7 +56,7 @@ public class QueryEngineTest extends RealmTest {
                         // :hide-start:
                         expectation.fulfill();
                         // :hide-end:
-                        // :code-block-end:
+                        // :snippet-end:
                         }
                     });
                 } else {
@@ -92,7 +92,7 @@ public class QueryEngineTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                            // :code-block-start: logical-operators
+                            // :snippet-start: logical-operators
                             RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                             Log.i("EXAMPLE", "Ali has completed " +
                                     tasksQuery.equalTo("assignee", "Ali").and().equalTo("isComplete", true).findAll().size() +
@@ -100,7 +100,7 @@ public class QueryEngineTest extends RealmTest {
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {
@@ -136,7 +136,7 @@ public class QueryEngineTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                            // :code-block-start: string-operators
+                            // :snippet-start: string-operators
                             RealmQuery<Project> projectsQuery = realm.where(Project.class);
                             // Pass Case.INSENSITIVE as the third argument for case insensitivity.
                             Log.i("EXAMPLE", "Projects that start with 'e': "
@@ -146,7 +146,7 @@ public class QueryEngineTest extends RealmTest {
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {
@@ -182,7 +182,7 @@ public class QueryEngineTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                         Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                        // :code-block-start: aggregate-operators
+                        // :snippet-start: aggregate-operators
                         RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                         /*
                         Aggregate operators do not support dot-notation, so you
@@ -196,7 +196,7 @@ public class QueryEngineTest extends RealmTest {
                         // :hide-start:
                         expectation.fulfill();
                         // :hide-end:
-                        // :code-block-end:
+                        // :snippet-end:
                         }
                     });
                 } else {

@@ -22,12 +22,12 @@ public class ThreadingTest extends RealmTest {
                     .name("refresh-realm")
                     .build();
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: refresh-realm
+            // :snippet-start: refresh-realm
             if (!realm.isAutoRefresh()) {
                 // manually refresh
                 realm.refresh();
             }
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -49,7 +49,7 @@ public class ThreadingTest extends RealmTest {
                 insertRealm.createObject(Frog.class);
             });
 
-            // :code-block-start: freeze-objects
+            // :snippet-start: freeze-objects
             Realm realm = Realm.getInstance(config);
 
             // Get an immutable copy of the realm that can be passed across threads
@@ -73,7 +73,7 @@ public class ThreadingTest extends RealmTest {
             Assert.assertTrue(frozenFrog.isFrozen());
             // Frozen objects have a reference to a frozen realm
             Assert.assertTrue(frozenFrog.getRealm().isFrozen());
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
             realm.close();
         });

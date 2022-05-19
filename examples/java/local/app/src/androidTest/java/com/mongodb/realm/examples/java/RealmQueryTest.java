@@ -22,7 +22,7 @@ public class RealmQueryTest extends RealmTest {
     public void testFindObjectByPrimaryKey() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: find-object-by-primary-key
+            // :snippet-start: find-object-by-primary-key
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
@@ -58,7 +58,7 @@ public class RealmQueryTest extends RealmTest {
                     realm.close();
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -67,7 +67,7 @@ public class RealmQueryTest extends RealmTest {
     public void testQueryARelationship() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: query-a-relationship
+            // :snippet-start: query-a-relationship
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
@@ -105,7 +105,7 @@ public class RealmQueryTest extends RealmTest {
                     realm.close();
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -114,7 +114,7 @@ public class RealmQueryTest extends RealmTest {
     public void testQueryAnInverseRelationship() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: query-an-inverse-relationship
+            // :snippet-start: query-an-inverse-relationship
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
@@ -149,7 +149,7 @@ public class RealmQueryTest extends RealmTest {
                     realm.close();
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }

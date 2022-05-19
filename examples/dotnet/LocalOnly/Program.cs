@@ -11,9 +11,9 @@ namespace LocalOnly
 
         static void Main(string[] args)
         {
-            //:code-block-start:get-instance
+            //:snippet-start:get-instance
             var realm = Realm.GetInstance();
-            //:code-block-end:
+            //:snippet-end:
 
             realm.Write(() =>
             {
@@ -33,7 +33,7 @@ namespace LocalOnly
             });
 
 
-            //:code-block-start:write
+            //:snippet-start:write
             realm.Write(() =>
             {
                 // :hide-start:
@@ -50,8 +50,8 @@ namespace LocalOnly
                 someGuitarId = newGuitar.Id;
                 // :hide-end:
             });
-            //:code-block-end:
-            //:code-block-start:read-filter-sort
+            //:snippet-end:
+            //:snippet-start:read-filter-sort
             var allGuitars = realm.All<Guitar>();
 
             var lessExpensiveGuitars = realm.All<Guitar>().Where(g => g.Price < 400);
@@ -59,9 +59,9 @@ namespace LocalOnly
             var guitarsSortedByMake = realm.All<Guitar>().OrderBy(g => g.Make);
 
             var specifiGuitarById = realm.Find<Guitar>(someGuitarId);
-            //:code-block-end:
+            //:snippet-end:
 
-            //:code-block-start:update
+            //:snippet-start:update
             var harrysStrat = realm.All<Guitar>().FirstOrDefault(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
@@ -71,9 +71,9 @@ namespace LocalOnly
             {
                 harrysStrat.Price = 322.56;
             });
-            //:code-block-end:
+            //:snippet-end:
 
-            //:code-block-start:delete
+            //:snippet-start:delete
             var mostExpensiveGuitar = realm.All<Guitar>()
                 .OrderByDescending(g => g.Price).First();
 
@@ -81,9 +81,9 @@ namespace LocalOnly
             {
                 realm.Remove(mostExpensiveGuitar);
             });
-            //:code-block-end:
+            //:snippet-end:
 
-            //:code-block-start:collection-notifications
+            //:snippet-start:collection-notifications
             // Watch for Guitar collection changes.
             var token = realm.All<Guitar>()
                 .SubscribeForNotifications((sender, changes, error) =>
@@ -106,18 +106,18 @@ namespace LocalOnly
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-            //:code-block-end:
+            //:snippet-end:
 
 
         }
 
         public void DeleteAndStartAgain()
         {
-            //:code-block-start:delete-realm-file
+            //:snippet-start:delete-realm-file
             var config = new RealmConfiguration("FileWeThrowAway.realm");
             Realm.DeleteRealm(config);
             var freshRealm = Realm.GetInstance(config);
-            //:code-block-end:
+            //:snippet-end:
         }
     }
 }

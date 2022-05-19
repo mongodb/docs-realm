@@ -26,7 +26,7 @@ class WritesTest : RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             try {
-                // :code-block-start: create-an-object-json
+                // :snippet-start: create-an-object-json
                 // Insert from a string
                 realm.executeTransaction { realm ->
                     realm.createObjectFromJson(
@@ -45,7 +45,7 @@ class WritesTest : RealmTest() {
                         throw RuntimeException(e)
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             } catch (e: Exception) { // this should throw when "path_to_file" doesn't resolve to a real file
                 expectation.fulfill()
             }
@@ -65,7 +65,7 @@ class WritesTest : RealmTest() {
                 .inMemory()
                 .build()
             val realm = Realm.getInstance(config)
-            // :code-block-start: iterate
+            // :snippet-start: iterate
             val frogs = realm.where(Frog::class.java)
                 .equalTo("species", "bullfrog")
                 .findAll()
@@ -84,7 +84,7 @@ class WritesTest : RealmTest() {
                     frogsSnapshot[i]!!.species = "Lithobates catesbeiana"
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }
@@ -112,7 +112,7 @@ class WritesTest : RealmTest() {
             //       "HauntedHouseKt": "HauntedHouse"
             //    }
             // }
-            // :code-block-start: counter-increment-decrement
+            // :snippet-start: counter-increment-decrement
             val house = realm.where(HauntedHouseKt::class.java)
                 .findFirst()!!
             realm.executeTransaction {
@@ -124,13 +124,13 @@ class WritesTest : RealmTest() {
                 house.ghosts.decrement(2)
                 Log.v("EXAMPLE", "Number of ghosts: ${house.ghosts.get()}") // 4
             }
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: counter-set
+            // :snippet-start: counter-set
             realm.executeTransaction {
                 house!!.ghosts.set(42)
             }
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
             realm.close()
             expectation.fulfill()

@@ -10,7 +10,7 @@ export function ManageTeam() {
   const [newTeamMember, setNewTeamMember] = useState(null);
   const [teamMemberList, setTeamMemberList] = useState([]);
 
-  // :code-block-start: get-team
+  // :snippet-start: get-team
   // getTeam calls the backend function getMyTeamMembers to retrieve the
   // team members of the logged in user's project
   const getTeam = async () => {
@@ -25,9 +25,9 @@ export function ManageTeam() {
       Alert.alert("An error occurred while getting team members", err);
     }
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: add-team-member
+  // :snippet-start: add-team-member
   // addTeamMember calls the backend function addTeamMember to add a
   // team member to the logged in user's project
   const addTeamMember = async () => {
@@ -43,9 +43,9 @@ export function ManageTeam() {
       Alert.alert("An error occurred while adding a team member", err.message);
     }
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: remove-team-member
+  // :snippet-start: remove-team-member
   // removeTeamMember calls the backend function removeTeamMember to remove a
   // team member from the logged in user's project
   const removeTeamMember = async (email) => {
@@ -61,7 +61,7 @@ export function ManageTeam() {
       Alert.alert("An error occurred while removing a team member", err);
     }
   };
-  // :code-block-end:
+  // :snippet-end:
 
   const openDeleteDialogue = (member) => {
     Alert.alert("Remove the following member from your team?", member.name, [

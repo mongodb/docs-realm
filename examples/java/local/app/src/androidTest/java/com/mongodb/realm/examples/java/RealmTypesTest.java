@@ -21,7 +21,7 @@ public class RealmTypesTest extends RealmTest {
     public void testReadOnlyRealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: read-only
+            // :snippet-start: read-only
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .assetFile("bundled.realm")
                     // :hide-start:
@@ -30,7 +30,7 @@ public class RealmTypesTest extends RealmTest {
                     .readOnly() // :emphasize:
                     .modules(new BundledRealmModule())
                     .build();
-            // :code-block-end:
+            // :snippet-end:
             //Realm realm = Realm.getInstance(config);
             //realm.close();
             expectation.fulfill();
@@ -42,13 +42,13 @@ public class RealmTypesTest extends RealmTest {
     public void testInMemoryRealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: in-memory
+            // :snippet-start: in-memory
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .inMemory() // :emphasize:
                     .name("java.transient.realm")
                     .build();
             Realm realm = Realm.getInstance(config);
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -59,7 +59,7 @@ public class RealmTypesTest extends RealmTest {
     public void testDynamicRealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: dynamic
+            // :snippet-start: dynamic
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowWritesOnUiThread(true)
                     .allowQueriesOnUiThread(true)
@@ -99,7 +99,7 @@ public class RealmTypesTest extends RealmTest {
             RealmResults<DynamicRealmObject> frogs = dynamicRealm.where("Frog")
                     .equalTo("name", "Wirt Jr.")
                     .findAll();
-            // :code-block-end:
+            // :snippet-end:
             dynamicRealm.close();
             expectation.fulfill();
         });

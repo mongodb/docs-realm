@@ -10,7 +10,7 @@ import RealmSwift
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    // :code-block-start: properties
+    // :snippet-start: properties
     let tableView = UITableView()
     let realm: Realm
     var notificationToken: NotificationToken?
@@ -20,9 +20,9 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // // TODO: Use Realm Results collection for `tasks`
     // let tasks: [Task] = []
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: init
+    // :snippet-start: init
     required init(realmConfiguration: Realm.Configuration, title: String) {
         self.realm = try! Realm(configuration: realmConfiguration)
         
@@ -68,13 +68,13 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // // When changes are received, update the tableView.
         // :state-uncomment-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // :code-block-start: deinit
+    // :snippet-start: deinit
     deinit {
         // :state-start: local sync
         // Always invalidate any notification tokens when you are done with them.
@@ -83,7 +83,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // // TODO: invalidate notificationToken
         // :state-uncomment-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
     override func viewDidLoad() {
         // Configure the view.
@@ -96,7 +96,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidClick))
 
-        // :code-block-start: check-if-own-tasks
+        // :snippet-start: check-if-own-tasks
         // :state-uncomment-start: sync
         // if isOwnTasks() {
         //     // Only set up the manage team button if these are tasks the user owns.
@@ -106,7 +106,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //     navigationController?.isToolbarHidden = false
         // }
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -143,7 +143,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             _ -> Void in
             let textField = alertController.textFields![0] as UITextField
 
-            // :code-block-start: add-button-did-click
+            // :snippet-start: add-button-did-click
             
             // :state-start: local sync
             // Create a new Task with the text that the user entered.
@@ -160,7 +160,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             // alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             // self.present(alertController, animated: true)
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         alertController.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
@@ -179,7 +179,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Create the AlertController and add its actions.
         let actionSheet: UIAlertController = UIAlertController(title: task.name, message: "Select an action", preferredStyle: .actionSheet)
 
-        // :code-block-start: populate-action-sheet
+        // :snippet-start: populate-action-sheet
         // :state-start: local sync
         // If the task is not in the Open state, we can set it to open. Otherwise, that action will not be available.
         // We do this for the other two states -- InProgress and Complete.
@@ -212,7 +212,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // // TODO: Populate the action sheet with task status update functions
         // // for every state the task is not currently in.
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
 
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
                 actionSheet.dismiss(animated: true)
@@ -222,7 +222,7 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.present(actionSheet, animated: true, completion: nil)
     }
 
-    // :code-block-start: delete-task
+    // :snippet-start: delete-task
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
 
@@ -242,23 +242,23 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // self.present(alertController, animated: true)
         // :state-uncomment-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: manage-button-did-click
+    // :snippet-start: manage-button-did-click
     // :state-uncomment-start: sync
     // @objc func manageTeamButtonDidClick() {
     //     present(UINavigationController(rootViewController: ManageTeamViewController()), animated: true)
     // }
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
     // :state-start: sync
-    // :code-block-start: is-own-tasks
+    // :snippet-start: is-own-tasks
     // Returns true if these are the user's own tasks.
     func isOwnTasks() -> Bool {
         let partitionValue = self.realm.configuration.syncConfiguration?.partitionValue?.stringValue
         return partitionValue != nil && partitionValue == "project=\(app.currentUser!.id)"
     }
-    // :code-block-end:
+    // :snippet-end:
     // :state-end:
 }

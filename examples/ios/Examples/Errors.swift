@@ -12,16 +12,16 @@ class Errors: XCTestCase {
     }
 
     func testErrorHandlerMethodObjc() {
-        // :code-block-start: create-error-handler
+        // :snippet-start: create-error-handler
         let app = App(id: YOUR_REALM_APP_ID)
         app.syncManager.errorHandler = { error, session in
             // handle error
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testClientReset() {
-        // :code-block-start: client-reset
+        // :snippet-start: client-reset
         func closeRealmSafely() {
             // invalidate all realms
         }
@@ -47,6 +47,6 @@ class Errors: XCTestCase {
                 ()
             }
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }

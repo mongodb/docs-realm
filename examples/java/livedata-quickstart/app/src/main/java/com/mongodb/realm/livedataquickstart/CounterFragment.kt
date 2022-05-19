@@ -19,12 +19,12 @@ class CounterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // :code-block-start: getcountermodel
+        // :snippet-start: getcountermodel
         // :hide-start:
         val model: CounterModel by viewModels()
         // :hide-end:
-        // :code-block-end:
-        // :code-block-start: binding
+        // :snippet-end:
+        // :snippet-start: binding
         // :hide-start:
         val binding = CounterFragmentBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
@@ -37,6 +37,6 @@ class CounterFragment : Fragment() {
         }
         return binding.root
         // :hide-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 }

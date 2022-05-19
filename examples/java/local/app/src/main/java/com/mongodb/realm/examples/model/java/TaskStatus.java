@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: define-object-model-local
+// :snippet-start: define-object-model-local
 
 public enum TaskStatus {
     Open("Open"),
@@ -11,4 +11,4 @@ public enum TaskStatus {
         this.displayName = displayName;
     }
 }
-// :code-block-end:
+// :snippet-end:

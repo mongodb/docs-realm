@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: define-object-model-local
+// :snippet-start: define-object-model-local
 // :replace-start: {
 //    "terms": {
 //       "DefinitelyNotJavaTask": "Task"
@@ -21,4 +21,4 @@ public class DefinitelyNotJavaTask extends RealmObject {
     public DefinitelyNotJavaTask() {}
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

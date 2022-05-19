@@ -14,7 +14,7 @@ class Debugging_User: Object {
     @Persisted var email: String = ""
 }
 
-// :code-block-start: test-base-case
+// :snippet-start: test-base-case
 // A base class which each of your Realm-using tests should inherit from rather
 // than directly from XCTestCase
 class TestCaseBase: XCTestCase {
@@ -28,10 +28,10 @@ class TestCaseBase: XCTestCase {
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class TestCaseInjectRealm: XCTestCase {
-    // :code-block-start: test-inject-realm
+    // :snippet-start: test-inject-realm
     // Application Code
     func updateUserFromServer() {
         let url = URL(string: "http://myapi.example.com/user")
@@ -66,6 +66,6 @@ class TestCaseInjectRealm: XCTestCase {
         XCTAssertEqual(testRealm.objects(Debugging_User.self).first!.email, "help@realm.io",
                        "User was not properly updated from server.")
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 // :replace-end:

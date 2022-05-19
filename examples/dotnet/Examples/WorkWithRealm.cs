@@ -36,11 +36,11 @@ namespace Examples
         {
             string userEmail = "bob@bob.com";
 
-            // :code-block-start: initialize-realm
+            // :snippet-start: initialize-realm
             var myRealmAppId = "<your_app_id>";
             var app = App.Create(myRealmAppId);
-            //:code-block-end:
-            // :code-block-start: appConfig
+            //:snippet-end:
+            // :snippet-start: appConfig
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 //LogLevel = LogLevel.Debug,
@@ -48,27 +48,27 @@ namespace Examples
             };
 
             app = App.Create(appConfig);
-            //:code-block-end:
-            // :code-block-start: register-user
+            //:snippet-end:
+            // :snippet-start: register-user
             await app.EmailPasswordAuth.RegisterUserAsync(userEmail, "sekrit");
-            //:code-block-end:
-            // :code-block-start: confirm-user
+            //:snippet-end:
+            // :snippet-start: confirm-user
             await app.EmailPasswordAuth.ConfirmUserAsync("<token>", "<token-id>");
-            //:code-block-end:
-            // :code-block-start: reset-user-1
+            //:snippet-end:
+            // :snippet-start: reset-user-1
             await app.EmailPasswordAuth.SendResetPasswordEmailAsync(userEmail);
-            //:code-block-end:
+            //:snippet-end:
             string myNewPassword = "";
-            // :code-block-start: reset-user-2
+            // :snippet-start: reset-user-2
             await app.EmailPasswordAuth.ResetPasswordAsync(
                 myNewPassword, "<token>", "<token-id>");
-            //:code-block-end:
-            // :code-block-start: reset-user-3
+            //:snippet-end:
+            // :snippet-start: reset-user-3
             await app.EmailPasswordAuth.CallResetPasswordFunctionAsync(
                 userEmail, myNewPassword,
                 "<security-question-1-answer>",
                 "<security-question-2-answer>");
-            //:code-block-end:
+            //:snippet-end:
 
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
         }
@@ -76,31 +76,31 @@ namespace Examples
         public async System.Threading.Tasks.Task APIKeys()
         {
             {
-                //:code-block-start:apikey-create
+                //:snippet-start:apikey-create
                 var newKey = await user.ApiKeys.CreateAsync("someKeyName");
                 Console.WriteLine($"I created a key named {newKey.Name}. " +
                     $"Is it enabled? {newKey.IsEnabled}");
-                //:code-block-end:
+                //:snippet-end:
             }
             {
-                //:code-block-start:apikey-fetch
+                //:snippet-start:apikey-fetch
                 var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
                 Console.WriteLine($"I fetched the key named {key.Name}. " +
                     $"Is it enabled? {key.IsEnabled}");
-                //:code-block-end:
+                //:snippet-end:
             }
             {
-                //:code-block-start:apikey-fetch-all
+                //:snippet-start:apikey-fetch-all
                 var allKeys = await user.ApiKeys.FetchAllAsync();
                 foreach (var key in allKeys)
                 {
                     Console.WriteLine($"I fetched the key named {key.Name}. " +
                         $"Is it enabled? {key.IsEnabled}");
                 }
-                //:code-block-end:
+                //:snippet-end:
             }
             {
-                //:code-block-start:apikey-enable-disable
+                //:snippet-start:apikey-enable-disable
                 var key = await user.ApiKeys.FetchAsync(ObjectId.Parse("00112233445566778899aabb"));
                 if (!key.IsEnabled)
                 {
@@ -112,12 +112,12 @@ namespace Examples
                     // disable the key
                     await user.ApiKeys.DisableAsync(key.Id);
                 }
-                //:code-block-end:
+                //:snippet-end:
             }
             {
-                //:code-block-start:apikey-delete
+                //:snippet-start:apikey-delete
                 await user.ApiKeys.DeleteAsync(ObjectId.Parse("00112233445566778899aabb"));
-                //:code-block-end:
+                //:snippet-end:
             }
         }
 
@@ -129,7 +129,7 @@ namespace Examples
             var app = App.Create(myRealmAppId);
             var realm = Realm.GetInstance("");
 
-            //:code-block-start:notifications
+            //:snippet-start:notifications
             // Observe realm notifications.
             realm.RealmChanged += (sender, eventArgs) =>
             {
@@ -137,9 +137,9 @@ namespace Examples
                 // eventArgs is reserved for future use.
                 // ... update UI ...
             };
-            //:code-block-end:
+            //:snippet-end:
 
-            //:code-block-start:collection-notifications
+            //:snippet-start:collection-notifications
             // Observe collection notifications. Retain the token to keep observing.
             var token = realm.All<Dog>()
                 .SubscribeForNotifications((sender, changes, error) =>
@@ -179,14 +179,14 @@ namespace Examples
 
             // Later, when you no longer wish to receive notifications
             token.Dispose();
-            //:code-block-end:
+            //:snippet-end:
 
 
             realm.Write(() =>
             {
                 realm.Add(new PersonN { Id = ObjectId.GenerateNewId(), Name = "Elvis Presley" });
             });
-            //:code-block-start:object-notifications
+            //:snippet-start:object-notifications
             // :replace-start: {
             //  "terms": {
             //   "PersonN": "Person" }
@@ -201,7 +201,7 @@ namespace Examples
             };
         }
         // :replace-end:
-        //:code-block-end:
+        //:snippet-end:
 
         class NotificationUnsub
         {
@@ -212,7 +212,7 @@ namespace Examples
             {
                 realm = Realm.GetInstance("");
             }
-            //:code-block-start:unsubscribe
+            //:snippet-start:unsubscribe
             private IQueryable<Task> tasks;
 
             public void LoadUI()
@@ -234,7 +234,7 @@ namespace Examples
             {
                 // Do something with the notification information
             }
-            // :code-block-end:
+            // :snippet-end:
         }
 
         public class PersonN : RealmObject

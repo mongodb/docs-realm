@@ -31,7 +31,7 @@ class AuthActivity : AppCompatActivity() {
         loginWithGoogle()
     }
 
-    // :code-block-start: google
+    // :snippet-start: google
     fun loginWithGoogle() {
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -80,5 +80,5 @@ class AuthActivity : AppCompatActivity() {
             Log.e("AUTH", "Failed to authenticate using Google OAuth: " + e.message);
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

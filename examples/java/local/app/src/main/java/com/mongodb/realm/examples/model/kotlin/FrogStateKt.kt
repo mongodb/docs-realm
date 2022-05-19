@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogStateKt": "FrogState"
@@ -11,4 +11,4 @@ enum class FrogStateKt(val state: String) {
     OLD_FROG("Old Frog");
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

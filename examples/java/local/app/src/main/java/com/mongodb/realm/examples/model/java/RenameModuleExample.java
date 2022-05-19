@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "RenameModuleExample": "MyModule"
@@ -18,4 +18,4 @@ import io.realm.annotations.RealmNamingPolicy;
 public class RenameModuleExample {
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -51,7 +51,7 @@ class CustomApplicationJava extends Application {
 
         Log.v("EXAMPLE", "Initialized the Realm App configuration.");
 
-        // :code-block-start: background-sync-realm
+        // :snippet-start: background-sync-realm
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.UNMETERED)
                 .setRequiresBatteryNotLow(true)
@@ -70,7 +70,7 @@ class CustomApplicationJava extends Application {
                 RealmBackgroundWorker.UNIQUE_WORK_NAME,
                 ExistingPeriodicWorkPolicy.REPLACE,
                 backgroundRealmSync);
-        // :code-block-end:
+        // :snippet-end:
         try {
             assert (WorkManager.getInstance(this)
                     .getWorkInfosForUniqueWork(RealmBackgroundWorker.UNIQUE_WORK_NAME)

@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogEmbeddedExample": "Frog",
@@ -35,4 +35,4 @@ public class FrogEmbeddedExample extends RealmObject {
     public void setLastMeal(FlyEmbeddedExample lastMeal) { this.lastMeal = lastMeal; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

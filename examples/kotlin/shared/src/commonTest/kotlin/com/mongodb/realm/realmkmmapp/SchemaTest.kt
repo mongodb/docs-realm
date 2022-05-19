@@ -8,63 +8,63 @@ import io.realm.annotations.PrimaryKey
 import kotlin.random.Random
 import java.time.Instant
 
-// :code-block-start: primary-key
+// :snippet-start: primary-key
 class Lizard: RealmObject {
     @PrimaryKey
     val _id: Long = Random.nextLong()
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: ignore
+// :snippet-start: ignore
 class ShoppingCart: RealmObject {
     val _id: Long = Random.nextLong()
     @Ignore
     val items: List<String> = listOf()
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: index
+// :snippet-start: index
 class Movie: RealmObject {
     @Index
     val _id: Long = Random.nextLong()
     val starring: List<String> = listOf()
 }
-// :code-block-end:
+// :snippet-end:
 
 class Fish: RealmObject {
     val _id: Long = Random.nextLong()
 }
 
-// :code-block-start: to-many-relationship
+// :snippet-start: to-many-relationship
 class Sushi: RealmObject {
     val _id: Long = Random.nextLong()
     val name: String = ""
     val fishes: List<Fish> = listOf()
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: to-one-relationship
+// :snippet-start: to-one-relationship
 class SushiPlatter: RealmObject {
     val _id: Long = Random.nextLong()
     val name: String = ""
     val fish: Fish? = null
 }
-// :code-block-end:
+// :snippet-end:
 
 class Horse: RealmObject {
     val _id: Long = Random.nextLong()
 }
 
-// :code-block-start: optional
+// :snippet-start: optional
 class Knight: RealmObject {
     val _id: Long = Random.nextLong()
     val name: String = ""
     val mount: Horse? = null
 }
-// :code-block-end:
+// :snippet-end:
 
 
-// :code-block-start: timestamp-workaround
+// :snippet-start: timestamp-workaround
 // model class that stores an Instant field as a RealmInstant via a conversion
 class RealmInstantConversion: RealmObject {
     private var _timestamp: RealmInstant = RealmInstant.fromEpochSeconds(0, 0)
@@ -111,7 +111,7 @@ fun Instant.toRealmInstant(): RealmInstant {
         RealmInstant.fromEpochSeconds(sec + 1, -1_000_000 + nano)
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class SchemaTest: RealmTest() {
 

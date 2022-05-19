@@ -25,7 +25,7 @@ public class FunctionTest extends RealmTest {
     public void testCallAFunction() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: call-a-function
+            // :snippet-start: call-a-function
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
@@ -53,7 +53,7 @@ public class FunctionTest extends RealmTest {
                     Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.getError());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }

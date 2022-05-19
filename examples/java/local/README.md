@@ -126,7 +126,7 @@ Code examples are extracted using
 [Bluehawk](https://github.com/MongoCaleb/bluehawk). In the source files, you can annotate code like so:
 
 ```swift
-// :code-block-start: example
+// :snippet-start: example
 ... some code for the code example ...
 
 // :hide-start:
@@ -134,7 +134,7 @@ some code that should not be in the code example
 // :hide-end:
 
 ... some more code for the code example ...
-// :code-block-end:
+// :snippet-end:
 ```
 
 where _example_ specified by the `code-block-start` tag is the name of the resulting code example when you run Bluehawk.
@@ -164,7 +164,7 @@ AuthenticationTest.codeblock.api-key.java
 ...
 ```
 
-These files correspond to the `:code-block-start:` commands in `AuthenticationTest.java`.
+These files correspond to the `:snippet-start:` commands in `AuthenticationTest.java`.
 
 ### Include in Docs Source
 

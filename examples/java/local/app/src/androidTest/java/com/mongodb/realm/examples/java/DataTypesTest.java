@@ -60,7 +60,7 @@ public class DataTypesTest extends RealmTest {
                 //       "FrogAny": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmany
+                // :snippet-start: realmany
                 FrogAny frog = realm.createObject(FrogAny.class);
                 frog.setName("Jonathan Livingston Applesauce");
               
@@ -102,7 +102,7 @@ public class DataTypesTest extends RealmTest {
                 frog.setBestFriend(RealmAny.valueOf(persons));
                 Log.v("EXAMPLE", "Best friend: " +
                         frog.getBestFriend().asRealmModel(GroupOfPeople.class).getPeople().toString());
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill();
             });
@@ -129,7 +129,7 @@ public class DataTypesTest extends RealmTest {
                 //       "FrogEnum": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmenum
+                // :snippet-start: realmenum
                 FrogEnum frog = realm.createObject(FrogEnum.class);
                 frog.setName("Jonathan Livingston Applesauce");
                 // set the state using the enum
@@ -137,7 +137,7 @@ public class DataTypesTest extends RealmTest {
 
                 // fetching the state returns an enum
                 FrogState currentJonathanState = frog.getState();
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill();
             });
@@ -163,7 +163,7 @@ public class DataTypesTest extends RealmTest {
             //       "FrogAny": "Frog"
             //    }
             // }
-            // :code-block-start: realmany-notifications
+            // :snippet-start: realmany-notifications
             AtomicReference<FrogAny> frog = new AtomicReference<FrogAny>();
             realm.executeTransaction(r -> {
                     frog.set(realm.createObject(FrogAny.class));
@@ -197,7 +197,7 @@ public class DataTypesTest extends RealmTest {
 
                 expectation.fulfill(); // :hide:
             });
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         });
         expectation.await();
@@ -222,7 +222,7 @@ public class DataTypesTest extends RealmTest {
                 //       "FrogSet": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmSet
+                // :snippet-start: realmSet
                 FrogSet frog = realm.createObject(FrogSet.class);
                 frog.setName("George Washington");
 
@@ -260,7 +260,7 @@ public class DataTypesTest extends RealmTest {
                 flies.deleteFromRealm();
                 // deleting flies object reduced the size of the set by one
                 Assert.assertTrue(sizeOfSetBeforeDelete == set.size() + 1);
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill();
             });
@@ -286,7 +286,7 @@ public class DataTypesTest extends RealmTest {
             //       "FrogSet": "Frog"
             //    }
             // }
-            // :code-block-start: realmset-notifications
+            // :snippet-start: realmset-notifications
             AtomicReference<FrogSet> frog = new AtomicReference<FrogSet>();
             realm.executeTransaction(r -> {
                 frog.set(realm.createObject(FrogSet.class));
@@ -321,7 +321,7 @@ public class DataTypesTest extends RealmTest {
 
                 expectation.fulfill(); // :hide:
             });
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         });
         expectation.await();
@@ -346,7 +346,7 @@ public class DataTypesTest extends RealmTest {
                 //       "FrogDictionary": "Frog"
                 //    }
                 // }
-                // :code-block-start: realmDictionary
+                // :snippet-start: realmDictionary
                 FrogDictionary frog = realm.createObject(FrogDictionary.class);
                 frog.setName("George Washington");
 
@@ -382,7 +382,7 @@ public class DataTypesTest extends RealmTest {
                 Assert.assertEquals(sizeOfDictionaryBeforeDelete, dictionary.size());
                 // but greg object IS now null:
                 Assert.assertEquals(dictionary.get("small frog"), null);
-                // :code-block-end:
+                // :snippet-end:
                 // :replace-end:
                 expectation.fulfill();
             });
@@ -408,7 +408,7 @@ public class DataTypesTest extends RealmTest {
             //       "FrogDictionary": "Frog"
             //    }
             // }
-            // :code-block-start: realmdictionary-notifications
+            // :snippet-start: realmdictionary-notifications
             AtomicReference<FrogDictionary> frog = new AtomicReference<FrogDictionary>();
             realm.executeTransaction(r -> {
                 frog.set(realm.createObject(FrogDictionary.class));
@@ -448,7 +448,7 @@ public class DataTypesTest extends RealmTest {
 
                 expectation.fulfill(); // :hide:
             });
-            // :code-block-end:
+            // :snippet-end:
             // :replace-end:
         });
         expectation.await();

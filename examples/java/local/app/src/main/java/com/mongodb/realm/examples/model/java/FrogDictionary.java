@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogDictionary": "Frog"
@@ -20,4 +20,4 @@ public class FrogDictionary extends RealmObject {
     public void setNicknamesToFriends(RealmDictionary<FrogDictionary> nicknamesToFriends) { this.nicknamesToFriends = nicknamesToFriends; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

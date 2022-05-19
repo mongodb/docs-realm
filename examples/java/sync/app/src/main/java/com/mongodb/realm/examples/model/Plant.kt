@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model
-// :code-block-start: plant
+// :snippet-start: plant
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 
@@ -14,4 +14,4 @@ open class Plant(val id : ObjectId = ObjectId(),
         return "Plant [id=$id, name=$name, sunlight=$sunlight, color=$color, type=$type, partition=$partition]"
     }
 }
-// :code-block-end:
+// :snippet-end:

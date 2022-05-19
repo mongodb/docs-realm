@@ -16,7 +16,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     var notificationToken: NotificationToken?
 
     init(userRealmConfiguration: Realm.Configuration) {
-        // :code-block-start: user-in-realm-notification
+        // :snippet-start: user-in-realm-notification
         // :state-start: start
         // TODO: fetch user data object
         // :state-end: :state-start: local sync
@@ -32,7 +32,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
             tableView.reloadData()
         }
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
     
 
@@ -40,7 +40,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         fatalError("init(coder:) has not been implemented")
     }
 
-    // :code-block-start: invalidate-token
+    // :snippet-start: invalidate-token
     // :state-uncomment-start: sync
     // deinit {
     //     // Always invalidate any notification tokens when you are done with them.
@@ -50,7 +50,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
     // :state-start: local start
     // TODO: deinit method
     // :state-end:
-    // :code-block-end:
+    // :snippet-end:
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonDidClick))
     }
 
-    // :code-block-start: log-out-button-did-click
+    // :snippet-start: log-out-button-did-click
     @objc func logOutButtonDidClick() {
         let alertController = UIAlertController(title: "Log Out", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes, Log Out", style: .destructive, handler: {
@@ -87,9 +87,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: number-of-rows-in-section
+    // :snippet-start: number-of-rows-in-section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // :state-start: local start
         // You always have one project (your own)
@@ -100,9 +100,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // return userData?.memberOf.count ?? 1
         // :state-uncomment-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: cell-for-row-at
+    // :snippet-start: cell-for-row-at
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
@@ -117,9 +117,9 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
 
         return cell
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: did-select-row-at
+    // :snippet-start: did-select-row-at
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // :state-start: local start
         // TODO: open the realm for the selected project and navigate to the TasksViewController.
@@ -143,5 +143,5 @@ class ProjectsViewController: UIViewController, UITableViewDelegate, UITableView
         // }
         // :state-uncomment-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 }

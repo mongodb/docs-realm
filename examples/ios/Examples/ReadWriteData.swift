@@ -6,7 +6,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: models
+// :snippet-start: models
 class ReadWriteDataExamples_DogToy: Object {
     @Persisted var name = ""
 }
@@ -36,14 +36,14 @@ class ReadWriteDataExamples_DogClub: Object {
     @Persisted var name = ""
     @Persisted var members: List<ReadWriteDataExamples_Person>
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: object-id-model
+// :snippet-start: object-id-model
 class ReadWriteDataExamples_User: Object {
     @Persisted var id: ObjectId
     @Persisted var name = ""
 }
-// :code-block-end:
+// :snippet-end:
 
 class ReadWriteData: XCTestCase {
     override func tearDown() {
@@ -54,7 +54,7 @@ class ReadWriteData: XCTestCase {
     }
 
     func testCreateNewObject() {
-        // :code-block-start: create-a-new-object
+        // :snippet-start: create-a-new-object
         // (1) Create a ReadWriteDataExamples_Dog object and then set its properties
         let myDog = ReadWriteDataExamples_Dog()
         myDog.name = "Rex"
@@ -73,19 +73,19 @@ class ReadWriteData: XCTestCase {
         try! realm.write {
             realm.add(myDog)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testFindObjectByPrimaryKey() {
-        // :code-block-start: find-a-specific-object-by-primary-key
+        // :snippet-start: find-a-specific-object-by-primary-key
         let realm = try! Realm()
 
         let specificPerson = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 12345)
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testQueryRelationship() {
-        // :code-block-start: query-a-relationship
+        // :snippet-start: query-a-relationship
         let realm = try! Realm()
 
         // Establish a relationship
@@ -109,11 +109,11 @@ class ReadWriteData: XCTestCase {
         let firstDog = specificPersonDogs[0]
         print("# dogs: \(specificPersonDogs.count)")
         print("First dog's name: \(firstDog.name)")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testQueryInverseRelationship() {
-        // :code-block-start: query-an-inverse-relationship
+        // :snippet-start: query-an-inverse-relationship
         let realm = try! Realm()
 
         // Establish an inverse relationship
@@ -137,13 +137,13 @@ class ReadWriteData: XCTestCase {
         print("# memberships: \(clubs.count)")
         print("First club's name: \(firstClub.name)")
 
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testBatchUpdateAndCascadingDelete() {
         // TODO: CURRENTLY COMMENTED OUT UNTIL https://jira.mongodb.org/browse/RCOCOA-1282 IS FIXED
         /*
-        // :code-block-start: batch-update
+        // :snippet-start: batch-update
         let realm = try! Realm()
         try! realm.write {
             // Create a person to take care of some dogs.
@@ -166,9 +166,9 @@ class ReadWriteData: XCTestCase {
             XCTAssert(person.dogs.count == 1)
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: cascading-delete
+        // :snippet-start: cascading-delete
         let person = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 1)!
         // :hide-start:
         XCTAssert(person.dogs.count == 1)
@@ -178,14 +178,14 @@ class ReadWriteData: XCTestCase {
             realm.delete(person.dogs)
             realm.delete(person)
         }
-        // :code-block-end:
+        // :snippet-end:
         XCTAssert(realm.objects(ReadWriteDataExamples_Dog.self).count == 0)
         XCTAssert(realm.objects(ReadWriteDataExamples_Person.self).count == 0)
         */
     }
 
     func testCreateAndDelete() {
-        // :code-block-start: create
+        // :snippet-start: create
         // Instantiate the class. For convenience, you can initialize
         // objects from dictionaries with appropriate keys and values.
         let dog = ReadWriteDataExamples_Dog(value: ["name": "Max", "age": 5])
@@ -196,29 +196,29 @@ class ReadWriteData: XCTestCase {
             // Add the instance to the realm.
             realm.add(dog)
         }
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: delete
+        // :snippet-start: delete
         try! realm.write {
             // Delete the instance from the realm.
             realm.delete(dog)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testDeleteAll() {
-        // :code-block-start: delete-all
+        // :snippet-start: delete-all
         let realm = try! Realm()
 
         try! realm.write {
             // Delete all objects from the realm.
             realm.deleteAll()
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testDeleteAllOfClass() {
-        // :code-block-start: delete-all-of-class
+        // :snippet-start: delete-all-of-class
         let realm = try! Realm()
 
         try! realm.write {
@@ -226,11 +226,11 @@ class ReadWriteData: XCTestCase {
             let allDogs = realm.objects(ReadWriteDataExamples_Dog.self)
             realm.delete(allDogs)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testDeleteCollection() {
-        // :code-block-start: delete-collection
+        // :snippet-start: delete-collection
         let realm = try! Realm()
         try! realm.write {
             // Find dogs younger than 2 years old.
@@ -239,11 +239,11 @@ class ReadWriteData: XCTestCase {
             // Delete the objects in the collection from the realm.
             realm.delete(puppies)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testTypeSafeQueryDeleteCollection() {
-        // :code-block-start: tsq-delete-collection
+        // :snippet-start: tsq-delete-collection
         let realm = try! Realm()
         try! realm.write {
             // Find dogs younger than 2 years old.
@@ -254,19 +254,19 @@ class ReadWriteData: XCTestCase {
             // Delete the objects in the collection from the realm.
             realm.delete(puppies)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testObjects() {
-        // :code-block-start: objects
+        // :snippet-start: objects
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testSort() {
-        // :code-block-start: sort
+        // :snippet-start: sort
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
@@ -276,11 +276,11 @@ class ReadWriteData: XCTestCase {
         // You can also sort on the members of linked objects. In this example,
         // we sort the dogs by their favorite toys' names.
         let dogsSortedByFavoriteToyName = dogs.sorted(byKeyPath: "favoriteToy.name")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testFilter() {
-        // :code-block-start: filter
+        // :snippet-start: filter
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
@@ -293,14 +293,14 @@ class ReadWriteData: XCTestCase {
 
         // Filter by person's name
         let dogsWhoLikeTennisBalls = dogs.filter("favoriteToy.name == 'Tennis ball'")
-        // :code-block-end:
+        // :snippet-end:
         print(puppies.count)
         print(dogsWithoutFavoriteToy.count)
         print(dogsWhoLikeTennisBalls.count)
     }
 
     func testWhere() {
-        // :code-block-start: where
+        // :snippet-start: where
         let realm = try! Realm()
         // Access all dogs in the realm
         let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
@@ -319,14 +319,14 @@ class ReadWriteData: XCTestCase {
         let dogsWhoLikeTennisBalls = dogs.where {
             $0.favoriteToy.name == "Tennis ball"
         }
-        // :code-block-end:
+        // :snippet-end:
         print(puppies.count)
         print(dogsWithoutFavoriteToy.count)
         print(dogsWhoLikeTennisBalls.count)
     }
 
     func testQueryObjectId() {
-        // :code-block-start: query-object-id
+        // :snippet-start: query-object-id
         let realm = try! Realm()
 
         let users = realm.objects(ReadWriteDataExamples_User.self)
@@ -337,12 +337,12 @@ class ReadWriteData: XCTestCase {
         // WRONG: Realm will not convert the string to an object id
         // users.filter("id = '11223344556677889900aabb'") // not ok
         // users.filter("id = %@", "11223344556677889900aabb") // not ok
-        // :code-block-end:
+        // :snippet-end:
         print("\(specificUser ?? ReadWriteDataExamples_User())")
     }
 
     func testTypeSafeQueryObjectId() {
-        // :code-block-start: tsq-object-id
+        // :snippet-start: tsq-object-id
         let realm = try! Realm()
 
         let users = realm.objects(ReadWriteDataExamples_User.self)
@@ -351,12 +351,12 @@ class ReadWriteData: XCTestCase {
         let specificUser = users.where {
             $0.id == ObjectId("11223344556677889900aabb")
         }
-        // :code-block-end:
+        // :snippet-end:
         print("\(specificUser)")
     }
 
     func testTransaction() {
-        // :code-block-start: transaction
+        // :snippet-start: transaction
         // Open the default realm.
         let realm = try! Realm()
 
@@ -374,11 +374,11 @@ class ReadWriteData: XCTestCase {
             // Failed to write to realm.
             // ... Handle error ...
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testTransactionCounterexample() {
-        // :code-block-start: transaction-counterexample
+        // :snippet-start: transaction-counterexample
         let realm = try! Realm()
         // BAD EXAMPLE -- avoid this!
 
@@ -387,7 +387,7 @@ class ReadWriteData: XCTestCase {
         // If an exception is thrown before the commit,
         // this transaction stays open!
         try! realm.commitWrite()
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testUpdate() {
@@ -395,7 +395,7 @@ class ReadWriteData: XCTestCase {
         try! setupRealm.write {
             setupRealm.add(ReadWriteDataExamples_Dog())
         }
-        // :code-block-start: update
+        // :snippet-start: update
         let realm = try! Realm()
 
         // Get a dog to update
@@ -408,11 +408,11 @@ class ReadWriteData: XCTestCase {
             dog.name = "Wolfie"
             dog.age += 1
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testUpsert() {
-        // :code-block-start: upsert
+        // :snippet-start: upsert
         let realm = try! Realm()
         try! realm.write {
             let person1 = ReadWriteDataExamples_Person(value: ["id": 1234, "name": "Jones"])
@@ -430,11 +430,11 @@ class ReadWriteData: XCTestCase {
             //   primary key already exists.
             realm.add(person2, update: .modified)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testAggregate() {
-        // :code-block-start: aggregate
+        // :snippet-start: aggregate
         let realm = try! Realm()
 
         let people = realm.objects(ReadWriteDataExamples_Person.self)
@@ -453,11 +453,11 @@ class ReadWriteData: XCTestCase {
 
         // People whose dogs' ages combined > 10 years
         people.filter("dogs.@sum.age > 10")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testTypeSafeQueryAggregate() {
-        // :code-block-start: tsq-aggregate
+        // :snippet-start: tsq-aggregate
         let realm = try! Realm()
 
         let people = realm.objects(ReadWriteDataExamples_Person.self)
@@ -486,11 +486,11 @@ class ReadWriteData: XCTestCase {
         people.where {
             $0.dogs.age.sum > 10
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testCopyToAnotherRealm() {
-        // :code-block-start: copy-to-another-realm
+        // :snippet-start: copy-to-another-realm
         let realm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "first realm"))
 
         try! realm.write {
@@ -513,11 +513,11 @@ class ReadWriteData: XCTestCase {
             // Verify that the copy is separate from the original
             XCTAssertNotEqual(wolfie.age, wolfieCopy.age)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testKeyValueCoding() {
-        // :code-block-start: key-value-coding
+        // :snippet-start: key-value-coding
         let realm = try! Realm()
 
         let allDogs = realm.objects(ReadWriteDataExamples_Dog.self)
@@ -527,19 +527,19 @@ class ReadWriteData: XCTestCase {
             // Move the dogs to Toronto for vacation
             allDogs.setValue("Toronto", forKey: "currentCity")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testChainQuery() {
-        // :code-block-start: chain-query
+        // :snippet-start: chain-query
         let realm = try! Realm()
         let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).filter("color = 'tan'")
         let tanDogsWithBNames = tanDogs.filter("name BEGINSWITH 'B'")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testTypeSafeChainQuery() {
-        // :code-block-start: tsq-chain-query
+        // :snippet-start: tsq-chain-query
         let realm = try! Realm()
         let tanDogs = realm.objects(ReadWriteDataExamples_Dog.self).where {
             $0.color == "tan"
@@ -547,11 +547,11 @@ class ReadWriteData: XCTestCase {
         let tanDogsWithBNames = tanDogs.where {
             $0.name.starts(with: "B")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testJson() {
-        // :code-block-start: json
+        // :snippet-start: json
         // Specify a dog toy in JSON
         let data = "{\"name\": \"Tennis ball\"}".data(using: .utf8)!
         let realm = try! Realm()
@@ -560,23 +560,23 @@ class ReadWriteData: XCTestCase {
             let json = try! JSONSerialization.jsonObject(with: data, options: [])
             realm.create(ReadWriteDataExamples_DogToy.self, value: json)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testNestedObjects() {
         let aDog = ReadWriteDataExamples_Dog(value: ["Buster", 5])
         let anotherDog = ReadWriteDataExamples_Dog(value: ["Buddy", 6])
-        // :code-block-start: nested-objects
+        // :snippet-start: nested-objects
         // Instead of using pre-existing dogs...
         let aPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [aDog, anotherDog]])
 
         // ...we can create them inline
         let anotherPerson = ReadWriteDataExamples_Person(value: [123, "Jane", [["Buster", 5], ["Buddy", 6]]])
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testPartialUpdate() {
-        // :code-block-start: partial-update
+        // :snippet-start: partial-update
         let realm = try! Realm()
         try! realm.write {
             // Use .modified to only update the provided values.
@@ -586,7 +586,7 @@ class ReadWriteData: XCTestCase {
                          value: ["id": 123, "dogs": [["Buster", 5]]],
                          update: .modified)
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 

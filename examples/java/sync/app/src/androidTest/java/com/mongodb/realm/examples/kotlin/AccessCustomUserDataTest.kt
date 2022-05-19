@@ -21,7 +21,7 @@ class AccessCustomUserDataTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
 
-            // :code-block-start: read-custom-user-data
+            // :snippet-start: read-custom-user-data
             val anonymousCredentials: Credentials = Credentials.anonymous()
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
@@ -36,7 +36,7 @@ class AccessCustomUserDataTest : RealmTest() {
                     Log.e("EXAMPLE", it.error.toString())
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -48,7 +48,7 @@ class AccessCustomUserDataTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
 
-            // :code-block-start: create-custom-user-data
+            // :snippet-start: create-custom-user-data
             val anonymousCredentials: Credentials = Credentials.anonymous()
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
@@ -74,7 +74,7 @@ class AccessCustomUserDataTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -86,7 +86,7 @@ class AccessCustomUserDataTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
 
-            // :code-block-start: update-custom-user-data
+            // :snippet-start: update-custom-user-data
             val anonymousCredentials: Credentials = Credentials.anonymous()
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
@@ -116,7 +116,7 @@ class AccessCustomUserDataTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to log in anonymously: ${it.error}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }

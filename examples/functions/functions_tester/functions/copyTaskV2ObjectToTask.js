@@ -1,4 +1,4 @@
-// :code-block-start: copyTaskV2Object
+// :snippet-start: copyTaskV2Object
 exports = function (changeEvent) {
   const db = context.services.get("mongodb-atlas").db("ExampleDB");
   const collection = db.collection("TaskV2");
@@ -31,4 +31,4 @@ exports = function (changeEvent) {
   ]
   return collection.aggregate(pipeline);
 };
-// :code-block-end:
+// :snippet-end:

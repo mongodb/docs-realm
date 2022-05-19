@@ -1,4 +1,4 @@
-// :code-block-start: test-integration-testing
+// :snippet-start: test-integration-testing
 package com.mongodb.realm.examples.kotlin
 
 import android.app.Activity
@@ -22,7 +22,7 @@ class TestTest {
 
     @Test
     fun testTesting() {
-        // :code-block-start: initialize-realm-with-context
+        // :snippet-start: initialize-realm-with-context
         var testActivity: Activity? = null
         val scenario: ActivityScenario<BasicActivity>? =
             ActivityScenario.launch(BasicActivity::class.java)
@@ -35,7 +35,7 @@ class TestTest {
             testActivity = activity
             setupLatch.countDown() // unblock the latch await
         }
-        // :code-block-end:
+        // :snippet-end:
 
         // block until we have an activity to run tests on
         try {
@@ -44,10 +44,10 @@ class TestTest {
             Log.e("EXAMPLE", e.stackTraceToString())
         }
 
-        // :code-block-start: wait-for-async
+        // :snippet-start: wait-for-async
         val testLatch = CountDownLatch(1)
 
-        // :code-block-start: test-logic-looper
+        // :snippet-start: test-logic-looper
         testActivity?.runOnUiThread {
             // instantiate an app connection
             val appID: String = YOUR_APP_ID // replace this with your App ID
@@ -88,7 +88,7 @@ class TestTest {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
         // block until the async calls in the test succeed or error out
         try {
@@ -96,7 +96,7 @@ class TestTest {
         } catch (e: InterruptedException) {
             Log.e("EXAMPLE", e.stackTraceToString())
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
-// :code-block-end:
+// :snippet-end:

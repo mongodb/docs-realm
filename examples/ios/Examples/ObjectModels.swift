@@ -9,7 +9,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: define-a-model
+// :snippet-start: define-a-model
 // A dog has an _id primary key, a string name, an optional
 // string breed, and a date of birth.
 class ObjectModelsExamples_Dog: Object {
@@ -18,9 +18,9 @@ class ObjectModelsExamples_Dog: Object {
     @Persisted var breed: String?
     @Persisted var dateOfBirth = Date()
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: optional-required-properties
+// :snippet-start: optional-required-properties
 class OptionalRequiredPropertyExample_Person: Object {
     // Required string property
     @Persisted var name = ""
@@ -34,9 +34,9 @@ class OptionalRequiredPropertyExample_Person: Object {
     // Optional numeric property
     @Persisted var heightCm: Float?
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: optional-required-properties-objc-dynamic
+// :snippet-start: optional-required-properties-objc-dynamic
 class OptionalRequiredPropertyObjcDynamicExample_Person: Object {
     // Required string property
     @objc dynamic var name = ""
@@ -50,16 +50,16 @@ class OptionalRequiredPropertyObjcDynamicExample_Person: Object {
     // Optional numeric property
     let heightCm = RealmProperty<Float?>()
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: specify-a-primary-key
+// :snippet-start: specify-a-primary-key
 class ObjectModelsExamples_Project: Object {
     @Persisted(primaryKey: true) var id = 0
     @Persisted var name = ""
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: specify-a-primary-key-objc-dynamic
+// :snippet-start: specify-a-primary-key-objc-dynamic
 class ObjectModelsObjcDynamicExamples_Project: Object {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
@@ -69,16 +69,16 @@ class ObjectModelsObjcDynamicExamples_Project: Object {
         return "id"
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: index-a-property
+// :snippet-start: index-a-property
 class ObjectModelsExamples_Book: Object {
     @Persisted var priceCents = 0
     @Persisted(indexed: true) var title = ""
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: index-a-property-objc-dynamic
+// :snippet-start: index-a-property-objc-dynamic
 class ObjectModelsObjcDynamicExamples_Book: Object {
     @objc dynamic var priceCents = 0
     @objc dynamic var title = ""
@@ -88,9 +88,9 @@ class ObjectModelsObjcDynamicExamples_Book: Object {
         return ["title"]
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: ignore-a-property
+// :snippet-start: ignore-a-property
 class ObjectModelsExamples_Person: Object {
     // If some properties are marked as @Persisted,
     // any properties that do not have the @Persisted
@@ -112,9 +112,9 @@ class ObjectModelsExamples_Person: Object {
     // properties are ignored.
     @objc dynamic var email = ""
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: ignore-a-property-objc-dynamic
+// :snippet-start: ignore-a-property-objc-dynamic
 class ObjectModelsObjcDynamicExamples_Person: Object {
     @objc dynamic var tmpId = 0
     @objc dynamic var firstName = ""
@@ -130,9 +130,9 @@ class ObjectModelsObjcDynamicExamples_Person: Object {
         return ["tmpId"]
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: realm-object-enum
+// :snippet-start: realm-object-enum
 // Define the enum
 enum ObjectModelsExamples_TaskStatusEnum: String, PersistableEnum {
     case notStarted
@@ -151,9 +151,9 @@ class ObjectModelsExamples_Task: Object {
     // Optional enum property
     @Persisted var optionalTaskStatusEnumProperty: ObjectModelsExamples_TaskStatusEnum? // :emphasize:
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: realm-object-enum-objc-dynamic
+// :snippet-start: realm-object-enum-objc-dynamic
 // Define the enum
 @objc enum ObjectModelsObjcDynamicExamples_TaskStatusEnum: Int, RealmEnum {
     case notStarted = 1
@@ -171,7 +171,7 @@ class ObjectModelsObjcDynamicExamples_Task: Object {
     // Optional enum property
     let optionalTaskStatusEnumProperty = RealmProperty<ObjectModelsObjcDynamicExamples_TaskStatusEnum?>() // :emphasize:
 }
-// :code-block-end:
+// :snippet-end:
 
 class ObjectModelsExamples_MyModel: Object {
     @Persisted var someProperty = 0
@@ -179,16 +179,16 @@ class ObjectModelsExamples_MyModel: Object {
 
 class ObjectModels: XCTestCase {
     func testGenericCollectionFunc() {
-        // :code-block-start: generic-collection
+        // :snippet-start: generic-collection
         func operateOn<C: RealmCollection>(collection: C) {
             // Collection could be either Results or List
             print("operating on collection containing \(collection.count) objects")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testAnyRealmCollection() {
-        // :code-block-start: any-realm-collection
+        // :snippet-start: any-realm-collection
         class ViewController {
         //    let collection: RealmCollection
         //                    ^
@@ -206,7 +206,7 @@ class ObjectModels: XCTestCase {
                 self.collection = AnyRealmCollection(collection)
             }
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 

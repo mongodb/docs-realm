@@ -5,7 +5,7 @@ import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
-// :code-block-start: realm-object-model
+// :snippet-start: realm-object-model
 open class Sample : RealmObject() {
     @PrimaryKey
     var stringField = "Realm"
@@ -20,4 +20,4 @@ open class Sample : RealmObject() {
     var doubleField = 1.19840122
     var timestampField = Date()
 }
-// :code-block-end:
+// :snippet-end:

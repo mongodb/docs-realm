@@ -43,13 +43,13 @@ class ReadsTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: get-all-objects
+                            // :snippet-start: get-all-objects
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             val projectsQuery = realm.where(Project::class.java)
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -94,14 +94,14 @@ class ReadsTest : RealmTest() {
                                     PRIMARY_KEY_VALUE
                                 )
                             }
-                            // :code-block-start: find-an-object-by-primary-key
+                            // :snippet-start: find-an-object-by-primary-key
                             val task = realm.where(ProjectTask::class.java)
                                 .equalTo("_id", ObjectId.get()).findFirst()
                             Log.v("EXAMPLE", "Fetched object by primary key: $task")
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -146,7 +146,7 @@ class ReadsTest : RealmTest() {
                                     PRIMARY_KEY_VALUE
                                 )
                             }
-                            // :code-block-start: filter-results
+                            // :snippet-start: filter-results
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             Log.i(
                                 "EXAMPLE", "High priority tasks: " + tasksQuery.greaterThan(
@@ -176,7 +176,7 @@ class ReadsTest : RealmTest() {
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -221,13 +221,13 @@ class ReadsTest : RealmTest() {
                                     PRIMARY_KEY_VALUE
                                 )
                             }
-                            // :code-block-start: sort-results
+                            // :snippet-start: sort-results
                             val projectsQuery = realm.where(Project::class.java)
                             val results = projectsQuery.sort("name", Sort.DESCENDING).findAll()
                             // :hide-start:
                             expectation.fulfill()
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {

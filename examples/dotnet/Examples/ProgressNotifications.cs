@@ -33,14 +33,14 @@ namespace Examples
             config = new PartitionSyncConfiguration("myPartition", user);
             try
             {
-                // :code-block-start: wait-for-changes-to-download-async-progress-notification
+                // :snippet-start: wait-for-changes-to-download-async-progress-notification
                 // :uncomment-start:
                 // using Realms.Sync;
 
                 // :uncomment-end:
                 var realm = Realm.GetInstance(config);
                 await realm.SyncSession.WaitForDownloadAsync();
-                // :code-block-end:
+                // :snippet-end:
                 realm.Dispose();
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace Examples
             user = app.LogInAsync(Credentials.Anonymous()).Result;
             config = new PartitionSyncConfiguration("myPartition", user);
             var realm = Realm.GetInstance(config);
-            // :code-block-start: upload-download-progress-notification
+            // :snippet-start: upload-download-progress-notification
             var session = realm.SyncSession;
             var token = session.GetProgressObservable(ProgressDirection.Upload,
                 ProgressMode.ReportIndefinitely)
@@ -74,7 +74,7 @@ namespace Examples
                        Console.WriteLine($@"transferable bytes:
                             {progress.TransferableBytes}");
                    });
-            // :code-block-end: upload-download-progress-notification
+            // :snippet-end: upload-download-progress-notification
             var id = 2;
             var myObj = new ProgressObj
             {
@@ -88,13 +88,13 @@ namespace Examples
             {
                 realm.RemoveAll<ProgressObj>();
             });
-            // :code-block-start: remove-progress-notification
+            // :snippet-start: remove-progress-notification
             token.Dispose();
-            // :code-block-end: remove-progress-notification
+            // :snippet-end: remove-progress-notification
         }
 
         [Test]
-        // :code-block-start: connection-state
+        // :snippet-start: connection-state
         // :replace-start: {
         //  "terms": {
         //   "TestSessionConnnectionState": "SetupRealm"}
@@ -142,6 +142,6 @@ namespace Examples
             }
         }
         // :replace-end: 
-        // :code-block-end:
+        // :snippet-end:
     }
 }

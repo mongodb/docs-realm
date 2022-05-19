@@ -14,7 +14,7 @@ namespace Examples
         [Test]
         public void TestSchemas()
         {
-            // :code-block-start: schema_property
+            // :snippet-start: schema_property
             // By default, all loaded RealmObject classes are included.
             // Use the RealmConfiguration when you want to 
             // construct a schema for only specific C# classes:
@@ -51,7 +51,7 @@ namespace Examples
             {
                 Schema = new[] { mixedSchema.Build() }
             };
-            // :code-block-end:
+            // :snippet-end:
 
             Assert.AreEqual(2, config.Schema.Count);
             Assert.AreEqual(1, manualConfig.Schema.Count);

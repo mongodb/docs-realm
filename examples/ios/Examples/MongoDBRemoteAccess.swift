@@ -1,7 +1,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: coffee-drink-model
+// :snippet-start: coffee-drink-model
 class CoffeeDrink: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
@@ -9,7 +9,7 @@ class CoffeeDrink: Object {
     @Persisted var containsDairy: Bool
     @Persisted var _partition: String
 }
-// :code-block-end:
+// :snippet-end:
 
 class MongoDBRemoteAccessTestCase: XCTestCase {
 
@@ -36,7 +36,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: insert-one
+                // :snippet-start: insert-one
                 // This document represents a CoffeeDrink object
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
 
@@ -54,7 +54,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -78,7 +78,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         // Select the collection
         let collection = database.collection(withName: "CoffeeDrinks")
 
-        // :code-block-start: async-await-insert
+        // :snippet-start: async-await-insert
         // This document represents a CoffeeDrink object
         let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 43"]
 
@@ -92,13 +92,13 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         } catch {
             print("Call to MongoDB failed: \(error.localizedDescription)")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testInsertMany() {
         let expectation = XCTestExpectation(description: "Multiple documents are inserted")
 
-        // :code-block-start: insert-sample-data
+        // :snippet-start: insert-sample-data
         app.login(credentials: Credentials.anonymous) { (result) in // :emphasize:
             // Remember to dispatch back to the main thread in completion handlers
             // if you want to do anything on the UI.
@@ -121,7 +121,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks") // :emphasize:
 
-                // :code-block-start: insert-many
+                // :snippet-start: insert-many
                 let drink: Document = [ "name": "Bean of the Day", "beanRegion": "Timbio, Colombia", "containsDairy": "false", "_partition": "Store 42"]
                 let drink2: Document = [ "name": "Maple Latte", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "true", "_partition": "Store 42"]
                 let drink3: Document = [ "name": "Bean of the Day", "beanRegion": "San Marcos, Guatemala", "containsDairy": "false", "_partition": "Store 47"]
@@ -140,10 +140,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
@@ -169,7 +169,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: find-one
+                // :snippet-start: find-one
                 let queryFilter: Document = ["name": "Maple Latte"]
 
                 collection.findOneDocument(filter: queryFilter) { result in
@@ -186,7 +186,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -214,7 +214,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: find-many
+                // :snippet-start: find-many
                 let queryFilter: Document = ["name": "Americano"]
 
                 collection.find(filter: queryFilter) { result in
@@ -233,7 +233,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -261,7 +261,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: count
+                // :snippet-start: count
                 let queryFilter: Document = ["name": "Bean of the Day"]
 
                 collection.count(filter: queryFilter) { result in
@@ -277,7 +277,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -305,7 +305,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: update-one
+                // :snippet-start: update-one
                 let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 42"]
                 let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
 
@@ -326,7 +326,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         expectation.fulfill()
                         // :hide-end:
                     }
-                // :code-block-end:
+                // :snippet-end:
                 }
             }
         }
@@ -355,7 +355,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: update-many
+                // :snippet-start: update-many
                 let queryFilter: Document = ["name": "Bean of the Day"]
                 // :hide-start:
                 // Set initial values so there's something to update
@@ -388,7 +388,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -416,7 +416,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: upsert
+                // :snippet-start: upsert
                 let queryFilter: Document = ["name": "Bean of the Day", "_partition": "Store 55"]
                 let documentUpdate: Document = ["name": "Bean of the Day", "beanRegion": "Yirgacheffe, Ethiopia", "containsDairy": "false", "_partition": "Store 55"]
 
@@ -450,7 +450,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         }
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -491,7 +491,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     case .success(let objectId):
                         XCTAssertNotNil(objectId)
                         print("Successfully inserted a document with id: \(objectId)")
-                        // :code-block-start: delete-one
+                        // :snippet-start: delete-one
                         let queryFilter: Document = ["name": "Mocha", "_partition": "Store 17"]
                         collection.deleteOneDocument(filter: queryFilter) { deletedResult in
                             switch deletedResult {
@@ -506,7 +506,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                                 // :hide-end:
                             }
                         }
-                        // :code-block-end:
+                        // :snippet-end:
                     }
                 }
             }
@@ -550,7 +550,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     case .success(let objectIds):
                         print("Successfully inserted \(objectIds.count) new documents.")
                         XCTAssertEqual(objectIds.count, 3)
-                        // :code-block-start: delete-many
+                        // :snippet-start: delete-many
                         let filter: Document = ["name": "Caramel Latte"]
 
                         collection.deleteManyDocuments(filter: filter) { deletedResult in
@@ -566,7 +566,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                                 // :hide-end:
                             }
                         }
-                        // :code-block-end:
+                        // :snippet-end:
                     }
                 }
             }

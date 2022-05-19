@@ -26,7 +26,7 @@ class AnyRealmValueTestCase: XCTestCase {
     }
 
     func testAnyRealmValue() {
-        // :code-block-start: mixed-data-type
+        // :snippet-start: mixed-data-type
         // Create a AnyRealmValueExample_Dog object and then set its properties
         // In this case, the dog's age is an int
         let myDog = AnyRealmValueExample_Dog()
@@ -80,7 +80,7 @@ class AnyRealmValueTestCase: XCTestCase {
             // Prints all the details of the Person object:
             // {name = Sylvia; address = null; age = 12;}
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

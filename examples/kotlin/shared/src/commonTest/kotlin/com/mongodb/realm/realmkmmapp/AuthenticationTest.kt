@@ -9,19 +9,19 @@ class AuthenticationTest: RealmTest() {
 
     @Test
     fun anonymousAuthTest() {
-        // :code-block-start: anonymous-authentication
+        // :snippet-start: anonymous-authentication
         val app: App = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
     fun emailPasswordAuthTest() {
         val email = getRandom()
         val password = getRandom()
-        // :code-block-start: email-password-authentication
+        // :snippet-start: email-password-authentication
         val app: App = App.create(YOUR_APP_ID)
         runBlocking {
             // :hide-start:
@@ -29,7 +29,7 @@ class AuthenticationTest: RealmTest() {
             // :hide-end:
             val user = app.login(Credentials.emailPassword(email, password))
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
@@ -37,9 +37,9 @@ class AuthenticationTest: RealmTest() {
         val app: App = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            // :code-block-start: log-out
+            // :snippet-start: log-out
             user.logOut()
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

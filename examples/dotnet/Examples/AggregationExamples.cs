@@ -112,7 +112,7 @@ namespace Examples
             {
                 SetupPlantCollection();
             }
-            // :code-block-start: agg_group
+            // :snippet-start: agg_group
             var groupStage =
                 new BsonDocument("$group",
                     new BsonDocument
@@ -132,13 +132,13 @@ namespace Examples
                 Console.WriteLine($"Plant type: {id}; count: {count}");
             }
 
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"] != null ? aggResult[0]["_id"].AsString : "null");
             Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
             Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
             Assert.AreEqual(2, aggResult[1]["count"].AsInt32);
 
-            // :code-block-start: agg_group_alt
+            // :snippet-start: agg_group_alt
             var groupStep = BsonDocument.Parse(@"
               {
                 $group: {
@@ -159,7 +159,7 @@ namespace Examples
                 var count = item["count"];
                 Console.WriteLine($"Id: {id}, Count: {count}");
             }
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(PlantType.Annual.ToString(), aggResult[0]["_id"].AsString);
             Assert.AreEqual(PlantType.Perennial.ToString(), aggResult[1]["_id"].AsString);
             Assert.AreEqual(3, aggResult[0]["count"].AsInt32);
@@ -173,7 +173,7 @@ namespace Examples
             {
                 SetupPlantCollection();
             }
-            // :code-block-start: agg_filter
+            // :snippet-start: agg_filter
             var matchStage = new BsonDocument("$match",
                     new BsonDocument("type",
                         new BsonDocument("$eq",
@@ -192,7 +192,7 @@ namespace Examples
             {
                 Console.WriteLine($"Plant Name: {plant.Name}, Color: {plant.Color}");
             }
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(venus.Id, aggResult[0].Id);
             Assert.AreEqual(venus.Name, aggResult[0].Name);
             Assert.AreEqual(thaiBasil.Id, aggResult[1].Id);
@@ -206,7 +206,7 @@ namespace Examples
             {
                 SetupPlantCollection();
             }
-            // :code-block-start: agg_project
+            // :snippet-start: agg_project
             var projectStage = new BsonDocument("$project",
                 new BsonDocument
                 {
@@ -232,8 +232,8 @@ namespace Examples
             {
                 Console.WriteLine($"{item["name"]} is in store #{item["storeNumber"]}.");
             }
-            // :code-block-end:
-            // :code-block-start: agg_project_alt
+            // :snippet-end:
+            // :snippet-start: agg_project_alt
             projectStage = BsonDocument.Parse(@"
                 {
                   _id:0,
@@ -248,7 +248,7 @@ namespace Examples
                       }, 1 ]
                   }
                 }");
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(5, aggResult.Length);
             //Assert.Throws<KeyNotFoundException>(() => aggResult[0].GetElement("_id"));
             Assert.AreEqual("storeNumber=42", aggResult[0].GetElement("storeNumber").ToString());

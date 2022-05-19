@@ -18,7 +18,7 @@ class Sync: AnonymouslyLoggedInTestCase {
 
     func testAsyncAwaitOpenRealm() async throws {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: open-synced-realm
+        // :snippet-start: open-synced-realm
         // Get a user. If there is already a logged in user,
         // return that user. If not, log in.
         func getUser() async throws -> User {
@@ -60,12 +60,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         let realm = try await getRealm()
         // Do something with the realm
         print("The open realm is: \(realm)")
-        // :code-block-end:
+        // :snippet-end:
         expectation.fulfill()
         wait(for: [expectation], timeout: 10)
     }
 
-    // :code-block-start: specify-download-behavior
+    // :snippet-start: specify-download-behavior
     func testSpecifyDownloadBehavior() async throws {
         // :hide-start:
         let expectation = XCTestExpectation(description: "it completes")
@@ -84,11 +84,11 @@ class Sync: AnonymouslyLoggedInTestCase {
         wait(for: [expectation], timeout: 10)
         // :hide-end:
     }
-    // :code-block-end:
+    // :snippet-end:
 
     func testLegacyAsyncOpenSyncedRealm() throws {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: login-asyncopen-synced-realm
+        // :snippet-start: login-asyncopen-synced-realm
         // Instantiate the app using your Realm app ID
         let app = App(id: YOUR_REALM_APP_ID)
         // Authenticate with the instance of the app that points
@@ -136,9 +136,9 @@ class Sync: AnonymouslyLoggedInTestCase {
                 // :hide-end:
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: use-async-open-with-cached-credentials
+        // :snippet-start: use-async-open-with-cached-credentials
         // Use asyncOpen to sync changes with the backend before
         // opening the realm. This only works when the user is online,
         // so first, check for a network connection.
@@ -175,13 +175,13 @@ class Sync: AnonymouslyLoggedInTestCase {
                 break
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
         wait(for: [expectation], timeout: 10)
     }
 
     func testLegacyInitOpenSyncedRealm() throws {
-        // :code-block-start: login-and-init-synced-realm
+        // :snippet-start: login-and-init-synced-realm
         // Instantiate the app using your Realm app ID
         let app = App(id: YOUR_REALM_APP_ID)
         // Authenticate with the instance of the app that points
@@ -216,9 +216,9 @@ class Sync: AnonymouslyLoggedInTestCase {
         // not block opening the realm.
         let realm = try! Realm(configuration: configuration)
         print("Opened realm: \(realm)")
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: open-synced-realm-offline
+        // :snippet-start: open-synced-realm-offline
         // Check to see if you have a logged-in user.
         if app.currentUser != nil {
             // If you have logged-in user credentials, open the realm.
@@ -228,7 +228,7 @@ class Sync: AnonymouslyLoggedInTestCase {
             // If the user is not logged in, proceed to the login flow.
             print("Current user is not logged in.")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testPauseResumeSyncSession() {
@@ -242,16 +242,16 @@ class Sync: AnonymouslyLoggedInTestCase {
         // :hide-end:
         let syncedRealm = try! Realm(configuration: configuration)
 
-        // :code-block-start: pause-resume-sync-session
+        // :snippet-start: pause-resume-sync-session
         let syncSession = syncedRealm.syncSession!
         // Suspend synchronization
         syncSession.suspend()
 
         // Later, resume synchronization
         syncSession.resume()
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: check-network-connection
+        // :snippet-start: check-network-connection
         // Observe connectionState for changes using KVO
         let observer = syncSession.observe(\.connectionState, options: [.initial]) { (syncSession, change) in
             switch syncSession.connectionState {
@@ -280,7 +280,7 @@ class Sync: AnonymouslyLoggedInTestCase {
                     break
                 }
             }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testCheckProgress() {
@@ -295,7 +295,7 @@ class Sync: AnonymouslyLoggedInTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         expectation.assertForOverFulfill = false
 
-        // :code-block-start: check-progress
+        // :snippet-start: check-progress
         let syncSession = syncedRealm.syncSession!
         let token = syncSession.addProgressNotification(
             for: .upload, mode: .forCurrentlyOutstandingWork) { (progress) in
@@ -314,12 +314,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         try! syncedRealm.write {
             syncedRealm.add(SyncExamples_Task())
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testResetClientRealmFile() {
-        // :code-block-start: reset-client-realm-file
+        // :snippet-start: reset-client-realm-file
         autoreleasepool {
             // all Realm usage here -- explicitly guarantee
             // that all realm objects are deallocated
@@ -335,11 +335,11 @@ class Sync: AnonymouslyLoggedInTestCase {
         } catch {
             // handle error
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testSetClientLogLevel() {
-        // :code-block-start: set-log-level
+        // :snippet-start: set-log-level
         // Access your app
         let app = App(id: YOUR_REALM_APP_ID)
 
@@ -348,7 +348,7 @@ class Sync: AnonymouslyLoggedInTestCase {
 
         // Set the logger to provide debug logs
         syncManager.logLevel = .debug
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

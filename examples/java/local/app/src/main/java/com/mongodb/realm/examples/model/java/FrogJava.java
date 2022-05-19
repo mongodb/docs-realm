@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: frog-definition-local
+// :snippet-start: frog-definition-local
 // :replace-start: {
 //    "terms": {
 //       "FrogJava": "Frog"
@@ -32,4 +32,4 @@ public class FrogJava extends RealmObject {
     public void setOwner(String owner) { this.owner = owner; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

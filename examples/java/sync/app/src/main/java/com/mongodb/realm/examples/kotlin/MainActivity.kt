@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 import org.bson.types.ObjectId
 
 import android.os.Bundle
@@ -32,18 +32,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // :code-block-start: initialize-realm
+        // :snippet-start: initialize-realm
         Realm.init(this) // context, usually an Activity or Application
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: initialize-the-app
+        // :snippet-start: initialize-the-app
         val appID : String = YOUR_APP_ID;
 
         app = App(AppConfiguration.Builder(appID)
                 .build())
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: authenticate-a-user
+        // :snippet-start: authenticate-a-user
         val credentials: Credentials = Credentials.anonymous()
 
         app.loginAsync(credentials) {
@@ -75,12 +75,12 @@ class MainActivity : AppCompatActivity() {
                 Log.e("QUICKSTART", "Failed to log in. Error: ${it.error}")
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
     }
 
     fun addChangeListenerToRealm(realm : Realm) {
-        // :code-block-start: watch-for-changes
+        // :snippet-start: watch-for-changes
         // all tasks in the realm
         val tasks : RealmResults<Task> = realm.where<Task>().findAllAsync()
 
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 Log.v("QUICKSTART", "Updated range: ${range.startIndex} to ${range.startIndex + range.length - 1}")
             }
         })
-        // :code-block-end:
+        // :snippet-end:
     }
 
     override fun onDestroy() {
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         // the ui thread realm uses asynchronous transactions, so we can only safely close the realm
         // when the activity ends and we can safely assume that those transactions have completed
         uiThreadRealm.close()
-        // :code-block-start: log-out
+        // :snippet-start: log-out
         app.currentUser()?.logOutAsync() {
             if (it.isSuccess) {
                 Log.v("QUICKSTART", "Successfully logged out.")
@@ -118,39 +118,39 @@ class MainActivity : AppCompatActivity() {
                 Log.e("QUICKSTART", "Failed to log out, error: ${it.error}")
             }
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     class BackgroundQuickStart(val user: User) : Runnable {
 
         override fun run() {
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             val partitionValue: String = "My Project"
             val config = SyncConfiguration.Builder(user, partitionValue)
                 .build()
 
             val backgroundThreadRealm : Realm = Realm.getInstance(config)
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: create-object
+            // :snippet-start: create-object
             val task : Task = Task("New Task", partitionValue)
             backgroundThreadRealm.executeTransaction { transactionRealm ->
                 transactionRealm.insert(task)
             }
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: read-object
+            // :snippet-start: read-object
             // all tasks in the realm
             val tasks : RealmResults<Task> = backgroundThreadRealm.where<Task>().findAll()
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: filter-collection
+            // :snippet-start: filter-collection
             // you can also filter a collection
             val tasksThatBeginWithN : List<Task> = tasks.where().beginsWith("name", "N").findAll()
             val openTasks : List<Task> = tasks.where().equalTo("status", TaskStatus.Open.name).findAll()
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update-object
+            // :snippet-start: update-object
             val otherTask: Task = tasks[0]!!
 
             // all modifications to a realm must happen inside of a write block
@@ -158,9 +158,9 @@ class MainActivity : AppCompatActivity() {
                 val innerOtherTask : Task = transactionRealm.where<Task>().equalTo("_id", otherTask._id).findFirst()!!
                 innerOtherTask.status = TaskStatus.Complete.name
             }
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: delete-object
+            // :snippet-start: delete-object
             val yetAnotherTask: Task = tasks.get(0)!!
             val yetAnotherTaskId: ObjectId = yetAnotherTask._id
             // all modifications to a realm must happen inside of a write block
@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                 val innerYetAnotherTask : Task = transactionRealm.where<Task>().equalTo("_id", yetAnotherTaskId).findFirst()!!
                 innerYetAnotherTask.deleteFromRealm()
             }
-            // :code-block-end:
+            // :snippet-end:
 
             // because this background thread uses synchronous realm transactions, at this point all
             // transactions have completed and we can safely close the realm
@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-// :code-block-start: define-object-model
+// :snippet-start: define-object-model
 
 enum class TaskStatus(val displayName: String) {
     Open("Open"),
@@ -206,5 +206,5 @@ open class Task(_name: String = "Task", project: String = "My Project") : RealmO
         set(value) { status = value.name }
 }
 
-// :code-block-end:
-// :code-block-end:
+// :snippet-end:
+// :snippet-end:

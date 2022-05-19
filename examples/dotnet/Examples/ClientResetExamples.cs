@@ -25,7 +25,7 @@ namespace Examples
 
         [Test]
         public async Task HandleAutoClientReset()
-        // :code-block-start: DiscardLocalResetHandler
+        // :snippet-start: DiscardLocalResetHandler
         // :uncomment-start:
         // private void SetupRealm()
         // :uncomment-end:
@@ -90,10 +90,10 @@ namespace Examples
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
 
         public async Task HandleManualClientReset()
-        // :code-block-start: ManualClientReset
+        // :snippet-start: ManualClientReset
         // :replace-start: {
         //  "terms": {
         //   "fsApp": "app",
@@ -149,7 +149,7 @@ namespace Examples
             }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
         private bool ShowUserAConfirmationDialog()
         {

@@ -68,7 +68,7 @@ class ClientResetTest : RealmTest() {
                     "Successfully opened a realm for initial test data setup."
                 )
 
-                // :code-block-start: keep-track-of-last-synced-time
+                // :snippet-start: keep-track-of-last-synced-time
                 // use a "last synced" singleton in the realm to keep track of when the
                 // realm last successfully completed a sync
                 app.sync.getSession(config)
@@ -108,7 +108,7 @@ class ClientResetTest : RealmTest() {
                         }
                         notificationRealm.close()
                     }
-                // :code-block-end:
+                // :snippet-end:
 
                 // insert some objects into the realm
                 realm.executeTransaction { transactionRealm: Realm? ->
@@ -223,7 +223,7 @@ class ClientResetTest : RealmTest() {
         setupExpectation.await()
     }
 
-    // :code-block-start: handle-manual-reset
+    // :snippet-start: handle-manual-reset
     fun handleManualReset(app: App, session: SyncSession?, error: ClientResetRequiredError) {
         Log.w("EXAMPLE", "Beginning manual reset recovery.")
 
@@ -516,11 +516,11 @@ class ClientResetTest : RealmTest() {
             e.printStackTrace()
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     @Test
     fun clientResetDiscardUnsyncedChanges() {
-        // :code-block-start: client-reset-discard-unsynced-changes
+        // :snippet-start: client-reset-discard-unsynced-changes
         val appID: String = YOUR_APP_ID // replace this with your App ID
         val app = App(
             AppConfiguration.Builder(appID)
@@ -547,7 +547,7 @@ class ClientResetTest : RealmTest() {
                 })
                 .build()
         )
-        // :code-block-end:
+        // :snippet-end:
         val anonymousCredentials = Credentials.anonymous()
         val user = app.login(anonymousCredentials)
         val config = SyncConfiguration.Builder(user, PARTITION)
@@ -592,7 +592,7 @@ class ClientResetTest : RealmTest() {
 
     @Test
     fun clientResetManuallyRecoverUnsyncedChanges() {
-        // :code-block-start: client-reset-manually-recover-unsynced-changes
+        // :snippet-start: client-reset-manually-recover-unsynced-changes
         val appID: String = YOUR_APP_ID // replace this with your App ID
         val app = App(AppConfiguration.Builder(appID)
             .defaultSyncClientResetStrategy { session, error ->
@@ -600,7 +600,7 @@ class ClientResetTest : RealmTest() {
                 handleManualReset(session.user.app, session, error)
             }
             .build())
-        // :code-block-end:
+        // :snippet-end:
         val anonymousCredentials = Credentials.anonymous()
         val user = app.login(anonymousCredentials)
         val config = SyncConfiguration.Builder(user, PARTITION)
@@ -649,7 +649,7 @@ class ClientResetTest : RealmTest() {
 
     @Test
     fun clientResetDiscardUnsyncedChangesWithSimpleManualFallback() {
-        // :code-block-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
+        // :snippet-start: client-reset-discard-unsynced-changes-with-simple-manual-fallback
         val appID = YOUR_APP_ID // replace this with your App ID
         var app: App? = null
         app = App(
@@ -728,7 +728,7 @@ class ClientResetTest : RealmTest() {
                 })
                 .build()
         )
-        // :code-block-end:
+        // :snippet-end:
         val anonymousCredentials = Credentials.anonymous()
         val user = app.login(anonymousCredentials)
         val config = SyncConfiguration.Builder(user, PARTITION)

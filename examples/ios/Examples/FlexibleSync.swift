@@ -9,7 +9,7 @@ let APPID = "swift-flexible-vkljj"
 import XCTest
 import RealmSwift
 
-// :code-block-start: flexible-sync-models
+// :snippet-start: flexible-sync-models
 class FlexibleSync_Task: Object {
    @Persisted(primaryKey: true) var _id: ObjectId
    @Persisted var taskName: String
@@ -24,7 +24,7 @@ class FlexibleSync_Team: Object {
    @Persisted var tasks: List<FlexibleSync_Task>
    @Persisted var members: List<String>
 }
-// :code-block-end:
+// :snippet-end:
 
 class FlexibleSync: XCTestCase {
     func testAddSingleSubscription() {
@@ -47,7 +47,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: add-single-subscription
+                        // :snippet-start: add-single-subscription
                         let subscriptions = realm.subscriptions
                         subscriptions.write({
                            subscriptions.append(
@@ -61,7 +61,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                            }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -93,7 +93,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: add-multiple-subscriptions
+                        // :snippet-start: add-multiple-subscriptions
                         let subscriptions = realm.subscriptions
                         subscriptions.write({
                             subscriptions.append(
@@ -111,7 +111,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                            }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -143,7 +143,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: add-subscription-with-oncomplete
+                        // :snippet-start: add-subscription-with-oncomplete
                         let subscriptions = realm.subscriptions
                         subscriptions.write({
                            subscriptions.append(
@@ -157,21 +157,21 @@ class FlexibleSync: XCTestCase {
                                // Handle the error
                             }
                          })
-                         // :code-block-end:
+                         // :snippet-end:
                         subscriptions.write({
                             subscriptions.append(
-                                // :code-block-start: query-subscription-by-name
+                                // :snippet-start: query-subscription-by-name
                                 QuerySubscription<FlexibleSync_Task>(name: "long-running-completed") {
                                     $0.completed == true && $0.progressMinutes > 120
                                 }
-                                // :code-block-end:
+                                // :snippet-end:
                             )
                             subscriptions.append(
-                                // :code-block-start: query-subscription-without-name
+                                // :snippet-start: query-subscription-without-name
                                 QuerySubscription<FlexibleSync_Team> {
                                    $0.teamName == "Developer Education"
                                 }
-                                // :code-block-end:
+                                // :snippet-end:
                             )
                         }, onComplete: { error in // error is optional
                             if error == nil {
@@ -211,7 +211,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: update-subscription
+                        // :snippet-start: update-subscription
                         let subscriptions = realm.subscriptions
                         // :hide-start:
                         // Add subscription to update
@@ -241,7 +241,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -273,7 +273,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: update-subscription-by-name
+                        // :snippet-start: update-subscription-by-name
                         let subscriptions = realm.subscriptions
                         // :hide-start:
                         // Add subscription to update
@@ -301,7 +301,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -333,7 +333,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: remove-single-subscription
+                        // :snippet-start: remove-single-subscription
                         let subscriptions = realm.subscriptions
                         // :hide-start:
                         // Add subscriptions to remove
@@ -364,7 +364,7 @@ class FlexibleSync: XCTestCase {
                         subscriptions.write {
                             subscriptions.remove(named: "existing-subscription")
                         }
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -396,7 +396,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: remove-subscriptions-to-object-type
+                        // :snippet-start: remove-subscriptions-to-object-type
                         let subscriptions = realm.subscriptions
                         // :hide-start:
                         // Add subscriptions to remove
@@ -420,7 +420,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -452,7 +452,7 @@ class FlexibleSync: XCTestCase {
                         // handle error
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
-                        // :code-block-start: remove-all-subscriptions
+                        // :snippet-start: remove-all-subscriptions
                         let subscriptions = realm.subscriptions
                         subscriptions.write({
                             subscriptions.removeAll()
@@ -463,7 +463,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :code-block-end:
+                        // :snippet-end:
                         subscriptions.write({
                             subscriptions.removeAll()
                         })
@@ -476,7 +476,7 @@ class FlexibleSync: XCTestCase {
     }
 
     func testOpenFlexSyncRealm() async throws {
-        // :code-block-start: flex-sync-open-realm
+        // :snippet-start: flex-sync-open-realm
         let app = App(id: APPID)
         let user = try await app.login(credentials: Credentials.anonymous)
         var config = user.flexibleSyncConfiguration()
@@ -485,7 +485,7 @@ class FlexibleSync: XCTestCase {
         // for a Flexible Sync app
         config.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
         let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
-        // :code-block-end:
+        // :snippet-end:
         print("Successfully opened realm: \(realm)")
         XCTAssertNotNil(realm)
         try await app.currentUser?.logOut()

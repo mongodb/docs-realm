@@ -38,7 +38,7 @@ class CustomApplication : Application() {
 
         Log.v(TAG(), "Initialized the Realm App configuration.")
 
-        // :code-block-start: background-sync-realm
+        // :snippet-start: background-sync-realm
         // :replace-start: {
         //    "terms": {
         //       "RealmBackgroundWorkerKt": "RealmBackgroundWorker"
@@ -64,7 +64,7 @@ class CustomApplication : Application() {
             backgroundRealmSync
         )
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
         try {
             assert(
                 WorkManager.getInstance(this)

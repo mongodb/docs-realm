@@ -83,7 +83,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
     }
 
     private fun changeStatus(status: TaskStatus, id: ObjectId) {
-        // :code-block-start: change-task-status
+        // :snippet-start: change-task-status
         // :state-start: final
         // need to create a separate instance of realm to issue an update
         // since realm instances cannot be shared across threads
@@ -107,11 +107,11 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         //// Step 2: Query the realm for the Task with the specified _id value.
         //// Step 3: Set the `statusEnum` property of the Task to the specified status value.
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     private fun removeAt(id: ObjectId) {
-        // :code-block-start: delete-task
+        // :snippet-start: delete-task
         // :state-start: final
         // need to create a separate instance of realm to issue an update, since this event is
         // handled by a background thread and realm instances cannot be shared across threads
@@ -134,7 +134,7 @@ internal class TaskAdapter(data: OrderedRealmCollection<Task>, val user: io.real
         //// Step 2: Query the realm for the Task with the specified _id value.
         //// Step 3: Delete the Task from the project realm.
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 
     internal inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {

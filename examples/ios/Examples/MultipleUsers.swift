@@ -17,7 +17,7 @@ class MultipleUsers: XCTestCase {
     func testAddUser() {
         let joeExpectation = XCTestExpectation(description: "joe log in completes")
         let emmaExpectation = XCTestExpectation(description: "emma log in completes")
-        // :code-block-start: add-user
+        // :snippet-start: add-user
         let app = App(id: YOUR_REALM_APP_ID)
 
         let joeCredentials = Credentials.emailPassword(email: "joe@example.com", password: "passw0rd")
@@ -47,22 +47,22 @@ class MultipleUsers: XCTestCase {
                 assert(emma == app.currentUser)
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [joeExpectation, emmaExpectation], timeout: 10)
     }
 
     func testListUsers() {
-        // :code-block-start: list-users
+        // :snippet-start: list-users
         let app = App(id: YOUR_REALM_APP_ID)
         let users = app.allUsers
         users.forEach({ (key, user) in
             print("User: \(key) \(user)")
         })
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testSwitchUsers() {
-        // :code-block-start: switch-user
+        // :snippet-start: switch-user
         let app = App(id: YOUR_REALM_APP_ID)
 
         // :hide-start:
@@ -101,13 +101,13 @@ class MultipleUsers: XCTestCase {
         // The switch-to user becomes the app.currentUser
         // XCTAssertEqual(app.currentUser, secondUser)
         // assert(app.currentUser == secondUser)
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testLinkIdentities() {
         let expectation = XCTestExpectation(description: "Link user completes")
 
-        // :code-block-start: link-identity
+        // :snippet-start: link-identity
         let app = App(id: YOUR_REALM_APP_ID)
 
         func logInAnonymously() {
@@ -161,12 +161,12 @@ class MultipleUsers: XCTestCase {
         }
 
         logInAnonymously()
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testAsyncLinkIdentities() async {
-        // :code-block-start: async-link-identity
+        // :snippet-start: async-link-identity
         let app = App(id: YOUR_REALM_APP_ID)
 
         func logInAnonymously() async throws -> User {
@@ -200,6 +200,6 @@ class MultipleUsers: XCTestCase {
         } catch {
             print("Failed to link user: \(error.localizedDescription)")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }

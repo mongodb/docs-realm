@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogSet": "Frog"
@@ -20,4 +20,4 @@ public class FrogSet extends RealmObject {
     public void setFavoriteSnacks(RealmSet<Snack> favoriteSnacks) { this.favoriteSnacks = favoriteSnacks; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

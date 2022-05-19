@@ -41,7 +41,7 @@ class CRUDTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: run-a-transaction
+                // :snippet-start: run-a-transaction
                 realm.write {
                     // create a frog object in the realm
                     val frog = this.copyToRealm(Frog().apply {
@@ -62,7 +62,7 @@ class CRUDTest: RealmTest() {
                         it.owner = "Brian"
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.cancel() // :hide:
             realm.close()
@@ -82,7 +82,7 @@ class CRUDTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: create-a-new-object
+                // :snippet-start: create-a-new-object
                 realm.write {
                     this.copyToRealm(Frog().apply {
                         name = "Kermit"
@@ -91,7 +91,7 @@ class CRUDTest: RealmTest() {
                         owner = "Jim"
                     })
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.await()
             asyncCall.cancel() // :hide:
@@ -123,10 +123,10 @@ class CRUDTest: RealmTest() {
                 })
             }
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-start: find-object-by-primary-key
+            // :snippet-start: find-object-by-primary-key
             // Search equality on the primary key field name
             val frogs: Frog? = realm.query<Frog>("_id == $0", PRIMARY_KEY_VALUE).first().find()
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
         }
     }
@@ -153,7 +153,7 @@ class CRUDTest: RealmTest() {
             }
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-start: find-all-objects-of-a-type
+            // :snippet-start: find-all-objects-of-a-type
             // fetch all objects of a type as a flow, asynchronously
             val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
             val asyncCall: Deferred<Unit> = async {
@@ -177,7 +177,7 @@ class CRUDTest: RealmTest() {
             for(frog in frogs) {
                 Log.v("Frog: $frog")
             }
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
         }
     }
@@ -224,7 +224,7 @@ class CRUDTest: RealmTest() {
             }
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-start: sort
+            // :snippet-start: sort
             // sort in descending order, frogs with distinct owners, only the first 5, with convenience methods
             val convenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
                 realm.query<Frog>("name = 'George Washington'")
@@ -263,7 +263,7 @@ class CRUDTest: RealmTest() {
                 }
             }
             asyncCallLessConvenient.cancel() // :hide:
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
         }
     }
@@ -302,7 +302,7 @@ class CRUDTest: RealmTest() {
             }
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
-            // :code-block-start: iteration
+            // :snippet-start: iteration
             // fetch frogs from the realm as Flowables
             val frogsFlow: Flow<ResultsChange<Frog>> = realm.query<Frog>().asFlow()
 
@@ -326,7 +326,7 @@ class CRUDTest: RealmTest() {
             // ... some time later, cancel the flow so you can safely close the realm
             frogsObserver.cancel()
             realm.close()
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 
@@ -354,14 +354,14 @@ class CRUDTest: RealmTest() {
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: delete-all-objects-of-a-type
+                // :snippet-start: delete-all-objects-of-a-type
                 realm.write {
                     // fetch all frogs from the realm
                     val frogs: RealmResults<Frog> = this.query<Frog>().find()
                     // call delete on the results of a query to delete those objects permanently
                     delete(frogs)
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.await()
             asyncCall.cancel() // :hide:
@@ -394,7 +394,7 @@ class CRUDTest: RealmTest() {
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: delete-multiple-objects
+                // :snippet-start: delete-multiple-objects
                 realm.write {
                     // fetch 7 frogs of the bullfrog species from the realm
                     val frogs: RealmResults<Frog> =
@@ -402,7 +402,7 @@ class CRUDTest: RealmTest() {
                     // call delete on the results of a query to delete those objects permanently
                     frogs.also { delete(it) }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.cancel() // :hide:
             realm.close()
@@ -434,7 +434,7 @@ class CRUDTest: RealmTest() {
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: delete-an-object
+                // :snippet-start: delete-an-object
                 realm.write {
                     // fetch the frog by primary key value, passed in as argument number 0
                     val frog: Frog? =
@@ -442,7 +442,7 @@ class CRUDTest: RealmTest() {
                     // call delete on the results of a query to delete the object permanently
                     frog?.also { delete(it) }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.cancel() // :hide:
             realm.close()
@@ -474,7 +474,7 @@ class CRUDTest: RealmTest() {
 
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: modify-an-object
+                // :snippet-start: modify-an-object
                 realm.write {
                     // fetch a frog from the realm by primary key
                     val frog: Frog? =
@@ -482,7 +482,7 @@ class CRUDTest: RealmTest() {
                     // modify the frog's age in the write transaction to persist the new age to the realm
                     frog?.age = 42
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.cancel() // :hide:
             realm.close()
@@ -511,7 +511,7 @@ class CRUDTest: RealmTest() {
                 })
             }
             val asyncCall: Deferred<Unit> = async {
-                // :code-block-start: upsert-an-object
+                // :snippet-start: upsert-an-object
                 realm.write {
                     // fetch a frog from the realm based on some query
                     val frog: Frog? =
@@ -532,7 +532,7 @@ class CRUDTest: RealmTest() {
                         })
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
             asyncCall.cancel() // :hide:
             realm.close()
@@ -550,7 +550,7 @@ class CRUDTest: RealmTest() {
                     // :hide-end:
                     .build()
             val realm = Realm.open(config)
-            // :code-block-start: update-a-collection
+            // :snippet-start: update-a-collection
             val tadpoles: RealmQuery<Frog> =
                 realm.query<Frog>("age > $0", 2)
             for (tadpole in tadpoles.find()) {
@@ -558,7 +558,7 @@ class CRUDTest: RealmTest() {
                     findLatest(tadpole)?.name = tadpole.name + " Jr."
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

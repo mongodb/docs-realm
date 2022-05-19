@@ -12,7 +12,7 @@ import XCTest
 
 // Note: the following is not really tested but it makes for a convenient
 // full program example.
-// :code-block-start: register-an-object-change-listener
+// :snippet-start: register-an-object-change-listener
 // Define the dog class.
 class NotificationExample_Dog: Object {
     @Persisted var name = ""
@@ -49,11 +49,11 @@ func objectNotificationExample() {
         dog.name = "Wolfie"
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 // Note: the following is not really tested but it makes for a convenient
 // full program example.
-// :code-block-start: register-a-keypath-change-listener
+// :snippet-start: register-a-keypath-change-listener
 // Define the dog class.
 class NotificationExampleKeyPath_Dog: Object {
     @Persisted var name = ""
@@ -101,17 +101,17 @@ func keyPath_objectNotificationExample() {
         dog.name = "Maxamillion"
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: alternate-dog-class-for-keypaths
+// :snippet-start: alternate-dog-class-for-keypaths
 class AlternateNotificationExampleKeyPath_Dog: Object {
     @Persisted var name = ""
     @Persisted var siblings: List<AlternateNotificationExampleKeyPath_Dog> // :emphasize:
     @Persisted var age: Int?
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: register-a-collection-change-listener
+// :snippet-start: register-a-collection-change-listener
 class CollectionNotificationExampleViewController: UITableViewController {
     var notificationToken: NotificationToken?
 
@@ -150,7 +150,7 @@ class CollectionNotificationExampleViewController: UITableViewController {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class Notifications: XCTestCase {
     override func tearDown() {
@@ -161,7 +161,7 @@ class Notifications: XCTestCase {
     }
 
     func testSilentWrite() {
-        // :code-block-start: silent-write
+        // :snippet-start: silent-write
         let realm = try! Realm()
 
         // Observe realm notifications
@@ -177,7 +177,7 @@ class Notifications: XCTestCase {
 
         // Finally
         token.invalidate()
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testRealmNotification() {
@@ -185,7 +185,7 @@ class Notifications: XCTestCase {
             func updateUI() {}
         }
         let viewController = VC()
-        // :code-block-start: register-a-realm-change-listener
+        // :snippet-start: register-a-realm-change-listener
         let realm = try! Realm()
 
         // Observe realm notifications. Keep a strong reference to the notification token
@@ -199,11 +199,11 @@ class Notifications: XCTestCase {
 
         // Later, explicitly stop observing.
         token.invalidate()
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testStopWatching() {
-        // :code-block-start: stop-watching
+        // :snippet-start: stop-watching
         let realm = try! Realm()
 
         // Observe and obtain token
@@ -211,7 +211,7 @@ class Notifications: XCTestCase {
 
         // Stop observing
         token.invalidate()
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

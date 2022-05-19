@@ -32,7 +32,7 @@ public class BundleTest extends RealmTest {
     public void copyARealmFile() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread (() -> {
-            // :code-block-start: copy-a-realm-file
+            // :snippet-start: copy-a-realm-file
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(appID);
             Credentials anonymousCredentials = Credentials.anonymous();
@@ -83,7 +83,7 @@ public class BundleTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
 
         expectation.await();
@@ -94,7 +94,7 @@ public class BundleTest extends RealmTest {
         Expectation expectation = new Expectation();
 
         activity.runOnUiThread (() -> {
-            // :code-block-start: use-bundled-realm-file
+            // :snippet-start: use-bundled-realm-file
             String appID = YOUR_APP_ID; // replace this with your App ID
 
             App app = new App(appID);
@@ -130,7 +130,7 @@ public class BundleTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to authenticate: " + it.getError().toString());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }

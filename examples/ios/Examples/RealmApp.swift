@@ -1,17 +1,17 @@
 import XCTest
-// :code-block-start: import-realm
+// :snippet-start: import-realm
 import RealmSwift
-// :code-block-end:
+// :snippet-end:
 
 let YOUR_REALM_APP_ID = "example-testers-kvjdy"
 
-// :code-block-start: init-realm-app-client
+// :snippet-start: init-realm-app-client
 let app = App(id: YOUR_REALM_APP_ID) // replace YOUR_REALM_APP_ID with your App ID
-// :code-block-end:
+// :snippet-end:
 
 class RealmAppTest: XCTestCase {
     func testRealmAppWithConfig() {
-        // :code-block-start: realm-app-config
+        // :snippet-start: realm-app-config
         let configuration = AppConfiguration(
            baseURL: "https://realm.mongodb.com", // Custom base URL
            transport: nil, // Custom RLMNetworkTransportProtocol
@@ -21,7 +21,7 @@ class RealmAppTest: XCTestCase {
         )
 
         let app = App(id: "my-realm-app-id", configuration: configuration)
-        // :code-block-end:
+        // :snippet-end:
         print(app)
     }
 }
