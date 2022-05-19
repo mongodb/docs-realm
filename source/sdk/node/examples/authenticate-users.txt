@@ -40,7 +40,7 @@ For web browsers, the JavaScript SDK stores these tokens in
 Anonymous User
 --------------
 
-The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with temporary accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
@@ -65,7 +65,7 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 Email/Password User
 -------------------
 
-The :doc:`email/password </authentication/email-password>` authentication
+The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
@@ -92,7 +92,7 @@ password and pass it to ``App.logIn()``:
 API Key User
 ------------
 
-The :doc:`API key </authentication/api-key>` authentication provider allows
+The :ref:`API key <api-key-authentication>` authentication provider allows
 server processes to access your app directly or on behalf of a user.
 
 To log in with an API key, create an API Key credential with a server or user
@@ -118,9 +118,9 @@ API key and pass it to ``App.logIn()``:
 Custom JWT User
 ---------------
 
-The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
-allows you to handle user authentication with any authentication system that
-returns a :ref:`JSON web token <json-web-tokens>`.
+The :ref:`Custom JWT <custom-jwt-authentication>` authentication provider allows
+you to handle user authentication with any authentication system that returns a
+:ref:`JSON web token <json-web-tokens>`.
 
 To log in, create a Custom JWT credential with a JWT from the external system
 and pass it to ``App.logIn()``:
@@ -145,9 +145,9 @@ and pass it to ``App.logIn()``:
 Custom Function User
 --------------------
 
-The :doc:`Custom Function </authentication/custom-function>` authentication
-provider allows you to handle user authentication by running a :doc:`function
-</functions>` that receives a payload of arbitrary information about a user.
+The :ref:`Custom Function <custom-function-authentication>` authentication
+provider allows you to handle user authentication by running a :ref:`function
+<functions>` that receives a payload of arbitrary information about a user.
 
 To log in with the custom function provider, create a Custom Function credential
 with a payload object and pass it to ``App.logIn()``:
@@ -172,8 +172,8 @@ with a payload object and pass it to ``App.logIn()``:
 Facebook User
 -------------
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
-you to authenticate users through a Facebook app using their existing Facebook
+The :ref:`Facebook <facebook-authentication>` authentication provider allows you
+to authenticate users through a Facebook app using their existing Facebook
 account.
 
 .. include:: /includes/note-enable-facebook-auth.rst
@@ -221,13 +221,13 @@ to your Node.js app and use to finish logging the user in to your app.
 Google User
 -----------
 
-The :doc:`Google </authentication/google>` authentication provider allows you to
+The :ref:`Google <google-authentication>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
 
 .. note:: Enable the Google Auth Provider
    
-   To authenticate a Google user, you must configure the :doc:`Google
-   authentication provider </authentication/google>`. 
+   To authenticate a Google user, you must configure the :ref:`Google
+   authentication provider <google-authentication>`. 
    You must enable OpenID Connect to use the Google Authentication Provider with the
    Node.js SDK.
 
@@ -296,13 +296,13 @@ to handle the user authentication and redirect flow from a Node.js client applic
 Apple User
 ----------
 
-The :doc:`Apple </authentication/apple>` authentication provider allows you to
+The :ref:`Apple <apple-authentication>` authentication provider allows you to
 authenticate users through Sign-in With Apple.
 
 .. note:: Enable the Apple Auth Provider
    
-   To authenticate an Apple user, you must configure the :doc:`Apple
-   authentication provider </authentication/apple>`.
+   To authenticate an Apple user, you must configure the :ref:`Apple
+   authentication provider <apple-authentication>`.
 
 You can use the :apple:`official Sign in with Apple JS SDK
 <documentation/sign_in_with_apple/sign_in_with_apple_js>` to handle the user
