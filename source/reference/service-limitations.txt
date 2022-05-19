@@ -32,11 +32,11 @@ Aggregation
 
 {+service-short+} supports all :manual:`aggregation pipeline
 stages </reference/operator/aggregation-pipeline/>` in
-:ref:`system functions <function-system-user>` except for ``$currentOp``
+:ref:`system functions <system-user>` except for ``$currentOp``
 and ``$indexStats``.
 
 For security reasons, only a subset of aggregation pipeline stages are
-supported in :ref:`user functions <function-active-user>`.
+supported in :ref:`user functions <active-user>`.
 
 For a list of pipeline stages that are available and their allowed function
 context, see :ref:`Aggregation <mongodb-crud-and-aggregation-apis-aggregation>`.
@@ -139,11 +139,10 @@ Database Commands
 -----------------
 
 {+service-short+} does not support any :manual:`database commands
-</reference/command>` in the Client SDKs or :doc:`Functions
-</functions>`. You can, however, call a limited subset of database
-commands when when connected to a MongoDB cluster over the :ref:`wire
-protocol <wire-protocol>`. For a list of supported commands, see
-:ref:`Database Commands
+</reference/command>` in the Client SDKs or :ref:`functions <functions>`. You
+can, however, call a limited subset of database commands when when connected to
+a MongoDB cluster over the :ref:`wire protocol <wire-protocol>`. For a list of
+supported commands, see :ref:`Database Commands
 <mongodb-crud-and-aggregation-apis-database-commands>`.
 
 .. _mongodb-service-limitations-version-requirements:
@@ -152,7 +151,7 @@ MongoDB Version Requirements
 ----------------------------
 
 You can access most of the CRUD and Aggregation functionality of MongoDB
-version 3.6 with the :doc:`MongoDB service </mongodb>`; however, {+service+}
+version 3.6 with the :ref:`MongoDB service <data-sources>`; however, {+service+}
 does not support all operations and features available in standard tools
 and clients. For a list of specific MongoDB operations that
 are available when you connect to MongoDB through {+service-short+}, see
@@ -168,8 +167,8 @@ Query Options
 -------------
 
 {+service-short+} supports all query options in :ref:`system functions
-<function-system-user>`. {+service-short+} does not support certain options for
-CRUD operations run from :ref:`user functions <function-active-user>`. For a
+<system-user>`. {+service-short+} does not support certain options for
+CRUD operations run from :ref:`user functions <active-user>`. For a
 list of specific options that are available when you connect to MongoDB through
 {+service-short+}, see :ref:`Query Options
 <mongodb-crud-and-aggregation-apis-query-options>`.
@@ -209,7 +208,7 @@ Static Hosting
 --------------
 
 {+service-short+} enforces a 25MB maximum file size constraint on
-:doc:`static hosting </hosting/>`.
+:ref:`static hosting <static-hosting>`.
 
 .. _mongodb-service-limitations-concurrent-workloads:
 

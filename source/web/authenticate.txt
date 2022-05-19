@@ -30,7 +30,7 @@ Log In
 Anonymous
 ~~~~~~~~~
 
-The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with ephemeral accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
@@ -44,7 +44,7 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 Email/Password
 ~~~~~~~~~~~~~~
 
-The :doc:`email/password </authentication/email-password>` authentication
+The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
@@ -60,7 +60,7 @@ password and pass it to ``App.logIn()``:
 API Key
 ~~~~~~~
 
-The :doc:`API key </authentication/api-key>` authentication provider allows
+The :ref:`API key <api-key-authentication>` authentication provider allows
 server processes to access your app directly or on behalf of a user.
 
 To log in with an API key, create an API Key credential with a server or user
@@ -75,9 +75,9 @@ API key and pass it to ``App.logIn()``:
 Custom Function
 ~~~~~~~~~~~~~~~
 
-The :doc:`Custom Function </authentication/custom-function>` authentication
-provider allows you to handle user authentication by running a :doc:`function
-</functions>` that receives a payload of arbitrary information about a user.
+The :ref:`Custom Function <custom-function-authentication>` authentication
+provider allows you to handle user authentication by running a :ref:`function
+<functions>` that receives a payload of arbitrary information about a user.
 
 To log in with the custom function provider, create a Custom Function credential
 with a payload object and pass it to ``App.logIn()``:
@@ -91,9 +91,9 @@ with a payload object and pass it to ``App.logIn()``:
 Custom JWT
 ~~~~~~~~~~
 
-The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
-allows you to handle user authentication with any authentication system that
-returns a :ref:`JSON web token <json-web-tokens>`.
+The :ref:`Custom JWT <custom-jwt-authentication>` authentication provider allows
+you to handle user authentication with any authentication system that returns a
+:ref:`JSON web token <json-web-tokens>`.
 
 To log in, create a Custom JWT credential with a JWT from the external system
 and pass it to ``App.logIn()``:
@@ -109,8 +109,8 @@ and pass it to ``App.logIn()``:
 Facebook Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
-you to authenticate users through a Facebook app using their existing Facebook
+The :ref:`Facebook <facebook-authentication>` authentication provider allows you
+to authenticate users through a Facebook app using their existing Facebook
 account. You can use the :ref:`built-in authentication flow
 <web-facebook-builtin>` or :ref:`authenticate with the Facebook SDK
 <web-facebook-auth-token>`.
@@ -160,13 +160,13 @@ in to your app.
 Google Authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Google </authentication/google>` authentication provider allows you to
+The :ref:`Google <google-authentication>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
 
 .. note:: Enable the Google Auth Provider
    
-   To authenticate a Google user, you must configure the :doc:`Google
-   authentication provider </authentication/google>`.
+   To authenticate a Google user, you must configure the :ref:`Google
+   authentication provider <users-and-authentication>`.
 
 Logging a Google user in to your Realm app is a two step process:
 
@@ -346,15 +346,15 @@ require you to install a Google SDK. The built-in flow follows three main steps:
 Apple Authentication
 ~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Apple </authentication/apple>` authentication provider allows you to
+The :ref:`Apple <apple-id-authentication>` authentication provider allows you to
 authenticate users through Sign-in With Apple. You can use the :ref:`built-in
 authentication flow <web-apple-builtin>` or :ref:`authenticate with the Apple
 SDK <web-apple-auth-token>`.
 
 .. note:: Enable the Apple Auth Provider
    
-   To authenticate an Apple user, you must configure the :doc:`Apple
-   authentication provider </authentication/apple>`.
+   To authenticate an Apple user, you must configure the :ref:`Apple
+   authentication provider <apple-id-authentication>`.
 
 .. _web-apple-builtin:
 
