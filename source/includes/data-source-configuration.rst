@@ -75,8 +75,8 @@ required, depending on whether you are linking a Data Lake or a cluster.
    
    * - | ``config.sync``
        | Document
-     - A configuration document that determines if a cluster is :doc:`synced
-       </sync>` and, if it is, defines the rules for sync operations on the
+     - A configuration document that determines if a cluster is :ref:`synced
+       <sync>` and, if it is, defines the rules for sync operations on the
        cluster. Not available for Data Lakes.
 
        For detailed information on sync configuration documents, see
