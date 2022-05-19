@@ -6,7 +6,7 @@ class DeleteUsers: XCTestCase {
         var syncUser: User?
 
         let loginExpectation = XCTestExpectation(description: "User created and logged in")
-        // :code-block-start: closure-delete-user
+        // :snippet-start: closure-delete-user
         // Logging in using anonymous authentication creates a user object
         app.login(credentials: Credentials.anonymous) { [self] (result) in
             switch result {
@@ -48,10 +48,10 @@ class DeleteUsers: XCTestCase {
         XCTAssertNil(app.currentUser)
         // Now that we've deleted the user, the app has no users.
         XCTAssertEqual(app.allUsers.count, 0)
-        // :code-block-end:
+        // :snippet-end:
     }
 
-    // :code-block-start: async-await-delete-user
+    // :snippet-start: async-await-delete-user
     func testAsyncDeleteUser() async throws {
         // Logging in using anonymous authentication creates a user object
         let syncUser = try await app.login(credentials: Credentials.anonymous)
@@ -66,5 +66,5 @@ class DeleteUsers: XCTestCase {
         // Now that we've deleted the user, the app has no users.
         XCTAssertEqual(app.allUsers.count, 0)
     }
-    // :code-block-end:
+    // :snippet-end:
 }

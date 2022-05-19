@@ -11,7 +11,7 @@
 - (void)testCreateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
-    // :code-block-start: create-custom-user-data
+    // :snippet-start: create-custom-user-data
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
@@ -34,7 +34,7 @@
                 NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
         }];
     }];
-    // :code-block-end:
+    // :snippet-end:
 
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
@@ -44,7 +44,7 @@
 - (void)testReadCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
-    // :code-block-start: read-custom-user-data
+    // :snippet-start: read-custom-user-data
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
@@ -68,7 +68,7 @@
             // :hide-end:
         }];
     }];
-    // :code-block-end:
+    // :snippet-end:
 
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
@@ -78,7 +78,7 @@
 - (void)testUpdateCustomUserData {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
-    // :code-block-start: update-custom-user-data
+    // :snippet-start: update-custom-user-data
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     [app loginWithCredential:[RLMCredentials anonymousCredentials] completion:^(RLMUser *user, NSError *error) {
         if (error != nil) {
@@ -103,7 +103,7 @@
                 NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]); 
         }];
     }];
-    // :code-block-end:
+    // :snippet-end:
 
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);

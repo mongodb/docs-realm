@@ -18,7 +18,7 @@ class CounterModel : ViewModel() {
     val counter: LiveData<Counter>
         get() = _counter
 
-    // :code-block-start: constructor
+    // :snippet-start: constructor
     init {
         val appID = "YOUR APP ID HERE" // TODO: replace this with your App ID
 
@@ -66,7 +66,7 @@ class CounterModel : ViewModel() {
             }
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     fun incrementCounter() {
         realm?.executeTransaction {

@@ -13,7 +13,7 @@ class SyncTest: RealmTest() {
     fun openASyncedRealmTest() {
         val PARTITION = getRandom()
 
-        // :code-block-start: open-a-synced-realm
+        // :snippet-start: open-a-synced-realm
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
@@ -28,13 +28,13 @@ class SyncTest: RealmTest() {
             assertEquals(PARTITION, realm.configuration.name)
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
     fun configureASyncedRealmTest() {
         val PARTITION = getRandom()
-        // :code-block-start: configure-a-synced-realm
+        // :snippet-start: configure-a-synced-realm
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
@@ -45,6 +45,6 @@ class SyncTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration}")
             realm.close()
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }

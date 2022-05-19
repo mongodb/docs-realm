@@ -6,7 +6,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: models
+// :snippet-start: models
 // DogToy.h
 @interface ReadWriteDataObjcExample_DogToy : RLMObject
 @property NSString *name;
@@ -79,7 +79,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
 // DogClub.m
 @implementation ReadWriteDataObjcExample_DogClub
 @end
-// :code-block-end:
+// :snippet-end:
 
 
 @interface ReadWriteDataObjc : XCTestCase
@@ -96,7 +96,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
 }
 
 - (void)testCreateNewObject {
-    // :code-block-start: create-a-new-object
+    // :snippet-start: create-a-new-object
     // (1) Create a Dog object and then set its properties
     ReadWriteDataObjcExample_Dog *myDog = [[ReadWriteDataObjcExample_Dog alloc] init];
     myDog.name = @"Rex";
@@ -116,18 +116,18 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     [realm transactionWithBlock:^() {
         [realm addObject:myDog];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testFindObjectByPrimaryKey {
-    // :code-block-start: find-a-specific-object-by-primary-key
+    // :snippet-start: find-a-specific-object-by-primary-key
     // Get a specific person from the default realm
     ReadWriteDataObjcExample_Person *specificPerson = [ReadWriteDataObjcExample_Person objectForPrimaryKey:@12345];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testQueryRelationship {
-    // :code-block-start: query-a-relationship
+    // :snippet-start: query-a-relationship
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Establish a relationship
@@ -149,11 +149,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // Access directly through a relationship
     NSLog(@"# dogs: %lu", [specificPerson.dogs count]);
     NSLog(@"First dog's name: %@", specificPerson.dogs[0].name);
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testQueryInverseRelationship {
-    // :code-block-start: query-an-inverse-relationship
+    // :snippet-start: query-an-inverse-relationship
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Establish a relationship
@@ -174,11 +174,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // Access directly through an inverse relationship
     NSLog(@"# memberships: %lu", [specificPerson.clubs count]);
     NSLog(@"First club's name: %@", [specificPerson.clubs[0] name]);
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testBatchUpdateAndCascadingDelete {
-    // :code-block-start: batch-update
+    // :snippet-start: batch-update
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     [realm transactionWithBlock:^() {
@@ -192,21 +192,21 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // Batch update: give all puppies to Ali.
         [ali setValue:puppies forKey:@"dogs"];
     }];
-    // :code-block-end:
+    // :snippet-end:
 
     ReadWriteDataObjcExample_Person *ali = [ReadWriteDataObjcExample_Person objectInRealm:realm forPrimaryKey:@1];
-    // :code-block-start: cascading-delete
+    // :snippet-start: cascading-delete
     [realm transactionWithBlock:^() {
         // Delete Ali's dogs.
         [realm deleteObjects:[ali dogs]];
         // Delete Ali.
         [realm deleteObject:ali];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testCreateAndDelete {
-    // :code-block-start: create
+    // :snippet-start: create
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     // Instantiate the class.
@@ -219,29 +219,29 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // Add the instance to the realm.
         [realm addObject:dog];
     }];
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: delete
+    // :snippet-start: delete
     [realm transactionWithBlock:^() {
         // Delete the instance from the realm.
         [realm deleteObject:dog];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testDeleteAll {
-    // :code-block-start: delete-all
+    // :snippet-start: delete-all
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     [realm transactionWithBlock:^() {
         // Delete all objects from the realm.
         [realm deleteAllObjects];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testDeleteAllOfClass {
-    // :code-block-start: delete-all-of-class
+    // :snippet-start: delete-all-of-class
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     [realm transactionWithBlock:^() {
@@ -249,11 +249,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         RLMResults<ReadWriteDataObjcExample_Dog *> *allReadWriteDataObjcExample_Dogs = [ReadWriteDataObjcExample_Dog allObjectsInRealm:realm];
         [realm deleteObjects:allReadWriteDataObjcExample_Dogs];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testDeleteCollection {
-    // :code-block-start: delete-collection
+    // :snippet-start: delete-collection
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     [realm transactionWithBlock:^() {
@@ -263,22 +263,22 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // Delete all objects in the collection from the realm.
         [realm deleteObjects:puppies];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testObjects {
-    // :code-block-start: objects
+    // :snippet-start: objects
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     RLMResults *dogs = [ReadWriteDataObjcExample_Dog allObjectsInRealm:realm];
     RLMResults *people = [ReadWriteDataObjcExample_Person allObjectsInRealm:realm];
-    // :code-block-end:
+    // :snippet-end:
     (void)dogs;
     (void)people;
 }
 
 - (void)testSort {
-    // :code-block-start: sort
+    // :snippet-start: sort
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     RLMResults *dogs = [ReadWriteDataObjcExample_Dog allObjectsInRealm:realm];
@@ -289,13 +289,13 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // You can also sort on the members of linked objects. In this example,
     // we sort the dogs by their favorite toys' names.
     RLMResults *dogsSortedByFavoriteToyName = [dogs sortedResultsUsingKeyPath:@"favoriteToy.name" ascending:YES];
-    // :code-block-end:
+    // :snippet-end:
     (void)dogsSorted;
     (void)dogsSortedByFavoriteToyName;
 }
 
 - (void)testFilter {
-    // :code-block-start: filter
+    // :snippet-start: filter
     RLMRealm *realm = [RLMRealm defaultRealm];
 
     // Access all dogs in the realm
@@ -309,14 +309,14 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     
     // Filter by favorite toy's name
     RLMResults *dogsWhoLikeTennisBalls = [dogs objectsWhere:@"favoriteToy.name == %@", @"Tennis ball"];
-    // :code-block-end:
+    // :snippet-end:
     (void)puppies;
     (void)dogsWithoutFavoriteToy;
     (void)dogsWhoLikeTennisBalls;
 }
 
 - (void)testTransaction {
-    // :code-block-start: transaction
+    // :snippet-start: transaction
     // Open the default realm.
     RLMRealm *realm = [RLMRealm defaultRealm];
 
@@ -327,11 +327,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // Otherwise, Realm automatically commits the transaction at the
         // end of the code block.
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testTransactionCounterexample {
-    // :code-block-start: transaction-counterexample
+    // :snippet-start: transaction-counterexample
     RLMRealm *realm = [RLMRealm defaultRealm];
 
     // BAD EXAMPLE -- avoid this!
@@ -340,11 +340,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // If an exception is thrown here or the function otherwise returns early,
     // the transaction remains open!
     [realm commitWriteTransaction];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testUpdate {
-    // :code-block-start: update
+    // :snippet-start: update
     RLMRealm *realm = [RLMRealm defaultRealm];
     // Open a thread-safe transaction.
     [realm transactionWithBlock:^{
@@ -356,12 +356,12 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         dog.name = @"Wolfie";
         dog.age += 1;
     }];
-    // :code-block-end:
+    // :snippet-end:
 
 }
 
 - (void)testUpsert {
-    // :code-block-start: upsert
+    // :snippet-start: upsert
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
         ReadWriteDataObjcExample_Person *jones = [[ReadWriteDataObjcExample_Person alloc] initWithValue:@{@"_id": @1234, @"name": @"Jones"}];
@@ -374,11 +374,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // This overwrites the original entry (i.e. Jones -> Bowie).
         [realm addOrUpdateObject:bowie];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testAggregate {
-    // :code-block-start: aggregate
+    // :snippet-start: aggregate
     RLMRealm *realm = [RLMRealm defaultRealm];
 
     RLMResults *people = [ReadWriteDataObjcExample_Person allObjectsInRealm:realm];
@@ -397,11 +397,11 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
 
     // People whose dogs' ages combined > 10 years
     [people objectsWhere:@"dogs.@sum.age > 10"];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testCopyToAnotherRealm {
-    // :code-block-start: copy-to-another-realm
+    // :snippet-start: copy-to-another-realm
     RLMRealmConfiguration *configuration = [RLMRealmConfiguration defaultConfiguration];
     configuration.inMemoryIdentifier = @"first realm";
     RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:nil];
@@ -428,20 +428,20 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         // Verify that the copy is separate from the original
         XCTAssertNotEqual(wolfie.age, wolfieCopy.age);
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testChainQuery {
-    // :code-block-start: chain-query
+    // :snippet-start: chain-query
     RLMRealm *realm = [RLMRealm defaultRealm];
     RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogs = [ReadWriteDataObjcExample_Dog objectsInRealm:realm where:@"color = 'tan'"];
     RLMResults<ReadWriteDataObjcExample_Dog *> *tanDogsWithBNames = [tanDogs objectsWhere:@"name BEGINSWITH 'B'"];
-    // :code-block-end:
+    // :snippet-end:
     (void)tanDogsWithBNames;
 }
 
 - (void)testJson {
-    // :code-block-start: json
+    // :snippet-start: json
     // Specify a dog toy in JSON
     NSData *data = [@"{\"name\": \"Tennis ball\"}" dataUsingEncoding: NSUTF8StringEncoding];
     RLMRealm *realm = [RLMRealm defaultRealm];
@@ -451,14 +451,14 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
         [ReadWriteDataObjcExample_DogToy createInRealm:realm withValue:json];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testNestedObjects {
 
     ReadWriteDataObjcExample_Dog *aDog = [[ReadWriteDataObjcExample_Dog alloc] init];
     ReadWriteDataObjcExample_Dog *anotherDog = [[ReadWriteDataObjcExample_Dog alloc] init];
-    // :code-block-start: nested-objects
+    // :snippet-start: nested-objects
     // Instead of using pre-existing dogs...
     ReadWriteDataObjcExample_Person *aPerson = [[ReadWriteDataObjcExample_Person alloc]
         initWithValue:@[@123, @"Jane", @[aDog, anotherDog]]];
@@ -466,13 +466,13 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
     // ...we can create them inline
     ReadWriteDataObjcExample_Person *anotherPerson = [[ReadWriteDataObjcExample_Person alloc]
         initWithValue:@[@123, @"Jane", @[@[@"Buster", @5], @[@"Buddy", @6]]]];
-    // :code-block-end:
+    // :snippet-end:
     (void)aPerson;
     (void)anotherPerson;
 }
 
 - (void)testPartialUpdate {
-    // :code-block-start: partial-update
+    // :snippet-start: partial-update
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
         // Only update the provided values.
@@ -481,7 +481,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
         [ReadWriteDataObjcExample_Person createOrUpdateModifiedInRealm:realm
             withValue:@{@"_id": @123, @"dogs": @[@[@"Buster", @5]]}];
     }];
-    // :code-block-end:
+    // :snippet-end:
 }
 @end
 

@@ -83,7 +83,7 @@ public class LinkUserIdentitiesTest extends RealmTest {
                         String password = secondUserPassword;
 
                         // link joe to another existing user
-                        // :code-block-start: link-users
+                        // :snippet-start: link-users
                         // The user has previously created an email/password account
                         user.linkCredentialsAsync(
                             Credentials.emailPassword(email, password), result -> {
@@ -98,7 +98,7 @@ public class LinkUserIdentitiesTest extends RealmTest {
                                    result.getError());
                             }
                         });
-                        // :code-block-end:
+                        // :snippet-end:
                     } else {
                         Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                     }

@@ -1,7 +1,7 @@
 package com.mongodb.realm.examples;
 
 import static com.mongodb.realm.examples.CustomApplicationKt.YOUR_APP_ID;
-// :code-block-start: background-sync-realm
+// :snippet-start: background-sync-realm
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -66,4 +66,4 @@ public class RealmBackgroundWorker extends ListenableWorker {
         return future;
     }
 }
-// :code-block-end:
+// :snippet-end:

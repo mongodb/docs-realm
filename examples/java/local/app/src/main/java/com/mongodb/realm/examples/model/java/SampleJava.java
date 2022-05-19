@@ -6,7 +6,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
-// :code-block-start: realm-object-model
+// :snippet-start: realm-object-model
 // :replace-start: {
 //    "terms": {
 //       "SampleJava": "Sample"
@@ -29,4 +29,4 @@ public class SampleJava extends RealmObject {
             new Date();
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

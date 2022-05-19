@@ -1,4 +1,4 @@
-// :code-block-start: taskSchema
+// :snippet-start: taskSchema
 const TaskSchema = {
   // :state-start: final
   name: "Task",
@@ -14,9 +14,9 @@ const TaskSchema = {
 
   // :state-uncomment-end:
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: userSchema
+// :snippet-start: userSchema
 const UserSchema = {
   // :state-start: final
   name: "User",
@@ -31,9 +31,9 @@ const UserSchema = {
 
   // :state-uncomment-end:
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: projectSchema
+// :snippet-start: projectSchema
 const ProjectSchema = {
   // :state-start: final
   name: "Project",
@@ -47,7 +47,7 @@ const ProjectSchema = {
 
   // :state-uncomment-end:
 };
-// :code-block-end:
+// :snippet-end:
 
 exports.ProjectSchema = ProjectSchema;
 exports.TaskSchema = TaskSchema;

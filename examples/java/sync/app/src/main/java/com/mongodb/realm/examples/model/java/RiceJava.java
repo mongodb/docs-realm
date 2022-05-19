@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: rice-java-definition
+// :snippet-start: rice-java-definition
 // :replace-start: {
 //    "terms": {
 //       "RiceJava": "Rice"
@@ -45,4 +45,4 @@ public class RiceJava extends RealmObject {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

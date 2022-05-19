@@ -22,17 +22,17 @@ namespace Examples
             var app = App.Create("dotnet-flexible-wtzwc");
             var user = await app.LogInAsync(Credentials.Anonymous());
 
-            // :code-block-start: open-a-flexible-synced-realm
+            // :snippet-start: open-a-flexible-synced-realm
             var config = new FlexibleSyncConfiguration(app.CurrentUser);
             var realm = Realm.GetInstance(config);
-            // :code-block-end:
+            // :snippet-end:
     
 
-            // :code-block-start: get-subscriptions
+            // :snippet-start: get-subscriptions
             var subscriptions = realm.Subscriptions;
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update-subscriptions
+            // :snippet-start: update-subscriptions
             realm.Subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
@@ -45,10 +45,10 @@ namespace Examples
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false }); 
             });
-            // :code-block-end:
+            // :snippet-end:
 
 
-            // :code-block-start: wait-for-synchronization
+            // :snippet-start: wait-for-synchronization
             // Wait for the server to acknowledge the subscription change and return all objects
             // matching the query
             try
@@ -60,35 +60,35 @@ namespace Examples
                 // do something in response to the exception or log it
                 Console.WriteLine($@"The subscription set's state is Error and synchronization is paused:  {ex.Message}");
             }
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update-a-subscription
+            // :snippet-start: update-a-subscription
             realm.Subscriptions.Update(() =>
             {
                 var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
                 realm.Subscriptions.Add(updatedLongRunningTasksQuery, new SubscriptionOptions() { Name = "longRunningTasks" });
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: remove-subscription-by-query
+            // :snippet-start: remove-subscription-by-query
             realm.Subscriptions.Update(() =>
             {
                 // remove a subscription by it's query
                 var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
                 realm.Subscriptions.Remove(query);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: remove-subscription-by-name
+            // :snippet-start: remove-subscription-by-name
             realm.Subscriptions.Update(() =>
             {
                 // remove a named subscription
                 var subscriptionName = "longRunningTasksSubscription";
                 realm.Subscriptions.Remove(subscriptionName);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: remove-all-subscriptions-of-object-type
+            // :snippet-start: remove-all-subscriptions-of-object-type
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions of the "Team" Class Name 
@@ -97,15 +97,15 @@ namespace Examples
                 // Alernatively, remove all subscriptions of the "Team" object type
                 realm.Subscriptions.RemoveAll<Team>();
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: remove-all-subscriptions
+            // :snippet-start: remove-all-subscriptions
             realm.Subscriptions.Update(() =>
             {
                 // remove all subscriptions, including named subscriptions
                 realm.Subscriptions.RemoveAll(true);
             });
-            // :code-block-end:
+            // :snippet-end:
         }
     }
     class MyTask : RealmObject

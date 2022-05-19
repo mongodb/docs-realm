@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 
-// :code-block-start: GetAllTasksQuery
+// :snippet-start: GetAllTasksQuery
 // :state-start: final
 const GetAllTasksQuery = gql`
   query GetAllTasksForProject($partition: String!) {
@@ -18,9 +18,9 @@ const GetAllTasksQuery = gql`
 // // TODO: Add the GraphGL query for fetching all tasks.
 // const GetAllTasksQuery = gql``;
 // :state-uncomment-end:
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: useAllTasksInProject
+// :snippet-start: useAllTasksInProject
 export function useAllTasksInProject(project) {
   // :state-start: final
   const { data, loading, error, startPolling, stopPolling } = useQuery(
@@ -53,4 +53,4 @@ export function useAllTasksInProject(project) {
     loading,
   };
 }
-// :code-block-end:
+// :snippet-end:

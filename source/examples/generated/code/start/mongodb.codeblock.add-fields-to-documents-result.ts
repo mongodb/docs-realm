@@ -11,7 +11,7 @@
 });
 test("Unwind Array Values", async () => {
   const plants = await getPlantsCollection();
-  // :code-block-start: unwind-array-values
+  // :snippet-start: unwind-array-values
   const result = await plants.aggregate([
     { $group: { _id: "$type", colors: { $addToSet: "$color" } } },
     { $unwind: { path: "$colors" } },

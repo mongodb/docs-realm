@@ -8,7 +8,7 @@ public class Cube
 {
     private async void ReadCopy()
     {
-        // :code-block-start: read_a_realm_unity
+        // :snippet-start: read_a_realm_unity
         // After copying the above created file to the project folder,
         // we can access it in Application.dataPath
 
@@ -28,6 +28,6 @@ public class Cube
         }
 
         var realm = Realm.GetInstance(config);
-        // :code-block-end:
+        // :snippet-end:
     }
 }

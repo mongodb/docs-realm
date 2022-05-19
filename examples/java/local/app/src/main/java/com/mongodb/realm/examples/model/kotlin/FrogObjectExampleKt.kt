@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogObjectExampleKt": "Frog"
@@ -16,4 +16,4 @@ open class FrogObjectExampleKt(
     var owner: String? = null
 ) : RealmObject() // :emphasize: // To add an object to your Realm Schema, extend RealmObject
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

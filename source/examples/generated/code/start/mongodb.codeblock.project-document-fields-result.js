@@ -11,7 +11,7 @@
 });
 test("Add Fields to Documents", async () => {
   const plants = await getPlantsCollection();
-  // :code-block-start: add-fields-to-documents
+  // :snippet-start: add-fields-to-documents
   const result = await plants.aggregate([
     {
       $addFields: {

@@ -13,7 +13,7 @@ export const useRealmApp = () => {
   return app;
 };
 
-// :code-block-start: realmAppProvider
+// :snippet-start: realmAppProvider
 export const RealmAppProvider = ({ appId, children }) => {
   // :state-start: final
   const [app, setApp] = React.useState(new Realm.App(appId));
@@ -59,4 +59,4 @@ export const RealmAppProvider = ({ appId, children }) => {
     </RealmAppContext.Provider>
   );
 };
-// :code-block-end:
+// :snippet-end:

@@ -43,13 +43,13 @@ public class ReadsTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                            // :code-block-start: get-all-objects
+                            // :snippet-start: get-all-objects
                             RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                             RealmQuery<Project> projectsQuery = realm.where(Project.class);
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {
@@ -84,13 +84,13 @@ public class ReadsTest extends RealmTest {
                             realm.executeTransaction(r -> {
                                 r.createObject(ProjectTask.class, PRIMARY_KEY_VALUE);
                             });
-                            // :code-block-start: find-an-object-by-primary-key
+                            // :snippet-start: find-an-object-by-primary-key
                             ProjectTask task = realm.where(ProjectTask.class).equalTo("_id", PRIMARY_KEY_VALUE.get()).findFirst();
                             Log.v("EXAMPLE", "Fetched object by primary key: " + task);
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {
@@ -125,7 +125,7 @@ public class ReadsTest extends RealmTest {
                             realm.executeTransaction(r -> {
                                 r.createObject(ProjectTask.class, PRIMARY_KEY_VALUE);
                             });
-                            // :code-block-start: filter-results
+                            // :snippet-start: filter-results
                             RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                             Log.i("EXAMPLE", "High priority tasks: " + tasksQuery.greaterThan("priority", 5).count());
                             Log.i("EXAMPLE", "Just-started or short tasks: " + tasksQuery.between("progressMinutes", 1, 10).count());
@@ -134,7 +134,7 @@ public class ReadsTest extends RealmTest {
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {
@@ -169,13 +169,13 @@ public class ReadsTest extends RealmTest {
                             realm.executeTransaction(r -> {
                                 r.createObject(ProjectTask.class, PRIMARY_KEY_VALUE);
                             });
-                            // :code-block-start: sort-results
+                            // :snippet-start: sort-results
                             RealmQuery<Project> projectsQuery = realm.where(Project.class);
                             RealmResults<Project> results = projectsQuery.sort("name", Sort.DESCENDING).findAll();
                             // :hide-start:
                             expectation.fulfill();
                             // :hide-end:
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {

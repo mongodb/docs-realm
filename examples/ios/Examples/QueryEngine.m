@@ -6,7 +6,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: models
+// :snippet-start: models
 // Task.h
 @interface QueryEngineExamplesObjc_Task : RLMObject
 @property NSString *name;
@@ -28,7 +28,7 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 // Project.m
 @implementation QueryEngineExamplesObjc_Project
 @end
-// :code-block-end:
+// :snippet-end:
 
 // Be sure to differentiate test cases between Swift/Obj-C, or else
 // the test explorer will get confused.
@@ -46,17 +46,17 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 }
 
 - (void)testPredicates {
-    // :code-block-start: predicates
+    // :snippet-start: predicates
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"progressMinutes > %@ AND name == %@", @1, @"Ali"];
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: substitutions
+    // :snippet-start: substitutions
     [NSPredicate predicateWithFormat:@"%K > %@ AND %K == %@", @"progressMinutes", @1, @"name", @"Ali"];
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testFilters {
-    // :code-block-start: setup
+    // :snippet-start: setup
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^() {
         // Add projects and tasks here
@@ -64,9 +64,9 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
     
     RLMResults *tasks = [QueryEngineExamplesObjc_Task allObjectsInRealm:realm];
     RLMResults *projects = [QueryEngineExamplesObjc_Project allObjectsInRealm:realm];
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: comparison-operators
+    // :snippet-start: comparison-operators
     NSLog(@"High priority tasks: %lu",
           [[tasks objectsWithPredicate:[NSPredicate predicateWithFormat:@"priority > %@", @5]] count]);
 
@@ -82,23 +82,23 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
     NSLog(@"Tasks with progress between 30 and 60 minutes: %lu",
           [[tasks objectsWhere:@"progressMinutes BETWEEN {30, 60}"] count]);
     
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: logical-operators
+    // :snippet-start: logical-operators
     NSLog(@"Ali's complete tasks: %lu",
       [[tasks objectsWhere:@"assignee == 'Ali' AND isComplete == true"] count]);
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: string-operators
+    // :snippet-start: string-operators
     // Use [c] for case-insensitivity.
     NSLog(@"Projects that start with 'e': %lu",
       [[projects objectsWhere:@"name BEGINSWITH[c] 'e'"] count]);
 
     NSLog(@"Projects that contain 'ie': %lu",
       [[projects objectsWhere:@"name CONTAINS 'ie'"] count]);
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: aggregate-operators
+    // :snippet-start: aggregate-operators
     NSLog(@"Projects with average tasks priority above 5: %lu",
           [[projects objectsWhere:@"tasks.@avg.priority > 5"] count]);
 
@@ -113,24 +113,24 @@ RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
 
     NSLog(@"Long running projects: %lu",
           [[projects objectsWhere:@"tasks.@sum.progressMinutes > 100"] count]);
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: set-operators
+    // :snippet-start: set-operators
     NSLog(@"Projects with no complete tasks: %lu",
       [[projects objectsWhere:@"NONE tasks.isComplete == true"] count]);
 
     NSLog(@"Projects with any top priority tasks: %lu",
       [[projects objectsWhere:@"ANY tasks.priority == 10"] count]);
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: subquery
+    // :snippet-start: subquery
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               @"SUBQUERY(tasks, $task, $task.isComplete == %@ AND $task.assignee == %@).@count > 0",
                               @NO,
                               @"Alex"];
     NSLog(@"Projects with incomplete tasks assigned to Alex: %lu",
       [[projects objectsWithPredicate:predicate] count]);
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

@@ -73,7 +73,7 @@ public class MultipleUsersTest extends RealmTest {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
             try {
-            // :code-block-start: add-a-new-user
+            // :snippet-start: add-a-new-user
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
             // Log in as Joe
@@ -101,7 +101,7 @@ public class MultipleUsersTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
             } catch (Exception e) {
                 Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
             }
@@ -115,12 +115,12 @@ public class MultipleUsersTest extends RealmTest {
             try {
                 String appID = YOUR_APP_ID; // replace this with your App ID
                 App app = new App(new AppConfiguration.Builder(appID).build());
-                // :code-block-start: list-all-on-device-users
+                // :snippet-start: list-all-on-device-users
                 Map<String, User> users = app.allUsers();
                 for (Map.Entry<String, User> user : users.entrySet()) {
                     Log.v("EXAMPLE", "User: " + user.getKey());
                 }
-                // :code-block-end:
+                // :snippet-end:
             } catch (Exception e) {
                 Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
             }
@@ -138,7 +138,7 @@ public class MultipleUsersTest extends RealmTest {
             Credentials joeCredentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
             app.loginAsync(joeCredentials, it -> {
                 if (it.isSuccess()) {
-                    // :code-block-start: switch-the-active-user
+                    // :snippet-start: switch-the-active-user
                     // Joe is already logged in and is the currently active user
                     User joe = app.currentUser();
                     // Log in as Emma
@@ -158,7 +158,7 @@ public class MultipleUsersTest extends RealmTest {
                             Log.e("EXAMPLE", "Failed to log in: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -176,7 +176,7 @@ public class MultipleUsersTest extends RealmTest {
                 App app = new App(new AppConfiguration.Builder(appID).build());
                 // Log in as Joe
                 Credentials credentials = Credentials.emailPassword(firstUserEmail, firstUserPassword);
-                // :code-block-start: remove-a-user-from-device
+                // :snippet-start: remove-a-user-from-device
                 app.loginAsync(credentials, it -> {
                     if (it.isSuccess()) {
                         User user = it.get();
@@ -194,7 +194,7 @@ public class MultipleUsersTest extends RealmTest {
                         Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                     }
                 });
-                // :code-block-end:
+                // :snippet-end:
             } catch (Exception e) {
                 Log.v("EXAMPLE", "Failed with exception: " + e.getMessage());
             }

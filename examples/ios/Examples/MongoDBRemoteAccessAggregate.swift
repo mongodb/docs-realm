@@ -25,7 +25,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: aggregation-match
+                // :snippet-start: aggregation-match
                 let pipeline: [Document] = [["$match": ["partition": ["$eq": "Store 42"]]]]
 
                 collection.aggregate(pipeline: pipeline) { result in
@@ -44,7 +44,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -73,7 +73,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: aggregation-group
+                // :snippet-start: aggregation-group
                 let pipeline: [Document] = [["$group": ["_id": "$partition", "numItems": ["$sum": 1]]]]
 
                 collection.aggregate(pipeline: pipeline) { result in
@@ -92,7 +92,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -121,7 +121,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: aggregation-project
+                // :snippet-start: aggregation-project
                 let pipeline: [Document] = [["$project": ["_id": 0, "name": 1, "storeNumber": ["$arrayElemAt": [["$split": ["$partition", " "]], 1]]]]]
 
                 collection.aggregate(pipeline: pipeline) { result in
@@ -140,7 +140,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -169,7 +169,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: aggregation-add-fields
+                // :snippet-start: aggregation-add-fields
                 let pipeline: [Document] = [["$addFields": ["storeNumber": ["$arrayElemAt": [["$split": ["$partition", " "]], 1]]]]]
 
                 collection.aggregate(pipeline: pipeline) { result in
@@ -188,7 +188,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)
@@ -217,7 +217,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                 // Select the collection
                 let collection = database.collection(withName: "CoffeeDrinks")
 
-                // :code-block-start: aggregation-unwind
+                // :snippet-start: aggregation-unwind
                 let pipeline: [Document] = [["$unwind": ["path": "$featuredInPromotions", "includeArrayIndex": "itemIndex"]]]
 
                 collection.aggregate(pipeline: pipeline) { result in
@@ -236,7 +236,7 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         // :hide-end:
                     }
                 }
-                // :code-block-end:
+                // :snippet-end:
             }
         }
         wait(for: [expectation], timeout: 10)

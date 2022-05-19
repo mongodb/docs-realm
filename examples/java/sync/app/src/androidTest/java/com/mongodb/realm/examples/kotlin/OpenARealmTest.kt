@@ -32,7 +32,7 @@ class OpenARealmTest : RealmTest() {
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
-                    // :code-block-start: allow-reads-writes-ui-thread
+                    // :snippet-start: allow-reads-writes-ui-thread
                     val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
                         .allowQueriesOnUiThread(true)
                         .allowWritesOnUiThread(true)
@@ -46,7 +46,7 @@ class OpenARealmTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }
@@ -68,7 +68,7 @@ class OpenARealmTest : RealmTest() {
             ) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
-                    // :code-block-start: configure-a-realm
+                    // :snippet-start: configure-a-realm
                     val config =
                         SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
@@ -85,7 +85,7 @@ class OpenARealmTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }

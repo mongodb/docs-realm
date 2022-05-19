@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: projecttask
+// :snippet-start: projecttask
 
 import org.bson.types.ObjectId;
 
@@ -23,4 +23,4 @@ public class ProjectTask extends RealmObject {
     @Required
     public String _partition;
 }
-// :code-block-end:
+// :snippet-end:

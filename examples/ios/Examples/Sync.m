@@ -35,7 +35,7 @@
 @end
 
 
-// :code-block-start: check-network-connection-setup
+// :snippet-start: check-network-connection-setup
 @interface MySyncSessionObserver: NSObject
 @end
 
@@ -65,11 +65,11 @@
     }
 }
 @end
-// :code-block-end:
+// :snippet-end:
 
 @implementation SyncObjc
 - (void)testInitSyncedRealm {
-    // :code-block-start: init-synced-realm
+    // :snippet-start: init-synced-realm
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     
     // Log in...
@@ -93,13 +93,13 @@
         NSLog(@"Opened realm: %@", realm);
         // Use realm
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testOpenSyncedRealm {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
 
-    // :code-block-start: asyncopen-synced-realm
+    // :snippet-start: asyncopen-synced-realm
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     
     // Log in...
@@ -126,9 +126,9 @@
         [expectation fulfill];
         // :remove-end:
     }];
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: open-synced-realm-synchronously
+    // :snippet-start: open-synced-realm-synchronously
     NSError *error = nil;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration
                                                  error:&error];
@@ -140,7 +140,7 @@
         NSLog(@"Opened realm: %@", realm);
         // Use realm
     }
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];
@@ -153,7 +153,7 @@
     RLMRealmConfiguration *configuration = [user configurationWithPartitionValue:partitionValue];
     configuration.objectClasses = @[SyncObjcExamples_Task.class];
     
-    // :code-block-start: pause-resume-sync-session
+    // :snippet-start: pause-resume-sync-session
     RLMRealm *syncedRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
     
     RLMSyncSession *syncSession = [syncedRealm syncSession];
@@ -162,9 +162,9 @@
     
     // Later, resume synchronization
     [syncSession resume];
-    // :code-block-end:
+    // :snippet-end:
     
-    // :code-block-start: check-network-connection
+    // :snippet-start: check-network-connection
     // Observe connectionState for changes using KVO
     MySyncSessionObserver *observer = [[MySyncSessionObserver alloc] init];
     [syncSession addObserver:observer
@@ -177,7 +177,7 @@
                      forKeyPath:@"connectionState"
                         context:nil];
 
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testCheckProgress {
@@ -190,7 +190,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
     expectation.assertForOverFulfill = NO;
     
-    // :code-block-start: check-progress
+    // :snippet-start: check-progress
     RLMSyncSession *syncSession = [syncedRealm syncSession];
     RLMProgressNotificationToken *token = [syncSession
            addProgressNotificationForDirection:RLMSyncProgressDirectionUpload
@@ -206,7 +206,7 @@
     [syncedRealm transactionWithBlock:^{
         [syncedRealm addObject:[[SyncObjcExamples_Task alloc] init]];
     }];
-    // :code-block-end:
+    // :snippet-end:
     (void)token;
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
@@ -214,7 +214,7 @@
 }
 
 - (void)testResetClientRealmFile {
-    // :code-block-start: reset-client-realm-file
+    // :snippet-start: reset-client-realm-file
     @autoreleasepool {
         // all Realm usage here -- explicitly guarantee
         // that all realm objects are deallocated
@@ -235,11 +235,11 @@
     if (error) {
         // Handle error
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 - (void)testSetClientLogLevel {
-    // :code-block-start: set-log-level
+    // :snippet-start: set-log-level
     // Access your app
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     
@@ -248,7 +248,7 @@
     
     // Set the logger to provide debug logs
     syncManager.logLevel = RLMSyncLogLevelDebug;
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

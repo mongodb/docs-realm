@@ -31,7 +31,7 @@ public class ManageEmailPasswordTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-            // :code-block-start: register-a-new-user-account
+            // :snippet-start: register-a-new-user-account
             app.getEmailPassword().registerUserAsync(email, password, it -> {
                 if (it.isSuccess()) {
                     Log.i("EXAMPLE", "Successfully registered user.");
@@ -45,7 +45,7 @@ public class ManageEmailPasswordTest extends RealmTest {
                     // :hide-end:
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -65,7 +65,7 @@ public class ManageEmailPasswordTest extends RealmTest {
             String token = "token-fake";
             String tokenId = "token-id-fake";
 
-            // :code-block-start: confirm-a-new-users-email-address
+            // :snippet-start: confirm-a-new-users-email-address
             // token and tokenId are query parameters in the confirmation
             // link sent in the confirmation email.
             app.getEmailPassword().confirmUserAsync(token, tokenId, it -> {
@@ -78,7 +78,7 @@ public class ManageEmailPasswordTest extends RealmTest {
                     // :hide-end:
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -100,7 +100,7 @@ public class ManageEmailPasswordTest extends RealmTest {
             String tokenId = "token-id-fake";
             String newPassword = "newFakePassword";
 
-            // :code-block-start: send-reset-password-email
+            // :snippet-start: send-reset-password-email
             app.getEmailPassword().sendResetPasswordEmailAsync(email, it -> {
                 if (it.isSuccess()) {
                     Log.i("EXAMPLE", "Successfully sent the user a reset password link to " + email);
@@ -108,9 +108,9 @@ public class ManageEmailPasswordTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to send the user a reset password link to " + email + ": " + it.getError().getErrorMessage());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: reset-password
+            // :snippet-start: reset-password
             // token and tokenId are query parameters in the confirmation
             // link sent in the password reset email.
             app.getEmailPassword().resetPasswordAsync(token, tokenId, newPassword, it -> {
@@ -123,7 +123,7 @@ public class ManageEmailPasswordTest extends RealmTest {
                     // :hide-end:
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -138,7 +138,7 @@ public class ManageEmailPasswordTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-            // :code-block-start: run-password-reset-func
+            // :snippet-start: run-password-reset-func
             String newPassword = "newFakePassword";
             String[] args = {"security answer 1", "security answer 2"};
 
@@ -152,7 +152,7 @@ public class ManageEmailPasswordTest extends RealmTest {
                     // :hide-end:
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }

@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples
-// :code-block-start: background-sync-realm
+// :snippet-start: background-sync-realm
 // :replace-start: {
 //    "terms": {
 //       "RealmBackgroundWorkerKt": "RealmBackgroundWorker"
@@ -60,4 +60,4 @@ class RealmBackgroundWorkerKt(context: Context, workerParams: WorkerParameters) 
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "OmitModuleExample": "MyModule",
@@ -13,4 +13,4 @@ import io.realm.annotations.RealmModule;
 public class OmitModuleExample {
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

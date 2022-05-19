@@ -23,7 +23,7 @@ namespace Examples
         public async ThreadTask Setup()
         {
             app = App.Create(myRealmAppId);
-            // :code-block-start: open-synced-realm
+            // :snippet-start: open-synced-realm
             user = await app.LogInAsync(
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new PartitionSyncConfiguration("myPart", user);
@@ -49,18 +49,18 @@ namespace Examples
                 Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
             }
-            // :code-block-end:
+            // :snippet-end:
 
             realm.Write(() =>
             {
                 realm.RemoveAll<Task>();
             });
 
-            // :code-block-start: open-synced-realm-synchronously
+            // :snippet-start: open-synced-realm-synchronously
             // :uncomment-start:
             // var synchronousRealm = await Realm.GetInstanceAsync(config);
             // :uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
 
             return;
         }
@@ -68,15 +68,15 @@ namespace Examples
         [Test]
         public void InMemory()
         {
-            //:code-block-start:in-memory
+            //:snippet-start:in-memory
             var config = new InMemoryConfiguration("some-identifier");
             var realm = Realm.GetInstance(config);
-            //:code-block-end:
+            //:snippet-end:
         }
 
         public void Subset()
         {
-            //:code-block-start:subset
+            //:snippet-start:subset
             var config = new RealmConfiguration()
             {
                 Schema = new Type[]
@@ -85,7 +85,7 @@ namespace Examples
                     typeof(AnotherClassWorthStoring)
                 }
             };
-            //:code-block-end:
+            //:snippet-end:
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Examples
                 Directory.CreateDirectory(pathToDb);
             }
 
-            // :code-block-start: local-realm
+            // :snippet-start: local-realm
             var config = new RealmConfiguration(pathToDb + "/my.realm")
             {
                 IsReadOnly = true,
@@ -119,7 +119,7 @@ namespace Examples
                 Console.WriteLine($@"Error creating or opening the
                     realm file. {ex.Message}");
             }
-            // :code-block-end:
+            // :snippet-end:
 
             try
             {
@@ -134,9 +134,9 @@ namespace Examples
         public void DisposeCodeSnippet()
         {
             Realm realm = Realm.GetInstance();
-            // :code-block-start: dispose
+            // :snippet-start: dispose
             realm.Dispose();
-            // :code-block-end:
+            // :snippet-end:
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace Examples
             User user3;
             PartitionSyncConfiguration config3;
             Realm realm3;
-            // :code-block-start: check-if-offline
+            // :snippet-start: check-if-offline
             // :replace-start: {
             //  "terms": {
             //   "app3": "app",
@@ -170,13 +170,13 @@ namespace Examples
                 realm3 = Realm.GetInstance(config3);
             }
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
         }
 
         [Test]
         public async ThreadTask ScopesARealm()
         {
-            // :code-block-start: scope
+            // :snippet-start: scope
             config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new Type[]
@@ -191,7 +191,7 @@ namespace Examples
             {
                 var allTasks = realm.All<Task>();
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         public class AClassWorthStoring : RealmObject
         {

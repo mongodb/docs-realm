@@ -23,7 +23,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: filters
+            // :snippet-start: filters
             // Build the query looking at all teachers:
             RealmQuery<Teacher> query = realm.where(Teacher.class);
 
@@ -41,7 +41,7 @@ public class FilterDataTest extends RealmTest {
                     .equalTo("name", "Mrs. Jacobs")
                     .findAll();
 
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -58,7 +58,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: link-queries
+            // :snippet-start: link-queries
             // Find all teachers who have students with the names "Wirt" or "Greg"
             RealmResults<Teacher> result = realm.where(Teacher.class)
                     .equalTo("students.name", "Wirt")
@@ -66,7 +66,7 @@ public class FilterDataTest extends RealmTest {
                     .equalTo("students.name", "Greg")
                     .findAll();
 
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -83,7 +83,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: link-queries-inverse
+            // :snippet-start: link-queries-inverse
             // Find all students who have teachers with the names "Ms. Langtree" or "Mrs. Jacobs"
             RealmResults<Student> result = realm.where(Student.class)
                     .equalTo("teacher.name", "Ms. Langtree")
@@ -91,7 +91,7 @@ public class FilterDataTest extends RealmTest {
                     .equalTo("teacher.name", "Mrs. Jacobs")
                     .findAll();
 
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -108,7 +108,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: sort
+            // :snippet-start: sort
             // Find all students in year 7, and sort them by name
             RealmResults<Student> result = realm.where(Student.class)
                     .equalTo("year", 7)
@@ -121,7 +121,7 @@ public class FilterDataTest extends RealmTest {
                     .findAll();
             // then sort the results set by name
             RealmResults<Student> sortedResult = unsortedResult.sort("name");
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -138,13 +138,13 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: limit
+            // :snippet-start: limit
             // Find all students in year 8, and limit the results collection to 10 items
             RealmResults<Student> result = realm.where(Student.class)
                     .equalTo("year", 8)
                     .limit(10)
                     .findAll();
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -161,13 +161,13 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: unique
+            // :snippet-start: unique
             // Find all students in year 9, and cap the result collection at 10 items
             RealmResults<Student> result = realm.where(Student.class)
                     .equalTo("year", 9)
                     .distinct("name")
                     .findAll();
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -184,7 +184,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: chain-queries
+            // :snippet-start: chain-queries
             // Find all students in year 9 and resolve the query into a results collection
             RealmResults<Student> result = realm.where(Student.class)
                     .equalTo("year", 9)
@@ -192,7 +192,7 @@ public class FilterDataTest extends RealmTest {
 
             // filter the students results again by teacher name
             RealmResults<Student> filteredResults = result.where().equalTo("teacher.name", "Ms. Langtree").findAll();
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -209,7 +209,7 @@ public class FilterDataTest extends RealmTest {
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :code-block-start: realm-query-language
+            // :snippet-start: realm-query-language
             // Build a RealmQuery based on the Student type
             RealmQuery<Student> query = realm.where(Student.class);
 
@@ -244,7 +244,7 @@ public class FilterDataTest extends RealmTest {
             RealmResults<Student> studentsNamedJaneOrHenryAgain =
                     query.rawPredicate("name = 'Jane'")
                             .equalTo("name", "Henry").findAll();
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });

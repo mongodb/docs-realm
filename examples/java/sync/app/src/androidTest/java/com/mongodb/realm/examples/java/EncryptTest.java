@@ -60,7 +60,7 @@ public class EncryptTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
-                    // :code-block-start: encrypt-basic
+                    // :snippet-start: encrypt-basic
                     // Generate a key
                     byte[] key = new byte[64];
                     new SecureRandom().nextBytes(key);
@@ -73,7 +73,7 @@ public class EncryptTest extends RealmTest {
                     // :hide-start:
                     expectation.fulfill();
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: "
                             + it.getError().getErrorMessage());
@@ -97,7 +97,7 @@ public class EncryptTest extends RealmTest {
                 if (it.isSuccess()) {
                     User user = it.get();
 
-                    // :code-block-start: read-and-write-encrypted-realm
+                    // :snippet-start: read-and-write-encrypted-realm
                     // use a new encryption key to write and read from a realm
                     byte[] realmKey = getNewKey();
                     // use the key to configure a realm
@@ -143,7 +143,7 @@ public class EncryptTest extends RealmTest {
                     Log.v("EXAMPLE", "generated id: " + id
                             + ", decrypted written frog id: " + frogDecrypt.get_id());
                     decryptedRealm.close();
-                    // :code-block-end:
+                    // :snippet-end:
                     expectation.fulfill();
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: "
@@ -155,7 +155,7 @@ public class EncryptTest extends RealmTest {
     }
 
 
-    // :code-block-start: encrypt-key
+    // :snippet-start: encrypt-key
     // Create a key to encrypt a realm and save it securely in the keystore
     public byte[] getNewKey() {
         // open a connection to the android keystore
@@ -251,9 +251,9 @@ public class EncryptTest extends RealmTest {
 
         return realmKey; // pass to a realm configuration via encryptionKey()
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: decrypt-key
+    // :snippet-start: decrypt-key
     // Access the encrypted key in the keystore, decrypt it with the secret,
     // and use it to open and read from the realm again
     public byte[] getExistingKey() {
@@ -318,5 +318,5 @@ public class EncryptTest extends RealmTest {
         }
         return decryptedKey; // pass to a realm configuration via encryptionKey()
     }
-    // :code-block-end:
+    // :snippet-end:
 }

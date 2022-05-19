@@ -75,7 +75,7 @@ class UserAPIKeysTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated user.")
-                    // :code-block-start: create-a-user-api-key
+                    // :snippet-start: create-a-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.createAsync("Name-of-the-API-Key") { result ->
                         if (result.isSuccess) {
@@ -87,7 +87,7 @@ class UserAPIKeysTest : RealmTest() {
                             Log.e("EXAMPLE", "Error creating API key: ${result.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error}")
                 }
@@ -106,7 +106,7 @@ class UserAPIKeysTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: look-up-a-users-api-keys
+                    // :snippet-start: look-up-a-users-api-keys
                     val user = app.currentUser()
                     user!!.apiKeys
                         .fetchAll { result ->
@@ -119,7 +119,7 @@ class UserAPIKeysTest : RealmTest() {
                                 Log.e("EXAMPLE", "Error fetching API keys: ${result.error}")
                             }
                         }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: {$it.error}")
                 }
@@ -139,7 +139,7 @@ class UserAPIKeysTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val api_key_id = apiKey!!.id
-                    // :code-block-start: look-up-a-specific-user-api-key
+                    // :snippet-start: look-up-a-specific-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.fetchAsync(api_key_id) { result ->
                         if (result.isSuccess) {
@@ -151,7 +151,7 @@ class UserAPIKeysTest : RealmTest() {
                             Log.e("EXAMPLE", "Error fetching API key: ${result.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error}")
                 }
@@ -171,7 +171,7 @@ class UserAPIKeysTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val api_key_id = apiKey!!.id
-                    // :code-block-start: enable-user-api-key
+                    // :snippet-start: enable-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.enableAsync(api_key_id) { result ->
                         // :hide-start:
@@ -183,7 +183,7 @@ class UserAPIKeysTest : RealmTest() {
                             Log.e("EXAMPLE", "Error fetching API key: ${result.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error}")
                 }
@@ -203,7 +203,7 @@ class UserAPIKeysTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val api_key_id = apiKey!!.id
-                    // :code-block-start: disable-user-api-key
+                    // :snippet-start: disable-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.disableAsync(api_key_id) { result ->
                         if (result.isSuccess) {
@@ -219,7 +219,7 @@ class UserAPIKeysTest : RealmTest() {
                             // :hide-end:
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error}")
                 }
@@ -239,7 +239,7 @@ class UserAPIKeysTest : RealmTest() {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
                     val api_key_id = apiKey!!.id
-                    // :code-block-start: delete-user-api-key
+                    // :snippet-start: delete-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.deleteAsync(api_key_id) { result ->
                         if (result.isSuccess) {
@@ -251,7 +251,7 @@ class UserAPIKeysTest : RealmTest() {
                             Log.e("EXAMPLE", "Error deleting API key: ${result.error}")
                         }
                     }
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error}")
                 }

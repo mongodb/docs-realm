@@ -48,7 +48,7 @@ public class FlexibleSyncTest extends RealmTest {
     public void openARealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread (() -> {
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             // instantiate a Realm App connection
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
@@ -59,7 +59,7 @@ public class FlexibleSyncTest extends RealmTest {
                 if (it.isSuccess()) {
                     User user = it.get();
                     // add an initial subscription to the sync configuration
-                    // :code-block-start: add-a-subscription
+                    // :snippet-start: add-a-subscription
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
@@ -86,12 +86,12 @@ public class FlexibleSyncTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -109,7 +109,7 @@ public class FlexibleSyncTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
-                    // :code-block-start: explicitly-named-subscription
+                    // :snippet-start: explicitly-named-subscription
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
@@ -138,7 +138,7 @@ public class FlexibleSyncTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -161,7 +161,7 @@ public class FlexibleSyncTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
-                    // :code-block-start: implicitly-named-subscription
+                    // :snippet-start: implicitly-named-subscription
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
@@ -194,7 +194,7 @@ public class FlexibleSyncTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -216,7 +216,7 @@ public class FlexibleSyncTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     User user = it.get();
-                    // :code-block-start: wait-for-subscription-sync
+                    // :snippet-start: wait-for-subscription-sync
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                             .initialSubscriptions(new SyncConfiguration.InitialFlexibleSyncSubscriptions() {
                                 @Override
@@ -242,7 +242,7 @@ public class FlexibleSyncTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.getError().getErrorMessage());
                 }
@@ -288,7 +288,7 @@ public class FlexibleSyncTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                            // :code-block-start: update-subscriptions-by-name
+                            // :snippet-start: update-subscriptions-by-name
                             realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
                                 @Override
                                 public void update(MutableSubscriptionSet subscriptions) {
@@ -301,7 +301,7 @@ public class FlexibleSyncTest extends RealmTest {
                                                                 "Benedict Cumberburger")));
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close();
                             expectation.fulfill();
@@ -353,7 +353,7 @@ public class FlexibleSyncTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                            // :code-block-start: update-subscriptions-by-query
+                            // :snippet-start: update-subscriptions-by-query
                             realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
                                 @Override
                                 public void update(MutableSubscriptionSet subscriptions) {
@@ -371,7 +371,7 @@ public class FlexibleSyncTest extends RealmTest {
                                                                     "albino cane toad")));
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close();
                             expectation.fulfill();
@@ -422,7 +422,7 @@ public class FlexibleSyncTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                            // :code-block-start: remove-single-subscription
+                            // :snippet-start: remove-single-subscription
                             realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
                                 @Override
                                 public void update(MutableSubscriptionSet subscriptions) {
@@ -430,7 +430,7 @@ public class FlexibleSyncTest extends RealmTest {
                                     subscriptions.remove(mySubscription);
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close();
                             while(!realm.isClosed()) {
@@ -481,14 +481,14 @@ public class FlexibleSyncTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                            // :code-block-start: remove-all-subscriptions-to-an-object-type
+                            // :snippet-start: remove-all-subscriptions-to-an-object-type
                             realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
                                 @Override
                                 public void update(MutableSubscriptionSet subscriptions) {
                                     subscriptions.removeAll(Frog.class);
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close();
                             expectation.fulfill();
@@ -536,14 +536,14 @@ public class FlexibleSyncTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                            // :code-block-start: remove-all-subscriptions
+                            // :snippet-start: remove-all-subscriptions
                             realm.getSubscriptions().update(new SubscriptionSet.UpdateCallback() {
                                 @Override
                                 public void update(MutableSubscriptionSet subscriptions) {
                                     subscriptions.removeAll();
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close();
                             expectation.fulfill();

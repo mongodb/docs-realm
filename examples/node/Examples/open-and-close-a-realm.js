@@ -3,7 +3,7 @@ import nock from "nock";
 
 describe("Open and Close a Realm", () => {
   test("should open and close a local realm", async () => {
-    // :code-block-start: open-local-realm-with-car-schema
+    // :snippet-start: open-local-realm-with-car-schema
     const Car = {
       name: "Car",
       properties: {
@@ -18,17 +18,17 @@ describe("Open and Close a Realm", () => {
         schema: [Car],
       });
 
-      // :code-block-start: close-local-realm
+      // :snippet-start: close-local-realm
       realm.close();
-      // :code-block-end:
+      // :snippet-end:
 
       expect(realm.isClosed).toBe(true); // :remove:
     } catch (err) {
       console.error("Failed to open the realm", err.message);
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: open-local-realm-synchronously
+    // :snippet-start: open-local-realm-synchronously
     // Synchronously open a local realm file with a particular path & predefined Car schema
     try {
       const synchronouslyOpenedRealm = new Realm({
@@ -40,7 +40,7 @@ describe("Open and Close a Realm", () => {
     } catch (err) {
       console.error("Failed to open the realm", err.message);
     }
-    // :code-block-end:
+    // :snippet-end:
 
     // You can test whether a realm has been opened in general
     // (but not if a realm has been opened with a specific path or schema)
@@ -70,12 +70,12 @@ describe("Open and Close a Realm", () => {
         miles: "int",
       },
     };
-    // :code-block-start: open-and-close-an-in-memory-realm
+    // :snippet-start: open-and-close-an-in-memory-realm
     const realm = await Realm.open({
       inMemory: true,
       schema: [Car],
     });
-    // :code-block-end:
+    // :snippet-end:
     expect(realm.inMemory).toBe(true);
     realm.close();
   });
@@ -98,7 +98,7 @@ describe("Open and Close a Realm", () => {
       console.error("failed to login user", err.message);
     }
 
-    // :code-block-start: open-synced-realm-online-with-car-schema
+    // :snippet-start: open-synced-realm-online-with-car-schema
     const config = {
       schema: [Car], // predefined schema
       sync: {
@@ -115,7 +115,7 @@ describe("Open and Close a Realm", () => {
     } catch (err) {
       console.error("failed to open realm", err.message);
     }
-    // :code-block-end:xw
+    // :snippet-end:xw
   });
 
   test.skip("should open and close a sycned realm without internet", async () => {
@@ -130,7 +130,7 @@ describe("Open and Close a Realm", () => {
 
     const app = new Realm.App({ id: "demo_app-cicfi" });
 
-    // :code-block-start: use-cached-user-to-login
+    // :snippet-start: use-cached-user-to-login
     // Log the user into the backend app.
     // The first time you login, the user must have a network connection.
     const getUser = async () => {
@@ -142,10 +142,10 @@ describe("Open and Close a Realm", () => {
       const credentials = Realm.Credentials.anonymous();
       return await app.logIn(credentials);
     };
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: open-synced-realm-offline-with-car-schema
-    // :code-block-start: open-synced-realm-config
+    // :snippet-start: open-synced-realm-offline-with-car-schema
+    // :snippet-start: open-synced-realm-config
     const openRealmBehaviorConfig = {
       type: "downloadBeforeOpen",
       timeOut: 1000,
@@ -161,7 +161,7 @@ describe("Open and Close a Realm", () => {
         newRealmFileBehavior: openRealmBehaviorConfig,
       },
     };
-    // :code-block-end:
+    // :snippet-end:
     // :remove-start:
     nock.disableNetConnect();
     // :remove-end:
@@ -174,7 +174,7 @@ describe("Open and Close a Realm", () => {
     } catch (err) {
       console.error("failed to open realm", err.message);
     }
-    // :code-block-end:
+    // :snippet-end:
 
     nock.cleanAll();
     nock.enableNetConnect();
@@ -204,7 +204,7 @@ describe("Open and Close a Realm", () => {
       return await app.logIn(credentials);
     };
 
-    // :code-block-start: open-synced-realm-with-background-sync
+    // :snippet-start: open-synced-realm-with-background-sync
     const openRealmBehaviorConfig = {
       type: "openImmediately",
     };
@@ -218,7 +218,7 @@ describe("Open and Close a Realm", () => {
         existingRealmFileBehavior: openRealmBehaviorConfig,
       },
     };
-    // :code-block-end:
+    // :snippet-end:
 
     try {
       const realm = await Realm.open(config);

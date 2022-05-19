@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FlyEmbeddedExample": "Fly"
@@ -17,4 +17,4 @@ public class FlyEmbeddedExample extends RealmObject {
     public FlyEmbeddedExample() {} // RealmObject subclasses must provide an empty constructor
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

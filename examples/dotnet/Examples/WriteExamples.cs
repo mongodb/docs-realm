@@ -30,7 +30,7 @@ namespace Examples
         public void Snippets()
         {
             //TearDown();
-            // :code-block-start: transaction
+            // :snippet-start: transaction
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -53,9 +53,9 @@ namespace Examples
                 }
             });
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
             var myDog = new WriteDog { Id = 411, Name = "Gracie", Age = 7 };
-            // :code-block-start: create-long-hand
+            // :snippet-start: create-long-hand
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -77,9 +77,9 @@ namespace Examples
                 transaction.Dispose();
             }
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: create
+            // :snippet-start: create
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -94,8 +94,8 @@ namespace Examples
                 realm.Add(dog);
             });
             // :replace-end:
-            // :code-block-end:
-            // :code-block-start: upsert
+            // :snippet-end:
+            // :snippet-start: upsert
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -114,9 +114,9 @@ namespace Examples
                 realm.Add(andy, update: true);
             });
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update
+            // :snippet-start: update
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -134,8 +134,8 @@ namespace Examples
                 dog.Age += 1;
             });
             // :replace-end:
-            // :code-block-end:
-            // :code-block-start: update-collection
+            // :snippet-end:
+            // :snippet-start: update-collection
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -158,13 +158,13 @@ namespace Examples
                 }
             });
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
             var foodog = new WriteDog { Id = 123, Name = "FiFi" };
             realm.Write(() =>
             {
                 realm.Add(foodog);
             });
-            // :code-block-start: delete-one
+            // :snippet-start: delete-one
             // :replace-start: {
             //  "terms": {
             //   "foodog": "dog"}
@@ -178,8 +178,8 @@ namespace Examples
                 foodog = null;
             });
             // :replace-end:
-            // :code-block-end:
-            // :code-block-start: delete-collection
+            // :snippet-end:
+            // :snippet-start: delete-collection
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -194,14 +194,14 @@ namespace Examples
                 realm.RemoveRange(puppies);
             });
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
             var ali = new WritePerson();
             realm.Write(() =>
             {
                 realm.Add(ali);
             });
-            // :code-block-start: cascade-delete
+            // :snippet-start: cascade-delete
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -216,8 +216,8 @@ namespace Examples
             realm.Remove(ali);
         });
             // :replace-end:
-            // :code-block-end:
-            // :code-block-start: delete-all-of-type
+            // :snippet-end:
+            // :snippet-start: delete-all-of-type
             // :replace-start: {
             //  "terms": {
             //   "WritePerson": "Person",
@@ -229,15 +229,15 @@ namespace Examples
                 realm.RemoveAll<WriteDog>();
             });
             // :replace-end:
-            // :code-block-end:
-            // :code-block-start: delete-all
+            // :snippet-end:
+            // :snippet-start: delete-all
             realm.Write(() =>
             {
                 // Remove all objects from the realm.
                 realm.RemoveAll();
             });
 
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 

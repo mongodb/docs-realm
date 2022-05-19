@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model;
-// :code-block-start: define-object-model
+// :snippet-start: define-object-model
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -49,4 +49,4 @@ public class Task extends RealmObject {
     public Task() {}
 }
 
-// :code-block-end:
+// :snippet-end:

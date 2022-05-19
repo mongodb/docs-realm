@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-// :code-block-start: initialize-app
+// :snippet-start: initialize-app
 let app = App(id: "tasktracker-qczfq") // :remove:
 // :state-uncomment-start: sync
 // let app = App(id: "<your-realm-app-ID-here>")
@@ -16,7 +16,7 @@ let app = App(id: "tasktracker-qczfq") // :remove:
 // :state-start: start local
 // TODO: Declare a global Realm App instance.
 // :state-end:
-// :code-block-end:
+// :snippet-end:
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

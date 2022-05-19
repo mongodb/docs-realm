@@ -9,7 +9,7 @@ namespace Examples
 {
     public class OneToOneRelationship
     {
-        // :code-block-start: one-to-one
+        // :snippet-start: one-to-one
         // :replace-start: {
         //  "terms": {
         //   "RelPerson": "Person",
@@ -35,7 +35,7 @@ namespace Examples
             public string Breed { get; set; }
         }
         //:replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
         [Test]
         public async System.Threading.Tasks.Task OneToOneQuery()
@@ -55,7 +55,7 @@ namespace Examples
                 realm.Add(person);
             });
 
-            // :code-block-start: one-to-one-query
+            // :snippet-start: one-to-one-query
             // :replace-start: {
             //  "terms": {
             //   "RelPerson": "Person",
@@ -63,7 +63,7 @@ namespace Examples
             // }
             var fidosPerson = realm.All<RelPerson>().FirstOrDefault(p => p.Dog == dog);
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(fidosPerson, person);
         }
     }
@@ -72,7 +72,7 @@ namespace Examples
     {
         public OneToManyRelationship()
         {
-            // :code-block-start: one-to-many-use
+            // :snippet-start: one-to-many-use
             // :replace-start: {
             //  "terms": {
             //   "Rel2Person": "Person",
@@ -87,10 +87,10 @@ namespace Examples
                 Breed = "mutt"
             });
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
         }
 
-        // :code-block-start: one-to-many
+        // :snippet-start: one-to-many
         // :replace-start: {
         //  "terms": {
         //   "Rel2Person": "Person",
@@ -116,7 +116,7 @@ namespace Examples
             public string Breed { get; set; }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
         [Test]
         public async System.Threading.Tasks.Task OneToManyQuery()
@@ -143,7 +143,7 @@ namespace Examples
                 realm.Add(person);
             });
 
-            // :code-block-start: one-to-many-query
+            // :snippet-start: one-to-many-query
             // :replace-start: {
             //  "terms": {
             //   "Rel2Person": "Person",
@@ -151,7 +151,7 @@ namespace Examples
             // }
             var youngDogs = realm.All<Rel2Dog>().Where(d => d.Age == 1).OrderBy(dog => dog.Name).ToList();
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
             var younglist = new List<Rel2Dog>();
             younglist.Add(dog1);
             younglist.Add(dog2);
@@ -161,7 +161,7 @@ namespace Examples
 
     public class InverseRelationship
     {
-        // :code-block-start: inverse
+        // :snippet-start: inverse
         // :replace-start: {
         //  "terms": {
         //   "UserTwo": "User",
@@ -190,7 +190,7 @@ namespace Examples
             public UserTwo Assignee { get; set; }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
         [Test]
         public async System.Threading.Tasks.Task InverseQuery()
@@ -217,7 +217,7 @@ namespace Examples
                 realm.Add(task2);
             });
 
-            // :code-block-start: inverse-query
+            // :snippet-start: inverse-query
             // :replace-start: {
             //  "terms": {
             //   "UserTwo": "User",
@@ -231,7 +231,7 @@ namespace Examples
                 Console.WriteLine(u.Name);
             }
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(1, oscillatorAssignees.Count());
             Assert.AreEqual("Katie", oscillatorAssignees[0].Name, "matches");
             return;

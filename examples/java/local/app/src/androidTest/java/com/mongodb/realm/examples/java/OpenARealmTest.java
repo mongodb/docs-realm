@@ -16,7 +16,7 @@ public class OpenARealmTest extends RealmTest {
     public void testOpenAndCloseARealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: open-a-realm-local
+            // :snippet-start: open-a-realm-local
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
@@ -30,11 +30,11 @@ public class OpenARealmTest extends RealmTest {
                 Log.v("EXAMPLE", "Error opening the realm.");
                 Log.v("EXAMPLE", ex.toString());
             }
-            // :code-block-end:
+            // :snippet-end:
             realm = Realm.getInstance(config);
-            // :code-block-start: close-a-realm-local
+            // :snippet-start: close-a-realm-local
             realm.close();
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
         });
         expectation.await();
@@ -44,7 +44,7 @@ public class OpenARealmTest extends RealmTest {
     public void configureARealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: configure-a-realm-local
+            // :snippet-start: configure-a-realm-local
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .name("alternate-realm")
                     .allowQueriesOnUiThread(true)
@@ -54,7 +54,7 @@ public class OpenARealmTest extends RealmTest {
 
             Realm realm = Realm.getInstance(config);
             Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -66,7 +66,7 @@ public class OpenARealmTest extends RealmTest {
     public void setAndUseDefaultRealm() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: set-default-realm
+            // :snippet-start: set-default-realm
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .name("default-realm")
                     .allowQueriesOnUiThread(true)
@@ -76,12 +76,12 @@ public class OpenARealmTest extends RealmTest {
                     .build();
             // set this config as the default realm
             Realm.setDefaultConfiguration(config); // :emphasize:
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: use-default-realm
+            // :snippet-start: use-default-realm
             Realm realm = Realm.getDefaultInstance();
             Log.v("EXAMPLE","Successfully opened the default realm at: " + realm.getPath());
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });

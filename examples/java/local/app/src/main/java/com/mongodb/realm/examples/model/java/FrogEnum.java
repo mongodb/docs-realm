@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogEnum": "Frog"
@@ -33,4 +33,4 @@ public class FrogEnum extends RealmObject {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

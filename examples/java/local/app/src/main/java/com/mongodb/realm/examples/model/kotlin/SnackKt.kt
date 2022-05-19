@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "SnackKt": "Snack"
@@ -11,4 +11,4 @@ open class SnackKt : RealmObject() {
     var name: String? = null
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

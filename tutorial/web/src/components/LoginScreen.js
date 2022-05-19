@@ -29,7 +29,7 @@ export default function LoginScreen() {
   }, [mode]);
 
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
-  // :code-block-start: handleLogin
+  // :snippet-start: handleLogin
   const handleLogin = async () => {
     setIsLoggingIn(true);
     setError((e) => ({ ...e, password: null }));
@@ -43,9 +43,9 @@ export default function LoginScreen() {
       handleAuthenticationError(err, setError);
     }
   };
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: handleRegistrationAndLogin
+  // :snippet-start: handleRegistrationAndLogin
   const handleRegistrationAndLogin = async () => {
     const isValidEmailAddress = validator.isEmail(email);
     setError((e) => ({ ...e, password: null }));
@@ -65,7 +65,7 @@ export default function LoginScreen() {
       setError((err) => ({ ...err, email: "Email is invalid." }));
     }
   };
-  // :code-block-end:
+  // :snippet-end:
 
   return (
     <Container>

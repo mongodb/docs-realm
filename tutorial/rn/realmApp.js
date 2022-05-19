@@ -1,7 +1,7 @@
 import Realm from "realm";
 
 
-// :code-block-start: instantiate-realm-app
+// :snippet-start: instantiate-realm-app
 // Invokes the shared instance of the Realm app.
 // :state-start: final
 // :replace-start: {
@@ -12,6 +12,6 @@ const app = new Realm.App({id: "tasktracker-qczfq"}); // Set Realm app ID here.
 // :state-end: :state-uncomment-start: start
 //// TODO: Create a Realm App instance with your Realm app ID.
 // :state-uncomment-end:
-// :code-block-end:
+// :snippet-end:
 export default app;
 

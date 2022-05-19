@@ -48,7 +48,7 @@ public class RealmObjectVsRealmModelTest extends RealmTest {
             });
             FrogObjectExample frogRealmObject = frogRealmObjectRef.get();
             FrogRealmModelExample frogRealmModel = frogRealmModelRef.get();
-            // :code-block-start: realm-object-vs-realm-model
+            // :snippet-start: realm-object-vs-realm-model
             // With RealmObject
             frogRealmObject.isValid();
             frogRealmObject.addChangeListener(listener);
@@ -56,7 +56,7 @@ public class RealmObjectVsRealmModelTest extends RealmTest {
             // With RealmModel
             RealmObject.isValid(frogRealmModel);
             RealmObject.addChangeListener(frogRealmModel, listener);
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });

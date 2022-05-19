@@ -74,7 +74,7 @@ describe("Realm Query Language Reference", () => {
     const tasks = realm.objects("Task");
 
     const highPriorityTasks = tasks.filtered(
-      // :code-block-start: comparison-operators
+      // :snippet-start: comparison-operators
       "priority > 5"
       // :hide-start:
     );
@@ -100,7 +100,7 @@ describe("Realm Query Language Reference", () => {
       // :hide-end:
 
       "progressMinutes BETWEEN { 30,60 }"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(progressMinutesRange.length).toBe(1);
   });
@@ -110,13 +110,13 @@ describe("Realm Query Language Reference", () => {
     const projects = realm.objects("Project");
 
     const aliComplete = tasks.filtered(
-      // :code-block-start: logical-operators
+      // :snippet-start: logical-operators
       "assignee == 'Ali' AND isComplete == true"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(aliComplete.length).toBe(0);
 
-    // :code-block-start: string-operators
+    // :snippet-start: string-operators
     // :hide-start:
     const startWithE = projects.filtered(
       // :hide-end:
@@ -129,7 +129,7 @@ describe("Realm Query Language Reference", () => {
       // :hide-end:
 
       "name CONTAINS 'ie'"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(containIe.length).toBe(0);
   });
@@ -137,7 +137,7 @@ describe("Realm Query Language Reference", () => {
   test("aggregate queries", () => {
     const projects = realm.objects("Project");
     const averageTaskPriorityAbove5 = projects.filtered(
-      // :code-block-start: aggregate-operators
+      // :snippet-start: aggregate-operators
       "tasks.@avg.priority > 5"
       // :hide-start:
     );
@@ -171,7 +171,7 @@ describe("Realm Query Language Reference", () => {
       // :hide-end:
 
       "tasks.@sum.progressMinutes > 100"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(longRunningProjects.length).toBe(1);
   });
@@ -179,7 +179,7 @@ describe("Realm Query Language Reference", () => {
   test("collection queries", () => {
     const projects = realm.objects("Project");
     const noCompleteTasks = projects.filtered(
-      // :code-block-start: set-operators
+      // :snippet-start: set-operators
       "NONE tasks.isComplete == true"
       // :hide-start:
     );
@@ -189,7 +189,7 @@ describe("Realm Query Language Reference", () => {
       // :hide-end:
 
       "ANY tasks.priority == 10"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(anyTopPriorityTasks.length).toBe(1);
   });
@@ -198,9 +198,9 @@ describe("Realm Query Language Reference", () => {
     const tasks = realm.objects("Task");
 
     const sortedUniqueAliTasks = tasks.filtered(
-      // :code-block-start: sort-distinct-limit
+      // :snippet-start: sort-distinct-limit
       "assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(sortedUniqueAliTasks.length).toBe(1);
   });
@@ -237,7 +237,7 @@ describe("Realm Query Language Reference", () => {
     });
     const projects = realm.objects("Project");
     const subquery = projects.filtered(
-      // :code-block-start: subquery
+      // :snippet-start: subquery
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
       // :hide-start:
     );
@@ -248,7 +248,7 @@ describe("Realm Query Language Reference", () => {
       // :hide-end:
 
       "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(subquery2.length).toBe(1);
     expect(subquery2[0].name).toBe("Project with Quota");
@@ -258,10 +258,10 @@ describe("Realm Query Language Reference", () => {
     const tasks = realm.objects("Task");
 
     const substitution = tasks.filtered(
-      // :code-block-start: predicate
+      // :snippet-start: predicate
       "progressMinutes > 1 AND assignee == $0",
       "Ali"
-      // :code-block-end:
+      // :snippet-end:
     );
     expect(substitution.length).toBe(1);
   });

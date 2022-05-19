@@ -1,4 +1,4 @@
-// :code-block-start: unit-test-activity
+// :snippet-start: unit-test-activity
 package com.mongodb.realm.examples.java;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,4 +136,4 @@ public class UnitTestActivity extends AppCompatActivity {
         return status;
     }
 }
-// :code-block-end:
+// :snippet-end:

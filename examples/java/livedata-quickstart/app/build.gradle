@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-// :code-block-start: databinding-enable
+// :snippet-start: databinding-enable
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -39,17 +39,17 @@ android {
         jvmTarget = '1.8'
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: sync-enable
+// :snippet-start: sync-enable
 // :hide-start:
 realm {
     syncEnabled = true
 }
 // :hide-end:
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: livedata-dependency
+// :snippet-start: livedata-dependency
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -67,4 +67,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
-// :code-block-end:
+// :snippet-end:

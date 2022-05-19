@@ -53,15 +53,15 @@ namespace RealmDotnetTutorial
                 var syncConfig = new SyncConfiguration(
                     $"user={ App.RealmApp.CurrentUser.Id }",
                     App.RealmApp.CurrentUser);
-                // :code-block-start:user-realm-config
+                // :snippet-start:user-realm-config
                 // :state-start: final
                 userRealm = await Realm.GetInstanceAsync(syncConfig);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: instatiate the userRealm by calling GetInstanceAsync
                 //// userRealm = await ...
                 // :state-uncomment-end:
-                // :code-block-end:
-                // :code-block-start:find-user
+                // :snippet-end:
+                // :snippet-start:find-user
                 // :state-start: final
                 user = userRealm.Find<User>(App.RealmApp.CurrentUser.Id);
                 // :state-end: :state-uncomment-start: start
@@ -70,7 +70,7 @@ namespace RealmDotnetTutorial
                 //// find the user by passing the ID to userRealm.Find<User>().
                 //// user = ...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
 
                 if (user == null && !Constants.AlreadyWarnedAboutBackendSetup)
                 {

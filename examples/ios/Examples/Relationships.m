@@ -8,7 +8,7 @@
 #import <XCTest/XCTest.h>
 #import <Realm/Realm.h>
 
-// :code-block-start: inverse-relationship
+// :snippet-start: inverse-relationship
 // InverseRelationshipObjcExample_Task.h
 @interface InverseRelationshipObjcExample_Task : RLMObject
 @property NSString *description;
@@ -40,9 +40,9 @@ RLM_ARRAY_TYPE(InverseRelationshipObjcExample_Task)
 @implementation InverseRelationshipObjcExample_User
 @end
 
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: to-many-relationship
+// :snippet-start: to-many-relationship
 // ToManyObjcExample_Dog.h
 @interface ToManyObjcExample_Dog : RLMObject
 @property NSString *name;
@@ -67,9 +67,9 @@ RLM_ARRAY_TYPE(ToManyObjcExample_Dog)
 // ToManyObjcExample_Person.m
 @implementation ToManyObjcExample_Person
 @end
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: to-one-relationship
+// :snippet-start: to-one-relationship
 // ToOneRelationshipObjc_Dog.h
 @interface ToOneRelationshipObjc_Dog : RLMObject
 @property NSString *name;
@@ -94,7 +94,7 @@ RLM_ARRAY_TYPE(ToOneRelationshipObjc_Dog)
 // ToOneRelationshipObjc_Person.m
 @implementation ToOneRelationshipObjc_Person
 @end
-// :code-block-end:
+// :snippet-end:
 
 @interface RelationshipsObjc : XCTestCase
 @end

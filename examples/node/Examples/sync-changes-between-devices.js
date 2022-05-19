@@ -16,7 +16,7 @@ describe("Sync Changes Between Devices", () => {
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
-    // :code-block-start: sync-changes-between-devices-perform-a-client-reset
+    // :snippet-start: sync-changes-between-devices-perform-a-client-reset
     let realm = await Realm.open(config);
     function errorSync(_session, error) {
       if (realm) {
@@ -45,7 +45,7 @@ describe("Sync Changes Between Devices", () => {
         error: errorSync,
       },
     };
-    // :code-block-end:
+    // :snippet-end:
     expect(1).toBe(2);
     realm.close();
   });
@@ -56,7 +56,7 @@ describe("Sync Changes Between Devices", () => {
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
-    // :code-block-start: sync-changes-between-devices-pause-or-resume-sync-session
+    // :snippet-start: sync-changes-between-devices-pause-or-resume-sync-session
     const OpenRealmBehaviorConfiguration = {
       type: "openImmediately",
     };
@@ -82,7 +82,7 @@ describe("Sync Changes Between Devices", () => {
     syncSession.pause();
     // Later, resume synchronization
     syncSession.resume();
-    // :code-block-end:
+    // :snippet-end:
     expect(timesConnectionStateHasChanged).toBe(2); // connection state should've changed once for pausing and once for resuming
     realm.close();
   });
@@ -93,7 +93,7 @@ describe("Sync Changes Between Devices", () => {
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
-    // :code-block-start: sync-changes-between-devices-check-network-connection
+    // :snippet-start: sync-changes-between-devices-check-network-connection
     var config = {
       schema: [DogSchema], // predefined schema
       sync: {
@@ -104,7 +104,7 @@ describe("Sync Changes Between Devices", () => {
     let realm = await Realm.open(config);
     const syncSession = realm.syncSession;
     const connectionState = syncSession.connectionState();
-    // :code-block-end:
+    // :snippet-end:
     expect(["Disconnected", "Connecting", "Connected"]).toContain(
       connectionState
     );
@@ -117,7 +117,7 @@ describe("Sync Changes Between Devices", () => {
     const app = new Realm.App({ id: "<Your App ID>" });
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
-    // :code-block-start: sync-changes-between-devices-check-upload-and-download-progress
+    // :snippet-start: sync-changes-between-devices-check-upload-and-download-progress
     const OpenRealmBehaviorConfiguration = {
       type: "openImmediately",
     };
@@ -161,7 +161,7 @@ describe("Sync Changes Between Devices", () => {
       console.log(`There was ${transferable} total transferable bytes`);
       console.log(`${transferred} bytes were transferred`);
     });
-    // :code-block-end:
+    // :snippet-end:
     expect(progressNotificationHasBeenTriggered).toBe(true);
     // Delete the dog from the realm.
     realm.write(() => {
@@ -174,13 +174,13 @@ describe("Sync Changes Between Devices", () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
 
-    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
+    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject
     const OpenRealmBehaviorConfiguration = {
       type: "openImmediately",
     };
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-create-config
+    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-create-config
     const config = {
       schema: [DogSchema], // predefined schema
       sync: {
@@ -193,11 +193,11 @@ describe("Sync Changes Between Devices", () => {
         existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
       },
     };
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: sync-changes-between-devices-sync-changes-in-the-background-open-realm
+    // :snippet-start: sync-changes-between-devices-sync-changes-in-the-background-open-realm
     const realm = await Realm.open(config);
-    // :code-block-end:
+    // :snippet-end:
 
     // you can test that a realm has been open in general (but not if a realm has been open with a specific path or config)
     expect(realm).toBe(new Realm(config));
@@ -207,7 +207,7 @@ describe("Sync Changes Between Devices", () => {
     const credentials = Realm.Credentials.anonymous();
     await app.logIn(credentials);
 
-    // :code-block-start: sync-changes-between-devices-handle-sync-errors
+    // :snippet-start: sync-changes-between-devices-handle-sync-errors
     var config = {
       schema: [DogSchema], // predefined schema
       sync: {
@@ -221,6 +221,6 @@ describe("Sync Changes Between Devices", () => {
       },
     };
     const realm = await Realm.open(config);
-    // :code-block-end:
+    // :snippet-end:
   });
 });

@@ -64,12 +64,12 @@ public class ScoreCardManager : MonoBehaviour
         // TODO: Create a listener that reacts to changes to the currentStat and
         // calls UpdateCurrentStats() to update the UI when stats are changed
         // :state-end:
-        // :code-block-start: watch-for-changes-stat-propery-changed
+        // :snippet-start: watch-for-changes-stat-propery-changed
         // :state-start: local sync
         propertyHandler = new PropertyChangedEventHandler((sender, e) => UpdateCurrentStats());
         currentStat.PropertyChanged += propertyHandler;
         // :state-end:
-        // :code-block-end:
+        // :snippet-end:
     }
     #endregion
 

@@ -36,7 +36,7 @@ class ProjectActivity : AppCompatActivity() {
             // if no user is currently logged in, start the login activity so the user can authenticate
             startActivity(Intent(this, LoginActivity::class.java))
         } else {
-            // :code-block-start: set-up-user-realm
+            // :snippet-start: set-up-user-realm
             // :state-start: final
             // configure realm to use the current user and the partition corresponding to the user's project
             val config = SyncConfiguration.Builder(user!!, "user=${user!!.id}")
@@ -53,7 +53,7 @@ class ProjectActivity : AppCompatActivity() {
             // :state-end: :state-uncomment-start: start
             //// TODO: initialize a connection to a realm containing the user's User object
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 
@@ -63,7 +63,7 @@ class ProjectActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.project_list)
     }
 
-    // :code-block-start: on-stop-close-realm
+    // :snippet-start: on-stop-close-realm
     // :state-start: final
     override fun onStop() {
         super.onStop()
@@ -74,9 +74,9 @@ class ProjectActivity : AppCompatActivity() {
     // :state-end: :state-uncomment-start: start
     //// TODO: always ensure that the user realm closes when the activity ends via the onStop lifecycle method
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: on-destroy-close-realm
+    // :snippet-start: on-destroy-close-realm
     // :state-start: final
     override fun onDestroy() {
         super.onDestroy()
@@ -86,7 +86,7 @@ class ProjectActivity : AppCompatActivity() {
     // :state-end: :state-uncomment-start: start
     //// TODO: always ensure that the user realm closes when the activity ends via the onDestroy lifecycle method
     // :state-uncomment-end:
-    // :code-block-end:
+    // :snippet-end:
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_task_menu, menu)
@@ -115,7 +115,7 @@ class ProjectActivity : AppCompatActivity() {
 
     private fun getProjects(realm: Realm): RealmList<Project> {
         // query for a user object in our user realm, which should only contain our user object
-        // :code-block-start: fetch-synced-user-safely
+        // :snippet-start: fetch-synced-user-safely
         // :state-start: final
         val syncedUsers : RealmResults<User> = realm.where<User>().sort("id").findAll()
         val syncedUser : User? = syncedUsers.getOrNull(0) // since there might be no user objects in the results, default to "null"
@@ -123,7 +123,7 @@ class ProjectActivity : AppCompatActivity() {
         //// TODO: query the realm to get a copy of the currently logged in user's User object (or null, if the trigger didn't create it yet)
         //var syncedUser : User? = null
         // :state-uncomment-end:
-        // :code-block-end:
+        // :snippet-end:
         // if a user object exists, create the recycler view and the corresponding adapter
         if (syncedUser != null) {
             return syncedUser.memberOf
@@ -132,7 +132,7 @@ class ProjectActivity : AppCompatActivity() {
             // if the user object doesn't yet exist (that is, if there are no users in the user realm), call this function again when it is created
             Log.i(TAG(), "User object not yet initialized, only showing default user project until initialization.")
             // change listener on a query for our user object lets us know when the user object has been created by the auth trigger
-            // :code-block-start: user-init-change-listener
+            // :snippet-start: user-init-change-listener
             // :state-start: final
             val changeListener =
                 OrderedRealmCollectionChangeListener<RealmResults<User>> { results, changeSet ->
@@ -143,7 +143,7 @@ class ProjectActivity : AppCompatActivity() {
             // :state-end: :state-uncomment-start: start
             //// TODO: set up a change listener that will set up the recycler view once our trigger initializes the user's User object
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
 
             // user should have a personal project no matter what, so create it if it doesn't already exist
             // RealmRecyclerAdapters only work on managed objects,

@@ -6,7 +6,7 @@ using Realms.Sync;
 
 namespace Examples
 {
-    // :code-block-start: decimal128
+    // :snippet-start: decimal128
     public class MyClassWithDecimals
     {
         [PrimaryKey]
@@ -44,5 +44,5 @@ namespace Examples
 
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

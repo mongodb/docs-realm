@@ -10,7 +10,7 @@ namespace Examples
 
         public async Task Compacts()
         {
-            // :code-block-start:config-compact
+            // :snippet-start:config-compact
             config = new RealmConfiguration()
             {
                 ShouldCompactOnLaunch = (totalBytes, usedBytes) =>
@@ -31,12 +31,12 @@ namespace Examples
                 }
             };
             var realm = await Realm.GetInstanceAsync(config);
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start:manual-compact
+            // :snippet-start:manual-compact
             config = new RealmConfiguration("my.realm");
             Realm.Compact(config);
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

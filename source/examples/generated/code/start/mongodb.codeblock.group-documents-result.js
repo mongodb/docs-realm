@@ -8,7 +8,7 @@
 
 test("Project Document Fields", async () => {
   const plants = await getPlantsCollection();
-  // :code-block-start: project-document-fields
+  // :snippet-start: project-document-fields
   const result = await plants.aggregate([
     {
       $project: {

@@ -10,7 +10,7 @@
 - (void)testRegisterNewAccount {
     XCTestExpectation *expectation = [self expectationWithDescription:@"register completes"];
 
-    // :code-block-start: register-email-objc
+    // :snippet-start: register-email-objc
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
     NSString *email = @"skroob2@example.com";
@@ -29,7 +29,7 @@
         [expectation fulfill];
         // :hide-end:   
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];
@@ -38,7 +38,7 @@
 - (void)testConfirmNewUserEmail {
     XCTestExpectation *expectation = [self expectationWithDescription:@"confirmation completes"];
 
-    // :code-block-start: confirm-new-user-email-objc
+    // :snippet-start: confirm-new-user-email-objc
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 
@@ -59,7 +59,7 @@
        // User confirmed
        NSLog(@"Successfully confirmed user.");
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];
@@ -68,7 +68,7 @@
 - (void)testResetPasswordObjc {
     XCTestExpectation *expectation = [self expectationWithDescription:@"send reset email completes"];
 
-    // :code-block-start: reset-password-objc
+    // :snippet-start: reset-password-objc
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     RLMEmailPasswordAuth *client = [app emailPasswordAuth];
 
@@ -116,7 +116,7 @@
         NSLog(@"Successfully reset password.");
     }];
     
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];

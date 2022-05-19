@@ -9,12 +9,12 @@ namespace Examples
 
         public void TestsCustomSetter()
         {
-            // :code-block-start: pause-synced-realm
+            // :snippet-start: pause-synced-realm
             var session = realm.SyncSession;
             session.Stop();
             //later...
             session.Start();
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

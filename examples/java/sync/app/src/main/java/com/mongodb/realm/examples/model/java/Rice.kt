@@ -1,6 +1,6 @@
 package com.mongodb.realm.examples.model.java
 
-// :code-block-start: rice-kotlin-definition
+// :snippet-start: rice-kotlin-definition
 import io.realm.DynamicRealmObject
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -34,4 +34,4 @@ open class Rice : RealmObject {
         lastUpdated = obj.getLong("lastUpdated")
     }
 }
-// :code-block-end:
+// :snippet-end:

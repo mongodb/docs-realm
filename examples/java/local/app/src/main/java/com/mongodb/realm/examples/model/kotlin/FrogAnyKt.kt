@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogAnyKt": "Frog"
@@ -35,4 +35,4 @@ open class FrogAnyKt(var bestFriend: RealmAny? = RealmAny.nullValue()) : RealmOb
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

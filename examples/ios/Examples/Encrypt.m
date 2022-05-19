@@ -9,7 +9,7 @@
 @implementation EncryptObjc
 
 - (void)testEncrypt {
-    // :code-block-start: encrypt
+    // :snippet-start: encrypt
     // Generate a random encryption key
     NSMutableData *key = [NSMutableData dataWithLength:64];
     (void)SecRandomCopyBytes(kSecRandomDefault, key.length, (uint8_t *)key.mutableBytes);
@@ -31,7 +31,7 @@
     } else {
         // Use the realm as normal...
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

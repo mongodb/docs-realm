@@ -35,14 +35,14 @@ namespace RealmDotnetTutorial
             {
                 var syncConfig = new SyncConfiguration(projectPartition, App.RealmApp.CurrentUser);
 
-                // :code-block-start:task-realm-config
+                // :snippet-start:task-realm-config
                 // :state-start: final
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
                 // :state-end: :state-uncomment-start: start
                 //// TODO: instatiate the taskRealm by calling GetInstanceAsync
                 //// taskRealm = await ...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
                 SetUpTaskList();
             }
             catch (Exception ex)
@@ -55,14 +55,14 @@ namespace RealmDotnetTutorial
         private void SetUpTaskList()
         {
             WaitingLayout.IsVisible = true;
-            // :code-block-start:setup-tasks
+            // :snippet-start:setup-tasks
             // :state-start: final
             _tasks = new ObservableCollection<Task>(taskRealm.All<Task>().ToList());
             // :state-end: :state-uncomment-start: start
             //// TODO: populate the _tasks collection with all tasks in the taskRealm.
             //// _tasks = new ...
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
             listTasks.ItemsSource = MyTasks;
             WaitingLayout.IsVisible = false;
         }
@@ -96,7 +96,7 @@ namespace RealmDotnetTutorial
                 taskRealm = await Realm.GetInstanceAsync(syncConfig);
             }
 
-            // :code-block-start:new-task
+            // :snippet-start:new-task
             // :state-start: final
             var newTask = new Task()
             {
@@ -115,7 +115,7 @@ namespace RealmDotnetTutorial
             //// Then add the task to the taskRealm within a transaction.
             //// var newTask = ...
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
 
             MyTasks.Add(newTask);
         }

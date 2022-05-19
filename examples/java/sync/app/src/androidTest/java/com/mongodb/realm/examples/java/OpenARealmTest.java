@@ -34,7 +34,7 @@ public class OpenARealmTest extends RealmTest {
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
-                    // :code-block-start: allow-reads-writes-ui-thread
+                    // :snippet-start: allow-reads-writes-ui-thread
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
@@ -52,7 +52,7 @@ public class OpenARealmTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.getError().toString());
                 }
@@ -76,7 +76,7 @@ public class OpenARealmTest extends RealmTest {
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.");
-                    // :code-block-start: configure-a-realm
+                    // :snippet-start: configure-a-realm
                     SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .allowQueriesOnUiThread(true)
                             .allowWritesOnUiThread(true)
@@ -93,7 +93,7 @@ public class OpenARealmTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.getError().toString());
                 }

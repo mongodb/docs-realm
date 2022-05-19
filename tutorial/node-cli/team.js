@@ -3,7 +3,7 @@ const Realm = require("realm");
 const output = require("./output");
 const users = require("./users");
 
-// :code-block-start: getTeamMembers
+// :snippet-start: getTeamMembers
 exports.getTeamMembers = async () => {
   const currentUser = users.getAuthedUser();
   try {
@@ -18,9 +18,9 @@ exports.getTeamMembers = async () => {
     output.error(err.message);
   }
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: addTeamMember
+// :snippet-start: addTeamMember
 exports.addTeamMember = async () => {
   try {
     output.header("*** ADD A TEAM MEMBER ***");
@@ -43,9 +43,9 @@ exports.addTeamMember = async () => {
     output.error(err.message);
   }
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: removeTeamMember
+// :snippet-start: removeTeamMember
 exports.removeTeamMember = async () => {
   const currentUser = users.getAuthedUser();
   const teamMembers = await currentUser.functions.getMyTeamMembers();
@@ -73,4 +73,4 @@ exports.removeTeamMember = async () => {
     output.error(err.message);
   }
 };
-// :code-block-end:
+// :snippet-end:

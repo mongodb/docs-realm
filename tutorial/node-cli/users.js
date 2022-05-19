@@ -11,7 +11,7 @@ const appConfig = {
   timeout: 10000,
 };
 
-// :code-block-start: newRealmApp
+// :snippet-start: newRealmApp
 const app = new Realm.App(appConfig);
 /*  Change the logLevel to increase or decrease the
     amount of messages you see in the console.
@@ -20,9 +20,9 @@ const app = new Realm.App(appConfig);
 */
 Realm.App.Sync.setLogLevel(app, "error");
 
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: userLogin
+// :snippet-start: userLogin
 async function logIn() {
   const input = await inquirer.prompt([
     {
@@ -68,7 +68,7 @@ async function logIn() {
     return logIn();
   }
 }
-// :code-block-end:
+// :snippet-end:
 
 async function registerUser() {
   output.header("WELCOME, NEW USER");

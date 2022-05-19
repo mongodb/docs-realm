@@ -20,12 +20,12 @@ namespace Examples
         [Test]
         public async Task HandleErrors()
         {
-            // :code-block-start: set-log-level
+            // :snippet-start: set-log-level
             Logger.LogLevel = LogLevel.Debug;
-            // :code-block-end:
+            // :snippet-end:
             
 
-            // :code-block-start: customize-logging-function
+            // :snippet-start: customize-logging-function
             // :uncomment-start:
             //using Realms.Logging;
             //Logger.LogLevel = LogLevel.All;
@@ -35,7 +35,7 @@ namespace Examples
             {
                 // Do something with the message
             });
-            // :code-block-end:
+            // :snippet-end:
             var appConfig = new AppConfiguration(myRealmAppId)
             {
                 DefaultRequestTimeout = TimeSpan.FromMilliseconds(1500)
@@ -49,7 +49,7 @@ namespace Examples
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
 
-            // :code-block-start: handle-errors
+            // :snippet-start: handle-errors
             Session.Error += (session, errorArgs) =>
             {
                 var sessionException = (SessionException)errorArgs.Exception;
@@ -71,7 +71,7 @@ namespace Examples
                         // ...
                 }
             };
-            // :code-block-end:
+            // :snippet-end:
             TestingExtensions.SimulateError(realm.SyncSession,
             ErrorCode.PermissionDenied, "No permission to work with the Realm", false);
 

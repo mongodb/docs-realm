@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: project
+// :snippet-start: project
 
 import org.bson.types.ObjectId;
 
@@ -19,4 +19,4 @@ public class Project extends RealmObject {
     public String name;
     public RealmList<ProjectTask> tasks = new RealmList<>();
 }
-// :code-block-end:
+// :snippet-end:

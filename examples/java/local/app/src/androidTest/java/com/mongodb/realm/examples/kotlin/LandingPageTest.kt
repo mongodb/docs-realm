@@ -17,7 +17,7 @@ class LandingPageTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: query
+            // :snippet-start: query
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
@@ -39,7 +39,7 @@ class LandingPageTest : RealmTest() {
                 frogsQuery.isNull("owner").count()
             Log.i("EXAMPLE",
                 "Frogs without owners: $numFrogsWithoutOwners")
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }
@@ -51,7 +51,7 @@ class LandingPageTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: update
+            // :snippet-start: update
             val config =
                 RealmConfiguration.Builder()
                     // :hide-start:
@@ -81,7 +81,7 @@ class LandingPageTest : RealmTest() {
                 // :hide-end:
             } // when the transaction completes, the frog's name and species
             // are updated in the database
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -91,7 +91,7 @@ class LandingPageTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: notifications
+            // :snippet-start: notifications
             // configure and open a local realm
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
@@ -131,7 +131,7 @@ class LandingPageTest : RealmTest() {
 
             // update the frog
             realm.executeTransaction { frog?.name = "Ronald" }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -141,7 +141,7 @@ class LandingPageTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: live-objects
+            // :snippet-start: live-objects
             // configure and open a local realm
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
@@ -177,7 +177,7 @@ class LandingPageTest : RealmTest() {
             realmB.executeTransaction { frogB?.age = 10 }
             // frog A instance automatically updates with the new age
             Assert.assertEquals(frogB?.age, frogA?.age)
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill()
         }
         expectation.await()

@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: potato-java-definition
+// :snippet-start: potato-java-definition
 // :replace-start: {
 //    "terms": {
 //       "PotatoJava": "Potato"
@@ -45,4 +45,4 @@ public class PotatoJava extends RealmObject {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

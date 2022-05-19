@@ -13,7 +13,7 @@ class OpenARealmTest : RealmTest() {
     fun testAllowReadsWritesOnUIThread() {
         val expectation : Expectation = Expectation()
         activity!!.runOnUiThread {
-            // :code-block-start: open-a-realm-local
+            // :snippet-start: open-a-realm-local
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
@@ -27,11 +27,11 @@ class OpenARealmTest : RealmTest() {
                 Log.v("EXAMPLE", "Error opening the realm.")
                 Log.v("EXAMPLE", ex.toString())
             }
-            // :code-block-end:
+            // :snippet-end:
             realm = Realm.getInstance(config)
-            // :code-block-start: close-a-realm-local
+            // :snippet-start: close-a-realm-local
             realm.close()
-            // :code-block-end:
+            // :snippet-end:
 
             expectation.fulfill()
         }
@@ -42,7 +42,7 @@ class OpenARealmTest : RealmTest() {
     fun configureARealm() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
-            // :code-block-start: configure-a-realm-local
+            // :snippet-start: configure-a-realm-local
             val config = RealmConfiguration.Builder()
                 .name("alternate-realm")
                 .allowQueriesOnUiThread(true)
@@ -51,7 +51,7 @@ class OpenARealmTest : RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             Log.v("EXAMPLE", "Successfully opened a realm at: ${realm.path}")
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }
@@ -62,7 +62,7 @@ class OpenARealmTest : RealmTest() {
     fun setAndUseDefaultRealm() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
-            // :code-block-start: set-default-realm
+            // :snippet-start: set-default-realm
             val config = RealmConfiguration.Builder()
                 .name("default-realm")
                 .allowQueriesOnUiThread(true)
@@ -72,12 +72,12 @@ class OpenARealmTest : RealmTest() {
                 .build()
             // set this config as the default realm
             Realm.setDefaultConfiguration(config) // :emphasize:
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: use-default-realm
+            // :snippet-start: use-default-realm
             val realm = Realm.getDefaultInstance()
             Log.v("EXAMPLE","Successfully opened the default realm at: ${realm.path}")
-            // :code-block-end:
+            // :snippet-end:
             realm.close()
             expectation.fulfill()
         }

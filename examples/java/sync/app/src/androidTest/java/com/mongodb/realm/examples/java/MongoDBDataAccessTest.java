@@ -45,7 +45,7 @@ public class MongoDBDataAccessTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: example-data
+                    // :snippet-start: example-data
                     User user = app.currentUser();
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
@@ -93,7 +93,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     // :hide-start:
                     expectation.fulfill();
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -113,7 +113,7 @@ public class MongoDBDataAccessTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: instantiate-a-mongodb-collection-handle
+                    // :snippet-start: instantiate-a-mongodb-collection-handle
                     User user = app.currentUser();
                     MongoClient mongoClient =
                             user.getMongoClient("mongodb-atlas");
@@ -130,7 +130,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     // :hide-start:
                     expectation.fulfill();
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -163,7 +163,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: insert-a-single-document
+                    // :snippet-start: insert-a-single-document
                     Plant plant = new Plant(
                             new ObjectId(),
                             "lily of the valley",
@@ -181,7 +181,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to insert documents with: " + task.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -214,7 +214,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: insert-multiple-documents
+                    // :snippet-start: insert-multiple-documents
                     List<Plant> plants  = Arrays.asList(
                             new Plant(new ObjectId(),
                                     "rhubarb",
@@ -245,7 +245,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to insert documents with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -278,7 +278,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: find-a-single-document
+                    // :snippet-start: find-a-single-document
                     Document queryFilter  = new Document("type", "perennial");
                     mongoCollection.findOne(queryFilter).getAsync(task -> {
                         if (task.isSuccess()) {
@@ -291,7 +291,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to find document with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -324,7 +324,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: find-multiple-documents
+                    // :snippet-start: find-multiple-documents
                     Document queryFilter  = new Document("_partition", "Store 42");
                     RealmResultTask<MongoCursor<Plant>> findTask = mongoCollection.find(queryFilter).iterator();
                     findTask.getAsync(task -> {
@@ -341,7 +341,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to find documents with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -374,7 +374,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: count-documents
+                    // :snippet-start: count-documents
                     mongoCollection.count().getAsync(task -> {
                         if (task.isSuccess()) {
                             long count = task.get();
@@ -388,7 +388,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to count documents with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -421,7 +421,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: update-a-single-document
+                    // :snippet-start: update-a-single-document
                     Document queryFilter = new Document("name", "petunia");
                     Document updateDocument = new Document("$set", new Document("sunlight", "partial"));
                     mongoCollection.updateOne(queryFilter, updateDocument).getAsync(task -> {
@@ -439,7 +439,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to update document with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -472,7 +472,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: update-multiple-documents
+                    // :snippet-start: update-multiple-documents
                     Document queryFilter = new Document("_partition", "Store 47");
                     Document updateDocument = new Document("$set", new Document("_partition", "Store 51"));
                     mongoCollection.updateMany(queryFilter, updateDocument).getAsync(task -> {
@@ -490,7 +490,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to update documents with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -523,7 +523,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: upsert-a-single-document
+                    // :snippet-start: upsert-a-single-document
                     Document queryFilter = new Document("sunlight", "full")
                             .append("type", "perennial")
                             .append("color", "green")
@@ -546,7 +546,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -579,7 +579,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: delete-a-single-document
+                    // :snippet-start: delete-a-single-document
                     Document queryFilter = new Document("color", "green");
                     mongoCollection.deleteOne(queryFilter).getAsync(task -> {
                         if (task.isSuccess()) {
@@ -596,7 +596,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to delete document with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -629,7 +629,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: delete-documents
+                    // :snippet-start: delete-documents
                     Document queryFilter = new Document("sunlight", "full")
                             .append("type", "annual");
                     mongoCollection.deleteMany(queryFilter).getAsync(task -> {
@@ -647,7 +647,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to delete documents with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -680,7 +680,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: watch-documents
+                    // :snippet-start: watch-documents
                     RealmEventStreamAsyncTask<Plant> watcher = mongoCollection.watchAsync();
                     watcher.get(result -> {
                         if (result.isSuccess()) {
@@ -710,7 +710,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             Log.e("EXAMPLE", "failed to insert document with: ", task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -743,7 +743,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     "plant-data-collection",
                                     Plant.class).withCodecRegistry(pojoCodecRegistry);
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: watch-documents-with-filter
+                    // :snippet-start: watch-documents-with-filter
                     RealmEventStreamAsyncTask<Plant> watcher = mongoCollection
                             .watchWithFilterAsync(new Document("fullDocument._partition", "Store 42"));
                     watcher.get(result -> {
@@ -786,7 +786,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -816,7 +816,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents-filter
+                    // :snippet-start: aggregate-documents-filter
                     // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$match",
@@ -845,7 +845,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -875,7 +875,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents-group
+                    // :snippet-start: aggregate-documents-group
                     // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$group", new Document("_id", "$type")
@@ -903,7 +903,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -933,7 +933,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents-project
+                    // :snippet-start: aggregate-documents-project
                     // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$project",
@@ -968,7 +968,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -998,7 +998,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE",
                             "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents-addfields
+                    // :snippet-start: aggregate-documents-addfields
                     // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$addFields",
@@ -1029,7 +1029,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -1058,7 +1058,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                     MongoCollection<Document> mongoCollection =
                             mongoDatabase.getCollection("plant-data-collection");
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle");
-                    // :code-block-start: aggregate-documents-unwind-arrays
+                    // :snippet-start: aggregate-documents-unwind-arrays
                     // create an aggregation pipeline
                     List<Document> pipeline = Arrays.asList(
                             new Document("$unwind", new Document("path", "$items")
@@ -1085,7 +1085,7 @@ public class MongoDBDataAccessTest extends RealmTest {
                                     task.getError());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }

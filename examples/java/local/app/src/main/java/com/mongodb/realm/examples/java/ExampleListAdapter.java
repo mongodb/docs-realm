@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "JavaItem": "Item"
@@ -70,4 +70,4 @@ class ExampleListAdapter extends RealmBaseAdapter<JavaItem> implements ListAdapt
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

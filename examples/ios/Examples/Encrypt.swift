@@ -3,7 +3,7 @@ import RealmSwift
 
 class Encrypt: XCTestCase {
     func testEncrypt() {
-        // :code-block-start: encrypt
+        // :snippet-start: encrypt
         // Generate a random encryption key
         var key = Data(count: 64)
         _ = key.withUnsafeMutableBytes { (pointer: UnsafeMutableRawBufferPointer) in
@@ -27,12 +27,12 @@ class Encrypt: XCTestCase {
             // If the encryption key is wrong, `error` will say that it's an invalid database
             fatalError("Error opening realm: \(error.localizedDescription)")
         }
-        // :code-block-end:
+        // :snippet-end:
         try! FileManager().removeItem(at: config.fileURL!)
     }
 
     func testStoreInKeychain() {
-        // :code-block-start: store-in-keychain
+        // :snippet-start: store-in-keychain
         // Retrieve the existing encryption key for the app if it exists or create a new one
         func getKey() -> Data {
             // Identifier for our keychain entry - should be unique for your application
@@ -99,12 +99,12 @@ class Encrypt: XCTestCase {
             // If the encryption key is wrong, `error` will say that it's an invalid database
             fatalError("Error opening realm: \(error)")
         }
-        // :code-block-end:
+        // :snippet-end:
         try! FileManager().removeItem(at: config.fileURL!)
     }
 
     func testBackgroundRefreshEncryption() {
-        // :code-block-start: background-app-refresh-encryption
+        // :snippet-start: background-app-refresh-encryption
         let realm = try! Realm()
 
         // Get the realm file's parent directory
@@ -113,6 +113,6 @@ class Encrypt: XCTestCase {
         // Disable file protection for this directory after the user has unlocked the device once
         try! FileManager.default.setAttributes([FileAttributeKey.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication],
                                                ofItemAtPath: folderPath)
-        // :code-block-end:
+        // :snippet-end:
     }
 }

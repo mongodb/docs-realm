@@ -34,7 +34,7 @@ namespace Examples
         {
             try
             {
-                // :code-block-start: callfunc
+                // :snippet-start: callfunc
                 var bsonValue = await
                     user.Functions.CallAsync("sum", 2, 40);
 
@@ -44,14 +44,14 @@ namespace Examples
                 // Or use the generic overloads to avoid casting the BsonValue:
                 sum = await
                    user.Functions.CallAsync<int>("sum", 2, 40);
-                // :code-block-end:
+                // :snippet-end:
                 Assert.AreEqual(42, sum);
-                // :code-block-start: callfuncWithPOCO
+                // :snippet-start: callfuncWithPOCO
                 var task = await user.Functions.CallAsync<MyClass>
                     ("getTask", "5f7f7638024a99f41a3c8de4");
 
                 var name = task.Name;
-                // :code-block-end:
+                // :snippet-end:
                 return;
             }
             catch (Exception) { }

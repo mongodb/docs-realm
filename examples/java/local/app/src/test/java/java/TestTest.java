@@ -1,5 +1,5 @@
 package java;
-// :code-block-start: test-unit-testing
+// :snippet-start: test-unit-testing
 import android.content.Context;
 
 import com.mongodb.realm.examples.java.UnitTestActivity;
@@ -43,19 +43,19 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-// :code-block-start: annotations
+// :snippet-start: annotations
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "jdk.internal.reflect.*", "androidx.*"})
 @SuppressStaticInitializationFor("io.realm.internal.Util")
 @PrepareForTest({Realm.class, RealmConfiguration.class, RealmQuery.class, RealmResults.class, RealmCore.class, RealmLog.class})
-// :code-block-end:
+// :snippet-end:
 public class TestTest {
-    // :code-block-start: bootstrap-powermock
+    // :snippet-start: bootstrap-powermock
     // bootstrap powermock
     @Rule
     public PowerMockRule rule = new PowerMockRule();
-    // :code-block-end:
+    // :snippet-end:
 
     // mocked realm SDK components for tests
     private Realm mockRealm;
@@ -63,7 +63,7 @@ public class TestTest {
 
     @Before
     public void setup() throws Exception {
-        // :code-block-start: mock-realm-components
+        // :snippet-start: mock-realm-components
         // set up realm SDK components to be mocked. The order of these matters
         mockStatic(RealmCore.class);
         mockStatic(RealmLog.class);
@@ -74,9 +74,9 @@ public class TestTest {
         // native code
         doNothing().when(RealmCore.class);
         RealmCore.loadLibrary(any(Context.class));
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: mock-a-realm
+        // :snippet-start: mock-a-realm
         // create the mocked realm
         final Realm mockRealm = mock(Realm.class);
         final RealmConfiguration mockRealmConfig = mock(RealmConfiguration.class);
@@ -84,7 +84,7 @@ public class TestTest {
         whenNew(RealmConfiguration.class).withAnyArguments().thenReturn(mockRealmConfig);
         // use this mock realm for all new default realms
         when(Realm.getDefaultInstance()).thenReturn(mockRealm);
-        // :code-block-end:
+        // :snippet-end:
 
         // any time we ask Realm to create a Cat, return a new instance.
         when(mockRealm.createObject(Cat.class)).thenReturn(new Cat());
@@ -182,4 +182,4 @@ public class TestTest {
         return mock(RealmResults.class);
     }
 }
-// :code-block-end:
+// :snippet-end:

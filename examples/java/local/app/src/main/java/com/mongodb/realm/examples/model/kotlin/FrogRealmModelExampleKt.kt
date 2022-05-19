@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogRealmModelExampleKt": "Frog"
@@ -25,4 +25,4 @@ open class FrogRealmModelExampleKt : RealmModel { // :emphasize:
     constructor() {} // :emphasize: // RealmObject subclasses must provide an empty constructor
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

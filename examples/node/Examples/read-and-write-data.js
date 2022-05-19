@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-// :code-block-start: read-and-write-data-schemas
+// :snippet-start: read-and-write-data-schemas
 const TaskSchema = {
   name: "Task",
   properties: {
@@ -34,7 +34,7 @@ const CatSchema = {
     name: "string",
   },
 };
-// :code-block-end:
+// :snippet-end:
 
 describe("Read & Write Data", () => {
   test("should find a specific object by primary key", async () => {
@@ -54,9 +54,9 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-data-object-for-primary-key
+    // :snippet-start: read-and-write-data-object-for-primary-key
     const myTask = realm.objectForPrimaryKey("Task", 12342245); // search for a realm object with a primary key that is an int.
-    // :code-block-end:
+    // :snippet-end:
 
     expect(myTask.name).toBe(task.name);
 
@@ -84,10 +84,10 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-data-query-an-object-type
+    // :snippet-start: read-and-write-data-query-an-object-type
     // Query realm for all instances of the "Task" type.
     const tasks = realm.objects("Task");
-    // :code-block-end:
+    // :snippet-end:
 
     expect(tasks[0].name).toBe(task.name);
 
@@ -127,7 +127,7 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-filter-queries
+    // :snippet-start: read-and-write-filter-queries
     // retrieve the set of Task objects
     const tasks = realm.objects("Task");
     // filter for tasks with a high priority
@@ -140,7 +140,7 @@ describe("Read & Write Data", () => {
       `Number of high priority tasks: ${highPriorityTasks.length} \n`,
       `Number of just-started or short-running tasks: ${lowProgressTasks.length}`
     );
-    // :code-block-end:
+    // :snippet-end:
 
     expect(highPriorityTasks[0].name).toBe(task.name); // expect that 'go grocery shopping' should be the first (and only) high priority
     expect(lowProgressTasks[0].name).toBe(task3.name); // expect that 'do the laundry' should be the first (and only) low progress task
@@ -207,7 +207,7 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-sorted-queries
+    // :snippet-start: read-and-write-sorted-queries
     // retrieve the set of Task objects
     const tasks = realm.objects("Task");
     // Sort tasks by name in ascending order
@@ -221,7 +221,7 @@ describe("Read & Write Data", () => {
     ]);
     // Sort dogs by dog's owner's name.
     let dogsByOwnersName = realm.objects("Dog").sorted("owner.name");
-    // :code-block-end:
+    // :snippet-end:
 
     // tasks sorted by name ascending
     expect(tasksByName.map((myTask) => myTask.name)).toStrictEqual([
@@ -282,7 +282,7 @@ describe("Read & Write Data", () => {
       path: "realm-files/myrealm2",
       schema: [DogSchema, PersonSchema],
     });
-    // :code-block-start: read-and-write-create-a-new-object
+    // :snippet-start: read-and-write-create-a-new-object
     // Declare the variable that will hold the dog instance.
     let dog;
     // Open a transaction.
@@ -291,7 +291,7 @@ describe("Read & Write Data", () => {
       dog = realm.create("Dog", { name: "Max", age: 5 });
     });
     // use newly created dog object
-    // :code-block-end:
+    // :snippet-end:
 
     const dogs = realm.objects("Dog");
 
@@ -315,7 +315,7 @@ describe("Read & Write Data", () => {
       dog = realm.create("Dog", { name: "Max", age: 2 });
     });
 
-    // :code-block-start: read-and-write-update-an-object
+    // :snippet-start: read-and-write-update-an-object
     // Open a transaction.
     realm.write(() => {
       // Get a dog to update.
@@ -325,7 +325,7 @@ describe("Read & Write Data", () => {
       dog.name = "Maximilian";
       dog.age += 1;
     });
-    // :code-block-end:
+    // :snippet-end:
 
     expect(dog.name).toBe("Maximilian");
     expect(dog.age).toBe(3);
@@ -343,7 +343,7 @@ describe("Read & Write Data", () => {
       schema: [DogSchema, PersonSchema],
     });
     let person;
-    // :code-block-start: read-and-write-upsert-an-object
+    // :snippet-start: read-and-write-upsert-an-object
     realm.write(() => {
       // Add a new person to the realm. Since nobody with ID 1234
       // has been added yet, this adds the instance to the realm.
@@ -367,7 +367,7 @@ describe("Read & Write Data", () => {
         "modified"
       );
     });
-    // :code-block-end:
+    // :snippet-end:
 
     // expect there to be a person age of 40, and name of Andy
     expect(person.name).toBe("Joseph");
@@ -402,7 +402,7 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-bulk-update
+    // :snippet-start: read-and-write-bulk-update
     realm.write(() => {
       // Create someone to take care of some dogs.
       const person = realm.create("Person", { name: "Ali" });
@@ -414,7 +414,7 @@ describe("Read & Write Data", () => {
         puppy.owner = person;
       }
     });
-    // :code-block-end:
+    // :snippet-end:
 
     // dog1 should not have an owner because only the dogs younger than 2 have been given an owner
     expect(dog1.owner).toBe(null);
@@ -446,14 +446,14 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-delete-object
+    // :snippet-start: read-and-write-delete-object
     realm.write(() => {
       // Delete the dog from the realm.
       realm.delete(dog);
       // Discard the reference.
       dog = null;
     });
-    // :code-block-end:
+    // :snippet-end:
 
     // there should be no dogs, since the only dog was deleted
     expect(realm.objects("Dog").length).toBe(0);
@@ -480,14 +480,14 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-delete-multiple-objects
+    // :snippet-start: read-and-write-delete-multiple-objects
     realm.write(() => {
       // Find dogs younger than 2 years old.
       const puppies = realm.objects("Dog").filtered("age < 2");
       // Delete the collection from the realm.
       realm.delete(puppies);
     });
-    // :code-block-end:
+    // :snippet-end:
 
     const dogs = realm.objects("Dog");
 
@@ -515,12 +515,12 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-delete-all-objects-of-a-specific-type
+    // :snippet-start: read-and-write-delete-all-objects-of-a-specific-type
     realm.write(() => {
       // Delete all instances of Cat from the realm.
       realm.delete(realm.objects("Cat"));
     });
-    // :code-block-end:
+    // :snippet-end:
 
     expect(realm.objects("Cat").length).toBe(0);
 
@@ -556,12 +556,12 @@ describe("Read & Write Data", () => {
       });
     });
 
-    // :code-block-start: read-and-write-delete-all
+    // :snippet-start: read-and-write-delete-all
     realm.write(() => {
       // Delete all objects from the realm.
       realm.deleteAll();
     });
-    // :code-block-end:
+    // :snippet-end:
 
     // there should be no objects, so the length of any objects will be 0.
     expect(realm.objects("Cat").length).toBe(0);

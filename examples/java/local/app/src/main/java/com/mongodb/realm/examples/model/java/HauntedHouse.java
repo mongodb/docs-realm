@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.MutableRealmInteger;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
@@ -10,4 +10,4 @@ public class HauntedHouse extends RealmObject {
     public HauntedHouse() {}
     public MutableRealmInteger getGhosts() { return ghosts; }
 }
-// :code-block-end:
+// :snippet-end:

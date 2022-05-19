@@ -25,7 +25,7 @@ class ClientReset: XCTestCase {
     }
 
     func testSpecifyClientResetMode() async {
-        // :code-block-start: client-reset-discard-changes-with-blocks
+        // :snippet-start: client-reset-discard-changes-with-blocks
         let beforeClientResetBlock: (Realm) -> Void = { before in
             // This block could be used to back-up a realm file, send reporting, etc.
         }
@@ -37,15 +37,15 @@ class ClientReset: XCTestCase {
         do {
             let app = App(id: YOUR_REALM_APP_ID)
             let user = try await app.login(credentials: Credentials.anonymous)
-            // :code-block-start: specify-client-reset-mode
+            // :snippet-start: specify-client-reset-mode
             // Specify the clientResetMode when you create the SyncConfiguration.
             // If you do not specify, this defaults to `.manual` mode.
             var configuration = user.configuration(partitionValue: "myPartition", clientResetMode: .discardLocal(beforeClientResetBlock, afterClientResetBlock))
-            // :code-block-end:
+            // :snippet-end:
         } catch {
             print("Error logging in user: \(error.localizedDescription)")
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

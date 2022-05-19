@@ -1,7 +1,7 @@
 package com.mongodb.realm.realmkmmapp
 
 class RQLTest: RealmTest() {
-    // :code-block-start: rql-examples
+    // :snippet-start: rql-examples
     class Task() {
         var id: Long = 0 // Kotlin SDK does not yet support ObjectId
         lateinit var name: String
@@ -17,5 +17,5 @@ class RQLTest: RealmTest() {
         lateinit var tasks: Array<Task>
         var quota: Int? = null
     }
-    // :code-block-end:
+    // :snippet-end:
 }

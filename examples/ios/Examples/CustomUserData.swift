@@ -6,7 +6,7 @@ class CustomUserData: XCTestCase {
     func testCreateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
-        // :code-block-start: create-custom-user-data
+        // :snippet-start: create-custom-user-data
         let appId = YOUR_REALM_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -36,14 +36,14 @@ class CustomUserData: XCTestCase {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testReadCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
-        // :code-block-start: read-custom-user-data
+        // :snippet-start: read-custom-user-data
         let appId = YOUR_REALM_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -71,14 +71,14 @@ class CustomUserData: XCTestCase {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testUpdateCustomUserData() {
         let expectation = XCTestExpectation(description: "it completes")
 
-        // :code-block-start: update-custom-user-data
+        // :snippet-start: update-custom-user-data
         let appId = YOUR_REALM_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -109,7 +109,7 @@ class CustomUserData: XCTestCase {
                 }
             }
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 

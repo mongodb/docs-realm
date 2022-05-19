@@ -22,7 +22,7 @@ class BundleTest : RealmTest() {
     fun copyARealmFile() {
         val expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: copy-a-realm-file
+            // :snippet-start: copy-a-realm-file
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(appID)
             val anonymousCredentials = Credentials.anonymous()
@@ -74,7 +74,7 @@ class BundleTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to authenticate: ${it.error}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await();
     }
@@ -83,7 +83,7 @@ class BundleTest : RealmTest() {
     fun useABundledRealmFile() {
         val expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: use-bundled-realm-file
+            // :snippet-start: use-bundled-realm-file
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(appID)
             val anonymousCredentials = Credentials.anonymous()
@@ -117,7 +117,7 @@ class BundleTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to authenticate: ${it.error}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }

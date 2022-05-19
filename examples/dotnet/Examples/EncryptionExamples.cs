@@ -10,7 +10,7 @@ namespace Examples
         //[Test]
         public void EncryptRealm()
         {
-            // :code-block-start: encrypt_a_realm
+            // :snippet-start: encrypt_a_realm
             // Check if we already have a key stored in the platform's secure storage.
             // If we don't, generate a new one:
             var encryptionKey = new byte[64];
@@ -27,7 +27,7 @@ namespace Examples
 
             // Open or create a realm with the encryption key.
             var realm = Realm.GetInstance(config);
-            // :code-block-end:
+            // :snippet-end:
             realm.Dispose();
             Realm.DeleteRealm(config);
         }

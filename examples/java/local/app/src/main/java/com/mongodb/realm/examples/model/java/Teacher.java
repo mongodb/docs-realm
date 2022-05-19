@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -19,4 +19,4 @@ public class Teacher extends RealmObject {
     public RealmList<Student> getStudents() { return students; }
     public void setStudents(RealmList<Student> students) { this.students = students; }
 }
-// :code-block-end:
+// :snippet-end:

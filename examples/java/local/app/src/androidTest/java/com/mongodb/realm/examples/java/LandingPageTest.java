@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.java;
-// :code-block-start: complete-landing-tests
+// :snippet-start: complete-landing-tests
 // :replace-start: {
 //    "terms": {
 //       "FrogJava": "Frog"
@@ -27,7 +27,7 @@ public class LandingPageTest extends RealmTest {
     public void testQuery() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: query
+            // :snippet-start: query
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
                     .allowWritesOnUiThread(true)
@@ -50,7 +50,7 @@ public class LandingPageTest extends RealmTest {
                     frogsQuery.isNull("owner").count();
             Log.i("EXAMPLE", "Frogs without owners: "
                     + numFrogsWithoutOwners);
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });
@@ -61,7 +61,7 @@ public class LandingPageTest extends RealmTest {
     public void testUpdate() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: update
+            // :snippet-start: update
             RealmConfiguration config = new RealmConfiguration.Builder()
                     // :hide-start:
                     .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
@@ -91,7 +91,7 @@ public class LandingPageTest extends RealmTest {
                 // :hide-end:
             }); // when the transaction completes, the frog's name and species
             // are updated in the database
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -100,7 +100,7 @@ public class LandingPageTest extends RealmTest {
     public void testNotifications() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: notifications
+            // :snippet-start: notifications
             // configure and open a local realm
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
@@ -143,7 +143,7 @@ public class LandingPageTest extends RealmTest {
                 frog.get().setName("Ronald");
             });
             // when the transaction completes, the listener logs that "Field 'name' changed."
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -153,7 +153,7 @@ public class LandingPageTest extends RealmTest {
     public void testLiveObjects() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: live-objects
+            // :snippet-start: live-objects
             // configure and open a local realm
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .allowQueriesOnUiThread(true)
@@ -189,11 +189,11 @@ public class LandingPageTest extends RealmTest {
             });
             // frog A instance automatically updates with the new age
             Assert.assertEquals(frogB.getAge(), frogA.getAge());
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
         });
         expectation.await();
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

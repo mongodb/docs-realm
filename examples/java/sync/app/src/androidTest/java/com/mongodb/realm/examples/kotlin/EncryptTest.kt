@@ -40,7 +40,7 @@ class EncryptTest : RealmTest() {
             app.loginAsync(credentials) {
                 if (it.isSuccess) {
                     val user = it.get()
-                    // :code-block-start: encrypt-basic
+                    // :snippet-start: encrypt-basic
                     // Generate a key
                     val key = ByteArray(64)
                     SecureRandom().nextBytes(key)
@@ -52,7 +52,7 @@ class EncryptTest : RealmTest() {
                     // :hide-start:
                     expectation.fulfill()
                     // :hide-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error}")
                 }
@@ -75,7 +75,7 @@ class EncryptTest : RealmTest() {
                 if (it.isSuccess) {
                     val user = it.get()
 
-                    // :code-block-start: read-and-write-encrypted-realm
+                    // :snippet-start: read-and-write-encrypted-realm
                     // use a new encryption key to write and read from a realm
                     val realmKey = getNewKey()
                     // use the key to configure a realm
@@ -118,7 +118,7 @@ class EncryptTest : RealmTest() {
                     Log.v("EXAMPLE", "generated id: " + id
                             + ", decrypted written frog id: " + frogDecrypt!!._id)
                     decryptedRealm.close()
-                    // :code-block-end:
+                    // :snippet-end:
                     expectation.fulfill()
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: " + it.error.errorMessage)
@@ -129,7 +129,7 @@ class EncryptTest : RealmTest() {
     }
 
 
-    // :code-block-start: encrypt-key
+    // :snippet-start: encrypt-key
     // Create a key to encrypt a realm and save it securely in the keystore
     fun getNewKey(): ByteArray {
         // open a connection to the android keystore
@@ -219,9 +219,9 @@ class EncryptTest : RealmTest() {
                 .apply()
         return realmKey // pass to a realm configuration via encryptionKey()
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: decrypt-key
+    // :snippet-start: decrypt-key
     // Access the encrypted key in the keystore, decrypt it with the secret,
     // and use it to open and read from the realm again
     fun getExistingKey(): ByteArray {
@@ -281,5 +281,5 @@ class EncryptTest : RealmTest() {
         }
         return decryptedKey // pass to a realm configuration via encryptionKey()
     }
-    // :code-block-end:
+    // :snippet-end:
 }

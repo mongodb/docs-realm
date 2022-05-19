@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.java;
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.OrderedCollectionChangeSet;
 
 import org.bson.types.ObjectId;
@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // :code-block-start: initialize-realm
+        // :snippet-start: initialize-realm
         Realm.init(this); // context, usually an Activity or Application
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: initialize-the-app
+        // :snippet-start: initialize-the-app
         // :hide-start:
         String appID = "example-testers-kvjdy"; // replace this with your App ID
         // :replace-with:
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         // :hide-end:
         app = new App(new AppConfiguration.Builder(appID)
             .build());
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: authenticate-a-user
+        // :snippet-start: authenticate-a-user
         Credentials credentials = Credentials.anonymous();
 
         app.loginAsync(credentials, result -> {
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
             }
         });
-        // :code-block-end:
+        // :snippet-end:
     }
 
     private void addChangeListenerToRealm(Realm realm) {
-        // :code-block-start: watch-for-changes
+        // :snippet-start: watch-for-changes
         // all tasks in the realm
         RealmResults<Task> tasks = uiThreadRealm.where(Task.class).findAllAsync();
 
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.v("QUICKSTART", "Updated range: " + range.startIndex + " to " + (range.startIndex + range.length - 1));                            }
             }
         });
-        // :code-block-end:
+        // :snippet-end:
     }
 
 
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         // the ui thread realm uses asynchronous transactions, so we can only safely close the realm
         // when the activity ends and we can safely assume that those transactions have completed
         uiThreadRealm.close();
-        // :code-block-start: log-out
+        // :snippet-start: log-out
         app.currentUser().logOutAsync(result -> {
             if (result.isSuccess()) {
                 Log.v("QUICKSTART", "Successfully logged out.");
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("QUICKSTART", "Failed to log out, error: " + result.getError());
             }
         });
-        // :code-block-end:
+        // :snippet-end:
     }
 
     public class BackgroundQuickStart implements Runnable {
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             String partitionValue = "My Project";
             SyncConfiguration config = new SyncConfiguration.Builder(
                     user,
@@ -155,27 +155,27 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
             Realm backgroundThreadRealm = Realm.getInstance(config);
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: create-object
+            // :snippet-start: create-object
             Task task = new Task("New Task");
             backgroundThreadRealm.executeTransaction (transactionRealm -> {
                 transactionRealm.insert(task);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: read-object
+            // :snippet-start: read-object
             // all tasks in the realm
             RealmResults<Task> tasks = backgroundThreadRealm.where(Task.class).findAll();
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: filter-collection
+            // :snippet-start: filter-collection
             // you can also filter a collection
             RealmResults<Task> tasksThatBeginWithN = tasks.where().beginsWith("name", "N").findAll();
             RealmResults<Task> openTasks = tasks.where().equalTo("status", TaskStatus.Open.name()).findAll();
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: update-object
+            // :snippet-start: update-object
             Task otherTask = tasks.get(0);
 
             // all modifications to a realm must happen inside of a write block
@@ -183,9 +183,9 @@ public class MainActivity extends AppCompatActivity {
                 Task innerOtherTask = transactionRealm.where(Task.class).equalTo("_id", otherTask.get_id()).findFirst();
                 innerOtherTask.setStatus(TaskStatus.Complete);
             });
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: delete-object
+            // :snippet-start: delete-object
             Task yetAnotherTask = tasks.get(0);
             ObjectId yetAnotherTaskId = yetAnotherTask.get_id();
             // all modifications to a realm must happen inside of a write block
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 Task innerYetAnotherTask = transactionRealm.where(Task.class).equalTo("_id", yetAnotherTaskId).findFirst();
                 innerYetAnotherTask.deleteFromRealm();
             });
-            // :code-block-end:
+            // :snippet-end:
 
             // because this background thread uses synchronous realm transactions, at this point all
             // transactions have completed and we can safely close the realm
@@ -201,4 +201,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-// :code-block-end:
+// :snippet-end:

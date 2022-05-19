@@ -1,7 +1,7 @@
 #import "MyRealmApp.h"
-// :code-block-start: import-realm
+// :snippet-start: import-realm
 #include <Realm/Realm.h>
-// :code-block-end:
+// :snippet-end:
 @implementation MyRealmApp
 
 + (RLMApp *)app {

@@ -9,7 +9,7 @@
 @implementation CompactingObjc
 
 - (void)testCompacting {
-    // :code-block-start: compacting
+    // :snippet-start: compacting
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     config.shouldCompactOnLaunch = ^BOOL(NSUInteger totalBytes, NSUInteger usedBytes) {
         // totalBytes refers to the size of the file on disk in bytes (data + free space)
@@ -26,7 +26,7 @@
     if (error) {
         // handle error compacting or opening Realm
     }
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

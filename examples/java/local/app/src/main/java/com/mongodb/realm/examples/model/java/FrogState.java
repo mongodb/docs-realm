@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 public enum FrogState {
     TADPOLE("Tadpole"),
     FROG("Frog"),
@@ -13,4 +13,4 @@ public enum FrogState {
         return state;
     }
 }
-// :code-block-end:
+// :snippet-end:

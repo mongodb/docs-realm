@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogInverseRelationshipExample": "Frog",
@@ -20,4 +20,4 @@ public class ToadInverseRelationshipExample extends RealmObject {
     public void setFrogFriends(RealmList<FrogInverseRelationshipExample> frogFriends) { this.frogFriends = frogFriends; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

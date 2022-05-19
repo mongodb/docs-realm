@@ -22,13 +22,13 @@ namespace RealmDotnetTutorial
 
         protected override void OnStart()
         {
-            // :code-block-start:open-realm
+            // :snippet-start:open-realm
             // :state-start: final
             RealmApp = Realms.Sync.App.Create(appId);
             //:state-end: :state-uncomment-start: start
             //// TODO: call Realms.Sync.App.Create()
             // :state-uncomment-end:
-            // :code-block-end:
+            // :snippet-end:
             if (App.RealmApp.CurrentUser == null)
             {
                 MainPage = new NavigationPage(new LoginPage());

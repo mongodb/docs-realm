@@ -48,7 +48,7 @@ public class NotificationsTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                            // :code-block-start: collection-notifications
+                            // :snippet-start: collection-notifications
                             RealmResults<Dog> dogs = realm.where(Dog.class).findAll();
                             // Set up the collection notification handler.
                             OrderedRealmCollectionChangeListener<RealmResults<Dog>> changeListener = (collection, changeSet) -> {
@@ -69,7 +69,7 @@ public class NotificationsTest extends RealmTest {
                             };
                             // Observe collection notifications.
                             dogs.addChangeListener(changeListener);
-                            // :code-block-end:
+                            // :snippet-end:
                             expectation.fulfill();
                         }
                     });
@@ -100,7 +100,7 @@ public class NotificationsTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm with reads and writes allowed on the UI thread.");
-                            // :code-block-start: object-notifications
+                            // :snippet-start: object-notifications
                             // Create a dog in the realm.
                             AtomicReference<Dog> dog = new AtomicReference<Dog>();
                             realm.executeTransaction(transactionRealm -> {
@@ -129,7 +129,7 @@ public class NotificationsTest extends RealmTest {
                             realm.executeTransaction(r -> {
                                 dog.get().setName("Wolfie"); // -> "Field 'name' was changed."
                             });
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     });
                 } else {

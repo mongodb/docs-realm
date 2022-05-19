@@ -32,7 +32,7 @@ namespace RealmDotnetTutorial
             var functionToCall = "getMyTeamMembers";
             try
             {
-                // :code-block-start:call-function-1
+                // :snippet-start:call-function-1
                 // :state-start: final
                 teamMembers = await App.RealmApp.CurrentUser.Functions
                     .CallAsync<List<User>>(functionToCall);
@@ -40,7 +40,7 @@ namespace RealmDotnetTutorial
                 //// TODO: Call the "getMyTeamMembers" to get all team members
                 //// teamMembers = await ...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
                 foreach (var member in teamMembers)
                 {
                     _members.Add(member);
@@ -70,7 +70,7 @@ namespace RealmDotnetTutorial
             var email = ((Button)sender).CommandParameter;
             try
             {
-                // :code-block-start:call-function-3
+                // :snippet-start:call-function-3
                 // :state-start: final
                 var result = await App.RealmApp.CurrentUser.Functions.CallAsync(functionToCall, email.ToString());
                 // :state-end: :state-uncomment-start: start
@@ -78,7 +78,7 @@ namespace RealmDotnetTutorial
                 //// function.
                 //// var result = await ...
                 // :state-uncomment-end:
-                // :code-block-end:
+                // :snippet-end:
                 await DisplayAlert("Remove User", result.ToString(), "OK");
                 listMembers.ItemsSource = Members;
             }
@@ -107,7 +107,7 @@ namespace RealmDotnetTutorial
             {
                 try
                 {
-                    // :code-block-start:call-function-2
+                    // :snippet-start:call-function-2
                     // :state-start: final
                     var functionResult = await App.RealmApp.CurrentUser.Functions.CallAsync<FunctionResult>(functionToCall, result);
                     // :state-end: :state-uncomment-start: start
@@ -115,7 +115,7 @@ namespace RealmDotnetTutorial
                     //// function.
                     //// var functionResult = await ...
                     // :state-uncomment-end:
-                    // :code-block-end:
+                    // :snippet-end:
                 }
                 catch (AppException ex)
                 {

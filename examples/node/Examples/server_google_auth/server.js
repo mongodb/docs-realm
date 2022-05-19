@@ -4,10 +4,10 @@
 
 const express = require("express");
 const methodOverride = require("method-override");
-// :code-block-start: import-npm-packages
+// :snippet-start: import-npm-packages
 const Realm = require("realm");
 const { google } = require("googleapis");
-// :code-block-end:
+// :snippet-end:
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5500;
@@ -17,7 +17,7 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_PROJECT_ID = process.env.GOOGLE_PROJECT_ID;
 
-// :code-block-start: google-oauth-realm-config
+// :snippet-start: google-oauth-realm-config
 // Configure and instantiate Google OAuth2.0 client
 const oauthConfig = {
   client_id: GOOGLE_CLIENT_ID,
@@ -46,7 +46,7 @@ const oauth2Client = new OAuth2(
 const realmApp = new Realm.App({
   id: REALM_APP_ID,
 });
-// :code-block-end:
+// :snippet-end:
 
 // Create Express application
 const app = express();
@@ -55,13 +55,13 @@ app.set("views", __dirname);
 app.use(methodOverride());
 
 app.get("/", function (req, res) {
-  // :code-block-start: generate-log-in
+  // :snippet-start: generate-log-in
   // generate OAuth 2.0 log in link
   const loginLink = oauth2Client.generateAuthUrl({
     access_type: "offline", // Indicates that we need to be able to access data continuously without the user constantly giving us consent
     scope: oauthConfig.scopes,
   });
-  // :code-block-end:
+  // :snippet-end:
   res.render("views/index", { loginLink });
 });
 
@@ -71,7 +71,7 @@ app.get("/auth/google/callback", function (req, res, errorHandler) {
     return errorHandler(req.query.error);
   } else {
     const authCodeFromQueryString = req.query.code;
-    // :code-block-start: login-with-token
+    // :snippet-start: login-with-token
     // Get Google token and use it to sign into Realm
     oauth2Client.getToken(authCodeFromQueryString, async function (
       error,
@@ -89,7 +89,7 @@ app.get("/auth/google/callback", function (req, res, errorHandler) {
         errorHandler(error);
       }
     });
-    // :code-block-end:
+    // :snippet-end:
   }
 });
 

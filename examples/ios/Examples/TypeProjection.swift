@@ -8,7 +8,7 @@ import XCTest
 import RealmSwift
 import CoreLocation
 
-// :code-block-start: custom-persistable-protocols
+// :snippet-start: custom-persistable-protocols
 // Extend a type as a CustomPersistable if if is impossible for
 // conversion between the mapped type and the persisted type to fail.
 extension CLLocationCoordinate2D: CustomPersistable {
@@ -51,9 +51,9 @@ extension URL: FailableCustomPersistable {
     // When writing to the database, this converts the mapped type to a persistable type.
     public var persistableValue: String { self.absoluteString }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: use-type-projection-in-objects
+// :snippet-start: use-type-projection-in-objects
 class TypeProjection_Club: Object {
     @Persisted var id: ObjectId
     @Persisted var name: String
@@ -72,14 +72,14 @@ public class Location: EmbeddedObject {
     @Persisted var latitude: Double
     @Persisted var longitude: Double
 }
-// :code-block-end:
+// :snippet-end:
 
 class TypeProjection: XCTestCase {
 
     func testExample() {
         let realm = try! Realm()
 
-        // :code-block-start: create-objects-with-type-projection
+        // :snippet-start: create-objects-with-type-projection
         // Initialize objects and assign values
         let club = TypeProjection_Club(value: ["name": "American Kennel Club", "url": "https://akc.org"])
         let club2 = TypeProjection_Club()
@@ -88,14 +88,14 @@ class TypeProjection: XCTestCase {
         // checks for the mapped type - not the persisted type.
         club2.url = URL(string: "https://ckcusa.com/")!
         club2.location = CLLocationCoordinate2D(latitude: 40.7509, longitude: 73.9777)
-        // :code-block-end:
+        // :snippet-end:
 
         try! realm.write {
             realm.add(club)
             realm.add(club2)
         }
 
-        // :code-block-start: query-objects-with-type-projection
+        // :snippet-start: query-objects-with-type-projection
         let akcClub = realm.objects(TypeProjection_Club.self).where {
             $0.name == "American Kennel Club"
         }.first!
@@ -106,7 +106,7 @@ class TypeProjection: XCTestCase {
         // You can use the persisted property type in NSPredicate query expressions
         let akcByUrl = clubs.filter("url == 'https://akc.org'").first!
         XCTAssert(akcByUrl.name == "American Kennel Club")
-        // :code-block-end:
+        // :snippet-end:
 
         try! realm.write {
             realm.deleteAll()

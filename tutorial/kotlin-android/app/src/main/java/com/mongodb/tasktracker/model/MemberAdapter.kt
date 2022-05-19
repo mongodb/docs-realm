@@ -43,7 +43,7 @@ internal class MemberAdapter(private val data: ArrayList<Member>, private val us
                 dialogBuilder.setMessage("Are you sure you want to remove this user from the project?")
                     .setCancelable(true)
                     .setPositiveButton("Remove User") { dialog, _ ->
-                        // :code-block-start: remove-user-from-project
+                        // :snippet-start: remove-user-from-project
                         // :state-start: final
                         val functionsManager: Functions = taskApp.getFunctions(user)
                         functionsManager.callFunctionAsync("removeTeamMember",
@@ -65,7 +65,7 @@ internal class MemberAdapter(private val data: ArrayList<Member>, private val us
                         //// When the function completes, remember to dismiss the dialog.
                         //// If the function successfully removes the team member, remove the team member from the displayed data and notify the Adapter that an item has been removed.
                         // :state-uncomment-end:
-                        // :code-block-end:
+                        // :snippet-end:
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
                         dialog.cancel()

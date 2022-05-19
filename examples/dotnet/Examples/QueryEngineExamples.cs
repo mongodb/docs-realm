@@ -56,7 +56,7 @@ namespace Examples
         {
             var realm = await Realm.GetInstanceAsync(config);
             var tasks = realm.All<UserTask>();
-            // :code-block-start: comparisons
+            // :snippet-start: comparisons
             var highPri = tasks.Where(t => t.Priority > 5);
 
             var quickTasks = tasks.Where(t =>
@@ -69,17 +69,17 @@ namespace Examples
             var AliOrJamieTasks = tasks.Where(t =>
                 t.Assignee == "Ali" ||
                 t.Assignee == "Jamie");
-            // :code-block-end:
+            // :snippet-end:
 
             Assert.AreEqual(1, highPri.Count());
             Assert.AreEqual(1, quickTasks.Count());
             Assert.AreEqual(0, unassignedTasks.Count());
             Assert.AreEqual(1, AliOrJamieTasks.Count());
-            // :code-block-start: logical
+            // :snippet-start: logical
             var completedTasksForAli = tasks.Where(t => t.Assignee == "Ali"
                 && t.IsComplete);
-            // :code-block-end:
-            // :code-block-start: strings
+            // :snippet-end:
+            // :snippet-start: strings
 
             // Note: In each of the following examples, you can replace the
             // Where() method with First(), FirstOrDefault(),
@@ -103,7 +103,7 @@ namespace Examples
             // Get all tasks that have no assignee
             var null_or_empty = tasks.Where(t => string.IsNullOrEmpty(t.Assignee));
 
-            // :code-block-end:
+            // :snippet-end:
 
             Assert.AreEqual(1, tasksStartWitE.Count());
             Assert.AreEqual(1, tasksContains.Count());
@@ -114,7 +114,7 @@ namespace Examples
 
 
 
-            // :code-block-start: aggregate
+            // :snippet-start: aggregate
             // Get all projects with an average Task priorty > 5:
             var avgPriority = projects.Filter(
                 "Tasks.@avg.Priority > 5");
@@ -126,11 +126,11 @@ namespace Examples
             // Get all projects with long-running Tasks:
             var longRunningProjects = projects.Filter(
                 "Tasks.@sum.ProgressMinutes > 100");
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: rql
+            // :snippet-start: rql
             var elvisProjects = projects.Filter("Tasks.Assignee == 'Elvis'");
-            // :code-block-end:
+            // :snippet-end:
 
             Assert.AreEqual(1, avgPriority.Count());
             Assert.AreEqual(0, highPriProjects.Count()); // 0 because the project has one lower than 5
@@ -151,7 +151,7 @@ namespace Examples
         }
     }
 
-    // :code-block-start: classes
+    // :snippet-start: classes
     // :replace-start: {
     // "terms": {
     //   "UserTask": "Task",
@@ -178,6 +178,6 @@ namespace Examples
         public IList<UserTask> Tasks { get; }
     }
     // :replace-end:
-    // :code-block-end:
+    // :snippet-end:
 
 }

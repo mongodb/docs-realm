@@ -28,12 +28,12 @@ public class ErrorHandlerTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     User user = app.currentUser();
-                    // :code-block-start: error-handler
+                    // :snippet-start: error-handler
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                             .errorHandler((session, error) -> {
                                 // do some error handling
                             }).build();
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }

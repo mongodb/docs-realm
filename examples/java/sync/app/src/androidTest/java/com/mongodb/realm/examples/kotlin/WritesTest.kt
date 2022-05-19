@@ -41,7 +41,7 @@ class WritesTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: run-a-transaction
+                            // :snippet-start: run-a-transaction
                             realm.executeTransaction { r: Realm ->
                                 // Create a turtle enthusiast named Ali.
                                 val ali = r.createObject(TurtleEnthusiast::class.java, ObjectId())
@@ -55,7 +55,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -89,7 +89,7 @@ class WritesTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: create-an-object
+                            // :snippet-start: create-an-object
                             realm.executeTransaction { r: Realm ->
                                 // Instantiate the class using the factory function.
                                 val turtle = r.createObject(Turtle::class.java, ObjectId())
@@ -105,7 +105,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -142,7 +142,7 @@ class WritesTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: upsert-an-object
+                            // :snippet-start: upsert-an-object
                             realm.executeTransaction { r: Realm ->
                                 val id = ObjectId()
                                 val drew = TurtleEnthusiast()
@@ -163,7 +163,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -200,7 +200,7 @@ class WritesTest : RealmTest() {
                                 "EXAMPLE",
                                 "Successfully opened a realm with reads and writes allowed on the UI thread."
                             )
-                            // :code-block-start: copy-or-update-same-values-flag
+                            // :snippet-start: copy-or-update-same-values-flag
                             realm.executeTransaction { r: Realm ->
                                 val id = ObjectId()
                                 val drew = TurtleEnthusiast()
@@ -221,7 +221,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -263,7 +263,7 @@ class WritesTest : RealmTest() {
                                     Turtle::class.java, ObjectId()
                                 )
                             }
-                            // :code-block-start: update-an-object
+                            // :snippet-start: update-an-object
                             realm.executeTransaction { r: Realm ->
                                 // Get a turtle to update.
                                 val turtle = r.where(Turtle::class.java).findFirst()
@@ -275,7 +275,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -317,7 +317,7 @@ class WritesTest : RealmTest() {
                                     Turtle::class.java, ObjectId()
                                 )
                             }
-                            // :code-block-start: update-a-collection
+                            // :snippet-start: update-a-collection
                             realm.executeTransaction { r: Realm ->
                                 // Create a turtle enthusiast named Josephine.
                                 val josephine = realm.createObject(
@@ -337,7 +337,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -381,7 +381,7 @@ class WritesTest : RealmTest() {
                                 )
                                 tony.name = "Tony"
                             }
-                            // :code-block-start: delete-an-object
+                            // :snippet-start: delete-an-object
                             realm.executeTransaction { r: Realm ->
                                 // Get a turtle named "Tony".
                                 var tony = r.where(Turtle::class.java)
@@ -394,7 +394,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -436,7 +436,7 @@ class WritesTest : RealmTest() {
                                     Turtle::class.java, ObjectId()
                                 )
                             }
-                            // :code-block-start: delete-a-collection
+                            // :snippet-start: delete-a-collection
                             realm.executeTransaction { r: Realm ->
                                 // Find turtles older than 2 years old.
                                 val oldTurtles = r.where(Turtle::class.java)
@@ -447,7 +447,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -495,7 +495,7 @@ class WritesTest : RealmTest() {
                                     )
                                 ali.name = "Ali"
                             }
-                            // :code-block-start: cascading-deletes
+                            // :snippet-start: cascading-deletes
                             realm.executeTransaction { r: Realm ->
                                 // Find a turtle enthusiast named "Ali"
                                 val ali = r.where(TurtleEnthusiast::class.java)
@@ -507,7 +507,7 @@ class WritesTest : RealmTest() {
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -555,14 +555,14 @@ class WritesTest : RealmTest() {
                                     )
                                 ali.name = "Ali"
                             }
-                            // :code-block-start: delete-all-instances-of-a-type
+                            // :snippet-start: delete-all-instances-of-a-type
                             realm.executeTransaction { r: Realm ->
                                 r.delete(Turtle::class.java)
                                 // :hide-start:
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {
@@ -606,14 +606,14 @@ class WritesTest : RealmTest() {
                                 )
                                 ali.name = "Ali"
                             }
-                            // :code-block-start: delete-all
+                            // :snippet-start: delete-all
                             realm.executeTransaction { r: Realm ->
                                 r.deleteAll()
                                 // :hide-start:
                                 expectation.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                         }
                     })
                 } else {

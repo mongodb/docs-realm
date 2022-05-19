@@ -5,7 +5,7 @@ import TaskContext, { Task } from '../models/Task';
 const { RealmProvider } = TaskContext;
 const { useRealm, useQuery, useObject } = TaskContext;
 
-// :code-block-start: tasklist-use-query-example
+// :snippet-start: tasklist-use-query-example
 function TaskList({onToggleTaskStatus, onDeleteTask}) {
   const tasks = useQuery(Task);
   return (
@@ -25,7 +25,7 @@ function TaskList({onToggleTaskStatus, onDeleteTask}) {
     </View>
   );
 }
-// :code-block-end:
+// :snippet-end:
 
 const styles = StyleSheet.create({
   listContainer: {

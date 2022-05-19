@@ -24,7 +24,7 @@ namespace Examples
         [OneTimeSetUp]
         public async Task Creates()
         {
-            // :code-block-start: create
+            // :snippet-start: create
             app = App.Create(myRealmAppId);
             user = await app.LogInAsync(Credentials.Anonymous());
 
@@ -40,14 +40,14 @@ namespace Examples
             };
 
             var insertResult = await cudCollection.InsertOneAsync(cud);
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(user.Id, insertResult.InsertedId);
         }
 
         [Test]
         public async Task Reads()
         {
-            // :code-block-start: read
+            // :snippet-start: read
             await user.RefreshCustomDataAsync();
 
             // Tip: define a class that represents the custom data
@@ -57,14 +57,14 @@ namespace Examples
             Console.WriteLine($"User is cool: {cud.IsCool}");
             Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");
             Console.WriteLine($"User's timezone is {cud.LocalTimeZone}");
-            // :code-block-end:
+            // :snippet-end:
             Assert.IsTrue(cud.IsCool);
         }
 
         [Test]
         public async Task Updates()
         {
-            // :code-block-start: update
+            // :snippet-start: update
             var updateResult = await cudCollection.UpdateOneAsync(
                 new BsonDocument("_id", user.Id),
                 new BsonDocument("$set", new BsonDocument("IsCool", false)));
@@ -75,7 +75,7 @@ namespace Examples
             Console.WriteLine($"User is cool: {cud.IsCool}");
             Console.WriteLine($"User's favorite color is {cud.FavoriteColor}");
             Console.WriteLine($"User's timezone is {cud.LocalTimeZone}");
-            // :code-block-end:
+            // :snippet-end:
             Assert.AreEqual(1, updateResult.ModifiedCount);
             Assert.IsFalse(cud.IsCool);
         }
@@ -88,7 +88,7 @@ namespace Examples
 
     }
 
-    // :code-block-start: cud
+    // :snippet-start: cud
     public class CustomUserData
     {
         public string _id { get; private set; }
@@ -107,5 +107,5 @@ namespace Examples
             this._partition = partition;
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

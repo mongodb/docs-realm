@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -58,4 +58,4 @@ internal class ExampleListAdapter(realmResults: OrderedRealmCollection<Item?>?) 
 
     private class ViewHolder(var title: TextView)
 }
-// :code-block-end:
+// :snippet-end:

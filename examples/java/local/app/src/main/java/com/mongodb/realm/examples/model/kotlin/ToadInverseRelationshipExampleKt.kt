@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogInverseRelationshipExampleKt": "Frog",
@@ -19,4 +19,4 @@ open class ToadInverseRelationshipExampleKt : RealmObject {
     constructor() {}
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

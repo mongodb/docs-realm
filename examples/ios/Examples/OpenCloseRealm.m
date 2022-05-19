@@ -17,7 +17,7 @@
 
 @implementation OpenCloseRealmObjc
 - (void)testOpenLocalRealm {
-    // :code-block-start: open-local-realm
+    // :snippet-start: open-local-realm
     // Open the default realm
     RLMRealm *defaultRealm = [RLMRealm defaultRealm];
 
@@ -30,27 +30,27 @@
     NSError *error = nil;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration
                                                  error:&error];
-    // :code-block-end:
+    // :snippet-end:
     (void)realm;
     (void)defaultRealm;
     
 }
 
 - (void)testOpenInMemoryRealm {
-    // :code-block-start: open-in-memory-realm
+    // :snippet-start: open-in-memory-realm
     // Open the realm with a specific in-memory identifier.
     NSString *identifier = @"MyRealm";
     RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
     configuration.inMemoryIdentifier = identifier;
     // Open the realm
     RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:nil];
-    // :code-block-end:
+    // :snippet-end:
     (void)realm;
 }
     
 
 - (void)testConfigureObjectTypes {
-    // :code-block-start: configure-object-types
+    // :snippet-start: configure-object-types
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // :remove-start:
     config.inMemoryIdentifier = @"test";
@@ -69,12 +69,12 @@
     } else {
         // Use realm
     }
-    // :code-block-end:
+    // :snippet-end:
     (void)realm;
 }
 
 - (void)testHandleError {
-    // :code-block-start: handle-error
+    // :snippet-start: handle-error
     NSError *error = nil;
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
@@ -83,7 +83,7 @@
         return;
     }
     // Use realm
-    // :code-block-end:
+    // :snippet-end:
 }
 
 @end

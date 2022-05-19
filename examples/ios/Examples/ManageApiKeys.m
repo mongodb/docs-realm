@@ -35,7 +35,7 @@
 
 - (void)testCreateApiKey {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
-    // :code-block-start: create-api-key
+    // :snippet-start: create-api-key
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
@@ -54,14 +54,14 @@
             // :hide-end:
         }
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectations:@[expectation] timeout:10.0];
 }
 
 - (void)testLookUpApiKey {
     XCTestExpectation *fetchOneExpectation = [self expectationWithDescription:@"fetch one completes"];
     XCTestExpectation *fetchAllExpectation = [self expectationWithDescription:@"fetch all completes"];
-    // :code-block-start: look-up-api-key
+    // :snippet-start: look-up-api-key
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
@@ -94,14 +94,14 @@
        [fetchAllExpectation fulfill];
        // :hide-end:
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectations:@[fetchOneExpectation, fetchAllExpectation] timeout:10.0];
 }
 
 - (void)testEnableDisableApiKey {
     XCTestExpectation *enableExpectation = [self expectationWithDescription:@"enable completes"];
     XCTestExpectation *disableExpectation = [self expectationWithDescription:@"disable completes"];
-    // :code-block-start: enable-disable-api-key
+    // :snippet-start: enable-disable-api-key
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
@@ -130,13 +130,13 @@
        [disableExpectation fulfill];
        // :hide-end:
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectations:@[enableExpectation, disableExpectation] timeout:10.0];
 }
 
 - (void)testDeleteApiKey {
     XCTestExpectation *expectation = [self expectationWithDescription:@"it completes"];
-    // :code-block-start: delete-api-key
+    // :snippet-start: delete-api-key
     RLMApp *app = [RLMApp appWithId:YOUR_REALM_APP_ID];
     // ... log in ...
     RLMUser *user = [app currentUser];
@@ -155,7 +155,7 @@
        [expectation fulfill];
        // :hide-end:
     }];
-    // :code-block-end:
+    // :snippet-end:
     [self waitForExpectations:@[expectation] timeout:10.0];
 }
 

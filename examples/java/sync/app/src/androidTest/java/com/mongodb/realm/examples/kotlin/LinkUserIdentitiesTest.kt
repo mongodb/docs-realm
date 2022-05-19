@@ -73,7 +73,7 @@ class LinkUserIdentitiesTest : RealmTest() {
                         val password = secondUserPassword
 
                         // link joe to another existing user
-                        // :code-block-start: link-users
+                        // :snippet-start: link-users
                         // The user has previously created an email/password account
                         user.linkCredentialsAsync(
                             Credentials.emailPassword(
@@ -97,7 +97,7 @@ class LinkUserIdentitiesTest : RealmTest() {
                                 )
                             }
                         }
-                        // :code-block-end:
+                        // :snippet-end:
                     } else {
                         Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                     }

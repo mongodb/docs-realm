@@ -31,25 +31,25 @@ const config = {
     console.error(err);
   }
 })();
-// :code-block-start: import-task-context
+// :snippet-start: import-task-context
 // :uncomment-start:
 // import TaskContext from "./app/models/Task";
 
 // :uncomment-end:
 const { RealmProvider } = TaskContext;
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: get-access-to-the-hooks
+// :snippet-start: get-access-to-the-hooks
 // :uncomment-start:
 // import TaskContext, { Task } from "./app/models/Task";
 
 // :uncomment-end:
 const { useRealm, useQuery, useObject } = TaskContext;
-// :code-block-end:
+// :snippet-end:
 
 function App() {
   const realm = useRealm();
-  // :code-block-start: example-usequery-hook-usage
+  // :snippet-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
 
@@ -58,9 +58,9 @@ function App() {
   //);
 
   // :uncomment-end:
-  // :code-block-end:
+  // :snippet-end:
 
-  // :code-block-start: example-userealm-hook-usage
+  // :snippet-start: example-userealm-hook-usage
   // :uncomment-start:
   // const realm = useRealm();
   // :uncomment-end:
@@ -75,7 +75,7 @@ function App() {
     },
     [realm]
   );
-  // :code-block-end:
+  // :snippet-end:
 
   const handleToggleTaskStatus = useCallback(
     (task: Task): void => {
@@ -131,7 +131,7 @@ function App() {
   );
 }
 
-// :code-block-start: example-useobject-hook-usage
+// :snippet-start: example-useobject-hook-usage
 const SampleTask = ({ _id }) => {
   const myTask = useObject(Task, _id);
   return (
@@ -140,7 +140,7 @@ const SampleTask = ({ _id }) => {
     </View>
   );
 };
-// :code-block-end:
+// :snippet-end:
 
 const styles = StyleSheet.create({
   screen: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// :code-block-start: wrap-app-within-realm-provider
+// :snippet-start: wrap-app-within-realm-provider
 function AppWrapper() {
   // if (!app.currentUser) {
   //   return <LoginUserScreen />;
@@ -165,11 +165,11 @@ function AppWrapper() {
     </RealmProvider>
   );
 }
-// :code-block-end:
+// :snippet-end:
 
 const app = new Realm.App({ id: "-id" });
 
-// :code-block-start: dynamically-update-realm-config
+// :snippet-start: dynamically-update-realm-config
 // :replace-start: {
 //   "terms": {
 //     "AppWrapper2": "AppWrapper"
@@ -191,7 +191,7 @@ function AppWrapper2() {
   );
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:
 
 const LoadingSpinner = () => <Text>Mock Loading Spinner</Text>;
 const LoginUserScreen = () => <Text>Mock Login Screen</Text>;

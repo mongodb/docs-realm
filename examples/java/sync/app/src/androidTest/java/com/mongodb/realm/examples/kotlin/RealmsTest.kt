@@ -28,7 +28,7 @@ class RealmsTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     /*
-                    // :code-block-start: modules
+                    // :snippet-start: modules
                     // A library must create a module and set library = true. This will prevent the default
                     // module from being created.
                     // allClasses = true can be used instead of listing all classes in the library.
@@ -48,7 +48,7 @@ class RealmsTest : RealmTest() {
                         SyncConfiguration.Builder(app.currentUser(), PARTITION)
                             .modules(Realm.getDefaultModule(), MyLibraryModule())
                             .build()
-                    // :code-block-end:
+                    // :snippet-end:
                     */
                     expectation.fulfill()
                     /* TODO: get these configurations to a point where we can actually instantiate realms using them

@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogDictionaryKt": "Frog"
@@ -14,4 +14,4 @@ open class FrogDictionaryKt
     var nicknamesToFriends: RealmDictionary<FrogDictionaryKt> = RealmDictionary<FrogDictionaryKt>()
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

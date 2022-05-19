@@ -32,7 +32,7 @@ class AdapterTest : RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             createNItems(realm, 8)
-            // :code-block-start: list-adapter
+            // :snippet-start: list-adapter
             // instantiate a ListView programmatically
             val listView = ListView(activity!!.applicationContext)
             listView.layoutParams = ViewGroup.LayoutParams(
@@ -49,7 +49,7 @@ class AdapterTest : RealmTest() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             activity!!.addContentView(listView, layoutParams)
-            // :code-block-end:
+            // :snippet-end:
         }
         // we're not using any advanced techniques to confirm that these adapters work -- instead,
         // run the test and make sure that you can see some "test item"s on the screen (10 seconds)
@@ -72,7 +72,7 @@ class AdapterTest : RealmTest() {
                 .build()
             val realm = Realm.getInstance(config)
             createNItems(realm, 8)
-            // :code-block-start: recycler-view-adapter
+            // :snippet-start: recycler-view-adapter
             // instantiate a RecyclerView programmatically
             val recyclerView = RecyclerView(activity!!.applicationContext)
             recyclerView.layoutManager =
@@ -91,7 +91,7 @@ class AdapterTest : RealmTest() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             activity!!.addContentView(recyclerView, layoutParams)
-            // :code-block-end:
+            // :snippet-end:
         }
         // we're not using any advanced techniques to confirm that these adapters work -- instead,
         // run the test and make sure that you can see some "test item"s on the screen (10 seconds)

@@ -2,7 +2,7 @@ import Realm from "realm";
 
 describe("Define a Realm Object Schema", () => {
   test("should define realm object types with js classes", async () => {
-    // :code-block-start: define-a-realm-object-schema-define-js-classes
+    // :snippet-start: define-a-realm-object-schema-define-js-classes
     class Car {
       static schema = {
         name: "Car",
@@ -16,9 +16,9 @@ describe("Define a Realm Object Schema", () => {
         return `${this.make} ${this.model}`;
       }
     }
-    // :code-block-end:
+    // :snippet-end:
 
-    // :code-block-start: define-a-realm-object-schema-js-classes-open-and-access-properties
+    // :snippet-start: define-a-realm-object-schema-js-classes-open-and-access-properties
     const realm = await Realm.open({
       path: "myrealm",
       schema: [Car],
@@ -34,7 +34,7 @@ describe("Define a Realm Object Schema", () => {
     });
     console.log(car1.carName);
     // use car1
-    // :code-block-end:
+    // :snippet-end:
 
     expect(car1.carName).toBe("Nissan Sentra");
     // delete the car after its used

@@ -36,7 +36,7 @@ public class AuthActivity extends AppCompatActivity {
         signInWithGoogle();
     }
 
-    // :code-block-start: google
+    // :snippet-start: google
     private void signInWithGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -88,5 +88,5 @@ public class AuthActivity extends AppCompatActivity {
             Log.w("AUTH", "Failed to log in with Google OAuth: " + e.getMessage());
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

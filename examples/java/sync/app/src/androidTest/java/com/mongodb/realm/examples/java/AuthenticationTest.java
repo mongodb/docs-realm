@@ -34,7 +34,7 @@ public class AuthenticationTest extends RealmTest {
     public void testOfflineLogin() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: offline
+            // :snippet-start: offline
             // Log the user into the backend app.
             // The first time you login, the user must have a network connection.
             String appID = YOUR_APP_ID; // replace this with your App ID
@@ -65,7 +65,7 @@ public class AuthenticationTest extends RealmTest {
             // :hide-start:
             expectation.fulfill();
             // :hide-end:
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -74,7 +74,7 @@ public class AuthenticationTest extends RealmTest {
     public void testAnonymous() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: anonymous
+            // :snippet-start: anonymous
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -96,7 +96,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -105,7 +105,7 @@ public class AuthenticationTest extends RealmTest {
     public void testEmailPassword() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: email-password
+            // :snippet-start: email-password
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -127,7 +127,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -136,7 +136,7 @@ public class AuthenticationTest extends RealmTest {
     public void testAPIKey() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: api-key
+            // :snippet-start: api-key
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -158,7 +158,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -167,7 +167,7 @@ public class AuthenticationTest extends RealmTest {
     public void testCustomFunction() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: custom-function
+            // :snippet-start: custom-function
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
@@ -189,7 +189,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -198,7 +198,7 @@ public class AuthenticationTest extends RealmTest {
     public void testCustomJWT() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: custom-jwt
+            // :snippet-start: custom-jwt
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -221,7 +221,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -233,7 +233,7 @@ public class AuthenticationTest extends RealmTest {
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
             String YOUR_FACEBOOK_SDK_APP_ID = "960466841104579";
-            // :code-block-start: facebook
+            // :snippet-start: facebook
             FacebookSdk.setApplicationId(YOUR_FACEBOOK_SDK_APP_ID);
             FacebookSdk.sdkInitialize(activity);
             CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -265,7 +265,7 @@ public class AuthenticationTest extends RealmTest {
                 }
             );
             LoginManager.getInstance().logIn(activity, null);
-            // :code-block-end:
+            // :snippet-end:
         });
     }
 
@@ -290,7 +290,7 @@ public class AuthenticationTest extends RealmTest {
     public void testSignInWithApple() {
         Expectation expectation = new Expectation();
         activity.runOnUiThread(() -> {
-            // :code-block-start: apple
+            // :snippet-start: apple
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID)
                     .build());
@@ -314,7 +314,7 @@ public class AuthenticationTest extends RealmTest {
                 expectation.fulfill();
                 // :hide-end:
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -335,7 +335,7 @@ public class AuthenticationTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated anonymously.");
                     user.set(app.currentUser());
-                    // :code-block-start: log-out
+                    // :snippet-start: log-out
                     user.get().logOutAsync( result -> {
                         // :hide-start:
                         Assert.assertEquals(true, result.isSuccess());
@@ -349,7 +349,7 @@ public class AuthenticationTest extends RealmTest {
                         expectation.fulfill();
                         // :hide-end:
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }

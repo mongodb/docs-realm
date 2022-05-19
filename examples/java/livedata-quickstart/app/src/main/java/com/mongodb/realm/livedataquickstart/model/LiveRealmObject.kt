@@ -26,7 +26,7 @@ import io.realm.RealmObjectChangeListener
 </T> */
 class LiveRealmObject<T : RealmModel?> @MainThread constructor(obj: T?) : MutableLiveData<T>() {
 
-    // :code-block-start: listener
+    // :snippet-start: listener
     private val listener =
         RealmObjectChangeListener<T> { obj, objectChangeSet ->
             if (!objectChangeSet!!.isDeleted) {
@@ -35,12 +35,12 @@ class LiveRealmObject<T : RealmModel?> @MainThread constructor(obj: T?) : Mutabl
                 setValue(null)
             }
         }
-    // :code-block-end:
+    // :snippet-end:
 
     /**
      * Starts observing the RealmObject if we have observers and the object is still valid.
      */
-    // :code-block-start: onactive
+    // :snippet-start: onactive
     override fun onActive() {
         super.onActive()
         val obj = value
@@ -48,12 +48,12 @@ class LiveRealmObject<T : RealmModel?> @MainThread constructor(obj: T?) : Mutabl
             RealmObject.addChangeListener(obj, listener)
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     /**
      * Stops observing the RealmObject.
      */
-    // :code-block-start: oninactive
+    // :snippet-start: oninactive
     override fun onInactive() {
         super.onInactive()
         val obj = value
@@ -61,7 +61,7 @@ class LiveRealmObject<T : RealmModel?> @MainThread constructor(obj: T?) : Mutabl
             RealmObject.removeChangeListener(obj, listener)
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 
     var value : T? = obj
 }

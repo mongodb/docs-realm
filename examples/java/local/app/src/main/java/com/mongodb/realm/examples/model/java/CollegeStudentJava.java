@@ -6,7 +6,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
 
-// :code-block-start: schema-types
+// :snippet-start: schema-types
 // :replace-start: {
 //    "terms": {
 //       "CollegeStudentJava": "CollegeStudent"
@@ -21,4 +21,4 @@ public class CollegeStudentJava
             new RealmList<String>();
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

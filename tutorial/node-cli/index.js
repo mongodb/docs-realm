@@ -6,7 +6,7 @@ const output = require("./output");
 
 const realms = {};
 
-// :code-block-start: openRealm
+// :snippet-start: openRealm
 async function openRealm(partitionKey) {
   const config = {
     schema: [schemas.TaskSchema, schemas.UserSchema, schemas.ProjectSchema],
@@ -21,7 +21,7 @@ async function openRealm(partitionKey) {
   // TODO: open a realm with these configuration settings.
   // :state-end:
 }
-// :code-block-end:
+// :snippet-end:
 
 output.intro();
 
@@ -51,7 +51,7 @@ run().catch((err) => {
   output.error(err.message);
 });
 
-// :code-block-start: getRealm
+// :snippet-start: getRealm
 async function getRealm(partitionKey) {
   if (realms[partitionKey] == undefined) {
     // :state-start: final
@@ -62,7 +62,7 @@ async function getRealm(partitionKey) {
   }
   return realms[partitionKey];
 }
-// :code-block-end:
+// :snippet-end:
 
 async function closeRealm(partitionKey) {
   if (realms[partitionKey] != undefined) {

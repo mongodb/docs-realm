@@ -27,7 +27,7 @@ public class AccessCustomUserDataTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-            // :code-block-start: read-custom-user-data
+            // :snippet-start: read-custom-user-data
             Credentials anonymousCredentials = Credentials.anonymous();
             app.loginAsync(anonymousCredentials, it -> {
                 if (it.isSuccess()) {
@@ -42,7 +42,7 @@ public class AccessCustomUserDataTest extends RealmTest {
                     Log.e("EXAMPLE", it.getError().toString());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -54,7 +54,7 @@ public class AccessCustomUserDataTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-            // :code-block-start: create-custom-user-data
+            // :snippet-start: create-custom-user-data
             Credentials credentials = Credentials.anonymous();
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
@@ -82,7 +82,7 @@ public class AccessCustomUserDataTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }
@@ -94,7 +94,7 @@ public class AccessCustomUserDataTest extends RealmTest {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
 
-            // :code-block-start: update-custom-user-data
+            // :snippet-start: update-custom-user-data
             Credentials credentials = Credentials.anonymous();
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
@@ -125,7 +125,7 @@ public class AccessCustomUserDataTest extends RealmTest {
                     Log.e("EXAMPLE", "Failed to log in anonymously:" + it.getError().toString());
                 }
             });
-            // :code-block-end:
+            // :snippet-end:
         });
         expectation.await();
     }

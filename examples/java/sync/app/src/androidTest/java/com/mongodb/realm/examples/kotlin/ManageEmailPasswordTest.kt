@@ -22,7 +22,7 @@ class ManageEmailPasswordTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
 
-            // :code-block-start: register-a-new-user-account
+            // :snippet-start: register-a-new-user-account
             app.emailPassword.registerUserAsync(email, password) {
                 if (it.isSuccess) {
                     Log.i("EXAMPLE","Successfully registered user.")
@@ -33,7 +33,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.e("EXAMPLE","Failed to register user: ${it.error}")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         // expectation.await() // TODO: Find out why this doesn't always work!
     }
@@ -50,7 +50,7 @@ class ManageEmailPasswordTest : RealmTest() {
             val token = "token-fake"
             val tokenId = "token-id-fake"
 
-            // :code-block-start: confirm-a-new-users-email-address
+            // :snippet-start: confirm-a-new-users-email-address
             // token and tokenId are query parameters in the confirmation
             // link sent in the confirmation email.
             app.emailPassword.confirmUserAsync(token, tokenId) {
@@ -63,7 +63,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     // :hide-end:
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -81,7 +81,7 @@ class ManageEmailPasswordTest : RealmTest() {
             val tokenId = "token-id-fake"
             val newPassword = "newFakePassword"
 
-            // :code-block-start: send-reset-password-email
+            // :snippet-start: send-reset-password-email
             app.emailPassword.sendResetPasswordEmailAsync(email) {
                 if (it.isSuccess) {
                     Log.i("EXAMPLE", "Successfully sent the user a reset password link to $email")
@@ -89,9 +89,9 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.e("EXAMPLE", "Failed to send the user a reset password link to $email: $it.error")
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
 
-            // :code-block-start: reset-password
+            // :snippet-start: reset-password
             // token and tokenId are query parameters in the confirmation
             // link sent in the password reset email.
             app.emailPassword.resetPasswordAsync(token, tokenId, newPassword) {
@@ -104,7 +104,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     // :hide-end:
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -117,7 +117,7 @@ class ManageEmailPasswordTest : RealmTest() {
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
 
-            // :code-block-start: run-password-reset-func
+            // :snippet-start: run-password-reset-func
             val newPassword = "newFakePassword"
             val args = arrayOf("security answer 1", "security answer 2")
 
@@ -131,7 +131,7 @@ class ManageEmailPasswordTest : RealmTest() {
                     // :hide-end:
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }

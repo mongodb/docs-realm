@@ -34,7 +34,7 @@ class RealmQueryTest : RealmTest() {
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
-                    // :code-block-start: find-object-by-primary-key
+                    // :snippet-start: find-object-by-primary-key
                     val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
                         .allowWritesOnUiThread(true)
                         .allowQueriesOnUiThread(true)
@@ -69,7 +69,7 @@ class RealmQueryTest : RealmTest() {
                             realm.close()
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }
@@ -94,7 +94,7 @@ class RealmQueryTest : RealmTest() {
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
-                    // :code-block-start: query-a-relationship
+                    // :snippet-start: query-a-relationship
                     val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
                         .allowQueriesOnUiThread(true)
                         .allowWritesOnUiThread(true)
@@ -131,7 +131,7 @@ class RealmQueryTest : RealmTest() {
                             realm.close()
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }
@@ -156,7 +156,7 @@ class RealmQueryTest : RealmTest() {
             app.loginAsync(anonymousCredentials) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated anonymously.")
-                    // :code-block-start: query-an-inverse-relationship
+                    // :snippet-start: query-an-inverse-relationship
                     val config = SyncConfiguration.Builder(app.currentUser(), PARTITION)
                         .allowQueriesOnUiThread(true)
                         .allowWritesOnUiThread(true)
@@ -190,7 +190,7 @@ class RealmQueryTest : RealmTest() {
                             realm.close()
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }

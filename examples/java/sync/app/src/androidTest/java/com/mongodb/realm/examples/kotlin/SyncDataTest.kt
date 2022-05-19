@@ -39,7 +39,7 @@ class SyncDataTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: open-a-synced-realm
+                    // :snippet-start: open-a-synced-realm
                     val user = app.currentUser()
                     val config = SyncConfiguration.Builder(user, partition)
                         .build()
@@ -52,7 +52,7 @@ class SyncDataTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -78,7 +78,7 @@ class SyncDataTest : RealmTest() {
             ) {
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: open-a-synced-realm-offline
+                    // :snippet-start: open-a-synced-realm-offline
                     val user = app.currentUser()
                     val config = SyncConfiguration.Builder(user, partition).build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
@@ -90,7 +90,7 @@ class SyncDataTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.error.errorMessage)
                 }
@@ -112,7 +112,7 @@ class SyncDataTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     Log.v("EXAMPLE", "Successfully authenticated.")
-                    // :code-block-start: sync-data
+                    // :snippet-start: sync-data
                     val user = app.currentUser()
                     val config = SyncConfiguration.Builder(user, partition)
                         .allowQueriesOnUiThread(true)
@@ -134,7 +134,7 @@ class SyncDataTest : RealmTest() {
                             realm.close()
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -179,18 +179,18 @@ class SyncDataTest : RealmTest() {
                                     Task()
                                 )
                             }
-                            // :code-block-start: pause-sync-session
+                            // :snippet-start: pause-sync-session
                             val session: SyncSession = app.sync.getSession(config)
                             session.stop()
-                            // :code-block-end:
+                            // :snippet-end:
                             Assert.assertEquals(
                                 SyncSession.State.INACTIVE,
                                 app.sync.getSession(config).state
                             )
-                            // :code-block-start: resume-sync-session
+                            // :snippet-start: resume-sync-session
                             val syncSession: SyncSession = app.sync.getSession(config)
                             syncSession.start()
-                            // :code-block-end:
+                            // :snippet-end:
                             realm.executeTransaction { r: Realm ->
                                 r.insert(
                                     Task()
@@ -241,9 +241,9 @@ class SyncDataTest : RealmTest() {
                                 )
                             }
 
-                            // :code-block-start: check-current-network-connection
+                            // :snippet-start: check-current-network-connection
                             Log.v("EXAMPLE", "Sync state: ${app.sync.getSession(config).connectionState}")
-                            // :code-block-end:
+                            // :snippet-end:
                             expectation.fulfill()
                             realm.close()
                         }
@@ -290,7 +290,7 @@ class SyncDataTest : RealmTest() {
                                 )
                             }
 
-                            // :code-block-start: check-upload-progress
+                            // :snippet-start: check-upload-progress
                             app.sync.getSession(config).addUploadProgressListener(
                                 ProgressMode.INDEFINITELY) { progress ->
                                 Log.v("EXAMPLE", "Upload progress: ${progress.fractionTransferred}")
@@ -298,9 +298,9 @@ class SyncDataTest : RealmTest() {
                                 tracksUploadProgress.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
 
-                            // :code-block-start: check-download-progress
+                            // :snippet-start: check-download-progress
                             app.sync.getSession(config).addDownloadProgressListener(
                                 ProgressMode.INDEFINITELY) { progress ->
                                 Log.v("EXAMPLE", "Download progress: ${progress.fractionTransferred}")
@@ -308,7 +308,7 @@ class SyncDataTest : RealmTest() {
                                 tracksDownloadProgress.fulfill()
                                 // :hide-end:
                             }
-                            // :code-block-end:
+                            // :snippet-end:
 
                             // write a task locally to initiate an upload
                             realm.executeTransaction { r: Realm ->
@@ -374,9 +374,9 @@ class SyncDataTest : RealmTest() {
         activity!!.runOnUiThread {
             val appID = YOUR_APP_ID // replace this with your App ID
             val app = App(AppConfiguration.Builder(appID).build())
-            // :code-block-start: set-client-log-level
+            // :snippet-start: set-client-log-level
             RealmLog.setLevel(LogLevel.ALL)
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill()
         }
         expectation.await()

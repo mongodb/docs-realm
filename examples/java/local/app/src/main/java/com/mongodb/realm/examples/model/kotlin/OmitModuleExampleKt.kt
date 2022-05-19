@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "OmitModuleExampleKt": "MyModule",
@@ -12,4 +12,4 @@ import io.realm.annotations.RealmModule
 @RealmModule(classes = [FrogEmbeddedExampleKt::class, FlyEmbeddedExampleKt::class]) // :emphasize:
 open class OmitModuleExampleKt
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

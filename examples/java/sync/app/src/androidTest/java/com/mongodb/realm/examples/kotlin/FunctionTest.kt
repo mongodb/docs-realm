@@ -17,7 +17,7 @@ class FunctionTest : RealmTest() {
     fun testCallAFunction() {
         var expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: call-a-function
+            // :snippet-start: call-a-function
             val appID = YOUR_APP_ID // replace this with your App ID
             val app: App = App(AppConfiguration.Builder(appID).build())
 
@@ -45,7 +45,7 @@ class FunctionTest : RealmTest() {
                     Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.error)
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }

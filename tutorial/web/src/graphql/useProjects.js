@@ -1,7 +1,7 @@
 import { useRealmApp } from "../RealmApp";
 import React from "react";
 
-// :code-block-start: useProjects
+// :snippet-start: useProjects
 // :state-start: final
 function setProjectsFromChange(change, setProjects) {
   const {
@@ -42,4 +42,4 @@ export default function useProjects() {
 // // TODO: Retrieve the current user's projects and assign it to `projects`
 // // with refresh when their project list is updated.
 // :state-uncomment-end:
-// :code-block-end:
+// :snippet-end:

@@ -4,7 +4,7 @@ import RealmSwift
 class Compacting: XCTestCase {
 
     func testCompacting() {
-        // :code-block-start: compacting
+        // :snippet-start: compacting
         let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes in
             // totalBytes refers to the size of the file on disk in bytes (data + free space)
             // usedBytes refers to the number of bytes used by data in the file
@@ -19,10 +19,10 @@ class Compacting: XCTestCase {
         } catch {
             // handle error compacting or opening Realm
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
-    // :code-block-start: async-compact
+    // :snippet-start: async-compact
     func testAsyncCompact() async {
         let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes in
             // totalBytes refers to the size of the file on disk in bytes (data + free space)
@@ -41,5 +41,5 @@ class Compacting: XCTestCase {
             // handle error compacting or opening Realm
         }
     }
-    // :code-block-end:
+    // :snippet-end:
 }

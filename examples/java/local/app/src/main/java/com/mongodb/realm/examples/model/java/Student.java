@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -17,4 +17,4 @@ public class Student extends RealmObject {
     public void setYear(Integer year) { this.year = year; }
     public RealmResults<Teacher> getTeacher() { return teacher; }
 }
-// :code-block-end:
+// :snippet-end:

@@ -40,7 +40,7 @@ public class AdapterTest extends RealmTest {
 
             Realm realm = Realm.getInstance(config);
             createNItems(realm, 8);
-            // :code-block-start: list-adapter
+            // :snippet-start: list-adapter
             // instantiate a ListView programmatically
             ListView listView = new ListView(activity.getApplicationContext());
             listView.setLayoutParams(
@@ -59,7 +59,7 @@ public class AdapterTest extends RealmTest {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT);
             activity.addContentView(listView, layoutParams);
-            // :code-block-end:
+            // :snippet-end:
         });
         // we're not using any advanced techniques to confirm that these adapters work -- instead,
         // run the test and make sure that you can see some "test item"s on the screen (10 seconds)
@@ -83,7 +83,7 @@ public class AdapterTest extends RealmTest {
 
             Realm realm = Realm.getInstance(config);
             createNItems(realm, 8);
-            // :code-block-start: recycler-view-adapter
+            // :snippet-start: recycler-view-adapter
             // instantiate a RecyclerView programmatically
             RecyclerView recyclerView =
                     new RecyclerView(activity.getApplicationContext());
@@ -105,7 +105,7 @@ public class AdapterTest extends RealmTest {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT);
             activity.addContentView(recyclerView, layoutParams);
-            // :code-block-end:
+            // :snippet-end:
         });
         // we're not using any advanced techniques to confirm that these adapters work -- instead,
         // run the test and make sure that you can see some "test item"s on the screen (10 seconds)

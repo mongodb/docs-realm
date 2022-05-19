@@ -1,4 +1,4 @@
-﻿// :code-block-start:task-object-model
+﻿// :snippet-start:task-object-model
 using MongoDB.Bson;
 using Realms;
 
@@ -33,4 +33,4 @@ namespace Examples.Models
         Complete
     }
 }
-// :code-block-end:
+// :snippet-end:

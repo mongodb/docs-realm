@@ -45,7 +45,7 @@ class FlexibleSyncTest : RealmTest() {
         val expectation = Expectation()
         activity!!.runOnUiThread {
 
-            // :code-block-start: open-a-realm
+            // :snippet-start: open-a-realm
             // instantiate a Realm App connection
             val appID: String = YOUR_APP_ID // replace this with your App ID
             val app = App(
@@ -61,7 +61,7 @@ class FlexibleSyncTest : RealmTest() {
                     val user = it.get()
 
                     // add an initial subscription to the sync configuration
-                    // :code-block-start: add-a-subscription
+                    // :snippet-start: add-a-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
@@ -88,7 +88,7 @@ class FlexibleSyncTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -96,7 +96,7 @@ class FlexibleSyncTest : RealmTest() {
                     )
                 }
             }
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -119,7 +119,7 @@ class FlexibleSyncTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     val user = it.get()
-                    // :code-block-start: explicitly-named-subscription
+                    // :snippet-start: explicitly-named-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
                             // add a subscription with a name
@@ -149,7 +149,7 @@ class FlexibleSyncTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -179,7 +179,7 @@ class FlexibleSyncTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     val user = it.get()
-                    // :code-block-start: implicitly-named-subscription
+                    // :snippet-start: implicitly-named-subscription
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
                             // add a subscription without assigning a name
@@ -214,7 +214,7 @@ class FlexibleSyncTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -244,7 +244,7 @@ class FlexibleSyncTest : RealmTest() {
             ) { it: App.Result<User?> ->
                 if (it.isSuccess) {
                     val user = it.get()
-                    // :code-block-start: wait-for-subscription-sync
+                    // :snippet-start: wait-for-subscription-sync
                     val config = SyncConfiguration.Builder(app.currentUser())
                         .initialSubscriptions { realm, subscriptions ->
                             subscriptions.add(
@@ -272,7 +272,7 @@ class FlexibleSyncTest : RealmTest() {
                             // :hide-end:
                         }
                     })
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e(
                         "EXAMPLE",
@@ -327,7 +327,7 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :code-block-start: update-subscriptions-by-name
+                            // :snippet-start: update-subscriptions-by-name
                             realm.subscriptions.update { subscriptions ->
                                 // to update a named subscription, create a replacement with
                                 // the same name and add it to the subscription set
@@ -342,7 +342,7 @@ class FlexibleSyncTest : RealmTest() {
                                     )
                                 )
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()
@@ -402,7 +402,7 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :code-block-start: update-subscriptions-by-query
+                            // :snippet-start: update-subscriptions-by-query
                             realm.subscriptions.update { subscriptions ->
                                 // to update an unnamed subscription, remove it from the
                                 // subscription set, then add your new query to the set
@@ -426,7 +426,7 @@ class FlexibleSyncTest : RealmTest() {
                                     )
                                 )
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()
@@ -487,13 +487,13 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :code-block-start: remove-single-subscription
+                            // :snippet-start: remove-single-subscription
                             realm.subscriptions.update { subscriptions ->
                                 val mySubscription =
                                     subscriptions.find("mySubscription")
                                 subscriptions.remove(mySubscription)
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()
@@ -547,13 +547,13 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :code-block-start: remove-all-subscriptions-to-an-object-type
+                            // :snippet-start: remove-all-subscriptions-to-an-object-type
                             realm.subscriptions.update { subscriptions ->
                                 subscriptions.removeAll(
                                     Frog::class.java
                                 )
                             }
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()
@@ -607,9 +607,9 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :code-block-start: remove-all-subscriptions
+                            // :snippet-start: remove-all-subscriptions
                             realm.subscriptions.update { subscriptions -> subscriptions.removeAll() }
-                            // :code-block-end:
+                            // :snippet-end:
                             // :hide-start:
                             realm.close()
                             expectation.fulfill()

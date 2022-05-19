@@ -14,7 +14,7 @@ namespace Examples
         [Test]
         public void TestWriteCopy()
         {
-            // :code-block-start: copy_a_realm
+            // :snippet-start: copy_a_realm
             // open an existing realm
             var realm = Realm.GetInstance("myRealm.realm");
 
@@ -29,7 +29,7 @@ namespace Examples
 
             // Want to know where the copy is?
             var locationOfCopy = config.DatabasePath;
-            // :code-block-end:
+            // :snippet-end:
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Examples
             var app = App.Create(appConfig);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
-            // :code-block-start: copy_a_synced_realm
+            // :snippet-start: copy_a_synced_realm
 
             // open an existing realm
             // :uncomment-start:
@@ -72,14 +72,14 @@ namespace Examples
 
             // Want to know where the copy is?
             var locationOfCopy = existingConfig.DatabasePath;
-            // :code-block-end:
+            // :snippet-end:
         }
 
 
         //[Test]// Commented because git builder can't find/save/write the file
         public async Task ExtractAndLoadRealmFile()
         {
-            // :code-block-start: extract_and_copy_realm
+            // :snippet-start: extract_and_copy_realm
             // :replace-start: {
             //  "terms": {
             //   "Config.appid": "\"myRealmAppId\""}
@@ -107,7 +107,7 @@ namespace Examples
 
             // Open the Realm:
             var realm = Realm.GetInstance(config);
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 }

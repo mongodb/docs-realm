@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model
-// :code-block-start: project
+// :snippet-start: project
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -13,4 +13,4 @@ open class Project(
     var name: String = "",
     var tasks: RealmList<ProjectTask> = RealmList(),
 ): RealmObject()
-// :code-block-end:
+// :snippet-end:

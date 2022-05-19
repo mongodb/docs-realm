@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "TeacherKt": "Teacher",
@@ -16,4 +16,4 @@ open class TeacherKt : RealmObject() {
     var students: RealmList<StudentKt>? = null
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

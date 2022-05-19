@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: complete
+// :snippet-start: complete
 // :replace-start: {
 //    "terms": {
 //       "FrogListExample": "Frog"
@@ -35,4 +35,4 @@ public class FrogListExample extends RealmObject {
     public void setFavoriteColors(RealmList<String> favoriteColors) { this.favoriteColors = favoriteColors; }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -16,7 +16,7 @@ class QuickStartTest: RealmTest() {
 
     @Test
     fun queryTest() {
-        // :code-block-start: landing-page-query
+        // :snippet-start: landing-page-query
         val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
             // :hide-start:
             .directory("/tmp/")
@@ -28,7 +28,7 @@ class QuickStartTest: RealmTest() {
         Log.v("Tadpoles: ${tadpoles.count()}")
         val numTadpolesNamedJasonFunderburker = tadpoles.query("name == $0", "Jason Funderburker").count()
         Log.v("Tadpoles named Jason Funderburker: $numTadpolesNamedJasonFunderburker")
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
@@ -48,7 +48,7 @@ class QuickStartTest: RealmTest() {
                 owner = null
             })
         }
-        // :code-block-start: landing-page-update
+        // :snippet-start: landing-page-update
         val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
             // :hide-start:
             .directory("/tmp/")
@@ -71,13 +71,13 @@ class QuickStartTest: RealmTest() {
             }
         } // when the transaction completes, the frog's name and species
         // are updated in the database
-        // :code-block-end:
+        // :snippet-end:
     }
 
     @Test
     fun quickStartTest() {
-        // :code-block-start: quick-start
-        // :code-block-start: quick-start-open-a-realm
+        // :snippet-start: quick-start
+        // :snippet-start: quick-start-open-a-realm
         val config = RealmConfiguration.Builder(schema = setOf(Task::class))
             // :hide-start:
             .directory("/tmp/")
@@ -100,20 +100,20 @@ class QuickStartTest: RealmTest() {
             })
         }
         // :hide-end:
-        // :code-block-end:
-        // :code-block-start: quick-start-create
+        // :snippet-end:
+        // :snippet-start: quick-start-create
         realm.writeBlocking {
             copyToRealm(Task().apply {
                 name = "Do work"
                 status = "Open"
             })
         }
-        // :code-block-end:
-        // :code-block-start: quick-start-read
+        // :snippet-end:
+        // :snippet-start: quick-start-read
         // all tasks in the realm
         val tasks: RealmResults<Task> = realm.query<Task>().find()
-        // :code-block-end:
-        // :code-block-start: quick-start-read-filtered
+        // :snippet-end:
+        // :snippet-start: quick-start-read-filtered
         // tasks in the realm whose name begins with the letter 'D'
         val tasksThatBeginWIthD: RealmResults<Task> =
             realm.query<Task>("name BEGINSWITH $0", "D")
@@ -121,26 +121,26 @@ class QuickStartTest: RealmTest() {
         val openTasks: RealmResults<Task> =
             realm.query<Task>("status == $0", "Open")
                 .find()
-        // :code-block-end:
-        // :code-block-start: quick-start-update
+        // :snippet-end:
+        // :snippet-start: quick-start-update
         // change the first task with open status to in progress status
         realm.writeBlocking {
             findLatest(openTasks[0])?.status = "In Progress"
         }
-        // :code-block-end:
-        // :code-block-start: quick-start-delete
+        // :snippet-end:
+        // :snippet-start: quick-start-delete
         // delete the first task in the realm
         realm.writeBlocking {
             val writeTransactionTasks = query<Task>().find()
             delete(writeTransactionTasks.first())
         }
-        // :code-block-end:
-        // :code-block-end:
+        // :snippet-end:
+        // :snippet-end:
     }
 
     @Test
     fun changeListenersTest() {
-        // :code-block-start: change-listeners
+        // :snippet-start: change-listeners
         val config = RealmConfiguration.Builder(schema = setOf(Task::class))
             // :hide-start:
             .directory("/tmp/")
@@ -163,6 +163,6 @@ class QuickStartTest: RealmTest() {
                 copyToRealm(Task().apply { name = "my task"; status = "Open"})
             }
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }

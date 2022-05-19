@@ -5,7 +5,7 @@ import com.mongodb.realm.examples.model.kotlin.Frog;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-// :code-block-start: one-to-many-relationship
+// :snippet-start: one-to-many-relationship
 // :replace-start: {
 //    "terms": {
 //       "KidJava": "Kid"
@@ -17,4 +17,4 @@ public class KidJava
             new RealmList<Frog>();
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

@@ -12,7 +12,7 @@ describe("Call a Function", () => {
     const credentials = Realm.Credentials.anonymous();
     const user = await app.logIn(credentials);
 
-    // :code-block-start: call-a-function-by-name
+    // :snippet-start: call-a-function-by-name
     // wrap the code below in an async function to 'await' for the promises to resolve
     const numA = 2;
     const numB = 3;
@@ -25,7 +25,7 @@ describe("Call a Function", () => {
     console.log(
       `Using the "callFunction()" method: the sum of ${numA} + ${numB} = ${resultOfCallFunction}`
     );
-    // :code-block-end:
+    // :snippet-end:
 
     expect(result).toBe(5);
     expect(resultOfCallFunction).toBe(5);

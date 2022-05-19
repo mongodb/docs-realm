@@ -18,7 +18,7 @@ class RealmQueryTest : RealmTest() {
     fun testFindObjectByPrimaryKey() {
         val expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: find-object-by-primary-key-local
+            // :snippet-start: find-object-by-primary-key-local
             val config = RealmConfiguration.Builder()
                 .allowWritesOnUiThread(true)
                 .allowQueriesOnUiThread(true)
@@ -54,7 +54,7 @@ class RealmQueryTest : RealmTest() {
                     realm.close()
                 }
             })
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -63,7 +63,7 @@ class RealmQueryTest : RealmTest() {
     fun testQueryARelationship() {
         val expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: query-a-relationship-local
+            // :snippet-start: query-a-relationship-local
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
@@ -100,7 +100,7 @@ class RealmQueryTest : RealmTest() {
                     realm.close()
                 }
             })
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }
@@ -109,7 +109,7 @@ class RealmQueryTest : RealmTest() {
     fun testQueryAnInverseRelationship() {
         val expectation : Expectation = Expectation()
         activity?.runOnUiThread {
-            // :code-block-start: query-an-inverse-relationship-local
+            // :snippet-start: query-an-inverse-relationship-local
             val config = RealmConfiguration.Builder()
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
@@ -146,7 +146,7 @@ class RealmQueryTest : RealmTest() {
                     realm.close()
                 }
             })
-            // :code-block-end:
+            // :snippet-end:
         }
         expectation.await()
     }

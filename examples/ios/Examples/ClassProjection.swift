@@ -7,7 +7,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: models
+// :snippet-start: models
 class ClassProjectionExample_Person: Object {
     @Persisted var firstName = ""
     @Persisted var lastName = ""
@@ -19,15 +19,15 @@ class ClassProjectionExample_Address: EmbeddedObject {
     @Persisted var city: String = ""
     @Persisted var country = ""
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: declare-class-projection
+// :snippet-start: declare-class-projection
 class ClassProjectionExample_PersonProjection: Projection<ClassProjectionExample_Person> {
     @Projected(\ClassProjectionExample_Person.firstName) var firstName // Passthrough from original object
     @Projected(\ClassProjectionExample_Person.address?.city) var homeCity // Rename and access embedded object property through keypath
     @Projected(\ClassProjectionExample_Person.friends.projectTo.firstName) var firstFriendsName: ProjectedCollection<String> // Collection mapping
 }
-// :code-block-end:
+// :snippet-end:
 
 class ClassProjectionExample: XCTestCase {
     override func setUp() {
@@ -59,15 +59,15 @@ class ClassProjectionExample: XCTestCase {
     func testUseProjection() {
         let realm = try! Realm()
 
-        // :code-block-start: retrieve-data-through-class-projection
+        // :snippet-start: retrieve-data-through-class-projection
         // Retrieve all class projections of the given type `PersonProjection`
         let people = realm.objects(ClassProjectionExample_PersonProjection.self)
         // Use projection data in your view
         print(people.first?.firstName)
         print(people.first?.homeCity)
         print(people.first?.firstFriendsName)
-        // :code-block-end:
-        // :code-block-start: change-class-projection-property-value-in-a-write
+        // :snippet-end:
+        // :snippet-start: change-class-projection-property-value-in-a-write
         // Retrieve all class projections of the given type `PersonProjection`
         // and filter for the first class projection where the `firstName` property
         // value is "Jason"
@@ -80,10 +80,10 @@ class ClassProjectionExample: XCTestCase {
         try! realm.write {
             person.firstName = "David"
         }
-        // :code-block-end:
+        // :snippet-end:
         XCTAssert(person.firstName == "David")
     }
-    // :code-block-start: test-with-class-projection
+    // :snippet-start: test-with-class-projection
     func testWithProjection() {
         let realm = try! Realm()
         // Create a Realm object, populate it with values
@@ -114,10 +114,10 @@ class ClassProjectionExample: XCTestCase {
         // Verify that the projected property's value has changed
         XCTAssert(person.firstName == "David")
     }
-    // :code-block-end:
+    // :snippet-end:
 
     func projectionNotificationExample() {
-        // :code-block-start: register-a-class-projection-change-listener
+        // :snippet-start: register-a-class-projection-change-listener
         let realm = try! Realm()
         let projectedPerson = realm.objects(ClassProjectionExample_PersonProjection.self).first(where: { $0.firstName == "Jason" })!
         let token = projectedPerson.observe(keyPaths: ["firstName"], { change in
@@ -137,7 +137,7 @@ class ClassProjectionExample: XCTestCase {
         try! realm.write {
             projectedPerson.firstName = "David"
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }
 // :replace-end:

@@ -1,6 +1,6 @@
 package com.mongodb.realm.examples.model.java;
 
-// :code-block-start: plant
+// :snippet-start: plant
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 
@@ -43,4 +43,4 @@ public class Plant {
         return "Plant [id=" + id + ", name=" + name + ", sunlight=" + sunlight + ", color=" + color + ", type=" + type + ", partition=" + partition + "]";
     }
 }
-// :code-block-end:
+// :snippet-end:

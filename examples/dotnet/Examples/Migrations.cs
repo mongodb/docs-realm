@@ -9,7 +9,7 @@ namespace Examples
     {
         public Migrations()
         {
-            // :code-block-start: migrate
+            // :snippet-start: migrate
             var config = new RealmConfiguration
             {
                 SchemaVersion = 4,
@@ -53,10 +53,10 @@ namespace Examples
                 }
             };
             var realm = Realm.GetInstance(config);
-            // :code-block-end:
+            // :snippet-end:
         }
 
-        // :code-block-start: ro1
+        // :snippet-start: ro1
         //:replace-start: {
         // "terms": {
         //   "PersonJ": "Person"}
@@ -71,9 +71,9 @@ namespace Examples
             public int Age { get; set; }
         }
         //:replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: ro2
+        // :snippet-start: ro2
         //:replace-start: {
         // "terms": {
         //   "PersonK": "Person"
@@ -89,9 +89,9 @@ namespace Examples
             public int Age { get; set; }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: ro3
+        // :snippet-start: ro3
         //:replace-start: {
         // "terms": {
         //   "PersonL": "Person"
@@ -106,9 +106,9 @@ namespace Examples
             public int Age { get; set; }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
 
-        // :code-block-start: ro4
+        // :snippet-start: ro4
         //:replace-start: {
         // "terms": {
         //   "PersonM": "Person"
@@ -123,6 +123,6 @@ namespace Examples
             public DateTimeOffset Birthday { get; set; }
         }
         // :replace-end:
-        // :code-block-end:
+        // :snippet-end:
     }
 }

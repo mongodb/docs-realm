@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.kotlin
-// :code-block-start: complete
+// :snippet-start: complete
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
@@ -51,4 +51,4 @@ internal class ExampleRecyclerViewAdapter(data: OrderedRealmCollection<Item?>?) 
             "Created RealmRecyclerViewAdapter for ${getData()!!.size} items.")
     }
 }
-// :code-block-end:
+// :snippet-end:

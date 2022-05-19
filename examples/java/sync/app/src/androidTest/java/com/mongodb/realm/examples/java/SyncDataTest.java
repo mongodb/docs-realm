@@ -50,7 +50,7 @@ public class SyncDataTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: open-a-synced-realm
+                    // :snippet-start: open-a-synced-realm
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                         .build();
@@ -64,7 +64,7 @@ public class SyncDataTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -87,7 +87,7 @@ public class SyncDataTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
 
-                    // :code-block-start: open-a-synced-realm-offline
+                    // :snippet-start: open-a-synced-realm-offline
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                             .build();
@@ -102,7 +102,7 @@ public class SyncDataTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -123,7 +123,7 @@ public class SyncDataTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: sync-data
+                    // :snippet-start: sync-data
                     User user = app.currentUser();
                     SyncConfiguration config = new SyncConfiguration.Builder(user, partition)
                             .allowQueriesOnUiThread(true)
@@ -146,7 +146,7 @@ public class SyncDataTest extends RealmTest {
                             realm.close();
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -184,15 +184,15 @@ public class SyncDataTest extends RealmTest {
                                 r.insert(new Task());
                             });
 
-                            // :code-block-start: pause-sync-session
+                            // :snippet-start: pause-sync-session
                             SyncSession session = app.getSync().getSession(config);
                             session.stop();
-                            // :code-block-end:
+                            // :snippet-end:
                             Assert.assertEquals(SyncSession.State.INACTIVE, app.getSync().getSession(config).getState());
-                            // :code-block-start: resume-sync-session
+                            // :snippet-start: resume-sync-session
                             SyncSession syncSession = app.getSync().getSession(config);
                             syncSession.start();
-                            // :code-block-end:
+                            // :snippet-end:
                             realm.executeTransaction(r -> {
                                 r.insert(new Task());
                             });
@@ -238,9 +238,9 @@ public class SyncDataTest extends RealmTest {
                                 r.insert(new Task());
                             });
 
-                            // :code-block-start: check-current-network-connection
+                            // :snippet-start: check-current-network-connection
                             Log.v("EXAMPLE", "Sync state: " + app.getSync().getSession(config).getConnectionState());
-                            // :code-block-end:
+                            // :snippet-end:
 
                             expectation.fulfill();
 
@@ -285,7 +285,7 @@ public class SyncDataTest extends RealmTest {
                                 r.insert(new Task());
                             });
 
-                            // :code-block-start: check-upload-progress
+                            // :snippet-start: check-upload-progress
                             app.getSync().getSession(config).addUploadProgressListener(ProgressMode.INDEFINITELY, new ProgressListener() {
                                 @Override
                                 public void onChange(Progress progress) {
@@ -295,9 +295,9 @@ public class SyncDataTest extends RealmTest {
                                     // :hide-end:
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
 
-                            // :code-block-start: check-download-progress
+                            // :snippet-start: check-download-progress
                             app.getSync().getSession(config).addDownloadProgressListener(ProgressMode.INDEFINITELY, new ProgressListener() {
                                 @Override
                                 public void onChange(Progress progress) {
@@ -307,7 +307,7 @@ public class SyncDataTest extends RealmTest {
                                     // :hide-end:
                                 }
                             });
-                            // :code-block-end:
+                            // :snippet-end:
 
                             // write a task locally to initiate an upload
                             realm.executeTransaction(r -> {
@@ -352,9 +352,9 @@ public class SyncDataTest extends RealmTest {
         activity.runOnUiThread(() -> {
             String appID = YOUR_APP_ID; // replace this with your App ID
             App app = new App(new AppConfiguration.Builder(appID).build());
-            // :code-block-start: set-client-log-level
+            // :snippet-start: set-client-log-level
             RealmLog.setLevel(LogLevel.ALL);
-            // :code-block-end:
+            // :snippet-end:
             expectation.fulfill();
         });
         expectation.await();

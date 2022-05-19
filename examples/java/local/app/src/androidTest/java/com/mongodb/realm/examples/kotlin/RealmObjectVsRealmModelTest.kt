@@ -35,7 +35,7 @@ class RealmObjectVsRealmModelTest : RealmTest() {
                 frogRealmModel = realm.createObject(FrogRealmModelExampleKt::class.java)
             }
 
-            // :code-block-start: realm-object-vs-realm-model
+            // :snippet-start: realm-object-vs-realm-model
             // :replace-start: {
             //    "terms": {
             //       "FrogRealmModelExampleKt": "Frog"
@@ -49,7 +49,7 @@ class RealmObjectVsRealmModelTest : RealmTest() {
             RealmObject.isValid(frogRealmModel)
             RealmObject.addChangeListener(frogRealmModel, listener)
             // :replace-end:
-            // :code-block-end:
+            // :snippet-end:
 
 
             realm.close()

@@ -89,7 +89,7 @@ public class UserAPIKeysTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated user.");
-                    // :code-block-start: create-a-user-api-key
+                    // :snippet-start: create-a-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().createAsync("Name-of-the-API-Key", result -> {
                         if (result.isSuccess()) {
@@ -101,7 +101,7 @@ public class UserAPIKeysTest extends RealmTest {
                             Log.e("EXAMPLE", "Error creating API key: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -121,7 +121,7 @@ public class UserAPIKeysTest extends RealmTest {
             app.loginAsync(credentials, it -> {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
-                    // :code-block-start: look-up-a-users-api-keys
+                    // :snippet-start: look-up-a-users-api-keys
                     User user = app.currentUser();
                     user.getApiKeys().fetchAll(result -> {
                         if (result.isSuccess()) {
@@ -133,7 +133,7 @@ public class UserAPIKeysTest extends RealmTest {
                             Log.e("EXAMPLE", "Error fetching API keys: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -154,7 +154,7 @@ public class UserAPIKeysTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     ObjectId api_key_id = apiKey.getId();
-                    // :code-block-start: look-up-a-specific-user-api-key
+                    // :snippet-start: look-up-a-specific-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().fetchAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
@@ -166,7 +166,7 @@ public class UserAPIKeysTest extends RealmTest {
                             Log.e("EXAMPLE", "Error fetching API key: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -187,7 +187,7 @@ public class UserAPIKeysTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     ObjectId api_key_id = apiKey.getId();
-                    // :code-block-start: enable-user-api-key
+                    // :snippet-start: enable-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().enableAsync(api_key_id, result -> {
                         // :hide-start:
@@ -199,7 +199,7 @@ public class UserAPIKeysTest extends RealmTest {
                             Log.e("EXAMPLE", "Error fetching API key: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -220,7 +220,7 @@ public class UserAPIKeysTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     ObjectId api_key_id = apiKey.getId();
-                    // :code-block-start: disable-user-api-key
+                    // :snippet-start: disable-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().disableAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
@@ -236,7 +236,7 @@ public class UserAPIKeysTest extends RealmTest {
                             // :hide-end:
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }
@@ -257,7 +257,7 @@ public class UserAPIKeysTest extends RealmTest {
                 if (it.isSuccess()) {
                     Log.v("EXAMPLE", "Successfully authenticated.");
                     ObjectId api_key_id = apiKey.getId();
-                    // :code-block-start: delete-user-api-key
+                    // :snippet-start: delete-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().deleteAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
@@ -269,7 +269,7 @@ public class UserAPIKeysTest extends RealmTest {
                             Log.e("EXAMPLE", "Error deleting API key: " + result.getError().getErrorMessage());
                         }
                     });
-                    // :code-block-end:
+                    // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: " + it.getError().getErrorMessage());
                 }

@@ -4,7 +4,7 @@ import RealmSwift
 class ManageEmailPasswordUsers: XCTestCase {
 
     func testRegisterNewAccount() async {
-        // :code-block-start: register-email
+        // :snippet-start: register-email
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
@@ -20,13 +20,13 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "name already in use")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testRegisterNewAccountCompletionHandler() {
         let expectation = XCTestExpectation(description: "Registration continues")
 
-        // :code-block-start: register-email-completion-handler
+        // :snippet-start: register-email-completion-handler
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
@@ -46,12 +46,12 @@ class ManageEmailPasswordUsers: XCTestCase {
             expectation.fulfill()
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testResendConfirmationEmail() async {
-        // :code-block-start: resend-confirmation-email
+        // :snippet-start: resend-confirmation-email
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
@@ -68,11 +68,11 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "already confirmed")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testRetryConfirmationFunction() async {
-        // :code-block-start: retry-confirmation-function
+        // :snippet-start: retry-confirmation-function
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
@@ -89,11 +89,11 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "cannot run confirmation for skroob@example.com: automatic confirmation is enabled")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testConfirmNewUserEmail() async {
-        // :code-block-start: confirm-new-user-email 
+        // :snippet-start: confirm-new-user-email 
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
 
@@ -112,11 +112,11 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "invalid token data")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testResetPassword() async {
-        // :code-block-start: reset-password
+        // :snippet-start: reset-password
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
 
@@ -151,11 +151,11 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "invalid token data")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 
     func testPasswordResetFunc() async {
-        // :code-block-start: password-reset-function
+        // :snippet-start: password-reset-function
         let app = App(id: YOUR_REALM_APP_ID)
         let client = app.emailPasswordAuth
 
@@ -178,6 +178,6 @@ class ManageEmailPasswordUsers: XCTestCase {
             XCTAssertEqual(error.localizedDescription, "user not found")
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
     }
 }

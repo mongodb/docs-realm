@@ -5,7 +5,7 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
     func testRemoteMongoDB() {
         let expectation = XCTestExpectation(description: "it completes")
 
-        // :code-block-start: remote-mongodb
+        // :snippet-start: remote-mongodb
         // mongodb-atlas is the cluster service name
         let client = app.currentUser!.mongoClient("mongodb-atlas")
 
@@ -44,7 +44,7 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
                 })
             }
         })
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-// :code-block-start: inverse-relationship
+// :snippet-start: inverse-relationship
 class InverseRelationshipExample_User: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var _partition: String = ""
@@ -28,9 +28,9 @@ class InverseRelationshipExample_Task: Object {
     // this task is added to or removed from a user's task list.
     @Persisted(originProperty: "tasks") var assignee: LinkingObjects<InverseRelationshipExample_User>
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: inverse-relationship-objc-dynamic
+// :snippet-start: inverse-relationship-objc-dynamic
 class InverseRelationshipObjcDynamicExample_User: Object {
     @objc dynamic var _id: ObjectId = ObjectId.generate()
     @objc dynamic var _partition: String = ""
@@ -57,9 +57,9 @@ class InverseRelationshipObjcDynamicExample_Task: Object {
         return "_id"
     }
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: to-many-relationship
+// :snippet-start: to-many-relationship
 class ToManyExample_Person: Object {
     @Persisted var name: String = ""
     @Persisted var birthdate: Date = Date(timeIntervalSince1970: 1)
@@ -74,9 +74,9 @@ class ToManyExample_Dog: Object {
     @Persisted var breed: String?
     // No backlink to person -- one-directional relationship
 }
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: to-one-relationship
+// :snippet-start: to-one-relationship
 class ToOneRelationship_Person: Object {
     @Persisted var name: String = ""
     @Persisted var birthdate: Date = Date(timeIntervalSince1970: 1)
@@ -91,6 +91,6 @@ class ToOneRelationship_Dog: Object {
     @Persisted var breed: String?
     // No backlink to person -- one-directional relationship
 }
-// :code-block-end:
+// :snippet-end:
 
 // :replace-end:

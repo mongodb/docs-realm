@@ -1,5 +1,5 @@
 package com.mongodb.realm.examples.model.java;
-// :code-block-start: onion-java-definition
+// :snippet-start: onion-java-definition
 // :replace-start: {
 //    "terms": {
 //       "OnionJava": "Onion"
@@ -45,4 +45,4 @@ public class OnionJava extends RealmObject {
     }
 }
 // :replace-end:
-// :code-block-end:
+// :snippet-end:

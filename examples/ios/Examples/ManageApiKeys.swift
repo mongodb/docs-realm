@@ -39,7 +39,7 @@ class ManageApiKeys: XCTestCase {
 
     func testCreateApiKey() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: create-api-key
+        // :snippet-start: create-api-key
         let app = App(id: YOUR_REALM_APP_ID)
 
         // ... log in ...
@@ -61,14 +61,14 @@ class ManageApiKeys: XCTestCase {
             // :hide-end:
         }
 
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [expectation], timeout: 10)
     }
 
     func testLookUpApiKey() {
         let singleFetchExpectation = XCTestExpectation(description: "single fetch completes")
         let fetchAllExpectation = XCTestExpectation(description: "fetch all completes")
-        // :code-block-start: look-up-api-key
+        // :snippet-start: look-up-api-key
         let app = App(id: YOUR_REALM_APP_ID)
 
         // ... log in ...
@@ -97,7 +97,7 @@ class ManageApiKeys: XCTestCase {
             fetchAllExpectation.fulfill()
             // :hide-end:
         }
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [singleFetchExpectation, fetchAllExpectation], timeout: 10)
     }
 
@@ -105,7 +105,7 @@ class ManageApiKeys: XCTestCase {
         let enableExpectation = XCTestExpectation(description: "enable completes")
         let disableExpectation = XCTestExpectation(description: "disable completes")
 
-        // :code-block-start: enable-disable-api-key
+        // :snippet-start: enable-disable-api-key
         let app = App(id: YOUR_REALM_APP_ID)
 
         // ... log in ...
@@ -137,13 +137,13 @@ class ManageApiKeys: XCTestCase {
             // :hide-end:
         }
 
-        // :code-block-end:
+        // :snippet-end:
         wait(for: [enableExpectation, disableExpectation], timeout: 10)
     }
 
     func testDeleteApiKey() {
         let expectation = XCTestExpectation(description: "it completes")
-        // :code-block-start: delete-api-key
+        // :snippet-start: delete-api-key
         let app = App(id: YOUR_REALM_APP_ID)
 
         // ... log in ...
@@ -169,7 +169,7 @@ class ManageApiKeys: XCTestCase {
             }
             // Key deleted
         }
-        // :code-block-end:
+        // :snippet-end:
 
         wait(for: [expectation], timeout: 10)
     }

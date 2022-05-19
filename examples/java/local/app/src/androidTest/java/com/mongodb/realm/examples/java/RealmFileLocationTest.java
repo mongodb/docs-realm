@@ -20,10 +20,10 @@ public class RealmFileLocationTest extends RealmTest {
                     .allowWritesOnUiThread(true)
                     .build();
 
-            // :code-block-start: get-realm-file-location
+            // :snippet-start: get-realm-file-location
             Realm realm = Realm.getInstance(config);
             Log.v("EXAMPLE", "Realm file path: " + realm.getPath());
-            // :code-block-end:
+            // :snippet-end:
             realm.close();
             expectation.fulfill();
         });

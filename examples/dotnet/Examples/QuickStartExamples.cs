@@ -24,9 +24,9 @@ namespace Examples
         [OneTimeSetUp]
         public async ThreadTask Setup()
         {
-            // :code-block-start: initialize-realm
+            // :snippet-start: initialize-realm
             app = App.Create(myRealmAppId);
-            // :code-block-end:
+            // :snippet-end:
 
             user = await app.LogInAsync(
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
@@ -43,12 +43,12 @@ namespace Examples
                 realm.RemoveAll<Task>();
             });
 
-            // :code-block-start: open-synced-realm-sync
+            // :snippet-start: open-synced-realm-sync
             // :uncomment-start:
             // var synchronousRealm = await Realm.GetInstanceAsync(config);
             // :uncomment-end:
-            // :code-block-end:
-            // :code-block-start: create
+            // :snippet-end:
+            // :snippet-start: create
             var testTask = new Task
             {
                 Name = "Do this thing",
@@ -60,7 +60,7 @@ namespace Examples
             {
                 realm.Add(testTask);
             });
-            // :code-block-end:
+            // :snippet-end:
             testTaskId = testTask.Id;
 
             return;
@@ -71,10 +71,10 @@ namespace Examples
         public async ThreadTask GetsSyncedTasks()
         {
             App app = App.Create(myRealmAppId);
-            // :code-block-start: anon-login
+            // :snippet-start: anon-login
             var user = await app.LogInAsync(Credentials.Anonymous());
-            // :code-block-end:
-            // :code-block-start: config
+            // :snippet-end:
+            // :snippet-start: config
             config = new PartitionSyncConfiguration("myPart", user);
             //:hide-start:
             config.Schema = new[]
@@ -84,14 +84,14 @@ namespace Examples
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
-            // :code-block-end:
-            // :code-block-start: read-all
+            // :snippet-end:
+            // :snippet-start: read-all
             var tasks = realm.All<Task>();
-            // :code-block-end:
+            // :snippet-end:
             //Assert.AreEqual(1, tasks.Count(),"Get All");
-            // :code-block-start: read-some
+            // :snippet-start: read-some
             tasks = realm.All<Task>().Where(t => t.Status == "Open");
-            // :code-block-end:
+            // :snippet-end:
             //Assert.AreEqual(1, tasks.Count(), "Get Some");
             return;
         }
@@ -109,7 +109,7 @@ namespace Examples
             };
             //:hide-end:
             var realm = await Realm.GetInstanceAsync(config);
-            // :code-block-start: modify
+            // :snippet-start: modify
             var t = realm.All<Task>()
                 .FirstOrDefault(t => t.Id == testTaskId);
 
@@ -118,7 +118,7 @@ namespace Examples
                 t.Status = TaskStatus.InProgress.ToString();
             });
 
-            // :code-block-end:
+            // :snippet-end:
             var ttest = realm.All<Task>().FirstOrDefault(x => x.Id == t.Id);
             //Assert.AreEqual(1, allTasks.Count);
             Assert.AreEqual(TaskStatus.InProgress.ToString(), ttest.Status);
@@ -139,20 +139,20 @@ namespace Examples
                 {
                     realm.Add(myTask);
                 });
-                // :code-block-start: delete
+                // :snippet-start: delete
                 realm.Write(() =>
                 {
                     realm.Remove(myTask);
                 });
-                // :code-block-end:
+                // :snippet-end:
                 realm.Write(() =>
                 {
                     realm.RemoveAll<Task>();
                 });
                 var user = await app.LogInAsync(Credentials.Anonymous());
-                // :code-block-start: logout
+                // :snippet-start: logout
                 await user.LogOutAsync();
-                // :code-block-end:
+                // :snippet-end:
             }
             return;
         }

@@ -5,7 +5,7 @@ const index = require("./index");
 const output = require("./output");
 const users = require("./users");
 
-// :code-block-start: getTasks
+// :snippet-start: getTasks
 exports.getTasks = async (partition) => {
   const realm = await index.getRealm(partition);
   // :state-start: final
@@ -17,9 +17,9 @@ exports.getTasks = async (partition) => {
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: getTask
+// :snippet-start: getTask
 exports.getTask = async (partition) => {
   const realm = await index.getRealm(partition);
   try {
@@ -44,9 +44,9 @@ exports.getTask = async (partition) => {
     output.error(err.message);
   }
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: createTask
+// :snippet-start: createTask
 exports.createTask = async (partition) => {
   const realm = await index.getRealm(partition);
   try {
@@ -87,9 +87,9 @@ exports.createTask = async (partition) => {
     output.error(err.message);
   }
 };
-// :code-block-end:
+// :snippet-end:
 
-// :code-block-start: deleteTask
+// :snippet-start: deleteTask
 exports.deleteTask = async (partition) => {
   const realm = await index.getRealm(partition);
   output.header("DELETE A TASK");
@@ -125,7 +125,7 @@ exports.deleteTask = async (partition) => {
     return;
   }
 };
-// :code-block-end:
+// :snippet-end:
 
 exports.editTask = async (partition) => {
   output.header("CHANGE A TASK");
@@ -176,7 +176,7 @@ exports.changeStatus = async (partition) => {
   return;
 };
 
-// :code-block-start: modifyTask
+// :snippet-start: modifyTask
 async function modifyTask(answers, partition) {
   const realm = await index.getRealm(partition);
   let task;
@@ -195,4 +195,4 @@ async function modifyTask(answers, partition) {
     return output.error(err.message);
   }
 }
-// :code-block-end:
+// :snippet-end:
