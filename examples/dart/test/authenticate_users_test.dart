@@ -2,6 +2,7 @@
 
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import './utils.dart';
 
 const APP_ID = "example-testers-kvjdy";
 
@@ -100,6 +101,41 @@ void main() {
         await app.removeUser(user);
         // :snippet-end:
       }
+    });
+  });
+  group('Link user credentials', () {
+    test('Basic link user credentials', () async {
+      User user = await app.logIn(Credentials.anonymous());
+      final USERNAME = "${generateRandomString(20)}@example.com";
+      final PASSWORD = generateRandomString(8);
+      EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+      await authProvider.registerUser(USERNAME, PASSWORD);
+      Credentials additionalCredentials =
+          Credentials.emailPassword(USERNAME, PASSWORD);
+      // :snippet-start: link-user-credentials
+      User linkedCredentialUser =
+          await user.linkCredentials(additionalCredentials);
+      // :snippet-end:
+      expect(linkedCredentialUser.identities.length, 2);
+    });
+    test("Link user credentials example", () async {
+      final USERNAME = "${generateRandomString(20)}@example.com";
+      final PASSWORD = generateRandomString(8);
+      // :snippet-start: link-user-credentials-example
+      // on app start without registration
+      User anonymousUser = await app.logIn(Credentials.anonymous());
+
+      // ... user interacts with app
+
+      //... user decides to sign up for app with email/password auth
+      EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+      await authProvider.registerUser(USERNAME, PASSWORD);
+
+      // link email/password credentials to anonymous user's credentials
+      User linkedCredentialUser = await anonymousUser
+          .linkCredentials(Credentials.emailPassword(USERNAME, PASSWORD));
+      // :snippet-end:
+      expect(linkedCredentialUser.identities.length, 2);
     });
   });
 }
