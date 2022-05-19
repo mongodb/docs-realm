@@ -9,19 +9,22 @@ The backend that this app actually hits is located in the [example-testers Realm
 
 ### Install SwiftLint
 
-This project uses Swift Package Manager to manage dependencies. As of March 2022,
-there isn't a good way to install SwiftLint with SPM. Follow the installation 
-instructions from [SwiftLint](https://github.com/realm/SwiftLint) to install
-it locally. SwiftLint runs when you run the tests, and if you don't install
-it locally, you get an error and the project does not build.
+This project uses Swift Package Manager (SPM) to manage dependencies. As of
+March 2022, there isn't a good way to install SwiftLint with SPM. Follow the
+installation instructions from [SwiftLint](https://github.com/realm/SwiftLint)
+to install it locally. SwiftLint runs when you run the tests, and if you don't
+install it locally, you get an error and the project does not build.
 
 ### Run Tests
 
-Open the CocoaPods-generated .xcworkspace file with Xcode:
+Open the RealmExamples.xcodeproj file with Xcode:
 
 ```bash
-open RealmExamples.xcworkspace
+open RealmExamples.xcodeproj
 ```
+
+If this is your first time opening the project, SPM will take a few minutes to
+download dependencies before you can run.
 
 To run the tests, ensure the "Test Examples" scheme is selected in the top left
 and do one of the following:
@@ -29,6 +32,12 @@ and do one of the following:
 - Press and hold the "Run" button (▶) to select "Test"
 - In the Xcode menu, select Product > Test
 - Type `⌘U`
+
+Xcode will build the project and open a Simulator to host the test runners.
+
+Check the Test navigator (`⌘6`) on the left panel in Xcode to see the results of
+the tests. You can also re-run specific tests from this panel by clicking the
+little ▶ button next to each test.
 
 ### Understand the Project Structure
 
@@ -140,7 +149,7 @@ The `QuickStartSwiftUI` directory -- `QuickStartSwiftUI/QuickStart.swift` in
 particular -- contains the code for the SwiftUI and Combine quick start. To run,
 open the workspace in Xcode and select the "QuickStartSwiftUI" target.
 
->⚠️ Note: you will need an iOS 14.0+ simulator or device to run this target.
+> ⚠️ Note: you will need an iOS 14.0+ simulator or device to run this target.
 
 ## Code to Docs Pipeline
 
