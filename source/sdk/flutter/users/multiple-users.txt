@@ -67,10 +67,8 @@ The {+service-short+} SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
 the application's :ref:`active user <active-user>`.
 
-.. code-block:: dart
-
-   Credentials emailPwCredentials = Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
-   User currentUser = await app.logIn(emailPwCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.email-password-credentials.dart
+   :language: dart
 
 .. seealso:: 
 
@@ -87,9 +85,8 @@ by reading your app's :flutter-sdk:`App.users <realm/App/users.html>` property.
 This Iterable includes all users that have logged in to the client app
 on a given device regardless of whether they are currently authenticated.
 
-.. code-block:: dart
-
-   Iterable<User> users = app.users;
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.list-all-users.dart
+   :language: dart
 
 
 .. _flutter-remove-user:
@@ -101,9 +98,8 @@ You can remove all information about a user from the device and automatically
 log the user out by passing the ``User`` object to
 :flutter-sdk:`app.removeUser() <realm/App/removeUser.html>`:
 
-.. code-block:: dart
-
-   await app.removeUser(app.currentUser);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.remove-user.dart
+   :language: dart
 
 .. _flutter-change-active-user:
 
@@ -115,6 +111,5 @@ logged in user by calling
 :flutter-sdk:`app.switchUser() <realm/App/switchUser.html>` on the ``User`` object
 you are switching to:
 
-.. code-block:: dart
-
-  app.switchUser(someUser);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.change-active-user.dart
+   :language: dart
