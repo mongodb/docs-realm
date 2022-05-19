@@ -1,9 +1,0 @@
-- ``auth``
-- ``endpoint``
-- ``function``
-- ``graphql``
-- ``push``
-- ``schema``
-- ``service``
-- ``sync``
-- ``trigger``
