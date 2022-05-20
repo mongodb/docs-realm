@@ -35,9 +35,9 @@ public class AccessCustomUserDataTest extends RealmTest {
                     User user = app.currentUser();
                     Document customUserData = user.getCustomData();
                     Log.v("EXAMPLE", "Fetched custom user data: " + customUserData);
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                 } else {
                     Log.e("EXAMPLE", it.getError().toString());
                 }
@@ -71,9 +71,9 @@ public class AccessCustomUserDataTest extends RealmTest {
                                 if (result.isSuccess()) {
                                     Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: "
                                             + result.get().getInsertedId());
-                                    // :hide-start:
+                                    // :remove-start:
                                     expectation.fulfill();
-                                    // :hide-end:
+                                    // :remove-end:
                                 } else {
                                     Log.e("EXAMPLE", "Unable to insert custom user data. Error: " + result.getError());
                                 }
@@ -108,9 +108,9 @@ public class AccessCustomUserDataTest extends RealmTest {
                     mongoCollection.updateOne(
                             new Document("user-id-field", user.getId()), new Document("favoriteColor", "cerulean"))
                             .getAsync(result -> {
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill();
-                                // :hide-end:
+                                // :remove-end:
                                 if (result.isSuccess()) {
                                     if (result.get().getModifiedCount() == 1L) {
                                         Log.v("EXAMPLE", "Updated custom user data document.");

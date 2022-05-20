@@ -14,9 +14,9 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.anonymous();
     try {
       const user = await app.logIn(credentials);
-      // :hide-start:
+      // :remove-start:
       expect(user.id).toBe(app.currentUser.id);
-      // :hide-end:
+      // :remove-end:
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -36,9 +36,9 @@ describe("user authentication", () => {
     // :snippet-start: email-password-login
     // Create an email/password credential
     const credentials = Realm.Credentials.emailPassword(
-      // :hide-start:
+      // :remove-start:
       username,
-      // :hide-end:
+      // :remove-end:
       // :uncomment-start:
       // "joe.jasper@example.com",
       // :uncomment-end:
@@ -46,9 +46,9 @@ describe("user authentication", () => {
     );
     try {
       const user = await app.logIn(credentials);
-      // :hide-start:
+      // :remove-start:
       expect(user.id).toBe(app.currentUser.id);
-      // :hide-end:
+      // :remove-end:
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -83,9 +83,9 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.function({ username: "mongolover" });
     try {
       const user = await app.logIn(credentials);
-      // :hide-start:
+      // :remove-start:
       expect(user.id).toBe(app.currentUser.id);
-      // :hide-end:
+      // :remove-end:
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -119,9 +119,9 @@ describe("user authentication", () => {
     const credentials = Realm.Credentials.jwt(jwt);
     try {
       const user = await app.logIn(credentials);
-      // :hide-start:
+      // :remove-start:
       expect(user.id).toBe(app.currentUser.id);
-      // :hide-end:
+      // :remove-end:
       console.log("Successfully logged in!", user.id);
       return user;
     } catch (err) {
@@ -146,9 +146,9 @@ describe("user authentication", () => {
       // :snippet-start: logout
       // Log out the current user
       await app.currentUser.logOut();
-      // :hide-start:
+      // :remove-start:
       expect(emailPasswordUser.id).toBe(app.currentUser.id);
-      // :hide-end:
+      // :remove-end:
       // Log out a specific user by ID
       await app.allUsers[app.currentUser.id].logOut();
       // :snippet-end:

@@ -22,9 +22,9 @@ describe("React to Changes", () => {
     // Define a listener callback function
     function onRealmChange() {
       console.log("Something changed!");
-      // :hide-start:
+      // :remove-start:
       hasRealmChanged = true;
-      // :hide-end:
+      // :remove-end:
     }
     // Add the listener callback to the realm
     try {
@@ -34,13 +34,13 @@ describe("React to Changes", () => {
         `An exception was thrown within the change listener: ${error}`
       );
     }
-    // :hide-start:
+    // :remove-start:
     realm.write(() => {
       dog = realm.create("Dog", {
         name: "Spot",
       });
     });
-    // :hide-end:
+    // :remove-end:
     // Remember to remove the listener when you're done!
     realm.removeListener("change", onRealmChange);
     // :snippet-end:
@@ -77,26 +77,26 @@ describe("React to Changes", () => {
         // You cannot directly access deleted objects,
         // but you can update a UI list, etc. based on the index.
         console.log(`Looks like Dog #${index} has left the realm.`);
-        // :hide-start:
+        // :remove-start:
         dogHasBeenDeleted = true;
-        // :hide-end:
+        // :remove-end:
       });
 
       // Handle newly added Dog objects
       changes.insertions.forEach((index) => {
         const insertedDog = dogs[index];
         console.log(`Welcome our new friend, ${insertedDog.name}!`);
-        // :hide-start:
+        // :remove-start:
         dogHasBeenInserted = true;
-        // :hide-end:
+        // :remove-end:
       });
       // Handle Dog objects that were modified
       changes.modifications.forEach((index) => {
         const modifiedDog = dogs[index];
         console.log(`Hey ${modifiedDog.name}, you look different!`);
-        // :hide-start:
+        // :remove-start:
         dogHasBeenModified = true;
-        // :hide-end:
+        // :remove-end:
       });
     }
     // Add the listener callback to the collection of dogs
@@ -107,7 +107,7 @@ describe("React to Changes", () => {
         `An exception was thrown within the change listener: ${error}`
       );
     }
-    // :hide-start:
+    // :remove-start:
 
     realm.write(() => {
       dog = realm.create("Dog", {
@@ -123,7 +123,7 @@ describe("React to Changes", () => {
     });
     // An empty write transaction is preformed to refresh the realm and deliver the pending (delete event) notification
     realm.write(() => {});
-    // :hide-end:
+    // :remove-end:
     // Remember to remove the listener when you're done!
     dogs.removeListener(onDogsChange);
     // :snippet-end:
@@ -151,26 +151,26 @@ describe("React to Changes", () => {
     function onDogChange(dog, changes) {
       if (changes.deleted) {
         console.log(`dog is deleted: ${changes.deleted}`);
-        // :hide-start:
+        // :remove-start:
         dogHasBeenDeleted = true;
-        // :hide-end:
+        // :remove-end:
       } else {
-        // :hide-start:
+        // :remove-start:
         propertyHasChanged = true;
-        // :hide-end:
+        // :remove-end:
         changes.changedProperties.forEach((prop) => {
           console.log(`* the value of "${prop}" changed to ${dog[prop]}`);
         });
       }
     }
-    // :hide-start:
+    // :remove-start:
     realm.write(() => {
       dog = realm.create("Dog", {
         name: "Fido",
         age: 4,
       });
     });
-    // :hide-end:
+    // :remove-end:
     // You can define a listener for any Realm object
     try {
       dog.addListener(onDogChange);
@@ -179,7 +179,7 @@ describe("React to Changes", () => {
         `An exception was thrown within the change listener: ${error}`
       );
     }
-    // :hide-start:
+    // :remove-start:
     realm.write(() => {
       dog.age += 1;
     });
@@ -188,7 +188,7 @@ describe("React to Changes", () => {
     });
     // An empty write transaction is preformed to refresh the realm and deliver the pending (delete event) notification
     realm.write(() => {});
-    // :hide-end:
+    // :remove-end:
     // Remember to remove the listeners when you're done!
     dog.removeListener(onDogChange);
     // :snippet-end:

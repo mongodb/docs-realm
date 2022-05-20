@@ -48,10 +48,10 @@ describe("QuickStart Local", () => {
       });
       // use task1 and task2
       // :snippet-end:
-      // :hide-start:
+      // :remove-start:
       expect(task1.name).toBe("go grocery shopping");
       expect(task2.name).toBe("go exercise");
-      // :hide-end:
+      // :remove-end:
 
       // :snippet-start: find-sort-and-filter-objects
       // query realm for all instances of the "Task" type.
@@ -75,26 +75,26 @@ describe("QuickStart Local", () => {
       );
       // :snippet-end:
 
-      // :hide-start:
+      // :remove-start:
       expect(tasks.length).toBe(2);
       expect(openTasks.length).toBe(2);
       expect(tasksByName[0].name).toBe("go exercise");
 
       let taskHasBeenModified = false;
       let taskHasBeenDeleted = false;
-      // :hide-end:
+      // :remove-end:
 
       // :snippet-start: watch-a-collection
       // Define the collection notification listener
       function listener(tasks, changes) {
-        // :hide-start:
+        // :remove-start:
         if (changes.newModifications.length > 0) {
           taskHasBeenModified = true;
         }
         if (changes.deletions.length > 0) {
           taskHasBeenDeleted = true;
         }
-        // :hide-end:
+        // :remove-end:
         // Update UI in response to deleted objects
         changes.deletions.forEach((index) => {
           // Deleted objects cannot be accessed directly,
@@ -127,9 +127,9 @@ describe("QuickStart Local", () => {
       });
       // :snippet-end:
 
-      // :hide-start:
+      // :remove-start:
       expect(task1.status).toBe("InProgress");
-      // :hide-end:
+      // :remove-end:
 
       // :snippet-start: delete-an-object
       realm.write(() => {
@@ -140,7 +140,7 @@ describe("QuickStart Local", () => {
       });
       // :snippet-end:
 
-      // :hide-start:
+      // :remove-start:
       // wait 1 second until the collection listener has registered the modification and deletion events
       setTimeout(() => {
         expect(taskHasBeenModified).toBe(true);
@@ -149,7 +149,7 @@ describe("QuickStart Local", () => {
       realm.write(() => {
         realm.delete(task2); // task1 has already been deleted
       });
-      // :hide-end:
+      // :remove-end:
 
       // :snippet-start: close-a-realm
       // Remember to close the realm

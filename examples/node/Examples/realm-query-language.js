@@ -76,28 +76,28 @@ describe("Realm Query Language Reference", () => {
     const highPriorityTasks = tasks.filtered(
       // :snippet-start: comparison-operators
       "priority > 5"
-      // :hide-start:
+      // :remove-start:
     );
     expect(highPriorityTasks.length).toBe(2);
 
     const longRunningTasks = tasks.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "progressMinutes > 120"
-      // :hide-start:
+      // :remove-start:
     );
     expect(longRunningTasks.length).toBe(1);
 
     const unassignedTasks = tasks.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "assignee == nil"
-      // :hide-start:
+      // :remove-start:
     );
     expect(unassignedTasks.length).toBe(1);
 
     const progressMinutesRange = tasks.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "progressMinutes BETWEEN { 30,60 }"
       // :snippet-end:
@@ -117,16 +117,16 @@ describe("Realm Query Language Reference", () => {
     expect(aliComplete.length).toBe(0);
 
     // :snippet-start: string-operators
-    // :hide-start:
+    // :remove-start:
     const startWithE = projects.filtered(
-      // :hide-end:
+      // :remove-end:
       "name BEGINSWITH[c] 'e'"
-      // :hide-start:
+      // :remove-start:
     );
     expect(startWithE.length).toBe(0);
 
     const containIe = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "name CONTAINS 'ie'"
       // :snippet-end:
@@ -139,36 +139,36 @@ describe("Realm Query Language Reference", () => {
     const averageTaskPriorityAbove5 = projects.filtered(
       // :snippet-start: aggregate-operators
       "tasks.@avg.priority > 5"
-      // :hide-start:
+      // :remove-start:
     );
     expect(averageTaskPriorityAbove5.length).toBe(1);
 
     const allTasksLowerPriority = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "tasks.@max.priority < 5"
-      // :hide-start:
+      // :remove-start:
     );
     expect(allTasksLowerPriority.length).toBe(0);
 
     const allTasksHighPriority = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "tasks.@min.priority > 5"
-      // :hide-start:
+      // :remove-start:
     );
     expect(allTasksHighPriority.length).toBe(0);
 
     const moreThan5Tasks = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "tasks.@count > 5"
-      // :hide-start:
+      // :remove-start:
     );
     expect(moreThan5Tasks.length).toBe(0);
 
     const longRunningProjects = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "tasks.@sum.progressMinutes > 100"
       // :snippet-end:
@@ -181,12 +181,12 @@ describe("Realm Query Language Reference", () => {
     const noCompleteTasks = projects.filtered(
       // :snippet-start: set-operators
       "NONE tasks.isComplete == true"
-      // :hide-start:
+      // :remove-start:
     );
     expect(noCompleteTasks.length).toBe(1);
 
     const anyTopPriorityTasks = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "ANY tasks.priority == 10"
       // :snippet-end:
@@ -239,13 +239,13 @@ describe("Realm Query Language Reference", () => {
     const subquery = projects.filtered(
       // :snippet-start: subquery
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
-      // :hide-start:
+      // :remove-start:
     );
     expect(subquery.length).toBe(1);
     expect(subquery[0].name).toBe("New Project");
 
     const subquery2 = projects.filtered(
-      // :hide-end:
+      // :remove-end:
 
       "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
       // :snippet-end:

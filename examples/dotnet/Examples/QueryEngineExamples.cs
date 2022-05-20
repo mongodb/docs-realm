@@ -26,13 +26,13 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new PartitionSyncConfiguration("foo", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[]
             {
                 typeof(UserTask),
                 typeof(UserProject)
             };
-            //:hide-end:
+            //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             var synchronousRealm = await Realm.GetInstanceAsync(config);
 

@@ -18,9 +18,9 @@ describe("Node Landing Page", () => {
     };
     // open a local realm with the 'Cat' schema
     const realm = await Realm.open({
-      // :hide-start:
+      // :remove-start:
       path: "realm-files/landing-page",
-      // :hide-end:
+      // :remove-end:
       schema: [Cat],
     });
     // :snippet-end:
@@ -109,15 +109,15 @@ describe("Node Landing Page", () => {
     // :snippet-start:  node-landing-access-the-latest-data
     // always access the latest data
     const realmInstanceA = await Realm.open({
-      // :hide-start:
+      // :remove-start:
       path: "realm-files/landing-page",
-      // :hide-end:
+      // :remove-end:
       schema: [Cat],
     });
     const realmInstanceB = await Realm.open({
-      // :hide-start:
+      // :remove-start:
       path: "realm-files/landing-page",
-      // :hide-end:
+      // :remove-end:
       schema: [Cat],
     });
     // get a reference to a single cat object
@@ -175,7 +175,7 @@ describe("Node Landing Page", () => {
     // A SyncConfiguration requires both a logged-in user and a partition value
     let realm = await Realm.open(config);
 
-    // :hide-start:
+    // :remove-start:
     let cat1;
     realm.write(() => {
       cat1 = realm.create("Cat", {
@@ -184,7 +184,7 @@ describe("Node Landing Page", () => {
         type: "Munchkin",
       });
     });
-    // :hide-end:
+    // :remove-end:
 
     // start a write transaction
     let darukCat;

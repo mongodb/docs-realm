@@ -93,9 +93,9 @@ class EmbeddedObjects: XCTestCase {
         // Find the contact to update by ID
         guard let contact = realm.object(ofType: EmbeddedObjectExamples_Contact.self, forPrimaryKey: idOfContactToUpdate) else {
             print("EmbeddedObjectExamples_Contact \(idOfContactToUpdate) not found")
-            // :hide-start:
+            // :remove-start:
             XCTFail()
-            // :hide-end:
+            // :remove-end:
             return
         }
 
@@ -119,9 +119,9 @@ class EmbeddedObjects: XCTestCase {
         // Find the contact to update by ID
         guard let contact = realm.object(ofType: EmbeddedObjectExamples_Contact.self, forPrimaryKey: idOfContactToUpdate) else {
             print("EmbeddedObjectExamples_Contact \(idOfContactToUpdate) not found")
-            // :hide-start:
+            // :remove-start:
             XCTFail()
-            // :hide-end:
+            // :remove-end:
             return
         }
 

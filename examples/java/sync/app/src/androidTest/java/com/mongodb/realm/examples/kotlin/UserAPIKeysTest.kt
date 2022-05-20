@@ -80,9 +80,9 @@ class UserAPIKeysTest : RealmTest() {
                     user!!.apiKeys.createAsync("Name-of-the-API-Key") { result ->
                         if (result.isSuccess) {
                             Log.v("EXAMPLE", "Successfully created API key: ${result.get().value}")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error creating API key: ${result.error}")
                         }
@@ -112,9 +112,9 @@ class UserAPIKeysTest : RealmTest() {
                         .fetchAll { result ->
                             if (result.isSuccess) {
                                 Log.v("EXAMPLE", "Successfully fetched API keys: ${result.get().toTypedArray()}")
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             } else {
                                 Log.e("EXAMPLE", "Error fetching API keys: ${result.error}")
                             }
@@ -144,9 +144,9 @@ class UserAPIKeysTest : RealmTest() {
                     user!!.apiKeys.fetchAsync(api_key_id) { result ->
                         if (result.isSuccess) {
                             Log.v("EXAMPLE", "Successfully fetched API key: ${result.get()}")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error fetching API key: ${result.error}")
                         }
@@ -174,9 +174,9 @@ class UserAPIKeysTest : RealmTest() {
                     // :snippet-start: enable-user-api-key
                     val user = app.currentUser()
                     user!!.apiKeys.enableAsync(api_key_id) { result ->
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                         if (result.isSuccess) {
                             Log.v("EXAMPLE", "Successfully enabled API key.")
                         } else {
@@ -208,15 +208,15 @@ class UserAPIKeysTest : RealmTest() {
                     user!!.apiKeys.disableAsync(api_key_id) { result ->
                         if (result.isSuccess) {
                             Log.v("EXAMPLE", "Successfully disabled API key.")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error disabling API key: ${result.error}")
-                            // :hide-start:
+                            // :remove-start:
                             // TODO: Fix this test so that it actually disables an API Key! (currently fails at "error processing request" for unknown reasons)
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     }
                     // :snippet-end:
@@ -244,9 +244,9 @@ class UserAPIKeysTest : RealmTest() {
                     user!!.apiKeys.deleteAsync(api_key_id) { result ->
                         if (result.isSuccess) {
                             Log.v("EXAMPLE", "Successfully deleted API key.")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error deleting API key: ${result.error}")
                         }

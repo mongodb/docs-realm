@@ -506,7 +506,7 @@ class ClientResetTest : RealmTest() {
             // close the realms
             backupRealm.close()
             newRealm.close()
-            expectation!!.fulfill() // :hide:
+            expectation!!.fulfill() // :remove:
         }
 
         // execute the recovery logic on a background thread
@@ -531,10 +531,10 @@ class ClientResetTest : RealmTest() {
 
                     override fun onAfterReset(before: Realm, after: Realm) {
                         Log.w("EXAMPLE", "Finished client reset for " + before.path)
-                        // :hide-start:
+                        // :remove-start:
                         // if we made it this far without error, exit the test successfully
                         expectation!!.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
 
                     override fun onError(session: SyncSession, error: ClientResetRequiredError) {
@@ -661,10 +661,10 @@ class ClientResetTest : RealmTest() {
 
                     override fun onAfterReset(before: Realm, after: Realm) {
                         Log.w("EXAMPLE", "Finished client reset for " + before.path)
-                        // :hide-start:
+                        // :remove-start:
                         // if we made it this far without error, exit the test successfully
                         expectation!!.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
 
                     override fun onError(session: SyncSession, error: ClientResetRequiredError) {
@@ -715,7 +715,7 @@ class ClientResetTest : RealmTest() {
                                 "Downloaded server changes for a fresh instance of the realm."
                             )
                             newRealm.close()
-                            expectation!!.fulfill() // :hide:
+                            expectation!!.fulfill() // :remove:
                         }
 
                         // execute the recovery logic on a background thread

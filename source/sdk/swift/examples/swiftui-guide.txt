@@ -376,20 +376,20 @@ varies depending on whether you're using the app with or without Sync.
 Without sync, you can pass the realm configuration environment object directly
 to the ``LocalOnlyContentView``: 
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-environment-object-to-local-content-view.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-environment-object-to-local-content-view.swift.rst
 
 Which opens a realm implicitly with:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.implicitly-open-realm.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.implicitly-open-realm.swift.rst
 
 However, for the Sync version of the quickstart, you open the Realm explicitly
 using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.auto-open-synced-realm.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.auto-open-synced-realm.swift.rst
 
 So you must pass pass the environment object to the ``OpenSyncedRealmView``:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-to-synced-realm-view.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-to-synced-realm-view.swift.rst
 
 The important thing to remember is to make sure to pass the 
 ``Realm.Configuration`` that encompasses your migration logic to any view 

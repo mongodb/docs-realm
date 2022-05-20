@@ -46,9 +46,9 @@ public class ReadsTest extends RealmTest {
                             // :snippet-start: get-all-objects
                             RealmQuery<ProjectTask> tasksQuery = realm.where(ProjectTask.class);
                             RealmQuery<Project> projectsQuery = realm.where(Project.class);
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });
@@ -87,9 +87,9 @@ public class ReadsTest extends RealmTest {
                             // :snippet-start: find-an-object-by-primary-key
                             ProjectTask task = realm.where(ProjectTask.class).equalTo("_id", PRIMARY_KEY_VALUE.get()).findFirst();
                             Log.v("EXAMPLE", "Fetched object by primary key: " + task);
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });
@@ -131,9 +131,9 @@ public class ReadsTest extends RealmTest {
                             Log.i("EXAMPLE", "Just-started or short tasks: " + tasksQuery.between("progressMinutes", 1, 10).count());
                             Log.i("EXAMPLE", "Unassigned tasks: " + tasksQuery.isNull("assignee").count());
                             Log.i("EXAMPLE", "Ali or Jamie's tasks: " + tasksQuery.in("assignee", new String[]{"Ali", "Jamie"}).count());
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });
@@ -172,9 +172,9 @@ public class ReadsTest extends RealmTest {
                             // :snippet-start: sort-results
                             RealmQuery<Project> projectsQuery = realm.where(Project.class);
                             RealmResults<Project> results = projectsQuery.sort("name", Sort.DESCENDING).findAll();
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });

@@ -90,9 +90,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         )
                     )
                     Log.v("EXAMPLE", "Successfully Successfully inserted the sample data.")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                     // :snippet-end:
                 } else {
                     Log.e(
@@ -131,9 +131,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             "plant-data-collection",
                             Plant::class.java).withCodecRegistry(pojoCodecRegistry)
                     Log.v("EXAMPLE", "Successfully instantiated the MongoDB collection handle")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                     // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed login: ${it.error.errorMessage}")
@@ -184,9 +184,9 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "EXAMPLE",
                                 "successfully inserted a document with id: ${task.get().insertedId}"
                             )
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
@@ -260,9 +260,9 @@ class MongoDBDataAccessTest : RealmTest() {
                                 "EXAMPLE",
                                 "successfully inserted $insertedCount documents into the collection."
                             )
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
@@ -311,9 +311,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             if (task.isSuccess) {
                                 val result = task.get()
                                 Log.v("EXAMPLE", "successfully found a document: $result")
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             } else {
                                 Log.e("EXAMPLE", "failed to find document with: ${task.error}")
                             }
@@ -362,9 +362,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to find documents with: ${task.error}")
                         }
@@ -412,9 +412,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val count = task.get()
                             Log.v("EXAMPLE", "successfully counted, number of documents in the collection: $count")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to count documents with: ${task.error}")
                         }
@@ -467,9 +467,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             } else {
                                 Log.v("EXAMPLE", "did not update a document.")
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to update document with: ${task.error}")
                         }
@@ -522,9 +522,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             } else {
                                 Log.v("EXAMPLE", "did not update any documents.")
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to update documents with: ${task.error}")
                         }
@@ -578,9 +578,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             if (task.isSuccess) {
                                 if (task.get().upsertedId != null) {
                                     Log.v("EXAMPLE", "successfully upserted a document with id ${task.get().upsertedId}")
-                                    // :hide-start:
+                                    // :remove-start:
                                     expectation.fulfill()
-                                    // :hide-end:
+                                    // :remove-end:
                                 } else {
                                     Log.v("EXAMPLE", "successfully updated a document.")
                                 }
@@ -632,9 +632,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             } else {
                                 Log.v("EXAMPLE", "did not delete a document.")
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to delete document with: ${task.error}")
                         }
@@ -686,9 +686,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             } else {
                                 Log.v("EXAMPLE", "did not delete any documents.")
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to delete documents with: ${task.error}")
                         }
@@ -752,9 +752,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val insertedId = task.get().insertedId.asObjectId()
                             Log.v("EXAMPLE", "successfully inserted a document with id $insertedId")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to insert document with: ${task.error}")
                         }
@@ -828,9 +828,9 @@ class MongoDBDataAccessTest : RealmTest() {
                         if (task.isSuccess) {
                             val insertedCount = task.get().insertedIds.size
                             Log.v("EXAMPLE", "successfully inserted $insertedCount documents into the collection.")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "failed to insert documents with: ${task.error}")
                         }
@@ -893,9 +893,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE",
                                 "failed to aggregate documents with: ${task.error}")
@@ -959,9 +959,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE",
                                 "failed to aggregate documents with: ${task.error}")
@@ -1038,9 +1038,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE",
                                 "failed to aggregate documents with: ${task.error}")
@@ -1114,9 +1114,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE",
                                 "failed to aggregate documents with: ${task.error}")
@@ -1178,9 +1178,9 @@ class MongoDBDataAccessTest : RealmTest() {
                             while (results.hasNext()) {
                                 Log.v("EXAMPLE", results.next().toString())
                             }
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE",
                                 "failed to aggregate documents with: ${task.error}")

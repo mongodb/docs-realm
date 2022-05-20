@@ -165,7 +165,7 @@ class DataTypesTest : RealmTest() {
 
                 // set RealmAny field to a string with RealmAny.valueOf a string value
                 frog?.bestFriend = RealmAny.valueOf("Greg")
-                expectation.fulfill() // :hide:
+                expectation.fulfill() // :remove:
             }
             // :snippet-end:
             // :replace-end:
@@ -286,7 +286,7 @@ class DataTypesTest : RealmTest() {
                 val verySmallRocks = realm.createObject(SnackKt::class.java)
                 verySmallRocks.name = "verySmallRocks"
                 set.addAll(Arrays.asList(water, verySmallRocks))
-                expectation.fulfill() // :hide:
+                expectation.fulfill() // :remove:
             }
             // :snippet-end:
             // :replace-end:
@@ -415,7 +415,7 @@ class DataTypesTest : RealmTest() {
                 dictionary.putAll(mapOf<String, FrogDictionaryKt>(
                         Pair("small frog", greg),
                         Pair("feathered frog", beatrice)))
-                expectation.fulfill() // :hide:
+                expectation.fulfill() // :remove:
             }
             // :snippet-end:
             // :replace-end:

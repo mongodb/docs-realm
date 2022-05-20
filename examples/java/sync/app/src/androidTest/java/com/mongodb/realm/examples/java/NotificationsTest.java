@@ -117,9 +117,9 @@ public class NotificationsTest extends RealmTest {
                                 for (String fieldName : changeSet.getChangedFields()) {
                                     Log.i("EXAMPLE", "Field '" + fieldName + "' changed.");
                                 }
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill();
-                                // :hide-end:
+                                // :remove-end:
                             };
 
                             // Observe object notifications.

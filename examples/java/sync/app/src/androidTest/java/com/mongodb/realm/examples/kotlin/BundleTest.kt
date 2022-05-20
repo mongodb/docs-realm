@@ -68,7 +68,7 @@ class BundleTest : RealmTest() {
 
                         // always close a realm when you're done using it
                         realm.close()
-                        expectation.fulfill() // :hide:
+                        expectation.fulfill() // :remove:
                     })
                 } else {
                     Log.e("EXAMPLE", "Failed to authenticate: ${it.error}")

@@ -36,25 +36,25 @@ public class RealmQueryTest extends RealmTest {
                             "Successfully opened a realm with reads and writes allowed on the UI thread."
                     );
 
-                    // :hide-start:
+                    // :remove-start:
                     AtomicReference<String> PRIMARY_KEY_VALUE  = new AtomicReference<String>();
                     realm.executeTransaction( transactionRealm -> {
                         DefinitelyNotJavaTask newTask = new DefinitelyNotJavaTask("test task" + new Random().nextLong());
                         transactionRealm.insert(newTask);
                         PRIMARY_KEY_VALUE.set(newTask.getName());
                     });
-                    // :hide-end:
+                    // :remove-end:
 
                     realm.executeTransaction( transactionRealm -> {
                         DefinitelyNotJavaTask task = transactionRealm.where(DefinitelyNotJavaTask.class).equalTo("name", PRIMARY_KEY_VALUE.get()).findFirst();
                         Log.v("EXAMPLE", "Fetched object by primary key: " + task);
-                        // :hide-start:
+                        // :remove-start:
                         Assert.assertEquals(task.getName(), PRIMARY_KEY_VALUE.get());
-                        // :hide-end:
+                        // :remove-end:
                     });
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                     realm.close();
                 }
             });
@@ -81,27 +81,27 @@ public class RealmQueryTest extends RealmTest {
                             "Successfully opened a realm with reads and writes allowed on the UI thread."
                     );
 
-                    // :hide-start:
+                    // :remove-start:
                     realm.executeTransaction(transactionRealm -> {
                         Cat newCat = new Cat("bucky");
                         Human newHuman = new Human("steven");
                         newHuman.setCat(newCat);
                         transactionRealm.insert(newHuman);
                     });
-                    // :hide-end:
+                    // :remove-end:
 
                     realm.executeTransaction(transactionRealm -> {
                         Human owner = transactionRealm.where(Human.class).equalTo("cat.name", "bucky").findFirst();
                         Cat cat = owner.getCat();
                         Log.v("EXAMPLE", "Queried for humans with cats named 'bucky'. Found " + owner.getName() + ", who owns " + cat.getName());
-                        // :hide-start:
+                        // :remove-start:
                         Assert.assertEquals(owner.getName(), "steven");
                         Assert.assertEquals(cat.getName(), "bucky");
-                        // :hide-end:
+                        // :remove-end:
                     });
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                     realm.close();
                 }
             });
@@ -125,27 +125,27 @@ public class RealmQueryTest extends RealmTest {
                 public void onSuccess(Realm realm) {
                     Log.v("EXAMPLE", "Successfully opened a realm.");
 
-                    // :hide-start:
+                    // :remove-start:
                     realm.executeTransaction(transactionRealm -> {
                         Cat newCat = new Cat("bucky");
                         Human newHuman = new Human("steven");
                         newHuman.setCat(newCat);
                         transactionRealm.insert(newHuman);
                     });
-                    // :hide-end:
+                    // :remove-end:
 
                     realm.executeTransaction(transactionRealm -> {
                         Cat cat = transactionRealm.where(Cat.class).equalTo("owner.name", "steven").findFirst();
                         Human owner = cat.getOwner().first();
                         Log.v("EXAMPLE", "Queried for cats with owners named 'steven'. Found " + cat.getName() + ", owned by " + owner.getName());
-                        // :hide-start:
+                        // :remove-start:
                         Assert.assertEquals(cat.getName(), "bucky");
                         Assert.assertEquals(owner.getName(), "steven");
-                        // :hide-end:
+                        // :remove-end:
                     });
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                     realm.close();
                 }
             });

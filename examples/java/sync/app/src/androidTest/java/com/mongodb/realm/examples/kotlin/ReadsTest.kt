@@ -46,9 +46,9 @@ class ReadsTest : RealmTest() {
                             // :snippet-start: get-all-objects
                             val tasksQuery = realm.where(ProjectTask::class.java)
                             val projectsQuery = realm.where(Project::class.java)
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     })
@@ -98,9 +98,9 @@ class ReadsTest : RealmTest() {
                             val task = realm.where(ProjectTask::class.java)
                                 .equalTo("_id", ObjectId.get()).findFirst()
                             Log.v("EXAMPLE", "Fetched object by primary key: $task")
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     })
@@ -173,9 +173,9 @@ class ReadsTest : RealmTest() {
                                     )
                                 ).count()
                             )
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     })
@@ -224,9 +224,9 @@ class ReadsTest : RealmTest() {
                             // :snippet-start: sort-results
                             val projectsQuery = realm.where(Project::class.java)
                             val results = projectsQuery.sort("name", Sort.DESCENDING).findAll()
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     })

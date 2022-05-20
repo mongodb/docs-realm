@@ -18,10 +18,10 @@ class QuickStartTest: RealmTest() {
     fun queryTest() {
         // :snippet-start: landing-page-query
         val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :hide-start:
+            // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
-            // :hide-end:
+            // :remove-end:
             .build()
         val realm = Realm.open(config)
         val tadpoles: RealmQuery<Frog> = realm.query<Frog>("age > $0", 2)
@@ -34,10 +34,10 @@ class QuickStartTest: RealmTest() {
     @Test
     fun updateTest() {
         val configSetup = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :hide-start:
+            // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
-            // :hide-end:
+            // :remove-end:
             .build()
         val realmSetup = Realm.open(configSetup)
         realmSetup.writeBlocking {
@@ -50,10 +50,10 @@ class QuickStartTest: RealmTest() {
         }
         // :snippet-start: landing-page-update
         val config = RealmConfiguration.Builder(schema = setOf(Frog::class))
-            // :hide-start:
+            // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
-            // :hide-end:
+            // :remove-end:
             .build()
         val realm = Realm.open(config)
         // start a write transaction
@@ -79,13 +79,13 @@ class QuickStartTest: RealmTest() {
         // :snippet-start: quick-start
         // :snippet-start: quick-start-open-a-realm
         val config = RealmConfiguration.Builder(schema = setOf(Task::class))
-            // :hide-start:
+            // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
-            // :hide-end:
+            // :remove-end:
             .build()
         val realm: Realm = Realm.open(config)
-        // :hide-start:
+        // :remove-start:
         // insert some sample data
         realm.writeBlocking {
             copyToRealm(Task().apply {
@@ -99,7 +99,7 @@ class QuickStartTest: RealmTest() {
                 status = "Open"
             })
         }
-        // :hide-end:
+        // :remove-end:
         // :snippet-end:
         // :snippet-start: quick-start-create
         realm.writeBlocking {
@@ -142,10 +142,10 @@ class QuickStartTest: RealmTest() {
     fun changeListenersTest() {
         // :snippet-start: change-listeners
         val config = RealmConfiguration.Builder(schema = setOf(Task::class))
-            // :hide-start:
+            // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
-            // :hide-end:
+            // :remove-end:
             .build()
         val realm = Realm.open(config)
 

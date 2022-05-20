@@ -87,9 +87,9 @@ public class LinkUserIdentitiesTest extends RealmTest {
                         // The user has previously created an email/password account
                         user.linkCredentialsAsync(
                             Credentials.emailPassword(email, password), result -> {
-                            // :hide-start:
+                            // :remove-start:
                             //expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             if (result.isSuccess()) {
                                 Log.v("EXAMPLE", "Successfully linked existing user " + 
                                    "identity with email/password user: " + result.get());

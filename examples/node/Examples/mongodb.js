@@ -41,9 +41,9 @@ describe("Create Documents", () => {
     const plants = await getPlantsCollection();
     // :snippet-start: insert-a-single-document
     const result = await plants.insertOne({
-      // :hide-start:
+      // :remove-start:
       _id: new BSON.ObjectId("5f879f83fc9013565c23360e"),
-      // :hide-end:
+      // :remove-end:
       name: "lily of the valley",
       sunlight: "full",
       color: "white",
@@ -65,9 +65,9 @@ describe("Create Documents", () => {
     // :snippet-start: insert-multiple-documents
     const result = await plants.insertMany([
       {
-        // :hide-start:
+        // :remove-start:
         _id: new BSON.ObjectId("5f87a0defc9013565c233611"),
-        // :hide-end:
+        // :remove-end:
         name: "rhubarb",
         sunlight: "full",
         color: "red",
@@ -75,9 +75,9 @@ describe("Create Documents", () => {
         _partition: "Store 47",
       },
       {
-        // :hide-start:
+        // :remove-start:
         _id: new BSON.ObjectId("5f87a0dffc9013565c233612"),
-        // :hide-end:
+        // :remove-end:
         name: "wisteria lilac",
         sunlight: "partial",
         color: "purple",
@@ -85,9 +85,9 @@ describe("Create Documents", () => {
         _partition: "Store 42",
       },
       {
-        // :hide-start:
+        // :remove-start:
         _id: new BSON.ObjectId("5f87a0dffc9013565c233613"),
-        // :hide-end:
+        // :remove-end:
         name: "daffodil",
         sunlight: "full",
         color: "yellow",
@@ -211,9 +211,9 @@ describe("Update Documents", () => {
     // :snippet-start: upsert-documents
     const result = await plants.updateOne(
       {
-        // :hide-start:
+        // :remove-start:
         _id: new BSON.ObjectId("5f1f63055512f2cb67f460a3"),
-        // :hide-end:
+        // :remove-end:
         sunlight: "full",
         type: "perennial",
         color: "green",

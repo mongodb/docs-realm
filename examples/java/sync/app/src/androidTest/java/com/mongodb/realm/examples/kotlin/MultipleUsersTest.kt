@@ -86,9 +86,9 @@ class MultipleUsersTest : RealmTest() {
                     // The active user is now Emma
                     val emma = it.get()
                     assert(emma === app.currentUser())
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: ${it.error.errorMessage}")
                 }
@@ -146,9 +146,9 @@ class MultipleUsersTest : RealmTest() {
                             // Switch active user back to Joe
                             app.switchUser(joe)
                             assert(joe === app.currentUser())
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Failed to log in: ${result.error.errorMessage}")
                         }
@@ -179,9 +179,9 @@ class MultipleUsersTest : RealmTest() {
                             if (result.isSuccess) {
                                 Log.v("EXAMPLE",
                                     "Successfully removed user from device.")
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             } else {
                                 Log.e("EXAMPLE", "Failed to remove user from device.")
                             }

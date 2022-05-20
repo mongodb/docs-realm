@@ -34,9 +34,9 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[] { typeof(Plant) };
-            //:hide-end:
+            //:remove-end:
             SetupPlantCollection();
 
             await plantsCollection.DeleteManyAsync();

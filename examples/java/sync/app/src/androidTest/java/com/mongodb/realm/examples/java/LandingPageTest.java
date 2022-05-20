@@ -34,19 +34,19 @@ public class LandingPageTest extends RealmTest {
                     SyncConfiguration config = new SyncConfiguration.Builder(
                             app.currentUser(),
                             "myPartition")
-                            // :hide-start:
+                            // :remove-start:
                             .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
                             .allowWritesOnUiThread(true)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm realm = Realm.getInstance(config);
-                    // :hide-start:
+                    // :remove-start:
                     realm.executeTransaction(transactionRealm -> { // create a frog to update in the example
                         FrogJava frog = transactionRealm.createObject(FrogJava.class, new ObjectId());
                         frog.setName("Benjamin Franklin");
                     });
-                    // :hide-end:
+                    // :remove-end:
 
                     realm.executeTransactionAsync(transactionRealm -> { // start a write transaction
                         // get a frog from the database to update
@@ -57,9 +57,9 @@ public class LandingPageTest extends RealmTest {
                         frog.setName("George Washington");
                         // change the frog's species
                         frog.setSpecies("American bullfrog");
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                     }); // when the transaction completes, the frog's name and species
                     // are updated in the database and synced to the connected Realm App
                     // :snippet-end:

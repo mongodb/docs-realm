@@ -30,10 +30,10 @@ namespace Examples
         // private void SetupRealm()
         // :uncomment-end:
         {
-            // :hide-start:
+            // :remove-start:
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            // :hide-end:
+            // :remove-end:
             var config = new PartitionSyncConfiguration("myPartition", user);
             config.ClientResetHandler = new DiscardLocalResetHandler()
             {
@@ -42,9 +42,9 @@ namespace Examples
                 ManualResetFallback = HandleManualResetCallback
             };
 
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[] { typeof(User) };
-            //:hide-end:
+            //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
         }
 
@@ -113,9 +113,9 @@ namespace Examples
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
                 new ManualRecoveryHandler(HandleSessionError);
-            //:hide-start:
+            //:remove-start:
             fsConfig.Schema = new[] { typeof(User) };
-            //:hide-end:
+            //:remove-end:
 
             var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }

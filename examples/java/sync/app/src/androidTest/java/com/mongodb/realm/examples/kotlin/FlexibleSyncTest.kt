@@ -72,20 +72,20 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
 
                     // instantiate a realm instance with the flexible sync configuration
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -131,10 +131,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -143,10 +143,10 @@ class FlexibleSyncTest : RealmTest() {
                             val subscription =
                                 realm.subscriptions.find("frogSubscription")
 
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -185,18 +185,18 @@ class FlexibleSyncTest : RealmTest() {
                             // add a subscription without assigning a name
                             subscriptions.add(
                                 Subscription.create(
-                                    // :hide-start:
+                                    // :remove-start:
                                     "totallyNotASubscriptionName", // conflicts between unnamed subs -- nasty hack workaround
-                                    // :hide-end:
+                                    // :remove-end:
                                     realm.where(Frog::class.java)
                                         .equalTo("species", "spring peeper")
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -208,10 +208,10 @@ class FlexibleSyncTest : RealmTest() {
                                         Frog::class.java
                                     ).equalTo("species", "spring peeper")
                                 )
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -255,9 +255,9 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
-                        // :hide-end:
+                        // :remove-end:
                         .waitForInitialRemoteData(
                             2112,
                             TimeUnit.MILLISECONDS
@@ -266,10 +266,10 @@ class FlexibleSyncTest : RealmTest() {
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -319,10 +319,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -343,10 +343,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             }
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                 } else {
@@ -394,10 +394,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -427,10 +427,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             }
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                 } else {
@@ -479,10 +479,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -494,10 +494,10 @@ class FlexibleSyncTest : RealmTest() {
                                 subscriptions.remove(mySubscription)
                             }
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                 } else {
@@ -539,10 +539,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -554,10 +554,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             }
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                 } else {
@@ -599,10 +599,10 @@ class FlexibleSyncTest : RealmTest() {
                                 )
                             )
                         }
-                        // :hide-start:
+                        // :remove-start:
                         .inMemory()
                         .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                        // :hide-end:
+                        // :remove-end:
                         .build()
                     Realm.getInstanceAsync(config, object : Realm.Callback() {
                         override fun onSuccess(realm: Realm) {
@@ -610,10 +610,10 @@ class FlexibleSyncTest : RealmTest() {
                             // :snippet-start: remove-all-subscriptions
                             realm.subscriptions.update { subscriptions -> subscriptions.removeAll() }
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close()
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                 } else {

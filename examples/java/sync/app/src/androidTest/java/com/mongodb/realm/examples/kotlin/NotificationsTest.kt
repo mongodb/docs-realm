@@ -112,9 +112,9 @@ class NotificationsTest : RealmTest() {
                                         )
                                     }
                                 }
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
 
                             // Observe object notifications.

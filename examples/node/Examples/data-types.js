@@ -118,9 +118,9 @@ describe("Node.js Data Types", () => {
     let dictionaryListenerHasBeenCalled = false;
     // :snippet-start: add-a-listener-to-a-dictionary
     summerHillHouse.addListener((changedHouse, changes) => {
-      // :hide-start:
+      // :remove-start:
       dictionaryListenerHasBeenCalled = true;
-      // :hide-end:
+      // :remove-end:
       console.log("A change has occurred to the Summer Hill House object");
     });
     // :snippet-end:

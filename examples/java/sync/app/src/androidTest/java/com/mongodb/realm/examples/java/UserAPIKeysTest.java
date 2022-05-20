@@ -94,9 +94,9 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().createAsync("Name-of-the-API-Key", result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully created API key: " + result.get().getValue());
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error creating API key: " + result.getError().getErrorMessage());
                         }
@@ -126,9 +126,9 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().fetchAll(result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully fetched API keys: " + Arrays.toString(result.get().toArray()));
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error fetching API keys: " + result.getError().getErrorMessage());
                         }
@@ -159,9 +159,9 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().fetchAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully fetched API key: " + result.get());
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error fetching API key: " + result.getError().getErrorMessage());
                         }
@@ -190,9 +190,9 @@ public class UserAPIKeysTest extends RealmTest {
                     // :snippet-start: enable-user-api-key
                     User user = app.currentUser();
                     user.getApiKeys().enableAsync(api_key_id, result -> {
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully enabled API key.");
                         } else {
@@ -225,15 +225,15 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().disableAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully disabled API key.");
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error disabling API key: " + result.getError().getErrorMessage());
-                            // :hide-start:
+                            // :remove-start:
                             // TODO: Fix this test so that it actually disables an API Key! (currently fails at "error processing request" for unknown reasons)
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -262,9 +262,9 @@ public class UserAPIKeysTest extends RealmTest {
                     user.getApiKeys().deleteAsync(api_key_id, result -> {
                         if (result.isSuccess()) {
                             Log.v("EXAMPLE", "Successfully deleted API key.");
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             Log.e("EXAMPLE", "Error deleting API key: " + result.getError().getErrorMessage());
                         }

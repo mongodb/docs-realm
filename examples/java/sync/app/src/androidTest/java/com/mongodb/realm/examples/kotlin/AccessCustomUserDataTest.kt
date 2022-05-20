@@ -29,9 +29,9 @@ class AccessCustomUserDataTest : RealmTest() {
                     val user = app.currentUser()
                     val customUserData : Document? = user?.customData
                     Log.v("EXAMPLE", "Fetched custom user data: $customUserData")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 } else {
                     Log.e("EXAMPLE", it.error.toString())
                 }
@@ -63,9 +63,9 @@ class AccessCustomUserDataTest : RealmTest() {
                         .getAsync { result ->
                             if (result.isSuccess) {
                                 Log.v("EXAMPLE", "Inserted custom user data document. _id of inserted document: ${result.get().insertedId}")
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill();
-                                // :hide-end:
+                                // :remove-end:
                             } else {
                                 Log.e("EXAMPLE", "Unable to insert custom user data. Error: ${result.error}")
                             }
@@ -100,9 +100,9 @@ class AccessCustomUserDataTest : RealmTest() {
                     mongoCollection.updateOne(Document("user-id-field", user.id), Document("favoriteColor", "cerulean"))
                         .getAsync { result ->
                             if (result.isSuccess) {
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                                 if (result.get().modifiedCount == 1L) {
                                     Log.v("EXAMPLE", "Updated custom user data document.")
                                 } else {

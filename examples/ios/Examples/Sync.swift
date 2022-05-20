@@ -47,9 +47,9 @@ class Sync: AnonymouslyLoggedInTestCase {
             // authenticated to this instance of your app, who should be
             // able to access this data (partition).
             var configuration = user.configuration(partitionValue: partitionValue)
-            // :hide-start:
+            // :remove-start:
             configuration.objectTypes = [SyncExamples_Task.self]
-            // :hide-end:
+            // :remove-end:
             // Open a Realm with this configuration.
             let realm = try await Realm(configuration: configuration)
             print("Successfully opened realm: \(realm)")
@@ -67,22 +67,22 @@ class Sync: AnonymouslyLoggedInTestCase {
 
     // :snippet-start: specify-download-behavior
     func testSpecifyDownloadBehavior() async throws {
-        // :hide-start:
+        // :remove-start:
         let expectation = XCTestExpectation(description: "it completes")
-        // :hide-end:
+        // :remove-end:
         let app = App(id: YOUR_REALM_APP_ID)
         let user = try await app.login(credentials: Credentials.anonymous)
         let partitionValue = "some partition value"
         var configuration = user.configuration(partitionValue: partitionValue)
-        // :hide-start:
+        // :remove-start:
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         let realm = try await Realm(configuration: configuration, downloadBeforeOpen: .always) // :emphasize:
         print("Successfully opened realm after downloading: \(realm)")
-        // :hide-start:
+        // :remove-start:
         expectation.fulfill()
         wait(for: [expectation], timeout: 10)
-        // :hide-end:
+        // :remove-end:
     }
     // :snippet-end:
 
@@ -112,12 +112,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         // authenticated to this instance of your app, who should be
         // able to access this data (partition).
         var configuration = user!.configuration(partitionValue: partitionValue)
-        // :hide-start:
+        // :remove-start:
         // The following is only required if you want to specify exactly which
         // types to include in the realm. By default, Realm automatically finds
         // all subclasses of Object and EmbeddedObject to add to the realm.
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         // Open a Realm asynchronously with this configuration. This
         // downloads any changes to the synced Realm from the server
         // before opening it. If this is the first time opening this
@@ -131,9 +131,9 @@ class Sync: AnonymouslyLoggedInTestCase {
             case .success(let realm):
                 print("Successfully opened realm: \(realm)")
                 // Use realm
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
         }
         // :snippet-end:
@@ -160,9 +160,9 @@ class Sync: AnonymouslyLoggedInTestCase {
                     case .success(let realm):
                         print("Successfully opened realm: \(realm)")
                         // Use realm
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
             case .disconnected:
@@ -205,12 +205,12 @@ class Sync: AnonymouslyLoggedInTestCase {
         // authenticated to this instance of your app, who should be
         // able to access this data (partition).
         var configuration = user!.configuration(partitionValue: partitionValue)
-        // :hide-start:
+        // :remove-start:
         // The following is only required if you want to specify exactly which
         // types to include in the realm. By default, Realm automatically finds
         // all subclasses of Object and EmbeddedObject to add to the realm.
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         // Initialize a synced realm on device with this configuration.
         // Changes will attempt to sync in the background, but will
         // not block opening the realm.
@@ -237,9 +237,9 @@ class Sync: AnonymouslyLoggedInTestCase {
         let user = app.currentUser
         let partitionValue = "some partition value"
         var configuration = user!.configuration(partitionValue: partitionValue)
-        // :hide-start:
+        // :remove-start:
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         let syncedRealm = try! Realm(configuration: configuration)
 
         // :snippet-start: pause-resume-sync-session
@@ -288,9 +288,9 @@ class Sync: AnonymouslyLoggedInTestCase {
         let user = app.currentUser
         let partitionValue = "some partition value"
         var configuration = user!.configuration(partitionValue: partitionValue)
-        // :hide-start:
+        // :remove-start:
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         let syncedRealm = try! Realm(configuration: configuration)
         let expectation = XCTestExpectation(description: "it completes")
         expectation.assertForOverFulfill = false
@@ -328,9 +328,9 @@ class Sync: AnonymouslyLoggedInTestCase {
         do {
             let app = App(id: YOUR_REALM_APP_ID)
             var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
-            // :hide-start:
+            // :remove-start:
             configuration.objectTypes = [SyncExamples_Task.self]
-            // :hide-end:
+            // :remove-end:
             _ = try Realm.deleteFiles(for: configuration)
         } catch {
             // handle error

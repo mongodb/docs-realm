@@ -28,10 +28,10 @@ class AccessMongoDB: AnonymouslyLoggedInTestCase {
             case .failure(let error):
                 // Handle errors
                 print("Call to MongoDB failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 XCTAssertEqual(error.localizedDescription, "no rule exists for namespace 'tracker.Task'")
                 expectation.fulfill()
-                // :hide-end:  
+                // :remove-end:  
                 return
             case .success(let documents):
                 // Print each document
