@@ -63,12 +63,77 @@ void main() {
     // :snippet-end:
     expect(app.currentUser?.id.isNotEmpty, true);
   });
+  group("Email password users", () {
+    test("Register a user", () async {
+      // :snippet-start: register-user
+      EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+      await authProvider.registerUser("lisa@example.com", "myStr0ngPassw0rd");
+      // :snippet-end:
+    });
+
+    group('Email confirmation', () {
+      test("Send confirmation email", () async {
+        const token = '';
+        const tokenId = '';
+        // :snippet-start: send-confirmation-email
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.confirmUser(token, tokenId);
+        // :snippet-end:
+      });
+      test("Retry user confirmation function", () async {
+        // :snippet-start: retry-user-confirmation-function
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.retryCustomConfirmationFunction("lisa@example.com");
+        // :snippet-end:
+      });
+      test("Retry user confirmation email", () async {
+        // :snippet-start: retry-user-confirmation-email
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.resendUserConfirmation("lisa@example.com");
+        // :snippet-end:
+      });
+    });
+
+    group('Password reset', () {
+      test("Call a password reset function", () async {
+        // :snippet-start: password-reset-function
+        // The password reset function takes any number of
+        // arguments. You might ask the user to provide answers to
+        // security questions, for example, to verify the user
+        // should be able to complete the password reset.
+        final args = [
+          "Snowball II",
+          "Springfield Elementary School",
+          "Bouvier"
+        ];
+
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.callResetPasswordFunction(
+            "lisa@example.com", "n3wSt0ngP4ssw0rd!",
+            functionArgs: args);
+        // :snippet-end:
+      });
+      test("Send a password reset email", () async {
+        // :snippet-start: password-reset-email
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.resetPassword("lisa@example.com");
+        // :snippet-end:
+      });
+      test('Confirm password reset email', () async {
+        const token = '';
+        const tokenId = '';
+        // :snippet-start: password-reset-email-confirmation
+        EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+        await authProvider.completeResetPassword(
+            "n3wSt0ngP4ssw0rd!", token, tokenId);
+        // :snippet-end:
+      });
+    });
+  }, skip: 'Skipping because requires user interaction/email');
   group('Work with multiple users', () {
     late User lisa;
     late User bart;
     setUpAll(() async {
-      // var timer = Timer(Duration(seconds: 1), () => print('done'));
-      // timer.cancel();
       await app.logIn(Credentials.anonymous());
       lisa = await app.logIn(
           Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
