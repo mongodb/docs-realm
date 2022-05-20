@@ -63,8 +63,8 @@ the transaction immediately after the callback.
 
    Since transactions block each other, it is best to avoid
    opening transactions on both the UI thread and a
-   background thread. If you are using :doc:`Sync
-   </sync>`, avoid opening transactions on the
+   background thread. If you are using :ref:`Sync
+   <sync>`, avoid opening transactions on the
    UI thread altogether, as {+service-short+} processes synchronizations
    on a background thread. If a background transaction
    blocks your UI thread's transaction, your app may appear

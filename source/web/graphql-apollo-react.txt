@@ -16,7 +16,7 @@ Overview
 --------
 
 You can use :apollo:`Apollo Client <docs/react>` to connect to your Realm app's
-:doc:`exposed GraphQL API </graphql/expose-data>` from a React application.
+:ref:`exposed GraphQL API <graphql-expose-data>` from a React application.
 Apollo Client runs queries and mutations, maintains a client-side data cache,
 and integrates into your app with idiomatic React components and hooks.
 
@@ -85,9 +85,9 @@ Set Up Apollo Client
       Realm GraphQL requests must include a valid user access token to authenticate
       requests, so right now any operations sent from Apollo will fail.
       
-      To authenticate requests, you need to add an :doc:`Authorization header
-      </graphql/authenticate>` with a valid Realm user access token to each GraphQL
-      request.
+      To authenticate requests, you need to add an :ref:`Authorization header
+      <graphql-authorization-token-header>` with a valid Realm user access token
+      to each GraphQL request.
       
       You can authenticate a user and get their access token with the :ref:`Realm
       Web SDK <web-intro>`. The Apollo ``HttpLink`` object allows you to add custom

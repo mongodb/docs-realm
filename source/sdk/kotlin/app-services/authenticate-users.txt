@@ -44,14 +44,13 @@ exception of type :file:`AppException`.
 Anonymous User
 ~~~~~~~~~~~~~~
 
-The :doc:`anonymous authentication provider </authentication/anonymous>`
-enables users to log in to your application with short-term accounts
-that store no persistent personal information. To log in with anonymous
-authentication, create an anonymous credential by calling
+The :ref:`anonymous authentication provider <anonymous-authentication>` enables
+users to log in to your application with short-term accounts that store no
+persistent personal information. To log in with anonymous authentication, create
+an anonymous credential by calling
 :kotlin-sdk:`AuthenticationProvider.ANONYMOUS()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html>`
-and then pass the generated credential to
-:file:`app.login()`.
+and then pass the generated credential to :file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication.kt
    :language: kotlin
@@ -63,13 +62,14 @@ and then pass the generated credential to
 Email/Password User
 ~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Email/Password authentication provider </authentication/email-password>`
-enables users to log in to your application with an email username and
-a password. To log in with email/password authentication, create an
-email/password credential by calling :kotlin-sdk:`AuthenticationProvider.EMAIL_PROVIDER()
+The :ref:`Email/Password authentication provider
+<email-password-authentication>` enables users to log in to your application
+with an email username and a password. To log in with email/password
+authentication, create an email/password credential by calling
+:kotlin-sdk:`AuthenticationProvider.EMAIL_PROVIDER()
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-e-m-a-i-l_-p-a-s-s-w-o-r-d/index.html>`
-with the user's email and password. Then pass the generated credential
-to :file:`app.login()`.
+with the user's email and password. Then pass the generated credential to
+:file:`app.login()`.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.email-password-authentication.kt
    :language: kotlin

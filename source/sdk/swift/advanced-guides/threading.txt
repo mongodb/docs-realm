@@ -31,6 +31,14 @@ maintainable multithreaded code that avoids issues like
 deadlocking and race conditions. {+service+} aims to
 simplify this for you.
 
+.. seealso::
+
+   As of 10.26.0, Realm provides async write methods to perform background 
+   writes. See: :ref:`Perform a Background Write <ios-async-write>`. With 
+   async write, you don't need to pass a :ref:`thread-safe reference 
+   <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
+   across threads.
+
 .. _ios-threading-three-rules:
 
 Three Rules to Keep in Mind
@@ -55,7 +63,7 @@ Avoid writes on the UI thread if you write on a background thread:
   each other. A write on the UI thread may result in your
   app appearing unresponsive while it waits for a write on a
   background thread to complete. If you are using
-  :doc:`{+sync+} </sync>`, avoid writing on
+  :ref:`{+sync+} <sync>`, avoid writing on
   the UI thread as {+sync-short+} writes on a background
   thread.
 
@@ -483,7 +491,7 @@ Summary
   - don't lock to read
 
   - avoid writes on the UI thread if you write on background threads or
-    use :doc:`{+sync+} </sync>`
+    use :ref:`{+sync+} <sync>`
     
   - don't pass live objects to other threads.
 
