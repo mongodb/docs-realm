@@ -393,7 +393,7 @@ class ReadWriteData: XCTestCase {
     func testAsyncWriteQueryOnLocalThread() {
         let expectation = expectation(description: "Objects append")
 
-        // :code-block-start: async-transaction
+        // :snippet-start: async-transaction
         let realm = try! Realm()
 
         // :remove-start:
@@ -432,7 +432,7 @@ class ReadWriteData: XCTestCase {
             expectation.fulfill()
             // :remove-end:
         }
-        // :code-block-end:
+        // :snippet-end:
         waitForExpectations(timeout: 5)
     }
 
