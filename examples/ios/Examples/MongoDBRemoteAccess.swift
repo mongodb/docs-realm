@@ -49,9 +49,9 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                     case .success(let objectId):
                         // Success returns the objectId for the inserted document
                         print("Successfully inserted a document with id: \(objectId)")
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -85,9 +85,9 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
         do {
             // Use the async collection method to insert the document
             let objectId = try await collection.insertOne(drink)
-            // :hide-start:
+            // :remove-start:
             XCTAssertNotNil(objectId)
-            // :hide-end:
+            // :remove-end:
             print("Successfully inserted a document with id: \(objectId)")
         } catch {
             print("Call to MongoDB failed: \(error.localizedDescription)")
@@ -134,10 +134,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         return
                     case .success(let objectIds):
                         print("Successfully inserted \(objectIds.count) new documents.")
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertEqual(objectIds.count, 3)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -180,10 +180,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         return
                     case .success(let document):
                         print("Found a matching document: \(document)")
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(document)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -227,10 +227,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         for document in documents {
                             print("Coffee drink: \(document)")
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertEqual(documents.count, 2)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -271,10 +271,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         return
                     case .success(let count):
                         print("Found this many documents in the collection matching the filter: \(count)")
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(count)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -320,11 +320,11 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         } else {
                             print("Did not update a document")
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertEqual(updateResult.matchedCount, 1)
                         XCTAssertEqual(updateResult.modifiedCount, 1)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 // :snippet-end:
                 }
@@ -357,7 +357,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
 
                 // :snippet-start: update-many
                 let queryFilter: Document = ["name": "Bean of the Day"]
-                // :hide-start:
+                // :remove-start:
                 // Set initial values so there's something to update
                 let setDefaults: Document = ["$set": ["containsDairy": "false"]]
                 collection.updateManyDocuments(filter: queryFilter, update: setDefaults) { result in
@@ -371,7 +371,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         print("Successfully set defaults for \(result.modifiedCount) documents.")
                     }
                 }
-                // :hide-end:
+                // :remove-end:
 
                 let documentUpdate: Document = ["$set": ["containsDairy": "true"]]
                 collection.updateManyDocuments(filter: queryFilter, update: documentUpdate) { result in
@@ -381,11 +381,11 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         return
                     case .success(let updateResult):
                         print("Successfully updated \(updateResult.modifiedCount) documents.")
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(updateResult.matchedCount)
                         XCTAssertNotNil(updateResult.modifiedCount)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -426,12 +426,12 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                         print("Failed to update document: \(error.localizedDescription)")
                         return
                     case .success(let updateResult):
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(updateResult.objectId)
-                        // :hide-end:
+                        // :remove-end:
                         if updateResult.objectId != nil {
                             print("Successfully upserted a document with id: \(updateResult.objectId)")
-                            // :hide-start:
+                            // :remove-start:
                             // Delete the document so the test will pass next time
                             collection.deleteOneDocument(filter: documentUpdate) { deletedResult in
                                 switch deletedResult {
@@ -444,7 +444,7 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                                     expectation.fulfill()
                                 }
                             }
-                            // :hide-end:
+                            // :remove-end:
                         } else {
                             print("Did not upsert a document")
                         }
@@ -500,10 +500,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                                 return
                             case .success(let deletedResult):
                                 print("Successfully deleted a document.")
-                                // :hide-start:
+                                // :remove-start:
                                 XCTAssertEqual(deletedResult, 1)
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                         }
                         // :snippet-end:
@@ -560,10 +560,10 @@ class MongoDBRemoteAccessTestCase: XCTestCase {
                                 return
                             case .success(let deletedResult):
                                 print("Successfully deleted \(deletedResult) documents.")
-                                // :hide-start:
+                                // :remove-start:
                                 XCTAssertEqual(deletedResult, 3)
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                         }
                         // :snippet-end:

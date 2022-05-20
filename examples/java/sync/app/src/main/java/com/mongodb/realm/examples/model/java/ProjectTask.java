@@ -8,9 +8,9 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-// :hide-start:
+// :remove-start:
 @RealmClass(name = "DefinitelyNotProjectTask")
-// :hide-end:
+// :remove-end:
 public class ProjectTask extends RealmObject {
     @PrimaryKey
     public ObjectId _id;

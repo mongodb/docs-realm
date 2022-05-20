@@ -30,9 +30,9 @@ namespace ConsoleTests
                 await Task.Delay(10); // Simulates some background work
                 Console.WriteLine(foo.Bar);
             }
-            //:hide-start:
+            //:remove-start:
             await Task.Delay(10);
-            //:hide-end:
+            //:remove-end:
         }
         //:snippet-end:
     }

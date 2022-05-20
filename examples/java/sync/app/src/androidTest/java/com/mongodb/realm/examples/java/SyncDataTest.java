@@ -59,9 +59,9 @@ public class SyncDataTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
                             // read and write to realm here via transactions
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -97,9 +97,9 @@ public class SyncDataTest extends RealmTest {
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
                             // read and write to realm here via transactions
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -138,9 +138,9 @@ public class SyncDataTest extends RealmTest {
                             // Write to the realm. No special syntax required for synced realms.
                             realm.executeTransaction(r -> {
                                 r.insert(new Task());
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill();
-                                // :hide-end:
+                                // :remove-end:
                             });
                             // Don't forget to close your realm!
                             realm.close();
@@ -290,9 +290,9 @@ public class SyncDataTest extends RealmTest {
                                 @Override
                                 public void onChange(Progress progress) {
                                     Log.v("EXAMPLE", "Upload progress: " + progress.getFractionTransferred());
-                                    // :hide-start:
+                                    // :remove-start:
                                     tracksUploadProgress.fulfill();
-                                    // :hide-end:
+                                    // :remove-end:
                                 }
                             });
                             // :snippet-end:
@@ -302,9 +302,9 @@ public class SyncDataTest extends RealmTest {
                                 @Override
                                 public void onChange(Progress progress) {
                                     Log.v("EXAMPLE", "Download progress: " + progress.getFractionTransferred());
-                                    // :hide-start:
+                                    // :remove-start:
                                     tracksDownloadProgress.fulfill();
-                                    // :hide-end:
+                                    // :remove-end:
                                 }
                             });
                             // :snippet-end:

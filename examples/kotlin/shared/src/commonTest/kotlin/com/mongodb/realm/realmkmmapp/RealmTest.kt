@@ -22,10 +22,10 @@ open class RealmTest {
     val TMP_PATH = "/tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
     val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
-        // :hide-start:
+        // :remove-start:
         .directory(TMP_PATH)
         .name(getRandom())
-        // :hide-end:
+        // :remove-end:
         .build()
 
     // kotlin test framework doesn't support "before class" on jvm, so... before each test

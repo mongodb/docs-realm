@@ -53,9 +53,9 @@ public class QueryEngineTest extends RealmTest {
                         Log.i("EXAMPLE", "Just-started or short tasks: " + tasksQuery.between("progressMinutes", 1, 10).count());
                         Log.i("EXAMPLE", "Unassigned tasks: " + tasksQuery.isNull("assignee").count());
                         Log.i("EXAMPLE", "Ali or Jamie's tasks: " + tasksQuery.in("assignee", new String[]{"Ali", "Jamie"}).count());
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                         // :snippet-end:
                         }
                     });
@@ -97,9 +97,9 @@ public class QueryEngineTest extends RealmTest {
                             Log.i("EXAMPLE", "Ali has completed " +
                                     tasksQuery.equalTo("assignee", "Ali").and().equalTo("isComplete", true).findAll().size() +
                                     " tasks.");
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });
@@ -143,9 +143,9 @@ public class QueryEngineTest extends RealmTest {
                                     + projectsQuery.beginsWith("name", "e", Case.INSENSITIVE).count());
                             Log.i("EXAMPLE", "Projects that contain 'ie': "
                                     + projectsQuery.contains("name", "ie").count());
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                             // :snippet-end:
                         }
                     });
@@ -193,9 +193,9 @@ public class QueryEngineTest extends RealmTest {
                         object, however:
                         */
                         Log.i("EXAMPLE", "Tasks average priority: " + tasksQuery.average("priority"));
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                         // :snippet-end:
                         }
                     });

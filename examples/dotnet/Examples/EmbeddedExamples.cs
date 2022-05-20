@@ -44,9 +44,9 @@ namespace Examples
             var contact = new Contact() // Create a Contact
             {
                 Name = "Nick Riviera",
-                // :hide-start:
+                // :remove-start:
                 Partition = "myPart",
-                // :hide-end:
+                // :remove-end:
                 Address = address // Embed the Address Object
             };
 

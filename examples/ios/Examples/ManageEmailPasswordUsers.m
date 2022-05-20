@@ -18,16 +18,16 @@
     [client registerUserWithEmail:email password:password completion:^(NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to register: %@", [error localizedDescription]);
-            // :hide-start:
+            // :remove-start:
             XCTAssert(false, @"Failed to register: %@", [error localizedDescription]);
-            // :hide-end:
+            // :remove-end:
             return;
         }
         // Registering just registers. You can now log in.
         NSLog(@"Successfully registered user.");
-        // :hide-start:
+        // :remove-start:
         [expectation fulfill];
-        // :hide-end:   
+        // :remove-end:   
     }];
     // :snippet-end:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
@@ -50,10 +50,10 @@
     [client confirmUser:token tokenId:tokenId completion:^(NSError *error) {
        if (error != nil) {
            NSLog(@"User confirmation failed: %@", [error localizedDescription]);
-           // :hide-start:
+           // :remove-start:
            XCTAssertEqualObjects([error localizedDescription], @"invalid token data");
            [expectation fulfill];
-           // :hide-end:
+           // :remove-end:
            return;
        }
        // User confirmed
@@ -78,21 +78,21 @@
     [client sendResetPasswordEmail:email completion:^(NSError *error) {
        if (error != nil) {
            NSLog(@"Failed to send reset password email: %@", [error localizedDescription]);
-           // :hide-start:
+           // :remove-start:
            XCTAssertEqualObjects([error localizedDescription], @"user not found");
            [expectation fulfill];
-           // :hide-end:
+           // :remove-end:
            return;
        }
        // Email sent.
        NSLog(@"Successfully sent reset password email.");
     }];
-    // :hide-start:
+    // :remove-start:
     [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];
     expectation = [self expectationWithDescription:@"reset password completes"];
-    // :hide-end:
+    // :remove-end:
     
     // Later...
     
@@ -106,10 +106,10 @@
     [client resetPasswordTo:newPassword token:token tokenId:tokenId completion:^(NSError *error) {
         if (error != nil) {
             NSLog(@"Failed to reset password: %@", [error localizedDescription]);
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqualObjects([error localizedDescription], @"invalid token data");
             [expectation fulfill];
-            // :hide-end:
+            // :remove-end:
             return;
         }
         // Password reset.

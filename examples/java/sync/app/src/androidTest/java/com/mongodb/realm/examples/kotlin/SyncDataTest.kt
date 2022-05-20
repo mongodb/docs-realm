@@ -47,9 +47,9 @@ class SyncDataTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // read and write to realm here via transactions
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -85,9 +85,9 @@ class SyncDataTest : RealmTest() {
                         override fun onSuccess(realm: Realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.")
                             // read and write to realm here via transactions
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                         }
                     })
                     // :snippet-end:
@@ -126,9 +126,9 @@ class SyncDataTest : RealmTest() {
                             // Write to the realm. No special syntax required for synced realms.
                             realm.executeTransaction { r: Realm ->
                                 r.insert(Task())
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // Don't forget to close your realm!
                             realm.close()
@@ -294,9 +294,9 @@ class SyncDataTest : RealmTest() {
                             app.sync.getSession(config).addUploadProgressListener(
                                 ProgressMode.INDEFINITELY) { progress ->
                                 Log.v("EXAMPLE", "Upload progress: ${progress.fractionTransferred}")
-                                // :hide-start:
+                                // :remove-start:
                                 tracksUploadProgress.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
 
@@ -304,9 +304,9 @@ class SyncDataTest : RealmTest() {
                             app.sync.getSession(config).addDownloadProgressListener(
                                 ProgressMode.INDEFINITELY) { progress ->
                                 Log.v("EXAMPLE", "Download progress: ${progress.fractionTransferred}")
-                                // :hide-start:
+                                // :remove-start:
                                 tracksDownloadProgress.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
 

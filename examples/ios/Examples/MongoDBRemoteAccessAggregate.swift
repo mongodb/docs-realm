@@ -38,10 +38,10 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         for document in documents {
                             print("Coffee drink: \(document)")
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(documents)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -86,10 +86,10 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         for result in results {
                             print(result)
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(results)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -134,10 +134,10 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         for result in results {
                             print(result)
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(results)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -182,10 +182,10 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         for result in results {
                             print(result)
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(results)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:
@@ -230,10 +230,10 @@ class MongoDBRemoteAccessAggregationTestCase: XCTestCase {
                         for result in results {
                             print("Coffee drink: \(result)")
                         }
-                        // :hide-start:
+                        // :remove-start:
                         XCTAssertNotNil(results)
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
                 // :snippet-end:

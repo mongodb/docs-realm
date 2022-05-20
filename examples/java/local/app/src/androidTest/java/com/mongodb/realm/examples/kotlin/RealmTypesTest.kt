@@ -19,9 +19,9 @@ class RealmTypesTest : RealmTest() {
             // :snippet-start: read-only
             val config = RealmConfiguration.Builder()
                 .assetFile("readonly.realm")
-                // :hide-start:
+                // :remove-start:
                 .name("readonly.realm")
-                // :hide-end:
+                // :remove-end:
                 .readOnly() // :emphasize:
                 .modules(BundledRealmModule())
                 .build()
@@ -61,9 +61,9 @@ class RealmTypesTest : RealmTest() {
                 .allowWritesOnUiThread(true)
                 .allowQueriesOnUiThread(true)
                 .name("kt.dynamic.realm")
-                // :hide-start:
+                // :remove-start:
                 .inMemory() // make this example secretly transient so state doesn't save between test runs
-                // :hide-end:
+                // :remove-end:
                 .build()
             val dynamicRealm = DynamicRealm.getInstance(config) // :emphasize:
 

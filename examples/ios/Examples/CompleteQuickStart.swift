@@ -59,9 +59,9 @@ func onLogin() {
 
     // Get a sync configuration from the user object.
     var configuration = user.configuration(partitionValue: partitionValue)
-    // :hide-start:
+    // :remove-start:
     configuration.objectTypes = [QsTask.self]
-    // :hide-end:
+    // :remove-end:
     // Open the realm asynchronously to ensure backend data is downloaded first.
     Realm.asyncOpen(configuration: configuration) { (result) in
         switch result {
@@ -152,9 +152,9 @@ func onRealmOpened(_ realm: Realm) {
     // :snippet-start: logout
     app.currentUser?.logOut { (error) in
         // Logged out or error occurred
-        // :hide-start:
+        // :remove-start:
         gExpectation!.fulfill()
-        // :hide-end:
+        // :remove-end:
     }
     // :snippet-end:
 

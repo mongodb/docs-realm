@@ -36,9 +36,9 @@ export class Task extends Realm.Object {
 // :snippet-start: create-realm-context
 const config = {
   schema: [Task],
-  // :hide-start:
+  // :remove-start:
   deleteRealmIfMigrationNeeded: true,
-  // :hide-end:
+  // :remove-end:
 };
 export default createRealmContext(config);
 // :snippet-end:

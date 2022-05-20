@@ -153,26 +153,26 @@ class ReadWriteData: XCTestCase {
             let dog = ReadWriteDataExamples_Dog(value: ["name": "Rex", "age": 1])
             realm.add(dog)
 
-            // :hide-start:
+            // :remove-start:
             XCTAssert(person.dogs.count == 0)
-            // :hide-end:
+            // :remove-end:
             // Find dogs younger than 2.
             let puppies = realm.objects(ReadWriteDataExamples_Dog.self).filter("age < 2")
 
             // Give all puppies to Ali.
             person.setValue(puppies, forKey: "dogs")
 
-            // :hide-start:
+            // :remove-start:
             XCTAssert(person.dogs.count == 1)
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
 
         // :snippet-start: cascading-delete
         let person = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 1)!
-        // :hide-start:
+        // :remove-start:
         XCTAssert(person.dogs.count == 1)
-        // :hide-end:
+        // :remove-end:
         try! realm.write {
             // Delete the related collection
             realm.delete(person.dogs)
@@ -396,7 +396,7 @@ class ReadWriteData: XCTestCase {
         // :code-block-start: async-transaction
         let realm = try! Realm()
 
-        // :hide-start:
+        // :remove-start:
         do {
             try realm.write {
                 realm.create(ReadWriteDataExamples_Person.self, value: ["id": 1, "name": "Dachary"])
@@ -404,7 +404,7 @@ class ReadWriteData: XCTestCase {
         } catch {
             print("Error creating object: \(error.localizedDescription)")
         }
-        // :hide-end:
+        // :remove-end:
         // Query for a specific person object on the main thread
         let people = realm.objects(ReadWriteDataExamples_Person.self)
         let thisPerson = people.where {
@@ -428,9 +428,9 @@ class ReadWriteData: XCTestCase {
                 $0.name == "Ben"
             }
             XCTAssertEqual(benDogs.count, 1)
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
         // :code-block-end:
         waitForExpectations(timeout: 5)

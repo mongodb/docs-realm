@@ -85,10 +85,10 @@ class Migrations: XCTestCase {
     func testRenameProperty() {
         // :snippet-start: rename-property
         let config = Realm.Configuration(
-            // :hide-start:
+            // :remove-start:
             // Prevent schema version from affecting other unit tests
             inMemoryIdentifier: "testRenameProperty",
-            // :hide-end:
+            // :remove-end:
             schemaVersion: 2,
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 2 {
@@ -105,10 +105,10 @@ class Migrations: XCTestCase {
         // :snippet-start: local-migration
         // In application(_:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
-            // :hide-start:
+            // :remove-start:
             // Prevent schema version from affecting other unit tests
             inMemoryIdentifier: "testLocalMigration",
-            // :hide-end:
+            // :remove-end:
             schemaVersion: 2, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 2 {
@@ -139,10 +139,10 @@ class Migrations: XCTestCase {
         // :snippet-start: local-migration2
         // In application(_:didFinishLaunchingWithOptions:)
         let config = Realm.Configuration(
-            // :hide-start:
+            // :remove-start:
             // Prevent schema version from affecting other unit tests
             inMemoryIdentifier: "testLocalMigration2",
-            // :hide-end:
+            // :remove-end:
             schemaVersion: 3, // Set the new schema version.
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 2 {
@@ -179,10 +179,10 @@ class Migrations: XCTestCase {
         // When you open the realm, specify that the schema
         // is now using a newer version.
         let config = Realm.Configuration(
-            // :hide-start:
+            // :remove-start:
             // Prevent schema version from affecting other unit tests
             inMemoryIdentifier: "LocalMigrationExample",
-            // :hide-end:
+            // :remove-end:
             schemaVersion: 2)
         // Use this configuration when opening realms
         Realm.Configuration.defaultConfiguration = config

@@ -12,13 +12,13 @@ class Encrypt: XCTestCase {
         // Configure for an encrypted realm
         var config = Realm.Configuration(encryptionKey: key)
 
-        // :hide-start:
+        // :remove-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent("encryptedRealm")
         config.fileURL!.appendPathExtension("realm")
-        // :hide-end:
+        // :remove-end:
         do {
             // Open the encrypted realm
             let realm = try Realm(configuration: config)
@@ -82,13 +82,13 @@ class Encrypt: XCTestCase {
         // Use the getKey() function to get the stored encryption key or create a new one
         var config = Realm.Configuration(encryptionKey: getKey())
 
-        // :hide-start:
+        // :remove-start:
         // This is not required for the example, but is required for the test.
         // Omit from the example.
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent("encryptedRealm")
         config.fileURL!.appendPathExtension("realm")
-        // :hide-end:
+        // :remove-end:
         do {
             // Open the realm with the configuration
             let realm = try Realm(configuration: config)

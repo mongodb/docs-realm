@@ -63,19 +63,19 @@ public class LandingPageTest extends RealmTest {
         activity.runOnUiThread(() -> {
             // :snippet-start: update
             RealmConfiguration config = new RealmConfiguration.Builder()
-                    // :hide-start:
+                    // :remove-start:
                     .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
                     .allowWritesOnUiThread(true)
-                    // :hide-end:
+                    // :remove-end:
                     .build();
 
             Realm realm = Realm.getInstance(config);
-            // :hide-start:
+            // :remove-start:
             realm.executeTransaction(transactionRealm -> { // create a frog to update in the example
                 FrogJava frog = transactionRealm.createObject(FrogJava.class);
                 frog.setName("Benjamin Franklin");
             });
-            // :hide-end:
+            // :remove-end:
 
             realm.executeTransactionAsync(transactionRealm -> { // start a write transaction
                 // get a frog from the database to update
@@ -86,9 +86,9 @@ public class LandingPageTest extends RealmTest {
                 frog.setName("George Washington");
                 // change the frog's species
                 frog.setSpecies("American bullfrog");
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             }); // when the transaction completes, the frog's name and species
             // are updated in the database
             // :snippet-end:
@@ -129,9 +129,9 @@ public class LandingPageTest extends RealmTest {
                 }
                 for (String fieldName : changeSet.getChangedFields()) {
                     Log.i("EXAMPLE", "Field '" + fieldName + "' changed.");
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                 }
             };
 
@@ -162,12 +162,12 @@ public class LandingPageTest extends RealmTest {
             Realm realmA = Realm.getInstance(config);
             Realm realmB = Realm.getInstance(config);
 
-            // :hide-start:
+            // :remove-start:
             realmA.executeTransaction(transactionRealm -> { // create a frog to work with in the example
                 FrogJava frog = transactionRealm.createObject(FrogJava.class);
                 frog.setName("Mr. President");
             });
-            // :hide-end:
+            // :remove-end:
 
             // get a reference to a single frog object
             // stored in the database from each realm instance

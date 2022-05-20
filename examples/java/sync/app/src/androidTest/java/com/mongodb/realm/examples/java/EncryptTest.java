@@ -70,9 +70,9 @@ public class EncryptTest extends RealmTest {
                             .build();
                     // Open the encrypted realm
                     Realm realm = Realm.getInstance(config);
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                     // :snippet-end:
                 } else {
                     Log.e("EXAMPLE", "Failed to log in: "
@@ -199,9 +199,9 @@ public class EncryptTest extends RealmTest {
                 KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                // :hide-start:
+                // :remove-start:
                 // TODO: (but not a todo) -- keys should require user auth, but we skip that in test
-                // :hide-end:
+                // :remove-end:
                 // :uncomment-start:
                 //.setUserAuthenticationRequired(true)
                 //.setUserAuthenticationValidityDurationSeconds(

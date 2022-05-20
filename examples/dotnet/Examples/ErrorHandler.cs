@@ -44,9 +44,9 @@ namespace Examples
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
             config = new PartitionSyncConfiguration("myPartition", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
-            //:hide-end:
+            //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
 
             // :snippet-start: handle-errors
@@ -61,9 +61,9 @@ namespace Examples
                         break;
                     case ErrorCode.PermissionDenied:
                         // Tell the user they don't have permissions to work with that Realm
-                        // :hide-start:
+                        // :remove-start:
                         didTriggerErrorHandler = true;
-                        // :hide-end:
+                        // :remove-end:
                         break;
                     case ErrorCode.Unknown:
                         // Likely the app version is too old, prompt for update

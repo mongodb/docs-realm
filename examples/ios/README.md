@@ -162,9 +162,9 @@ Code examples are extracted using
 // :snippet-start: [id]
 ... some code for the code example ...
 
-// :hide-start:
+// :remove-start:
 some code that should not be in the code example
-// :hide-end:
+// :remove-end:
 
 ... some more code for the code example ...
 // :snippet-end:

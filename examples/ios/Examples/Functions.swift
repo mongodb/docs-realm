@@ -30,9 +30,9 @@ class Functions: AnonymouslyLoggedInTestCase {
             }
             print("Called function 'concatenate' and got result: \(value)")
             assert(value == "john.smith@companyemail.com")
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
         wait(for: [expectation], timeout: 10)

@@ -81,9 +81,9 @@ class LinkUserIdentitiesTest : RealmTest() {
                                 password
                             )
                         ) { result ->
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill()
-                            // :hide-end:
+                            // :remove-end:
                             if (result.isSuccess) {
                                 Log.v(
                                     "EXAMPLE",

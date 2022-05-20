@@ -63,14 +63,14 @@ class MainActivity : AppCompatActivity() {
                 val executorService: ExecutorService = Executors.newFixedThreadPool(2)
                 executorService.execute(task)
 
-                // :hide-start:
+                // :remove-start:
                 while(!task.isDone) {
                     // wait for task completion
                 }
                 Log.v("QUICKSTART", "Result: ${task.get()}")
 
                 finish() // destroy activity when background task completes
-                // :hide-end:
+                // :remove-end:
             } else {
                 Log.e("QUICKSTART", "Failed to log in. Error: ${it.error}")
             }

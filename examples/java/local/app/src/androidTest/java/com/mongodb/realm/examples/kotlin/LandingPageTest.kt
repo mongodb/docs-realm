@@ -54,19 +54,19 @@ class LandingPageTest : RealmTest() {
             // :snippet-start: update
             val config =
                 RealmConfiguration.Builder()
-                    // :hide-start:
+                    // :remove-start:
                     .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
                     .allowWritesOnUiThread(true)
-                    // :hide-end:
+                    // :remove-end:
                     .build()
             val realm = Realm.getInstance(config)
 
-            // :hide-start:
+            // :remove-start:
             realm.executeTransaction { transactionRealm: Realm -> // create a frog to update in the example
                 val frog = transactionRealm.createObject(Frog::class.java)
                 frog.name = "Benjamin Franklin"
             }
-            // :hide-end:
+            // :remove-end:
             // start a write transaction
             realm.executeTransactionAsync { transactionRealm: Realm ->
                 // get a frog from the database to update
@@ -76,9 +76,9 @@ class LandingPageTest : RealmTest() {
                 frog?.name = "George Washington"
                 // change the frog's species
                 frog?.species = "American bullfrog"
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             } // when the transaction completes, the frog's name and species
             // are updated in the database
             // :snippet-end:
@@ -119,9 +119,9 @@ class LandingPageTest : RealmTest() {
                 } else {
                     for (fieldName in changeSet.changedFields) {
                         Log.i("EXAMPLE", "Field '$fieldName' changed.")
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 }
             }
@@ -150,14 +150,14 @@ class LandingPageTest : RealmTest() {
             val realmA = Realm.getInstance(config)
             val realmB = Realm.getInstance(config)
 
-            // :hide-start:
+            // :remove-start:
             realmA.executeTransaction { transactionRealm: Realm -> // create a frog to work with in the example
                 val frog = transactionRealm.createObject(
                     Frog::class.java
                 )
                 frog.name = "Mr. President"
             }
-            // :hide-end:
+            // :remove-end:
 
             // get a reference to a single frog object
             // stored in the database from each realm instance

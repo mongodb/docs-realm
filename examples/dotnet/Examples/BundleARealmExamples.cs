@@ -45,12 +45,12 @@ namespace Examples
             // :uncomment-start:
             // var existingConfig = new PartitionSyncConfiguration("myPartition", user);
             // :uncomment-end:
-            // :hide-start:
+            // :remove-start:
             var existingConfig = new PartitionSyncConfiguration("myPartition", user)
             {
                 Schema = new[] { typeof(Models.User) }
             };
-            // :hide-end:
+            // :remove-end:
             var realm = await Realm.GetInstanceAsync(existingConfig);
 
             // Create a RealmConfiguration for the *copy*
@@ -91,9 +91,9 @@ namespace Examples
             var app = App.Create(Config.appid);
             var user = await app.LogInAsync(Credentials.Anonymous());
             config = new PartitionSyncConfiguration("myPartition", user);
-            // :hide-start:
+            // :remove-start:
             config.Schema = new[] { typeof(Examples.Models.User) };
-            // :hide-end:
+            // :remove-end:
             // :replace-end:
 
             // Extract and copy the realm

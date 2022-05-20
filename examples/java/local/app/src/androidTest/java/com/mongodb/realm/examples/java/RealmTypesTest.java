@@ -24,9 +24,9 @@ public class RealmTypesTest extends RealmTest {
             // :snippet-start: read-only
             RealmConfiguration config = new RealmConfiguration.Builder()
                     .assetFile("bundled.realm")
-                    // :hide-start:
+                    // :remove-start:
                     .name("bundled.realm")
-                    // :hide-end:
+                    // :remove-end:
                     .readOnly() // :emphasize:
                     .modules(new BundledRealmModule())
                     .build();
@@ -64,9 +64,9 @@ public class RealmTypesTest extends RealmTest {
                     .allowWritesOnUiThread(true)
                     .allowQueriesOnUiThread(true)
                     .name("java.dynamic.realm")
-                    // :hide-start:
+                    // :remove-start:
                     .inMemory() // make this example secretly transient so state doesn't save between test runs
-                    // :hide-end:
+                    // :remove-end:
                     .build();
             DynamicRealm dynamicRealm = DynamicRealm.getInstance(config); // :emphasize:
 
