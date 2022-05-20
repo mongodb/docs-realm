@@ -1,3 +1,32 @@
+# May 20, 2022
+
+## SDK Docs
+
+### Java SDK
+- Usage Examples/Authenticate Users: Add "Offline Login" example
+
+### Swift SDK
+- Usage Examples/Read & Write Data: Add a new section "Perform a Background Write" that covers Swift async writes
+- Advanced Guides/Threading: Add a "see also" to the page pointing to the new async write documentation
+- Examples/README.md: Update with info about running the unit tests with SPM
+
+### .NET SDK
+- Advanced Guides/Client Reset: Update code examples for discard local client reset
+
+### Node.js SDK
+- Read & Write Data: Rephrase language around JS bulk update for accuracy
+
+### React Native SDK
+- Read & Write Data: Rephrase language around JS bulk update for accuracy
+
+### Various Infrastructure Updates
+- Remove MongoDB Cloud docs from docs-realm repository, add redirects
+- Update unit tests to prepare for Bluehawk 1.0 release
+
+## MongoDB Cloud Docs
+
+
+
 # May 12, 2022
 
 ## SDK Docs
