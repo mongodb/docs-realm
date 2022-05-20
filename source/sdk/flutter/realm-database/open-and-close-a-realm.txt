@@ -24,7 +24,7 @@ would like to open, including schema.
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
    :language: dart
 
 You can now use that {+realm+} instance to work with objects in the database.
@@ -41,7 +41,7 @@ add ``readOnly: true`` to your ``Configuration`` object.
 You can only open *existing* realms in read-only mode. 
 If you try to write to a read-only realm, it throws an error. 
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.read-only-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.read-only-realm.dart
    :language: dart
 
 .. _flutter-open-in-memory-realm:
@@ -53,7 +53,7 @@ To create a realm that runs entirely in memory without being written to a file,
 add ``inMemory: true`` to your ``Configuration`` object. 
 In-memory realms **cannot** also be read-only.
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.in-memory-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.in-memory-realm.dart
    :language: dart
 
 .. _flutter-set-custom-fifo:
@@ -73,7 +73,7 @@ Add ``fifoFilesFallbackPath: <Your Custom FIFO File Path>`` to your ``Configurat
 This property is ignored if the directory for the realm file allows
 FIFO special files.
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.fifo-file.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.fifo-file.dart
    :language: dart
 
 .. _flutter-close-realm: 
@@ -83,5 +83,5 @@ Close a Realm
 
 Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.close-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart

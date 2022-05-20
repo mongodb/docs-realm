@@ -81,7 +81,7 @@ need to run the Java SDK and Android LiveData. Begin by adding
 the Java SDK dependency to the ``buildscript.dependencies``
 block of your project level :file:`build.gradle` file:
 
-.. literalinclude:: /examples/generated/java/sync/build.codeblock.realm-dependency.gradle
+.. literalinclude:: /examples/generated/java/sync/build.snippet.realm-dependency.gradle
    :language: gradle
    :emphasize-lines: 10
    :copyable: false
@@ -89,7 +89,7 @@ block of your project level :file:`build.gradle` file:
 You'll also have to add the Android LiveData Dependency to the
 ``dependencies`` block of your app level :file:`build.gradle` file:
 
-.. literalinclude:: /examples/generated/java/sync/build.codeblock.livedata-dependency.gradle
+.. literalinclude:: /examples/generated/java/sync/build.snippet.livedata-dependency.gradle
    :language: gradle
    :emphasize-lines: 10
    :copyable: false
@@ -97,14 +97,14 @@ You'll also have to add the Android LiveData Dependency to the
 Next, enable {+sync+} in the SDK by creating the
 following top-level block in your app level :file:`build.gradle` file:
 
-.. literalinclude:: /examples/generated/java/sync/build.codeblock.sync-enable.gradle
+.. literalinclude:: /examples/generated/java/sync/build.snippet.sync-enable.gradle
    :language: gradle
    :copyable: false
 
 Then, enable DataBinding by creating the following block in the
 ``android`` block of your app level :file:`build.gradle` file:
 
-.. literalinclude:: /examples/generated/java/sync/build.codeblock.databinding-enable.gradle
+.. literalinclude:: /examples/generated/java/sync/build.snippet.databinding-enable.gradle
    :language: gradle
    :emphasize-lines: 15-17
    :copyable: false
@@ -123,14 +123,14 @@ have to handle a few events:
 - The ``onActive()`` method enables an observer to subscribe to changes
   to the underlying Realm object by adding a change listener.
 
-  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.codeblock.onactive.kt
+  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.snippet.onactive.kt
      :language: kotlin
      :copyable: false
 
 - The ``onInactive()`` method enables an observer to unsubscribe to
   changes to the underlying Realm object by removing the change listener.
 
-  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.codeblock.oninactive.kt
+  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.snippet.oninactive.kt
      :language: kotlin
      :copyable: false
 
@@ -140,7 +140,7 @@ have to handle a few events:
   change listener passes a value of ``null`` instead of passing along
   a reference to an invalid, deleted object.
 
-  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.codeblock.listener.kt
+  .. literalinclude:: /examples/generated/java/sync/LiveRealmObject.snippet.listener.kt
      :language: kotlin
      :copyable: false
 
@@ -177,7 +177,7 @@ To accomplish this:
 
 The following code snippet implements this behavior:
 
-.. literalinclude:: /examples/generated/java/sync/CounterModel.codeblock.constructor.kt
+.. literalinclude:: /examples/generated/java/sync/CounterModel.snippet.constructor.kt
    :language: kotlin
 
 .. important:: Fill in Your App ID to connect to your Realm App with the Java SDK
@@ -210,7 +210,7 @@ To access the ``CounterModel`` singleton when the application creates
 ``CounterFragment``, place the following code in the ``onCreateView()``
 method of ``CounterFragment``:
 
-.. literalinclude:: /examples/generated/java/sync/CounterFragment.codeblock.getcountermodel.kt
+.. literalinclude:: /examples/generated/java/sync/CounterFragment.snippet.getcountermodel.kt
    :language: kotlin
    :copyable: false
 
@@ -224,7 +224,7 @@ Finally, connect the model to the binding so that the UI can display the
 counter and iterate the counter on button press with the following code
 in the ``onCreateView()`` method of ``CounterFragment``:
 
-.. literalinclude:: /examples/generated/java/sync/CounterFragment.codeblock.binding.kt
+.. literalinclude:: /examples/generated/java/sync/CounterFragment.snippet.binding.kt
    :language: kotlin
    :copyable: false
 

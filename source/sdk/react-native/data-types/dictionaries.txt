@@ -29,7 +29,7 @@ dictionary with values of a specific type, add the data type before the
 brackets. For instance, ``"int{}"`` to specify that dictionary values must be
 integers or ``"string{}"`` to specify that dictionary values must be strings.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.define-dictionary-in-schema.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.define-dictionary-in-schema.js
     :language: javascript
 
 Create an Object with a  Dictionary Value
@@ -37,7 +37,7 @@ Create an Object with a  Dictionary Value
 Create an object with a dictionary value by running the :js-sdk:`realm.create()
 <Realm.html#create>` method within a write transaction. 
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.create-realm-obj-with-dictionary.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.create-realm-obj-with-dictionary.js
     :language: javascript
 
 Query for Objects with a Dictionary Property
@@ -53,7 +53,7 @@ you had a ``Person`` collection with a nested ``home`` dictionary, you could
 return all ``Person`` objects with a ``home`` with a ``"price"`` property by
 running the query: ``home.@keys = "price"``.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.query-a-dictionary.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.query-a-dictionary.js
     :language: javascript
 
 Add a Listener to a Dictionary
@@ -67,21 +67,21 @@ dictionary and an array of changes describing how the dictionary was changed.
 
    Learn more about :ref:`change notifications <react-native-change-notifications>`.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.add-a-listener-to-a-dictionary.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.add-a-listener-to-a-dictionary.js
     :language: javascript
 
 Update a Dictionary
 -------------------
 To update a dictionary's properties, use dot notation or the ``dictionary.put()`` method.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.update-a-dictionary.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.update-a-dictionary.js
     :language: javascript
 
 Delete Members of a Dictionary
 ------------------------------
 To delete members of a dictionary, use the ``dictionary.remove()`` method with an array of properties to remove from the dictionary.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.remove-fields-of-the-dictionary.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.remove-fields-of-the-dictionary.js
     :language: javascript
 
 

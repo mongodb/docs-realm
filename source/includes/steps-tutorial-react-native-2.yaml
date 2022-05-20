@@ -6,7 +6,7 @@ content: |
   Realm app. The Realm app is the interface to the MongoDB Realm backend.
   Navigate to the ``realmApp.js`` file and create an instance of your Realm app:
 
-  .. literalinclude:: /tutorial/generated/code/final/realmApp.codeblock.instantiate-realm-app.js
+  .. literalinclude:: /tutorial/generated/code/final/realmApp.snippet.instantiate-realm-app.js
      :language: javascript
 
   Be sure to enter your own Realm app ID, which you can 
@@ -34,18 +34,18 @@ content: |
   First, let's implement the login functionality that a descendant component can
   pass an email and password in order to log in:
 
-  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-in.js
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-in.js
      :language: javascript
 
   Next, implement the user registration functionality by using the
   email/password provider of the Realm app:
 
-  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-up.js
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-up.js
      :language: javascript
 
   Next, implement the log out functionality:
 
-  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.sign-out.js
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-out.js
      :language: javascript
 
 ---
@@ -71,14 +71,14 @@ content: |
   When a user object is available, your code will read its ``memberOf`` field 
   to populate the available project data for any descendant of the provider:
 
-  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.open-user-realm.js
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.open-user-realm.js
      :language: javascript
 
   Finally, the Realm SDK requires you to close any realm you open when you are
   finished with it. You can return a cleanup function from the effect, which
   will close the realm any time the user changes or the component is unmounted:
 
-  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.codeblock.user-realm-cleanup.js
+  .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.user-realm-cleanup.js
      :language: javascript
 
 
@@ -101,7 +101,7 @@ content: |
   their schema. Navigate to the ``schemas.js`` file to complete the task class's
   schema definition where it says ``TODO``:
 
-  .. literalinclude:: /tutorial/generated/code/final/schemas.codeblock.react-native-task-schema.js
+  .. literalinclude:: /tutorial/generated/code/final/schemas.snippet.react-native-task-schema.js
      :language: javascript
 
 ---
@@ -123,32 +123,32 @@ content: |
   realm. Once opened, attach an observer that will update the tasks list when 
   any changes come in:
 
-  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.open-project-realm.js
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.open-project-realm.js
      :language: javascript
 
   Again, Realm requires you to close any realm you open once you are done with
   it. We can do that by returning a cleanup function from the effect:
 
-  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.clean-up.js
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.clean-up.js
      :language: javascript
 
   A user can create, update, and delete tasks in a project that they are a
   member of. To implement the task creation functionality, find the 
   ``createTask`` function and add the following code:
 
-  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.create-task.js
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.create-task.js
      :language: javascript
 
   For this application, we limit updates to changing the status of the task. 
   Find the ``setTaskStatus`` function and implement the following code, which 
   changes the Task's status:
 
-  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.set-task-status.js
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.set-task-status.js
      :language: javascript
 
   Finally, in the ``deleteTask`` function, implement the task deletion functionality:
 
-  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.codeblock.delete-task.js
+  .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.delete-task.js
      :language: javascript
 
   Check out the ``views/TasksView.js`` and ``components/TaskItem.js`` files to see how
@@ -167,19 +167,19 @@ content: |
   Navigate to ``components/ManageTeam.js`` and find the ``getTeam`` function. 
   In this function, we need to fetch the list of  current team members:
 
-  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.get-team.js
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.get-team.js
      :language: javascript
 
   Next, in the ``addTeamMember`` function, we will call the backend function 
   ``addTeamMember`` to implement add team  member functionality:
 
-  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.add-team-member.js
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.add-team-member.js
      :language: javascript
 
   Finally, in the ``removeTeamMember`` function, we call another backend function, 
   named ``removeTeamMember``, that removes a team member:
 
-  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.codeblock.remove-team-member.js
+  .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.remove-team-member.js
      :language: javascript
 
 ---

@@ -78,7 +78,7 @@ We recommend creating a file where you will define a {+service-short+} object ty
 configuration, and create a {+service-short+} ``Context``. At the top of the file, import
 {+service-short+} and the ``createRealmContext()`` method.
 
-.. literalinclude:: /examples/generated/expo/Task.codeblock.add-imports-to-task.ts
+.. literalinclude:: /examples/generated/expo/Task.snippet.add-imports-to-task.ts
     :language: typescript
 
 Next, define a {+frontend-schema+} using a JavaScript class. The ``Task``
@@ -87,7 +87,7 @@ class below contains the following:
 - A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
 - A ``schema`` property that defines this {+frontend-schema+}. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` documentation to learn more.
 
-.. literalinclude:: /examples/generated/expo/Task.codeblock.create-task-class.ts
+.. literalinclude:: /examples/generated/expo/Task.snippet.create-task-class.ts
     :language: typescript
 
 Finally, create a ``Realm.Configuration`` object and set its ``schema`` property
@@ -95,7 +95,7 @@ to the classes you have created. Pass the configuration object to the
 ``createRealmContext()`` method. Export the return value of
 ``createRealmContext()``, so you can use the ``Context`` object in other files.
 
-.. literalinclude:: /examples/generated/expo/Task.codeblock.create-realm-context.ts
+.. literalinclude:: /examples/generated/expo/Task.snippet.create-realm-context.ts
     :language: typescript
 
 .. _react-native-realm-provider:
@@ -124,7 +124,7 @@ the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
 the ``TaskContext`` object to get its ``RealmProvider``. 
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.import-task-context.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.import-task-context.tsx
     :language: typescript
 
 Wrap the ``RealmProvider`` around the component that you want
@@ -132,7 +132,7 @@ to give access to the configured {+realm+}. In the example below, we give the en
 app access to the {+realm+} by wrapping the ``RealmProvider`` around
 the ``App`` component, which renders the application.
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.wrap-app-within-realm-provider.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.wrap-app-within-realm-provider.tsx
     :language: typescript
 
 Dynamically Update the {+service-short+} Configuration
@@ -148,7 +148,7 @@ configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
 property that is used to render a temporary ``LoadingSpinner`` component while
 waiting for {+sync+} to open:
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.dynamically-update-realm-config.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
 Use Hooks In Child Components
@@ -166,7 +166,7 @@ the Task. :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
 the ``TaskContext`` object to get its hooks. 
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.get-access-to-the-hooks.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.get-access-to-the-hooks.tsx
     :language: typescript
 
 useRealm
@@ -176,7 +176,7 @@ The ``useRealm()`` hook returns the opened {+realm+} instance.
 The ``handleAddTask()`` method of the ``App`` component writes to the {+realm+}
 returned by the ``useRealm()`` hook in the following example.
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.example-userealm-hook-usage.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.example-userealm-hook-usage.tsx
     :language: typescript
 
 The :js-sdk:`Realm.create() <Realm.html#create>` call invokes the ``Task.generate()`` method defined in the ``Task`` class.  This method instantiates
@@ -201,7 +201,7 @@ any change to the object.
 In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
 and its description is logged to the console.
 
-.. literalinclude:: /examples/generated/expo/App.codeblock.example-useobject-hook-usage.tsx
+.. literalinclude:: /examples/generated/expo/App.snippet.example-useobject-hook-usage.tsx
     :language: typescript
 
 useQuery
@@ -216,7 +216,7 @@ In the following example, of a ``TaskList`` component, The ``Task``
 class is passed to the ``useQuery()`` and the tasks are set as a ``data`` prop
 of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 
-.. literalinclude:: /examples/generated/expo/TaskList.codeblock.tasklist-use-query-example.tsx
+.. literalinclude:: /examples/generated/expo/TaskList.snippet.tasklist-use-query-example.tsx
     :language: typescript
     :emphasize-lines: 2, 6
 

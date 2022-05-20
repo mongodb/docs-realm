@@ -132,7 +132,7 @@ manual client reset data recovery strategy.
       updating that timestamp to the current time whenever a change occurs,
       you can keep track of when objects were changed. 
 
-      .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-updates-to-objects.js
+      .. literalinclude:: /examples/generated/node/client-reset.snippet.track-updates-to-objects.js
          :language: javascript
          :emphasize-lines: 6
 
@@ -146,7 +146,7 @@ manual client reset data recovery strategy.
       You'll define the error callback function in the 
       :ref:`Create Callback to Handle Client Reset section <react-native-manual-client-reset-create-callback>`.
 
-      .. literalinclude:: /examples/generated/node/client-reset.codeblock.config.js
+      .. literalinclude:: /examples/generated/node/client-reset.snippet.config.js
          :language: javascript
          :emphasize-lines: 6-9
 
@@ -163,14 +163,14 @@ manual client reset data recovery strategy.
 
       Define your LastSynced Realm to track the latest time your realm synchronizes.
 
-      .. literalinclude:: /examples/generated/node/client-reset.codeblock.last-synced-realm.js
+      .. literalinclude:: /examples/generated/node/client-reset.snippet.last-synced-realm.js
          :language: javascript
 
       Register a change listener to subscribe to changes to the Dog collection. 
       Only update the LastSynced object if the sync session is connected and all local
       changes have been synced with the server. 
 
-      .. literalinclude:: /examples/generated/node/client-reset.codeblock.track-sync-session.js
+      .. literalinclude:: /examples/generated/node/client-reset.snippet.track-sync-session.js
          :language: javascript
 
       .. _react-native-manual-client-reset-create-callback: 
@@ -189,7 +189,7 @@ manual client reset data recovery strategy.
       You can follow along with the implementation of these operations in the
       code samples below.
 
-      .. literalinclude:: /examples/generated/node/client-reset.codeblock.handle-sync-error.js
+      .. literalinclude:: /examples/generated/node/client-reset.snippet.handle-sync-error.js
          :language: javascript
 
 .. _react-native-manual-client-reset-alternative-strategies:

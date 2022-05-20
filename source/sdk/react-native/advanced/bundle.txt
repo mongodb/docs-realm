@@ -61,7 +61,7 @@ On a high level you:
       #. Open a {+realm+} and add the data you wish to bundle. If using a
          synchronized {+realm+}, allow time for the {+realm+} to fully sync.
 
-         .. literalinclude:: /examples/generated/rn/create-bundled-realm-rn.codeblock.create-react-native-bundle.js
+         .. literalinclude:: /examples/generated/rn/create-bundled-realm-rn.snippet.create-react-native-bundle.js
             :language: javascript
             :caption: create-bundled-realm.js
 
@@ -128,7 +128,7 @@ On a high level you:
       Now that you have a copy of the {+realm+} included with your production
       application, you need to add code to use it. 
 
-      .. literalinclude:: /examples/generated/rn/App.codeblock.open-bundle-realm-rn.js
+      .. literalinclude:: /examples/generated/rn/App.snippet.open-bundle-realm-rn.js
          :language: javascript
 
 .. _react-native-bundle-synced-realm:
@@ -142,7 +142,7 @@ However, there are some limitations to bundling realms that use {+sync+}.
 #. You can only bundle fully synchronized realms. Make sure that the realm has fully synchronized 
    with the server before bundling: 
 
-   .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.fully-sync-before-copy.js
+   .. literalinclude:: /examples/generated/node/bundle-a-realm.snippet.fully-sync-before-copy.js
       :language: javascript
 
 #. When opening a bundled synchronized realm, you must use the same partition key 

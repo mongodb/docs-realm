@@ -150,7 +150,7 @@ The generated code is now available within any `.txt` or `.rst` file via the `..
 directive.
 
 ```restructuredtext
-.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.my-example.js
+.. literalinclude:: /examples/generated/code/start/authenticate.snippet.my-example.js
    :language: javascript
 ```
 

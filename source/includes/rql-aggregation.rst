@@ -42,7 +42,7 @@ single value.
    - Projects with more than 5 tasks.
    - Projects with long-running tasks.
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.aggregate-operators.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.aggregate-operators.js
       :language: javascript
 
 Collection Operators
@@ -78,7 +78,7 @@ the object.
    - Projects with no complete tasks.
    - Projects with any top priority tasks.
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.set-operators.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
       :language: javascript
 
 Sort, Distinct, Limit
@@ -123,5 +123,5 @@ results collection.
      - Enforcing uniqueness by name
      - Limiting the results to 5 tasks
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.sort-distinct-limit.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript

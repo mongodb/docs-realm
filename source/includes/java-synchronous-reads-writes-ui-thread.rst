@@ -21,7 +21,7 @@
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.java
+         .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.allow-reads-writes-ui-thread.java
             :language: java
             :emphasize-lines: 2,3
             :copyable: false
@@ -29,7 +29,7 @@
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.allow-reads-writes-ui-thread.kt
+         .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.allow-reads-writes-ui-thread.kt
             :language: kotlin
             :emphasize-lines: 2,3
             :copyable: false

@@ -61,7 +61,7 @@ Create a Realm File for Bundling
 #. Use the :js-sdk:`writeCopyTo() <Realm.html#writeCopyTo>` 
    method to copy the {+realm+} to a new file:
 
-   .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.copy-realm-to-new-file.js
+   .. literalinclude:: /examples/generated/node/bundle-a-realm.snippet.copy-realm-to-new-file.js
       :language: javascript
 
    ``writeCopyTo()`` automatically compacts your {+realm+} to the smallest
@@ -120,7 +120,7 @@ to the bundled {+realm+} as the value for the ``path`` field. Pass that configur
 to the :js-sdk:`Realm.open() <Realm.html#.open>` method. Now you can work with the data 
 from your bundled {+realm+} in the {+realm+} you've just opened. 
 
-.. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.open-bundled-realm.js
+.. literalinclude:: /examples/generated/node/bundle-a-realm.snippet.open-bundled-realm.js
       :language: javascript
 
 .. _node-bundle-synced-realm:
@@ -134,7 +134,7 @@ However, there are some limitations to bundling realms that use {+sync+}.
 #. You can only bundle fully synchronized realms. Make sure that the realm has fully synchronized 
    with the server before bundling: 
 
-   .. literalinclude:: /examples/generated/node/bundle-a-realm.codeblock.fully-sync-before-copy.js
+   .. literalinclude:: /examples/generated/node/bundle-a-realm.snippet.fully-sync-before-copy.js
       :language: javascript
 
 #. When opening a bundled synchronized realm, you must use the same partition key 

@@ -33,7 +33,7 @@ To define a property type as a **{+service-short+} Set**, specify the data type
 you want in the set, followed by ``<>``. For instance, for a set made of integer
 values, specify ``"int<>"``. 
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.define-set-objects.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.define-set-objects.js
    :language: javascript
 
 .. _node-create-set-objects:
@@ -45,7 +45,7 @@ the object within a write transaction. When defining your {+service-short+}
 object, initialize the **{+service-short+} Set** by passing an empty array or an
 array with your initial values.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.create-set-objects.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.create-set-objects.js
    :language: javascript
 
 
@@ -55,7 +55,7 @@ Add Items to a Set
 ------------------
 To add an item to a set, pass the new value to the ``<Realm.Set>.add()`` method within a write transaction.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.add-items-to-set.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.add-items-to-set.js
    :language: javascript
 
 .. _node-check-if-set-has-items:
@@ -65,7 +65,7 @@ Check if a Set has Specific Items
 To determine if a set contains a particular value, pass the value to the ``<Realm.Set>.has()`` method. The
 ``set.has()`` method will return true if the set contains the value specified.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.check-if-set-has-items.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.check-if-set-has-items.js
    :language: javascript
 
 .. _node-check-set-size:
@@ -74,7 +74,7 @@ Check the Size of a Set
 -----------------------
 To discover how many items are in a set, you can check the set's ``size`` property.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.check-set-size.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.check-set-size.js
    :language: javascript
 
 .. _node-remove-specific-item-from-set:
@@ -83,7 +83,7 @@ Remove an Item from a Set
 -------------------------
 To remove a specific value from a set, pass the value to the ``<Realm.Set>.delete()`` method within a write transaction.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.remove-specific-item-from-set.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.remove-specific-item-from-set.js
    :language: javascript
 
 
@@ -93,7 +93,7 @@ Remove all Items from a Set
 ---------------------------
 To clear the set, run the ``<Realm.Set>.clear()`` method within a write transaction.
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.remove-all-items-from-set.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.remove-all-items-from-set.js
    :language: javascript
 
 .. _node-traverse-set:
@@ -103,7 +103,7 @@ Traverse a Set
 To traverse a set, use the ``<Realm.Set>.forEach()`` method or alternative :mdn:`iteration method
 <Web/JavaScript/Reference/Global_Objects/Set#iteration_methods>`. 
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.traverse-a-set.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.traverse-a-set.js
    :language: javascript
 
 
@@ -114,5 +114,5 @@ To traverse a set, use the ``<Realm.Set>.forEach()`` method or alternative :mdn:
 
    You can track the set order by updating an array when a new value is added. For example:
 
-   .. literalinclude:: /examples/generated/node/data-types.codeblock.make-array-with-insertion-order-from-set.js
+   .. literalinclude:: /examples/generated/node/data-types.snippet.make-array-with-insertion-order-from-set.js
       :language: javascript

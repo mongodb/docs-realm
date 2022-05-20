@@ -34,12 +34,12 @@ method:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.set-default-realm.kt.code-block.rst
+      .. include:: /examples/generated/java/local/OpenARealmTest.snippet.set-default-realm.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.set-default-realm.java.code-block.rst
+      .. include:: /examples/generated/java/local/OpenARealmTest.snippet.set-default-realm.java.code-block.rst
 
 You can then use
 :java-sdk:`getDefaultConfiguration() <io/realm/Realm.html#getDefaultConfiguration-->`
@@ -52,12 +52,12 @@ to open a {+realm+} with that configuration:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.use-default-realm.kt.code-block.rst
+      .. include:: /examples/generated/java/local/OpenARealmTest.snippet.use-default-realm.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/OpenARealmTest.codeblock.use-default-realm.java.code-block.rst
+      .. include:: /examples/generated/java/local/OpenARealmTest.snippet.use-default-realm.java.code-block.rst
 
 Local Realms
 ------------
@@ -85,13 +85,13 @@ The following example configures a local {+realm+} with:
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.kt
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.configure-a-realm-local.kt
          :language: kotlin
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.configure-a-realm-local.java
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.configure-a-realm-local.java
          :language: java
 
 .. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
@@ -118,13 +118,13 @@ or :java-sdk:`getInstanceAsync() <io/realm/Realm.html#getInstanceAsync-io.realm.
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.kt
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.open-a-realm-local.kt
          :language: kotlin
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.open-a-realm-local.java
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.open-a-realm-local.java
          :language: java
 
 .. seealso::
@@ -144,12 +144,12 @@ method when configuring your {+realm+} to make it read-only:
    .. tab::
        :tabid: kotlin
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.read-only.kt.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.read-only.kt.code-block.rst
 
    .. tab::
        :tabid: java
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.read-only.java.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.read-only.java.code-block.rst
 
 .. seealso::
 
@@ -169,12 +169,12 @@ when configuring your realm:
    .. tab::
        :tabid: kotlin
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.in-memory.kt.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.in-memory.kt.code-block.rst
 
    .. tab::
        :tabid: java
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.in-memory.java.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.in-memory.java.code-block.rst
 
 .. seealso::
 
@@ -193,12 +193,12 @@ To open a Dynamic Realm with a mutable schema, use
    .. tab::
        :tabid: kotlin
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.dynamic.kt.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.dynamic.kt.code-block.rst
 
    .. tab::
        :tabid: java
 
-       .. include:: /examples/generated/java/local/RealmTypesTest.codeblock.dynamic.java.code-block.rst
+       .. include:: /examples/generated/java/local/RealmTypesTest.snippet.dynamic.java.code-block.rst
 
 .. seealso::
 
@@ -240,13 +240,13 @@ The following example configures a synced {+realm+} with:
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.kt
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.configure-a-realm.kt
          :language: kotlin
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.codeblock.configure-a-realm.java
+       .. literalinclude:: /examples/generated/java/sync/OpenARealmTest.snippet.configure-a-realm.java
          :language: java
 
 .. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
@@ -302,14 +302,14 @@ parameter to add it to your subscriptions:
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.kt
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.open-a-realm.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.codeblock.open-a-realm.java
+       .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.open-a-realm.java
          :language: java
          :copyable: false
 
@@ -333,14 +333,14 @@ It is important to remember to call the :java-sdk:`close()
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.kt
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.close-a-realm-local.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.codeblock.close-a-realm-local.java
+       .. literalinclude:: /examples/generated/java/local/OpenARealmTest.snippet.close-a-realm-local.java
          :language: java
          :copyable: false
 
@@ -374,14 +374,14 @@ application.
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/sync/RealmsTest.codeblock.modules.kt
+       .. literalinclude:: /examples/generated/java/sync/RealmsTest.snippet.modules.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/sync/RealmsTest.codeblock.modules.java
+       .. literalinclude:: /examples/generated/java/sync/RealmsTest.snippet.modules.java
          :language: java
          :copyable: false
 

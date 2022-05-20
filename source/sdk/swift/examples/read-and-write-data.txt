@@ -22,13 +22,13 @@ The examples on this page use the following models:
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.models.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.models.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.m
          :language: objectivec
 
 .. _ios-read-operations:
@@ -51,7 +51,7 @@ Find a Specific Object by Primary Key
       :swift-sdk:`Realm.object(ofType:forPrimaryKey:)
       <Structs/Realm.html#/s:10RealmSwift0A0V6object6ofType13forPrimaryKeyxSgxm_q_tSo0aB6ObjectCRbzr0_lF>`.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.find-a-specific-object-by-primary-key.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.find-a-specific-object-by-primary-key.swift
          :language: swift
 
    .. tab::
@@ -62,7 +62,7 @@ Find a Specific Object by Primary Key
       :objc-sdk:`+[RLMObject objectForPrimaryKey:]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)objectForPrimaryKey:>`.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.find-a-specific-object-by-primary-key.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.find-a-specific-object-by-primary-key.m
          :language: objectivec
 
 .. _ios-query-all-objects-of-a-given-type:
@@ -81,7 +81,7 @@ Query All Objects of a Given Type
       This returns a :swift-sdk:`Results <Structs/Results.html>` object
       representing all objects of the given type in the realm.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.objects.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.objects.swift
          :language: swift
 
    .. tab::
@@ -95,7 +95,7 @@ Query All Objects of a Given Type
       <Classes/RLMResults.html>` object representing all objects of the
       given type in the realm.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.objects.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.objects.m
          :language: objectivec
 
 
@@ -119,7 +119,7 @@ more object properties. {+client-database+} provides a full-featured
       call :swift-sdk:`.where <Structs/Query.html>` with a closure that 
       contains a query expression as an argument.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.where.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.where.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -129,7 +129,7 @@ more object properties. {+client-database+} provides a full-featured
       <Structs/Results.html#/s:10RealmSwift7ResultsV6filteryACyxGSo11NSPredicateCF>`
       with a query predicate.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.filter.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.filter.swift
          :language: swift
 
    .. tab:: Objective C
@@ -139,7 +139,7 @@ more object properties. {+client-database+} provides a full-featured
       <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)objectsWhere:>`
       with a query predicate.
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.filter.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.filter.m
          :language: objectivec
 
 
@@ -174,10 +174,10 @@ properties. Avoid comparing
       The Realm Swift Query API's built-in type safety simplifies writing a
       query with an ObjectId:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
          :language: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-object-id.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -186,10 +186,10 @@ properties. Avoid comparing
       The following example shows the correct and incorrect way to write a
       query with an ObjectId given the following {+client-db-short+} object:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.object-id-model.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
          :language: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-object-id.swift
          :language: swift
 
 .. _ios-sort-query-results:
@@ -211,7 +211,7 @@ guarantees a consistent order of results if you explicitly sort them.
       <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
       with the desired key path to sort by.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.sort.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.swift
          :language: swift
 
    .. tab::
@@ -222,7 +222,7 @@ guarantees a consistent order of results if you explicitly sort them.
       <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)sortedResultsUsingKeyPath:ascending:>`
       with the desired key path to sort by.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.sort.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.m
          :language: objectivec
 
 .. tip:: Sort on Related and Embedded Object Properties
@@ -247,13 +247,13 @@ member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-a-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-a-relationship.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-a-relationship.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-a-relationship.m
          :language: objectivec
 
 
@@ -270,13 +270,13 @@ access a member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-an-inverse-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-an-inverse-relationship.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.query-an-inverse-relationship.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-an-inverse-relationship.m
          :language: objectivec
 
 .. _ios-aggregate-data:
@@ -294,19 +294,19 @@ against list properties.
 
       .. versionadded:: 10.19.0
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-aggregate.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-aggregate.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
       :tabid: swift-nspredicate
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.swift
          :language: swift
 
    .. tab:: Objective C
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.aggregate.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.m
          :language: objectivec
 
 .. _ios-chain-queries:
@@ -331,19 +331,19 @@ query.
 
          .. versionadded:: 10.19.0
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-chain-query.swift
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-chain-query.swift
             :language: swift
 
       .. tab:: Swift NSPredicate
          :tabid: swift-nspredicate
          
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.swift
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.swift
             :language: swift
 
       .. tab:: Objective C
          :tabid: objective-c
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.chain-query.m
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.m
             :language: objectivec
 
 .. _ios-write-operations:
@@ -366,7 +366,7 @@ Create a New Object
       <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.create.swift
          :language: swift
 
    .. tab::
@@ -377,7 +377,7 @@ Create a New Object
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addObject:>` inside
       of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.create.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.create.m
          :language: objectivec
 
 .. _ios-initialize-an-object-with-a-value:
@@ -407,13 +407,13 @@ values:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.nested-objects.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.nested-objects.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.nested-objects.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.nested-objects.m
          :language: objectivec
 
 
@@ -434,13 +434,13 @@ convert JSON into a value that you can pass to
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.json.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.json.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.json.m
          :language: objectivec
 
 Nested objects or arrays in the JSON map to :ref:`to-one
@@ -479,7 +479,7 @@ Copy an Object to Another Realm
       object to :swift-sdk:`Realm.create(_:value:update:):
       <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.copy-to-another-realm.swift
          :language: swift
 
    .. tab::
@@ -489,7 +489,7 @@ Copy an Object to Another Realm
       object to :objc-sdk:`+[RLMObject createInRealm:withValue:]
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)createInRealm:withValue:>`:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.copy-to-another-realm.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.copy-to-another-realm.m
          :language: objectivec
 
 
@@ -514,13 +514,13 @@ Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.update.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.update.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.update.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.update.m
          :language: objectivec
 
 
@@ -546,7 +546,7 @@ Applying KVC to a collection is a great way to update objects in bulk.
 Avoid the overhead of iterating over a collection while creating 
 accessors for every item.
 
-.. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.key-value-coding.swift
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.key-value-coding.swift
    :language: swift
 
 .. tip::
@@ -572,7 +572,7 @@ the object already exists. Upserts require the data model to have a
       <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
       with the second parameter, update policy, set to ``.modified``.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.upsert.swift
          :language: swift
 
    .. tab::
@@ -582,7 +582,7 @@ the object already exists. Upserts require the data model to have a
       addOrUpdateObject:]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addOrUpdateObject:>`.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.upsert.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.upsert.m
          :language: objectivec
 
 You can also partially update an object by passing the primary key and a
@@ -593,13 +593,13 @@ subset of the values to update:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.partial-update.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.partial-update.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.m
          :language: objectivec
 
 .. _ios-delete-an-object:
@@ -617,7 +617,7 @@ Delete an Object
       <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyySo13RLMObjectBaseCF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.swift
          :language: swift
 
    .. tab::
@@ -628,7 +628,7 @@ Delete an Object
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObject:>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
          :language: objectivec
 
 .. important:: Do not use objects after delete
@@ -654,7 +654,7 @@ Delete Multiple Objects
       <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.tsq-delete-collection.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-delete-collection.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -665,7 +665,7 @@ Delete Multiple Objects
       <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-collection.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-collection.swift
          :language: swift
 
    .. tab:: Objective C
@@ -676,7 +676,7 @@ Delete Multiple Objects
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObjects:>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-collection.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-collection.m
          :language: objectivec
 
 .. _ios-delete-all-object-of-a-specific-type:
@@ -696,7 +696,7 @@ Delete All Objects of a Specific Type
       <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all-of-class.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all-of-class.swift
          :language: swift
 
    .. tab::
@@ -711,7 +711,7 @@ Delete All Objects of a Specific Type
       inside of a write transaction. Replace ``YourRealmObjectClass``
       with your Realm object class name.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all-of-class.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all-of-class.m
          :language: objectivec
 
 .. _ios-delete-all-objects-in-a-realm:
@@ -730,7 +730,7 @@ Delete All Objects in a Realm
       write transaction. This clears the realm of all object instances
       but does not affect the realm's schema.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all.swift
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all.swift
          :language: swift
 
    .. tab::
@@ -742,5 +742,5 @@ Delete All Objects in a Realm
       inside of a write transaction. This clears the realm of all object
       instances but does not affect the realm's schema.
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.codeblock.delete-all.m
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all.m
          :language: objectivec

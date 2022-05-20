@@ -8,5 +8,5 @@ To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
    the default path is used. You can access and change the default Realm path
    using the ``Realm.defaultPath`` global property.
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-local-realm-with-car-schema.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-realm-with-car-schema.js
   :language: javascript

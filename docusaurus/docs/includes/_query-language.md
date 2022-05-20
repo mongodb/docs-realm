@@ -1,19 +1,19 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import CodeBlock from '@theme/CodeBlock';
-import Predicate from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.predicate.js';
-import Subquery from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.subquery.js';
-import KotlinRQLExample from '!!raw-loader!@site/docs/generated/kotlin/RQLTest.codeblock.rql-examples.kt';
+import Predicate from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.predicate.js';
+import Subquery from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.subquery.js';
+import KotlinRQLExample from '!!raw-loader!@site/docs/generated/kotlin/RQLTest.snippet.rql-examples.kt';
 import SwiftRQLExample from '!!raw-loader!@site/docs/generated/swift/SwiftRQLExample.swift';
-import DotnetRQLExample from '!!raw-loader!@site/docs/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs';
-import NodeRQLExample from '!!raw-loader!@site/docs/generated/node/rql-data-models.codeblock.rql-data-models.js';
-import FlutterRQLExample from '!!raw-loader!@site/generated/flutter/task_project_models_test.codeblock.task-project-models.dart';
-import Comparison from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.comparison-operators.js';
-import Logical from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.logical-operators.js';
-import SDL from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.sort-distinct-limit.js';
-import Set from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.set-operators.js';
-import Aggregate from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.aggregate-operators.js';
-import String from '!!raw-loader!@site/docs/generated/js/realm-query-language.codeblock.string-operators.js';
+import DotnetRQLExample from '!!raw-loader!@site/docs/generated/dotnet/RqlSchemaExamples.snippet.rql-schema-examples.cs';
+import NodeRQLExample from '!!raw-loader!@site/docs/generated/node/rql-data-models.snippet.rql-data-models.js';
+import FlutterRQLExample from '!!raw-loader!@site/generated/flutter/task_project_models_test.snippet.task-project-models.dart';
+import Comparison from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.comparison-operators.js';
+import Logical from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.logical-operators.js';
+import SDL from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.sort-distinct-limit.js';
+import Set from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.set-operators.js';
+import Aggregate from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.aggregate-operators.js';
+import String from '!!raw-loader!@site/docs/generated/js/realm-query-language.snippet.string-operators.js';
 
 ## Overview
 

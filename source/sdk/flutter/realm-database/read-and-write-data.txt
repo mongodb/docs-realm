@@ -33,7 +33,7 @@ Query All Objects
 Retrieve a collection of all objects of a data model in the {+realm+} with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
    :language: dart
 
 .. _flutter-query-list-realm-objects:
@@ -44,7 +44,7 @@ Query List of RealmObjects
 You can query any list of :flutter-sdk:`RealmObjects <realm/RealmObject-mixin.html>`.
 For more information on querying, see :ref:`Filter Results <flutter-filter-results>`.
 
-.. literalinclude:: /examples/generated/flutter/read_write_data_test.codeblock.query-realm-list.dart
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.query-realm-list.dart
    :language: dart
 
 .. _flutter-filter-results:
@@ -57,7 +57,7 @@ of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
    :language: dart
 
 .. _flutter-sort-results:
@@ -68,7 +68,7 @@ Sort Results
 Sort the results using the :ref:`Realm Query Language <flutter-query-language>` 
 SORT() operator in the ``query()`` method's argument.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-sort.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
 
 .. _flutter-write-operations:
@@ -87,7 +87,7 @@ Create Objects
 To create a new ``Car``, instantiate an instance of the
 ``Car`` class and add it to the {+realm+} in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.create-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart
 
 .. _flutter-update-objects:
@@ -97,7 +97,7 @@ Update Objects
 
 To modify a car, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.update-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
    :language: dart
 
 .. _flutter-delete-objects:
@@ -113,7 +113,7 @@ Delete a Single Object
 Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 method in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
    :language: dart
 
 .. _flutter-delete-multiple-objects: 
@@ -124,5 +124,5 @@ Delete Multiple Objects
 Delete multiple cars with the :flutter-sdk:`Realm.deleteMany() 
 <realm/Realm/deleteMany.html>` method in a write transaction block. 
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart

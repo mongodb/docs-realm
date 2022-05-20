@@ -35,7 +35,7 @@ to the updated schema.
 
 A {+realm+} using schema version ``1`` has a ``Person`` object type:
 
-.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro1.cs
+.. literalinclude:: /examples/generated/dotnet/Migrations.snippet.ro1.cs
    :language: csharp
 
 .. _dotnet-add-a-property:
@@ -46,7 +46,7 @@ Add a Property
 The following example adds a ``LastName`` property to the
 :ref:`original Person schema <dotnet-og-schema>`:
 
-.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro2.cs
+.. literalinclude:: /examples/generated/dotnet/Migrations.snippet.ro2.cs
    :language: csharp
    :emphasize-lines: 8
 
@@ -59,7 +59,7 @@ The following example uses a combined
 ``FullName`` property instead of the separate ``FirstName`` and
 ``LastName`` property in the :ref:`original Person schema <dotnet-og-schema>`:
 
-.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro3.cs
+.. literalinclude:: /examples/generated/dotnet/Migrations.snippet.ro3.cs
    :language: csharp
    :emphasize-lines: 7
 
@@ -73,7 +73,7 @@ The following example modifies the ``Age`` property in the
 :ref:`original Person schema <dotnet-og-schema>` by
 renaming it to ``Birthday`` and changing the type to ``DateTimeOffset``:
 
-.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.ro4.cs
+.. literalinclude:: /examples/generated/dotnet/Migrations.snippet.ro4.cs
    :language: csharp
    :emphasize-lines: 8
 
@@ -98,7 +98,7 @@ set the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
 ``FullName`` based on the existing ``FirstName`` and ``LastName``
 properties and the value of ``Birthday`` based on ``Age``:
 
-.. literalinclude:: /examples/generated/dotnet/Migrations.codeblock.migrate.cs
+.. literalinclude:: /examples/generated/dotnet/Migrations.snippet.migrate.cs
    :language: csharp
    :emphasize-lines: 3, 21, 25, 31
    :linenos:
