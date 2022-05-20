@@ -44,7 +44,7 @@ Extend ``RealmObject``
       .. tab::
          :tabid: kotlin
 
-         .. include:: /examples/generated/java/local/FrogObjectExampleKt.codeblock.complete.kt.code-block.rst
+         .. include:: /examples/generated/java/local/FrogObjectExampleKt.snippet.complete.kt.code-block.rst
 
          .. important::
 
@@ -54,7 +54,7 @@ Extend ``RealmObject``
       .. tab::
          :tabid: java
 
-         .. include:: /examples/generated/java/local/FrogObjectExample.codeblock.complete.java.code-block.rst
+         .. include:: /examples/generated/java/local/FrogObjectExample.snippet.complete.java.code-block.rst
 
          .. important::
 
@@ -76,7 +76,7 @@ Implement ``RealmModel``
       .. tab::
          :tabid: kotlin
 
-         .. include:: /examples/generated/java/local/FrogRealmModelExampleKt.codeblock.complete.kt.code-block.rst
+         .. include:: /examples/generated/java/local/FrogRealmModelExampleKt.snippet.complete.kt.code-block.rst
 
          .. important::
 
@@ -86,7 +86,7 @@ Implement ``RealmModel``
       .. tab::
          :tabid: java
 
-         .. include:: /examples/generated/java/local/FrogRealmModelExample.codeblock.complete.java.code-block.rst
+         .. include:: /examples/generated/java/local/FrogRealmModelExample.snippet.complete.java.code-block.rst
 
          .. important::
 
@@ -106,13 +106,13 @@ Implement ``RealmModel``
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.kt
+         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.snippet.realm-object-vs-realm-model.kt
             :language: kotlin
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.codeblock.realm-object-vs-realm-model.java
+         .. literalinclude:: /examples/generated/java/local/RealmObjectVsRealmModelTest.snippet.realm-object-vs-realm-model.java
             :language: java
 
 .. _java-field-relationships-lists-example:
@@ -128,7 +128,7 @@ types:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogListExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogListExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
@@ -137,7 +137,7 @@ types:
       null values. If null values shouldn't be allowed, use the
       :ref:`@Required <java-required-field>` annotation.
 
-      .. include:: /examples/generated/java/local/FrogListExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogListExample.snippet.complete.java.code-block.rst
 
 .. seealso::
 
@@ -175,12 +175,12 @@ whose type is a {+service-short+} object in your application:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogManyToOneExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogManyToOneExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogManyToOneExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogManyToOneExample.snippet.complete.java.code-block.rst
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
@@ -203,12 +203,12 @@ Many-to-Many
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogManyToManyExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogManyToManyExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogManyToManyExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogManyToManyExample.snippet.complete.java.code-block.rst
 
 ``RealmList`` s are containers of ``RealmObject`` s, but otherwise behave
 like a regular collection. You can use the same object in multiple
@@ -234,12 +234,12 @@ a list of ``frogFriends``:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/ToadInverseRelationshipExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/ToadInverseRelationshipExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/ToadInverseRelationshipExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/ToadInverseRelationshipExample.snippet.complete.java.code-block.rst
 
 You can provide a link in the opposite direction, from ``Frog`` to ``Toad``,
 with the :java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
@@ -251,12 +251,12 @@ annotation on a ``final`` (in Java) or ``val`` (in Kotlin) field of type
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogInverseRelationshipExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogInverseRelationshipExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogInverseRelationshipExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogInverseRelationshipExample.snippet.complete.java.code-block.rst
 
 .. important::
 
@@ -293,12 +293,12 @@ another class:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FlyEmbeddedExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FlyEmbeddedExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FlyEmbeddedExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FlyEmbeddedExample.snippet.complete.java.code-block.rst
 
 Then, any time you reference that class from another class,
 {+client-database+} will embed the referenced class within the enclosing
@@ -309,12 +309,12 @@ class, as in the following example:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogEmbeddedExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogEmbeddedExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogEmbeddedExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogEmbeddedExample.snippet.complete.java.code-block.rst
 
 .. seealso::
 
@@ -341,12 +341,12 @@ the :ref:`object schema <java-object-schema>` with the
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogPrimaryKeyExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogPrimaryKeyExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogPrimaryKeyExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogPrimaryKeyExample.snippet.complete.java.code-block.rst
 
 Only one field in a RealmObject can use the ``@PrimaryKey``
 annotation.
@@ -365,12 +365,12 @@ Required Fields
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogRequiredExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRequiredExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogRequiredExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRequiredExample.snippet.complete.java.code-block.rst
 
 .. seealso::
 
@@ -403,14 +403,14 @@ to assign default values.
 
       Assign default values in the field declaration:
 
-      .. include:: /examples/generated/java/local/FrogDefaultValueExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogDefaultValueExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
       Use the class constructor(s) to assign default values:
 
-      .. include:: /examples/generated/java/local/FrogDefaultValueExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogDefaultValueExample.snippet.complete.java.code-block.rst
 
 .. note:: Default Values and Nullability
 
@@ -433,12 +433,12 @@ annotation:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogIndexExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogIndexExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogIndexExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogIndexExample.snippet.complete.java.code-block.rst
 
 .. seealso::
 
@@ -462,12 +462,12 @@ Ignore a field from a {+service-short+} object model with the
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogIgnoreExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogIgnoreExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogIgnoreExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogIgnoreExample.snippet.complete.java.code-block.rst
 
 .. note:: Ignoring ``static`` and ``transient`` Fields
 
@@ -500,12 +500,12 @@ annotation to rename a field:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogRenameAFieldExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRenameAFieldExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogRenameAFieldExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRenameAFieldExample.snippet.complete.java.code-block.rst
 
 Alternatively, you can also assign a naming policy at the module or
 class levels to change the way that {+client-database+} interprets field
@@ -521,12 +521,12 @@ which will affect all classes included in the module:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/RenameModuleExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/RenameModuleExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/RenameModuleExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/RenameModuleExample.snippet.complete.java.code-block.rst
 
 You can also define a
 :java-sdk:`naming policy <io/realm/annotations/RealmNamingPolicy.html>`
@@ -537,12 +537,12 @@ at the class level, which overrides module level settings:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogClassRenamePolicyExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogClassRenamePolicyExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogClassRenamePolicyExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogClassRenamePolicyExample.snippet.complete.java.code-block.rst
 
 .. _java-rename-object:
 
@@ -566,12 +566,12 @@ annotation to rename a class:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/FrogRenameClassExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRenameClassExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/FrogRenameClassExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/FrogRenameClassExample.snippet.complete.java.code-block.rst
 
 .. _java-omit-classes-from-schema:
 
@@ -589,9 +589,9 @@ your {+realm+} using that module:
    .. tab::
       :tabid: kotlin
 
-      .. include:: /examples/generated/java/local/OmitModuleExampleKt.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/local/OmitModuleExampleKt.snippet.complete.kt.code-block.rst
 
    .. tab::
       :tabid: java
 
-      .. include:: /examples/generated/java/local/OmitModuleExample.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/local/OmitModuleExample.snippet.complete.java.code-block.rst

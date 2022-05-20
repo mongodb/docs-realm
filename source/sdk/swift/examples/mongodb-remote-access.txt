@@ -64,7 +64,7 @@ Example Data
 These examples operate on a MongoDB collection that describes coffee drinks in 
 a chain of coffee shops. The documents represent objects with these properties:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.coffee-drink-model.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.coffee-drink-model.swift
    :language: swift
 
 The complete code for each example includes logging in and instantiating a 
@@ -72,7 +72,7 @@ MongoDB collection handle before completing each operation. For brevity, these
 examples omit the login and collection handle code. However, each complete 
 example looks like this:
 
-.. include:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.insert-sample-data.swift.code-block.rst
+.. include:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-sample-data.swift.code-block.rst
 
 .. _ios-mongodb-async-await-query:
 
@@ -89,7 +89,7 @@ This example illustrates that syntax for the ``collection.insertOne()`` method.
 You can see the completion handler version in :ref:`Insert a Single Document 
 <ios-mongodb-insertOne>`.
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.async-await-insert.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.async-await-insert.swift
    :language: swift
 
 .. include:: /includes/swift-async-await-support.rst
@@ -117,7 +117,7 @@ This snippet inserts a single document describing a "Bean of the Day" coffee
 drink into a :ref:`collection of documents that describe coffee drinks for sale 
 in a group of stores <ios-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.insert-one.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-one.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -137,7 +137,7 @@ This snippet inserts three documents describing coffee drinks into a
 :ref:`collection of documents that describe coffee drinks for sale in a group 
 of stores <ios-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.insert-many.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.insert-many.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -171,7 +171,7 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains
 the string value "Maple Latte":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.find-one.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-one.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -196,7 +196,7 @@ This snippet finds all documents in a :ref:`collection of documents that
 describe coffee drinks for sale in a group of stores <ios-mongodb-example-dataset>`, 
 where the document's ``name`` field contains the value "Americano":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.find-many.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.find-many.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -232,7 +232,7 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>`, where the document's ``name`` field contains 
 the value "Bean of the Day":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.count.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.count.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -268,7 +268,7 @@ that describe coffee drinks for sale in a group of stores
 whose ``name`` field contains the value "Bean of the Day", and sets the
 ``containsDairy`` field to "true":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.update-one.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-one.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -290,7 +290,7 @@ that describe coffee drinks for sale in a group of stores
 where the ``name`` field contains the value "Bean of the Day", and changes the
 ``containsDairy`` field to "true":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.update-many.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.update-many.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -320,7 +320,7 @@ Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
 both the query and specified updates:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.upsert.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.upsert.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -353,7 +353,7 @@ that describe coffee drinks for sale in a group of stores
 the ``name`` field has a value of "Mocha" and the ``partition`` field has
 a value of "Store 17", and deletes it.
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.delete-one.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-one.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -374,7 +374,7 @@ that describe coffee drinks for sale in a group of stores
 <ios-mongodb-example-dataset>` that match the query for documents
 whose ``name`` field contains the value "Caramel Latte":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.codeblock.delete-many.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccess.snippet.delete-many.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -414,7 +414,7 @@ documents using standard MongoDB :manual:`query syntax
 This ``$match`` stage filters documents to include only those where the 
 ``partition`` field has a value equal to "Store 42":
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.codeblock.aggregation-match.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-match.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -454,7 +454,7 @@ calculates the number of coffee drink documents that contain that store number
 as the value of the ``partition`` field. In other words, we're calculating
 the number of coffee drinks for each store number. 
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.codeblock.aggregation-group.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-group.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -512,7 +512,7 @@ The ``storeNumber`` is generated using two aggregation operators:
    since arrays index from ``0``. For example, the value ["Store", "42"]
    passed to this operation would return a value of "42".
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.codeblock.aggregation-project.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-project.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -545,7 +545,7 @@ The following ``$addFields`` stage creates a new field named
 ``storeNumber`` where the value is the output of two aggregate operators
 that transform the value of the ``partition`` field.
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.codeblock.aggregation-add-fields.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-add-fields.swift
    :language: swift
 
 Running this snippet produces this output:
@@ -575,7 +575,7 @@ element of the ``items`` array in each document. It also adds a field
 called ``itemIndex`` to each new document that specifies the
 element's position index in the original array:
 
-.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.codeblock.aggregation-unwind.swift
+.. literalinclude:: /examples/generated/code/start/MongoDBRemoteAccessAggregate.snippet.aggregation-unwind.swift
    :language: swift
 
 Consider this document that includes a ``featuredInPromotions`` array:

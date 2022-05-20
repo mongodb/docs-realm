@@ -99,7 +99,7 @@ content: |
   
   Next, complete the ``OnStart()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/App.xaml.codeblock.open-realm.cs
+  .. literalinclude:: /tutorial/generated/code/final/App.xaml.snippet.open-realm.cs
      :language: csharp
 
   At this point, we have a static, public 
@@ -129,14 +129,14 @@ content: |
   :dotnet-sdk:`Realms.Sync.User <reference/Realms.Sync.User.html>`, and we can 
   return to the default screen, which is defined in ``Projects.xaml``.
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.codeblock.login-async.cs
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.snippet.login-async.cs
      :language: csharp
 
   Next, implement the user registration functionality in the ``RegisterUser()`` 
   method by calling the ``RegisterUserAsync()`` method. On success, you then call 
   ``DoLogin()`` to log on the new user: 
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.codeblock.register-user.cs
+  .. literalinclude:: /tutorial/generated/code/final/LoginPage.xaml.snippet.register-user.cs
      :language: javascript
 
 ---
@@ -197,13 +197,13 @@ content: |
   ``Realm.GetInstanceAsync()`` method. When building the SyncConfiguration 
   object, we set the partition string to ``user=<USER_ID>``:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.codeblock.user-realm-config.cs
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.snippet.user-realm-config.cs
      :language: csharp
 
   We then find the user from the User realm that matches the authenticated user's
   Id:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.codeblock.find-user.cs
+  .. literalinclude:: /tutorial/generated/code/final/ProjectPage.xaml.snippet.find-user.cs
      :language: csharp
 
   .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
@@ -225,14 +225,14 @@ content: |
   each user has exactly one project they own, and it is specified by the partition 
   key value containing their own user ID:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.task-realm-config.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.snippet.task-realm-config.cs
      :language: csharp
 
   In the ``SetUpTaskList()`` method, find all of the tasks. We find all tasks because 
   we configured our ``taskRealm`` to use the partition specific to the user, removing 
   the need to filter by "owner":
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.setup-tasks.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.snippet.setup-tasks.cs
      :language: csharp
 
   At the bottom of the Task view, we have added a button for creating a new Task. 
@@ -240,7 +240,7 @@ content: |
   of the new task and then create a new Task, setting the Task's status to 
   ``TaskStatus.Open``. We then add the Task to the ``taskRealm``:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.codeblock.new-task.cs
+  .. literalinclude:: /tutorial/generated/code/final/TaskPage.xaml.snippet.new-task.cs
      :language: csharp
 
   .. note::
@@ -269,7 +269,7 @@ content: |
   Find the ``AddMemberPage.xaml.cs`` file. First, we need to fetch the list of
   current team members. We do this in the ``OnAppearing()`` method:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-1.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.snippet.call-function-1.cs
      :language: csharp
 
   The UI provides two buttons for team management: an ``Add Member`` button at 
@@ -281,7 +281,7 @@ content: |
   we call the ``addTeamMember`` function on the backend to add the specified team
   member:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-2.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.snippet.call-function-2.cs
      :language: csharp
 
   Finally, in the ``Delete_Button_Clicked`` handler, we use the button's 
@@ -289,7 +289,7 @@ content: |
   confirmation dialog, and then call the ``removeTeamMember`` function on the 
   backend. The final step is to refresh the the list of members:
 
-  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.codeblock.call-function-3.cs
+  .. literalinclude:: /tutorial/generated/code/final/AddMemberPage.xaml.snippet.call-function-3.cs
      :language: csharp
 
 ---

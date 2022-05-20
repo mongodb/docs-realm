@@ -30,7 +30,7 @@ Define a New Object Type
       as easy to work with persisted objects as it is to work with
       regular Swift objects.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.define-a-model.swift
          :language: swift
 
    .. tab::
@@ -45,7 +45,7 @@ Define a New Object Type
       persisted objects as it is to work with regular Objective-C
       objects.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.define-a-model.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.define-a-model.m
          :language: objectivec
 
 .. note::
@@ -83,7 +83,7 @@ Declare Properties
       ``RLM_ARRAY_TYPE()`` macro creates a protocol that allows you to
       tag :objc-sdk:`RLMArray <Classes/RLMArray.html>` with your type:
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.array-declaration.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.array-declaration.m
          :language: objectivec
    
    .. tab:: Swift pre-10.10.0
@@ -118,7 +118,7 @@ Specify an Optional/Required Property
       You can declare properties as optional or required (non-optional) using 
       standard Swift syntax.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.optional-required-properties.swift
          :language: swift
 
    .. tab:: Objective C
@@ -129,7 +129,7 @@ Specify an Optional/Required Property
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)requiredProperties>`
       method and return an array of required property names.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.optional-required-properties.m
          :language: objectivec
    
    .. tab:: Swift pre-10.10.0
@@ -145,7 +145,7 @@ Specify an Optional/Required Property
       <Classes/RealmProperty.html>` 
       type.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.optional-required-properties-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.optional-required-properties-objc-dynamic.swift
          :language: swift
 
       RealmProperty supports ``Int``, ``Float``, ``Double``, ``Bool``,
@@ -176,7 +176,7 @@ key value is immutable.
       <Structs/Persisted.html#/s:10RealmSwift9PersistedVA2A11_PrimaryKey01_A5ValueRpzrlE07primaryE0ACyxGSb_tcfc>`
       on the ``@Persisted`` notation to set the model's primary key.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.specify-a-primary-key.swift
          :language: swift
 
    .. tab:: Objective C
@@ -186,7 +186,7 @@ key value is immutable.
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)primaryKey>` to
       set the model's primary key.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.specify-a-primary-key.m
          :language: objectivec
 
    .. tab:: Swift pre-10.10.0
@@ -196,7 +196,7 @@ key value is immutable.
       <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)primaryKey>`_
       to set the model's primary key.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.specify-a-primary-key-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.specify-a-primary-key-objc-dynamic.swift
          :language: swift
 
 .. _ios-index-a-property:
@@ -225,7 +225,7 @@ Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
       <Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)indexedProperties>`
       on the ``@Persisted`` notation.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.index-a-property.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.index-a-property.swift
          :language: swift
 
    .. tab:: Objective C
@@ -236,7 +236,7 @@ Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)indexedProperties>`
       and return a list of indexed property names.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.index-a-property.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.index-a-property.m
          :language: objectivec
 
    .. tab:: Swift pre-10.10.0
@@ -247,7 +247,7 @@ Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
       <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)indexedProperties>`_
       and return a list of indexed property names.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.index-a-property-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.index-a-property-objc-dynamic.swift
          :language: swift
 
 .. _ios-ignore-a-property:
@@ -279,7 +279,7 @@ observe them using :apple:`KVO
       property declarations within a class, the ``@objc dynamic`` 
       properties will be ignored.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.ignore-a-property.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.ignore-a-property.swift
          :language: swift
 
    .. tab:: Objective C
@@ -290,7 +290,7 @@ observe them using :apple:`KVO
       <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)ignoredProperties>`
       and return a list of ignored property names.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.ignore-a-property.m
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.ignore-a-property.m
          :language: objectivec
 
    .. tab:: Swift pre-10.10.0
@@ -301,7 +301,7 @@ observe them using :apple:`KVO
       <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)ignoredProperties>`_
       and return a list of ignored property names.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.ignore-a-property-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.ignore-a-property-objc-dynamic.swift
          :language: swift
 
 .. _ios-realm-enum:
@@ -322,7 +322,7 @@ Declare Enum Properties
       :swift-sdk:`PersistableEnum <Protocols.html#/s:10RealmSwift15PersistableEnumP>` 
       protocol. {+service-short+} supports enums of any RawType.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.realm-object-enum.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum.swift
          :language: swift
 
    .. tab:: Swift pre-10.10.0
@@ -330,7 +330,7 @@ Declare Enum Properties
 
       {+service-short+} supports only ``Int``-backed ``@objc`` enums.
 
-      .. literalinclude:: /examples/generated/code/start/ObjectModels.codeblock.realm-object-enum-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum-objc-dynamic.swift
          :language: swift
 
       .. seealso::
@@ -361,13 +361,13 @@ one companion dog as a to-one relationship.
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-one-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-one-relationship.m
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.m
          :language: objectivec
 
 .. _ios-define-a-to-many-relationship-property:
@@ -387,7 +387,7 @@ number of companion dogs as a to-many relationship.
       Use :swift-sdk:`List <Classes/List.html>` tagged with your target
       type to define your to-many relationship property.
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-many-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.swift
          :language: swift
 
    .. tab::
@@ -402,7 +402,7 @@ number of companion dogs as a to-many relationship.
          to :ref:`declare the RLMArray protocol for your type
          <ios-declare-a-property>`.
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.to-many-relationship.m
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.m
          :language: objectivec
 
 .. _ios-define-an-inverse-relationship-property:
@@ -426,7 +426,7 @@ the value of an inverse relationship property.
       ``LinkingObjects`` definition specifies the object type and
       property name of the relationship that it inverts.
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship.swift
          :language: swift
 
    .. tab:: Objective C
@@ -440,7 +440,7 @@ the value of an inverse relationship property.
       method in your class to specify the object type and property name
       of the relationship that it inverts.
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-relationship.m
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship.m
          :language: objectivec
 
    .. tab:: Swift pre-10.10.0
@@ -451,7 +451,7 @@ the value of an inverse relationship property.
       in your object model. The ``LinkingObjects`` definition specifies 
       the object type and property name of the relationship that it inverts.
 
-      .. literalinclude:: /examples/generated/code/start/Relationships.codeblock.inverse-relationship-objc-dynamic.swift
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship-objc-dynamic.swift
          :language: swift
 
 .. _ios-define-an-embedded-object-property:
@@ -484,7 +484,7 @@ overwritten by a new embedded object instance.
       class. You can use your embedded object in another model as you
       would any other type.
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.models.swift
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
          :language: swift
 
    .. tab::
@@ -495,5 +495,5 @@ overwritten by a new embedded object instance.
       <Classes/RLMEmbeddedObject.html>` class. You can use your
       embedded object in another model as you would any other type.
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.codeblock.models.m
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.m
          :language: objectivec

@@ -77,7 +77,7 @@ content: |
   The Task class is currently just a normal Swift class. Let's turn it
   into a Realm object model:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.codeblock.task-model.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/Models.snippet.task-model.swift
      :language: swift
 
   .. note::
@@ -94,7 +94,7 @@ content: |
   We'll specify the :ref:`configuration <ios-configure-and-open-a-realm>` to use 
   when we open the {+realm+} in ``init(userRealmConfiguration: Realm.Configuration)``:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.codeblock.user-in-realm-notification.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/ProjectsViewController.snippet.user-in-realm-notification.swift
      :language: swift 
 
 ---
@@ -109,13 +109,13 @@ content: |
   property from an array of Tasks (``[Task]``) to a RealmResults collection
   of Tasks (``Results<Task>``) now:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.properties.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.properties.swift
      :language: swift
 
   We can initialize the ``tasks`` property with a query on the project realm.
   Once we have the live tasks collection, we can observe that for changes:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.init.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.init.swift
      :language: swift
 
   Calls to ``observe`` Realm objects return a notificationToken. Retain
@@ -124,7 +124,7 @@ content: |
   -- be sure to invalidate the token. The ``deinit`` method is a good place to
   do this:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.deinit.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.deinit.swift
      :language: swift
 
   The TasksViewController already populates the UI using the Tasks in the list.
@@ -138,20 +138,20 @@ content: |
   the ``addButtonDidClick()`` method. We can implement the Task creation in this
   method:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.add-button-did-click.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.add-button-did-click.swift
      :language: swift
 
   When the user selects a Task in the list, we present them with an action sheet
   to allow them to update the Task's status. Complete the
   ``tableView(_:didSelectRowAt:)`` method implementation as follows:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.populate-action-sheet.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.populate-action-sheet.swift
      :language: swift
 
   To handle swipes to delete a Task, we implement the
   ``tableView(_:commit:forRowAt:)`` method:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.codeblock.delete-task.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/TasksViewController.snippet.delete-task.swift
      :language: swift
 
 ---
@@ -162,7 +162,7 @@ content: |
   method. Create a {+realm+} configuration that specifies which "project" to 
   open and pass it to the TasksViewController:
 
-  .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.codeblock.sign-in.swift
+  .. literalinclude:: /tutorial/generated/swift-ios/local/WelcomeViewController.snippet.sign-in.swift
      :language: swift
 
   .. note::

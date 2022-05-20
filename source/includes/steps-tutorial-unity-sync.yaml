@@ -17,7 +17,7 @@ content: |
   To get the app working with your backend, you first need to add your {+backend+} App
   ID to the ``Constants.cs`` file:
 
-  .. literalinclude:: /tutorial/generated/unity/Constants.codeblock.create-constants-sync.cs
+  .. literalinclude:: /tutorial/generated/unity/Constants.snippet.create-constants-sync.cs
      :language: csharp
 
   Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
@@ -34,7 +34,7 @@ content: |
   with the one that takes in a User as a parameter and asynchronously gets a
   synced {+realm+} instance: 
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-synced-realm-controller.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.get-realm-synced-realm-controller.cs
      :language: csharp  
 
   Opening a synced {+realm+} requires a logged-in {+realm+} user; you'll set
@@ -49,7 +49,7 @@ content: |
 
   Replace the code in your ``Authentication.uxml`` with the following:
 
-  .. literalinclude:: /tutorial/generated/unity/Authentication.codeblock.sync-authentication-uxml.uxml
+  .. literalinclude:: /tutorial/generated/unity/Authentication.snippet.sync-authentication-uxml.uxml
      :language: xml
 
   You'll need to refactor your AuthenticationManager's ``Start()`` method to contain code that does the following:
@@ -60,26 +60,26 @@ content: |
 
   In ``AuthenticationManager.cs``, add the following code to your ``Start()`` method, replacing the existing ``startButton.clicked`` event handler with the one below:
 
-  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.sync-auth-manager-start.cs
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.sync-auth-manager-start.cs
      :language: csharp
 
   Next, create a ``AuthenticationManager.SwitchToLoginUI()`` and ``AuthenticationManager.SwitchToRegisterUI()`` method to toggle between authentication UI modes:
 
-  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-togglable-ui-methods.cs
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.add-sync-togglable-ui-methods.cs
      :language: csharp
 
   Replace the existing ``AuthenticationManager.OnPressLogin()`` method with the one below, called
   ``OnPressLoginWithBackend`` that uses :doc:`Email/Password Authentication
   </sdk/dotnet/examples/manage-email-password-users>`:
 
-  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-login-click-handler.cs
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.add-sync-login-click-handler.cs
      :language: csharp
   
   Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method. You will update that method in the next step.
 
   Finally, create an ``AuthenticationManager.OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
 
-  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.codeblock.add-sync-register-click-handler.cs
+  .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.add-sync-register-click-handler.cs
      :language: csharp
 
 ---
@@ -96,7 +96,7 @@ content: |
   method to authenticate and obtain a :dotnet-sdk:`User
   <reference/Realms.Sync.User.html>` instance:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-set-logged-in-user-synced.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.realmcontroller-set-logged-in-user-synced.cs
      :language: csharp
 
   Next, in the ``RealmController.cs`` file, create an asynchronous method that
@@ -105,7 +105,7 @@ content: |
   <reference/Realms.Sync.App.EmailPasswordClient.html#Realms_Sync_App_EmailPasswordClient_RegisterUserAsync_System_String_System_String_>`
   method:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realmcontroller-press-register-sync.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.realmcontroller-press-register-sync.cs
      :language: csharp
 
 
@@ -115,7 +115,7 @@ content: |
   <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out
   the {+realm+} user when log out button is clicked.
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.logout-backend.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.logout-backend.cs
      :language: csharp
 ---
 title: Create a Real-Time Leaderboard with Realm Sync
@@ -133,19 +133,19 @@ content: |
 
   Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-open-realm-in-leaderboard.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.sync-open-realm-in-leaderboard.cs
      :language: csharp
 
   In ``LeaderboardManager.cs`` make the ``SetLoggedInUser()`` an
   asynchronous function and replace the existing ``Realm.GetInstance()`` call
   with a call to the new ``GetRealm()`` method. Your code should look something like the following snippet:
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.sync-leaderboard-setloggedinuser.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.sync-leaderboard-setloggedinuser.cs
      :language: csharp
 
   Next, create a :ref:`Change Listener <dotnet-register-a-realm-change-listener>` method:
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.listen-for-stat-changes.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.listen-for-stat-changes.cs
      :language: csharp
 
   Create a method, ``SetNewlyInsertedScores()`` that does the following:
@@ -154,18 +154,18 @@ content: |
   - Loops through the current top scores to determine if the new ``Stat`` object's ``score`` is higher than the current score. 
   - Updates the list of current top scores if there is a higher one and updates the UI to display the new list of top scores.
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.set-newly-inserted-scores.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.set-newly-inserted-scores.cs
      :language: csharp
    
   Call the ``SetStatListener()``  after the user is logged-in, at the
   end of the LeaderboardManager's ``SetLoggedInUser()`` method:
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.call-setstatlistener.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.call-setstatlistener.cs
      :language: csharp
 
   Finally, dispose of the listener token once the Leaderboard GameObject is disabled in the ``OnDisable()`` method:
 
-  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.codeblock.leaderboard-cleanup-fn.cs
+  .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.leaderboard-cleanup-fn.cs
      :language: csharp
 
   .. note:: Simulate New Top Scores Through {+service-short+} Studio or {+atlas+} 

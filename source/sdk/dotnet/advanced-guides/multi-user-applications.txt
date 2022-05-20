@@ -71,7 +71,7 @@ The {+service-short+} SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
 the application's :ref:`active user <active-user>`.
 
-.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.codeblock.multi-add.cs
+.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-add.cs
    :language: csharp
 
 .. _dotnet-list-all-users-on-the-device:
@@ -87,7 +87,7 @@ property. This list includes all users that have logged in to the
 client app on a given device regardless of whether they are currently
 authenticated.
 
-.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.codeblock.multi-list.cs
+.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-list.cs
    :language: csharp
 
 
@@ -101,7 +101,7 @@ You can remove all information about a user from the device and automatically
 log the user out with a call to 
 :dotnet-sdk:`RemoveUserAsync() <reference/Realms.Sync.App.html#Realms_Sync_App_RemoveUserAsync_Realms_Sync_User_>`:
 
-.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.codeblock.multi-remove.cs
+.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-remove.cs
    :language: csharp
 
 .. _dotnet-change-the-active-user:
@@ -114,5 +114,5 @@ You can switch an app's :ref:`active user <active-user>` to another
 logged in user by calling 
 :dotnet-sdk:`SwitchUser() <reference/Realms.Sync.App.html#Realms_Sync_App_SwitchUser_Realms_Sync_User_>`:
 
-.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.codeblock.multi-switch.cs
+.. literalinclude:: /examples/generated/dotnet/MultiUserExamples.snippet.multi-switch.cs
    :language: csharp

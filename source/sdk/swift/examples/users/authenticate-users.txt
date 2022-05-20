@@ -24,7 +24,7 @@ If you have enabled :ref:`Anonymous authentication <anonymous-authentication>`
 in the {+ui+}, users can immediately log into your app without providing any
 identifying information. The following code shows how to do this:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.anonymous.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.anonymous.swift
    :language: swift
 
 .. _ios-login-email-password:
@@ -35,7 +35,7 @@ Email/Password User
 If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.email-password.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.email-password.swift
    :language: swift
 
 .. _ios-login-api-key:
@@ -46,7 +46,7 @@ API Key User
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.api-key.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.api-key.swift
    :language: swift
 
 .. _ios-login-custom-function:
@@ -57,7 +57,7 @@ Custom Function User
 If you have enabled the :ref:`Custom Function authentication provider
 <custom-function-authentication>`, you can log in using the following code:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.function.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.function.swift
    :language: swift
 
 
@@ -69,7 +69,7 @@ Custom JWT User
 If you have enabled the :ref:`Custom JWT authentication provider
 <custom-jwt-authentication>`, you can log in using the following code:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.jwt.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.jwt.swift
    :language: swift
 
 .. _ios-login-facebook:
@@ -92,7 +92,7 @@ flow for your application. In the login completion handler, create a
 :facebook:`access token string <docs/facebook-login/access-tokens>` and
 log the user into your {+service-short+} app.
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.facebook.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.facebook.swift
    :language: swift
 
 .. _ios-login-google:
@@ -129,13 +129,13 @@ The value that you pass to the credential depends on whether or not you have
    .. tab:: ID Token
       :tabid: idToken
 
-      .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google-with-googleId.swift
+      .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-googleId.swift
          :language: swift
 
    .. tab:: Server Auth Code
       :tabid: serverAuthCode
 
-      .. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.google-with-serverAuthCode.swift
+      .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.google-with-serverAuthCode.swift
          :language: swift
 
 .. _ios-login-apple:
@@ -146,7 +146,7 @@ Apple User
 If you have enabled :ref:`Sign-in with Apple authentication
 <apple-id-authentication>`, you can log in using the following code:
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.apple.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.apple.swift
    :language: swift
 
 .. include:: /includes/authorization-appleidcredential-string.rst
@@ -159,7 +159,7 @@ Async/Await Login
 The async/await version of the :swift-sdk:`App.login <Extensions/App.html#/s:So6RLMAppC10RealmSwiftE5login11credentials7Combine6FutureCySo7RLMUserCs5Error_pGAC11CredentialsO_tF>` 
 method asynchronously returns a User or Error.
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.async-await.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.async-await.swift
    :language: swift
 
 .. include:: /includes/swift-async-await-support.rst
@@ -171,7 +171,7 @@ Offline Login
 
 .. include:: /includes/offline-login.rst
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.offline-login.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.offline-login.swift
    :language: swift
 
 .. _ios-logout:
@@ -183,5 +183,5 @@ Once logged in, you can log out:
 
 .. include:: /includes/log-out-queries-in-progress.rst
 
-.. literalinclude:: /examples/generated/code/start/Authenticate.codeblock.logout.swift
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.logout.swift
    :language: swift

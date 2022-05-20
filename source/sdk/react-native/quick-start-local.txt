@@ -30,7 +30,7 @@ Import Realm
 At the top of your source files where you want to use {+service+}, add
 the following line to import the SDK.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.import-realm.js
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.import-realm.js
   :language: javascript
 
 .. _react-native-quickstart-local-define-an-object-model:
@@ -53,7 +53,7 @@ Object Properties <react-native-define-a-property>`.
    - The ``name`` field is required. The
    - The ``status`` is optional, denoted by the question mark immediately after the data type.
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.define-an-object-model.js
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
      :language: javascript
 
 .. _react-native-quickstart-local-open-a-realm:
@@ -64,7 +64,7 @@ To open a {+realm+}, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
 <Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.open-a-realm.js
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
   :language: javascript
 
 .. _react-native-quickstart-local-create-realm-objects:
@@ -82,7 +82,7 @@ transaction <react-native-write-transactions>`.
    with a name of "go grocery shopping" and another with the name of "go
    exercise". Both tasks have a status of "Open".
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.create-realm-objects.js
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
      :language: javascript
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
@@ -95,7 +95,7 @@ The following code demonstrates how to:
 - Filter the query to retrieve only the tasks that are "Open".
 - Sort the tasks by the name in an ascending order.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.find-sort-and-filter-objects.js
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.find-sort-and-filter-objects.js
   :language: javascript
 
 .. _react-native-quickstart-local-modify-an-object:
@@ -113,7 +113,7 @@ To modify an object, you update the object properties:
    example above. The developer begins progress on the "go grocery shopping
    task" and sets ``task1`` to "InProgress".
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.modify-an-object.js
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
      :language: javascript
 
 .. _react-native-quickstart-local-delete-an-object:
@@ -129,7 +129,7 @@ You can delete an object by calling the :js-sdk:`realm.delete()
    :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
    example above. 
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.delete-an-object.js
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
      :language: javascript
 
 .. _react-native-quickstart-local-watch-a-collection:
@@ -148,7 +148,7 @@ methods.
    In the following example, an application developer watches for changes to the
    ``Task`` collection.
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.codeblock.watch-a-collection.js
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
      :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:
@@ -157,7 +157,7 @@ Close a Realm
 -------------
 Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.close-a-realm.js
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.close-a-realm.js
   :language: javascript
 
 
@@ -172,7 +172,7 @@ Code
 The following code is a fully runnable example that includes all of the concepts
 on this page.
 
-.. literalinclude:: /examples/generated/node/quickstart-local.codeblock.complete.js
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.complete.js
   :language: javascript
 
 Output

@@ -186,9 +186,9 @@ to output the example blocks to the `source/examples/generated/` directory. Run 
 Bluehawk currently generates a lot of files, but we care about those in `/source/examples/generated/code/start/`:
 
 ```
-ManageEmailPasswordUsers.codeblock.reset-password.swift
-ManageEmailPasswordUsers.codeblock.confirm-new-user-email.swift
-ManageEmailPasswordUsers.codeblock.register-email.swift
+ManageEmailPasswordUsers.snippet.reset-password.swift
+ManageEmailPasswordUsers.snippet.confirm-new-user-email.swift
+ManageEmailPasswordUsers.snippet.register-email.swift
 ```
 
 These files correspond to the `:snippet-start:` commands in `Examples/ManageEmailPasswordUsers.swift`.
@@ -206,13 +206,13 @@ Register a New User Account
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.codeblock.register-email.swift
+      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.register-email.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.codeblock.register-email-objc.m
+      .. literalinclude:: /examples/generated/code/start/ManageEmailPasswordUsers.snippet.register-email-objc.m
          :language: objective-c
 
 ...

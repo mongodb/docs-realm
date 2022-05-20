@@ -47,7 +47,7 @@ object, which must include the ``sync`` property defining a
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
 In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.open-flexible-sync-realm.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
    :language: javascript
 
 .. important:: Flexible Sync Requires a Subscription
@@ -62,7 +62,7 @@ Open a Partition-Based Synced Realm
 
 .. include:: /includes/node-open-a-synced-realm.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-online-with-car-schema.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-online-with-car-schema.js
    :language: javascript
 
 .. _react-native-open-synced-realm-offline:
@@ -72,7 +72,7 @@ Open a Synced Realm While Offline
 
 .. include:: /includes/offline-login.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.use-cached-user-to-login.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
    :language: javascript
 
 The following subsections show how to use background synchronization to access a
@@ -98,7 +98,7 @@ If the user's device is not connected to the internet or you're uncertain of
 it's connection status, set the realm behavior's type to ``openImmediately``. This 
 syncs data from the server in the background. 
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-with-background-sync.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-with-background-sync.js
       :language: javascript
 
 .. _react-native-open-after-timeout-with-background-sync:
@@ -116,7 +116,7 @@ automatically opens the {+realm+} when either:
 If the {+realm+} doesn't finish downloading before the timeout, the initial
 realm sync continues in the background. 
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-synced-realm-config.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
   :language: javascript
 
 .. _react-native-open-existing-realm-different-configuration:
@@ -153,7 +153,7 @@ property of the ``Configuration``:
 
 .. example:: Convert Local Realm to Synced Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-local-as-synced.js
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
       :language: javascript
       :emphasize-lines: 15-16
 
@@ -163,7 +163,7 @@ as an encrypted synced realm.
 
 .. example:: Convert Synced Encrypted to Local Unencrypted Realm
 
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.sync-encrypted-to-local-unencrypted.js
+   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
       :language: javascript
       :emphasize-lines: 19-20
 

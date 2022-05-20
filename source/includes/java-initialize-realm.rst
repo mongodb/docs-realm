@@ -19,14 +19,14 @@ application runs.
    .. tab::
       :tabid: java
    
-      .. literalinclude:: /examples/generated/java/sync/MainActivity.codeblock.initialize-realm.java
+      .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-realm.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/MainActivity.codeblock.initialize-realm.kt
+      .. literalinclude:: /examples/generated/java/sync/MainActivity.snippet.initialize-realm.kt
          :language: kotlin
          :copyable: false
 

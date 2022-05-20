@@ -52,7 +52,7 @@ an anonymous credential by calling
 <{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/-a-n-o-n-y-m-o-u-s/index.html>`
 and then pass the generated credential to :file:`app.login()`.
 
-.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.anonymous-authentication.kt
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication.kt
    :language: kotlin
    :copyable: false
 
@@ -71,7 +71,7 @@ authentication, create an email/password credential by calling
 with the user's email and password. Then pass the generated credential to
 :file:`app.login()`.
 
-.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.email-password-authentication.kt
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.email-password-authentication.kt
    :language: kotlin
    :copyable: false
 
@@ -91,6 +91,6 @@ to log in, using :kotlin-sdk:`user.logOut()
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
-.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.codeblock.log-out.kt
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.log-out.kt
    :language: kotlin
    :copyable: false

@@ -50,13 +50,13 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.anonymous-login.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.anonymous-login.ts
          :language: typescript
 
 .. _node-email-password-login:
@@ -77,13 +77,13 @@ password and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.email-password-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.email-password-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.email-password-login.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.email-password-login.ts
          :language: typescript
 
 .. _node-api-key-login:
@@ -103,13 +103,13 @@ API key and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.server-api-key-login.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.server-api-key-login.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.server-api-key-login.ts
          :language: typescript
 
 .. _node-custom-jwt-login:
@@ -130,13 +130,13 @@ and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-jwt-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-jwt-login.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-jwt-login.ts
          :language: typescript
 
 .. _node-custom-function-login:
@@ -157,13 +157,13 @@ with a payload object and pass it to ``App.logIn()``:
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-function-login.js
          :language: javascript
 
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.custom-function-login.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.custom-function-login.ts
          :language: typescript
 
 .. _node-facebook-login:
@@ -253,17 +253,17 @@ to handle the user authentication and redirect flow from a Node.js client applic
 
 #. Import the packages into your project. 
 
-   .. literalinclude:: /examples/generated/node/server.codeblock.import-npm-packages.js
+   .. literalinclude:: /examples/generated/node/server.snippet.import-npm-packages.js
          :language: javascript
 
 #. Create configuration for Google OAuth 2.0 client and Realm. 
 
-   .. literalinclude:: /examples/generated/node/server.codeblock.google-oauth-realm-config.js
+   .. literalinclude:: /examples/generated/node/server.snippet.google-oauth-realm-config.js
          :language: javascript
 
 #. Generate an OAuth login link, and pass it to the application client. 
 
-   .. literalinclude:: /examples/generated/node/server.codeblock.generate-log-in.js
+   .. literalinclude:: /examples/generated/node/server.snippet.generate-log-in.js
          :language: javascript
 
 
@@ -271,7 +271,7 @@ to handle the user authentication and redirect flow from a Node.js client applic
    an access code in the query string using the Google OAuth 2.0 client's ``getToken()``
    method. In the callback function, sign in to your {+app+} using the ``id_token``.
 
-   .. literalinclude:: /examples/generated/node/server.codeblock.login-with-token.js
+   .. literalinclude:: /examples/generated/node/server.snippet.login-with-token.js
       :language: javascript
 
 .. _example-auth-google-node-server:
@@ -349,7 +349,7 @@ Offline Login
 
 .. include:: /includes/offline-login.rst
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.use-cached-user-to-login.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
    :language: javascript
 
 To learn how to use the cached user in the Sync Configuration and access a
@@ -370,11 +370,11 @@ To log any user out, call the ``User.logOut()`` on their user instance.
    .. tab::
       :tabid: javascript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.logout.js
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.logout.js
          :language: javascript
    
    .. tab::
       :tabid: typescript
       
-      .. literalinclude:: /examples/generated/code/start/authenticate.codeblock.logout.ts
+      .. literalinclude:: /examples/generated/code/start/authenticate.snippet.logout.ts
          :language: typescript

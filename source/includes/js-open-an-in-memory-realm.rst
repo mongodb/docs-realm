@@ -4,7 +4,7 @@ To create a realm that runs entirely in memory without being written to a file,
 add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object:
 
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.codeblock.open-and-close-an-in-memory-realm.js
+.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-and-close-an-in-memory-realm.js
    :language: javascript
 
 .. note:: 

@@ -75,7 +75,7 @@ one of the following:
   and ``B`` are also argument expressions to the operator ``+``. 
 - A value, such as a string (``'hello'``) or a number (``5``).
 
-.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.predicate.js
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
    :language: javascript
 
 Dot Notation
@@ -132,7 +132,7 @@ with a number literal (such as ``0``) or another property (such as
    - The first returns projects with tasks that have not been completed by a user named Alex.
    - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.subquery.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
       :language: javascript
 
 .. note:: About the Examples On This Page
@@ -220,19 +220,19 @@ with a number literal (such as ``0``) or another property (such as
    .. tab:: .NET SDK
       :tabid: dotnet
 
-      .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.codeblock.rql-schema-examples.cs
+      .. literalinclude:: /examples/generated/dotnet/RqlSchemaExamples.snippet.rql-schema-examples.cs
          :language: csharp
 
    .. tab:: Node.Js SDK
       :tabid: node
 
-      .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
+      .. literalinclude:: /examples/generated/node/rql-data-models.snippet.rql-data-models.js
          :language: javascript
 
    .. tab:: React Native SDK
       :tabid: react-native
 
-      .. literalinclude:: /examples/generated/node/rql-data-models.codeblock.rql-data-models.js
+      .. literalinclude:: /examples/generated/node/rql-data-models.snippet.rql-data-models.js
          :language: javascript
 
    .. tab:: Kotlin SDK
@@ -259,7 +259,7 @@ with a number literal (such as ``0``) or another property (such as
    .. tab:: Flutter SDK
       :tabid: Flutter
 
-      .. literalinclude:: /examples/generated/flutter/task_project_models_test.codeblock.task-project-models.dart
+      .. literalinclude:: /examples/generated/flutter/task_project_models_test.snippet.task-project-models.dart
          :language: dart
 
 
@@ -339,7 +339,7 @@ values.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
    - Find tasks within a certain time range by finding tasks where the ``progressMinutes`` property is between two numbers.
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.comparison-operators.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.comparison-operators.js
       :language: javascript
 
 Logical Operators
@@ -373,7 +373,7 @@ You can make compound predicates using logical operators.
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.logical-operators.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.logical-operators.js
       :language: javascript
 
 
@@ -438,5 +438,5 @@ Regex-like wildcards allow more flexibility in search.
    - Projects with a name starting with the letter 'e'
    - Projects with names that contain 'ie'
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.codeblock.string-operators.js
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.string-operators.js
       :language: javascript

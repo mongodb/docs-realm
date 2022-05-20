@@ -49,7 +49,7 @@ it is opened by specifying a
 :dotnet-sdk:`ShouldCompactDelegate <reference/Realms.RealmConfiguration.ShouldCompactDelegate.html>` 
 in the configuration. The following code example shows how to do this:
 
-.. literalinclude:: /examples/generated/dotnet/Compact.codeblock.config-compact.cs
+.. literalinclude:: /examples/generated/dotnet/Compact.snippet.config-compact.cs
    :language: csharp
 
 If the delegate returns ``true`` -- and the file is not in use -- the realm file 
@@ -63,7 +63,7 @@ to the Realm by calling the
 :dotnet-sdk:`Compact() <reference/Realms.Realm.html#Realms_Realm_Compact_Realms_RealmConfigurationBase_>`
 method. The following example shows how to do this:
 
-.. literalinclude:: /examples/generated/dotnet/Compact.codeblock.manual-compact.cs
+.. literalinclude:: /examples/generated/dotnet/Compact.snippet.manual-compact.cs
    :language: csharp
 
 The ``Compact`` method will return true if the operation is successful.

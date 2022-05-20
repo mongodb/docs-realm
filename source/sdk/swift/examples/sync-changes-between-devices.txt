@@ -48,7 +48,7 @@ uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.create-task.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
    :language: swift
 
 .. seealso::
@@ -92,7 +92,7 @@ other {+realms+}.
       :swift-sdk:`SyncSession <Extensions/SyncSession.html>` instance of
       a synced {+realm+}.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.pause-resume-sync-session.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.swift
          :language: swift
 
    .. tab::
@@ -102,7 +102,7 @@ other {+realms+}.
       :objc-sdk:`RLMSyncSession <Classes/RLMSyncSession.html>` instance
       of a synced {+realm+}.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.pause-resume-sync-session.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.m
          :language: objectivec
 
 .. |pause_func_name| replace:: ``.suspend()``
@@ -129,7 +129,7 @@ Check Upload & Download Progress for a Sync Session
       keep the token in a local variable, observation will stop when the
       local variable goes out of scope.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-progress.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress.swift
          :language: swift
 
    .. tab::
@@ -146,7 +146,7 @@ Check Upload & Download Progress for a Sync Session
       keep the token in a local variable, observation will stop when the
       local variable goes out of scope.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-progress.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-progress.m
          :language: objectivec
 
 
@@ -176,7 +176,7 @@ Check the Network Connection
       <library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`,
       so you can observe changes using KVO or even Combine.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection.swift
          :language: swift
 
    .. tab::
@@ -192,13 +192,13 @@ Check the Network Connection
       so you can observe changes using KVO. The following example
       demonstrates how to implement an observer class:
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection-setup.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection-setup.m
          :language: objectivec
 
       You can then attach an observer instance to the RLMSyncSession
       object. Be sure to remove the observer when finished.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.check-network-connection.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection.m
          :language: objectivec
 
 .. _ios-handle-sync-errors:
@@ -226,7 +226,7 @@ API calls.
    
          Realm's :swift-sdk:`SyncError <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>` conforms to :apple:`Swift's Error protocol <documentation/swift/error>`
 
-      .. literalinclude:: /examples/generated/Errors.codeblock.create-error-handler.swift
+      .. literalinclude:: /examples/generated/Errors.snippet.create-error-handler.swift
          :language: swift
 
    .. tab::
@@ -244,7 +244,7 @@ API calls.
          :objc-sdk:`RLMSyncErrorDomain <Constants.html#/c:@RLMSyncErrorDomain>`. To learn more about the error codes, check out
          the definitions of :objc-sdk:`RLMSyncError <Enums/RLMSyncError.html>` and :objc-sdk:`RLMSyncAuthError <Enums/RLMSyncAuthError.html>`.
 
-      .. literalinclude:: /examples/generated/Errors.codeblock.create-error-handler.m
+      .. literalinclude:: /examples/generated/Errors.snippet.create-error-handler.m
          :language: objectivec
 
 
@@ -281,7 +281,7 @@ In practice, there are two safe times to delete the realm file:
       <Structs/Realm.html#/s:10RealmSwift0A0V11deleteFiles3forSbAC13ConfigurationV_tKFZ>`
       class method.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.reset-client-realm-file.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.reset-client-realm-file.swift
          :language: swift
 
    .. tab::
@@ -293,7 +293,7 @@ In practice, there are two safe times to delete the realm file:
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)deleteFilesForConfiguration:error:>`
       class method.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.reset-client-realm-file.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.reset-client-realm-file.m
          :language: objectivec
 
 .. tip::
@@ -315,7 +315,7 @@ Set the Client Log Level
       <Typealiases.html#/s:10RealmSwift11SyncManagera>` instance on your
       :swift-sdk:`App <Extensions/App.html>`.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.set-log-level.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level.swift
          :language: swift
 
    .. tab::
@@ -325,7 +325,7 @@ Set the Client Log Level
       :objc-sdk:`RLMSyncManager <Classes/RLMSyncManager.html>` instance
       on your :objc-sdk:`RLMApp <Classes/RLMApp.html>`.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.set-log-level.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level.m
          :language: objectivec
 
 .. tip::

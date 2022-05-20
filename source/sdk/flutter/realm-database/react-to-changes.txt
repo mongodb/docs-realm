@@ -30,12 +30,12 @@ You can subscribe to changes on the following events:
    The examples in this page use two Realm object types, ``Character`` and
    ``Fellowship``:
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.sample-data-models.dart 
+   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-models.dart 
       :language: dart
 
    The examples have this sample data: 
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.sample-data-seed.dart 
+   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-seed.dart 
       :language: dart
 
 
@@ -80,7 +80,7 @@ which includes description of changes since the last notification.
      - *RealmResults<T as RealmObject>*
      - Results collection being monitored for changes.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.query-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart
 
 .. _flutter-realm-object-change-listener:
@@ -112,7 +112,7 @@ which includes description of changes since the last notification.
      - *List<String>*
      -  Names of the Realm object's properties that have changed.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-object-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
    :language: dart
 
 .. _flutter-realm-list-change-listener: 
@@ -161,7 +161,7 @@ which includes description of changes since the last notification.
 
    You can only apply a change listener to a ``RealmList<T as RealmObject>``.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-list-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
    :language: dart
 
 .. _flutter-pause-resume-change-listener:
@@ -172,7 +172,7 @@ Pause and Resume a Change Listener
 Pause your subscription if you temporarily don't want to receive notifications. 
 You can later resume listening. 
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.pause-resume-subscription.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
    :language: dart
 
 .. _flutter-unsubscribe-change-listener:
@@ -183,5 +183,5 @@ Unsubscribe a Change Listener
 Unsubscribe from your change listener when you no longer want to receive
 notifications on updates to the data it's watching.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.cancel-subscription.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart

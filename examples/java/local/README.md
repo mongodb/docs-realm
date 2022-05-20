@@ -158,9 +158,9 @@ NOTE: Depending on your configuration, Bluehawk does not always play nicely with
 Bluehawk currently generates a lot of files, but we care about those in `/source/examples/generated/android/generated/code/start/`:
 
 ```
-AuthenticationTest.codeblock.anonymous.java
-AuthenticationTest.codeblock.email-password.java
-AuthenticationTest.codeblock.api-key.java
+AuthenticationTest.snippet.anonymous.java
+AuthenticationTest.snippet.email-password.java
+AuthenticationTest.snippet.api-key.java
 ...
 ```
 
@@ -179,13 +179,13 @@ Register a New User Account
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /includes/android-example-snippets/code/start/AuthenticationTest.codeblock.anonymous.java
+      .. literalinclude:: /includes/android-example-snippets/code/start/AuthenticationTest.snippet.anonymous.java
          :language: java
 
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /includes/android-example-snippets/code/start/AuthenticationTest.codeblock.anonymous.kt
+      .. literalinclude:: /includes/android-example-snippets/code/start/AuthenticationTest.snippet.anonymous.kt
          :language: kotlin
 
 ...

@@ -337,7 +337,7 @@ content: |
   throughout the ``RealmController`` class, add the following code to the
   ``GetRealm()`` method:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.get-realm-fn.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.get-realm-fn.cs
      :language: csharp
 
 ---
@@ -359,7 +359,7 @@ content: |
 
   Add the following code to your ``RealmController.SetLoggedInUser()`` method:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.realm-controller-set-logged-in-user.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.realm-controller-set-logged-in-user.cs
      :language: csharp
 
   After the above code is executed, the ``RealmController.SetLoggedInUser()``
@@ -382,7 +382,7 @@ content: |
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
   
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.collect-token-fn.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.collect-token-fn.cs
      :language: csharp
 
   Call the ``CollectToken()`` method when the ``Player`` collides with the token
@@ -402,7 +402,7 @@ content: |
   </sdk/dotnet/fundamentals/write-transactions>` and update the variable
   ``currentStat`` that you created in the last step:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.defeat-enemy-fn.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.defeat-enemy-fn.cs
      :language: csharp
 
   Navigate to the ``/Assets/Scripts/Gameplay/EnemyDeath.cs`` file and call
@@ -419,7 +419,7 @@ content: |
   variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
   :dotnet-sdk:`PropertyChanged event<reference/Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
-  .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.codeblock.watch-for-changes-stat-propery-changed.cs
+  .. literalinclude:: /tutorial/generated/unity/ScoreCardManager.snippet.watch-for-changes-stat-propery-changed.cs
      :language: csharp
   
   The Scorecard now updates if the ``Player`` defeats an enemy or collects a token.
@@ -481,7 +481,7 @@ content: |
 
   Navigate to the ``RealmController.DeleteCurrentStat()`` method and add the following code at the bottom of that method:
 
-  .. literalinclude:: /tutorial/generated/unity/RealmController.codeblock.delete-current-stat-method.cs
+  .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.delete-current-stat-method.cs
      :language: csharp
   
   Next, open the Platformer Microgame file,

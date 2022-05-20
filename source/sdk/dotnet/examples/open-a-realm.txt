@@ -24,7 +24,7 @@ creates a ``RealmConfiguration`` object with a local file path, sets the
 ``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
 configuration information:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.local-realm.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.local-realm.cs
    :language: csharp
 
 In-Memory Realms
@@ -34,7 +34,7 @@ With an
 object, you can create a {+realm+} that runs entirely in memory (that is, without 
 the data written to disk.) The following example shows how to do this: 
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.in-memory.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.in-memory.cs
    :language: csharp
 
 In-memory {+realm+}s might still use disk space if memory is running low, but all 
@@ -85,7 +85,7 @@ The steps for opening a synced {+realm+} while online are:
    
 The following code demonstrates these steps:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.open-synced-realm.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
    :language: csharp
 
 In the above example, the code shows how to open the {+realm+} *asynchronously* 
@@ -94,7 +94,7 @@ by calling the
 :dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
 method:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.open-synced-realm-synchronously.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm-synchronously.cs
    :language: csharp
 
 .. seealso::
@@ -117,7 +117,7 @@ The following code shows how to check if there is an existing ``User`` object.
 If none is found, it uses the process outlined about to obtain a user. If the 
 device already has a ``user``, it opens the synced {+realm+} with that user:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.check-if-offline.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
    :language: csharp
 
 .. _dotnet-flexible-sync-open-realm:
@@ -129,7 +129,7 @@ When you use Flexible Sync, pass the current user to a
 :dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
 object to open a synced realm. 
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.open-a-flexible-synced-realm.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-a-flexible-synced-realm.cs
    :language: csharp
 
 .. important:: Flexible Sync Requires a Subscription
@@ -146,14 +146,14 @@ on background threads. The simplest way to do this is by declaring the realm
 object with a ``using`` statement, or wrapping the code that interacts with a 
 {+realm+} in a ``using (...)`` statement:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.scope.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.scope.cs
    :language: csharp
 
 If you require a {+realm+} object to be shared outside of a single method, be sure 
 to manage its state by calling the
 :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.dispose.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.dispose.cs
    :language: csharp
 
 .. note::
@@ -175,5 +175,5 @@ with the
 property of the ``RealmConfiguration`` object. The following code demonstrates 
 how you specify two classes you want stored in the {+realm+}:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.subset.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.subset.cs
    :language: csharp
