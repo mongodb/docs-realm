@@ -508,7 +508,7 @@ Perform a Background Write
 .. versionadded:: 10.26.0
 
 You can add, modify, or delete objects in the background using 
-:swift-sdk:`writeAsync <>`. 
+:swift-sdk:`writeAsync <Structs/Realm.html#/s:10RealmSwift0A0V10writeAsync_10onCompletes6UInt32Vyyc_ys5Error_pSgcSgtF>`. 
 
 With async write, you don't need to pass a :ref:`thread-safe reference 
 <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
@@ -529,8 +529,9 @@ Wait for Async Writes to Complete
 
 The SDK provides a ``Bool`` to signal whether the {+realm+} is currently 
 performing an async write. The
-:swift-sdk:`isPerformingAsynchronousWriteOperations <>` variable becomes 
-``true`` after a call to one of:
+:swift-sdk:`isPerformingAsynchronousWriteOperations 
+<Structs/Realm.html#/s:10RealmSwift0A0V39isPerformingAsynchronousWriteOperationsSbvp>` 
+variable becomes ``true`` after a call to one of:
 
 - ``writeAsync``
 - ``beginAsyncWrite``
@@ -545,8 +546,8 @@ Commit or Cancel an Async Write
 
 To complete an async write, you or the SDK must call either:
 
-- :swift-sdk:`commitAsyncWrite <>` 
-- :swift-sdk:`cancelAsyncWrite <>`
+- :swift-sdk:`commitAsyncWrite <Structs/Realm.html#/s:10RealmSwift0A0V16commitAsyncWrite13allowGrouping_s6UInt32VSb_ys5Error_pSgcSgtF>` 
+- :swift-sdk:`cancelAsyncWrite <Structs/Realm.html#/s:10RealmSwift0A0V16cancelAsyncWriteyys6UInt32VKF>`
 
 When you use the ``writeAsync`` method, the SDK handles committing or 
 canceling the transaction. This provides the convenience of the async write 
