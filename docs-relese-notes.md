@@ -25,7 +25,36 @@
 
 ## MongoDB Cloud Docs
 
+### Manage & Deploy Realm Apps
+- Deploy Manually/Roll Back Deployments: Add note that rolling back does not re-deploy hosted files
 
+### Realm Sync
+- Handle Errors/Sync Errors: Separate the information on handling sync errors and setting the client log level
+
+### MongoDB Data Sources
+- MongoDB Data Sources: Add information about limited Atlas Serverless support
+
+### Users & Authentication
+- Authentication: Add refresh token expiration after 30 days
+- Authentication Providers/API Key Authentication: Add server API key limit
+
+### HTTPS Endpoints
+- HTTPS Endpoints: Add a new Return Types section
+
+### Functions
+- Functions: Consolidate procedures from Call a Function, Define a Function, update examples & refresh page
+
+### Reference
+- Authenticate HTTP Client Requests: Add refresh token expiration after 30 days
+- Realm Admin API: Add GraphQL Endpoints
+  - Run a query or mutation
+  - Get custom resolvers
+  - Create a custom resolver
+  - Get a custom resolver
+  - Modify a custom resolver
+  - Delete a custom resolver
+  - Get validation settings
+  - Modify validation settings
 
 # May 12, 2022
 
