@@ -18,8 +18,8 @@ io.realm
 ========
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
- | 		`java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | 		`java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ 
  | 					io.realm.ImportFlag
 
 
@@ -69,7 +69,7 @@ Method Summary
    
    * - public static :ref:`ImportFlag <io_realm_ImportFlag>` 
      - | :ref:`valueOf <io_realm_ImportFlag_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        
@@ -96,8 +96,8 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
 
 
 
@@ -117,11 +117,11 @@ Enum Constant Detail
 
 public static final :ref:`ImportFlag <io_realm_ImportFlag>` 
 
-With this flag enabled, fields will not be written to the Realm file if they contain the same value as the value already present in the Realm.For local Realms this only has an impact on change listeners which will not report changes to those fields that was not written.
+With this flag enabled, fields will not be written to the Realm file if they contain the same value as the value already present in the Realm.For local Realms this only has an impact on change listeners which will not report changes to those fields that were not written.
 
-For synchronized Realms this also impacts the server, which will see improved performance as there is less changes to upload and merge into the server Realm.
+For synchronized Realms this also impacts the server, which will see improved performance as there are fewer changes to upload and merge into the server Realm.
 
-It also impact how the server merges changes from different devices. Realm uses a last-write-wins approach when merging individual fields in an object, so if a field is not written it will be considered "older" than other fields modified.
+It also impacts how the server merges changes from different devices. Realm uses a last-write-wins approach when merging individual fields in an object, so if a field is not written it will be considered "older" than other fields modified.
 
 E.g:
 
@@ -141,7 +141,7 @@ E.g:
    
 
 
-This is normally the desired behaviour as the final object is the merged result of the latest changes from both devices, however if all the fields in an object are considered an atomic unit, then this flag should not be set as it will ensure that all fields are set and thus have the same "age" when data are sent to the server.
+This is normally the desired behavior as the final object is the merged result of the latest changes from both devices, however if all the fields in an object are considered an atomic unit, then this flag should not be set as it will ensure that all fields are set and thus have the same "age" when data are sent to the server.
 
 
 
@@ -182,7 +182,7 @@ valueOf
    :header-rows: 1
    
    * - | public static :ref:`ImportFlag <io_realm_ImportFlag>`  :ref:`valueOf <io_realm_ImportFlag_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        

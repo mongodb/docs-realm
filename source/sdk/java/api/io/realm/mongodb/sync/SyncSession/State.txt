@@ -18,8 +18,8 @@ io.realm.mongodb.sync
 =====================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
- | 		`java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | 		`java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ 
  | 					io.realm.mongodb.sync.SyncSession.State
 
 
@@ -71,6 +71,13 @@ Enum Constant Summary
        
        
    
+   * - :ref:`WAITING_FOR_ACCESS_TOKEN <io_realm_mongodb_sync_SyncSession_State_WAITING_FOR_ACCESS_TOKEN>` 
+       
+       The user is attempting to synchronize data but needs a valid access token to do so.
+       
+       
+       
+   
    
 
 
@@ -85,7 +92,7 @@ Method Summary
    
    * - public static :ref:`SyncSession.State <io_realm_mongodb_sync_SyncSession_State>` 
      - | :ref:`valueOf <io_realm_mongodb_sync_SyncSession_State_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        
@@ -112,8 +119,8 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
 
 
 
@@ -177,6 +184,27 @@ This is the initial state. The session is closed. No data is being synchronized.
 
 
 
+.. _io_realm_mongodb_sync_SyncSession_State_WAITING_FOR_ACCESS_TOKEN:
+
+.. _SyncSession_State_WAITING_FOR_ACCESS_TOKEN:
+
+
+
+``WAITING_FOR_ACCESS_TOKEN`` 
+-----------------------------
+
+public static final :ref:`SyncSession.State <io_realm_mongodb_sync_SyncSession_State>` 
+
+The user is attempting to synchronize data but needs a valid access token to do so. Realm will either use a cached token or automatically try to acquire one based on the current users login. This requires a network connection.Data cannot be synchronized in this state.
+
+Once a valid token is acquired, the session will transition to :ref:`ACTIVE <io_realm_mongodb_sync_SyncSession_State_ACTIVE>` .
+
+
+
+
+
+
+
 
 Method Detail
 =============
@@ -218,7 +246,7 @@ valueOf
    :header-rows: 1
    
    * - | public static :ref:`SyncSession.State <io_realm_mongodb_sync_SyncSession_State>`  :ref:`valueOf <io_realm_mongodb_sync_SyncSession_State_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        

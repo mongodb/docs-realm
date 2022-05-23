@@ -18,7 +18,7 @@ io.realm.mongodb
 ================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
  | 		io.realm.mongodb.AppConfiguration.Builder
 
 
@@ -44,7 +44,7 @@ Constructors
    * - Constructor and Description
    
    * - | :ref:`Builder <io_realm_mongodb_AppConfiguration_Builder>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appId
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appId
        | )
        
        
@@ -67,8 +67,8 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`addCustomRequestHeader <io_realm_mongodb_AppConfiguration_Builder_addCustomRequestHeader>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerName, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerValue
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerName, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerValue
        | )
        
        
@@ -79,7 +79,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`addCustomRequestHeaders <io_realm_mongodb_AppConfiguration_Builder_addCustomRequestHeaders>` (
-       |  `java.util.Map\<java.lang.String, java.lang.String> <https://docs.oracle.com/javase/8/docs/api/java/util/Map.html>`__  headers
+       |  `java.util.Map\<java.lang.String, java.lang.String> <https://docs.oracle.com/javase/7/docs/api/java/util/Map.html>`__  headers
        | )
        
        
@@ -90,7 +90,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`appName <io_realm_mongodb_AppConfiguration_Builder_appName>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appName
        | )
        
        
@@ -101,7 +101,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`appVersion <io_realm_mongodb_AppConfiguration_Builder_appVersion>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appVersion
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appVersion
        | )
        
        
@@ -112,7 +112,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`authorizationHeaderName <io_realm_mongodb_AppConfiguration_Builder_authorizationHeaderName>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerName
        | )
        
        
@@ -123,7 +123,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`baseUrl <io_realm_mongodb_AppConfiguration_Builder_baseUrl>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  baseUrl
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  baseUrl
        | )
        
        
@@ -167,6 +167,28 @@ Method Summary
        
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
+     - | :ref:`defaultSyncClientResetStrategy <io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy>` (
+       |  :ref:`DiscardUnsyncedChangesStrategy <io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy>`  strategy
+       | )
+       
+       
+       Sets the default sync client reset strategy used by Synced Realms when they report a Client Reset.
+       
+       
+       
+   
+   * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
+     - | :ref:`defaultSyncClientResetStrategy <io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy>` (
+       |  :ref:`ManuallyRecoverUnsyncedChangesStrategy <io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy>`  strategy
+       | )
+       
+       
+       Sets the default sync client reset strategy used by Synced Realms when they report a Client Reset.
+       
+       
+       
+   
+   * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`defaultSyncErrorHandler <io_realm_mongodb_AppConfiguration_Builder_defaultSyncErrorHandler>` (
        |  :ref:`SyncSession.ErrorHandler <io_realm_mongodb_sync_SyncSession_ErrorHandler>`  errorHandler
        | )
@@ -204,7 +226,7 @@ Method Summary
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`requestTimeout <io_realm_mongodb_AppConfiguration_Builder_requestTimeout>` (
        |  **long** time, 
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -215,7 +237,7 @@ Method Summary
    
    * - public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>` 
      - | :ref:`syncRootDirectory <io_realm_mongodb_AppConfiguration_Builder_syncRootDirectory>` (
-       |  `File <https://docs.oracle.com/javase/8/docs/api/java/io/File.html>`__  rootDir
+       |  `File <https://docs.oracle.com/javase/7/docs/api/java/io/File.html>`__  rootDir
        | )
        
        
@@ -232,7 +254,7 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
 
 
 
@@ -252,7 +274,7 @@ Constructor Detail
    :header-rows: 1
    
    * - | public :ref:`Builder <io_realm_mongodb_AppConfiguration_Builder>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appId
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appId
        | )
        
        
@@ -356,8 +378,8 @@ addCustomRequestHeader
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`addCustomRequestHeader <io_realm_mongodb_AppConfiguration_Builder_addCustomRequestHeader>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerName, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerValue
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerName, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerValue
        | )
        
        
@@ -386,7 +408,7 @@ addCustomRequestHeader
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if a non-empty ``headerName``  is provided or a null ``headerValue`` .
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if a non-empty ``headerName``  is provided or a null ``headerValue`` .
           
           
           
@@ -440,7 +462,7 @@ addCustomRequestHeaders
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`addCustomRequestHeaders <io_realm_mongodb_AppConfiguration_Builder_addCustomRequestHeaders>` (
-       |  `java.util.Map\<java.lang.String, java.lang.String> <https://docs.oracle.com/javase/8/docs/api/java/util/Map.html>`__  headers
+       |  `java.util.Map\<java.lang.String, java.lang.String> <https://docs.oracle.com/javase/7/docs/api/java/util/Map.html>`__  headers
        | )
        
        
@@ -465,7 +487,7 @@ addCustomRequestHeaders
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - If any of the headers provided are illegal.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - If any of the headers provided are illegal.
           
           
           
@@ -515,7 +537,7 @@ appName
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`appName <io_realm_mongodb_AppConfiguration_Builder_appName>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appName
        | )
        
        
@@ -582,7 +604,7 @@ appVersion
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`appVersion <io_realm_mongodb_AppConfiguration_Builder_appVersion>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  appVersion
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  appVersion
        | )
        
        
@@ -649,7 +671,7 @@ authorizationHeaderName
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`authorizationHeaderName <io_realm_mongodb_AppConfiguration_Builder_authorizationHeaderName>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  headerName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  headerName
        | )
        
        
@@ -678,28 +700,13 @@ authorizationHeaderName
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if a null or empty header is provided.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if a null or empty header is provided.
           
           
           
        
        
        
-       
-       
-       
-       .. seealso::
-       
-       
-          
-          - `Adding a custom proxy <https://docs.realm.io/platform/guides/learn-realm-sync-and-integrate-with-a-proxy#adding-a-custom-proxy>`__ 
-             
-             
-             
-             
-          
-          
-          
        
        
    
@@ -743,7 +750,7 @@ baseUrl
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`baseUrl <io_realm_mongodb_AppConfiguration_Builder_baseUrl>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  baseUrl
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  baseUrl
        | )
        
        
@@ -990,6 +997,125 @@ defaultClientResetHandler
    
 
 
+.. _defaultSyncClientResetStrategy:
+
+.. _defaultSyncClientResetStrategy__:
+
+.. _Builder_defaultSyncClientResetStrategy:
+
+.. _Builder_defaultSyncClientResetStrategy__:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy__:
+
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy:
+
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy__:
+
+
+
+defaultSyncClientResetStrategy
+------------------------------
+
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. _defaultSyncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _defaultSyncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`defaultSyncClientResetStrategy <io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy>` (
+       |  :ref:`DiscardUnsyncedChangesStrategy <io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy>`  strategy
+       | )
+       
+       
+       
+   
+   * - Sets the default sync client reset strategy used by Synced Realms when they report a Client Reset. session.This default can be overridden by calling :ref:`io.realm.mongodb.sync.SyncConfiguration.Builder.syncClientResetStrategy(ManuallyRecoverUnsyncedChangesStrategy) <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_>`  or :ref:`io.realm.mongodb.sync.SyncConfiguration.Builder.syncClientResetStrategy(DiscardUnsyncedChangesStrategy) <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_DiscardUnsyncedChangesStrategy_>`  when creating the :ref:`io.realm.mongodb.sync.SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` .
+       
+       
+       
+       
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``strategy`` - the default sync client reset strategy.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _defaultSyncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _defaultSyncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _AppConfiguration_Builder_defaultSyncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`defaultSyncClientResetStrategy <io_realm_mongodb_AppConfiguration_Builder_defaultSyncClientResetStrategy>` (
+       |  :ref:`ManuallyRecoverUnsyncedChangesStrategy <io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy>`  strategy
+       | )
+       
+       
+       
+   
+   * - Sets the default sync client reset strategy used by Synced Realms when they report a Client Reset. session.This default can be overridden by calling :ref:`io.realm.mongodb.sync.SyncConfiguration.Builder.syncClientResetStrategy(ManuallyRecoverUnsyncedChangesStrategy) <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_>`  or :ref:`io.realm.mongodb.sync.SyncConfiguration.Builder.syncClientResetStrategy(DiscardUnsyncedChangesStrategy) <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_DiscardUnsyncedChangesStrategy_>`  when creating the :ref:`io.realm.mongodb.sync.SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` .
+       
+       
+       
+       
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``strategy`` - the default sync client reset strategy.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _defaultSyncErrorHandler:
 
 .. _defaultSyncErrorHandler__:
@@ -1133,7 +1259,7 @@ encryptionKey
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if the key is not 64 bytes long.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if the key is not 64 bytes long.
           
           
           
@@ -1267,7 +1393,7 @@ requestTimeout
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`requestTimeout <io_realm_mongodb_AppConfiguration_Builder_requestTimeout>` (
        |  **long** time, 
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -1340,7 +1466,7 @@ syncRootDirectory
    :header-rows: 1
    
    * - | public :ref:`AppConfiguration.Builder <io_realm_mongodb_AppConfiguration_Builder>`  :ref:`syncRootDirectory <io_realm_mongodb_AppConfiguration_Builder_syncRootDirectory>` (
-       |  `File <https://docs.oracle.com/javase/8/docs/api/java/io/File.html>`__  rootDir
+       |  `File <https://docs.oracle.com/javase/7/docs/api/java/io/File.html>`__  rootDir
        | )
        
        

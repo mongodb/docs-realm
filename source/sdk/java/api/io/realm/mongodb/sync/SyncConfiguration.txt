@@ -18,7 +18,7 @@ io.realm.mongodb.sync
 =====================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
  | 		:ref:`io.realm.RealmConfiguration <io_realm_RealmConfiguration>` 
  | 					io.realm.mongodb.sync.SyncConfiguration
 
@@ -72,7 +72,7 @@ Synchronized Realms are created by using :ref:`Realm.getInstance(RealmConfigurat
 
 
    
-   - `The docs <https://docs.realm.io/platform/using-synced-realms/syncing-data>`__  for more information about the two types of synchronization.
+   - `The docs <https://docs.mongodb.com/realm/sync/>`__  for more information about synchronization.
       
       
       
@@ -91,6 +91,10 @@ Nested Class Summary
    
    * - Modifier and Type
      - Class and Description
+   
+   * - ``public static interface`` 
+     - :ref:`SyncConfiguration.InitialFlexibleSyncSubscriptions <io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions>` 
+       
    
    * - ``public static final`` 
      - :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
@@ -115,7 +119,7 @@ Method Summary
        | )
        
        
-       Returns a default configuration for the given user and partition value.
+       Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -123,11 +127,11 @@ Method Summary
    * - public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` 
      - | :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `Integer <https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>`__  partitionValue
+       |  `Integer <https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html>`__  partitionValue
        | )
        
        
-       Returns a default configuration for the given user and partition value.
+       Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -135,11 +139,11 @@ Method Summary
    * - public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` 
      - | :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `Long <https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html>`__  partitionValue
+       |  `Long <https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html>`__  partitionValue
        | )
        
        
-       Returns a default configuration for the given user and partition value.
+       Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -147,18 +151,29 @@ Method Summary
    * - public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` 
      - | :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  partitionValue
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  partitionValue
        | )
        
        
-       Returns a default configuration for the given user and partition value.
+       Returns a default Partition-based Sync configuration for the given user and partition value.
+       
+       
+       
+   
+   * - public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>` 
+     - | :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
+       |  :ref:`User <io_realm_mongodb_User>`  user
+       | )
+       
+       
+       Returns a default Flexible Sync configuration for the given user.
        
        
        
    
    * - public **boolean**
      - | :ref:`equals <io_realm_mongodb_sync_SyncConfiguration_equals>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  o
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  o
        | )
        
        
@@ -169,7 +184,7 @@ Method Summary
    
    * - public static :ref:`RealmConfiguration <io_realm_RealmConfiguration>` 
      - | :ref:`forRecovery <io_realm_mongodb_sync_SyncConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath
        | )
        
        
@@ -182,9 +197,9 @@ Method Summary
    
    * - public static :ref:`RealmConfiguration <io_realm_RealmConfiguration>` 
      - | :ref:`forRecovery <io_realm_mongodb_sync_SyncConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath, 
        |  **byte[]** encryptionKey, 
-       |  `java.lang.Object[] <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  modules
+       |  `java.lang.Object[] <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  modules
        | )
        
        
@@ -227,11 +242,21 @@ Method Summary
    
    * - public **long**
      - | :ref:`getInitialRemoteDataTimeout <io_realm_mongodb_sync_SyncConfiguration_getInitialRemoteDataTimeout>` (
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
        Returns the timeout defined when downloading any initial data the first time the Realm is opened.
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.InitialFlexibleSyncSubscriptions <io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions>` 
+     - | :ref:`getInitialSubscriptionsHandler <io_realm_mongodb_sync_SyncConfiguration_getInitialSubscriptionsHandler>` ()
+       | 
+       
+       
+       Returns the configured initial subscription handler for this realm.
        
        
        
@@ -246,7 +271,7 @@ Method Summary
        
        
    
-   * - public `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__ 
+   * - public `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__ 
      - | :ref:`getServerUrl <io_realm_mongodb_sync_SyncConfiguration_getServerUrl>` ()
        | 
        
@@ -266,7 +291,17 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public :ref:`SyncClientResetStrategy <io_realm_mongodb_sync_SyncClientResetStrategy>` 
+     - | :ref:`getSyncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_getSyncClientResetStrategy>` ()
+       | 
+       
+       
+       Returns the sync client reset strategy for this *SyncConfiguration*.
+       
+       
+       
+   
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getUrlPrefix <io_realm_mongodb_sync_SyncConfiguration_getUrlPrefix>` ()
        | 
        
@@ -292,6 +327,26 @@ Method Summary
        
        
        
+       
+       
+       
+   
+   * - public **boolean**
+     - | :ref:`isFlexibleSyncConfiguration <io_realm_mongodb_sync_SyncConfiguration_isFlexibleSyncConfiguration>` ()
+       | 
+       
+       
+       Returns whether or not this configuration is for opening a Realm configured for Flexible Sync.
+       
+       
+       
+   
+   * - public **boolean**
+     - | :ref:`isPartitionBasedSyncConfiguration <io_realm_mongodb_sync_SyncConfiguration_isPartitionBasedSyncConfiguration>` ()
+       | 
+       
+       
+       Returns whether or not this configuration is for opening a Realm configured for Partition-based Sync.
        
        
        
@@ -340,7 +395,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`toString <io_realm_mongodb_sync_SyncConfiguration_toString>` ()
        | 
        
@@ -358,8 +413,8 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class :ref:`io.realm.RealmConfiguration <io_realm_RealmConfiguration>` : ``getRealmDirectory`` , ``getRealmFileName`` , ``getEncryptionKey`` , ``getSchemaVersion`` , ``getMigration`` , ``shouldDeleteRealmIfMigrationNeeded`` , ``getDurability`` , ``getSchemaMediator`` , ``getInitialDataTransaction`` , ``getCompactOnLaunchCallback`` , ``getRealmObjectClasses`` , ``getPath`` , ``realmExists`` , ``getRxFactory`` , ``getFlowFactory`` , ``isReadOnly`` , ``isRecoveryConfiguration`` , ``getMaxNumberOfActiveVersions`` , ``isAllowWritesOnUiThread`` , ``isAllowQueriesOnUiThread`` , ``equals`` , ``hashCode`` , ``createSchemaMediator`` , ``toString`` , ``isSyncConfiguration`` , ``forRecovery`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class :ref:`io.realm.RealmConfiguration <io_realm_RealmConfiguration>` : ``getRealmDirectory`` , ``getRealmFileName`` , ``getEncryptionKey`` , ``getSchemaVersion`` , ``getMigration`` , ``shouldDeleteRealmIfMigrationNeeded`` , ``getDurability`` , ``getSchemaMediator`` , ``getInitialDataTransaction`` , ``hasAssetFile`` , ``getAssetFilePath`` , ``getCompactOnLaunchCallback`` , ``getRealmObjectClasses`` , ``getPath`` , ``realmExists`` , ``getRxFactory`` , ``getFlowFactory`` , ``isReadOnly`` , ``isRecoveryConfiguration`` , ``getMaxNumberOfActiveVersions`` , ``isAllowWritesOnUiThread`` , ``isAllowQueriesOnUiThread`` , ``equals`` , ``getInstance`` , ``hashCode`` , ``createSchemaMediator`` , ``toString`` , ``isSyncConfiguration`` , ``forRecovery`` 
 
 
 
@@ -419,7 +474,7 @@ defaultConfig
        
        
    
-   * - Returns a default configuration for the given user and partition value.
+   * - Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -503,13 +558,13 @@ defaultConfig
    
    * - | public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>`  :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `Integer <https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html>`__  partitionValue
+       |  `Integer <https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html>`__  partitionValue
        | )
        
        
        
    
-   * - Returns a default configuration for the given user and partition value.
+   * - Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -593,13 +648,13 @@ defaultConfig
    
    * - | public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>`  :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `Long <https://docs.oracle.com/javase/8/docs/api/java/lang/Long.html>`__  partitionValue
+       |  `Long <https://docs.oracle.com/javase/7/docs/api/java/lang/Long.html>`__  partitionValue
        | )
        
        
        
    
-   * - Returns a default configuration for the given user and partition value.
+   * - Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -683,13 +738,13 @@ defaultConfig
    
    * - | public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>`  :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
        |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  partitionValue
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  partitionValue
        | )
        
        
        
    
-   * - Returns a default configuration for the given user and partition value.
+   * - Returns a default Partition-based Sync configuration for the given user and partition value.
        
        
        
@@ -716,6 +771,69 @@ defaultConfig
        
        
        
+       
+       
+   
+   
+.. _io_realm_mongodb_sync_SyncConfiguration_defaultConfig_io_realm_mongodb_User_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_defaultConfig_User_:
+
+.. _defaultConfig_io_realm_mongodb_User_:
+
+.. _defaultConfig_User_:
+
+.. _SyncConfiguration_defaultConfig_io_realm_mongodb_User_:
+
+.. _SyncConfiguration_defaultConfig_User_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public static :ref:`SyncConfiguration <io_realm_mongodb_sync_SyncConfiguration>`  :ref:`defaultConfig <io_realm_mongodb_sync_SyncConfiguration_defaultConfig>` (
+       |  :ref:`User <io_realm_mongodb_User>`  user
+       | )
+       
+       
+       
+   
+   * - Returns a default Flexible Sync configuration for the given user.
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``user`` - The user that will be used for accessing the Realm App.
+          
+          
+          
+       
+       
+       
+       
+       **Returns**
+       
+       the default Flexible Sync configuration for the given user.
+       
+       
+       
+       
+       
+       
+       
+       
+       .. seealso::
+       
+       
+          
+          - **{@link SubscriptionSet} for more information about Flexible Sync.**
+             
+             
+             
+          
+          
+          
        
        
    
@@ -755,7 +873,7 @@ equals
    :header-rows: 1
    
    * - | public **boolean** :ref:`equals <io_realm_mongodb_sync_SyncConfiguration_equals>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  o
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  o
        | )
        
        
@@ -814,7 +932,7 @@ forRecovery
    :header-rows: 1
    
    * - | public static :ref:`RealmConfiguration <io_realm_RealmConfiguration>`  :ref:`forRecovery <io_realm_mongodb_sync_SyncConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath
        | )
        
        
@@ -999,9 +1117,9 @@ forRecovery
    :header-rows: 1
    
    * - | public static :ref:`RealmConfiguration <io_realm_RealmConfiguration>`  :ref:`forRecovery <io_realm_mongodb_sync_SyncConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath, 
        |  **byte[]** encryptionKey, 
-       |  `java.lang.Object[] <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  modules
+       |  `java.lang.Object[] <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  modules
        | )
        
        
@@ -1224,7 +1342,7 @@ getInitialRemoteDataTimeout
    :header-rows: 1
    
    * - | public **long** :ref:`getInitialRemoteDataTimeout <io_realm_mongodb_sync_SyncConfiguration_getInitialRemoteDataTimeout>` (
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -1263,6 +1381,53 @@ getInitialRemoteDataTimeout
           
           
           
+       
+       
+   
+   
+
+
+.. _getInitialSubscriptionsHandler:
+
+.. _getInitialSubscriptionsHandler__:
+
+.. _SyncConfiguration_getInitialSubscriptionsHandler:
+
+.. _SyncConfiguration_getInitialSubscriptionsHandler__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_getInitialSubscriptionsHandler:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_getInitialSubscriptionsHandler__:
+
+
+
+getInitialSubscriptionsHandler
+------------------------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.InitialFlexibleSyncSubscriptions <io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions>`  :ref:`getInitialSubscriptionsHandler <io_realm_mongodb_sync_SyncConfiguration_getInitialSubscriptionsHandler>` ()
+       | 
+       
+       
+       
+   
+   * - Returns the configured initial subscription handler for this realm.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       the handler used to configure initial subscriptions for this realm.
+       
+       
+       
+       
+       
        
        
    
@@ -1309,6 +1474,16 @@ getPartitionValue
        
        
        
+       **Throws**
+       
+       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if this configuration is for a realm configured for flexible sync. You can use :ref:`isPartitionBasedSyncConfiguration() <io_realm_mongodb_sync_SyncConfiguration_isPartitionBasedSyncConfiguration__>`  before calling this method to check.
+          
+          
+          
+          
+          
+       
+       
        
        
        
@@ -1336,7 +1511,7 @@ getServerUrl
 .. list-table::
    :header-rows: 1
    
-   * - | public `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  :ref:`getServerUrl <io_realm_mongodb_sync_SyncConfiguration_getServerUrl>` ()
+   * - | public `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  :ref:`getServerUrl <io_realm_mongodb_sync_SyncConfiguration_getServerUrl>` ()
        | 
        
        
@@ -1351,7 +1526,7 @@ getServerUrl
        
        **Returns**
        
-       `URI <https://docs.oracle.com/javase/8/docs/api/java/net/URI.html>`__  identifying the MongoDB Realm this local Realm is synchronized with.
+       `URI <https://docs.oracle.com/javase/7/docs/api/java/net/URI.html>`__  identifying the MongoDB Realm this local Realm is synchronized with.
        
        
        
@@ -1412,6 +1587,53 @@ getSessionStopPolicy
    
 
 
+.. _getSyncClientResetStrategy:
+
+.. _getSyncClientResetStrategy__:
+
+.. _SyncConfiguration_getSyncClientResetStrategy:
+
+.. _SyncConfiguration_getSyncClientResetStrategy__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_getSyncClientResetStrategy:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_getSyncClientResetStrategy__:
+
+
+
+getSyncClientResetStrategy
+--------------------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncClientResetStrategy <io_realm_mongodb_sync_SyncClientResetStrategy>`  :ref:`getSyncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_getSyncClientResetStrategy>` ()
+       | 
+       
+       
+       
+   
+   * - Returns the sync client reset strategy for this *SyncConfiguration*.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       the sync client reset strategy.
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _getUrlPrefix:
 
 .. _getUrlPrefix__:
@@ -1432,7 +1654,7 @@ getUrlPrefix
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getUrlPrefix <io_realm_mongodb_sync_SyncConfiguration_getUrlPrefix>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getUrlPrefix <io_realm_mongodb_sync_SyncConfiguration_getUrlPrefix>` ()
        | 
        
        
@@ -1541,6 +1763,104 @@ hashCode
        **Overrides**
        
        ``hashCode`` in class :ref:`RealmConfiguration <io_realm_RealmConfiguration>` 
+       
+       
+   
+   
+
+
+.. _isFlexibleSyncConfiguration:
+
+.. _isFlexibleSyncConfiguration__:
+
+.. _SyncConfiguration_isFlexibleSyncConfiguration:
+
+.. _SyncConfiguration_isFlexibleSyncConfiguration__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_isFlexibleSyncConfiguration:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_isFlexibleSyncConfiguration__:
+
+
+
+isFlexibleSyncConfiguration
+---------------------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **boolean** :ref:`isFlexibleSyncConfiguration <io_realm_mongodb_sync_SyncConfiguration_isFlexibleSyncConfiguration>` ()
+       | 
+       
+       
+       
+   
+   * - Returns whether or not this configuration is for opening a Realm configured for Flexible Sync.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       ``true``  if this configuration is for a Flexible Sync Realm, ``false``  if not.
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _isPartitionBasedSyncConfiguration:
+
+.. _isPartitionBasedSyncConfiguration__:
+
+.. _SyncConfiguration_isPartitionBasedSyncConfiguration:
+
+.. _SyncConfiguration_isPartitionBasedSyncConfiguration__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_isPartitionBasedSyncConfiguration:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_isPartitionBasedSyncConfiguration__:
+
+
+
+isPartitionBasedSyncConfiguration
+---------------------------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **boolean** :ref:`isPartitionBasedSyncConfiguration <io_realm_mongodb_sync_SyncConfiguration_isPartitionBasedSyncConfiguration>` ()
+       | 
+       
+       
+       
+   
+   * - Returns whether or not this configuration is for opening a Realm configured for Partition-based Sync.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       ``true``  if this configuration is for a Partition-based Sync Realm, ``false``  if not.
+       
+       
+       
+       
+       
+       
+       
        
        
    
@@ -1770,7 +2090,7 @@ toString
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_mongodb_sync_SyncConfiguration_toString>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_mongodb_sync_SyncConfiguration_toString>` ()
        | 
        
        

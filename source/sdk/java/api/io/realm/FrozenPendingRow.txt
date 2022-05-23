@@ -18,16 +18,9 @@ io.realm
 ========
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
- | 		`java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | 		`java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ 
  | 					io.realm.FrozenPendingRow
-
-
-**Implemented interfaces:**
-
-
-
-- **io.realm.internal.Row**
 
 
 A PendingRow that has been frozen. This behaves in many ways similar to a deleted Row, but will report :ref:`isLoaded() <io_realm_FrozenPendingRow_isLoaded__>`  as ``as false`` .
@@ -67,8 +60,6 @@ Method Summary
        | 
        
        
-       Throws `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  if the row is not attached.
-       
        
        
        
@@ -92,7 +83,7 @@ Method Summary
        | )
        
        
-       Returns a frozen copy of this Row.
+       
        
        
        
@@ -131,21 +122,21 @@ Method Summary
    
    * - public **long**
      - | :ref:`getColumnKey <io_realm_FrozenPendingRow_getColumnKey>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  columnName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  columnName
        | )
        
        
-       Returns the column key from a column name.
+       
        
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getColumnNames <io_realm_FrozenPendingRow_getColumnNames>` ()
        | 
        
        
-       Returns all the column names of the tables.
+       
        
        
        
@@ -156,12 +147,12 @@ Method Summary
        | )
        
        
-       Gets the type of a column identified by the columnKey.
+       
        
        
        
    
-   * - public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__ 
+   * - public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__ 
      - | :ref:`getDate <io_realm_FrozenPendingRow_getDate>` (
        |  **long** columnKey
        | )
@@ -238,6 +229,39 @@ Method Summary
        
        
    
+   * - public **OsMap**
+     - | :ref:`getModelMap <io_realm_FrozenPendingRow_getModelMap>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **OsSet**
+     - | :ref:`getModelSet <io_realm_FrozenPendingRow_getModelSet>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **NativeRealmAny**
+     - | :ref:`getNativeRealmAny <io_realm_FrozenPendingRow_getNativeRealmAny>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
    * - public **ObjectId**
      - | :ref:`getObjectId <io_realm_FrozenPendingRow_getObjectId>` (
        |  **long** columnKey
@@ -254,12 +278,34 @@ Method Summary
        | 
        
        
-       Returns the object key in the original source table, not the tableview.
+       
        
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public **OsMap**
+     - | :ref:`getRealmAnyMap <io_realm_FrozenPendingRow_getRealmAnyMap>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **OsSet**
+     - | :ref:`getRealmAnySet <io_realm_FrozenPendingRow_getRealmAnySet>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getString <io_realm_FrozenPendingRow_getString>` (
        |  **long** columnKey
        | )
@@ -280,6 +326,17 @@ Method Summary
        
        
    
+   * - public `UUID <https://docs.oracle.com/javase/7/docs/api/java/util/UUID.html>`__ 
+     - | :ref:`getUUID <io_realm_FrozenPendingRow_getUUID>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+       
+       
+       
+   
    * - public **OsList**
      - | :ref:`getValueList <io_realm_FrozenPendingRow_getValueList>` (
        |  **long** columnKey, 
@@ -292,13 +349,35 @@ Method Summary
        
        
    
-   * - public **boolean**
-     - | :ref:`hasColumn <io_realm_FrozenPendingRow_hasColumn>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
+   * - public **OsMap**
+     - | :ref:`getValueMap <io_realm_FrozenPendingRow_getValueMap>` (
+       |  **long** columnKey, 
+       |  :ref:`RealmFieldType <io_realm_RealmFieldType>`  fieldType
        | )
        
        
-       Returns ``true``  if the field name exists.
+       
+       
+       
+       
+   
+   * - public **OsSet**
+     - | :ref:`getValueSet <io_realm_FrozenPendingRow_getValueSet>` (
+       |  **long** columnKey, 
+       |  :ref:`RealmFieldType <io_realm_RealmFieldType>`  fieldType
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **boolean**
+     - | :ref:`hasColumn <io_realm_FrozenPendingRow_hasColumn>` (
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
+       | )
+       
        
        
        
@@ -310,7 +389,7 @@ Method Summary
        | 
        
        
-       Return whether the row is considered to be loaded, i.e.
+       
        
        
        
@@ -342,7 +421,7 @@ Method Summary
        | 
        
        
-       Checks if the row is still valid.
+       
        
        
        
@@ -385,7 +464,7 @@ Method Summary
    * - public **void**
      - | :ref:`setDate <io_realm_FrozenPendingRow_setDate>` (
        |  **long** columnKey, 
-       |  `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__  date
+       |  `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__  date
        | )
        
        
@@ -478,9 +557,33 @@ Method Summary
        
    
    * - public **void**
+     - | :ref:`setRealmAny <io_realm_FrozenPendingRow_setRealmAny>` (
+       |  **long** columnKey, 
+       |  **long** value
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **void**
      - | :ref:`setString <io_realm_FrozenPendingRow_setString>` (
        |  **long** columnKey, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  value
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  value
+       | )
+       
+       
+       
+       
+       
+       
+   
+   * - public **void**
+     - | :ref:`setUUID <io_realm_FrozenPendingRow_setUUID>` (
+       |  **long** columnKey, 
+       |  `UUID <https://docs.oracle.com/javase/7/docs/api/java/util/UUID.html>`__  value
        | )
        
        
@@ -491,7 +594,7 @@ Method Summary
    
    * - public static :ref:`FrozenPendingRow <io_realm_FrozenPendingRow>` 
      - | :ref:`valueOf <io_realm_FrozenPendingRow_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        
@@ -518,8 +621,8 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
 
 
 
@@ -573,9 +676,7 @@ checkIfAttached
        
        
    
-   * - Throws `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  if the row is not attached.
-       
-       
+   * - 
        
        
        
@@ -676,15 +777,9 @@ createEmbeddedObject
 freeze
 ------
 
-.. _io_realm_FrozenPendingRow_freeze_io_realm_internal_OsSharedRealm_:
-
 .. _io_realm_FrozenPendingRow_freeze_OsSharedRealm_:
 
-.. _freeze_io_realm_internal_OsSharedRealm_:
-
 .. _freeze_OsSharedRealm_:
-
-.. _FrozenPendingRow_freeze_io_realm_internal_OsSharedRealm_:
 
 .. _FrozenPendingRow_freeze_OsSharedRealm_:
 
@@ -698,7 +793,7 @@ freeze
        
        
    
-   * - Returns a frozen copy of this Row.
+   * - 
        
        
        
@@ -887,22 +982,17 @@ getColumnKey
    :header-rows: 1
    
    * - | public **long** :ref:`getColumnKey <io_realm_FrozenPendingRow_getColumnKey>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  columnName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  columnName
        | )
        
        
        
    
-   * - Returns the column key from a column name.
+   * - 
        
        
        
        
-       
-       
-       **Returns**
-       
-       the column key
        
        
        
@@ -934,22 +1024,17 @@ getColumnNames
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getColumnNames <io_realm_FrozenPendingRow_getColumnNames>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getColumnNames <io_realm_FrozenPendingRow_getColumnNames>` ()
        | 
        
        
        
    
-   * - Returns all the column names of the tables.
+   * - 
        
        
        
        
-       
-       
-       **Returns**
-       
-       array of column names.
        
        
        
@@ -994,16 +1079,11 @@ getColumnType
        
        
    
-   * - Gets the type of a column identified by the columnKey.
+   * - 
        
        
        
        
-       
-       
-       **Returns**
-       
-       the type of the particular column.
        
        
        
@@ -1041,7 +1121,7 @@ getDate
 .. list-table::
    :header-rows: 1
    
-   * - | public `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__  :ref:`getDate <io_realm_FrozenPendingRow_getDate>` (
+   * - | public `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__  :ref:`getDate <io_realm_FrozenPendingRow_getDate>` (
        |  **long** columnKey
        | )
        
@@ -1358,6 +1438,153 @@ getModelList
    
 
 
+.. _getModelMap:
+
+.. _getModelMap__:
+
+.. _FrozenPendingRow_getModelMap:
+
+.. _FrozenPendingRow_getModelMap__:
+
+.. _io_realm_FrozenPendingRow_getModelMap:
+
+.. _io_realm_FrozenPendingRow_getModelMap__:
+
+
+
+getModelMap
+-----------
+
+.. _io_realm_FrozenPendingRow_getModelMap_long_:
+
+.. _getModelMap_long_:
+
+.. _FrozenPendingRow_getModelMap_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsMap** :ref:`getModelMap <io_realm_FrozenPendingRow_getModelMap>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getModelSet:
+
+.. _getModelSet__:
+
+.. _FrozenPendingRow_getModelSet:
+
+.. _FrozenPendingRow_getModelSet__:
+
+.. _io_realm_FrozenPendingRow_getModelSet:
+
+.. _io_realm_FrozenPendingRow_getModelSet__:
+
+
+
+getModelSet
+-----------
+
+.. _io_realm_FrozenPendingRow_getModelSet_long_:
+
+.. _getModelSet_long_:
+
+.. _FrozenPendingRow_getModelSet_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsSet** :ref:`getModelSet <io_realm_FrozenPendingRow_getModelSet>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getNativeRealmAny:
+
+.. _getNativeRealmAny__:
+
+.. _FrozenPendingRow_getNativeRealmAny:
+
+.. _FrozenPendingRow_getNativeRealmAny__:
+
+.. _io_realm_FrozenPendingRow_getNativeRealmAny:
+
+.. _io_realm_FrozenPendingRow_getNativeRealmAny__:
+
+
+
+getNativeRealmAny
+-----------------
+
+.. _io_realm_FrozenPendingRow_getNativeRealmAny_long_:
+
+.. _getNativeRealmAny_long_:
+
+.. _FrozenPendingRow_getNativeRealmAny_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **NativeRealmAny** :ref:`getNativeRealmAny <io_realm_FrozenPendingRow_getNativeRealmAny>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _getObjectId:
 
 .. _getObjectId__:
@@ -1433,7 +1660,105 @@ getObjectKey
        
        
    
-   * - Returns the object key in the original source table, not the tableview.
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getRealmAnyMap:
+
+.. _getRealmAnyMap__:
+
+.. _FrozenPendingRow_getRealmAnyMap:
+
+.. _FrozenPendingRow_getRealmAnyMap__:
+
+.. _io_realm_FrozenPendingRow_getRealmAnyMap:
+
+.. _io_realm_FrozenPendingRow_getRealmAnyMap__:
+
+
+
+getRealmAnyMap
+--------------
+
+.. _io_realm_FrozenPendingRow_getRealmAnyMap_long_:
+
+.. _getRealmAnyMap_long_:
+
+.. _FrozenPendingRow_getRealmAnyMap_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsMap** :ref:`getRealmAnyMap <io_realm_FrozenPendingRow_getRealmAnyMap>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getRealmAnySet:
+
+.. _getRealmAnySet__:
+
+.. _FrozenPendingRow_getRealmAnySet:
+
+.. _FrozenPendingRow_getRealmAnySet__:
+
+.. _io_realm_FrozenPendingRow_getRealmAnySet:
+
+.. _io_realm_FrozenPendingRow_getRealmAnySet__:
+
+
+
+getRealmAnySet
+--------------
+
+.. _io_realm_FrozenPendingRow_getRealmAnySet_long_:
+
+.. _getRealmAnySet_long_:
+
+.. _FrozenPendingRow_getRealmAnySet_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsSet** :ref:`getRealmAnySet <io_realm_FrozenPendingRow_getRealmAnySet>` (
+       |  **long** columnKey
+       | )
+       
+       
+       
+   
+   * - 
        
        
        
@@ -1475,7 +1800,7 @@ getString
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getString <io_realm_FrozenPendingRow_getString>` (
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getString <io_realm_FrozenPendingRow_getString>` (
        |  **long** columnKey
        | )
        
@@ -1520,6 +1845,55 @@ getTable
    
    * - | public **Table** :ref:`getTable <io_realm_FrozenPendingRow_getTable>` ()
        | 
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getUUID:
+
+.. _getUUID__:
+
+.. _FrozenPendingRow_getUUID:
+
+.. _FrozenPendingRow_getUUID__:
+
+.. _io_realm_FrozenPendingRow_getUUID:
+
+.. _io_realm_FrozenPendingRow_getUUID__:
+
+
+
+getUUID
+-------
+
+.. _io_realm_FrozenPendingRow_getUUID_long_:
+
+.. _getUUID_long_:
+
+.. _FrozenPendingRow_getUUID_long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public `UUID <https://docs.oracle.com/javase/7/docs/api/java/util/UUID.html>`__  :ref:`getUUID <io_realm_FrozenPendingRow_getUUID>` (
+       |  **long** columnKey
+       | )
        
        
        
@@ -1608,6 +1982,142 @@ getValueList
    
 
 
+.. _getValueMap:
+
+.. _getValueMap__:
+
+.. _FrozenPendingRow_getValueMap:
+
+.. _FrozenPendingRow_getValueMap__:
+
+.. _io_realm_FrozenPendingRow_getValueMap:
+
+.. _io_realm_FrozenPendingRow_getValueMap__:
+
+
+
+getValueMap
+-----------
+
+.. _io_realm_FrozenPendingRow_getValueMap_long_io_realm_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueMap_long__io_realm_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueMap_long_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueMap_long__RealmFieldType_:
+
+.. _getValueMap_long_io_realm_RealmFieldType_:
+
+.. _getValueMap_long__io_realm_RealmFieldType_:
+
+.. _getValueMap_long_RealmFieldType_:
+
+.. _getValueMap_long__RealmFieldType_:
+
+.. _FrozenPendingRow_getValueMap_long_io_realm_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueMap_long__io_realm_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueMap_long_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueMap_long__RealmFieldType_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsMap** :ref:`getValueMap <io_realm_FrozenPendingRow_getValueMap>` (
+       |  **long** columnKey, 
+       |  :ref:`RealmFieldType <io_realm_RealmFieldType>`  fieldType
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getValueSet:
+
+.. _getValueSet__:
+
+.. _FrozenPendingRow_getValueSet:
+
+.. _FrozenPendingRow_getValueSet__:
+
+.. _io_realm_FrozenPendingRow_getValueSet:
+
+.. _io_realm_FrozenPendingRow_getValueSet__:
+
+
+
+getValueSet
+-----------
+
+.. _io_realm_FrozenPendingRow_getValueSet_long_io_realm_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueSet_long__io_realm_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueSet_long_RealmFieldType_:
+
+.. _io_realm_FrozenPendingRow_getValueSet_long__RealmFieldType_:
+
+.. _getValueSet_long_io_realm_RealmFieldType_:
+
+.. _getValueSet_long__io_realm_RealmFieldType_:
+
+.. _getValueSet_long_RealmFieldType_:
+
+.. _getValueSet_long__RealmFieldType_:
+
+.. _FrozenPendingRow_getValueSet_long_io_realm_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueSet_long__io_realm_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueSet_long_RealmFieldType_:
+
+.. _FrozenPendingRow_getValueSet_long__RealmFieldType_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **OsSet** :ref:`getValueSet <io_realm_FrozenPendingRow_getValueSet>` (
+       |  **long** columnKey, 
+       |  :ref:`RealmFieldType <io_realm_RealmFieldType>`  fieldType
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _hasColumn:
 
 .. _hasColumn__:
@@ -1641,24 +2151,15 @@ hasColumn
    :header-rows: 1
    
    * - | public **boolean** :ref:`hasColumn <io_realm_FrozenPendingRow_hasColumn>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  fieldName
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  fieldName
        | )
        
        
        
    
-   * - Returns ``true``  if the field name exists.
+   * - 
        
        
-       
-       
-       
-       
-       
-       
-       **Returns**
-       
-       ``true``  if field name exists, ``false``  otherwise.
        
        
        
@@ -1698,7 +2199,7 @@ isLoaded
        
        
    
-   * - Return whether the row is considered to be loaded, i.e. it doesn't represent a query in flight.
+   * - 
        
        
        
@@ -1838,16 +2339,9 @@ isValid
        
        
    
-   * - Checks if the row is still valid.
+   * - 
        
        
-       
-       
-       
-       
-       **Returns**
-       
-       ``true``  if the row is still valid and attached to the underlying data. ``false``  otherwise.
        
        
        
@@ -2082,7 +2576,7 @@ setDate
    
    * - | public **void** :ref:`setDate <io_realm_FrozenPendingRow_setDate>` (
        |  **long** columnKey, 
-       |  `Date <https://docs.oracle.com/javase/8/docs/api/java/util/Date.html>`__  date
+       |  `Date <https://docs.oracle.com/javase/7/docs/api/java/util/Date.html>`__  date
        | )
        
        
@@ -2489,6 +2983,62 @@ setObjectId
    
 
 
+.. _setRealmAny:
+
+.. _setRealmAny__:
+
+.. _FrozenPendingRow_setRealmAny:
+
+.. _FrozenPendingRow_setRealmAny__:
+
+.. _io_realm_FrozenPendingRow_setRealmAny:
+
+.. _io_realm_FrozenPendingRow_setRealmAny__:
+
+
+
+setRealmAny
+-----------
+
+.. _io_realm_FrozenPendingRow_setRealmAny_long_long_:
+
+.. _io_realm_FrozenPendingRow_setRealmAny_long__long_:
+
+.. _setRealmAny_long_long_:
+
+.. _setRealmAny_long__long_:
+
+.. _FrozenPendingRow_setRealmAny_long_long_:
+
+.. _FrozenPendingRow_setRealmAny_long__long_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **void** :ref:`setRealmAny <io_realm_FrozenPendingRow_setRealmAny>` (
+       |  **long** columnKey, 
+       |  **long** value
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _setString:
 
 .. _setString__:
@@ -2535,7 +3085,75 @@ setString
    
    * - | public **void** :ref:`setString <io_realm_FrozenPendingRow_setString>` (
        |  **long** columnKey, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  value
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  value
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _setUUID:
+
+.. _setUUID__:
+
+.. _FrozenPendingRow_setUUID:
+
+.. _FrozenPendingRow_setUUID__:
+
+.. _io_realm_FrozenPendingRow_setUUID:
+
+.. _io_realm_FrozenPendingRow_setUUID__:
+
+
+
+setUUID
+-------
+
+.. _io_realm_FrozenPendingRow_setUUID_long_java_util_UUID_:
+
+.. _io_realm_FrozenPendingRow_setUUID_long__java_util_UUID_:
+
+.. _io_realm_FrozenPendingRow_setUUID_long_UUID_:
+
+.. _io_realm_FrozenPendingRow_setUUID_long__UUID_:
+
+.. _setUUID_long_java_util_UUID_:
+
+.. _setUUID_long__java_util_UUID_:
+
+.. _setUUID_long_UUID_:
+
+.. _setUUID_long__UUID_:
+
+.. _FrozenPendingRow_setUUID_long_java_util_UUID_:
+
+.. _FrozenPendingRow_setUUID_long__java_util_UUID_:
+
+.. _FrozenPendingRow_setUUID_long_UUID_:
+
+.. _FrozenPendingRow_setUUID_long__UUID_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **void** :ref:`setUUID <io_realm_FrozenPendingRow_setUUID>` (
+       |  **long** columnKey, 
+       |  `UUID <https://docs.oracle.com/javase/7/docs/api/java/util/UUID.html>`__  value
        | )
        
        
@@ -2590,7 +3208,7 @@ valueOf
    :header-rows: 1
    
    * - | public static :ref:`FrozenPendingRow <io_realm_FrozenPendingRow>`  :ref:`valueOf <io_realm_FrozenPendingRow_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        
