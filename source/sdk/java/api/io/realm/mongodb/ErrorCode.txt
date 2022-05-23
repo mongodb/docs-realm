@@ -18,8 +18,8 @@ io.realm.mongodb
 ================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
- | 		`java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
+ | 		`java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ 
  | 					io.realm.mongodb.ErrorCode
 
 
@@ -104,6 +104,13 @@ Enum Constant Summary
        
    
    * - :ref:`AUTH_PROVIDER_NOT_FOUND <io_realm_mongodb_ErrorCode_AUTH_PROVIDER_NOT_FOUND>` 
+       
+       
+       
+       
+       
+   
+   * - :ref:`AUTO_CLIENT_RESET_FAILURE <io_realm_mongodb_ErrorCode_AUTO_CLIENT_RESET_FAILURE>` 
        
        
        
@@ -195,6 +202,13 @@ Enum Constant Summary
        
    
    * - :ref:`BAD_ORIGIN_FILE_IDENT <io_realm_mongodb_ErrorCode_BAD_ORIGIN_FILE_IDENT>` 
+       
+       
+       
+       
+       
+   
+   * - :ref:`BAD_QUERY <io_realm_mongodb_ErrorCode_BAD_QUERY>` 
        
        
        
@@ -733,6 +747,13 @@ Enum Constant Summary
        
        
    
+   * - :ref:`INITIAL_SYNC_NOT_COMPLETE <io_realm_mongodb_ErrorCode_INITIAL_SYNC_NOT_COMPLETE>` 
+       
+       
+       
+       
+       
+   
    * - :ref:`INSUFFICIENT_STORAGE <io_realm_mongodb_ErrorCode_INSUFFICIENT_STORAGE>` 
        
        
@@ -741,6 +762,13 @@ Enum Constant Summary
        
    
    * - :ref:`INTERNAL_SERVER_ERROR <io_realm_mongodb_ErrorCode_INTERNAL_SERVER_ERROR>` 
+       
+       
+       
+       
+       
+   
+   * - :ref:`INVALID_EMAIL_PASSWORD <io_realm_mongodb_ErrorCode_INVALID_EMAIL_PASSWORD>` 
        
        
        
@@ -943,6 +971,13 @@ Enum Constant Summary
        
        
    
+   * - :ref:`OBJECT_ALREADY_EXISTS <io_realm_mongodb_ErrorCode_OBJECT_ALREADY_EXISTS>` 
+       
+       
+       
+       
+       
+   
    * - :ref:`OTHER_ERROR <io_realm_mongodb_ErrorCode_OTHER_ERROR>` 
        
        
@@ -1084,6 +1119,13 @@ Enum Constant Summary
        
    
    * - :ref:`SERVER_FILE_DELETED <io_realm_mongodb_ErrorCode_SERVER_FILE_DELETED>` 
+       
+       
+       
+       
+       
+   
+   * - :ref:`SERVER_PERMISSIONS_CHANGED <io_realm_mongodb_ErrorCode_SERVER_PERMISSIONS_CHANGED>` 
        
        
        
@@ -1335,6 +1377,13 @@ Enum Constant Summary
        
        
    
+   * - :ref:`WRITE_NOT_ALLOWED <io_realm_mongodb_ErrorCode_WRITE_NOT_ALLOWED>` 
+       
+       
+       
+       
+       
+   
    * - :ref:`WRONG_PROTOCOL_VERSION <io_realm_mongodb_ErrorCode_WRONG_PROTOCOL_VERSION>` 
        
        
@@ -1356,7 +1405,7 @@ Method Summary
    
    * - public static :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
      - | :ref:`fromNativeError <io_realm_mongodb_ErrorCode_fromNativeError>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  type, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  type, 
        |  **int** errorCode
        | )
        
@@ -1376,7 +1425,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getType <io_realm_mongodb_ErrorCode_getType>` ()
        | 
        
@@ -1396,7 +1445,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`toString <io_realm_mongodb_ErrorCode_toString>` ()
        | 
        
@@ -1408,7 +1457,7 @@ Method Summary
    
    * - public static :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
      - | :ref:`valueOf <io_realm_mongodb_ErrorCode_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        
@@ -1435,8 +1484,8 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
-- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ : ``name`` , ``ordinal`` , ``toString`` , ``equals`` , ``hashCode`` , ``clone`` , ``compareTo`` , ``getDeclaringClass`` , ``valueOf`` , ``finalize`` 
 
 
 
@@ -1558,6 +1607,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 ``AUTH_PROVIDER_NOT_FOUND`` 
 ----------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
+.. _io_realm_mongodb_ErrorCode_AUTO_CLIENT_RESET_FAILURE:
+
+.. _ErrorCode_AUTO_CLIENT_RESET_FAILURE:
+
+
+
+``AUTO_CLIENT_RESET_FAILURE`` 
+------------------------------
 
 public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
 
@@ -1753,6 +1817,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 ``BAD_ORIGIN_FILE_IDENT`` 
 --------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
+.. _io_realm_mongodb_ErrorCode_BAD_QUERY:
+
+.. _ErrorCode_BAD_QUERY:
+
+
+
+``BAD_QUERY`` 
+--------------
 
 public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
 
@@ -2900,6 +2979,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 
 
+.. _io_realm_mongodb_ErrorCode_INITIAL_SYNC_NOT_COMPLETE:
+
+.. _ErrorCode_INITIAL_SYNC_NOT_COMPLETE:
+
+
+
+``INITIAL_SYNC_NOT_COMPLETE`` 
+------------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
 .. _io_realm_mongodb_ErrorCode_INSUFFICIENT_STORAGE:
 
 .. _ErrorCode_INSUFFICIENT_STORAGE:
@@ -2923,6 +3017,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 ``INTERNAL_SERVER_ERROR`` 
 --------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
+.. _io_realm_mongodb_ErrorCode_INVALID_EMAIL_PASSWORD:
+
+.. _ErrorCode_INVALID_EMAIL_PASSWORD:
+
+
+
+``INVALID_EMAIL_PASSWORD`` 
+---------------------------
 
 public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
 
@@ -3350,6 +3459,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 
 
+.. _io_realm_mongodb_ErrorCode_OBJECT_ALREADY_EXISTS:
+
+.. _ErrorCode_OBJECT_ALREADY_EXISTS:
+
+
+
+``OBJECT_ALREADY_EXISTS`` 
+--------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
 .. _io_realm_mongodb_ErrorCode_OTHER_ERROR:
 
 .. _ErrorCode_OTHER_ERROR:
@@ -3658,6 +3782,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 ``SERVER_FILE_DELETED`` 
 ------------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
+.. _io_realm_mongodb_ErrorCode_SERVER_PERMISSIONS_CHANGED:
+
+.. _ErrorCode_SERVER_PERMISSIONS_CHANGED:
+
+
+
+``SERVER_PERMISSIONS_CHANGED`` 
+-------------------------------
 
 public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
 
@@ -4190,6 +4329,21 @@ public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`
 
 
 
+.. _io_realm_mongodb_ErrorCode_WRITE_NOT_ALLOWED:
+
+.. _ErrorCode_WRITE_NOT_ALLOWED:
+
+
+
+``WRITE_NOT_ALLOWED`` 
+----------------------
+
+public static final :ref:`ErrorCode <io_realm_mongodb_ErrorCode>` 
+
+
+
+
+
 .. _io_realm_mongodb_ErrorCode_WRONG_PROTOCOL_VERSION:
 
 .. _ErrorCode_WRONG_PROTOCOL_VERSION:
@@ -4254,7 +4408,7 @@ fromNativeError
    :header-rows: 1
    
    * - | public static :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`  :ref:`fromNativeError <io_realm_mongodb_ErrorCode_fromNativeError>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  type, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  type, 
        |  **int** errorCode
        | )
        
@@ -4371,7 +4525,7 @@ getType
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getType <io_realm_mongodb_ErrorCode_getType>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getType <io_realm_mongodb_ErrorCode_getType>` ()
        | 
        
        
@@ -4471,7 +4625,7 @@ toString
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_mongodb_ErrorCode_toString>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_mongodb_ErrorCode_toString>` ()
        | 
        
        
@@ -4490,7 +4644,7 @@ toString
        
        **Overrides**
        
-       ``toString`` in class `Enum <https://docs.oracle.com/javase/8/docs/api/java/lang/Enum.html>`__ 
+       ``toString`` in class `Enum <https://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html>`__ 
        
        
    
@@ -4530,7 +4684,7 @@ valueOf
    :header-rows: 1
    
    * - | public static :ref:`ErrorCode <io_realm_mongodb_ErrorCode>`  :ref:`valueOf <io_realm_mongodb_ErrorCode_valueOf>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  name
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  name
        | )
        
        

@@ -18,7 +18,7 @@ io.realm
 ========
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
  | 		io.realm.RealmConfiguration
 
 
@@ -79,7 +79,7 @@ Field Summary
    * - Modifier and Type
      - Field and Description
    
-   * - public static final `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public static final `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
        
        
      - :ref:`DEFAULT_REALM_NAME <io_realm_RealmConfiguration_DEFAULT_REALM_NAME>` 
@@ -101,8 +101,9 @@ Method Summary
    
    * - protected static **RealmProxyMediator**
      - | :ref:`createSchemaMediator <io_realm_RealmConfiguration_createSchemaMediator>` (
-       |  `java.util.Set\<java.lang.Object> <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  modules, 
-       |  `java.util.Set\<java.lang.Class\<? extends io.realm.RealmModel>> <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  debugSchema
+       |  `java.util.Set\<java.lang.Object> <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  modules, 
+       |  `java.util.Set\<java.lang.Class\<? extends io.realm.RealmModel>> <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  debugSchema, 
+       |  **boolean** excludeDebugSchema
        | )
        
        
@@ -113,7 +114,7 @@ Method Summary
    
    * - public **boolean**
      - | :ref:`equals <io_realm_RealmConfiguration_equals>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  obj
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  obj
        | )
        
        
@@ -124,13 +125,23 @@ Method Summary
    
    * - protected static :ref:`RealmConfiguration <io_realm_RealmConfiguration>` 
      - | :ref:`forRecovery <io_realm_RealmConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath, 
        |  **byte[]** encryptionKey, 
        |  **RealmProxyMediator** schemaMediator
        | )
        
        
        
+       
+       
+       
+   
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
+     - | :ref:`getAssetFilePath <io_realm_RealmConfiguration_getAssetFilePath>` ()
+       | 
+       
+       
+       Returns the path to the Realm asset file.
        
        
        
@@ -187,6 +198,17 @@ Method Summary
        
        
    
+   * - protected :ref:`Realm <io_realm_Realm>` 
+     - | :ref:`getInstance <io_realm_RealmConfiguration_getInstance>` (
+       |  **OsSharedRealm.VersionID** version
+       | )
+       
+       
+       
+       
+       
+       
+   
    * - public **long**
      - | :ref:`getMaxNumberOfActiveVersions <io_realm_RealmConfiguration_getMaxNumberOfActiveVersions>` ()
        | 
@@ -207,7 +229,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getPath <io_realm_RealmConfiguration_getPath>` ()
        | 
        
@@ -217,7 +239,7 @@ Method Summary
        
        
    
-   * - public `File <https://docs.oracle.com/javase/8/docs/api/java/io/File.html>`__ 
+   * - public `File <https://docs.oracle.com/javase/7/docs/api/java/io/File.html>`__ 
      - | :ref:`getRealmDirectory <io_realm_RealmConfiguration_getRealmDirectory>` ()
        | 
        
@@ -227,7 +249,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`getRealmFileName <io_realm_RealmConfiguration_getRealmFileName>` ()
        | 
        
@@ -237,12 +259,12 @@ Method Summary
        
        
    
-   * - public `Set <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__ 
+   * - public `Set <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__ 
      - | :ref:`getRealmObjectClasses <io_realm_RealmConfiguration_getRealmObjectClasses>` ()
        | 
        
        
-       Returns the unmodifiable `Set <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  of model classes that make up the schema for this Realm.
+       Returns the unmodifiable `Set <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  of model classes that make up the schema for this Realm.
        
        
        
@@ -277,6 +299,16 @@ Method Summary
        
        
        
+       
+       
+       
+   
+   * - public **boolean**
+     - | :ref:`hasAssetFile <io_realm_RealmConfiguration_hasAssetFile>` ()
+       | 
+       
+       
+       Indicates if an asset file has been configured for this configuration.
        
        
        
@@ -365,7 +397,7 @@ Method Summary
        
        
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
      - | :ref:`toString <io_realm_RealmConfiguration_toString>` ()
        | 
        
@@ -383,7 +415,7 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
 
 
 
@@ -423,86 +455,87 @@ Method Detail
 createSchemaMediator
 --------------------
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_java_util_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_java_util_Set_boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__java_util_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__java_util_Set__boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_Set_boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__Set__boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_RealmModel___:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set_RealmModel___boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__RealmModel___:
+.. _io_realm_RealmConfiguration_createSchemaMediator_java_util_Set__RealmModel____boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set_java_util_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set_java_util_Set_boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set__java_util_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set__java_util_Set__boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set_Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set_Set_boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set__Set_:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set__Set__boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set_RealmModel___:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set_RealmModel___boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set__RealmModel___:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set__RealmModel____boolean_:
 
-.. _createSchemaMediator_java_util_Set_java_util_Set_:
+.. _createSchemaMediator_java_util_Set_java_util_Set_boolean_:
 
-.. _createSchemaMediator_java_util_Set__java_util_Set_:
+.. _createSchemaMediator_java_util_Set__java_util_Set__boolean_:
 
-.. _createSchemaMediator_java_util_Set_Set_:
+.. _createSchemaMediator_java_util_Set_Set_boolean_:
 
-.. _createSchemaMediator_java_util_Set__Set_:
+.. _createSchemaMediator_java_util_Set__Set__boolean_:
 
-.. _createSchemaMediator_java_util_Set_RealmModel___:
+.. _createSchemaMediator_java_util_Set_RealmModel___boolean_:
 
-.. _createSchemaMediator_java_util_Set__RealmModel___:
+.. _createSchemaMediator_java_util_Set__RealmModel____boolean_:
 
-.. _createSchemaMediator_Set_java_util_Set_:
+.. _createSchemaMediator_Set_java_util_Set_boolean_:
 
-.. _createSchemaMediator_Set__java_util_Set_:
+.. _createSchemaMediator_Set__java_util_Set__boolean_:
 
-.. _createSchemaMediator_Set_Set_:
+.. _createSchemaMediator_Set_Set_boolean_:
 
-.. _createSchemaMediator_Set__Set_:
+.. _createSchemaMediator_Set__Set__boolean_:
 
-.. _createSchemaMediator_Set_RealmModel___:
+.. _createSchemaMediator_Set_RealmModel___boolean_:
 
-.. _createSchemaMediator_Set__RealmModel___:
+.. _createSchemaMediator_Set__RealmModel____boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set_java_util_Set_:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set_java_util_Set_boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set__java_util_Set_:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set__java_util_Set__boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set_Set_:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set_Set_boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set__Set_:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set__Set__boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set_RealmModel___:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set_RealmModel___boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_java_util_Set__RealmModel___:
+.. _RealmConfiguration_createSchemaMediator_java_util_Set__RealmModel____boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set_java_util_Set_:
+.. _RealmConfiguration_createSchemaMediator_Set_java_util_Set_boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set__java_util_Set_:
+.. _RealmConfiguration_createSchemaMediator_Set__java_util_Set__boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set_Set_:
+.. _RealmConfiguration_createSchemaMediator_Set_Set_boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set__Set_:
+.. _RealmConfiguration_createSchemaMediator_Set__Set__boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set_RealmModel___:
+.. _RealmConfiguration_createSchemaMediator_Set_RealmModel___boolean_:
 
-.. _RealmConfiguration_createSchemaMediator_Set__RealmModel___:
+.. _RealmConfiguration_createSchemaMediator_Set__RealmModel____boolean_:
 
-.. _io_realm_RealmConfiguration_createSchemaMediator_Set_Object___Set_Class___extends_RealmModel___:
+.. _io_realm_RealmConfiguration_createSchemaMediator_Set_Object___Set_Class___extends_RealmModel____boolean_:
 
 .. list-table::
    :header-rows: 1
    
    * - | protected static **RealmProxyMediator** :ref:`createSchemaMediator <io_realm_RealmConfiguration_createSchemaMediator>` (
-       |  `java.util.Set\<java.lang.Object> <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  modules, 
-       |  `java.util.Set\<java.lang.Class\<? extends io.realm.RealmModel>> <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  debugSchema
+       |  `java.util.Set\<java.lang.Object> <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  modules, 
+       |  `java.util.Set\<java.lang.Class\<? extends io.realm.RealmModel>> <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  debugSchema, 
+       |  **boolean** excludeDebugSchema
        | )
        
        
@@ -557,7 +590,7 @@ equals
    :header-rows: 1
    
    * - | public **boolean** :ref:`equals <io_realm_RealmConfiguration_equals>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  obj
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  obj
        | )
        
        
@@ -576,7 +609,7 @@ equals
        
        **Overrides**
        
-       ``equals`` in class `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+       ``equals`` in class `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
        
        
    
@@ -600,97 +633,49 @@ equals
 forRecovery
 -----------
 
-.. _io_realm_RealmConfiguration_forRecovery_java_lang_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_java_lang_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _io_realm_RealmConfiguration_forRecovery_java_lang_String_byte_RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_java_lang_String__byte__RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_java_lang_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_java_lang_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_java_lang_String_byte____RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_java_lang_String__byte_____RealmProxyMediator_:
 
-.. _io_realm_RealmConfiguration_forRecovery_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _io_realm_RealmConfiguration_forRecovery_String_byte_RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_String__byte__RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _io_realm_RealmConfiguration_forRecovery_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_String_byte____RealmProxyMediator_:
 
 .. _io_realm_RealmConfiguration_forRecovery_String__byte_____RealmProxyMediator_:
 
-.. _forRecovery_java_lang_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _forRecovery_java_lang_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _forRecovery_java_lang_String_byte_RealmProxyMediator_:
 
 .. _forRecovery_java_lang_String__byte__RealmProxyMediator_:
-
-.. _forRecovery_java_lang_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _forRecovery_java_lang_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _forRecovery_java_lang_String_byte____RealmProxyMediator_:
 
 .. _forRecovery_java_lang_String__byte_____RealmProxyMediator_:
 
-.. _forRecovery_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _forRecovery_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _forRecovery_String_byte_RealmProxyMediator_:
 
 .. _forRecovery_String__byte__RealmProxyMediator_:
-
-.. _forRecovery_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _forRecovery_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _forRecovery_String_byte____RealmProxyMediator_:
 
 .. _forRecovery_String__byte_____RealmProxyMediator_:
 
-.. _RealmConfiguration_forRecovery_java_lang_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_java_lang_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _RealmConfiguration_forRecovery_java_lang_String_byte_RealmProxyMediator_:
 
 .. _RealmConfiguration_forRecovery_java_lang_String__byte__RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_java_lang_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_java_lang_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _RealmConfiguration_forRecovery_java_lang_String_byte____RealmProxyMediator_:
 
 .. _RealmConfiguration_forRecovery_java_lang_String__byte_____RealmProxyMediator_:
 
-.. _RealmConfiguration_forRecovery_String_byte_io_realm_internal_RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_String__byte__io_realm_internal_RealmProxyMediator_:
-
 .. _RealmConfiguration_forRecovery_String_byte_RealmProxyMediator_:
 
 .. _RealmConfiguration_forRecovery_String__byte__RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_String_byte____io_realm_internal_RealmProxyMediator_:
-
-.. _RealmConfiguration_forRecovery_String__byte_____io_realm_internal_RealmProxyMediator_:
 
 .. _RealmConfiguration_forRecovery_String_byte____RealmProxyMediator_:
 
@@ -702,7 +687,7 @@ forRecovery
    :header-rows: 1
    
    * - | protected static :ref:`RealmConfiguration <io_realm_RealmConfiguration>`  :ref:`forRecovery <io_realm_RealmConfiguration_forRecovery>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  canonicalPath, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  canonicalPath, 
        |  **byte[]** encryptionKey, 
        |  **RealmProxyMediator** schemaMediator
        | )
@@ -713,6 +698,55 @@ forRecovery
    * - 
        
        
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getAssetFilePath:
+
+.. _getAssetFilePath__:
+
+.. _RealmConfiguration_getAssetFilePath:
+
+.. _RealmConfiguration_getAssetFilePath__:
+
+.. _io_realm_RealmConfiguration_getAssetFilePath:
+
+.. _io_realm_RealmConfiguration_getAssetFilePath__:
+
+
+
+getAssetFilePath
+----------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getAssetFilePath <io_realm_RealmConfiguration_getAssetFilePath>` ()
+       | 
+       
+       
+       
+   
+   * - Returns the path to the Realm asset file.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       path to the asset file relative to the asset directory or ``null``  if not asset file was specified.
        
        
        
@@ -901,7 +935,7 @@ getFlowFactory
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - if the required coroutines framework is not on the classpath.
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - if the required coroutines framework is not on the classpath.
           
           
           
@@ -950,6 +984,55 @@ getInitialDataTransaction
        **Returns**
        
        the initial data transaction.
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _getInstance:
+
+.. _getInstance__:
+
+.. _RealmConfiguration_getInstance:
+
+.. _RealmConfiguration_getInstance__:
+
+.. _io_realm_RealmConfiguration_getInstance:
+
+.. _io_realm_RealmConfiguration_getInstance__:
+
+
+
+getInstance
+-----------
+
+.. _io_realm_RealmConfiguration_getInstance_OsSharedRealm_VersionID_:
+
+.. _getInstance_OsSharedRealm_VersionID_:
+
+.. _RealmConfiguration_getInstance_OsSharedRealm_VersionID_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | protected :ref:`Realm <io_realm_Realm>`  :ref:`getInstance <io_realm_RealmConfiguration_getInstance>` (
+       |  **OsSharedRealm.VersionID** version
+       | )
+       
+       
+       
+   
+   * - 
+       
+       
+       
+       
        
        
        
@@ -1070,7 +1153,7 @@ getPath
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getPath <io_realm_RealmConfiguration_getPath>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getPath <io_realm_RealmConfiguration_getPath>` ()
        | 
        
        
@@ -1117,7 +1200,7 @@ getRealmDirectory
 .. list-table::
    :header-rows: 1
    
-   * - | public `File <https://docs.oracle.com/javase/8/docs/api/java/io/File.html>`__  :ref:`getRealmDirectory <io_realm_RealmConfiguration_getRealmDirectory>` ()
+   * - | public `File <https://docs.oracle.com/javase/7/docs/api/java/io/File.html>`__  :ref:`getRealmDirectory <io_realm_RealmConfiguration_getRealmDirectory>` ()
        | 
        
        
@@ -1159,7 +1242,7 @@ getRealmFileName
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`getRealmFileName <io_realm_RealmConfiguration_getRealmFileName>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`getRealmFileName <io_realm_RealmConfiguration_getRealmFileName>` ()
        | 
        
        
@@ -1201,13 +1284,13 @@ getRealmObjectClasses
 .. list-table::
    :header-rows: 1
    
-   * - | public `Set <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  :ref:`getRealmObjectClasses <io_realm_RealmConfiguration_getRealmObjectClasses>` ()
+   * - | public `Set <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  :ref:`getRealmObjectClasses <io_realm_RealmConfiguration_getRealmObjectClasses>` ()
        | 
        
        
        
    
-   * - Returns the unmodifiable `Set <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  of model classes that make up the schema for this Realm.
+   * - Returns the unmodifiable `Set <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  of model classes that make up the schema for this Realm.
        
        
        
@@ -1218,7 +1301,7 @@ getRealmObjectClasses
        
        **Returns**
        
-       unmodifiable `Set <https://docs.oracle.com/javase/8/docs/api/java/util/Set.html>`__  of model classes.
+       unmodifiable `Set <https://docs.oracle.com/javase/7/docs/api/java/util/Set.html>`__  of model classes.
        
        
        
@@ -1276,7 +1359,7 @@ getRxFactory
        
        **Throws**
        
-       - `UnsupportedOperationException <https://docs.oracle.com/javase/8/docs/api/java/lang/UnsupportedOperationException.html>`__  - if the required RxJava framework is not on the classpath.
+       - `UnsupportedOperationException <https://docs.oracle.com/javase/7/docs/api/java/lang/UnsupportedOperationException.html>`__  - if the required RxJava framework is not on the classpath.
           
           
           
@@ -1378,6 +1461,55 @@ getSchemaVersion
    
 
 
+.. _hasAssetFile:
+
+.. _hasAssetFile__:
+
+.. _RealmConfiguration_hasAssetFile:
+
+.. _RealmConfiguration_hasAssetFile__:
+
+.. _io_realm_RealmConfiguration_hasAssetFile:
+
+.. _io_realm_RealmConfiguration_hasAssetFile__:
+
+
+
+hasAssetFile
+------------
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public **boolean** :ref:`hasAssetFile <io_realm_RealmConfiguration_hasAssetFile>` ()
+       | 
+       
+       
+       
+   
+   * - Indicates if an asset file has been configured for this configuration.
+       
+       
+       
+       
+       
+       
+       **Returns**
+       
+       ``true``  if there is asset file, ``false``  otherwise.
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _hashCode:
 
 .. _hashCode__:
@@ -1417,7 +1549,7 @@ hashCode
        
        **Overrides**
        
-       ``hashCode`` in class `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+       ``hashCode`` in class `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
        
        
    
@@ -1556,7 +1688,7 @@ isReadOnly
        
        
    
-   * - Returns whether this Realm is read-only or not. Read-only Realms cannot be modified and will throw an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  if **Realm.beginTransaction()** is called on it.
+   * - Returns whether this Realm is read-only or not. Read-only Realms cannot be modified and will throw an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  if **Realm.beginTransaction()** is called on it.
        
        
        
@@ -1631,8 +1763,7 @@ isRecoveryConfiguration
        
        
           
-          - `ClientResetRequiredError <https://realm.io/docs/java/latest/api/io/realm/ClientResetRequiredError.html>`__ 
-             
+          - **{@link ClientResetRequiredError}**
              
              
              
@@ -1800,7 +1931,7 @@ toString
 .. list-table::
    :header-rows: 1
    
-   * - | public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_RealmConfiguration_toString>` ()
+   * - | public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  :ref:`toString <io_realm_RealmConfiguration_toString>` ()
        | 
        
        
@@ -1819,7 +1950,7 @@ toString
        
        **Overrides**
        
-       ``toString`` in class `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+       ``toString`` in class `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
        
        
    

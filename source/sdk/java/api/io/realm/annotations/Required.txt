@@ -21,10 +21,10 @@ io.realm.annotations
 
 
 
-- `java.lang.annotation.Annotation <https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html>`__ 
+- `java.lang.annotation.Annotation <https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html>`__ 
 
 
-This annotation will mark the field or the element in :ref:`io.realm.RealmList <io_realm_RealmList>`  as not nullable.
+This annotation will mark the field or the element in ``io.realm.RealmList``  as not nullable.
 
 When a field of type ``Boolean, Byte, Short, Integer, Long, Float, Double, String, byte[], Date``  is annotated with :ref:`Required <io_realm_annotations_Required>` , it cannot be set to ``null``  and Realm will throw an exception if it happens.
 
@@ -38,7 +38,11 @@ If this annotation is used on a ``RealmList`` , the annotation is applied to the
 
 
 
-Compiling will fail if the :ref:`Required <io_realm_annotations_Required>`  annotation is put an a :ref:`io.realm.RealmList <io_realm_RealmList>`  containing references to other Realm objects.
+This annotation cannot be used on a ``RealmAny`` , as the inner value of a RealmAny field is always nullable. Realm will throw an exception if you attempt mark a ``RealmAny``  as ``@Required`` .
+
+
+
+Compiling will fail if the :ref:`Required <io_realm_annotations_Required>`  annotation is put an a ``RealmList``  containing references to other Realm objects.
 
 
 
