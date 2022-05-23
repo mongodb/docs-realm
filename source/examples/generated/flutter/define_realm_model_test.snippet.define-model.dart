@@ -13,5 +13,9 @@ class _Car {
 tring? model;
   late int? miles;
 }
-s;
+  @PrimaryKey()
+  late String make;
+
+  late String? model;
+  late int? miles;
 }
