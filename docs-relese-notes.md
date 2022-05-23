@@ -1,3 +1,61 @@
+# May 20, 2022
+
+## SDK Docs
+
+### Java SDK
+- Usage Examples/Authenticate Users: Add "Offline Login" example
+
+### Swift SDK
+- Usage Examples/Read & Write Data: Add a new section "Perform a Background Write" that covers Swift async writes
+- Advanced Guides/Threading: Add a "see also" to the page pointing to the new async write documentation
+- Examples/README.md: Update with info about running the unit tests with SPM
+
+### .NET SDK
+- Advanced Guides/Client Reset: Update code examples for discard local client reset
+
+### Node.js SDK
+- Read & Write Data: Rephrase language around JS bulk update for accuracy
+
+### React Native SDK
+- Read & Write Data: Rephrase language around JS bulk update for accuracy
+
+### Various Infrastructure Updates
+- Remove MongoDB Cloud docs from docs-realm repository, add redirects
+- Update unit tests to prepare for Bluehawk 1.0 release
+
+## MongoDB Cloud Docs
+
+### Manage & Deploy Realm Apps
+- Deploy Manually/Roll Back Deployments: Add note that rolling back does not re-deploy hosted files
+
+### Realm Sync
+- Handle Errors/Sync Errors: Separate the information on handling sync errors and setting the client log level
+
+### MongoDB Data Sources
+- MongoDB Data Sources: Add information about limited Atlas Serverless support
+
+### Users & Authentication
+- Authentication: Add refresh token expiration after 30 days
+- Authentication Providers/API Key Authentication: Add server API key limit
+
+### HTTPS Endpoints
+- HTTPS Endpoints: Add a new Return Types section
+
+### Functions
+- Functions: Consolidate procedures from Call a Function, Define a Function, update examples & refresh page
+
+### Reference
+- Authenticate HTTP Client Requests: Add refresh token expiration after 30 days
+- Realm Admin API: Add GraphQL Endpoints
+  - Run a query or mutation
+  - Get custom resolvers
+  - Create a custom resolver
+  - Get a custom resolver
+  - Modify a custom resolver
+  - Delete a custom resolver
+  - Get validation settings
+  - Modify validation settings
+
 # May 12, 2022
 
 ## SDK Docs
