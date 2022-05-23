@@ -133,3 +133,60 @@ class Person extends _Person with RealmEntity, RealmObject {
     ]);
   }
 }
+
+class UuidPrimaryKey extends _UuidPrimaryKey with RealmEntity, RealmObject {
+  UuidPrimaryKey(
+    Uuid id,
+  ) {
+    RealmObject.set(this, 'id', id);
+  }
+
+  UuidPrimaryKey._();
+
+  @override
+  Uuid get id => RealmObject.get<Uuid>(this, 'id') as Uuid;
+  @override
+  set id(Uuid value) => throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<UuidPrimaryKey>> get changes =>
+      RealmObject.getChanges<UuidPrimaryKey>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObject.registerFactory(UuidPrimaryKey._);
+    return const SchemaObject(UuidPrimaryKey, 'UuidPrimaryKey', [
+      SchemaProperty('id', RealmPropertyType.uuid, primaryKey: true),
+    ]);
+  }
+}
+
+class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
+    with RealmEntity, RealmObject {
+  ObjectIdPrimaryKey(
+    ObjectId id,
+  ) {
+    RealmObject.set(this, 'id', id);
+  }
+
+  ObjectIdPrimaryKey._();
+
+  @override
+  ObjectId get id => RealmObject.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<ObjectIdPrimaryKey>> get changes =>
+      RealmObject.getChanges<ObjectIdPrimaryKey>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObject.registerFactory(ObjectIdPrimaryKey._);
+    return const SchemaObject(ObjectIdPrimaryKey, 'ObjectIdPrimaryKey', [
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+    ]);
+  }
+}

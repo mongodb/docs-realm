@@ -10,25 +10,30 @@ make sure you have Flutter 2.8 and Dart 2.15 flutter --version Flutter 2.8.1 •
 
 Run these commands to setup the application:
 
-1. Disable Realm analytics. Set env variable `REALM_DISABLE_ANALYTICS=exists` either globally ( for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and upload analytics unneccessary.
+1. Disable Realm analytics. Set env variable `REALM_DISABLE_ANALYTICS=exists` either globally
+   (for example, in `.zshrc`) or locally to this terminal only. I suggest globally not to forget about it and
+   upload analytics unnecessarily.
+1. Get all packages for the example project:
 
-2. get all packages for the example project:
+   ```sh
+   dart pub get
+   ```
 
-```sh
-dart pub get
-```
+1. Run the generator to generate the required Realm object definitions.
+   (If asked "Found 4 declared outputs which already exist on disk.Delete these files?"
+   use option 1. Delete):
 
-3. Run the generator to generate the required Realm object definitions. (If asked "Found 4 declared outputs which already exist on disk.Delete these files?" use option 1. Delete):
+   ```sh
+   dart run build_runner build
+   ```
 
-```sh
-dart run build_runner build
-```
+1. Run the project's tests **without concurrency**:
 
-4. Run the project's tests **without concurrency**:
+   ```sh
+   dart run test --concurrency=1
+   ```
 
-```sh
-dart run test --concurrency=1
-```
+   **Note**: If you do not use `--concurrency=1`, you will get a bunch of strange errors.
 
 ## API
 

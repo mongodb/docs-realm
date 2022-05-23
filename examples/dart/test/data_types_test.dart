@@ -1,4 +1,6 @@
 import 'package:realm_dart/realm.dart';
+import 'package:test/expect.dart';
+import 'package:test/scaffolding.dart';
 
 // :snippet-start: data-types-example-model
 
@@ -29,4 +31,35 @@ class _Person {
 }
 // :snippet-end:
 
-main() {}
+// :snippet-start: uuid-model
+@RealmModel()
+class _UuidPrimaryKey {
+  @PrimaryKey()
+  late Uuid id;
+}
+
+//:snippet-end:
+// :snippet-start: objectid-model
+@RealmModel()
+class _ObjectIdPrimaryKey {
+  @PrimaryKey()
+  late ObjectId id;
+}
+
+// :snippet-end:
+main() {
+  test('Uuid', () {
+    // :snippet-start: uuid-use
+    Uuid myId = Uuid.v4();
+    UuidPrimaryKey object = UuidPrimaryKey(myId);
+    // :snippet-end:
+    expect(myId.toString(), isA<String>());
+  });
+  test('ObjectId', () {
+    // :snippet-start: objectid-use
+    ObjectId id = ObjectId();
+    ObjectIdPrimaryKey object = ObjectIdPrimaryKey(id);
+    // :snippet-end:
+    expect(object.id.toString(), isA<String>());
+  });
+}

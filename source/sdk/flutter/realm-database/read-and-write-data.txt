@@ -90,11 +90,8 @@ Realm throws an error, and no changes from the transaction block are applied to 
 
 You can also return values from the write transaction callback function.
 
-.. code-block:: dart
-
-   Car fordFusion = realm.write((){
-     return realm.add(Car('Ford', model: 'Fusion', miles: 101));
-   });
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.codeblock.return-from-write.dart
+   :language: dart 
 
 .. _flutter-create-objects:
 
