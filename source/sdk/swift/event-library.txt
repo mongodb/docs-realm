@@ -42,8 +42,9 @@ Because the Event Library generates a large amount of data:
 Enable Event Recording
 ----------------------
 
-To enable event recording, set the :swift-sdk:`Event.Configuration <>` property on
-the :swift-sdk:`Realm.Configuration`.
+To enable event recording, set the :swift-sdk:`Event.Configuration 
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV05eventC0AA05EventC0VSgvp>` 
+property on the :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`.
 
 You can initialize the ``EventConfiguration`` in either of two ways:
 
@@ -56,7 +57,7 @@ Default Event Configuration
 If you don't need to specify particular parameters, you can use the 
 default-initialized ``EventConfiguration``:
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.default-event-configuration.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.default-event-configuration.swift
    :language: swift
 
 Pass Parameters to Event Configuration
@@ -73,7 +74,7 @@ You can pass optional parameters to customize the ``EventConfiguration``:
 - ``errorHandler``: Custom error handler to use when opening the event realm. 
   If nil, defaults to the error handler from the user {+realm+}.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.event-configuration-with-params.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.event-configuration-with-params.swift
    :language: swift
 
 Record Events
@@ -83,19 +84,27 @@ Interact with the Event Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After you define your event configuration, you can invoke the event recording 
-functionality with the new :swift-sdk:`events <>` property on a 
-:swift-sdk:`{+realm+} <Structs/Realm.html>`. This returns an ``Event`` 
+functionality with the new :swift-sdk:`events <Structs/Events.html>` property 
+on a :swift-sdk:`{+realm+} <Structs/Realm.html>`. This returns an ``Event`` 
 instance tied to that {+realm+}.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.invoke-event-realm.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.invoke-event-realm.swift
    :language: swift
 
 Record Read or Write Events
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :swift-sdk:`beginScope(activity: "some activity") <>` to begin recording
-a new event with the given activity name. This records activities that 
-occur within the scope of the event as read or write events.
+The Event Library records read and write events within the context of 
+a scope. The scope is the period during which the Event Library watches 
+for and records realm activities. You can set different scopes to record
+different types of events. For example, you might have scopes for specific
+user flows such as "login", different scopes for different screens, or 
+different scopes for specific compliance-related activities.
+
+Use :swift-sdk:`beginScope(activity: "some activity") 
+<Structs/Events.html#/s:10RealmSwift6EventsV10beginScope8activityySS_tF>` 
+to begin recording a new event with the given activity name. This records 
+activities that occur within the scope of the event as read or write events.
 
 - Read events: run queries and instantiate objects. When the scope ends, 
   the event realm records these activities as read events.
@@ -103,27 +112,33 @@ occur within the scope of the event as read or write events.
   the initial state of the object, as well as the new values of any 
   properties that change durign the scope of the event.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.record-read-and-write-events.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.record-read-and-write-events.swift
    :language: swift
 
 Using ``beginScope`` to record an event opens the event {+realm+} if it 
 is not already open. This can throw the same errors that opening a {+realm+}
 can normally throw.
 
-Use :swift-sdk:`endScope() <>` to finish recording the event. When
-you end the recording, the Event Library saves the event to disk locally.
-Then, if the device has a network connection, the SDK asynchronously 
-sends the data to the server.
+Use :swift-sdk:`endScope() 
+<Structs/Events.html#/s:10RealmSwift6EventsV8endScope7Combine6FutureCyyts5Error_pGyF>` 
+to finish recording the event. When you end the recording, the Event Library 
+saves the event to disk locally. Then, if the device has a network connection, 
+the SDK asynchronously sends the data to the server.
 
-You can pass an optional completion block to ``endScope()`` when you finish 
-recording. The SDK calls this block when the event data has been successfully 
-persisted - not when the event realm upload has completed.
+You can pass an optional completion block to :swift-sdk:`endScope() 
+<Structs/Events.html#/s:10RealmSwift6EventsV8endScope10completionyys5Error_pSgcSg_tF>` 
+when you finish recording. The SDK calls this block when the event data 
+has been successfully persisted - not when the event realm upload has completed.
+
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.scoped-event-with-completion.swift
+   :language: swift
 
 Record Custom Events
 ~~~~~~~~~~~~~~~~~~~~
 
 The Event Library lets you record button clicks or other events that do not
-involve database reads and writes. Use :swift-sdk:`recordEvent <>`
+involve database reads and writes. Use :swift-sdk:`recordEvent 
+<Structs/Events.html#/s:10RealmSwift6EventsV11recordEvent8activity9eventType4data10completionySS_SSSgAIys5Error_pSgcSgtF>`
 to record a custom event. This function takes these parameters:
 
 - ``activity``: the activity name. This is an arbitrary string, such as 
@@ -139,7 +154,7 @@ to record a custom event. This function takes these parameters:
 A custom event doesn't have a scope like read and write events. Instead,
 recording a custom event is more analogous to firing a trigger.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.record-custom-events.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.record-custom-events.swift
    :language: swift
 
 Event Object Serialization
@@ -187,8 +202,8 @@ Customize Event Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can customize JSON serialization for event objects. To customize
-the event payload, use the :swift-sdk:`CustomEventRepresentable <>` 
-protocol.
+the event payload, use the :swift-sdk:`CustomEventRepresentable 
+<Protocols/CustomEventRepresentable.html>` protocol.
 
 When an object conforms to ``CustomEventRepresentable``, the Event Library 
 serializes objects by:
@@ -198,10 +213,11 @@ serializes objects by:
 - Serializing the result instead of the original object
 
 To conform to ``CustomEventRepresentable``, your object must implement a
-:swift-sdk:`customEventRepresentation <>` function that defines your 
-customized serialization.
+:swift-sdk:`customEventRepresentation 
+<Protocols/CustomEventRepresentable.html#/c:@M@RealmSwift@objc(pl)RLMCustomEventRepresentable(im)customEventRepresentation>` 
+function that defines your customized serialization.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.codeblock.custom-event-representable.swift
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.custom-event-representable.swift
    :language: swift
 
 Event Realm File Size

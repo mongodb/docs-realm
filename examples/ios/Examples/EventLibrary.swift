@@ -7,7 +7,7 @@
 import XCTest
 import RealmSwift
 
-// :code-block-start: custom-event-representable
+// :snippet-start: custom-event-representable
 // To customize event serialization, your object must
 // conform to the `CustomEventRepresentable` protocol.
 class EventLibrary_Person: Object, CustomEventRepresentable {
@@ -32,7 +32,7 @@ class EventLibrary_Person: Object, CustomEventRepresentable {
         return "{\"int\": \(employeeId)}"
     }
 }
-// :code-block-end:
+// :snippet-end:
 
 class EventLibrary: XCTestCase {
     var user: User!
@@ -91,10 +91,10 @@ class EventLibrary: XCTestCase {
         }
         func initializeDefaultEventConfiguration() {
             let user = app.currentUser!
-            // :code-block-start: default-event-configuration
+            // :snippet-start: default-event-configuration
             var config = user.configuration(partitionValue: "Some partition value")
             config.eventConfiguration = EventConfiguration()
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 
@@ -111,11 +111,11 @@ class EventLibrary: XCTestCase {
         }
 
         func initializeEventConfigurationWithParameters() async throws {
-            // :code-block-start: event-configuration-with-params
+            // :snippet-start: event-configuration-with-params
             let eventSyncUser = try await app.login(credentials: Credentials.anonymous)
             var config = user.configuration(partitionValue: "Some partition value")
             config.eventConfiguration = EventConfiguration(metadata: ["username": "Jason Bourne"], syncUser: eventSyncUser, partitionPrefix: "event-")
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 
@@ -136,15 +136,18 @@ class EventLibrary: XCTestCase {
             var config = user.configuration(partitionValue: "Some partition value")
             config.eventConfiguration = EventConfiguration()
             config.objectTypes = [EventLibrary_Person.self]
-            // :code-block-start: invoke-event-realm
+            // :snippet-start: invoke-event-realm
             let realm = try! Realm(configuration: config)
             let events = realm.events!
-            // :code-block-end:
+            // :snippet-end:
         }
     }
 
     func testRecordReadAndWriteEvents() {
         let expectation = XCTestExpectation(description: "Populate a read and write event")
+        let readExpectation = XCTestExpectation(description: "Create read event in audit realm")
+        let writeExpectation = XCTestExpectation(description: "Create write event in audit realm")
+        let secondWriteExpectation = XCTestExpectation(description: "Create a second write event in audit realm")
         // createTestData()
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -174,13 +177,20 @@ class EventLibrary: XCTestCase {
 
         func recordReadAndWriteEvents(_ realm: Realm) {
             let events = realm.events!
-            // :code-block-start: record-read-and-write-events
+            // :snippet-start: record-read-and-write-events
             // Read event
             events.beginScope(activity: "read object")
             print("I am in read object scope")
             let person = realm.objects(EventLibrary_Person.self).first!
             print("Successfully queried for person: \(person)")
-            events.endScope()
+            events.endScope(completion: { error in
+                if let error = error {
+                    print("Error recording read event: \(error.localizedDescription)")
+                    return
+                }
+                print("Successfully recorded a read event")
+                readExpectation.fulfill()
+            })
             print("Read object scope has ended")
             events.beginScope(activity: "mutate object")
             print("I am in write object scope")
@@ -190,13 +200,39 @@ class EventLibrary: XCTestCase {
                 person.name = "Tony"
             }
             print("Successfully changed the person's name to: \(person.name)")
-            events.endScope()
+            events.endScope(completion: { error in
+                if let error = error {
+                    print("Error recording write event: \(error.localizedDescription)")
+                    return
+                }
+                print("Successfully recorded a write event")
+                writeExpectation.fulfill()
+            })
             print("Write object scope has ended")
-            // :code-block-end:
+            // :snippet-end:
+            // :snippet-start: scoped-event-with-completion
+            events.beginScope(activity: "mutate object")
+            // Write event
+            try! realm.write {
+                // Add a userId
+                person.userId = "tony.stark@starkindustries.com"
+            }
+            print("Successfully added a userId of: \(person.userId)")
+            events.endScope(completion: { error in
+                if let error = error {
+                    print("Error recording write event: \(error.localizedDescription)")
+                    return
+                }
+                print("Successfully recorded a write event")
+                // :remove-start:
+                secondWriteExpectation.fulfill()
+                // :remove-end:
+            })
+            // :snippet-end:
             deleteTestData()
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation, readExpectation, writeExpectation, secondWriteExpectation], timeout: 10)
     }
 
     func testRecordCustomEvents() {
@@ -217,9 +253,9 @@ class EventLibrary: XCTestCase {
                         print("Failed to open realm: \(error.localizedDescription)")
                     case .success(let realm):
                         let events = realm.events!
-                        // :code-block-start: record-custom-events
+                        // :snippet-start: record-custom-events
                         events.recordEvent(activity: "event", eventType: "custom event")
-                        // :code-block-end:
+                        // :snippet-end:
                         expectation.fulfill()
                     }
                 }
