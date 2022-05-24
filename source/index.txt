@@ -12,7 +12,14 @@ Welcome to the MongoDB Realm Docs
 
    Get Started </get-started>
    Tutorial </tutorial>
-   Realm Database SDKs </sdk>
+   Flutter SDK (Alpha) </sdk/flutter>
+   Java SDK </sdk/java>
+   Kotlin SDK (Beta) </sdk/kotlin>
+   .NET SDK </sdk/dotnet>
+   Node.js SDK </sdk/node>
+   React Native SDK </sdk/react-native>
+   Swift SDK </sdk/swift>
+   Web SDK </web>
    MongoDB Realm <https://mongodb.com/docs/atlas/app-services>
    Realm Studio </studio>
 
@@ -37,26 +44,85 @@ application services as a secure backend that can sync data between devices,
 authenticate and manage users, and run serverless JavaScript functions.
 
 
+
+{+service+} has open-source SDKs available for most popular languages, frameworks, 
+and platforms. Each SDK is language-idiomatic and includes:
+
+- The core database APIs for creating and working with on-device databases.
+
+- The APIs you need for connecting to the {+service-short+} backend so you can 
+  make use of server-side features like :ref:`Sync <sync>`, 
+  :ref:`Authentication <users-and-authentication>`, :ref:`Functions <functions>`, 
+  :ref:`Triggers <trigger-types>`, and more. 
+
 .. card-group::
-   :columns: 3
    :style: extra-compact
+   :columns: 2
 
    .. card::
-      :headline: Realm SDKs
-      :icon: /images/icons/realm_sdk.svg
-      :url: https://www.mongodb.com/docs/realm/sdk/
+      :headline: Java SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/java/
+      :icon: /images/icons/android_sdk.svg
+      :icon-alt: Java SDK icon
 
-      Use platform-specific libraries to include and work with the Realm database in your application.
+      Build Android applications in Java or Kotlin. Realm data maps directly to the classes in your app.
 
-      :card-ref:`Java <java-intro>`
-      :card-ref:`Swift <ios-intro>`
-      :card-ref:`.NET <dotnet-intro>`
-      :card-ref:`Node.js <node-intro>`
-      :card-ref:`React Native <react-native-intro>`
-      :card-ref:`Kotlin <kotlin-intro>`
-      :card-ref:`Web <web-intro>`
-      :card-ref:`Flutter <flutter-intro>`
-      
+   .. card::
+      :headline: Swift SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/swift/
+      :icon: /images/icons/swift_sdk.svg
+      :icon-alt: Swift SDK icon
+
+      Build applications in Swift or Objective-C for Apple platforms, including iOS, macOS, watchOS, and tvOS.
+
+   .. card::
+      :headline: .NET SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/dotnet/
+      :icon: /images/icons/dot_net_sdk.svg
+      :icon-alt: .NET SDK icon
+
+      Build applications that use C# and the .NET platform, including Xamarin, native Windows applications, and Unity projects.
+
+   .. card::
+      :headline: Node.js SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/node/
+      :icon: /images/icons/node_js_sdk.svg
+      :icon-alt: Node.JS SDK icon
+
+      Use the Node.js SDK to build server and IoT applications in JavaScript or TypeScript.
+
+   .. card::
+      :headline: React Native SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/react-native/
+      :icon: /images/icons/react_native_sdk.svg
+      :icon-alt: React SDK icon
+
+      Use the React Native SDK to build cross-platform applications in JavaScript or TypeScript.
+
+   .. card::
+      :headline: Kotlin SDK
+      :url: https://www.mongodb.com/docs/realm/sdk/kotlin/
+      :icon: /images/icons/kotlin_sdk.svg
+      :icon-alt: Kotlin SDK icon
+
+      Build cross-platform applications for Android, iOS, and macOS with Kotlin Multiplatform Mobile. Realm data maps directly to the classes in your app.
+
+   .. card::
+      :headline: Web SDK
+      :url: https://www.mongodb.com/docs/realm/web/
+      :icon: /images/icons/web_sdk.svg
+      :icon-alt: Web SDK icon
+
+      Build web applications in JavaScript or TypeScript. Access data with GraphQL and MongoDB queries.
+
+   .. card::
+      :headline: Flutter SDK (Alpha)
+      :url: https://www.mongodb.com/docs/realm/sdk/flutter
+      :icon: /images/icons/flutter.svg
+      :icon-alt: Futter icon
+
+      Build Flutter applications with Dart. 
+
    .. card::
       :cta: Learn more about MongoDB Realm Application Services
       :headline: MongoDB Realm
@@ -64,3 +130,5 @@ authenticate and manage users, and run serverless JavaScript functions.
       :url: https://www.mongodb.com/docs/atlas/app-services/
 
       Discover how to sync data, define permissions, and connect to other services, including MongoDB Atlas.
+
+For legacy (pre-v10) Realm Database Documentation, see https://www.mongodb.com/docs/realm-legacy/docs/.
