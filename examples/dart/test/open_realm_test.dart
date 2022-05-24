@@ -60,5 +60,22 @@ void main() {
         cleanUpRealm(realm);
       });
     });
+    test('Initial data callback', () {
+      bool called = false;
+      // :snippet-start: initial-data-callback
+      void dataCb(Realm realm) {
+        called = true; // :remove:
+        realm.add(Car('Honda'));
+      }
+
+      Configuration config =
+          Configuration.local([Car.schema], initialDataCallback: dataCb);
+      Realm realm = Realm(config);
+      Car honda = realm.all<Car>()[0];
+      // :snippet-end:
+      expect(honda.make, 'Honda');
+      expect(called, true);
+      cleanUpRealm(realm);
+    });
   });
 }

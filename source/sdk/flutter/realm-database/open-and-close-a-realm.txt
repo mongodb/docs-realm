@@ -114,6 +114,23 @@ FIFO special files.
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.fifo-file.dart
    :language: dart
 
+.. _flutter-initial-data-callback:
+
+Add Initial Data to Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Use :flutter-sdk:`initialDataCallback() <realm/InitialDataCallback.html>` to invoke
+a callback function the first time that you open a {+realm+}. 
+The function only executes the first time that the {+realm+} on the device. 
+The {+realm+} instance passed to the callback function already has a write transaction open,
+so you do not need to wrap write operations in a ``Realm.write()`` transaction block.
+``initialDataCallback`` can be useful for adding initial data to your application 
+the first time that it is opened on a device. 
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.initial-data-callback.dart
+   :language: dart
+   :emphasize-lines: 1-3, 6
+
 .. _flutter-close-realm: 
 
 Close a Realm
