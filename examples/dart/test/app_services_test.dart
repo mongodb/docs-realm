@@ -21,7 +21,7 @@ void main() {
       //:snippet-end:
       App app = App(appConfig);
       expect(app.currentUser, null);
-      expect(app.configuration.localAppVersion, '2.0');
+      expect(appConfig.localAppVersion, '2.0');
     });
   });
 }

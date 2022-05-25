@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-import './schemas.dart';
 
 part 'open_flexible_sync_realm_test.g.dart';
 
