@@ -41,7 +41,7 @@ Annotation for defining a reverse relationship from one class to another. This a
     public class Dog extends RealmObject {
       // This holds all Person objects with a relation to this Dog object (= linking objects)
       @LinkingObjects("dog")
-      final RealmResults>Person< owners = null;
+      final RealmResults<Person> owners = null;
     }
    
     // Find all Dogs with at least one owner named John
@@ -51,7 +51,7 @@ Annotation for defining a reverse relationship from one class to another. This a
 
  
 
-In the above example \`Person\` is related to \`Dog\` through the field \`dog\`. This in turn means that an implicit reverse relationship exists between the class \`Dog\` and the class \`Person\`. This inverse relationship is made public and queryable by the \`RealmResults\` field annotated with \`@LinkingObject\`. This makes it possible to query properties of the dogs owner without having to manually maintain a "owner" field in the \`Dog\` class.Linking objects have the following properties:
+In the above example \`Person\` is related to \`Dog\` through the field \`dog\`. This in turn means that an implicit reverse relationship exists between the class \`Dog\` and the class \`Person\`. This inverse relationship is made public and queryable by the \`RealmResults\` field annotated with \`\@LinkingObject\`. This makes it possible to query properties of the dogs owner without having to manually maintain a "owner" field in the \`Dog\` class.Linking objects have the following properties:
 
 
 
@@ -73,7 +73,7 @@ In the above example \`Person\` is related to \`Dog\` through the field \`dog\`.
 - They are ignored when using the various \`createObjectFromJson\*\` and \`createAllFromJson\*\` methods.
    
    
-- Listeners on an object with a \`@LinkingObject\` field will not be triggered if the linking objects change, e.g: if another object drops a reference to this object.
+- Listeners on an object with a \`\@LinkingObject\` field will not be triggered if the linking objects change, e.g: if another object drops a reference to this object.
    
    
 
@@ -82,12 +82,12 @@ In addition, they have the following restrictions:
 
 
 
-- @Ignore takes precedence. A @LinkingObjects annotation on @Ignore field will be ignored.
+- \@Ignore takes precedence. A \@LinkingObjects annotation on \@Ignore field will be ignored.
    
    
    
    
-- The annotated field cannot be @Required.
+- The annotated field cannot be \@Required.
    
    
    
