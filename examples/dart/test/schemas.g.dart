@@ -50,6 +50,35 @@ class Car extends _Car with RealmEntity, RealmObject {
   }
 }
 
+class SyncSchema extends _SyncSchema with RealmEntity, RealmObject {
+  SyncSchema(
+    int id,
+  ) {
+    RealmObject.set(this, '_id', id);
+  }
+
+  SyncSchema._();
+
+  @override
+  int get id => RealmObject.get<int>(this, '_id') as int;
+  @override
+  set id(int value) => throw RealmUnsupportedSetError();
+
+  @override
+  Stream<RealmObjectChanges<SyncSchema>> get changes =>
+      RealmObject.getChanges<SyncSchema>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObject.registerFactory(SyncSchema._);
+    return const SchemaObject(SyncSchema, 'SyncSchema', [
+      SchemaProperty('_id', RealmPropertyType.int,
+          mapTo: '_id', primaryKey: true),
+    ]);
+  }
+}
+
 class Bike extends _Bike with RealmEntity, RealmObject {
   Bike(
     int id,

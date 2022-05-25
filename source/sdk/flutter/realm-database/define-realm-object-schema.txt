@@ -20,29 +20,6 @@ type of each property and whether or not a property is required. Schemas can
 also define :ref:`relationships <flutter-client-relationships>` between object 
 types in a {+realm+}.
 
-.. _flutter-realm-schema: 
-
-Using Schemas with Device Sync
-------------------------------
-
-A **{+backend-schema+}** is a list of valid object schemas that 
-each define an object type that a {+app+} may persist. 
-All synced objects in a {+realm+} must conform to the {+backend-schema+}.
-
-Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
-{+realm+} already contains data, then it already has a schema, and when it is opened, 
-{+client-database+} validates the schema on the client against the existing schema.
-
-You can define {+backend-schema+}s in the following ways:
-
-- Automatically with the {+frontend-schema+} if :ref:`development mode is enabled
-  <concept-development-mode>`. 
-- Explicitly define the {+backend-schema+} with {+backend+}.
-
-For further information on defining your schema and which of these approaches you
-should consider for your application, refer to the :ref:`Create a Realm Schema documentation 
-<create-schema-for-backend-realm-app>`.
-
 .. _flutter-create-model:
 
 Create Model
@@ -148,6 +125,37 @@ Create Model
       .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.snippet.use-realm-object.dart
          :language: dart
          :caption: myapp.dart
+
+
+.. _flutter-realm-schema: 
+
+Using Schemas with Device Sync
+------------------------------
+
+A **{+backend-schema+}** is a list of valid object schemas that 
+each define an object type that a {+app+} may persist. 
+All synced objects in a {+realm+} must conform to the {+backend-schema+}.
+
+Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
+{+realm+} already contains data, then it already has a schema, and when it is opened, 
+{+client-database+} validates the schema on the client against the existing schema.
+
+You can define {+backend-schema+}s in the following ways:
+
+- Automatically with the {+frontend-schema+} if :ref:`development mode is enabled
+  <concept-development-mode>`. 
+- Explicitly define the {+backend-schema+} with {+backend+}.
+
+In your You must use the ``MapTo("_id")`` annotation with your primary key 
+in the ``RealmModel`` to successfully sync your {+frontend-schema+} with {+backend+}.
+
+.. literal-include:: /examples/generated/flutter/schemas.codeblock.sync-schema.dart
+   :language: dart
+   :emphasize-lines: 3-5
+
+For further information on defining your schema and which of these approaches you
+should consider for your application, refer to the :ref:`Create a Realm Schema documentation 
+<create-schema-for-backend-realm-app>`.
 
 
 .. _flutter-client-relationships:

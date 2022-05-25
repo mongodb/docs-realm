@@ -15,6 +15,17 @@ class _Car {
 }
 // :snippet-end:
 
+// :snippet-start: sync-schema
+@RealmModel()
+class _SyncSchema {
+  @PrimaryKey()
+  @MapTo("_id")
+  late int id;
+
+  // ... other properties
+}
+
+// :snippet-end:
 // :snippet-start: many-to-one-models
 @RealmModel()
 class _Bike {
