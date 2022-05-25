@@ -40,35 +40,27 @@ late User currentUser;
 const APP_ID = "flutter-flexible-luccm";
 AppConfiguration appConfig = AppConfiguration(APP_ID);
 void main() {
-  setUpAll(() {
-    return Future(() async {
-      app = App(appConfig);
-      Credentials credentials = Credentials.anonymous();
-      currentUser = await app.logIn(credentials);
-    });
+  setUpAll(() async {
+    app = App(appConfig);
+    Credentials credentials = Credentials.anonymous();
+    currentUser = await app.logIn(credentials);
   });
-  tearDownAll(() {
-    return Future(() async {
-      await app.currentUser?.logOut();
-    });
+  tearDownAll(() async {
+    await app.currentUser?.logOut();
   });
-  setUp(() {
-    return Future(() async {
-      Configuration config = Configuration.flexibleSync(
-        currentUser,
-        [Plane.schema, Train.schema, Boat.schema],
-        path: 'flex.realm',
-      );
-      realm = Realm(config);
-      await realm.subscriptions.waitForSynchronization();
-    });
+  setUp(() async {
+    Configuration config = Configuration.flexibleSync(
+      currentUser,
+      [Plane.schema, Train.schema, Boat.schema],
+      path: 'flex.realm',
+    );
+    realm = Realm(config);
+    await realm.subscriptions.waitForSynchronization();
   });
-  tearDown(() {
-    return Future(() async {
-      await realm.subscriptions.waitForSynchronization();
-      realm.close();
-      Realm.deleteRealm(realm.config.path);
-    });
+  tearDown(() async {
+    await realm.subscriptions.waitForSynchronization();
+    realm.close();
+    Realm.deleteRealm(realm.config.path);
   });
   test('Add query to subscription set', () async {
     // :snippet-start: add-subscription
