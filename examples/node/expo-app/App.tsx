@@ -7,30 +7,6 @@ import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 
-console.log("opening app");
-Realm.copyBundledRealmFiles();
-const Dog = {
-  name: "Dog",
-  properties: {
-    name: "string",
-    age: "int",
-    type: "string",
-  },
-};
-const config = {
-  schema: [Dog],
-  path: "bundle.realm",
-};
-(async () => {
-  try {
-    const realm = await Realm.open(config);
-    console.log(realm, "opened");
-    const res = realm.objects("Dog");
-    console.log(res.length);
-  } catch (err) {
-    console.error(err);
-  }
-})();
 // :snippet-start: import-task-context
 // :uncomment-start:
 // import TaskContext from "./app/models/Task";
