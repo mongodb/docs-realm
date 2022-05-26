@@ -5,7 +5,7 @@ import './utils.dart';
 
 void main() {
   group('Open and Close a Realm', () {
-    test('Open a Realm', () {
+    test('Open a Realm', () async {
       // :snippet-start: open-realm
       var config = Configuration.local([Car.schema]);
       var realm = Realm(config);
@@ -15,18 +15,18 @@ void main() {
       realm.close();
       // :snippet-end:
       expect(realm.isClosed, true);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
-    test('Configuration - FIFO files fallback path', () {
+    test('Configuration - FIFO files fallback path', () async {
       // :snippet-start: fifo-file
       var config = Configuration.local([Car.schema],
           fifoFilesFallbackPath: "./fifo_folder");
       var realm = Realm(config);
       // :snippet-end:
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
     group('Read-only realm', () {
-      test('Configuration readOnly - reading is possible', () {
+      test('Configuration readOnly - reading is possible', () async {
         Configuration initConfig = Configuration.local([Car.schema]);
         var realm = Realm(initConfig);
         realm.write(() => realm.add(Car("Mustang")));
@@ -46,21 +46,21 @@ void main() {
           enteredCatch = true;
         }
         expect(enteredCatch, true);
-        cleanUpRealm(realm);
+        await cleanUpRealm(realm);
       });
     });
     group('In-memory realm', () {
-      test('Configuration inMemory - no files after closing realm', () {
+      test('Configuration inMemory - no files after closing realm', () async {
         // :snippet-start: in-memory-realm
         var config = Configuration.inMemory([Car.schema]);
         var realm = Realm(config);
         // :snippet-end:
         realm.write(() => realm.add(Car('Tesla')));
         expect(Realm.existsSync(config.path), true);
-        cleanUpRealm(realm);
+        await cleanUpRealm(realm);
       });
     });
-    test('Initial data callback', () {
+    test('Initial data callback', () async {
       bool called = false;
       // :snippet-start: initial-data-callback
       void dataCb(Realm realm) {
@@ -75,7 +75,7 @@ void main() {
       // :snippet-end:
       expect(honda.make, 'Honda');
       expect(called, true);
-      cleanUpRealm(realm);
+      await cleanUpRealm(realm);
     });
   });
 }

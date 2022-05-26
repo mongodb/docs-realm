@@ -24,7 +24,8 @@ void main() {
   group('Query Data', () {
     test("Query List of Realm Objects", () {
       // :snippet-start: query-realm-list
-      final config = Configuration.local([Person.schema, Team.schema]);
+      final config = Configuration.local([Person.schema, Team.schema],
+          path: 'rebellion.realm');
       final realm = Realm(config);
       final heroes = Team('Millenium Falcon Crew', crew: [
         Person('Luke'),
