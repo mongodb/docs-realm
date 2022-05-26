@@ -78,22 +78,6 @@ If you try to write to a read-only realm, it throws an error.
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.read-only-realm.dart
    :language: dart
 
-.. TODO(DOCSP-22732): refactor wth Configuration.inMemory()
-
-.. _flutter-open-in-memory-realm:
-
-Open an In-Memory Realm
-~~~~~~~~~~~~~~~~~~~~~~~
-
-To create a realm that runs entirely in memory without being written to a file,
-add ``inMemory: true`` to your ``Configuration`` object. 
-In-memory realms **cannot** also be read-only.
-
-.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.in-memory-realm.dart
-   :language: dart
-
-.. TODO(DOCSP-22732): refactor wth Configuration.local()
-
 .. _flutter-set-custom-fifo:
 
 Set Custom FIFO Special Files
