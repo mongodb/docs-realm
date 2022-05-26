@@ -59,7 +59,7 @@ authentication, create an anonymous credential by calling
 and then pass the generated credential to
 ``app.logIn``.
 
-.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.anonymous-credentials.dart
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.anonymous-credentials.dart
    :language: dart
 
 .. _flutter-login-email-password:
@@ -74,7 +74,7 @@ email/password credential by calling :flutter-sdk:`Credentials.emailPassword() <
 with the user's email and password. Then pass the generated credential
 to ``app.logIn``.
 
-.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.email-password-credentials.dart
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.email-password-credentials.dart
    :language: dart
 
 .. _flutter-logout:
@@ -92,7 +92,7 @@ to log in, using :flutter-sdk:`User.logOut() <realm/User/logout.html>`. This met
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
 
-.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.log-out.dart
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.log-out.dart
    :language: dart
 
 .. _flutter-retrieve-current-user:
@@ -106,7 +106,7 @@ property. The ``currentUser`` object is persisted in local storage, so even if
 the app shuts down after the initial authentication, you do not need to call 
 ``logIn`` again (unless the user logged out). 
 
-.. literalinclude:: /examples/generated/flutter/authenticate_users_test.codeblock.retrieve-current-user.dart
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.retrieve-current-user.dart
    :language: dart
 
 .. TODO(DOCSP-22353): add delete user documentation
