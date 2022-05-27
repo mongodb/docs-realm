@@ -10,14 +10,14 @@ Define a Realm Object Schema - Flutter SDK
    :depth: 1
    :class: singlecol
 
-An **object schema** is a configuration object that defines the properties and 
-relationships of a {+service-short+} object. {+service-short+} client 
-applications define object schemas with the native class implementation in their 
+An **object schema** is a configuration object that defines the properties and
+relationships of a {+service-short+} object. {+service-short+} client
+applications define object schemas with the native class implementation in their
 respective language using the :term:`{+frontend-schema+}`.
 
 Object schemas specify constraints on object properties such as the data
-type of each property and whether or not a property is required. Schemas can 
-also define :ref:`relationships <flutter-client-relationships>` between object 
+type of each property and whether or not a property is required. Schemas can
+also define :ref:`relationships <flutter-client-relationships>` between object
 types in a {+realm+}.
 
 .. _flutter-create-model:
@@ -25,13 +25,13 @@ types in a {+realm+}.
 Create Model
 ------------
 
-.. procedure:: 
+.. procedure::
 
-   .. step:: Import Realm 
+   .. step:: Import Realm
 
       Import the Realm SDK package at the top of your file.
 
-      .. tabs:: 
+      .. tabs::
 
          .. tab:: Flutter
             :tabid: flutter
@@ -60,12 +60,12 @@ Create Model
 
    .. step:: Create RealmModel
 
-      Create the model for your Realm schema in a private class. 
+      Create the model for your Realm schema in a private class.
       You must include the annotation `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
-      at the top of the class definition. Prepend the class name with an underscore 
-      to make it private. You'll generate the public ``RealmObject`` in step 4. 
+      at the top of the class definition. Prepend the class name with an underscore
+      to make it private. You'll generate the public ``RealmObject`` in step 4.
 
-      Add fields to the ``RealmModel``. 
+      Add fields to the ``RealmModel``.
       You can add all :ref:`supported data types <flutter-data-types>`.
       Include additional behavior using :ref:`property annotations <flutter-property-annotations>`.
 
@@ -80,7 +80,7 @@ Create Model
 
    .. step:: Generate RealmObject
 
-      Generate the ``RealmObject``, which you'll use in your application: 
+      Generate the ``RealmObject``, which you'll use in your application:
 
       .. tabs::
 
@@ -98,16 +98,16 @@ Create Model
 
                dart run realm_dart generate
 
-      This command generates the file in the same directory as your model file. 
+      This command generates the file in the same directory as your model file.
       It has the name you specified in the part directive of step 2.
 
       .. tip:: Track the generated file
 
-         Track the generated file in your version control system, such as git. 
+         Track the generated file in your version control system, such as git.
 
       .. example:: File structure after generating model
 
-         .. code-block:: 
+         .. code-block::
 
             .
             ├── my_model.dart
@@ -118,7 +118,7 @@ Create Model
    .. step:: Use RealmObject in Application
 
       Use the ``RealmObject`` that you generated in the previous step in your application.
-      Since you included the generated file as part of the same package 
+      Since you included the generated file as part of the same package
       where you defined the ``RealmModel`` in step 2, access the ``RealmObject``
       by importing the file with the ``RealmModel``.
 
@@ -127,26 +127,26 @@ Create Model
          :caption: myapp.dart
 
 
-.. _flutter-realm-schema: 
+.. _flutter-realm-schema:
 
 Using Schemas with Device Sync
 ------------------------------
 
-A **{+backend-schema+}** is a list of valid object schemas that 
-each define an object type that a {+app+} may persist. 
+A **{+backend-schema+}** is a list of valid object schemas that
+each define an object type that a {+app+} may persist.
 All synced objects in a {+realm+} must conform to the {+backend-schema+}.
 
 Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
-{+realm+} already contains data, then it already has a schema, and when it is opened, 
+{+realm+} already contains data, then it already has a schema, and when it is opened,
 {+client-database+} validates the schema on the client against the existing schema.
 
 You can define {+backend-schema+}s in the following ways:
 
 - Automatically with the {+frontend-schema+} if :ref:`development mode is enabled
-  <concept-development-mode>`. 
+  <concept-development-mode>`.
 - Explicitly define the {+backend-schema+} with {+backend+}.
 
-In your You must use the ``MapTo("_id")`` annotation with your primary key 
+In your You must use the ``MapTo("_id")`` annotation with your primary key
 in the ``RealmModel`` to successfully sync your {+frontend-schema+} with {+backend+}.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.sync-schema.dart
@@ -154,7 +154,7 @@ in the ``RealmModel`` to successfully sync your {+frontend-schema+} with {+backe
    :emphasize-lines: 3-5
 
 For further information on defining your schema and which of these approaches you
-should consider for your application, refer to the :ref:`Create a Realm Schema documentation 
+should consider for your application, refer to the :ref:`Create a Realm Schema documentation
 <create-schema-for-backend-realm-app>`.
 
 
@@ -163,8 +163,8 @@ should consider for your application, refer to the :ref:`Create a Realm Schema d
 Define Relationship Properties
 ------------------------------
 
-You can reference other Realm models from your Realm model. 
-This lets you create the following types of relationships between Realm objects: 
+You can reference other Realm models from your Realm model.
+This lets you create the following types of relationships between Realm objects:
 
 - :ref:`Many-to-one <flutter-many-to-one-relationship>`
 - :ref:`Many-to-many <flutter-many-to-many-relationship>`
@@ -172,7 +172,7 @@ This lets you create the following types of relationships between Realm objects:
 .. important:: No directly embedding objects
 
    You cannot directly embed one Realm object in another with the Flutter SDK
-   at this time. You can only reference another Realm object. 
+   at this time. You can only reference another Realm object.
 
 .. _flutter-many-to-one-relationship:
 
@@ -181,7 +181,7 @@ Many-to-One
 
 To set up a many-to-one or one-to-one relationship,
 create a property in your model whose type is another model.
-Multiple objects can reference the same object. 
+Multiple objects can reference the same object.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
@@ -194,7 +194,7 @@ Many-to-Many
 ~~~~~~~~~~~~
 
 You can create a relationship between one object and any number of objects
-using a property of type ``List<T>`` in your application, where T is a Realm model class. 
+using a property of type ``List<T>`` in your application, where T is a Realm model class.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-many-models.dart
    :language: dart
@@ -215,7 +215,7 @@ Use annotations to add functionality to properties in your Realm object models.
 Required and Optional Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending 
+In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending
 `?  <https://dart.dev/null-safety>`__. Include ``?`` to make properties optional.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
@@ -239,14 +239,14 @@ Assign a default value in the property declaration.
 PrimaryKey
 ~~~~~~~~~~~
 
-The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__ 
-annotation indicates a primary key property. 
+The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__
+annotation indicates a primary key property.
 The primary key is a unique identifier for an object in a realm.
 No other objects of the same type may share an object's primary key.
 
-Important aspects of primary keys: 
+Important aspects of primary keys:
 
-- You cannot change a primary key after adding an object to a realm. 
+- You cannot change a primary key after adding an object to a realm.
 - Only add a primary key to one property in a RealmModel.
 - Only ``String`` and ``int`` can be primary keys.
 - Realm automatically indexes primary keys.
@@ -259,7 +259,7 @@ Ignored
 ~~~~~~~
 
 If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
-annotation to a property in your ``RealmModel``, the :ref:`realm object generator 
+annotation to a property in your ``RealmModel``, the :ref:`realm object generator
 <flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
@@ -270,7 +270,7 @@ Indexed
 ~~~~~~~
 
 Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__ annotation
-to create an index on the field. Indexes slightly slow down insertion, but can greatly 
+to create an index on the field. Indexes slightly slow down insertion, but can greatly
 speed up queries.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
@@ -280,7 +280,7 @@ speed up queries.
 MapTo
 ~~~~~
 
-The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation 
+The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
 indicates that a property should be persisted under a different name.
 It's useful when opening a Realm across different bindings where code style conventions can differ.
 
@@ -293,10 +293,10 @@ It's useful when opening a Realm across different bindings where code style conv
 Generate the RealmObject
 ------------------------
 
-Once you've completed your Realm model, you must generate the 
-:flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>` class to use it in your application. 
+Once you've completed your Realm model, you must generate the
+:flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>` class to use it in your application.
 
-Run the following command to generate ``RealmObjects``: 
+Run the following command to generate ``RealmObjects``:
 
 .. tabs::
 
@@ -304,7 +304,7 @@ Run the following command to generate ``RealmObjects``:
       :tabid: flutter
 
       .. code-block::
-         
+
          flutter pub run realm generate
 
    .. tab:: Dart
@@ -314,17 +314,17 @@ Run the following command to generate ``RealmObjects``:
 
          dart run realm_dart generate
 
-Running this creates a public class in a new file in the directory 
+Running this creates a public class in a new file in the directory
 where you defined the ``RealmModel`` class per the :ref:`Create Model section <flutter-create-model>`.
 
-The generated file has the same base name as the file with your ``RealmModel``, 
-ending with ``.g.dart``. For example if the file with your ``RealmModel`` 
+The generated file has the same base name as the file with your ``RealmModel``,
+ending with ``.g.dart``. For example if the file with your ``RealmModel``
 is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
 
-.. note:: 
+.. note::
 
-   Remember to include the generated file in a part directive in 
-   your ``RealmModel`` definition file. 
+   Remember to include the generated file in a part directive in
+   your ``RealmModel`` definition file.
 
    .. code-block:: dart
       :caption: my_model.dart
@@ -337,8 +337,8 @@ is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
       @RealmModel()
       // ...model definition
 
-If you'd like to watch your data models to generate ``RealmObjects`` whenever there's a change, 
-include the ``--watch`` flag in your command. 
+If you'd like to watch your data models to generate ``RealmObjects`` whenever there's a change,
+include the ``--watch`` flag in your command.
 
 .. tabs::
 
@@ -356,8 +356,8 @@ include the ``--watch`` flag in your command.
 
          dart run realm_dart generate --watch
 
-To clean the generator caches, include the ``--clean`` flag in your command. 
-Cleaning the generator cache can be useful when debugging. 
+To clean the generator caches, include the ``--clean`` flag in your command.
+Cleaning the generator cache can be useful when debugging.
 
 .. tabs::
 
@@ -385,7 +385,7 @@ Update a Realm Schema
    Schema migration functions differently for synced realms.
    Refer to :ref:`Updating the Schema of a Synced Realm <flutter-update-schema-of-synced-realm>`.
 
-.. TODO: when flutter SDK gets client reset behavior add information here about 
+.. TODO: when flutter SDK gets client reset behavior add information here about
 .. how breaking changes require client resets
 .. Breaking changes require a client reset.
 
@@ -403,7 +403,7 @@ Schema versions are ascending integers that you can optionally include
 in the {+realm+} configuration when you open a {+realm+}. If a client
 application does not specify a version number when it opens a {+realm+} then
 the {+realm+} defaults to version ``0``.
-   
+
 .. TODO: add version of this content in when migrations are supported
 .. :ref:`Migrations <node-migrations>` must update a {+realm+} to a
 .. higher schema version. {+client-database+} will throw an error if a client
@@ -421,14 +421,14 @@ To add a property to a schema:
 
 #. Add the new property to the object's ``RealmModel`` class.
 #. :ref:`Regenerate the RealmObject <flutter-generate-realm-object>`.
-#. Set a :flutter-sdk:`schema <realm/Configuration/schema.html>` version to 
+#. Set a :flutter-sdk:`schema <realm/Configuration/schema.html>` version to
    the realm's :flutter-sdk:`Configuration object <realm/Configuration.html>`.
 
 .. example::
-   
+
    A {+realm+} using schema version ``1`` has a ``Person`` object type with a
    ``firstName``, and ``lastName`` property. The developer decides to add an
-   ``age`` property to the ``_Person`` RealmModel class. 
+   ``age`` property to the ``_Person`` RealmModel class.
 
    To change the {+realm+} to conform to the updated ``Person`` schema, the
    developer sets the {+realm+}'s :ref:`schema version <flutter-schema-version>`
@@ -456,7 +456,7 @@ To delete a property from a schema:
 Deleting a property does not impact existing objects.
 
 .. example::
-   
+
    A {+realm+} using schema version ``1`` has a ``Dog`` object type with a
    ``weight`` property. The developer decides to remove the property from the
    schema.
@@ -474,10 +474,10 @@ Updating the Schema of a Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Updating the schema of a synced realm is a separate process from updating
-the schema of a a local-only realm. 
+the schema of a a local-only realm.
 
 Synced realms do not have schema versions and automatically migrate
-objects to the latest schema. Synced realms only support non-breaking schema changes. 
+objects to the latest schema. Synced realms only support non-breaking schema changes.
 
 Learn how to :ref:`modify schema properties of a synced realm
 <synced-schema-overview>`.

@@ -11,7 +11,7 @@ Realm Database Internals - Flutter SDK
    :class: singlecol
 
 {+client-database+} uses a completely unique database engine,
-file format, and design. 
+file format, and design.
 
 This page explains some of the implementation details and inner workings
 of {+client-database+}.
@@ -61,7 +61,7 @@ storage. The database uses several kinds of file:
 - **lock files**, suffixed with "lock", e.g. ``default.realm.lock``:
   keep track of which versions of data in a {+realm+} are
   actively in use. This prevents {+realm+} from reclaiming storage space
-  that is still used by a client application. 
+  that is still used by a client application.
 - **note files**, suffixed with "note", e.g. ``default.realm.note``:
   enable inter-thread and inter-process notifications.
 - **management files**, suffixed with "management", e.g. ``default.realm.management``:

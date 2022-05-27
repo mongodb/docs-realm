@@ -10,7 +10,7 @@ Data Types - Flutter SDK
    :depth: 2
    :class: singlecol
 
-The Flutter SDK currently only supports Dart-language data types. 
+The Flutter SDK currently only supports Dart-language data types.
 The Flutter SDK supports Dart-language data types, a limited subset of
 `BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
 
@@ -27,7 +27,7 @@ Realm supports the following Dart types:
 - ``bool``
 - ``String``
 - ``DateTime``
-- ``List<T>``, where T is any of the supported data types or a 
+- ``List<T>``, where T is any of the supported data types or a
   `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
 
 .. _flutter-reference-realm-object:
@@ -35,7 +35,7 @@ Realm supports the following Dart types:
 Reference Realm Objects
 -----------------------
 
-You can also reference one or more Realm objects from another. Learn more in the 
+You can also reference one or more Realm objects from another. Learn more in the
 :ref:`relationship properties documentation <flutter-client-relationships>`.
 
 .. _flutter-additional-types:
@@ -51,7 +51,7 @@ identifier for objects. ObjectId is indexable and can be used as a primary key.
 
 To define a property as an ObjectId, set its type as ``ObjectId`` in
 your :ref:`object model <flutter-create-model>`. Create a Realm
-object within a write transaction. 
+object within a write transaction.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.objectid-model.dart
    :language: dart
@@ -80,7 +80,7 @@ objects. UUIDs are indexable and you can use them as primary keys.
 
 To define a property as a UUID, set its type as ``Uuid`` in
 your :ref:`object model <flutter-create-model>`. Create a Realm
-object within a write transaction. 
+object within a write transaction.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.uuid-model.dart
    :language: dart

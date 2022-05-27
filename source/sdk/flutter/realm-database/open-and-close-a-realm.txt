@@ -1,4 +1,4 @@
-.. _flutter-open-close-realm: 
+.. _flutter-open-close-realm:
 
 ==================================
 Open & Close a Realm - Flutter SDK
@@ -40,14 +40,14 @@ You can now use that {+realm+} instance to work with objects in the database.
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
 
-To open a {+realm+} that synchronizes data with {+atlas+} using {+sync+}, 
+To open a {+realm+} that synchronizes data with {+atlas+} using {+sync+},
 refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 To create a realm that runs entirely in memory without being written to a file,
-create your ``Configuration`` with :flutter-sdk:`Configuration.inMemory() <realm/Configuration/inMemory.html>`. 
+create your ``Configuration`` with :flutter-sdk:`Configuration.inMemory() <realm/Configuration/inMemory.html>`.
 You must provide a list of schemas as an argument.
 In-memory realms **cannot** also be read-only.
 
@@ -57,23 +57,23 @@ Pass the ``Configuration`` to the :flutter-sdk:`Realm <realm/Realm-class.html>` 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.in-memory-realm.dart
    :language: dart
 
-.. _flutter-configure-realm: 
+.. _flutter-configure-realm:
 
 Configure a Realm
 -----------------
 
-You can add optional properties to the {+realm+}'s ``Configuration``. 
+You can add optional properties to the {+realm+}'s ``Configuration``.
 
 .. _flutter-open-read-only-realm:
 
 Open a Read-Only Realm
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can open an existing realm in read-only mode. To open a read-only realm, 
+You can open an existing realm in read-only mode. To open a read-only realm,
 add ``readOnly: true`` to your ``Configuration`` object.
 
-You can only open *existing* realms in read-only mode. 
-If you try to write to a read-only realm, it throws an error. 
+You can only open *existing* realms in read-only mode.
+If you try to write to a read-only realm, it throws an error.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.read-only-realm.dart
    :language: dart
@@ -83,13 +83,13 @@ If you try to write to a read-only realm, it throws an error.
 Set Custom FIFO Special Files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Set a value for Realm's `FIFO special files 
-<https://www.ibm.com/docs/en/zos/2.3.0?topic=csf-fifo-special-files>`_ location. 
-Opening a realm creates a number of lightweight FIFO special files 
-that coordinate access to the realm across threads and processes. 
-If the realm file is in a location that doesn't allow for the creation of 
+Set a value for Realm's `FIFO special files
+<https://www.ibm.com/docs/en/zos/2.3.0?topic=csf-fifo-special-files>`_ location.
+Opening a realm creates a number of lightweight FIFO special files
+that coordinate access to the realm across threads and processes.
+If the realm file is in a location that doesn't allow for the creation of
 FIFO special files (such as FAT32 filesystems), then the realm cannot be opened.
-In this case, Realm needs a different location to store these files. 
+In this case, Realm needs a different location to store these files.
 Add ``fifoFilesFallbackPath: <Your Custom FIFO File Path>`` to your ``Configuration`` object.
 
 This property is ignored if the directory for the realm file allows
@@ -104,23 +104,23 @@ Add Initial Data to Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use :flutter-sdk:`initialDataCallback() <realm/InitialDataCallback.html>` to invoke
-a callback function the first time that you open a {+realm+}. 
-The function only executes the first time that the {+realm+} on the device. 
+a callback function the first time that you open a {+realm+}.
+The function only executes the first time that the {+realm+} on the device.
 The {+realm+} instance passed to the callback function already has a write transaction open,
 so you do not need to wrap write operations in a ``Realm.write()`` transaction block.
-``initialDataCallback`` can be useful for adding initial data to your application 
-the first time that it is opened on a device. 
+``initialDataCallback`` can be useful for adding initial data to your application
+the first time that it is opened on a device.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.initial-data-callback.dart
    :language: dart
    :emphasize-lines: 1-3, 6
 
-.. _flutter-close-realm: 
+.. _flutter-close-realm:
 
 Close a Realm
 -------------
 
-Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
+Once you've finished working with a {+realm+}, close it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart
