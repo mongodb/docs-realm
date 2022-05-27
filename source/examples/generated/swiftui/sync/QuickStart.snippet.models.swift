@@ -13,7 +13,7 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
-/// An individual item. Part of a `Group`.
+/// An individual item. Part of a `ItemGroup`.
 final class Item: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Item. `primaryKey: true` declares the
     /// _id member as the primary key to the realm.
@@ -25,16 +25,16 @@ final class Item: Object, ObjectKeyIdentifiable {
     /// A flag indicating whether the user "favorited" the item.
     @Persisted var isFavorite = false
 
-    /// The backlink to the `Group` this item is a part of.
-    @Persisted(originProperty: "items") var group: LinkingObjects<Group>
+    /// The backlink to the `ItemGroup` this item is a part of.
+    @Persisted(originProperty: "items") var itemGroup: LinkingObjects<ItemGroup>
 }
 
 /// Represents a collection of items.
-final class Group: Object, ObjectKeyIdentifiable {
-    /// The unique ID of the Group. `primaryKey: true` declares the
+final class ItemGroup: Object, ObjectKeyIdentifiable {
+    /// The unique ID of the ItemGroup. `primaryKey: true` declares the
     /// _id member as the primary key to the realm.
     @Persisted(primaryKey: true) var _id: ObjectId
 
-    /// The collection of Items in this group.
+    /// The collection of Items in this itemGroup.
     @Persisted var items = RealmSwift.List<Item>()
 }

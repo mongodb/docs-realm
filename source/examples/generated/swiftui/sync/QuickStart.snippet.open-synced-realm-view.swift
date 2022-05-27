@@ -20,13 +20,13 @@ struct OpenSyncedRealmView: View {
         // The realm has been opened and is ready for use.
         // Show the content view.
         case .open(let realm):
-            ItemsView(group: {
-                if realm.objects(Group.self).count == 0 {
+            ItemsView(itemGroup: {
+                if realm.objects(ItemGroup.self).count == 0 {
                     try! realm.write {
-                        realm.add(Group())
+                        realm.add(ItemGroup())
                     }
                 }
-                return realm.objects(Group.self).first!
+                return realm.objects(ItemGroup.self).first!
             }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
             // The realm is currently being downloaded from the server.
             // Show a progress view.

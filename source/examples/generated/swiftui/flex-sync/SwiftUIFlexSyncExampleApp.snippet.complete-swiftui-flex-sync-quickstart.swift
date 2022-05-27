@@ -1,25 +1,14 @@
-let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
-
-// :snippet-start: complete-swiftui-quick-start
-// :snippet-start: imports
 import RealmSwift
 import SwiftUI
-// :snippet-end:
-
-// :state-start: sync
-// :snippet-start: mongodb-realm
-// MARK: MongoDB Realm (Optional)
 
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
 // If you don't have a Realm app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
 let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
-// :snippet-end:
-// :state-end:
+
 // MARK: Models
 
-// :snippet-start: models
 /// Random adjectives for more interesting demo item names
 let randomAdjectives = [
     "fluffy", "classy", "bumpy", "bizarre", "wiggly", "quick", "sudden",
@@ -35,7 +24,7 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
-/// An individual item. Part of a `ItemGroup`.
+/// An individual item. Part of an `ItemGroup`.
 final class Item: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Item. `primaryKey: true` declares the
     /// _id member as the primary key to the realm.
@@ -47,8 +36,15 @@ final class Item: Object, ObjectKeyIdentifiable {
     /// A flag indicating whether the user "favorited" the item.
     @Persisted var isFavorite = false
 
+    /// Users can enter a description, which is an empty string by default
+    @Persisted var itemDescription = ""
+    
     /// The backlink to the `ItemGroup` this item is a part of.
-    @Persisted(originProperty: "items") var itemGroup: LinkingObjects<ItemGroup>
+    @Persisted(originProperty: "items") var group: LinkingObjects<ItemGroup>
+    
+    /// Store the user.id as the ownerId so you can query for the user's objects with Flexible Sync
+    /// Add this to both the `ItemGroup` and the `Item` objects so you can read and write the linked objects.
+    @Persisted var ownerId = ""
 }
 
 /// Represents a collection of items.
@@ -57,46 +53,38 @@ final class ItemGroup: Object, ObjectKeyIdentifiable {
     /// _id member as the primary key to the realm.
     @Persisted(primaryKey: true) var _id: ObjectId
 
-    /// The collection of Items in this itemGroup.
+    /// The collection of Items in this group.
     @Persisted var items = RealmSwift.List<Item>()
+    
+    /// Store the user.id as the ownerId so you can query for the user's objects with Flexible Sync
+    /// Add this to both the `ItemGroup` and the `Item` objects so you can read and write the linked objects.
+    @Persisted var ownerId = ""
 }
-// :snippet-end:
 
 // MARK: Views
 
 // MARK: Main Views
-// :snippet-start: content-view
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
-// :state-start: local
 /// For now, it always displays the LocalOnlyContentView.
-// :state-end:
+
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
-            // :state-start: sync
             // Using Sync?
             if let app = app {
                 SyncContentView(app: app)
             } else {
                 LocalOnlyContentView()
             }
-            // :state-end:
-            // :state-uncomment-start: local
-            // LocalOnlyContentView()
-            // :state-uncomment-end:
         }
     }
 }
-// :snippet-end:
 
-// :snippet-start: local-only-content-view
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
-    // :snippet-start: implicitly-open-realm
-    // Implicitly use the default realm's objects(ItemGroup.self)
+    @State var searchFilter: String = ""
     @ObservedResults(ItemGroup.self) var itemGroups
-    // :snippet-end:
     
     var body: some View {
         if let itemGroup = itemGroups.first {
@@ -113,10 +101,7 @@ struct LocalOnlyContentView: View {
         }
     }
 }
-// :snippet-end:
 
-// :state-start: sync
-// :snippet-start: sync-content-view
 /// This view observes the Realm app object.
 /// Either direct the user to login, or open a realm
 /// with a logged-in user.
@@ -126,34 +111,32 @@ struct SyncContentView: View {
 
     var body: some View {
         if let user = app.currentUser {
-            // If there is a logged in user, pass the user ID as the
-            // partitionValue to the view that opens a realm.
-            // :snippet-start: partition-value-environment-object
-            OpenSyncedRealmView().environment(\.partitionValue, user.id)
-            // :snippet-end:
+            OpenSyncedRealmView()
         } else {
             // If there is no user logged in, show the login view.
             LoginView()
         }
     }
 }
-// :snippet-end:
+enum SubscriptionState {
+    case initial
+    case completed
+}
 
-// :snippet-start: open-synced-realm-view
 /// This view opens a synced realm.
 struct OpenSyncedRealmView: View {
-    // Use AsyncOpen to download the latest changes from
-    // your Realm app before opening the realm.
-    // Leave the `partitionValue` an empty string to get this
-    // value from the environment object passed in above.
-    // :snippet-start: partition-value-empty-string
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
-    // :snippet-end:
+    /// Add a `State` variable so you can monitor and progress the `SubscriptionState`
+    @State var subscriptionState: SubscriptionState = .initial
+    /// Using the `@AsyncOpen` or `@AutoOpen` property wrappers without a `partitionValue`
+    /// initializes the realm with a `flexibleSyncConfig()`
+    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var autoOpen
     
     var body: some View {
-        
-        switch asyncOpen {
-        // Starting the Realm.asyncOpen process.
+        /// Because we are setting the `ownerId` to the `user.id`, we need
+        /// access to the app's current user in this view.
+        let user = app?.currentUser
+        switch autoOpen {
+        // Starting the Realm.autoOpen process.
         // Show a progress view.
         case .connecting:
             ProgressView()
@@ -164,14 +147,47 @@ struct OpenSyncedRealmView: View {
         // The realm has been opened and is ready for use.
         // Show the content view.
         case .open(let realm):
-            ItemsView(itemGroup: {
-                if realm.objects(ItemGroup.self).count == 0 {
-                    try! realm.write {
-                        realm.add(ItemGroup())
+            switch subscriptionState {
+            /// Use the `.initial` subscriptionState to add or modify Flexible Sync queries
+            case .initial:
+                ProgressView("Subscribing to Query")
+                    .onAppear {
+                        Task {
+                            do {
+                                let subs = realm.subscriptions
+                                if subs.count == 0 {
+                                    try await subs.write {
+                                        /// Add queries for any objects you want to use in the app
+                                        /// Linked objects do not automatically get queried, so you
+                                        /// must explicitly query for all linked objects you want to include
+                                        subs.append(QuerySubscription<ItemGroup>(name: "user_groups") {
+                                            /// Query for objects where the ownerId is equal to the app's current user's id
+                                            /// This means the app's current user can read and write their own data
+                                            $0.ownerId == user!.id
+                                        })
+                                        subs.append(QuerySubscription<Item>(name: "user_items") {
+                                            $0.ownerId == user!.id
+                                        })
+                                    }
+                                }
+                                /// After adding or updating queries, move to the `.completed` subscription state
+                                subscriptionState = .completed
+                            }
+                        }
                     }
-                }
-                return realm.objects(ItemGroup.self).first!
-            }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
+            /// Once the Flexible Sync queries have been added or updated, use the realm
+            case .completed:
+                ItemsView(itemGroup: {
+                    if realm.objects(ItemGroup.self).count == 0 {
+                        try! realm.write {
+                            /// Because we're using `ownerId` as the queryable field, we must
+                            /// set the `ownerId` to equal the `user.id` when creating the object
+                            realm.add(ItemGroup(value: ["ownerId":user!.id]))
+                        }
+                    }
+                    return realm.objects(ItemGroup.self).first!
+                }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
+            }
             // The realm is currently being downloaded from the server.
             // Show a progress view.
             case .progress(let progress):
@@ -183,7 +199,6 @@ struct OpenSyncedRealmView: View {
         }
     }
 }
-// :snippet-end:
 
 struct ErrorView: View {
     var error: Error
@@ -196,7 +211,6 @@ struct ErrorView: View {
 }
     
 // MARK: Authentication Views
-// :snippet-start: login-view
 /// Represents the login screen. We will have a button to log in anonymously.
 struct LoginView: View {
     // Hold an error if one occurs so we can display it.
@@ -232,9 +246,7 @@ struct LoginView: View {
         }
     }
 }
-// :snippet-end:
 
-// :snippet-start: logout-button
 /// A button that handles logout requests.
 struct LogoutButton: View {
     @State var isLoggingOut = false
@@ -254,22 +266,18 @@ struct LogoutButton: View {
         }.disabled(app!.currentUser == nil || isLoggingOut)
     }
 }
-// :snippet-end:
-// :state-end:
 
 // MARK: Item Views
-// :snippet-start: items-view
-/// The screen containing a list of items in a itemGroup. Implements functionality for adding, rearranging,
-/// and deleting items in the itemGroup.
+/// The screen containing a list of items in an ItemGroup. Implements functionality for adding, rearranging,
+/// and deleting items in the ItemGroup.
 struct ItemsView: View {
-    /// The itemGroup is a container for a list of items. Using an itemGroup instead of all items
-    /// directly allows us to maintain a list order that can be updated in the UI.
     @ObservedRealmObject var itemGroup: ItemGroup
 
     /// The button to be displayed on the top left.
     var leadingBarButton: AnyView?
 
     var body: some View {
+        let user = app?.currentUser
         NavigationView {
             VStack {
                 // The list shows the items in the realm.
@@ -278,7 +286,8 @@ struct ItemsView: View {
                         ItemRow(item: item)
                     }.onDelete(perform: $itemGroup.items.remove)
                     .onMove(perform: $itemGroup.items.move)
-                }.listStyle(GroupedListStyle())
+                }
+                .listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
@@ -292,16 +301,16 @@ struct ItemsView: View {
                         // The bound collection automatically
                         // handles write transactions, so we can
                         // append directly to it.
-                        $itemGroup.items.append(Item())
+                        // Because we are using Flexible Sync, we must set
+                        // the item's ownerId to the current user.id when we create it.
+                        $itemGroup.items.append(Item(value: ["ownerId":user!.id]))
                     }) { Image(systemName: "plus") }
                 }.padding()
             }
         }
     }
 }
-// :snippet-end:
 
-// :snippet-start: item-row-and-details
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
@@ -319,7 +328,6 @@ struct ItemRow: View {
 }
 
 /// Represents a screen where you can edit the item's name.
-// :snippet-start: quick-write-observed-realm-object
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
 
@@ -335,7 +343,3 @@ struct ItemDetailsView: View {
         }.padding()
     }
 }
-// :snippet-end:
-// :snippet-end:
-
-// :snippet-end:

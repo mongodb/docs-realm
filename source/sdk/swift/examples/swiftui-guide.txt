@@ -97,8 +97,39 @@ for apps that require up-to-date information from the server, such as game
 apps with live leaderboards that the user can play on multiple devices. This 
 ensures the user is never using the app with stale data.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
-   :language: swift
+.. tabs::
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      .. versionadded:: 10.27.0
+
+      Realm Swift SDK version 10.27.0 adds Flexible Sync versions of the 
+      property wrappers to open Realm with SwiftUI.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.state-var-and-property-wrapper.swift
+         :language: swift
+
+      To simplify :ref:`adding or updating queryable fields 
+      <ios-sync-subscribe-to-queryable-fields>`, add a ``SubscriptionState`` enum:
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.subscription-state-enum.swift
+         :language: swift
+
+      Then, you can use a ``@State`` variable to monitor the ``SubscriptionState``,
+      and progress it after you have updated subscriptions:
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.switch-on-subscription-state-to-open-realm.swift
+         :language: swift
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      To open a realm with Partition-Based Sync, add a ``partitionValue`` 
+      to the property wrapper:
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
+         :language: swift
 
 This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
 user. The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
@@ -113,8 +144,19 @@ which you can use to update the view.
    to display an appropriate view. When the {+realm+} opens successfully,
    inject it as an environment value to populate the view.
 
-   .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
-      :language: swift
+   .. tabs::
+
+      .. tab:: Flexible Sync
+         :tabid: flex-sync
+
+         .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.open-realm-view-flex-sync.swift
+            :language: swift
+
+      .. tab:: Partition-Based Sync
+         :tabid: pbs
+
+         .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
+            :language: swift
 
 .. _swiftui-auto-open-synced-realm:
 
@@ -130,28 +172,31 @@ Use this property wrapper for apps where it's not a problem for the user
 to work with potentially stale data, such as note-taking apps where users 
 should be able to work with data on the device
 
-.. code-block:: swift
+.. tabs::
 
-   @AutoOpen(appId: "app_id", partitionValue: <partition_value>) var autoOpen
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
 
-This SwiftUI property wrapper attempts to initiate a ``Realm.asyncOpen()`` 
-for the current user. If there is no internet connection, this property wrapper
-instead returns an opened realm for the given ``appId`` and ``partitionValue``.
+      .. code-block:: swift
+
+         @AutoOpen(appId: "app_id") var autoOpen
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      .. code-block:: swift
+
+         @AutoOpen(appId: "app_id", partitionValue: <partition_value>) var autoOpen
+
+This SwiftUI property wrapper attempts to download updates before opening a 
+realm for the current user. If there is no internet connection, this property 
+wrapper instead returns the most up-to-date version of the local realm file 
+for the given ``appId`` and ``partitionValue``.
 
 The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
 enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
-which you can use to update the view.
-
-.. example::
-
-   This example illustrates one way you might use ``@AutoOpen`` to 
-   open a {+realm+} in a view. First, check for a user, or log them in.
-   Then, attempt to open the {+realm+}, switching on the ``AsyncOpenState``
-   to display an appropriate view. When the {+realm+} opens successfully,
-   inject it as an environment value to populate the view.
-
-   .. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.snippet.auto-open-synced-realm.swift
-      :language: swift
+which you can use to update the view. For a full example, see the ``@AsyncOpen``
+code examples above.
 
 Pass Realm Data Between Views
 -----------------------------

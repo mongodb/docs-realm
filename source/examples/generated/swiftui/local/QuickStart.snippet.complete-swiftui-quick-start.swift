@@ -18,7 +18,7 @@ let randomNouns = [
     "cork", "mouse pad"
 ]
 
-/// An individual item. Part of a `Group`.
+/// An individual item. Part of a `ItemGroup`.
 final class Item: Object, ObjectKeyIdentifiable {
     /// The unique ID of the Item. `primaryKey: true` declares the
     /// _id member as the primary key to the realm.
@@ -30,17 +30,17 @@ final class Item: Object, ObjectKeyIdentifiable {
     /// A flag indicating whether the user "favorited" the item.
     @Persisted var isFavorite = false
 
-    /// The backlink to the `Group` this item is a part of.
-    @Persisted(originProperty: "items") var group: LinkingObjects<Group>
+    /// The backlink to the `ItemGroup` this item is a part of.
+    @Persisted(originProperty: "items") var itemGroup: LinkingObjects<ItemGroup>
 }
 
 /// Represents a collection of items.
-final class Group: Object, ObjectKeyIdentifiable {
-    /// The unique ID of the Group. `primaryKey: true` declares the
+final class ItemGroup: Object, ObjectKeyIdentifiable {
+    /// The unique ID of the ItemGroup. `primaryKey: true` declares the
     /// _id member as the primary key to the realm.
     @Persisted(primaryKey: true) var _id: ObjectId
 
-    /// The collection of Items in this group.
+    /// The collection of Items in this itemGroup.
     @Persisted var items = RealmSwift.List<Item>()
 }
 
@@ -60,20 +60,20 @@ struct ContentView: SwiftUI.App {
 
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
-    // Implicitly use the default realm's objects(Group.self)
-    @ObservedResults(Group.self) var groups
+    // Implicitly use the default realm's objects(ItemGroup.self)
+    @ObservedResults(ItemGroup.self) var itemGroups
     
     var body: some View {
-        if let group = groups.first {
-            // Pass the Group objects to a view further
+        if let itemGroup = itemGroups.first {
+            // Pass the ItemGroup objects to a view further
             // down the hierarchy
-            ItemsView(group: group)
+            ItemsView(itemGroup: itemGroup)
         } else {
-            // For this small app, we only want one group in the realm.
-            // You can expand this app to support multiple groups.
-            // For now, if there is no group, add one here.
+            // For this small app, we only want one itemGroup in the realm.
+            // You can expand this app to support multiple itemGroups.
+            // For now, if there is no itemGroup, add one here.
             ProgressView().onAppear {
-                $groups.append(Group())
+                $itemGroups.append(ItemGroup())
             }
         }
     }
@@ -81,12 +81,12 @@ struct LocalOnlyContentView: View {
 
 
 // MARK: Item Views
-/// The screen containing a list of items in a group. Implements functionality for adding, rearranging,
-/// and deleting items in the group.
+/// The screen containing a list of items in a itemGroup. Implements functionality for adding, rearranging,
+/// and deleting items in the itemGroup.
 struct ItemsView: View {
-    /// The group is a container for a list of items. Using a group instead of all items
+    /// The itemGroup is a container for a list of items. Using an itemGroup instead of all items
     /// directly allows us to maintain a list order that can be updated in the UI.
-    @ObservedRealmObject var group: Group
+    @ObservedRealmObject var itemGroup: ItemGroup
 
     /// The button to be displayed on the top left.
     var leadingBarButton: AnyView?
@@ -96,10 +96,10 @@ struct ItemsView: View {
             VStack {
                 // The list shows the items in the realm.
                 List {
-                    ForEach(group.items) { item in
+                    ForEach(itemGroup.items) { item in
                         ItemRow(item: item)
-                    }.onDelete(perform: $group.items.remove)
-                    .onMove(perform: $group.items.move)
+                    }.onDelete(perform: $itemGroup.items.remove)
+                    .onMove(perform: $itemGroup.items.move)
                 }.listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)
@@ -107,7 +107,6 @@ struct ItemsView: View {
                         leading: self.leadingBarButton,
                         // Edit button on the right to enable rearranging items
                         trailing: EditButton())
-
                 // Action bar at bottom contains Add button.
                 HStack {
                     Spacer()
@@ -115,7 +114,7 @@ struct ItemsView: View {
                         // The bound collection automatically
                         // handles write transactions, so we can
                         // append directly to it.
-                        $group.items.append(Item())
+                        $itemGroup.items.append(Item())
                     }) { Image(systemName: "plus") }
                 }.padding()
             }
