@@ -25,7 +25,7 @@ is to use the default {+realm+}. To avoid overriding application data or
 leaking state between tests, set the default {+realm+} to a new file for 
 each test.
 
-.. literalinclude:: /examples/generated/code/start/TestingAndDebugging.codeblock.test-base-case.swift
+.. literalinclude:: /examples/generated/code/start/TestingAndDebugging.snippet.test-base-case.swift
      :language: swift
 
 .. _ios-test-injecting-realm-instances:
@@ -42,7 +42,7 @@ For example, suppose your app has a method to ``GET`` a user profile
 from a JSON API. You want to test that the local profile is properly 
 created:
 
-.. literalinclude:: /examples/generated/code/start/TestingAndDebugging.codeblock.test-inject-realm.swift
+.. literalinclude:: /examples/generated/code/start/TestingAndDebugging.snippet.test-inject-realm.swift
      :language: swift
 
 .. _ios-simplify-testing-with-class-projections:
@@ -71,7 +71,7 @@ model implementation, it also simplifies testing with {+client-database+}.
    With this class projection, we don't need to access or account for 
    properties that we don't need to test.
 
-   .. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.test-with-class-projection.swift
+   .. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.test-with-class-projection.swift
       :language: swift
 
 .. _ios-test-targets:

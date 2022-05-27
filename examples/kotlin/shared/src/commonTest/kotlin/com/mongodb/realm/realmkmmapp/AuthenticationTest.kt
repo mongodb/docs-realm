@@ -24,9 +24,9 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: email-password-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            // :hide-start:
+            // :remove-start:
             app.emailPasswordAuth.registerUser(email, password)
-            // :hide-end:
+            // :remove-end:
             val user = app.login(Credentials.emailPassword(email, password))
         }
         // :snippet-end:

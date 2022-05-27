@@ -16,11 +16,11 @@
 @implementation LinkIdentitiesExample {
     RLMApp *app;
     RLMUser *anonymousUser;
-    // :hide-start:
+    // :remove-start:
     XCTestExpectation *expectation;
-    // :hide-end:
+    // :remove-end:
 }
-// :hide-start:
+// :remove-start:
 - (instancetype)initWithExpectation:(XCTestExpectation *)expectation {
     self = [super init];
     if (self) {
@@ -28,7 +28,7 @@
     }
     return self;
 }
-// :hide-end:
+// :remove-end:
 
 // Entry-point for example.
 - (void)runExample {
@@ -72,9 +72,9 @@
 
         NSLog(@"Successfully linked user: %@", user);
         
-        // :hide-start:
+        // :remove-start:
         [self->expectation fulfill];
-        // :hide-end:
+        // :remove-end:
     }];
 }
 

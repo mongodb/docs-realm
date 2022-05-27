@@ -27,13 +27,13 @@ committed. The handler receives no information about the change.
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-a-realm-change-listener.swift
         :language: swift
 
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-realm-change-listener.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-a-realm-change-listener.m
         :language: objectivec
         
 .. _ios-register-a-collection-change-listener:
@@ -71,13 +71,13 @@ batch update methods.
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-a-collection-change-listener.swift
         :language: swift
         
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-a-collection-change-listener.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-a-collection-change-listener.m
         :language: objectivec
 
 .. _ios-register-an-object-change-listener:
@@ -99,13 +99,13 @@ and whether the object was deleted.
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-an-object-change-listener.swift
         :language: swift
 
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.register-an-object-change-listener.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.register-an-object-change-listener.m
         :language: objectivec
 
 .. _ios-register-a-keypath-change-listener:
@@ -122,7 +122,7 @@ key paths to watch.
 
 .. example::
 
-   .. include:: /examples/generated/code/start/Notifications.codeblock.register-a-keypath-change-listener.swift.code-block.rst
+   .. include:: /examples/generated/code/start/Notifications.snippet.register-a-keypath-change-listener.swift.rst
 
 .. versionadded:: 10.14.0
 
@@ -144,7 +144,7 @@ notification blocks.
    Consider a ``Dog`` object where one of its properties is a list of 
    ``siblings``:
 
-   .. include:: /examples/generated/code/start/Notifications.codeblock.alternate-dog-class-for-keypaths.swift.code-block.rst
+   .. include:: /examples/generated/code/start/Notifications.snippet.alternate-dog-class-for-keypaths.swift.rst
 
    If you pass ``siblings`` as a ``keyPath`` to observe, any insertion, 
    deletion, or modification to the ``siblings`` list would trigger a 
@@ -206,13 +206,13 @@ array to :swift-sdk:`realm.write(withoutNotifying:_:)
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.silent-write.swift
          :language: swift
 
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.silent-write.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.silent-write.m
         :language: objectivec
 
 
@@ -239,13 +239,13 @@ invalid. You can explicitly invalidate a token by calling its
   .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.swift
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.stop-watching.swift
          :language: swift
 
   .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/Notifications.codeblock.stop-watching.m
+      .. literalinclude:: /examples/generated/code/start/Notifications.snippet.stop-watching.m
         :language: objectivec
 
 .. _ios-key-value-observation:

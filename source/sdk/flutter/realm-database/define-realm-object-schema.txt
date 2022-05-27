@@ -54,7 +54,7 @@ Create Model
       Add a part directive to include the ``RealmObject`` file that you generate in step 4
       in the same package as the file you're currently working on.
 
-      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.part-directive.dart
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.part-directive.dart
          :language: dart
          :caption: schemas.dart
 
@@ -69,7 +69,7 @@ Create Model
       You can add all :ref:`supported data types <flutter-data-types>`.
       Include additional behavior using :ref:`property annotations <flutter-property-annotations>`.
 
-      .. literalinclude:: /examples/generated/flutter/schemas.codeblock.create-realm-model.dart
+      .. literalinclude:: /examples/generated/flutter/schemas.snippet.create-realm-model.dart
          :language: dart
          :caption: schemas.dart
 
@@ -122,7 +122,7 @@ Create Model
       where you defined the ``RealmModel`` in step 2, access the ``RealmObject``
       by importing the file with the ``RealmModel``.
 
-      .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.codeblock.use-realm-object.dart
+      .. literalinclude:: /examples/generated/flutter/define_realm_object_schema_usage_test.snippet.use-realm-object.dart
          :language: dart
          :caption: myapp.dart
 
@@ -154,7 +154,7 @@ Multiple objects can reference the same object.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-one-models.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-one-models.dart
    :language: dart
 
 .. _flutter-many-to-many-relationship:
@@ -165,7 +165,7 @@ Many-to-Many
 You can create a relationship between one object and any number of objects
 using a property of type ``List<T>`` in your application, where T is a Realm model class. 
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.many-to-many-models.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-many-models.dart
    :language: dart
 
 .. _flutter-property-annotations:
@@ -187,7 +187,7 @@ Required and Optional Properties
 In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending 
 `?  <https://dart.dev/null-safety>`__. Include ``?`` to make properties optional.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 5
 
@@ -199,7 +199,7 @@ Default Field Values
 You can use the built-in language features to assign a default value to a property.
 Assign a default value in the property declaration.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 7
 
@@ -220,7 +220,7 @@ Important aspects of primary keys:
 - Only ``String`` and ``int`` can be primary keys.
 - Realm automatically indexes primary keys.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 2-3
 
@@ -231,7 +231,7 @@ If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator 
 <flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 9-10
 
@@ -242,7 +242,7 @@ Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common
 to create an index on the field. Indexes slightly slow down insertion, but can greatly 
 speed up queries.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 12-13
 
@@ -253,7 +253,7 @@ The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo
 indicates that a property should be persisted under a different name.
 It's useful when opening a Realm across different bindings where code style conventions can differ.
 
-.. literalinclude:: /examples/generated/flutter/schemas.codeblock.property-annotations.dart
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 15-16
 

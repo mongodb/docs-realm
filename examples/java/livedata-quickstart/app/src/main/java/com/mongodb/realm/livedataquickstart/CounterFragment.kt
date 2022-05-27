@@ -20,12 +20,12 @@ class CounterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // :snippet-start: getcountermodel
-        // :hide-start:
+        // :remove-start:
         val model: CounterModel by viewModels()
-        // :hide-end:
+        // :remove-end:
         // :snippet-end:
         // :snippet-start: binding
-        // :hide-start:
+        // :remove-start:
         val binding = CounterFragmentBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             counterModel = model
@@ -36,7 +36,7 @@ class CounterFragment : Fragment() {
             model.incrementCounter()
         }
         return binding.root
-        // :hide-end:
+        // :remove-end:
         // :snippet-end:
     }
 }

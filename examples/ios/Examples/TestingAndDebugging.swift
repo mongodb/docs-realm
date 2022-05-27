@@ -53,10 +53,10 @@ class TestCaseInjectRealm: XCTestCase {
     let realmPath = URL(fileURLWithPath: "...")
 
     func testThatUserIsUpdatedFromServer() {
-        // :hide-start:
+        // :remove-start:
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let realmURL = URL(fileURLWithPath: "\(documentsPath)/mongodb-realm-debugging")
-        // :hide-end:
+        // :remove-end:
         let config = Realm.Configuration(fileURL: realmURL)
         let testRealm = try! Realm(configuration: config)
         let jsonData = "{\"email\": \"help@realm.io\"}".data(using: .utf8)!

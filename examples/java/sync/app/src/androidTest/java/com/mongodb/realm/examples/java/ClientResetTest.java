@@ -181,9 +181,9 @@ public class ClientResetTest extends RealmTest {
                         ", Current time millis: " + System.currentTimeMillis());
 
                 realm.close();
-                // :hide-start:
+                // :remove-start:
                 setupExpectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             try {
                 executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
@@ -408,7 +408,7 @@ public class ClientResetTest extends RealmTest {
             // close the realms
             backupRealm.close();
             newRealm.close();
-            expectation.fulfill(); // :hide:
+            expectation.fulfill(); // :remove:
         });
 
         // execute the recovery logic on a background thread
@@ -434,10 +434,10 @@ public class ClientResetTest extends RealmTest {
                 @Override
                 public void onAfterReset(Realm before, Realm after) {
                     Log.w("EXAMPLE", "Finished client reset for " + before.getPath());
-                    // :hide-start:
+                    // :remove-start:
                     // if we made it this far without error, exit the test successfully
                     expectation.fulfill();
-                    // :hide-end:
+                    // :remove-end:
                 }
 
                 @Override
@@ -573,10 +573,10 @@ public class ClientResetTest extends RealmTest {
                     @Override
                     public void onAfterReset(Realm before, Realm after) {
                         Log.w("EXAMPLE", "Finished client reset for " + before.getPath());
-                        // :hide-start:
+                        // :remove-start:
                         // if we made it this far without error, exit the test successfully
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                     }
 
                     @Override
@@ -624,7 +624,7 @@ public class ClientResetTest extends RealmTest {
                                     "Downloaded server changes for a fresh instance of the realm.");
 
                             newRealm.close();
-                            expectation.fulfill(); // :hide:
+                            expectation.fulfill(); // :remove:
                         });
 
                         // execute the recovery logic on a background thread

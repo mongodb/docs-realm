@@ -17,9 +17,9 @@ namespace LocalOnly
 
             realm.Write(() =>
             {
-                // :hide-start:
+                // :remove-start:
                 var newGuitar =
-                // :hide-end:
+                // :remove-end:
                 realm.Add(new Guitar()
                 {
                     Make = "Fender",
@@ -27,18 +27,18 @@ namespace LocalOnly
                     Price = 1234567.89,
                     Owner = "D. Gilmour"
                 });
-                // :hide-start:
+                // :remove-start:
                 someGuitarId = newGuitar.Id;
-                // :hide-end:
+                // :remove-end:
             });
 
 
             //:snippet-start:write
             realm.Write(() =>
             {
-                // :hide-start:
+                // :remove-start:
                 var newGuitar =
-                // :hide-end:
+                // :remove-end:
                 realm.Add(new Guitar()
                 {
                     Make = "Gibson",
@@ -46,9 +46,9 @@ namespace LocalOnly
                     Price = 649.99,
                     Owner = "N. Young"
                 });
-                // :hide-start:
+                // :remove-start:
                 someGuitarId = newGuitar.Id;
-                // :hide-end:
+                // :remove-end:
             });
             //:snippet-end:
             //:snippet-start:read-filter-sort

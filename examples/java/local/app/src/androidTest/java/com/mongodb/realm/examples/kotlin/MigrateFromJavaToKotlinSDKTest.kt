@@ -376,7 +376,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             try {
                 // :snippet-start: threading
                 realm = Realm.getInstance(config)
-                // :hide-start:
+                // :remove-start:
                 realm.executeTransaction { realm ->
                     val sample =
                         Sample()
@@ -385,7 +385,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
                     sample.stringField = "not sven"
                     realm.copyToRealm(sample)
                 }
-                // :hide-end:
+                // :remove-end:
                 val sample =
                     realm.where(
                         Sample::class.java
@@ -453,7 +453,7 @@ class MigrateFromJavaToKotlinSDKTest : RealmTest() {
             // :snippet-start: migrations
             val config =
                 RealmConfiguration.Builder()
-                .name(getRandom()) // :hide:
+                .name(getRandom()) // :remove:
                 .migration { realm: DynamicRealm,
                              oldVersion: Long,
                              newVersion: Long ->

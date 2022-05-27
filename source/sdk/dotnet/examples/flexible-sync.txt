@@ -90,7 +90,7 @@ When using flexible sync, you can access a
 collection of subscriptions, through the :dotnet-sdk:`Realm.Subscriptions
 <reference/Realms.Realm.html#Realms_Realm_Subscriptions>` property.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.get-subscriptions.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.get-subscriptions.cs
    :language: csharp
 
 You can use this subscriptions set to add queries to this list of subscriptions and
@@ -141,7 +141,7 @@ launches the app and batching any follow-up changes to the subscription set.
 
 In the example below, we subscribe to three queries.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-subscriptions.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.update-subscriptions.cs
    :language: csharp
 
 .. _dotnet-update-subscriptions-with-new-query:
@@ -162,7 +162,7 @@ you must update a subscription within an update block by calling
 In the following example, long running tasks are re-defined to be any tasks that
 have taken more than 130 minutes. 
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.update-a-subscription.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.update-a-subscription.cs
    :language: csharp
 
 .. note::
@@ -194,7 +194,7 @@ method on the ``SubscriptionSet``.
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-subscription-by-query.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.remove-subscription-by-query.cs
    :language: csharp
 
 
@@ -205,7 +205,7 @@ Within an update block, you can remove a specific subscription by name. Pass the
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove_System_String_>`
 method on the ``SubscriptionSet``.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-subscription-by-name.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.remove-subscription-by-name.cs
    :language: csharp
 
 
@@ -225,7 +225,7 @@ with :dotnet-sdk:`RemoveAll()
 The ``RemoveAll<Type>()`` method has an optional boolean ``removedName`` argument which also removes the named subscriptions if
 it is set to ``true``. ``removedName`` is set to false by default.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions-of-object-type.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.remove-all-subscriptions-of-object-type.cs
    :language: csharp
 
 
@@ -238,7 +238,7 @@ method on the ``SubscriptionSet``. The ``RemoveAll()`` method has an optional
 boolean ``removedName`` argument which also removes the named subscriptions if
 it is set to ``true``. ``removedName`` is set to false by default.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.remove-all-subscriptions.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.remove-all-subscriptions.cs
    :language: csharp
 
 Wait for Subscription Changes to Sync
@@ -261,5 +261,5 @@ An exception may occur if:
 - an unsupported query is subscribed to. Subscribing to an unsupported query will pause synchronization. To resume synchronization, :ref:`remove the unsupported query <dotnet-remove-subscriptions>`.
 - you are performing an invalid action, such as adding an object that does not match a subscription. This triggers a :ref:`client reset <client-resets>`: data is erased from the {+realm+}, and a new copy of the data is created without any subscriptions in the set.
 
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.codeblock.wait-for-synchronization.cs
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.wait-for-synchronization.cs
    :language: csharp

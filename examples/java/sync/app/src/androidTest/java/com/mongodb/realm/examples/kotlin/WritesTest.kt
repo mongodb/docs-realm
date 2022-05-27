@@ -51,9 +51,9 @@ class WritesTest : RealmTest() {
                                     r.where(Turtle::class.java).lessThan("age", 2).findAll()
                                 // Give all hatchlings to Ali.
                                 hatchlings.setObject("owner", ali)
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -101,9 +101,9 @@ class WritesTest : RealmTest() {
                                     TurtleEnthusiast::class.java,
                                     primaryKeyValue
                                 )
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -159,9 +159,9 @@ class WritesTest : RealmTest() {
                                 // Judging by the ID, it's the same turtle enthusiast, just with a different name.
                                 // As a result, you overwrite the original entry, renaming "Drew" to "Andy".
                                 r.insertOrUpdate(andy)
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -217,9 +217,9 @@ class WritesTest : RealmTest() {
                                 // As a result, you overwrite the original entry, renaming "Drew" to "Andy".
                                 r.copyToRealmOrUpdate(andy,
                                     ImportFlag.CHECK_SAME_VALUES_BEFORE_SET)
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -271,9 +271,9 @@ class WritesTest : RealmTest() {
                                 // This change is saved to the realm.
                                 turtle!!.name = "Archibald"
                                 turtle.age = 101
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -333,9 +333,9 @@ class WritesTest : RealmTest() {
 
                                 // Give all turtles named "Pierogi" to Josephine
                                 turtles.setObject("owner", josephine)
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -390,9 +390,9 @@ class WritesTest : RealmTest() {
                                 tony!!.deleteFromRealm()
                                 // discard the reference
                                 tony = null
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -443,9 +443,9 @@ class WritesTest : RealmTest() {
                                     .greaterThan("age", 2)
                                     .findAll()
                                 oldTurtles.deleteAllFromRealm()
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -503,9 +503,9 @@ class WritesTest : RealmTest() {
                                 // Delete all of ali's turtles
                                 ali!!.turtles!!.deleteAllFromRealm()
                                 ali.deleteFromRealm()
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -558,9 +558,9 @@ class WritesTest : RealmTest() {
                             // :snippet-start: delete-all-instances-of-a-type
                             realm.executeTransaction { r: Realm ->
                                 r.delete(Turtle::class.java)
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }
@@ -609,9 +609,9 @@ class WritesTest : RealmTest() {
                             // :snippet-start: delete-all
                             realm.executeTransaction { r: Realm ->
                                 r.deleteAll()
-                                // :hide-start:
+                                // :remove-start:
                                 expectation.fulfill()
-                                // :hide-end:
+                                // :remove-end:
                             }
                             // :snippet-end:
                         }

@@ -74,7 +74,7 @@ Create a :js-sdk:`OpenRealmBehaviorConfiguration
 <Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
 ``type`` to ``"openImmediately"``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-OpenRealmBehaviorObject.js
       :language: javascript
 
 Create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
@@ -84,14 +84,14 @@ include the ``sync`` property defining a :js-sdk:`SyncConfiguration
 the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
 ``SyncConfiguration``. 
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-create-config.js
       :language: javascript
 
 Finally,  call :js-sdk:`Realm.open() <Realm.html#.open>`
 to open a synced {+realm+}. This will create a sync session and begin
 downloading any existing data from the server in the background.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-sync-changes-in-the-background-open-realm.js
       :language: javascript
 
 .. _node-pause-or-resume-a-sync-session:
@@ -108,7 +108,7 @@ To pause synchronization, use the :js-sdk:`syncSession.pause()
 <Realm.App.Sync.Session.html#~pause>` method. To resume synchronization, use the
 :js-sdk:`syncSession.resume() <Realm.App.Sync.Session.html#~resume>` method.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-pause-or-resume-sync-session.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-pause-or-resume-sync-session.js
    :language: javascript
 
 .. |pause_func_name| replace:: ``.pause()``
@@ -143,7 +143,7 @@ The ``syncSession.addProgressNotification()`` method takes in the following thre
    listen for upload events indefinitely. The developer writes to the realm and
    then unregisters the ``syncSession`` notification callback. 
 
-   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-upload-and-download-progress.js
+   .. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-check-upload-and-download-progress.js
       :language: javascript
 
 
@@ -163,7 +163,7 @@ To check the current state of the connection to the server, call the
    ``syncSession.connectionState()`` method is available if your app needs to
    gets the current state of the connection to the server.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-check-network-connection.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-check-network-connection.js
    :language: javascript
 
 .. _node-set-the-client-log-level:
@@ -215,7 +215,7 @@ API calls.
 
 Set an error handler by registering an error callback as part of the :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-handle-sync-errors.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-handle-sync-errors.js
    :language: javascript
 
 
@@ -227,7 +227,7 @@ Perform a Client Reset
 You can customize behavior in the event of a :ref:`client reset
 <node-client-resets>` error with a custom error handler function:
 
-.. literalinclude:: /examples/generated/node/sync-changes-between-devices.codeblock.sync-changes-between-devices-perform-a-client-reset.js
+.. literalinclude:: /examples/generated/node/sync-changes-between-devices.snippet.sync-changes-between-devices-perform-a-client-reset.js
    :language: javascript
 
 .. tip::

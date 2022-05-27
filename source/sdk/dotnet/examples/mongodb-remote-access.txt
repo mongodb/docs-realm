@@ -47,7 +47,7 @@ The following code uses the default "mongodb-atlas" Atlas service name and
 creates a ``MongoClient.Collection`` for the "plants" collection in the 
 "inventory" database:
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-setup.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-setup.cs
    :language: csharp
 
 .. _dotnet-mongodb-example-dataset:
@@ -66,7 +66,7 @@ the objects directly, rather than working with generic ``BsonDocument`` objects.
 In all of the examples on this page, we are using the following ``Plant`` mapping 
 class for this purpose:
 
-.. literalinclude:: /examples/generated/dotnet/Plant.codeblock.plant-class.cs
+.. literalinclude:: /examples/generated/dotnet/Plant.snippet.plant-class.cs
    :language: csharp
 
 .. note::
@@ -102,7 +102,7 @@ You can insert a single document using
 The following snippet inserts a single document describing a "Venus Flytrap" plant 
 into our "plants" collection:
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-insert-one.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-insert-one.cs
    :language: csharp
 
 .. _dotnet-mongodb-insertMany:
@@ -117,7 +117,7 @@ The following snippet inserts four ``Plant`` objects into the "plants" collectio
 by instantiating the objects, adding them to a ``List<Plant>``, and passing that 
 list to ``InsertManyAsync()``:
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-insert-many.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-insert-many.cs
    :language: csharp
 
 .. _dotnet-mongodb-read-documents:
@@ -143,7 +143,7 @@ Find a Single Document
 The following example shows how to find a plant where the "name" property is 
 "petunia":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-find-one.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-find-one.cs
    :language: csharp
 
 .. _dotnet-mongodb-findMany:
@@ -154,7 +154,7 @@ Find Multiple Documents
 The following example shows how to find all plants where the "type" property is 
 "perennial":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-find-many.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-find-many.cs
    :language: csharp
 
 .. important::
@@ -170,7 +170,7 @@ Count Documents in the Collection
 
 The following example returns a count of all plants in the collection:
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-count.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-count.cs
    :language: csharp
 
 
@@ -193,7 +193,7 @@ Update a Single Document
 The following code finds the plant whose "name" property is "petunia" and changes 
 its "sunlight" property to "partial":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-update-one.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-update-one.cs
    :language: csharp
 
 .. _dotnet-mongodb-updateMany:
@@ -204,7 +204,7 @@ Update Multiple Documents
 The following code finds all plants with a "_partition" value of "store 47" and 
 changes them all to "area 51":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-update-many.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-update-many.cs
    :language: csharp
 
 .. _dotnet-mongodb-upsert:
@@ -226,7 +226,7 @@ value to "Store 42". If no plant exists in the collection with that name, the
 method will create a new plant with all of the defined properties, including the 
 update.  
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-upsert.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-upsert.cs
    :language: csharp
 
 .. _dotnet-mongodb-delete-documents:
@@ -249,7 +249,7 @@ Delete a Single Document
 The following example deletes the first document it finds with a "name" property 
 value of "Thai Basil":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-delete-one.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-delete-one.cs
    :language: csharp
 
 .. _dotnet-mongodb-deleteMany:
@@ -260,7 +260,7 @@ Delete Multiple Documents
 The following example deletes all documents that have a "type" property value of 
 "annual":
 
-.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.codeblock.mongo-delete-many.cs
+.. literalinclude:: /examples/generated/dotnet/MongoDBExamples.snippet.mongo-delete-many.cs
    :language: csharp
 
 .. _dotnet-mongodb-aggregation-pipelines:
@@ -296,7 +296,7 @@ The following example groups all documents in the plants collection by
 their ``type`` value, aggregates a count of 
 the number of each type, and then sorts them in ascending order:
 
-.. literalinclude:: /examples/generated/dotnet/AggregationExamples.codeblock.agg_group.cs
+.. literalinclude:: /examples/generated/dotnet/AggregationExamples.snippet.agg_group.cs
    :language: csharp
 
 The example above builds the pipeline with a series of nested BsonDocuments, which 
@@ -306,7 +306,7 @@ you can pass queries as a string the
 `BsonDocument_Parse() <https://mongodb.github.io/mongo-csharp-driver/2.11/apidocs/html/M_MongoDB_Bson_BsonDocument_Parse.htm>`_ 
 method. The following example performs the same aggregation as the preceding example:
 
-.. literalinclude:: /examples/generated/dotnet/AggregationExamples.codeblock.agg_group_alt.cs
+.. literalinclude:: /examples/generated/dotnet/AggregationExamples.snippet.agg_group_alt.cs
    :language: csharp
 
 Filter Documents
@@ -322,7 +322,7 @@ objects, we use the generic override of the
 :dotnet-sdk:`AggregateAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_AggregateAsync_System_Object___>`
 method:
 
-.. literalinclude:: /examples/generated/dotnet/AggregationExamples.codeblock.agg_filter.cs
+.. literalinclude:: /examples/generated/dotnet/AggregationExamples.snippet.agg_filter.cs
    :language: csharp
 
 Project Data
@@ -361,11 +361,11 @@ In this example, we are:
 3. Creating a new property called "storeNumber", which is built by splitting the 
    _partition value on the whitespace and returning only the second part.
 
-.. literalinclude:: /examples/generated/dotnet/AggregationExamples.codeblock.agg_project.cs
+.. literalinclude:: /examples/generated/dotnet/AggregationExamples.snippet.agg_project.cs
    :language: csharp
 
 The following shows how you can also build the ``projectStage`` by using the 
 ``BsonDocument.Parse()`` method:
 
-.. literalinclude:: /examples/generated/dotnet/AggregationExamples.codeblock.agg_project_alt.cs
+.. literalinclude:: /examples/generated/dotnet/AggregationExamples.snippet.agg_project_alt.cs
    :language: csharp

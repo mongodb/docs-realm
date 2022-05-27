@@ -17,8 +17,8 @@ schema. Realms may contain more than one type of data as long as a
 schema exists for each type.
 
 Every {+realm+} stores data in a separate :term:`{+realm+} file` that contains a binary
-encoding of each object in the {+realm+}. You can automatically :doc:`synchronize
-a {+realm+} across multiple devices </sync>` and set up :ref:`reactive event handlers
+encoding of each object in the {+realm+}. You can automatically :ref:`synchronize
+a {+realm+} across multiple devices <sync>` and set up :ref:`reactive event handlers
 <dotnet-client-notifications>` that call a function any time an object in a {+realm+} is
 created, modified, or deleted.
 
@@ -136,14 +136,14 @@ To delete a {+realm+} file while the app is running, you can use the
 :dotnet-sdk:`DeleteRealm(configuration) <reference/Realms.Realm.html#Realms_Realm_DeleteRealm_Realms_RealmConfigurationBase_>` 
 method to safely do so. The following code demonstrates this:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.delete-realm-file.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.delete-realm-file.cs
    :language: csharp
 
 .. warning:: Use Caution When Deleting Realm Files
    
    If you delete a {+realm+} file or any of its auxiliary files while one or
    more instances of the {+realm+} are open, you might corrupt the {+realm+} or
-   disrupt :doc:`sync </sync>`.
+   disrupt :ref:`sync <sync>`.
    
    You may delete these files when all instances of a {+realm+} are
    closed. Before you delete a realm file, however, **be sure that you back up any

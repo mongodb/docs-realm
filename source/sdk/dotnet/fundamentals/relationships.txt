@@ -51,13 +51,13 @@ specifying a property where the type is the related {+service-short+} object typ
    that a Person may or may not own a single Dog by including it in its
    ``dog`` property:
    
-   .. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.one-to-one.cs
+   .. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-one.cs
       :language: csharp
 
 To query a direct relationship, you can use LINQ syntax.
 See the following example for how to query a one-to-one relationship:
 
-.. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.one-to-one-query.cs
+.. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-one-query.cs
    :language: csharp
 
 
@@ -78,7 +78,7 @@ type.
    that a Person may own multiple Dogs by including them in its ``dog``
    property:
    
-   .. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.one-to-many.cs
+   .. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-many.cs
       :language: csharp
 
 
@@ -88,12 +88,12 @@ type.
    only a getter. You do not need to initialize it in the constructor, as {+realm+} 
    will generate a collection instance the first time the property is accessed. 
 
-   .. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.one-to-many-use.cs
+   .. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-many-use.cs
       :language: csharp
 
 See the following example for how to query a one-to-many relationship:
 
-.. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.one-to-many-query.cs
+.. literalinclude:: /examples/generated/dotnet/Relationships.snippet.one-to-many-query.cs
    :language: csharp
 
 .. _dotnet-inverse-relationship:
@@ -119,7 +119,7 @@ attribute, where "sourceProperty" is the name of the property on the other
 side of the relationship. The following example shows how to do this with the 
 "User has many Tasks" scenario:
 
-.. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.inverse.cs
+.. literalinclude:: /examples/generated/dotnet/Relationships.snippet.inverse.cs
    :language: csharp
 
 In this example, note that:
@@ -137,7 +137,7 @@ To query the inverse relationship, you cannot use Linq. Instead, pass a string
 predicate. The following example shows how you could find all Users who have Tasks 
 that contain the word "oscillator":
 
-.. literalinclude:: /examples/generated/dotnet/Relationships.codeblock.inverse-query.cs
+.. literalinclude:: /examples/generated/dotnet/Relationships.snippet.inverse-query.cs
    :language: csharp
 
 

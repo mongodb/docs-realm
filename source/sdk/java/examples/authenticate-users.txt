@@ -51,7 +51,7 @@ error that caused the failure using the ``getError()`` method.
 Anonymous User
 ~~~~~~~~~~~~~~
 
-The :doc:`anonymous authentication provider </authentication/anonymous>`
+The :ref:`anonymous authentication provider <anonymous-authentication>`
 enables users to log in to your application with short-term accounts
 that store no persistent personal information. To log in with anonymous
 authentication, create an anonymous credential by calling
@@ -63,14 +63,14 @@ authentication, create an anonymous credential by calling
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.anonymous.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.anonymous.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.anonymous.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.anonymous.kt
          :language: kotlin
          :copyable: false
 
@@ -80,7 +80,7 @@ authentication, create an anonymous credential by calling
 Email/Password User
 ~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Email/Password authentication provider </authentication/email-password>`
+The :ref:`Email/Password authentication provider <email-password-authentication>`
 enables users to log in to your application with an email username and
 a password. To log in with email/password authentication, create an
 email/password credential by calling ``Credentials.emailPassword()``
@@ -92,14 +92,14 @@ to ``app.login()`` or ``app.loginAsync()``.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.email-password.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.email-password.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.email-password.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.email-password.kt
          :language: kotlin
          :copyable: false
 
@@ -109,7 +109,7 @@ to ``app.login()`` or ``app.loginAsync()``.
 API Key User
 ~~~~~~~~~~~~
 
-The :doc:`API Key authentication provider </authentication/api-key>`
+The :ref:`API Key authentication provider <api-key-authentication>`
 enables users to log in to your application with an API Key generated
 automatically in the client SDK. To log in with API Key authentication, create an
 API Key credential by calling ``Credentials.apiKey()``
@@ -121,14 +121,14 @@ to ``app.login()`` or ``app.loginAsync()``.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.api-key.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.api-key.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.api-key.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.api-key.kt
          :language: kotlin
          :copyable: false
 
@@ -138,7 +138,7 @@ to ``app.login()`` or ``app.loginAsync()``.
 Custom JWT User
 ~~~~~~~~~~~~~~~
 
-The :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
+The :ref:`Custom JWT authentication provider <custom-jwt-authentication>`
 enables users to log in to your application with a custom JSON Web Token.
 To log in with custom JWT authentication, create a
 custom JWT credential by calling ``Credentials.jwt()``
@@ -150,14 +150,14 @@ to ``app.login()`` or ``app.loginAsync()``.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.custom-jwt.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.custom-jwt.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.custom-jwt.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.custom-jwt.kt
          :language: kotlin
          :copyable: false
 
@@ -199,14 +199,14 @@ You then pass the generated credential to ``app.login()`` or ``app.loginAsync()`
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.custom-function.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.custom-function.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.custom-function.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.custom-function.kt
          :language: kotlin
          :copyable: false
 
@@ -216,7 +216,7 @@ You then pass the generated credential to ``app.login()`` or ``app.loginAsync()`
 Facebook User
 ~~~~~~~~~~~~~
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
+The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
@@ -237,7 +237,7 @@ create a {+service-short+} Facebook credential and then log the user into your
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.facebook.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.facebook.java
          :language: java
          :emphasize-lines: 10-17
          :copyable: false
@@ -245,7 +245,7 @@ create a {+service-short+} Facebook credential and then log the user into your
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.facebook.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.facebook.kt
          :language: kotlin
          :emphasize-lines: 10-21
          :copyable: false
@@ -345,14 +345,14 @@ The following code implements this flow, starting with a method call to
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthActivity.codeblock.google.java
+      .. literalinclude:: /examples/generated/java/sync/AuthActivity.snippet.google.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthActivity.codeblock.google.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthActivity.snippet.google.kt
          :language: kotlin
          :copyable: false
 
@@ -368,7 +368,7 @@ The following code implements this flow, starting with a method call to
 Apple User
 ~~~~~~~~~~
 
-The :doc:`Sign-in with Apple authentication provider </authentication/apple>`
+The :ref:`Sign-in with Apple authentication provider <apple-id-authentication>`
 enables users to log in to your application with a custom token provided
 by Apple. To log in with Sign-in with Apple authentication, create a
 Sign-in with Apple credential by calling ``Credentials.apple()``
@@ -380,14 +380,14 @@ to ``app.login()`` or ``app.loginAsync()``.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.apple.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.apple.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.apple.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.apple.kt
          :language: kotlin
          :copyable: false
 
@@ -413,14 +413,14 @@ The SDK stores these tokens in
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.offline.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.offline.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.offline.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.offline.kt
          :language: kotlin
          :copyable: false
 
@@ -445,13 +445,13 @@ all local Realm updates have uploaded to the server.
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.log-out.java
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.log-out.java
          :language: java
          :copyable: false
    
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.codeblock.log-out.kt
+      .. literalinclude:: /examples/generated/java/sync/AuthenticationTest.snippet.log-out.kt
          :language: kotlin
          :copyable: false

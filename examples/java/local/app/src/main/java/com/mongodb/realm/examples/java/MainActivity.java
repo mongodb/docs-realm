@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(DefinitelyNotJavaTask);
 
-        // :hide-start:
+        // :remove-start:
         while(!DefinitelyNotJavaTask.isDone()) {
             // wait for DefinitelyNotJavaTask completion
         }
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         finish(); // destroy activity when background DefinitelyNotJavaTask completes
-        // :hide-end:
+        // :remove-end:
     }
 
     private void addChangeListenerToRealm(Realm realm) {

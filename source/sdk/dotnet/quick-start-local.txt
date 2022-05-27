@@ -59,7 +59,7 @@ this example, we have marked the ``Id`` field as the Primary Key, and marked the
 ``ObjectId`` in this case, and a new Id is generated when an instance of the 
 class is created.
 
-.. literalinclude:: /examples/generated/dotnet/Guitar.codeblock.guitar-object.cs
+.. literalinclude:: /examples/generated/dotnet/Guitar.snippet.guitar-object.cs
    :language: csharp
 
 Open a Realm
@@ -72,7 +72,7 @@ Which method you use depends entirely on if and how you are using `asynchronous
 patterns <https://docs.microsoft.com/en-us/dotnet/csharp/async>`_ in your app. 
 The following code shows how to use ``GetInstance()``:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.get-instance.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.get-instance.cs
    :language: csharp
 
 
@@ -87,7 +87,7 @@ The following code shows how to create a new ``Guitar`` object. In it, we
 instantiate the ``Guitar`` class and then add the new guitar to the {+realm+}
 within a ``realm.Write`` block:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.write.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.write.cs
    :language: csharp
 
 Find, Sort, and Filter Objects
@@ -105,7 +105,7 @@ The following code demonstrates how to:
 
 - find a specific item in the collection by Id:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.read-filter-sort.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.read-filter-sort.cs
    :language: csharp
 
 Modify an Object
@@ -114,7 +114,7 @@ As with writes, any changes to a Realm object must occur within a
 :ref:`Write transaction <dotnet-realm-database-writes>` block. 
 To modify an object, you update the object properties:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.update.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.update.cs
    :language: csharp
 
 Delete an Object
@@ -122,7 +122,7 @@ Delete an Object
 You can delete an object by calling the ``Remove()`` method 
 within a write transaction block:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.delete.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.delete.cs
    :language: csharp
 
 Watch a Collection
@@ -132,5 +132,5 @@ can call
 :dotnet-sdk:`SubscribeForNotifications() <reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__>` 
 on the collection, as shown in the following code:
 
-.. literalinclude:: /examples/generated/dotnet/Program.codeblock.collection-notifications.cs
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.collection-notifications.cs
    :language: csharp

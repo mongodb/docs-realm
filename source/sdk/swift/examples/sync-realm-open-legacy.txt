@@ -77,7 +77,7 @@ Log In and Open a Synced Realm with Data on the Device
       the background to check for changes on the server, or upload changes 
       that the user has made.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.login-and-init-synced-realm.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.login-and-init-synced-realm.swift
          :language: swift
 
    .. tab::
@@ -96,7 +96,7 @@ Log In and Open a Synced Realm with Data on the Device
       the background to check for changes on the server, or upload changes 
       that the user has made.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.init-synced-realm.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.init-synced-realm.m
          :language: swift
 
 Log In and Download Changes Before Opening a Realm
@@ -120,7 +120,7 @@ Log In and Download Changes Before Opening a Realm
       downloads only the latest changes since the {+realm+} last synced with 
       the {+app+}.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.login-asyncopen-synced-realm.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.login-asyncopen-synced-realm.swift
          :language: swift
 
    .. tab::
@@ -141,7 +141,7 @@ Log In and Download Changes Before Opening a Realm
       A common pattern is to use ``asyncOpen`` during a login 
       flow, but use ``init`` to open a {+realm+} on subsequent opens.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.asyncopen-synced-realm.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.asyncopen-synced-realm.m
          :language: objectivec
 
 Open a Synced Realm with Cached Credentials
@@ -217,7 +217,7 @@ this method. You must have a cached, logged-in user.
       inconsistencies while your app downloads any new remote data. The 
       {+realm+} updates from the server in the background.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm-offline.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm-offline.swift
          :language: swift
 
    .. tab::
@@ -232,7 +232,7 @@ this method. You must have a cached, logged-in user.
       any new remote data. The {+realm+} updates from the server in the 
       background.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm-synchronously.m
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm-synchronously.m
          :language: objectivec
 
 .. _ios-open-synced-realm-after-sync:
@@ -286,7 +286,7 @@ users from opening a realm while offline.
       However, if the user is currently offline, the user won't be able to
       work with the {+realm+}.
 
-      .. literalinclude:: /examples/generated/code/start/Sync.codeblock.use-async-open-with-cached-credentials.swift
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.use-async-open-with-cached-credentials.swift
          :language: swift
 
    .. tab::
@@ -307,5 +307,5 @@ users from opening a realm while offline.
          A common pattern is to use ``asyncOpen`` during a login 
          flow, but use ``init`` to open a {+realm+} on subsequent opens.
 
-         .. literalinclude:: /examples/generated/code/start/Sync.codeblock.open-synced-realm.m
+         .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm.m
             :language: objectivec

@@ -54,7 +54,7 @@ in the same way as you would define a relationship:
    
    Embedded objects cannot have a :ref:`primary key <node-primary-keys>`.
    
-.. literalinclude:: /examples/generated/node/data-types.codeblock.define-embedded-objects.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.define-embedded-objects.js
     :language: javascript
     :emphasize-lines: 3, 18, 28
 
@@ -74,7 +74,7 @@ Create an Embedded Object
 To create an embedded object, assign an instance of the embedded object
 to a parent object's property:
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.create-an-embedded-object.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.create-an-embedded-object.js
   :language: javascript
 
 Update an Embedded Object Property
@@ -83,7 +83,7 @@ Update an Embedded Object Property
 To update a property in an embedded object, modify the property in a
 write transaction:
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.update-an-embedded-object.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.update-an-embedded-object.js
   :language: javascript
 
 
@@ -93,7 +93,7 @@ Overwrite an Embedded Object
 To overwrite an embedded object, reassign the embedded object property
 of a party to a new instance in a write transaction:
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.overwrite-an-embedded-object.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.overwrite-an-embedded-object.js
   :language: javascript
 
 
@@ -106,7 +106,7 @@ property value:
 
 .. include:: /includes/directly-query-embedded-objects-note.rst
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.query-an-embedded-object.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.query-an-embedded-object.js
   :language: javascript
 
 
@@ -116,5 +116,5 @@ Delete an Embedded Object
 Realm Uses Cascading Deletes for Embedded Objects. To delete an embedded object,
 delete the embedded object's parent. 
 
-.. literalinclude:: /examples/generated/node/data-types.codeblock.delete-an-embedded-object.js
+.. literalinclude:: /examples/generated/node/data-types.snippet.delete-an-embedded-object.js
   :language: javascript

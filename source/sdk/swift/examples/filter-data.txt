@@ -50,13 +50,13 @@ See the schema for these two classes, ``Project`` and
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.swift
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.models.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.models.m
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.models.m
          :language: objectivec
 
 You can set up the {+realm+} for these examples with the following code:
@@ -66,13 +66,13 @@ You can set up the {+realm+} for these examples with the following code:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.swift
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.setup.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.setup.m
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.setup.m
          :language: objectivec
 
 .. _ios-realm-swift-query-api:
@@ -88,7 +88,7 @@ Realm Swift Query API
 You can build a filter with Swift-style syntax using the ``.where`` 
 :swift-sdk:`{+client-db-short+} Swift query API <Structs/Query.html>`:
 
-.. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.realm-swift-query.swift
+.. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.realm-swift-query.swift
    :language: swift
 
 This query API constructs an :ref:`NSPredicate <ios-nspredicate-query>` 
@@ -122,7 +122,7 @@ exception at runtime.
    Running the following query on a ``projects`` collection returns projects
    with tasks that have not been completed by a user named Alex.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-subquery.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-subquery.swift
       :language: swift
 
 .. _ios-where-operators:
@@ -152,7 +152,7 @@ Query API (``==``, ``!=``, ``>``, ``>=``, ``<``, ``<=``).
    - Find long-running tasks by seeing if the ``progressMinutes`` property is at or above a certain value.
    - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to ``null``.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-comparison-operators.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-comparison-operators.swift
       :language: swift
 
 Collections
@@ -179,7 +179,7 @@ You can search for individual values by element, or search within a range.
    - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
    - Find tasks where the ``progressMinutes`` property is within a given range of minutes.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections-contains.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-collections-contains.swift
       :language: swift
 
 .. versionadded:: 10.23.0: The ``IN`` operator
@@ -190,7 +190,7 @@ The Realm Swift Query API now supports the ``IN`` operator. Evaluates to ``true`
 
    Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-collections-in.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-collections-in.swift
       :language: swift
 
 Logical Operators
@@ -206,7 +206,7 @@ You can make compound queries using Swift logical operators (``&&``, ``!``,
    where the ``assignee`` property value is equal to 'Ali' AND
    the ``isComplete`` property value is ``true``:
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-logical-operators.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-logical-operators.swift
       :language: swift
 
 String Operators
@@ -276,7 +276,7 @@ Regex-like wildcards allow more flexibility in search.
    - Projects with an ``assignee`` property whose value is similar to ``Al?x``
    - Projects that contain e-like characters with diacritic insensitivity 
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-string-operators.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-string-operators.swift
       :language: swift
 
 .. include:: /includes/string-sort-and-query-limitations-note.rst
@@ -327,7 +327,7 @@ to a single value.
    - Projects that contain more than 5 tasks.
    - Long running projects.
 
-   .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.tsq-aggregate-operators.swift
+   .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.tsq-aggregate-operators.swift
       :language: swift
 
 Set Operators
@@ -360,13 +360,13 @@ You can build a filter with NSPredicate:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.swift
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.predicates.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.predicates.m
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.predicates.m
          :language: objectivec
 
 Expressions
@@ -409,13 +409,13 @@ You can use the following substitutions in your predicate format strings:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.swift
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.substitutions.swift
          :language: swift
 
    .. tab::
       :tabid: objective-c
 
-      .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.substitutions.m
+      .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.substitutions.m
          :language: objectivec
 
 .. _ios-nspredicate-subquery:
@@ -446,13 +446,13 @@ You can iterate through a collection property with another query using the
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.swift
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.swift
              :language: swift
 
       .. tab::
          :tabid: objective-c
 
-         .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.subquery.m
+         .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.subquery.m
              :language: objectivec
 
 .. _ios-filter-data-operators:
@@ -535,13 +535,13 @@ values.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.comparison-operators.m
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.comparison-operators.m
              :language: objectivec
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.comparison-operators.swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.comparison-operators.swift
              :language: swift
 
 
@@ -581,13 +581,13 @@ You can make compound predicates using logical operators.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.logical-operators.m
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.logical-operators.m
              :language: objectivec
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.logical-operators.swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.logical-operators.swift
              :language: swift
 
 
@@ -684,13 +684,13 @@ Regex-like wildcards allow more flexibility in search.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.string-operators.m
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.string-operators.m
              :language: objectivec
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.string-operators.swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.string-operators.swift
              :language: swift
 
 .. include:: /includes/string-sort-and-query-limitations-note.rst
@@ -743,13 +743,13 @@ to a single value.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.m
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.aggregate-operators.m
              :language: objectivec
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.aggregate-operators.swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.aggregate-operators.swift
              :language: swift
 
 .. _ios-nspredicate-set-operators:
@@ -792,11 +792,11 @@ the object.
       .. tab::
           :tabid: objective-c
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.set-operators.m
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.set-operators.m
              :language: objectivec
 
       .. tab::
           :tabid: swift
 
-          .. literalinclude:: /examples/generated/code/start/QueryEngine.codeblock.set-operators.swift
+          .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.set-operators.swift
              :language: swift

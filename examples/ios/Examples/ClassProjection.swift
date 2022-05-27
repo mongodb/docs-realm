@@ -72,10 +72,10 @@ class ClassProjectionExample: XCTestCase {
         // and filter for the first class projection where the `firstName` property
         // value is "Jason"
         let person = realm.objects(ClassProjectionExample_PersonProjection.self).first(where: { $0.firstName == "Jason" })!
-        // :hide-start:
+        // :remove-start:
         XCTAssert(person.firstName == "Jason")
         XCTAssert(person.homeCity == "Zurich")
-        // :hide-end:
+        // :remove-end:
         // Update class projection property in a write transaction
         try! realm.write {
             person.firstName = "David"

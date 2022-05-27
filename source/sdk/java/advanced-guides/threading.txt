@@ -39,7 +39,7 @@ Avoid writes on the UI thread if you write on a background thread:
   each other. A write on the UI thread may result in your
   app appearing unresponsive while it waits for a write on a
   background thread to complete. If you are using
-  :doc:`{+sync+} </sync>`, avoid writing on
+  :ref:`{+sync+} <sync>`, avoid writing on
   the UI thread as {+sync-short+} writes on a background
   thread.
 
@@ -164,14 +164,14 @@ To freeze an object, collection, or {+realm+}, use the
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/local/ThreadingTest.codeblock.freeze-objects.kt
+       .. literalinclude:: /examples/generated/java/local/ThreadingTest.snippet.freeze-objects.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/local/ThreadingTest.codeblock.freeze-objects.java
+       .. literalinclude:: /examples/generated/java/local/ThreadingTest.snippet.freeze-objects.java
          :language: java
          :copyable: false
 
@@ -204,14 +204,14 @@ auto-refresh disabled. To refresh a {+realm+}, call
    .. tab::
        :tabid: kotlin
 
-       .. literalinclude:: /examples/generated/java/local/ThreadingTest.codeblock.refresh-realm.kt
+       .. literalinclude:: /examples/generated/java/local/ThreadingTest.snippet.refresh-realm.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
        :tabid: java
 
-       .. literalinclude:: /examples/generated/java/local/ThreadingTest.codeblock.refresh-realm.java
+       .. literalinclude:: /examples/generated/java/local/ThreadingTest.snippet.refresh-realm.java
          :language: java
          :copyable: false
 
@@ -294,7 +294,7 @@ Summary
   three rules:
 
   - Avoid writes on the UI thread if you write on background threads or
-    use :doc:`{+sync+} </sync>`.
+    use :ref:`{+sync+} <sync>`.
 
   - Don't pass live objects to other threads.
 

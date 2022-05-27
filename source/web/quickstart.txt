@@ -26,8 +26,8 @@ need to :ref:`create a {+app+} <create-a-realm-app>` for your web app to use.
    shows you step-by-step how to set up a working app, check out the :ref:`Web
    Tutorial <tutorial-task-tracker-web>` where you'll build a React web app that
    connects to the :ref:`Task Tracker backend
-   <tutorial-task-tracker-create-realm-app>` and uses the :doc:`GraphQL API
-   </graphql>`.
+   <tutorial-task-tracker-create-realm-app>` and uses the :ref:`GraphQL API
+   <graphql-api>`.
    
 
 .. _web-quickstart-install:
@@ -78,7 +78,7 @@ Import the Web SDK
 Near the top of any JavaScript or TypeScript file that uses Realm, add the
 following import statement:
 
-.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.import-realm.js
+.. literalinclude:: /examples/generated/web/quick-start.test.snippet.import-realm.js
    :language: javascript
 
 .. note::
@@ -95,7 +95,7 @@ Initialize the App
 To use {+backend+} features such as user authentication and functions, you must
 access your {+app+} using your App ID. You can find your App ID in the {+ui+}.
 
-.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.initialize-realm-app.js
+.. literalinclude:: /examples/generated/web/quick-start.test.snippet.initialize-realm-app.js
    :language: javascript
 
 .. _web-quickstart-authenticate:
@@ -106,7 +106,7 @@ Authenticate a User
 When :ref:`anonymous authentication <anonymous-authentication>` is enabled,
 users can log into your app without providing any identifying information:
 
-.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.authenticate-user.js
+.. literalinclude:: /examples/generated/web/quick-start.test.snippet.authenticate-user.js
    :language: javascript
 
 {+service-short+} provides many additional ways to authenticate, register, and
@@ -120,11 +120,11 @@ link users.
 Call a Function
 ---------------
 
-To call a :doc:`function </functions>`, use the ``Realm.User.functions`` interface to
-:ref:`call your serverless functions <web-call-a-function>` as if they were 
-regular JavaScript functions defined on the object.
+To call a :ref:`function <functions>`, use the ``Realm.User.functions``
+interface to :ref:`call your serverless functions <web-call-a-function>` as if
+they were regular JavaScript functions defined on the object.
 
-.. literalinclude:: /examples/generated/web/quick-start.test.codeblock.call-a-function.js
+.. literalinclude:: /examples/generated/web/quick-start.test.snippet.call-a-function.js
    :language: javascript
 
 .. _web-use-graphql:
@@ -132,11 +132,11 @@ regular JavaScript functions defined on the object.
 Use the GraphQL API
 -------------------
 
-To execute CRUD operations and call custom resolvers through the :doc:`GraphQL
-API </graphql>`, we recommend that you use a third-party GraphQL library such as
-:ref:`Apollo Client <graphql-apollo-react>`. To authenticate your GraphQL
+To execute CRUD operations and call custom resolvers through the :ref:`GraphQL
+API <graphql-api>`, we recommend that you use a third-party GraphQL library such
+as :ref:`Apollo Client <graphql-apollo-react>`. To authenticate your GraphQL
 request, include a valid user token in the Authorization header of the request.
 
 .. seealso::
   - :doc:`Apollo Client (React) </web/graphql-apollo-react>`
-  - :doc:`Run GraphQL Operations from a CLI </graphql/cli>`
+  - :ref:`Run GraphQL Operations from a CLI <graphql-cli>`

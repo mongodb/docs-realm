@@ -153,26 +153,26 @@ class ReadWriteData: XCTestCase {
             let dog = ReadWriteDataExamples_Dog(value: ["name": "Rex", "age": 1])
             realm.add(dog)
 
-            // :hide-start:
+            // :remove-start:
             XCTAssert(person.dogs.count == 0)
-            // :hide-end:
+            // :remove-end:
             // Find dogs younger than 2.
             let puppies = realm.objects(ReadWriteDataExamples_Dog.self).filter("age < 2")
 
             // Give all puppies to Ali.
             person.setValue(puppies, forKey: "dogs")
 
-            // :hide-start:
+            // :remove-start:
             XCTAssert(person.dogs.count == 1)
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
 
         // :snippet-start: cascading-delete
         let person = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 1)!
-        // :hide-start:
+        // :remove-start:
         XCTAssert(person.dogs.count == 1)
-        // :hide-end:
+        // :remove-end:
         try! realm.write {
             // Delete the related collection
             realm.delete(person.dogs)
@@ -388,6 +388,52 @@ class ReadWriteData: XCTestCase {
         // this transaction stays open!
         try! realm.commitWrite()
         // :snippet-end:
+    }
+
+    func testAsyncWriteQueryOnLocalThread() {
+        let expectation = expectation(description: "Objects append")
+
+        // :snippet-start: async-transaction
+        let realm = try! Realm()
+
+        // :remove-start:
+        do {
+            try realm.write {
+                realm.create(ReadWriteDataExamples_Person.self, value: ["id": 1, "name": "Dachary"])
+            }
+        } catch {
+            print("Error creating object: \(error.localizedDescription)")
+        }
+        // :remove-end:
+        // Query for a specific person object on the main thread
+        let people = realm.objects(ReadWriteDataExamples_Person.self)
+        let thisPerson = people.where {
+            $0.name == "Dachary"
+        }.first
+
+        // Perform an async write to add dogs to that person's dog list.
+        // No need to pass a thread-safe reference or frozen object.
+        realm.writeAsync {
+            thisPerson?.dogs.append(objectsIn: [
+                ReadWriteDataExamples_Dog(value: ["name": "Ben", "age": 13]),
+                ReadWriteDataExamples_Dog(value: ["name": "Lita", "age": 9]),
+                ReadWriteDataExamples_Dog(value: ["name": "Maui", "age": 1])
+            ])
+        } onComplete: { _ in
+            // Confirm the three dogs were successfully added to the person's dogs list
+            XCTAssertEqual(thisPerson!.dogs.count, 3)
+            // Query for one of the dogs we added and see that it is present
+            let dogs = realm.objects(ReadWriteDataExamples_Dog.self)
+            let benDogs = dogs.where {
+                $0.name == "Ben"
+            }
+            XCTAssertEqual(benDogs.count, 1)
+            // :remove-start:
+            expectation.fulfill()
+            // :remove-end:
+        }
+        // :snippet-end:
+        waitForExpectations(timeout: 5)
     }
 
     func testUpdate() {

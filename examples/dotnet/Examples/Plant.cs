@@ -6,14 +6,14 @@ namespace Examples.Models
 {
     // :snippet-start: plant-class
     public class Plant
-    //:hide-start:
+    //:remove-start:
     : RealmObject
-    //:hide-end:
+    //:remove-end:
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
-        //:hide-end:
+        //:remove-end:
         [BsonElement("_id")]
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 

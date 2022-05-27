@@ -322,7 +322,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
 
             // :snippet-start: threading
             val realm = Realm.open(config)
-            // :hide-start:
+            // :remove-start:
             realm.writeBlocking { // this: MutableRealm
                 val sample = Sample()
                 sample.stringField = "Sven"
@@ -330,7 +330,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                 sample.stringField = "not sven"
                 this.copyToRealm(sample)
             }
-            // :hide-end:
+            // :remove-end:
             val sample: Sample? =
                 realm.query<Sample>()
                     .first()

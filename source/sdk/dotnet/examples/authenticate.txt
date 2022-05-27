@@ -40,7 +40,7 @@ If you have enabled :ref:`Anonymous authentication <anonymous-authentication>` i
 {+ui+}, users can immediately log into your app without providing any identifying
 information. The following code shows how to do this:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_anon.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_anon.cs
    :language: csharp
 
 .. _dotnet-login-email-password:
@@ -51,7 +51,7 @@ Email/Password User
 If you have enabled :ref:`Email/Password authentication <email-password-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_EP.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_EP.cs
    :language: csharp
 
 .. _dotnet-login-api-key:
@@ -62,7 +62,7 @@ API Key User
 If you have enabled :ref:`API Key authentication <api-key-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_API.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_API.cs
    :language: csharp
 
 .. _dotnet-login-custom-jwt:
@@ -70,10 +70,10 @@ you can log in using the following code:
 Custom JWT User
 ~~~~~~~~~~~~~~~
 
-If you have enabled the :doc:`Custom JWT authentication provider </authentication/custom-jwt>`,
-you can log in using the following code:
+If you have enabled the :ref:`Custom JWT authentication provider
+<custom-jwt-authentication>`, you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_JWT.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_JWT.cs
    :language: csharp
 
 .. _dotnet-login-custom-function:
@@ -82,10 +82,10 @@ Custom Function User
 ~~~~~~~~~~~~~~~~~~~~
 
 If you have enabled the 
-:doc:`Custom Function authentication provider </authentication/custom-function>`,
+:ref:`Custom Function authentication provider <custom-function-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_Function.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_Function.cs
    :language: csharp
 
 .. _dotnet-login-facebook:
@@ -93,7 +93,7 @@ you can log in using the following code:
 Facebook User
 ~~~~~~~~~~~~~
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
+The :ref:`Facebook <facebook-authentication>` authentication provider allows
 you to authenticate users through a Facebook app using their existing Facebook
 account.
 
@@ -101,7 +101,7 @@ account.
 
 .. include:: /includes/note-facebook-profile-picture-url.rst
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_fb.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_fb.cs
    :language: csharp
 
 .. _dotnet-login-google:
@@ -112,7 +112,7 @@ Google User
 If you have enabled :ref:`Google authentication <google-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_google.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_google.cs
    :language: csharp
 
 .. _dotnet-login-apple:
@@ -123,7 +123,7 @@ Apple User
 If you have enabled :ref:`Sign-in with Apple authentication <apple-id-authentication>`,
 you can log in using the following code:
 
-.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.codeblock.logon_apple.cs
+.. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_apple.cs
    :language: csharp
 
 .. include:: /includes/authorization-appleidcredential-string.rst
@@ -137,7 +137,7 @@ Offline Login
 The following example checks if there is a cached User object. If not, it logs 
 the user in. Otherwise, it uses the cached credentials:
 
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.codeblock.check-if-offline.cs
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
    :language: csharp
 
 .. _dotnet-logout:
@@ -147,7 +147,7 @@ Log a User Out
 
 Once logged in, you can log out by calling the ``LogOutAsync()`` method:
 
-.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.codeblock.logout.cs
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.logout.cs
    :language: csharp
 
 .. include:: /includes/log-out-queries-in-progress.rst

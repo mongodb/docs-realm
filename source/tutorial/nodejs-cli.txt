@@ -127,7 +127,7 @@ To get the app working with your backend, you first need to add your Realm App I
 to the ``config.js`` file. The ``config.js`` module exports a single property, 
 ``realmAppId``, which is currently set to "TODO":
 
-.. literalinclude:: /tutorial/generated/node/config.codeblock.realmAppID.js
+.. literalinclude:: /tutorial/generated/node/config.snippet.realmAppID.js
    :language: javascript
 
 Change this value to your Realm App ID. 
@@ -142,14 +142,14 @@ open a {+realm+}. In ``index.js``, find the ``openRealm`` function. Replace the 
 line with a line of code that opens a {+realm+} and assigns it to the ``realm`` 
 property. It will look like this:
 
-.. literalinclude:: /tutorial/generated/node/index.codeblock.openRealm.js
+.. literalinclude:: /tutorial/generated/node/index.snippet.openRealm.js
    :language: javascript
 
 Now that you have implemented the ``openRealm`` function, you will now need to 
 complete the code that retrieves the {+realm+}. In ``index.js``, find the 
 ``getRealm`` function. It will look like this: 
 
-.. literalinclude:: /tutorial/generated/node/index.codeblock.getRealm.js
+.. literalinclude:: /tutorial/generated/node/index.snippet.getRealm.js
    :language: javascript
 
 At this point, your app is pointing to your backend and opens a connection 
@@ -168,7 +168,7 @@ credential and passes it to the Realm
 Find the the ``logIn`` function and add the following code to create a
 ``emailPassword`` credential and call the ``logIn()`` method. 
 
-.. literalinclude:: /tutorial/generated/node/users.codeblock.userLogin.js
+.. literalinclude:: /tutorial/generated/node/users.snippet.userLogin.js
    :language: javascript
 
 E. Define the Object Schemas
@@ -182,7 +182,7 @@ for the data we store. In ``schemas.js``:
   The task model contains information about a user's tasks. Find the
   ``TaskSchema`` code and replace it with the following:
 
-  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.taskSchema.js
+  .. literalinclude:: /tutorial/generated/node/schemas.snippet.taskSchema.js
      :language: javascript
 
 * ``UserSchema``
@@ -190,7 +190,7 @@ for the data we store. In ``schemas.js``:
   The user model represents a user and their permissions. Find the
   ``UserSchema`` code and replace it with the following:
 
-  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.userSchema.js
+  .. literalinclude:: /tutorial/generated/node/schemas.snippet.userSchema.js
      :language: javascript
 
 * ``ProjectSchema``
@@ -198,7 +198,7 @@ for the data we store. In ``schemas.js``:
   We also need a project model to represent the projects a user is a member of.
   Find the ``ProjectSchema`` code and replace it with the following:
 
-  .. literalinclude:: /tutorial/generated/node/schemas.codeblock.projectSchema.js
+  .. literalinclude:: /tutorial/generated/node/schemas.snippet.projectSchema.js
      :language: javascript
 
 
@@ -219,7 +219,7 @@ In ``tasks.js``:
   To get all objects, call the :js-sdk:`objects() <Realm.html#objects>` method 
   and pass in the name of the collection:
   
-  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.getTasks.js
+  .. literalinclude:: /tutorial/generated/node/tasks.snippet.getTasks.js
      :language: javascript
 
 
@@ -229,7 +229,7 @@ In ``tasks.js``:
   we call the :js-sdk:`objectForPrimaryKey() <Realm.html#objectForPrimaryKey>`  
   function to get a task by its Id.
 
-  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.getTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.snippet.getTask.js
      :language: javascript
 
 
@@ -242,7 +242,7 @@ In ``tasks.js``:
   the :js-sdk:`create() <Realm.html#create>` function, passing in all of the 
   required properties:
 
-  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.createTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.snippet.createTask.js
      :language: javascript
 
   .. note::
@@ -261,7 +261,7 @@ In ``tasks.js``:
   We'll first call the ``objectForPrimaryKey`` method to get the specific we want
   to delete and then the :js-sdk:`delete() <Realm.html#delete>` function on that task:
 
-  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.deleteTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.snippet.deleteTask.js
      :language: javascript
 
 
@@ -273,13 +273,13 @@ In ``tasks.js``:
   call to a Realm API to change an object. Rather, you change the *local* object 
   and Sync ensures the object is updated on the server.
   
-  .. literalinclude:: /tutorial/generated/node/tasks.codeblock.modifyTask.js
+  .. literalinclude:: /tutorial/generated/node/tasks.snippet.modifyTask.js
      :language: javascript
 
 
   .. note::
     
-     To learn more about Realm Sync, see :doc:`Sync Overview </sync/>`.
+     To learn more about Realm Sync, see :ref:`Sync Overview <sync>`.
 
 In ``projects.js``: 
 
@@ -289,7 +289,7 @@ In ``projects.js``:
   To get all projects the user is a part of, we need to get the current user.
   Then we'll use the ``refreshCustomData`` method to get the current user's ``memberOf`` property.
 
-  .. literalinclude:: /tutorial/generated/node/projects.codeblock.getProjects.js
+  .. literalinclude:: /tutorial/generated/node/projects.snippet.getProjects.js
      :language: javascript
 
   .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
@@ -307,7 +307,7 @@ implement the calls to {+service-short+}.
   To get all team members, call the ``getMyTeamMembers`` {+service-short+} function
   using the ``User.functions`` method. 
 
-  .. literalinclude:: /tutorial/generated/node/team.codeblock.getTeamMembers.js
+  .. literalinclude:: /tutorial/generated/node/team.snippet.getTeamMembers.js
      :language: javascript
 
 * ``addTeamMember``
@@ -316,7 +316,7 @@ implement the calls to {+service-short+}.
   to call the ``addTeamMember`` {+service-short+} function and pass it the ``email`` 
   parameter. 
 
-  .. literalinclude:: /tutorial/generated/node/team.codeblock.addTeamMember.js
+  .. literalinclude:: /tutorial/generated/node/team.snippet.addTeamMember.js
      :language: javascript
 
 * ``removeTeamMember`` 
@@ -325,7 +325,7 @@ implement the calls to {+service-short+}.
   remove from their project. You will need to call the ``removeTeamMember`` 
   {+service-short+} function and pass it the ``email`` parameter.
   
-  .. literalinclude:: /tutorial/generated/node/team.codeblock.removeTeamMember.js
+  .. literalinclude:: /tutorial/generated/node/team.snippet.removeTeamMember.js
      :language: javascript
 
 
@@ -392,20 +392,20 @@ options to keep practicing and learn more:
 - Dive deeper into the docs to learn more about MongoDB Realm. You'll find
   information and guides on features like:
 
-  - Serverless :doc:`functions </functions>` that handle backend logic and
+  - Serverless :ref:`functions <functions>` that handle backend logic and
     connect your app to external services. You can call functions from a
-    client app, either directly or as a :doc:`custom GraphQL resolver
-    </graphql/custom-resolvers>`.
-  - :doc:`Triggers </triggers>` and :ref:`HTTPS Endpoints <https-endpoints>`,
+    client app, either directly or as a :ref:`custom GraphQL resolver
+    <graphql-custom-resolvers>`.
+  - :ref:`Triggers <triggers>` and :ref:`HTTPS Endpoints <https-endpoints>`,
     which automatically call functions in response to events as they occur. You
-    can define :doc:`database triggers </triggers/database-triggers>` which
-    respond to changes in your data, :doc:`authentication triggers
-    </triggers/authentication-triggers>` which respond to user management and
-    authentication events, and :doc:`scheduled triggers
-    </triggers/scheduled-triggers>` which run on a fixed schedule.
-  - Built-in :doc:`authentication providers </authentication/providers>` and
-    and user management tools. You can allow users to log in through multiple
-    methods, like API keys and Google OAuth, and associate :doc:`custom data
-    </users/enable-custom-user-data>` with every user.
+    can define :ref:`database triggers <database-trigger>` which
+    respond to changes in your data, :ref:`authentication triggers
+    <authentication-triggers>` which respond to user management and
+    authentication events, and :ref:`scheduled triggers
+    <scheduled-trigger>` which run on a fixed schedule.
+  - Built-in :ref:`authentication providers <authentication-providers>` and
+    user management tools. You can allow users to log in through multiple
+    methods, like API keys and Google OAuth, and associate :ref:`custom data
+    <custom-user-data>` with every user.
 
 .. include:: /includes/tutorial-request-for-feedback-note.rst

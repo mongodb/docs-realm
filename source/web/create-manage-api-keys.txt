@@ -20,8 +20,8 @@ You can use the Web SDK to create and manage :ref:`user API keys
 interact with your app on behalf of an existing user without requiring the user
 to re-authenticate.
 
-User API keys are managed as part of the :doc:`API Key authentication provider
-</authentication/api-key>` but may only be created for users associated with a
+User API keys are managed as part of the :ref:`API Key authentication provider
+<api-key-authentication>` but may only be created for users associated with a
 different, non-anonymous authentication provider.
 
 User objects in the Web SDK include an ``ApiKeyAuth`` object that exposes
@@ -38,7 +38,7 @@ user's API keys.
 
 .. include:: /includes/note-store-user-api-key-value.rst
 
-.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.create-api-key.js
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.snippet.create-api-key.js
    :language: javascript
 
 .. _web-api-key-look-up-user-key:
@@ -50,7 +50,7 @@ To get an array that lists all of a user's API keys, call
 ``ApiKeyAuth.fetchAll()``. You can also find a specific API key by calling
 ``ApiKeyAuth.fetch()`` with the key's ``_id``.
 
-.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.look-up-api-key.js
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.snippet.look-up-api-key.js
    :language: javascript
 
 .. _web-api-key-enable-disable:
@@ -62,7 +62,7 @@ You can enable or disable a user API key by calling ``ApiKeyAuth.enable()`` or
 ``ApiKeyAuth.disable()`` with the key's ``_id``. When a key is disabled, it
 cannot be used to log in on behalf of the user.
 
-.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.enable-disable-api-key.js
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.snippet.enable-disable-api-key.js
    :language: javascript
 
 .. _web-api-key-delete:
@@ -74,5 +74,5 @@ You can permanently delete a user API key by calling ``ApiKeyAuth.delete()``
 with the key's ``_id``. Deleted keys can no longer be used to log in on behalf
 of the user.
 
-.. literalinclude:: /examples/generated/web/authentication-api-key.test.codeblock.delete-api-key.js
+.. literalinclude:: /examples/generated/web/authentication-api-key.test.snippet.delete-api-key.js
    :language: javascript

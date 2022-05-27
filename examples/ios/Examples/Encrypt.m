@@ -18,11 +18,11 @@
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     config.encryptionKey = key;
     
-    // :hide-start:
+    // :remove-start:
     // This is not required for the example, but is required for the test.
     // Omit from the example.
     config.inMemoryIdentifier = @"myEncryptedInMemoryRealm";
-    // :hide-end:
+    // :remove-end:
     NSError *error = nil;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
     if (!realm) {

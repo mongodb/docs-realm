@@ -64,14 +64,14 @@ Some considerations when defining your Realm model class:
    .. tab:: Flutter
       :tabid: flutter
 
-      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model-flutter.dart
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-flutter.dart
          :language: dart
          :caption: car.dart
 
    .. tab:: Dart
       :tabid: dart
 
-      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.codeblock.define-model-dart.dart
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-dart.dart
          :language: dart
          :caption: car.dart
 
@@ -135,7 +135,7 @@ would like to open, including schema.
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.open-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
    :language: dart
 
 You can now use that {+realm+} instance to work with objects in the database.
@@ -160,7 +160,7 @@ Create Objects
 To create a new ``Car``, instantiate an instance of the
 ``Car`` class and add it to the {+realm+} in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.create-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart
 
 Update Objects
@@ -168,7 +168,7 @@ Update Objects
 
 To modify a car, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.update-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
    :language: dart
 
 Query for Objects
@@ -177,7 +177,7 @@ Query for Objects
 Retrieve a collection of all objects of a data model in the {+realm+} with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-all-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
    :language: dart
 
 Filter a collection to retrieve a specific segment
@@ -186,13 +186,13 @@ In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
 
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-filter.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
    :language: dart
 
 Sort the results using the :ref:`Realm Query Language <flutter-query-language>` 
 SORT() operator in the ``query()`` method's argument.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.query-realm-objects-with-sort.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
 
 Delete Objects
@@ -201,13 +201,13 @@ Delete Objects
 Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 method in a write transaction block:
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-one-realm-object.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
    :language: dart
 
 Delete multiple cars with the :flutter-sdk:`Realm.deleteMany() 
 <realm/Realm/deleteMany.html>` method in a write transaction block. 
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.codeblock.delete-many-realm-objects.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart
 
 React to Changes
@@ -220,29 +220,29 @@ changes since last invocation as its argument.
 To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 <realm/RealmResultsChanges-class.html>`.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.query-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
    :language: dart
 
 To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
 <realm/RealmObjectChanges-class.html>`. 
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-object-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
    :language: dart
 
 To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
 <realm/RealmListChanges-class.html>`.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.realm-list-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
    :language: dart
 
 You can pause and resume subscriptions as well. 
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.pause-resume-subscription.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
    :language: dart
 
 Once you've finished listening to changes, close the change listener to prevent memory leaks.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.codeblock.cancel-subscription.dart
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart
 
 .. seealso:: Further Reading
@@ -254,7 +254,7 @@ Close a Realm
 
 Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.codeblock.close-realm.dart
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart
 
 

@@ -30,7 +30,7 @@ Import Realm
 Near the top of any Swift file that uses Realm, add the following import
 statement:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.import-realmswift.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.import-realmswift.swift
    :language: swift
 
 Define Your Object Model
@@ -39,7 +39,7 @@ Define Your Object Model
 For a local-only {+client-database+} you can define your :ref:`object model
 <ios-realm-objects>` directly in code.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-define-object-model.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-define-object-model.swift
    :language: swift
 
 Open a Realm
@@ -48,7 +48,7 @@ Open a Realm
 In a local-only {+client-database+}, the simplest option to open a {+realm+}
 is by omitting the configuration parameter, which uses the default {+realm+}:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-open-realm-without-config-param.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-open-realm-without-config-param.swift
    :language: swift
 
 You can also specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>` 
@@ -67,27 +67,27 @@ in a :ref:`write transaction <ios-write-transactions>` block.
 
 To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-write-transaction.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-write-transaction.swift
    :language: swift
 
 You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-live-collection-of-all-tasks.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-live-collection-of-all-tasks.swift
    :language: swift
 
 You can also query that collection using :ref:`where <ios-client-query-engine>`:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-filter-collection.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-filter-collection.swift
    :language: swift
 
 To modify a task, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-modify-task.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-modify-task.swift
    :language: swift
 
 Finally, you can delete a task:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-delete-task.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-delete-task.swift
    :language: swift
 
 Watch for Changes
@@ -102,12 +102,12 @@ You can :ref:`watch a realm, collection, or object for changes
    long as you want to continue observing. When you are done observing, 
    invalidate the token to free the resources.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-set-notification-token.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-set-notification-token.swift
    :language: swift
 
 Later, when done observing:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.quick-start-local-invalidate-notification-token.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-invalidate-notification-token.swift
    :language: swift
 
 Complete Example
@@ -115,6 +115,6 @@ Complete Example
 
 Run the complete example by calling ``runLocalOnlyExample()``.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.codeblock.complete-quick-start-local.swift
+.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.complete-quick-start-local.swift
    :language: swift
 

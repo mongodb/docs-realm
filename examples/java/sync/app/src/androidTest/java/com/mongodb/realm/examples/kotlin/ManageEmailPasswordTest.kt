@@ -26,9 +26,9 @@ class ManageEmailPasswordTest : RealmTest() {
             app.emailPassword.registerUserAsync(email, password) {
                 if (it.isSuccess) {
                     Log.i("EXAMPLE","Successfully registered user.")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 } else {
                     Log.e("EXAMPLE","Failed to register user: ${it.error}")
                 }
@@ -58,9 +58,9 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.i("EXAMPLE", "Successfully confirmed new user.")
                 } else {
                     Log.e("EXAMPLE", "Failed to register user: ${it.error}")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 }
             }
             // :snippet-end:
@@ -99,9 +99,9 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.i("EXAMPLE", "Successfully updated password for user.")
                 } else {
                     Log.e("EXAMPLE", "Failed to reset user's password: $it.error")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 }
             }
             // :snippet-end:
@@ -126,9 +126,9 @@ class ManageEmailPasswordTest : RealmTest() {
                     Log.i("EXAMPLE", "Successfully reset the password for $email")
                 } else {
                     Log.e("EXAMPLE", "Failed to reset the password for $email: $it.error")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 }
             }
             // :snippet-end:

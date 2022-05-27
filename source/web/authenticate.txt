@@ -30,12 +30,12 @@ Log In
 Anonymous
 ~~~~~~~~~
 
-The :doc:`Anonymous </authentication/anonymous>` provider allows users to log in
+The :ref:`Anonymous <anonymous-authentication>` provider allows users to log in
 to your application with ephemeral accounts that have no associated information.
 
 To log in, create an anonymous credential and pass it to ``App.logIn()``:
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.anon-auth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.anon-auth.js
     :language: javascript
     :emphasize-lines: 3, 6
 
@@ -44,14 +44,14 @@ To log in, create an anonymous credential and pass it to ``App.logIn()``:
 Email/Password
 ~~~~~~~~~~~~~~
 
-The :doc:`email/password </authentication/email-password>` authentication
+The :ref:`email/password <email-password-authentication>` authentication
 provider allows users to log in to your application with an email address and a
 password.
 
 To log in, create an email/password credential with the user's email address and
 password and pass it to ``App.logIn()``:
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.email-password-auth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.email-password-auth.js
     :language: javascript
     :emphasize-lines: 3, 6
 
@@ -60,13 +60,13 @@ password and pass it to ``App.logIn()``:
 API Key
 ~~~~~~~
 
-The :doc:`API key </authentication/api-key>` authentication provider allows
+The :ref:`API key <api-key-authentication>` authentication provider allows
 server processes to access your app directly or on behalf of a user.
 
 To log in with an API key, create an API Key credential with a server or user
 API key and pass it to ``App.logIn()``:
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.api-key-auth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.api-key-auth.js
     :language: javascript
     :emphasize-lines: 3, 6
 
@@ -75,14 +75,14 @@ API key and pass it to ``App.logIn()``:
 Custom Function
 ~~~~~~~~~~~~~~~
 
-The :doc:`Custom Function </authentication/custom-function>` authentication
-provider allows you to handle user authentication by running a :doc:`function
-</functions>` that receives a payload of arbitrary information about a user.
+The :ref:`Custom Function <custom-function-authentication>` authentication
+provider allows you to handle user authentication by running a :ref:`function
+<functions>` that receives a payload of arbitrary information about a user.
 
 To log in with the custom function provider, create a Custom Function credential
 with a payload object and pass it to ``App.logIn()``:
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.custom-function-auth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.custom-function-auth.js
     :language: javascript
     :emphasize-lines: 3, 6
 
@@ -91,15 +91,15 @@ with a payload object and pass it to ``App.logIn()``:
 Custom JWT
 ~~~~~~~~~~
 
-The :doc:`Custom JWT </authentication/custom-jwt>` authentication provider
-allows you to handle user authentication with any authentication system that
-returns a :ref:`JSON web token <json-web-tokens>`.
+The :ref:`Custom JWT <custom-jwt-authentication>` authentication provider allows
+you to handle user authentication with any authentication system that returns a
+:ref:`JSON web token <json-web-tokens>`.
 
 To log in, create a Custom JWT credential with a JWT from the external system
 and pass it to ``App.logIn()``:
 
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.custom-jwt.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.custom-jwt.js
     :language: javascript
     :emphasize-lines: 3, 6
 
@@ -109,8 +109,8 @@ and pass it to ``App.logIn()``:
 Facebook Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Facebook </authentication/facebook>` authentication provider allows
-you to authenticate users through a Facebook app using their existing Facebook
+The :ref:`Facebook <facebook-authentication>` authentication provider allows you
+to authenticate users through a Facebook app using their existing Facebook
 account. You can use the :ref:`built-in authentication flow
 <web-facebook-builtin>` or :ref:`authenticate with the Facebook SDK
 <web-facebook-auth-token>`.
@@ -139,7 +139,7 @@ require you to install the Facebook SDK. The built in flow follows three main st
    user's Realm access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.builtin-facebook-oauth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-facebook-oauth.js
    :language: javascript
 
 .. _web-facebook-auth-token:
@@ -152,7 +152,7 @@ handle the user authentication and redirect flow. Once authenticated, the
 Facebook SDK returns an access token that you can use to finish logging the user
 in to your app.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.facebook-sdk-oauth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.facebook-sdk-oauth.js
    :language: javascript
 
 .. _web-login-google:
@@ -160,13 +160,13 @@ in to your app.
 Google Authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Google </authentication/google>` authentication provider allows you to
+The :ref:`Google <google-authentication>` authentication provider allows you to
 authenticate users through a Google project using their existing Google account.
 
 .. note:: Enable the Google Auth Provider
    
-   To authenticate a Google user, you must configure the :doc:`Google
-   authentication provider </authentication/google>`.
+   To authenticate a Google user, you must configure the :ref:`Google
+   authentication provider <users-and-authentication>`.
 
 Logging a Google user in to your Realm app is a two step process:
 
@@ -346,15 +346,15 @@ require you to install a Google SDK. The built-in flow follows three main steps:
 Apple Authentication
 ~~~~~~~~~~~~~~~~~~~~
 
-The :doc:`Apple </authentication/apple>` authentication provider allows you to
+The :ref:`Apple <apple-id-authentication>` authentication provider allows you to
 authenticate users through Sign-in With Apple. You can use the :ref:`built-in
 authentication flow <web-apple-builtin>` or :ref:`authenticate with the Apple
 SDK <web-apple-auth-token>`.
 
 .. note:: Enable the Apple Auth Provider
    
-   To authenticate an Apple user, you must configure the :doc:`Apple
-   authentication provider </authentication/apple>`.
+   To authenticate an Apple user, you must configure the :ref:`Apple
+   authentication provider <apple-id-authentication>`.
 
 .. _web-apple-builtin:
 
@@ -377,7 +377,7 @@ steps:
    user's Realm access token and closes the window. Your original app window will
    automatically detect the access token and finish logging the user in.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.builtin-apple-oauth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.builtin-apple-oauth.js
 
 
 .. _web-apple-auth-token:
@@ -390,7 +390,7 @@ You can use the :apple:`official Sign in with Apple JS SDK
 authentication and redirect flow. Once authenticated, the Apple JS SDK returns
 an ID token that you can use to finish logging the user in to your app.
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.apple-sdk-oauth.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.apple-sdk-oauth.js
    :language: javascript
 
 .. include:: /includes/authorization-appleidcredential-string.rst
@@ -404,10 +404,10 @@ To log any user out, call the ``User.logOut()`` on their user instance.
 
 Log out current user: 
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.log-out-current-user.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.log-out-current-user.js
    :language: javascript
 
 Log out user by user ID: 
 
-.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.codeblock.log-out-specific-user.js
+.. literalinclude:: /examples/generated/web/authentication-log-in-and-out.test.snippet.log-out-specific-user.js
    :language: javascript

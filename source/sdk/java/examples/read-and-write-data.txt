@@ -29,12 +29,12 @@ About the Examples on this Page
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/ProjectTask.codeblock.projecttask.kt
+         .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.kt
             :language: kotlin
             :caption: ProjectTask.kt
             :copyable: false
 
-         .. literalinclude:: /examples/generated/java/sync/Project.codeblock.project.kt
+         .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.kt
             :language: kotlin
             :caption: Project.kt
             :copyable: false
@@ -42,12 +42,12 @@ About the Examples on this Page
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/ProjectTask.codeblock.projecttask.java
+         .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.java
             :language: java
             :caption: ProjectTask.java
             :copyable: false
 
-         .. literalinclude:: /examples/generated/java/sync/Project.codeblock.project.java
+         .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.java
             :language: java
             :caption: Project.java
             :copyable: false
@@ -89,14 +89,14 @@ using the :java-sdk:`RealmQuery.equalTo() <io/realm/RealmQuery.html#equalTo-java
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.kt
+      .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.find-an-object-by-primary-key.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.find-an-object-by-primary-key.java
+      .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.find-an-object-by-primary-key.java
          :language: java
          :copyable: false
 
@@ -121,14 +121,14 @@ refine the results.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.get-all-objects.java
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.get-all-objects.java
             :language: java
             :copyable: false
 
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.get-all-objects.kt
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.get-all-objects.kt
             :language: kotlin
             :copyable: false
 
@@ -162,14 +162,14 @@ up complex queries.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.filter-results.java
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.filter-results.java
             :language: java
             :copyable: false
 
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.filter-results.kt
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.filter-results.kt
             :language: kotlin
             :copyable: false
 
@@ -197,14 +197,14 @@ results are sorted.
       .. tab::
           :tabid: java
 
-          .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.sort-results.java
+          .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.sort-results.java
             :language: java
             :copyable: false
 
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/ReadsTest.codeblock.sort-results.kt
+         .. literalinclude:: /examples/generated/java/sync/ReadsTest.snippet.sort-results.kt
             :language: kotlin
             :copyable: false
 
@@ -221,12 +221,12 @@ Query a Relationship
       Consider the following relationship between classes ``Person`` and
       ``Dog``. This arrangement allows each person to own a single dog:
 
-      .. literalinclude:: /examples/generated/java/sync/Person.codeblock.complete.kt
+      .. literalinclude:: /examples/generated/java/sync/Person.snippet.complete.kt
          :language: kotlin
          :emphasize-lines: 10
          :copyable: false
 
-      .. literalinclude:: /examples/generated/java/sync/Dog.codeblock.complete.kt
+      .. literalinclude:: /examples/generated/java/sync/Dog.snippet.complete.kt
          :language: kotlin
          :copyable: false
 
@@ -234,7 +234,7 @@ Query a Relationship
       :ref:`query <java-client-query-engine>` to access any property
       of the linked object:
 
-      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-a-relationship.kt
+      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.snippet.query-a-relationship.kt
          :language: kotlin
          :emphasize-lines: 15
          :copyable: false
@@ -245,12 +245,12 @@ Query a Relationship
       Consider the following relationship between classes ``Human`` and
       ``Cat``. This arrangement allows each human to own a single cat:
 
-      .. literalinclude:: /examples/generated/java/sync/Human.codeblock.complete.java
+      .. literalinclude:: /examples/generated/java/sync/Human.snippet.complete.java
          :language: java
          :emphasize-lines: 12
          :copyable: false
 
-      .. literalinclude:: /examples/generated/java/sync/Cat.codeblock.complete.java
+      .. literalinclude:: /examples/generated/java/sync/Cat.snippet.complete.java
          :language: java
          :copyable: false
 
@@ -258,7 +258,7 @@ Query a Relationship
       :ref:`query <java-client-query-engine>` to access any property
       of the linked object:
 
-      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-a-relationship.java
+      .. literalinclude:: /examples/generated/java/sync/RealmQueryTest.snippet.query-a-relationship.java
          :language: java
          :emphasize-lines: 16
          :copyable: false
@@ -283,15 +283,15 @@ Query an Inverse Relationship
       Realm calculates the owners of each dog for you based on the field
       name you provide to the ``@LinkingObjects`` annotation:
 
-      .. include:: /examples/generated/java/sync/Dog.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/sync/Dog.snippet.complete.kt.rst
 
-      .. include:: /examples/generated/java/sync/Person.codeblock.complete.kt.code-block.rst
+      .. include:: /examples/generated/java/sync/Person.snippet.complete.kt.rst
 
       To query this relationship, use dot notation in a
       :ref:`query <java-client-query-engine>` to access any property
       of the linked object:
 
-      .. include:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-an-inverse-relationship.kt.code-block.rst
+      .. include:: /examples/generated/java/sync/RealmQueryTest.snippet.query-an-inverse-relationship.kt.rst
 
    .. tab::
       :tabid: java
@@ -302,15 +302,15 @@ Query an Inverse Relationship
       Realm calculates the owners of each cat for you based on the field
       name you provide to the ``@LinkingObjects`` annotation:
 
-      .. include:: /examples/generated/java/sync/Cat.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/sync/Cat.snippet.complete.java.rst
 
-      .. include:: /examples/generated/java/sync/Human.codeblock.complete.java.code-block.rst
+      .. include:: /examples/generated/java/sync/Human.snippet.complete.java.rst
 
       To query this relationship, use dot notation in a
       :ref:`query <java-client-query-engine>` to access any property
       of the linked object:
 
-      .. include:: /examples/generated/java/sync/RealmQueryTest.codeblock.query-an-inverse-relationship.java.code-block.rst
+      .. include:: /examples/generated/java/sync/RealmQueryTest.snippet.query-an-inverse-relationship.java.rst
 
 .. seealso::
 
@@ -326,14 +326,14 @@ Aggregate Data
    .. tab::
       :tabid: kotlin
 
-      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.codeblock.aggregate-operators.kt
+      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.snippet.aggregate-operators.kt
          :language: kotlin
          :copyable: false
 
    .. tab::
       :tabid: java
 
-      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.codeblock.aggregate-operators.java
+      .. literalinclude:: /examples/generated/java/sync/QueryEngineTest.snippet.aggregate-operators.java
          :language: java
          :copyable: false
 
@@ -378,7 +378,7 @@ using accessors and mutators.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.create-an-object.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.kt
             :language: kotlin
             :emphasize-lines: 3
             :copyable: false
@@ -386,7 +386,7 @@ using accessors and mutators.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.create-an-object.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.create-an-object.java
             :language: java
             :emphasize-lines: 3
             :copyable: false
@@ -410,14 +410,14 @@ not defined in the {+service-short+} object schema.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.create-an-object-json.kt
+         .. literalinclude:: /examples/generated/java/local/WritesTest.snippet.create-an-object-json.kt
             :language: kotlin
             :copyable: false
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.create-an-object-json.java
+         .. literalinclude:: /examples/generated/java/local/WritesTest.snippet.create-an-object-json.java
             :language: java
             :copyable: false
 
@@ -442,7 +442,7 @@ the property.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-an-object.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.update-an-object.kt
             :language: kotlin
             :emphasize-lines: 6,7
             :copyable: false
@@ -450,7 +450,7 @@ the property.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-an-object.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.update-an-object.java
             :language: java
             :emphasize-lines: 6,7
             :copyable: false
@@ -480,7 +480,7 @@ adding any new entries.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.upsert-an-object.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.upsert-an-object.kt
             :language: kotlin
             :emphasize-lines: 14-16
             :copyable: false
@@ -488,7 +488,7 @@ adding any new entries.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.upsert-an-object.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.upsert-an-object.java
             :language: java
             :emphasize-lines: 14-16
             :copyable: false
@@ -511,7 +511,7 @@ that are different in the supplied object:
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.copy-or-update-same-values-flag.kt
             :language: kotlin
             :emphasize-lines: 15-16
             :copyable: false
@@ -519,7 +519,7 @@ that are different in the supplied object:
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.copy-or-update-same-values-flag.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.copy-or-update-same-values-flag.java
             :language: java
             :emphasize-lines: 16
             :copyable: false
@@ -550,7 +550,7 @@ objects in a collection at once.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-a-collection.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.update-a-collection.kt
             :language: kotlin
             :emphasize-lines: 11,12
             :copyable: false
@@ -558,7 +558,7 @@ objects in a collection at once.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.update-a-collection.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.update-a-collection.java
             :language: java
             :emphasize-lines: 9,10
             :copyable: false
@@ -593,14 +593,14 @@ to manually generate a snapshot you can iterate over manually:
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.iterate.kt
+         .. literalinclude:: /examples/generated/java/local/WritesTest.snippet.iterate.kt
             :language: kotlin
             :copyable: false
 
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/local/WritesTest.codeblock.iterate.java
+         .. literalinclude:: /examples/generated/java/local/WritesTest.snippet.iterate.java
             :language: java
             :copyable: false
 
@@ -629,7 +629,7 @@ versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-an-object.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.kt
             :language: kotlin
             :emphasize-lines: 6
             :copyable: false
@@ -637,7 +637,7 @@ versions of the ``deleteFromRealm()`` method of a :java-sdk:`RealmObject
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-an-object.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-an-object.java
             :language: java
             :emphasize-lines: 4
             :copyable: false
@@ -664,7 +664,7 @@ filter the ``RealmResults`` down to a subset of objects using the
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-a-collection.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-a-collection.kt
             :language: kotlin
             :emphasize-lines: 6
             :copyable: false
@@ -672,7 +672,7 @@ filter the ``RealmResults`` down to a subset of objects using the
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-a-collection.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-a-collection.java
             :language: java
             :emphasize-lines: 4
             :copyable: false
@@ -705,7 +705,7 @@ deleting the parent object.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.cascading-deletes.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.cascading-deletes.kt
             :language: kotlin
             :emphasize-lines: 6
             :copyable: false
@@ -713,7 +713,7 @@ deleting the parent object.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.cascading-deletes.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.cascading-deletes.java
             :language: java
             :emphasize-lines: 5
             :copyable: false
@@ -737,7 +737,7 @@ Delete All Objects of a Specific Type
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-all-instances-of-a-type.kt
             :language: kotlin
             :emphasize-lines: 2
             :copyable: false
@@ -745,7 +745,7 @@ Delete All Objects of a Specific Type
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all-instances-of-a-type.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-all-instances-of-a-type.java
             :language: java
             :emphasize-lines: 2
             :copyable: false
@@ -770,7 +770,7 @@ quickly clearing out your {+realm+} while prototyping.
       .. tab::
          :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all.kt
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-all.kt
             :language: kotlin
             :emphasize-lines: 2
             :copyable: false
@@ -778,7 +778,7 @@ quickly clearing out your {+realm+} while prototyping.
       .. tab::
          :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/WritesTest.codeblock.delete-all.java
+         .. literalinclude:: /examples/generated/java/sync/WritesTest.snippet.delete-all.java
             :language: java
             :emphasize-lines: 2
             :copyable: false

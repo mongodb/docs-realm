@@ -31,6 +31,14 @@ maintainable multithreaded code that avoids issues like
 deadlocking and race conditions. {+service+} aims to
 simplify this for you.
 
+.. seealso::
+
+   As of 10.26.0, Realm provides async write methods to perform background 
+   writes. See: :ref:`Perform a Background Write <ios-async-write>`. With 
+   async write, you don't need to pass a :ref:`thread-safe reference 
+   <ios-thread-safe-reference>` or :ref:`frozen objects <ios-frozen-objects>` 
+   across threads.
+
 .. _ios-threading-three-rules:
 
 Three Rules to Keep in Mind
@@ -55,7 +63,7 @@ Avoid writes on the UI thread if you write on a background thread:
   each other. A write on the UI thread may result in your
   app appearing unresponsive while it waits for a write on a
   background thread to complete. If you are using
-  :doc:`{+sync+} </sync>`, avoid writing on
+  :ref:`{+sync+} <sync>`, avoid writing on
   the UI thread as {+sync-short+} writes on a background
   thread.
 
@@ -131,7 +139,7 @@ When using Realm on a background thread, create a serial queue. Realm Database
 does not support using realms in concurrent queues, such as the ``global()`` 
 queue.
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-realm-with-serial-queue.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.use-realm-with-serial-queue.swift
    :language: swift
 
 .. _ios-thread-safe-reference:
@@ -169,7 +177,7 @@ You can pass thread-confined instances to another thread as follows:
 #. Pass the ``@ThreadSafe``-wrapped variable to the other thread.
 #. Use the ``@ThreadSafe``-wrapped variable as you would any optional. If the referenced object is removed from the {+realm+}, the referencing variable becomes nil.
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.threadsafe-wrapper.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.threadsafe-wrapper.swift
    :language: swift
 
 Another way to work with an object on another thread is to query for it
@@ -185,7 +193,7 @@ and results, on a struct or class property, or on a function parameter.
    parameter. This is useful for functions that may run asynchronously
    or on another thread.
 
-   .. literalinclude:: /examples/generated/code/start/Threading.codeblock.threadsafe-wrapper-function-parameter.swift
+   .. literalinclude:: /examples/generated/code/start/Threading.snippet.threadsafe-wrapper-function-parameter.swift
       :language: swift
 
 
@@ -206,7 +214,7 @@ thread-confined instances to another thread as follows:
    deallocated. For this reason, ``ThreadSafeReference`` should be
    short-lived.
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.pass-across-threads.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.pass-across-threads.swift
    :language: swift
 
 Another way to work with an object on another thread is to query for it
@@ -221,7 +229,7 @@ You must remember to wrap everything in an ``autoreleasepool`` so the
 objects do not linger on the background thread. So, it can be helpful to
 make a convenience extension to handle the boilerplate as follows:
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.write-async-extension.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.write-async-extension.swift
    :language: swift
 
 This extension adds a ``writeAsync()`` method to the Realm class. This
@@ -234,7 +242,7 @@ method passes an instance to a background thread for you.
    the closure runs on the background thread and receives its own
    version of both the {+realm+} and passed object:
 
-   .. literalinclude:: /examples/generated/code/start/Threading.codeblock.use-write-async-extension.swift
+   .. literalinclude:: /examples/generated/code/start/Threading.snippet.use-write-async-extension.swift
       :language: swift
 
 .. _ios-use-realm-across-threads:
@@ -315,7 +323,7 @@ object.
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/Threading.codeblock.freeze.swift
+      .. literalinclude:: /examples/generated/code/start/Threading.snippet.freeze.swift
          :language: swift
 
    .. tab::
@@ -378,7 +386,7 @@ on a live object, collection, or {+realm+} returns itself.
 
 Thawing an object or collection also thaws the {+realm+} it references.
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.thaw.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.thaw.swift
    :language: swift
 
 .. _ios-append-to-frozen-collection:
@@ -402,7 +410,7 @@ The same rule applies when passing frozen objects across threads. A common
 case might be calling a function on a background thread to do some work 
 instead of blocking the UI.
 
-.. literalinclude:: /examples/generated/code/start/Threading.codeblock.append-to-frozen-collection.swift
+.. literalinclude:: /examples/generated/code/start/Threading.snippet.append-to-frozen-collection.swift
    :language: swift
 
 .. _ios-mvcc:
@@ -483,7 +491,7 @@ Summary
   - don't lock to read
 
   - avoid writes on the UI thread if you write on background threads or
-    use :doc:`{+sync+} </sync>`
+    use :ref:`{+sync+} <sync>`
     
   - don't pass live objects to other threads.
 

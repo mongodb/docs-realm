@@ -51,9 +51,9 @@ public class AuthenticationTest extends RealmTest {
                 Credentials anonymousCredentials = Credentials.anonymous();
 
                 app.loginAsync(anonymousCredentials, it -> {
-                    // :hide-start:
+                    // :remove-start:
                     Assert.assertEquals(true, it.isSuccess());
-                    // :hide-end:
+                    // :remove-end:
                     if (it.isSuccess()) {
                         Log.v("AUTH", "Successfully authenticated anonymously.");
                         user.set(app.currentUser());
@@ -62,9 +62,9 @@ public class AuthenticationTest extends RealmTest {
                     }
                 });
             }
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill();
-            // :hide-end:
+            // :remove-end:
             // :snippet-end:
         });
         expectation.await();
@@ -83,18 +83,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(anonymousCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(true, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated anonymously.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -114,18 +114,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(emailPasswordCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using an email and password.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -145,18 +145,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(apiKeyCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using an API Key.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -176,18 +176,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(customFunctionCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using a custom function.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -208,18 +208,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(customJWTCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using a custom JWT.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -301,18 +301,18 @@ public class AuthenticationTest extends RealmTest {
 
             AtomicReference<User> user = new AtomicReference<User>();
             app.loginAsync(appleCredentials, it -> {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess());
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess()) {
                     Log.v("AUTH", "Successfully authenticated using Sign-in with Apple.");
                     user.set(app.currentUser());
                 } else {
                     Log.e("AUTH", it.getError().toString());
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill();
-                // :hide-end:
+                // :remove-end:
             });
             // :snippet-end:
         });
@@ -337,17 +337,17 @@ public class AuthenticationTest extends RealmTest {
                     user.set(app.currentUser());
                     // :snippet-start: log-out
                     user.get().logOutAsync( result -> {
-                        // :hide-start:
+                        // :remove-start:
                         Assert.assertEquals(true, result.isSuccess());
-                        // :hide-end:
+                        // :remove-end:
                         if (result.isSuccess()) {
                             Log.v("AUTH", "Successfully logged out.");
                         } else {
                             Log.e("AUTH", result.getError().toString());
                         }
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                     });
                     // :snippet-end:
                 } else {

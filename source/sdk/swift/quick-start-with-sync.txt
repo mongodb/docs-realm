@@ -36,7 +36,7 @@ Import Realm
 Near the top of any Swift file that uses Realm, add the following import
 statement:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.import-realm.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.import-realm.swift
    :language: swift
 
 .. _ios-quick-start-init-app:
@@ -48,7 +48,7 @@ To use {+backend+} features such as authentication and sync, you must
 access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 {+ui+}.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.initialize-app.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.initialize-app.swift
    :language: swift
 
 Define Your Object Model
@@ -60,7 +60,7 @@ If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} 
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.model.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.model.swift
    :language: swift
 
 .. _ios-quick-start-authenticate:
@@ -72,7 +72,7 @@ When you have enabled :ref:`anonymous authentication <anonymous-authentication>`
 {+ui+}, users can immediately log into your app without providing any identifying
 information:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.authenticate-user.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.authenticate-user.swift
    :language: swift
 
 {+service-short+} provides many additional ways to authenticate, register, and link users.
@@ -91,7 +91,7 @@ passing in the user's
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
 includes the partition name. The following code demonstrates this:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.open-realm.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.open-realm.swift
    :language: swift
 
 .. seealso::
@@ -105,27 +105,27 @@ Once you have opened a {+realm+}, you can modify it and its :ref:`objects <ios-r
 
 To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.create-task.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
    :language: swift
 
 You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.get-all-tasks.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.get-all-tasks.swift
    :language: swift
 
 You can also filter that collection using :ref:`where <ios-client-query-engine>`:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.filter.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.filter.swift
    :language: swift
 
 To modify a task, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.modify-write-block.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.modify-write-block.swift
    :language: swift
 
 Finally, you can delete a task:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.delete.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.delete.swift
    :language: swift
 
 Watch for Changes
@@ -138,12 +138,12 @@ You can :ref:`watch a realm, collection, or object for changes
 
    Be sure to retain the notification token returned by ``observe`` as long as you want to continue observing. When you are done observing, invalidate the token to free the resources.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.watch-for-changes.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.watch-for-changes.swift
    :language: swift
 
 Later, when you're done observing, invalidate the token:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.invalidate-notification-token.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.invalidate-notification-token.swift
    :language: swift
 
 
@@ -152,7 +152,7 @@ Log Out
 
 Once logged in, you can log out:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.logout.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.logout.swift
    :language: swift
 
 Complete Example
@@ -161,7 +161,7 @@ Complete Example
 Run the complete example by replacing the app ID with your {+app+} ID and
 calling ``runExample()``.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.codeblock.complete-quick-start.swift
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.complete-quick-start.swift
    :language: swift
 
 Output

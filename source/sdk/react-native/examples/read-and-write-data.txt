@@ -16,7 +16,7 @@ About the Examples on this Page
 -------------------------------
 The examples on this page use the following schemas:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-data-schemas.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-schemas.js
   :language: javascript
 
 .. _react-native-read-operations:
@@ -33,7 +33,7 @@ If you know the :ref:`primary key <react-native-primary-keys>` for a given objec
 can look it up directly with :js-sdk:`Realm.objectForPrimaryKey()
 <Realm.html#objectForPrimaryKey>`.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-data-object-for-primary-key.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-object-for-primary-key.js
   :language: javascript
 
 .. _react-native-query-an-object-type:
@@ -50,7 +50,7 @@ query as a :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query
 matches all objects of a given type in a {+realm+}, but you can also apply a
 :ref:`filter <react-native-filter-queries>` to the collection to find specific objects.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-data-query-an-object-type.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-query-an-object-type.js
   :language: javascript
 
 .. _react-native-filter-queries:
@@ -74,7 +74,7 @@ To filter a query, call the :js-sdk:`filtered()
    - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
    - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
 
-   .. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-filter-queries.js
+   .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-filter-queries.js
      :language: javascript
 
 .. tip:: Filter on Related and Embedded Object Properties
@@ -98,7 +98,7 @@ guarantees a consistent order of results if you explicitly sort them.
 To sort a query, call the :js-sdk:`sorted() <Realm.Collection.html#sorted>`
 method on the query results collection.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-sorted-queries.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-sorted-queries.js
   :language: javascript
   :emphasize-lines: 4, 6, 8, 13
 
@@ -130,7 +130,7 @@ write transaction. If the {+realm+}'s :ref:`schema <react-native-realm-schema>` 
 the object type and the object conforms to the schema, then {+service-short+}
 stores the object, which is now *managed* by the {+realm+}.
    
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-create-a-new-object.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-create-a-new-object.js
   :language: javascript
   :emphasize-lines: 6
 
@@ -143,7 +143,7 @@ You can add, modify, or delete properties of a {+service-short+} object inside
 of a write transaction in the same way that you would update any other
 JavaScript object.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-update-an-object.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-update-an-object.js
   :language: javascript
   :emphasize-lines: 7, 8
 
@@ -165,7 +165,7 @@ update mode set to ``modified``. The operation either inserts a new object with
 the given primary key or updates an existing object that already has that
 primary key.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-upsert-an-object.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-upsert-an-object.js
   :language: javascript
   :emphasize-lines: 4, 13
 
@@ -177,10 +177,9 @@ Bulk Update a Collection
 
 To apply an update to a collection of objects, iterate through the collection
 (e.g. with :mdn:`for...of
-<Web/JavaScript/Reference/Statements/for...of>`). In the iterator
-callback, update each object individually:
+<Web/JavaScript/Reference/Statements/for...of>`). In the loop, update each object individually:
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-bulk-update.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-bulk-update.js
   :language: javascript
   :emphasize-lines: 7, 9
 
@@ -199,7 +198,7 @@ Delete an Object
 To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
 <Realm.html#delete>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-delete-object.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
   :language: javascript
   :emphasize-lines: 3
 
@@ -217,7 +216,7 @@ Delete Multiple Objects
 To delete a collection of objects from a {+realm+}, pass the collection to
 :js-sdk:`Realm.delete() <Realm.html#delete>` inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-delete-multiple-objects.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-multiple-objects.js
   :language: javascript
   :emphasize-lines: 5
 
@@ -230,7 +229,7 @@ To delete all objects of a given object type from a {+realm+}, pass
 ``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
 <Realm.html#delete>` method inside of a write transaction.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-delete-all-objects-of-a-specific-type.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all-objects-of-a-specific-type.js
   :language: javascript
   :emphasize-lines: 3
 
@@ -243,7 +242,7 @@ To delete **all** objects from the {+realm+}, call :js-sdk:`Realm.deleteAll()
 <Realm.html#deleteAll>` inside of a write transaction. This clears the {+realm+}
 of all object instances but does not affect the {+realm+}'s schema.
 
-.. literalinclude:: /examples/generated/node/read-and-write-data.codeblock.read-and-write-delete-all.js
+.. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all.js
   :language: javascript
   :emphasize-lines: 3
 

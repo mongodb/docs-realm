@@ -56,7 +56,7 @@ priority -- higher is more important -- and a count of
 minutes spent working on it. A ``Team`` has a ``teamName``, 
 zero or more ``Tasks``, and a list of ``members``.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.flexible-sync-models.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flexible-sync-models.swift
    :language: swift
 
 .. _ios-sync-subscribe-to-queryable-fields:
@@ -101,13 +101,13 @@ object types. You can also have multiple queries on the same object type.
    You can create a subscription with an explicit name. Then, you can
    search for that subscription by name to update or remove it.
 
-   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-by-name.swift
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.query-subscription-by-name.swift
       :language: swift
 
    If you do not specify a ``name`` for a subscription, you can search 
    for the subscription by the query string.
 
-   .. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.query-subscription-without-name.swift
+   .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.query-subscription-without-name.swift
       :language: swift
 
 .. note:: Duplicate subscriptions
@@ -132,13 +132,13 @@ new subscription to the client's Realm subscriptions.
 
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-single-subscription.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-single-subscription.swift
    :language: swift
 
 You can add multiple subscriptions within a subscription write block, 
 including subscriptions of different object types.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-multiple-subscriptions.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-multiple-subscriptions.swift
    :language: swift
 
 .. _ios-sync-check-subscription-state:
@@ -164,7 +164,7 @@ UI, for example, or taking another action based on changes to the data set,
 take those actions in ``onComplete``. This is also where you can handle 
 optional errors that occur during synchronization.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.add-subscription-with-oncomplete.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-subscription-with-oncomplete.swift
    :language: swift
 
 Async/Await
@@ -217,14 +217,14 @@ You can update subscriptions using ``update``. In this example, we
 search for a subscription matching our query and then update that 
 subscription with a new query. 
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription.swift
    :language: swift
 
 You can also search for a subscription by name. In this example, we 
 search for a subscription by name and then update that subscription with
 a new query.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.update-subscription-by-name.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription-by-name.swift
    :language: swift
 
 .. _ios-remove-subscriptions:
@@ -248,7 +248,7 @@ You can remove a specific subscription query in a subscription write block
 using ``remove``. Specify the query by name or use the query as a string 
 name to find the appropriate query subscription to remove.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-single-subscription.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-single-subscription.swift
    :language: swift
 
 Remove All Subscriptions to an Object Type
@@ -257,7 +257,7 @@ Remove All Subscriptions to an Object Type
 If you want to remove all subscriptions to a specific object type, use the 
 ``removeAll`` method with ``ofType`` in a subscription write block.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-subscriptions-to-object-type.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-subscriptions-to-object-type.swift
    :language: swift
 
 Remove All Subscriptions
@@ -272,5 +272,5 @@ method in a subscription write block.
    get an error. A realm opened with a flexible sync configuration needs
    at least one subscription to sync with the server.
 
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.codeblock.remove-all-subscriptions.swift
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift

@@ -157,7 +157,7 @@ authentication.
    user is logged in. This guarantees that only authenticated users can access
    the rest of the app.
    
-   .. literalinclude:: /tutorial/generated/code/final/App.codeblock.requireLoggedInUser.js
+   .. literalinclude:: /tutorial/generated/code/final/App.snippet.requireLoggedInUser.js
       :caption: src/App.js
       :language: javascript
 
@@ -167,14 +167,14 @@ that you defined to log user in and register new users.
 Find the the ``handleLogin`` function and add the following code to process a 
 ``emailPassword`` credential by calling the ``logIn()`` method. 
 
-.. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleLogin.js
+.. literalinclude:: /tutorial/generated/code/final/LoginScreen.snippet.handleLogin.js
    :caption: src/components/LoginScreen.js
    :language: javascript
 
 Next, find the ``handleRegistrationAndLogin`` function and add the following code 
 to create a ``emailPassword`` credential.
 
-.. literalinclude:: /tutorial/generated/code/final/LoginScreen.codeblock.handleRegistrationAndLogin.js
+.. literalinclude:: /tutorial/generated/code/final/LoginScreen.snippet.handleRegistrationAndLogin.js
    :caption: src/components/LoginScreen.js
    :language: javascript
 
@@ -198,7 +198,7 @@ Here you define the query to get all tasks from the database.
 
 Fill in the code with the following query: 
 
-.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.codeblock.GetAllTasksQuery.js
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.snippet.GetAllTasksQuery.js
      :caption: src/graphql/useTaskQueries.js
      :language: javascript
 
@@ -212,7 +212,7 @@ when the component unmounts, so there isn't a memory leak.
 
 Fill in the code: 
 
-.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.codeblock.useAllTasksInProject.js
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.snippet.useAllTasksInProject.js
      :caption: src/graphql/useTaskQueries.js
      :language: javascript
 
@@ -235,19 +235,19 @@ Fill in the code with the following mutation definitions:
 
 * ``AddTaskMutation``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.addTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.addTaskMutation.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``UpdateTaskMutation``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.updateTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.updateTaskMutation.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``DeleteTaskMutation``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.deleteTaskMutation.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.deleteTaskMutation.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
@@ -261,19 +261,19 @@ your mutation definitions and update them to execute their respective mutations:
 
 * ``useAddTask``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useAddTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useAddTask.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``useUpdateTask``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useUpdateTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useUpdateTask.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
 * ``useDeleteTask``
 
-  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.codeblock.useDeleteTask.js
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useDeleteTask.js
      :caption: src/graphql/useTaskMutations.js
      :language: javascript
 
@@ -297,8 +297,8 @@ F. Implement the Projects List
 ------------------------------
 
 As defined by our data model, a ``Project`` is an :term:`embedded object` inside
-of a ``User`` document. This means that we can use :doc:`custom user data
-</users/enable-custom-user-data>` to access a given user's list of projects
+of a ``User`` document. This means that we can use :ref:`custom user data
+<custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
 
 To  update the app if other users add the current user to their project, we use the 
@@ -307,7 +307,7 @@ To  update the app if other users add the current user to their project, we use 
 In the file ``/graphql/useProjects.js``, add the following code to retrieve the
 current user's projects:
 
-.. literalinclude:: /tutorial/generated/code/final/useProjects.codeblock.useProjects.js
+.. literalinclude:: /tutorial/generated/code/final/useProjects.snippet.useProjects.js
    :caption: src/graphql/useProjects.js
    :language: javascript
 
@@ -333,7 +333,7 @@ Update the ``useTeamMembers()`` hook's return object to include
 ``addTeamMember()`` and ``removeTeamMember()`` helper functions that accept an
 email address and pass it their respective server-side functions:
 
-.. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.codeblock.useTeamMembers.js
+.. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.snippet.useTeamMembers.js
    :caption: src/components/EditPermissionsModal.js
    :language: javascript
 
@@ -506,20 +506,20 @@ options to keep practicing and learn more:
 - Dive deeper into the docs to learn more about MongoDB Realm. You'll find
   information and guides on features like:
   
-  - Serverless :doc:`functions </functions>` that handle backend logic and
+  - Serverless :ref:`functions <functions>` that handle backend logic and
     connect your app to external services. You can call functions from a
-    client app, either directly or as a :doc:`custom GraphQL resolver
-    </graphql/custom-resolvers>`.
+    client app, either directly or as a :ref:`custom GraphQL resolver
+    <graphql-custom-resolvers>`.
   
-  - :doc:`Triggers </triggers>` and :ref:`HTTPS endpoints <https-endpoints>`,
+  - :ref:`Triggers <triggers>` and :ref:`HTTPS endpoints <https-endpoints>`,
     which automatically call functions in response to events as they occur. You
-    can define :doc:`database triggers </triggers/database-triggers>` which
-    respond to changes in your data, :doc:`authentication triggers
-    </triggers/authentication-triggers>` which respond to user management and
-    authentication events, and :doc:`scheduled triggers
-    </triggers/scheduled-triggers>` which run on a fixed schedule.
+    can define :ref:`database triggers <database-trigger>` which
+    respond to changes in your data, :ref:`authentication triggers
+    <authentication-triggers>` which respond to user management and
+    authentication events, and :ref:`scheduled triggers
+    <scheduled-trigger>` which run on a fixed schedule.
 
-  - Built-in :doc:`authentication providers </authentication/providers>` and
+  - Built-in :ref:`authentication providers <authentication-providers>` and
     and user management tools. You can allow users to log in through multiple
     methods, like API keys and Google OAuth, and associate :ref:`custom data
     <custom-user-data>` with every user.

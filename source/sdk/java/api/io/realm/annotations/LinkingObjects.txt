@@ -21,7 +21,7 @@ io.realm.annotations
 
 
 
-- `java.lang.annotation.Annotation <https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Annotation.html>`__ 
+- `java.lang.annotation.Annotation <https://docs.oracle.com/javase/7/docs/api/java/lang/annotation/Annotation.html>`__ 
 
 
 Annotation for defining a reverse relationship from one class to another. This annotation can only be added to a field of the type ``RealmResults`` .
@@ -41,7 +41,7 @@ Annotation for defining a reverse relationship from one class to another. This a
     public class Dog extends RealmObject {
       // This holds all Person objects with a relation to this Dog object (= linking objects)
       @LinkingObjects("dog")
-      final RealmResults>Person< owners = null;
+      final RealmResults<Person> owners = null;
     }
    
     // Find all Dogs with at least one owner named John
@@ -51,7 +51,7 @@ Annotation for defining a reverse relationship from one class to another. This a
 
  
 
-In the above example \`Person\` is related to \`Dog\` through the field \`dog\`. This in turn means that an implicit reverse relationship exists between the class \`Dog\` and the class \`Person\`. This inverse relationship is made public and queryable by the \`RealmResults\` field annotated with \`@LinkingObject\`. This makes it possible to query properties of the dogs owner without having to manually maintain a "owner" field in the \`Dog\` class.Linking objects have the following properties:
+In the above example \`Person\` is related to \`Dog\` through the field \`dog\`. This in turn means that an implicit reverse relationship exists between the class \`Dog\` and the class \`Person\`. This inverse relationship is made public and queryable by the \`RealmResults\` field annotated with \`\@LinkingObject\`. This makes it possible to query properties of the dogs owner without having to manually maintain a "owner" field in the \`Dog\` class.Linking objects have the following properties:
 
 
 
@@ -73,7 +73,7 @@ In the above example \`Person\` is related to \`Dog\` through the field \`dog\`.
 - They are ignored when using the various \`createObjectFromJson\*\` and \`createAllFromJson\*\` methods.
    
    
-- Listeners on an object with a \`@LinkingObject\` field will not be triggered if the linking objects change, e.g: if another object drops a reference to this object.
+- Listeners on an object with a \`\@LinkingObject\` field will not be triggered if the linking objects change, e.g: if another object drops a reference to this object.
    
    
 
@@ -82,12 +82,12 @@ In addition, they have the following restrictions:
 
 
 
-- @Ignore takes precedence. A @LinkingObjects annotation on @Ignore field will be ignored.
+- \@Ignore takes precedence. A \@LinkingObjects annotation on \@Ignore field will be ignored.
    
    
    
    
-- The annotated field cannot be @Required.
+- The annotated field cannot be \@Required.
    
    
    
@@ -132,7 +132,7 @@ Note that when the source of the reverse reference (\`dog\` in the case above) i
 
 Querying inverse relationship is like querying any ``RealmResults`` . This means that an inverse relationship cannot be ``null``  but it can be empty (length is 0). It is possible to query fields in the source class. This is equivalent to link queries. Please read 
 
-`for more information <https://realm.io/docs/java/latest/#link-queries>`__ .
+`for more information <https://docs.mongodb.com/realm/sdk/android/examples/define-a-realm-object-model/#std-label-android-field-relationships-inverse>`__ .
 
 
 
@@ -146,7 +146,7 @@ Optional Element Summary
    * - Modifier and Type
      - Optional Element and Description
    
-   * - public `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__ 
+   * - public `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__ 
        
        
      - The name of a field that contains a relation to an instance of the class containing this annotation.

@@ -45,7 +45,7 @@ Set Up Your Project
       At the top of your source files where you want to use MongoDB Realm,
       add the following code to import the SDK and BSON ObjectId constructor.
       
-      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.import-realm-web.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.import-realm-web.js
          :language: javascript
       
       
@@ -55,7 +55,7 @@ Set Up Your Project
       To access a collection, create MongoDB service handle for the user that you
       wish to access the collection with:
 
-      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.instantiate-mongo-client.js
+      .. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.instantiate-mongo-client.js
          :language: javascript
 
 .. _web-mongodb-example-dataset:
@@ -66,7 +66,7 @@ Example Data
 The examples on this page use the following MongoDB collection that describes
 various plants for sale in a chain of plant stores:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.sample-data.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.sample-data.js
    :language: javascript
 
 .. _web-mongodb-create-documents:
@@ -94,12 +94,12 @@ valley" plant into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-single-document.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.insert-single-document.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-single-document-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.insert-single-document-result.js
    :language: javascript
 
 
@@ -115,13 +115,13 @@ The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-multiple-documents.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.insert-multiple-documents.js
    :language: javascript
 
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.insert-multiple-documents-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.insert-multiple-documents-result.js
    :language: javascript
 
 .. _web-mongodb-read-documents:
@@ -149,13 +149,13 @@ The following snippet finds the document that describes venus flytraps in the
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-single-document.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.find-single-document.js
    :language: javascript
 
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-single-document-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.find-single-document-result.js
    :language: javascript
 
 
@@ -175,12 +175,12 @@ The following snippet finds all documents in a
 <web-mongodb-example-dataset>` that contain a field named
 ``type`` with a value of "perennial":
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-multiple-documents.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.find-multiple-documents.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.find-multiple-documents-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.find-multiple-documents-result.js
    :language: javascript
 
 .. _web-mongodb-count:
@@ -198,12 +198,12 @@ The following snippet counts the number of documents in a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <web-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.count-documents-in-collection.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.count-documents-in-collection.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.count-documents-in-collection-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.count-documents-in-collection-result.js
    :language: javascript
 
 .. _web-mongodb-update-documents:
@@ -233,12 +233,12 @@ The following snippet updates a single document in a
 where the ``name`` field contains the value "petunia" and changes the value
 of the first matched document's ``sunlight`` field to "partial":
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-single-document.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.update-single-document.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-single-document-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.update-single-document-result.js
    :language: javascript
 
 .. _web-mongodb-updateMany:
@@ -255,12 +255,12 @@ The following snippet updates multiple documents in a
 where the ``_partition`` field contains the value "Store 42" and changes
 the value of the ``_partition`` field of each matching document to "Store 51":
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-multiple-documents.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.update-multiple-documents.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.update-multiple-documents-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.update-multiple-documents-result.js
    :language: javascript
 
 .. _web-mongodb-upsert:
@@ -288,12 +288,12 @@ Because this snippet sets the ``upsert`` option to ``true``, if no
 document matches the query, MongoDB creates a new document that includes
 both the query and specified updates:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.upsert-documents.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.upsert-documents.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.upsert-documents-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.upsert-documents-result.js
    :language: javascript
 
 .. _web-mongodb-delete-documents:
@@ -322,12 +322,12 @@ The following snippet deletes one document in a
 document where the ``color`` field has a value of "green" and deletes
 the first document that matches the query:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-single-document.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.delete-single-document.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-single-document-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.delete-single-document-result.js
    :language: javascript
 
 .. _web-mongodb-deleteMany:
@@ -342,12 +342,12 @@ The following snippet deletes all documents for plants that are in "Store 42" in
 a :ref:`collection of documents that describe plants for sale in a group of
 stores <web-mongodb-example-dataset>`:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-multiple-documents.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.delete-multiple-documents.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.delete-multiple-documents-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.delete-multiple-documents-result.js
    :language: javascript
 
 .. _web-mongodb-watch:
@@ -362,11 +362,10 @@ collection is added, modified, or deleted. Each notification specifies a
 document that changed, how it changed, and the full document after the
 operation that caused the event.
 
-{+service-short+} uses MongoDB :ref:`change streams <changeStreams>` on
-watched collections to listen for changes and broadcasts notifications
-to subscribed client applications. This is useful for cases where you
-want to know when something happened while a user is online. For
-example:
+{+service-short+} uses MongoDB :manual:`change streams </changeStreams/>` on
+watched collections to listen for changes and broadcasts notifications to
+subscribed client applications. This is useful for cases where you want to know
+when something happened while a user is online. For example:
 
 - Track the location of a delivery
 - Get the most up-to-date score and stats for a game
@@ -387,7 +386,7 @@ Watch for Changes in a Collection
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` without any arguments:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.watch-for-changes.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.watch-for-changes.js
    :language: javascript
 
 .. _web-mongodb-watch-a-collection-with-filter:
@@ -399,7 +398,7 @@ To watch for specific changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` with a query that specifies change event
 values to watch:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.watch-for-changes-with-filter.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.watch-for-changes-with-filter.js
    :language: javascript
 
 .. _web-mongodb-aggregation-pipelines:
@@ -428,12 +427,12 @@ The following snippet groups all documents in the ``plants``
 collection by their ``type`` value and aggregates a count of the
 number of each type:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.basic-aggregation.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.basic-aggregation.js
    :language: javascript
 
 Running this snippet produces output resembling the following:
 
-.. literalinclude:: /examples/generated/web/mongodb-data-access.test.codeblock.basic-aggregation-result.js
+.. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.basic-aggregation-result.js
    :language: javascript
 
 Aggregation Stages

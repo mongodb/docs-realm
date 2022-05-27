@@ -13,7 +13,7 @@ Client Resets - .NET SDK
    :depth: 2
    :class: singlecol
 
-When using :doc:`{+sync+} </sync>`, it is possible that your client app will 
+When using :ref:`{+sync+} <sync>`, it is possible that your client app will 
 need to handle a **client reset**. While not a common event, you need to perform 
 a client reset when Sync is terminated on the server. For example, when a developer 
 deploys a change that includes a destructive schema change. To fix this, you must 
@@ -68,7 +68,7 @@ mode. You specify the method for handling a manual reset with the
    The following example shows how you might configure the ``OnBeforeReset``, 
    ``OnAfterReset``, and ``ManualResetFallback`` callbacks.
 
-   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.codeblock.DiscardLocalResetHandler.cs
+   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.DiscardLocalResetHandler.cs
       :language: csharp
 
 
@@ -90,5 +90,5 @@ method.
 
    The following example demonstrates this:
 
-   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.codeblock.ManualClientReset.cs
+   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.ManualClientReset.cs
       :language: csharp

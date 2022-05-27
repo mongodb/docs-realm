@@ -32,21 +32,21 @@ class LandingPageTest : RealmTest() {
                     // and requires both a logged-in user and a partition value
                     val config : SyncConfiguration =
                         SyncConfiguration.Builder(app.currentUser(), "myPartition")
-                            // :hide-start:
+                            // :remove-start:
                             .allowQueriesOnUiThread(true) // only need these for the behind-the-scenes insert, so hide them
                             .allowWritesOnUiThread(true)
-                            // :hide-end:
+                            // :remove-end:
                             .build()
                     val realm = Realm.getInstance(config)
 
-                    // :hide-start:
+                    // :remove-start:
                     // create a frog to update in the example
                     realm.executeTransaction { transactionRealm: Realm ->
                         val frog = transactionRealm
                             .createObject(FrogJava::class.java, ObjectId())
                         frog.setName("Benjamin Franklin")
                     }
-                    // :hide-end:
+                    // :remove-end:
                     // start a write transaction
                     realm.executeTransactionAsync { transactionRealm: Realm ->
                         // get a frog from the database to update
@@ -57,9 +57,9 @@ class LandingPageTest : RealmTest() {
                         frog!!.setName("George Washington")
                         // change the frog's species
                         frog.setSpecies("American bullfrog")
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     } // when the transaction completes, the frog's name and species
                     // are updated in the database and synced to the connected Realm App
                     // :snippet-end:

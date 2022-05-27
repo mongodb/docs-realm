@@ -38,16 +38,16 @@ public class FunctionTest extends RealmTest {
                     List<Integer> args = Arrays.asList(1, 2);
                     functionsManager.callFunctionAsync("sum", args, Integer.class, result -> {
                         if (result.isSuccess()) {
-                            // :hide-start:
+                            // :remove-start:
                             Assert.assertTrue(it.isSuccess());
-                            // :hide-end:
+                            // :remove-end:
                             Log.v("EXAMPLE", "Sum value: " + result.get());
                         } else {
                             Log.e("EXAMPLE", "failed to call sum function with: " + result.getError());
                         }
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill();
-                        // :hide-end:
+                        // :remove-end:
                     });
                 } else {
                     Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.getError());

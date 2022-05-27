@@ -60,7 +60,7 @@ or :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`, these
 property wrappers implicitly open a {+realm+} and retrieve the specified 
 objects or results.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.implicitly-open-realm.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.implicitly-open-realm.swift
    :language: swift
 
 When you do not specify a configuration, these property wrappers use the 
@@ -97,7 +97,7 @@ for apps that require up-to-date information from the server, such as game
 apps with live leaderboards that the user can play on multiple devices. This 
 ensures the user is never using the app with stale data.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
    :language: swift
 
 This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
@@ -113,7 +113,7 @@ which you can use to update the view.
    to display an appropriate view. When the {+realm+} opens successfully,
    inject it as an environment value to populate the view.
 
-   .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.open-synced-realm-view.swift
+   .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
       :language: swift
 
 .. _swiftui-auto-open-synced-realm:
@@ -150,7 +150,7 @@ which you can use to update the view.
    to display an appropriate view. When the {+realm+} opens successfully,
    inject it as an environment value to populate the view.
 
-   .. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.codeblock.auto-open-synced-realm.swift
+   .. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.snippet.auto-open-synced-realm.swift
       :language: swift
 
 Pass Realm Data Between Views
@@ -172,7 +172,7 @@ wrapper, you implicitly open a {+realm+} and retrieve the specified objects
 or results. You can then pass those objects to a view further down the 
 hierarchy.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
    :language: swift
 
 .. _ios-swiftui-pass-environment-values:
@@ -192,14 +192,14 @@ When you want to pass a synced {+realm+}, you can use environment injection
 to pass the ``.partitionValue`` environment value. Inject this into a view 
 where you perform the ``@AsyncOpen`` or ``@AutoOpen``:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-environment-object.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
    :language: swift
 
 Then, when you use the property wrapper to open a synced {+realm+}, leave
 the ``partitionValue`` an empty string. The property wrapper populates the 
 value from the environment object passed in from above.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
    :language: swift
 
 Inject an Opened Realm
@@ -237,7 +237,7 @@ when an observed object changes. You can use this property wrapper to
 create a view that automatically updates itself when the observed object
 changes, such as a new item being added to a group.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.items-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.items-view.swift
    :language: swift
 
 Search a Realm Collection
@@ -251,7 +251,7 @@ The Realm Swift SDK allows you to extend :apple:`.searchable
 you can specify collection and keypath in the result set to denote it is
 searchable. 
 
-.. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.codeblock.searchable.swift
+.. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.snippet.searchable.swift
    :language: swift
 
 Filter or Query a Realm with ObservedResults
@@ -310,10 +310,10 @@ properties:
 When the app user updates those fields in this example, {+client-database+}
 opens an implicit write transaction and saves the new values to the database.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.quick-write-observed-realm-object.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.quick-write-observed-realm-object.swift
    :language: swift
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
    :language: swift
 
 SwiftUI Realm Migrations
@@ -344,13 +344,13 @@ From here, you have two options to pass the configuration object. You can either
    For example, you might want to add a property to an existing object, such as
    the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
 
-   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.add-property-to-model.swift
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.add-property-to-model.swift
       :language: swift
 
    After you add your new property to the schema, you must increment the 
    schema version. Your ``Realm.Configuration`` might look like this:
 
-   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.realm-configuration-increment-schema.swift
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.realm-configuration-increment-schema.swift
       :language: swift
 
    Declare this configuration somewhere that is accessible to the first view 
@@ -367,7 +367,7 @@ using the ``@ObservedResults`` or ``@ObservedRealmObject`` property wrappers,
 these views implicitly open a realm, so they also need access to this 
 configuration.
 
-.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-as-environment-object.swift
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-as-environment-object.swift
    :language: swift
 
 In the SwiftUI quickstart, the first view in the hiearchy that opens a realm 
@@ -376,20 +376,20 @@ varies depending on whether you're using the app with or without Sync.
 Without sync, you can pass the realm configuration environment object directly
 to the ``LocalOnlyContentView``: 
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-environment-object-to-local-content-view.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-environment-object-to-local-content-view.swift.rst
 
 Which opens a realm implicitly with:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.implicitly-open-realm.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.implicitly-open-realm.swift.rst
 
 However, for the Sync version of the quickstart, you open the Realm explicitly
 using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.auto-open-synced-realm.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.auto-open-synced-realm.swift.rst
 
 So you must pass pass the environment object to the ``OpenSyncedRealmView``:
 
-.. include:: /examples/generated/swiftui/migration/ExampleApp.codeblock.pass-realm-config-to-synced-realm-view.swift.code-block.rst
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-to-synced-realm-view.swift.rst
 
 The important thing to remember is to make sure to pass the 
 ``Realm.Configuration`` that encompasses your migration logic to any view 
@@ -403,5 +403,5 @@ property wrapper that takes a configuration object, such as ``@ObservedResults``
 or ``@AutoOpen``. In this case, you might pass it directly to ``@ObservedResults``
 in our ``ItemsView``.
 
-.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.codeblock.explicitly-provide-config-to-property-wrappers.swift
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.explicitly-provide-config-to-property-wrappers.swift
    :language: swift

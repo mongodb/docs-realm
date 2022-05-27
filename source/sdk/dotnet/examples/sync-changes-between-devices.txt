@@ -44,7 +44,7 @@ efficiently integrates, uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
-.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.codeblock.create.cs
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
    :language: csharp
 
 .. seealso:: 
@@ -74,7 +74,7 @@ method on the paused session, the {+sync-short+} session resumes.
 The following code block demonstrates calling the ``Stop()`` and ``Start()`` 
 methods: 
 
-.. literalinclude:: /examples/generated/dotnet/DataSyncExamples.codeblock.pause-synced-realm.cs
+.. literalinclude:: /examples/generated/dotnet/DataSyncExamples.snippet.pause-synced-realm.cs
    :language: csharp
 
 .. _dotnet-check-sync-progress:
@@ -103,7 +103,7 @@ property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
 <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
 methods. For example:
 
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.wait-for-changes-to-download-async-progress-notification.cs
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.wait-for-changes-to-download-async-progress-notification.cs
    :language: csharp
 
 .. _dotnet-sync-status-change:
@@ -150,7 +150,7 @@ bytes to be transferred.
    this callback is triggered, it prints the number of transferred 
    bytes and the number of transferable bytes to the console.
 
-   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.upload-download-progress-notification.cs
+   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.upload-download-progress-notification.cs
       :language: csharp
 
    Once you no longer wish to receive notifications, unregister the token by using 
@@ -188,7 +188,7 @@ value, which will be one of the following:
 The following code demonstrates setting the event handler, casting the session
 object, and checking the Sync status:
 
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.codeblock.connection-state.cs
+.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.connection-state.cs
    :language: csharp
 
 
@@ -202,7 +202,7 @@ addition to the standard exception properties, you have access to an :dotnet-sdk
 that contains information about the type of the error and allows you to have
 strongly typed handling logic.
 
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.handle-errors.cs
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.handle-errors.cs
    :language: csharp
 
 .. note:: Additional Exception Information
@@ -226,7 +226,7 @@ Set the Client Log Level
 To control which messages are logged by the client logger, use
 :dotnet-sdk:`LogLevel <reference/Realms.Logging.LogLevel.html>`:
 
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.set-log-level.cs
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.set-log-level.cs
    :language: csharp
 
 .. include:: /includes/tip-sync-log-levels.rst
@@ -238,5 +238,5 @@ Customize the Logging Function
 ------------------------------
 To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
 
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.codeblock.customize-logging-function.cs
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
    :language: csharp

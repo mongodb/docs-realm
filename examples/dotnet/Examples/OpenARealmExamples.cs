@@ -27,7 +27,7 @@ namespace Examples
             user = await app.LogInAsync(
                 Credentials.EmailPassword("foo@foo.com", "foobar"));
             config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
+            //:remove-start:
             // Internal Note: this is so we can have a more "global" instance
             // or the realm object but the code snippet can show
             // it being initialized
@@ -37,7 +37,7 @@ namespace Examples
                 typeof(Examples.Models.User)
             };
             Realm realm = Realm.GetInstance(config);
-            //:hide-end:
+            //:remove-end:
             try
             {
                 // :uncomment-start:
@@ -102,13 +102,13 @@ namespace Examples
             {
                 IsReadOnly = true,
             };
-            // :hide-start:
+            // :remove-start:
             config.Schema = new[]
             {
                 typeof(Task),
                 typeof(Examples.Models.User)
             };
-            // :hide-end:
+            // :remove-end:
             Realm localRealm;
             try
             {
@@ -178,7 +178,7 @@ namespace Examples
         {
             // :snippet-start: scope
             config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new Type[]
                 {
                     typeof(Task),
@@ -186,7 +186,7 @@ namespace Examples
                     typeof(AClassWorthStoring),
                     typeof(AnotherClassWorthStoring)
                 };
-            //:hide-end:
+            //:remove-end:
             using (var realm = Realm.GetInstance(config))
             {
                 var allTasks = realm.All<Task>();

@@ -64,7 +64,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :snippet-end:
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             realm.close()
         }
     }
@@ -94,7 +94,7 @@ class CRUDTest: RealmTest() {
                 // :snippet-end:
             }
             asyncCall.await()
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             Log.v("Number of frogs in realm : ${realm.query<Frog>().find().size}")
             assertEquals(1, realm.query<Frog>().find().size)
             realm.close()
@@ -170,7 +170,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
 
             // fetch all objects of a type as a results collection, synchronously
             val frogs: RealmResults<Frog> = realm.query<Frog>().find()
@@ -243,7 +243,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCallConvenience.cancel() // :hide:
+            asyncCallConvenience.cancel() // :remove:
 
             // sort in descending order, frogs with distinct owners, only the first 5, using RQL
             val somewhatLessConvenientlyOrganizedFrogs: Flow<ResultsChange<Frog>> =
@@ -262,7 +262,7 @@ class CRUDTest: RealmTest() {
                     }
                 }
             }
-            asyncCallLessConvenient.cancel() // :hide:
+            asyncCallLessConvenient.cancel() // :remove:
             // :snippet-end:
             realm.close()
         }
@@ -364,7 +364,7 @@ class CRUDTest: RealmTest() {
                 // :snippet-end:
             }
             asyncCall.await()
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             assertEquals(0, realm.query<Frog>().find().size)
             realm.close()
         }
@@ -404,7 +404,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :snippet-end:
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             realm.close()
         }
     }
@@ -444,7 +444,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :snippet-end:
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             realm.close()
         }
     }
@@ -484,7 +484,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :snippet-end:
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             realm.close()
         }
     }
@@ -534,7 +534,7 @@ class CRUDTest: RealmTest() {
                 }
                 // :snippet-end:
             }
-            asyncCall.cancel() // :hide:
+            asyncCall.cancel() // :remove:
             realm.close()
         }
     }
@@ -544,10 +544,10 @@ class CRUDTest: RealmTest() {
         runBlocking {
             val config =
                 RealmConfiguration.Builder(schema = setOf(Frog::class))
-                    // :hide-start:
+                    // :remove-start:
                     .directory("/tmp/")
                     .name(getRandom())
-                    // :hide-end:
+                    // :remove-end:
                     .build()
             val realm = Realm.open(config)
             // :snippet-start: update-a-collection

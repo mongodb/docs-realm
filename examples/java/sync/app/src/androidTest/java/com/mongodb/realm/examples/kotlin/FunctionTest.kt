@@ -30,16 +30,16 @@ class FunctionTest : RealmTest() {
                     val args: List<Int> = listOf(1, 2)
                     functionsManager.callFunctionAsync("sum", args, Integer::class.java) { result ->
                         if (result.isSuccess) {
-                            // :hide-start:
+                            // :remove-start:
                             Assert.assertEquals(true, it.isSuccess)
-                            // :hide-end:
+                            // :remove-end:
                             Log.v("EXAMPLE", "Sum value: ${result.get()}")
                         } else {
                             Log.e("EXAMPLE", "failed to call sum function with: " + result.error)
                         }
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                 } else {
                     Log.e("EXAMPLE", "Error logging into the Realm app. Make sure that anonymous authentication is enabled. Error: " + it.error)

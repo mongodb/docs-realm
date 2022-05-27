@@ -43,7 +43,7 @@ consisting of other ``Person`` objects. An ``Address`` has a city and country.
 
 See the schema for these two classes, ``Person`` and ``Address``, below:
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.models.swift
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
    :language: swift
 
 .. _ios-define-a-class-projection:
@@ -64,7 +64,7 @@ property wrapper to declare a property that you want to project from a
    <ios-mutableset-data-type>` in a class projection, the type in the 
    class projection should be :swift-sdk:`ProjectedCollection <>`.
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.declare-class-projection.swift
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.declare-class-projection.swift
    :language: swift
 
 When you define a class projection, you can transform the original ``@Persisted``
@@ -98,7 +98,7 @@ To query for class projections in a realm, pass the metatype instance
 This returns a :swift-sdk:`Results <Structs/Results.html>` object
 representing all of the class projection objects in the realm.
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.retrieve-data-through-class-projection.swift
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.retrieve-data-through-class-projection.swift
    :language: swift
 
 .. tip::
@@ -116,7 +116,7 @@ Change Class Projection Properties
 
 You can make changes to a class projection's properties in a write transaction.
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.change-class-projection-property-value-in-a-write.swift
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.change-class-projection-property-value-in-a-write.swift
    :language: swift
 
 .. _ios-use-class-projection-in-swiftui-view:
@@ -160,5 +160,5 @@ This notification block fires for changes in:
 - ``PersonProjection.firstName`` property, but not another class projection 
   that uses the same underlying object's property. 
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.codeblock.register-a-class-projection-change-listener.swift
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.register-a-class-projection-change-listener.swift
    :language: swift

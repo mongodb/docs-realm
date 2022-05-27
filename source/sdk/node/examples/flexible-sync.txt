@@ -89,7 +89,7 @@ object type.
   syntactically the same as :ref:`querying a {+realm+} <node-read-operations>`
   and that the queries below will create an overlapping result set.
 
-  .. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+  .. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
      :language: javascript
 
 .. important:: Object Links
@@ -108,7 +108,7 @@ Get Subscriptions
 When using a flexible synced realm, you can access a ``SubscriptionSet``, a
 collection of subscriptions, through the :js-sdk:`realm.subscriptions <Realm.html#subscriptions>` property.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.get-subscriptions.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.get-subscriptions.js
     :language: javascript
 
 You can use this ``SubscriptionSet`` to add queries to the list of subscriptions and
@@ -122,7 +122,7 @@ Add a Query to the List Of Subscriptions
 Compose queries to add to your Flexible Sync subscriptions using the
 :ref:`query engine <react-native-client-query-engine>`:  
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.create-queries-to-subscribe-to.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
      :language: javascript
 
 .. important:: Flexible Sync Query Limitations
@@ -144,7 +144,7 @@ Add queries to your subscriptions list to sync the query's data. To do so, perfo
 
 The following example shows how to subscribe to the queries created above.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.subscribe-to-queryable-fields.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.subscribe-to-queryable-fields.js
      :language: javascript
 
 The ``add()`` method on the ``MutableSubscriptionSet`` takes a ``query`` and a
@@ -176,7 +176,7 @@ You can use subscription state to:
 To the status of subscriptions, log the value of the subscription's
 :js-sdk:`state <Realm.App.Sync.SubscriptionSet.html#state>`.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.log-subscription-state.js 
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.log-subscription-state.js 
     :language: javascript
 
 Update Subscriptions with a New Query
@@ -191,7 +191,7 @@ you must update a subscription within a transaction by calling
 In the following example, long-running tasks are re-defined to be any tasks that
 have taken more than 180 minutes. 
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.update-subscriptions.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.update-subscriptions.js
     :language: javascript
 
 .. note::
@@ -222,7 +222,7 @@ the subscriptions set. Pass the query to the :js-sdk:`remove()
 In the following example, the subscription to tasks with an owner named 'Ben' is
 removed from the subscriptions set.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-single-subscription.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-single-subscription.js
     :language: javascript
 
 Remove a Subscription by Name
@@ -233,7 +233,7 @@ subscriptions set. Within the transaction, pass the name to the
 <Realm.App.Sync.MutableSubscriptionSet.html#removeByName>` method on the
 ``MutableSubscriptionSet``.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-name.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-name.js
     :language: javascript
 
 Remove a Subscription by Reference
@@ -244,7 +244,7 @@ pass the reference variable to the :js-sdk:`removeSubscription
 <Realm.App.Sync.MutableSubscriptionSet.html#removeSubscription>` method on the
 ``MutableSubscriptionSet``.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-subscription-by-reference.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-subscription-by-reference.js
     :language: javascript
 
 Remove All Subscriptions on an Object Type
@@ -255,7 +255,7 @@ to the :js-sdk:`removeByObjectType
 <Realm.App.Sync.MutableSubscriptionSet.html#removeByObjectType>` method on the
 ``MutableSubscriptionSet``.
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions-of-object-type.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions-of-object-type.js
     :language: javascript
 
 Remove All Subscriptions
@@ -265,5 +265,5 @@ the subscriptions set. Call :js-sdk:`removeAll()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` on the
 ``MutableSubscriptionSet`` within the transaction
 
-.. literalinclude:: /examples/generated/node/flexible-sync.codeblock.remove-all-subscriptions.js
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
     :language: javascript

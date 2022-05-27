@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
         // :snippet-end:
 
         // :snippet-start: initialize-the-app
-        // :hide-start:
+        // :remove-start:
         String appID = "example-testers-kvjdy"; // replace this with your App ID
         // :replace-with:
         //String appID = YOUR_APP_ID;
-        // :hide-end:
+        // :remove-end:
         app = new App(new AppConfiguration.Builder(appID)
             .build());
         // :snippet-end:
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 ExecutorService executorService = Executors.newFixedThreadPool(2);
                 executorService.execute(task);
 
-                // :hide-start:
+                // :remove-start:
                 while(!task.isDone()) {
                     // wait for task completion
                 }
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 finish(); // destroy activity when background task completes
-                // :hide-end:
+                // :remove-end:
             } else {
                 Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
             }

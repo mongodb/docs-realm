@@ -59,7 +59,7 @@ template. Open the main Swift file and delete all of the code inside,
 including any ``@main`` ``App`` classes that Xcode generated for you. At
 the top of the file, import the Realm and SwiftUI frameworks:
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.imports.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.imports.swift
    :language: swift
 
 .. tip::
@@ -86,7 +86,7 @@ association with a specific user, but that's out of scope of this guide.
 
 Paste the following code into your main Swift file to define the models:
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.models.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.models.swift
    :language: swift
 
 Views and Observed Objects
@@ -97,7 +97,7 @@ The entrypoint of the app is the **ContentView** class that derives from
 **LocalOnlyContentView**. Later, this will show the **SyncContentView**
 when {+sync+} is enabled.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.content-view.swift
    :language: swift
 
 .. tip::
@@ -124,7 +124,7 @@ the view observes the groups thanks to the ``@ObservedResults`` property
 wrapper, the view immediately refreshes upon adding that first group and
 displays the ItemsView.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.local-only-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
    :language: swift
 
 .. tip::
@@ -153,7 +153,7 @@ remove and move events of the SwiftUI List. Thanks to the
 without explicitly opening a write transaction. The property wrapper
 automatically opens a write transaction as needed.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.items-view.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.items-view.swift
    :language: swift
 
 Finally, the **ItemRow** and **ItemDetailsView** classes use the
@@ -161,7 +161,7 @@ Finally, the **ItemRow** and **ItemDetailsView** classes use the
 above. These classes demonstrate a few more examples of how to use the
 property wrapper to display and update properties.
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.item-row-and-details.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.item-row-and-details.swift
    :language: swift
 
 .. tip::
@@ -207,7 +207,7 @@ At the top of the source file, initialize an optional :swift-sdk:`Realm
 app <Extensions/App.html>` with :ref:`your Realm app ID
 <find-your-app-id>`:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.mongodb-realm.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.mongodb-realm.swift
    :language: swift
 
 .. tip::
@@ -218,7 +218,7 @@ app <Extensions/App.html>` with :ref:`your Realm app ID
 Let's update the main ContentView to show the **SyncContentView** if the
 app reference is not ``nil``:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.content-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.content-view.swift
    :language: swift
 
 We define the SyncContentView below. 
@@ -235,7 +235,7 @@ This view has two possible states:
 
 Here's the code for the SyncContentView:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.sync-content-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.sync-content-view.swift
    :language: swift
 
 From here, we pass the logged in user's ID to the OpenSyncedRealmView as a 
@@ -243,7 +243,7 @@ From here, we pass the logged in user's ID to the OpenSyncedRealmView as a
 for opening a {+realm+} and working with the data. With Sync, we can only
 open the {+realm+} once a user is logged in.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-environment-object.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
    :language: swift
 
 Once logged in, we open the realm asynchronously with the :swift-sdk:`AsyncOpen
@@ -251,7 +251,7 @@ Once logged in, we open the realm asynchronously with the :swift-sdk:`AsyncOpen
 ``partitionValue`` an empty string since we are getting that value from 
 the environment object passed in from above.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.partition-value-empty-string.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
    :language: swift
 
 The OpenSyncedRealmView switches on the :swift-sdk:`AsyncOpenState 
@@ -284,7 +284,7 @@ This view has a few different states:
 
 Here's the code for the OpenSyncedRealmView:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.open-synced-realm-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
    :language: swift
 
 When you run the app and see the main UI, there are no items in the view. 
@@ -364,13 +364,13 @@ more. Because the parent view is observing the Realm app, it will notice
 when the user authentication state has changed and decide to show
 something other than the LoginView.
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.login-view.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.login-view.swift
    :language: swift
 
 The LogoutButton works just like the LoginView, but logs out instead of
 logging in:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.logout-button.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.logout-button.swift
    :language: swift
 
 Once logged in, the app follows the same flow as the local-only version.
@@ -394,12 +394,12 @@ with or without {+sync+}, see below.
 Without Sync
 ~~~~~~~~~~~~
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.codeblock.complete-swiftui-quick-start.swift
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.complete-swiftui-quick-start.swift
    :language: swift
 
 With Sync
 ~~~~~~~~~
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.codeblock.complete-swiftui-quick-start.swift
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.complete-swiftui-quick-start.swift
    :language: swift
 

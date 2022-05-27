@@ -73,11 +73,11 @@ describe("Sync Changes Between Devices", () => {
     let realm = await Realm.open(config);
     const syncSession = realm.syncSession;
 
-    // :hide-start:
+    // :remove-start:
     syncSession.addConnectionNotification((newState, oldState) => {
       timesConnectionStateHasChanged += 1;
     });
-    // :hide-end:
+    // :remove-end:
     // Pause synchronization
     syncSession.pause();
     // Later, resume synchronization
@@ -137,9 +137,9 @@ describe("Sync Changes Between Devices", () => {
       "upload",
       "reportIndefinitely",
       (transferred, transferable) => {
-        // :hide-start:
+        // :remove-start:
         progressNotificationHasBeenTriggered = true;
-        // :hide-end:
+        // :remove-end:
         console.log(`${transferred} bytes has been transferred`);
         console.log(
           `There are ${transferable} total transferable bytes, including the ones that have already been transferred`

@@ -222,7 +222,7 @@ content: |
     ``build.gradle`` file
   - setting the {+service-short+} log level
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskTracker.codeblock.initialize-realm-and-create-app.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskTracker.snippet.initialize-realm-and-create-app.kt
      :language: kotlin
      
   You don't need to make any changes to this file right now,
@@ -248,7 +248,7 @@ content: |
 
   First, let's implement the logic that registers a new user:
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.create-user.kt
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.snippet.create-user.kt
      :language: kotlin
 
   Now, implement the logic to log in with an existing user. Once
@@ -256,7 +256,7 @@ content: |
   closes the ``LoginActivity`` and resumes the calling activity
   (typically ``ProjectActivity``):
 
-  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.codeblock.login-user.kt
+  .. literalinclude:: /tutorial/generated/code/final/LoginActivity.snippet.login-user.kt
      :language: kotlin
 
   Don't forget to call the ``onLoginFailed()`` method in the event of a
@@ -280,7 +280,7 @@ content: |
   the user's {+realm+} in the ``else`` block of the ``onStart()`` method
   of ``ProjectActivity``:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.set-up-user-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.set-up-user-realm.kt
      :language: kotlin
 
   Next, we need to query the {+realm+} to get a copy of the ``User``
@@ -292,7 +292,7 @@ content: |
   object when the user creates an account. Add the code that queries for
   the user object in ``getProjects()``:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.fetch-synced-user-safely.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.fetch-synced-user-safely.kt
      :language: kotlin
 
   Because it can take a few seconds for the trigger to create this
@@ -302,7 +302,7 @@ content: |
   watch the {+realm+} for changes and only set up the project's Recycler
   View once the trigger runs:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.user-init-change-listener.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.user-init-change-listener.kt
      :language: kotlin
 
   .. note:: Always Enabling the User's Personal Project
@@ -322,10 +322,10 @@ content: |
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``ProjectActivity`` stops or finishes:
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-stop-close-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.on-stop-close-realm.kt
      :language: kotlin
 
-  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.codeblock.on-destroy-close-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.on-destroy-close-realm.kt
      :language: kotlin
 
 ---
@@ -341,7 +341,7 @@ content: |
   the user who owns the project). We'll begin by initializing a
   connection to this {+realm+} when the activity starts:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.set-up-project-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.set-up-project-realm.kt
      :language: kotlin
 
   Next, we'll query the realm for the list of tasks belonging to this
@@ -355,7 +355,7 @@ content: |
   list of tasks, pass the ``RealmResult`` to the ``TaskAdapter`` and set
   that adapter as the ``RecyclerView's`` adapter:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.fetch-tasks-for-project-sorted-by-id.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.fetch-tasks-for-project-sorted-by-id.kt
      :language: kotlin
 
   ``TaskActivity`` needs to allow users to create a new task in the project. To
@@ -363,7 +363,7 @@ content: |
   ``setPositiveButton()`` callback that creates a new task based on the user's
   input in ``inputText`` and adds that task to the {+realm+}:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.add-new-task-to-project.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.add-new-task-to-project.kt
      :language: kotlin
 
   Finally, we need to guarantee that ``TaskActivity`` always closes
@@ -371,10 +371,10 @@ content: |
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``TaskActivity`` finishes or stops:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-destroy-close-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.on-destroy-close-realm.kt
      :language: kotlin
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.codeblock.on-stop-close-realm.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.on-stop-close-realm.kt
      :language: kotlin
 
 ---
@@ -401,14 +401,14 @@ content: |
 
   Don't forget to read and write from the {+realm+} within a transaction!
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.change-task-status.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.snippet.change-task-status.kt
      :language: kotlin
 
   The logic that deletes a task is similar to the logic that updates a
   task, but it removes the task from the {+realm+} instead of updating
   any properties:
 
-  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.codeblock.delete-task.kt
+  .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.snippet.delete-task.kt
      :language: kotlin
 
 ---
@@ -436,7 +436,7 @@ content: |
   access {+service-short+} Functions through the function manager
   found in your project-global {+service-short+} app:
 
-  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.get-team-members.kt
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.get-team-members.kt
      :language: kotlin
 
   Similar to ``TaskActivity``, we'll use the floating action button in
@@ -453,7 +453,7 @@ content: |
   backend when the ``addTeamMember()`` {+service-short+} Function
   successfully adds a team member:
 
-  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.codeblock.add-new-member-to-project.kt
+  .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.add-new-member-to-project.kt
      :language: kotlin
 
 ---
@@ -474,7 +474,7 @@ content: |
   position in the dataset and the UI should automatically stop
   displaying the removed team member:
 
-  .. literalinclude:: /tutorial/generated/code/final/MemberAdapter.codeblock.remove-user-from-project.kt
+  .. literalinclude:: /tutorial/generated/code/final/MemberAdapter.snippet.remove-user-from-project.kt
      :language: kotlin
 
 ---

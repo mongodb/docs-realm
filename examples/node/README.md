@@ -94,17 +94,17 @@ Code examples are extracted using [Bluehawk](https://github.com/MongoCaleb/blueh
 To create a code example, wrap some code between `:snippet-start:` and `:snippet-end:`
 comments and give the example an identifier that's unique among all examples within the file. If
 your test needs to run code that shouldn't be in the final generated output, wrap that code between
-`:hide-start:` and `:hide-end:` comments.
+`:remove-start:` and `:remove-end:` comments.
 
 ```js
 // This line is just a normal comment. It won't appear in any generated code.
 // :snippet-start: my-example
 async function myExample() {
-  // :hide-start:
+  // :remove-start:
   // We need this code to run the test, but it shouldn't be in the final code example.
-  // Any lines between :hide-start: and :hide-end: are automatically removed from generated code.
+  // Any lines between :remove-start: and :remove-end: are automatically removed from generated code.
   await setup();
-  // :hide-end:
+  // :remove-end:
   // Lines not in a hide block (including this comment!) will remain in the generated code.
   return await doSomethingFancy();
 }
@@ -150,7 +150,7 @@ The generated code is now available within any `.txt` or `.rst` file via the `..
 directive.
 
 ```restructuredtext
-.. literalinclude:: /examples/generated/code/start/authenticate.codeblock.my-example.js
+.. literalinclude:: /examples/generated/code/start/authenticate.snippet.my-example.js
    :language: javascript
 ```
 

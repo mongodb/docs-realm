@@ -41,11 +41,11 @@ namespace Examples.Models
     // }
     public class Doge : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         //[NotPrimaryKey]
         public string Name { get; set; }
         public int Age { get; set; }
@@ -62,11 +62,11 @@ namespace Examples.Models
     // }
     public class Person_Required : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         [Required]
         public string Name { get; set; }
         public IList<Dog_OMAS> Dogs { get; }
@@ -81,11 +81,11 @@ namespace Examples.Models
     // }
     public class PersonB : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         public string Name { get; set; } = "foo";
     }
     // :replace-end:
@@ -99,11 +99,11 @@ namespace Examples.Models
     // }
     public class Person_Index : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         [Indexed]
         public string Name { get; set; }
         public IList<Dog_OMAS> Dogs { get; }
@@ -119,22 +119,22 @@ namespace Examples.Models
     // }
     public class Dog_Rel_One_to_One : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // ... other property declarations
         public Person_Rel_One_to_One Owner { get; set; }
     }
 
     public class Person_Rel_One_to_One : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // ... other property declarations
         public string Name { get; set; }
     }
@@ -149,22 +149,22 @@ namespace Examples.Models
     // }
     public class Dog_Rel_One_to_Many : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // ... other property declarations
         public string Name { get; set; }
     }
 
     public class Person_Rel_One_to_Many : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // ... other property declarations
         public IList<Dog_Rel_One_to_Many> Dogs { get; }
     }
@@ -179,22 +179,22 @@ namespace Examples.Models
     // }
     class Dog_Inverse : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // To-one relationship from the Dog to its owner
         public Person_Inverse Owner { get; set; }
     }
 
     class Person_Inverse : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // An inverse relationship that returns all Dog instances that have Dog.Owner set to
         // the current Person.
         [Backlink(nameof(Dog_Inverse.Owner))]
@@ -206,11 +206,11 @@ namespace Examples.Models
 
     class Hobby : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // An inverse relationship that returns all Person instances that have the current Hobby
         // instance in their Hobbies list.
         [Backlink(nameof(Person_Inverse.Hobbies))]
@@ -221,11 +221,11 @@ namespace Examples.Models
 
     class IgnorantRenamer
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         // :snippet-start: ignore
         // Rather than store an Image in Realm,
         // store the path to the Image...
@@ -244,11 +244,11 @@ namespace Examples.Models
         // }
         public class PersonH : RealmObject
         {
-            //:hide-start:
+            //:remove-start:
             [PrimaryKey]
             [MapTo("_id")]
             public ObjectId ID { get; set; }
-            //:hide-end:
+            //:remove-end:
             [MapTo("moniker")]
             public string Name { get; set; }
         }
@@ -291,11 +291,11 @@ namespace Examples.Models
     [MapTo("Human")]
     public class PersonI : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         public string Name { get; set; }
     }
     // :replace-end:
@@ -311,11 +311,11 @@ namespace Examples.Models
     // Declare your schema
     class LoneClass : RealmObject
     {
-        //:hide-start:
+        //:remove-start:
         [PrimaryKey]
         [MapTo("_id")]
         public ObjectId ID { get; set; }
-        //:hide-end:
+        //:remove-end:
         public string Name { get; set; }
     }
 
