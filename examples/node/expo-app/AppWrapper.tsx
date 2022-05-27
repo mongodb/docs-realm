@@ -30,9 +30,6 @@ export default AppWrapper;
 //   }
 // }
 function AppWrapper2() {
-  if (!app.currentUser) {
-    return <LoginUserScreen />;
-  }
   const syncConfig = {
     user: app.currentUser,
     partitionValue: "ExpoTemplate",

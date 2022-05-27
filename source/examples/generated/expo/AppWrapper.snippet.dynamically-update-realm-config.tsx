@@ -1,7 +1,4 @@
 function AppWrapper() {
-  if (!app.currentUser) {
-    return <LoginUserScreen />;
-  }
   const syncConfig = {
     user: app.currentUser,
     partitionValue: "ExpoTemplate",
