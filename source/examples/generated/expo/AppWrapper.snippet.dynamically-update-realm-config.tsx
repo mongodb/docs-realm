@@ -1,14 +1,14 @@
 function AppWrapper() {
   if (!app.currentUser) {
-    return (<LoginUserScreen />);
+    return <LoginUserScreen />;
   }
   const syncConfig = {
     user: app.currentUser,
-    partitionValue: "ExpoTemplate"
-  }
+    partitionValue: "ExpoTemplate",
+  };
 
   return (
-    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner/>}>
+    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
       <App />
     </RealmProvider>
   );

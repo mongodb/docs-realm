@@ -1,17 +1,34 @@
 
-import { Text, } from "react-native";
+import { StyleSheet, View, Text, Button } from "react-native";
 import React, {useEffect } from 'react';
 import {appId} from "../../realm.json";
+import AppWrapper from "../../AppWrapper";
 
 const app = new Realm.App({ id: appId });
 
 const LoginUserScreen = () => {
-    useEffect(() => {
-        const LogInAnonymous = async() => await app.logIn(Realm.Credentials.anonymous());
-    }, [app]);
+    const onPressLogin = async() => {
+        await app.logIn(Realm.Credentials.anonymous());
+        alert(app.currentUser.id)
+    }
     return(
-        <Text>Mock Login Screen</Text>
+        <View style={styles.loginWrapper}>
+            <Text style={styles.loginTextTitle}>Mock Login Screen</Text>
+            <Button title="Login" onPress={() => onPressLogin()}/>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    loginWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+    loginTextTitle: {
+        textAlign: 'center'
+    }
+  });
+  
 
 export default LoginUserScreen;

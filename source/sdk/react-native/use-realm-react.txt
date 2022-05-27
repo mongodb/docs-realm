@@ -124,7 +124,7 @@ the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
 the ``TaskContext`` object to get its ``RealmProvider``. 
 
-.. literalinclude:: /examples/generated/expo/App.snippet.import-task-context.tsx
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.import-task-context.tsx
     :language: typescript
 
 Wrap the ``RealmProvider`` around the component that you want
@@ -132,7 +132,7 @@ to give access to the configured {+realm+}. In the example below, we give the en
 app access to the {+realm+} by wrapping the ``RealmProvider`` around
 the ``App`` component, which renders the application.
 
-.. literalinclude:: /examples/generated/expo/App.snippet.wrap-app-within-realm-provider.tsx
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
     :language: typescript
 
 Dynamically Update the {+service-short+} Configuration
@@ -148,7 +148,7 @@ configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
 property that is used to render a temporary ``LoadingSpinner`` component while
 waiting for {+sync+} to open:
 
-.. literalinclude:: /examples/generated/expo/App.snippet.dynamically-update-realm-config.tsx
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
 
@@ -210,9 +210,9 @@ automatically subscribe to updates and re-render the component using the hook on
 any change to the object.
 
 In the following example, the ``useObject()`` hook retrieves a ``Task`` object,
-and its description is logged to the console.
+and its description is rendered in the UI.
 
-.. literalinclude:: /examples/generated/expo/App.snippet.example-useobject-hook-usage.tsx
+.. literalinclude:: /examples/generated/expo/SampleTask.snippet.example-useobject-hook-usage.tsx
     :language: typescript
 
 useQuery

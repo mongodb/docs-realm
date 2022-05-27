@@ -1,21 +1,27 @@
-import { useCallback, useMemo } from "react";
-import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import { useCallback, useState } from "react";
+import { SafeAreaView, View, StyleSheet, Button } from "react-native";
 import Realm from "realm";
 import IntroText from "./app/components/IntroText";
 import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
-import LoadingSpinner from "./app/components/LoadingSpinner";
-import LoginUserScreen from "./app/components/LoginUserScreen";
 import SampleTask from "./app/components/SampleTask";
+import {appId} from "./realm.json";
+
+const app = new Realm.App({ id: appId });
 
 // :snippet-start: get-access-to-the-hooks
 import TaskContext, { Task } from "./app/models/Task";
+import LoginUserScreen from "./app/components/LoginUserScreen";
 
 const { useRealm, useQuery, useObject } = TaskContext;
 // :snippet-end:
 
 function App() {
+  const [user, setUser] = useState(null);
+  if(user){
+    return (<LoginUserScreen />)
+  }
   // :snippet-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
@@ -73,6 +79,7 @@ function App() {
           />
         )}
         <SampleTask _id={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
+        <Button title="Log Out" onPress={() => app?.currentUser?.logOut()} />
       </View>
     </SafeAreaView>
   );
@@ -89,32 +96,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 });
-
-
-const app = new Realm.App({ id: "-id" });
-
-// :snippet-start: dynamically-update-realm-config
-// :replace-start: {
-//   "terms": {
-//     "AppWrapper2": "AppWrapper"
-//   }
-// }
-function AppWrapper2() {
-  if (!app.currentUser) {
-    return <LoginUserScreen />;
-  }
-  const syncConfig = {
-    user: app.currentUser,
-    partitionValue: "ExpoTemplate",
-  };
-
-  return (
-    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
-      <App />
-    </RealmProvider>
-  );
-}
-// :replace-end:
-// :snippet-end:
 
 export default App;
