@@ -7,6 +7,7 @@ import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
 import LoadingSpinner from "./app/components/LoadingSpinner";
 import LoginUserScreen from "./app/components/LoginUserScreen";
+import SampleTask from "./app/components/SampleTask";
 
 // :snippet-start: get-access-to-the-hooks
 import TaskContext, { Task } from "./app/models/Task";
@@ -76,17 +77,6 @@ function App() {
     </SafeAreaView>
   );
 }
-
-// :snippet-start: example-useobject-hook-usage
-const SampleTask = ({ _id }) => {
-  const myTask = useObject(Task, _id);
-  return (
-    <View>
-      <Text>Task: {myTask?.description} </Text>
-    </View>
-  );
-};
-// :snippet-end:
 
 const styles = StyleSheet.create({
   screen: {
