@@ -1,6 +1,8 @@
-===================================================
-Introduction to MongoDB Realm for Mobile Developers
-===================================================
+.. _intro-realm-database:
+
+==============================
+Introduction to Realm Database
+==============================
 
 .. default-domain:: mongodb
 
@@ -16,16 +18,8 @@ This introduction explains the {+service+} product for mobile application develo
 - How {+backend+} interacts with {+client-database+}.
 - The benefits of {+service+} compared to traditional mobile development stacks.
 
-.. note::
-   If you prefer working on the backend or on web
-   applications, consider reading the
-   :doc:`Introduction for Web Developers
-   </get-started/introduction-web>` or the
-   :doc:`Introduction for Back-end Developers
-   </get-started/introduction-backend>`.
-
-What Problem Does MongoDB Realm Solve?
---------------------------------------
+What Problem Does Realm Solve?
+------------------------------
 
 Mobile developers face a number of unique challenges. You must:
 
@@ -110,17 +104,18 @@ MongoDB Realm
 - The :ref:`GraphQL API <graphql-api>` lets you access data stored in a linked MongoDB cluster
   using any standard GraphQL client.
 
-Get Started with MongoDB Realm
-------------------------------
+Get Started with Realm
+----------------------
 
-Jump right in and :ref:`create a {+backend+} application
-<create-a-realm-app>` or check out our Task Tracker tutorial
-for any of these platforms:
+Check out our Task Tracker tutorial for any of these platforms:
 
 - :ref:`Android with Kotlin <java-sdk-tutorial>`
 - :ref:`iOS with Swift <ios-swift-tutorial>`
 - :ref:`React Native with JavaScript <react-native-tutorial>`
 - :ref:`Xamarin (iOS and Android) with C# <dotnet-tutorial>`
+
+Or start by experimenting with a working Sync-enabled client application 
+with a :ref:`Realm template app <template-applications>`.
 
 You can also refer to the documentation for each client SDK:
 
@@ -133,10 +128,6 @@ You can also refer to the documentation for each client SDK:
 Summary
 -------
 
-- {+service+} is a serverless application platform that takes care of
-  the details of deployment and scaling for you. 
-- You can customize your {+app+} with functions and triggers, custom
-  permissions via rules, and authentication.
 - {+client-database+} is an offline-first mobile object database in
   which you can directly access and store live objects without an
   :wikipedia:`ORM <Object-relational_mapping>`.
@@ -151,3 +142,8 @@ Summary
   - {+client-database+} synchronizes data in a background thread,
     abstracting away network usage so you don't have to worry about
     latency or dropped connections.
+
+- {+service+} is a serverless application platform that takes care of
+  the details of deployment and scaling for you. 
+- You can customize your {+app+} with functions and triggers, custom
+  permissions via rules, and authentication.
