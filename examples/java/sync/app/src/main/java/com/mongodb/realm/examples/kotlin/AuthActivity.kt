@@ -45,6 +45,7 @@ class AuthActivity : AppCompatActivity() {
         val signInIntent: Intent = googleSignInClient.signInIntent
 
         val resultLauncher: ActivityResultLauncher<Intent> =
+            // Note: this activity MUST inherit from ComponentActivity or AppCompatActivity to use this API
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 val task: Task<GoogleSignInAccount> =
