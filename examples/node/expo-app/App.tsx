@@ -1,30 +1,20 @@
 import { useCallback, useMemo } from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import Realm from "realm";
-import TaskContext, { Task } from "./app/models/Task";
 import IntroText from "./app/components/IntroText";
 import AddTaskForm from "./app/components/AddTaskForm";
 import TaskList from "./app/components/TaskList";
 import colors from "./app/styles/colors";
-
-// :snippet-start: import-task-context
-// :uncomment-start:
-// import TaskContext from "./app/models/Task";
-
-// :uncomment-end:
-const { RealmProvider } = TaskContext;
-// :snippet-end:
+import LoadingSpinner from "./app/components/LoadingSpinner";
+import LoginUserScreen from "./app/components/LoginUserScreen";
 
 // :snippet-start: get-access-to-the-hooks
-// :uncomment-start:
-// import TaskContext, { Task } from "./app/models/Task";
+import TaskContext, { Task } from "./app/models/Task";
 
-// :uncomment-end:
 const { useRealm, useQuery, useObject } = TaskContext;
 // :snippet-end:
 
 function App() {
-  const realm = useRealm();
   // :snippet-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
@@ -37,9 +27,7 @@ function App() {
   // :snippet-end:
 
   // :snippet-start: example-userealm-hook-usage
-  // :uncomment-start:
-  // const realm = useRealm();
-  // :uncomment-end:
+  const realm = useRealm();
   const handleAddTask = useCallback(
     (description: string): void => {
       if (!description) {
@@ -56,23 +44,8 @@ function App() {
   const handleToggleTaskStatus = useCallback(
     (task: Task): void => {
       realm.write(() => {
-        // Normally when updating a record in a NoSQL or SQL database, we have to type
-        // a statement that will later be interpreted and used as instructions for how
-        // to update the record. But in RealmDB, the objects are "live" because they are
-        // actually referencing the object's location in memory on the device (memory mapping).
-        // So rather than typing a statement, we modify the object directly by changing
-        // the property values. If the changes adhere to the schema, Realm will accept
-        // this new version of the object and wherever this object is being referenced
-        // locally will also see the changes "live".
         task.isComplete = !task.isComplete;
       });
-
-      // Alternatively if passing the ID as the argument to handleToggleTaskStatus:
-      // realm?.write(() => {
-      //   const task = realm?.objectForPrimaryKey('Task', id); // If the ID is passed as an ObjectId
-      //   const task = realm?.objectForPrimaryKey('Task', Realm.BSON.ObjectId(id));  // If the ID is passed as a string
-      //   task.isComplete = !task.isComplete;
-      // });
     },
     [realm]
   );
@@ -81,9 +54,6 @@ function App() {
     (task: Task): void => {
       realm.write(() => {
         realm.delete(task);
-
-        // Alternatively if passing the ID as the argument to handleDeleteTask:
-        // realm?.delete(realm?.objectForPrimaryKey('Task', id));
       });
     },
     [realm]
@@ -130,18 +100,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// :snippet-start: wrap-app-within-realm-provider
-function AppWrapper() {
-  // if (!app.currentUser) {
-  //   return <LoginUserScreen />;
-  // }
-  return (
-    <RealmProvider>
-      <App />
-    </RealmProvider>
-  );
-}
-// :snippet-end:
 
 const app = new Realm.App({ id: "-id" });
 
@@ -169,7 +127,4 @@ function AppWrapper2() {
 // :replace-end:
 // :snippet-end:
 
-const LoadingSpinner = () => <Text>Mock Loading Spinner</Text>;
-const LoginUserScreen = () => <Text>Mock Login Screen</Text>;
-
-export default AppWrapper;
+export default App;
