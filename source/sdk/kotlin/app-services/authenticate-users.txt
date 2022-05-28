@@ -43,7 +43,7 @@ exception of type :file:`AppException`.
 Anonymous
 ~~~~~~~~~
 
-The :doc:`anonymous authentication provider </authentication/anonymous>`
+The :ref:`anonymous authentication provider <anonymous-authentication>`
 enables users to log in to your application with short-term accounts
 that store no persistent personal information. To log in with anonymous
 authentication, create an anonymous credential by calling
@@ -62,7 +62,7 @@ and then pass the generated credential to
 Email/Password
 ~~~~~~~~~~~~~~
 
-The :doc:`Email/Password authentication provider </authentication/email-password>`
+The :ref:`Email/Password authentication provider <email-password-authentication>`
 enables users to log in to your application with an email username and
 a password. To log in with email/password authentication, create an
 email/password credential by calling :kotlin-sdk:`Credentials.emailPassword()
@@ -80,7 +80,7 @@ to :kotlin-sdk:`app.login()
 JWT
 ~~~
 
-TThe :doc:`Custom JWT authentication provider </authentication/custom-jwt>`
+The :ref:`Custom JWT authentication provider <custom-jwt-authentication>`
 enables users to log in to your application with a custom JSON Web Token.
 To log in with JWT authentication, create a
 JWT credential by calling :kotlin-sdk:`Credentials.jwt()
@@ -98,7 +98,7 @@ to :kotlin-sdk:`app.login()
 API Key
 ~~~~~~~
 
-The :doc:`API Key authentication provider </authentication/api-key>`
+The :ref:`API Key authentication provider <api-key-authentication>`
 enables users to log in to your application with an API key generated
 automatically in the client SDK. To log in with API key authentication, create an
 email/password credential by calling :kotlin-sdk:`Credentials.apiKey()
@@ -151,8 +151,8 @@ to authenticate Google users in your Android application:
    - :google:`default sign in
      <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-builder-googlesigninoptions-googlesigninoptions>`
    - an :google:`ID token request
-     <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestidtoken-string-serverclientid>`
-     -- pass your OAuth 2.0 client ID as the ``serverClientId``.
+     <android/reference/com/google/android/gms/auth/api/signin/GoogleSignInOptions.Builder#public-googlesigninoptions.builder-requestidtoken-string-serverclientid>`.
+     Pass your OAuth 2.0 client ID as the ``serverClientId``.
 
 #. Use the ``GoogleSignInOptions`` to create a ``GoogleSignInClient``
    with :google:`GoogleSignIn.getClient()
@@ -182,27 +182,17 @@ to authenticate Google users in your Android application:
 
 #. Access the ID token for the ``GoogleSignInAccount`` with ``getIdToken()``.
 
-#. Create a Realm ``Credentials`` object with :java-sdk:`Credentials.google()
-   <io/realm/mongodb/Credentials.html#google-java.lang.String-io.realm.mongodb.auth.GoogleAuthType->`.
-   Pass the ID token as the first parameter, and :java-sdk:`GoogleAuthType.ID_TOKEN
-   <io/realm/mongodb/auth/GoogleAuthType.html#ID_TOKEN>` as the second parameter.
+#. Create a Realm ``Credentials`` object with :kotlin-sdk:`Credentials.google()
+   <{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/google.html>`.
+   Pass the ID token as the first parameter, and ``GoogleAuthType.ID_TOKEN``
+   as the second parameter.
 
-#. Use the :java-sdk:`app.loginAsync()
-   <io/realm/mongodb/App.html#loginAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback->`
-   or :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`
-   methods to authenticate with the Realm backend using the token.
+#. Use :kotlin-sdk:`app.login()
+   <{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`
+   to authenticate with the Realm backend using the token.
 
 The following code implements this flow, starting with a method call to
 ``loginWithGoogle()``:
-
-The :doc:`Email/Password authentication provider </authentication/email-password>`
-enables users to log in to your application with an email username and
-a password. To log in with email/password authentication, create an
-email/password credential by calling :kotlin-sdk:`Credentials.google()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/google.html>`
-with the user's email and password. Then pass the generated credential
-to :kotlin-sdk:`app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`.
 
 .. literalinclude:: /examples/generated/kotlin/MainActivity.snippet.google-authentication.kt
    :language: kotlin
