@@ -39,7 +39,9 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: confirm-email-password-user
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            app.emailPasswordAuth.confirmUser(token, tokenId)
+            // :uncomment-start:
+            // app.emailPasswordAuth.confirmUser(token, tokenId)
+            // :uncomment-end:
         }
         // :snippet-end:
     }
@@ -52,7 +54,9 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: reset-password
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            app.emailPasswordAuth.resetPassword(token, tokenId, newPassword)
+            // :uncomment-start:
+            // app.emailPasswordAuth.resetPassword(token, tokenId, newPassword)
+            // :uncomment-end:
         }
         // :snippet-end:
     }
@@ -74,7 +78,9 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: apple-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            val user = app.login(Credentials.apple(idToken))
+            // :uncomment-start:
+            // val user = app.login(Credentials.apple(idToken))
+            // :uncomment-end:
         }
         // :snippet-end:
     }
@@ -95,7 +101,9 @@ class AuthenticationTest: RealmTest() {
         // :snippet-start: jwt-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
-            val user = app.login(Credentials.jwt(jwtToken))
+            // :uncomment-start:
+            // val user = app.login(Credentials.jwt(jwtToken))
+            // :uncomment-end:
         }
         // :snippet-end:
     }
