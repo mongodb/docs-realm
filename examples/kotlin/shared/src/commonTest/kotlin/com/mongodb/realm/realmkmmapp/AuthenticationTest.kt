@@ -59,7 +59,7 @@ class AuthenticationTest: RealmTest() {
 
     @Test
     fun apiKeyAuthTest() {
-        val key = getRandom()
+        val key = "ZL0XzEnp44eKi2BZMDqfPoYW3YUajm7RRUVWalDQRYwc07a4JDUeEG4kHG1Y71ak"
         // :snippet-start: api-key-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
         runBlocking {
