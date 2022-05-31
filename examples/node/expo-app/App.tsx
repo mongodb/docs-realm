@@ -12,7 +12,6 @@ const app = new Realm.App({ id: appId });
 
 // :snippet-start: get-access-to-the-hooks
 import TaskContext, { Task } from "./app/models/Task";
-import LoginUserScreen from "./app/components/LoginUserScreen";
 
 const { useRealm, useQuery, useObject } = TaskContext;
 // :snippet-end:

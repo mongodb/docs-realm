@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import LoadingSpinner from "./app/components/LoadingSpinner";
-import LoginUserScreen from "./app/components/LoginUserScreen";
 import App from "./App";
 import {appId} from "./realm.json";
 
@@ -40,7 +39,7 @@ function AppWrapper2() {
     user: app?.currentUser,
     partitionValue: "ExpoTemplate",
   };
-  
+
   // :uncomment-start:
   // return (
   //   <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
