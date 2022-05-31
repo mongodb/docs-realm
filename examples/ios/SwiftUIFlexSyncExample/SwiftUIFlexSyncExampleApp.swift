@@ -169,7 +169,7 @@ struct OpenSyncedRealmView: View {
                             do {
                                 let subs = realm.subscriptions
                                 if subs.count == 0 {
-                                    try await subs.write {
+                                    try await subs.update {
                                         /// Add queries for any objects you want to use in the app
                                         /// Linked objects do not automatically get queried, so you
                                         /// must explicitly query for all linked objects you want to include
