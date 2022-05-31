@@ -24,7 +24,7 @@ Run these commands to setup the application:
    use option 1. Delete):
 
    ```sh
-   dart run build_runner build
+   dart run realm_dart generate
    ```
 
 1. Run the project's tests **without concurrency**:

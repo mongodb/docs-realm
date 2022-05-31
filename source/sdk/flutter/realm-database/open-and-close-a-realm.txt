@@ -46,7 +46,7 @@ refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 Open an In-Memory Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a realm that runs entirely in memory without being written to a file,
+To create a realm that runs entirely in memory without being persisted to a file,
 create your ``Configuration`` with :flutter-sdk:`Configuration.inMemory() <realm/Configuration/inMemory.html>`.
 You must provide a list of schemas as an argument.
 In-memory realms **cannot** also be read-only.
@@ -120,7 +120,27 @@ the first time that it is opened on a device.
 Close a Realm
 -------------
 
-Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+.. tabs::
 
-.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
-   :language: dart
+   .. tab:: Flutter
+      :tabid: flutter
+
+      Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+
+      .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
+         :language: dart
+
+   .. tab:: Dart
+      :tabid: dart
+
+      Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+
+      .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
+         :language: dart
+
+      If you're running a Dart CLI application, to prevent the process from hanging
+      call :flutter-sdk:`Realm.shutdown() <realm/Realm/shutdown.html>`.
+
+      .. code-block:: dart
+
+         Realm.shutdown();
