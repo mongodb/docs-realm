@@ -10,6 +10,7 @@ import Foundation
 
 class BundleRealms: XCTestCase {
 
+// TODO: These tests are failing in CI and need to be refactored per https://jira.mongodb.org/browse/DOCSP-23001
 //    func testCopyRealm() async throws {
 //        // :snippet-start: copy-synced-realm-for-bundling
 //        let app = App(id: YOUR_REALM_APP_ID)
