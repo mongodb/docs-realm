@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import LoadingSpinner from "./app/components/LoadingSpinner";
 import LoginUserScreen from "./app/components/LoginUserScreen";
 import App from "./App";
@@ -21,7 +22,7 @@ function AppWrapper() {
 }
 // :snippet-end:
 
-export default AppWrapper;
+const logIn = async () => await app.logIn(Realm.Credentials.anonymous());
 
 // :snippet-start: dynamically-update-realm-config
 // :replace-start: {
@@ -30,16 +31,32 @@ export default AppWrapper;
 //   }
 // }
 function AppWrapper2() {
+  // :remove-start:
+  useEffect(() => {
+    logIn();
+  })
+  // :remove-end:
   const syncConfig = {
-    user: app.currentUser,
+    user: app?.currentUser,
     partitionValue: "ExpoTemplate",
   };
-
+  
+  // :uncomment-start:
+  // return (
+  //   <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
+  //     <App />
+  //   </RealmProvider>
+  // );
+  // :uncomment-end: 
+  // :remove-start:
   return (
-    <RealmProvider sync={syncConfig} fallback={() => <LoadingSpinner />}>
+    <RealmProvider sync={syncConfig} deleteRealmIfMigrationNeeded={false} fallback={() => <LoadingSpinner />}>
       <App />
     </RealmProvider>
   );
+  // :remove-end:
 }
 // :replace-end:
 // :snippet-end:
+
+export default AppWrapper;

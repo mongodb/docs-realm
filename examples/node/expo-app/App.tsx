@@ -18,10 +18,6 @@ const { useRealm, useQuery, useObject } = TaskContext;
 // :snippet-end:
 
 function App() {
-  const [user, setUser] = useState(null);
-  if(user){
-    return (<LoginUserScreen />)
-  }
   // :snippet-start: example-usequery-hook-usage
   const tasks = useQuery("Task");
   // :uncomment-start:
