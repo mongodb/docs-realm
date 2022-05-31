@@ -2,8 +2,8 @@ let subscriptions = realm.subscriptions
 let foundSubscription = subscriptions.first(ofType: Team.self, where: {
       $0.teamName == "Developer Education"
 })
-subscriptions.write({
-    foundSubscription?.update(toType: Team.self, where: {
+subscriptions.update({
+    foundSubscription?.updateQuery(toType: Team.self, where: {
          $0.teamName == "Documentation"
     })
 }, onComplete: { error in // error is optional

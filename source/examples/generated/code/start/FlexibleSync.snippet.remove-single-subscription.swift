@@ -1,7 +1,7 @@
 let subscriptions = realm.subscriptions
 // Look for a specific subscription, and then remove it
 let foundSubscription = subscriptions.first(named: "docs-team")
-subscriptions.write({
+subscriptions.update({
     subscriptions.remove(foundSubscription!)
 }, onComplete: { error in // error is optional
     if error == nil {
@@ -12,6 +12,6 @@ subscriptions.write({
 })
 
 // Or remove a subscription that you know exists without querying for it
-subscriptions.write {
+subscriptions.update {
     subscriptions.remove(named: "existing-subscription")
 }

@@ -1,5 +1,5 @@
 let subscriptions = realm.subscriptions
-subscriptions.write({
+subscriptions.update({
     subscriptions.append(
         QuerySubscription<Task>(name: "completed-tasks") {
              $0.completed == true

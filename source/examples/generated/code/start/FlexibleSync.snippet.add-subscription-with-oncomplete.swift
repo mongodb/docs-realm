@@ -1,5 +1,5 @@
 let subscriptions = realm.subscriptions
-subscriptions.write({
+subscriptions.update({
    subscriptions.append(
       QuerySubscription<Task> {
          $0.assignee == "John Doe"

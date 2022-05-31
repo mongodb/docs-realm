@@ -1,5 +1,5 @@
 let subscriptions = realm.subscriptions
-subscriptions.write({
+subscriptions.update({
     subscriptions.removeAll(ofType: Team.self)
 }, onComplete: { error in // error is optional
     if error == nil {

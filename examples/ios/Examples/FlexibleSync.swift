@@ -49,7 +49,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: add-single-subscription
                         let subscriptions = realm.subscriptions
-                        subscriptions.write({
+                        subscriptions.update({
                            subscriptions.append(
                               QuerySubscription<FlexibleSync_Team> {
                                  $0.teamName == "Developer Education"
@@ -62,7 +62,7 @@ class FlexibleSync: XCTestCase {
                            }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -95,7 +95,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: add-multiple-subscriptions
                         let subscriptions = realm.subscriptions
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.append(
                                 QuerySubscription<FlexibleSync_Task>(name: "completed-tasks") {
                                      $0.completed == true
@@ -112,7 +112,7 @@ class FlexibleSync: XCTestCase {
                            }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -145,7 +145,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: add-subscription-with-oncomplete
                         let subscriptions = realm.subscriptions
-                        subscriptions.write({
+                        subscriptions.update({
                            subscriptions.append(
                               QuerySubscription<FlexibleSync_Task> {
                                  $0.assignee == "John Doe"
@@ -158,7 +158,7 @@ class FlexibleSync: XCTestCase {
                             }
                          })
                          // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.append(
                                 // :snippet-start: query-subscription-by-name
                                 QuerySubscription<FlexibleSync_Task>(name: "long-running-completed") {
@@ -180,7 +180,7 @@ class FlexibleSync: XCTestCase {
                                // Handle the error
                             }
                          })
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -189,6 +189,49 @@ class FlexibleSync: XCTestCase {
             }
         }
         wait(for: [expectation], timeout: 10)
+    }
+
+    func testSubscribeToAllObjectsOfAType() {
+        let expectation = XCTestExpectation(description: "it completes")
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+                let user = app.currentUser
+                var flexSyncConfig = user?.flexibleSyncConfiguration()
+                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        // :snippet-start: subscribe-to-all-objects-of-a-type
+                        let subscriptions = realm.subscriptions
+                        subscriptions.update({
+                            subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "all_teams"))
+                        }, onComplete: { error in // error is optional
+                            if error == nil {
+                              // Flexible Sync has updated data to match the subscription
+                            } else {
+                              // Handle the error
+                            }
+                        })
+                        // :snippet-end:
+                        subscriptions.update({
+                            subscriptions.removeAll()
+                        })
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 30)
     }
 
     func testUpdateSubscription() {
@@ -215,7 +258,7 @@ class FlexibleSync: XCTestCase {
                         let subscriptions = realm.subscriptions
                         // :remove-start:
                         // Add subscription to update
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.append(QuerySubscription<FlexibleSync_Team> {
                                 $0.teamName == "Developer Education"
                              })
@@ -230,8 +273,8 @@ class FlexibleSync: XCTestCase {
                         let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
                               $0.teamName == "Developer Education"
                         })
-                        subscriptions.write({
-                            foundSubscription?.update(toType: FlexibleSync_Team.self, where: {
+                        subscriptions.update({
+                            foundSubscription?.updateQuery(toType: FlexibleSync_Team.self, where: {
                                  $0.teamName == "Documentation"
                             })
                         }, onComplete: { error in // error is optional
@@ -242,7 +285,7 @@ class FlexibleSync: XCTestCase {
                             }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -277,7 +320,7 @@ class FlexibleSync: XCTestCase {
                         let subscriptions = realm.subscriptions
                         // :remove-start:
                         // Add subscription to update
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
                                 $0.teamName == "Docs"
                              })
@@ -290,8 +333,8 @@ class FlexibleSync: XCTestCase {
                         })
                         // :remove-end:
                         let foundSubscription = subscriptions.first(named: "user-team")
-                        subscriptions.write({
-                            foundSubscription?.update(toType: FlexibleSync_Team.self, where: {
+                        subscriptions.update({
+                            foundSubscription?.updateQuery(toType: FlexibleSync_Team.self, where: {
                                  $0.teamName == "Documentation"
                             })
                         }, onComplete: { error in // error is optional
@@ -302,7 +345,7 @@ class FlexibleSync: XCTestCase {
                             }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -337,7 +380,7 @@ class FlexibleSync: XCTestCase {
                         let subscriptions = realm.subscriptions
                         // :remove-start:
                         // Add subscriptions to remove
-                        subscriptions.write {
+                        subscriptions.update {
                             subscriptions.append(
                                 QuerySubscription<FlexibleSync_Team>(name: "docs-team") {
                                     $0.teamName == "Documentation"
@@ -350,7 +393,7 @@ class FlexibleSync: XCTestCase {
                         // :remove-end:
                         // Look for a specific subscription, and then remove it
                         let foundSubscription = subscriptions.first(named: "docs-team")
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.remove(foundSubscription!)
                         }, onComplete: { error in // error is optional
                             if error == nil {
@@ -361,11 +404,11 @@ class FlexibleSync: XCTestCase {
                         })
 
                         // Or remove a subscription that you know exists without querying for it
-                        subscriptions.write {
+                        subscriptions.update {
                             subscriptions.remove(named: "existing-subscription")
                         }
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -400,7 +443,7 @@ class FlexibleSync: XCTestCase {
                         let subscriptions = realm.subscriptions
                         // :remove-start:
                         // Add subscriptions to remove
-                        subscriptions.write {
+                        subscriptions.update {
                             subscriptions.append(
                                 QuerySubscription<FlexibleSync_Team>(name: "documentation-team") {
                                     $0.teamName == "Documentation"
@@ -411,7 +454,7 @@ class FlexibleSync: XCTestCase {
                                 })
                         }
                         // :remove-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll(ofType: FlexibleSync_Team.self)
                         }, onComplete: { error in // error is optional
                             if error == nil {
@@ -421,7 +464,7 @@ class FlexibleSync: XCTestCase {
                             }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()
@@ -454,7 +497,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: remove-all-subscriptions
                         let subscriptions = realm.subscriptions
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         }, onComplete: { error in // error is optional
                             if error == nil {
@@ -464,7 +507,7 @@ class FlexibleSync: XCTestCase {
                             }
                         })
                         // :snippet-end:
-                        subscriptions.write({
+                        subscriptions.update({
                             subscriptions.removeAll()
                         })
                         expectation.fulfill()

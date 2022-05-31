@@ -125,7 +125,7 @@ object types. You can also have multiple queries on the same object type.
 Add a Subscription
 ~~~~~~~~~~~~~~~~~~
 
-Add a subscription in a subscriptions write block. You append each
+Add a subscription in a subscriptions update block. You append each
 new subscription to the client's Realm subscriptions.
 
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
@@ -133,10 +133,23 @@ new subscription to the client's Realm subscriptions.
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-single-subscription.swift
    :language: swift
 
-You can add multiple subscriptions within a subscription write block, 
+You can add multiple subscriptions within a subscription update block, 
 including subscriptions of different object types.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-multiple-subscriptions.swift
+   :language: swift
+
+Subscribe to All Objects of a Specific Type
+```````````````````````````````````````````
+
+In addition to syncing all objects that match a given query, you can subscribe 
+to all objects of a specific type. You do this by appending a subscription
+query name and object type, but don't actually provide a query.
+
+For example, if you don't want to see a specific team, but instead want to 
+subscribe to all the ``Team`` objects, you could do this:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-all-objects-of-a-type
    :language: swift
 
 .. _ios-sync-check-subscription-state:
@@ -145,7 +158,7 @@ including subscriptions of different object types.
 Wait for Subscription Changes to Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Writing an update to the subscription set locally is only one component 
+Updating the subscription set locally is only one component 
 of changing a subscription. After the local subscription change, the realm 
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
@@ -169,14 +182,14 @@ Async/Await
 ```````````
 
 If your application uses async/await, you don't need the ``onComplete`` 
-block. The write transaction executes asynchronously and throws an 
-error if the transaction cannot complete successfully.
+block. The update executes asynchronously and throws an 
+error if the update cannot complete successfully.
 
 .. code-block:: swift
 
    func changeSubscription() async throws {
       let subscriptions = realm.subscriptions
-      try await subcriptions.write {
+      try await subcriptions.update {
          subscriptions.remove {
             QuerySubscription<Task> {
                $0.assignee == "Joe Doe"
@@ -202,25 +215,24 @@ Superseded
 ``````````
 
 The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
-another thread writes a subscription on a different instance of the 
+another thread updates a subscription on a different instance of the 
 subscription set. If the state becomes ``superseded``, you must obtain 
-a new instance of the subscription set before you can write to it.
+a new instance of the subscription set before you can update it.
 
 .. _ios-update-subscriptions-with-new-query:
 
 Update Subscriptions with a New Query
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can update subscriptions using ``update``. In this example, we 
-search for a subscription matching our query and then update that 
-subscription with a new query. 
+You can update a subscription's query using ``updateQuery``. In this example, 
+we search for a subscription matching our query and then update it with a 
+new query. 
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription.swift
    :language: swift
 
 You can also search for a subscription by name. In this example, we 
-search for a subscription by name and then update that subscription with
-a new query.
+search for a subscription query by name and then update it with a new query.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription-by-name.swift
    :language: swift
@@ -242,9 +254,9 @@ synced data that matched the query from the client device.
 Remove a Single Subscription
 ````````````````````````````
 
-You can remove a specific subscription query in a subscription write block 
+You can remove a specific subscription query in a subscription update block 
 using ``remove``. Specify the query by name or use the query as a string 
-name to find the appropriate query subscription to remove.
+to find the appropriate subscription query to remove.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-single-subscription.swift
    :language: swift
@@ -253,7 +265,7 @@ Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
 
 If you want to remove all subscriptions to a specific object type, use the 
-``removeAll`` method with ``ofType`` in a subscription write block.
+``removeAll`` method with ``ofType`` in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-subscriptions-to-object-type.swift
    :language: swift
@@ -262,7 +274,7 @@ Remove All Subscriptions
 ````````````````````````
 
 To remove all subscriptions from the subscription set, use the ``removeAll``
-method in a subscription write block.
+method in a subscription update block.
 
 .. important::
 
