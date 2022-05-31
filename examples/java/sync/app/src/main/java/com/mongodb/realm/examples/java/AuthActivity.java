@@ -50,6 +50,7 @@ public class AuthActivity extends AppCompatActivity {
         Intent signInIntent = googleSignInClient.getSignInIntent();
 
         ActivityResultLauncher<Intent> resultLauncher =
+                // Note: this activity MUST inherit from ComponentActivity or AppCompatActivity to use this API
                 registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
