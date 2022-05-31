@@ -151,18 +151,6 @@ waiting for {+sync+} to open:
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
-
-Using the App Provider
-----------------------
-
-To use {+service+} features such as authentication and sync, use the
-``AppProvider`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
-``AppProvider`` outside of the ``RealmProvider`` and any components which need
-access to the ``useApp`` hook.
-
-
-
-
 Use Hooks In Child Components
 -----------------------------
 
@@ -236,16 +224,6 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
    To learn how to render a :ref:`filtered <react-native-filter-results>` or
    :ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`Read
    & Write Data <react-native-read-and-write-data>` docs.
-
-useApp
-``````
-The ``useApp()`` hook gives access to the :js-sdk:`Realm.App <Realm.App.html>`
-instance.
-
-In the following example of a Login component, we call ``useApp()`` and then
-define a ``onPressSignIn()`` and a ``onPressSignUp()`` method to call
-:js-sdk:`app.logIn() <Realm.App.html#logIn>` :js-sdk:`app.emailPasswordAuth.registerUser() <Realm.App.html#emailPasswordAuth>`
-respectively.
 
 Summary
 -------
