@@ -1,7 +1,7 @@
 function AppWrapper() {
   const syncConfig = {
     user: app?.currentUser,
-    partitionValue: "ExpoTemplate",
+    partitionValue: 'ExpoTemplate',
   };
 
   return (

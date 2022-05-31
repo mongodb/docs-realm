@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import LoadingSpinner from "./app/components/LoadingSpinner";
-import App from "./App";
-import {appId} from "./realm.json";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {useEffect} from 'react';
+import LoadingSpinner from './components/LoadingSpinner';
+import App from './App';
+import {appId} from '../realm.json';
 
-
-const app = new Realm.App({ id: appId });
+const app = new Realm.App({id: appId});
 
 // :snippet-start: import-task-context
-import TaskContext from "./app/models/Task";
-const { RealmProvider } = TaskContext;
+import TaskContext from './models/Task';
+const {RealmProvider} = TaskContext;
 // :snippet-end:
 
 // :snippet-start: wrap-app-within-realm-provider
@@ -33,11 +33,11 @@ function AppWrapper2() {
   // :remove-start:
   useEffect(() => {
     logIn();
-  })
+  });
   // :remove-end:
   const syncConfig = {
     user: app?.currentUser,
-    partitionValue: "ExpoTemplate",
+    partitionValue: 'ExpoTemplate',
   };
 
   // :uncomment-start:
@@ -46,10 +46,13 @@ function AppWrapper2() {
   //     <App />
   //   </RealmProvider>
   // );
-  // :uncomment-end: 
+  // :uncomment-end:
   // :remove-start:
   return (
-    <RealmProvider sync={syncConfig} deleteRealmIfMigrationNeeded={false} fallback={() => <LoadingSpinner />}>
+    <RealmProvider
+      sync={syncConfig}
+      deleteRealmIfMigrationNeeded={false}
+      fallback={<LoadingSpinner />}>
       <App />
     </RealmProvider>
   );

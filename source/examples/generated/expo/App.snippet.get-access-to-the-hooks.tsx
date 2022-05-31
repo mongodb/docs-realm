@@ -1,3 +1,3 @@
-import TaskContext, { Task } from "./app/models/Task";
+import TaskContext, {Task} from './models/Task';
 
-const { useRealm, useQuery, useObject } = TaskContext;
+const {useRealm, useQuery, useObject} = TaskContext;

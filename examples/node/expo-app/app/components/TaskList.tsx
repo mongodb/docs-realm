@@ -1,9 +1,7 @@
-import { View, FlatList, StyleSheet } from 'react-native';
-import { Realm } from '@realm/react';
+import {View, FlatList, StyleSheet} from 'react-native';
 import TaskItem from './TaskItem';
-import TaskContext, { Task } from '../models/Task';
-const { RealmProvider } = TaskContext;
-const { useRealm, useQuery, useObject } = TaskContext;
+import TaskContext, {Task} from '../models/Task';
+const {useQuery} = TaskContext;
 
 // :snippet-start: tasklist-use-query-example
 function TaskList({onToggleTaskStatus, onDeleteTask}) {

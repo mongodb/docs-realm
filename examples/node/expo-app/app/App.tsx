@@ -1,24 +1,25 @@
-import { useCallback, useState } from "react";
-import { SafeAreaView, View, StyleSheet, Button } from "react-native";
-import Realm from "realm";
-import IntroText from "./app/components/IntroText";
-import AddTaskForm from "./app/components/AddTaskForm";
-import TaskList from "./app/components/TaskList";
-import colors from "./app/styles/colors";
-import SampleTask from "./app/components/SampleTask";
-import {appId} from "./realm.json";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {useCallback} from 'react';
+import {SafeAreaView, View, StyleSheet, Button} from 'react-native';
+import Realm from 'realm';
+import IntroText from './components/IntroText';
+import AddTaskForm from './components/AddTaskForm';
+import TaskList from './components/TaskList';
+import colors from './styles/colors';
+import SampleTask from './components/SampleTask';
+import {appId} from '../realm.json';
 
-const app = new Realm.App({ id: appId });
+const app = new Realm.App({id: appId});
 
 // :snippet-start: get-access-to-the-hooks
-import TaskContext, { Task } from "./app/models/Task";
+import TaskContext, {Task} from './models/Task';
 
-const { useRealm, useQuery, useObject } = TaskContext;
+const {useRealm, useQuery, useObject} = TaskContext;
 // :snippet-end:
 
 function App() {
   // :snippet-start: example-usequery-hook-usage
-  const tasks = useQuery("Task");
+  const tasks = useQuery('Task');
   // :uncomment-start:
 
   //return (
@@ -36,10 +37,10 @@ function App() {
         return;
       }
       realm.write(() => {
-        realm.create("Task", Task.generate(description));
+        realm.create('Task', Task.generate(description));
       });
     },
-    [realm]
+    [realm],
   );
   // :snippet-end:
 
@@ -49,7 +50,7 @@ function App() {
         task.isComplete = !task.isComplete;
       });
     },
-    [realm]
+    [realm],
   );
 
   const handleDeleteTask = useCallback(
@@ -58,7 +59,7 @@ function App() {
         realm.delete(task);
       });
     },
-    [realm]
+    [realm],
   );
 
   return (
@@ -73,7 +74,7 @@ function App() {
             onDeleteTask={handleDeleteTask}
           />
         )}
-        <SampleTask _id={new Realm.BSON.ObjectId("623dd5d0a1b2b771505f94d4")} />
+        <SampleTask _id={new Realm.BSON.ObjectId('623dd5d0a1b2b771505f94d4')} />
         <Button title="Log Out" onPress={() => app?.currentUser?.logOut()} />
       </View>
     </SafeAreaView>

@@ -1,2 +1,2 @@
-import TaskContext from "./app/models/Task";
-const { RealmProvider } = TaskContext;
+import TaskContext from './models/Task';
+const {RealmProvider} = TaskContext;

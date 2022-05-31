@@ -5,8 +5,8 @@ const handleAddTask = useCallback(
       return;
     }
     realm.write(() => {
-      realm.create("Task", Task.generate(description));
+      realm.create('Task', Task.generate(description));
     });
   },
-  [realm]
+  [realm],
 );
