@@ -338,7 +338,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             try {
                 // :snippet-start: threading
                 realm = Realm.getInstance(config);
-                // :hide-start:
+                // :remove-start:
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -349,7 +349,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
                         realm.copyToRealm(sample);
                     }
                 });
-                // :hide-end:
+                // :remove-end:
                 SampleJava sample = realm
                         .where(SampleJava.class).findFirst();
                 // save sample field in a variable
@@ -403,7 +403,7 @@ public class MigrateFromJavaToKotlinSDKTest extends RealmTest {
             // :snippet-start: migrations
             RealmConfiguration config =
                 new RealmConfiguration.Builder()
-                        .name(getRandom()) // :hide:
+                        .name(getRandom()) // :remove:
                         .migration((realm,
                                     oldVersion,
                                     newVersion) -> {

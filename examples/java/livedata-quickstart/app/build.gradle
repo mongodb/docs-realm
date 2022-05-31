@@ -19,11 +19,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // :hide-start:
+    // :remove-start:
     buildFeatures {
         dataBinding true
     }
-    // :hide-end:
+    // :remove-end:
 
     buildTypes {
         release {
@@ -42,11 +42,11 @@ android {
 // :snippet-end:
 
 // :snippet-start: sync-enable
-// :hide-start:
+// :remove-start:
 realm {
     syncEnabled = true
 }
-// :hide-end:
+// :remove-end:
 // :snippet-end:
 
 // :snippet-start: livedata-dependency
@@ -59,9 +59,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
-    // :hide-start:
+    // :remove-start:
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    // :hide-end:
+    // :remove-end:
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

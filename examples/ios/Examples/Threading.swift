@@ -57,11 +57,11 @@ class Threading: XCTestCase {
         // :snippet-start: freeze
         let realm = try! Realm()
 
-        // :hide-start:
+        // :remove-start:
         try! realm.write {
             realm.add(Task())
         }
-        // :hide-end:
+        // :remove-end:
         // Get an immutable copy of the realm that can be passed across threads
         let frozenRealm = realm.freeze()
 

@@ -76,13 +76,13 @@ namespace Examples
             // :snippet-end:
             // :snippet-start: config
             config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[]
             {
                 typeof(Task),
                 typeof(User)
             };
-            //:hide-end:
+            //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-end:
             // :snippet-start: read-all
@@ -101,13 +101,13 @@ namespace Examples
         {
             // App app = App.Create(myRealmAppId);
             config = new PartitionSyncConfiguration("myPart", user);
-            //:hide-start:
+            //:remove-start:
             config.Schema = new[]
             {
                 typeof(Task),
                 typeof(User)
             };
-            //:hide-end:
+            //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
             // :snippet-start: modify
             var t = realm.All<Task>()

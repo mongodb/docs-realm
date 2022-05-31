@@ -44,19 +44,19 @@ namespace Examples
                 myObject.Counter.Increment(); // 1
                 myObject.Counter.Increment(5); // 6
 
-                //:hide-start:
+                //:remove-start:
                 Assert.AreEqual(6, myObject.Counter);
-                //:hide-end:
+                //:remove-end:
                 // Decrement the value of the RealmInteger
                 // Note the use of Increment with a negative number
                 myObject.Counter.Decrement(); // 5
-                //:hide-start:
+                //:remove-start:
                 Assert.AreEqual(5, myObject.Counter);
-                //:hide-end:
+                //:remove-end:
                 myObject.Counter.Increment(-3); // 2
-                //:hide-start:
+                //:remove-start:
                 Assert.AreEqual(2, myObject.Counter);
-                //:hide-end:
+                //:remove-end:
 
                 // Reset the RealmInteger
                 myObject.Counter = 0;
@@ -227,12 +227,12 @@ namespace Examples
         // }
         public class PlantInventory : RealmObject
         {
-            //:hide-start:
+            //:remove-start:
             [PrimaryKey]
             [MapTo("_id")]
             [Required]
             public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
-            //:hide-end:
+            //:remove-end:
             // A Set can contain any Realm-supported type, including
             // objects that inherit from RealmObject
             public ISet<Plant> PlantSet { get; }
@@ -255,11 +255,11 @@ namespace Examples
 
         public class Inventory : RealmObject
         {
-            //:hide-start:
+            //:remove-start:
             [PrimaryKey]
             [MapTo("_id")]
             public string Id { get; set; }
-            //:hide-end:
+            //:remove-end:
             // The key must be of type string; the value can be 
             // of any Realm-supported type, including objects
             // that inherit from RealmObject or EmbeddedObject
@@ -280,11 +280,11 @@ namespace Examples
 
         public class ListInventory : RealmObject
         {
-            //:hide-start:
+            //:remove-start:
             [PrimaryKey]
             [MapTo("_id")]
             public string Id { get; set; }
-            //:hide-end:
+            //:remove-end:
             public IList<Plant> Plants { get; }
         }
 

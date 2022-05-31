@@ -16,9 +16,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Successfully registered user.")
         } catch {
             print("Failed to register: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "name already in use")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }
@@ -34,17 +34,17 @@ class ManageEmailPasswordUsers: XCTestCase {
         client.registerUser(email: email, password: password) { (error) in
             guard error == nil else {
                 print("Failed to register: \(error!.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 XCTAssertEqual(error!.localizedDescription, "name already in use")
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
                 return
             }
             // Registering just registers. You can now log in.
             print("Successfully registered user.")
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
         wait(for: [expectation], timeout: 10)
@@ -64,9 +64,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Confirmation email resent")
         } catch {
             print("Failed to resend confirmation email: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "already confirmed")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }
@@ -85,9 +85,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Custom confirmation retriggered")
         } catch {
             print("Failed to retry custom confirmation: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "cannot run confirmation for skroob@example.com: automatic confirmation is enabled")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }
@@ -108,9 +108,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Successfully confirmed user.")
         } catch {
             print("User confirmation failed: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "invalid token data")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }
@@ -128,9 +128,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Password reset email sent.")
         } catch {
             print("Reset password email not sent: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "user not found")
-            // :hide-end:
+            // :remove-end:
         }
 
         // Later...
@@ -147,9 +147,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Password reset successful.")
         } catch {
             print("Failed to reset password: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "invalid token data")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }
@@ -174,9 +174,9 @@ class ManageEmailPasswordUsers: XCTestCase {
             print("Password reset successful!")
         } catch {
             print("Password reset failed: \(error.localizedDescription)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertEqual(error.localizedDescription, "user not found")
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
     }

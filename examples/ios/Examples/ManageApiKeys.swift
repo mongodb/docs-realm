@@ -54,11 +54,11 @@ class ManageApiKeys: XCTestCase {
                 return
             }
             // Use apiKey
-            // :hide-start:
+            // :remove-start:
             client.deleteAPIKey(apiKey!.objectId) { (error) in
                 expectation.fulfill()
             }
-            // :hide-end:
+            // :remove-end:
         }
 
         // :snippet-end:
@@ -79,9 +79,9 @@ class ManageApiKeys: XCTestCase {
         // Fetch a specific API key by ObjectId
         client.fetchAPIKey(ObjectId("00112233445566778899aabb")) { (maybeApiKey, error) in
             // ...
-            // :hide-start:
+            // :remove-start:
             singleFetchExpectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
 
         // Fetch all API keys
@@ -93,9 +93,9 @@ class ManageApiKeys: XCTestCase {
                 // use key
                 print(key.name)
             }
-            // :hide-start:
+            // :remove-start:
             fetchAllExpectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
         wait(for: [singleFetchExpectation, fetchAllExpectation], timeout: 10)
@@ -117,24 +117,24 @@ class ManageApiKeys: XCTestCase {
         // Enable the API key
         client.enableAPIKey(ObjectId("00112233445566778899aabb")) { (error) in
             // ...
-            // :hide-start:
+            // :remove-start:
             enableExpectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
 
         let apiKey: UserAPIKey?
 
         // ... Obtain a user API key ...
-        // :hide-start:
+        // :remove-start:
         apiKey = UserAPIKey()
-        // :hide-end:
+        // :remove-end:
 
         // Disable the API key
         client.disableAPIKey(apiKey!.objectId) { (error) in
             // ...
-            // :hide-start:
+            // :remove-start:
             disableExpectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
 
         // :snippet-end:
@@ -154,17 +154,17 @@ class ManageApiKeys: XCTestCase {
         let apiKey: UserAPIKey?
 
         // ... Obtain a user API key ...
-        // :hide-start:
+        // :remove-start:
         apiKey = UserAPIKey()
-        // :hide-end:
+        // :remove-end:
 
         client.deleteAPIKey(apiKey!.objectId) { (error) in
             guard error == nil else {
                 print("Failed to delete key: \(error!)")
-                // :hide-start:
+                // :remove-start:
                 XCTAssertEqual(error!.localizedDescription, "API key not found")
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
                 return
             }
             // Key deleted

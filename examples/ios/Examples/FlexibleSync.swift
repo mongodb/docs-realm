@@ -213,7 +213,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: update-subscription
                         let subscriptions = realm.subscriptions
-                        // :hide-start:
+                        // :remove-start:
                         // Add subscription to update
                         subscriptions.write({
                             subscriptions.append(QuerySubscription<FlexibleSync_Team> {
@@ -226,7 +226,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :hide-end:
+                        // :remove-end:
                         let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
                               $0.teamName == "Developer Education"
                         })
@@ -275,7 +275,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: update-subscription-by-name
                         let subscriptions = realm.subscriptions
-                        // :hide-start:
+                        // :remove-start:
                         // Add subscription to update
                         subscriptions.write({
                             subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
@@ -288,7 +288,7 @@ class FlexibleSync: XCTestCase {
                               // Handle the error
                             }
                         })
-                        // :hide-end:
+                        // :remove-end:
                         let foundSubscription = subscriptions.first(named: "user-team")
                         subscriptions.write({
                             foundSubscription?.update(toType: FlexibleSync_Team.self, where: {
@@ -335,7 +335,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: remove-single-subscription
                         let subscriptions = realm.subscriptions
-                        // :hide-start:
+                        // :remove-start:
                         // Add subscriptions to remove
                         subscriptions.write {
                             subscriptions.append(
@@ -347,7 +347,7 @@ class FlexibleSync: XCTestCase {
                                     $0.teamName == "Engineering"
                                 })
                         }
-                        // :hide-end:
+                        // :remove-end:
                         // Look for a specific subscription, and then remove it
                         let foundSubscription = subscriptions.first(named: "docs-team")
                         subscriptions.write({
@@ -398,7 +398,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: remove-subscriptions-to-object-type
                         let subscriptions = realm.subscriptions
-                        // :hide-start:
+                        // :remove-start:
                         // Add subscriptions to remove
                         subscriptions.write {
                             subscriptions.append(
@@ -410,7 +410,7 @@ class FlexibleSync: XCTestCase {
                                     $0.teamName == "Engineering"
                                 })
                         }
-                        // :hide-end:
+                        // :remove-end:
                         subscriptions.write({
                             subscriptions.removeAll(ofType: FlexibleSync_Team.self)
                         }, onComplete: { error in // error is optional

@@ -48,9 +48,9 @@ class AuthenticationTest : RealmTest() {
                 app.loginAsync(
                     anonymousCredentials
                 ) { it: App.Result<User?> ->
-                    // :hide-start:
+                    // :remove-start:
                     Assert.assertEquals(true, it.isSuccess)
-                    // :hide-end:
+                    // :remove-end:
                     if (it.isSuccess) {
                         Log.v("AUTH", "Successfully authenticated anonymously.")
                         user.set(app.currentUser())
@@ -59,9 +59,9 @@ class AuthenticationTest : RealmTest() {
                     }
                 }
             }
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill()
-            // :hide-end:
+            // :remove-end:
             // :snippet-end:
         }
         expectation.await()
@@ -81,18 +81,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User?
             app.loginAsync(anonymousCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(true, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated anonymously.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", it.error.toString())
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -116,18 +116,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User? = null
             app.loginAsync(emailPasswordCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using an email and password.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", it.error.toString())
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -148,18 +148,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User? = null
             app.loginAsync(apiKeyCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using an API Key.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", "Error logging in: ${it.error.toString()}")
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -181,18 +181,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User? = null
             app.loginAsync(customFunctionCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using a custom function.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", "Error logging in: ${it.error.toString()}")
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -215,18 +215,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User? = null
             app.loginAsync(customJWTCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using a custom JWT.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", "Error logging in: ${it.error.toString()}")
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -254,9 +254,9 @@ class AuthenticationTest : RealmTest() {
                         val facebookCredentials: Credentials =
                             Credentials.facebook(accessToken.token)
                         app.loginAsync(facebookCredentials) {
-                            // :hide-start:
+                            // :remove-start:
                             Assert.assertEquals(false, it.isSuccess)
-                            // :hide-end:
+                            // :remove-end:
                             if (it.isSuccess) {
                                 Log.v(
                                     "AUTH",
@@ -315,18 +315,18 @@ class AuthenticationTest : RealmTest() {
 
             var user: User? = null
             app.loginAsync(appleCredentials) {
-                // :hide-start:
+                // :remove-start:
                 Assert.assertEquals(false, it.isSuccess)
-                // :hide-end:
+                // :remove-end:
                 if (it.isSuccess) {
                     Log.v("AUTH", "Successfully authenticated using Sign-in with Apple.")
                     user = app.currentUser()
                 } else {
                     Log.e("AUTH", "Error logging in: ${it.error.toString()}")
                 }
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
             // :snippet-end:
         }
@@ -351,17 +351,17 @@ class AuthenticationTest : RealmTest() {
                     user = app.currentUser()
                     // :snippet-start: log-out
                     user?.logOutAsync {
-                        // :hide-start:
+                        // :remove-start:
                         Assert.assertEquals(true, it.isSuccess)
-                        // :hide-end:
+                        // :remove-end:
                         if (it.isSuccess) {
                             Log.v("AUTH", "Successfully logged out.")
                         } else {
                             Log.e("AUTH", it.error.toString())
                         }
-                        // :hide-start:
+                        // :remove-start:
                         expectation.fulfill()
-                        // :hide-end:
+                        // :remove-end:
                     }
                     // :snippet-end:
                 } else {

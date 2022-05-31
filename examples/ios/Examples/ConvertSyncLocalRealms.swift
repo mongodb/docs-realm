@@ -45,13 +45,13 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // want to convert to a synced realm
         var localConfig = Realm.Configuration()
         localConfig.objectTypes = [QsTask.self]
-        // :hide-start:
+        // :remove-start:
         // Set a custom fileURL to prevent other tests using
         // a default realm from causing this test to fail
         localConfig.fileURL!.deleteLastPathComponent()
         localConfig.fileURL!.appendPathComponent("nonSync")
         localConfig.fileURL!.appendPathExtension("realm")
-        // :hide-end:
+        // :remove-end:
 
         // For this example, add some data to the local realm
         // before copying it. No need to do this if you're
@@ -93,19 +93,19 @@ class ConvertSyncAndLocalRealms: XCTestCase {
 
         XCTAssertNotEqual(frodoLocalTasks.count, frodoSyncedTasks.count)
 
-        // :hide-start:
+        // :remove-start:
         // Delete the tasks we added to avoid messing with future test runs
         try! syncedRealm.write {
             syncedRealm.delete(frodoSyncedTasks)
         }
-        // :hide-end:
+        // :remove-end:
 
         /// Populate the local realm with some data that we'll use in the synced realm.
         func addExampleData(config: Realm.Configuration) -> Realm {
             // Prepare the configuration for the user whose local realm you
             // want to convert to a synced realm
             let localConfig = config
-            // :hide-start:
+            // :remove-start:
             // Delete a local realm that may already exist
             // avoid messing up future test runs.
             if Realm.fileExists(for: localConfig) {
@@ -114,7 +114,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
             } else {
                 print("No local realm currently exists")
             }
-            // :hide-end:
+            // :remove-end:
             // Open the local realm, and populate it with some data before returning it
             let localRealm = try! Realm(configuration: localConfig)
 
@@ -240,7 +240,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         // Update the config file path to the path where you want to save the copied realm
         samConfig.fileURL = copiedRealmFilePath
 
-        // :hide-start:
+        // :remove-start:
         // If there is already a realm at the copy realm file path, delete it
         // to avoid issues in future test runs.
         if Realm.fileExists(for: samConfig) {
@@ -249,7 +249,7 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         } else {
             print("No file currently exists at path")
         }
-        // :hide-end:
+        // :remove-end:
 
         // Make a copy of frodo's realm that uses sam's config
         try frodoRealm.writeCopy(configuration: samConfig)

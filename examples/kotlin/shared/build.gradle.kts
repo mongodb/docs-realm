@@ -28,11 +28,15 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(kotlin("test-junit"))
+                implementation("com.google.android.gms:play-services-auth:20.2.0")
+                implementation("com.google.android.gms:play-services-base:18.0.1")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                implementation("com.google.android.gms:play-services-auth:20.2.0")
+                implementation("com.google.android.gms:play-services-base:18.0.1")
             }
         }
         val androidTest by getting {
@@ -74,10 +78,14 @@ android {
     }
 }
 dependencies {
-    implementation("androidx.test:core-ktx:1.4.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.activity:activity-ktx:1.2.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.0")
+    implementation("com.facebook.android:facebook-login:latest.release")
+    implementation("com.google.android.material:material:1.6.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.gms:play-services-base:18.0.1")
 }
 
 // Don't cache SNAPSHOT (changing) dependencies.

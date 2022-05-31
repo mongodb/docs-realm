@@ -47,9 +47,9 @@ public class OpenARealmTest extends RealmTest {
                                     "EXAMPLE",
                                     "Successfully opened a realm with reads and writes allowed on the UI thread."
                             );
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -88,9 +88,9 @@ public class OpenARealmTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
-                            // :hide-start:
+                            // :remove-start:
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:

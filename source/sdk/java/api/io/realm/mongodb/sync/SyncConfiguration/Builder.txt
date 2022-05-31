@@ -18,7 +18,7 @@ io.realm.mongodb.sync
 =====================
 
 
- | `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ 
+ | `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ 
  | 		io.realm.mongodb.sync.SyncConfiguration.Builder
 
 
@@ -42,12 +42,22 @@ Constructors
    * - Constructor and Description
    
    * - | :ref:`Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` (
-       |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  partitionValue
+       |  :ref:`User <io_realm_mongodb_User>`  user
        | )
        
        
-       Creates an instance of the builder for a *SyncConfiguration* with the given user and partition value.
+       Creates an instance of the builder for a Flexible Sync *SyncConfiguration* with the given user.
+       
+       
+       
+   
+   * - | :ref:`Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` (
+       |  :ref:`User <io_realm_mongodb_User>`  user, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  partitionValue
+       | )
+       
+       
+       Creates an instance of the builder for a Partition-based Sync *SyncConfiguration* with the given user and partition value.
        
        
        
@@ -58,7 +68,7 @@ Constructors
        | )
        
        
-       Creates an instance of the builder for a *SyncConfiguration* with the given user and partition value.
+       Creates an instance of the builder for a Partition-based Sync *SyncConfiguration* with the given user and partition value.
        
        
        
@@ -77,7 +87,7 @@ Method Summary
    
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`addModule <io_realm_mongodb_sync_SyncConfiguration_Builder_addModule>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  module
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  module
        | )
        
        
@@ -108,6 +118,17 @@ Method Summary
        Sets whether or not calls to :ref:`Realm.executeTransaction <io_realm_Realm_executeTransaction>`  are allowed from the UI thread.
        
        
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
+     - | :ref:`assetFile <io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile>` (
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  assetFile
+       | )
+       
+       
+       When opening the Realm for the first time, instead of creating an empty file, the Realm file will be copied from the provided asset file and used instead.
        
        
        
@@ -215,12 +236,25 @@ Method Summary
        
    
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
+     - | :ref:`initialSubscriptions <io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions>` (
+       |  :ref:`SyncConfiguration.InitialFlexibleSyncSubscriptions <io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions>`  action
+       | )
+       
+       
+       Sets the initial :ref:`Subscription <io_realm_mongodb_sync_Subscription>` s for the :ref:`io.realm.Realm <io_realm_Realm>` .
+       
+       
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`maxNumberOfActiveVersions <io_realm_mongodb_sync_SyncConfiguration_Builder_maxNumberOfActiveVersions>` (
        |  **long** number
        | )
        
        
-       Sets the maximum number of live versions in the Realm file before an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  is thrown when attempting to write more data.
+       Sets the maximum number of live versions in the Realm file before an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  is thrown when attempting to write more data.
        
        
        
@@ -229,7 +263,7 @@ Method Summary
    
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`modules <io_realm_mongodb_sync_SyncConfiguration_Builder_modules>` (
-       |  `java.lang.Iterable\<java.lang.Object> <https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html>`__  modules
+       |  `java.lang.Iterable\<java.lang.Object> <https://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html>`__  modules
        | )
        
        
@@ -242,14 +276,25 @@ Method Summary
    
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`modules <io_realm_mongodb_sync_SyncConfiguration_Builder_modules>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  baseModule, 
-       |  `java.lang.Object[] <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  additionalModules
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  baseModule, 
+       |  `java.lang.Object[] <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  additionalModules
        | )
        
        
        Replaces the existing module(s) with one or more :ref:`RealmModule <io_realm_annotations_RealmModule>` s.
        
        
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
+     - | :ref:`name <io_realm_mongodb_sync_SyncConfiguration_Builder_name>` (
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  filename
+       | )
+       
+       
+       Sets the filename for the Realm file on this device.
        
        
        
@@ -259,7 +304,7 @@ Method Summary
        | 
        
        
-       Setting this will cause the Realm to become read only and all write transactions made against this Realm will fail with an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
+       Setting this will cause the Realm to become read only and all write transactions made against this Realm will fail with an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
        
        
        
@@ -291,8 +336,30 @@ Method Summary
        
    
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
+     - | :ref:`syncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy>` (
+       |  :ref:`DiscardUnsyncedChangesStrategy <io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy>`  handler
+       | )
+       
+       
+       Sets the handler for when a Client Reset occurs.
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
+     - | :ref:`syncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy>` (
+       |  :ref:`ManuallyRecoverUnsyncedChangesStrategy <io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy>`  handler
+       | )
+       
+       
+       Sets the handler for when a Client Reset occurs.
+       
+       
+       
+   
+   * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`urlPrefix <io_realm_mongodb_sync_SyncConfiguration_Builder_urlPrefix>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  urlPrefix
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  urlPrefix
        | )
        
        
@@ -304,7 +371,7 @@ Method Summary
    * - public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` 
      - | :ref:`waitForInitialRemoteData <io_realm_mongodb_sync_SyncConfiguration_Builder_waitForInitialRemoteData>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        
@@ -331,7 +398,7 @@ Inherited Methods
 
 
 
-- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
+- Methods inherited from class `java.lang.Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__ : ``getClass`` , ``hashCode`` , ``equals`` , ``clone`` , ``toString`` , ``notify`` , ``notifyAll`` , ``wait`` , ``wait`` , ``wait`` , ``finalize`` 
 
 
 
@@ -351,14 +418,66 @@ Constructor Detail
    :header-rows: 1
    
    * - | public :ref:`Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` (
-       |  :ref:`User <io_realm_mongodb_User>`  user, 
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  partitionValue
+       |  :ref:`User <io_realm_mongodb_User>`  user
        | )
        
        
        
    
-   * - Creates an instance of the builder for a *SyncConfiguration* with the given user and partition value.
+   * - Creates an instance of the builder for a Flexible Sync *SyncConfiguration* with the given user.
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``user`` - The user that will be used for accessing the Realm App.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       .. seealso::
+       
+       
+          
+          - **{\@link SubscriptionSet} for more information about Flexible Sync.**
+             
+             
+             
+          
+          
+          
+       
+       
+   
+   
+
+
+.. _Builder:
+
+.. _Builder__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder__:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>` (
+       |  :ref:`User <io_realm_mongodb_User>`  user, 
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  partitionValue
+       | )
+       
+       
+       
+   
+   * - Creates an instance of the builder for a Partition-based Sync *SyncConfiguration* with the given user and partition value.
        
        
        
@@ -401,7 +520,7 @@ Constructor Detail
        
        
    
-   * - Creates an instance of the builder for a *SyncConfiguration* with the given user and partition value.
+   * - Creates an instance of the builder for a Partition-based Sync *SyncConfiguration* with the given user and partition value.
        
        
        
@@ -467,7 +586,7 @@ addModule
    :header-rows: 1
    
    * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`addModule <io_realm_mongodb_sync_SyncConfiguration_Builder_addModule>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  module
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  module
        | )
        
        
@@ -607,6 +726,91 @@ allowWritesOnUiThread
    
 
 
+.. _assetFile:
+
+.. _assetFile__:
+
+.. _Builder_assetFile:
+
+.. _Builder_assetFile__:
+
+.. _SyncConfiguration_Builder_assetFile:
+
+.. _SyncConfiguration_Builder_assetFile__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile__:
+
+
+
+assetFile
+---------
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile_java_lang_String_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile_String_:
+
+.. _assetFile_java_lang_String_:
+
+.. _assetFile_String_:
+
+.. _SyncConfiguration_Builder_assetFile_java_lang_String_:
+
+.. _SyncConfiguration_Builder_assetFile_String_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`assetFile <io_realm_mongodb_sync_SyncConfiguration_Builder_assetFile>` (
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  assetFile
+       | )
+       
+       
+       
+   
+   * - When opening the Realm for the first time, instead of creating an empty file, the Realm file will be copied from the provided asset file and used instead.This can be used to pre-populate the Realm with data, so it doesn't have to be downloaded from the server.
+       
+       The provided Realm file must be a valid synced Realm for the given user, and it must have been created using the **Realm.writeCopyTo(File)** API.
+       
+       
+       
+       WARNING: This could potentially be a lengthy operation and should ideally be done on a background thread.
+       
+       
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``assetFile`` - path to the asset database file.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       **Throws**
+       
+       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if this Realm is also marked as :ref:`inMemory() <io_realm_mongodb_sync_SyncConfiguration_Builder_inMemory__>` .
+          
+          
+          
+          
+          
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _build:
 
 .. _build__:
@@ -655,7 +859,7 @@ build
        
        **Throws**
        
-       - `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  - if the configuration parameters are invalid or inconsistent.
+       - `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  - if the configuration parameters are invalid or inconsistent.
           
           
           
@@ -899,7 +1103,7 @@ encryptionKey
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if key is invalid.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if key is invalid.
           
           
           
@@ -984,7 +1188,7 @@ errorHandler
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``null``  is given as an error handler.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if ``null``  is given as an error handler.
           
           
           
@@ -1191,6 +1395,83 @@ initialData
    
 
 
+.. _initialSubscriptions:
+
+.. _initialSubscriptions__:
+
+.. _Builder_initialSubscriptions:
+
+.. _Builder_initialSubscriptions__:
+
+.. _SyncConfiguration_Builder_initialSubscriptions:
+
+.. _SyncConfiguration_Builder_initialSubscriptions__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions__:
+
+
+
+initialSubscriptions
+--------------------
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions_io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions_InitialFlexibleSyncSubscriptions_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. _initialSubscriptions_io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. _initialSubscriptions_InitialFlexibleSyncSubscriptions_:
+
+.. _initialSubscriptions_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. _SyncConfiguration_Builder_initialSubscriptions_io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. _SyncConfiguration_Builder_initialSubscriptions_InitialFlexibleSyncSubscriptions_:
+
+.. _SyncConfiguration_Builder_initialSubscriptions_SyncConfiguration_InitialFlexibleSyncSubscriptions_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`initialSubscriptions <io_realm_mongodb_sync_SyncConfiguration_Builder_initialSubscriptions>` (
+       |  :ref:`SyncConfiguration.InitialFlexibleSyncSubscriptions <io_realm_mongodb_sync_SyncConfiguration_InitialFlexibleSyncSubscriptions>`  action
+       | )
+       
+       
+       
+   
+   * - Sets the initial :ref:`Subscription <io_realm_mongodb_sync_Subscription>` s for the :ref:`io.realm.Realm <io_realm_Realm>` . This will only be executed the first time the Realm file is opened (and the file created). If :ref:`waitForInitialRemoteData() <io_realm_mongodb_sync_SyncConfiguration_Builder_waitForInitialRemoteData__>`  is configured as well, the realm file isn't fully opened until all subscription data also has been uploaded.
+       
+       
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``action`` - :ref:`MutableSubscriptionSet <io_realm_mongodb_sync_MutableSubscriptionSet>`  where subscriptions can be added.
+          
+          
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+
+
 .. _maxNumberOfActiveVersions:
 
 .. _maxNumberOfActiveVersions__:
@@ -1228,7 +1509,7 @@ maxNumberOfActiveVersions
        
        
    
-   * - Sets the maximum number of live versions in the Realm file before an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  is thrown when attempting to write more data.
+   * - Sets the maximum number of live versions in the Realm file before an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  is thrown when attempting to write more data.
        
        Realm is capable of concurrently handling many different versions of Realm objects. This can happen if you have a Realm open on many different threads or are freezing objects while data is being written to the file.
        
@@ -1261,7 +1542,7 @@ maxNumberOfActiveVersions
        
        
           
-          - `FAQ <https://realm.io/docs/java/latest/#faq-large-realm-file-size>`__ 
+          - `FAQ <https://docs.mongodb.com/realm/sdk/android/fundamentals/realms/#realm-file-size>`__ 
              
              
              
@@ -1314,7 +1595,7 @@ modules
    :header-rows: 1
    
    * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`modules <io_realm_mongodb_sync_SyncConfiguration_Builder_modules>` (
-       |  `java.lang.Iterable\<java.lang.Object> <https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html>`__  modules
+       |  `java.lang.Iterable\<java.lang.Object> <https://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html>`__  modules
        | )
        
        
@@ -1349,7 +1630,7 @@ modules
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if any of the modules don't have the :ref:`RealmModule <io_realm_annotations_RealmModule>`  annotation.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if any of the modules don't have the :ref:`RealmModule <io_realm_annotations_RealmModule>`  annotation.
           
           
           
@@ -1452,8 +1733,8 @@ modules
    :header-rows: 1
    
    * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`modules <io_realm_mongodb_sync_SyncConfiguration_Builder_modules>` (
-       |  `Object <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  baseModule, 
-       |  `java.lang.Object[] <https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html>`__  additionalModules
+       |  `Object <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  baseModule, 
+       |  `java.lang.Object[] <https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html>`__  additionalModules
        | )
        
        
@@ -1492,7 +1773,7 @@ modules
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if any of the modules don't have the :ref:`RealmModule <io_realm_annotations_RealmModule>`  annotation.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if any of the modules don't have the :ref:`RealmModule <io_realm_annotations_RealmModule>`  annotation.
           
           
           
@@ -1515,6 +1796,73 @@ modules
           
           
           
+       
+       
+   
+   
+
+
+.. _name:
+
+.. _name__:
+
+.. _Builder_name:
+
+.. _Builder_name__:
+
+.. _SyncConfiguration_Builder_name:
+
+.. _SyncConfiguration_Builder_name__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_name:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_name__:
+
+
+
+name
+----
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_name_java_lang_String_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_name_String_:
+
+.. _name_java_lang_String_:
+
+.. _name_String_:
+
+.. _SyncConfiguration_Builder_name_java_lang_String_:
+
+.. _SyncConfiguration_Builder_name_String_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`name <io_realm_mongodb_sync_SyncConfiguration_Builder_name>` (
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  filename
+       | )
+       
+       
+       
+   
+   * - Sets the filename for the Realm file on this device.
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``filename`` - name for the Realm file.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       
        
        
    
@@ -1551,9 +1899,9 @@ readOnly
        
        
    
-   * - Setting this will cause the Realm to become read only and all write transactions made against this Realm will fail with an `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__ .
+   * - Setting this will cause the Realm to become read only and all write transactions made against this Realm will fail with an `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__ .
        
-       This in particular mean that :ref:`initialData(Realm.Transaction) <io_realm_mongodb_sync_SyncConfiguration_Builder_initialData_Realm_Transaction_>`  will not work in combination with a read only Realm and setting this will result in a `IllegalStateException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html>`__  being thrown.
+       This in particular mean that :ref:`initialData(Realm.Transaction) <io_realm_mongodb_sync_SyncConfiguration_Builder_initialData_Realm_Transaction_>`  will not work in combination with a read only Realm and setting this will result in a `IllegalStateException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html>`__  being thrown.
        
        
        
@@ -1716,10 +2064,123 @@ schemaVersion
        
        **Throws**
        
-       - `IllegalArgumentException <https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalArgumentException.html>`__  - if schema version is invalid.
+       - `IllegalArgumentException <https://docs.oracle.com/javase/7/docs/api/java/lang/IllegalArgumentException.html>`__  - if schema version is invalid.
           
           
           
+       
+       
+       
+       
+       
+   
+   
+
+
+.. _syncClientResetStrategy:
+
+.. _syncClientResetStrategy__:
+
+.. _Builder_syncClientResetStrategy:
+
+.. _Builder_syncClientResetStrategy__:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy__:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy__:
+
+
+
+syncClientResetStrategy
+-----------------------
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. _syncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _syncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy_io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy_:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy_DiscardUnsyncedChangesStrategy_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`syncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy>` (
+       |  :ref:`DiscardUnsyncedChangesStrategy <io_realm_mongodb_sync_DiscardUnsyncedChangesStrategy>`  handler
+       | )
+       
+       
+       
+   
+   * - Sets the handler for when a Client Reset occurs. If no handler is set, and error is logged when a Client Reset occurs. This strategy is only available for synced realms using partition based sync. Realms using flexible sync currently only support :ref:`syncClientResetStrategy(ManuallyRecoverUnsyncedChangesStrategy) <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_>` .
+       
+       
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``handler`` - custom seamless loss handler in case of a Client Reset.
+          
+          
+          
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   
+   
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _syncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy_io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. _SyncConfiguration_Builder_syncClientResetStrategy_ManuallyRecoverUnsyncedChangesStrategy_:
+
+.. list-table::
+   :header-rows: 1
+   
+   * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`syncClientResetStrategy <io_realm_mongodb_sync_SyncConfiguration_Builder_syncClientResetStrategy>` (
+       |  :ref:`ManuallyRecoverUnsyncedChangesStrategy <io_realm_mongodb_sync_ManuallyRecoverUnsyncedChangesStrategy>`  handler
+       | )
+       
+       
+       
+   
+   * - Sets the handler for when a Client Reset occurs. If no handler is set, and error is logged when a Client Reset occurs.
+       
+       
+       
+       
+       **Parameters**
+       
+       - ``handler`` - custom manual handler in case of a Client Reset.
+          
+          
+          
+       
+       
+       
+       
        
        
        
@@ -1766,13 +2227,13 @@ urlPrefix
    :header-rows: 1
    
    * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`urlPrefix <io_realm_mongodb_sync_SyncConfiguration_Builder_urlPrefix>` (
-       |  `String <https://docs.oracle.com/javase/8/docs/api/java/lang/String.html>`__  urlPrefix
+       |  `String <https://docs.oracle.com/javase/7/docs/api/java/lang/String.html>`__  urlPrefix
        | )
        
        
        
    
-   * - The prefix that is prepended to the path in the WebSocket request that initiates a sync connection to MongoDB Realm. The value specified must match the server's configuration otherwise the device will not be able to create a connection. This value is optional and should only be set if a specific firewall rule requires it.
+   * - The prefix that is prepended to the path in the WebSocket request that initiates a sync connection to MongoDB Realm. The value specified must match the server’s configuration otherwise the device will not be able to create a connection. This value is optional and should only be set if a specific firewall rule requires it.
        
        
        
@@ -1790,21 +2251,6 @@ urlPrefix
        
        
        
-       
-       
-       
-       .. seealso::
-       
-       
-          
-          - `Adding a custom proxy <https://docs.realm.io/platform/guides/learn-realm-sync-and-integrate-with-a-proxy#adding-a-custom-proxy>`__ 
-             
-             
-             
-             
-          
-          
-          
        
        
    
@@ -1861,7 +2307,7 @@ waitForInitialRemoteData
    
    * - | public :ref:`SyncConfiguration.Builder <io_realm_mongodb_sync_SyncConfiguration_Builder>`  :ref:`waitForInitialRemoteData <io_realm_mongodb_sync_SyncConfiguration_Builder_waitForInitialRemoteData>` (
        |  **long** timeout, 
-       |  `TimeUnit <https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
+       |  `TimeUnit <https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html>`__  unit
        | )
        
        

@@ -47,11 +47,11 @@
             // ... handle Error ...
         } else {
             // ... use apiKey ...
-            // :hide-start:
+            // :remove-start:
             [client deleteAPIKey:[apiKey objectId] completion:^(NSError *error) {
                 [expectation fulfill];
             }];
-            // :hide-end:
+            // :remove-end:
         }
     }];
     // :snippet-end:
@@ -76,9 +76,9 @@
        } else {
           // ... use apiKey ...
        }
-       // :hide-start:
+       // :remove-start:
        [fetchOneExpectation fulfill];
-       // :hide-end:
+       // :remove-end:
     }];
 
     // Fetch all API keys
@@ -90,9 +90,9 @@
                 // ... use key ...
           }
        }
-       // :hide-start:
+       // :remove-start:
        [fetchAllExpectation fulfill];
-       // :hide-end:
+       // :remove-end:
     }];
     // :snippet-end:
     [self waitForExpectations:@[fetchOneExpectation, fetchAllExpectation] timeout:10.0];
@@ -111,24 +111,24 @@
     RLMObjectId *objectId = [[RLMObjectId alloc] initWithString:@"00112233445566778899aabb" error:nil];
     [client enableAPIKey:objectId completion:^(NSError *error) {
        // Handle error if any. Otherwise, enable was successful.
-       // :hide-start:
+       // :remove-start:
        [enableExpectation fulfill];
-       // :hide-end:
+       // :remove-end:
     }];
     
     RLMUserAPIKey *apiKey;
 
     // ... Get an API key ...
-    // :hide-start:
+    // :remove-start:
     apiKey = [[RLMUserAPIKey alloc] init];
-    // :hide-end:
+    // :remove-end:
 
     // Disable the API key
     [client disableAPIKey:[apiKey objectId] completion:^(NSError *error) {
        // Handle error if any. Otherwise, disable was successful.
-       // :hide-start:
+       // :remove-start:
        [disableExpectation fulfill];
-       // :hide-end:
+       // :remove-end:
     }];
     // :snippet-end:
     [self waitForExpectations:@[enableExpectation, disableExpectation] timeout:10.0];
@@ -145,15 +145,15 @@
     RLMUserAPIKey *apiKey;
 
     // ... Get an API key ...
-    // :hide-start:
+    // :remove-start:
     apiKey = [[RLMUserAPIKey alloc] init];
-    // :hide-end:
+    // :remove-end:
 
     [client deleteAPIKey:[apiKey objectId] completion:^(NSError *error) {
        // Handle error if any. Otherwise, delete was successful.
-       // :hide-start:
+       // :remove-start:
        [expectation fulfill];
-       // :hide-end:
+       // :remove-end:
     }];
     // :snippet-end:
     [self waitForExpectations:@[expectation] timeout:10.0];

@@ -25,12 +25,12 @@ namespace Examples
 
         public void DoDecimalStuff()
         {
-            // :hide-start:
+            // :remove-start:
             var app = App.Create(Config.appid);
             var user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             var config = new PartitionSyncConfiguration("myPart", user);
             var realm = Realm.GetInstanceAsync().Result;
-            // :hide-end:
+            // :remove-end:
             var myInstance = new MyClassWithDecimals();
             // To store decimal values:
             realm.Write(() =>

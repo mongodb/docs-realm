@@ -155,9 +155,9 @@ struct OpenSyncedRealmView: View {
     // :emphasize-start:
     @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
     // :emphasize-end:
-    // :hide-start:
+    // :remove-start:
     @State var searchFilter: String = ""
-    // :hide-end:
+    // :remove-end:
     
     var body: some View {
         

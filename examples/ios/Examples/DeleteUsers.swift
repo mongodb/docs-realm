@@ -15,33 +15,33 @@ class DeleteUsers: XCTestCase {
             case .success(let user):
                 // Assign the user object to a variable to demonstrate user deletion
                 syncUser = user
-                // :hide-start:
+                // :remove-start:
                 loginExpectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
         }
-        // :hide-start:
+        // :remove-start:
         wait(for: [loginExpectation], timeout: 10)
-        // :hide-end:
+        // :remove-end:
 
         // Later, after the user is loggedd in we have a user,
         // and the total users in the app = 1
         XCTAssertNotNil(syncUser)
         XCTAssertEqual(app.allUsers.count, 1)
 
-        // :hide-start:
+        // :remove-start:
         let deleteExpectation = XCTestExpectation(description: "User deleted")
-        // :hide-end:
+        // :remove-end:
         // Call the `delete` method to delete the user
         syncUser!.delete { (error) in
             XCTAssertNil(error)
-            // :hide-start:
+            // :remove-start:
             deleteExpectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
-        // :hide-start:
+        // :remove-start:
         wait(for: [deleteExpectation], timeout: 10)
-        // :hide-end:
+        // :remove-end:
 
         // When you delete the user, the SyncSession is destroyed and
         // there is no current user.

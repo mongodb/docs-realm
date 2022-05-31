@@ -79,9 +79,9 @@ class Authenticate: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let user):
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
@@ -116,9 +116,9 @@ class Authenticate: XCTestCase {
                 }
             case .failed(let error):
                 print("Facebook login failed: \(error)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .cancelled:
                 print("The user cancelled the login flow.")
 
@@ -138,9 +138,9 @@ class Authenticate: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let user):
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
@@ -165,9 +165,9 @@ class Authenticate: XCTestCase {
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
                 // Remember to dispatch to main if you are doing anything on the UI thread
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
         }
         // :snippet-end:
@@ -185,9 +185,9 @@ class Authenticate: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let user):
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
@@ -208,9 +208,9 @@ class Authenticate: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let user):
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
@@ -231,9 +231,9 @@ class Authenticate: XCTestCase {
                 // to your backend. Here, we're using anonymous login.
                 let user = try await app.login(credentials: Credentials.anonymous)
                 print("Successfully logged in user: \(user)")
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             } catch {
                 print("Failed to log in user: \(error.localizedDescription)")
             }
@@ -256,9 +256,9 @@ class Authenticate: XCTestCase {
                 print("Successfully logged in as user \(user)")
                 // Now logged in, do something with user
                 // Remember to dispatch to main if you are doing anything on the UI thread
-                // :hide-start:
+                // :remove-start:
                 expectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             }
         }
         // :snippet-end:
@@ -306,9 +306,9 @@ class Authenticate: XCTestCase {
 
         let user = try await getUser()
         var configuration = user.configuration(partitionValue: "Some Partition Value")
-        // :hide-start:
+        // :remove-start:
         configuration.objectTypes = [SyncExamples_Task.self]
-        // :hide-end:
+        // :remove-end:
         // Open a Realm with this configuration.
         // If you do not require the app to download updates
         // before opening the realm, the realm just opens, even if
@@ -326,9 +326,9 @@ class Authenticate: XCTestCase {
         // :snippet-start: logout
         app.currentUser?.logOut { (error) in
             // user is logged out or there was an error
-            // :hide-start:
+            // :remove-start:
             expectation.fulfill()
-            // :hide-end:
+            // :remove-end:
         }
         // :snippet-end:
         wait(for: [expectation], timeout: 10)

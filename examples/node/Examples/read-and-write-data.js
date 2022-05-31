@@ -353,11 +353,11 @@ describe("Read & Write Data", () => {
         "modified"
       );
 
-      // :hide-start:
+      // :remove-start:
       // expect there to be a person with a name of Joe and age 40
       expect(person.name).toBe("Joe");
       expect(person.age).toBe(40);
-      // :hide-end:
+      // :remove-end:
       // If an object exists, setting the third parameter (`updateMode`) to
       // "modified" only updates properties that have changed, resulting in
       // faster operations.

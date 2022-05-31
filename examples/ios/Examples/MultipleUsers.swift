@@ -25,9 +25,9 @@ class MultipleUsers: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 joeExpectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let joe):
                 // The active user is now Joe
                 assert(joe == app.currentUser)
@@ -39,9 +39,9 @@ class MultipleUsers: XCTestCase {
             switch result {
             case .failure(let error):
                 print("Login failed: \(error.localizedDescription)")
-                // :hide-start:
+                // :remove-start:
                 emmaExpectation.fulfill()
-                // :hide-end:
+                // :remove-end:
             case .success(let emma):
                 // The active user is now Joe
                 assert(emma == app.currentUser)
@@ -65,11 +65,11 @@ class MultipleUsers: XCTestCase {
         // :snippet-start: switch-user
         let app = App(id: YOUR_REALM_APP_ID)
 
-        // :hide-start:
+        // :remove-start:
         XCTAssertNil(app.currentUser)
-        // :hide-end:
+        // :remove-end:
         // ... log in ...
-        // :hide-start:
+        // :remove-start:
         func getSomeOtherUser() -> User {
             var someOtherUser: User?
             let expectation = XCTestExpectation(description: "it logs in")
@@ -88,7 +88,7 @@ class MultipleUsers: XCTestCase {
             wait(for: [expectation], timeout: 20)
             return someOtherUser!
         }
-        // :hide-end:
+        // :remove-end:
         // Get another user on the device, for example with `app.allUsers`
         let secondUser: User = getSomeOtherUser()
 
@@ -115,9 +115,9 @@ class MultipleUsers: XCTestCase {
                 switch result {
                 case .failure(let error):
                     print("Failed to log in: \(error.localizedDescription)")
-                    // :hide-start:
+                    // :remove-start:
                     XCTAssert(false, "Failed to log in: \(error.localizedDescription)")
-                    // :hide-end:
+                    // :remove-end:
                 case .success(let user):
                     // User uses app, then later registers an account
                     registerNewAccount(anonymousUser: user)
@@ -131,9 +131,9 @@ class MultipleUsers: XCTestCase {
             app.emailPasswordAuth.registerUser(email: email, password: password) { (error) in
                 guard error == nil else {
                     print("Failed to register new account: \(error!.localizedDescription)")
-                    // :hide-start:
+                    // :remove-start:
                     XCTAssert(false, "Failed to register new account: \(error!.localizedDescription)")
-                    // :hide-end:
+                    // :remove-end:
                     return
                 }
 
@@ -148,14 +148,14 @@ class MultipleUsers: XCTestCase {
                 switch result {
                 case .failure(let error):
                     print("Failed to link user: \(error.localizedDescription)")
-                    // :hide-start:
+                    // :remove-start:
                     XCTAssert(false, "Failed to link user: \(error.localizedDescription)")
-                    // :hide-end:
+                    // :remove-end:
                 case .success(let user):
                     print("Successfully linked user: \(user)")
-                    // :hide-start:
+                    // :remove-start:
                     expectation.fulfill()
-                    // :hide-end:
+                    // :remove-end:
                 }
             }
         }
@@ -194,9 +194,9 @@ class MultipleUsers: XCTestCase {
         do {
             let linkedUser = try await logInAnonymously()
             print("Successfully linked user async: \(linkedUser)")
-            // :hide-start:
+            // :remove-start:
             XCTAssertNotNil(linkedUser)
-            // :hide-end:
+            // :remove-end:
         } catch {
             print("Failed to link user: \(error.localizedDescription)")
         }

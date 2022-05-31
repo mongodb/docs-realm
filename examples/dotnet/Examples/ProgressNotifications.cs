@@ -66,9 +66,9 @@ namespace Examples
                 ProgressMode.ReportIndefinitely)
                 .Subscribe(progress =>
                    {
-                       // :hide-start:
+                       // :remove-start:
                        progressNotificationTriggered = true;
-                       // :hide-end:
+                       // :remove-end:
                        Console.WriteLine($@"transferred bytes:
                             {progress.TransferredBytes}");
                        Console.WriteLine($@"transferable bytes:

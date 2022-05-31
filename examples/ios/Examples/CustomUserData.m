@@ -26,10 +26,10 @@
             completion:^(id<RLMBSON> newObjectId, NSError *error) {
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :hide-start:
+                    // :remove-start:
                     XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
                     [expectation fulfill];
-                    // :hide-end:
+                    // :remove-end:
                 }
                 NSLog(@"Inserted custom user data document with object ID: %@", newObjectId);
         }];
@@ -63,9 +63,9 @@
                 return;
             }
             NSLog(@"Favorite color: %@", customData[@"favoriteColor"]);
-            // :hide-start:
+            // :remove-start:
             [expectation fulfill];
-            // :hide-end:
+            // :remove-end:
         }];
     }];
     // :snippet-end:
@@ -95,10 +95,10 @@
             completion:^(RLMUpdateResult *updateResult, NSError *error) { 
                 if (error != nil) {
                     NSLog(@"Failed to insert: %@", error);
-                    // :hide-start:
+                    // :remove-start:
                     XCTAssertEqualObjects([error localizedDescription], @"no rule exists for namespace 'my_database.users'");
                     [expectation fulfill];
-                    // :hide-end:
+                    // :remove-end:
                 }
                 NSLog(@"Matched: %lu, modified: %lu", [updateResult matchedCount], [updateResult modifiedCount]); 
         }];

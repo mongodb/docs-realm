@@ -7,9 +7,9 @@ import io.realm.annotations.Required;
 
 import org.bson.types.ObjectId;
 
-// :hide-start:
+// :remove-start:
 @RealmClass(name = "DefinitelyNotJavaTask")
-// :hide-end:
+// :remove-end:
 public class Task extends RealmObject {
     @PrimaryKey
     private ObjectId _id = new ObjectId();

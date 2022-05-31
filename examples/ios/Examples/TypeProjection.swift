@@ -12,13 +12,13 @@ import CoreLocation
 // Extend a type as a CustomPersistable if if is impossible for
 // conversion between the mapped type and the persisted type to fail.
 extension CLLocationCoordinate2D: CustomPersistable {
-    // :hide-start:
+    // :remove-start:
     // This code resolves this error: Extension outside of file declaring struct 'CLLocationCoordinate2D' prevents automatic synthesis of '==' for protocol 'Equatable'
     // It is hidden because it's not a part of the custom type mapping implementation so I didn't want to confuse readers about what is required to use custom type mapping
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
         lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
-    // :hide-end:
+    // :remove-end:
     // Define the storage object that is persisted to the database.
     // The `PersistedType` must be a type that Realm supports.
     // In this example, the PersistedType is an embedded object.

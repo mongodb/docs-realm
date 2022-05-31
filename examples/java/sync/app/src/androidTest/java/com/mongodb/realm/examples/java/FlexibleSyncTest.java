@@ -69,10 +69,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                 .equalTo("species", "spring peeper")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     // instantiate a realm instance with the flexible sync configuration
@@ -80,10 +80,10 @@ public class FlexibleSyncTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -120,10 +120,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                 .equalTo("species", "spring peeper")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -132,10 +132,10 @@ public class FlexibleSyncTest extends RealmTest {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
                             // later, you can look up this subscription by name
                             Subscription subscription = realm.getSubscriptions().find("frogSubscription");
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -168,17 +168,17 @@ public class FlexibleSyncTest extends RealmTest {
                                 public void configure(Realm realm, MutableSubscriptionSet subscriptions) {
                                     // add a subscription without assigning a name
                                     subscriptions.add(Subscription.create(
-                                            // :hide-start:
+                                            // :remove-start:
                                             "totallyNotASubscriptionName", // conflicts between unnamed subs -- nasty hack workaround
-                                            // :hide-end:
+                                            // :remove-end:
                                             realm.where(Frog.class)
                                                     .equalTo("species", "spring peeper")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -188,10 +188,10 @@ public class FlexibleSyncTest extends RealmTest {
                             // later, you can look up this subscription by query
                             Subscription subscription = realm.getSubscriptions().find(realm.where(Frog.class)
                                     .equalTo("species", "spring peeper"));
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -226,9 +226,9 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "poison dart")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
-                            // :hide-end:
+                            // :remove-end:
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
                             .build();
 
@@ -236,10 +236,10 @@ public class FlexibleSyncTest extends RealmTest {
                         @Override
                         public void onSuccess(Realm realm) {
                             Log.v("EXAMPLE", "Successfully opened a realm.");
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                     // :snippet-end:
@@ -277,10 +277,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "cane toad")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -302,10 +302,10 @@ public class FlexibleSyncTest extends RealmTest {
                                 }
                             });
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                 } else {
@@ -342,10 +342,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "cane toad")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -372,10 +372,10 @@ public class FlexibleSyncTest extends RealmTest {
                                 }
                             });
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                 } else {
@@ -411,10 +411,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "milky frog")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -431,13 +431,13 @@ public class FlexibleSyncTest extends RealmTest {
                                 }
                             });
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             while(!realm.isClosed()) {
                                 // spin spin spin
                             }
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                 } else {
@@ -470,10 +470,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "treefrog")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -489,10 +489,10 @@ public class FlexibleSyncTest extends RealmTest {
                                 }
                             });
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                 } else {
@@ -525,10 +525,10 @@ public class FlexibleSyncTest extends RealmTest {
                                                     .equalTo("species", "treefrog")));
                                 }
                             })
-                            // :hide-start:
+                            // :remove-start:
                             .inMemory()
                             .waitForInitialRemoteData(2112, TimeUnit.MILLISECONDS)
-                            // :hide-end:
+                            // :remove-end:
                             .build();
 
                     Realm.getInstanceAsync(config, new Realm.Callback() {
@@ -544,10 +544,10 @@ public class FlexibleSyncTest extends RealmTest {
                                 }
                             });
                             // :snippet-end:
-                            // :hide-start:
+                            // :remove-start:
                             realm.close();
                             expectation.fulfill();
-                            // :hide-end:
+                            // :remove-end:
                         }
                     });
                 } else {
