@@ -177,8 +177,8 @@ working as expected. Read on to learn how to integrate this app with
 
 .. _swiftui-integrate-with-sync:
 
-Integrate MongoDB Realm and Sync
---------------------------------
+Integrate Atlas Device Sync
+---------------------------
 
 Now that we have a working {+client-database+} app, we can optionally
 integrate with {+sync+}. Sync allows you to you see the changes you make
@@ -204,7 +204,7 @@ across devices. Before you can add sync to this app, make sure to:
    synced list of items in a single group.
 
 At the top of the source file, initialize an optional :swift-sdk:`Realm
-app <Extensions/App.html>` with :ref:`your Realm app ID
+app <Extensions/App.html>` with :ref:`your {+app+} ID
 <find-your-app-id>`:
 
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.mongodb-realm.swift
@@ -224,7 +224,7 @@ app reference is not ``nil``:
 We define the SyncContentView below. 
 
 The SyncContentView observes the Realm app instance. The app instance is
-the interface to the MongoDB Realm backend, which provides the user
+the interface to the Atlas App Services backend, which provides the user
 authentication required for Sync. By observing the app instance, the
 SyncContentView can react when a user logs in or out.
 
@@ -343,8 +343,8 @@ haven't defined it explicitly in the client object model:
      }
    }
 
-Authenticate Users with MongoDB Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Authenticate Users with Atlas App Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The LoginView maintains some state in order to display an activity
 indicator or error. It uses a reference to the Realm app instance passed
