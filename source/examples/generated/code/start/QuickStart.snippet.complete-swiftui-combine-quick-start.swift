@@ -6,7 +6,7 @@ import SwiftUI
 // MARK: MongoDB Realm (Optional)
 
 // Set this to true if you have set up a MongoDB Realm app
-// with Realm Sync and anonymous authentication.
+// with Atlas Device Sync and anonymous authentication.
 let USE_REALM_SYNC = true
 
 // The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.

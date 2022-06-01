@@ -1584,7 +1584,7 @@ isAllowQueriesOnUiThread
    
    * - Returns whether a :ref:`RealmQuery <io_realm_RealmQuery>`  is allowed to be launched from the UI thread.
        
-       By default Realm allows queries on the main thread. To disallow this users have to explicitly opt in with :ref:`Builder.allowQueriesOnUiThread(boolean) <io_realm_RealmConfiguration_Builder_allowQueriesOnUiThread_boolean_>`  or its Realm Sync builder counterpart.
+       By default Realm allows queries on the main thread. To disallow this users have to explicitly opt in with :ref:`Builder.allowQueriesOnUiThread(boolean) <io_realm_RealmConfiguration_Builder_allowQueriesOnUiThread_boolean_>`  or its Atlas Device Sync builder counterpart.
        
        
        
@@ -1637,7 +1637,7 @@ isAllowWritesOnUiThread
    
    * - Returns whether calls to :ref:`Realm.executeTransaction <io_realm_Realm_executeTransaction>`  can be done on the UI thread.
        
-       **Note: Realm does not allow blocking transactions to be run on the main thread unless users explicitly opt in with :ref:`Builder.allowWritesOnUiThread(boolean) <io_realm_RealmConfiguration_Builder_allowWritesOnUiThread_boolean_>`  or its Realm Sync builder counterpart.
+       **Note: Realm does not allow blocking transactions to be run on the main thread unless users explicitly opt in with :ref:`Builder.allowWritesOnUiThread(boolean) <io_realm_RealmConfiguration_Builder_allowWritesOnUiThread_boolean_>`  or its Atlas Device Sync builder counterpart.
        
        **
        

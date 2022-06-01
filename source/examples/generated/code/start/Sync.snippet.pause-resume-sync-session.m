@@ -1,6 +1,6 @@
 RLMRealm *syncedRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
 
-RLMSyncSession *syncSession = [syncedRealm syncSession];
+RLMSyncSession *syncSession = [syncedAtlas Device SyncSession];
 // Suspend synchronization
 [syncSession suspend];
 

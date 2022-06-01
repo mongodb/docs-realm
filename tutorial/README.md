@@ -5,7 +5,7 @@ The Task Tracker is a collaborative project management tool.
 ## App Description
 
 The mobile apps (Swift/iOS, Kotlin/Android, and React Native) and the Node CLI
-implement the Task Tracker using MongoDB Realm Sync.
+implement the Task Tracker using MongoDB Atlas Device Sync.
 
 The web app implements the Task Tracker using the GraphQL integration.
 

@@ -156,7 +156,7 @@
     // :snippet-start: pause-resume-sync-session
     RLMRealm *syncedRealm = [RLMRealm realmWithConfiguration:configuration error:nil];
     
-    RLMSyncSession *syncSession = [syncedRealm syncSession];
+    RLMSyncSession *syncSession = [syncedAtlas Device SyncSession];
     // Suspend synchronization
     [syncSession suspend];
     
@@ -191,7 +191,7 @@
     expectation.assertForOverFulfill = NO;
     
     // :snippet-start: check-progress
-    RLMSyncSession *syncSession = [syncedRealm syncSession];
+    RLMSyncSession *syncSession = [syncedAtlas Device SyncSession];
     RLMProgressNotificationToken *token = [syncSession
            addProgressNotificationForDirection:RLMSyncProgressDirectionUpload
                                           mode:RLMSyncProgressModeForCurrentlyOutstandingWork
