@@ -104,8 +104,8 @@ ensures the user is never using the app with stale data.
 
       .. versionadded:: 10.27.0
 
-      Realm Swift SDK version 10.27.0 adds Flexible Sync versions of the 
-      property wrappers to open Realm with SwiftUI.
+      Realm Swift SDK version 10.27.0 adds :ref:`Flexible Sync <flexible-sync>` 
+      versions of the property wrappers to open Realm with SwiftUI.
 
       .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.state-var-and-property-wrapper.swift
          :language: swift
@@ -125,8 +125,8 @@ ensures the user is never using the app with stale data.
    .. tab:: Partition-Based Sync
       :tabid: pbs
 
-      To open a realm with Partition-Based Sync, add a ``partitionValue`` 
-      to the property wrapper:
+      To open a realm with :ref:`Partition-Based Sync <partition-based-sync>`, 
+      add a ``partitionValue`` to the property wrapper:
 
       .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
          :language: swift
@@ -191,7 +191,8 @@ should be able to work with data on the device
 This SwiftUI property wrapper attempts to download updates before opening a 
 realm for the current user. If there is no internet connection, this property 
 wrapper instead returns the most up-to-date version of the local realm file 
-for the given ``appId`` and ``partitionValue``.
+for the given ``appId`` and Flexible Sync or Partition-Based Sync 
+configuration.
 
 The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
 enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
@@ -233,9 +234,10 @@ work with environment values when developing your SwiftUI application.
 Inject the Partition Value
 ``````````````````````````
 
-When you want to pass a synced {+realm+}, you can use environment injection
-to pass the ``.partitionValue`` environment value. Inject this into a view 
-where you perform the ``@AsyncOpen`` or ``@AutoOpen``:
+If you are using :ref:`Partition-Based Sync <partition-based-sync>`, you 
+can use environment injection to pass the ``.partitionValue`` environment 
+value. Inject this into a view where you perform the ``@AsyncOpen`` or 
+``@AutoOpen``:
 
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
    :language: swift
