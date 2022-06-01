@@ -365,15 +365,20 @@ specific user logs in.
       .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.open-realm-view-flex-sync.swift
          :language: swift
 
-      In this view, we switch on a ``SubscriptionState`` enum. 
+      For this view, we create a ``SubscriptionState`` enum that 
+      we can use with a switch statement. 
 
       .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.switch-on-subscription-state-to-open-realm.swift
          :language: swift
       
-      We use this enum as a way to :ref:`add Flexible Sync subscriptions 
-      <ios-sync-add-subscription>` to determine which objects should sync 
-      to the realm. After we've added or updated subscriptions, we move 
-      to the next view with the populated realm. 
+      We use the ``.initial`` case to :ref:`add Flexible Sync 
+      subscriptions <ios-sync-add-subscription>`. These subscriptions 
+      determine which objects the realm can read and write. We must 
+      populate at least one subscription before we attempt to use the realm.
+      
+      After we have added or updated subscriptions, we move to the next 
+      case in the switch statement, which takes us to the view with the 
+      populated realm. 
       
       In our subscriptions, we're querying for ``ItemGroup`` and ``Item`` objects 
       where the ``ownerId`` matches the logged-in user's ``user.id``. 
