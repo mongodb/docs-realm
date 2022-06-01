@@ -251,7 +251,7 @@ as when a user works in a temporary workspace.
 Atlas Device Sync
 ----------
 
-{+sync+} adds network synchronization between a {+backend+} backend and
+{+sync+} adds network synchronization between an {+backend+} backend and
 client devices on top of all of the functionality of {+client-database+}.
 When you use {+client-database+} with Sync, {+realm+}s exist on device
 just like when you only use {+client-database+}. However, changes to
