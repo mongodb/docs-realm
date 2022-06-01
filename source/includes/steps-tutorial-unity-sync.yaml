@@ -29,7 +29,7 @@ ref: open-synced-realm
 content: |
   To configure {+service-short+} to automatically synchronize data between
   devices, you'll need to replace your local {+realm+} with a synced {+realm+}.
-
+  
   In the ``RealmController.cs`` file, replace the existing ``GetRealm()`` method
   with the one that takes in a User as a parameter and asynchronously gets a
   synced {+realm+} instance: 
@@ -74,7 +74,7 @@ content: |
 
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.add-sync-login-click-handler.cs
      :language: csharp
-
+  
   Notice that there is now a password parameter for the ``RealmController.SetLoggedInUser()`` method. You will update that method in the next step.
 
   Finally, create an ``AuthenticationManager.OnPressRegister()`` method that calls a ``RealmController.OnPressRegister()`` method that you will create in the next step:
