@@ -1,3 +1,56 @@
+# May 27, 2022
+
+## SDK Docs
+
+Various changes related to separating App Services & SDK docs:
+- Move SDKs up one level so each SDK is now an entry in the main ToC
+- Remove Get Started section
+- Move "Intro for Mobile Developers" to top-level ToC and call it "Introduction"
+- Remove App Services-related tutorials (moved to App Services docs)
+- Move Unity tutorial to .NET SDK docs to unify "Tutorials" to be only the Task Tracker tutorial
+- Remove Release Notes from ToC; App Services now has Cloud-side release notes, and each SDK has its own release notes
+
+### Java SDK
+- Update generated API reference docs to fix incorrectly-rendered links related to characters that need to be escaped
+- Update Java SDK version in unit tests
+
+### Swift SDK
+- Install: Add missing dependency to Static Framework install instructions
+
+## MongoDB Cloud Docs
+
+Various changes related to separating App Services & SDK docs:
+- Landing page: Update cards w/App Services-relevant info
+- Introduction: New page. Moved & consolidated from docs-realm Intro for Backend Developers/Intro for Web Developers
+- Template Apps: Move page from Manage & Deploy Realm apps/Create to top-level nav
+- Tutorials: New section w/App Services-relevant tutorials moved from docs-realm
+- Realm SDKs: Add ToC link to Realm SDKs
+
+### Realm Sync
+- Realm Sync/What is Realm Sync/Realm Sync Overview: Remove "Preview" from Kotlin/Flutter SDK link descriptions
+
+### Users & Authentication
+- Users & Authentication: Fix incorrect refresh token length, add clarifications
+
+### GraphQL API
+- GraphQL API: Add note about mutations and custom resolvers using transactions
+- GraphQL Types, Resolvers, and Operators
+  - Add FindMany limit
+  - Clarify that GraphQL represents undefined as an empty object
+  - Note that GraphQL RelationInput cannot simultaneously create and link
+
+### Reference
+- Authenticate HTTP Client Requests: Fix incorrect refresh token length, add clarifications
+
+Realm Admin API
+- Add info to configure resume operation with `disable_token`
+- Add Rules endpoint info for working with a linked data source:
+  - Get all rules: GET /services/{DataSourceID}/rules
+  - Create a rule: POST /services/{DataSourceID}/rules
+  - Get a rule: GET /services/{DataSourceID}/rules/{RuleID}
+  - Update a rule: PUT /services/{DataSourceID}/rules/{RuleID}
+  - Delete a rule: DELETE /services/{DataSourceID}/rules/{RuleID}
+
 # May 20, 2022
 
 ## SDK Docs
