@@ -1,4 +1,4 @@
-const tasks = useQuery("Task");
+const tasks = useQuery('Task');
 
 return (
  <TaskList tasks={tasks} />
