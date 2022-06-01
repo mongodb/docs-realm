@@ -244,7 +244,7 @@ public class ClientResetTest extends RealmTest {
             Log.w("EXAMPLE", "Opened the backup realm.");
 
             // To only migrate unsynced data,
-            // you'll need to know the last time the Atlas Device Synced.
+            // you'll need to know the last time the realm synced.
             // you can keep track of successful sync connections
             // locally in an object in the realm
             DynamicRealmObject lastSuccessfulSynced =

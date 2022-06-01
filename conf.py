@@ -85,7 +85,7 @@ source_constants = {
     'service-short': 'Realm',  # use as shorthand, AND as a prefix for features
     'backend': 'MongoDB Realm',
     'backend-short': 'Realm',
-    'sync': 'Atlas Device Sync',
+    'sync': 'Realm Sync',
     'sync-short': 'Sync',  # feature/product name, NOT verb
     'backend-schema': 'Realm Schema',
     'frontend-schema': 'Realm Object Model',

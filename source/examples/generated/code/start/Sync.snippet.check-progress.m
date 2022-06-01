@@ -1,4 +1,4 @@
-RLMSyncSession *syncSession = [syncedAtlas Device SyncSession];
+RLMSyncSession *syncSession = [syncedRealm syncSession];
 RLMProgressNotificationToken *token = [syncSession
        addProgressNotificationForDirection:RLMSyncProgressDirectionUpload
                                       mode:RLMSyncProgressModeForCurrentlyOutstandingWork

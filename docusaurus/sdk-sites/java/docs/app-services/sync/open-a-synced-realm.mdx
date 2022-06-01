@@ -79,7 +79,7 @@ specific sync settings created using a `SyncConfiguration` object:
 The code above shows how to open the realm asynchronously
 with `Realm.getInstanceAsync()`. This returns an open realm _after_
 synchronizing all data from the backend.
-You can also open a Atlas Device Synchronously by using [`Realm.getInstance()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstance-io.realm.RealmConfiguration-)
+You can also open a realm synchronously by using [`Realm.getInstance()`](https://www.mongodb.com/docs/realm-sdks/java/latest/io/realm/Realm.html#getInstance-io.realm.RealmConfiguration-)
 instead. This returns an open realm immediately, _before_ synchronizing
 all data from the backend. This may lead to temporary data
 inconsistencies while the remote data is downloaded, and is generally

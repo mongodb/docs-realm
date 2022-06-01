@@ -33,7 +33,7 @@ class CounterModel : ViewModel() {
             if(it.isSuccess) {
                 Log.v("QUICKSTART", "Successfully logged in anonymously.")
 
-                // 3. connect to a realm with Atlas Device Sync
+                // 3. connect to a realm with Realm Sync
                 val user: User? = app.currentUser()
                 val partitionValue = "example partition"
                 val config = SyncConfiguration.Builder(user!!, partitionValue)

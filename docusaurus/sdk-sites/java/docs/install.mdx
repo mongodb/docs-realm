@@ -1,10 +1,9 @@
 ---
-title: "Install"
+title: 'Install'
 ---
-
-import { variables } from "@site/variables";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import {variables} from '@site/variables';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 This page details how to install the Realm Java SDK in your project
 and get started.
@@ -35,6 +34,7 @@ To add local-only Realm Database to your application, make
 the following changes to your project-level Gradle build
 file, typically found at `<project>/build.gradle`:
 
+
 <Tabs groupId="gradle-syntax">
   <TabItem value="plugin" label="Gradle Plugin Syntax">
 
@@ -47,14 +47,10 @@ you can still add the SDK to projects that use this syntax.
 - Add the `mavenCentral()` repository to the `buildscript.repositories` block.
 - Add the `io.realm:realm-gradle-plugin` dependency to the `buildscript.dependencies` block.
 
-<pre>
-  <code
-    parentName="pre"
-    {...{
-      language: "groovy",
-    }}
-  >
-    {`
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
 // highlight-start
 buildscript {
     repositories {
@@ -77,8 +73,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 `}
-  </code>
-</pre>
+</code></pre>
 
   </TabItem>
   <TabItem value="legacy" label="Gradle Legacy Syntax">
@@ -86,14 +81,10 @@ task clean(type: Delete) {
 - Add the `io.realm:realm-gradle-plugin` dependency to the `buildscript.dependencies` block.
 - Add the `mavenCentral()` repository to the `allprojects.repositories` block.
 
-<pre>
-  <code
-    parentName="pre"
-    {...{
-      language: "groovy",
-    }}
-  >
-    {`
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
 buildscript {
     repositories {
         google()
@@ -119,8 +110,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 `}
-  </code>
-</pre>
+</code></pre>
 
 </TabItem>
 </Tabs>
@@ -136,14 +126,11 @@ Gradle build file, typically found at `<project>/app/build.gradle`:
 - Apply the `kotlin-kapt` plugin if your application uses Kotlin
 - Beneath the `plugins` block, apply the `realm-android` plugin.
 
-<pre>
-  <code
-    parentName="pre"
-    {...{
-      language: "groovy",
-    }}
-  >
-    {`
+
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -195,23 +182,20 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 `}
-  </code>
-</pre>
+</code></pre>
 
   </TabItem>
   <TabItem value="legacy" label="Gradle Legacy Syntax">
 
+
 - Apply the `kotlin-kapt` plugin if your application uses Kotlin
 - Apply the `realm-android` plugin
 
-<pre>
-  <code
-    parentName="pre"
-    {...{
-      language: "groovy",
-    }}
-  >
-    {`
+
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 // highlight-start
@@ -243,8 +227,8 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0"
 }
 `}
-  </code>
-</pre>
+</code></pre>
+
 
   </TabItem>
 </Tabs>
@@ -252,26 +236,22 @@ dependencies {
 After updating the `build.gradle` files, resolve the dependencies by
 clicking `File > Sync Project with Gradle Files`.
 
-## Enable Atlas Device Sync
+## Enable Realm Sync
 
-To use Atlas Device Sync in your application, create a `realm` block in your
+To use Realm Sync in your application, create a `realm` block in your
 application module `build.gradle`. Within this block, set `syncEnabled`
 to `true`.
 
-<pre>
-  <code
-    parentName="pre"
-    {...{
-      language: "groovy",
-    }}
-  >
-    {`
+<pre><code parentName="pre" {...{
+            "language": "groovy"
+          }}>
+{`
 realm {
     syncEnabled = true
 }
 `}
-  </code>
-</pre>
+</code></pre>
+
 
 ## Supported Platforms
 

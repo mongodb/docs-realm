@@ -2,7 +2,7 @@
 
 The Realm Examples project contains Java and Kotlin code examples and unit tests for the Realm SDK.
 
-This project uses Atlas Device Sync with the Realm app _android-example-testers-rztwe_, in the org _Bushicorp_. You can
+This project uses Realm Sync with the Realm app *android-example-testers-rztwe*, in the org *Bushicorp*. You can
 view the Realm app [here](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/5fd8f1267b48d7cff86b1766/dashboard).
 
 ## Get Started
@@ -17,7 +17,7 @@ You can download Android Studio [here](https://developer.android.com/studio).
 Because the Realm Android SDK doesn't support any Realm functionality in unit testing without
 mocking the entire Realm API with Powermock/Mockito, this test suite actually relies on
 **instrumented tests**. Thanks to some workarounds and brilliance on the part of Chris Bush,
-many of these tests _appear_ like unit tests, with Asserts and tested logic... but like any Android
+many of these tests *appear* like unit tests, with Asserts and tested logic... but like any Android
 instrumented tests, these tests run in activities on an Android Virtual Device (AVD). You need a
 virtual device to run the tests.
 
@@ -40,14 +40,14 @@ You can run test files individual by right clicking on them and selecting "Run '
 
 The following diagram shows the key items in the project directory:
 
-| path                             | description                                                                                                     |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| app/src/androidTest              | Examples and test cases in the blessed instrumented test directory. Add code here.                              |
-| app/src/main                     | Source for the app that the tests run against, the Java/Kotlin quickstarts, and example application overrides.  |
-| build.gradle                     | The project level gradle build configuration. This is where you increment the realm version used in tests.      |
-| app/src/build.gradle             | The app module level gradle build configuration. This is where you'll add most dependencies and tweak settings. |
-| app/src/main/AndroidManifest.xml | Manifest that allows Android to discover various activities and application definitions in the project.         |
-| README.md                        | This file.                                                                                                      |
+| path                             | description                                                                                                    |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| app/src/androidTest              | Examples and test cases in the blessed instrumented test directory. Add code here.                             |
+| app/src/main                     | Source for the app that the tests run against, the Java/Kotlin quickstarts, and example application overrides. |
+| build.gradle                     | The project level gradle build configuration. This is where you increment the realm version used in tests.     |
+| app/src/build.gradle             | The app module level gradle build configuration. This is where you'll add most dependencies and tweak settings.|
+| app/src/main/AndroidManifest.xml | Manifest that allows Android to discover various activities and application definitions in the project.        |
+| README.md                        | This file.                                                                                                     |
 
 In short, `src/androidTest/java/com/mongodb/realm/examples/java` should contain Java test code,
 and `src/androidTest/java/com/mongodb/realm/examples/kotlin` should contain Kotlin test code.
