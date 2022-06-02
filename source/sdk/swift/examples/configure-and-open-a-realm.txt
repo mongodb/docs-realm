@@ -173,7 +173,7 @@ Open a Synced Realm as a Non-Synced Realm
    change a synced realm to a non-synced realm. See: :ref:`Suspend or Resume 
    a Sync Session <ios-suspend-or-resume-a-sync-session>`.
 
-If you want to permanently stop a realm from syncing to your backend Realm app,
+If you want to permanently stop a realm from syncing to your Atlas App Services backend,
 you can use the :swift-sdk:`writeCopy(configuration: ) 
 <Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
 method to make a copy of a synced realm for use with a non-sync configuration.
@@ -186,7 +186,7 @@ the schema version as if you had deleted a property <ios-delete-a-property>`.
 After you copy the realm for use without Sync, you can open the copy as a 
 non-synced realm. Any changes you make to the non-synced realm reflect 
 only in the local realm file. No changes propogate to other devices or
-the backend Realm application.
+the Atlas App Services backend.
 
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-local.swift
    :language: swift
@@ -235,7 +235,7 @@ This enables you to specify a partition value whose data should sync to the real
          
          The Realm Swift SDK supports async/await syntax for opening a realm. 
          For completion handler syntax, see:
-         :ref:`Legacy Realm Sync Open Methods <ios-realm-open-legacy>`. 
+         :ref:`ios-realm-open-legacy`. 
 
          .. include:: /includes/swift-async-await-support.rst
 
@@ -316,7 +316,7 @@ Open Non-Synced Realm as a Synced Realm
 .. versionadded:: 10.23.0
 
 If you want a non-synced realm to start syncing with other devices and your 
-backend Realm application, you can use the :swift-sdk:`writeCopy(configuration: ) 
+Atlas App Services backend, you can use the :swift-sdk:`writeCopy(configuration: ) 
 <Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
 method to make a copy of the non-synced realm for use with a sync configuration. 
 The example below creates a copy of a non-synced realm file, with all of 
@@ -325,7 +325,7 @@ its existing data, that you can use with a sync configuration.
 After you copy the realm for use with Sync, you can open the copy as a 
 synced realm. Any changes you make to the synced realm will reflect 
 in the synced realm file, and they will also propogate to other devices and
-the backend Realm application.
+the Atlas App Services backend.
 
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-local-to-sync.swift
    :language: swift

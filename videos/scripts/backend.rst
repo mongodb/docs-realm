@@ -11,7 +11,7 @@ so you can follow along as I walk through it.
 There are five steps in this tutorial: we'll start by creating an Atlas account,
 set up a free Atlas cluster to hold our data, install the Realm 
 command line tools, set up permissions for those CLI tools, and finally upload a 
-pre-configured backend Realm app. 
+pre-configured Atlas App Services backend. 
 
 So let's get started.
 

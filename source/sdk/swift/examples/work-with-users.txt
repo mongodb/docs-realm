@@ -42,7 +42,7 @@ to a single user object.
 
 You can :ref:`delete user objects <ios-delete-user>`. Deleting a user object 
 deletes metadata attached to the user object, but does not delete user-entered
-data from your application.
+data from the backend.
 
 .. include:: /includes/apple-account-deletion-requirements.rst
 
@@ -78,8 +78,8 @@ can bypass the login flow and access the cached user. Use this to open a
 User Sessions
 ~~~~~~~~~~~~~
 
-MongoDB Realm manages sessions with access tokens and refresh tokens. Client 
-SDKs supply the logic to manage tokens, and provide them with requests.
+Atlas App Services manages sessions with access tokens and refresh tokens.
+Client SDKs supply the logic to manage tokens, and provide them with requests.
 
 The Swift SDK stores these tokens in the 
 `Keychain <https://developer.apple.com/documentation/security/keychain_services>`_.

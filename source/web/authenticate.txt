@@ -217,7 +217,7 @@ is a Google SDK that lets users sign up to or log in to a website with one click
             data-callback="handleCredentialsResponse"
           ></div>
         </body>
-        <!-- Load MongoDB Realm -->
+        <!-- Load Atlas App Services -->
         <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
         <!-- Load Google One Tap -->
         <script src="https://accounts.google.com/gsi/client"></script>
@@ -286,9 +286,9 @@ require you to install a Google SDK. The built-in flow follows three main steps:
           <h1>Google Auth Example</h1>
           <button id="google-auth">Authenticate!</button>
         </body>
-        <!-- Load MongoDB Realm -->
+        <!-- Load Realm -->
         <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
-        <!-- Log in with Realm and Google Authentication -->
+        <!-- Log in with App Services and Google Authentication -->
         <script>
           const app = new Realm.App({
             id: "<Your-App-ID>",

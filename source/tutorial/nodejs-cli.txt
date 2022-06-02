@@ -32,7 +32,7 @@ This tutorial should take around 30 minutes to complete.
    If you prefer to explore on your own rather than follow a guided tutorial,
    check out the :ref:`Quick Start <node-client-quick-start>`. It
    includes copyable code examples and the essential information that you need
-   to set up a MongoDB Realm application.
+   to set up an Atlas App Services backend.
 
 Prerequisites
 -------------
@@ -61,7 +61,7 @@ directly from GitHub:
    The ``start`` branch is an incomplete version of the app that we will
    complete in this tutorial. To view the finished app, check out the
    ``final`` branch, install dependencies, and update ``realmAppId`` in
-   the ``config.js`` to point to :ref:`your Realm app ID
+   the ``config.js`` to point to :ref:`your {+app+} ID
    <find-your-app-id>`.
 
 In your terminal, run the following command to install its dependencies:
@@ -88,7 +88,7 @@ following table describes the role of important files in this project:
 
    * - config.js
      - Provides a single location for configuration data. You will put your 
-       Realm app ID here.
+       {+app+} ID here.
    
    * - index.js
      - The entry point for the app. Creates the Realm App that you app will use 
@@ -120,7 +120,7 @@ following table describes the role of important files in this project:
    * - projects.js
      - Handles project retrieval and listing. 
 
-C. Connect to Your MongoDB Realm App
+C. Connect to Your Atlas App Services Backend
 ------------------------------------
 
 To get the app working with your backend, you first need to add your Realm App ID 
@@ -134,7 +134,7 @@ Change this value to your Realm App ID.
 
 .. note::
 
-   To learn how to find your MongoDB Realm ``appId``, see the :ref:`Find
+   To learn how to find your App Services ``appId``, see the :ref:`Find
    Your App Id <find-your-app-id>` doc.
 
 Once you have made that change, you now need to complete the code needed to 
@@ -279,7 +279,7 @@ In ``tasks.js``:
 
   .. note::
     
-     To learn more about Realm Sync, see :ref:`Sync Overview <sync>`.
+     To learn more about Atlas Device Sync, see :ref:`sync`.
 
 In ``projects.js``: 
 
@@ -372,9 +372,9 @@ If the app builds successfully, here are some things you can try in the app:
 What's Next?
 ------------
 
-You just built a functional task tracker web application built with MongoDB Realm. Great job!
+You just built a functional task tracker web application built with Realm. Great job!
 
-Now that you have some hands-on experience with MongoDB Realm, consider these
+Now that you have some hands-on experience with Realm, consider these
 options to keep practicing and learn more:
 
 - Extend the task tracker app with additional features. For example, you could:
@@ -389,7 +389,7 @@ options to keep practicing and learn more:
   - :doc:`React Native (JavaScript) </tutorial/react-native>`
   - :doc:`Web with React and GraphQL (Javascript) </tutorial/web-graphql>`
 
-- Dive deeper into the docs to learn more about MongoDB Realm. You'll find
+- Dive deeper into the docs to learn more about Realm. You'll find
   information and guides on features like:
 
   - Serverless :ref:`functions <functions>` that handle backend logic and

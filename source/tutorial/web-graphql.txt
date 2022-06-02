@@ -54,7 +54,7 @@ Prerequisites
 
 Before you get started, you'll need the following:
 
-- A complete task tracker app in MongoDB Realm. If you haven't yet completed
+- A complete task tracker app in {+backend+}. If you haven't yet completed
   :doc:`Set up the Task Tracker Tutorial Backend </tutorial/realm-app>`, do
   that before you continue.
 
@@ -134,18 +134,18 @@ how to modify the components and hooks to use the Realm GraphQL API.
    `official React website <https://reactjs.org>`_, which has excellent
    documentation and tutorials.
 
-C. Connect to Your MongoDB Realm App
+C. Connect to Your Atlas App Services Backend
 ------------------------------------
 
-The client app needs to connect to your Realm app so that users can register and
-log in. In ``src/RealmApp.js``, we import the Realm Web SDK to connect to
-Realm and handle these actions. The file exports a React context provider that
-encapsulates this behavior and makes it available to other components in the
-app.
+The client app needs to connect to your App Services backend so that users can
+register and log in. In ``src/RealmApp.js``, we import the Realm Web SDK to
+connect to Atlas and handle these actions. The file exports a React context
+provider that encapsulates this behavior and makes it available to other
+components in the app.
 
 Some of the functionality in ``RealmApp.js`` is not fully defined. You need to
-update the code to use the SDK to connect to your Realm app and handle user
-authentication.
+update the code to use the SDK to connect to your App Services backend and
+handle user authentication.
 
 .. include:: /includes/steps/task-tracker-web-realmapp.rst
 
@@ -486,7 +486,7 @@ What's Next?
 You just built and deployed a functional task tracker web application built with MongoDB
 Realm. Great job!
 
-Now that you have some hands-on experience with MongoDB Realm, consider these
+Now that you have some hands-on experience with {+backend+}, consider these
 options to keep practicing and learn more:
 
 - Extend the task tracker app with additional features. For example, you could:
@@ -503,7 +503,7 @@ options to keep practicing and learn more:
 
 - Use the Realm CLI to automate deploying your frontend application.
 
-- Dive deeper into the docs to learn more about MongoDB Realm. You'll find
+- Dive deeper into the docs to learn more about {+backend+}. You'll find
   information and guides on features like:
   
   - Serverless :ref:`functions <functions>` that handle backend logic and

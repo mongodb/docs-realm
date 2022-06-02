@@ -41,7 +41,7 @@ file format, and design. This section describes some of the high-level
 details of those choices. This section applies to both the device-local
 version of {+client-database+} as well as the networked {+sync+} version.
 Differences between the local database and the synchronized database are
-explained in the Realm Sync section.
+explained in the Atlas Device Sync section.
 
 Native Database Engine
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -248,10 +248,10 @@ ephemerally in memory. Ephemeral {+realm+}s can be useful in situations
 where you don't need to persist data between application instances, such
 as when a user works in a temporary workspace.
 
-Realm Sync
+Atlas Device Sync
 ----------
 
-{+sync+} adds network synchronization between a {+backend+} backend and
+{+sync+} adds network synchronization between an {+backend+} backend and
 client devices on top of all of the functionality of {+client-database+}.
 When you use {+client-database+} with Sync, {+realm+}s exist on device
 just like when you only use {+client-database+}. However, changes to

@@ -48,6 +48,9 @@ Glossary
       individual {+realms+} which passively synchronize changes as network
       availability allows.
 
+   {+service+}
+      The database whose docs you're reading.
+
    {+service-short+} client
       Anything that interacts with a :term:`{+app+}` using a
       :term:`{+service-short+} SDK`. Examples include phone apps, IoT devices,
@@ -74,12 +77,12 @@ Glossary
       of changes between local {+realms+} and your
       :term:`synced {+atlas+} cluster <synced cluster>`.
    
-   {+service-short+} object
-      An instance of a :term:`{+service-short+} object type`. An object that you
+   Realm object
+      An instance of a :term:`Realm object type`. An object that you
       can store in a :term:`{+realm+}` and :term:`sync <{+sync+}>` with a
       :term:`synced {+atlas+} cluster <synced cluster>`.
 
-   {+service-short+} object type
+   Realm object type
       A declaration of an object structure that can be stored and synchronized
       using :term:`{+service+}`. This includes primitive fields, embedded lists,
       and object relations. Collectively referred to as the
@@ -218,11 +221,10 @@ Glossary
       function.
 
    authentication trigger
-      Call a :term:`{+service-short+} Function` whenever a user
-      interacts with an :term:`authentication provider`,
-      such as whenever a user logs into your :term:`{+service-short+}
-      app`. Passes an authentication event describing the
-      user and interaction to the linked function.
+      Call a :term:`{+service-short+} Function` whenever a user interacts with
+      an :term:`authentication provider`, such as whenever a user logs into your
+      :term:`{+app+}`. Passes an authentication event describing the user and
+      interaction to the linked function.
 
    scheduled trigger
       Call a :term:`{+service-short+} Function` based on a schedule that you
@@ -407,9 +409,9 @@ Glossary
       independently of the writes that caused the changes.
 
    Application ID
-      A unique identifier for your MongoDB Realm application. Sometimes
-      called by the shorthand "App ID". The App ID is used to connect
-      to your MongoDB Realm application via the client SDKs.
+      A unique identifier for your App Services application. Sometimes called by
+      the shorthand "App ID". The App ID is used to connect to your App Services
+      application via the client SDKs.
 
    client reset
       When using :ref:`sync`, a **client reset** is a serious error
