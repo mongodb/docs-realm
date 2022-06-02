@@ -247,7 +247,7 @@ The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>
 instance.
 
 In the following example, we call ``useApp()`` within a ``LoginComponent``, and
-then use the app instance to login with email/password authentication.
+then use the app instance to log in with email/password authentication.
 
 .. literalinclude:: /examples/generated/expo/LoginComponent.snippet.useApp-hook-usage.tsx
     :language: typescript
@@ -262,9 +262,9 @@ The ``UserProvider`` automatically populates the logged-in user into the
 underlying :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 
 The UserProvider contains a fallback property that renders a Login component if
-the user has not logged-in. Once the user authenticates, Realm React renders the
-child components as normal. If the user logs out, the application falls back to
-the Login component.
+the user has not logged in yet. Once the user authenticates, Realm React renders
+the child components, and the application falls back to the Login component if
+the user logs out.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-and-user-provider.tsx
     :language: typescript
@@ -276,8 +276,8 @@ Use User Hook
 --------------
 The ``useUser()`` hook provides access to the logged-in user.
 
-In the following example, we call ``useApp()`` within our ``SampleTask``
-component, and then display the logged-in user's ``_id``.
+In the following example, we call ``useApp()`` within a ``SampleTask``
+component and display the logged-in user's ``_id``.
 
 .. literalinclude:: /examples/generated/expo/SampleSyncedTask.snippet.useUser-hook-usage.tsx
     :language: typescript
@@ -286,11 +286,11 @@ component, and then display the logged-in user's ``_id``.
 
 Summary
 -------
-- You can set up Realm React on an existing application by installing it through NPM, or on a new application through the Realm Expo template.
+- You can set up Realm React on an existing application by installing it through NPM or on a new application through the Realm Expo template.
 - A Realm ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
 - A ``RealmProvider`` provides access to the configured {+realm+} using hooks to display and modify data.
-- The pre-built ``RealmProvider`` hooks provides functionality including interacting with a {+realm+} and finding {+realm+} object(s).
+- The pre-built ``RealmProvider`` hooks provide functionality, including interacting with a {+realm+} and finding {+realm+} object(s).
 - The ``AppProvider`` instantiates a new {+app+} and provides its child components access to the {+app+} instance. 
 - You can use the ``useApp()`` hook to access the instantiated {+app+} within child components.
-- The ``UserProvider`` renders a fallback component if a user hasn't logged-in yet, and if the user has it renders its child components. 
-- You can use the ``useUser()`` hook to gain access to the logged-in user within child components of the ``UserProvider``.
+- The ``UserProvider`` renders it's child components if the user has logged in and renders a fallback component if the user has not logged in.
+- You can use the ``useUser()`` hook to gain access to the logged-in user within any child components of the ``UserProvider``.
