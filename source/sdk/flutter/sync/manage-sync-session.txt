@@ -10,7 +10,7 @@ Manage a Sync Session - Flutter SDK
    :depth: 2
    :class: singlecol
 
-Flexible Sync uses subscriptions and permissions to determine which
+{+sync+} with Flexible Sync uses subscriptions and permissions to determine which
 data to sync between {+atlas+} and your app.
 
 You can add, update, and remove query subscriptions to determine which data
@@ -23,10 +23,10 @@ Before You Begin
 
 To use Flexible Sync in a Flutter application:
 
-#. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`
+#. :ref:`Configure Flexible Sync on the Atlas App Services backend <enable-flexible-sync>`
 #. :ref:`Initialize the app client <flutter-connect-to-backend>`
-#. :ref:`Authenticate a user <flutter-authenticate>` in your client project
-#. :ref:`Open the synced realm <flutter-open-synced-realm>`
+#. :ref:`Authenticate a user <flutter-authenticate>` in the client
+#. :ref:`Open the synced realm <flutter-open-synced-realm>` in the client
 
 .. _flutter-flexible-sync-manage-subscriptions:
 
@@ -132,8 +132,8 @@ You cannot update an unnamed subscription. Alternatively, you can
 :ref:`delete the unnamed subscription <flutter-remove-subscriptions>`, and
 :ref:`create a new subscription <flutter-sync-add-subscription>` with the desired query.
 
-In the following example, long trains are re-defined to be any tasks that
-have more than 10 cars.
+In the following example, long trains are re-defined to be any trains that
+have 10 or more cars.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.update-subscriptions-new-query.dart
    :language: dart

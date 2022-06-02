@@ -12,11 +12,11 @@ Device Sync - Flutter SDK
    Manage Sync Session </sdk/flutter/sync/manage-sync-session>
 
 {+sync+} automatically synchronizes data between client applications and
-a :ref:`App Services backend application <realm-cloud>`. When a client
+a :ref:`Atlas App Services backend application <realm-cloud>`. When a client
 device is online, {+sync-short+} asynchronously synchronizes data in the
-background between the device and your backend {+app+}.
+background between the device and your App Services backend.
 
-The Flutter SDK only supports Flexible Sync. You must configure your backend {+app+}
+The Flutter SDK only supports Flexible Sync. You must configure your App Services backend
 to use :ref:`Flexible Sync <flexible-sync>`.
 
 .. note::
@@ -28,7 +28,7 @@ to use :ref:`Flexible Sync <flexible-sync>`.
 What is Flexible Sync?
 ----------------------
 
-When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+}
+When you select :ref:`Flexible Sync <flexible-sync>` for your App Services backend
 configuration, your client implementation must include subscriptions to
 queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works
 by synchronizing data that matches query subscriptions you maintain in the
