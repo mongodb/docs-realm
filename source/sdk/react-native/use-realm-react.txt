@@ -158,8 +158,6 @@ Once you have wrapped your component with your ``RealmProvider``, your component
 and its child components will have access to the ``useRealm()``,
 ``useObject()``, and ``useQuery()`` hooks.
 
-Usage
-~~~~~
 Import the ``Task`` model and ``Context`` object that you created. In the example below, the
 ``Context`` object, called ``TaskContext``, refers to the ``Context`` of
 the Task. :mdn:`Destructure
@@ -170,7 +168,8 @@ the ``TaskContext`` object to get its hooks.
     :language: typescript
 
 useRealm
-````````
+~~~~~~~~
+
 The ``useRealm()`` hook returns the opened {+realm+} instance.
 
 The ``handleAddTask()`` method of the ``App`` component writes to the {+realm+}
@@ -188,7 +187,8 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
    Read the :ref:`write to a {+realm+} <react-native-write-operations>` documentation to learn more about modifying {+service-short+} data. 
 
 useObject
-`````````
+~~~~~~~~~
+
 The ``useObject()`` hook returns a {+service-short+} object for a given
 :ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
 model definition (this will add types to the returned object in TypeScript) or
@@ -204,7 +204,8 @@ and its description is rendered in the UI.
     :language: typescript
 
 useQuery
-````````
+~~~~~~~~
+
 The ``useQuery()`` hook returns a collection of {+realm+} objects of a given type.
 Like ``useObject``, it is either invoked with the {+frontend-schema+} class or the model
 name as a string.  The ``useQuery()`` method subscribes to updates to any
