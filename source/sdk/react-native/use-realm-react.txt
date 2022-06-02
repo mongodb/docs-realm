@@ -261,7 +261,7 @@ Using the User Provider
 The ``UserProvider`` automatically populates the logged-in user into the
 underlying :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 
-The UserProvider contains a fallback property that renders a Login component if
+The ``UserProvider`` contains a ``fallback`` property that renders a Login component if
 the user has not logged in yet. Once the user authenticates, Realm React renders
 the child components, and the application falls back to the Login component if
 the user logs out.
