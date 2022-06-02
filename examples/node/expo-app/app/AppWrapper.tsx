@@ -105,7 +105,7 @@ const AppWrapper4 = () => {
   //     <UserProvider fallback={LoginComponent}>
   //       {/* After login, user will be automatically populated in realm configuration */}
   //       <RealmProvider
-  //         sync={{partitionValue: 'SamplePartition'}}
+  //         sync={{partitionValue: 'SamplePartition'}}>
   //         <App />
   //       </RealmProvider>
   //     </UserProvider>
