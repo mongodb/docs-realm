@@ -10,7 +10,7 @@ Connect to a MongoDB Realm Backend App - Flutter SDK
    :depth: 2
    :class: singlecol
 
-The {+app+} client is the interface to the {+backend+}
+The {+app+} client is the interface to the Atlas App Services
 backend. It provides access to the :ref:`authentication
 <flutter-authenticate>` and {+sync+}.
 
@@ -29,7 +29,7 @@ Access the App Client
    object with your {+app+}'s App ID as the argument.
 #. Create an :flutter-sdk:`App <realm/App-class.html>`
    with the ``AppConfiguration`` you just created. You use this
-   ``App`` instance to access {+service+} features throughout your client application.
+   ``App`` instance to access Atlas App Services features throughout your client application.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-client.dart
    :language: dart
@@ -56,4 +56,4 @@ You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppC
 .. note::
 
    For most use cases, you only need your application's App ID to connect
-   to {+service+}. The other settings demonstrated here are optional.
+   to Atlas App Services. The other settings demonstrated here are optional.
