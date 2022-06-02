@@ -5,9 +5,9 @@ import './utils.dart';
 
 void main() {
   group('Open and Close a Realm', () {
-    test('open a Realm', () {
+    test('Open a Realm', () async {
       // :snippet-start: open-realm
-      var config = Configuration([Car.schema]);
+      var config = Configuration.local([Car.schema]);
       var realm = Realm(config);
       // :snippet-end:
       expect(realm.isClosed, false);
@@ -15,25 +15,25 @@ void main() {
       realm.close();
       // :snippet-end:
       expect(realm.isClosed, true);
-      cleanUpRealm(realm, config);
+      await cleanUpRealm(realm);
     });
-    test('Configuration - FIFO files fallback path', () {
+    test('Configuration - FIFO files fallback path', () async {
       // :snippet-start: fifo-file
-      var config =
-          Configuration([Car.schema], fifoFilesFallbackPath: "./fifo_folder");
+      var config = Configuration.local([Car.schema],
+          fifoFilesFallbackPath: "./fifo_folder");
       var realm = Realm(config);
       // :snippet-end:
-      cleanUpRealm(realm, config);
+      await cleanUpRealm(realm);
     });
     group('Read-only realm', () {
-      test('Configuration readOnly - reading is possible', () {
-        Configuration initConfig = Configuration([Car.schema]);
+      test('Configuration readOnly - reading is possible', () async {
+        Configuration initConfig = Configuration.local([Car.schema]);
         var realm = Realm(initConfig);
         realm.write(() => realm.add(Car("Mustang")));
         realm.close();
 
         // :snippet-start: read-only-realm
-        var config = Configuration([Car.schema], readOnly: true);
+        var config = Configuration.local([Car.schema], isReadOnly: true);
         realm = Realm(config);
         // :snippet-end:
         var cars = realm.all<Car>();
@@ -46,19 +46,36 @@ void main() {
           enteredCatch = true;
         }
         expect(enteredCatch, true);
-        cleanUpRealm(realm, config);
+        await cleanUpRealm(realm);
       });
     });
     group('In-memory realm', () {
-      test('Configuration inMemory - no files after closing realm', () {
+      test('Configuration inMemory - no files after closing realm', () async {
         // :snippet-start: in-memory-realm
-        var config = Configuration([Car.schema], inMemory: true);
+        var config = Configuration.inMemory([Car.schema]);
         var realm = Realm(config);
         // :snippet-end:
         realm.write(() => realm.add(Car('Tesla')));
         expect(Realm.existsSync(config.path), true);
-        cleanUpRealm(realm, config);
+        await cleanUpRealm(realm);
       });
+    });
+    test('Initial data callback', () async {
+      bool called = false;
+      // :snippet-start: initial-data-callback
+      void dataCb(Realm realm) {
+        called = true; // :remove:
+        realm.add(Car('Honda'));
+      }
+
+      Configuration config =
+          Configuration.local([Car.schema], initialDataCallback: dataCb);
+      Realm realm = Realm(config);
+      Car honda = realm.all<Car>()[0];
+      // :snippet-end:
+      expect(honda.make, 'Honda');
+      expect(called, true);
+      await cleanUpRealm(realm);
     });
   });
 }

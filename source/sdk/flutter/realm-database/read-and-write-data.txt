@@ -1,4 +1,4 @@
-.. _flutter-read-write-data: 
+.. _flutter-read-write-data:
 
 ===============================
 Read & Write Data - Flutter SDK
@@ -12,16 +12,16 @@ Read & Write Data - Flutter SDK
    :depth: 2
    :class: singlecol
 
-.. _flutter-read-data: 
+.. _flutter-read-data:
 
-Read from Realm Database 
+Read from Realm Database
 ------------------------
 
 A read from a :term:`{+realm+}` generally consists of the following
 steps:
 
 - Get all objects of a certain type from the {+realm+}.
-- Optionally, :ref:`filter <flutter-filter-results>` the results 
+- Optionally, :ref:`filter <flutter-filter-results>` the results
   using the :ref:`Realm Query Language <flutter-query-language>`.
 - Optionally, :ref:`sort <flutter-sort-results>` the results using Realm Query Language.
 
@@ -65,7 +65,7 @@ use :ref:`Realm Query Language operators<flutter-query-language>` to perform fil
 Sort Results
 ~~~~~~~~~~~~
 
-Sort the results using the :ref:`Realm Query Language <flutter-query-language>` 
+Sort the results using the :ref:`Realm Query Language <flutter-query-language>`
 SORT() operator in the ``query()`` method's argument.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
@@ -77,7 +77,21 @@ Write Operations
 ----------------
 
 Once you've opened a {+realm+}, you can create objects within it using a
-:flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+:flutter-sdk:`Realm.write() transaction block <realm/Realm/write.html>`.
+All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
+If an operation in the write transaction fails, the whole transaction fails,
+Realm throws an error, and no changes from the transaction block are applied to the {+realm+}.
+
+.. code-block:: dart
+
+   realm.write((){
+     // ...write data to realm
+   });
+
+You can also return values from the write transaction callback function.
+
+.. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.return-from-write.dart
+   :language: dart
 
 .. _flutter-create-objects:
 
@@ -105,7 +119,7 @@ To modify a car, update its properties in a write transaction block:
 Delete Objects
 ~~~~~~~~~~~~~~
 
-.. _flutter-delete-single-object: 
+.. _flutter-delete-single-object:
 
 Delete a Single Object
 ++++++++++++++++++++++
@@ -116,13 +130,13 @@ method in a write transaction block:
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
    :language: dart
 
-.. _flutter-delete-multiple-objects: 
+.. _flutter-delete-multiple-objects:
 
 Delete Multiple Objects
 +++++++++++++++++++++++
 
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany() 
-<realm/Realm/deleteMany.html>` method in a write transaction block. 
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
+<realm/Realm/deleteMany.html>` method in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart

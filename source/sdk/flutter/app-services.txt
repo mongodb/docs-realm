@@ -1,0 +1,76 @@
+.. _flutter-mongodb-realm-cloud:
+.. _flutter-application-services:
+
+===========================================
+Application Services Overview - Flutter SDK
+===========================================
+
+.. toctree::
+   :titlesonly:
+
+   Overview </sdk/flutter/app-services>
+   Connect to a Realm App </sdk/flutter/app-services/connect-to-app>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can connect your client apps to the Atlas App Services
+backend using the Flutter SDK. Backend functionality includes:
+
+- :doc:`Connect to a Realm App </sdk/flutter/app-services/connect-to-app>`
+- :doc:`Authenticate Users </sdk/flutter/users/authenticate>`
+
+The Realm App Client
+--------------------
+
+To connect to your Atlas App Services backend, start with a
+:flutter-sdk:`App <realm/App-class.html>` object.
+This object provides all other functionality related to
+the backend. Initialize an App with the Realm app ID, which you can
+:ref:`find in the Realm UI <find-your-app-id>`.
+
+.. seealso::
+
+   To learn how to initialize the Realm App client, see
+   :ref:`flutter-connect-to-backend`.
+
+Authentication & User Management
+--------------------------------
+
+One of the most challenging aspects of client development is implementing a
+robust and secure authentication system. With the App Services SDKs,
+however, you can use any of the App Services authentication providers with
+minimal backend setup and client-side code. With the authentication APIs,
+you can implement the following functionality:
+
+- Create new user accounts
+- User log in and log out
+- Multiple users logged on at the same time on the same device
+- Link user accounts from different providers
+- Store custom data for a particular user
+
+.. seealso::
+
+   To learn how to set up authentication in your app, see
+   :ref:`Authenticate Users <flutter-authenticate>`.
+
+Device Sync
+-----------
+
+{+sync+} adds data synchronization between a {+backend+} backend and
+client devices on top of all of the functionality of {+client-database+}.
+When you use {+client-database+} with Sync, {+realm+}s exist on device
+just like when you only use {+client-database+}. However, changes to
+the data stored in those {+realm+}s synchronize between all client
+devices through a backend {+backend+} instance. That backend also stores
+{+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
+
+.. seealso::
+
+   To get started with Sync, see :ref:`Device Sync <flutter-sync>`.

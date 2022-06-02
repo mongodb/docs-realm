@@ -42,7 +42,7 @@ class Character extends _Character with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Character._);
-    return const SchemaObject(Character, [
+    return const SchemaObject(Character, 'Character', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('species', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
@@ -82,7 +82,7 @@ class Fellowship extends _Fellowship with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Fellowship._);
-    return const SchemaObject(Fellowship, [
+    return const SchemaObject(Fellowship, 'Fellowship', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('members', RealmPropertyType.object,
           linkTarget: 'Character', collectionType: RealmCollectionType.list),

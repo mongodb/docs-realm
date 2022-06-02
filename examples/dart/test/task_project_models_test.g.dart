@@ -74,7 +74,7 @@ class Task extends _Task with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Task._);
-    return const SchemaObject(Task, [
+    return const SchemaObject(Task, 'Task', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('isComplete', RealmPropertyType.bool),
@@ -130,7 +130,7 @@ class Project extends _Project with RealmEntity, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Project._);
-    return const SchemaObject(Project, [
+    return const SchemaObject(Project, 'Project', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('tasks', RealmPropertyType.object,

@@ -1,4 +1,4 @@
-.. _flutter-quick-start: 
+.. _flutter-quick-start:
 .. _flutter-quick-start-local:
 
 =========================
@@ -14,15 +14,13 @@ Quick Start - Flutter SDK
    :class: singlecol
 
 This page contains information to quickly get {+client-database+}
-integrated into your Flutter app. 
+integrated into your Flutter app.
 
 Before you begin, ensure you have:
 
 - :ref:`Installed the Flutter SDK <flutter-install>`
 
-.. include:: /includes/note-flutter-local-realm-only.rst
-
-.. _flutter-define-object-model: 
+.. _flutter-define-object-model:
 
 Define Your Object Model
 ------------------------
@@ -31,7 +29,7 @@ Your application's **data model** defines the structure of data
 stored within {+client-database+}.
 You can define your application's data model via Dart
 classes in your application code with
-a Realm object schema. 
+a Realm object schema.
 You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
 class that's used within your application.
 
@@ -45,14 +43,14 @@ Create Data Model
 To define your application's data model, add a Realm model class
 definition to your application code.
 
-Some considerations when defining your Realm model class: 
+Some considerations when defining your Realm model class:
 
-- Import package at the top of your class definition file. 
+- Import package at the top of your class definition file.
 
-- In your file, give your class a private name (starting with ``_``), 
+- In your file, give your class a private name (starting with ``_``),
   such as a file ``car.dart`` with a class ``_Car``.
-  You generate the public RealmObject class using the command in the 
-  Generate RealmObject Class section. This command 
+  You generate the public RealmObject class using the command in the following
+  Generate RealmObject Class section. This command
   outputs a public class, such as ``Car``.
 
 - Make sure to include the generated file name, such as ``part car.g.dart``,
@@ -90,24 +88,24 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
       :tabid: flutter
 
       .. code-block::
-         
+
          flutter pub run realm generate
 
    .. tab:: Dart
       :tabid: dart
 
       .. code-block::
-         
+
          dart run realm_dart generate
 
-Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory 
-where you defined the model class per the above Create Data Model section.
+Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory
+where you defined the model class per the preceding Create Data Model section.
 This ``Car`` class is public and part of the same library
 as the ``_Car`` data model class.
 The generated ``Car`` class is what's used throughout your application.
 
 If you'd like to watch your data model class to generate a new ``Car`` class whenever
-there's a change to ``_Car``, run: 
+there's a change to ``_Car``, run:
 
 .. tabs::
 
@@ -115,14 +113,14 @@ there's a change to ``_Car``, run:
       :tabid: flutter
 
       .. code-block::
-         
+
          flutter pub run realm generate --watch
 
    .. tab:: Dart
       :tabid: dart
 
       .. code-block::
-         
+
          dart run realm_dart generate --watch
 
 Open a Realm
@@ -130,7 +128,7 @@ Open a Realm
 
 Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
 to control the specifics of the {+realm+} you
-would like to open, including schema.
+would like to open, including schema and whether the {+realm+} is local-only or synced.
 
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
 to generate an instance of that {+realm+}:
@@ -189,7 +187,7 @@ use :ref:`Realm Query Language operators<flutter-query-language>` to perform fil
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
    :language: dart
 
-Sort the results using the :ref:`Realm Query Language <flutter-query-language>` 
+Sort the results using the :ref:`Realm Query Language <flutter-query-language>`
 SORT() operator in the ``query()`` method's argument.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
@@ -204,8 +202,8 @@ method in a write transaction block:
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
    :language: dart
 
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany() 
-<realm/Realm/deleteMany.html>` method in a write transaction block. 
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
+<realm/Realm/deleteMany.html>` method in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart
@@ -215,7 +213,7 @@ React to Changes
 
 Listen and respond to changes to a query, a single object, or a list within an object.
 The change listener is a Stream that invokes a callback function with an containing
-changes since last invocation as its argument.  
+changes since last invocation as its argument.
 
 To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 <realm/RealmResultsChanges-class.html>`.
@@ -224,7 +222,7 @@ To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
    :language: dart
 
 To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
-<realm/RealmObjectChanges-class.html>`. 
+<realm/RealmObjectChanges-class.html>`.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
    :language: dart
@@ -235,7 +233,7 @@ To listen to a list of Realm objects within another Realm object, use :flutter-s
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
    :language: dart
 
-You can pause and resume subscriptions as well. 
+You can pause and resume subscriptions as well.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
    :language: dart
@@ -252,7 +250,7 @@ Once you've finished listening to changes, close the change listener to prevent 
 Close a Realm
 -------------
 
-Once you've finished working with a {+realm+}, close it to prevent memory leaks.  
+Once you've finished working with a {+realm+}, close it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart
@@ -261,6 +259,6 @@ Once you've finished working with a {+realm+}, close it to prevent memory leaks.
 Further Examples
 ----------------
 
-For further examples of all the Flutter SDK methods described above and more, refer to 
+For further examples of all the Flutter SDK methods described above and more, refer to
 the :github:`Realm Dart Samples Github repo <realm/realm-dart-samples>`.
 

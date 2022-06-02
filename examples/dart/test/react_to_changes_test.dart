@@ -42,7 +42,7 @@ void main() {
       final fellowshipOfTheRing = Fellowship('Fellowship of the Ring',
           members: [frodo, samwise, aragorn, legolas, gimli]);
 
-      final config = Configuration([Fellowship.schema, Character.schema]);
+      final config = Configuration.local([Fellowship.schema, Character.schema]);
       final realm = Realm(config);
 
       realm.write(() {

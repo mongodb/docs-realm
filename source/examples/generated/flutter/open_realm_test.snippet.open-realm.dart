@@ -1,2 +1,2 @@
-var config = Configuration([Car.schema]);
+var config = Configuration.local([Car.schema]);
 var realm = Realm(config);

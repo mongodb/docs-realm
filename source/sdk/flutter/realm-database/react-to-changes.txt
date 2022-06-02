@@ -1,4 +1,4 @@
-.. _flutter-react-to-changes: 
+.. _flutter-react-to-changes:
 
 ==============================
 React to Changes - Flutter SDK
@@ -14,12 +14,12 @@ Any modern app should be able to react when data changes,
 regardless of where that change originated. When a user adds a new item to a list,
 you may want to update the UI, show a notification, or log a message.
 When someone updates that item, you may want to change its visual state
-or fire off a network request. 
+or fire off a network request.
 Finally, when someone deletes the item, you probably want to remove it from the UI.
 Realm's notification system allows you to watch for and react to changes in your data,
 independent of the writes that caused the changes.
 
-You can subscribe to changes on the following events: 
+You can subscribe to changes on the following events:
 
 - :ref:`Query on collection <flutter-query-change-listener>`
 - :ref:`Realm object <flutter-realm-object-change-listener>`
@@ -30,18 +30,18 @@ You can subscribe to changes on the following events:
    The examples in this page use two Realm object types, ``Character`` and
    ``Fellowship``:
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-models.dart 
+   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-models.dart
       :language: dart
 
-   The examples have this sample data: 
+   The examples have this sample data:
 
-   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-seed.dart 
+   .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.sample-data-seed.dart
       :language: dart
 
 
 .. _flutter-query-change-listener:
 
-Register a Query Change Listener 
+Register a Query Change Listener
 --------------------------------
 
 You can register a notification handler on any query within a Realm.
@@ -50,11 +50,11 @@ which includes description of changes since the last notification.
 ``RealmResultsChanges`` contains the following properties:
 
 .. list-table::
-   
+
    * - Property
      - Type
      - Description
-   
+
    * - ``inserted``
      - *List<int>*
      - Indexes in the new collection which were added in this version.
@@ -89,17 +89,17 @@ Register a RealmObject Change Listener
 --------------------------------------
 
 You can register a notification handler on a specific object within a realm.
-Realm notifies your handler when any of the object's properties change. 
+Realm notifies your handler when any of the object's properties change.
 The handler receives a :flutter-sdk:`RealmObjectChanges <realm/RealmObjectChanges-class.html>` object,
 which includes description of changes since the last notification.
 ``RealmObjectChanges`` contains the following properties:
 
 .. list-table::
-   
+
    * - Property
      - Type
      - Description
-   
+
    * - ``isDeleted``
      - *bool*
      - ``true`` if the object was deleted.
@@ -115,23 +115,23 @@ which includes description of changes since the last notification.
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
    :language: dart
 
-.. _flutter-realm-list-change-listener: 
+.. _flutter-realm-list-change-listener:
 
 Register a RealmList Change Listener
 ------------------------------------
 
 You can register a notification handler on a list of ``RealmObjects`` within another ``RealmObject``.
-Realm notifies your handler when any of the object's properties change. 
+Realm notifies your handler when any of the object's properties change.
 The handler receives a :flutter-sdk:`RealmListChanges <realm/RealmListChanges-class.html>` object,
 which includes description of changes since the last notification.
 ``RealmListChanges`` contains the following properties:
 
 .. list-table::
-   
+
    * - Property
      - Type
      - Description
-   
+
    * - ``inserted``
      - *List<int>*
      - Indexes of items in the new list which were added in this version.
@@ -157,7 +157,7 @@ which includes description of changes since the last notification.
      - *RealmList<T as RealmObject>*
      - RealmList being monitored for changes.
 
-.. important:: 
+.. important::
 
    You can only apply a change listener to a ``RealmList<T as RealmObject>``.
 
@@ -169,8 +169,8 @@ which includes description of changes since the last notification.
 Pause and Resume a Change Listener
 ----------------------------------
 
-Pause your subscription if you temporarily don't want to receive notifications. 
-You can later resume listening. 
+Pause your subscription if you temporarily don't want to receive notifications.
+You can later resume listening.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
    :language: dart

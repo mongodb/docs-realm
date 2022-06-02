@@ -1,7 +1,8 @@
-// NOTE: most of the Read and Write Data page tests are currenty in the quick_start_test.dart
+// NOTE: most of the Read and Write Data page tests are currently in the quick_start_test.dart
 // file, as the examples are the same.
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import '../bin/models/car.dart';
 
 part 'read_write_data_test.g.dart';
 
@@ -23,7 +24,8 @@ void main() {
   group('Query Data', () {
     test("Query List of Realm Objects", () {
       // :snippet-start: query-realm-list
-      final config = Configuration([Person.schema, Team.schema]);
+      final config = Configuration.local([Person.schema, Team.schema],
+          path: 'rebellion.realm');
       final realm = Realm(config);
       final heroes = Team('Millenium Falcon Crew', crew: [
         Person('Luke'),
@@ -44,5 +46,19 @@ void main() {
       realm.close();
       Realm.deleteRealm(realm.config.path);
     });
+  });
+  test('Return from write block', () {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+
+    // :snippet-start: return-from-write
+    Car fordFusion = realm.write<Car>(() {
+      return realm.add(Car('Ford', model: 'Fusion', miles: 101));
+    });
+    // :snippet-end:
+    expect(fordFusion.make, 'Ford');
+    expect(fordFusion.model, 'Fusion');
+    realm.close();
+    Realm.deleteRealm(realm.config.path);
   });
 }

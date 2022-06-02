@@ -1,8 +1,17 @@
 import 'package:realm_dart/realm.dart';
+import 'dart:math';
 
-void cleanUpRealm(Realm realm, Configuration config) {
+Future<void> cleanUpRealm(Realm realm, [App? app]) async {
+  await app?.currentUser?.logOut();
   if (!realm.isClosed) {
     realm.close();
   }
-  Realm.deleteRealm(config.path);
+  Realm.deleteRealm(realm.config.path);
+}
+
+final random = Random();
+String generateRandomString(int len) {
+  const _chars = 'abcdefghjklmnopqrstuvwxuz';
+  return List.generate(len, (index) => _chars[random.nextInt(_chars.length)])
+      .join();
 }

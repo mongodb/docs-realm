@@ -14,5 +14,10 @@ doc/api/
 default.realm.management
 librealm_dart.dylib
 
-# Ignore example pubspec.lock since the example always reference the local package
-pubspec.lock
+# ignore realm app services generated files
+mongodb-realm/
+*.realm.management/
+
+# ignore files for using unpublished version of `realm-dart`
+realm-dart/
+binary/

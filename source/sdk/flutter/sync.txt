@@ -1,0 +1,68 @@
+.. _flutter-sync:
+
+=========================
+Device Sync - Flutter SDK
+=========================
+
+.. toctree::
+   :titlesonly:
+
+   Overview </sdk/flutter/sync>
+   Open Synced Realm </sdk/flutter/sync/open-synced-realm>
+   Manage Sync Session </sdk/flutter/sync/manage-sync-session>
+
+{+sync+} automatically synchronizes data between client applications and
+a :ref:`Atlas App Services backend application <realm-cloud>`. When a client
+device is online, {+sync-short+} asynchronously synchronizes data in the
+background between the device and your App Services backend.
+
+The Flutter SDK only supports Flexible Sync. You must configure your App Services backend
+to use :ref:`Flexible Sync <flexible-sync>`.
+
+.. note::
+
+   The Flutter SDK does not support :ref:`Partition-Based Sync <partition-based-sync>`.
+
+.. _flutter-flexible-sync-fundamentals:
+
+What is Flexible Sync?
+----------------------
+
+When you select :ref:`Flexible Sync <flexible-sync>` for your App Services backend
+configuration, your client implementation must include subscriptions to
+queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works
+by synchronizing data that matches query subscriptions you maintain in the
+client application.
+
+A subscription set contains a set of queries. Flexible Sync returns
+documents matching those queries, where the user has the appropriate
+:ref:`permissions <flexible-sync-rules-and-permissions>` to read or
+write the documents. If documents match the query, but the client
+does not have the permission to read or write them, they do not sync to
+the client application.
+
+You can form Flexible Sync queries using a limited subset of :ref:`Realm Query Language
+<realm-query-language>`. To learn more about which fields you can query, refer to
+the :ref:`Queryable Fields documentation <queryable-fields>`.
+
+Subscription sets are based on a specific type of :ref:`realm object
+<flutter-define-realm-object-schema>`.
+To sync data for many types of Realm objects, you must have multiple subscriptions.
+
+To use Flexible Sync in your client application, open a synced realm
+with a flexible sync configuration. Then, manage subscriptions
+to determine which documents to sync.
+
+Enable Flexible Sync on the Backend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before you can start syncing data from your client application using the SDK,
+you must enable Flexible Sync in the Atlas App Services backend.
+
+To begin, refer to the :ref:`backend documentation on enabling {+sync+} <enable-realm-sync>`.
+
+Next Steps
+----------
+
+#. :ref:`Open a Synced Realm <flutter-open-synced-realm>`
+#. :ref:`Manage a Sync Session <flutter-manage-sync-session>`
