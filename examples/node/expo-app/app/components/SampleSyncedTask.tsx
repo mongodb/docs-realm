@@ -6,7 +6,7 @@ const {useObject} = TaskContext;
 // :snippet-start: useUser-hook-usage
 // :replace-start: {
 //   "terms": {
-//     "SyncedSampleTask": "SampleTask",
+//     "SyncedSampleTask": "SampleTask"
 //   }
 // }
 // :uncomment-start:

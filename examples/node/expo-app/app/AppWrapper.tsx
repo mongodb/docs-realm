@@ -4,6 +4,7 @@ import {AppProvider, UserProvider} from '@realm/react';
 import LoadingSpinner from './components/LoadingSpinner';
 import LoginComponent from './components/LoginComponent';
 import App from './App';
+import SyncedApp from './SyncedApp';
 
 import {appId} from '../realm.json';
 
@@ -11,7 +12,6 @@ const app = new Realm.App({id: appId});
 
 // :snippet-start: import-task-context
 import TaskContext from './models/Task';
-import SyncedApp from './SyncedApp';
 const {RealmProvider} = TaskContext;
 // :snippet-end:
 
