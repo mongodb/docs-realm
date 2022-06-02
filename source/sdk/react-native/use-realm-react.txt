@@ -151,8 +151,8 @@ waiting for {+sync+} to open:
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
 
-Use Hooks In Child Components
------------------------------
+Use Realm Provider Hooks
+------------------------
 
 Once you have wrapped your component with your ``RealmProvider``, your component
 and its child components will have access to the ``useRealm()``,
@@ -223,6 +223,46 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
    To learn how to render a :ref:`filtered <react-native-filter-results>` or
    :ref:`sorted <react-native-sort-results>` list of tasks, read the :ref:`Read
    & Write Data <react-native-read-and-write-data>` docs.
+
+.. _react-native-app-provider:
+
+Using the App Provider
+----------------------
+
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-provider.tsx
+    :language: typescript
+    :emphasize-lines: 1, 6
+
+.. _react-native-app-provider-hooks:
+
+Use App Hook
+------------
+
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-provider.tsx
+    :language: typescript
+    :emphasize-lines: 1, 7, 11
+
+/Users/mohammad.hunan/Desktop/docs/realm/docs-realm/source/examples/generated/expo/LoginComponent.snippet.useApp-hook-usage.tsx
+
+.. _react-native-user-provider:
+
+Using the User Provider
+-----------------------
+
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-and-user-provider.tsx
+    :language: typescript
+    :emphasize-lines: 1, 6
+
+.. _react-native-user-provider-hooks:
+
+Use User Hooks
+--------------
+
+.. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-and-user-provider.tsx
+    :language: typescript
+    :emphasize-lines: 1, 6
+
+source/examples/generated/expo/SampleSyncedTask.snippet.useUser-hook-usage.tsx
 
 Summary
 -------

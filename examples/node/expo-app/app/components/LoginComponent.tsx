@@ -1,23 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Realm from 'realm';
-import {useApp} from '@realm/react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StyleSheet, View, Alert} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 
+// :snippet-start: useApp-hook-usage
+// :replace-start: {
+//   "terms": {
+//     "email@email.com": "",
+//     "Email123!": ""
+//   }
+// }
+import {useApp} from '@realm/react';
+
 function LoginComponent({}) {
-  const email = 'email@email.com';
-  const password = 'Email123!';
+  const [email, setEmail] = useState('email@email.com');
+  const [password, setPassword] = useState('Email123!');
 
   const app = useApp();
 
-  // signIn() uses the emailPassword authentication provider to log in
   const signIn = async () => {
-    const creds = Realm.Credentials.emailPassword(email, password);
-    await app.logIn(creds);
+    const credentials = Realm.Credentials.emailPassword(email, password);
+    await app.logIn(credentials);
   };
-
-  // onPressSignIn() uses the emailPassword authentication provider to log in
+  // ...
+  // :remove-start:
   const onPressSignIn = async () => {
     try {
       await signIn();
@@ -29,8 +36,17 @@ function LoginComponent({}) {
   return (
     <SafeAreaProvider>
       <View style={styles.viewWrapper}>
-        <Input autoCapitalize="none" defaultValue={email} />
-        <Input placeholder={password} defaultValue="Email123!" />
+        <Input
+          autoCapitalize="none"
+          defaultValue={email}
+          onChangeText={setEmail}
+          placeholder="email"
+        />
+        <Input
+          defaultValue={password}
+          onChangeText={setPassword}
+          placeholder="password"
+        />
         <Button
           title="Log In"
           buttonStyle={styles.mainButton}
@@ -39,7 +55,10 @@ function LoginComponent({}) {
       </View>
     </SafeAreaProvider>
   );
+  // :remove-end:
 }
+// :replace-end:
+// :snippet-end:
 
 const styles = StyleSheet.create({
   viewWrapper: {

@@ -131,7 +131,7 @@ const AppWrapper4 = () => {
 // :snippet-end:
 
 // You can test out the various AppWrappers by uncommenting the desired export below
-export default AppWrapper;
+// export default AppWrapper;
 // export default AppWrapper2;
 // export default AppWrapper3;
-// export default AppWrapper4;
+export default AppWrapper4;

@@ -1,17 +1,19 @@
 import {useCallback} from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {SafeAreaView, View, StyleSheet, Button} from 'react-native';
 import IntroText from './components/IntroText';
 import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
 import colors from './styles/colors';
 import SyncedSampleTask from './components/SampleSyncedTask';
 import TaskContext, {Task} from './models/Task';
+import {useApp} from '@realm/react';
 
 const {useRealm, useQuery} = TaskContext;
 
 function SyncedApp() {
   const tasks = useQuery('Task');
   const realm = useRealm();
+  const app = useApp();
 
   const handleAddTask = useCallback(
     (description: string): void => {
@@ -59,6 +61,7 @@ function SyncedApp() {
         )}
 
         {firstUser ? <SyncedSampleTask _id={firstUser._id} /> : null}
+        <Button title="Log Out" onPress={() => app?.currentUser?.logOut()} />
       </View>
     </SafeAreaView>
   );
