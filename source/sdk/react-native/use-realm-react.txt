@@ -241,7 +241,7 @@ access to the :ref:`useApp <react-native-use-app-hook>` hook.
 
 .. _react-native-use-app-hook:
 
-Use App Hook
+useApp
 ------------
 The ``useApp()`` hook provides access to the :js-sdk:`Realm.App <Realm.App.html>`
 instance.
@@ -258,22 +258,37 @@ then use the app instance to log in with email/password authentication.
 Using the User Provider
 -----------------------
 
-The ``UserProvider`` automatically populates the logged-in user into the
-underlying :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
+The ``UserProvider`` provides a :js-sdk:`Realm user <Realm.User.html>` for its
+child components to access.
 
-The UserProvider contains a fallback property that renders a Login component if
-the user has not logged in yet. Once the user authenticates, Realm React renders
-the child components, and the application falls back to the Login component if
-the user logs out.
+The ``UserProvider``: 
+
+- contains an optional ``fallback`` property that renders a Login component when
+  the user has not authenticated.
+- renders its child components only if the user is logged in or has
+  no fallback property.
+
+In the following example, we pass a Login component to the fallback property of
+``UserProvider``. Once the user has logged in, the Login component disappears
+from the view, and the ``App`` is rendered. We wrap the ``App`` in a
+``RealmProvider`` with a sync configuration to give the ``App`` access to a
+synced realm. If the user logs out, the application falls back to
+the Login component. 
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-app-and-user-provider.tsx
     :language: typescript
     :emphasize-lines: 1, 6
 
+.. note:: The User is Automatically Set for the Sync Configuration
+
+   When the ``UserProvider`` wraps the ``RealmProvider``, the ``RealmProvider``
+   automatically sets the logged-in user for your sync configuration. This means
+   you do not need to specify your user in your sync configuration object.
+
 .. _react-native-user-provider-hooks:
 
-Use User Hook
---------------
+useUser
+~~~~~~~
 The ``useUser()`` hook provides access to the logged-in user.
 
 In the following example, we call ``useApp()`` within a ``SampleTask``
