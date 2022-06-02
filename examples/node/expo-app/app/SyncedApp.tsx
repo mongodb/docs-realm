@@ -1,36 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {useCallback} from 'react';
-import {SafeAreaView, View, StyleSheet, Button} from 'react-native';
-import Realm from 'realm';
+import {SafeAreaView, View, StyleSheet} from 'react-native';
 import IntroText from './components/IntroText';
 import AddTaskForm from './components/AddTaskForm';
 import TaskList from './components/TaskList';
 import colors from './styles/colors';
-import SampleTask from './components/SampleTask';
-import {appId} from '../realm.json';
-
-const app = new Realm.App({id: appId});
-
-// :snippet-start: get-access-to-the-hooks
+import SyncedSampleTask from './components/SampleSyncedTask';
 import TaskContext, {Task} from './models/Task';
 
-const {useRealm, useQuery, useObject} = TaskContext;
-// :snippet-end:
+const {useRealm, useQuery} = TaskContext;
 
-function App() {
-  // :snippet-start: example-usequery-hook-usage
+function SyncedApp() {
   const tasks = useQuery('Task');
-  // :uncomment-start:
-
-  //return (
-  //  <TaskList tasks={tasks} />
-  //);
-
-  // :uncomment-end:
-  // :snippet-end:
-
-  // :snippet-start: example-userealm-hook-usage
   const realm = useRealm();
+
   const handleAddTask = useCallback(
     (description: string): void => {
       if (!description) {
@@ -42,7 +24,6 @@ function App() {
     },
     [realm],
   );
-  // :snippet-end:
 
   const handleToggleTaskStatus = useCallback(
     (task: Task): void => {
@@ -61,6 +42,7 @@ function App() {
     },
     [realm],
   );
+
   const firstUser = realm.objects('Task')[0];
 
   return (
@@ -75,8 +57,8 @@ function App() {
             onDeleteTask={handleDeleteTask}
           />
         )}
-        {firstUser ? <SampleTask _id={firstUser._id} /> : null}
-        <Button title="Log Out" onPress={() => app?.currentUser?.logOut()} />
+
+        {firstUser ? <SyncedSampleTask _id={firstUser._id} /> : null}
       </View>
     </SafeAreaView>
   );
@@ -94,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default SyncedApp;
