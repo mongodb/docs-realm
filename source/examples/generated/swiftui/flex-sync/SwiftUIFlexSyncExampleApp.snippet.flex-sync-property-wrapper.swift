@@ -1,3 +1,3 @@
 // We've injected a `flexibleSyncConfiguration` as an environment value,
 // so `@AsyncOpen` here opens a realm using that configuration.
-@AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var autoOpen
+@AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var asyncOpen

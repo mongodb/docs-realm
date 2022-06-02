@@ -153,15 +153,17 @@ struct OpenSyncedRealmView: View {
     // :snippet-start: flex-sync-property-wrapper
     // We've injected a `flexibleSyncConfiguration` as an environment value,
     // so `@AsyncOpen` here opens a realm using that configuration.
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var autoOpen
+    // :snippet-start: fs-property-wrapper-sans-config-comment
+    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var asyncOpen
+    // :snippet-end:
     // :snippet-end:
     
     var body: some View {
         // Because we are setting the `ownerId` to the `user.id`, we need
         // access to the app's current user in this view.
         let user = app?.currentUser
-        switch autoOpen {
-        // Starting the Realm.autoOpen process.
+        switch asyncOpen {
+        // Starting the Realm.asyncOpen process.
         // Show a progress view.
         case .connecting:
             ProgressView()
