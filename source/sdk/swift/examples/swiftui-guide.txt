@@ -29,7 +29,7 @@ Requirements
 - Xcode project using the SwiftUI "App" template. To use all of the Realm
   Swift SDK's SwiftUI features, the minimum iOS target is 15.0. Some features
   are compatible with older versions of iOS.
-- :ref:`Install the Swift SDK. <ios-install>`. Use the most recent version of 
+- :ref:`Install the Swift SDK <ios-install>`. Use the most recent version of 
   the Realm Swift SDK to get all of the features and enhancements for SwiftUI.
 
 .. _ios-open-realm-swiftui:
@@ -105,22 +105,31 @@ ensures the user is never using the app with stale data.
       .. versionadded:: 10.27.0
 
       Realm Swift SDK version 10.27.0 adds :ref:`Flexible Sync <flexible-sync>` 
-      versions of the property wrappers to open Realm with SwiftUI.
+      versions of the property wrappers to open Realm with SwiftUI. You can 
+      add subscription queries in ``.onAppear`` after opening the realm.
 
-      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.state-var-and-property-wrapper.swift
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-property-wrapper.swift
          :language: swift
 
-      To simplify :ref:`adding or updating queryable fields 
-      <ios-sync-subscribe-to-queryable-fields>`, add a ``SubscriptionState`` enum:
+      .. versionadded:: 10.28.0
 
-      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.subscription-state-enum.swift
+      If you're using Realm Swift SDK version 10.28.0, you can create a
+      :swift-sdk:`flexibleSyncConfiguration() 
+      <https://www.mongodb.com/docs/realm-sdks/swift/latest/Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>` 
+      with the ``initialSubscriptions`` parameter. You can use this parameter 
+      to :ref:`subscribe to Flexible Sync queries 
+      <ios-sync-subscribe-to-queryable-fields>` in the configuration. 
+      
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-config-initial-subscriptions.swift
          :language: swift
 
-      Then, you can use a ``@State`` variable to monitor the ``SubscriptionState``,
-      and progress it after you have updated subscriptions:
+      Then, pass the configuration to the view that contains the property 
+      wrappers as an environment object.
 
-      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.switch-on-subscription-state-to-open-realm.swift
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.realm-config-environment-object.swift
          :language: swift
+
+      For a complete example, see the :ref:`SwiftUI Quick Start <swiftui-integrate-with-sync>`.
 
    .. tab:: Partition-Based Sync
       :tabid: pbs
@@ -206,6 +215,7 @@ The Realm Swift SDK provides several ways to pass {+realm+} data between views:
 
 - Pass {+client-db-short+} objects to a view
 - Use environment injection to:
+
   - Inject a partition value into a view
   - Inject an opened {+realm+} into a view
   - Inject a {+realm+} configuration into a view
