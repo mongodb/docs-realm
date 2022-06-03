@@ -110,8 +110,8 @@ Create Model
          .. code-block::
 
             .
-            ├── my_model.dart
-            ├── my_model.g.dart // newly generated file
+            ├── schemas.dart
+            ├── schemas.g.dart // newly generated file
             ├── myapp.dart
             └── ...rest of application
 
@@ -319,7 +319,7 @@ where you defined the ``RealmModel`` class per the :ref:`Create Model section <f
 
 The generated file has the same base name as the file with your ``RealmModel``,
 ending with ``.g.dart``. For example if the file with your ``RealmModel``
-is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
+is named ``schemas.dart``, the generated file will be ``schemas.g.dart``.
 
 .. note::
 
@@ -327,12 +327,12 @@ is named ``my_model.dart``, the generated file will be ``my_model.g.dart``.
    your ``RealmModel`` definition file.
 
    .. code-block:: dart
-      :caption: my_model.dart
+      :caption: schemas.dart
       :emphasize-lines: 3
 
       // ...import packages
 
-      part 'my_model.g.dart';
+      part 'schemas.g.dart';
 
       @RealmModel()
       // ...model definition
