@@ -36,9 +36,9 @@ reset strategy in your :dotnet-sdk:`PartitionSyncConfiguration
 <reference/Realms.Sync.PartitionSyncConfiguration.html>` and 
 :dotnet-sdk:`FlexibleSyncConfiguration 
 <reference/Realms.Sync.FlexibleSyncConfiguration.html>`. The 
-:dotnet-sdk:`ClientResetHandler<TBD>` property can be set to either the 
-:dotnet-sdk:`DiscardLocalResetHandler<TBD>` method (for ``PartitionSyncConfiguration``), 
-or the :dotnet-sdk:`ManualRecoveryHandler<TBD>` method for either configuration 
+:dotnet-sdk:`ClientResetHandler <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_ClientResetHandler>` property can be set to either the 
+:dotnet-sdk:`DiscardLocalResetHandler <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html>` method (for ``PartitionSyncConfiguration``), 
+or the :dotnet-sdk:`ManualRecoveryHandler <reference/Realms.Sync.ErrorHandling.ManualRecoveryHandler.html>` method for either configuration 
 type. If you do not specify a ``ClientResetHandler``, the default is 
 ``ManualRecoveryHandler``.  
 
@@ -52,8 +52,9 @@ state without closing the realm and while maintaining notifications.
 
 Be aware that this strategy *permanently deletes* all local unsynced changes 
 made since the last successful sync. For a better user experience, consider using 
-the :dotnet-sdk:`OnBeforeReset<TBD>` and :dotnet-sdk:`OnAfterReset<TBD>` callback 
-methods. Within the ``OnBeforeReset`` callback method, notify the user 
+the :dotnet-sdk:`OnBeforeReset <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_OnBeforeReset>` 
+and :dotnet-sdk:`OnAfterReset <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_OnAfterReset>` 
+callback methods. Within the ``OnBeforeReset`` callback method, notify the user 
 that a reset is about to happen, and then in the ``OnAfterReset`` callback method, 
 notify the user when the reset is complete.
 
@@ -61,7 +62,8 @@ If the client reset operation cannot complete when using the
 ``DiscardLocalResetHandler`` method -- as in the case of a destructive schema 
 change -- the client reset process reverts to manual 
 mode. You specify the method for handling a manual reset with the 
-:dotnet-sdk:`ManualResetFallback <TBD>` callback method.
+:dotnet-sdk:`ManualResetFallback <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_ManualResetFallback>` 
+callback method.
 
 .. example::
 
@@ -75,10 +77,11 @@ mode. You specify the method for handling a manual reset with the
 Using the ManualRecoveryHandler
 -------------------------------
 
-To handle manual client resets, set the :dotnet-sdk:`ClientResetHandler<TBD>` 
+To handle manual client resets, set the 
+:dotnet-sdk:`ClientResetHandler <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_ClientResetHandler>` 
 property of the ``FlexibleSyncConfiguration`` object to a 
-:dotnet-sdk:`ManualRecoveryHandler(ClientResetException)<TBD>` method. Be sure to 
-use the overload of the ``ManualRecoveryHandler`` that takes a 
+:dotnet-sdk:`ManualRecoveryHandler(ClientResetException) <reference/Realms.Sync.ErrorHandling.ManualRecoveryHandler.html#Realms_Sync_ErrorHandling_ManualRecoveryHandler__ctor_Realms_Sync_ErrorHandling_ClientResetHandlerBase_ClientResetCallback_>` 
+method. Be sure to use the overload of the ``ManualRecoveryHandler`` that takes a 
 :dotnet-sdk:`ClientResetException <reference/Realms.Sync.Exceptions.ClientResetException.html>` 
 parameter.
 
