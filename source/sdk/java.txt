@@ -144,20 +144,21 @@ of an object up to date at all times:
    To get started with {+client-database+}, try our
    :ref:`Local-only Quick Start <java-client-quick-start-local>`.
 
-Realm Apps
-----------
+Atlas App Services
+------------------
 
-{+app+}s are backends for client applications hosted by MongoDB in the cloud.
-They provide the ability to synchronize data stored in
-{+client-database+}, called **{+sync+}**, as well as a layer of backend
-functionality collectively called **App Services**.
+Atlas App Services is a backend for client applications hosted by
+MongoDB in the cloud. Individual backends, known as **Apps**, provide
+the ability to synchronize data stored in
+{+client-database+} as well as a layer of backend functionality
+including user accounts and backend logic.
 The {+service+} Java SDK optionally contains the ability to access
 these {+app+}s running in the cloud. In addition to local
 {+client-database+} in the SDK, {+app+}s provide the
 following functionality:
 
 Atlas Device Sync
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Automatically sync data between {+realm+}s on client devices and your backend
 MongoDB Atlas data store with :ref:`{+sync+} <java-sync-changes-between-devices>`:
