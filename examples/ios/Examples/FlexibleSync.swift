@@ -262,6 +262,54 @@ class FlexibleSync: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testCheckForSubscriptionBeforeAddingOne() {
+        let expectation = XCTestExpectation(description: "it completes")
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+                let user = app.currentUser
+                var flexSyncConfig = user?.flexibleSyncConfiguration()
+                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        // :snippet-start: check-before-adding-subscription
+                        let subscriptions = realm.subscriptions
+                        if let foundSubscription = subscriptions.first(named: "user_team") {
+                            subscriptions.update({
+                                foundSubscription.updateQuery(toType: FlexibleSync_Team.self, where: {
+                                     $0.teamName == "Developer Education"
+                                })
+                            })
+                        } else {
+                            subscriptions.update({
+                               subscriptions.append(
+                                  QuerySubscription<FlexibleSync_Team> {
+                                     $0.teamName == "Developer Education"
+                                  })
+                            })
+                        }
+                        // :snippet-end:
+                        subscriptions.update({
+                            subscriptions.removeAll()
+                        })
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
     func testSubscribeToAllObjectsOfAType() {
         let expectation = XCTestExpectation(description: "it completes")
         let app = App(id: APPID)

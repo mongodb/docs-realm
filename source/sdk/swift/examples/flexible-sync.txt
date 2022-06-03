@@ -177,6 +177,17 @@ subscribe to all the ``Team`` objects, you could do this:
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.subscribe-to-all-objects-of-a-type.swift
    :language: swift
 
+Check for Existing Subscriptions Before Adding a Subscription
+`````````````````````````````````````````````````````````````
+
+If your application flow appends the same subscription to the subscription 
+set every time you run the application, this throws an error on subsequent 
+application runs. In this case, add a check for an existing subscription 
+before appending it:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.check-before-adding-subscription.swift
+   :language: swift
+
 .. _ios-sync-check-subscription-state:
 .. _ios-sync-react-to-subscription-changes:
 
