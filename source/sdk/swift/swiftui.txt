@@ -298,8 +298,8 @@ Here's the code for the SyncContentView:
       
       Your client application can only write objects that match the 
       subscription query to a realm opened with a ``flexibleSyncConfiguration``. 
-      You cannot write objects that don't match the subscription query to the 
-      realm. Trying to do so causes the app to throw an exception.
+      Trying to write objects that don't match the query causes the app to 
+      throw an exception.
 
       .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-content-view.swift
          :language: swift
