@@ -227,6 +227,49 @@ class FlexibleSync: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    func testAddInitialSubscriptionsWithCheckExistingSubs() {
+        let expectation = XCTestExpectation(description: "it completes")
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+                let user = app.currentUser
+                // :snippet-start: add-initial-subscriptions-after-check
+                var flexSyncConfig = user?.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                    // If there is a chance initialSubscriptions may run more than once, add
+                    // a check for an existing subscription before appending the subscription.
+                    // Appending the same subscription more than once throws an error.
+                    if let foundSubscriptions = subs.first(named: "teamName_DevEd") {
+                        // Existing subscription found - do nothing
+                        return
+                    } else {
+                        subs.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "teamName_DevEd") {
+                              $0.teamName == "Developer Education"
+                        })
+                    }
+                })
+                // :snippet-end:
+                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
     func testAddInitialSubscriptionsWithRerunOnOpen() {
         let expectation = XCTestExpectation(description: "it completes")
         let app = App(id: APPID)

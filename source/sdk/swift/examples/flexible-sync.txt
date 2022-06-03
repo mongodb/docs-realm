@@ -154,6 +154,14 @@ you want to use to bootstrap the realm:
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions.swift
    :language: swift
 
+If there is a possibility the ``initialSubscriptions`` block may run more 
+than once, add a check for an existing subscription before appending the 
+same subscription again. Appending the same subscription more than once
+throws an error.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-after-check.swift
+   :language: swift
+
 If your app needs to rerun this initial subscription every time it opens,
 you can pass an additional parameter - ``rerunOnOpen``. This is a bool that 
 denotes whether the initial subscription should re-run every time the 
@@ -267,8 +275,10 @@ new query.
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription.swift
    :language: swift
 
-You can also search for a subscription by name. In this example, we 
-search for a subscription query by name and then update it with a new query.
+You can also :swift-sdk:`search for a subscription by name 
+<https://www.mongodb.com/docs/realm-sdks/swift/latest/Structs/SyncSubscriptionSet.html#/s:10RealmSwift19SyncSubscriptionSetV5first5namedAA0cD0VSgSS_tF>`
+. In this example, we search for a subscription query by name and then 
+update it with a new query.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.update-subscription-by-name.swift
    :language: swift
