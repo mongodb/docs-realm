@@ -1,3 +1,4 @@
+// swiftlint:disable type_body_length
 // :replace-start: {
 //   "terms": {
 //     "FlexibleSync_": ""
@@ -183,6 +184,76 @@ class FlexibleSync: XCTestCase {
                         subscriptions.update({
                             subscriptions.removeAll()
                         })
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testAddInitialSubscriptions() {
+        let expectation = XCTestExpectation(description: "it completes")
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+                let user = app.currentUser
+                // :snippet-start: add-initial-subscriptions
+                var flexSyncConfig = user?.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                    subs.append(
+                       QuerySubscription<FlexibleSync_Team> {
+                          $0.teamName == "Developer Education"
+                       })
+                })
+                // :snippet-end:
+                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        wait(for: [expectation], timeout: 10)
+    }
+
+    func testAddInitialSubscriptionsWithRerunOnOpen() {
+        let expectation = XCTestExpectation(description: "it completes")
+        let app = App(id: APPID)
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success:
+                // Continue
+                print("Successfully logged in to app")
+                let user = app.currentUser
+                // :snippet-start: add-initial-subscriptions-rerun-on-open
+                var flexSyncConfig = user?.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                    subs.append(
+                       QuerySubscription<FlexibleSync_Team> {
+                          $0.teamName == "Developer Education"
+                       })
+                }, rerunOnOpen: true)
+                // :snippet-end:
+                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                        // handle error
+                    case .success(let realm):
+                        print("Successfully opened realm: \(realm)")
                         expectation.fulfill()
                     }
                 }

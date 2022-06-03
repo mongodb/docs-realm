@@ -139,6 +139,31 @@ including subscriptions of different object types.
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-multiple-subscriptions.swift
    :language: swift
 
+Bootstrap the Realm with Initial Subscriptions
+``````````````````````````````````````````````
+
+.. versionadded:: 10.28.0
+
+You must have at least one subscription before you can read from or write
+to the realm. You can bootstrap a realm with an initial subscription set
+when you open it with the :swift-sdk:`flexibleSyncConfiguration() 
+<Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>`.
+Pass the ``initialSubscriptions`` parameter with the subscription queries 
+you want to use to bootstrap the realm:
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions.swift
+   :language: swift
+
+If your app needs to rerun this initial subscription every time it opens,
+you can pass an additional parameter - ``rerunOnOpen``. This is a bool that 
+denotes whether the initial subscription should re-run every time the 
+app opens. You might need to do this to re-run dynamic time ranges 
+or other queries that require a re-computation of static variables for the 
+subscription.
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-rerun-on-open.swift
+   :language: swift
+
 Subscribe to All Objects of a Specific Type
 ```````````````````````````````````````````
 
