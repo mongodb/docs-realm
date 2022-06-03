@@ -32,7 +32,7 @@ open class RealmTest {
     @BeforeTest
     internal fun setUp() {
         Dispatchers.setMain(mainThreadSurrogate) // set a fake "ui thread" for the jvm
-        Napier.base(DebugAntilog()) // initialize napier
-
+        //Napier.base(DebugAntilog()) // initialize napier
+        // log is getting really spammy -- probably because napier is initialized multiple times. Testing commenting this out.
     }
 }
