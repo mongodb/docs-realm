@@ -56,6 +56,7 @@ class SyncTest: RealmTest() {
     @Test
     fun openAFlexibleSyncRealmTest() {
         val PARTITION = getRandom()
+        val YOUR_APP_ID = FLEXIBLE_APP_ID
 
         // :snippet-start: open-a-flexible-sync-realm
         val app = App.create(YOUR_APP_ID)
@@ -87,6 +88,7 @@ class SyncTest: RealmTest() {
     @Test
     fun configureAFlexibleSyncRealmTest() {
         val PARTITION = getRandom()
+        val YOUR_APP_ID = FLEXIBLE_APP_ID
         // :snippet-start: configure-a-flexible-sync-realm
         val app = App.create(YOUR_APP_ID)
         runBlocking {

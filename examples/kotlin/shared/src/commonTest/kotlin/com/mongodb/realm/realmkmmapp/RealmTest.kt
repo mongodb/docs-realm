@@ -19,6 +19,7 @@ open class RealmTest {
 
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
+    val FLEXIBLE_APP_ID = "kotlin-flexible-tijhx"
     val TMP_PATH = "/tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
     val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
