@@ -1,16 +1,16 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmObject
-import io.realm.RealmResults
-import io.realm.annotations.PrimaryKey
-import io.realm.internal.platform.runBlocking
-import io.realm.notifications.InitialResults
-import io.realm.notifications.ResultsChange
-import io.realm.query
-import io.realm.query.RealmQuery
-import io.realm.query.Sort
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.notifications.InitialResults
+import io.realm.kotlin.notifications.ResultsChange
+import io.realm.kotlin.query.RealmQuery
+import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

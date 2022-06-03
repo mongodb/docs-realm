@@ -15,20 +15,20 @@ Delete Multiple Objects - Kotlin SDK
 To delete multiple objects from a realm at the same time:
 
 1. Open a write transaction with :kotlin-sdk:`realm.write()
-   <{+kotlin-local-prefix+}io.realm/-realm/write.html>` or
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>` or
    :kotlin-sdk:`realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`.
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`.
 
 #. Query the transaction's mutable realm for the objects you want to delete
    with :kotlin-sdk:`realm.query()
-   <{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`.
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`.
    Specify the object type as a type parameter passed to :file:`query()`.
    Filter the set of returned objects by specifying a query.
 
 #. Delete the set of :kotlin-sdk:`RealmResults
-   <{+kotlin-local-prefix+}io.realm/-realm-results/index.html>`
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`
    returned by the query with :kotlin-sdk:`realmResults.delete()
-   <{+kotlin-local-prefix+}io.realm/-realm-results/delete.html>`.
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/delete.html>`.
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-multiple-objects.kt
    :language: kotlin

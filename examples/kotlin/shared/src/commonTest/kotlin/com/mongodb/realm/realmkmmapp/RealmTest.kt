@@ -2,7 +2,7 @@ package com.mongodb.realm.realmkmmapp
 
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import io.realm.RealmConfiguration
+import io.realm.kotlin.RealmConfiguration
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers

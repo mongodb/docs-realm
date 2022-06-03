@@ -1,8 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.internal.platform.runBlocking
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.internal.platform.runBlocking
 import kotlin.test.Test
 
 class OpenARealmTest: RealmTest() {

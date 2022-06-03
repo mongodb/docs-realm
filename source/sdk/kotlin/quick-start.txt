@@ -40,11 +40,11 @@ Open a Realm
 ------------
 
 Use :kotlin-sdk:`RealmConfiguration
-<{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>`
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`
 to control the specifics of the {+realm+} you
 would like to open, including the name, location, and schema.
 Pass your configuration to the :kotlin-sdk:`Realm factory constructor
-<{+kotlin-local-prefix+}io.realm/-realm/-companion/index.html>`
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/index.html>`
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-realm.kt
@@ -56,7 +56,7 @@ Create, Read, Update, and Delete Objects
 
 Once opened, you can create objects within a {+realm+} in a
 :kotlin-sdk:`write transaction block
-<{+kotlin-local-prefix+}io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
 
 To create a new :file:`Task`, instantiate an instance of the
 :file:`Task` class and add it to the {+realm+} in a write transaction block:
@@ -91,7 +91,7 @@ To modify a task, update its properties in a write transaction block:
    :copyable: false
 
 Finally, you can delete a task by calling :kotlin-sdk:`mutableRealm.delete()
-<{+kotlin-local-prefix+}io.realm/-mutable-realm/delete.html>`
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`
 in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-delete.kt

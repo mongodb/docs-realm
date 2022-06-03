@@ -1,8 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.log.LogLevel
-import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
+import io.realm.kotlin.log.LogLevel
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.AppConfiguration
 import kotlin.test.Test
 
 class AppClientTest: RealmTest() {

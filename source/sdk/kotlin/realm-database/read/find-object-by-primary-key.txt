@@ -15,7 +15,7 @@ Find Object by Primary Key - Kotlin SDK
 To find an object with a specific primary key value, open a {+realm+}
 and query the primary key field for the desired primary key value
 using :kotlin-sdk:`realm.query()
-<{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`.
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`.
 Specify the object type as a type parameter passed to :file:`query()`:
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-object-by-primary-key.kt
@@ -28,5 +28,5 @@ Specify the object type as a type parameter passed to :file:`query()`:
    runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
    logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
-   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>` in
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>` in
    time sensitive environments.

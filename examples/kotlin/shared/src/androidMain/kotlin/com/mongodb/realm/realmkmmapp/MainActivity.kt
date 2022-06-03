@@ -17,10 +17,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import io.realm.internal.platform.runBlocking
-import io.realm.mongodb.App
-import io.realm.mongodb.Credentials
-import io.realm.mongodb.GoogleAuthType
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.GoogleAuthType
 
 class MainActivity : ComponentActivity() {
     val YOUR_APP_ID = "YOUR APP ID"

@@ -1,10 +1,10 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.Realm
-import io.realm.internal.platform.runBlocking
-import io.realm.mongodb.App
-import io.realm.mongodb.Credentials
-import io.realm.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.Realm
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -70,8 +70,8 @@ the Realm Object Models to use in your realm schema. Additionally:
 
 - The Java SDK used :file:`RealmConfiguration.Builder().build()` to
   generate instances of :file:`RealmConfiguration`. With the Kotlin SDK,
-  use the :kotlin-sdk:`RealmConfiguration.with()
-  <{+kotlin-local-prefix+}io.realm/-realm-configuration/-companion/with.html>`
+  use the :kotlin-sdk:`RealmConfiguration.create()
+  <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-companion/create.html>`
   companion method :file:`RealmConfiguration` instead.
 
 - The Java SDK used the static :file:`Realm.getInstance()` method to
@@ -107,7 +107,7 @@ the Realm Object Models to use in your realm schema. Additionally:
                 :copyable: false
 
 Optionally, use :kotlin-sdk:`RealmConfiguration.Builder
-<{+kotlin-local-prefix+}io.realm/-realm-configuration/-builder/index.html>`
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/-builder/index.html>`
 to customize your configuration even more:
 
 .. literalinclude:: /examples/generated/kotlin/MigrateFromJavaToKotlinSDKTest.snippet.open-a-realm-advanced.kt
@@ -210,7 +210,7 @@ With the Java SDK, you could define one-to-many relationships with fields
 of type :file:`RealmList`. The Kotlin SDK still uses fields of
 type :file:`RealmList`, but you should instantiate :file:`RealmList`
 instances with the :kotlin-sdk:`realmListOf()
-<{+kotlin-local-prefix+}io.realm/realm-list-of.html>` companion method.
+<{+kotlin-local-prefix+}io.realm.kotlin/realm-list-of.html>` companion method.
 
 .. list-table::
    :header-rows: 0
@@ -287,7 +287,7 @@ Async
 With the Java SDK, you could write asynchronously to a realm with
 :file:`realm.executeTransactionAsync()`. The Kotlin SDK uses
 the suspend function :kotlin-sdk:`realm.write()
-<{+kotlin-local-prefix+}io.realm/-realm/write.html>` instead.
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>` instead.
 
 .. list-table::
    :header-rows: 0
@@ -323,7 +323,7 @@ Sync
 With the Java SDK, you could write synchronously to a realm with
 :file:`realm.executeTransaction()`. The Kotlin SDK uses
 :kotlin-sdk:`realm.writeBlocking()
-<{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`:
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`:
 
 .. list-table::
    :header-rows: 0
@@ -371,13 +371,13 @@ in the Kotlin SDK:
 
 - The Java SDK uses :file:`realm.where()`
   to query realms, whereas the Kotlin SDK uses :kotlin-sdk:`realm.query()
-  <{+kotlin-local-prefix+}io.realm/query.html>`.
+  <{+kotlin-local-prefix+}io.realm.kotlin/query.html>`.
 
 - With the Java SDK, you could query asynchronously with
   :file:`realmQuery.findAllAsync()` and :file:`realmQuery.findFirstAsync()`.
   In the Kotlin SDK, query asynchronously with
   :kotlin-sdk:`realmQuery.asFlow()
-  <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
+  <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`.
   Once you have a flow of results, you can `collect
   <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
   the results.
@@ -458,7 +458,7 @@ Deletes
 
 In both SDKs, you can only delete live objects. The Kotlin SDK provides
 :kotlin-sdk:`mutableRealm.findLatest()
-<{+kotlin-local-prefix+}io.realm/-mutable-realm/find-latest.html>`
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`
 to access a live version of any frozen object. In a write transaction,
 you can directly query for live objects and delete them without using
 :file:`findLatest()`.
@@ -509,7 +509,7 @@ changed with the following interfaces:
 - Kotlin Extensions with :file:`toFlow()`
 
 The Kotlin SDK replaces all of these options with :kotlin-sdk:`realmQuery.asFlow()
-<{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`.
 Once you have a flow of results, you can call `collect
 <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__
 to subscribe to changes. Any object of type :file:`UpdatedResults` emitted

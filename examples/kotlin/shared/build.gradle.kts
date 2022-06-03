@@ -4,7 +4,7 @@ plugins {
     id("io.realm.kotlin")
 }
 
-val realmVersion = "0.11.1" // DON'T FORGET TO UPDATE VERSION IN PROJECT/ANDROID GRADLE
+val realmVersion = "0.12.0-SNAPSHOT" // DON'T FORGET TO UPDATE VERSION IN PROJECT/ANDROID GRADLE
 val coroutinesVersion = "1.6.0-native-mt"
 version = "1.0"
 
@@ -20,6 +20,7 @@ kotlin {
                 implementation("io.realm.kotlin:library-sync:${realmVersion}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:2.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
             }
         }
         val commonTest by getting {

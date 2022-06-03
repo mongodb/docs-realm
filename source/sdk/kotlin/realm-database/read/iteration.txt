@@ -20,7 +20,7 @@ You can iterate through results using :file:`Flows`.
    <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/>`__.
 
 To convert your results into a :file:`Flow`, call :kotlin-sdk:`realmQuery.asFlow()
-<{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>`.
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`.
 Then iterate through the results with `flow.collect()
 <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__:
 
@@ -34,5 +34,5 @@ Then iterate through the results with `flow.collect()
    :file:`find()` runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
    logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
-   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>` in
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>` in
    time sensitive environments.

@@ -1,8 +1,8 @@
 .. _kotlin-connect-to-backend:
 
-===================================================
+=====================================================
 Connect to an Atlas App Services backend - Kotlin SDK
-===================================================
+=====================================================
 
 .. default-domain:: mongodb
 
@@ -12,14 +12,13 @@ Connect to an Atlas App Services backend - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-The {+app+} client is the interface to the {+backend+}
-backend. It provides access to the :ref:`authentication
-<kotlin-authenticate>`, and {+sync+}.
+The ``App`` class is the interface to App Services. This class provides
+access to :ref:`authentication <kotlin-authenticate>` and {+sync+}.
 
 .. _kotlin-access-the-app-client:
 
-Access the App Client
----------------------
+Access the App
+--------------
 
 Pass the App ID for your {+app+}, which you can :ref:`find in the Realm UI
 <find-your-app-id>`.
@@ -43,7 +42,7 @@ Configuration
 For more granular control of the details of your app connection,
 such as custom timeouts for connections and keys for local encryption,
 use the :kotlin-sdk:`AppConfiguration.Builder
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app-configuration/-builder/index.html>` to control details of your ``App``:
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app-configuration/-builder/index.html>` to control details of your ``App``:
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.configure-app-client.kt
    :language: kotlin

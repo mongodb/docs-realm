@@ -1,8 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.internal.platform.runBlocking
-import io.realm.mongodb.App
-import io.realm.mongodb.Credentials
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
 import kotlin.test.Test
 
 class RegistrationTest: RealmTest() {
