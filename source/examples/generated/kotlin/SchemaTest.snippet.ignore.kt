@@ -1,5 +1,5 @@
 class ShoppingCart: RealmObject {
-    val _id: Long = Random.nextLong()
+    val _id: ObjectId = ObjectId.create()
     @Ignore
     val items: List<String> = listOf()
 }

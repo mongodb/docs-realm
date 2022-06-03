@@ -19,7 +19,7 @@ RealmConfiguration.Builder(
         // based API
         context.enumerate("Sample") {
                 oldObject:
-                    DynamicRealmObject,
+                DynamicRealmObject,
                 newObject:
                     DynamicMutableRealmObject? ->
             newObject?.set("longField",
