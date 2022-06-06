@@ -1,4 +1,4 @@
-let app = App(id: YOUR_REALM_APP_ID)
+let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
 let joeCredentials = Credentials.emailPassword(email: "joe@example.com", password: "passw0rd")
 app.login(credentials: joeCredentials) { (result) in

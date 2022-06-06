@@ -1,5 +1,5 @@
 func testConvertLocalToSync() async throws {
-    let app = App(id: YOUR_REALM_APP_ID)
+    let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
     // Log in the user whose realm you want to open as a synced realm
     let syncUser = try await app.login(credentials: Credentials.anonymous)

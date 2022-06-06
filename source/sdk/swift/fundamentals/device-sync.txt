@@ -18,7 +18,7 @@ Overview
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
 device is online, {+sync-short+} asynchronously synchronizes data in a 
-background thread between the device and your backend {+app+}. 
+background thread between the device and your backend Atlas App Services App. 
 
 When you use Sync in your client application, your implementation must match 
 the Sync Mode you select in your backend {+app+} configuration. The Sync Mode
@@ -61,7 +61,7 @@ queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works
 by synchronizing data that matches query subscriptions you maintain in the 
 client application. 
 
-A subscription set contains a set of queries. Realm Flexible Sync returns 
+A subscription set contains a set of queries. Flexible Sync returns 
 documents matching those queries, where the user has the appropriate 
 :ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
 read and write the documents. If documents match the query, but the client 

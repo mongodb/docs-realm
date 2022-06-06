@@ -1,12 +1,14 @@
+// swiftlint:disable identifier_name
+
 import XCTest
 // :snippet-start: import-realm
 import RealmSwift
 // :snippet-end:
 
-let YOUR_REALM_APP_ID = "example-testers-kvjdy"
+let YOUR_APP_SERVICES_APP_ID = "example-testers-kvjdy"
 
 // :snippet-start: init-realm-app-client
-let app = App(id: YOUR_REALM_APP_ID) // replace YOUR_REALM_APP_ID with your App ID
+let app = App(id: YOUR_APP_SERVICES_APP_ID) // replace YOUR_APP_SERVICES_APP_ID with your App ID
 // :snippet-end:
 
 class RealmAppTest: XCTestCase {
@@ -20,7 +22,7 @@ class RealmAppTest: XCTestCase {
            defaultRequestTimeoutMS: 30000
         )
 
-        let app = App(id: "my-realm-app-id", configuration: configuration)
+        let app = App(id: "my-app-services-app-id", configuration: configuration)
         // :snippet-end:
         print(app)
     }

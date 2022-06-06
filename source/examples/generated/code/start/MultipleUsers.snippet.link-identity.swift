@@ -1,4 +1,4 @@
-let app = App(id: YOUR_REALM_APP_ID)
+let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
 func logInAnonymously() {
     app.login(credentials: Credentials.anonymous) { (result) in

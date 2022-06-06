@@ -7,7 +7,7 @@ class CustomUserData: XCTestCase {
         let expectation = XCTestExpectation(description: "it completes")
 
         // :snippet-start: create-custom-user-data
-        let appId = YOUR_REALM_APP_ID // replace this with your App ID
+        let appId = YOUR_APP_SERVICES_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -44,7 +44,7 @@ class CustomUserData: XCTestCase {
         let expectation = XCTestExpectation(description: "it completes")
 
         // :snippet-start: read-custom-user-data
-        let appId = YOUR_REALM_APP_ID // replace this with your App ID
+        let appId = YOUR_APP_SERVICES_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
@@ -79,7 +79,7 @@ class CustomUserData: XCTestCase {
         let expectation = XCTestExpectation(description: "it completes")
 
         // :snippet-start: update-custom-user-data
-        let appId = YOUR_REALM_APP_ID // replace this with your App ID
+        let appId = YOUR_APP_SERVICES_APP_ID // replace this with your App ID
         let app = App(id: appId)
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {

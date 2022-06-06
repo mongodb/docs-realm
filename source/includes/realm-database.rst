@@ -25,13 +25,13 @@ of {+client-database+} and {+sync+}. This page is for you if you are:
 
 - comparing {+client-database+} with competing databases
 
-- trying to understand the difference between {+client-database+} and
+- trying to understand how {+client-database+} works with
   {+sync+}
 
 This explanation begins with a deep dive into database internals,
 continues with a high-level introduction to some of the features of
-{+client-database+}, and wraps up with some of the differences between
-{+sync+} and the local version of {+client-database+}.
+{+client-database+}, and wraps up with some of the differences of working 
+with {+sync+} and the local version of {+client-database+}.
 
 Database Internals
 ------------------

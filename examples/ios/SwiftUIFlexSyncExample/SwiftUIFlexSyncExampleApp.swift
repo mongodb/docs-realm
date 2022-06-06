@@ -1,14 +1,14 @@
-let YOUR_REALM_APP_ID_HERE = "swiftui_quickstart_fs-vaxps"
+let YOUR_APP_SERVICES_APP_ID_HERE = "swiftui_quickstart_fs-vaxps"
 
 // :snippet-start: complete-swiftui-flex-sync-quickstart
 import RealmSwift
 import SwiftUI
 
-// The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
-// If you don't have a Realm app and don't wish to use Sync for now,
+// The App Services App. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services App ID.
+// If you don't have a App Services App and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
-let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
+let app: RealmSwift.App? = RealmSwift.App(id: YOUR_APP_SERVICES_APP_ID_HERE)
 
 // MARK: Models
 
@@ -161,7 +161,7 @@ struct OpenSyncedRealmView: View {
     // We've injected a `flexibleSyncConfiguration` as an environment value,
     // so `@AsyncOpen` here opens a realm using that configuration.
     // :snippet-start: fs-property-wrapper-sans-config-comment
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var asyncOpen
+    @AsyncOpen(appId: YOUR_APP_SERVICES_APP_ID_HERE, timeout: 4000) var asyncOpen
     // :snippet-end:
     // :snippet-end:
     

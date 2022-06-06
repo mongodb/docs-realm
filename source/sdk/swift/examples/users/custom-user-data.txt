@@ -46,7 +46,7 @@ data, see :ref:`Update Custom User Data
    data whenever a user refreshes their :ref:`access token
    <user-sessions>`, which is used by most SDK operations that contact
    the {+backend+} back end. If the token is not refreshed before its default 
-   30 minute expiration time, {+service-short+} refreshes the token on the next 
+   30 minute expiration time, the Swift SDK refreshes the token on the next 
    call to the backend. Custom user data could be stale for up to 30 minutes 
    plus the time until the next SDK call to the backend occurs.
 
@@ -107,7 +107,7 @@ Update a User's Custom Data
 ---------------------------
 
 You can update custom user data using :ref:`MongoDB Data Access
-<ios-mongodb-remote-access>`, {+service-short+} :ref:`Sync
+<ios-mongodb-remote-access>`, :ref:`Atlas Device Sync
 <ios-sync-changes-between-devices>`, :compass:`MongoDB Compass
 </>`, or the :atlas:`MongoDB Atlas Data
 Explorer </data-explorer/>`.

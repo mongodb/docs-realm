@@ -1,13 +1,13 @@
-let YOUR_REALM_APP_ID_HERE = "swiftui-tester-rhvvv"
+let YOUR_APP_SERVICES_APP_ID_HERE = "swiftui-tester-rhvvv"
 
 import RealmSwift
 import SwiftUI
 
-// The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
-// If you don't have a Realm app and don't wish to use Sync for now,
+// The Atlas App Services app. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services app ID.
+// If you don't have an App Services app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
-let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
+let app: RealmSwift.App? = RealmSwift.App(id: YOUR_APP_SERVICES_APP_ID_HERE)
 
 // MARK: Models
 
@@ -153,7 +153,7 @@ struct OpenSyncedRealmView: View {
     // We can use an empty string as the partitionValue here because we're
     // injecting the user.id as an environment value from the LoginView.
     // :emphasize-start:
-    @AutoOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
+    @AutoOpen(appId: YOUR_APP_SERVICES_APP_ID_HERE, partitionValue: "", timeout: 4000) var autoOpen
     // :emphasize-end:
     // :remove-start:
     @State var searchFilter: String = ""

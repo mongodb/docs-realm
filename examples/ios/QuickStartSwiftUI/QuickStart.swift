@@ -1,4 +1,4 @@
-let YOUR_REALM_APP_ID_HERE = "example-testers-kvjdy"
+let YOUR_APP_SERVICES_APP_ID_HERE = "example-testers-kvjdy"
 
 // :snippet-start: complete-swiftui-quick-start
 // :snippet-start: imports
@@ -8,13 +8,13 @@ import SwiftUI
 
 // :state-start: sync
 // :snippet-start: mongodb-realm
-// MARK: MongoDB Realm (Optional)
+// MARK: Atlas App Services (Optional)
 
-// The Realm app. Change YOUR_REALM_APP_ID_HERE to your Realm app ID.
-// If you don't have a Realm app and don't wish to use Sync for now,
+// The Atlas App Services app. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services app ID.
+// If you don't have an App Services app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
-let app: RealmSwift.App? = RealmSwift.App(id: YOUR_REALM_APP_ID_HERE)
+let app: RealmSwift.App? = RealmSwift.App(id: YOUR_APP_SERVICES_APP_ID_HERE)
 // :snippet-end:
 // :state-end:
 // MARK: Models
@@ -143,11 +143,11 @@ struct SyncContentView: View {
 /// This view opens a synced realm.
 struct OpenSyncedRealmView: View {
     // Use AsyncOpen to download the latest changes from
-    // your Realm app before opening the realm.
+    // your App Services app before opening the realm.
     // Leave the `partitionValue` an empty string to get this
     // value from the environment object passed in above.
     // :snippet-start: partition-value-empty-string
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+    @AsyncOpen(appId: YOUR_APP_SERVICES_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
     // :snippet-end:
     
     var body: some View {

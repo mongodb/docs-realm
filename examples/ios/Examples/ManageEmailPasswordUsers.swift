@@ -5,7 +5,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testRegisterNewAccount() async {
         // :snippet-start: register-email
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
         let password = "password12345"
@@ -27,7 +27,7 @@ class ManageEmailPasswordUsers: XCTestCase {
         let expectation = XCTestExpectation(description: "Registration continues")
 
         // :snippet-start: register-email-completion-handler
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
         let password = "password12345"
@@ -52,7 +52,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testResendConfirmationEmail() async {
         // :snippet-start: resend-confirmation-email
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
         // If Realm is set to send a confirmation email, we can
@@ -73,7 +73,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testRetryConfirmationFunction() async {
         // :snippet-start: retry-confirmation-function
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
         let email = "skroob@example.com"
         // If Realm is set to run a custom confirmation function,
@@ -94,7 +94,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testConfirmNewUserEmail() async {
         // :snippet-start: confirm-new-user-email 
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
 
         // Token and tokenId are query parameters in the confirmation
@@ -117,7 +117,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testResetPassword() async {
         // :snippet-start: reset-password
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
 
         let email = "forgot.my.password@example.com"
@@ -156,7 +156,7 @@ class ManageEmailPasswordUsers: XCTestCase {
 
     func testPasswordResetFunc() async {
         // :snippet-start: password-reset-function
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let client = app.emailPasswordAuth
 
         let email = "forgot.my.password@example.com"

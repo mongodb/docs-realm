@@ -24,7 +24,7 @@ size of the objects stored within it. This architecture enables some of
    - :ref:`ios-client-threading` 
    - :ref:`ios-file-size`
 
-{+backend-short+} writes new data within unused space tracked inside 
+Realm writes new data within unused space tracked inside 
 file. In some situations, unused space may comprise a significant 
 portion of a {+realm+} file. If file size grows large enough to 
 negatively impact performance, compact the {+realm+}. 
@@ -92,7 +92,7 @@ method. The destination file cannot already exist.
 How Compacting Works
 ~~~~~~~~~~~~~~~~~~~~
 
-{+backend-short+} compacting works by:
+Realm compacting works by:
 
 1. Reading the entire contents of the {+realm+} file
 2. Writing the contents to a new file at a different location

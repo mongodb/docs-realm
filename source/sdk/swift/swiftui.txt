@@ -206,7 +206,7 @@ Now that we have a working {+client-database+} app, we can optionally
 integrate with {+sync+}. Sync allows you to you see the changes you make
 across devices. Before you can add sync to this app, make sure to:
 
-- :ref:`Create an {+app+} <create-a-realm-app>`.
+- :ref:`Create an Atlas App Services App <create-a-realm-app>`.
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
 - :ref:`Enable {+sync+} <enable-sync>`.
 
@@ -247,7 +247,7 @@ across devices. Before you can add sync to this app, make sure to:
    synced list of items in a single itemGroup.
 
 At the top of the source file, initialize an optional :swift-sdk:`Realm
-app <Extensions/App.html>` with :ref:`your {+app+} ID
+app <Extensions/App.html>` with :ref:`your Atlas App Services App ID
 <find-your-app-id>`:
 
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.mongodb-realm.swift
@@ -274,7 +274,7 @@ SyncContentView can react when a user logs in or out.
 This view has two possible states:
 
 - If the {+service-short+} app does not have a currently logged-in user, show the **LoginView**.
-- If the {+app+} does have a logged-in user, show the **OpenSyncedRealmView**.
+- If the app does have a logged-in user, show the **OpenSyncedRealmView**.
 
 Here's the code for the SyncContentView:
 
@@ -521,14 +521,6 @@ logging in:
    :language: swift
 
 Once logged in, the app follows the same flow as the local-only version.
-No additional changes are required to the original classes. They don't
-need to know whether or not you're using {+sync+}!
-
-Feedback
---------
-
-Did you find this guide helpful? Found an issue? Have a question? Please
-let us know with the feedback form on the right side of the page.
 
 .. _swiftui-complete-code:
 

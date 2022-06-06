@@ -6,7 +6,7 @@ func saveBackupRealmPath(_ path: String) {
     // restore the local changes from the backup file at the given path
 }
 
-let app = App(id: YOUR_REALM_APP_ID)
+let app = App(id: YOUR_APP_SERVICES_APP_ID)
 app.syncManager.errorHandler = { error, session in
     guard let syncError = error as? SyncError else {
         fatalError("Unexpected error type passed to sync error handler! \(error)")

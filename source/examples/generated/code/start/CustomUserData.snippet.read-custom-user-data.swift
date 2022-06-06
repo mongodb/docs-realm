@@ -1,4 +1,4 @@
-let appId = YOUR_REALM_APP_ID // replace this with your App ID
+let appId = YOUR_APP_SERVICES_APP_ID // replace this with your App ID
 let app = App(id: appId)
 app.login(credentials: Credentials.anonymous) { (result) in
     switch result {

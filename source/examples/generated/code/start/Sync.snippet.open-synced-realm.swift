@@ -6,7 +6,7 @@ func getUser() async throws -> User {
         return app.currentUser!
     } else {
         // Instantiate the app using your Realm app ID
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         // Authenticate with the instance of the app that points
         // to your backend. Here, we're using anonymous login.
         let loggedInUser = try await app.login(credentials: Credentials.anonymous)

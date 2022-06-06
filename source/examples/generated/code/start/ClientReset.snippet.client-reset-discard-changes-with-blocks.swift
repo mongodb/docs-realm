@@ -7,7 +7,7 @@ let afterClientResetBlock: (Realm, Realm) -> Void = { before, after in
 }
 
 do {
-    let app = App(id: YOUR_REALM_APP_ID)
+    let app = App(id: YOUR_APP_SERVICES_APP_ID)
     let user = try await app.login(credentials: Credentials.anonymous)
     // Specify the clientResetMode when you create the SyncConfiguration.
     // If you do not specify, this defaults to `.manual` mode.

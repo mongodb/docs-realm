@@ -27,7 +27,7 @@ class Sync: AnonymouslyLoggedInTestCase {
                 return app.currentUser!
             } else {
                 // Instantiate the app using your Realm app ID
-                let app = App(id: YOUR_REALM_APP_ID)
+                let app = App(id: YOUR_APP_SERVICES_APP_ID)
                 // Authenticate with the instance of the app that points
                 // to your backend. Here, we're using anonymous login.
                 let loggedInUser = try await app.login(credentials: Credentials.anonymous)
@@ -70,7 +70,7 @@ class Sync: AnonymouslyLoggedInTestCase {
         // :remove-start:
         let expectation = XCTestExpectation(description: "it completes")
         // :remove-end:
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let user = try await app.login(credentials: Credentials.anonymous)
         let partitionValue = "some partition value"
         var configuration = user.configuration(partitionValue: partitionValue)
@@ -90,7 +90,7 @@ class Sync: AnonymouslyLoggedInTestCase {
         let expectation = XCTestExpectation(description: "it completes")
         // :snippet-start: login-asyncopen-synced-realm
         // Instantiate the app using your Realm app ID
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         // Authenticate with the instance of the app that points
         // to your backend. Here, we're using anonymous login.
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -183,7 +183,7 @@ class Sync: AnonymouslyLoggedInTestCase {
     func testLegacyInitOpenSyncedRealm() throws {
         // :snippet-start: login-and-init-synced-realm
         // Instantiate the app using your Realm app ID
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         // Authenticate with the instance of the app that points
         // to your backend. Here, we're using anonymous login.
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -232,7 +232,7 @@ class Sync: AnonymouslyLoggedInTestCase {
     }
 
     func testPauseResumeSyncSession() {
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         // Log in...
         let user = app.currentUser
         let partitionValue = "some partition value"
@@ -284,7 +284,7 @@ class Sync: AnonymouslyLoggedInTestCase {
     }
 
     func testCheckProgress() {
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let user = app.currentUser
         let partitionValue = "some partition value"
         var configuration = user!.configuration(partitionValue: partitionValue)
@@ -326,7 +326,7 @@ class Sync: AnonymouslyLoggedInTestCase {
             // before deleting the files
         }
         do {
-            let app = App(id: YOUR_REALM_APP_ID)
+            let app = App(id: YOUR_APP_SERVICES_APP_ID)
             var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
             // :remove-start:
             configuration.objectTypes = [SyncExamples_Task.self]
@@ -341,7 +341,7 @@ class Sync: AnonymouslyLoggedInTestCase {
     func testSetClientLogLevel() {
         // :snippet-start: set-log-level
         // Access your app
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // Access the sync manager for the app
         let syncManager = app.syncManager

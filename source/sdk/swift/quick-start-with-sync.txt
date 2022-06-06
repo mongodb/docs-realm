@@ -1,8 +1,8 @@
 .. _ios-client-quick-start-with-sync:
 
-=================================
-Quick Start with Sync - Swift SDK
-=================================
+========================================
+Quick Start with Device Sync - Swift SDK
+========================================
 
 .. default-domain:: mongodb
 
@@ -19,7 +19,7 @@ This page contains information to quickly get {+client-database+} and
 {+sync+} integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Created an {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
+- :ref:`Enabled Partition-Based Sync <enable-pbs-sync>`
 - :ref:`Installed the Swift SDK <ios-install>`
 
 .. note:: Check Out the Tutorial
@@ -45,8 +45,8 @@ Initialize the App
 ------------------
 
 To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
-{+ui+}.
+access your App Services App using your {+app+} ID. You can find your 
+{+app+} ID in the {+ui+}.
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.initialize-app.swift
    :language: swift
@@ -54,7 +54,7 @@ access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
 Define Your Object Model
 ------------------------
 
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled {+sync-short+} with
+If have not :ref:`enabled {+sync+} <enable-pbs-sync>` or you enabled {+sync-short+} with
 :term:`Development Mode` in the {+ui+}, you can define your :ref:`object model
 <ios-realm-objects>` directly in code.
 
@@ -75,7 +75,7 @@ information:
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.authenticate-user.swift
    :language: swift
 
-{+service-short+} provides many additional ways to authenticate, register, and link users.
+The Realm Swift SDK provides many additional ways to authenticate, register, and link users.
 
 .. seealso::
 
@@ -84,7 +84,7 @@ information:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, 
+Once you have :ref:`enabled {+sync+} <enable-pbs-sync>` and authenticated a user, 
 you can open a :ref:`{+realm+} <ios-realms>` asynchronously by calling 
 :swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
 passing in the user's  
