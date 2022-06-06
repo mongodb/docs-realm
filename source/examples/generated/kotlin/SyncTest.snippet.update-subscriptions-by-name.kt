@@ -16,6 +16,7 @@ val realm = Realm.open(config)
 realm.subscriptions.update {
     this.add(
         realm.query<Toad>("name == $0", "another name value"),
-        "subscription name"
+        "subscription name",
+        updateExisting = true
     )
 }
