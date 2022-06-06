@@ -40,10 +40,10 @@ You can only use one Sync Mode for your application.
 Partition-Based Sync
 --------------------
 
-When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend {+app+} configuration, your client implementation must include a 
-partition value. This is the value of the :ref:`partition key 
-<partition-key>` field you select when you configure Partition-Based Sync. 
+When you select :ref:`Partition-Based Sync <partition-based-sync>` for your
+backend {+app+} configuration, your client implementation must include a
+partition value. This is the value of the :ref:`partition key
+<partition-key>` field you select when you configure Partition-Based Sync.
 
 The partition value determines which data the client application can access.
 
@@ -54,17 +54,17 @@ You must provide a partition value when you open a synced realm.
 Flexible Sync
 -------------
 
-When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+} 
-configuration, your client implementation must include subscriptions to 
-queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
-by synchronizing data that matches query subscriptions you maintain in the 
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+}
+configuration, your client implementation must include subscriptions to
+queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works
+by synchronizing data that matches query subscriptions you maintain in the
 client application. 
 
-A subscription set contains a set of queries. Realm Flexible Sync returns 
-documents matching those queries, where the user has the appropriate 
-:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or 
-read and write the documents. If documents match the query, but the client 
-does not have the permission to read or write them, they do not sync to 
+A subscription set contains a set of queries. Realm Flexible Sync returns
+documents matching those queries, where the user has the appropriate
+:ref:`permissions <flexible-sync-rules-and-permissions>` to read and/or
+read and write the documents. If documents match the query, but the client
+does not have the permission to read or write them, they do not sync to
 the client application.
 
 You can form queries using :ref:`Realm Query Language <realm-query-language>`.
@@ -72,7 +72,7 @@ You can form queries using :ref:`Realm Query Language <realm-query-language>`.
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 Subscription sets are based on object type.
-You might have multiple subscriptions if you 
+You might have multiple subscriptions if you
 have many types of realm objects.
 
 To use Flexible Sync in your client application, open a synced realm 
