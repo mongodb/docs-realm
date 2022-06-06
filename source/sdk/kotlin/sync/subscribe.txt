@@ -142,7 +142,9 @@ You can update subscriptions using
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/-update.html>`.
 In this example, we use :kotlin-sdk:`MutableSubscriptionSet.add()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/-add.html>`.
-to update the query for the subscription named "my frog subscription":
+to update the query for the subscription named "my frog subscription".
+You must set the ``updateExisting`` parameter to ``true`` to update
+a subscription with ``add()``:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.update-subscriptions-by-name.kt
    :language: kotlin

@@ -326,7 +326,9 @@ class CRUDTest: RealmTest() {
 
             // ... some time later, cancel the flow so you can safely close the realm
             frogsObserver.cancel()
-            realm.close()
+            // :uncomment-start:
+            // realm.close()
+            // :uncomment-end:
             // :snippet-end:
         }
     }
