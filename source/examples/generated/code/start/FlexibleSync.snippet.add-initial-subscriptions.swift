@@ -1,6 +1,6 @@
-var flexSyncConfig = user?.flexibleSyncConfiguration(initialSubscriptions: { subs in
+var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
     subs.append(
-       QuerySubscription<Team> {
-          $0.teamName == "Developer Education"
-       })
+        QuerySubscription<Team> {
+               $0.teamName == "Developer Education"
+            })
 })

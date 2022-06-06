@@ -154,18 +154,10 @@ you want to use to bootstrap the realm:
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions.swift
    :language: swift
 
-If there is a possibility the ``initialSubscriptions`` block may run more 
-than once, add a check for an existing subscription before appending the 
-same subscription again. Appending the same subscription more than once
-throws an error.
-
-.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-after-check.swift
-   :language: swift
-
-If your app needs to rerun this initial subscription every time it opens,
+If your app needs to rerun this initial subscription every time the app starts,
 you can pass an additional parameter - ``rerunOnOpen``. This is a bool that 
 denotes whether the initial subscription should re-run every time the 
-app opens. You might need to do this to re-run dynamic time ranges 
+app starts. You might need to do this to re-run dynamic time ranges 
 or other queries that require a re-computation of static variables for the 
 subscription.
 
@@ -177,7 +169,7 @@ Subscribe to All Objects of a Specific Type
 
 In addition to syncing all objects that match a given query, you can subscribe 
 to all objects of a specific type. You do this by appending a subscription
-query name and object type, but don't actually provide a query.
+without providing a query.
 
 For example, if you don't want to see a specific team, but instead want to 
 subscribe to all the ``Team`` objects, you could do this:
@@ -188,10 +180,9 @@ subscribe to all the ``Team`` objects, you could do this:
 Check for Existing Subscriptions Before Adding a Subscription
 `````````````````````````````````````````````````````````````
 
-If your application flow appends the same subscription to the subscription 
-set every time you run the application, this throws an error on subsequent 
-application runs. In this case, add a check for an existing subscription 
-before appending it:
+If your application flow appends the same named subscription to the subscription 
+set every time you run the application, this is disallowed. In this case, 
+add a check for an existing subscription before appending it:
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.check-before-adding-subscription.swift
    :language: swift
