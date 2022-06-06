@@ -74,20 +74,42 @@ Define Models
 
 A common {+service-short+} data modeling use case is to have "things" and
 "containers of things". This app defines two related Realm object models: item
-and group.
+and itemGroup.
 
 An item has two user-facing properties:
 
 - A randomly generated-name, which the user can edit.
 - An ``isFavorite`` boolean property, which shows whether the user "favorited" the item.
 
-A group contains items. You can extend the group to have a name and an
+An itemGroup contains items. You can extend the itemGroup to have a name and an
 association with a specific user, but that's out of scope of this guide.
 
 Paste the following code into your main Swift file to define the models:
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.models.swift
-   :language: swift
+.. tabs::
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      This model differs from Partition-Based Sync because it includes 
+      an ``ownerId`` field on the ``Item`` and ``ItemGroup`` objects. This is 
+      the :ref:`queryable field <ios-sync-subscribe-to-queryable-fields>` 
+      for Flexible Sync.
+
+      Because Flexible Sync does not automatically include linked objects,
+      we must add ``ownerId`` to both objects.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flexible-sync-models.swift
+         :language: swift
+
+   .. tab:: Partition-Based Sync or Local-Only
+      :tabid: pbs
+
+      This model differs from Flexible Sync because it does not have or need
+      the ``ownerId`` field in either the ``Item`` or ``ItemGroup`` objects.
+
+      .. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.models.swift
+         :language: swift
 
 Views and Observed Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,17 +133,17 @@ when {+sync+} is enabled.
         .environment(\.realmConfiguration, Realm.Configuration( /* ... */ ))
 
 The LocalOnlyContentView has an :swift-sdk:`@ObservedResults
-<Structs/ObservedResults.html>` groups. This implicitly uses the default
-{+realm+} to load all groups when the view appears.
+<Structs/ObservedResults.html>` itemGroups. This implicitly uses the default
+{+realm+} to load all itemGroups when the view appears.
 
-This app only expects there to ever be one group. If there is a group in
-the {+realm+}, the LocalOnlyContentView renders an **ItemsView** for
-that group.
+This app only expects there to ever be one itemGroup. If there is an itemGroup 
+in the {+realm+}, the LocalOnlyContentView renders an **ItemsView** for
+that itemGroup.
 
-If there is no group already in the {+realm+}, then the
+If there is no itemGroup already in the {+realm+}, then the
 LocalOnlyContentView displays a ProgressView while it adds one. Because
-the view observes the groups thanks to the ``@ObservedResults`` property
-wrapper, the view immediately refreshes upon adding that first group and
+the view observes the itemGroups thanks to the ``@ObservedResults`` property
+wrapper, the view immediately refreshes upon adding that first itemGroup and
 displays the ItemsView.
 
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
@@ -137,12 +159,12 @@ displays the ItemsView.
    
       @ObservedResults(MyObject.self, keyPaths: ["myList.property"])
 
-The ItemsView receives the group from the parent view and stores it in
+The ItemsView receives the itemGroup from the parent view and stores it in
 an :swift-sdk:`@ObservedRealmObject <Structs/ObservedRealmObject.html>`
 property. This allows the ItemsView to "know" when the object has
 changed regardless of where that change happened.
 
-The ItemsView iterates over the group's items and passes each item to an
+The ItemsView iterates over the itemGroup's items and passes each item to an
 **ItemRow** for rendering as a list. 
 
 To define what happens when a user deletes or moves a row, we pass the
@@ -188,12 +210,33 @@ across devices. Before you can add sync to this app, make sure to:
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
 - :ref:`Enable {+sync+} <enable-sync>`.
 
-  1. Use :ref:`Partition-Based Sync <partition-based-sync>`
+  1. Choose :ref:`Partition-Based Sync <partition-based-sync>` or :ref:`Flexible Sync <flexible-sync>`
   #. Specify a cluster and database.
   #. Turn on Development Mode.
-  #. Use ``_partition`` as a partition key.
-  #. For Permissions, select the template: 
-     :guilabel:`User can only read and write their own data.`
+  #. For Partition-Based Sync, use ``_partition`` as a partition key. If 
+     you're using Flexible Sync, use ``ownerId`` as the queryable field.
+  #. For Partition-Based Sync Permissions, select the template: 
+     :guilabel:`User can only read and write their own data.` For Flexible
+     Sync, use these permissions:
+
+     .. code-block:: json
+
+        {
+          "rules": {},
+          "defaultRoles": [
+            {
+              "name": "owner-read-write",
+              "applyWhen": {},
+              "read": {
+                "ownerId": "%%user.id"
+              },
+              "write": {
+                "ownerId": "%%user.id"
+              }
+            }
+          ]
+        }
+
   #. Enable Sync, and deploy your application updates.
 
 .. tip::
@@ -201,7 +244,7 @@ across devices. Before you can add sync to this app, make sure to:
    The Sync version of this app changes the app flow a bit. The first
    screen becomes the **LoginView**. When you press the :guilabel:`Log
    in` button, the app navigates to the ItemsView, where you see the
-   synced list of items in a single group.
+   synced list of items in a single itemGroup.
 
 At the top of the source file, initialize an optional :swift-sdk:`Realm
 app <Extensions/App.html>` with :ref:`your {+app+} ID
@@ -235,31 +278,100 @@ This view has two possible states:
 
 Here's the code for the SyncContentView:
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.sync-content-view.swift
-   :language: swift
+.. tabs::
 
-From here, we pass the logged in user's ID to the OpenSyncedRealmView as a 
-``partitionValue`` using an environment object. This is the view responsible 
-for opening a {+realm+} and working with the data. With Sync, we can only
-open the {+realm+} once a user is logged in.
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
-   :language: swift
+      .. versionadded:: 10.28.0 
+         Adds ``initialSubscriptions`` parameter.
+
+      In this view, after confirming we have a user, we create a 
+      :swift-sdk:`flexibleSyncConfiguration() 
+      <https://www.mongodb.com/docs/realm-sdks/swift/latest/Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>` 
+      that includes the ``initialSubscriptions`` parameter. We can use this
+      parameter to :ref:`subscribe to queryable fields 
+      <ios-sync-subscribe-to-queryable-fields>`. These initial subscriptions
+      search for data that matches the queries, and syncs that data to the
+      realm. If no data matches the queries, the realm opens with an initial
+      empty state. 
+      
+      Your client application can only write objects that match the 
+      subscription query to a realm opened with a ``flexibleSyncConfiguration``. 
+      Trying to write objects that don't match the query causes the app to 
+      throw an exception.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-content-view.swift
+         :language: swift
+      
+      In our subscriptions, we're querying for ``ItemGroup`` and ``Item`` objects 
+      where the ``ownerId`` matches the logged-in user's ``user.id``. 
+      Together with the permissions we used when we created the Flexible Sync
+      app above, this means that the user can only read and write their own
+      data. 
+
+      Flexible Sync does not automatically provide access to linked objects.
+      Because of this, we must add subscriptions for both the ``ItemGroup`` and
+      ``Item`` objects - we can't just query for one or the other and get
+      the related objects.
+
+      From here, we pass the flexibleSyncConfiguration to the 
+      OpenSyncedRealmView as a ``realmConfiguration`` using an environment
+      object. This is the view responsible for opening a {+realm+} and working
+      with the data. Sync uses this configuration to search for data
+      that should sync to the {+realm+}.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.realm-config-environment-object.swift
+         :language: swift
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.sync-content-view.swift
+         :language: swift
+
+      From here, we pass the logged in user's ID to the OpenSyncedRealmView as a 
+      ``partitionValue`` using an environment object. This is the view responsible 
+      for opening a {+realm+} and working with the data. With Sync, we can only
+      open the {+realm+} once a user is logged in.
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
+         :language: swift
 
 Once logged in, we open the realm asynchronously with the :swift-sdk:`AsyncOpen
-<Structs/AsyncOpen.html>` property wrapper. In this example, we leave the
-``partitionValue`` an empty string since we are getting that value from 
-the environment object passed in from above.
+<Structs/AsyncOpen.html>` property wrapper. 
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
-   :language: swift
+.. tabs::
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      Because we've injected a ``flexibleSyncConfiguration()`` into the 
+      view as an environment value, the property wrapper uses this 
+      configuration to initiate Sync and download any matching data before 
+      opening the realm. If we had not provided a configuration, the property
+      wrapper would create a default ``flexibleSyncConfiguration()`` for us,
+      and we could :ref:`subscribe to queries <ios-sync-add-subscription>` 
+      in ``.onAppear``.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-property-wrapper.swift
+         :language: swift
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      In this example, we leave the ``partitionValue`` an empty string since 
+      we are getting that value from the environment object passed in from above.
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
+         :language: swift
 
 The OpenSyncedRealmView switches on the :swift-sdk:`AsyncOpenState 
 enum<Enums/AsyncOpenState.html>`, which lets us show different views 
 based on the state. In our example, we show a ``ProgressView`` while we're 
 connecting to the {+app+} and the {+realm+} is syncing. We then open the 
-{+realm+}, passing the ``group`` to the ``ItemsView``, or show an ``ErrorView`` 
-if we can't open the {+realm+}.
+{+realm+}, passing the ``itemGroup`` to the ``ItemsView``, or show an 
+``ErrorView`` if we can't open the {+realm+}.
 
 .. tip::
 
@@ -275,73 +387,108 @@ This view has a few different states:
 - While connecting or waiting for login, show a ``ProgressView``.
 - While downloading changes to the {+realm+}, show a ``ProgressView`` with a 
   progress indicator.
-- When the {+realm+} opens, check for a group object. If one does not exist 
-  yet, create one. Then, show the ItemsView for the group in the {+realm+}. 
+- When the {+realm+} opens, check for an itemGroup object. If one does not exist 
+  yet, create one. Then, show the ItemsView for the itemGroup in the {+realm+}. 
   Provide a **LogoutButton** that the ItemsView can display on the top left 
   of the navigation bar.
 - If there is an error loading the {+realm+}, show an error view containing
   the error.
 
-Here's the code for the OpenSyncedRealmView:
-
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
-   :language: swift
-
 When you run the app and see the main UI, there are no items in the view. 
 That's because we're using anonymous login, so this is the first time this 
-specific user logs in. There aren't any objects matching this user's 
-``partitionValue`` - in our case, the user ID. When you start creating 
-objects, those objects write to Realm - both on the device, and in the 
-linked database you specified in the Sync configuration. 
+specific user logs in.
 
-We never updated the client object model to have a ``_partition`` field. 
-How does Realm know which objects the user has permission to read and write?
+.. tabs::
 
-The realm file itself has the ``partitionValue``. You passed the ``user.id`` 
-as an environment object to the OpenSyncedRealmView, which uses it in the 
-configuration to open the realm. The objects that the user writes to the 
-realm file have that ``partitionValue`` appended as the value for the 
-partition field you specified in the Sync configuration. If you look in 
-the linked database, you see both the ``Group`` objects and the ``Item`` 
-objects contain a field ``_partition``. The value of this field is the 
-user ID of the logged-in user who created the objects:
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
 
-.. figure:: /images/swiftui-quickstart-group.png
-   :alt: screencapture of Group objects in Atlas showing _partition field and user ID value
-   :figwidth: 400px
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.open-realm-view-flex-sync.swift
+         :language: swift
+      
+      In our subscriptions, we're querying for ``ItemGroup`` and ``Item`` objects 
+      where the ``ownerId`` matches the logged-in user's ``user.id``. 
+      Together with the permissions we used when we created the Flexible Sync
+      app above, this means that the user can only read and write their own
+      data. 
 
-.. figure:: /images/swiftui-quickstart-item.png
-   :alt: screencapture of Item objects in Atlas showing _partition field and user ID value
-   :figwidth: 400px
+      Flexible Sync does not automatically provide access to linked objects.
+      Because of this, we must add subscriptions for both the ``ItemGroup`` and
+      ``Item`` objects - we can't just query for one or the other and get
+      the related objects.
 
-And you can see in the :guilabel:`Schema` that Development Mode has 
-inferred, you now have a ``_partition`` in the schema, even though you 
-haven't defined it explicitly in the client object model:
+      With this in mind, we must also update the view here where we are 
+      creating a ``ItemGroup`` object. We must set the ``ownerId`` as the ``user.id``
+      of the logged-in user.
 
-.. code-block:: json
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.add-ownerid-to-group.swift
+         :language: swift
 
-   {
-     "title": "Group",
-     "bsonType": "object",
-     "required": [
-       "_id",
-       "_partition"
-     ],
-     "properties": {
-       "_id": {
-         "bsonType": "objectId"
-       },
-       "_partition": {
-         "bsonType": "string"
-       },
-       "items": {
-         "bsonType": "array",
-         "items": {
-           "bsonType": "objectId"
+      And we must also update the ``ItemsView`` to add ``ownerId`` when we 
+      create ``Item`` objects:
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.add-ownerid-to-create-button-code.swift
+         :language: swift
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
+         :language: swift
+
+      Because this is a new user, there aren't yet any objects matching this user's 
+      ``partitionValue`` - in our case, the user ID. When you start creating 
+      objects, those objects write to Realm - both on the device, and in the 
+      linked database you specified in the Sync configuration. 
+
+      We never updated the client object model to have a ``_partition`` field. 
+      How does Realm know which objects the user has permission to read and write?
+
+      The realm file itself has the ``partitionValue``. You passed the ``user.id`` 
+      as an environment object to the OpenSyncedRealmView, which uses it in the 
+      configuration to open the realm. The objects that the user writes to the 
+      realm file have that ``partitionValue`` appended as the value for the 
+      partition field you specified in the Sync configuration. If you look in 
+      the linked database, you see both the ``ItemGroup`` objects and the ``Item`` 
+      objects contain a field ``_partition``. The value of this field is the 
+      user ID of the logged-in user who created the objects:
+
+      .. figure:: /images/swiftui-quickstart-group.png
+         :alt: screencapture of ItemGroup objects in Atlas showing _partition field and user ID value
+         :figwidth: 400px
+
+      .. figure:: /images/swiftui-quickstart-item.png
+         :alt: screencapture of Item objects in Atlas showing _partition field and user ID value
+         :figwidth: 400px
+
+      And you can see in the :guilabel:`Schema` that Development Mode has 
+      inferred, you now have a ``_partition`` in the schema, even though you 
+      haven't defined it explicitly in the client object model:
+
+      .. code-block:: json
+
+         {
+           "title": "ItemGroup",
+           "bsonType": "object",
+           "required": [
+             "_id",
+             "_partition"
+           ],
+           "properties": {
+             "_id": {
+               "bsonType": "objectId"
+             },
+             "_partition": {
+               "bsonType": "string"
+             },
+             "items": {
+               "bsonType": "array",
+                 "items": {
+                   "bsonType": "objectId"
+                 }
+               }
+             }
          }
-       }
-     }
-   }
 
 Authenticate Users with Atlas App Services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -391,15 +538,22 @@ Complete Code
 In case you would like to copy and paste or examine the complete code
 with or without {+sync+}, see below.
 
-Without Sync
-~~~~~~~~~~~~
+.. tabs::
 
-.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.complete-swiftui-quick-start.swift
-   :language: swift
+   .. tab:: Without Sync
+      :tabid: local
 
-With Sync
-~~~~~~~~~
+      .. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.complete-swiftui-quick-start.swift
+         :language: swift
 
-.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.complete-swiftui-quick-start.swift
-   :language: swift
+   .. tab:: With Flexible Sync
+      :tabid: flex-sync
 
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.complete-swiftui-flex-sync-quickstart.swift
+         :language: swift
+
+   .. tab:: With Partition-Based Sync
+      :tabid: pbs
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.complete-swiftui-quick-start.swift
+         :language: swift

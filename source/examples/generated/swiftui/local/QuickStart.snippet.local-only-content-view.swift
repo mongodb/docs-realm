@@ -1,19 +1,19 @@
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
-    // Implicitly use the default realm's objects(Group.self)
-    @ObservedResults(Group.self) var groups
+    // Implicitly use the default realm's objects(ItemGroup.self)
+    @ObservedResults(ItemGroup.self) var itemGroups
     
     var body: some View {
-        if let group = groups.first {
-            // Pass the Group objects to a view further
+        if let itemGroup = itemGroups.first {
+            // Pass the ItemGroup objects to a view further
             // down the hierarchy
-            ItemsView(group: group)
+            ItemsView(itemGroup: itemGroup)
         } else {
-            // For this small app, we only want one group in the realm.
-            // You can expand this app to support multiple groups.
-            // For now, if there is no group, add one here.
+            // For this small app, we only want one itemGroup in the realm.
+            // You can expand this app to support multiple itemGroups.
+            // For now, if there is no itemGroup, add one here.
             ProgressView().onAppear {
-                $groups.append(Group())
+                $itemGroups.append(ItemGroup())
             }
         }
     }

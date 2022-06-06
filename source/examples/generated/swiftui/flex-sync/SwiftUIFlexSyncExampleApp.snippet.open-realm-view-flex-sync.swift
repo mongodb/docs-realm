@@ -1,13 +1,13 @@
 /// This view opens a synced realm.
 struct OpenSyncedRealmView: View {
-    // Use AsyncOpen to download the latest changes from
-    // your Realm app before opening the realm.
-    // Leave the `partitionValue` an empty string to get this
-    // value from the environment object passed in above.
-    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, partitionValue: "", timeout: 4000) var asyncOpen
+    // We've injected a `flexibleSyncConfiguration` as an environment value,
+    // so `@AsyncOpen` here opens a realm using that configuration.
+    @AsyncOpen(appId: YOUR_REALM_APP_ID_HERE, timeout: 4000) var asyncOpen
     
     var body: some View {
-        
+        // Because we are setting the `ownerId` to the `user.id`, we need
+        // access to the app's current user in this view.
+        let user = app?.currentUser
         switch asyncOpen {
         // Starting the Realm.asyncOpen process.
         // Show a progress view.
@@ -23,19 +23,21 @@ struct OpenSyncedRealmView: View {
             ItemsView(itemGroup: {
                 if realm.objects(ItemGroup.self).count == 0 {
                     try! realm.write {
-                        realm.add(ItemGroup())
+                        // Because we're using `ownerId` as the queryable field, we must
+                        // set the `ownerId` to equal the `user.id` when creating the object
+                        realm.add(ItemGroup(value: ["ownerId":user!.id]))
                     }
                 }
                 return realm.objects(ItemGroup.self).first!
             }(), leadingBarButton: AnyView(LogoutButton())).environment(\.realm, realm)
             // The realm is currently being downloaded from the server.
             // Show a progress view.
-            case .progress(let progress):
-                ProgressView(progress)
-            // Opening the Realm failed.
-            // Show an error view.
-            case .error(let error):
-                ErrorView(error: error)
+        case .progress(let progress):
+            ProgressView(progress)
+        // Opening the Realm failed.
+        // Show an error view.
+        case .error(let error):
+            ErrorView(error: error)
         }
     }
 }
