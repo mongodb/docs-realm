@@ -6,13 +6,22 @@ import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.subscriptions
-import io.realm.kotlin.mongodb.sync.MutableSubscriptionSet
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.types.ObjectId
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration
 
 class SyncTest: RealmTest() {
+
+    class Toad: RealmObject {
+        @PrimaryKey
+        val _id: ObjectId = ObjectId.create()
+        var name: String = ""
+    }
+
     @Test
     fun openASyncedRealmTest() {
         val PARTITION = getRandom()
