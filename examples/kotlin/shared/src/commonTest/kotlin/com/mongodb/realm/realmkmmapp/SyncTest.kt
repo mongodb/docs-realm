@@ -88,9 +88,6 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             realm.close()
-            // :remove-start:
-            assertEquals(PARTITION, realm.configuration.name)
-            // :remove-end:
         }
         // :snippet-end:
     }
