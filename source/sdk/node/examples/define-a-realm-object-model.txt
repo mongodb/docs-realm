@@ -82,27 +82,10 @@ value or a list of values.
 To specify that a field contains a list of a primitive value type, append ``[]``
 to the type name.
 
-.. _node-define-a-property:
-
-Define Object Properties
-------------------------
-
-To define a property for an object type, create a key-value pair representing
-the name and data type of the property under the ``properties`` field.
-
-.. example::
-   
-   The following schema defines a ``Dog`` type that has two properties: a string
-   ``name`` and an integer ``age``.
-   
-   .. literalinclude:: /examples/Schemas/DefineAProperty.js
-      :language: javascript
-      :emphasize-lines: 4, 5
-
 .. _node-define-an-asymmetric-object:
 
 Define an Asymmetric Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 If you are using Flexible Sync and need to sync a collection unidirectionally
 from your device to your Atlas database, you can set the ``asymmetric`` property
@@ -126,6 +109,23 @@ on your object schema.
    will get the following error: "Error: You cannot query an asymmetric class.".
 
 To learn more about Asymmetric Sync, read <ADD LINK LATER>.
+
+.. _node-define-a-property:
+
+Define Object Properties
+------------------------
+
+To define a property for an object type, create a key-value pair representing
+the name and data type of the property under the ``properties`` field.
+
+.. example::
+   
+   The following schema defines a ``Dog`` type that has two properties: a string
+   ``name`` and an integer ``age``.
+   
+   .. literalinclude:: /examples/Schemas/DefineAProperty.js
+      :language: javascript
+      :emphasize-lines: 4, 5
 
 .. _node-specify-an-optional-property:
 .. _node-optional-properties:
