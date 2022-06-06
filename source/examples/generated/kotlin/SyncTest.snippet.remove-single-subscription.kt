@@ -1,8 +1,8 @@
 // create an initial subscription named "subscription name"
-val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+val config = SyncConfiguration.Builder(user, setOf(Toad::class))
     .initialSubscriptions { realm ->
         add(
-            realm.query<Movie>(
+            realm.query<Toad>(
                 "name == $0",
                 "name value"
             ),

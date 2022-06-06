@@ -64,6 +64,12 @@ class Knight: RealmObject {
 }
 // :snippet-end:
 
+class Toad: RealmObject {
+    @PrimaryKey
+    val _id: ObjectId = ObjectId.create()
+    var name: String = ""
+}
+
 
 // :snippet-start: timestamp-workaround
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion

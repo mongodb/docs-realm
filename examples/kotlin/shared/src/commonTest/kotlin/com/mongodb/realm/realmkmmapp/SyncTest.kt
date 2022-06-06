@@ -65,10 +65,10 @@ class SyncTest: RealmTest() {
         val NAME_QUERY = "NAME_QUERY"
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -93,13 +93,13 @@ class SyncTest: RealmTest() {
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .maxNumberOfActiveVersions(10)
                 .waitForInitialRemoteData()
                 .name("realm name")
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -121,10 +121,10 @@ class SyncTest: RealmTest() {
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -135,7 +135,7 @@ class SyncTest: RealmTest() {
             val realm = Realm.open(config)
             // :snippet-start: add-a-subscription
             realm.subscriptions.update {
-                this.add(realm.query<Movie>("name == $0", "another name value"), "another subscription name")
+                this.add(realm.query<Toad>("name == $0", "another name value"), "another subscription name")
             }
             // :snippet-end:
             Log.v("Successfully opened realm: ${realm.configuration}")
@@ -150,10 +150,10 @@ class SyncTest: RealmTest() {
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -165,7 +165,7 @@ class SyncTest: RealmTest() {
             // :snippet-start: wait-for-subscription-changes
             // make an update to the list of subscriptions
             realm.subscriptions.update {
-                this.add(realm.query<Movie>("name == $0", "another name value"), "another subscription name")
+                this.add(realm.query<Toad>("name == $0", "another name value"), "another subscription name")
             }
             // wait for subscription to fully synchronize changes
             realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
@@ -184,10 +184,10 @@ class SyncTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: update-subscriptions-by-name
             // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -200,7 +200,7 @@ class SyncTest: RealmTest() {
             // it will replace the existing subscription
             realm.subscriptions.update {
                 this.add(
-                    realm.query<Movie>("name == $0", "another name value"),
+                    realm.query<Toad>("name == $0", "another name value"),
                     "subscription name"
                 )
             }
@@ -217,10 +217,10 @@ class SyncTest: RealmTest() {
         val app = App.create(YOUR_APP_ID)
         runBlocking {
             val user = app.login(Credentials.anonymous())
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         )
@@ -231,12 +231,12 @@ class SyncTest: RealmTest() {
             // :snippet-start: update-subscriptions-by-query
             val subscription =
                 realm.subscriptions.findByQuery(
-                    realm.query<Movie>("name == $0", "name value"))
+                    realm.query<Toad>("name == $0", "name value"))
             if (subscription != null) {
                 realm.subscriptions.update {
                     this.remove(subscription)
                     this.add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "another name value"
                         ),
@@ -259,10 +259,10 @@ class SyncTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-single-subscription
             // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -290,10 +290,10 @@ class SyncTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-all-subscriptions-to-an-object-type
             // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),
@@ -302,9 +302,9 @@ class SyncTest: RealmTest() {
                 }
                 .build()
             val realm = Realm.open(config)
-            // remove all subscriptions to type Movie
+            // remove all subscriptions to type Toad
             realm.subscriptions.update {
-                this.removeAll(Movie::class)
+                this.removeAll(Toad::class)
             }
             // :snippet-end:
             Log.v("Successfully opened realm: ${realm.configuration}")
@@ -321,10 +321,10 @@ class SyncTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             // :snippet-start: remove-all-subscriptions
             // create an initial subscription named "subscription name"
-            val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+            val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .initialSubscriptions { realm ->
                     add(
-                        realm.query<Movie>(
+                        realm.query<Toad>(
                             "name == $0",
                             "name value"
                         ),

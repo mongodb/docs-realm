@@ -1,8 +1,8 @@
 // create an initial subscription named "subscription name"
-val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+val config = SyncConfiguration.Builder(user, setOf(Toad::class))
     .initialSubscriptions { realm ->
         add(
-            realm.query<Movie>(
+            realm.query<Toad>(
                 "name == $0",
                 "name value"
             ),
@@ -11,7 +11,7 @@ val config = SyncConfiguration.Builder(user, setOf(Movie::class))
     }
     .build()
 val realm = Realm.open(config)
-// remove all subscriptions to type Movie
+// remove all subscriptions to type Toad
 realm.subscriptions.update {
-    this.removeAll(Movie::class)
+    this.removeAll(Toad::class)
 }

@@ -3,10 +3,10 @@ val app = App.create(YOUR_APP_ID)
 val NAME_QUERY = "NAME_QUERY"
 runBlocking {
     val user = app.login(Credentials.anonymous())
-    val config = SyncConfiguration.Builder(user, setOf(Movie::class))
+    val config = SyncConfiguration.Builder(user, setOf(Toad::class))
         .initialSubscriptions { realm ->
             add(
-                realm.query<Movie>(
+                realm.query<Toad>(
                     "name == $0",
                     "name value"
                 ),
