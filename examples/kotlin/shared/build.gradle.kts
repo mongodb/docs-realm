@@ -20,7 +20,7 @@ kotlin {
                 implementation("io.realm.kotlin:library-sync:${realmVersion}")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("io.github.aakira:napier:2.4.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
             }
         }
         val commonTest by getting {
