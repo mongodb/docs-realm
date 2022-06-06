@@ -27,100 +27,119 @@ class FlexibleSync_Team: Object {
 // :snippet-end:
 
 class FlexibleSync: XCTestCase {
-    func testAddSingleSubscription() {
-        let expectation = XCTestExpectation(description: "it completes")
+
+    override func tearDown() async throws {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: add-single-subscription
-                        let subscriptions = realm.subscriptions
-                        subscriptions.write({
-                           subscriptions.append(
-                              QuerySubscription<FlexibleSync_Team> {
-                                 $0.teamName == "Developer Education"
-                              })
-                        }, onComplete: { error in // error is optional
-                           if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                           } else {
-                              // Handle the error
-                           }
-                        })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
-                        expectation.fulfill()
-                    }
-                }
-            }
+
+        let user = try await app.login(credentials: Credentials.anonymous)
+        var flexSyncConfig = user.flexibleSyncConfiguration()
+        flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+
+        let realm = try await Realm(configuration: flexSyncConfig)
+        let subscriptions = realm.subscriptions
+        try await subscriptions.update {
+            subscriptions.removeAll()
         }
-        wait(for: [expectation], timeout: 10)
+        XCTAssertEqual(subscriptions.count, 0)
     }
 
-    func testAddMultipleSubscriptions() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testAddSingleSubscription() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: add-multiple-subscriptions
-                        let subscriptions = realm.subscriptions
-                        subscriptions.write({
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Task>(name: "completed-tasks") {
-                                     $0.completed == true
-                            })
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Team> {
-                                  $0.teamName == "Developer Education"
-                            })
-                        }, onComplete: { error in // error is optional
-                           if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                           } else {
-                              // Handle the error
-                           }
-                        })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
-                        expectation.fulfill()
-                    }
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: add-single-subscription
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                   subscriptions.append(
+                      QuerySubscription<FlexibleSync_Team> {
+                         $0.teamName == "Developer Education"
+                      })
                 }
+                // :snippet-end:
+                XCTAssertEqual(subscriptions.count, 1)
+                print("Successfully opened realm: \(realm)")
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 20)
+    }
+
+    func testAddMultipleSubscriptions() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: add-multiple-subscriptions
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Task>(name: "completed-tasks") {
+                             $0.completed == true
+                    })
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Team> {
+                          $0.teamName == "Developer Education"
+                    })
+                }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 2)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+
+    func testAddQuerySubscriptionsWithAndWithoutName() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.append(
+                        // :snippet-start: query-subscription-by-name
+                        QuerySubscription<FlexibleSync_Task>(name: "long-running-completed") {
+                            $0.completed == true && $0.progressMinutes > 120
+                        }
+                        // :snippet-end:
+                    )
+                    subscriptions.append(
+                        // :snippet-start: query-subscription-without-name
+                        QuerySubscription<FlexibleSync_Team> {
+                           $0.teamName == "Developer Education"
+                        }
+                        // :snippet-end:
+                    )
+                }
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 2)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
     }
 
     func testAddSubscriptionWithOnComplete() {
@@ -145,7 +164,7 @@ class FlexibleSync: XCTestCase {
                         print("Successfully opened realm: \(realm)")
                         // :snippet-start: add-subscription-with-oncomplete
                         let subscriptions = realm.subscriptions
-                        subscriptions.write({
+                        subscriptions.update({
                            subscriptions.append(
                               QuerySubscription<FlexibleSync_Task> {
                                  $0.assignee == "John Doe"
@@ -158,31 +177,6 @@ class FlexibleSync: XCTestCase {
                             }
                          })
                          // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.append(
-                                // :snippet-start: query-subscription-by-name
-                                QuerySubscription<FlexibleSync_Task>(name: "long-running-completed") {
-                                    $0.completed == true && $0.progressMinutes > 120
-                                }
-                                // :snippet-end:
-                            )
-                            subscriptions.append(
-                                // :snippet-start: query-subscription-without-name
-                                QuerySubscription<FlexibleSync_Team> {
-                                   $0.teamName == "Developer Education"
-                                }
-                                // :snippet-end:
-                            )
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                               // Flexible Sync has updated data to match the subscription
-                            } else {
-                               // Handle the error
-                            }
-                         })
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
                         expectation.fulfill()
                     }
                 }
@@ -191,288 +185,314 @@ class FlexibleSync: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    func testUpdateSubscription() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testAddInitialSubscriptions() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: update-subscription
-                        let subscriptions = realm.subscriptions
-                        // :remove-start:
-                        // Add subscription to update
-                        subscriptions.write({
-                            subscriptions.append(QuerySubscription<FlexibleSync_Team> {
-                                $0.teamName == "Developer Education"
-                             })
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            // :snippet-start: add-initial-subscriptions
+            var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                subs.append(
+                    QuerySubscription<FlexibleSync_Team> {
+                           $0.teamName == "Developer Education"
                         })
-                        // :remove-end:
-                        let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
+            })
+            // :snippet-end:
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                print("Successfully opened realm: \(realm)")
+                let subscriptions = realm.subscriptions
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+
+    func testAddInitialSubscriptionsWithRerunOnOpen() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            // :snippet-start: add-initial-subscriptions-rerun-on-open
+            var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                subs.append(
+                   QuerySubscription<FlexibleSync_Team> {
+                      $0.teamName == "Developer Education"
+                   })
+            }, rerunOnOpen: true)
+            // :snippet-end:
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                print("Successfully opened realm: \(realm)")
+                let subscriptions = realm.subscriptions
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+
+    func testCheckForSubscriptionBeforeAddingOne() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: check-before-adding-subscription
+                let subscriptions = realm.subscriptions
+                let foundSubscription = subscriptions.first(named: "user_team")
+                try await subscriptions.update {
+                    if foundSubscription != nil {
+                        foundSubscription!.updateQuery(toType: FlexibleSync_Team.self, where: {
+                             $0.teamName == "Developer Education"
+                        })
+                    } else {
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "user_team") {
                               $0.teamName == "Developer Education"
-                        })
-                        subscriptions.write({
-                            foundSubscription?.update(toType: FlexibleSync_Team.self, where: {
-                                 $0.teamName == "Documentation"
-                            })
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
-                        })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
-                        expectation.fulfill()
+                           })
                     }
                 }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 20)
     }
 
-    func testUpdateSubscriptionByName() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testSubscribeToAllObjectsOfAType() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: update-subscription-by-name
-                        let subscriptions = realm.subscriptions
-                        // :remove-start:
-                        // Add subscription to update
-                        subscriptions.write({
-                            subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
-                                $0.teamName == "Docs"
-                             })
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
-                        })
-                        // :remove-end:
-                        let foundSubscription = subscriptions.first(named: "user-team")
-                        subscriptions.write({
-                            foundSubscription?.update(toType: FlexibleSync_Team.self, where: {
-                                 $0.teamName == "Documentation"
-                            })
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
-                        })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
-                        expectation.fulfill()
-                    }
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: subscribe-to-all-objects-of-a-type
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "all_teams"))
                 }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 30)
     }
 
-    func testRemoveSingleSubscription() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testUpdateSubscription() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: remove-single-subscription
-                        let subscriptions = realm.subscriptions
-                        // :remove-start:
-                        // Add subscriptions to remove
-                        subscriptions.write {
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Team>(name: "docs-team") {
-                                    $0.teamName == "Documentation"
-                                })
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Team>(name: "existing-subscription") {
-                                    $0.teamName == "Engineering"
-                                })
-                        }
-                        // :remove-end:
-                        // Look for a specific subscription, and then remove it
-                        let foundSubscription = subscriptions.first(named: "docs-team")
-                        subscriptions.write({
-                            subscriptions.remove(foundSubscription!)
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
-                        })
 
-                        // Or remove a subscription that you know exists without querying for it
-                        subscriptions.write {
-                            subscriptions.remove(named: "existing-subscription")
-                        }
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: update-subscription
+                let subscriptions = realm.subscriptions
+                // :remove-start:
+                // Add subscription to update
+                try await subscriptions.update {
+                    subscriptions.append(QuerySubscription<FlexibleSync_Team> {
+                        $0.teamName == "Developer Education"
+                     })
+                }
+                XCTAssertEqual(subscriptions.count, 1)
+                // :remove-end:
+                try await subscriptions.update {
+                    if let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
+                           $0.teamName == "Developer Education"
+                    }) {
+                        foundSubscription.updateQuery(toType: FlexibleSync_Team.self, where: {
+                             $0.teamName == "Documentation"
                         })
-                        expectation.fulfill()
                     }
                 }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 30)
     }
 
-    func testRemoveAllSubscriptionsObjectType() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testUpdateSubscriptionByName() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: remove-subscriptions-to-object-type
-                        let subscriptions = realm.subscriptions
-                        // :remove-start:
-                        // Add subscriptions to remove
-                        subscriptions.write {
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Team>(name: "documentation-team") {
-                                    $0.teamName == "Documentation"
-                                })
-                            subscriptions.append(
-                                QuerySubscription<FlexibleSync_Team>(name: "another-subscription") {
-                                    $0.teamName == "Engineering"
-                                })
-                        }
-                        // :remove-end:
-                        subscriptions.write({
-                            subscriptions.removeAll(ofType: FlexibleSync_Team.self)
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
-                        })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        })
-                        expectation.fulfill()
-                    }
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: update-subscription-by-name
+                let subscriptions = realm.subscriptions
+                // :remove-start:
+                // Add subscription to update
+                try await subscriptions.update {
+                    subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
+                        $0.teamName == "Docs"
+                     })
                 }
+                XCTAssertEqual(subscriptions.count, 1)
+                // :remove-end:
+                let foundSubscription = subscriptions.first(named: "user-team")
+                try await subscriptions.update {
+                    foundSubscription?.updateQuery(toType: FlexibleSync_Team.self, where: {
+                         $0.teamName == "Documentation"
+                    })
+                }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 1)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 20)
     }
 
-    func testRemoveAllSubscriptions() {
-        let expectation = XCTestExpectation(description: "it completes")
+    func testRemoveSingleSubscription() async {
         let app = App(id: APPID)
-        app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success:
-                // Continue
-                print("Successfully logged in to app")
-                let user = app.currentUser
-                var flexSyncConfig = user?.flexibleSyncConfiguration()
-                flexSyncConfig?.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-                Realm.asyncOpen(configuration: flexSyncConfig!) { result in
-                    switch result {
-                    case .failure(let error):
-                        print("Failed to open realm: \(error.localizedDescription)")
-                        // handle error
-                    case .success(let realm):
-                        print("Successfully opened realm: \(realm)")
-                        // :snippet-start: remove-all-subscriptions
-                        let subscriptions = realm.subscriptions
-                        subscriptions.write({
-                            subscriptions.removeAll()
-                        }, onComplete: { error in // error is optional
-                            if error == nil {
-                              // Flexible Sync has updated data to match the subscription
-                            } else {
-                              // Handle the error
-                            }
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: remove-single-subscription
+                let subscriptions = realm.subscriptions
+                // :remove-start:
+                // Add subscriptions to remove
+                try await subscriptions.update {
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Team>(name: "docs-team") {
+                            $0.teamName == "Documentation"
                         })
-                        // :snippet-end:
-                        subscriptions.write({
-                            subscriptions.removeAll()
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Team>(name: "existing-subscription") {
+                            $0.teamName == "Engineering"
                         })
-                        expectation.fulfill()
-                    }
                 }
+                XCTAssertEqual(subscriptions.count, 2)
+                // :remove-end:
+                // Look for a specific subscription, and then remove it
+                let foundSubscription = subscriptions.first(named: "docs-team")
+                try await subscriptions.update {
+                    subscriptions.remove(foundSubscription!)
+                }
+                // :remove-start:
+                XCTAssertEqual(subscriptions.count, 1)
+                // :remove-end:
+                // Or remove a subscription that you know exists without querying for it
+                try await subscriptions.update {
+                    subscriptions.remove(named: "existing-subscription")
+                }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 0)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
             }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
         }
-        wait(for: [expectation], timeout: 10)
+    }
+
+    func testRemoveAllSubscriptionsObjectType() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: remove-subscriptions-to-object-type
+                let subscriptions = realm.subscriptions
+                // :remove-start:
+                // Add subscriptions to remove
+                try await subscriptions.update {
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Team>(name: "documentation-team") {
+                            $0.teamName == "Documentation"
+                        })
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Team>(name: "another-subscription") {
+                            $0.teamName == "Engineering"
+                        })
+                }
+                XCTAssertEqual(subscriptions.count, 2)
+                // :remove-end:
+                try await subscriptions.update {
+                    subscriptions.removeAll(ofType: FlexibleSync_Team.self)
+                }
+                // :snippet-end:
+                print("Successfully opened realm: \(realm)")
+                XCTAssertEqual(subscriptions.count, 0)
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+    }
+
+    func testRemoveAllSubscriptions() async {
+        let app = App(id: APPID)
+
+        do {
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var flexSyncConfig = user.flexibleSyncConfiguration()
+            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let realm = try await Realm(configuration: flexSyncConfig)
+                // :snippet-start: remove-all-subscriptions
+                let subscriptions = realm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.removeAll()
+                }
+                // :snippet-end:
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
     }
 
     func testOpenFlexSyncRealm() async throws {
@@ -491,5 +511,4 @@ class FlexibleSync: XCTestCase {
         try await app.currentUser?.logOut()
     }
 }
-
 // :replace-end:

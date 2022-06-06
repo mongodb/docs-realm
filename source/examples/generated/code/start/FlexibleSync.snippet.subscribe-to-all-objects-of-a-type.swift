@@ -1,4 +1,4 @@
 let subscriptions = realm.subscriptions
 try await subscriptions.update {
-    subscriptions.removeAll()
+    subscriptions.append(QuerySubscription<Team>(name: "all_teams"))
 }
