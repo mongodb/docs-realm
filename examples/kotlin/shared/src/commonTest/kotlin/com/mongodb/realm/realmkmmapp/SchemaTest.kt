@@ -64,7 +64,7 @@ class Knight: RealmObject {
 }
 // :snippet-end:
 
-class Toad: RealmObject {
+class Toad(): RealmObject {
     @PrimaryKey
     val _id: ObjectId = ObjectId.create()
     var name: String = ""
