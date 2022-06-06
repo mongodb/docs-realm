@@ -69,7 +69,7 @@ with the same name as an existing subscription throws an error.
 Add a Subscription
 ------------------
 
-Add a subscription in a subscriptions write block. You append each
+Add a subscription in a subscriptions update block. You append each
 new subscription to the client's Realm subscriptions.
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.add-a-subscription.kt
@@ -124,12 +124,12 @@ enum. You can use subscription state to:
 You can access the state of your application's subscription set using
 ``SubscriptionSet.state``.
 
-Superseded
+Superceded
 ~~~~~~~~~~
 
-``SUPERSEDED`` is a ``SubscriptionSetState`` that can occur when another
+``SUPERCEDED`` is a ``SubscriptionSetState`` that can occur when another
 thread writes a subscription on a different instance of the 
-subscription set. If the state becomes ``SUPERSEDED``, you must obtain 
+subscription set. If the state becomes ``SUPERCEDED``, you must obtain 
 a new instance of the subscription set before you can write to it.
 
 .. _kotlin-update-subscriptions-with-new-query:
