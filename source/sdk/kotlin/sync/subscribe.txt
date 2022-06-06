@@ -23,7 +23,7 @@ To use Flexible Sync in the SDK:
 - :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`
 - :ref:`Authenticate a user <kotlin-authenticate>` in
   your client app.
-- :ref:`Open the synced Realm with a Flexible Sync configuration <kotlin-flexible-sync-open-realm>`
+- :ref:`Open the synced Realm with a Flexible Sync configuration <kotlin-open-a-synced-realm>`
 
 You can add, update, and remove query subscriptions to determine which data 
 syncs to the client device.
@@ -101,7 +101,7 @@ synced {+realm+}. Use the :kotlin-sdk:`SynConfiguration.waitForInitialRemoteData
 builder method to force your application to block until client subscription
 data synchronizes to the backend before opening the {+realm+}:
 
-.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.wait-for-subscription-sync.kt
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.wait-for-subscription-changes.kt
    :language: kotlin
    :emphasize-lines: 11-14
    :copyable: false
