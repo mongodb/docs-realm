@@ -18,7 +18,7 @@ class SyncTest: RealmTest() {
 
     class Toad: RealmObject {
         @PrimaryKey
-        val _id: ObjectId = ObjectId.create()
+        var _id: ObjectId = ObjectId.create()
         var name: String = ""
     }
 
