@@ -1,6 +1,6 @@
 const InvoiceSchema = {
   name: "Invoice",
-  // sync Person objects unidirectionally from your device directly to your Atlas database.
+  // sync Person objects one way from your device to your Atlas database.
   asymmetric: true,
   primaryKey: "_id",
   properties: {
