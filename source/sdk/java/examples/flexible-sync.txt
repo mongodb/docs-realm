@@ -145,15 +145,15 @@ new subscription to the client's Realm subscriptions.
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.add-a-subscription.kt
-         :language: kotlin
-         :copyable: false
+          :language: kotlin
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.add-a-subscription.java
-         :language: java
-         :copyable: false
+          :language: java
+          :copyable: false
 
 .. important:: Object Links
 
@@ -187,17 +187,17 @@ data synchronizes to the backend before opening the {+realm+}:
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.wait-for-subscription-sync.kt
-         :language: kotlin
-         :emphasize-lines: 11-14
-         :copyable: false
+          :language: kotlin
+          :emphasize-lines: 11-14
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.wait-for-subscription-sync.java
-         :language: java
-         :emphasize-lines: 10
-         :copyable: false
+          :language: java
+          :emphasize-lines: 10
+          :copyable: false
 
 You can also use :java-sdk:`SubscriptionSet.waitForSynchronization()
 <io/realm/mongodb/sync/SubscriptionSet.html#waitForSynchronization(java.lang.Long,java.util.concurrent.TimeUnit)>`
@@ -244,15 +244,15 @@ to update the query for the subscription named "my frog subscription":
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.update-subscriptions-by-name.kt
-         :language: kotlin
-         :copyable: false
+          :language: kotlin
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.update-subscriptions-by-name.java
-         :language: java
-         :copyable: false
+          :language: java
+          :copyable: false
 
 You cannot update subscriptions created without a name. However, you can
 look up unnamed subscriptions by their query, remove them from the
@@ -264,17 +264,17 @@ subscription set, then add a new subscription with an updated query:
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.update-subscriptions-by-query.kt
-         :language: kotlin
-         :copyable: false
+          :language: kotlin
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.update-subscriptions-by-query.java
-         :language: java
-         :copyable: false
+          :language: java
+          :copyable: false
 
-.. _ios-remove-subscriptions:
+.. _java-remove-subscriptions:
 
 Remove Subscriptions
 ~~~~~~~~~~~~~~~~~~~~
@@ -304,15 +304,15 @@ subscription to ``remove()``, or pass the subscription name directly to
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.remove-single-subscription.kt
-         :language: kotlin
-         :copyable: false
+          :language: kotlin
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.remove-single-subscription.java
-         :language: java
-         :copyable: false
+          :language: java
+          :copyable: false
 
 Remove All Subscriptions to an Object Type
 ``````````````````````````````````````````
@@ -328,15 +328,15 @@ method:
        :tabid: kotlin
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.remove-all-subscriptions-to-an-object-type.kt
-         :language: kotlin
-         :copyable: false
+          :language: kotlin
+          :copyable: false
 
    .. tab::
        :tabid: java
 
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.remove-all-subscriptions-to-an-object-type.java
-         :language: java
-         :copyable: false
+          :language: java
+          :copyable: false
 
 Remove All Subscriptions
 ````````````````````````

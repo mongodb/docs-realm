@@ -3,14 +3,14 @@ val app = App.create(YOUR_APP_ID)
 val NAME_QUERY = "NAME_QUERY"
 runBlocking {
     val user = app.login(Credentials.anonymous())
-    val config = SyncConfiguration.Builder(user, setOf(Frog::class))
+    val config = SyncConfiguration.Builder(user, setOf(Movie::class))
         .initialSubscriptions { realm ->
             add(
-                realm.query<Frog>(
+                realm.query<Movie>(
                     "name == $0",
                     "name value"
                 ),
-                "query name"
+                "subscription name"
             )
         }
         .build()
