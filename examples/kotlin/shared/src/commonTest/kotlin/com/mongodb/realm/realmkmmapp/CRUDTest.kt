@@ -9,6 +9,7 @@ import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.query.RealmQuery
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.ObjectId
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.random.Random
@@ -22,7 +23,7 @@ class CRUDTest: RealmTest() {
 
     class Frog : RealmObject {
         @PrimaryKey
-        var _id: Long = Random.nextLong(1000000)
+        var _id: ObjectId = ObjectId.create()
         var name: String = ""
         var age: Int = 0
         var species: String? = null
@@ -103,7 +104,7 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun findObjectByPrimaryKeyTest() {
-        val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val PRIMARY_KEY_VALUE = ObjectId.create()
         val REALM_NAME = getRandom()
 
         runBlocking {
@@ -144,7 +145,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -195,7 +196,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -205,7 +206,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt2"
                     age = 45
                     species = "Green"
@@ -215,7 +216,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt3"
                     age = 45
                     species = "Green"
@@ -282,7 +283,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -293,7 +294,7 @@ class CRUDTest: RealmTest() {
             // insert another object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt2"
                     age = 44
                     species = "Green"
@@ -344,7 +345,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -384,7 +385,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "bullfrog"
@@ -411,7 +412,7 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun deleteAnObjectTest() {
-        val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val PRIMARY_KEY_VALUE = ObjectId.create()
         val REALM_NAME = getRandom()
 
         runBlocking {
@@ -451,7 +452,7 @@ class CRUDTest: RealmTest() {
 
     @Test
     fun modifyAnObjectTest() {
-        val PRIMARY_KEY_VALUE = Random.nextLong(1000000)
+        val PRIMARY_KEY_VALUE = ObjectId.create()
         val REALM_NAME = getRandom()
 
         runBlocking {
@@ -503,7 +504,7 @@ class CRUDTest: RealmTest() {
             // insert an object that meets our example query
             realm.writeBlocking {
                 this.copyToRealm(Frog().apply {
-                    _id = Random.nextLong(1000000)
+                    _id = ObjectId.create()
                     name = "Wirt"
                     age = 45
                     species = "Green"
@@ -524,7 +525,7 @@ class CRUDTest: RealmTest() {
                     } else {
                         // if the query returned no object, insert a new object with a new primary key.
                         this.copyToRealm(Frog().apply {
-                            _id = Random.nextLong(1000000)
+                            _id = ObjectId.create()
                             name = "Wirt"
                             age = 4
                             species = "Greyfrog"
