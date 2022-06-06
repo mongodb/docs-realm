@@ -34,8 +34,8 @@ Open a Synced Realm
    .. tab:: Partition-Based Sync
       :tabid: pbs
 
-      To open a synced {+realm+}, pass a user, a partition, and a set of
-      Realm object schemas to
+      To open a :ref:`synced {+realm+} <sync-modes-partition-based-sync>`,
+      pass a user, a partition, and a set of Realm object schemas to
       :kotlin-sdk:`SyncConfiguration.Builder()
       <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/-builder.html>`.
       Then, pass the configuration to :kotlin-sdk:`Realm.open()
@@ -49,11 +49,11 @@ Open a Synced Realm
    .. tab:: Flexible Sync
       :tabid: flex
 
-      To open a synced {+realm+}, pass a user, a set of
-      Realm object schemas, and a set of initial subscriptions to
+      To open a :ref:`flexible sync {+realm+} <sync-modes-flexible-sync>`,
+      pass a user and a set of Realm object schemas to
       :kotlin-sdk:`SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/-builder.html>`.
-      Then, pass the configuration to :kotlin-sdk:`Realm.open()
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/-builder.html>`. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
+      builder method. Finally, pass the configuration to :kotlin-sdk:`Realm.open()
       <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>` to open
       an instance of the realm:
 
