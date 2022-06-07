@@ -16,13 +16,13 @@ Authenticate Users - Kotlin SDK
 {+service+} provides an API for authenticating users using any enabled
 authentication provider. Instantiate a :file:`Credentials` object and pass
 it to `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`____
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__
 method to authenticate a user and create a `User
-<{+kotlin-sync-prefix+}io.realm.mongodb/-user/index.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/index.html>`__
 object for that user.
 Each authentication provider corresponds to a
 `static helper method
-<{+kotlin-sync-prefix+}io.realm.mongodb/-authentication-provider/index.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-authentication-provider/index.html>`__
 used to instantiate :file:`Credentials` objects for that
 authentication provider.
 
@@ -32,7 +32,7 @@ Log In
 ------
 
 You can authenticate users with `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 If successful, :file:`app.login()` returns a :file:`User` object.
 In the event of a failure, :file:`app.login()` throws an
@@ -48,10 +48,10 @@ enables users to log in to your application with short-term accounts
 that store no persistent personal information. To log in with anonymous
 authentication, create an anonymous credential by calling
 `Credentials.anonymous()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/anonymous.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-credentials/-companion/anonymous.html>`__
 and then pass the generated credential to
 `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication.kt
    :language: kotlin
@@ -66,10 +66,10 @@ The :ref:`Email/Password authentication provider <email-password-authentication>
 enables users to log in to your application with an email username and
 a password. To log in with email/password authentication, create an
 email/password credential by calling `Credentials.emailPassword()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/email-password.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-credentials/-companion/email-password.html>`__
 with the user's email and password. Then pass the generated credential
 to `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.email-password-authentication.kt
    :language: kotlin
@@ -84,10 +84,10 @@ The :ref:`Custom JWT authentication provider <custom-jwt-authentication>`
 enables users to log in to your application with a custom JSON Web Token.
 To log in with JWT authentication, create a
 JWT credential by calling `Credentials.jwt()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/facebook.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-credentials/-companion/facebook.html>`__
 with the user's JWT. Then pass the generated credential
 to `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.jwt-authentication.kt
    :language: kotlin
@@ -102,10 +102,10 @@ The :ref:`API Key authentication provider <api-key-authentication>`
 enables users to log in to your application with an API key generated
 automatically in the client SDK. To log in with API key authentication, create an
 email/password credential by calling `Credentials.apiKey()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/api-key.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-credentials/-companion/api-key.html>`__
 with the user's email and password. Then pass the generated credential
 to `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.api-key-authentication.kt
    :language: kotlin
@@ -177,10 +177,10 @@ The :ref:`Sign-in with Apple authentication provider <apple-id-authentication>`
 enables users to log in to your application with a custom token provided
 by Apple. To log in with Apple authentication, create an
 Apple credential by calling `Credentials.apple()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-credentials/-companion/apple.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-credentials/-companion/apple.html>`__
 with the user's token. Then pass the generated credential
 to `app.login()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-app/login.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.apple-authentication.kt
    :language: kotlin
@@ -193,7 +193,7 @@ Log a User Out
 
 You can log out any user, regardless of the authentication provider used
 to log in, using `user.logOut()
-<{+kotlin-sync-prefix+}io.realm.mongodb/-user/log-out.html>`__. This method:
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-user/log-out.html>`__. This method:
 
 - deletes locally stored user credentials from the device
 
