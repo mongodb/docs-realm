@@ -13,8 +13,8 @@ Find Objects of a Type - Kotlin SDK
    :class: singlecol
 
 To find all objects of a type, open a realm
-and pass the type as a type parameter to :kotlin-sdk:`realm.query()
-<{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`:
+and pass the type as a type parameter to `realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__:
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.find-all-objects-of-a-type.kt
    :language: kotlin
@@ -22,9 +22,9 @@ and pass the type as a type parameter to :kotlin-sdk:`realm.query()
 
 .. note:: :file:`find()` is Synchronous
 
-   :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/find.html>`
+   `find() <{+kotlin-local-prefix+}io.realm.query/find.html>`__
    runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
-   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
-   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>` in
+   logic that could delay the UI thread. Prefer `asFlow()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time sensitive environments.

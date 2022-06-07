@@ -1,8 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.internal.platform.runBlocking
-import io.realm.mongodb.App
-import io.realm.mongodb.Credentials
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
 import kotlin.test.Test
 
 class AuthenticationTest: RealmTest() {
@@ -11,7 +11,7 @@ class AuthenticationTest: RealmTest() {
     fun anonymousAuthTest() {
         // :snippet-start: anonymous-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             val user = app.login(Credentials.anonymous())
         }
         // :snippet-end:
@@ -23,7 +23,7 @@ class AuthenticationTest: RealmTest() {
         val password = getRandom()
         // :snippet-start: email-password-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             // :remove-start:
             app.emailPasswordAuth.registerUser(email, password)
             // :remove-end:
@@ -38,7 +38,7 @@ class AuthenticationTest: RealmTest() {
         val tokenId = getRandom()
         // :snippet-start: confirm-email-password-user
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             // :uncomment-start:
             // app.emailPasswordAuth.confirmUser(token, tokenId)
             // :uncomment-end:
@@ -53,7 +53,7 @@ class AuthenticationTest: RealmTest() {
         val newPassword = getRandom()
         // :snippet-start: reset-password
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             // :uncomment-start:
             // app.emailPasswordAuth.resetPassword(token, tokenId, newPassword)
             // :uncomment-end:
@@ -66,7 +66,7 @@ class AuthenticationTest: RealmTest() {
         val key = "ZL0XzEnp44eKi2BZMDqfPoYW3YUajm7RRUVWalDQRYwc07a4JDUeEG4kHG1Y71ak"
         // :snippet-start: api-key-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             val user = app.login(Credentials.apiKey(key))
         }
         // :snippet-end:
@@ -77,7 +77,7 @@ class AuthenticationTest: RealmTest() {
         val idToken = getRandom()
         // :snippet-start: apple-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             // :uncomment-start:
             // val user = app.login(Credentials.apple(idToken))
             // :uncomment-end:
@@ -100,7 +100,7 @@ class AuthenticationTest: RealmTest() {
         val jwtToken = getRandom()
         // :snippet-start: jwt-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             // :uncomment-start:
             // val user = app.login(Credentials.jwt(jwtToken))
             // :uncomment-end:
@@ -111,7 +111,7 @@ class AuthenticationTest: RealmTest() {
     @Test
     fun logoutTest() {
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
-        runBlocking {
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
             val user = app.login(Credentials.anonymous())
             // :snippet-start: log-out
             user.logOut()

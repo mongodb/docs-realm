@@ -39,12 +39,12 @@ definition to your application code:
 Open a Realm
 ------------
 
-Use :kotlin-sdk:`RealmConfiguration
-<{+kotlin-local-prefix+}io.realm/-realm-configuration/index.html>`
+Use `RealmConfiguration
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
 to control the specifics of the {+realm+} you
 would like to open, including the name, location, and schema.
-Pass your configuration to the :kotlin-sdk:`Realm factory constructor
-<{+kotlin-local-prefix+}io.realm/-realm/-companion/index.html>`
+Pass your configuration to the `Realm factory constructor
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
 to generate an instance of that {+realm+}:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-realm.kt
@@ -55,8 +55,8 @@ Create, Read, Update, and Delete Objects
 ----------------------------------------
 
 Once opened, you can create objects within a {+realm+} in a
-:kotlin-sdk:`write transaction block
-<{+kotlin-local-prefix+}io.realm/-realm/index.html#1141849336%2FFunctions%2F1327329691>`.
+`write transaction block
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
 
 To create a new :file:`Task`, instantiate an instance of the
 :file:`Task` class and add it to the {+realm+} in a write transaction block:
@@ -66,7 +66,7 @@ To create a new :file:`Task`, instantiate an instance of the
    :copyable: false
 
 You can retrieve a collection of all tasks in the {+realm+} with
-:kotlin-sdk:`query.find() <{+kotlin-local-prefix+}io.realm.query/find.html>`:
+`query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-read.kt
    :language: kotlin
@@ -90,8 +90,8 @@ To modify a task, update its properties in a write transaction block:
    :language: kotlin
    :copyable: false
 
-Finally, you can delete a task by calling :kotlin-sdk:`mutableRealm.delete()
-<{+kotlin-local-prefix+}io.realm/-mutable-realm/delete.html>`
+Finally, you can delete a task by calling `mutableRealm.delete()
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
 in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-delete.kt

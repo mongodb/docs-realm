@@ -2,9 +2,9 @@ package com.mongodb.realm.realmkmmapp
 
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.query
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.query
 
 class Greeting {
 
@@ -16,7 +16,7 @@ class Greeting {
 
     // example from realm-kotlin repo -- sanity check
     fun getDogsTest(): String {
-        val configuration = RealmConfiguration.with(schema = setOf(Person::class, Dog::class))
+        val configuration = RealmConfiguration.create(schema = setOf(Person::class, Dog::class))
         val realm = Realm.open(configuration)
 
         // plain old kotlin object

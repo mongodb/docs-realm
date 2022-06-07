@@ -2,7 +2,7 @@ package com.mongodb.realm.realmkmmapp
 
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import io.realm.RealmConfiguration
+import io.realm.kotlin.RealmConfiguration
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +19,7 @@ open class RealmTest {
 
     val SYNCED_REALM_SCHEMA = setOf(Frog::class, Sample::class)
     val YOUR_APP_ID: String = "kmm-example-testers-viybt"
+    val FLEXIBLE_APP_ID = "kotlin-flexible-tijhx"
     val TMP_PATH = "/tmp"
     val mainThreadSurrogate = newSingleThreadContext("UI thread")
     val defaultRealmConfiguration = RealmConfiguration.Builder(setOf())
@@ -32,7 +33,7 @@ open class RealmTest {
     @BeforeTest
     internal fun setUp() {
         Dispatchers.setMain(mainThreadSurrogate) // set a fake "ui thread" for the jvm
-        Napier.base(DebugAntilog()) // initialize napier
-
+        //Napier.base(DebugAntilog()) // initialize napier
+        // log is getting really spammy -- probably because napier is initialized multiple times. Testing commenting this out.
     }
 }

@@ -1,0 +1,217 @@
+.. _kotlin-subscriptions:
+
+==========================================
+Subscribe to Queryable Fields - Kotlin SDK
+==========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Flexible Sync uses subscriptions and permissions to determine which
+data to sync with your {+app+}.
+
+Prerequisites
+-------------
+
+To use Flexible Sync in the SDK:
+
+- :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`
+- :ref:`Authenticate a user <kotlin-authenticate>` in
+  your client app.
+- :ref:`Open the synced Realm with a Flexible Sync configuration <kotlin-open-a-synced-realm>`
+
+You can add, update, and remove query subscriptions to determine which data 
+syncs to the client device.
+
+Subscriptions
+-------------
+
+When you configure Flexible Sync on the backend, you specify which fields
+your client application can query. In the client application, use the 
+``subscriptions`` API to manage a set of subscriptions to specific queries on 
+queryable fields. You can construct queries with
+:ref:`Realm Query Language <realm-query-language>`.
+
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+
+You can:
+
+- Add subscriptions
+- React to subscription state
+- Update subscriptions with new queries
+- Remove individual subscriptions or all subscriptions for an object type
+
+Data matching the subscription, where the user has the appropriate 
+permissions, syncs between clients and the backend application.
+
+You can specify an optional string name for your subscription.
+
+.. note:: Always Specify a Subscription Name
+
+   Always specify a subscription name if your application uses multiple
+   subscriptions. This makes your subscriptions easier to look up,
+   update, and delete elsewhere in your app.
+
+When you create a subscription, Realm looks for data matching a query on a
+specific object type. You can create multiple subscription sets on different 
+object types, and even query multiple times on the same object type.
+
+Subscription names must be unique. Adding a subscription 
+with the same name as an existing subscription throws an error.
+
+.. _kotlin-add-subscription:
+
+Add a Subscription
+------------------
+
+Add a subscription in a subscriptions update block. You append each
+new subscription to the client's Realm subscriptions.
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.add-a-subscription.kt
+   :language: kotlin
+   :copyable: false
+
+.. important:: Object Links
+
+   You must add both an object and its linked object to the subscription 
+   set to see a linked object.
+   
+   If your subscription results contain an object with a property that links 
+   to an object not contained in the results, the link appears to be nil.
+   There is no way to distinguish whether that property's value is 
+   legitimately nil, or whether the object it links to exists but is out of
+   view of the query subscription.
+
+.. _kotlin-sync-check-subscription-state:
+
+Wait for Subscription Changes to Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Writing an update to the subscription set locally is only one component 
+of changing a subscription. After the local subscription change, the client
+synchronizes with the server to resolve any updates to the data due to 
+the subscription change. This could mean adding or removing data from the 
+synced {+realm+}. Use the `SynConfiguration.waitForInitialRemoteData()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/wait-for-initial-remote-data.html>`__
+builder method to force your application to block until client subscription
+data synchronizes to the backend before opening the {+realm+}:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.wait-for-subscription-changes.kt
+   :language: kotlin
+   :copyable: false
+
+You can also use `SubscriptionSet.waitForSynchronization()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/wait-for-synchronization.html>`__
+to delay execution until subscription sync completes after instantiating
+a sync connection.
+
+``SubscriptionSet.State`` Enum
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Additionally, you can watch the state of the subscription set with the 
+`SubscriptionSetState
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set-state/index.html>`__
+enum. You can use subscription state to:
+
+- Show a progress indicator while data is downloading
+- Find out when a subscription set becomes superseded
+
+You can access the state of your application's subscription set using
+``SubscriptionSet.state``.
+
+Superceded
+~~~~~~~~~~
+
+``SUPERCEDED`` is a ``SubscriptionSetState`` that can occur when another
+thread writes a subscription on a different instance of the 
+subscription set. If the state becomes ``SUPERCEDED``, you must obtain 
+a new instance of the subscription set before you can write to it.
+
+.. _kotlin-update-subscriptions-with-new-query:
+
+Update Subscriptions with a New Query
+-------------------------------------
+
+You can update subscriptions using
+`SubscriptionSet.update()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/update.html>`__.
+In this example, we use `MutableSubscriptionSet.add()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__.
+to update the query for the subscription named "my frog subscription".
+You must set the ``updateExisting`` parameter to ``true`` to update
+a subscription with ``add()``:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.update-subscriptions-by-name.kt
+   :language: kotlin
+   :copyable: false
+
+You cannot update subscriptions created without a name. However, you can
+look up unnamed subscriptions by their query, remove them from the
+subscription set, then add a new subscription with an updated query:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.update-subscriptions-by-query.kt
+   :language: kotlin
+   :copyable: false
+
+.. _kotlin-remove-subscriptions:
+
+Remove Subscriptions
+--------------------
+
+To remove subscriptions, you can:
+
+- Remove a single subscription query
+- Remove all subscriptions to a specific object type
+- Remove all subscriptions
+
+When you remove a subscription query, Realm asynchronously removes the
+synced data that matched the query from the client device.
+
+Remove a Single Subscription
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can remove a specific subscription query
+using `MutableSubscriptionSet.remove()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove.html>`__.
+You can either look up the subscription by name, then pass the returned
+subscription to ``remove()``, or pass the subscription name directly to
+``remove()``:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.remove-single-subscription.kt
+   :language: kotlin
+   :copyable: false
+
+Remove All Subscriptions to an Object Type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to remove all subscriptions to a specific object type, pass
+a class to the `MutableSubscriptionSet.removeAll()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove.html>`__.
+method:
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.remove-all-subscriptions-to-an-object-type.kt
+   :language: kotlin
+   :copyable: false
+
+Remove All Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To remove all subscriptions from the subscription set, use
+`MutableSubscriptionSet.removeAll()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove-all.html>`__.
+with no arguments:
+
+.. important::
+
+   If you remove all subscriptions and do not add a new one, you'll 
+   get an error. A realm opened with a flexible sync configuration needs
+   at least one subscription to sync with the server.
+
+.. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.remove-all-subscriptions.kt
+   :language: kotlin
+   :copyable: false

@@ -13,17 +13,17 @@ Sort Queries - Kotlin SDK
    :class: singlecol
 
 To sort results, specify a sort in the query passed to
-:kotlin-sdk:`realm.query()
-<{+kotlin-local-prefix+}io.realm.query/-realm-query/query.html>`
+`realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__
 with the :file:`SORT` keyword. Similarly, use :file:`DISTINCT`
 to constrain results to unique values of a field, and
 :file:`LIMIT` to cap the number of results. The SDK
 provides convenience methods on :file:`RealmQuery` so you don't have
 to manually write the keywords:
 
-- :kotlin-sdk:`realmQuery.sort() <{+kotlin-local-prefix+}io.realm.query/-realm-query/sort.html>`
-- :kotlin-sdk:`realmQuery.distinct() <{+kotlin-local-prefix+}io.realm.query/-realm-query/distinct.html>`
-- :kotlin-sdk:`realmQuery.limit() <{+kotlin-local-prefix+}io.realm.query/-realm-query/limit.html>`
+- `realmQuery.sort() <{+kotlin-local-prefix+}io.realm.query/-realm-query/sort.html>`__
+- `realmQuery.distinct() <{+kotlin-local-prefix+}io.realm.query/-realm-query/distinct.html>`__
+- `realmQuery.limit() <{+kotlin-local-prefix+}io.realm.query/-realm-query/limit.html>`__
 
 When used on the same query in both RQL and method form, :file:`SORT`,
 :file:`DISTINCT`, and :file:`LIMIT` execute in the order they're added
@@ -35,9 +35,9 @@ to the query. This can impact the results returned from your query.
 
 .. note:: :file:`find()` is Synchronous
 
-   :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/find.html>`
+   `find() <{+kotlin-local-prefix+}io.realm.query/find.html>`__
    runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
-   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
-   <{+kotlin-local-prefix+}io.realm.query/-realm-element-query/as-flow.html>` in
+   logic that could delay the UI thread. Prefer `asFlow()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time sensitive environments.

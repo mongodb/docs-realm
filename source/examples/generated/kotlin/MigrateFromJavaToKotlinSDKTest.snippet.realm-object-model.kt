@@ -11,7 +11,8 @@ class Sample : RealmObject {
     var floatField: Float = 3.14f
     var doubleField: Double = 1.19840122
     var timestampField: RealmInstant =
-        RealmInstant.fromEpochSeconds(
+        RealmInstant.from(
             100,
             1000)
+    var objectIdField: ObjectId = ObjectId.create()
 }

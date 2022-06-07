@@ -1,8 +1,8 @@
 .. _kotlin-intro:
 
-===============================
-Realm Kotlin SDK (Beta)
-===============================
+================
+Realm Kotlin SDK
+================
 
 .. toctree::
    :titlesonly:
@@ -21,11 +21,9 @@ Realm Kotlin SDK (Beta)
    :backlinks: none
    :depth: 2
    :class: singlecol
-   
-.. include:: /includes/note-beta-sdk.rst
 
-The {+service+} :github:`Kotlin SDK <realm/realm-kotlin>`
-allows you to use {+client-database+} from:
+The Realm :github:`Kotlin SDK <realm/realm-kotlin>`
+allows you to use {+client-database+} and Device Sync from:
 
 - Android and iOS applications written with
   `Kotlin Multiplatform Mobile (KMM)
@@ -33,16 +31,10 @@ allows you to use {+client-database+} from:
 
 - standalone Android applications
 
-.. note:: Sync Support In Development
-
-   The SDK currently supports some, but not all, {+sync+} functionality. For
-   more information about supported behavior, see
-   :kotlin-sdk:`the API reference <library-sync/io.realm.mongodb/index.html>`.
-
 Local Realm Database
 --------------------
 
-With the {+service+} Kotlin SDK, you can access objects
+With the Realm Kotlin SDK, you can access objects
 stored in a local instance of {+client-database+}. With
 {+client-database+}, you can:
 
@@ -75,10 +67,21 @@ instance of the object within a transaction:
    :language: kotlin
    :copyable: false
 
+Atlas App Services
+------------------
+
+Atlas App Services is a backend for client applications hosted by
+MongoDB in the cloud. Individual backends, known as **Apps**, provide
+the ability to synchronize data stored in
+{+client-database+} as well as a layer of backend functionality
+including user accounts and backend logic.
+The SDK optionally contains the ability to access
+these {+app+}s running in the cloud.
+
 Get Started
 -----------
 
-To start using the {+service+} Kotlin SDK
+To start using the Realm Kotlin SDK
 in your application, see the installation guide for :ref:`Kotlin Multiplatform
 <kotlin-install-kotlin-multiplatform>` or :ref:`Android
 <kotlin-install-kotlin-multiplatform>`. Once you've installed the SDK,

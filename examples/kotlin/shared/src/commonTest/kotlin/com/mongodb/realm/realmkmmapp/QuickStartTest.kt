@@ -1,11 +1,11 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmResults
-import io.realm.notifications.ResultsChange
-import io.realm.query
-import io.realm.query.RealmQuery
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.query.RealmQuery
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.notifications.ResultsChange
+import io.realm.kotlin.query.RealmResults
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

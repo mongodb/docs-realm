@@ -1,26 +1,26 @@
 package com.mongodb.realm.realmkmmapp
 
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmInstant
-import io.realm.RealmList
-import io.realm.RealmObject
-import io.realm.RealmResults
-import io.realm.annotations.Index
-import io.realm.annotations.PrimaryKey
-import io.realm.dynamic.DynamicMutableRealm
-import io.realm.dynamic.DynamicMutableRealmObject
-import io.realm.dynamic.DynamicRealm
-import io.realm.dynamic.DynamicRealmObject
-import io.realm.internal.platform.runBlocking
-import io.realm.migration.AutomaticSchemaMigration
-import io.realm.notifications.InitialResults
-import io.realm.notifications.ResultsChange
-import io.realm.notifications.UpdatedResults
-import io.realm.query
-import io.realm.query.Sort
-import io.realm.realmListOf
-
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.dynamic.DynamicMutableRealm
+import io.realm.kotlin.dynamic.DynamicMutableRealmObject
+import io.realm.kotlin.dynamic.DynamicRealm
+import io.realm.kotlin.dynamic.DynamicRealmObject
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.migration.AutomaticSchemaMigration
+import io.realm.kotlin.notifications.InitialResults
+import io.realm.kotlin.notifications.ResultsChange
+import io.realm.kotlin.notifications.UpdatedResults
+import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.query.Sort
+import io.realm.kotlin.types.ObjectId
+import io.realm.kotlin.types.RealmInstant
+import io.realm.kotlin.types.RealmList
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.Index
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,9 +42,10 @@ class Sample : RealmObject {
     var floatField: Float = 3.14f
     var doubleField: Double = 1.19840122
     var timestampField: RealmInstant =
-        RealmInstant.fromEpochSeconds(
+        RealmInstant.from(
             100,
             1000)
+    var objectIdField: ObjectId = ObjectId.create()
 }
 // :snippet-end:
 
@@ -78,7 +79,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
         runBlocking {
             // :snippet-start: open-a-realm
             val config = RealmConfiguration
-                .with(schema = setOf(Frog::class,
+                .create(schema = setOf(Frog::class,
                     Sample::class))
             val realm = Realm.open(config)
             Log.v("Successfully opened realm:" +
@@ -382,7 +383,7 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                     // based API
                     context.enumerate("Sample") {
                             oldObject:
-                                DynamicRealmObject,
+                            DynamicRealmObject,
                             newObject:
                                 DynamicMutableRealmObject? ->
                         newObject?.set("longField",
