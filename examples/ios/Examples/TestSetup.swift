@@ -38,7 +38,7 @@ class TestSetup: NSObject {
 
         deleteAppData()
 
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         let expectation = XCTestExpectation(description: "Call to delete all users completes")
         app.login(credentials: Credentials.anonymous) { (result) in

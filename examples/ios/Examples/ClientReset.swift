@@ -35,7 +35,7 @@ class ClientReset: XCTestCase {
         }
 
         do {
-            let app = App(id: YOUR_REALM_APP_ID)
+            let app = App(id: YOUR_APP_SERVICES_APP_ID)
             let user = try await app.login(credentials: Credentials.anonymous)
             // :snippet-start: specify-client-reset-mode
             // Specify the clientResetMode when you create the SyncConfiguration.

@@ -1,5 +1,5 @@
 // Access your app
-let app = App(id: YOUR_REALM_APP_ID)
+let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
 // Access the sync manager for the app
 let syncManager = app.syncManager

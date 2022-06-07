@@ -6,4 +6,4 @@ let configuration = AppConfiguration(
    defaultRequestTimeoutMS: 30000
 )
 
-let app = App(id: "my-realm-app-id", configuration: configuration)
+let app = App(id: "my-app-services-app-id", configuration: configuration)

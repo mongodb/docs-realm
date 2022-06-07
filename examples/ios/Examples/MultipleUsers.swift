@@ -18,7 +18,7 @@ class MultipleUsers: XCTestCase {
         let joeExpectation = XCTestExpectation(description: "joe log in completes")
         let emmaExpectation = XCTestExpectation(description: "emma log in completes")
         // :snippet-start: add-user
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         let joeCredentials = Credentials.emailPassword(email: "joe@example.com", password: "passw0rd")
         app.login(credentials: joeCredentials) { (result) in
@@ -53,7 +53,7 @@ class MultipleUsers: XCTestCase {
 
     func testListUsers() {
         // :snippet-start: list-users
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let users = app.allUsers
         users.forEach({ (key, user) in
             print("User: \(key) \(user)")
@@ -63,7 +63,7 @@ class MultipleUsers: XCTestCase {
 
     func testSwitchUsers() {
         // :snippet-start: switch-user
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // :remove-start:
         XCTAssertNil(app.currentUser)
@@ -108,7 +108,7 @@ class MultipleUsers: XCTestCase {
         let expectation = XCTestExpectation(description: "Link user completes")
 
         // :snippet-start: link-identity
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         func logInAnonymously() {
             app.login(credentials: Credentials.anonymous) { (result) in
@@ -167,7 +167,7 @@ class MultipleUsers: XCTestCase {
 
     func testAsyncLinkIdentities() async {
         // :snippet-start: async-link-identity
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         func logInAnonymously() async throws -> User {
             let anonymousUser = try await app.login(credentials: Credentials.anonymous)

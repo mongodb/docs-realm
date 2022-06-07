@@ -6,7 +6,7 @@ class Functions: AnonymouslyLoggedInTestCase {
     func testCallFunction() {
         let expectation = XCTestExpectation(description: "it completes")
         // :snippet-start: call-a-function
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 
@@ -39,7 +39,7 @@ class Functions: AnonymouslyLoggedInTestCase {
     }
     // :snippet-start: async-call-a-function
     func testAsyncCallFunction() async {
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 

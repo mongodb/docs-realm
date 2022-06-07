@@ -175,7 +175,7 @@ File Size
 ---------
 
 Generally, {+client-database+} takes less space on disk than a 
-comparable SQLite database. Unexpected file growth may be related to the 
+comparable SQLite database. Unexpected file growth may be related to 
 {+backend-short+} referring to outdated data.
 
 .. tip:: Implement Compacting in Your Production Application
@@ -188,7 +188,7 @@ comparable SQLite database. Unexpected file growth may be related to the
 Avoid Pinning Transactions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+backend-short+} ties read transaction lifetimes to the memory lifetime 
+Realm ties read transaction lifetimes to the memory lifetime 
 of {+realm+} instances. Avoid "pinning" old Realm transactions. 
 Use auto-refreshing {+realms+}, and wrap the use of Realm APIs 
 from background threads in explicit autorelease pools.
@@ -207,7 +207,7 @@ If you need to store more data, map it over multiple {+realm+} files.
 Threading
 ~~~~~~~~~
 
-{+backend-short+} updates the version of your data that it accesses at 
+Realm updates the version of your data that it accesses at 
 the start of a run loop iteration. While this gives you a consistent 
 view of your data, it has file size implications. 
 

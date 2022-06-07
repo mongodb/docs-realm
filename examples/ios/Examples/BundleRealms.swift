@@ -8,12 +8,11 @@ import XCTest
 import RealmSwift
 import Foundation
 
-class BundleRealms: XCTestCase {
-
-// TODO: These tests are failing in CI and need to be refactored per https://jira.mongodb.org/browse/DOCSP-23001
+// class BundleRealms: XCTestCase {
+//
 //    func testCopyRealm() async throws {
 //        // :snippet-start: copy-synced-realm-for-bundling
-//        let app = App(id: YOUR_REALM_APP_ID)
+//        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 //
 //        // Log in the user whose realm you want to copy for bundling
 //        let seedUser = try await app.login(credentials: Credentials.anonymous)
@@ -75,7 +74,7 @@ class BundleRealms: XCTestCase {
 //
 //    func testOpenCopiedRealm() async throws {
 //        // :snippet-start: open-bundled-synced-realm
-//        let app = App(id: YOUR_REALM_APP_ID)
+//        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 //
 //        // Log in an app user who will use the bundled realm
 //        let user = try await app.login(credentials: Credentials.anonymous)
@@ -123,5 +122,5 @@ class BundleRealms: XCTestCase {
 //            realm.delete(task)
 //        }
 //    }
-}
+// }
 // :replace-end:

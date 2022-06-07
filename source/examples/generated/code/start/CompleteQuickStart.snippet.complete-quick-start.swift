@@ -16,7 +16,7 @@ class QsTask: Object {
 // Entrypoint. Call this to run the example.
 func runExample() {
     // Instantiate the app
-    let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID
+    let app = App(id: YOUR_APP_SERVICES_APP_ID) // Replace YOUR_APP_SERVICES_APP_ID with your Realm app ID
     // Log in anonymously.
     app.login(credentials: Credentials.anonymous) { (result) in
         // Remember to dispatch back to the main thread in completion handlers

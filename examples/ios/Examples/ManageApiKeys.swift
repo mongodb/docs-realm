@@ -40,7 +40,7 @@ class ManageApiKeys: XCTestCase {
     func testCreateApiKey() {
         let expectation = XCTestExpectation(description: "it completes")
         // :snippet-start: create-api-key
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 
@@ -69,7 +69,7 @@ class ManageApiKeys: XCTestCase {
         let singleFetchExpectation = XCTestExpectation(description: "single fetch completes")
         let fetchAllExpectation = XCTestExpectation(description: "fetch all completes")
         // :snippet-start: look-up-api-key
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 
@@ -106,7 +106,7 @@ class ManageApiKeys: XCTestCase {
         let disableExpectation = XCTestExpectation(description: "disable completes")
 
         // :snippet-start: enable-disable-api-key
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 
@@ -144,7 +144,7 @@ class ManageApiKeys: XCTestCase {
     func testDeleteApiKey() {
         let expectation = XCTestExpectation(description: "it completes")
         // :snippet-start: delete-api-key
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
 
         // ... log in ...
 

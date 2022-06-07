@@ -28,7 +28,7 @@ class QsTask: Object {
 func runExample() {
     // Instantiate the app
     // :snippet-start: initialize-app
-    let app = App(id: YOUR_REALM_APP_ID) // Replace YOUR_REALM_APP_ID with your Realm app ID
+    let app = App(id: YOUR_APP_SERVICES_APP_ID) // Replace YOUR_APP_SERVICES_APP_ID with your Realm app ID
     // :snippet-end:
     // :snippet-start: authenticate-user
     // Log in anonymously.

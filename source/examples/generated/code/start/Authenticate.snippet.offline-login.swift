@@ -9,7 +9,7 @@ func getUser() async throws -> User {
     } else {
         // If the device has no cached user
         // credentials, log them in.
-        let app = App(id: YOUR_REALM_APP_ID)
+        let app = App(id: YOUR_APP_SERVICES_APP_ID)
         let loggedInUser = try await app.login(credentials: Credentials.anonymous)
         return loggedInUser
     }

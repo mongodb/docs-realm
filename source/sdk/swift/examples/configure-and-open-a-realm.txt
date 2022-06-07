@@ -29,7 +29,7 @@ Synced Realms vs. Non-Synced Realms
 Synced {+realms+} differ from non-synced local {+client-database+} in a 
 few ways:
 
-- Synced {+realms+} attempt to sync changes with your backend {+app+},
+- Synced {+realms+} attempt to sync changes with your backend Atlas App Services {+app+},
   whereas non-synced {+realms+} do not.
 - Synced {+realms+} can be accessed by authenticated users, while non-synced 
   {+realms+} have no concept of users or authentication.
@@ -213,7 +213,7 @@ With cached credentials, you can:
 
 - Open a synced {+realm+} immediately with the data that is on the device.
   You can use this method offline or online.
-- Open a synced {+realm+} after downloading changes from your {+app+}. 
+- Open a synced {+realm+} after downloading changes from your Atlas App Services {+app+}. 
   This requires the user to have an active internet connection.
 
 .. _ios-partition-based-sync-open-realm:
@@ -339,8 +339,8 @@ Download Changes Before Open
 
 When you open a synced {+realm+} with the Swift SDK, you can pass the 
 ``downloadBeforeOpen`` parameter to specify whether to download the 
-changeset from your {+app+} before opening the {+realm+}. This parameter 
-accepts a case from the ``OpenBehavior`` enum:
+changeset from your Atlas App Services {+app+} before opening the {+realm+}. 
+This parameter accepts a case from the ``OpenBehavior`` enum:
 
 - ``never``: Immediately open the {+realm+} on the device. Download changes 
   in the background when the user has internet, but don't block opening
