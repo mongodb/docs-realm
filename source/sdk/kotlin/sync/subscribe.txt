@@ -97,7 +97,7 @@ of changing a subscription. After the local subscription change, the client
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
 synced {+realm+}. Use the `SynConfiguration.waitForInitialRemoteData()
-<{+kotlin-sync-prefix+}io.realm.mongodb.sync/-sync-configuration/-wait-for-initial-remote-data.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/wait-for-initial-remote-data.html>`__
 builder method to force your application to block until client subscription
 data synchronizes to the backend before opening the {+realm+}:
 
@@ -106,7 +106,7 @@ data synchronizes to the backend before opening the {+realm+}:
    :copyable: false
 
 You can also use `SubscriptionSet.waitForSynchronization()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/-wait-for-synchronization.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/wait-for-synchronization.html>`__
 to delay execution until subscription sync completes after instantiating
 a sync connection.
 
@@ -115,7 +115,7 @@ a sync connection.
 
 Additionally, you can watch the state of the subscription set with the 
 `SubscriptionSetState
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set-state.html>`__
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set-state/index.html>`__
 enum. You can use subscription state to:
 
 - Show a progress indicator while data is downloading
@@ -139,9 +139,9 @@ Update Subscriptions with a New Query
 
 You can update subscriptions using
 `SubscriptionSet.update()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/-update.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-subscription-set/update.html>`__.
 In this example, we use `MutableSubscriptionSet.add()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/-add.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__.
 to update the query for the subscription named "my frog subscription".
 You must set the ``updateExisting`` parameter to ``true`` to update
 a subscription with ``add()``:
@@ -177,7 +177,7 @@ Remove a Single Subscription
 
 You can remove a specific subscription query
 using `MutableSubscriptionSet.remove()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/-remove.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove.html>`__.
 You can either look up the subscription by name, then pass the returned
 subscription to ``remove()``, or pass the subscription name directly to
 ``remove()``:
@@ -191,7 +191,7 @@ Remove All Subscriptions to an Object Type
 
 If you want to remove all subscriptions to a specific object type, pass
 a class to the `MutableSubscriptionSet.removeAll()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/-remove.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove.html>`__.
 method:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.remove-all-subscriptions-to-an-object-type.kt
@@ -203,7 +203,7 @@ Remove All Subscriptions
 
 To remove all subscriptions from the subscription set, use
 `MutableSubscriptionSet.removeAll()
-<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/-remove-all.html>`__.
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove-all.html>`__.
 with no arguments:
 
 .. important::

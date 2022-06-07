@@ -37,7 +37,7 @@ Open a Synced Realm
       To open a :ref:`synced {+realm+} <sync-modes-partition-based-sync>`,
       pass a user, a partition, and a set of Realm object schemas to
       `SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/-builder.html>`__.
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
       Then, pass the configuration to `Realm.open()
       <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
       an instance of the realm:
@@ -52,7 +52,7 @@ Open a Synced Realm
       To open a :ref:`flexible sync {+realm+} <sync-modes-flexible-sync>`,
       pass a user and a set of Realm object schemas to
       `SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
       builder method. Finally, pass the configuration to `Realm.open()
       <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
       an instance of the realm:
@@ -71,7 +71,7 @@ Configure a Synced Realm
 
       To adjust specific configuration settings, use the options provided by
       `SyncConfiguration.Builder
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/index.html>`__:
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
 
       .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-synced-realm.kt
          :language: kotlin
@@ -82,7 +82,7 @@ Configure a Synced Realm
 
       To adjust specific configuration settings, use the options provided by
       `SyncConfiguration.Builder
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-sync-configuration/-builder/index.html>`__:
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
 
       .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
          :language: kotlin
