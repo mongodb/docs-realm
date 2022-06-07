@@ -23,11 +23,11 @@ Access a Live Version of Frozen Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to modify objects, they must be live. You can convert a frozen
-object to a live object in a transaction with :kotlin-sdk:`mutableRealm.findLatest()
-<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`.
+object to a live object in a transaction with `mutableRealm.findLatest()
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/find-latest.html>`__.
 Live objects are only accessible inside of a write transaction within
-a :kotlin-sdk:`write <{+kotlin-local-prefix+}io.realm/-realm/write.html>`
-or :kotlin-sdk:`writeBlocking <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`
+a `write <{+kotlin-local-prefix+}io.realm/-realm/write.html>`__
+or `writeBlocking <{+kotlin-local-prefix+}io.realm/-realm/write-blocking.html>`__
 closure.
 
 Objects returned from a write closure become frozen objects when the
@@ -40,11 +40,11 @@ write transaction completes.
 Thread-safe Realms
 ------------------
 
-The :kotlin-sdk:`Realm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/index.html>`
+The `Realm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/index.html>`__
 class is no longer thread-confined, so you can share a single {+realm+}
 across multiple threads. You no longer need to handle the {+realm+}
 lifecycle explicitly with calls to
-:kotlin-sdk:`Realm.close() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/index.html#-1654108755%2FFunctions%2F1327329691>`.
+`Realm.close() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__.
 
 Access Changes
 ~~~~~~~~~~~~~~

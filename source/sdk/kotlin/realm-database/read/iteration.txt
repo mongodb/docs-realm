@@ -19,8 +19,8 @@ You can iterate through results using :file:`Flows`.
    To learn more about Kotlin Flows, check out `the kotlinx.coroutines documentation on Flows
    <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/>`__.
 
-To convert your results into a :file:`Flow`, call :kotlin-sdk:`realmQuery.asFlow()
-<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`.
+To convert your results into a :file:`Flow`, call `realmQuery.asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__.
 Then iterate through the results with `flow.collect()
 <https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html>`__:
 
@@ -30,9 +30,9 @@ Then iterate through the results with `flow.collect()
 
 .. note:: :file:`find()` is Synchronous
 
-   You can also iterate through results returned via :kotlin-sdk:`find() <{+kotlin-local-prefix+}io.realm.query/find.html>`.
+   You can also iterate through results returned via `find() <{+kotlin-local-prefix+}io.realm.query/find.html>`__.
    :file:`find()` runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
-   logic that could delay the UI thread. Prefer :kotlin-sdk:`asFlow()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>` in
+   logic that could delay the UI thread. Prefer `asFlow()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__ in
    time sensitive environments.

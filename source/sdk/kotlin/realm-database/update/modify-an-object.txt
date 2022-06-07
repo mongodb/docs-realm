@@ -14,13 +14,13 @@ Modify an Object - Kotlin SDK
 
 To modify an object stored within a realm:
 
-1. Open a write transaction with :kotlin-sdk:`realm.write()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>` or
-   :kotlin-sdk:`realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`.
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
 
-#. Query the transaction's mutable realm with :kotlin-sdk:`realm.query()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`.
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
    Specify the object type as a type parameter passed to :file:`query()`.
    To ensure your query returns the correct object, filter with unique
    identifying information such as a primary key value.

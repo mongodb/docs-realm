@@ -17,20 +17,20 @@ updates an existing object that meets certain criteria.
 
 To upsert into a realm:
 
-1. Open a write transaction with :kotlin-sdk:`realm.write()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>` or
-   :kotlin-sdk:`realm.writeBlocking()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`.
+1. Open a write transaction with `realm.write()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__ or
+   `realm.writeBlocking()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
 
-#. Query the transaction's mutable realm with :kotlin-sdk:`realm.query()
-   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`.
+#. Query the transaction's mutable realm with `realm.query()
+   <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
    Specify the object type as a type parameter passed to :file:`query()`.
    Filter your criteria with unique identifying criteria for the
    object you want to upsert.
 
 #. Insert a new object with the same primary key as the object returned
-   by the previous query (if it exists) with :kotlin-sdk:`copyToRealm()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`.
+   by the previous query (if it exists) with `copyToRealm()
+   <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/copy-to-realm.html>`__.
    If an object matching your filter already exists, realm updates the
    existing object. If no object exists that matches your filter, realm
    inserts a new object.
