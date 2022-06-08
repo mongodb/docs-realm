@@ -80,7 +80,7 @@ describe("Open and Close a Realm", () => {
     realm.close();
   });
 
-  test.skip("should open and close a synced realm with internet", async () => {
+  test("should open and close a synced realm with internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -118,7 +118,7 @@ describe("Open and Close a Realm", () => {
     // :snippet-end:xw
   });
 
-  test.skip("should open and close a sycned realm without internet", async () => {
+  test("should open and close a sycned realm without internet", async () => {
     const Car = {
       name: "Car",
       properties: {
@@ -180,7 +180,7 @@ describe("Open and Close a Realm", () => {
     nock.enableNetConnect();
   });
 
-  test.skip("Should open and close a realm with background sync", async () => {
+  test("Should open and close a realm with background sync", async () => {
     const Car = {
       name: "Car",
       properties: {
