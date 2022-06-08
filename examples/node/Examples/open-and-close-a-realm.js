@@ -370,7 +370,6 @@ describe("Convert Realm using writeCopyTo()", () => {
     // :snippet-end:
     expect(syncedEncryptedRealm.isClosed).toBe(false);
     expect(localUnencryptedRealm.isClosed).toBe(false);
-
     // clean up
     await syncedEncryptedRealm.syncSession.uploadAllLocalChanges();
     await syncedEncryptedRealm.syncSession.downloadAllServerChanges();
