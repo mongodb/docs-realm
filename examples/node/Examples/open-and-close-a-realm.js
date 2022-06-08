@@ -252,7 +252,7 @@ describe("Convert Realm using writeCopyTo()", () => {
       await app.currentUser?.logOut();
     }
   });
-  test("Open local realm as synced realm with `writeCopyTo()`", async () => {
+  test.skip("Open local realm as synced realm with `writeCopyTo()`", async () => {
     // :snippet-start: open-local-as-synced
     const localConfig = {
       schema: [Car],
