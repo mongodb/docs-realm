@@ -24,7 +24,7 @@ This page is for you if you are:
 
 
 Native Database Engine
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
 {+client-database+} is an entire database written from
 scratch in C++, instead of building on top of an underlying database
@@ -51,7 +51,7 @@ make queries faster than an ORM, and often faster than raw SQLite.
 
 
 Realm Files
-~~~~~~~~~~~
+-----------
 
 {+client-database+} persists data in files saved on device
 storage. The database uses several kinds of file:
@@ -101,7 +101,7 @@ write data, database operations translate these refs from offsets to
 memory pointers when navigating database structures.
 
 Copy-on-Write: The Secret Sauce of Data Versioning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------------------------
 
 {+client-database+} uses a technique called **copy-on-write**, which
 copies data to a new location on disk for every write operation instead
@@ -121,7 +121,7 @@ such as large write operations, can work with a single version of data
 for a longer period of time before committing their changes.
 
 Memory Mapping
-~~~~~~~~~~~~~~
+--------------
 
 Writes use :wikipedia:`memory mapping <Memory-mapped_file>` to avoid
 copying data back and forth from memory to storage. Accessors and
@@ -134,7 +134,7 @@ operating system to implement memory mapping and persistence better than
 a single library could on its own.
 
 Compaction
-~~~~~~~~~~
+----------
 
 {+client-database+} automatically reuses free space that is no longer
 needed after database writes. However, {+realm+} files never shrink
@@ -149,7 +149,7 @@ reclaims unused space for future writes, so compaction is only an
 optimization to conserve space on-device.
 
 ACID Compliance
-~~~~~~~~~~~~~~~
+---------------
 
 {+client-database+} guarantees that transactions are :wikipedia:`ACID
 <ACID>` compliant. This means that all committed write

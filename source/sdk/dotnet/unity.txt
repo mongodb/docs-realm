@@ -84,15 +84,15 @@ the following line to import your {+service-short+} package:
 .. _unity-integration-guide-using-realm-in-project:
 
 Using {+service-short+} in Your Unity Project
----------------------------------------------
+---------------------------------
 When developing with :doc:`{+service-short+} .NET SDK </sdk/dotnet>`, the API
 methods are the same regardless of whether you use Unity or another platform.
 However, since Unity has some `scripting restrictions
 <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
 the following additional considerations in mind when developing your project:
 
-``dynamic`` Keyword Support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dynamic`` Keyword Support
+~~~~~~~~~~~~~~~~~~~~~~~~~
 Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the {+service-short+} .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the {+service-short+} .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
 
 .. example::
@@ -115,7 +115,7 @@ Using Realm While the Application is Quitting
 The {+service-short+} .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot write data to a Realm while the player application is quitting. If you need to store some data just before the app exits, consider using the `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ event instead.
 
 Additional Examples
---------------------
+-------------------
 The {+service+} community has created many projects that demonstrate the usage
 of the Realm .NET SDK. Check out the examples below that demonstrate the usage
 of the :doc:`{+service-short+} .NET SDK </sdk/dotnet>` with Unity! 

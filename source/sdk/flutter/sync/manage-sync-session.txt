@@ -154,7 +154,7 @@ When you remove a subscription query, the server also removes synced data from
 the client device.
 
 Remove a Subscription by Query
-``````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Within an update block, you can remove a specific subscription by query.
 Open an update block with ``SubscriptionSet.update()``. Pass the ``Subscription`` to
@@ -167,7 +167,7 @@ In the following example, the subscription for all ``Plane`` objects is removed.
    :emphasize-lines: 3
 
 Remove a Subscription by Name
-`````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Within an update block, you can remove a specific subscription by name. Pass the name to
 :flutter-sdk:`MutableSubscriptionSet.removeByName() <realm/MutableSubscriptionSet/removeByName.html>`
@@ -177,7 +177,7 @@ Within an update block, you can remove a specific subscription by name. Pass the
    :emphasize-lines: 3
 
 Remove a Subscription by Reference
-``````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can remove a subscription if you have a reference to its :flutter-sdk:`Subscription
 <realm/Subscription-class.html>` object.
@@ -189,7 +189,7 @@ Within a subscription update block, pass the ``Subscription`` reference to
    :emphasize-lines: 1, 4
 
 Remove All Subscriptions
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Within a subscription update block, you can remove all unnamed subscriptions from the
 subscriptions set with :flutter-sdk:`MutableSubscriptionSet.clear() <realm/MutableSubscriptionSet/clear.html>`.

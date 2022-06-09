@@ -90,7 +90,7 @@ must be online:
 .. _swiftui-async-open-synced-realm:
 
 Download Changes Before Opening a Synced Realm
-``````````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use the :swift-sdk:`@AsyncOpen <Structs/AsyncOpen.html>` property wrapper 
 for apps that require up-to-date information from the server, such as game 
@@ -172,7 +172,7 @@ which you can use to update the view.
 .. _swiftui-auto-open-synced-realm:
 
 Open a Synced Realm Offline
-```````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Like ``@AsyncOpen``, :swift-sdk:`@AutoOpen <Structs/AutoOpen.html>` attempts 
 to download updates before opening the {+realm+}. However, if a network 
@@ -244,7 +244,7 @@ useful tool in SwiftUI development with {+client-database+}.
 work with environment values when developing your SwiftUI application.
 
 Inject the Partition Value
-``````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you are using :ref:`Partition-Based Sync <partition-based-sync>`, you 
 can use environment injection to pass the ``.partitionValue`` environment 
@@ -262,7 +262,7 @@ value from the environment object passed in from above.
    :language: swift
 
 Inject an Opened Realm
-``````````````````````
+^^^^^^^^^^^^^^^^^^^^^^
 
 You can inject an opened {+realm+} into a view as an environment 
 value. The property wrapper uses this {+realm+} to populate the view:
@@ -275,7 +275,7 @@ value. The property wrapper uses this {+realm+} to populate the view:
 .. _ios-swiftui-inject-realm-configuration:
 
 Inject a Realm Configuration
-````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can use a realm other than the default realm by passing a different 
 configuration in an environment object.

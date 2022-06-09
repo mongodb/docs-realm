@@ -140,7 +140,7 @@ including subscriptions of different object types.
    :language: swift
 
 Bootstrap the Realm with Initial Subscriptions
-``````````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. versionadded:: 10.28.0
 
@@ -165,7 +165,7 @@ subscription.
    :language: swift
 
 Subscribe to All Objects of a Specific Type
-```````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to syncing all objects that match a given query, you can subscribe 
 to all objects of a specific type. You do this by appending a subscription
@@ -178,7 +178,7 @@ subscribe to all the ``Team`` objects, you could do this:
    :language: swift
 
 Check for Existing Subscriptions Before Adding a Subscription
-`````````````````````````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If your application flow appends the same named subscription to the subscription 
 set every time you run the application, this is disallowed. In this case, 
@@ -200,7 +200,7 @@ the subscription change. This could mean adding or removing data from the
 synced realm. 
 
 Pre Async/Await
-```````````````
+^^^^^^^^^^^^^^^
 
 If your application does not use Swift's async/await feature, you can react 
 to subscription changes syncing with the server using the ``onComplete`` 
@@ -214,7 +214,7 @@ optional errors that occur during synchronization.
    :language: swift
 
 Async/Await
-```````````
+^^^^^^^^^^^
 
 If your application uses async/await, you don't need the ``onComplete`` 
 block. The update executes asynchronously and throws an 
@@ -234,7 +234,7 @@ error if the update cannot complete successfully.
    }
 
 SyncSubscriptionState Enum
-``````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Additionally, you can watch the state of the subscription set with the 
 ``SyncSubscriptionState`` enum. You can use subscription state to:
@@ -247,7 +247,7 @@ Additionally, you can watch the state of the subscription set with the
 
 
 Superseded
-``````````
+^^^^^^^^^^
 
 The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
 another thread updates a subscription on a different instance of the 
@@ -289,7 +289,7 @@ When you remove a subscription query, Realm asynchronously removes the
 synced data that matched the query from the client device.
 
 Remove a Single Subscription
-````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can remove a specific subscription query in a subscription update block 
 using ``remove``. Specify the query by name or use the query as a string 
@@ -299,7 +299,7 @@ to find the appropriate subscription query to remove.
    :language: swift
 
 Remove All Subscriptions to an Object Type
-``````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to remove all subscriptions to a specific object type, use the 
 ``removeAll`` method with ``ofType`` in a subscription update block.
@@ -308,7 +308,7 @@ If you want to remove all subscriptions to a specific object type, use the
    :language: swift
 
 Remove All Subscriptions
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 To remove all subscriptions from the subscription set, use the ``removeAll``
 method in a subscription update block.
