@@ -205,7 +205,7 @@ to delay execution until subscription sync completes after instantiating
 a sync connection.
 
 SubscriptionSet.State Enum
-``````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Additionally, you can watch the state of the subscription set with the 
 :java-sdk:`SubscriptionSet.State <io/realm/mongodb/sync/SubscriptionSet.State.html>` enum.
@@ -218,7 +218,7 @@ You can access the state of your application's subscription set using
 :java-sdk:`SubscriptionSet.getState() <io/realm/mongodb/sync/SubscriptionSet.html#getState()>`.
 
 Superseded
-``````````
+^^^^^^^^^^
 
 ``SUPERSEDED`` is a ``SubscriptionSet.State`` that can occur when another
 thread writes a subscription on a different instance of the 
@@ -287,7 +287,7 @@ When you remove a subscription query, Realm asynchronously removes the
 synced data that matched the query from the client device.
 
 Remove a Single Subscription
-````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can remove a specific subscription query
 using :java-sdk:`MutableSubscriptionSet.remove()
@@ -313,7 +313,7 @@ subscription to ``remove()``, or pass the subscription name directly to
           :copyable: false
 
 Remove All Subscriptions to an Object Type
-``````````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to remove all subscriptions to a specific object type, pass
 a class to the :java-sdk:`removeAll()
@@ -337,7 +337,7 @@ method:
           :copyable: false
 
 Remove All Subscriptions
-````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 To remove all subscriptions from the subscription set, use
 :java-sdk:`removeAll() <io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll()>`

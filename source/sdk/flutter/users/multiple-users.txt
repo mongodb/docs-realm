@@ -27,7 +27,7 @@ requiring them to log in again.
    another user.
 
 User Account States
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 When a user first logs in through a Realm SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
@@ -61,7 +61,7 @@ transition between states when certain events occur:
 .. _flutter-add-user:
 
 Add a New User to the Device
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Realm SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
@@ -77,7 +77,7 @@ the application's :ref:`active user <active-user>`.
 .. _flutter-list-all-users-on-the-device:
 
 List All Users on the Device
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can access an `Iterable <https://api.dart.dev/stable/2.17.0/dart-core/Iterable-class.html>`__
 of all :ref:`user accounts <user-accounts>` that are stored on the device
@@ -92,7 +92,7 @@ on a given device regardless of whether they are currently authenticated.
 .. _flutter-remove-user:
 
 Remove a User from the Device
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can remove all information about a user from the device and automatically
 log the user out by passing the ``User`` object to
@@ -104,7 +104,7 @@ log the user out by passing the ``User`` object to
 .. _flutter-change-active-user:
 
 Change the Active User
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 You can switch an app's :ref:`active user <active-user>` to another
 logged in user by calling
