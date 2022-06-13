@@ -57,7 +57,7 @@ directly.
       .. tab:: TypeScript
          :tabid: typescript
          
-         .. literalinclude:: /examples/generated/node/mongodb.codeblock.plant-document-type.ts
+         .. literalinclude:: /examples/generated/node/mongodb.snippet.plant-document-type.ts
             :language: typescript
 
 .. _node-mongodb-connect:
@@ -105,10 +105,10 @@ The following snippet finds the document that describes "venus flytrap" plants i
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.js
+   .. input:: /examples/generated/node/mongodb.snippet.find-a-single-document.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.find-a-single-document-result.js
       :language: js
 
 .. _node-find-multiple-documents:
@@ -128,10 +128,10 @@ The following snippet finds all documents that describe perennial plants in the
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.js
+   .. input:: /examples/generated/node/mongodb.snippet.find-multiple-documents.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.find-multiple-documents-result.js
       :language: js
 
 .. _node-count-documents:
@@ -151,10 +151,10 @@ documents that describe plants for sale in a group of stores
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.js
+   .. input:: /examples/generated/node/mongodb.snippet.count-documents-in-the-collection.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.count-documents-in-the-collection-result.js
       :language: js
 
 Write Operations
@@ -176,10 +176,10 @@ in a group of stores <node-mongodb-example-dataset>`:
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.js
+   .. input:: /examples/generated/node/mongodb.snippet.insert-a-single-document.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.insert-a-single-document-result.js
       :language: js
 
 .. _node-insert-multiple-documents:
@@ -198,10 +198,10 @@ The following snippet inserts three documents describing plants into a
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.js
+   .. input:: /examples/generated/node/mongodb.snippet.insert-multiple-documents.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.insert-multiple-documents-result.js
       :language: js
 
 .. _node-update-a-single-document:
@@ -223,10 +223,10 @@ matched document's ``sunlight`` field to "partial":
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.js
+   .. input:: /examples/generated/node/mongodb.snippet.update-a-single-document.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.update-a-single-document-result.js
       :language: js
 
 .. _node-update-multiple-documents:
@@ -248,10 +248,10 @@ documents that describe plants for sale in a group of stores
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.js
+   .. input:: /examples/generated/node/mongodb.snippet.update-multiple-documents.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.update-multiple-documents-result.js
       :language: js
 
 .. _node-upsert-documents:
@@ -274,10 +274,10 @@ MongoDB automatically creates a new one.
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.js
+   .. input:: /examples/generated/node/mongodb.snippet.upsert-documents.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.upsert-documents-result.js
       :language: js
 
 .. _node-delete-a-single-document:
@@ -301,10 +301,10 @@ matches the query:
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.js
+   .. input:: /examples/generated/node/mongodb.snippet.delete-a-single-document.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.delete-a-single-document-result.js
       :language: js
 
 .. _node-delete-multiple-documents:
@@ -325,10 +325,10 @@ stores <node-mongodb-example-dataset>`:
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.js
+   .. input:: /examples/generated/node/mongodb.snippet.delete-multiple-documents.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.delete-multiple-documents-result.js
       :language: js
 
 Real-time Change Notifications
@@ -356,7 +356,7 @@ Watch for All Changes in a Collection
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` with no arguments:
 
-.. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection.js
+.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
    :language: javascript
 
 .. _node-watch-for-specific-changes-in-a-collection:
@@ -369,7 +369,7 @@ To watch for specific changes in a collection, pass a query that matches
 :manual:`change event </reference/change-events/>` fields to
 :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`:
 
-.. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection-with-filter.js
+.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.js
    :language: javascript
 
 
@@ -397,10 +397,10 @@ The following snippet groups all documents in the ``plants`` collection by their
 .. io-code-block::
    :copyable: true
 
-   .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.js
+   .. input:: /examples/generated/node/mongodb.snippet.aggregate-documents-in-a-collection.js
       :language: js
 
-   .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
+   .. output:: /examples/generated/node/mongodb.snippet.aggregate-documents-in-a-collection-result.js
       :language: js
 
 

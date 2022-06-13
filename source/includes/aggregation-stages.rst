@@ -23,10 +23,10 @@ documents according to standard MongoDB :manual:`query syntax
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/node/mongodb.codeblock.filter-documents.js
+      .. input:: /examples/generated/node/mongodb.snippet.filter-documents.js
          :language: js
 
-      .. output:: /examples/generated/node/mongodb.codeblock.filter-documents-result.js
+      .. output:: /examples/generated/node/mongodb.snippet.filter-documents-result.js
          :language: js
          :visible: false
 
@@ -60,10 +60,10 @@ with a ``$``.
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/node/mongodb.codeblock.group-documents.js
+      .. input:: /examples/generated/node/mongodb.snippet.group-documents.js
          :language: js
 
-      .. output:: /examples/generated/node/mongodb.codeblock.group-documents-result.js
+      .. output:: /examples/generated/node/mongodb.snippet.group-documents-result.js
          :language: js
          :visible: false
 
@@ -124,10 +124,10 @@ vice versa.
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/node/mongodb.codeblock.project-document-fields.js
+      .. input:: /examples/generated/node/mongodb.snippet.project-document-fields.js
          :language: js
 
-      .. output:: /examples/generated/node/mongodb.codeblock.project-document-fields-result.js
+      .. output:: /examples/generated/node/mongodb.snippet.project-document-fields-result.js
          :language: js
          :visible: false
 
@@ -158,10 +158,10 @@ with calculated values using :manual:`aggregation operators
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents.js
+      .. input:: /examples/generated/node/mongodb.snippet.add-fields-to-documents.js
          :language: js
 
-      .. output:: /examples/generated/node/mongodb.codeblock.add-fields-to-documents-result.js
+      .. output:: /examples/generated/node/mongodb.snippet.add-fields-to-documents-result.js
          :language: js
          :visible: false
 
@@ -200,9 +200,9 @@ but replaces the array value with the array element in each copy.
    .. io-code-block::
       :copyable: true
 
-      .. input:: /examples/generated/node/mongodb.codeblock.unwind-array-values.js
+      .. input:: /examples/generated/node/mongodb.snippet.unwind-array-values.js
          :language: js
 
-      .. output:: /examples/generated/node/mongodb.codeblock.unwind-array-values-result.js
+      .. output:: /examples/generated/node/mongodb.snippet.unwind-array-values-result.js
          :language: js
          :visible: false
