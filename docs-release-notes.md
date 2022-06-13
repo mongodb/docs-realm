@@ -1,3 +1,71 @@
+# June 10, 2022
+
+As the documentation is now split into separate repositories, and "App Services" is officially no longer directly associated with Realm Database SDKs, we're moving App Services release notes to the [App Services repository](https://github.com/mongodb/docs-app-services).
+
+## Flutter SDK
+- Realm Database
+  - Define a Realm Object Schema: new sections for modifying realm schema, using schemas with Device Sync
+  - Read & Write Data: Add info about being able to return from write transactions
+  - Data Types: Add UUID & ObjectId data types
+  - Database Internals: New page w/moved & new content describing details about how realm works
+- App Services: new page describing SDK-related App Services for Flutter devs
+- Connect to App Services backend: new page w/info & tested code examples
+- User Management: new section
+  - Authenticate Users: new page w/authentication overview info + examples
+  - Email/Password Users: new page w/info & tested code examples
+  - Work with Multiple Users: new page w/info & tested code examples
+  - Link User Identities: new page w/info & tested code examples
+  - Custom User Data: new page w/info & tested code examples
+- Sync: New page w/overview info
+  - Manage Sync Session: new page w/info & tested code examples
+  - Open Synced Realm: new page w/info & tested code examples
+
+## Kotlin SDK
+- Update many pages for the Kotlin 1.0 release/GA
+  - Generate updated code examples
+  - Add links to API reference after 1.0 release/API published
+- Sync
+  - Overview: Add Flexible Sync info & tested code example
+  - Open a Synced Realm: Add Flexible Sync info & tested code examples
+  - Subscribe to Queryable Fields: new page w/Flexible Sync info & tested code examples
+- App Services
+  - Authenticate Users: add tested code examples for all the authentication methods the Kotlin SDK supports
+
+## Java SDK
+- Usage Examples/Flexible Sync: Remove note about Flexible Sync being in Preview
+
+## .NET SDK
+- Usage Examples
+  - Sync Changes Between Devices: Update API reference link
+  - Flexible Sync: Remove note about Flexible Sync being in Preview
+- Advanced Guides/Client Resets: Add links to API reference
+
+## Node.js SDK
+- Usage Examples
+  - Define a Realm Object Schema: new section for Define an Asymmetric object
+  - Flexible Sync: remove note about Flexible Sync being in Preview
+
+## React Native SDK
+- Use Realm React
+  - Code cleanup & updates to the `@realm/react` examples application + generate updated code examples
+  - Add a new section about using the `AppProvider`/new Sync hooks
+- Usage Examples/Flexible Sync: remove note about Flexible Sync being in Preview
+
+## Swift SDK
+- Quick Starts/SwiftUI Quick Start: Add Flexible Sync to the SwiftUI quick start
+- Usage Examples
+  - Flexible Sync
+    - Update the docs & code examples for breaking API changes
+    - Add ability to query all objects of a type
+    - Add `initialSubscriptions` and `rerunOnOpen` examples
+    - Remove note about Flexible Sync being in Preview
+  - SwiftUI Guide: Update the "Open a Synced Realm" section w/Flexible Sync property wrappers
+
+Many pages/Misc.
+- Rename MongoDB Realm -> App Services
+- Update title lines to fix Snooty build complaints
+- Bump dependencies in tutorials
+
 # May 27, 2022
 
 ## SDK Docs
