@@ -2,7 +2,7 @@ var config = new FlexibleSyncConfiguration(app.CurrentUser)
 {
     PopulateInitialSubscriptions = (realm) =>
     {
-        var myTasks = realm.All<Task>().Where(n => n.AuthorId == myUserId);
+        var myTasks = realm.All<Task>().Where(n => n.AssignedTo == myUserId);
         realm.Subscriptions.Add(myTasks);
     }
 };

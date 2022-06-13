@@ -98,18 +98,17 @@ update existing subscriptions, as shown in the examples below.
 
 Add a Query to the Set Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can create an initial subscription when you configure Flexible Sync, or you can add 
-subscriptions after initialization. 
+You must have at least one subscription before you can read from or write
+to the realm. You can create an initial subscription when you configure Flexible 
+Sync, or you can add subscriptions after initialization. 
 
 Bootstrap the Realm with Initial Subscriptions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You must have at least one subscription before you can read from or write
-to the realm. You can bootstrap a realm with an initial subscription set
-when you open it with the :dotnet-sdk:`FlexibleSyncConfiguration  
+You can bootstrap a realm with an initial subscription set
+when you open it with a :dotnet-sdk:`FlexibleSyncConfiguration  
 <reference/Realms.Sync.FlexibleSyncConfiguration.html>`. Pass the 
-:dotnet-sdk:`PopulateInitialSubscriptions() 
+:dotnet-sdk:`PopulateInitialSubscriptions 
 <reference/Realms.Sync.FlexibleSyncConfiguration.html#Realms_Sync_FlexibleSyncConfiguration_PopulateInitialSubscriptions>` 
 parameter with the subscription queries you want to use to bootstrap the realm:
 
