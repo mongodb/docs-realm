@@ -26,7 +26,23 @@ namespace Examples
             var config = new FlexibleSyncConfiguration(app.CurrentUser);
             var realm = Realm.GetInstance(config);
             // :snippet-end:
-    
+
+
+            // :snippet-start: botostrap-a-subscription
+            // :uncomment-start:
+            // var config = new FlexibleSyncConfiguration(app.CurrentUser)
+            // {
+            //     PopulateInitialSubscriptions = (realm) =>
+            //     {
+            //         var myTasks = realm.All<Task>().Where(n => n.AuthorId == myUserId);
+            //         realm.Subscriptions.Add(myTasks);
+            //     }
+            // };
+            // 
+            // // The process will complete when all the user's tasks have been downloaded.
+            // var realm = await Realm.GetInstanceAsync(config);
+            // :uncomment-end:
+            // :snippet-end:
 
             // :snippet-start: get-subscriptions
             var subscriptions = realm.Subscriptions;
