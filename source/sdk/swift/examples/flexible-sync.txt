@@ -49,10 +49,9 @@ About the Examples on This Page
 The examples on this page use a simple data set for a
 task list app. The two Realm object types are ``Team``
 and ``Task``. A ``Task`` has a ``taskName``, assignee's name, and
-completed flag. There is also an arbitrary number for
-priority -- higher is more important -- and a count of
-minutes spent working on it. A ``Team`` has a ``teamName``, 
-zero or more ``Tasks``, and a list of ``members``.
+completed flag. There is also a count of minutes spent working on it, and a 
+due date. A ``Team`` has a ``teamName``, zero or more ``Tasks``, and a list 
+of ``members``.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flexible-sync-models.swift
    :language: swift
@@ -160,6 +159,13 @@ denotes whether the initial subscription should re-run every time the
 app starts. You might need to do this to re-run dynamic time ranges 
 or other queries that require a re-computation of static variables for the 
 subscription.
+
+In this example, we don't want users to be overwhelmed by irrelevant tasks,
+so we'll load only tasks that were due up to a week ago through next week.
+Tasks that were due more than a week ago are no longer relevant, and tasks
+that are due further out than the next week are also not relevant. With
+``rerunOnOpen`` here, the query dynamically recalculates the relevant 
+objects to sync based on the desired date range every time the app starts.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-rerun-on-open.swift
    :language: swift
