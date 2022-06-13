@@ -51,21 +51,8 @@ directly.
       .. tab:: JSON Schema
          :tabid: json-schema
          
-         .. code-block:: json
-            
-            {
-            "title": "Plant",
-            "bsonType": "object",
-            "required": ["_id", "_partition", "name"],
-            "properties": {
-               "_id": { "bsonType": "objectId" },
-               "_partition": { "bsonType": "string" },
-               "name": { "bsonType": "string" },
-               "sunlight": { "bsonType": "string" },
-               "color": { "bsonType": "string" },
-               "type": { "bsonType": "string" }
-            }
-            }
+         .. literalinclude:: /includes/plant-object-examplep-schema.json
+            :language: json
       
       .. tab:: TypeScript
          :tabid: typescript
@@ -115,31 +102,14 @@ The following snippet finds the document that describes "venus flytrap" plants i
 :ref:`collection of documents that describe plants for sale in a group of stores
 <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.find-a-single-document.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.find-a-single-document-result.js
+      :language: js
 
 .. _react-native-find-multiple-documents:
 .. _react-native-mongodb-findMany:
@@ -155,33 +125,14 @@ The following snippet finds all documents that describe perennial plants in the
 :ref:`collection of documents that describe plants for sale in a group of stores
 <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. io-code-block::
-         :copyable: true
+.. io-code-block::
+   :copyable: true
 
-         .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.js
-            :language: js
+   .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.js
+      :language: js
 
-         .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.js
-            :language: js
-
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.find-multiple-documents.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.ts
-            :language: typescript
-
+   .. output:: /examples/generated/node/mongodb.codeblock.find-multiple-documents-result.js
+      :language: js
 
 .. _react-native-count-documents:
 .. _react-native-mongodb-count:
@@ -197,31 +148,14 @@ The following snippet counts the number of documents in a :ref:`collection of
 documents that describe plants for sale in a group of stores
 <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.count-documents-in-the-collection-result.js
+      :language: js
 
 Write Operations
 ----------------
@@ -239,32 +173,14 @@ The following snippet inserts a single document describing a "lily of the
 valley" plant into a :ref:`collection of documents that describe plants for sale
 in a group of stores <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.js
-            :language: js
-
-
-   .. tab::
-      :tabid: typescript
-
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.insert-a-single-document.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.insert-a-single-document-result.js
+      :language: js
 
 .. _react-native-insert-multiple-documents:
 .. _react-native-mongodb-insertMany:
@@ -279,31 +195,14 @@ The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: javascript
+   .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.js
+      :language: js
 
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.insert-multiple-documents-result.js
+      :language: js
 
 .. _react-native-update-a-single-document:
 .. _react-native-mongodb-updateOne:
@@ -321,31 +220,14 @@ documents that describe plants for sale in a group of stores
 ``name`` field contains the value "petunia" and changes the value of the first
 matched document's ``sunlight`` field to "partial":
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.update-a-single-document.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.update-a-single-document-result.js
+      :language: js
 
 .. _react-native-update-multiple-documents:
 .. _react-native-mongodb-updateMany:
@@ -363,31 +245,14 @@ documents that describe plants for sale in a group of stores
 ``_partition`` field contains the value "Store 47" and changes the value of the
 ``_partition`` field of each matching document to "Store 51":
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.update-multiple-documents.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.update-multiple-documents-result.js
+      :language: js
 
 .. _react-native-upsert-documents:
 .. _react-native-mongodb-upsert:
@@ -406,31 +271,14 @@ describe plants for sale in a group of stores <react-native-mongodb-example-data
 with an upsert operation. The query doesn't match any existing documents, so
 MongoDB automatically creates a new one.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.upsert-documents.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.upsert-documents-result.js
+      :language: js
 
 .. _react-native-delete-a-single-document:
 .. _react-native-mongodb-deleteOne:
@@ -450,31 +298,14 @@ that describe plants for sale in a group of stores
 the ``color`` field has a value of "green" and deletes the first document that
 matches the query:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.delete-a-single-document.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.delete-a-single-document-result.js
+      :language: js
 
 .. _react-native-delete-multiple-documents:
 .. _react-native-mongodb-deleteMany:
@@ -491,31 +322,14 @@ The following snippet deletes all documents for plants that are in "Store 51" in
 a :ref:`collection of documents that describe plants for sale in a group of
 stores <react-native-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
+.. io-code-block::
+   :copyable: true
 
-      .. io-code-block::
-         :copyable: true
+   .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.js
+      :language: js
 
-         .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.js
-            :language: js
-
-         .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.js
-            :language: js
-
-   .. tab::
-      :tabid: typescript
-      
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.ts
-            :language: typescript
+   .. output:: /examples/generated/node/mongodb.codeblock.delete-multiple-documents-result.js
+      :language: js
 
 Real-time Change Notifications
 ------------------------------
@@ -542,19 +356,8 @@ Watch for All Changes in a Collection
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` with no arguments:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection.js
+   :language: javascript
 
 .. _react-native-watch-for-specific-changes-in-a-collection:
 .. _react-native-mongodb-watch-a-collection-with-filter:
@@ -566,19 +369,8 @@ To watch for specific changes in a collection, pass a query that matches
 :manual:`change event </reference/change-events/>` fields to
 :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/mongodb.codeblock.watch-a-collection-with-filter.js
+   :language: javascript
 
 Aggregation Operations
 ----------------------
@@ -601,30 +393,14 @@ Aggregation operations return the result set of the last stage in the pipeline.
 The following snippet groups all documents in the ``plants`` collection by their
 ``type`` value and aggregates a count of the number of each type:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. io-code-block::
-         :copyable: true
+.. io-code-block::
+   :copyable: true
 
-         .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.js
-            :language: js
+   .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.js
+      :language: js
 
-         .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
-            :language: js
+   .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection-result.js
+      :language: js
 
-   .. tab::
-      :tabid: typescript
-
-      .. io-code-block::
-         :copyable: true
-
-         .. input:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.ts
-            :language: typescript
-
-         .. output:: /examples/generated/node/mongodb.codeblock.aggregate-documents-in-a-collection.ts
-            :language: typescript
 
 .. include:: /includes/aggregation-stages.rst
