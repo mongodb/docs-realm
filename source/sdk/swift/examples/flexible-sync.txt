@@ -161,7 +161,7 @@ or other queries that require a re-computation of static variables for the
 subscription.
 
 In this example, we don't want users to be overwhelmed by irrelevant tasks,
-so we'll load only tasks that were due up to a week ago through next week.
+so we'll load only tasks due within the previous 7 days and the next 7 days.
 Tasks that were due more than a week ago are no longer relevant, and tasks
 that are due further out than the next week are also not relevant. With
 ``rerunOnOpen`` here, the query dynamically recalculates the relevant 
