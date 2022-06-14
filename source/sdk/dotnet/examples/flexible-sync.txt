@@ -9,10 +9,10 @@ Flexible Sync - .NET SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
-
+ 
 Overview
 --------
 
@@ -98,6 +98,28 @@ update existing subscriptions, as shown in the examples below.
 
 Add a Query to the Set Of Subscriptions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You must have at least one subscription before you can read from or write
+to the realm. You can create one or more initial subscriptions when you 
+configure Flexible Sync, or you can add subscriptions after initialization. 
+
+Bootstrap the Realm with Initial Subscriptions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can bootstrap a realm with an initial subscription set
+when you open it with a :dotnet-sdk:`FlexibleSyncConfiguration  
+<reference/Realms.Sync.FlexibleSyncConfiguration.html>`. Set the 
+:dotnet-sdk:`PopulateInitialSubscriptions 
+<reference/Realms.Sync.FlexibleSyncConfiguration.html#Realms_Sync_FlexibleSyncConfiguration_PopulateInitialSubscriptions>` 
+parameter to a callback that is invoked when the realm is created. Add the  
+queries you want to use to bootstrap the realm, as shown in the following example:
+
+.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.botostrap-a-subscription.cs
+   :language: csharp
+
+
+Add a Subscription
+^^^^^^^^^^^^^^^^^^
+To add a subscription to an existing ``FlexibleSyncConfiguration``, 
 You must perform all mutations on the subscriptions set within an update block.
 To create an update block, call the :dotnet-sdk:`SubscriptionSet.Update()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Update_System_Action_>`.
@@ -182,7 +204,6 @@ To remove subscriptions from the subscription set, you can:
 When you remove a subscription query, the server also removes synced data from
 the client device.
 
-
 Remove a Subscription by Query
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Within an update block, you can remove a specific subscription by query. Pass the query to the :dotnet-sdk:`Remove()
@@ -194,7 +215,6 @@ removed from the subscriptions set.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.remove-subscription-by-query.cs
    :language: csharp
-
 
 Remove a Subscription by Name
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
