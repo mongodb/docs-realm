@@ -176,6 +176,11 @@ class ConvertSyncAndLocalRealms: XCTestCase {
         } else {
             print("No file currently exists at path")
         }
+        // :remove-start:
+        // Add a delay before writing to try to give Sync enough time to upload changes
+        // This isn't an issue locally but is an intermittent issue during CI testing
+        sleep(10)
+        // :remove-end:
 
         // Make a copy of the synced realm that uses a local configuration
         try syncedRealm.writeCopy(configuration: localConfig)
