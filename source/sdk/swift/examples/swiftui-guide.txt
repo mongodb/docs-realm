@@ -264,8 +264,9 @@ value from the environment object passed in from above.
 Inject an Opened Realm
 ^^^^^^^^^^^^^^^^^^^^^^
 
-You can inject an opened {+realm+} into a view as an environment 
-value. The property wrapper uses this {+realm+} to populate the view:
+You can inject a {+realm+} that you opened in another SwiftUI view into 
+a view as an environment value. The property wrapper uses this passed-in 
+{+realm+} to populate the view:
 
 .. code-block:: swift
 
@@ -374,6 +375,8 @@ opens an implicit write transaction and saves the new values to the database.
 
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
    :language: swift
+
+.. _swiftui-realm-migrations:
 
 SwiftUI Realm Migrations
 ------------------------
