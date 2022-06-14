@@ -1,1 +1,1 @@
-events.recordEvent(activity: "event", eventType: "press Home button")
+events.recordEvent(activity: "event", eventType: "custom event")

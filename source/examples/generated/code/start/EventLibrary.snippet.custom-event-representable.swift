@@ -11,7 +11,7 @@ class Person: Object, CustomEventRepresentable {
         self.name = name
         self.employeeId = employeeId
     }
-    
+
     // To conform to `CustomEventRepresentable`, your object
     // must implement a `customEventRepresentation` func that
     // defines your customized event serialization
