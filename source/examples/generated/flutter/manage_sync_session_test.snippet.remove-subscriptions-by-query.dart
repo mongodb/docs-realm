@@ -1,4 +1,3 @@
-realm.subscriptions
-    .update((MutableSubscriptionSet mutableSubscriptions) {
+realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
   mutableSubscriptions.removeByQuery(realm.all<Plane>());
 });

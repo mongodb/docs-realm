@@ -1,7 +1,7 @@
 final planeQuery = realm.all<Plane>();
-final longTrainQuery = realm.query<Train>("numCars >= 4");
+final longTrainQuery = realm.query<Train>("numCars >= 5");
 realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-  mutableSubscriptions.add(planeQuery, name: "all-planes");
+  mutableSubscriptions.add(planeQuery, name: "planes");
   mutableSubscriptions.add(longTrainQuery,
       name: 'long-trains', update: true);
 });
