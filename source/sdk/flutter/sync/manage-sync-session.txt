@@ -91,10 +91,9 @@ The ``MutableSubscriptionSet.add()`` method takes three arguments:
 - ``RealmResults query``: Required. A ``RealmResults`` object that you can create using the
   :ref:`Realm Query Language query <flutter-query-language>`.
 - ``String name``: Optional. Name for the subscription that you can refer to.
-- ``bool update``:  If ``update`` is true, adding a subscription with an
-  existing name will replace the existing query with the new query. However, if
-  you set ``update`` to false, adding a subscription with an existing name
-  but a different query throws an exception. ``update`` defaults to false.
+- ``bool update``:  Optional. Only use with named subscriptions. If ``update`` is true,
+  adding a subscription with an existing name will replace the existing query with the new query.
+
 
 .. note:: Duplicate Subscriptions
 
@@ -122,18 +121,15 @@ Update Subscriptions with a New Query
 
 You can update a named subscription with a new query. To update a subscription's
 query, open an update block with ``SubscriptionSet.update()``.
-In the callback function of the update block, pass the new query and a subscription option
-with the name of the subscription that you want to update to ``MutableSubscriptionSet.add()``.
-
-You can only update a subscription with a new query if you set ``update: true``
-when creating the subscription.
+In the callback function of the update block, pass the new query, the name of the subscription that you want to update,
+and ``update: true`` to ``MutableSubscriptionSet.add()``.
 
 You cannot update an unnamed subscription. Alternatively, you can
 :ref:`delete the unnamed subscription <flutter-remove-subscriptions>`, and
 :ref:`create a new subscription <flutter-sync-add-subscription>` with the desired query.
 
 In the following example, long trains are re-defined to be any trains that
-have 10 or more cars.
+have more than 10 cars.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.update-subscriptions-new-query.dart
    :language: dart
