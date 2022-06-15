@@ -91,8 +91,8 @@ The ``MutableSubscriptionSet.add()`` method takes three arguments:
 - ``RealmResults query``: Required. A ``RealmResults`` object that you can create using the
   :ref:`Realm Query Language query <flutter-query-language>`.
 - ``String name``: Optional. Name for the subscription that you can refer to.
-- ``bool update``:  Optional. Only use with named subscriptions. If ``update`` is true,
-  adding a subscription with an existing name will replace the existing query with the new query.
+- ``bool update``:  Optional. When true, adding a subscription with an existing name 
+  replaces the existing query with the new query. Only use with named subscriptions. 
 
 
 .. note:: Duplicate Subscriptions
@@ -121,8 +121,11 @@ Update Subscriptions with a New Query
 
 You can update a named subscription with a new query. To update a subscription's
 query, open an update block with ``SubscriptionSet.update()``.
-In the callback function of the update block, pass the new query, the name of the subscription that you want to update,
-and ``update: true`` to ``MutableSubscriptionSet.add()``.
+In the callback function of the update block, pass the following arguments to ``MutableSubscriptionSet.add()``:
+
+- The new query
+- The name of the subscription that you want to update
+- ``update: true``
 
 You cannot update an unnamed subscription. Alternatively, you can
 :ref:`delete the unnamed subscription <flutter-remove-subscriptions>`, and
