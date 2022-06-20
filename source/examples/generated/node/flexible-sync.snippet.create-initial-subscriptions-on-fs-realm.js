@@ -1,16 +1,16 @@
-const realm = await Realm.open({
-  schema: [TeamSchema],
+const config = {
   sync: {
     user: app.currentUser,
     flexible: true,
-  },
-  initialSubscriptions: {
-    update: (realm) => {
-      realm.subscriptions.update((mutableSubs) => {
-        mutableSubs.add(
+    initialSubscriptions: {
+      update: (subs, realm) => {
+        // subs.add(realm.objects('Task'));
+        subs.add(
           realm.objects("Team").filtered("name == 'Developer Education'")
         );
-      });
+      },
+      rerunOnOpen: true,
     },
   },
-});
+};
+const realm = await Realm.open(config);

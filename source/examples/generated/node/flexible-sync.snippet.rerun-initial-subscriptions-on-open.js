@@ -15,16 +15,14 @@ const dateNextWeek = new Date(
   todaysDate.getDate() + 7
 );
 
-const realm = await Realm.open({
-  schema: [TaskSchema],
+const config = {
   sync: {
     user: app.currentUser,
     flexible: true,
-  },
-  initialSubscriptions: {
-    update: (realm) => {
-      realm.subscriptions.update((mutableSubs) => {
-        mutableSubs.add(
+    initialSubscriptions: {
+      update: (subs, realm) => {
+        // subs.add(realm.objects('Task'));
+        subs.add(
           realm
             .objects("Task")
             .filtered(
@@ -33,8 +31,9 @@ const realm = await Realm.open({
               dateNextWeek
             )
         );
-      });
+      },
+      rerunOnOpen: true,
     },
-    rerunOnStartup: true,
   },
-});
+};
+const realm = await Realm.open(config);

@@ -118,22 +118,22 @@ describe("Flexible Sync Tests", () => {
     await app.logIn(Realm.Credentials.anonymous());
 
     // :snippet-start: create-initial-subscriptions-on-fs-realm
-    const realm = await Realm.open({
-      schema: [TeamSchema],
+    const config = {
       sync: {
         user: app.currentUser,
         flexible: true,
-      },
-      initialSubscriptions: {
-        update: (realm) => {
-          realm.subscriptions.update((mutableSubs) => {
-            mutableSubs.add(
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            // subs.add(realm.objects('Task'));
+            subs.add(
               realm.objects("Team").filtered("name == 'Developer Education'")
             );
-          });
+          },
+          rerunOnOpen: true,
         },
       },
-    });
+    };
+    const realm = await Realm.open(config);
     // :snippet-end:
 
     realm.write(() => {
@@ -159,10 +159,10 @@ describe("Flexible Sync Tests", () => {
     ).toBe(1); // should not include Server Docs team
   });
 
-  test.skip("should rerun the initial subscription on start up", async () => {
+  test.skip("should rerun the initial subscription on open", async () => {
     await app.logIn(Realm.Credentials.anonymous());
 
-    // :snippet-start: rerun-initial-subscriptions-on-start-up
+    // :snippet-start: rerun-initial-subscriptions-on-open
 
     // Set the date a week ago and the date a week from now, as those are the dates we'll use
     // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
@@ -180,16 +180,14 @@ describe("Flexible Sync Tests", () => {
       todaysDate.getDate() + 7
     );
 
-    const realm = await Realm.open({
-      schema: [TaskSchema],
+    const config = {
       sync: {
         user: app.currentUser,
         flexible: true,
-      },
-      initialSubscriptions: {
-        update: (realm) => {
-          realm.subscriptions.update((mutableSubs) => {
-            mutableSubs.add(
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            // subs.add(realm.objects('Task'));
+            subs.add(
               realm
                 .objects("Task")
                 .filtered(
@@ -198,11 +196,12 @@ describe("Flexible Sync Tests", () => {
                   dateNextWeek
                 )
             );
-          });
+          },
+          rerunOnOpen: true,
         },
-        rerunOnStartup: true,
       },
-    });
+    };
+    const realm = await Realm.open(config);
     // :snippet-end:
 
     realm.write(() => {
