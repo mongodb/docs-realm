@@ -8,7 +8,6 @@ const config = {
           realm.objects("Team").filtered("name == 'Developer Education'")
         );
       },
-      rerunOnOpen: true,
     },
   },
 };

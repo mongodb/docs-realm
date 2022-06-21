@@ -128,7 +128,6 @@ describe("Flexible Sync Tests", () => {
               realm.objects("Team").filtered("name == 'Developer Education'")
             );
           },
-          rerunOnOpen: true,
         },
       },
     };
@@ -162,11 +161,9 @@ describe("Flexible Sync Tests", () => {
     await app.logIn(Realm.Credentials.anonymous());
 
     // :snippet-start: rerun-initial-subscriptions-on-open
-
     // Set the date a week ago and the date a week from now, as those are the dates we'll use
     // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
     // time the app opens.
-
     const todaysDate = new Date();
     const dateLastWeek = new Date(
       todaysDate.getFullYear(),
