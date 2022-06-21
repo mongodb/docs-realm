@@ -9,7 +9,7 @@ Flexible Sync - Node.js SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 
@@ -156,6 +156,44 @@ If ``throwOnUpdate`` is false or undefined, adding a subscription with an
 existing name will replace the existing query with the new query. However, if
 you set ``throwOnUpdate`` to true, adding a subscription with an existing name
 but a different query throws an exception.
+
+.. _node-sync-bootstrap-initial-subscriptions:
+
+Bootstrap the Realm with Initial Subscriptions
+``````````````````````````````````````````````
+
+.. versionadded:: 10.18.0
+
+You must have at least one subscription before you can read from or write to a
+realm with Flexible Sync enabled. You can bootstrap a realm with an initial subscription set when you open
+it with a :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`
+and Flexible Sync enabled. Include the ``initialSubscriptions`` field into the
+``SyncConfiguration``. Within the ``initialSubscriptions`` object, add an ``update``
+field set to a callback in which you can subscribe to queries to bootstrap your
+application:
+
+.. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
+   :language: javascript
+
+If your realm needs to rerun this initial subscription on every initialization,
+include the additional boolean configuration value ``rerunOnOpen: true``. 
+This denotes that the initial subscription should re-run every time the 
+app starts. You might need to do this to re-run dynamic time ranges 
+or other queries that require a re-computation of static variables for the 
+subscription.
+
+.. example:: 
+
+   In the following example, we don't want users to be overwhelmed by irrelevant tasks,
+   so we'll load only tasks due within the previous 7 days and the next 7 days.
+   Tasks that were due more than a week ago are no longer relevant, and tasks
+   that are due further out than the next week are also not relevant. With
+   ``rerunOnOpen`` here, the query dynamically recalculates the relevant 
+   objects to sync based on the desired date range every time the app starts.
+
+   .. literalinclude:: /examples/generated/node/flexible-sync.snippet.rerun-initial-subscriptions-on-open.js
+      :emphasize-lines: 32
+      :language: javascript
 
 .. _node-flexible-sync-wait-for-sync:
 
