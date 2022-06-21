@@ -124,7 +124,6 @@ describe("Flexible Sync Tests", () => {
         flexible: true,
         initialSubscriptions: {
           update: (subs, realm) => {
-            // subs.add(realm.objects('Task'));
             subs.add(
               realm.objects("Team").filtered("name == 'Developer Education'")
             );
@@ -186,7 +185,6 @@ describe("Flexible Sync Tests", () => {
         flexible: true,
         initialSubscriptions: {
           update: (subs, realm) => {
-            // subs.add(realm.objects('Task'));
             subs.add(
               realm
                 .objects("Task")

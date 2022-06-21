@@ -4,7 +4,6 @@ const config = {
     flexible: true,
     initialSubscriptions: {
       update: (subs, realm) => {
-        // subs.add(realm.objects('Task'));
         subs.add(
           realm.objects("Team").filtered("name == 'Developer Education'")
         );
