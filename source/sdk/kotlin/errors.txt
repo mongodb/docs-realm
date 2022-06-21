@@ -21,6 +21,42 @@ application should handle when using the Kotlin SDK:
   App Services over the network. These errors generate an
   `AppException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-app-exception/index.html>`__ class.
 
+Some errors are *ephemeral*: they happen because of failures outside of
+the client or SDK's control. A failed login attempt due to network error
+is an example of an ephemeral error.
+
+Other errors require logic fixes. Examples include:
+
+- writing to a realm outside of a write transaction
+- a failed login attempt due to incorrect credentials
+- deleting an object that does not exist
+
+Always retry the operation when ephemeral errors occur. If the operation
+still fails when you retry it, investigate logic fixes.
+
+Example
+-------
+
+You can handle errors in the SDK with Kotlin's built-in
+`runCatching <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html>`__
+API. Use the ``onSuccess`` and ``onFailure`` callbacks of the returned
+`Result <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/>`__
+to handle successful SDK API calls and error cases. The following example
+logs an anonymous user into an App. If the login attempt succeeds, this
+example logs the success. If the login attempt fails, this example handles
+each error case individually:
+
+- If the user supplied invalid credentials, log the attempt, and allow
+  the user to re-enter their username and password.
+- If the login attempt failed because of a connection problem, log the
+  problem to the error log and retry the login in case the error is a
+  passing network failure.
+- For all other errors, log the problem to the error log.
+
+.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.handle-errors.kt
+   :language: kotlin
+   :copyable: false
+
 Realm Errors
 ------------
 
@@ -29,10 +65,10 @@ When possible, the SDK uses existing platform exceptions, like
 `IllegalArgumentException <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html>`__ or
 `IllegalStateException <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-state-exception/index.html>`__.
 
-These errors can be ephemeral, so consider retrying the
-database operation. Typically, these errors result from bad database logic,
-like a query missing an argument or attempting to write outside of a
-write transaction.
+Typically, these errors result from bad database logic, like a query
+missing an argument or attempting to write outside of a write transaction.
+However, these errors can be ephemeral, so if there's no clear issue
+with the operation, try it again.
 
 App Errors
 ----------
@@ -42,9 +78,6 @@ and
 `SyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-sync-exception/index.html>`__. ServiceExceptions occur when an App Services request fails
 at the HTTP level. SyncExceptions occur when Device Sync fails.
 
-.. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.handle-errors.kt
-   :language: kotlin
-   :copyable: false
 
 Service Errors
 ~~~~~~~~~~~~~~
@@ -53,17 +86,21 @@ Connection Errors
 `````````````````
 
 Connection errors happen when HTTP communication fails between the SDK
-and the App Services backend. Because these errors stem from network
-layers outside of the SDK's control, you should consider these errors
-ephemeral failures. Retry the action and ensure the client is connected
-to the internet.
+and the App Services backend.
+
+Because these errors stem from network layers outside of the SDK's
+control, you should consider these errors ephemeral. Retry the operation,
+then investigate the error if the retry fails.
 
 Bad Request Errors
 ``````````````````
 
-Bad request errors come from malformed App Services requests. When you
-get one of these errors, you should check the inputs for the request,
-and try again.
+Bad request errors come from malformed App Services requests.
+
+When you get a bad request error:
+
+- check the inputs for the operation
+- check your App logs for more information about what went wrong
 
 .. _kotlin-auth-errors:
 
@@ -81,21 +118,31 @@ User already confirmed errors occur when you attempt to
 `confirm <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-email-password-auth/confirm-user.html>`__
 a user who has already been confirmed.
 
+When you get a user already confirmed error, you should surface the error
+to the user, but it's best to not disrupt the application flow. Since
+the user is confirmed, you can safely let them log in. There is no need
+to retry confirmation.
+
 User Not Found Errors
 +++++++++++++++++++++
 
 User not found errors occur when the App Services backend cannot find a
 user with the supplied username. This is commonly caused by typos in
-email/password usernames. When you experience this error, you should
-prompt the user to re-enter their username and try again.
+email/password usernames.
+
+When you experience this error, prompt the user to re-enter their
+username and try again.
 
 User Already Exists Errors
 ++++++++++++++++++++++++++
 
 User already exists errors occur when a client attempts to register a
-user with a username that is already in use in that App. You can prompt
-users to either use a different username, or login with their existing
-username if they know their existing credentials.
+user with a username that is already in use in that App.
+
+When you experience this error, prompt users to either:
+
+- use a different username
+- login with their existing username if they already have an account
 
 Invalid Credential Errors
 +++++++++++++++++++++++++
@@ -113,6 +160,10 @@ Unrecoverable Sync Errors
 Unrecoverable sync errors happen when Device Sync fails catastrophically.
 This usually means a bug in the client or connected App.
 
+When an unrecoverable sync error occurs, you should surface the problem
+to the end user. Let them know that Sync won't work until the problem
+is solved.
+
 Wrong Sync Type Errors
 ``````````````````````
 
@@ -122,7 +173,8 @@ protocols. The SDK supports two kinds of sync: **flexible sync** and
 type that does not match the App's sync type, a wrong sync type error occurs.
 
 To recover from a wrong sync type error, update the client to use a sync
-type that matches the backend.
+type that matches the backend. This will most likely require the user
+to update to a new version of your app containing the fix.
 
 Bad Flexible Sync Query Errors
 ``````````````````````````````
@@ -136,3 +188,7 @@ happen when you:
 - create a flexible sync query that uses operators unsupported by flexible
   sync.
 
+To recover from a bad flexible sync query error, update your client to
+use a sync query compatible with your App configuration. This will most
+likely require the user to update to a new version of your app containing
+the fix.
