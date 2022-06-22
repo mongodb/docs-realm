@@ -1,16 +1,30 @@
 // :replace-start: {
 //   "terms": {
-//     "EventLibrary_": ""
+//     "EventLibrary_": "",
+//     "CustomEventLibrary_": ""
 //   }
 // }
 
 import XCTest
 import RealmSwift
 
+class EventLibrary_Person: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String
+    @Persisted var employeeId: Int
+    @Persisted var userId: String?
+
+    convenience init(name: String, employeeId: Int) {
+        self.init()
+        self.name = name
+        self.employeeId = employeeId
+    }
+}
+
 // :snippet-start: custom-event-representable
 // To customize event serialization, your object must
 // conform to the `CustomEventRepresentable` protocol.
-class EventLibrary_Person: Object, CustomEventRepresentable {
+class CustomEventLibrary_Person: Object, CustomEventRepresentable {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
     @Persisted var employeeId: Int
@@ -35,48 +49,86 @@ class EventLibrary_Person: Object, CustomEventRepresentable {
 // :snippet-end:
 
 class EventLibrary: XCTestCase {
-    var user: User!
-    var collection: MongoCollection!
-    var start: Date!
 
-//    override func setUp() {
-//        app.login(credentials: Credentials.anonymous) { [self] (result) in
-//            switch result {
-//            case .failure(let error):
-//                print("Login failed: \(error.localizedDescription)")
-//            case .success(user):
-//                print("Successfully logged in as user \(user)")
-//                let mongoClient = user.mongoClient("mongodb1")
-//                let database = mongoClient.database(named: "test_data")
-//                self.collection = database.collection(withName: "AuditEvent")
-//                _ = self.collection.deleteManyDocuments(filter: [:])
-//            case .success(_):
-//                print("This case should never be hit")
-//            }
-//        }
-//    }
-
-    func deleteTestData() {
+    override func tearDown() {
         app.login(credentials: Credentials.anonymous) { (result) in
-            switch result {
-            case .failure(let error):
-                fatalError("Login failed: \(error.localizedDescription)")
-            case .success(let user):
-                // Continue
-                print("Successfully logged in to app")
-                var config = user.configuration(partitionValue: "Some partition value")
-                let realm = try! Realm(configuration: config)
-                try! realm.write {
-                    let eventPeople = realm.objects(EventLibrary_Person.self)
-                    realm.delete(eventPeople)
+            // Remember to dispatch back to the main thread in completion handlers
+            // if you want to do anything on the UI.
+            DispatchQueue.main.async {
+                switch result {
+                case .failure(let error):
+                    print("Login failed: \(error)")
+                case .success(let user):
+                    print("Login as \(user) succeeded!")
+                    // Continue below
+                }
+                // mongodb-atlas is the cluster service name
+                let client = app.currentUser!.mongoClient("mongodb-atlas")
+                // Select the database
+                let database = client.database(named: "sync_examples")
+                // Select the collection
+                let collection = database.collection(withName: "AuditEvent")
+                let writeFilter: Document = ["event":"write"]
+                // Insert the documents into the collection
+                collection.deleteManyDocuments(filter: writeFilter) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let deletedResult):
+                        print("Successfully deleted \(deletedResult) documents.")
+                    }
+                }
+                let readFilter: Document = ["event": "read"]
+                collection.deleteManyDocuments(filter: readFilter) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let deletedResult):
+                        print("Successfully deleted \(deletedResult) documents.")
+                    }
+                }
+                let customFilter: Document = ["event": "custom event"]
+                collection.deleteManyDocuments(filter: customFilter) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Call to MongoDB failed: \(error.localizedDescription)")
+                        return
+                    case .success(let deletedResult):
+                        print("Successfully deleted \(deletedResult) documents.")
+                    }
                 }
             }
         }
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+//    func deleteAuditEvents() async {
+//        do {
+//            // Use the async method to login
+//            let user = try await app.login(credentials: Credentials.anonymous)
+//            print("Login as \(user) succeeded!")
+//        } catch {
+//            print("Login failed: \(error.localizedDescription)")
+//        }
+//
+//        // mongodb-atlas is the cluster service name
+//        let client = app.currentUser!.mongoClient("mongodb-atlas")
+//
+//        // Select the database
+//        let database = client.database(named: "sync_examples")
+//
+//        // Select the collection
+//        let collection = database.collection(withName: "AuditEvent")
+//
+//        do {
+//            let filter: Document = ["event": "write"]
+//            try await collection.deleteManyDocuments(filter: filter)
+//            print("Successfully deleted AuditEvent objects")
+//        } catch {
+//            print("Call to MongoDB failed: \(error.localizedDescription)")
+//        }
+//    }
 
     func testDefaultEventInitilization() {
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -110,7 +162,7 @@ class EventLibrary: XCTestCase {
             }
         }
 
-        func initializeEventConfigurationWithParameters() async throws {
+        func initializeEventConfigurationWithParameters(user: User) async throws {
             // :snippet-start: event-configuration-with-params
             let eventSyncUser = try await app.login(credentials: Credentials.anonymous)
             var config = user.configuration(partitionValue: "Some partition value")
@@ -145,10 +197,6 @@ class EventLibrary: XCTestCase {
 
     func testRecordReadAndWriteEvents() {
         let expectation = XCTestExpectation(description: "Populate a read and write event")
-        let readExpectation = XCTestExpectation(description: "Create read event in audit realm")
-        let writeExpectation = XCTestExpectation(description: "Create write event in audit realm")
-        let secondWriteExpectation = XCTestExpectation(description: "Create a second write event in audit realm")
-        // createTestData()
         app.login(credentials: Credentials.anonymous) { (result) in
             switch result {
             case .failure(let error):
@@ -156,7 +204,8 @@ class EventLibrary: XCTestCase {
             case .success(let user):
                 print("Successfully logged in to app")
                 let user = app.currentUser!
-                var config = user.configuration(partitionValue: "Some partition value")
+                let partitionValue = UUID().uuidString
+                var config = user.configuration(partitionValue: partitionValue)
                 config.eventConfiguration = EventConfiguration()
                 config.objectTypes = [EventLibrary_Person.self]
                 Realm.asyncOpen(configuration: config) { (result) in
@@ -168,47 +217,27 @@ class EventLibrary: XCTestCase {
                         try! realm.write {
                             realm.create(EventLibrary_Person.self, value: ["name": "Anthony", "employeeId": 1])
                         }
-                        print("Successfully created a person")
-                        recordReadAndWriteEvents(realm)
+                        recordReadAndWriteEvents(realm, partitionValue)
                     }
                 }
             }
         }
 
-        func recordReadAndWriteEvents(_ realm: Realm) {
+        func recordReadAndWriteEvents(_ realm: Realm, _ partitionValue: String) {
             let events = realm.events!
             // :snippet-start: record-read-and-write-events
             // Read event
             events.beginScope(activity: "read object")
-            print("I am in read object scope")
             let person = realm.objects(EventLibrary_Person.self).first!
-            print("Successfully queried for person: \(person)")
-            events.endScope(completion: { error in
-                if let error = error {
-                    print("Error recording read event: \(error.localizedDescription)")
-                    return
-                }
-                print("Successfully recorded a read event")
-                readExpectation.fulfill()
-            })
-            print("Read object scope has ended")
+            print("Found this person: \(person.name)")
+            events.endScope()
             events.beginScope(activity: "mutate object")
-            print("I am in write object scope")
             // Write event
             try! realm.write {
                 // Change name from "Anthony" to "Tony"
                 person.name = "Tony"
             }
-            print("Successfully changed the person's name to: \(person.name)")
-            events.endScope(completion: { error in
-                if let error = error {
-                    print("Error recording write event: \(error.localizedDescription)")
-                    return
-                }
-                print("Successfully recorded a write event")
-                writeExpectation.fulfill()
-            })
-            print("Write object scope has ended")
+            events.endScope()
             // :snippet-end:
             // :snippet-start: scoped-event-with-completion
             events.beginScope(activity: "mutate object")
@@ -217,22 +246,21 @@ class EventLibrary: XCTestCase {
                 // Add a userId
                 person.userId = "tony.stark@starkindustries.com"
             }
-            print("Successfully added a userId of: \(person.userId)")
             events.endScope(completion: { error in
                 if let error = error {
                     print("Error recording write event: \(error.localizedDescription)")
                     return
                 }
                 print("Successfully recorded a write event")
-                // :remove-start:
-                secondWriteExpectation.fulfill()
-                // :remove-end:
             })
             // :snippet-end:
-            deleteTestData()
+            try! realm.write {
+                realm.deleteAll()
+            }
+            sleep(10)
             expectation.fulfill()
         }
-        wait(for: [expectation, readExpectation, writeExpectation, secondWriteExpectation], timeout: 10)
+        wait(for: [expectation], timeout: 25)
     }
 
     func testRecordCustomEvents() {
@@ -244,7 +272,7 @@ class EventLibrary: XCTestCase {
             case .success(let user):
                 print("Successfully logged in to app")
                 let user = app.currentUser!
-                var config = user.configuration(partitionValue: "Some partition value")
+                var config = user.configuration(partitionValue: UUID().uuidString)
                 config.eventConfiguration = EventConfiguration()
                 config.objectTypes = [EventLibrary_Person.self]
                 Realm.asyncOpen(configuration: config) { (result) in
@@ -256,13 +284,13 @@ class EventLibrary: XCTestCase {
                         // :snippet-start: record-custom-events
                         events.recordEvent(activity: "event", eventType: "custom event")
                         // :snippet-end:
+                        sleep(10)
                         expectation.fulfill()
                     }
                 }
             }
         }
-        wait(for: [expectation], timeout: 10)
+        wait(for: [expectation], timeout: 20)
     }
 }
-
 // :replace-end:

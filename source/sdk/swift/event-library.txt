@@ -20,7 +20,7 @@ Sync-enabled mobile application. The Event Library can record read and
 write transactions. Developers can also configure custom events to record
 button presses, the data displayed in the UI, or other important details.
 
-After you enable the Event Library, you can specify the events you want to 
+When you use the Event Library, you can specify the events you want to 
 record. This means opening two {+realms+}: 
 
 - The user {+realm+}, where the user does the reading and writing in the 
@@ -44,17 +44,9 @@ Before You Begin
 ----------------
 
 The Event Library stores data in an ``AuditEvent`` collection in your 
-linked Atlas data source. You must create this collection. 
-
-If you are not using :ref:`Development Mode <enable-development-mode>`, 
-you must also define a schema for your ``AuditEvent`` collection. See
-the App Services Event Library page for information about what your 
-:ref:`AuditEvent schema <audit-event-schema>` should include.
-
-.. seealso::
-
-   For information on how to create a collection, see: :ref:`Create a 
-   Collection - Atlas UI <atlas-ui-create-a-collection>`.
+linked Atlas data source. Enable :ref:`Development Mode <enable-development-mode>`
+in your App Services App to let Atlas create the collection and infer
+the schema from the uploaded events.
 
 Enable Event Recording
 ----------------------
@@ -94,6 +86,8 @@ You can pass optional parameters to customize the ``EventConfiguration``:
 .. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.event-configuration-with-params.swift
    :language: swift
 
+.. _swift-event-library-record-events:
+
 Record Events
 -------------
 
@@ -129,9 +123,6 @@ activities that occur within the scope of the event as read or write events.
   the initial state of the object, as well as the new values of any 
   properties that change durign the scope of the event.
 
-.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.record-read-and-write-events.swift
-   :language: swift
-
 Using ``beginScope`` to record an event opens the event {+realm+} if it 
 is not already open. This can throw the same errors that opening a {+realm+}
 can normally throw.
@@ -141,6 +132,9 @@ Use :swift-sdk:`endScope()
 to finish recording the event. When you end the recording, the Event Library 
 saves the event to disk locally. Then, if the device has a network connection, 
 the SDK asynchronously sends the data to the server.
+
+.. literalinclude:: /examples/generated/code/start/EventLibrary.snippet.record-read-and-write-events.swift
+   :language: swift
 
 You can pass an optional completion block to :swift-sdk:`endScope() 
 <Structs/Events.html#/s:10RealmSwift6EventsV8endScope10completionyys5Error_pSgcSg_tF>` 
@@ -309,3 +303,42 @@ Payloads for custom events can be whatever the developer desires, including nil.
    offline. Additionally, {+sync+} usage for the event realm may be much 
    higher than for the reading and writing the user does in the user
    realm.
+
+.. example::
+
+   In our :ref:`Record Events <swift-event-library-record-events>` examples
+   above, these are the ``data`` payloads for the read and write events:
+
+   .. code-block:: json
+      :caption: Read Event Payload
+
+      {
+        "type":"Person",
+        "value": [{
+          "_id":"62b38b3c10846041166f5deb",
+          "_partition":"",
+          "employeeId":2,
+          "name":"Anthony",
+          "userId":null
+        }]
+      }
+
+   .. code-block:: json
+      :caption: Write Event Payload
+
+      {
+        "Person": {
+          "modifications": [{
+            "newValue": {
+              "name":"Tony"
+            },
+            "oldValue":{
+              "_id":"62b38b3c10846041166f5deb",
+              "_partition":"",
+              "employeeId":2,
+              "name":"Anthony",
+              "userId":null
+            }
+          }]
+        }
+      }
