@@ -1,0 +1,21 @@
+.. _kotlin-realm-errors:
+
+================================
+Handle Realm Errors - Kotlin SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 4
+   :class: singlecol
+
+Realm errors occur when a database read or write fails for any reason.
+When possible, the SDK uses existing platform exceptions, like
+`IllegalArgumentException <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html>`__ or
+`IllegalStateException <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-state-exception/index.html>`__.
+
+Typically, these errors result from bad database logic, like a query
+missing an argument or attempting to write outside of a write transaction.
+However, these errors can be ephemeral, so if there's no clear issue
+with the operation, try it again.
