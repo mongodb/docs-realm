@@ -15,37 +15,36 @@ and
 `SyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-sync-exception/index.html>`__.
 
 Service Errors
-~~~~~~~~~~~~~~
+--------------
 
-Service errors occur when an App Services request fails
-at the HTTP level.
-
-Service errors
+Service errors occur when an App Services request fails at the HTTP level.
 
 Connection Errors
-`````````````````
+~~~~~~~~~~~~~~~~~
 
 Connection errors happen when HTTP communication fails between the SDK
 and the App Services backend.
 
 Because these errors stem from network layers outside of the SDK's
 control, you should consider these errors ephemeral. Retry the operation,
-then investigate the error if the retry fails.
+then investigate the error if the retry fails. If the operation fails
+because the client device isn't connected to the internet, you can ask
+the app user to retry the operation when they reconnect to the internet.
 
 Bad Request Errors
-``````````````````
+~~~~~~~~~~~~~~~~~~
 
 Bad request errors come from malformed App Services requests.
 
 When you get a bad request error:
 
-- check the inputs for the operation
-- check your App logs for more information about what went wrong
+- Check the inputs for the operation.
+- Check your App logs for more information about what went wrong.
 
 .. _kotlin-auth-errors:
 
 Auth Errors
-```````````
+~~~~~~~~~~~
 
 Auth errors happen when a user account action, such as login, logout,
 or registration, fails. Usually you'll get a more specific subtype that
@@ -58,10 +57,9 @@ User already confirmed errors occur when you attempt to
 `confirm <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.auth/-email-password-auth/confirm-user.html>`__
 a user who has already been confirmed.
 
-When you get a user already confirmed error, you should surface the error
-to the user, but it's best to not disrupt the application flow. Since
-the user is confirmed, you can safely let them log in. There is no need
-to retry confirmation.
+When you get a user already confirmed error, it's best to not disrupt
+the application flow. Since the user is confirmed, you can safely proceed
+to log in. There is no need to retry confirmation.
 
 User Not Found Errors
 +++++++++++++++++++++
@@ -79,7 +77,7 @@ User Already Exists Errors
 User already exists errors occur when a client attempts to register a
 user with a username that is already in use in that App.
 
-When you experience this error, prompt users to either:
+When you experience this error, prompt users to:
 
 - use a different username
 - login with their existing username if they already have an account
@@ -92,22 +90,23 @@ user login fails due to invalid credentials. Other authentication
 providers throw an :ref:`Auth Error <kotlin-auth-errors>` instead.
 
 Sync Errors
-~~~~~~~~~~~
+-----------
 
 Sync errors occur when Device Sync fails.
 
 Unrecoverable Sync Errors
-`````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Unrecoverable sync errors happen when Device Sync fails catastrophically.
 This usually means a bug in the client or connected App.
 
 When an unrecoverable sync error occurs, you should surface the problem
-to the end user. Let them know that Sync won't work until the problem
-is solved.
+to the end user. Let them know that Device Sync won't work until the
+problem is solved. It's best to send yourself an alert so you can check
+the backend App logs and fix the problem as soon as possible.
 
 Wrong Sync Type Errors
-``````````````````````
+~~~~~~~~~~~~~~~~~~~~~~
 
 Wrong sync type errors happen when the client and App use different sync
 protocols. The SDK supports two kinds of sync: **flexible sync** and
@@ -119,16 +118,16 @@ type that matches the backend. This will most likely require the user
 to update to a new version of your app containing the fix.
 
 Bad Flexible Sync Query Errors
-``````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Bad flexible sync query errors happen when you try to subscribe to a
 flexible sync query that is not supported by the App backend. This can
 happen when you:
 
 - query a field not specified as a **queryable field** in your flexible
-  sync configuration.
-- create a flexible sync query that uses operators unsupported by flexible
-  sync.
+  sync configuration
+- create a flexible sync query using operators unsupported by flexible
+  sync
 
 To recover from a bad flexible sync query error, update your client to
 use a sync query compatible with your App configuration. This will most

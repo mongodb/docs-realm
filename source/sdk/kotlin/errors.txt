@@ -20,12 +20,12 @@ The Kotlin SDK uses a hierarchy of exceptions to help developers manage
 API call failures. There are two major categories of exception that your
 application should handle when using the Kotlin SDK:
 
-- **realm errors** that occur when the SDK fails to write to a
-  realm database. These errors generate a
-  `RealmException <{+kotlin-local-prefix+}io.realm.kotlin.exceptions/-realm-exception/index.html>`__ class.
-- **app errors** that occur when the SDK fails to communicate with
-  App Services over the network. These errors generate an
-  `AppException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-app-exception/index.html>`__ class.
+- **realm errors** occur when a read or write to realm database fails.
+  These errors generate a
+  `RealmException <{+kotlin-local-prefix+}io.realm.kotlin.exceptions/-realm-exception/index.html>`__.
+- **app errors** occur when network communication with App Services
+  fails. These errors generate an
+  `AppException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-app-exception/index.html>`__.
 
 Some errors are *ephemeral*: they happen because of failures outside of
 the client or SDK's control. A failed login attempt due to network error
@@ -37,8 +37,9 @@ Other errors require logic fixes. Examples include:
 - a failed login attempt due to incorrect credentials
 - deleting an object that does not exist
 
-Always retry the operation when ephemeral errors occur. If the operation
-still fails when you retry it, investigate logic fixes.
+When an ephemeral error occurs, you should retry the operation that
+caused the error. If the operation still fails when you retry it,
+investigate logic fixes.
 
 Example
 -------
@@ -48,16 +49,19 @@ You can handle errors in the SDK with Kotlin's built-in
 API. Use the ``onSuccess`` and ``onFailure`` callbacks of the returned
 `Result <https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/>`__
 to handle successful SDK API calls and error cases. The following example
-logs an anonymous user into an App. If the login attempt succeeds, this
-example logs the success. If the login attempt fails, this example handles
-each error case individually:
+logs an anonymous user into an App. If the login attempt succeeds, we
+log the successful authentication attempt and transition the
+user to another screen. If the login attempt fails, we handle each
+potential error case individually:
 
-- If the user supplied invalid credentials, log the attempt, and allow
-  the user to re-enter their username and password.
-- If the login attempt failed because of a connection problem, log the
-  problem to the error log and retry the login in case the error is a
-  passing network failure.
-- For all other errors, log the problem to the error log.
+- If the user supplied invalid credentials, we log the attempt and
+  display a popup toast encouraging the user to check their
+  credentials.
+- If there was a problem with the network connection, we log the
+  problem to the error log and display a popup toast encouraging
+  the user to check their network connection and try again.
+- For all other errors, we log the problem to the error log and display
+  a popup toast informing the user that the login attempt failed.
 
 .. literalinclude:: /examples/generated/kotlin/AppClientTest.snippet.handle-errors.kt
    :language: kotlin
