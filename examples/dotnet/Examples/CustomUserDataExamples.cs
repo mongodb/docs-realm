@@ -88,8 +88,6 @@ namespace Examples
             var deleteResult = await cudCollection.DeleteOneAsync(
                 new BsonDocument("_id", user.Id));
 
-            var cud = user.GetCustomData<CustomUserData>();
-
             // The `DeletedCount` should be 1
             Console.WriteLine(deleteResult.DeletedCount);
 
@@ -102,7 +100,6 @@ namespace Examples
             // :snippet-end:
             Assert.AreEqual(1, deleteResult.DeletedCount);
             Assert.IsNull(customData);
-
         }
 
         [OneTimeTearDown]
