@@ -1,4 +1,4 @@
-events.beginScope(activity: "mutate object")
+events.beginScope(activity: "mutate object with completion")
 // Write event
 try! realm.write {
     // Add a userId

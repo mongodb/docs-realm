@@ -13,12 +13,20 @@ class EventLibrary_Person: Object {
     @Persisted var name: String
     @Persisted var employeeId: Int
     @Persisted var userId: String?
+    @Persisted var office: EventLibrary_Office?
 
     convenience init(name: String, employeeId: Int) {
         self.init()
         self.name = name
         self.employeeId = employeeId
     }
+}
+
+class EventLibrary_Office: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String
+    @Persisted var city: String
+    @Persisted var locationNumber: Int
 }
 
 // :snippet-start: custom-event-representable
@@ -52,8 +60,6 @@ class EventLibrary: XCTestCase {
 
     override func tearDown() {
         app.login(credentials: Credentials.anonymous) { (result) in
-            // Remember to dispatch back to the main thread in completion handlers
-            // if you want to do anything on the UI.
             DispatchQueue.main.async {
                 switch result {
                 case .failure(let error):
@@ -62,14 +68,12 @@ class EventLibrary: XCTestCase {
                     print("Login as \(user) succeeded!")
                     // Continue below
                 }
-                // mongodb-atlas is the cluster service name
                 let client = app.currentUser!.mongoClient("mongodb-atlas")
-                // Select the database
                 let database = client.database(named: "sync_examples")
-                // Select the collection
                 let collection = database.collection(withName: "AuditEvent")
-                let writeFilter: Document = ["event":"write"]
-                // Insert the documents into the collection
+                let writeFilter: Document = ["event": "write"]
+                let readFilter: Document = ["event": "read"]
+                let customFilter: Document = ["event": "custom event"]
                 collection.deleteManyDocuments(filter: writeFilter) { result in
                     switch result {
                     case .failure(let error):
@@ -79,7 +83,6 @@ class EventLibrary: XCTestCase {
                         print("Successfully deleted \(deletedResult) documents.")
                     }
                 }
-                let readFilter: Document = ["event": "read"]
                 collection.deleteManyDocuments(filter: readFilter) { result in
                     switch result {
                     case .failure(let error):
@@ -89,7 +92,6 @@ class EventLibrary: XCTestCase {
                         print("Successfully deleted \(deletedResult) documents.")
                     }
                 }
-                let customFilter: Document = ["event": "custom event"]
                 collection.deleteManyDocuments(filter: customFilter) { result in
                     switch result {
                     case .failure(let error):
@@ -102,33 +104,6 @@ class EventLibrary: XCTestCase {
             }
         }
     }
-
-//    func deleteAuditEvents() async {
-//        do {
-//            // Use the async method to login
-//            let user = try await app.login(credentials: Credentials.anonymous)
-//            print("Login as \(user) succeeded!")
-//        } catch {
-//            print("Login failed: \(error.localizedDescription)")
-//        }
-//
-//        // mongodb-atlas is the cluster service name
-//        let client = app.currentUser!.mongoClient("mongodb-atlas")
-//
-//        // Select the database
-//        let database = client.database(named: "sync_examples")
-//
-//        // Select the collection
-//        let collection = database.collection(withName: "AuditEvent")
-//
-//        do {
-//            let filter: Document = ["event": "write"]
-//            try await collection.deleteManyDocuments(filter: filter)
-//            print("Successfully deleted AuditEvent objects")
-//        } catch {
-//            print("Call to MongoDB failed: \(error.localizedDescription)")
-//        }
-//    }
 
     func testDefaultEventInitilization() {
         app.login(credentials: Credentials.anonymous) { (result) in
@@ -187,7 +162,7 @@ class EventLibrary: XCTestCase {
             let user = app.currentUser!
             var config = user.configuration(partitionValue: "Some partition value")
             config.eventConfiguration = EventConfiguration()
-            config.objectTypes = [EventLibrary_Person.self]
+            config.objectTypes = [EventLibrary_Person.self, EventLibrary_Office.self]
             // :snippet-start: invoke-event-realm
             let realm = try! Realm(configuration: config)
             let events = realm.events!
@@ -207,24 +182,26 @@ class EventLibrary: XCTestCase {
                 let partitionValue = UUID().uuidString
                 var config = user.configuration(partitionValue: partitionValue)
                 config.eventConfiguration = EventConfiguration()
-                config.objectTypes = [EventLibrary_Person.self]
+                config.objectTypes = [EventLibrary_Person.self, EventLibrary_Office.self]
                 Realm.asyncOpen(configuration: config) { (result) in
                     switch result {
                     case .failure(let error):
                         print("Failed to open realm: \(error.localizedDescription)")
                     case .success(let realm):
-                        // Create a person to use in this func
-                        try! realm.write {
-                            realm.create(EventLibrary_Person.self, value: ["name": "Anthony", "employeeId": 1])
-                        }
-                        recordReadAndWriteEvents(realm, partitionValue)
+                        recordReadAndWriteEvents(realm)
                     }
                 }
             }
         }
 
-        func recordReadAndWriteEvents(_ realm: Realm, _ partitionValue: String) {
+        func recordReadAndWriteEvents(_ realm: Realm) {
             let events = realm.events!
+            events.beginScope(activity: "write object")
+            // Record write event
+            try! realm.write {
+                realm.create(EventLibrary_Person.self, value: ["name": "Anthony", "employeeId": 1])
+            }
+            events.endScope()
             // :snippet-start: record-read-and-write-events
             // Read event
             events.beginScope(activity: "read object")
@@ -240,7 +217,7 @@ class EventLibrary: XCTestCase {
             events.endScope()
             // :snippet-end:
             // :snippet-start: scoped-event-with-completion
-            events.beginScope(activity: "mutate object")
+            events.beginScope(activity: "mutate object with completion")
             // Write event
             try! realm.write {
                 // Add a userId
@@ -254,9 +231,13 @@ class EventLibrary: XCTestCase {
                 print("Successfully recorded a write event")
             })
             // :snippet-end:
+            events.beginScope(activity: "delete objects")
+            // Record delete events
             try! realm.write {
                 realm.deleteAll()
             }
+            events.endScope()
+            // Add a sleep to delay closing the realm so the audit events can upload
             sleep(10)
             expectation.fulfill()
         }
@@ -274,7 +255,7 @@ class EventLibrary: XCTestCase {
                 let user = app.currentUser!
                 var config = user.configuration(partitionValue: UUID().uuidString)
                 config.eventConfiguration = EventConfiguration()
-                config.objectTypes = [EventLibrary_Person.self]
+                config.objectTypes = [EventLibrary_Person.self, EventLibrary_Office.self]
                 Realm.asyncOpen(configuration: config) { (result) in
                     switch result {
                     case .failure(let error):
@@ -284,6 +265,7 @@ class EventLibrary: XCTestCase {
                         // :snippet-start: record-custom-events
                         events.recordEvent(activity: "event", eventType: "custom event")
                         // :snippet-end:
+                        // Add a sleep to delay closing the realm so the audit events can upload
                         sleep(10)
                         expectation.fulfill()
                     }
@@ -291,6 +273,57 @@ class EventLibrary: XCTestCase {
             }
         }
         wait(for: [expectation], timeout: 20)
+    }
+
+    func testEmbeddedObject() {
+        let expectation = XCTestExpectation(description: "Test Embedded Objects")
+        app.login(credentials: Credentials.anonymous) { (result) in
+            switch result {
+            case .failure(let error):
+                fatalError("Login failed: \(error.localizedDescription)")
+            case .success(let user):
+                print("Successfully logged in to app")
+                let partitionValue = UUID().uuidString
+                var config = user.configuration(partitionValue: partitionValue)
+                config.eventConfiguration = EventConfiguration()
+                config.objectTypes = [EventLibrary_Person.self, EventLibrary_Office.self]
+                Realm.asyncOpen(configuration: config) { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print("Failed to open realm: \(error.localizedDescription)")
+                    case .success(let realm):
+                        // Create a person to use in this func
+                        try! realm.write {
+                            let person = EventLibrary_Person(value: ["name": "Michael Scott", "employeeId": 1])
+                            let office = EventLibrary_Office(value: ["name": "Dunder Mifflin", "city": "Scranton", "locationNumber": 123])
+                            realm.add(person)
+                            person.office = office
+                        }
+                        recordEmbeddedObjectEvents(realm)
+                    }
+                }
+            }
+        }
+
+        func recordEmbeddedObjectEvents(_ realm: Realm) {
+            let events = realm.events!
+            events.beginScope(activity: "read embedded object with followed link")
+            let person = realm.objects(EventLibrary_Person.self).where {
+                $0.name == "Michael Scott"
+            }.first!
+            print("Found this person: \(person.name)")
+            events.endScope()
+            events.beginScope(activity: "read embedded object with followed link")
+            print("\(person.name)'s employee id is: \(person.employeeId) and they work in: \(person.office?.name) which is location number: \(person.office?.locationNumber)")
+            events.endScope()
+            try! realm.write {
+                realm.deleteAll()
+            }
+            // Add a sleep to delay closing the realm so the audit events can upload
+            sleep(10)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 25)
     }
 }
 // :replace-end:
