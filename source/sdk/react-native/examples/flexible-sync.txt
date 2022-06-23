@@ -247,9 +247,8 @@ To remove subscriptions from the subscription set, you can:
 When you remove a subscription query, the server also removes synced data from
 the client device.
 
-
 Remove a Subscription by Query
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````
 You can remove a specific subscription by query by executing a transaction on
 the subscriptions set. Pass the query to the :js-sdk:`remove()
 <Realm.App.Sync.MutableSubscriptionSet.html#remove>` method on the
@@ -262,7 +261,7 @@ removed from the subscriptions set.
     :language: javascript
 
 Remove a Subscription by Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`````````````````````````````
 To remove a specific subscription by name, execute a transaction on the
 subscriptions set. Within the transaction, pass the name to the
 :js-sdk:`removeByName()
@@ -273,7 +272,7 @@ subscriptions set. Within the transaction, pass the name to the
     :language: javascript
 
 Remove a Subscription by Reference
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````````
 If you have a reference to a subscription, you can remove that subscription. To
 do so, execute a transaction on the subscriptions set. Within the transaction,
 pass the reference variable to the :js-sdk:`removeSubscription
@@ -284,7 +283,7 @@ pass the reference variable to the :js-sdk:`removeSubscription
     :language: javascript
 
 Remove All Subscriptions on an Object Type
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````````````````
 To remove all subscriptions on a specific object type, execute a transaction on
 the subscriptions set. Within the transaction, pass the object type as a string
 to the :js-sdk:`removeByObjectType
@@ -295,7 +294,7 @@ to the :js-sdk:`removeByObjectType
     :language: javascript
 
 Remove All Subscriptions
-^^^^^^^^^^^^^^^^^^^^^^^^
+````````````````````````
 To remove all subscriptions from the subscriptions set, execute a transaction on
 the subscriptions set. Call the :js-sdk:`removeAll()
 <Realm.App.Sync.MutableSubscriptionSet.html#removeAll>` method on the
