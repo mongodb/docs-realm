@@ -51,7 +51,7 @@ Log Users In and Out
 --------------------
 
 Use one or more :ref:`authentication providers <auth-providers>` to :ref:`log 
-users in and out <dotnet-authenticate-users>` of your client app. You can: 
+users in and out <dotnet-authenticate>` of your client app. You can: 
 
 - Log users in with an existing third-party account, such as Apple, Facebook,
   or Google. 
@@ -62,7 +62,7 @@ users in and out <dotnet-authenticate-users>` of your client app. You can:
 
 When you have a logged-in user, SDK methods enable you to:
 
-- :ref:`Open a synced {+realm+} <dotnet-login-and-open-realm>` with the user's 
+- :ref:`Open a synced {+realm+} <dotnet-open-a-synced-realm>` with the user's 
   configuration object
 - :ref:`Run a backend function <dotnet-call-a-function>` as the logged-in user
 - :ref:`Log the user out <dotnet-logout>`
@@ -92,20 +92,10 @@ Read and Update Custom User Data
 You can :ref:`associate custom data <custom-user-data>` with a user object, 
 such as a preferred language or local timezone, and read it from your client 
 application. A user object has a ``customData`` property that you can use 
-to :ref:`access custom user data <dotnet-read-a-users-custom-data>`. 
+to :ref:`access custom user data <dotnet-read-custom-user-data>`. 
 
-To :ref:`create <dotnet-create-a-users-custom-data-document>` and :ref:`update 
-<dotnet-update-a-users-custom-data>` custom user data, you must access 
+To :ref:`create <dotnet-create-custom-user-data>` and :ref:`update 
+<dotnet-update-custom-user-data>` custom user data, you must access 
 your MongoDB data source directly. {+backend-short+} does not offer a SDK 
 method to create or update this custom user data; it's a read-only property.
 
-.. _dotnet-app-read-user-metadata-from-login-providers:
-
-Read User Metadata from Login Providers
----------------------------------------
-
-Some authentication providers enable developers to access user metadata, such
-as full name or email address. When you configure these metadata fields on 
-the {+backend+} application, you can read this medata from your client app. A
-user object has a ``profile`` property that you can use to :ref:`access 
-user metadata <dotnet-read-user-metadata>`.
