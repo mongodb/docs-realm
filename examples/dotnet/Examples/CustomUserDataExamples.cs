@@ -80,9 +80,8 @@ namespace Examples
             Assert.IsFalse(cud.IsCool);
         }
 
-
-        [Test, Order(2)]
-        public async Task Deletes()
+        [OneTimeTearDown]
+        public async Task TearDown()
         {
             // :snippet-start: delete
             var deleteResult = await cudCollection.DeleteOneAsync(
@@ -98,14 +97,8 @@ namespace Examples
             Console.WriteLine(customData == null);
 
             // :snippet-end:
-            Assert.AreEqual(1, deleteResult.DeletedCount);
-            Assert.IsNull(customData);
-        }
 
-        [OneTimeTearDown]
-        public async Task TearDown()
-        {
-            await cudCollection.DeleteManyAsync();
+            //await cudCollection.DeleteManyAsync();
         }
 
     }
