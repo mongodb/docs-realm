@@ -1,0 +1,114 @@
+.. _swiftui-intro:
+
+==================
+Realm with SwiftUI
+==================
+
+.. toctree::
+   :titlesonly:
+   
+   Install Realm </sdk/swiftui/install>
+   Tutorial </sdk/swiftui/swiftui-tutorial>
+   Model Data with Realm </sdk/swiftui/model-data>
+   Configure and Open a Realm </sdk/swiftui/configure-and-open-a-realm>
+   CRUD </sdk/swiftui/crud>
+   Filter Data </sdk/swiftui/filter-data>
+   React to Changes </sdk/swiftui/react-to-changes>
+   Pass Realm Data Between Views </sdk/swiftui/_swiftui-pass-realm-data-between-views>
+   SwiftUI Previews </sdk/swiftui/swiftui-previews>
+   Test and Debug </sdk/swiftui/test-and-debug>
+   Swift API Reference <https://www.mongodb.com/docs/realm-sdks/swift/latest>
+   Release Notes <https://github.com/realm/realm-swift/releases>
+   App Services Overview </sdk/swiftui/app-services-overview>
+   Connect to an App Services App </sdk/swiftui/connect-to-app-services>
+   Work with Users </sdk/swiftui/work-with-users>
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The {+client-database+} Swift SDK enables mobile applications to access data
+stored in local {+realms+}. Optionally, interact with {+backend+} features
+such as Functions, MongoDB Data Access, and authentication. The 
+Realm Swift SDK supports Swift and Objective-C, and provides 
+:ref:`SwiftUI-friendly property wrappers <ios-swiftui-examples>`.
+
+Realm Database
+--------------
+
+With the {+service+} SwiftUI SDK, you can access objects stored in a local
+instance of {+client-database+}.
+
+Define an Object Schema
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Use Swift to idiomatically :ref:`define an object schema <ios-define-a-realm-object-schema>`.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.coffee-drink-object.swift
+   :language: swift
+
+Write an Object
+~~~~~~~~~~~~~~~
+
+Create a new object as you would instantiate any other object. Then,
+pass it to {+client-database+} inside :ref:`a write transaction <ios-create-a-new-object>`.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.write-an-object.swift
+   :language: swift
+
+Query Realm Database
+~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Query <ios-client-query-engine>` for stored objects using 
+SwiftUI-idiomatic queries.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.query.swift
+   :language: swift
+
+Always Access the Latest Data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use SwiftUI ``@ObservedResults`` and ``@ObservedRealmObject`` property
+wrappers, the UI updates when objects are modified.
+
+.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.always-access-the-latest-data.swift
+   :language: swift
+
+Atlas App Services Apps
+-----------------------
+
+Atlas App Services Apps, which we may refer to as {+app+}s, are backends 
+for client applications hosted by MongoDB in the cloud. They provide the 
+ability to synchronize data stored in {+client-database+}, called 
+**{+sync+}**, as well as a layer of backend functionality collectively 
+called **App Services**. In addition to working with local {+client-database+}, 
+the Swift SDK also enables you to leverage the features of {+app+}s.
+
+Atlas Device Sync
+~~~~~~~~~~~~~~~~~
+
+Use :ref:`{+sync+} <ios-sync-changes-between-devices>` to automatically 
+sync your {+realm+}s across client devices and a {+atlas+} data store backend.
+
+.. important::
+
+   {+sync+} does not currently support watchOS.
+
+App Services
+~~~~~~~~~~~~
+
+When you create an {+app+}, you get access to a variety of services to streamline
+app development:
+
+- :ref:`User management <ios-authenticate-users>`: built-in user management to enable account 
+  creation and authentication
+- :ref:`Functions <ios-call-a-function>`: define and execute server-side logic
+- :ref:`Triggers <triggers>`: react to events or define a schedule to execute 
+  automated processes
+
+Async/Await Support
+-------------------
+
+.. include:: /includes/swift-async-await-support.rst

@@ -1,0 +1,52 @@
+.. _swiftui-update-objects:
+
+========================
+Update Objects - SwiftUI
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This is a net new page that will contain examples of updating objects with 
+SwiftUI. May incorporate some of the code examples from the Swift 
+Read/Write page where applicable, but would like to present them here
+in the context of View code & may incorporate threading examples. Should 
+provide a section about Sync - using the Quick Write syntax with Sync
+causes issues due to too many updates, so include workaround of using 
+a separate ``@State`` property and having a save button or saving .onAppear.
+
+Will also include this example from the existing SwiftUI Guide:
+
+Perform a Quick Write Outside of a Transaction
+----------------------------------------------
+
+In addition to performing writes inside a transaction block, the Realm Swift 
+SDK offers a convenience feature to enable quick writes outside of a 
+transaction.
+
+When you use the ``@ObservedRealmObject`` or ``@ObservedResults`` property 
+wrappers, you can implicitly open a write transaction. Use the ``$`` operator
+to create a two-way binding to one of the state object's properties. Then,
+when you update this value, you initiate an implicit write.
+
+In this example, we create two-way bindings with two of the state object's
+properties:
+
+- ``$item.name`` creates a binding to the model Item object's ``name`` 
+  property
+- ``$item.isFavorite`` creates a binding to the model Item object's 
+  ``isFavorite`` property
+
+When the app user updates those fields in this example, {+client-database+}
+opens an implicit write transaction and saves the new values to the database.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.quick-write-observed-realm-object.swift
+   :language: swift
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
+   :language: swift

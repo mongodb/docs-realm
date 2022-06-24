@@ -1,0 +1,221 @@
+.. _swiftui-define-a-realm-object-schema:
+
+======================================
+Define a Realm Object Schema - SwiftUI
+======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _swiftui-define-a-new-object-type:
+
+Define a New Object Type
+------------------------
+
+You can define a Realm object by deriving from the
+:swift-sdk:`Object <Extensions/Object.html>` or
+:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+class. The name of the class becomes the table name in the realm,
+and properties of the class persist in the database. This makes it
+as easy to work with persisted objects as it is to work with
+regular Swift objects.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.define-a-model.swift
+   :language: swift
+
+.. note::
+
+   Class names are limited to a maximum of 57 UTF-8 characters.
+
+.. _swiftui-declare-a-property:
+
+Declare Properties
+------------------
+
+.. tip::
+
+   For reference on which types {+client-database+} supports for use as
+   properties, see :ref:`ios-supported-property-types`.
+
+When declaring non-generic properties, use the ``@Persisted`` annotation. 
+The ``@Persisted`` attribute turns Realm model properties into accessors 
+for the underlying database data.
+
+.. note::
+
+   Property names are limited to a maximum of 63 UTF-8 characters.
+
+.. _swiftui-specify-an-optional-required-property:
+
+Specify an Optional/Required Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can declare properties as optional or required (non-optional) using 
+standard Swift syntax.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.optional-required-properties.swift
+   :language: swift
+
+.. _swiftui-specify-a-primary-key:
+
+Specify a Primary Key
+~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`Primary keys <ios-primary-keys>` enforce uniqueness among objects
+in a {+realm+}. 
+
+You can efficiently :ref:`find
+<ios-find-a-specific-object-by-primary-key>`, update, and :ref:`upsert
+<ios-upsert-an-object>` objects with a primary key.
+
+As long as an object is managed by a {+realm+}, that object's primary
+key value is immutable.
+
+Declare the property with :swift-sdk:`primaryKey: true
+<Structs/Persisted.html#/s:10RealmSwift9PersistedVA2A11_PrimaryKey01_A5ValueRpzrlE07primaryE0ACyxGSb_tcfc>`
+on the ``@Persisted`` notation to set the model's primary key.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.specify-a-primary-key.swift
+   :language: swift
+
+.. _swiftui-index-a-property:
+
+Index a Property
+~~~~~~~~~~~~~~~~
+
+Indexes make queries using equality and IN operators faster in exchange
+for slightly slower writes. Indexes take up more space in the realm
+file. It's best to only add indexes when optimizing the read performance
+for specific situations.
+
+Realm supports indexing for string, integer, boolean, ``Date``, ``UUID``,
+``ObjectId``, and ``AnyRealmValue`` properties.
+
+To index a property, declare the property with 
+:swift-sdk:`indexed:true
+<Extensions/Object.html#/c:@CM@RealmSwift@@objc(cs)RealmSwiftObject(cm)indexedProperties>`
+on the ``@Persisted`` notation.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.index-a-property.swift
+   :language: swift
+
+.. _swiftui-ignore-a-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+Ignored properties behave exactly like normal properties. They can't be
+used in queries and won't trigger UI updates with ``@ObservedResults``
+and ``@ObservedRealmObject``. You can still
+observe them using :apple:`KVO
+<library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`.
+
+.. tip::
+
+   Realm automatically ignores read-only properties.
+
+If you don't want to save a field in your model to its realm,
+leave the ``@Persisted`` notation off the property attribute.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.ignore-a-property.swift
+   :language: swift
+
+.. _swiftui-realm-enum:
+
+Declare Enum Properties
+-----------------------
+
+You can use enums with ``@Persisted`` by marking it as complying with the
+:swift-sdk:`PersistableEnum <Protocols.html#/s:10RealmSwift15PersistableEnumP>` 
+protocol. {+service-short+} supports enums of any RawType.
+
+.. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum.swift
+   :language: swift
+
+.. _swiftui-declare-relationship-properties:
+
+Declare Relationship Properties
+-------------------------------
+
+.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
+
+.. _swiftui-define-a-to-one-relationship-property:
+
+Define a To-One Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship maps one property to a single instance of
+another object type. For example, you can model a person having at most
+one companion dog as a to-one relationship.
+
+.. include:: /includes/note-to-one-relationships-must-be-optional.rst
+
+.. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.swift
+   :language: swift
+
+.. _swiftui-define-a-to-many-relationship-property:
+
+Define a To-Many Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship maps one property to zero or more instances
+of another object type. For example, you can model a person having any
+number of companion dogs as a to-many relationship.
+
+Use :swift-sdk:`List <Classes/List.html>` tagged with your target
+type to define your to-many relationship property.
+
+.. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.swift
+   :language: swift
+
+.. _swiftui-define-an-inverse-relationship-property:
+
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** property is an automatic backlink
+relationship. {+client-database+} automatically updates implicit
+relationships whenever an object is added or removed in a corresponding
+to-many list or to-one relationship property. You cannot manually set
+the value of an inverse relationship property.
+
+To define an inverse relationship, use :swift-sdk:`LinkingObjects
+<Structs/LinkingObjects.html>` in your object model. The
+``LinkingObjects`` definition specifies the object type and
+property name of the relationship that it inverts.
+
+.. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship.swift
+   :language: swift
+
+.. _swiftui-define-an-embedded-object-property:
+
+Define an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **embedded object** exists as nested data inside of a single,
+specific parent object. It inherits the lifecycle of its parent object
+and cannot exist as an independent Realm object. Realm automatically
+deletes embedded objects if their parent object is deleted or when
+overwritten by a new embedded object instance.
+
+.. note:: Realm Uses Cascading Deletes for Embedded Objects
+   
+   When you delete a Realm object, any embedded objects referenced by
+   that object are deleted with it. If you want the referenced objects
+   to persist after the deletion of the parent object, your type should
+   not be an embedded object at all. Use a regular :ref:`Realm object
+   <ios-define-a-new-object-type>` with a :ref:`to-one relationship
+   <ios-define-a-to-one-relationship-property>` instead.
+
+You can define an embedded object by deriving from the
+:swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+class. You can use your embedded object in another model as you
+would any other type.
+
+.. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
+   :language: swift

@@ -1,0 +1,343 @@
+.. _swiftui-change-an-object-schema:
+
+=================================
+Change an Object Schema - SwiftUI
+=================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/note-modify-schema-properties-of-synced-realms.rst
+
+Overview
+--------
+
+When you update your object schema, you must increment the schema version 
+and perform a migration. Then, you must pass the configuration that contains
+your updates to the views where you open and use realms.
+
+.. seealso::
+
+   This page provides general Swift and Objective-C migration examples. 
+   If you are using Realm with SwiftUI, see the :ref:`SwiftUI-specific 
+   migration examples <swiftui-realm-migrations>`.
+
+If your schema update adds optional properties or removes properties, 
+{+client-database+} can perform the migration automatically. You only need to 
+increment the ``schemaVersion``. 
+
+For more complex schema updates, you must also manually specify the migration logic 
+in a ``migrationBlock``. This might include changes such as:
+
+- Adding required properties that must be populated with default values
+- Combining fields
+- Renaming a field
+- Changing a field's type
+- Converting from an object to an embedded object
+
+.. tip:: Bypass Migration During Development
+
+   When developing or debugging your application, you may prefer to delete 
+   the realm instead of migrating it. Use the 
+   :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
+   flag to delete the database automatically when a schema mismatch would
+   require a migration. 
+
+   Never release an app to production with this flag set to ``true``.
+
+Perform the Migration
+---------------------
+
+Automatically Update Schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _swiftui-add-a-property:
+
+Add a Property
+``````````````
+
+{+client-database+} can automatically migrate added
+properties, but you must specify an updated schema version when you make 
+these changes.
+
+.. note::
+
+   {+client-database+} does not automatically set values for new required 
+   properties. You must use a migration block to set default values for
+   new required properties. For new optional properties, existing records 
+   can have null values. This means you don't need a migration block when 
+   adding optional properties.
+
+.. example::
+
+   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   that has first name, last name, and age properties:
+   
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1.swift
+      :language: swift
+
+   The developer decides that the ``Person`` class needs an ``email`` field and updates 
+   the schema.
+   
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update1.swift
+      :language: swift
+
+   {+client-database+} automatically migrates the {+realm+} to conform to 
+   the updated ``Person`` schema. But the developer must set the {+realm+}'s 
+   schema version to ``2``.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.update-schema-version.swift
+      :language: swift
+
+.. _ios-delete-a-property:
+
+Delete a Property
+`````````````````
+
+To delete a property from a schema, remove the property from the object's class 
+and set a ``schemaVersion`` of the realm's configuration object. Deleting a property 
+will not impact existing objects.
+
+.. example::
+
+   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   that has first name, last name, and age properties:
+   
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1.swift
+      :language: swift
+
+   The developer decides that the ``Person`` does not need the ``age`` field and updates the schema.
+   
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update2.swift
+      :language: swift
+
+   {+client-database+} automatically migrates the {+realm+} to conform to 
+   the updated ``Person`` schema. But the developer must set the {+realm+}'s 
+   schema version to ``2``.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.update-schema-version.swift
+      :language: swift
+
+.. tip::
+
+   SwiftUI developers may see an error that a migration is required when they
+   add or delete properties. This is related to the lifecycle in SwiftUI.
+   The Views are laid out, and then the ``.environment`` modifier sets the
+   config.
+
+   To resolve a migration error in these circumstances, pass 
+   ``Realm.Configuration(schemaVersion: <Your Incremented Version>)`` 
+   into the ``ObservedResults`` constructor.
+
+.. _swiftui-perform-a-schema-migration:
+
+Manually Migrate Schema
+~~~~~~~~~~~~~~~~~~~~~~~
+
+For more complex schema updates, {+client-database+} requires a manual
+migration for old instances of a given object to the new schema.
+
+.. _swiftui-rename-a-property:
+
+Rename a Property
+`````````````````
+
+To rename a property during a migration, use the
+:swift-sdk:`Migration.renameProperty(onType:from:to:)
+<Structs/Migration.html#/s:10RealmSwift9MigrationV14renameProperty6onType4from2toySS_S2StF>`
+method. 
+
+{+client-database+} applies any new nullability or indexing settings
+during the rename operation.
+
+.. example::
+
+   Rename ``age`` to ``yearsSinceBirth`` within a :swift-sdk:`migrationBlock
+   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV14migrationBlockyAA9MigrationV_s6UInt64VtcSgvp>`.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.rename-property.swift
+      :language: swift
+
+.. _swiftui-modify-properties:
+
+Modify Properties 
+`````````````````
+.. tip::
+
+   You can use the :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
+   method to delete the {+realm+} if it would require a migration. This can
+   be useful during development when you need to iterate quickly and don't
+   want to perform the migration.
+
+To define custom migration logic, set the :swift-sdk:`migrationBlock
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV14migrationBlockyAA9MigrationV_s6UInt64VtcSgvp>`
+property of the :swift-sdk:`Configuration
+<Structs/Realm/Configuration.html>` when :ref:`opening a realm
+<ios-configure-and-open-a-realm>`.
+
+The migration block receives a :swift-sdk:`Migration object
+<Structs/Migration.html>` that you can use to perform the migration. You
+can use the Migration object's :swift-sdk:`enumerateObjects(ofType:_:)
+<Structs/Migration.html#/s:10RealmSwift9MigrationV16enumerateObjects6ofType_ySS_yAA13DynamicObjectCSg_AHtXEtF>`
+method to iterate over and update all instances of a given
+{+service-short+} type in the {+realm+}.
+
+.. example::
+
+   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   that has separate fields for first and last names:
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1.swift
+      :language: swift
+
+
+   The developer decides that the ``Person`` class should use a combined
+   ``fullName`` field instead of the separate ``firstName`` and
+   ``lastName`` fields and updates the schema. 
+
+   To migrate the {+realm+} to conform to the updated ``Person`` schema,
+   the developer sets the {+realm+}'s schema version to ``2`` and
+   defines a migration function to set the value of ``fullName`` based
+   on the existing ``firstName`` and ``lastName`` properties.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v2.swift
+      :language: swift
+
+   Later, the developer decides that the ``age`` field should be of type ``String``
+   rather than ``Int`` and updates the schema. 
+
+   To migrate the {+realm+} to conform to the updated ``Person`` schema,
+   the developer sets the {+realm+}'s schema version to ``3`` and
+   adds a conditional to the migration function so that the function defines 
+   how to migrate from any previous version to the new one.
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v3.swift
+      :language: swift
+
+   .. literalinclude:: /examples/generated/code/start/Migrations.snippet.local-migration2.swift
+      :language: swift
+
+
+.. tip:: Linear Migrations
+
+   Avoid nesting or otherwise skipping ``if (oldSchemaVersion < X)`` statements 
+   in migration blocks. This ensures that all updates can be applied in the correct order, 
+   no matter which schema version a client starts from. The goal is to define 
+   migration logic which can transform data from any outdated schema version to 
+   match the current schema.
+
+.. _swiftui-convert-to-an-embedded-object:
+
+Convert from Object to EmbeddedObject
+`````````````````````````````````````
+
+:ref:`Embedded objects <ios-embedded-objects>` cannot exist
+independently of a parent object. When changing an Object to an
+EmbeddedObject, the migration block must ensure that every embedded
+object has exactly one :term:`backlink <backlink>` to a parent object. Having no backlinks
+or multiple backlinks raises the following exceptions:
+
+.. code-block::
+   :copyable: False
+
+   At least one object does not have a backlink (data would get lost).
+
+.. code-block::
+   :copyable: False
+
+   At least one object does have multiple backlinks.
+
+.. seealso::
+
+   :ref:`ios-embedded-objects`
+
+.. _swiftui-realm-migrations:
+
+Use Migrated Data with SwiftUI
+------------------------------
+
+To perform a migration:
+
+- Update your schema and write a migration block, if required
+- Specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`
+  that uses this migration logic and/or updated schema version when you 
+  initialize your realm.
+
+From here, you have two options to pass the configuration object. You can either:
+
+- Use environment injection to provide this configuration to the first view 
+  in your hierarchy that uses Realm
+- Explicitly provide the configuration to a Realm property wrapper that takes
+  a configuration object, such as ``@ObservedResults`` or ``@AsyncOpen``.
+
+.. example:: 
+
+   For example, you might want to add a property to an existing object, such as
+   the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
+
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.add-property-to-model.swift
+      :language: swift
+
+   After you add your new property to the schema, you must increment the 
+   schema version. Your ``Realm.Configuration`` might look like this:
+
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.realm-configuration-increment-schema.swift
+      :language: swift
+
+   Declare this configuration somewhere that is accessible to the first view 
+   in the hierarchy that needs it. Declaring this above your ``@main`` app 
+   entrypoint makes it available everywhere, but you could also put it in 
+   the file where you first open a realm.
+
+Pass the Configuration Object as an Environment Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have declared the configuration, you can pass it as an environment 
+object to the first view in your hierarchy that opens a realm. If you are 
+using the ``@ObservedResults`` or ``@ObservedRealmObject`` property wrappers, 
+these views implicitly open a realm, so they also need access to this 
+configuration.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-as-environment-object.swift
+   :language: swift
+
+In the SwiftUI quickstart, the first view in the hiearchy that opens a realm 
+varies depending on whether you're using the app with or without Sync.
+
+Without sync, you can pass the realm configuration environment object directly
+to the ``LocalOnlyContentView``: 
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-environment-object-to-local-content-view.swift.rst
+
+Which opens a realm implicitly with:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.implicitly-open-realm.swift.rst
+
+However, for the Sync version of the quickstart, you open the Realm explicitly
+using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.auto-open-synced-realm.swift.rst
+
+So you must pass pass the environment object to the ``OpenSyncedRealmView``:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-to-synced-realm-view.swift.rst
+
+The important thing to remember is to make sure to pass the 
+``Realm.Configuration`` that encompasses your migration logic to any view 
+hierarchy that implicitly or explicitly opens a realm.
+
+Explicitly Pass the Updated Configuration to a Realm SwiftUI Property Wrapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can explicitly pass the configuration object to a Realm SwiftUI
+property wrapper that takes a configuration object, such as ``@ObservedResults``
+or ``@AutoOpen``. In this case, you might pass it directly to ``@ObservedResults``
+in our ``ItemsView``.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.explicitly-provide-config-to-property-wrappers.swift
+   :language: swift

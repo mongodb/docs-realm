@@ -1,0 +1,33 @@
+.. _swiftui-react-to-changes:
+
+==========================
+React to Changes - SwiftUI
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+The SwiftUI property wrappers help with this, but there may be times when 
+devs want to use change notifications so this should also incorporate
+an example of using change notifications + link to the Swift React to Changes page.
+Maybe also an example of using ``@ObservedObject`` like how we observe the 
+``RealmSwift.app`` to react to login state changes.
+
+.. _swiftui-update-view-observed-collection:
+
+Update the UI When an Object Changes
+------------------------------------
+
+The Swift SDK provides the :swift-sdk:`@ObservedRealmObject 
+<Structs/ObservedRealmObject.html>` property wrapper that invalidates a view 
+when an observed object changes. You can use this property wrapper to 
+create a view that automatically updates itself when the observed object
+changes, such as a new item being added to a group.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.items-view.swift
+   :language: swift
