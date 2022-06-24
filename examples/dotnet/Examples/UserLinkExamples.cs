@@ -42,7 +42,8 @@ namespace Examples
         public async Task ReadUserProfile()
         {
             // :snippet-start: user-metadata
-            var user = await app.LogInAsync(Credentials.EmailPassword("user1@example.com", "p@ssw0rd"));
+            var user = await app.LogInAsync(
+                Credentials.EmailPassword("user1@example.com", "p@ssw0rd"));
             Console.WriteLine($"The user's email is {user.Profile.Email}");
             // :snippet-end:
         }
