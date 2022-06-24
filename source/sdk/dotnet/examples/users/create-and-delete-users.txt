@@ -25,8 +25,6 @@ When you use email/password authentication, you must first :ref:`register
 <dotnet-email-password-confirm-user>` a user before Atlas App Services 
 creates the user object.
 
-.. include:: /includes/apple-account-deletion-requirements.rst
-
 .. _dotnet-delete-user:
 
 Delete a User
@@ -37,6 +35,8 @@ To delete a user, call the :dotnet-sdk:`DeleteUserFromServerAsync(User)
 method. This deletes the user from the server, and also deletes the user's local 
 data, but does not delete any custom user data. To delete custom user data, 
 see :ref:`<dotnet-delete-custom-user-data>`.
+
+.. include:: /includes/apple-account-deletion-requirements.rst
 
 The following example shows how to delete a user account:
 
