@@ -1,3 +1,43 @@
+# June 24, 2022
+
+## .NET SDK
+- Add "Work with Users" section, move authentication-related pages from Usage Examples and Advanced Guides into this section
+  - Add information & code examples for deleting a user and deleting the user's Custom User Data
+  - Add information & code examples for  reading user metadata
+
+## Node.js SDK
+- Usage Examples/Flexible Sync: Add docs & code examples for initial subscriptions & reRunOnStartup
+
+## React Native SDK
+- Usage Examples/Flexible Sync: Add docs & code examples for initial subscriptions & reRunOnStartup
+
+## Swift SDK
+- Event Library: New page w/SDK implementation details for the Event Library
+
+# June 17, 2022
+
+## Tutorial
+- Task Tracker (Web): Remove unnecessary dependencies that conflict with Create React App base config
+
+## Flutter SDK
+- Sync Device Data/Manage Sync Session: Update docs on behavior of updating a Flex Sync subscription, update tested code examples
+
+## Kotlin SDK
+- App Services/Authenticate Users: Link to related docs for auth examples on other platforms
+
+## .NET SDK
+- Usage Examples/Flexible Sync: Add info & code for bootstrapping realm with initial subscription 
+
+## Swift SDK
+- Usage Examples
+  - SwiftUI Guide: Clarify SwiftUI migration details based on user feedback
+  - Flexible Sync: Update `rerunOnOpen` example to show re-computing vars
+- Unit Tests: Add delays to Sync tests to fix failures
+- Generate new code examples for updates renaming Realm App to App Services
+
+## Reference
+- Restore section after App Services docs split w/links to Glossary & Realm Query Language pages
+
 # June 10, 2022
 
 As the documentation is now split into separate repositories, and "App Services" is officially no longer directly associated with Realm Database SDKs, we're moving App Services release notes to the [App Services repository](https://github.com/mongodb/docs-app-services).
