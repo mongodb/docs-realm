@@ -152,7 +152,7 @@ are *thread-confined*. That means you may only use them on the thread
 where you created them.
 
 Sendable Conformance
-^^^^^^^^^^^^^^^^^^^^
+````````````````````
 
 .. versionadded:: 10.20.0
 
@@ -167,7 +167,7 @@ conform to :apple:`Sendable <documentation/swift/sendable>`.
 .. _ios-thread-safe-wrapper:
 
 Use the @ThreadSafe Wrapper
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```````````````````````````
 
 .. versionadded:: 10.17.0
 
@@ -198,7 +198,7 @@ and results, on a struct or class property, or on a function parameter.
 
 
 Use ThreadSafeReference (Legacy Swift / Objective-C)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+````````````````````````````````````````````````````
 
 Before Realm Swift SDK version 10.17.0 or in Objective-C, you can pass
 thread-confined instances to another thread as follows:
@@ -378,7 +378,7 @@ You can close frozen {+realm+} before the live {+realm+} is closed.
 .. _ios-modify-frozen-object:
 
 Modify a Frozen Object
-^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````
 
 To modify a frozen object, you must thaw the object. Alternately, you can 
 query for it on an unfrozen {+realm+}, then modify it. Calling ``thaw`` 
@@ -392,7 +392,7 @@ Thawing an object or collection also thaws the {+realm+} it references.
 .. _ios-append-to-frozen-collection:
 
 Append to a Frozen Collection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`````````````````````````````
 
 When you append to a frozen :ref:`collection <ios-client-collections>`, 
 you must thaw both the collection and the object that you want to append. 
