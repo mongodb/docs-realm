@@ -43,7 +43,7 @@ content: |
 title: Update the Authentication Screen and Manager
 ref: update-authentication-screen
 content: |
-  To add support for :doc:`Email/Password Authentication </sdk/dotnet/examples/manage-email-password-users>`,
+  To add support for :doc:`Email/Password Authentication </sdk/dotnet/examples/users/manage-email-password-users>`,
   you'll need to update your Authentication Screen to have a password field
   and a button that allows users to toggle between a registration mode and login mode. 
 
@@ -70,7 +70,7 @@ content: |
 
   Replace the existing ``AuthenticationManager.OnPressLogin()`` method with the one below, called
   ``OnPressLoginWithBackend`` that uses :doc:`Email/Password Authentication
-  </sdk/dotnet/examples/manage-email-password-users>`:
+  </sdk/dotnet/examples/users/manage-email-password-users>`:
 
   .. literalinclude:: /tutorial/generated/unity/AuthenticationManager.snippet.add-sync-login-click-handler.cs
      :language: csharp
@@ -88,7 +88,7 @@ ref: enable-email-pass-auth
 content: |
   Currently, the project's only form of authentication is a username input.
   Let's replace that in the code with {+realm+} :doc:`Email/Password
-  Authentication </sdk/dotnet/examples/manage-email-password-users>`
+  Authentication </sdk/dotnet/examples/users/manage-email-password-users>`
 
   In the ``RealmController.cs``, replace the ``SetLoggedInUser()`` with an
   asynchronous method that logs in using the :dotnet-sdk:`LogInAsync()

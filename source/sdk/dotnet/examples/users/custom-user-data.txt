@@ -97,3 +97,16 @@ method, and then refreshes the data to ensure the latest changes are available:
 
 .. literalinclude:: /examples/generated/dotnet/CustomUserDataExamples.snippet.update.cs
    :language: csharp
+
+.. _dotnet-delete-custom-user-data:
+
+Delete a User's Custom Data
+---------------------------
+
+Deleting custom user data uses the same approach as writing and updating. The 
+following example finds and deletes the data by using the 
+:dotnet-sdk:`DeleteOneAsync() <reference/Realms.Sync.MongoClient.Collection-1.html#Realms_Sync_MongoClient_Collection_1_DeleteOneAsync_System_Object_>` 
+method:
+
+.. literalinclude:: /examples/generated/dotnet/CustomUserDataExamples.snippet.delete.cs
+   :language: csharp
