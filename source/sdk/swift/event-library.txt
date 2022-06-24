@@ -124,8 +124,8 @@ activities that occur within the scope of the event as read or write events.
   properties that change durign the scope of the event.
 
 Using ``beginScope`` to record an event opens the event {+realm+} if it 
-is not already open. This can throw the same errors that opening a {+realm+}
-can normally throw.
+is not already open. The SDK opens event {+realm+}s on the background 
+thread reports errors to the error callback.
 
 Use :swift-sdk:`endScope() 
 <Structs/Events.html#/s:10RealmSwift6EventsV8endScope7Combine6FutureCyyts5Error_pGyF>` 
@@ -156,8 +156,7 @@ to record a custom event. This function takes these parameters:
   "user registration."
 - ``eventType``: the type of event. This is an arbitrary string, such as 
   "pressed Submit button."
-- ``data``: an optional data payload for the event. If supplied, the 
-  string is UTF-8 encoded.
+- ``data``: an optional data payload for the event. 
 - ``completion``: an optional completion handler. The Event Library calls 
   this completion block once the event has been saved to the event 
   {+realm+}, or if an error occurs. A nil error indicates success.
@@ -290,7 +289,6 @@ Event Payload
 Each event contains a payload in the ``data`` property that captures
 the current state of the objects being read or written to.
 
-Payloads for read or write events are UTF-8 JSON blobs compressed with DEFLATE.
 Payloads for custom events can be whatever the developer desires, including nil.
 
 .. important::
