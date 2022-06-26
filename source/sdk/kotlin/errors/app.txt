@@ -19,6 +19,9 @@ Service Errors
 
 Service errors occur when an App Services request fails at the HTTP level, i.e. the HTTP request returned, but the HTTP Status code was not 200 (OK).
 
+.. seealso::
+
+   `ServiceException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-service-exception/index.html>`__
 
 Connection Errors
 ~~~~~~~~~~~~~~~~~
@@ -32,6 +35,10 @@ then investigate the error if the retry fails. If the operation fails
 because the client device isn't connected to the internet, you can ask
 the app user to retry the operation when they reconnect to the internet.
 
+.. seealso::
+
+   `ConnectionException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-connection-exception/index.html>`__
+
 Bad Request Errors
 ~~~~~~~~~~~~~~~~~~
 
@@ -42,6 +49,10 @@ When you get a bad request error:
 - Check the inputs for the operation.
 - Check your App logs for more information about what went wrong.
 
+.. seealso::
+
+   `BadRequestException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-bad-request-exception/index.html>`__
+
 .. _kotlin-auth-errors:
 
 Auth Errors
@@ -50,6 +61,10 @@ Auth Errors
 Auth errors happen when a user account action, such as login, logout,
 or registration, fails. Usually you'll get a more specific subtype that
 helps you identify a solution.
+
+.. seealso::
+
+   `AuthException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-auth-exception/index.html>`__
 
 User Already Confirmed Errors
 +++++++++++++++++++++++++++++
@@ -62,6 +77,10 @@ When you get a user already confirmed error, it's best to not disrupt
 the application flow. Since the user is confirmed, you can safely proceed
 to log in. There is no need to retry confirmation.
 
+.. seealso::
+
+   `UserAlreadyConfirmedException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-user-already-confirmed-exception/index.html>`__
+
 User Not Found Errors
 +++++++++++++++++++++
 
@@ -71,6 +90,10 @@ email/password usernames.
 
 When you experience this error, prompt the user to re-enter their
 username and try again.
+
+.. seealso::
+
+   `UserNotFoundException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-user-not-found-exception/index.html>`__
 
 User Already Exists Errors
 ++++++++++++++++++++++++++
@@ -83,17 +106,29 @@ When you experience this error, prompt users to:
 - use a different username
 - login with their existing username if they already have an account
 
-Invalid Credential Errors
-+++++++++++++++++++++++++
+.. seealso::
+
+   `UserAlreadyExistsException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-user-already-exists-exception/index.html>`__
+
+Invalid Credentials Errors
+++++++++++++++++++++++++++
 
 Invalid credential errors occur when a JWT, email/password, or API Key
 user login fails due to invalid credentials. Other authentication
 providers throw an :ref:`Auth Error <kotlin-auth-errors>` instead.
 
+.. seealso::
+
+   `InvalidCredentialsException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-invalid-credentials-exception/index.html>`__
+
 Sync Errors
 -----------
 
 Sync errors occur when Device Sync fails.
+
+.. seealso::
+
+   `SyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-sync-exception/index.html>`__
 
 Unrecoverable Sync Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,6 +141,10 @@ to the end user. Let them know that Device Sync won't work until the
 problem is solved. It's best to send yourself an alert so you can check
 the backend App logs and fix the problem as soon as possible.
 
+.. seealso::
+
+   `UnrecoverableSyncException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-unrecoverable-sync-exception/index.html>`__
+
 Wrong Sync Type Errors
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -116,6 +155,10 @@ type that does not match the App's sync type, a wrong sync type error occurs.
 To recover from a wrong sync type error, update the client to use a sync
 type that matches the backend. This will most likely require the user
 to update to a new version of your app containing the fix.
+
+.. seealso::
+
+   `WrongSyncTypeException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-wrong-sync-type-exception/index.html>`__
 
 Bad Flexible Sync Query Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,3 +176,7 @@ To recover from a bad flexible sync query error, update your client to
 use a sync query compatible with your App configuration. This will most
 likely require the user to update to a new version of your app containing
 the fix.
+
+.. seealso::
+
+   `BadFlexibleSyncQueryException <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.exceptions/-bad-flexible-sync-query-exception/index.html>`__
