@@ -261,6 +261,8 @@ value from the environment object passed in from above.
 .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
    :language: swift
 
+.. _inject-realm-as-environment-value:
+
 Inject an Opened Realm
 ``````````````````````
 
@@ -467,3 +469,311 @@ in our ``ItemsView``.
 
 .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.explicitly-provide-config-to-property-wrappers.swift
    :language: swift
+
+Use Realm with SwiftUI Previews
+-------------------------------
+
+.. _swift-use-objects-in-a-detail-view:
+
+Initialize an Object for a Detail View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the simplest case, you can use SwiftUI Previews with one or more objects 
+that use Realm properties you can set directly at initialization. 
+You might want to do this when previewing a Detail view. Consider our 
+ItemDetailsView:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.item-details-view.swift
+   :language: swift
+
+Create an extension for your model object. Where you put this extension depends 
+on convention in your codebase. You may put it directly in the model file,
+have a dedicated directory for sample data, or use some other convention in 
+your codebase.
+
+In this extension, initialize one or more Realm objects with ``static let``:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-extend-model-class-with-objects.swift
+   :language: swift
+
+In this example, we :ref:`initialize objects with a value 
+<ios-initialize-an-object-with-a-value>`. You can only initialize objects with
+a value when your model contains properties that you can directly initialize.
+If your model object contains properties that are only mutable within a 
+write transaction, such as a :ref:`List property <ios-list-collections>`,
+you must instead :ref:`create a realm to use with your SwiftUI Previews 
+<swift-create-a-realm-with-data>`.
+
+After you have initialized an object as an extension of your model class, 
+you can use it in your SwiftUI Preview. You can pass the object directly
+to the View in the Preview:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-detail-view.swift
+   :language: swift
+
+.. _conditionally-use-observedresults-in-a-list-view:
+
+Conditionally Use ObservedResults in a List View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`
+in a List view, this implicitly opens a realm and queries it. For this to 
+work in a Preview, you need :ref:`a realm populated with data 
+<swift-create-a-realm-with-data>`. As an alternative, you can conditionally 
+use a static array in Previews and only use the ``@ObservedResults`` variable 
+when running the app.
+
+You could do this in multiple ways, but for the sake of making our
+code easier to read and understand, we'll create an ``EnvironmentValue`` 
+that can detect whether the app is running in a Preview:
+
+.. code-block:: swift
+
+   import Foundation
+   import SwiftUI
+
+   public extension EnvironmentValues {
+      var isPreview: Bool {
+         #if DEBUG
+         return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+         #else
+         return false
+         #endif
+      }
+   }
+
+Then, we can use this as an environment value in our view, and conditionally
+change which variable we use based on whether or not we are in a Preview.
+
+This example builds on the :ref:`Item extension we defined above 
+<swift-use-objects-in-a-detail-view>`. We'll create an ``itemArray`` as 
+a ``static let`` in our Item extension, and include the item objects we
+already created:
+
+.. code-block:: swift
+
+   static let itemArray = [item2, item2, item3]
+
+Then, when we iterate through our List, use the static ``itemArray`` if
+running in a Preview, or use the ``@ObservedResults`` query if not in a Preview.
+
+.. code-block:: swift
+
+   struct ItemListView: View {
+      @Environment(\.isPreview) var isPreview
+      @ObservedResults(Item.self) var items
+      var previewItems = Item.itemArray
+
+      var body: some View {
+         NavigationView {
+            VStack {
+               List {
+                  if isPreview {
+                     ForEach(previewItems) { item in
+                        ItemRow(item: item)
+                     }
+                  } else {
+                     ForEach(items) { item in
+                        ItemRow(item: item)
+                     }.onDelete(perform: $items.remove)
+                     .onMove(perform: $items.move)
+                  }
+               }
+               ... More View code
+
+This has the benefit of being lightweight and not persisting any data, but 
+the downside of making the View code more verbose. If you prefer cleaner 
+View code, you can create a realm with data that you use in the Previews.
+
+.. _swift-create-a-realm-with-data:
+
+Create a Realm with Data for Previews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, your only option to see realm data in a SwiftUI Preview
+is to create a realm that contains the data. You might do this when populating 
+a property that can only be populated during a write transaction, rather 
+than initialized directly with a value, such as a :ref:`List 
+<ios-list-collections>` or :ref:`MutableSet <ios-mutableset-data-type>`. 
+You might also want to do this if your view relies on more complex object 
+hierarchies being passed in from other views.
+
+However, using a realm directly does inject state into your SwiftUI Previews, 
+which can come with drawbacks. Whether you're using Realm or Core Data, 
+stateful SwiftUI Previews can cause issues like:
+
+- Seeing unexpected or duplicated data due to re-running the realm file 
+  creation steps repeatedly
+- Needing to perform a migration within the SwiftUI Preview when you make model changes
+- Potential issues related to changing state within views
+- Unexplained crashes or performance issues related to issues that are not
+  surfaced in a visible way in SwiftUI Previews
+
+You can avoid or fix some of these issues with these tips:
+
+- :ref:`Use an in-memory realm, when possible (demonstrated in the example above) <swiftui-preview-use-in-memory-realm>`
+- :ref:`Manually delete all preview data from the command line to reset state <swiftui-preview-delete-realm-from-preview>`
+- :ref:`Check out diagnostic logs to try to troubleshoot SwiftUI Preview issues <swiftui-preview-diagnose-crashes>`
+
+You can create a static variable for your realm in your model extension.
+This is where you do the work to populate your realm. In our case, we 
+create an ``ItemGroup`` and append some ``Item`` objects to the ``items``
+List property. This example builds on the example above where we :ref:`initialized
+a few Item objects in an Item extension <swift-use-objects-in-a-detail-view>`.
+
+
+We'll create an ``ItemGroup`` extension, and create a single ``ItemGroup`` object
+in that extension. Then, we'll create a ``previewRealm`` by adding the 
+``ItemGroup`` we just created, and appending the example ``Item`` objects from 
+the ``Item`` extension.
+
+To avoid adding these objects more than once, we add a check to see if the 
+ItemGroup already exists by querying for ItemGroup objects and checking that 
+the count is 1. If the realm contains an ItemGroup, we can use it in our 
+SwiftUI Preview. If not, we add the data.
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-extend-model-class-with-realm.swift
+   :language: swift
+
+To use it in the SwiftUI Preview, our ItemsView code expects an ItemGroup. 
+In our Preview, we can get the realm, query it for the ItemGroup, and pass 
+it to the view:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-with-realm.swift
+   :language: swift
+
+If you don't have a View that is expecting a realm object to be passed in,
+but instead uses ``@ObservedResults`` to query a realm or otherwise work
+with an existing realm, you can :ref:`inject the realm into the view as an 
+environment value <inject-realm-as-environment-value>`:
+
+.. code-block:: swift
+
+   struct SomeListView_Previews: PreviewProvider {
+      static var previews: some View {
+         SomeListView()
+            .environment(\.realm, ItemGroup.previewRealm)
+      }
+   }
+
+.. _swiftui-preview-use-in-memory-realm:
+
+Use an In-Memory Realm
+^^^^^^^^^^^^^^^^^^^^^^
+
+When possible, use an :ref:`in-memory realm <ios-open-an-in-memory-realm>` 
+to get around some of the state-related issues that can come from using 
+a database within a SwiftUI Preview.
+
+Use the :swift-sdk:`inMemoryIdentifier 
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>` 
+configuration property when you initialize the realm.
+
+.. code-block:: swift
+
+   static var previewRealm: Realm {
+      var realm: Realm
+      let identifier = "previewRealm"
+      let config = Realm.Configuration(inMemoryIdentifier: identifier)
+      do {
+         realm = try Realm(configuration: config)
+         ... Add data to realm
+
+.. note::
+
+   Do not use the the :swift-sdk:`deleteRealmIfMigrationNeeded 
+   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>`
+   configuration property when you initialize a realm for SwiftUI Previews.
+   Due to the way Apple has implemented SwiftUI Previews, using this property
+   to bypass migration issues causes SwiftUI Previews to crash.
+
+.. _swiftui-preview-delete-realm-from-preview:
+
+Delete SwiftUI Previews
+^^^^^^^^^^^^^^^^^^^^^^^
+
+If you run into other SwiftUI Preview issues related to state, 
+such as a failure to load a realm in a Preview due to migration being 
+required, there are a few things you can do to remove cached Preview data.
+
+The Apple-recommended fix is to close Xcode and use the command line to 
+delete all your existing SwiftUI Preview data. 
+
+1. Close Xcode.
+2. From your command line, run:
+
+   .. code-block:: shell
+
+      xcrun simctl --set previews delete all
+
+It's possible that data may persist after running this command. This is 
+likely due to Xcode retaining a reference due to something in the Preview
+and being unable to delete it. You can also try these steps to resolve issues:
+
+- Build for a different simulator 
+- Restart the computer and re-run ``xcrun simctl --set previews delete all``
+- Delete stored Preview data directly. This data is stored in 
+  ``~/Library/Developer/Xcode/UserData/Previews``.
+
+.. _swiftui-preview-diagnose-crashes:
+
+Get Detailed Information about SwiftUI Preview Crashes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have an unexplained SwiftUI Preview crash when using realm, first try
+running the application on the simulator. The error messaging and logs available
+for the simulator make it easier to find and diagnose issues. If you can
+debug the issue in the simulator, this is the easiest route.
+
+If you cannot replicate a SwiftUI Preview crash in the simulator, you can 
+view crash logs for the SwiftUI Preview app. These logs are available in 
+``~/Library/Logs/DiagnosticReports/``. These logs sometimes appear after 
+a delay, so wait a few minutes after a crash if you don't see the relevant 
+log immediately.
+
+.. _swift-use-a-synced-realm-in-previews:
+
+Use a Synced Realm in Previews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your app uses Atlas Device Sync, you may wonder how to use a synced realm
+in your SwiftUI Previews. A better practice is to use static objects or a 
+local realm that you populate with data for your SwiftUI Previews.
+
+In our example app, we can preview a view *associated* with Device Sync - 
+the LoginView - without needing to use a realm at all:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-view-associated-with-sync.swift
+   :language: swift
+
+Since we're only viewing the static UI, we don't need to worry about the 
+SyncContentView that contains the logic of whether to show the LoginView 
+or go to the OpenSyncedRealmView. We can also skip previewing the 
+OpenSyncedRealmView, because that just handles logic associated with opening
+a synced realm and populating it for the ItemsView. So the next view we
+want to see in a Preview is the ItemsView.
+
+Fortunately, with Realm, the code to work with the realm doesn't care whether
+the realm uses Device Sync or not - you work with the realm in the same way.
+So we can use the same local realm that we :ref:`created in the example above 
+<swift-create-a-realm-with-data>` in the SwiftUI Preview. The only difference
+is that we would want to show the LogoutButton on the SwiftUI Preview to
+see all of the UI components in the Preview:
+
+.. code-block:: swift
+
+   struct ItemsView_Previews: PreviewProvider {
+      static var previews: some View {
+         let realm = ItemGroup.previewRealm
+         let itemGroup = realm.objects(ItemGroup.self)
+         ItemsView(itemGroup: itemGroup.first!, leadingBarButton: AnyView(LogoutButton()))
+      }
+   }
+
+This is the same as our code above for the non-Synced realm, but we pass the 
+``LogoutButton()`` here to see it in the SwiftUI Preview. However, the 
+LogoutButton View code disables the logout button unless there is a logged-in
+``app.currentUser``. Because there is no logged-in user in our SwiftUI Preview,
+the Logout button is grayed out to indicate that it is disabled. When you
+run the app in the simulator, you see it working as expected because you have
+a logged-in user there.
