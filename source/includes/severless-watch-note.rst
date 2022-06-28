@@ -1,3 +1,5 @@
-MongoDB severless currently does not support change streams. This means that
-functions to watch or observe changes do not work if the configured data source is 
-a severless instance.
+.. important:: Severless Limitations
+
+  You cannot watch for changes if the data source is an Atlas serverless instance. MongoDB 
+  severless currently does not support change streams, which are used on watched
+  collections to listen for changes.
