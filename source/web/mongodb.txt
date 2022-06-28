@@ -362,6 +362,10 @@ collection is added, modified, or deleted. Each notification specifies a
 document that changed, how it changed, and the full document after the
 operation that caused the event.
 
+.. important:: Severless Limitations
+
+    .. include:: /includes/severless-watch-note.rst
+
 {+service-short+} uses MongoDB :manual:`change streams </changeStreams/>` on
 watched collections to listen for changes and broadcasts notifications to
 subscribed client applications. This is useful for cases where you want to know
@@ -385,6 +389,10 @@ Watch for Changes in a Collection
 
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` without any arguments:
+
+.. important:: Severless Limitations
+
+    .. include:: /includes/severless-watch-note.rst
 
 .. literalinclude:: /examples/generated/web/mongodb-data-access.test.snippet.watch-for-changes.js
    :language: javascript
