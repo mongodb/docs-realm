@@ -65,8 +65,14 @@ objects or results.
 
 When you do not specify a configuration, these property wrappers use the 
 :swift-sdk:`defaultConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`. 
-However, you can :ref:`use environment injection to specify a different 
-configuration <ios-swiftui-inject-realm-configuration>`.
+
+You can alternately customize the configuration that the property wrappers use 
+to implicitly open the {+realm+}. You might want to do this when using a 
+:swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` or when 
+setting :swift-sdk:`Configuration properties <Structs/Realm/Configuration.html>`.
+To do this, :ref:`create a configuration <ios-configure-and-open-a-realm>`. 
+Then, :ref:`use environment injection to pass that configuration to the 
+view where the property wrappers use it <ios-swiftui-inject-realm-configuration>`.
 
 .. _ios-open-synced-realm-swiftui:
 
