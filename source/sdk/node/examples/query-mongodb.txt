@@ -38,6 +38,28 @@ possible. You might want to query MongoDB when:
 While not exhaustive, these are some common use cases for querying MongoDB 
 directly.
 
+.. _node-mongodb-example-dataset:
+
+.. example:: Example Data
+
+   .. include:: /includes/mongodb-data-access-example-plant-documents.rst
+
+   Documents in the ``plants`` collection use the following schema:
+
+   .. tabs::
+      
+      .. tab:: JSON Schema
+         :tabid: json-schema
+         
+         .. literalinclude:: /includes/plant-object-examplep-schema.json
+            :language: json
+      
+      .. tab:: TypeScript
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/generated/node/mongodb.snippet.plant-document-type.ts
+            :language: typescript
+
 .. _node-mongodb-connect:
 
 Connect to a Linked Cluster
@@ -80,38 +102,14 @@ The following snippet finds the document that describes "venus flytrap" plants i
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.find-a-single-document.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.find-a-single-document-result.js
+      :language: js
 
 .. _node-find-multiple-documents:
 .. _node-mongodb-findMany:
@@ -127,38 +125,14 @@ The following snippet finds all documents that describe perennial plants in the
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.find-multiple-documents.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.find-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.find-multiple-documents-result.js
+      :language: js
 
 .. _node-count-documents:
 .. _node-mongodb-count:
@@ -174,38 +148,14 @@ The following snippet counts the number of documents in a :ref:`collection of
 documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.count-documents-in-the-collection.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.count-documents-in-the-collection-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.count-documents-in-the-collection-result.js
+      :language: js
 
 Write Operations
 ----------------
@@ -223,38 +173,14 @@ The following snippet inserts a single document describing a "lily of the
 valley" plant into a :ref:`collection of documents that describe plants for sale
 in a group of stores <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.insert-a-single-document.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.insert-a-single-document-result.js
+      :language: js
 
 .. _node-insert-multiple-documents:
 .. _node-mongodb-insertMany:
@@ -269,38 +195,14 @@ The following snippet inserts three documents describing plants into a
 :ref:`collection of documents that describe plants for sale in a group of stores
 <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.insert-multiple-documents.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.insert-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.insert-multiple-documents-result.js
+      :language: js
 
 .. _node-update-a-single-document:
 .. _node-mongodb-updateOne:
@@ -318,38 +220,14 @@ documents that describe plants for sale in a group of stores
 ``name`` field contains the value "petunia" and changes the value of the first
 matched document's ``sunlight`` field to "partial":
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.update-a-single-document.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.update-a-single-document-result.js
+      :language: js
 
 .. _node-update-multiple-documents:
 .. _node-mongodb-updateMany:
@@ -367,38 +245,14 @@ documents that describe plants for sale in a group of stores
 ``_partition`` field contains the value "Store 47" and changes the value of the
 ``_partition`` field of each matching document to "Store 51":
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.update-multiple-documents.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.update-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.update-multiple-documents-result.js
+      :language: js
 
 .. _node-upsert-documents:
 .. _node-mongodb-upsert:
@@ -417,38 +271,14 @@ describe plants for sale in a group of stores <node-mongodb-example-dataset>`
 with an upsert operation. The query doesn't match any existing documents, so
 MongoDB automatically creates a new one.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.upsert-documents.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.upsert-documents-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.upsert-documents-result.js
+      :language: js
 
 .. _node-delete-a-single-document:
 .. _node-mongodb-deleteOne:
@@ -468,38 +298,14 @@ that describe plants for sale in a group of stores
 the ``color`` field has a value of "green" and deletes the first document that
 matches the query:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.delete-a-single-document.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-a-single-document-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.delete-a-single-document-result.js
+      :language: js
 
 .. _node-delete-multiple-documents:
 .. _node-mongodb-deleteMany:
@@ -516,38 +322,14 @@ The following snippet deletes all documents for plants that are in "Store 51" in
 a :ref:`collection of documents that describe plants for sale in a group of
 stores <node-mongodb-example-dataset>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.delete-multiple-documents.js
+      :language: js
 
-Running this snippet produces output resembling the following:
-
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.delete-multiple-documents-result.ts
-         :language: typescript
-         :copyable: false
+   .. output:: /examples/generated/node/mongodb.snippet.delete-multiple-documents-result.js
+      :language: js
 
 Real-time Change Notifications
 ------------------------------
@@ -574,19 +356,8 @@ Watch for All Changes in a Collection
 To watch for all changes in a collection, call :js-sdk:`collection.watch()
 <Realm.MongoDBCollection.html#watch>` with no arguments:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection.js
+   :language: javascript
 
 .. _node-watch-for-specific-changes-in-a-collection:
 .. _node-mongodb-watch-a-collection-with-filter:
@@ -598,19 +369,9 @@ To watch for specific changes in a collection, pass a query that matches
 :manual:`change event </reference/change-events/>` fields to
 :js-sdk:`collection.watch() <Realm.MongoDBCollection.html#watch>`:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.js
-         :language: javascript
+.. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.js
+   :language: javascript
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/node/mongodb.snippet.watch-a-collection-with-filter.ts
-         :language: typescript
 
 Aggregation Operations
 ----------------------
@@ -633,73 +394,14 @@ Aggregation operations return the result set of the last stage in the pipeline.
 The following snippet groups all documents in the ``plants`` collection by their
 ``type`` value and aggregates a count of the number of each type:
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection.js
-         :language: javascript
+.. io-code-block::
+   :copyable: true
 
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection.ts
-         :language: typescript
+   .. input:: /examples/generated/node/mongodb.snippet.aggregate-documents-in-a-collection.js
+      :language: js
 
-Running this snippet produces output resembling the following:
+   .. output:: /examples/generated/node/mongodb.snippet.aggregate-documents-in-a-collection-result.js
+      :language: js
 
-.. tabs-realm-languages::
-   :hidden: true
-   
-   .. tab::
-      :tabid: javascript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection-result.js
-         :language: javascript
-         :copyable: false
-
-   .. tab::
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.aggregate-documents-in-a-collection-result.ts
-         :language: typescript
-         :copyable: false
 
 .. include:: /includes/aggregation-stages.rst
-
-.. _node-mongodb-example-dataset:
-
-Example Data
-------------
-
-.. include:: /includes/mongodb-data-access-example-plant-documents.rst
-
-Documents in the ``plants`` collection use the following schema:
-
-.. tabs::
-   
-   .. tab:: JSON Schema
-      :tabid: json-schema
-      
-      .. code-block:: json
-         
-         {
-           "title": "Plant",
-           "bsonType": "object",
-           "required": ["_id", "_partition", "name"],
-           "properties": {
-             "_id": { "bsonType": "objectId" },
-             "_partition": { "bsonType": "string" },
-             "name": { "bsonType": "string" },
-             "sunlight": { "bsonType": "string" },
-             "color": { "bsonType": "string" },
-             "type": { "bsonType": "string" }
-           }
-         }
-   
-   .. tab:: TypeScript
-      :tabid: typescript
-      
-      .. literalinclude:: /examples/generated/code/start/mongodb.snippet.plant-document-type.ts
-         :language: typescript

@@ -20,15 +20,15 @@ documents according to standard MongoDB :manual:`query syntax
    The following ``$match`` stage filters documents to include
    only those where the ``type`` field has a value equal to "perennial":
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$match": {
-          "type": {
-            "$eq": "perennial"
-          },
-        }
-      }
+      .. input:: /examples/generated/node/mongodb.snippet.filter-documents.js
+         :language: js
+
+      .. output:: /examples/generated/node/mongodb.snippet.filter-documents-result.js
+         :language: js
+         :visible: false
 
 Group Documents
 ~~~~~~~~~~~~~~~
@@ -53,18 +53,19 @@ with a ``$``.
 .. example::
 
    The following ``$group`` stage arranges documents by the value of their
-   ``_partition`` field and calculates the number of plant documents
-   that each unique ``_partition`` value appears in.
+   ``type`` field and calculates the number of plant documents
+   that each unique ``type`` value appears in.
 
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$group": {
-          "_id": "$_partition",
-          "numItems": { "$sum": 1 }
-        }
-      }
+      .. input:: /examples/generated/node/mongodb.snippet.group-documents.js
+         :language: js
+
+      .. output:: /examples/generated/node/mongodb.snippet.group-documents-result.js
+         :language: js
+         :visible: false
 
 Project Document Fields
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,15 +121,15 @@ vice versa.
       since arrays index from ``0``. For example, the value ["Store", "42"]
       passed to this operation would return a value of "42".
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$project": {
-          "_id": 0,
-          "name": 1,
-          "storeNumber": { "$arrayElemAt": [ { "$split": [ "$_partition", " " ] }, 1 ] }
-        }
-      }
+      .. input:: /examples/generated/node/mongodb.snippet.project-document-fields.js
+         :language: js
+
+      .. output:: /examples/generated/node/mongodb.snippet.project-document-fields-result.js
+         :language: js
+         :visible: false
 
 Add Fields to Documents
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,6 +138,10 @@ You can use the :manual:`$addFields
 </reference/operator/aggregation/addFields/>` stage to add new fields
 with calculated values using :manual:`aggregation operators
 </reference/operator/aggregation>`.
+
+.. code-block:: javascript
+
+   { $addFields: { <newField>: <expression>, ... } }
 
 .. note::
 
@@ -150,13 +155,15 @@ with calculated values using :manual:`aggregation operators
    ``storeNumber`` where the value is the output of two aggregate operators
    that transform the value of the ``_partition`` field.
 
-   .. code-block:: javascript
+   .. io-code-block::
+      :copyable: true
 
-      {
-        "$addFields": {
-          "storeNumber": { "$arrayElemAt": [ { "$split": [ "$_partition", " " ] }, 1 ] }
-        }
-      }
+      .. input:: /examples/generated/node/mongodb.snippet.add-fields-to-documents.js
+         :language: js
+
+      .. output:: /examples/generated/node/mongodb.snippet.add-fields-to-documents-result.js
+         :language: js
+         :visible: false
 
 Unwind Array Values
 ~~~~~~~~~~~~~~~~~~~
@@ -180,52 +187,22 @@ but replaces the array value with the array element in each copy.
 
 .. example::
 
-   The following ``$unwind`` stage creates a new document for each
-   element of the ``items`` array in each document. It also adds a field
-   called ``itemIndex`` to each new document that specifies the
-   element's position index in the original array:
+   The following example uses the ``$unwind`` stage for each object's ``type`` and ``color``
+   combination. The aggregation pipeline has the following steps: 
 
-   .. code-block:: javascript
+   #. Use ``$group`` stage with ``$addToSet`` to create new documents
+      for each ``type`` with a new field ``colors`` that contains an array 
+      of all the the colors for that flower type that occur in the collection.
+   #. Use ``$unwind`` stage to create separate documents for each combination of 
+      type and color.
+   #. Use ``$sort`` stage to sort the results in alphabetical order.
 
-      {
-        "$unwind": {
-          "path": "$items",
-          "includeArrayIndex": "itemIndex"
-         }
-      }
+   .. io-code-block::
+      :copyable: true
 
-Consider the following document from the a collection of purchases:
+      .. input:: /examples/generated/node/mongodb.snippet.unwind-array-values.js
+         :language: js
 
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        items: [
-          { name: "Baseball", quantity: 5 },
-          { name: "Baseball Mitt", quantity: 1 },
-          { name: "Baseball Bat", quantity: 1 },
-        ]
-      }
-
-If we apply the example ``$unwind`` stage to this document, the stage
-outputs the following three documents:
-
-.. code-block:: javascript
-
-      {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 0,
-        items: { name: "Baseball", quantity: 5 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 1,
-        items: { name: "Baseball Mitt", quantity: 1 }
-      }, {
-        _id: 123,
-        customerId: 24601,
-        itemIndex: 2,
-        items: { name: "Baseball Bat", quantity: 1 }
-      }
+      .. output:: /examples/generated/node/mongodb.snippet.unwind-array-values-result.js
+         :language: js
+         :visible: false
