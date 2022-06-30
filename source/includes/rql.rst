@@ -446,19 +446,19 @@ You can query :manual:`BSON ObjectIDs </reference/method/ObjectId>` and
 :manual:`UUIDs </reference/method/UUID/>`.
 These data types are often used as primary keys.
 
-To query with ObjectIDs, cast a string representation of the ObjectID you're querying
-against in ``oid(<ObjectID String>)``.
+To query with ObjectIDs, cast a string representation of the ObjectID you're evaluating
+in ``oid(<ObjectID String>)``.
 
 .. code-block:: js
-   
-   _id == oid(6001c033600510df3bbfd864)
 
-To query with UUIDs, cast a string representation of the UUID you're querying
-against in ``uuid(<UUID String>)``.
+   "_id == oid(6001c033600510df3bbfd864)"
+
+To query with UUIDs, put a string representation of the UUID you're evaluating
+in ``uuid(<UUID String>)``.
 
 .. code-block:: js
-   
-   id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)
+
+   "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
 
 .. list-table::
    :header-rows: 1
