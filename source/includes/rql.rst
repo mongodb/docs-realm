@@ -446,7 +446,7 @@ You can query :manual:`BSON ObjectIDs </reference/method/ObjectId>` and
 :manual:`UUIDs </reference/method/UUID/>`.
 These data types are often used as primary keys.
 
-To query with ObjectIDs, cast a string representation of the ObjectID you're evaluating
+To query with ObjectIDs, put a string representation of the ObjectID you're evaluating
 in ``oid(<ObjectID String>)``.
 
 .. code-block:: js
