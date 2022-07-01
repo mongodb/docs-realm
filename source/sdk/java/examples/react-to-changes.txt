@@ -20,7 +20,7 @@ Register a Realm Change Listener
 --------------------------------
 
 You can register a notification handler on an entire realm.
-{+client-database+} calls the notification handler whenever any write
+Realm Database calls the notification handler whenever any write
 transaction involving that realm is committed. The
 handler receives no information about the change.
 
@@ -101,8 +101,8 @@ for as long as you need the notifications.
    modifications. Handling insertions before deletions may
    result in unexpected behavior.
 
-{+client-database+} emits an initial notification after retrieving the
-collection. After that, {+client-database+} delivers collection
+Realm Database emits an initial notification after retrieving the
+collection. After that, Realm Database delivers collection
 notifications asynchronously whenever a write transaction
 adds, changes, or removes objects in the collection.
 
@@ -140,7 +140,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a realm. {+client-database+} notifies your handler:
+within a realm. Realm Database notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -195,7 +195,7 @@ in a realm or any of its linked objects or collections with
 Use Realm in System Apps on Custom ROMs
 ---------------------------------------
 
-{+service-short+} uses named pipes in order to support notifications and
+Realm uses named pipes in order to support notifications and
 access to the realm file from multiple processes. While this is
 allowed by default for normal user apps, it is disallowed for system
 apps.
@@ -232,7 +232,7 @@ as part of AOSP:
       audit2allow -p policy -i input.txt
 
 #. The tool should output a rule you can add to your existing policy
-   to enable the use of {+service-short+}.
+   to enable the use of Realm.
 
 An example of such a policy is provided below:
 

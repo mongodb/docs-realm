@@ -15,13 +15,13 @@ Sync Changes Between Devices - Java SDK
 Prerequisites
 -------------
 
-Before you can access a synced {+realm+} from the client, you must:
+Before you can access a synced realm from the client, you must:
 
-1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
+1. :ref:`Enable sync <enable-sync>` in the App Services UI.
 
 #. :ref:`Initialize the app <java-quick-start-init-app>`
 
-#. Enable {+sync+} in your application by adding the following to the
+#. Enable Sync in your application by adding the following to the
    top level of your application-level :file:`build.gradle` file:
 
    .. code-block:: groovy
@@ -46,19 +46,19 @@ Sync Data
 The syntax to :ref:`read <java-realm-database-reads>`, :ref:`write
 <java-realm-database-writes>`, and
 :ref:`watch for changes <java-client-notifications>` on a
-synced {+realm+} is identical to the syntax for non-synced {+realms+}. While you work with
+synced realm is identical to the syntax for non-synced realms. While you work with
 local data, a background thread efficiently integrates, uploads, and downloads changesets.
 
 .. important:: When Using Sync, Avoid Writes on the Main Thread
 
-   The fact that {+service-short+} performs sync integrations on a background thread means
-   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   The fact that Realm performs sync integrations on a background thread means
+   that if you write to your realm on the main thread, there's a small chance your UI
    could appear to hang as it waits for the background sync thread to finish a write
    transaction. Therefore, it's a best practice :ref:`never to write on the main thread
-   when using {+sync+} <java-threading-three-rules>`.
+   when using Sync <java-threading-three-rules>`.
 
 The following code reads a collection of ``Task`` objects, then writes a
-new ``Task`` to the {+realm+}:
+new ``Task`` to the realm:
 
 .. tabs-realm-languages::
    
@@ -154,10 +154,10 @@ To check the current network connection, call :java-sdk:`getConnectionState() <i
 
 .. important:: Connection States vs. Session States
 
-   The SDK manages communication with {+backend+} at two levels:
+   The SDK manages communication with App Services at two levels:
    **connection state** and **session state**. *Connection state* tracks
    the state of the network connection between a client device and your
-   backend {+app+}. *Session state* refers to a single user's
+   backend App. *Session state* refers to a single user's
    synchronization state, which can be :ref:`paused and resumed
    <java-pause-or-resume-a-sync-session>` in the SDK at will. As a
    result, you must check *both* states to determine whether
@@ -233,7 +233,7 @@ Handle Sync Errors
 ------------------
 
 You can configure an error handler to detect and respond to any errors that
-occur in the {+sync+} process. To define an error handler, pass an
+occur in the Sync process. To define an error handler, pass an
 :java-sdk:`ErrorHandler <io/realm/mongodb/sync/SyncSession.ErrorHandler.html>`
 to the :java-sdk:`SyncConfiguration.Builder.errorHandler()
 <io/realm/mongodb/sync/SyncConfiguration.Builder.html#errorHandler-io.realm.mongodb.sync.SyncSession.ErrorHandler->`

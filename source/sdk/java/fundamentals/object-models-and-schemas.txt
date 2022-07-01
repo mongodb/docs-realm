@@ -15,7 +15,7 @@ Object Models & Schemas - Java SDK
 An **object schema** is a configuration object that defines the fields and
 relationships of a Realm object type. Android
 Realm applications define object schemas with Java or Kotlin
-classes using :term:`{+frontend-schema+}s <{+frontend-schema+}>`.
+classes using :term:`Realm Schemas <Realm Schema>`.
 
 Object schemas specify constraints on object fields such as the data
 :ref:`type <java-supported-data-types>` of each field, whether a
@@ -23,22 +23,22 @@ field is required, and default field values. Schemas can also define
 :ref:`relationships <java-client-relationships>` between object types in
 a realm.
 
-Modifying your application's {+frontend-schema+} requires you to
+Modifying your application's Realm Schema requires you to
 :ref:`migrate <java-schema-versions-and-migrations>` data from older
-versions of your {+frontend-schema+} to the new version.
+versions of your Realm Schema to the new version.
 
 Realm Apps
 ----------
 
-Every App has a :ref:`{+backend-schema+} <java-realm-schema>`
+Every App has a :ref:`Realm Schema <java-realm-schema>`
 composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
+realms in that application may contain.
 
-{+service+} guarantees that all objects in a realm conform to the
+Realm guarantees that all objects in a realm conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
-Apps that take advantage of {+sync+} can define schemas in two ways:
+Apps that take advantage of Sync can define schemas in two ways:
 
 - object schemas :ref:`using Kotlin and Java class declarations
   <create-schema-from-rom>` with :ref:`Development Mode <enable-development-mode>`.
@@ -52,7 +52,7 @@ Primary Keys
 
 .. versionadded:: 10.6.0
 
-   {+client-database+} automatically :ref:`indexes <java-indexes-fundamentals>`
+   Realm Database automatically :ref:`indexes <java-indexes-fundamentals>`
    primary key fields. Previously, Realm only indexed ``String`` primary
    keys automatically.
 
@@ -91,12 +91,12 @@ key value must be unique. Attempting to insert an object with an existing
 primary key into a realm will result in a
 :java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
 
-{+client-database+} automatically :ref:`indexes <java-index-field>`
+Realm Database automatically :ref:`indexes <java-index-field>`
 primary key fields, which allows you to efficiently read and modify
 objects based on their primary key.
 
 You cannot change the primary key field for an object type after adding
-any object of that type to a realm. If you are using {+sync+},
+any object of that type to a realm. If you are using Sync,
 you cannot change the primary key field for an object after defining the
 primary key in your backend :ref:`schema <schemas>`.
 
@@ -175,7 +175,7 @@ nullable, and cannot be made required.
    .. tab::
       :tabid: java
 
-      Nullable fields are optional by default in {+client-database+}, unless
+      Nullable fields are optional by default in Realm Database, unless
       otherwise specified with the :ref:`@Required <java-required-field>`
       annotation. The following types are nullable:
 
@@ -231,10 +231,10 @@ Indexes
 -------
 
 **Indexes** support the efficient execution of queries in
-{+client-database+}. Without indexes, {+client-database+} must perform a
+Realm Database. Without indexes, Realm Database must perform a
 *collection scan*, i.e. scan every document in a collection, to select
 those documents that match a query. If an appropriate index exists for a
-query, {+client-database+} can use the index to limit the number of
+query, Realm Database can use the index to limit the number of
 documents that it must inspect.
 
 Indexes are special data structures that store a small portion of a
@@ -300,13 +300,13 @@ Realm Objects
 Unlike normal Java objects, which contain their own data, a
 Realm object doesn't contain data. Instead,
 Realm objects read and write properties directly to
-{+client-database+}.
+Realm Database.
 
 Instances of Realm objects can be either **managed** or **unmanaged**.
 
 - **Managed** objects are:
 
-  - persisted in {+client-database+}
+  - persisted in Realm Database
 
   - always up to date
 

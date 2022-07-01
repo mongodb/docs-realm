@@ -18,19 +18,19 @@ Android Studio Debugging
 .. important::
 
    The Android Studio debugger can provide misleading values for
-   {+service-short+} object fields. For correct values, you can watch
-   accessor values instead, or use the {+service-short+} object
+   Realm object fields. For correct values, you can watch
+   accessor values instead, or use the Realm object
    ``toString()`` method to see the latest field values.
 
 This section details information you should keep in mind when debugging
-{+service-short+} applications with Android Studio to avoid incorrect
-value reporting. When you watch a {+service-short+} object,
+Realm applications with Android Studio to avoid incorrect
+value reporting. When you watch a Realm object,
 you'll see values displayed in the object's fields. These values 
 are incorrect because the field values themselves are not used. This is
-because {+service-short+} creates a :ref:`proxy object
+because Realm creates a :ref:`proxy object
 <java-realm-proxy>` behind the scenes, overriding
 the getters and setters to access the persisted data in the
-{+realm+}. To see the correct values, add a watch on the accessors.
+realm. To see the correct values, add a watch on the accessors.
 See the image below:
 
 .. figure:: /images/android-studio-debugging.png
@@ -51,7 +51,7 @@ the *accessors* report values that are correct.
 NDK Debugging
 -------------
 
-The {+service-short+} Java SDK library contains native code. 
+The Realm Java SDK library contains native code. 
 Debugging NDK crashes can be cumbersome, as the default stack trace
 provides minimal information. 
 

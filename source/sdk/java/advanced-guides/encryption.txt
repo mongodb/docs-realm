@@ -12,39 +12,39 @@ Encrypt a Realm - Java SDK
    :depth: 2
    :class: singlecol
 
-You can encrypt the {+realm+} database file on disk with AES-256 +
+You can encrypt the realm database file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
-{+realm+} <java-open-a-local-realm>`.
+realm <java-open-a-local-realm>`.
 
 Realm transparently encrypts and decrypts data with standard
 :wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
-first 256 bits of the given 512-bit encryption key. {+service-short+}
+first 256 bits of the given 512-bit encryption key. Realm
 uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
 .. note:: Performance Impact
 
-   Reads and writes on encrypted {+realm+}s can be up to 10%
-   slower than equivalent reads and writes to unencrypted {+realm+}s.
+   Reads and writes on encrypted realms can be up to 10%
+   slower than equivalent reads and writes to unencrypted realms.
 
 .. important:: Encryption and Atlas Device Sync
 
    You can encrypt a :ref:`synced realm <java-sync-data>`, but
-   {+service+} only encrypts the data on the device. {+service+} stores
+   Realm only encrypts the data on the device. Realm stores
    the data unencrypted in your :term:`data source`.
 
 Store & Reuse Keys
 ------------------
 
-To repeatedly access an encrypted {+realm+}, you must pass the same
+To repeatedly access an encrypted realm, you must pass the same
 encryption key to :java-sdk:`RealmConfiguration.Builder.encryptionKey()
 <io/realm/RealmConfiguration.Builder.html#encryptionKey-byte:A->` each
-time you open the {+realm+}. Apps should store the encryption key in the
+time you open the realm. Apps should store the encryption key in the
 :android:`Android KeyStore <training/articles/keystore.html>` so
 that other apps cannot read the key. The following steps describe the
 recommended way to use the KeyStore for encryption with
-{+service-short+}:
+Realm:
 
 1. Generate an asymmetric RSA key that Android can securely store and
    retrieve using the Android KeyStore.
@@ -54,19 +54,19 @@ recommended way to use the KeyStore for encryption with
       Versions M and above require user PIN or fingerprint to unlock
       the KeyStore.
 
-#. Generate a symmetric key (AES) you can use to encrypt the {+realm+}.
+#. Generate a symmetric key (AES) you can use to encrypt the realm.
 
 #. Encrypt the symmetric AES key using your private RSA key.
 
 #. Store the encrypted AES key on filesystem (in a
    ``SharedPreferences``, for example).
 
-When you need to use your encrypted {+realm+}:
+When you need to use your encrypted realm:
 
 1. Retrieve your encrypted AES key.
 #. Decrypt your encrypted AES key using the public RSA key.
 #. Use the decrypted AES key in the ``RealmConfiguration`` to open the
-   encrypted {+realm+}.
+   encrypted realm.
 
 .. seealso::
 
@@ -80,7 +80,7 @@ Generate and Store an Encryption Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following code demonstrates how to securely generate and store an
-encryption key for a {+realm+}:
+encryption key for a realm:
 
 .. tabs-realm-languages::
    
@@ -102,7 +102,7 @@ Access an Existing Encryption Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following code demonstrates how to access and decrypt a securely
-stored encryption key for a {+realm+}:
+stored encryption key for a realm:
 
 .. tabs-realm-languages::
    
@@ -123,7 +123,7 @@ stored encryption key for a {+realm+}:
 Open an Encrypted Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The following code demonstrates how to open an encrypted {+realm+} with
+The following code demonstrates how to open an encrypted realm with
 the :java-sdk:`encryptionKey() <io/realm/mongodb/sync/SyncConfiguration.Builder.html#encryptionKey-byte:A->`
 method:
 

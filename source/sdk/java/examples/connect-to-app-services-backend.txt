@@ -13,7 +13,7 @@ Connect to an Atlas App Services backend - Java SDK
    :depth: 2
    :class: singlecol
 
-The {+app+} client is the interface to the {+backend+}
+The App client is the interface to the App Services
 backend. It provides access to the :ref:`authentication functionality
 <java-authenticate>`, :ref:`functions <java-call-a-function>`, and
 :ref:`sync management <java-sync-data>`.
@@ -25,7 +25,7 @@ backend. It provides access to the :ref:`authentication functionality
 Access the App Client
 ---------------------
 
-Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
+Pass the App ID for your App, which you can :ref:`find in the Realm UI
 <find-your-app-id>`.
   
 .. tabs-realm-languages::
@@ -46,13 +46,13 @@ Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
 
 .. important:: Initialize the App before Creating an Instance
 
-   You must initialize your {+service-short+} app connection with
+   You must initialize your Realm app connection with
    ``Realm.init()`` before creating any instance of an ``App``.
 
 .. note::
 
    You can create multiple ``App`` instances to connect to multiple
-   {+app+}s or to the same {+app+} with different configurations. All
+   Apps or to the same App with different configurations. All
    ``App`` instances that share the same App ID use the same underlying
    connection.
 
@@ -85,4 +85,4 @@ Builder to control details of your ``App``:
 .. note:: 
 
    For most use cases, you only need your application's App ID to connect
-   to {+service+}. The other settings demonstrated here are optional.
+   to Realm. The other settings demonstrated here are optional.

@@ -16,7 +16,7 @@ Overview
 --------
 
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your {+app+}.
+data to sync with your App.
 
 To use Flexible Sync in the SDK:
 
@@ -173,10 +173,10 @@ Writing an update to the subscription set locally is only one component
 of changing a subscription. After the local subscription change, the client
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
-synced {+realm+}. Use the :java-sdk:`waitForInitialRemoteData()
+synced realm. Use the :java-sdk:`waitForInitialRemoteData()
 <io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>`
 builder method to force your application to block until client subscription
-data synchronizes to the backend before opening the {+realm+}:
+data synchronizes to the backend before opening the realm:
 
 .. tabs-realm-languages::
    

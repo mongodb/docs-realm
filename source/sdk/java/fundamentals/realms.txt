@@ -119,7 +119,7 @@ opening an additional instance requires fewer resources:
 - If the realm is already open on the same thread within the same
   process, opening the realm requires minimal additional resources.
 
-When you open a realm for the first time, {+client-database+}
+When you open a realm for the first time, Realm Database
 performs the memory-mapping and schema validation required to read and
 write data to the realm. Additional instances of that
 realm on the same thread use the same underlying resources.
@@ -127,9 +127,9 @@ Instances of that realm on separate threads use some of the same
 underlying resources.
 
 When all connections to a realm are closed in
-a thread, {+client-database+} frees the thread resources used to
+a thread, Realm Database frees the thread resources used to
 connect to that realm. When all connections to a realm are
-closed in a process, {+client-database+} frees all resources used to
+closed in a process, Realm Database frees all resources used to
 connect to that realm.
 
 As a best practice, we recommend tying the realm instance
@@ -168,13 +168,13 @@ receive notifications from multiple APKs.
 Comparison with Other Databases
 -------------------------------
 
-The {+service+} data model is similar to both relational and document
+The Realm data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
 differences, it's helpful to highlight what a realm **is not**:
 
 A realm is not a single, application-wide database.
     Unlike other applications, which store all of their data in a single
-    database, {+app+}s often split data across multiple {+realms+} to
+    database, Apps often split data across multiple realms to
     organize data more efficiently and to enforce access controls.
 
 A realm is not a table.
@@ -192,16 +192,16 @@ A realm is not a collection of schemaless documents.
 Realm Schema
 ------------
 
-A **{+backend-schema+}** is a list of valid :ref:`object schemas
-<java-realm-objects>` that each define an object type that an {+app+}
-may persist. All objects in a realm must conform to the {+backend-schema+}.
+A **Realm Schema** is a list of valid :ref:`object schemas
+<java-realm-objects>` that each define an object type that an App
+may persist. All objects in a realm must conform to the Realm Schema.
 
 By default, the SDK automatically adds all classes in your project
 that derive from :java-sdk:`RealmObject <io/realm/RealmObject.html>` to the
 realm schema.
 
-Client applications provide a {+frontend-schema+} when they open a
-realm. If a realm already contains data, then {+client-database+}
+Client applications provide a Realm Schema when they open a
+realm. If a realm already contains data, then Realm Database
 validates each existing object to ensure that an object schema was
 provided for its type and that it meets all of the constraints specified
 in the schema.
@@ -241,31 +241,31 @@ Synced Realms
 
 When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
 realms represent partitions of Atlas data. Each realm corresponds to 
-a subset of the data in your :term:`{+app+}'s <{+app+}>`
+a subset of the data in your :term:`App's <App>`
 :term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
 :ref:`partitioning <sync-partitions>` of data using your application's
 :ref:`partition key <partition-key>`. Unique values of the partition
 key, known as :ref:`partition values <partition-value>`, correspond to
-individual {+realms+}.
+individual realms.
 
 When you use :ref:`Flexible Sync <flexible-sync>`, you can customize the 
 data your client application syncs by :ref:`subscribing to queries 
 <java-sync-subscribe-to-queryable-fields>`. These queries search for 
-data in your {+app+} backend, and the Flexible Sync realm syncs data that 
+data in your App backend, and the Flexible Sync realm syncs data that 
 matches the queries. The client application can only sync data where the
 user has the appropriate :ref:`read or read and write permissions 
 <flexible-sync-rules-and-permissions>` to access the data.
 
 You can customize permissions for the data that synced realms can read
-and write from your {+app+} when you configure 
-:ref:`{+service-short+} Rules <sync-rules>`.
+and write from your App when you configure 
+:ref:`Realm Rules <sync-rules>`.
 
 .. _java-realm-file:
 
 Find Your Realm File
 --------------------
 
-{+client-database+} stores a binary encoded version of every object
+Realm Database stores a binary encoded version of every object
 and type in a realm in a single ``.realm`` file.
 
 .. include:: /includes/find-realm-file-java.rst
@@ -281,9 +281,9 @@ and type in a realm in a single ``.realm`` file.
 Realm File Size
 ---------------
 
-{+client-database+} usually takes up less space on disk than an
+Realm Database usually takes up less space on disk than an
 equivalent SQLite database. However, in order to give you a consistent
-view of your data, {+service-short+} operates on multiple versions of a
+view of your data, Realm operates on multiple versions of a
 realm. If many versions of a realm are opened simultaneously,
 the realm file can require additional space on disk.
 
@@ -294,9 +294,9 @@ overhead as a small number of large transactions.
 Unexpected file size growth usually happens for one of three reasons:
 
 1) *You open a realm on a background thread and forget to close it
-   again.* As a result, {+client-database+} retains a reference to the
+   again.* As a result, Realm Database retains a reference to the
    older version of data on the background thread. Because
-   {+client-database+} automatically updates realms to the most
+   Realm Database automatically updates realms to the most
    recent version on threads with loopers, the UI thread and other
    Looper threads do not have this problem.
 
@@ -309,7 +309,7 @@ Unexpected file size growth usually happens for one of three reasons:
 
 3) *You read some data from a realm. Then, you block the thread with
    a long-running operation. Meanwhile, you write many times to the
-   realm on other threads.* This causes {+client-database+} to
+   realm on other threads.* This causes Realm Database to
    create many intermediate versions. You can avoid this by:
 
    - batching the writes
@@ -329,9 +329,9 @@ when building your ``RealmConfiguration`` to throw an
 a realm than the permitted number. Versions are created when
 executing a write transaction.
 
-{+client-database+} automatically removes older versions of data once
+Realm Database automatically removes older versions of data once
 they are no longer used by your application. However,
-{+client-database+} does not free the space used by older versions of
+Realm Database does not free the space used by older versions of
 data; instead, that space is used for new writes to the realm.
 
 .. _java-compact-a-realm:
@@ -359,7 +359,7 @@ You can remove unused space by **compacting** the realm file:
 Backup and Restore Realms
 -------------------------
 
-{+client-database+} persists {+realms+} to disk using files on your
+Realm Database persists realms to disk using files on your
 Android device. To back up a realm, :ref:`find your realm file
 <java-realm-file>` and copy it to a safe location. You should close
 all instances of the realm before copying it.
@@ -383,10 +383,10 @@ Summary
   schema. It is not a single, application-wide database. There can and
   usually will be more than one realm per application.
 
-- A :term:`{+backend-schema+}` is a versioned specification of the
-  object types used in an {+app+}.
+- A :term:`Realm Schema` is a versioned specification of the
+  object types used in an App.
 
-- {+service-short+} Rules define who can read or write
+- Realm Rules define who can read or write
   the realm and apply to the realm as a whole.
 
 - When using :ref:`Partition-Based Sync <partition-based-sync>`, a 

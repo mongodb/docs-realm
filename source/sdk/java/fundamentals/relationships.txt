@@ -12,17 +12,17 @@ Relationships - Java SDK
    :depth: 2
    :class: singlecol
 
-{+service+} allows you to define explicit relationships between the types of
-objects in an {+app+}. A relationship is an object property that references
-another {+service-short+} object rather than one of the primitive data types. You
+Realm allows you to define explicit relationships between the types of
+objects in an App. A relationship is an object property that references
+another Realm object rather than one of the primitive data types. You
 define relationships by setting the type of an object property to
 another object type in the :ref:`property schema <property-schema>`.
 
-Relationships are direct references to other objects in a {+realm+}, which
+Relationships are direct references to other objects in a realm, which
 means that you don't need bridge tables or explicit joins to define a
 relationship like you would in a relational database. Instead you can
 access related objects by reading and writing to the property that
-defines the relationship. {+client-database+} executes read operations
+defines the relationship. Realm Database executes read operations
 lazily as they come in, so querying a relationship is just as performant
 as reading a regular property.
 
@@ -53,10 +53,10 @@ To-One Relationship
 A **to-one** relationship means that an object is related in a specific
 way to no more than one other object. You define a to-one relationship
 for an object type in its :ref:`object schema <java-object-schema>` by
-specifying a property where the type is the related {+service-short+} object type.
+specifying a property where the type is the related Realm object type.
 
 Setting a relationship field to null removes the connection between
-objects, but {+client-database+} does not delete the referenced object
+objects, but Realm Database does not delete the referenced object
 unless that object is :ref:`embedded <java-field-relationships-embedded>`.
 
 .. seealso::
@@ -71,7 +71,7 @@ To-Many Relationship
 A **to-many** relationship means that an object is related in a specific
 way to multiple objects. You can create a relationship between one object
 and any number of objects using a field of type ``RealmList<?>``
-where ``T`` is a {+service-short+} object in your application:
+where ``T`` is a Realm object in your application:
 
 .. seealso::
 
@@ -96,7 +96,7 @@ To define an inverse relationship, define a ``LinkingObjects`` property in your
 object model. The ``LinkingObjects`` definition specifies the object type and
 property name of the relationship that it inverts.
 
-{+client-database+} automatically updates implicit relationships whenever an
+Realm Database automatically updates implicit relationships whenever an
 object is added or removed in the specified relationship. You cannot manually
 set the value of an inverse relationship property.
 

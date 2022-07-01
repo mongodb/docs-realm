@@ -17,12 +17,12 @@ Quick Start - Java SDK
 
    This guide can help you get started with device-local Realm Database.
    If your application needs to communicate with a backend
-   {+app+} over the network using features like :ref:`Sync <sync>`, Realm
+   App over the network using features like :ref:`Sync <sync>`, Realm
    Functions, or user management, you should follow the
    :ref:`Quick Start with Sync <java-client-quick-start-sync>` guide.
 
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Installed the Java SDK <java-install>`
@@ -33,7 +33,7 @@ Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
-stored within {+client-database+}.
+stored within Realm Database.
 You can define your application's data model via Kotlin or
 Java classes in your application code with
 :ref:`Realm Object Models <create-schema-from-rom>`.
@@ -67,9 +67,9 @@ definitions to your application code:
 Open a Realm
 ------------
 
-Use ``RealmConfiguration`` to control the specifics of the {+realm+} you
-would like to open, including the name or location of the {+realm+},
-whether to allow synchronous reads or writes to a {+realm+} on the UI
+Use ``RealmConfiguration`` to control the specifics of the realm you
+would like to open, including the name or location of the realm,
+whether to allow synchronous reads or writes to a realm on the UI
 thread, and more.
 
 .. tabs-realm-languages::
@@ -89,14 +89,14 @@ thread, and more.
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify the
-:ref:`objects <java-realm-objects>` within that {+realm+} in a
+Once you have opened a realm, you can modify the
+:ref:`objects <java-realm-objects>` within that realm in a
 :ref:`write transaction <java-open-a-transaction>` block.
 
 .. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
 
 To create a new ``Task``, instantiate an instance of the
-``Task`` class and add it to the {+realm+} in a write block:
+``Task`` class and add it to the realm in a write block:
 
 .. tabs-realm-languages::
 
@@ -115,7 +115,7 @@ To create a new ``Task``, instantiate an instance of the
          :copyable: false
 
 You can retrieve a live :ref:`collection <java-client-collections>`
-of all items in the {+realm+}:
+of all items in the realm:
 
 .. tabs-realm-languages::
 

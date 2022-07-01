@@ -154,7 +154,7 @@ Sort Results
 
 .. important::
 
-   {+client-database+} applies the ``distinct()``, ``sort()`` and
+   Realm Database applies the ``distinct()``, ``sort()`` and
    ``limit()`` methods in the order you specify. Depending on the
    data set this can alter the query result. Generally, you should
    apply ``limit()`` last to avoid unintended result sets.
@@ -183,7 +183,7 @@ Sorts organize results in ascending order by default. To organize results
 in descending order, pass ``Sort.DESCENDING`` as a second argument.
 You can resolve sort order ties between identical property values
 by passing an array of properties instead of a single property: in the
-event of a tie, {+client-database+} sorts the tied objects by subsequent
+event of a tie, Realm Database sorts the tied objects by subsequent
 properties in order.
 
 .. note:: String Sorting Limitations
@@ -191,7 +191,7 @@ properties in order.
    Realm uses non-standard sorting for upper and lowercase
    letters, sorting them together rather than sorting uppercase first.
    As a result, ``'- !"#0&()*,./:;?_+<=>123aAbBcC...xXyYzZ`` is the
-   actual sorting order in {+client-database+}. Additionally, sorting
+   actual sorting order in Realm Database. Additionally, sorting
    strings only supports the ``Latin Basic``, ``Latin Supplement``,
    ``Latin Extended A``, and ``Latin Extended B (UTF-8 range 0–591)``
    character sets.
@@ -225,13 +225,13 @@ Limited result collections automatically update like any other query
 result. Consequently, objects might drop out of the collection as
 underlying data changes.
 
-.. tip:: Pagination is Not Necessary for {+client-database+} Optimization
+.. tip:: Pagination is Not Necessary for Realm Database Optimization
 
    Some databases encourage paginating results with limits to avoid
    reading unnecessary data from disk or using too much memory.
 
-   Since {+client-database+} queries are lazy, there is no need to
-   take such measures. {+client-database+} only loads objects from query
+   Since Realm Database queries are lazy, there is no need to
+   take such measures. Realm Database only loads objects from query
    results when they are explicitly accessed.
 
 .. tip:: Deleted Notifications in Limited Results

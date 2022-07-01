@@ -13,7 +13,7 @@ Field Types - Java SDK
    :depth: 2
    :class: singlecol
 
-{+client-database+} supports the following field data types:
+Realm Database supports the following field data types:
 
 - ``Boolean`` or ``boolean``
 - ``Integer`` or ``int``
@@ -35,10 +35,10 @@ Field Types - Java SDK
 
 The ``Byte``, ``Short``, ``Integer``, and ``Long`` types and their
 lowercase primitive alternatives are all stored as ``Long`` values
-within {+client-database+}. Similarly, {+client-database+} stores objects
+within Realm Database. Similarly, Realm Database stores objects
 of the ``Float`` and ``float`` types as type ``Double``.
 
-{+service-short+} does not support fields with modifiers ``final`` and
+Realm does not support fields with modifiers ``final`` and
 ``volatile``, though you can use fields with those modifiers if you
 :ref:`ignore <java-ignore-field>` them. If you choose to provide custom
 constructors, you must declare a public constructor with no arguments.
@@ -46,7 +46,7 @@ constructors, you must declare a public constructor with no arguments.
 Updating Strings and Byte Arrays
 --------------------------------
 
-Since {+client-database+} operates on fields as a whole, it's not possible
+Since Realm Database operates on fields as a whole, it's not possible
 to directly update individual elements of strings or byte arrays. Instead,
 you'll need to read the whole field, make your modification to individual
 elements, and then write the entire field back again in a transaction block.

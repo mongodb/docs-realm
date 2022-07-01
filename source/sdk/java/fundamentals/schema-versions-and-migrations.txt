@@ -17,7 +17,7 @@ Schema Versions & Migrations - Java SDK
 Schema Version
 --------------
 
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
+A **schema version** identifies the state of a :ref:`Realm Schema
 <java-realm-schema>` at some point in time. Realm Database tracks the schema
 version of each realm and uses it to map the objects in each realm
 to the correct schema.
@@ -42,9 +42,9 @@ Migrations
 ----------
 
 A **local migration** is a migration for a realm that does
-not automatically :ref:`{+sync-short+} <sync>` with
+not automatically :ref:`Sync <sync>` with
 another realm. Local migrations have access to the existing
-{+backend-schema+}, version, and objects and define logic that
+Realm Schema, version, and objects and define logic that
 incrementally updates the realm to its new schema version.
 To perform a local migration you must specify a new schema
 version that is higher than the current version and provide

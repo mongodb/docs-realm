@@ -36,7 +36,7 @@ depending on which part of the SDK you're using.
 Realm.Callback
 ~~~~~~~~~~~~~~
 
-Asynchronous calls to open a {+realm+}, both with and without {+sync+},
+Asynchronous calls to open a realm, both with and without Sync,
 use a final parameter of type :java-sdk:`Realm.Callback
 <io/realm/Realm.Callback.html>`. To retrieve returned values after the
 request completes, implement the ``onSuccess()`` method in the callback
@@ -65,7 +65,7 @@ but it is not required.
 App.Callback
 ~~~~~~~~~~~~
 
-When you query {+service+} App Services like :ref:`Functions
+When you query Realm App Services like :ref:`Functions
 <java-call-a-function>` and :ref:`user authentication
 <java-authenticate-users>`, asynchronous calls accept a final
 parameter of type  :java-sdk:`App.Callback
@@ -105,7 +105,7 @@ RealmAsyncTask
 ~~~~~~~~~~~~~~
 
 Asynchronous calls to :ref:`execute transactions
-<java-write-transactions>` on a {+realm+} return
+<java-write-transactions>` on a realm return
 an instance of :java-sdk:`RealmAsyncTask
 <io/realm/RealmAsyncTask.html>`. You can optionally :java-sdk:`specify an error
 handler <io/realm/Realm.Transaction.OnError.html>` or a
@@ -138,7 +138,7 @@ transaction.
 RealmResults
 ~~~~~~~~~~~~
 
-Asynchronous reads from a {+realm+} using :java-sdk:`findAllAsync()
+Asynchronous reads from a realm using :java-sdk:`findAllAsync()
 <io/realm/RealmQuery.html#findAllAsync-->` immediately return an empty
 :java-sdk:`RealmResults <io/realm/RealmResults.html>` instance. The SDK
 executes the query on a background thread and populates the
@@ -221,13 +221,13 @@ and :kotlin-ext:`write
 .. tip:: Kotlin Flows use Frozen Objects Across Multiple Threads
 
    The ``toFlow()`` extension method passes :ref:`frozen
-   <java-frozen-objects>` {+service-short+} objects to safely
+   <java-frozen-objects>` Realm objects to safely
    communicate between threads.
 
 .. seealso::
    
    The SDK also includes Kotlin extensions that make specifying type
-   parameters for {+client-database+} :kotlin-ext:`reads
+   parameters for Realm Database :kotlin-ext:`reads
    <io.realm.kotlin/io.realm.-realm/where.html>` and
    :kotlin-ext:`writes
    <io.realm.kotlin/io.realm.-realm/create-object.html>` easier.

@@ -54,13 +54,13 @@ method on the ``User`` object of a logged in user:
 
 .. warning:: Custom Data May Be Stale
    
-   {+backend+} does not dynamically update the value of
+   App Services does not dynamically update the value of
    :java-sdk:`User.customData() <io/realm/mongodb/User.html#getCustomData-->`
-   immediately when underlying data changes. Instead, {+backend+}
+   immediately when underlying data changes. Instead, App Services
    fetches the most recent version of custom user data whenever a user
    refreshes their :ref:`access token <user-sessions>`, which occurs
-   during most SDK operations that contact the {+backend+} back end.
-   {+service-short+} refreshes access tokens every 30 minutes, so custom
+   during most SDK operations that contact the App Services back end.
+   Realm refreshes access tokens every 30 minutes, so custom
    user data can be stale for no more than 30 minutes.
 
    If you require the most recent version of custom user data, use the
@@ -130,7 +130,7 @@ Update a User's Custom Data
 ---------------------------
 
 You can update custom user data using :ref:`MongoDB Data Access
-<java-mongodb-data-access>`, {+service-short+} :ref:`Sync
+<java-mongodb-data-access>`, Realm :ref:`Sync
 <java-sync-data>`, :compass:`MongoDB Compass </>`, 
 or the :atlas:`MongoDB Atlas Data
 Explorer </data-explorer/>`.
@@ -140,7 +140,7 @@ MongoDB document whose user ID field contains the user ID of the user.
 
 .. tip::
    
-   To determine a user's ID, access the ``User.id`` property or find the user in the {+ui+}
+   To determine a user's ID, access the ``User.id`` property or find the user in the App Services UI
    on the :guilabel:`App Users` page under the :guilabel:`Users` tab.
 
 The following example uses :ref:`MongoDB Data Access

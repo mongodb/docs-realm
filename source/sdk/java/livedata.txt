@@ -12,7 +12,7 @@ Quick Start with LiveData - Java SDK
    :depth: 2
    :class: singlecol
 
-This page contains instructions to quickly get {+client-database+} integrated
+This page contains instructions to quickly get Realm Database integrated
 into an example Android application that uses :android:`LiveData
 <reference/androidx/lifecycle/LiveData>`. This example application
 allows a user to increment a counter using a button.
@@ -20,17 +20,17 @@ allows a user to increment a counter using a button.
 Prerequisites
 -------------
 
-This quick start guide uses :ref:`{+sync+} <sync>` to synchronize data
+This quick start guide uses :ref:`Sync <sync>` to synchronize data
 changes between clients. Before you begin, ensure you have:
 
 - :ref:`Installed the Java SDK <java-install>`.
-- :ref:`Created an {+app+} <create-a-realm-app>`.
+- :ref:`Created an App <create-a-realm-app>`.
 - :ref:`Enabled anonymous authentication <anonymous-authentication-configuration>`.
-- :ref:`Enabled {+sync+} <enable-sync>`.
+- :ref:`Enabled Sync <enable-sync>`.
 
-.. note:: Using LiveData without {+sync+}
+.. note:: Using LiveData without Sync
 
-   To use this quick start without {+sync+}, disable the sync features
+   To use this quick start without Sync, disable the sync features
    in the SDK. You can do this by removing the following lines from your
    app-level :file:`build.gradle` file:
 
@@ -44,7 +44,7 @@ changes between clients. Before you begin, ensure you have:
    reload the Java SDK in an offline-only state. Remove the lines
    related to importing and using Sync Configuration, user login, and
    partition values from the ``CounterModel`` file to use the Java SDK
-   without {+sync+}.
+   without Sync.
 
 Clone the LiveData Quick Start Repository
 -----------------------------------------
@@ -92,7 +92,7 @@ You'll also have to add the Android LiveData Dependency to the
    :emphasize-lines: 10
    :copyable: false
 
-Next, enable {+sync+} in the SDK by creating the
+Next, enable Sync in the SDK by creating the
 following top-level block in your app level :file:`build.gradle` file:
 
 .. literalinclude:: /examples/generated/java/sync/build.snippet.sync-enable.gradle
@@ -156,17 +156,17 @@ called ``CounterModel``. When the application runs, it creates an instance
 of ``CounterModel`` that is used until the application closes. That
 instance contains the LiveData that displays on the UI of the application.
 To create an instance of LiveData, we need to access a ``Counter`` object
-stored in a {+realm+} and pass it to the ``LiveRealmObject`` constructor.
+stored in a realm and pass it to the ``LiveRealmObject`` constructor.
 To accomplish this:
 
-1. Connect to your {+app+} *with your* **App ID**.
+1. Connect to your App *with your* **App ID**.
 
 2. Authenticate a user.
 
-3. Connect to a specific {+realm+} using {+sync+}.
+3. Connect to a specific realm using Sync.
 
-4. Query the {+realm+} for a ``Counter``, inserting a new ``Counter`` if
-   one hasn't already been created in this {+realm+}.
+4. Query the realm for a ``Counter``, inserting a new ``Counter`` if
+   one hasn't already been created in this realm.
 
 5. Instantiate a ``LiveRealmObject`` using the ``Counter`` instance and
    store it in the ``counter`` member of ``CounterModel``.
@@ -229,7 +229,7 @@ interface that looks something like this:
    :alt: The LiveData QuickStart Counter app.
 
 Clicking the "ADD" button should add one to the value of your counter.
-With {+sync+}, you can view your {+app+} logs to see individual increment
+With Sync, you can view your App logs to see individual increment
 events. Android LiveData is lifecycle-aware, so rotating the screen or
 freeing the application's state by clearing your device's RAM should
 have no effect on the application state, which should seamlessly resume
