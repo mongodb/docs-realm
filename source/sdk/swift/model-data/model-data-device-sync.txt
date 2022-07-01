@@ -1,0 +1,48 @@
+.. _swift-model-data-device-sync:
+
+=======================================
+Model Data with Device Sync - Swift SDK
+=======================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+PLACEHOLDER WITH SOME DISPLACED CONTENT
+---------------------------------------
+
+This page is a placeholder. Any content on this page is displaced from 
+elsewhere and should be worked into the final content of the page, but
+the majority of the content is net-new.
+
+Realm Object Models
+~~~~~~~~~~~~~~~~~~~
+
+To define an embedded object, derive a class from
+:swift-sdk:`EmbeddedObject <Classes/EmbeddedObject.html>` in Swift or
+:objc-sdk:`RLMEmbeddedObject <Classes/RLMEmbeddedObject.html>` in
+Objective-C. You can reference an embedded object type from parent
+object types in the same way as you would define a relationship:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
+        :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.m
+         :language: objectivec
+
+JSON Schema
+~~~~~~~~~~~
+
+.. include:: /includes/embedded-object-json-schema.rst

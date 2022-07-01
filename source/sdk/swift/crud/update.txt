@@ -1,0 +1,237 @@
+.. _swift-crud-update:
+.. _ios-modify-an-object:
+
+=========================
+CRUD - Update - Swift SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Update Realm Objects
+--------------------
+
+About These Examples
+~~~~~~~~~~~~~~~~~~~~
+
+The examples on this page use the following models:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.m
+         :language: objectivec
+
+Update an Object
+~~~~~~~~~~~~~~~~
+
+You can modify properties of a Realm object inside of a write
+transaction in the same way that you would update any other Swift or
+Objective-C object.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.update.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.update.m
+         :language: objectivec
+
+
+.. tip:: Update Related and Embedded Objects
+
+   To update a property of an :ref:`embedded object
+   <ios-define-an-embedded-object-property>` or a :ref:`related object
+   <ios-declare-relationship-properties>`, modify the property with
+   dot-notation or bracket-notation as if it were in a regular, nested
+   object.
+
+.. _ios-update-with-key-value-coding:
+
+Update Properties with Key-value Coding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Object``, ``Result``, and ``List`` all conform to 
+:apple:`key-value coding <library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`. 
+This can be useful when you need to determine which property to update 
+at runtime.
+
+Applying KVC to a collection is a great way to update objects in bulk. 
+Avoid the overhead of iterating over a collection while creating 
+accessors for every item.
+
+.. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.key-value-coding.swift
+   :language: swift
+
+.. tip::
+
+   You can also add values for embedded objects or relationships this
+   way. See :ref:`ios-initialize-an-object-with-a-value`.
+
+.. _ios-upsert-an-object:
+
+Upsert an Object
+~~~~~~~~~~~~~~~~
+
+An **upsert** either inserts or updates an object depending on whether
+the object already exists. Upserts require the data model to have a
+:ref:`primary key <ios-specify-a-primary-key>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To upsert an object, call :swift-sdk:`Realm.add(_:update:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
+      with the second parameter, update policy, set to ``.modified``.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.upsert.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To upsert an object, call :objc-sdk:`-[RLMRealm
+      addOrUpdateObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addOrUpdateObject:>`.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.upsert.m
+         :language: objectivec
+
+You can also partially update an object by passing the primary key and a
+subset of the values to update:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.m
+         :language: objectivec
+
+Update Mutable Sets
+~~~~~~~~~~~~~~~~~~~
+
+You can update a ``MutableSet`` during write transactions:
+
+.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-collections.swift
+   :language: swift
+
+MutableSet Intersection Methods
+```````````````````````````````
+
+{+service-short+} ``MutableSet`` also provides some set-specific methods to
+work with the data, including methods to compare sets and mutate them in place.
+For example, ``MutableSet`` intersection methods:
+
+.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-intersection-methods.swift
+   :language: swift
+
+.. seealso::
+
+   - For a complete list of methods available, such as ``contains``, 
+     ``isSubset``, ``union``, ``subtract``, see: 
+     :swift-sdk:`MutableSet API reference <Classes/MutableSet.html>`
+   - For more info on to-many relationships, see: :ref:`To-Many Relationships <ios-to-many-relationship>`
+
+Update a Map/Dictionary
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update, check values, iterate over, and delete from the Map
+as you would a standard :apple:`Dictionary
+<documentation/swift/dictionary>`:
+
+.. literalinclude:: /examples/generated/code/start/MapExample.snippet.map.swift
+   :language: swift
+
+Update Properties through Class Projections
+-------------------------------------------
+
+About These Examples
+~~~~~~~~~~~~~~~~~~~~
+
+The examples in this page use a simple data set. The two Realm object 
+types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
+a first and last name, an optional ``Address``, and a list of friends 
+consisting of other ``Person`` objects. An ``Address`` has a city and country.
+
+See the schema for these two classes, ``Person`` and ``Address``, below:
+
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
+   :language: swift
+
+.. _ios-make-changes-to-class-projection-properties:
+
+Change Class Projection Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can make changes to a class projection's properties in a write transaction.
+
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.change-class-projection-property-value-in-a-write.swift
+   :language: swift
+
+Update an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To update a property in an embedded object, modify the property in a
+write transaction:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.update-an-embedded-object-property.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/EmbeddedObjects/UpdateEmbeddedObject.m
+         :language: objectivec
+
+Overwrite an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To overwrite an embedded object, reassign the embedded object property
+of a party to a new instance in a write transaction:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.overwrite-an-embedded-object.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.m
+         :language: objectivec

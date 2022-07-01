@@ -1,0 +1,604 @@
+.. _ios-configure-and-open-a-realm:
+.. _ios-realms:
+
+====================================
+Configure & Open a Realm - Swift SDK
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A **{+realm+}** is the core data structure used to organize data in
+{+client-database+}. A realm is a collection of the objects that you use 
+in your application, called Realm objects, as well as additional metadata 
+that describe the objects. To learn how to define a Realm object, see
+:ref:`Define an Object Model <ios-define-a-realm-object-schema>`.
+
+When you open a realm, you can pass a :swift-sdk:`Realm.Configuration 
+<Structs/Realm/Configuration.html>` that specifies additional details 
+about how to configure the realm file. This includes things like:
+
+- Pass a fileURL or in-memory identifier to customize how the realm is stored on device
+- Provide a logged-in user and Sync details to use Sync with the realm
+- Specify the realm use only a subset of your app's classes
+- Whether and when to compact a realm to reduce its file size
+- Pass an encryption key to encrypt a realm
+- Provide a schema version or migration block when making schema changes
+
+.. _ios-realm-file:
+
+Key Concept: Realm Files
+------------------------
+
+{+client-database+} stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at :ref:`a specific 
+path <find-the-default-realm-path>` that you can define when you open the realm.
+You can open, view, and edit the contents of these files with 
+:ref:`realm-studio`.
+
+.. see:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each {+realm+}.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <ios-realm-database>`. Deleting these files has important implications.
+   For more information about deleting ``.realm`` or auxiliary files, see: 
+   :ref:`Delete a Realm <swift-delete-a-realm>`
+
+.. _ios-in-memory-realm:
+
+In-Memory Realms
+~~~~~~~~~~~~~~~~
+
+You can also open a realm entirely in memory, which does not create a ``.realm``
+file or its associated auxiliary files. Instead the SDK stores objects in memory
+while the {+realm+} is open and discards them immediately when all instances are
+closed.
+
+.. see:: Open an In-Memory Realm
+
+   To open an in-memory realm, see :ref:`ios-open-an-in-memory-realm`.
+
+.. _ios-default-realm:
+
+Default Realm
+~~~~~~~~~~~~~
+
+Calling :swift-sdk:`Realm()<Structs/Realm.html>` or 
+:objc-sdk:`RLMRealm<Classes/RLMRealm.html>` opens the default {+realm+}. 
+This method returns a {+realm+} object that maps to a file named 
+``default.realm``. You can find this file:
+
+- iOS: in the Documents folder of your app
+- macOS: in the Application Support folder of your app
+
+.. see:: Open a Default Realm
+
+   To open a default realm, see :ref:`ios-default-and-file-url-realm`.
+
+.. _ios-synced-realm:
+
+Synced Realms
+~~~~~~~~~~~~~
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services 
+backend to handle the synchronization process. 
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on Device Sync, including directions on how to
+   set up sync in an App Services app, see :ref:`ios-realm-sync`.
+   
+   For code examples that show details of working with synced realms
+   in the client, see :ref:`ios-sync-changes-between-devices`.
+
+Synced Realms vs. Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Synced {+realms+} differ from non-synced local {+client-database+} in a 
+few ways:
+
+- Synced {+realms+} attempt to sync changes with your backend Atlas App Services App,
+  whereas non-synced {+realms+} do not.
+- Synced {+realms+} can be accessed by authenticated users, while non-synced 
+  {+realms+} have no concept of users or authentication.
+- With synced {+realms+}, you can :ref:`specify the download behavior 
+  <ios-specify-download-behavior>` to download updates before opening a 
+  {+realm+}. However, requiring changes to download before opening the 
+  realm requires the user to be online. Non-synced {+realms+} can always 
+  be used offline.
+
+You can copy data from a non-synced {+client-database+} to a synced {+realm+}, 
+and vice versa, but you cannot sync a non-synced {+client-database+}.
+
+.. _convert-realm-sync:
+
+Convert Between Synced and Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not have a direct mechanism to add sync to a non-synced realm, 
+or to permanently stop Sync for a synced realm. However, the Swift SDK does 
+provide methods that enable you to copy a realm file for use with a different 
+configuration. With these methods, you can easily duplicate a realm's data, 
+which you can then open with a sync or non-sync configuration. This lets
+you indirectly add Sync to a non-synced realm, or permanently stop a realm
+from syncing. See:
+
+- :ref:`<ios-open-non-synced-as-synced-realm>`
+- :ref:`<ios-open-synced-realm-as-non-sync>`
+
+.. _ios-open-a-local-realm:
+
+Open a Realm Without Sync
+-------------------------
+
+You can open a non-synced local realm with several different configuration 
+options:
+
+- No configuration - i.e. default configuration
+- Specify a file URL for the realm
+- Open the realm only in memory, without saving a file to the file system
+- Copy a synced realm to use without Sync
+
+.. _ios-default-and-file-url-realm:
+
+Open a Default Realm or Realm at a File URL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      You can open a realm with the :swift-sdk:`Realm() initializer
+      <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`.
+      If you omit the :swift-sdk:`Realm.Configuration
+      <Structs/Realm/Configuration.html>` parameter, you will open the
+      default realm.
+
+      You can set the default realm configuration by assigning a new
+      Realm.Configuration instance to the
+      :swift-sdk:`Realm.Configuration.defaultConfiguration
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`
+      class property.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-local-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can open the default realm with :objc-sdk:`+[RLMRealm
+      defaultRealm]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)defaultRealm>`.
+      
+      You can also pass a :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object to
+      :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
+      to open a realm at a specific file URL, in memory, or with
+      :ref:`{+sync+} <sync>`.
+
+      You can set the default realm configuration by passing a
+      RLMRealmConfiguration instance to 
+      :objc-sdk:`+[RLMRealmConfiguration setDefaultConfiguration:]
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(cm)setDefaultConfiguration:>`.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-local-realm.m
+         :language: objectivec
+
+.. _ios-open-an-in-memory-realm:
+
+Open an In-Memory Realm
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can open a realm entirely in memory, which will not create a
+``.realm`` file or its associated :ref:`auxiliary files
+<ios-realm-file>`. Instead the SDK stores objects in memory while the
+{+realm+} is open and discards them immediately when all instances are
+closed.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      Set the :swift-sdk:`inMemoryIdentifier
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>`
+      property of the realm configuration. Note that this property
+      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-in-memory-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Set the :objc-sdk:`inMemoryIdentifier
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)inMemoryIdentifier>`
+      property of the realm configuration. Note that this property
+      cannot be combined with ``fileURL`` or ``syncConfiguration``.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.open-in-memory-realm.m
+         :language: objectivec
+
+.. important::
+
+   When all *in-memory* {+realm+} instances with a particular identifier
+   go out of scope, {+client-database+} deletes **all data** in that
+   {+realm+}. To avoid this, hold onto a strong reference to any
+   in-memory {+realms+} during your app's lifetime. 
+
+.. _ios-open-synced-realm-as-non-sync:
+
+Open a Synced Realm as a Non-Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.23.0
+
+.. tip::
+
+   You may temporarily pause a Sync session if you do not want to permanently
+   change a synced realm to a non-synced realm. See: :ref:`Suspend or Resume 
+   a Sync Session <ios-suspend-or-resume-a-sync-session>`.
+
+If you want to permanently stop a realm from syncing to your Atlas App Services backend,
+you can use the :swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+method to make a copy of a synced realm for use with a non-sync configuration.
+The example below creates a copy of the realm file, with all of its existing 
+data, at a file URL you specify. 
+
+This process removes the ``realm_id`` in the local realm. You must :ref:`increment 
+the schema version as if you had deleted a property <ios-delete-a-property>`.
+
+After you copy the realm for use without Sync, you can open the copy as a 
+non-synced realm. Any changes you make to the non-synced realm reflect 
+only in the local realm file. No changes propogate to other devices or
+the Atlas App Services backend.
+
+.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-local.swift
+   :language: swift
+
+.. _ios-login-and-open-realm:
+
+Open a Synced Realm
+-------------------
+
+The typical flow for opening a synced {+realm+} involves:
+
+1. :ref:`Authenticating the user <ios-authenticate-users>`.
+#. Creating a sync configuration.
+#. Opening the user's synced {+realm+} with the configuration.
+
+At authentication, we cache user credentials in a ``sync_metadata.realm`` 
+file on device.
+
+When you open a synced {+realm+} after authenticating, you can bypass the 
+login flow and go directly to opening the synced {+realm+}, using the same 
+sync configuration you already created.
+
+With cached credentials, you can:
+
+- Open a synced {+realm+} immediately with the data that is on the device.
+  You can use this method offline or online.
+- Open a synced {+realm+} after downloading changes from your Atlas App Services {+app+}. 
+  This requires the user to have an active internet connection.
+
+.. _ios-partition-based-sync-open-realm:
+
+Open a Synced Realm for Partition-Based Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Initialize a synced {+realm+} with a :swift-sdk:`sync configuration <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE13configuration14partitionValueAC0B0V13ConfigurationVx_tAC4BSONRzlF>`.
+This enables you to specify a partition value whose data should sync to the realm.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. versionchanged:: 10.15.0
+
+      .. seealso::
+         
+         The Realm Swift SDK supports async/await syntax for opening a realm. 
+         For completion handler syntax, see:
+         :ref:`ios-realm-open-legacy`. 
+
+         .. include:: /includes/swift-async-await-support.rst
+
+      Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to 
+      :swift-sdk:`{+realm+} initializers 
+      <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`.
+
+      You can optionally :ref:`specify whether a {+realm+} should download 
+      changes before opening <ios-specify-download-behavior>`. If you do not
+      specify download behavior, this opens a {+realm+} with data that is on
+      the device, and attempts to sync changes in the background.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      The first time you log in and open a synced {+realm+}, you'll log in the
+      user, and pass the user's :objc-sdk:`RLMSyncConfiguration 
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)syncConfiguration>` 
+      object with the desired :objc-sdk:`partitionValue 
+      <Classes/RLMSyncConfiguration.html#/c:objc(cs)RLMSyncConfiguration(py)partitionValue>` 
+      to :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`.
+
+      This opens a synced {+realm+} on the device. The {+realm+} 
+      attempts to sync with your {+app+} in the background to check for changes 
+      on the server, or upload changes that the user has made.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.init-synced-realm.m
+         :language: swift
+
+.. _ios-flexible-sync-open-realm:
+
+Open a Synced Realm for Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.22.0
+
+When you use Flexible Sync, use the ``flexibleSyncConfiguration()``
+to open a synced realm. 
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
+   :language: swift
+
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, see: :ref:`<ios-sync-add-subscription>`.
+   
+.. _ios-open-synced-realm-as-different-sync-user:
+
+Open a Synced Realm as a Different Sync User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.23.0
+
+If you want to open a synced realm as a different Sync user, you can use 
+the :swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+method to make a copy of the synced realm for use with the new user's 
+sync configuration. The example below creates a copy of the synced realm, 
+with all of its existing data, that you can use with a different sync 
+configuration.
+
+After you copy the realm for the new Sync user's configuration, you can 
+open the copy as a synced realm for that user. 
+
+.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-sync.swift
+   :language: swift
+
+.. _ios-open-non-synced-as-synced-realm:
+
+Open Non-Synced Realm as a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.23.0
+
+If you want a non-synced realm to start syncing with other devices and your 
+Atlas App Services backend, you can use the :swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+method to make a copy of the non-synced realm for use with a sync configuration. 
+The example below creates a copy of a non-synced realm file, with all of 
+its existing data, that you can use with a sync configuration.
+
+After you copy the realm for use with Sync, you can open the copy as a 
+synced realm. Any changes you make to the synced realm will reflect 
+in the synced realm file, and they will also propogate to other devices and
+the Atlas App Services backend.
+
+.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-local-to-sync.swift
+   :language: swift
+
+.. _ios-specify-download-behavior:
+
+Download Changes Before Open
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.15.0
+
+When you open a synced {+realm+} with the Swift SDK, you can pass the 
+``downloadBeforeOpen`` parameter to specify whether to download the 
+changeset from your Atlas App Services {+app+} before opening the {+realm+}. 
+This parameter accepts a case from the ``OpenBehavior`` enum:
+
+- ``never``: Immediately open the {+realm+} on the device. Download changes 
+  in the background when the user has internet, but don't block opening
+  the {+realm+}.
+- ``always``: Check for changes every time you open the {+realm+}.
+  Requires the user to have an active internet connection.
+- ``once``: Download data before opening a {+realm+} for the first time, but
+  open it without downloading changes on subsequent opens. This lets you 
+  populate a {+realm+} with initial data, but enables offline-first 
+  functionality on subsequent opens.
+
+.. include:: /examples/generated/code/start/Sync.snippet.specify-download-behavior.swift.rst
+
+.. _ios-open-a-synced-realm-offline:
+
+Open a Synced Realm Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/offline-login.rst
+
+You can only open a synced realm offline if you do not require your client 
+app to ``always`` :ref:`download changes before opening the realm 
+<ios-specify-download-behavior>`.
+
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.offline-login.swift
+   :language: swift
+
+.. _ios-close-a-realm:
+
+Close a Realm
+-------------
+
+There is no need to manually close a {+realm+} in Swift or Objective-C.
+When a {+realm+} goes out of scope and is removed from memory due to
+`ARC
+<https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
+the {+realm+} is closed.
+
+.. _ios-handle-errors:
+
+Handle Errors When Accessing a Realm
+------------------------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To handle errors when accessing a {+realm+}, use Swift's built-in
+      error handling mechanism:
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.handle-error.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To handle errors when accessing a {+realm+}, provide an
+      ``NSError`` pointer to the ``error`` parameter:
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.handle-error.m
+         :language: objectivec
+
+.. _ios-provide-a-subset-of-classes-to-a-realm:
+
+Provide a Subset of Classes to a Realm
+--------------------------------------
+
+.. tip:: Operating with Low Memory Constraints
+   
+   Some applications, such as watchOS apps and iOS app extensions, have
+   tight constraints on their memory footprints. To optimize your data
+   model for low-memory environments, open the {+realm+} with a subset
+   of classes.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      By default, the Swift SDK automatically adds all
+      :swift-sdk:`Object<Extensions/Object.html>`- and
+      :swift-sdk:`EmbeddedObject<Extensions/EmbeddedObject.html>`-derived
+      classes in your executable to the realm schema. You can control
+      which objects get added by setting the :swift-sdk:`objectTypes
+      <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV11objectTypesSaySo13RLMObjectBaseCmGSgvp>`
+      property of the :swift-sdk:`Realm.Configuration
+      <Structs/Realm/Configuration.html>` object.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.configure-object-types.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      By default, the Swift SDK automatically adds all
+      :objc-sdk:`RLMObject<Classes/RLMObject.html>`- and
+      :objc-sdk:`RLMEmbeddedObject<Classes/RLMEmbeddedObject.html>`-derived
+      classes in your executable to the realm schema. You can control
+      which objects get added by setting the :objc-sdk:`objectClasses
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)objectClasses>`
+      property of the :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object.
+
+      .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.configure-object-types.m
+         :language: objectivec
+
+
+.. _ios-realm-api-properties:
+
+Initialize Properties Using Realm APIs
+--------------------------------------
+
+You might define properties whose values are initialized using
+{+client-database+} APIs. For example:
+
+.. code-block:: swift
+
+   class SomeSwiftType {
+       let persons = try! Realm().objects(Person.self)
+       // ...
+   }
+
+If this initialization code runs before you set up your Realm
+configurations, you might get unexpected behavior. For example, if you
+set a :ref:`migration <ios-migrations>` block for the default {+realm+}
+configuration in ``applicationDidFinishLaunching()``, but you create an
+instance of ``SomeSwiftType`` before
+``applicationDidFinishLaunching()``, you might be accessing your
+{+realm+} before it has been correctly configured.
+
+To avoid such issues, consider doing one of the following:
+
+- Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
+- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application's lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
+- Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
+
+.. _use-realm-when-the-device-is-locked:
+
+Use Realm When the Device Is Locked
+-----------------------------------
+
+By default, iOS 8 and above encrypts app files using
+``NSFileProtection`` whenever the device is locked. If your app attempts
+to access a {+realm+} while the device is locked, you might see the
+following error:
+
+.. code-block:: text
+
+   open() failed: Operation not permitted
+
+To handle this, downgrade the file protection of the folder containing
+:ref:`the Realm files <ios-realm-file>`. A less strict protection level
+like :apple:`NSFileProtectionCompleteUntilFirstUserAuthentication
+<documentation/foundation/nsfileprotectioncompleteuntilfirstuserauthentication>`
+allows file access even when the device is locked.
+
+.. tip::
+
+   If you reduce iOS file encryption, consider using Realm's
+   :ref:`built-in encryption <ios-encrypt-a-realm>` to secure your data
+   instead.
+
+This example shows how to apply a less strict protection level to the
+parent directory of the default {+realm+}.
+
+.. literalinclude:: /examples/generated/code/start/Encrypt.snippet.background-app-refresh-encryption.swift
+   :language: swift
+
+{+service-short+} may create and delete auxiliary files at any time.
+Instead of downgrading file protection on the files, apply it to the
+parent folder. This way, the file protection applies to all relevant
+files regardless of creation time.
+
+.. seealso::
+   
+   :ref:`ios-sync-changes-in-the-background`

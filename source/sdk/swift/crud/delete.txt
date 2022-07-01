@@ -1,0 +1,174 @@
+.. _swift-crud-delete:
+.. _ios-delete-an-object:
+
+=========================
+CRUD - Delete - Swift SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+About These Examples
+--------------------
+
+The examples on this page use the following models:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.m
+         :language: objectivec
+
+Delete an Object
+----------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete an object from a realm, pass the object to
+      :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyySo13RLMObjectBaseCF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete an object from a realm, pass the object to
+      :objc-sdk:`-[RLMRealm deleteObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObject:>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
+         :language: objectivec
+
+.. important:: Do not use objects after delete
+
+   You cannot access or modify an object after you have deleted it from
+   a realm. If you try to use a deleted object, Realm Database throws an
+   error.
+
+.. _ios-delete-multiple-objects:
+
+Delete Multiple Objects
+-----------------------
+
+.. tabs::
+   
+   .. tab:: Realm Swift Query API
+      :tabid: swift
+
+      .. versionadded:: 10.19.0
+
+      To delete a collection of objects from a realm, pass the
+      collection to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-delete-collection.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
+
+      To delete a collection of objects from a realm, pass the
+      collection to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-collection.swift
+         :language: swift
+
+   .. tab:: Objective C
+      :tabid: objective-c
+
+      To delete a collection of objects from a realm, pass the
+      collection to :objc-sdk:`-[Realm deleteObjects:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObjects:>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-collection.m
+         :language: objectivec
+
+.. _ios-delete-all-object-of-a-specific-type:
+
+Delete All Objects of a Specific Type
+-------------------------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete all objects of a given object type from a realm, pass
+      the result of :swift-sdk:`Realm.objects(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`
+      for the type you wish to delete to :swift-sdk:`Realm.delete(_:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V6deleteyyxSTRzSo13RLMObjectBaseC7ElementRczlF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all-of-class.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete all objects of a given object type from a realm, pass
+      the result of :objc-sdk:`+[YourRealmObjectClass
+      allObjectsInRealm:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)allObjectsInRealm:>`
+      to :objc-sdk:`-[Realm deleteObjects:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteObjects:>`
+      inside of a write transaction. Replace ``YourRealmObjectClass``
+      with your Realm object class name.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all-of-class.m
+         :language: objectivec
+
+.. _ios-delete-all-objects-in-a-realm:
+
+Delete All Objects in a Realm
+-----------------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To delete all objects from the realm, call
+      :swift-sdk:`Realm.deleteAll()
+      <Structs/Realm.html#/s:10RealmSwift0A0V9deleteAllyyF>` inside of a
+      write transaction. This clears the realm of all object instances
+      but does not affect the realm's schema.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To delete all objects from the realm, call :objc-sdk:`-[RLMRealm
+      deleteAllObjects]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)deleteAllObjects>`
+      inside of a write transaction. This clears the realm of all object
+      instances but does not affect the realm's schema.
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete-all.m
+         :language: objectivec
