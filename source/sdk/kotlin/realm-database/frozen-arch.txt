@@ -6,7 +6,7 @@ Frozen Architecture - Kotlin SDK
 
 .. default-domain:: mongodb
 
-Unlike the other {+service+} SDKs, the Kotlin SDK
+Unlike the other Realm SDKs, the Kotlin SDK
 does not provide live objects and collections that
 update simultaneously with underlying data. Instead,
 the Kotlin SDK works exclusively with **frozen objects**
@@ -16,8 +16,8 @@ Work with Frozen Objects
 ------------------------
 
 Because frozen objects don't automatically update when data changes
-in your {+realm+}, they work a little differently from the live objects
-you may have used in other {+service-short+} SDKs.
+in your realm, they work a little differently from the live objects
+you may have used in other Realm SDKs.
 
 Access a Live Version of Frozen Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,8 +41,8 @@ Thread-safe Realms
 ------------------
 
 The `Realm <{+kotlin-local-prefix+}io.realm.kotlin/-realm/index.html>`__
-class is no longer thread-confined, so you can share a single {+realm+}
-across multiple threads. You no longer need to handle the {+realm+}
+class is no longer thread-confined, so you can share a single realm
+across multiple threads. You no longer need to handle the realm
 lifecycle explicitly with calls to
 `Realm.close() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__.
 
@@ -66,13 +66,13 @@ support change listeners.
    :github:`kotlinx.coroutines <Kotlin/kotlinx.coroutines#multiplatform>`
    library.
 
-Just like in other {+service-short+} SDKs, write transactions implicitly
-advance your {+realm+} to the most recent version of data stored on disk.
+Just like in other Realm SDKs, write transactions implicitly
+advance your realm to the most recent version of data stored on disk.
 
 Lazy Loading
 ~~~~~~~~~~~~
 
-{+service-short+} objects are still lazy-loaded by default. This allows
+Realm objects are still lazy-loaded by default. This allows
 you to query large collections of objects without reading large amounts
 of data from disk. This also means that the first access to
 a field of an object will always return the most recent data.

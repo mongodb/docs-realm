@@ -13,7 +13,7 @@ Subscribe to Queryable Fields - Kotlin SDK
    :class: singlecol
 
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your {+app+}.
+data to sync with your App.
 
 Prerequisites
 -------------
@@ -96,10 +96,10 @@ Writing an update to the subscription set locally is only one component
 of changing a subscription. After the local subscription change, the client
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
-synced {+realm+}. Use the `SynConfiguration.waitForInitialRemoteData()
+synced realm. Use the `SynConfiguration.waitForInitialRemoteData()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/wait-for-initial-remote-data.html>`__
 builder method to force your application to block until client subscription
-data synchronizes to the backend before opening the {+realm+}:
+data synchronizes to the backend before opening the realm:
 
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.wait-for-subscription-changes.kt
    :language: kotlin

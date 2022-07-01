@@ -12,15 +12,15 @@ Write Transactions - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-:term:`{+client-database+}` uses a highly efficient storage engine
-to persist objects. You can **create** objects in a :term:`{+realm+}`,
-**update** objects in a {+realm+}, and eventually **delete**
-objects from a {+realm+}. Because these operations modify the
-state of the {+realm+}, we call them writes.
+:term:`Realm Database` uses a highly efficient storage engine
+to persist objects. You can **create** objects in a :term:`realm`,
+**update** objects in a realm, and eventually **delete**
+objects from a realm. Because these operations modify the
+state of the realm, we call them writes.
 
-{+service-short+} handles writes in terms of **transactions**. A
+Realm handles writes in terms of **transactions**. A
 transaction is a list of read and write operations that
-{+service-short+} treats as a single indivisible operation. In other
+Realm treats as a single indivisible operation. In other
 words, a transaction is *all or nothing*: either all of the
 operations in the transaction succeed or none of the
 operations in the transaction take effect.
@@ -29,19 +29,19 @@ operations in the transaction take effect.
 
    All writes must happen in a transaction.
 
-A {+realm+} allows only one open write transaction at a time. {+service-short+}
+A realm allows only one open write transaction at a time. Realm
 blocks other writes on other threads until the open
 transaction is complete. Consequently, there is no race
-condition when reading values from the {+realm+} within a
+condition when reading values from the realm within a
 transaction.
 
-When you are done with your transaction, {+service-short+} either
+When you are done with your transaction, Realm either
 **commits** it or **cancels** it:
 
-- When {+service-short+} **commits** a transaction, {+service-short+} writes
+- When Realm **commits** a transaction, Realm writes
   all changes to disk. For synced realms, the SDK queues the change
   for synchronization with the backend.
-- When {+service-short+} **cancels** a write transaction or an operation in
+- When Realm **cancels** a write transaction or an operation in
   the transaction causes an error, all changes are discarded
   (or "rolled back").
 
@@ -50,13 +50,13 @@ When you are done with your transaction, {+service-short+} either
 Run a Transaction
 -----------------
 
-{+service-short+} represents each transaction as a callback function
+Realm represents each transaction as a callback function
 that contains zero or more read and write operations. To run
 a transaction, define a transaction callback and pass it to
-the {+realm+}'s ``write`` method. Within this callback, you are
-free to create, read, update, and delete on the {+realm+}. If
-the code in the callback throws an exception when {+service-short+} runs
-it, {+service-short+} cancels the transaction. Otherwise, {+service-short+} commits
+the realm's ``write`` method. Within this callback, you are
+free to create, read, update, and delete on the realm. If
+the code in the callback throws an exception when Realm runs
+it, Realm cancels the transaction. Otherwise, Realm commits
 the transaction immediately after the callback.
 
 .. example::
@@ -64,8 +64,8 @@ the transaction immediately after the callback.
    The following code shows how to run a transaction with
    `write() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__
    or `writeBlocking() <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-blocking.html>`__.
-   If the code in the callback throws an exception, {+service-short+}
-   cancels the transaction. Otherwise, {+service-short+} commits the
+   If the code in the callback throws an exception, Realm
+   cancels the transaction. Otherwise, Realm commits the
    transaction.
 
    .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.run-a-transaction.kt
