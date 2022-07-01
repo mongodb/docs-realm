@@ -51,7 +51,7 @@ permissions, syncs between clients and the backend application.
 
 You can specify an optional string name for your subscription.
 
-.. note:: Always Specify a Subscription Name
+.. tip:: Always Specify a Subscription Name
 
    Always specify a subscription name if your application uses multiple
    subscriptions. This makes your subscriptions easier to look up,
@@ -82,9 +82,9 @@ new subscription to the client's Realm subscriptions.
    set to see a linked object.
    
    If your subscription results contain an object with a property that links 
-   to an object not contained in the results, the link appears to be nil.
+   to an object not contained in the results, the link appears to be null.
    There is no way to distinguish whether that property's value is 
-   legitimately nil, or whether the object it links to exists but is out of
+   legitimately null, or whether the object it links to exists but is out of
    view of the query subscription.
 
 .. _kotlin-sync-check-subscription-state:
@@ -110,8 +110,8 @@ You can also use `SubscriptionSet.waitForSynchronization()
 to delay execution until subscription sync completes after instantiating
 a sync connection.
 
-SubscriptionSet.State`` Enum
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``SubscriptionSet.State`` Enum
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Additionally, you can watch the state of the subscription set with the 
 `SubscriptionSetState
@@ -206,7 +206,7 @@ To remove all subscriptions from the subscription set, use
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/remove-all.html>`__.
 with no arguments:
 
-.. important::
+.. warning::
 
    If you remove all subscriptions and do not add a new one, you'll 
    get an error. A realm opened with a flexible sync configuration needs
