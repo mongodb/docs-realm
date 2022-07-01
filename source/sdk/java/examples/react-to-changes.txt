@@ -19,9 +19,9 @@ React to Changes - Java SDK
 Register a Realm Change Listener
 --------------------------------
 
-You can register a notification handler on an entire {+realm+}.
+You can register a notification handler on an entire realm.
 {+client-database+} calls the notification handler whenever any write
-transaction involving that {+realm+} is committed. The
+transaction involving that realm is committed. The
 handler receives no information about the change.
 
 This is useful when you want to know that there has been a
@@ -39,7 +39,7 @@ granular notifications.
    activity, you want to have an indicator that lights up when
    any change is made. In that case, a realm notification
    handler would be a great way to drive the code that controls
-   the indicator. The following code shows how to observe a {+realm+}
+   the indicator. The following code shows how to observe a realm
    for changes with with :java-sdk:`addChangeListener() <io/realm/RealmResults.html#addChangeListener-io.realm.OrderedRealmCollectionChangeListener->`:
 
    .. tabs-realm-languages::
@@ -64,7 +64,7 @@ granular notifications.
 
    All threads that contain a ``Looper`` automatically refresh
    ``RealmObject`` and ``RealmResult`` instances when new changes are
-   written to the {+realm+}. As a result, it isn't necessary to fetch
+   written to the realm. As a result, it isn't necessary to fetch
    those objects again when reacting to a ``RealmChangeListener``, since
    those objects are already updated and ready to be redrawn to the
    screen.
@@ -76,7 +76,7 @@ Register a Collection Change Listener
 -------------------------------------
 
 You can register a notification handler on a specific
-collection within a {+realm+}. The handler receives a
+collection within a realm. The handler receives a
 description of changes since the last notification.
 Specifically, this description consists of three lists of
 indices:
@@ -89,7 +89,7 @@ Stop notification delivery by calling the ``removeChangeListener()`` or
 ``removeAllChangeListeners()`` methods. Notifications also stop if:
 
 - the object on which the listener is registered gets garbage collected.
-- the {+realm+} instance closes.
+- the realm instance closes.
 
 Keep a strong reference to the object you're listening to
 for as long as you need the notifications.
@@ -106,34 +106,32 @@ collection. After that, {+client-database+} delivers collection
 notifications asynchronously whenever a write transaction
 adds, changes, or removes objects in the collection.
 
-Unlike {+realm+} notifications, collection notifications contain
+Unlike realm notifications, collection notifications contain
 detailed information about the change. This enables
 sophisticated and selective reactions to changes. Collection
 notifications provide all the information needed to manage a
 list or other view that represents the collection in the UI.
 
-.. example::
-
-   The following code shows how to observe a collection for
-   changes with :java-sdk:`addChangeListener()
-   <io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener->`:
+The following code shows how to observe a collection for
+changes with :java-sdk:`addChangeListener()
+<io/realm/Realm.html#addChangeListener-io.realm.RealmChangeListener->`:
 
 
-   .. tabs-realm-languages::
-     
-      .. tab::
-         :tabid: kotlin
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.collection-notifications.kt
-            :language: kotlin
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.collection-notifications.kt
+         :language: kotlin
+         :copyable: false
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.collection-notifications.java
-            :language: java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.collection-notifications.java
+         :language: java
+         :copyable: false
 
 .. _java-register-an-object-change-listener:
 .. _java-object-notifications:
@@ -142,7 +140,7 @@ Register an Object Change Listener
 ----------------------------------
 
 You can register a notification handler on a specific object
-within a {+realm+}. {+client-database+} notifies your handler:
+within a realm. {+client-database+} notifies your handler:
 
 - When the object is deleted.
 - When any of the object's properties change.
@@ -154,32 +152,30 @@ Stop notification delivery by calling the ``removeChangeListener()`` or
 ``removeAllChangeListeners()`` methods. Notifications also stop if:
 
 - the object on which the listener is registered gets garbage collected.
-- the {+realm+} instance closes.
+- the realm instance closes.
 
 Keep a strong reference of the object you're listening to
 for as long as you need the notifications.
 
-.. example::
+The following code shows how create a new instance of a class
+in a realm and observe that instance for changes with
+:java-sdk:`addChangeListener() <io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener->`:
 
-   The following code shows how create a new instance of a class
-   in a {+realm+} and observe that instance for changes with
-   :java-sdk:`addChangeListener() <io/realm/RealmObject.html#addChangeListener-E-io.realm.RealmObjectChangeListener->`:
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
 
-   .. tabs-realm-languages::
-     
-      .. tab::
-         :tabid: kotlin
+      .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.object-notifications.kt
+         :language: kotlin
+         :copyable: false
 
-         .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.object-notifications.kt
-            :language: kotlin
-            :copyable: false
+   .. tab::
+      :tabid: java
 
-      .. tab::
-         :tabid: java
-
-         .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.object-notifications.java
-            :language: java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/NotificationsTest.snippet.object-notifications.java
+         :language: java
+         :copyable: false
 
 .. _java-unregister-a-change-listener:
 
@@ -190,7 +186,7 @@ You can unregister a change listener by passing your change listener to
 :java-sdk:`Realm.removeChangeListener()
 <io/realm/Realm.html#removeChangeListener-io.realm.RealmChangeListener->`.
 You can unregister all change listeners currently subscribed to changes
-in a {+realm+} or any of its linked objects or collections with
+in a realm or any of its linked objects or collections with
 :java-sdk:`Realm.removeAllChangeListeners()
 <io/realm/Realm.html#removeAllChangeListeners-->`.
 
@@ -200,7 +196,7 @@ Use Realm in System Apps on Custom ROMs
 ---------------------------------------
 
 {+service-short+} uses named pipes in order to support notifications and
-access to the {+realm+} file from multiple processes. While this is
+access to the realm file from multiple processes. While this is
 allowed by default for normal user apps, it is disallowed for system
 apps.
 

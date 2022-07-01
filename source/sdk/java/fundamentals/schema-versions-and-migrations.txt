@@ -18,22 +18,22 @@ Schema Version
 --------------
 
 A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<java-realm-schema>` at some point in time. {+client-database+} tracks the schema
-version of each {+realm+} and uses it to map the objects in each {+realm+}
+<java-realm-schema>` at some point in time. Realm Database tracks the schema
+version of each realm and uses it to map the objects in each realm
 to the correct schema.
 
 Schema versions are integers that you may include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
 
-   :ref:`Migrations <java-client-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
+   :ref:`Migrations <java-client-migrations>` must update a realm to a
+   higher schema version. Realm Database throws an error if a client
+   application opens a realm with a schema version that is lower than
+   the realm's current version or if the specified schema version is the
+   same as the realm's current version but includes different
    :ref:`object schemas <java-object-schema>`.
 
 .. _java-migrations:
@@ -41,14 +41,14 @@ the {+realm+} defaults to version ``0``.
 Migrations
 ----------
 
-A **local migration** is a migration for a {+realm+} that does
+A **local migration** is a migration for a realm that does
 not automatically :ref:`{+sync-short+} <sync>` with
-another {+realm+}. Local migrations have access to the existing
+another realm. Local migrations have access to the existing
 {+backend-schema+}, version, and objects and define logic that
-incrementally updates the {+realm+} to its new schema version.
+incrementally updates the realm to its new schema version.
 To perform a local migration you must specify a new schema
 version that is higher than the current version and provide
-a migration function when you open the out-of-date {+realm+}.
+a migration function when you open the out-of-date realm.
 
 With the SDK, you can update underlying data to reflect schema changes
 using manual migrations. During such a manual migration, you can
@@ -58,7 +58,7 @@ your schema. The editable schema exposed via a
 convenience functions for renaming fields. This gives you full control
 over the behavior of your data during complex schema migrations.
 
-.. important:: Migrations During Application Development
+.. tip:: Migrations During Application Development
 
    During development of an application, ``RealmObject`` classes can
    change frequently. You can use :java-sdk:`Realm.deleteRealm()

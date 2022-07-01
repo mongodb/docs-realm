@@ -28,17 +28,18 @@ mathematical methods, such as ``sum``, ``min``, and ``max``. For a complete
 list of available ``RealmSet`` methods, see: :java-sdk:`the RealmSet API 
 reference <io/realm/RealmSet.html>`.
 
-.. note:: ``RealmSet`` Limitations
+Method Limitations
+------------------
 
-   Objects containing ``RealmSet`` fields currently cannot use the
-   following ``Realm`` methods:
+You cannot use the following ``Realm`` methods on objects that contain
+a field of type ``RealmSet``:
 
-   - ``Realm.insert()``
-   - ``Realm.insertOrUpdate()``
-   - ``Realm.createAllFromJson()``
-   - ``Realm.createObjectFromJson()``
-   - ``Realm.createOrUpdateAllFromJson()``
-   - ``Realm.createOrUpdateObjectFromJson()``
+- ``Realm.insert()``
+- ``Realm.insertOrUpdate()``
+- ``Realm.createAllFromJson()``
+- ``Realm.createObjectFromJson()``
+- ``Realm.createOrUpdateAllFromJson()``
+- ``Realm.createOrUpdateObjectFromJson()``
 
 Usage
 -----

@@ -12,26 +12,26 @@ Quick Start with Sync - Java SDK
    :depth: 2
    :class: singlecol
 
-.. important:: This Guide uses Atlas Device Sync
+.. important:: This Guide uses Device Sync
 
-   This guide can help you get started with an Android application that
-   communicates with a backend {+app+} over the network using features
+   This guide helps you get started with an Android application that
+   communicates with an App backend. The App provides features
    like :ref:`Sync <sync>`, Realm Functions, and user management. If
-   your application only requires local Realm Database functionality,
-   you should follow the :ref:`Quick Start (Local-only)
+   your application requires only local database functionality,
+   check out the :ref:`Quick Start (Local-only)
    <java-client-quick-start-local>` guide.
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get App Services
 integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Created an {+app+} <create-a-realm-app>`
 - :ref:`Enabled {+sync+} <enable-sync>`
 - :ref:`Installed the Java SDK <java-install>`
 
-.. note:: Check Out the Tutorial
+.. tip:: Check Out the Tutorial
 
-   This page contains only the essential information that you need to set up an
-   Atlas App Services backend. If you prefer to follow a guided tutorial that
+   This page contains the essential information to interact with an App.
+   If you prefer to follow a guided tutorial that
    shows you step-by-step how to set up a working app, check out the
    :ref:`Java Tutorial <java-sdk-tutorial>` where you'll build a mobile
    app that connects to the :ref:`Task Tracker backend
@@ -44,9 +44,9 @@ integrated into your app. Before you begin, ensure you have:
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
-{+ui+}.
+To use App Services features such as authentication and sync, you must
+access your App using your App ID. You can find your App ID in the
+App Services UI.
 
 .. tabs-realm-languages::
 
@@ -159,12 +159,10 @@ Open a Realm
 ------------
 
 Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
-user, you can open a synced :ref:`{+realm+} <java-realms>`. Use the
+user, you can open a synced :ref:`{+realm+} <java-realms>`. Use
 ``SyncConfiguration`` to control the specifics of how your application
-synchronizes data with {+backend+}, including the :ref:`partition
-<sync-partitions>`, how long to wait before a request times out, whether
-to allow synchronous reads or writes to a {+realm+} on the UI thread,
-and more.
+synchronizes data with {+backend+}, including timeouts, synchronous
+reads and writes on the UI thread, and more.
 
 .. tabs-realm-languages::
 
@@ -348,7 +346,7 @@ remember to:
 - replace the App ID placeholder with your {+app+}'s App ID
 
 - update the ``import`` statements for ``Task`` and ``TaskStatus`` if
-  you're using java
+  you're using Java
 
 .. tabs-realm-languages::
 

@@ -15,12 +15,12 @@ Display Collections - Java SDK
 Android apps often populate the UI using
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
 or :android:`ListView <reference/android/widget/ListView>` components.
-{+service-short+} offers **adapters** to display {+realm+} object 
+Realm offers **adapters** to display {+realm+} object 
 :ref:`collections <java-client-collections>`. These collections implement 
 the ``OrderedRealmCollections`` interface. :ref:`RealmResults <java-results-collections>`
 and :ref:`RealmList <java-list-collections>` are examples of these adaptors. 
 With these adapters, UI components update when your app changes 
-{+service-short+} objects.
+Realm objects.
 
 Install Adapters
 ----------------
@@ -35,7 +35,7 @@ Add these dependencies to your application level ``build.gradle`` file:
       implementation 'androidx.recyclerview:recyclerview:1.1.0'
    }
 
-{+service-short+} hosts these adapters on the
+Realm hosts these adapters on the
 `JCenter <https://mvnrepository.com/repos/jcenter>`_
 artifact repository. To use ``jcenter`` in your Android app, add it to your 
 project-level ``build.gradle`` file:
@@ -65,7 +65,7 @@ project-level ``build.gradle`` file:
 Example Models
 --------------
 
-The examples on this page use a {+service-short+} object named ``Item``. 
+The examples on this page use a Realm object named ``Item``. 
 This class contains a string named "name" and an identifier number named 
 "id":
 
@@ -90,13 +90,13 @@ This class contains a string named "name" and an identifier number named
 Display Collections in a ListView
 ---------------------------------
 
-Display {+service-short+} objects in a
+Display Realm objects in a
 :android:`ListView <reference/android/widget/ListView>` by extending
 :github:`RealmBaseAdapter
 <realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmBaseAdapter.java>`.
 The adapter uses the ``ListAdapter`` interface. Implementation works
 like any ``ListAdapter``. This provides support for automatically-updating 
-{+service-short+} objects.
+Realm objects.
 
 Subclass ``RealmBaseAdapter`` to display
 :ref:`Item <java-adapters-model-item>` objects in a ``ListView``:
@@ -135,13 +135,13 @@ Subclass ``RealmBaseAdapter`` to display
 Display Collections in a RecyclerView
 -------------------------------------
 
-Display {+service-short+} objects in a
+Display Realm objects in a
 :android:`RecyclerView <reference/androidx/recyclerview/widget/RecyclerView.html>`
 by extending :github:`RealmRecyclerViewAdapter
 <realm/realm-android-adapters/blob/master/adapters/src/main/java/io/realm/RealmRecyclerViewAdapter.java>`.
 The adapter extends ``RecyclerView.Adapter``. Implementation works like any 
 ``RecyclerView`` adapter. This provides support
-for automatically-updating {+service-short+} objects.
+for automatically-updating Realm objects.
 
 Subclass ``RealmRecyclerViewAdapter`` to display
 :ref:`Item <java-adapters-model-item>` objects in a ``RecyclerView``:

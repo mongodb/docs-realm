@@ -19,9 +19,6 @@ There are two ways to access the query engine with the Java SDK:
 - :ref:`Fluent interface <java-query-fluent-interface>`
 - :ref:`Realm Query Language <java-realm-query-language>`
 
-You should use the Fluent interface for
-querying when possible, as it aligns with Java conventions.  
-
 .. _java-query-fluent-interface:
 
 Fluent Interface
@@ -47,46 +44,47 @@ An **expression** consists of one of the following:
 - An operator and up to two argument expression(s).
 - A literal string, number, or date.
 
-.. note:: About the examples on this page
+About the examples on this page
+-------------------------------
 
-   The examples in this page use a simple data set for a
-   task list app. The two Realm object types are ``Project``
-   and ``Task``. A ``Task`` has a name, assignee's name, and
-   completed flag. There is also an arbitrary number for
-   priority -- higher is more important -- and a count of
-   minutes spent working on it. A ``Project`` has zero or more
-   ``Tasks``.
+The examples in this page use a simple data set for a
+task list app. The two Realm object types are ``Project``
+and ``Task``. A ``Task`` has a name, assignee's name, and
+completed flag. There is also an arbitrary number for
+priority -- higher is more important -- and a count of
+minutes spent working on it. A ``Project`` has zero or more
+``Tasks``.
 
-   See the schema for these two classes, ``Project`` and
-   ``Task``, below:
+See the schema for these two classes, ``Project`` and
+``Task``, below:
 
-   .. tabs-realm-languages::
-     
-      .. tab::
-         :tabid: kotlin
+.. tabs-realm-languages::
+  
+   .. tab::
+      :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.kt
-            :language: kotlin
-            :caption: ProjectTask.kt
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.kt
+         :language: kotlin
+         :caption: ProjectTask.kt
+         :copyable: false
 
-         .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.kt
-            :language: kotlin
-            :caption: Project.kt
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.kt
+         :language: kotlin
+         :caption: Project.kt
+         :copyable: false
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.java
-            :language: java
-            :caption: ProjectTask.java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/ProjectTask.snippet.projecttask.java
+         :language: java
+         :caption: ProjectTask.java
+         :copyable: false
 
-         .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.java
-            :language: java
-            :caption: Project.java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/Project.snippet.project.java
+         :language: java
+         :caption: Project.java
+         :copyable: false
 
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
@@ -335,9 +333,3 @@ a string-based query language inspired by `NSPredicate
    :ref:`Usage Examples - Realm Query Language <java-filter-with-realm-query-language>`
 
 .. include:: /includes/tip-realm-query-language-reference-examples.rst
-
-Summary
--------
-
-- There are several categories of operators available to filter results:
-  comparison, logical, string and aggregate operators.

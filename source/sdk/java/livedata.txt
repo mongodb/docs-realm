@@ -61,17 +61,15 @@ repository directly from GitHub:
 
    git clone https://github.com/mongodb-university/realm-android-livedata.git
 
-.. important::
+The repository contains two branches:
+``final`` and ``start``. The ``final`` branch is a finished version
+of the app as it should look *after* you complete this tutorial.
+To walk through this tutorial, please check out the ``start``
+branch:
 
-   The realm-quickstart-android-livedata repository contains two branches:
-   ``final`` and ``start``. The ``final`` branch is a finished version
-   of the app as it should look *after* you complete this tutorial.
-   To walk through this tutorial, please check out the ``start``
-   branch:
+.. code-block:: console
 
-   .. code-block:: console
-
-      git checkout start
+   git checkout start
 
 Import Dependencies
 -------------------
@@ -144,13 +142,11 @@ have to handle a few events:
      :language: kotlin
      :copyable: false
 
-.. note:: Using LiveData with Collections of RealmResults
+.. seealso:: Using LiveData with ``RealmResults``
 
-   Even though this example project doesn't use LiveData to display
-   RealmResults, we've also provided an example implementation that follows
-   these same principles to encapsulate a collection of data contained in a
-   ``RealmResults`` object, called `LiveRealmResults
-   <https://github.com/mongodb-university/realm-android-livedata/blob/final/app/src/main/java/com/mongodb/realm/livedataquickstart/model/LiveRealmResults.kt>`__.
+   This example only uses LiveData to display ``RealmObjects`` in the UI.
+   For a sample implementation displaying ``RealmResults``,
+   see `LiveRealmResults <https://github.com/mongodb-university/realm-android-livedata/blob/final/app/src/main/java/com/mongodb/realm/livedataquickstart/model/LiveRealmResults.kt>`__.
 
 Instantiating LiveData in the ViewModel
 ---------------------------------------
@@ -163,7 +159,7 @@ To create an instance of LiveData, we need to access a ``Counter`` object
 stored in a {+realm+} and pass it to the ``LiveRealmObject`` constructor.
 To accomplish this:
 
-1. Connect to your {+app+}.
+1. Connect to your {+app+} *with your* **App ID**.
 
 2. Authenticate a user.
 
@@ -180,20 +176,15 @@ The following code snippet implements this behavior:
 .. literalinclude:: /examples/generated/java/sync/CounterModel.snippet.constructor.kt
    :language: kotlin
 
-.. important:: Fill in Your App ID to connect to your Realm App with the Java SDK
+.. important:: Don't Read or Write on the UI Thread
 
-   To connect to your backend instance of {+sync+}, replace the
-   App ID placeholder with your {+app+}'s App ID.
-
-.. note:: Reads and Writes on the UI Thread
-
-   Reads and writes are expensive, frequently involving context switches
-   and disk I/O operations. As a result, reads and writes are disabled
-   by default on the UI thread. While you can use the
-   ``allowWritesOnUiThread()`` and ``allowQueriesOnUiThread()`` config
-   builder methods to enable writes and reads, respectively, on the UI
-   thread, you should almost always defer reads and writes to a
-   background thread using asynchronous patterns.
+   Database reads and writes are computationally expensive, so
+   the SDK disables reads and writes by default on the UI thread.
+   For simplicity, this example enables UI thread reads and writes with
+   the ``allowWritesOnUiThread()`` and ``allowQueriesOnUiThread()``
+   config builder methods. In production applications, you should almost
+   always defer reads and writes to a background thread using
+   asynchronous methods.
 
 Connecting the ViewModel to the UI
 ----------------------------------
@@ -228,8 +219,8 @@ in the ``onCreateView()`` method of ``CounterFragment``:
    :language: kotlin
    :copyable: false
 
-Running the Application
------------------------
+Run the Application
+-------------------
 
 Now you should be able to run the sample application. You should see an
 interface that looks something like this:

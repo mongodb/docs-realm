@@ -1,4 +1,4 @@
-.. important:: Store the API Key Value
+.. warning:: Store the API Key Value
    
    The SDK only returns the value of the user API key when you create it. Make
    sure to store the ``key`` value securely so that you can use it to log in.

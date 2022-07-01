@@ -26,7 +26,7 @@ exist as an independent Realm object. Realm automatically deletes
 embedded objects if their parent object is deleted or when overwritten
 by a new embedded object instance.
 
-.. note:: Realm Uses Cascading Deletes for Embedded Objects
+.. warning:: Realm Uses Cascading Deletes for Embedded Objects
 
    When you delete a Realm object, Realm automatically deletes any
    embedded objects referenced by that object. Any objects that your
@@ -43,7 +43,7 @@ composable. You can use the same embedded object type in multiple parent
 object types and you can embed objects inside of other embedded objects.
 
 .. important::
-   
+
    Embedded objects cannot have a primary key.
 
 Realm Object Models

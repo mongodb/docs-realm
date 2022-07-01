@@ -13,91 +13,79 @@ Define a Realm Object Schema - Java SDK
    :depth: 2
    :class: singlecol
 
-.. tip::
+.. seealso::
 
    For conceptual information about schemas, as well as details about
-   types and constraints, see :ref:`Fundametals: Object Models & Schemas
+   types and constraints, see :ref:`Fundamentals: Object Models & Schemas
    <java-object-models-and-schemas>`.
 
 Define a Realm Object
 ---------------------
 
-To define a {+service-short+} object in your application,
+To define a Realm object in your application,
 create a subclass of :java-sdk:`RealmObject <io/realm/RealmObject.html>`
 or implement :java-sdk:`RealmModel <io/realm/RealmModel.html>`.
 
 .. important::
 
-   All {+service-short+} objects must provide an empty constructor.
+   - All Realm objects must provide an empty constructor.
+   - All Realm objects must use the ``public`` visibility modifier in Java
+     or the ``open`` visibility modifier in Kotlin.
 
 Extend ``RealmObject``
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. example::
+The following code block shows a Realm object that
+describes a Frog. This Frog class can be stored in
+{+client-database+} because it ``extends`` the ``RealmObject`` class.
 
-   The following code block shows a {+service-short+} object that
-   describes a Frog. This Frog class can be stored in
-   {+client-database+} because it ``extends`` the ``RealmObject`` class.
+.. tabs-realm-languages::
 
-   .. tabs-realm-languages::
+   .. tab::
+      :tabid: kotlin
 
-      .. tab::
-         :tabid: kotlin
+      .. include:: /examples/generated/java/local/FrogObjectExampleKt.snippet.complete.kt.rst
 
-         .. include:: /examples/generated/java/local/FrogObjectExampleKt.snippet.complete.kt.rst
+   .. tab::
+      :tabid: java
 
-         .. important::
-
-            All {+service-short+} objects defined must use the
-            ``open`` visibility modifier.
-
-      .. tab::
-         :tabid: java
-
-         .. include:: /examples/generated/java/local/FrogObjectExample.snippet.complete.java.rst
-
-         .. important::
-
-            All {+service-short+} objects must use the ``public``
-            visibility modifier.
+      .. include:: /examples/generated/java/local/FrogObjectExample.snippet.complete.java.rst
 
 Implement ``RealmModel``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. example::
+The following code block shows a Realm object that
+describes a Frog. This Frog class can
+be stored in {+client-database+} because it ``implements`` the
+``RealmModel`` class and uses the ``@RealmClass`` annotation:
 
-   The following code block shows a {+service-short+} object that
-   describes a Frog. This Frog class can
-   be stored in {+client-database+} because it ``implements`` the
-   ``RealmModel`` class and uses the ``@RealmClass`` annotation:
+.. tabs-realm-languages::
 
-   .. tabs-realm-languages::
+   .. tab::
+      :tabid: kotlin
 
-      .. tab::
-         :tabid: kotlin
+      .. include:: /examples/generated/java/local/FrogRealmModelExampleKt.snippet.complete.kt.rst
 
-         .. include:: /examples/generated/java/local/FrogRealmModelExampleKt.snippet.complete.kt.rst
+      .. important::
 
-         .. important::
+         All Realm objects must use the ``open``
+         visibility modifier.
 
-            All {+service-short+} objects must use the ``open``
-            visibility modifier.
+   .. tab::
+      :tabid: java
 
-      .. tab::
-         :tabid: java
+      .. include:: /examples/generated/java/local/FrogRealmModelExample.snippet.complete.java.rst
 
-         .. include:: /examples/generated/java/local/FrogRealmModelExample.snippet.complete.java.rst
+      .. important::
 
-         .. important::
-
-            All {+service-short+} objects must use the ``public``
-            visibility modifier.
+         All Realm objects must use the ``public``
+         visibility modifier.
 
 .. tip:: Using ``RealmObject`` Methods
 
-   When you create a {+service-short+} object by extending the ``RealmObject``
+   When you create a Realm object by extending the ``RealmObject``
    class, you can access ``RealmObject`` class methods dynamically on
-   instances of your {+service-short+} object. {+service-short+} objects
+   instances of your Realm object. Realm objects
    created by implementing ``RealmModel`` can access those same methods
    statically through the ``RealmObject`` class:
 
@@ -120,7 +108,7 @@ Implement ``RealmModel``
 Lists
 -----
 
-{+service-short+} objects can contain lists of non-{+service-short+}-object data
+Realm objects can contain lists of non-Realm-object data
 types:
 
 .. tabs-realm-languages::
@@ -133,7 +121,7 @@ types:
    .. tab::
       :tabid: java
 
-      Unlike lists of {+service-short+} objects, these lists can contain
+      Unlike lists of Realm objects, these lists can contain
       null values. If null values shouldn't be allowed, use the
       :ref:`@Required <java-required-field>` annotation.
 
@@ -152,11 +140,11 @@ Define a Relationship Field
 
 .. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
 
-.. warning:: Always Define Accessors and Mutators for Client-Modified Fields
+.. warning:: Always Define Accessors and Mutators for Modifiable Fields
 
-   {+service-short+} objects use getters and setters to persist updated
-   field values to your {+realm+}s. Always use getters and setters when
-   changing fields of a {+service-short+} object.
+   Realm objects use getters and setters to persist updated
+   field values to your realms. Always use getters and setters for
+   updates.
 
 .. seealso::
 
@@ -168,7 +156,7 @@ Many-to-One
 ~~~~~~~~~~~
 
 To set up a many-to-one or one-to-one relationship, create a field
-whose type is a {+service-short+} object in your application:
+whose type is a Realm object in your application:
 
 .. tabs-realm-languages::
 
@@ -279,8 +267,8 @@ objects. This has several advantages:
   follow a :manual:`denormalized data model </core/data-modeling-introduction/>`.
 
 - When you delete an object that contains another object, the delete
-  operation removes both objects from the {+realm+}, so unused objects
-  don't accumulate in your {+realm+} file, taking up valuable space on
+  operation removes both objects from the realm, so unused objects
+  don't accumulate in your realm file, taking up valuable space on
   user's mobile devices.
 
 To embed an object, set the ``embedded`` property of the
@@ -325,7 +313,7 @@ class, as in the following example:
 Annotations
 -----------
 
-Use annotations to customize your {+service-short+} object models.
+Use annotations to customize your Realm object models.
 
 .. _java-primary-key:
 
@@ -451,10 +439,10 @@ annotation:
 Ignore a Field
 ~~~~~~~~~~~~~~
 
-If you don't want to save a field in your model to a {+realm+}, you can
+If you don't want to save a field in your model to a realm, you can
 ignore a field.
 
-Ignore a field from a {+service-short+} object model with the
+Ignore a field from a Realm object model with the
 :java-sdk:`@Ignore <io/realm/annotations/Ignore.html>` annotation:
 
 .. tabs-realm-languages::
@@ -469,7 +457,7 @@ Ignore a field from a {+service-short+} object model with the
 
       .. include:: /examples/generated/java/local/FrogIgnoreExample.snippet.complete.java.rst
 
-.. note:: Ignoring ``static`` and ``transient`` Fields
+.. note:: The SDK ignores ``static`` and ``transient`` Fields
 
    Fields marked ``static`` or ``transient`` are always ignored, and do
    not need the ``@Ignore`` annotation.
@@ -578,11 +566,11 @@ annotation to rename a class:
 Omit Classes from your Realm Schema
 -----------------------------------
 
-By default, your application's {+service-short+} Schema includes all
+By default, your application's Realm Schema includes all
 classes that extend ``RealmObject``. If you only want to include a
-subset of classes that extend ``RealmObject`` in your {+service-short+}
+subset of classes that extend ``RealmObject`` in your Realm
 Schema, you can include that subset of classes in a module and open
-your {+realm+} using that module:
+your realm using that module:
 
 .. tabs-realm-languages::
 

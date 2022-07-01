@@ -15,7 +15,7 @@ Open & Close a Realm - Java SDK
 Interacting with :ref:`{+realm+}s <java-realms>` in an Android
 application uses the following high-level series of steps:
 
-1. Create a configuration for the {+realm+} you want to open.
+#. Create a configuration for the {+realm+} you want to open.
 #. Open the {+realm+} using the config.
 #. :ref:`Close the {+realm+} <java-close-a-realm>` to free up
    resources when you're finished.
@@ -229,7 +229,7 @@ The following example configures a synced {+realm+} with:
   before returning an open {+realm+}
 - automatic compaction when launching the {+realm+} to save file space
 
-.. important:: Production Applications Should Handle Client Resets
+.. warning:: Production Applications Should Handle Client Resets
 
    Applications used in production environments should handle client
    reset errors. To learn more, see :ref:`Reset a Client Realm

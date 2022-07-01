@@ -1,4 +1,4 @@
-.. tip:: Realm Query Language Reference & Examples
+.. seealso:: Realm Query Language Reference & Examples
 
    Refer to the :ref:`Realm Query Language Reference <realm-query-language>`
    for more information about syntax, usage and limitations. 
