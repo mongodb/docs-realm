@@ -439,15 +439,15 @@ Regex-like wildcards allow more flexibility in search.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.string-operators.js
       :language: javascript
 
-ObjectID and UUID Operators
+ObjectId and UUID Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can query :manual:`BSON ObjectIDs </reference/method/ObjectId>` and
+You can query :manual:`BSON ObjectIds </reference/method/ObjectId>` and
 :manual:`UUIDs </reference/method/UUID/>`.
 These data types are often used as primary keys.
 
-To query with ObjectIDs, put a string representation of the ObjectID you're evaluating
-in ``oid(<ObjectID String>)``.
+To query with ObjectIds, put a string representation of the ObjectId you're evaluating
+in ``oid(<ObjectId String>)``.
 
 .. code-block:: js
 
