@@ -39,6 +39,12 @@ syncs to the client device.
    10.12.0 <realm/realm-js/releases>` or greater in order to use Flexible Sync
    in your Node.js client application.
 
+.. important:: Flexible Sync Query Limitations
+
+   You cannot use all queries with Flexible Sync subscriptions. 
+   Refer to the :ref:`Flexible Sync RQL Limitations documentation <node-flexible-sync-rql-limitations>`
+   for information on which query types are not supported. 
+
 .. _node-sync-subscribe-to-queryable-fields:
 
 Subscribe to Queryable Fields
@@ -122,12 +128,6 @@ Compose queries to add to your Flexible Sync subscriptions using the
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-queries-to-subscribe-to.js
      :language: javascript
-
-.. important:: Flexible Sync Query Limitations
-
-   You cannot use all queries with Flexible Sync subscriptions. 
-   Refer to the :ref:`Flexible Sync RQL Limitations documentation <flexible-sync-rql-limitations>`
-   for information on which query types are not supported. 
 
 Add queries to your subscriptions list to sync the query's data. To do so, perform the following: 
 
@@ -265,3 +265,7 @@ the subscriptions set. Call :js-sdk:`removeAll()
 
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.remove-all-subscriptions.js
     :language: javascript
+
+.. _node-flexible-sync-rql-limitations:
+
+.. include:: /includes/flex-sync-limitations.rst
