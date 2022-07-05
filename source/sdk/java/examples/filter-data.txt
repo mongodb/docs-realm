@@ -92,7 +92,7 @@ containing teachers with the name "Ms. Langtree" or "Mrs. Jacobs".
   returns immediately and finds the first object that meets the query
   conditions asynchronously on a background thread
 
-Queries return a list of references to the matching {+service-short+}
+Queries return a list of references to the matching Realm
 objects using the :ref:`RealmResults <java-results-collections>` type.
 
 .. seealso::
@@ -152,6 +152,13 @@ You can even use dot notation to query inverse relationships:
 Sort Results
 ------------
 
+.. important::
+
+   Realm Database applies the ``distinct()``, ``sort()`` and
+   ``limit()`` methods in the order you specify. Depending on the
+   data set this can alter the query result. Generally, you should
+   apply ``limit()`` last to avoid unintended result sets.
+
 You can define the order of query results using the
 :java-sdk:`sort() <io/realm/RealmQuery.html#sort-java.lang.String->`
 method:
@@ -176,22 +183,15 @@ Sorts organize results in ascending order by default. To organize results
 in descending order, pass ``Sort.DESCENDING`` as a second argument.
 You can resolve sort order ties between identical property values
 by passing an array of properties instead of a single property: in the
-event of a tie, {+client-database+} sorts the tied objects by subsequent
+event of a tie, Realm Database sorts the tied objects by subsequent
 properties in order.
 
-.. important::
+.. note:: String Sorting Limitations
 
-   {+client-database+} applies the ``distinct()``, ``sort()`` and
-   ``limit()`` methods in the order you specify. Depending on the
-   data set this can alter the query result. Generally, you should
-   apply ``limit()`` last to avoid unintended result sets.
-
-.. important:: String Sorting Limitations
-
-   {+service-short+} uses non-standard sorting for upper and lowercase
+   Realm uses non-standard sorting for upper and lowercase
    letters, sorting them together rather than sorting uppercase first.
    As a result, ``'- !"#0&()*,./:;?_+<=>123aAbBcC...xXyYzZ`` is the
-   actual sorting order in {+client-database+}. Additionally, sorting
+   actual sorting order in Realm Database. Additionally, sorting
    strings only supports the ``Latin Basic``, ``Latin Supplement``,
    ``Latin Extended A``, and ``Latin Extended B (UTF-8 range 0–591)``
    character sets.
@@ -225,21 +225,21 @@ Limited result collections automatically update like any other query
 result. Consequently, objects might drop out of the collection as
 underlying data changes.
 
-.. important:: Pagination is Not Necessary for {+client-database+} Optimization
+.. tip:: Pagination is Not Necessary for Realm Database Optimization
 
    Some databases encourage paginating results with limits to avoid
    reading unnecessary data from disk or using too much memory.
 
-   Since {+client-database+} queries are lazy, there is no need to
-   take such measures. {+client-database+} only loads objects from query
+   Since Realm Database queries are lazy, there is no need to
+   take such measures. Realm Database only loads objects from query
    results when they are explicitly accessed.
 
-.. warning:: Deleted Notifications in Limited Results
+.. tip:: Deleted Notifications in Limited Results
 
    :ref:`Collection notifications <java-collection-notifications>`
    report objects as deleted when they drop out of the result set.
    This does not necessarily mean that they have been deleted from the
-   underlying {+realm+}, just that they are no longer part of the
+   underlying realm, just that they are no longer part of the
    query result.
 
 .. _java-unique-results:
@@ -309,7 +309,7 @@ Query with Realm Query Language
 
 You can use :java-sdk:`RealmQuery.rawPredicate()
 <io/realm/RealmQuery.html#rawPredicate-java.lang.String->` to query
-{+realm+}s using :ref:`Realm Query Language <realm-query-language>`.
+realms using :ref:`Realm Query Language <realm-query-language>`.
 
 Realm Query Language can use either the class and property names defined
 in your Realm Model classes or the internal names defined with ``@RealmField``.

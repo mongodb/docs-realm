@@ -12,12 +12,12 @@ Open & Close a Realm - Java SDK
    :depth: 2
    :class: singlecol
 
-Interacting with :ref:`{+realm+}s <java-realms>` in an Android
+Interacting with :ref:`realms <java-realms>` in an Android
 application uses the following high-level series of steps:
 
-1. Create a configuration for the {+realm+} you want to open.
-#. Open the {+realm+} using the config.
-#. :ref:`Close the {+realm+} <java-close-a-realm>` to free up
+#. Create a configuration for the realm you want to open.
+#. Open the realm using the config.
+#. :ref:`Close the realm <java-close-a-realm>` to free up
    resources when you're finished.
 
 The Default Realm
@@ -45,7 +45,7 @@ You can then use
 :java-sdk:`getDefaultConfiguration() <io/realm/Realm.html#getDefaultConfiguration-->`
 to access that configuration, or
 :java-sdk:`getDefaultInstance() <io/realm/Realm.html#getDefaultInstance-->`
-to open a {+realm+} with that configuration:
+to open a realm with that configuration:
 
 .. tabs-realm-languages::
    
@@ -62,23 +62,23 @@ to open a {+realm+} with that configuration:
 Local Realms
 ------------
 
-Local {+realm+}s store data only on the client device. You can customize
-the settings for a local {+realm+} with ``RealmConfiguration``.
+Local realms store data only on the client device. You can customize
+the settings for a local realm with ``RealmConfiguration``.
 
 .. _java-local-realm-configuration:
 
 Local Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To configure settings for a {+realm+}, create a
+To configure settings for a realm, create a
 :java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with a
 :java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>`.
-The following example configures a local {+realm+} with:
+The following example configures a local realm with:
 
 - the file name "alternate-realm"
 - synchronous reads explicitly allowed on the UI thread
 - synchronous writes explicitly allowed on the UI thread
-- automatic compaction when launching the {+realm+} to save file space
+- automatic compaction when launching the realm to save file space
 
 .. tabs-realm-languages::
    
@@ -106,7 +106,7 @@ The following example configures a local {+realm+} with:
 Open a Local Realm
 ~~~~~~~~~~~~~~~~~~
 
-To open a {+realm+}, create a
+To open a realm, create a
 :java-sdk:`RealmConfiguration <io/realm/RealmConfiguration.html>` with
 :java-sdk:`RealmConfiguration.Builder <io/realm/RealmConfiguration.Builder.html>` and 
 pass the resulting ``RealmConfiguration`` to
@@ -137,7 +137,7 @@ Read-Only Realms
 ~~~~~~~~~~~~~~~~
 
 Use the :java-sdk:`readOnly() <io/realm/RealmConfiguration.Builder.html#readOnly-->`
-method when configuring your {+realm+} to make it read-only:
+method when configuring your realm to make it read-only:
 
 .. tabs-realm-languages::
    
@@ -160,7 +160,7 @@ method when configuring your {+realm+} to make it read-only:
 In-Memory Realms
 ~~~~~~~~~~~~~~~~
 
-To create a {+realm+} that runs entirely in memory without being written
+To create a realm that runs entirely in memory without being written
 to a file, use :java-sdk:`inMemory() <io/realm/RealmConfiguration.Builder.html#inMemory()>`
 when configuring your realm:
 
@@ -207,29 +207,29 @@ To open a Dynamic Realm with a mutable schema, use
 Synced Realms
 -------------
 
-Synced {+realm+}s use {+sync+} to store data both on the client device
-and in your synced data source. Opening a synced {+realm+} works exactly
-like opening a local {+realm+}, except you use ``SyncConfiguration``
-to customize the settings for synced {+realm+}s.
+Synced realms use :ref:`Atlas Device Sync <sync>` to store data both on the client device
+and in your synced data source. Opening a synced realm works exactly
+like opening a local realm, except you use ``SyncConfiguration``
+to customize the settings for synced realms.
 
 .. _java-synced-realm-configuration:
 
 Synced Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To configure settings for a {+realm+}, create a
+To configure settings for a realm, create a
 :java-sdk:`SyncConfiguration <io/realm/mongodb/sync/SyncConfiguration.html>` with a
 :java-sdk:`SyncConfiguration.Builder <io/realm/mongodb/sync/SyncConfiguration.Builder.html>`.
-The following example configures a synced {+realm+} with:
+The following example configures a synced realm with:
 
-- partition-based {+sync+}
+- partition-based Sync
 - synchronous reads explicitly allowed on the UI thread
 - synchronous writes explicitly allowed on the UI thread
 - explicit waiting for all backend changes to synchronize to the device
-  before returning an open {+realm+}
-- automatic compaction when launching the {+realm+} to save file space
+  before returning an open realm
+- automatic compaction when launching the realm to save file space
 
-.. important:: Production Applications Should Handle Client Resets
+.. warning:: Production Applications Should Handle Client Resets
 
    Applications used in production environments should handle client
    reset errors. To learn more, see :ref:`Reset a Client Realm
@@ -268,7 +268,7 @@ Open a Synced Realm While Online
 Open a Synced Realm While Offline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can open a synced {+realm+} when offline with the exact same syntax
+You can open a synced realm when offline with the exact same syntax
 that you use to :ref:`open a synced realm while online
 <java-open-a-synced-realm-while-online>`. Not all SDKs follow this
 pattern, so cross-platform developers should consult the documentation
@@ -325,7 +325,7 @@ Close a Realm
 
 It is important to remember to call the :java-sdk:`close()
 <io/realm/Realm.html#close-->` method when done with a 
-{+realm+} instance to free resources. Neglecting to close {+realm+}s can lead to an
+realm instance to free resources. Neglecting to close realms can lead to an
 ``OutOfMemoryError``.
 
 .. tabs-realm-languages::
@@ -354,16 +354,16 @@ It is important to remember to call the :java-sdk:`close()
 Configure Which Classes to Include in Your Realm Schema
 -------------------------------------------------------
 
-{+service-short+} modules are collections of {+service-short+} object
-models. Specify a module or modules when opening a {+realm+} to control
-which classes {+client-database+} should include in your schema. If you
-do not specify a module, {+service-short+} uses the default module,
-which includes all {+service-short+} objects defined in your
+Realm modules are collections of Realm object
+models. Specify a module or modules when opening a realm to control
+which classes Realm Database should include in your schema. If you
+do not specify a module, Realm uses the default module,
+which includes all Realm objects defined in your
 application.
 
 .. note::
    
-   Libraries that include {+client-database+} must expose and use their
+   Libraries that include Realm Database must expose and use their
    schema through a module. Doing so prevents the library from
    generating the default ``RealmModule``, which would conflict with
    the default ``RealmModule`` used by any app that includes the library.

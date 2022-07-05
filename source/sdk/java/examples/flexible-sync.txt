@@ -16,7 +16,7 @@ Overview
 --------
 
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your {+app+}.
+data to sync with your App.
 
 To use Flexible Sync in the SDK:
 
@@ -36,9 +36,9 @@ syncs to the client device.
 
    For general information about using Atlas Device Sync with the SDK,
    such as how to sync changes in the background or pause a sync session,
-   see: :ref:`Sync Changes Between Devices <java-sync-changes-between-devices>`.
+   check out :ref:`Sync Changes Between Devices <java-sync-changes-between-devices>`.
 
-   For information about setting up permissions for Flexible Sync, see:
+   For information about setting up permissions for Flexible Sync, check out
    :ref:`Flexible Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
 
 .. _java-sync-subscribe-to-queryable-fields:
@@ -66,7 +66,7 @@ permissions, syncs between clients and the backend application.
 
 You can specify an optional string name for your subscription.
 
-.. note:: Always Specify a Subscription Name
+.. tip:: Always Specify a Subscription Name
 
    Always specify a subscription name if your application uses multiple
    subscriptions. This makes your subscriptions easier to look up,
@@ -76,46 +76,45 @@ When you create a subscription, Realm looks for data matching a query on a
 specific object type. You can have multiple subscription sets on different 
 object types. You can also have multiple queries on the same object type.
 
-.. example::
 
-   You can create a subscription with an explicit name. Then, you can
-   search for that subscription by name to update or remove it.
+You can create a subscription with an explicit name. Then, you can
+search for that subscription by name to update or remove it.
 
-   .. tabs-realm-languages::
-      
-      .. tab::
-         :tabid: kotlin
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.explicitly-named-subscription.kt
-            :language: kotlin
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.explicitly-named-subscription.kt
+         :language: kotlin
+         :copyable: false
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.explicitly-named-subscription.java
-            :language: java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.explicitly-named-subscription.java
+         :language: java
+         :copyable: false
 
-   You can also search subscriptions by query. If you omit the name when
-   creating a subscription, this is the only way to look up your
-   subscription.
+You can also search subscriptions by query. If you omit the name when
+creating a subscription, this is the only way to look up your
+subscription.
 
-   .. tabs-realm-languages::
-      
-      .. tab::
-         :tabid: kotlin
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: kotlin
 
-         .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.implicitly-named-subscription.kt
-            :language: kotlin
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.implicitly-named-subscription.kt
+         :language: kotlin
+         :copyable: false
 
-      .. tab::
-         :tabid: java
+   .. tab::
+      :tabid: java
 
-         .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.implicitly-named-subscription.java
-            :language: java
-            :copyable: false
+      .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.implicitly-named-subscription.java
+         :language: java
+         :copyable: false
 
 .. note:: Duplicate subscriptions
 
@@ -153,15 +152,15 @@ new subscription to the client's Realm subscriptions.
           :language: java
           :copyable: false
 
-.. important:: Object Links
+.. note:: Object Links
 
-   You must add both an object and its linked object to the subscription 
+   You must add both an object and its linked object to the subscription
    set to see a linked object.
    
-   If your subscription results contain an object with a property that links 
-   to an object not contained in the results, the link appears to be nil.
-   There is no way to distinguish whether that property's value is 
-   legitimately nil, or whether the object it links to exists but is out of
+   If your subscription results contain an object with a property that links
+   to an object not contained in the results, the link appears to be null.
+   There is no way to distinguish whether that property's value is
+   legitimately null, or whether the object it links to exists but is out of
    view of the query subscription.
 
 .. _java-sync-check-subscription-state:
@@ -174,10 +173,10 @@ Writing an update to the subscription set locally is only one component
 of changing a subscription. After the local subscription change, the client
 synchronizes with the server to resolve any updates to the data due to 
 the subscription change. This could mean adding or removing data from the 
-synced {+realm+}. Use the :java-sdk:`waitForInitialRemoteData()
+synced realm. Use the :java-sdk:`waitForInitialRemoteData()
 <io/realm/mongodb/sync/SyncConfiguration.Builder.html#waitForInitialRemoteData(long,java.util.concurrent.TimeUnit)>`
 builder method to force your application to block until client subscription
-data synchronizes to the backend before opening the {+realm+}:
+data synchronizes to the backend before opening the realm:
 
 .. tabs-realm-languages::
    
@@ -343,7 +342,7 @@ To remove all subscriptions from the subscription set, use
 :java-sdk:`removeAll() <io/realm/mongodb/sync/MutableSubscriptionSet.html#removeAll()>`
 with no arguments:
 
-.. important::
+.. warning::
 
    If you remove all subscriptions and do not add a new one, you'll 
    get an error. A realm opened with a flexible sync configuration needs

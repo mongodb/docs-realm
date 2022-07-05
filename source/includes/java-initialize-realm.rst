@@ -30,11 +30,11 @@ application runs.
          :language: kotlin
          :copyable: false
 
-.. note:: Register Your Application Subclass in the Android Manifest
+.. tip:: Register Your Application Subclass in the Android Manifest
    
    If you create your own ``Application`` subclass, you must add it to your
    application's ``AndroidManifest.xml`` to execute your custom
-   application code. Set the ``android.name`` property of your manifest's
+   application logic. Set the ``android.name`` property of your manifest's
    application definition to ensure that Android instantiates your ``Application``
    subclass before any other class when a user launches your application.
    

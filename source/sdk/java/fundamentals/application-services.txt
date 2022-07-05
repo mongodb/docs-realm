@@ -16,31 +16,30 @@ Application Services - Java SDK
 Overview
 --------
 
-{+service+} provides SDKs that help you connect your client apps to the {+service-short+} 
-backend. The SDK provides the {+service+} functionality needed to 
+Realm provides SDKs that help you connect your client apps to the Realm 
+backend. The SDK provides the Realm functionality needed to 
 authenticate users with any of the built-in :ref:`authentication providers <authentication-providers>`, 
 call backend :ref:`functions <functions>`, and directly access a linked
 :ref:`MongoDB data source <data-sources>`.
 
 The Realm App Client
 --------------------
-When using the SDK to access the {+service-short+} backend, you start with a 
+When using the SDK to access the Realm backend, you start with a 
 Realm App object. This object provides all other functionality related to 
-{+backend+}. The``App`` object is 
-:ref:`initialized <java-init-appclient>` with the {+app+} ID, which you can 
+App Services. Initialize the ``App`` object  with the App ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
 
-.. tip::
+.. seealso::
 
    To learn how to initialize the Realm App client, see
-   :ref:`java-init-appclient`.
+   :ref:`Connect to an Atlas App Services backend <java-init-appclient>`.
 
 Authentication & User Management
 --------------------------------
 
 One of the most challenging aspects of client development is implementing a 
-robust and secure authentication system. With the {+service-short+} SDKs, however, you 
-can use any of the {+service+} authentication providers with very minimal backend 
+robust and secure authentication system. With the Realm SDKs, however, you 
+can use any of the Realm authentication providers with very minimal backend 
 setup or client-side code required. With the authentication APIs, you can 
 implement the following functionality:
 
@@ -50,22 +49,22 @@ implement the following functionality:
 - Linking user accounts from different providers 
 - Providing custom user data 
 
-.. tip::
+.. seealso::
 
    To learn how to set up authentication with different providers, see
-   :ref:`java-authenticate`.
+   :ref:`Authenticate Users <java-authenticate>`.
 
-   To learn how to manage multiple users, see :ref:`java-multi-user-applications`.
+   To learn how to manage multiple users, see :ref:`Multi-User Applications <java-multi-user-applications>`.
 
-   To learn how to link user accounts, see :ref:`java-link-user-identities`.
+   To learn how to link user accounts, see :ref:`Link User Identities <java-link-user-identities>`.
 
-   To learn how to provide custom user data, see :ref:`java-custom-user-data`.
+   To learn how to provide custom user data, see :ref:`Custom User Data <java-custom-user-data>`.
 
 Calling Functions
 -----------------
 :ref:`Realm functions <functions>` enable you to define and execute server-side 
 logic for your application. You can call these functions from your client applications
-via the {+service+} SDKs. These server-side functions can run under the context 
+via the Realm SDKs. These server-side functions can run under the context 
 of the authenticated user, and thus honor the rules, roles, and permissions that 
 you have assigned to your collections.
 
@@ -73,7 +72,7 @@ By using Realm functions, you provide a secure way for a variety of client
 applications to share complex functionality without having to reproduce that 
 logic client-side. 
 
-.. tip::
+.. seealso::
 
    To learn how to call functions, see :ref:`Call a Function <java-call-a-function>`.
 
@@ -85,6 +84,6 @@ client. For security, you configure server-side :ref:`data access rules <mongodb
 to dynamically determine read & write permissions for every object that 
 is accessed.
 
-.. tip::
+.. seealso::
 
    To learn how to use the MongoDB APIs, see :ref:`Query MongoDB <java-mongodb-data-access>`.
