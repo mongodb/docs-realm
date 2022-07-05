@@ -43,12 +43,8 @@ syncs to the client device.
    For information about setting up permissions for Flexible Sync, see:
    :ref:`Flexible Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
 
-.. important::
+.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
-   Flexible Sync does not support all the operators available in Realm 
-   Query Language. See :ref:`Flexible Sync RQL Limitations 
-   <swift-flexible-sync-rql-limitations>` for details.
-   
 About the Examples on This Page
 -------------------------------
    
@@ -325,7 +321,5 @@ method in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift
-
-.. _swift-flexible-sync-rql-limitations:
 
 .. include:: /includes/flex-sync-limitations.rst
