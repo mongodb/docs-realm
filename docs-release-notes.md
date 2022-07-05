@@ -1,3 +1,30 @@
+# July 1, 2022
+
+## Kotlin SDK
+- Handle Errors: New Section w/overview of types of errors
+  - Realm Errors: New Page w/tested code examples and guidance around error handling
+  - App Errors: New page w/tested code examples and guidance around error handling
+
+## Node.js SDK
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## React Native SDK
+- Install: Add note about Expo v45 not supported on Android.
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## Swift SDK
+- Landing Page & Install: Update Apple deployment targets and minimum Xcode version
+- Usage Examples/Flexible Sync: Add note about Combine support for Flexible Sync
+- Usage Examples/SwiftUI Guide
+  - Open a Realm with a Configuration: Clarify using SwiftUI w/configurations based on docs feedback
+  - Use Realm w/SwiftUI Previews: New section w/guidance & tested code examples 
+
+## Web SDK
+- Atlas App Services/MongoDB Data Access: Add Aggregation Operations w/tested code examples
+
+## Misc
+- Add redirects for App Services/Reference content
+
 # June 24, 2022
 
 ## .NET SDK
