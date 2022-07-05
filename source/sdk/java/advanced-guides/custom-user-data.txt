@@ -79,22 +79,22 @@ Create a User's Custom Data Document
    To create, update, or delete custom user data, you will need the following
    information from your custom user data configuration:
 
-   - the :term:`custom user data cluster`
+   - the custom user data cluster
 
-   - the :term:`custom user data database`
+   - the custom user data database
 
-   - the :term:`custom user data collection` in which custom
+   - the custom user data collection in which custom
      user data documents are stored
 
-   - the :term:`user ID field` used to map custom user data documents
-     to users (via :term:`user ID`)
+   - the user ID field used to map custom user data documents
+     to users (via user ID)
 
    You can find this information in the App Services UI on the
    :guilabel:`App Users` page under the :guilabel:`Custom User Data` tab.
 
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document should
-contain the the user's :term:`user ID`. The following example uses
+contain the the user's user ID. The following example uses
 :ref:`MongoDB Data Access <java-mongodb-data-access>` to insert a
 document containing the user ID of the currently logged in user and a
 ``favoriteColor`` value into the custom user data collection:

@@ -92,7 +92,7 @@ several options depending on your use case:
 
 - To see changes from other threads in the realm on the current
   thread, :ref:`refresh <java-refreshing-realms>` your realm
-  instance (:term:`event loop` threads refresh automatically).
+  instance (event loop threads refresh automatically).
 
 .. _java-intents:
 
@@ -192,7 +192,7 @@ Refreshing Realms
 When you open a realm, it reflects the most recent successful write
 commit and remains on that version until it is **refreshed**. This means
 that the realm will not see changes that happened on another thread
-until the next refresh. Realms on any :term:`event loop` thread 
+until the next refresh. Realms on any event loop thread 
 (including the UI thread) automatically refresh themselves at the
 beginning of that thread's loop. However, you must manually refresh
 realm instances that are tied to non-looping threads or that have
@@ -279,7 +279,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses :term:`zero-copy` techniques
+Realm Database uses zero-copy` techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for

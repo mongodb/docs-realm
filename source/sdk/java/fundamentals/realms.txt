@@ -16,7 +16,7 @@ A **realm** is a set of related objects that conform to a pre-defined
 schema. Realms may contain more than one type of data as long as a 
 schema exists for each type.
 
-Every realm stores data in a separate :term:`realm file` that 
+Every realm stores data in a separate realm file that 
 contains a binary encoding of each object in the realm. You can
 automatically :ref:`synchronize realm across multiple
 devices <sync>` and set up :ref:`reactive
@@ -241,8 +241,7 @@ Synced Realms
 
 When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
 realms represent partitions of Atlas data. Each realm corresponds to 
-a subset of the data in your :term:`App's <App>`
-:term:`synced {+atlas+} cluster <synced cluster>`. You can customize the
+a subset of the data in your App's data source. You can customize the
 :ref:`partitioning <sync-partitions>` of data using your application's
 :ref:`partition key <partition-key>`. Unique values of the partition
 key, known as :ref:`partition values <partition-value>`, correspond to
@@ -375,22 +374,3 @@ version of a realm to a destination file.
    <https://medium.com/glucosio-project/example-class-to-export-import-a-realm-database-on-java-c429ade2b4ed#.80ibsc7wm>`__,
    `Part 2 <https://medium.com/glucosio-project/backup-restore-a-realm-database-on-google-drive-with-drive-api-c238515a5975#.qbuugb322>`__,
    `Part 3 <https://medium.com/glucosio-project/build-a-nice-ux-to-backup-and-sync-your-app-data-on-google-drive-3-3-a3b598cab68b#.5mjk4w4se>`__).
-
-Summary
--------
-
-- A :term:`realm` is a collection of objects that conform to a
-  schema. It is not a single, application-wide database. There can and
-  usually will be more than one realm per application.
-
-- A :term:`Realm Schema` is a versioned specification of the
-  object types used in an App.
-
-- Realm Rules define who can read or write
-  the realm and apply to the realm as a whole.
-
-- When using :ref:`Partition-Based Sync <partition-based-sync>`, a 
-  :term:`partition value` is a realm's unique identifier.
-
-- Modules let you selectively include subsets of the Realm objects defined
-  in your application schema when opening a realm.

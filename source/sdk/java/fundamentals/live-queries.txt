@@ -136,8 +136,8 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using :term:`zero-copy`
-:term:`live objects`. :term:`Realm object` accessors point directly into
+Realm Database bypasses all of this using zero-copy
+live objects. Realm object accessors point directly into
 database storage using memory mapping, so there is no distinction
 between the objects in Realm Database and the results of your query in
 application memory. Because of this, you can traverse direct references
@@ -183,7 +183,7 @@ data, independent of the writes that caused the changes.
 Realm emits three kinds of notifications:
 
 - :ref:`Realm notifications <java-realm-notifications>` whenever a specific realm commits a write transaction.
-- :ref:`Collection notifications <java-collection-notifications>` whenever any :term:`Realm object` in a collection changes, including inserts, updates, and deletes.
+- :ref:`Collection notifications <java-collection-notifications>` whenever any Realm object in a collection changes, including inserts, updates, and deletes.
 - :ref:`Object notifications <java-object-notifications>` whenever a specific Realm object changes, including updates and deletes.
 
 .. seealso::
