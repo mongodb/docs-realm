@@ -33,7 +33,7 @@ single value.
 
 .. example::
 
-   These examples all query for projects containing tasks that meet 
+   These examples all query for projects containing tasks that meet
    this criteria:
 
    - Projects with average task priority above 5.
@@ -84,7 +84,7 @@ the object.
 Sort, Distinct, Limit
 `````````````````````
 
-You can use additional operators in your queries to sort and limit the 
+You can use additional operators in your queries to sort and limit the
 results collection.
 
 .. list-table::
@@ -95,7 +95,7 @@ results collection.
      - Description
 
    * - ``SORT``
-     - Specify the name of the property to compare. You can optionally 
+     - Specify the name of the property to compare. You can optionally
        specify ascending (``ASC``) or descending (``DESC``) order.
        If you specify multiple SORT fields, the query sorts by the first
        field, and then the second. For example, if you ``SORT (priority, name)``, 
@@ -103,10 +103,10 @@ results collection.
        value is the same.
 
    * - ``DISTINCT``
-     - Specify a name of the property to compare. Remove duplicates 
-       for that property in the results collection. If you specify multiple 
-       DISTINCT fields, the query removes duplicates by the first field, and 
-       then the second. For example, if you ``DISTINCT (name, assignee)``, 
+     - Specify a name of the property to compare. Remove duplicates
+       for that property in the results collection. If you specify multiple
+       DISTINCT fields, the query removes duplicates by the first field, and
+       then the second. For example, if you ``DISTINCT (name, assignee)``,
        the query only removes duplicates where the values of both properties
        are the same.
 
@@ -115,8 +115,8 @@ results collection.
 
 .. example::
 
-   We use the query engine's sort, distinct, and limit operators to find: 
-   
+   We use the query engine's sort, distinct, and limit operators to find:
+
    - Tasks where the assignee is Ali
 
      - Sorted by priority in descending order
