@@ -52,8 +52,8 @@ any other thread, you should configure a ``Looper`` for that thread.
    Realms on a thread without a :android:`Looper <reference/android/os/Looper>`
    do not automatically advance their version. This can increase the size of the
    realm in memory and on disk. Avoid using realm instances on
-   non-Looper threads when possible. When unavoidable, always ensure
-   that you close the realm when you're done using it.
+   non-Looper threads when possible. If you *do* open a realm on a non-Looper
+   thread, close the realm when you're done using it.
 
 .. _java-read-operations:
 .. _java-realm-database-reads:
