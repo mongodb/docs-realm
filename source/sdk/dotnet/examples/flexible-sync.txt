@@ -39,7 +39,11 @@ syncs to the client device.
    10.9.0 <realm/realm-dotnet/releases>` or greater in order to use Flexible Sync
    in your .NET client application.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <dotnet-flexible-sync-rql-limitations>` for details.
 
 .. _dotnet-flexible-sync-manage-subscriptions:
 
@@ -281,5 +285,7 @@ An exception may occur if:
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.wait-for-synchronization.cs
    :language: csharp
+
+.. _dotnet-flexible-sync-rql-limitations:
 
 .. include:: /includes/flex-sync-limitations.rst

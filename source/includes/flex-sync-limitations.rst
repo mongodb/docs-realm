@@ -1,5 +1,3 @@
-.. _flexible-sync-rql-limitations:
-
 Flexible Sync RQL Limitations
 -----------------------------
 
