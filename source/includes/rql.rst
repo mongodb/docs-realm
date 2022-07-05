@@ -1,18 +1,18 @@
 Overview
 --------
 
-Realm Query Language is a string-based query language to constrain 
-searches when retrieving objects from a realm. SDK-specific methods pass queries 
+Realm Query Language is a string-based query language to constrain
+searches when retrieving objects from a realm. SDK-specific methods pass queries
 to the Realm query engine, which retrives matching objects from the realm.
 
-Queries evaluate a predicate for every 
-object in the collection being queried. If the predicate resolves 
-to ``true``, {+client-database+} includes the object in the results 
+Queries evaluate a predicate for every
+object in the collection being queried. If the predicate resolves
+to ``true``, {+client-database+} includes the object in the results
 collection.
 
-You can use Realm Query Language in most Realm SDKs with your SDK's filter 
-or query methods. The Swift SDK is the exception, as it uses the 
-:ref:`NSPredicate query API <ios-nspredicate-query>`. 
+You can use Realm Query Language in most Realm SDKs with your SDK's filter
+or query methods. The Swift SDK is the exception, as it uses the
+:ref:`NSPredicate query API <ios-nspredicate-query>`.
 Some SDKs also support idiomatic APIs for querying realms in their language.
 
 For further reading on SDK-specific methods for querying realms, select the tab
@@ -51,7 +51,7 @@ below for your SDK.
    .. tab:: Kotlin SDK
       :tabid: kotlin
 
-      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>` 
+      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>`
 
    .. tab:: Flutter SDK
       :tabid: flutter
@@ -60,7 +60,7 @@ below for your SDK.
       - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
 
 
-You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
+You can also use Realm Query Language to browse for data in :ref:`Realm Studio
 <realm-studio>`.
 
 Expressions
@@ -70,9 +70,9 @@ Filters consist of **expressions** in a predicate. An expression consists of
 one of the following:
 
 - The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s). For example, in the 
+- An operator and up to two argument expression(s). For example, in the
   expression ``A + B``, the entirety of ``A + B`` is an expression, but ``A``
-  and ``B`` are also argument expressions to the operator ``+``. 
+  and ``B`` are also argument expressions to the operator ``+``.
 - A value, such as a string (``'hello'``) or a number (``5``).
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
@@ -88,7 +88,7 @@ embedded objects and relationships with dot notation.
 For example, consider a query on an object with a ``workplace`` property that
 refers to a Workplace object. The Workplace object has an embedded object
 property, ``address``. You can chain dot notations to refer to the zipcode
-property of that address: 
+property of that address:
 
 .. code-block:: javascript
 
@@ -128,7 +128,7 @@ with a number literal (such as ``0``) or another property (such as
 .. example::
 
    The following example shows two filters on a ``projects`` collection.
-   
+
    - The first returns projects with tasks that have not been completed by a user named Alex.
    - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
 
@@ -147,9 +147,7 @@ with a number literal (such as ``0``) or another property (such as
 
    See the schema for these two classes, ``Project`` and ``Task``, below:
 
-
 .. tabs::
-
 
    .. tab:: Java SDK
       :tabid: java
@@ -157,7 +155,7 @@ with a number literal (such as ``0``) or another property (such as
       .. tabs-realm-languages::
 
          .. tab::
-             :tabid: java 
+             :tabid: java
 
              .. code-block:: java
 
@@ -179,7 +177,7 @@ with a number literal (such as ``0``) or another property (such as
          .. tab::
             :tabid: kotlin
 
-            .. code-block:: kotlin 
+            .. code-block:: kotlin
 
                open class Task(): RealmObject() {
                  var id: ObjectId = new ObjectId()
@@ -286,15 +284,15 @@ values.
 .. important:: Types Must Match
 
    The type on both sides of the operator must be equivalent. For
-   example, comparing an ObjectId with string will result in a precondition 
-   failure with a message like: 
+   example, comparing an ObjectId with string will result in a precondition
+   failure with a message like:
    
    .. code-block::
       :copyable: false
    
-      "Expected object of type object id for property 'id' on object of type 
+      "Expected object of type object id for property 'id' on object of type
       'User', but received: 11223344556677889900aabb (Invalid value)"
-   
+
    You can compare any numeric type with any other numeric type,
    including decimal, float, and Decimal128.
 
@@ -440,3 +438,37 @@ Regex-like wildcards allow more flexibility in search.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.string-operators.js
       :language: javascript
+
+ObjectId and UUID Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query :manual:`BSON ObjectIds </reference/method/ObjectId>` and
+:manual:`UUIDs </reference/method/UUID/>`.
+These data types are often used as primary keys.
+
+To query with ObjectIds, put a string representation of the ObjectId you're evaluating
+in ``oid(<ObjectId String>)``.
+
+.. code-block:: js
+
+   "_id == oid(6001c033600510df3bbfd864)"
+
+To query with UUIDs, put a string representation of the UUID you're evaluating
+in ``uuid(<UUID String>)``.
+
+.. code-block:: js
+
+   "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``==``, ``=``
+     - Evaluates to ``true`` if the left-hand value is equal to the right-hand value.
+
+   * - | ``!=``, ``<>``
+     - Evaluates to ``true`` if the left-hand value is not equal to the right-hand value.

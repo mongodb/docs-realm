@@ -15,7 +15,7 @@ namespace Examples
     public class WorkWithRealm
     {
         App app;
-        Realms.Sync.User user;
+        User user;
         string myRealmAppId = Config.appid;
 
         [OneTimeSetUp]
@@ -71,7 +71,13 @@ namespace Examples
             //:snippet-end:
 
             user = await app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar"));
+
+            // :snippet-start: delete-user
+            await app.DeleteUserFromServerAsync(user);
+            //:snippet-end:
+
         }
+
 
         public async System.Threading.Tasks.Task APIKeys()
         {

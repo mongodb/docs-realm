@@ -1,4 +1,4 @@
-.. note:: Breaking Schema Changes Require an App Schema Update
+.. important:: Breaking Schema Changes Require an App Schema Update
 
    After a breaking schema change:
 

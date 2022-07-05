@@ -15,7 +15,7 @@ Open a Synced Realm - Kotlin SDK
 Prerequisites
 -------------
 
-Before you can access a synced {+realm+} from the client, you must:
+Before you can access a synced realm from the client, you must:
 
 1. :ref:`Enable sync <enable-sync>` in the {+ui+}.
 
@@ -31,10 +31,10 @@ Open a Synced Realm
 
 .. tabs::
    
-   .. tab:: Partition-Based Sync
+   .. tab:: Partition Based Sync
       :tabid: pbs
 
-      To open a :ref:`synced {+realm+} <sync-modes-partition-based-sync>`,
+      To open a :ref:`synced realm <sync-modes-partition-based-sync>`,
       pass a user, a partition, and a set of Realm object schemas to
       `SyncConfiguration.Builder()
       <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
@@ -49,7 +49,7 @@ Open a Synced Realm
    .. tab:: Flexible Sync
       :tabid: flex
 
-      To open a :ref:`flexible sync {+realm+} <sync-modes-flexible-sync>`,
+      To open a :ref:`flexible sync realm <sync-modes-flexible-sync>`,
       pass a user and a set of Realm object schemas to
       `SyncConfiguration.Builder()
       <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
@@ -66,7 +66,7 @@ Configure a Synced Realm
 
 .. tabs::
    
-   .. tab:: Partition-Based Sync
+   .. tab:: Partition Based Sync
       :tabid: pbs
 
       To adjust specific configuration settings, use the options provided by

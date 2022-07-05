@@ -13,7 +13,7 @@ Authenticate Users - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-{+service+} provides an API for authenticating users using any enabled
+Realm provides an API for authenticating users using any enabled
 authentication provider. Instantiate a :file:`Credentials` object and pass
 it to `app.login()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__
@@ -122,7 +122,7 @@ To set up your application for Google User authentication:
    <https://console.cloud.google.com/apis/credentials>`__, create an
    OAuth 2.0 client ID of type "Web application".
 
-#. Configure your backend {+app+} to use that client ID and the associated
+#. Configure your backend App to use that client ID and the associated
    client secret.
 
 #. Enable OpenID Connect on the backend.
@@ -138,9 +138,14 @@ code implements this flow, starting with a method call to
 
 .. seealso::
 
-   To learn more about Google Sign-In for Android, check out the
-   official :google:`Google Sign-In for Android Integration Guide
-   <identity/sign-in/android/start-integrating>`.
+   - To learn more about Google Sign-In for Android, check out the
+     official :google:`Google Sign-In for Android Integration Guide
+     <identity/sign-in/android/start-integrating>`.
+
+   - KMM supports many environments, but this example shows sign-in on
+     the Android platform. For information about signing into a Google
+     account on Apple platforms, see the
+     :ref:`Swift SDK Example <ios-login-google>`.
 
 .. _kotlin-login-facebook:
 
@@ -168,6 +173,13 @@ to `app.login()
    :language: kotlin
    :copyable: false
 
+.. seealso::
+
+   KMM supports many environments, but this example shows sign-in on
+   the Android platform. For information about signing into a Facebook
+   account on Apple platforms, see the
+   :ref:`Swift SDK Example <ios-login-facebook>`.
+
 .. _kotlin-login-apple:
 
 Apple
@@ -186,6 +198,13 @@ to `app.login()
    :language: kotlin
    :copyable: false
 
+.. seealso::
+
+   KMM supports many environments, but this example shows sign-in on
+   the Android platform. For information about signing in with Apple
+   on Apple platforms, see the
+   :ref:`Swift SDK Example <ios-login-apple>`.
+
 .. _kotlin-logout:
 
 Log a User Out
@@ -197,7 +216,7 @@ to log in, using `user.logOut()
 
 - deletes locally stored user credentials from the device
 
-- immediately halts any synchronization to and from the user's {+realm+}s
+- immediately halts any synchronization to and from the user's realms
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.

@@ -43,6 +43,10 @@ syncs to the client device.
    For information about setting up permissions for Flexible Sync, see:
    :ref:`Flexible Sync Rules & Permissions <flexible-sync-rules-and-permissions>`.
 
+.. tip::
+
+   Flexible Sync supports :apple:`Combine <documentation/combine>`.
+
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 About the Examples on This Page
@@ -51,10 +55,9 @@ About the Examples on This Page
 The examples on this page use a simple data set for a
 task list app. The two Realm object types are ``Team``
 and ``Task``. A ``Task`` has a ``taskName``, assignee's name, and
-completed flag. There is also an arbitrary number for
-priority -- higher is more important -- and a count of
-minutes spent working on it. A ``Team`` has a ``teamName``, 
-zero or more ``Tasks``, and a list of ``members``.
+completed flag. There is also a count of minutes spent working on it, and a 
+due date. A ``Team`` has a ``teamName``, zero or more ``Tasks``, and a list 
+of ``members``.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flexible-sync-models.swift
    :language: swift
@@ -140,7 +143,7 @@ including subscriptions of different object types.
    :language: swift
 
 Bootstrap the Realm with Initial Subscriptions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````````````````````
 
 .. versionadded:: 10.28.0
 
@@ -161,11 +164,18 @@ app starts. You might need to do this to re-run dynamic time ranges
 or other queries that require a re-computation of static variables for the 
 subscription.
 
+In this example, we don't want users to be overwhelmed by irrelevant tasks,
+so we'll load only tasks due within the previous 7 days and the next 7 days.
+Tasks that were due more than a week ago are no longer relevant, and tasks
+that are due further out than the next week are also not relevant. With
+``rerunOnOpen`` here, the query dynamically recalculates the relevant 
+objects to sync based on the desired date range every time the app starts.
+
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-initial-subscriptions-rerun-on-open.swift
    :language: swift
 
 Subscribe to All Objects of a Specific Type
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```````````````````````````````````````````
 
 In addition to syncing all objects that match a given query, you can subscribe 
 to all objects of a specific type. You do this by appending a subscription
@@ -178,7 +188,7 @@ subscribe to all the ``Team`` objects, you could do this:
    :language: swift
 
 Check for Existing Subscriptions Before Adding a Subscription
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`````````````````````````````````````````````````````````````
 
 If your application flow appends the same named subscription to the subscription 
 set every time you run the application, this is disallowed. In this case, 
@@ -200,7 +210,7 @@ the subscription change. This could mean adding or removing data from the
 synced realm. 
 
 Pre Async/Await
-^^^^^^^^^^^^^^^
+```````````````
 
 If your application does not use Swift's async/await feature, you can react 
 to subscription changes syncing with the server using the ``onComplete`` 
@@ -214,7 +224,7 @@ optional errors that occur during synchronization.
    :language: swift
 
 Async/Await
-^^^^^^^^^^^
+```````````
 
 If your application uses async/await, you don't need the ``onComplete`` 
 block. The update executes asynchronously and throws an 
@@ -234,7 +244,7 @@ error if the update cannot complete successfully.
    }
 
 SyncSubscriptionState Enum
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````
 
 Additionally, you can watch the state of the subscription set with the 
 ``SyncSubscriptionState`` enum. You can use subscription state to:
@@ -247,7 +257,7 @@ Additionally, you can watch the state of the subscription set with the
 
 
 Superseded
-^^^^^^^^^^
+``````````
 
 The ``superseded`` state is a ``SyncSubscriptionState`` that can occur when 
 another thread updates a subscription on a different instance of the 
@@ -289,7 +299,7 @@ When you remove a subscription query, Realm asynchronously removes the
 synced data that matched the query from the client device.
 
 Remove a Single Subscription
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+````````````````````````````
 
 You can remove a specific subscription query in a subscription update block 
 using ``remove``. Specify the query by name or use the query as a string 
@@ -299,7 +309,7 @@ to find the appropriate subscription query to remove.
    :language: swift
 
 Remove All Subscriptions to an Object Type
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````````````````
 
 If you want to remove all subscriptions to a specific object type, use the 
 ``removeAll`` method with ``ofType`` in a subscription update block.
@@ -308,7 +318,7 @@ If you want to remove all subscriptions to a specific object type, use the
    :language: swift
 
 Remove All Subscriptions
-^^^^^^^^^^^^^^^^^^^^^^^^
+````````````````````````
 
 To remove all subscriptions from the subscription set, use the ``removeAll``
 method in a subscription update block.

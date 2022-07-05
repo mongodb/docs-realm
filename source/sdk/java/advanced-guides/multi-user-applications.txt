@@ -13,13 +13,13 @@ Multi-User Applications - Java SDK
    :class: singlecol
 
 The Realm SDK allows multiple :ref:`users <user-accounts>` to be logged in to an
-app simultaneously on a given device. {+service-short+} client applications run
+app simultaneously on a given device. Realm client applications run
 in the context of a single active user even if multiple users are logged in
 simultaneously. You can quickly switch between authenticated users without
 requiring them to log in again.
 
-.. important::
-   
+.. warning::
+
    **Any logged in user may become the active user without re-authenticating.**
    Depending on your app, this may be a security vulnerability. For example, a
    user on a shared device may switch to a coworker's logged in account without
@@ -31,7 +31,7 @@ requiring them to log in again.
 User Account States
 -------------------
 
-When a user first logs in through a {+service-short+} SDK on a given device or
+When a user first logs in through a Realm SDK on a given device or
 browser, the SDK saves the user's information and keeps track of the user's
 state on the device. The user's data remains on the device, even if they log
 out, unless you actively :ref:`remove the user <java-remove-a-user-from-the-device>`.
@@ -43,7 +43,7 @@ The following states describe an on-device user at any given time:
   
   - **Active**: a single authenticated user that is currently using the
     app on a given device. The SDK associates this user with outgoing
-    requests and {+backend-short+} evaluates data access permissions and runs
+    requests and App Services evaluates data access permissions and runs
     functions in this user's context. See :ref:`active user <active-user>` for
     more information.
    
@@ -54,7 +54,7 @@ The following states describe an on-device user at any given time:
 - **Logged Out:** any user that authenticated on the device but
   has since logged out or had its session revoked.
 
-The following diagram shows how users within a {+service-short+} client app
+The following diagram shows how users within a Realm client app
 transition between states when certain events occur:
 
 .. figure:: /images/multi-user.png
@@ -65,7 +65,7 @@ transition between states when certain events occur:
 Add a New User to the Device
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The {+service-short+} SDK automatically adds users to a device when they log in
+The Realm SDK automatically adds users to a device when they log in
 for the first time on that device. When a user logs in, they immediately become
 the application's :ref:`active user <active-user>`.
 

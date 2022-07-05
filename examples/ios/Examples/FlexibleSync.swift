@@ -3,6 +3,7 @@
 //     "FlexibleSync_": ""
 //   }
 // }
+// swiftlint:disable type_body_length
 
 let APPID = "swift-flexible-vkljj"
 
@@ -11,18 +12,19 @@ import RealmSwift
 
 // :snippet-start: flexible-sync-models
 class FlexibleSync_Task: Object {
-   @Persisted(primaryKey: true) var _id: ObjectId
-   @Persisted var taskName: String
-   @Persisted var assignee: String?
-   @Persisted var completed: Bool
-   @Persisted var progressMinutes: Int
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var taskName: String
+    @Persisted var assignee: String?
+    @Persisted var completed: Bool
+    @Persisted var progressMinutes: Int
+    @Persisted var dueDate: Date
 }
 
 class FlexibleSync_Team: Object {
-   @Persisted(primaryKey: true) var _id: ObjectId
-   @Persisted var teamName: String
-   @Persisted var tasks: List<FlexibleSync_Task>
-   @Persisted var members: List<String>
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var teamName: String
+    @Persisted var tasks: List<FlexibleSync_Task>
+    @Persisted var members: List<String>
 }
 // :snippet-end:
 
@@ -216,22 +218,76 @@ class FlexibleSync: XCTestCase {
     func testAddInitialSubscriptionsWithRerunOnOpen() async {
         let app = App(id: APPID)
 
+        // Set up some test data for this code example. We'll create two objects;
+        // one that should not be included in the Flexible Sync query, and one that should.
+        do {
+            let thisUser = try await app.login(credentials: Credentials.anonymous)
+            var thisFlexSyncConfig = thisUser.flexibleSyncConfiguration(initialSubscriptions: { subs in
+                subs.append(QuerySubscription<FlexibleSync_Task>(name: "all_tasks"))
+            })
+            thisFlexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            do {
+                let thisRealm = try await Realm(configuration: thisFlexSyncConfig)
+                print("Successfully opened realm: \(thisRealm)")
+                try thisRealm.write {
+                    thisRealm.deleteAll()
+                }
+                let currentTask = FlexibleSync_Task()
+                currentTask.dueDate = (Date.now + TimeInterval(86400))
+                currentTask.taskName = "This task should appear in the Flex Sync realm"
+                currentTask.progressMinutes = 20
+                currentTask.completed = false
+                let pastTask = FlexibleSync_Task()
+                pastTask.dueDate = (Date.now - TimeInterval(1200000))
+                pastTask.taskName = "This task should be outdated & should not apper in the Flex Sync realm"
+                pastTask.progressMinutes = 1
+                currentTask.completed = false
+                try thisRealm.write {
+                    thisRealm.add([currentTask, pastTask])
+                }
+                let thisTasks = thisRealm.objects(FlexibleSync_Task.self)
+                XCTAssertEqual(thisTasks.count, 2)
+                print("Successfully added tasks to realm: \(thisTasks)")
+                let subs = thisRealm.subscriptions
+                try await subs.update {
+                    subs.removeAll()
+                }
+            } catch {
+                print("Failed to open realm: \(error.localizedDescription)")
+                // handle error
+            }
+        } catch {
+            fatalError("Login failed: \(error.localizedDescription)")
+        }
+
         do {
             let user = try await app.login(credentials: Credentials.anonymous)
             // :snippet-start: add-initial-subscriptions-rerun-on-open
+            // Set the date a week ago and the date a week from now, as those are the dates we'll use
+            // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
+            // time the app opens.
+            let secondsInAWeek: TimeInterval = 604800
+            let dateLastWeek = (Date.now - secondsInAWeek)
+            let dateNextWeek = (Date.now + secondsInAWeek)
             var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
                 subs.append(
-                   QuerySubscription<FlexibleSync_Team> {
-                      $0.teamName == "Developer Education"
-                   })
+                    QuerySubscription<FlexibleSync_Task> {
+                        $0.dueDate > dateLastWeek && $0.dueDate < dateNextWeek
+                    })
             }, rerunOnOpen: true)
             // :snippet-end:
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
+                let realm = try await Realm(configuration: flexSyncConfig, downloadBeforeOpen: .always)
                 print("Successfully opened realm: \(realm)")
                 let subscriptions = realm.subscriptions
                 XCTAssertEqual(subscriptions.count, 1)
+                let tasks = realm.objects(FlexibleSync_Task.self)
+                print("The tasks in the second realm are: \(tasks)")
+                XCTAssertEqual(tasks.count, 1)
+                try realm.write {
+                    realm.deleteAll()
+                }
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
