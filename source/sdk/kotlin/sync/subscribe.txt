@@ -37,7 +37,11 @@ your client application can query. In the client application, use the
 queryable fields. You can construct queries with
 :ref:`Realm Query Language <realm-query-language>`.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <kotlin-flexible-sync-rql-limitations>` for details.
 
 You can:
 
@@ -215,3 +219,10 @@ with no arguments:
 .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.remove-all-subscriptions.kt
    :language: kotlin
    :copyable: false
+
+.. _java-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst
