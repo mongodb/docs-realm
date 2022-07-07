@@ -80,7 +80,9 @@ describe("user authentication", () => {
   test("custom function login", async () => {
     // :snippet-start: custom-function-login
     // Create a custom function credential
-    const credentials = Realm.Credentials.function({ username: "mongolover" });
+    const credentials = Realm.Credentials.function({
+      username: "ilovemongodb",
+    });
     try {
       const user = await app.logIn(credentials);
       // :remove-start:
@@ -136,7 +138,7 @@ describe("user authentication", () => {
       "passw0rd"
     );
     const functionCredentials = Realm.Credentials.function({
-      username: "mongolover",
+      username: "ilovemongodb",
     });
     try {
       const emailPasswordUser = await app.logIn(emailPasswordCredentials);
