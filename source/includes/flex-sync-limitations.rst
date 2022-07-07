@@ -1,6 +1,3 @@
-Flexible Sync RQL Limitations
------------------------------
-
 Flexible Sync has some limitations when using RQL operators. When you 
 write the :ref:`query subscription <flexible-sync-query-subscription>` 
 that determines which data to sync, the server does not support these
