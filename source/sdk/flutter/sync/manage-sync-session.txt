@@ -84,7 +84,11 @@ The update block callback function, includes a :flutter-sdk:`MutableSubscription
 <realm/MutableSubscriptionSet-class.html>` object as an argument.
 You can modify your method on the ``SubscriptionSet`` to add a query to the subscription.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <flutter-flexible-sync-rql-limitations>` for details.
 
 The ``MutableSubscriptionSet.add()`` method takes three arguments:
 
@@ -220,3 +224,10 @@ An exception may occur if:
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-for-subscription-change.dart
    :language: dart
+
+.. _flutter-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst

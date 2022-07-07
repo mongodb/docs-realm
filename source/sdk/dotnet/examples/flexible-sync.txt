@@ -39,6 +39,12 @@ syncs to the client device.
    10.9.0 <realm/realm-dotnet/releases>` or greater in order to use Flexible Sync
    in your .NET client application.
 
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <dotnet-flexible-sync-rql-limitations>` for details.
+
 .. _dotnet-flexible-sync-manage-subscriptions:
 
 Manage Your Subscriptions
@@ -128,8 +134,6 @@ method.
 Within the delegate, call the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
 method on the ``SubscriptionSet`` to add a query to the subscription.
-
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 The ``Add()`` method takes two arguments, a ``query`` and an optional 
 :dotnet-sdk:`SubscriptionOptions <reference/Realms.Sync.SubscriptionOptions.html>` object.
@@ -281,3 +285,10 @@ An exception may occur if:
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.wait-for-synchronization.cs
    :language: csharp
+
+.. _dotnet-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst

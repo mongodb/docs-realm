@@ -52,7 +52,11 @@ your client application can query. In the client application, use the
 queryable fields. You can construct queries with the :ref:`Java SDK's fluent interface
 <java-client-filters>` or :ref:`Realm Query Language <realm-query-language>`.
 
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <java-flexible-sync-rql-limitations>` for details.
 
 You can:
 
@@ -363,3 +367,10 @@ with no arguments:
        .. literalinclude:: /examples/generated/java/sync/FlexibleSyncTest.snippet.remove-all-subscriptions.java
          :language: java
          :copyable: false
+
+.. _java-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst

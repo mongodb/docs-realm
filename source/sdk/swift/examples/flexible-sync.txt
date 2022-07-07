@@ -47,6 +47,12 @@ syncs to the client device.
 
    Flexible Sync supports :apple:`Combine <documentation/combine>`.
 
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <swift-flexible-sync-rql-limitations>` for details.
+
 About the Examples on This Page
 -------------------------------
    
@@ -130,8 +136,6 @@ Add a Subscription
 
 Add a subscription in a subscriptions update block. You append each
 new subscription to the client's Realm subscriptions.
-
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-single-subscription.swift
    :language: swift
@@ -331,3 +335,10 @@ method in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift
+
+.. _swift-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst
