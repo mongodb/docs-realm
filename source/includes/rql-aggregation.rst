@@ -81,6 +81,47 @@ the object.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
       :language: javascript
 
+Subqueries
+----------
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: javascript
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+A subquery iterates through the given collection and checks the given
+predicate against each object in the collection. The predicate may refer
+to the current iterated object with the variable name passed to
+``SUBQUERY()``.
+
+A subquery expression resolves to an array. {+client-database+} only
+supports the ``@count`` aggregate operator on this result.
+This allows you to count how many objects in the subquery input collection
+matched the predicate.
+
+You can use the count of the subquery result as you would any other
+number in a valid expression. In particular, you can compare the count
+with a number literal (such as ``0``) or another property (such as
+``quota``).
+
+.. example::
+
+   The following example shows two filters on a ``projects`` collection.
+
+   - The first returns projects with tasks that have not been completed by a user named Alex.
+   - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
+      :language: javascript
+
 Sort, Distinct, Limit
 `````````````````````
 
