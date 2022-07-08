@@ -12,37 +12,264 @@ Model Data with Device Sync - Swift SDK
    :depth: 2
    :class: singlecol
 
-PLACEHOLDER WITH SOME DISPLACED CONTENT
----------------------------------------
-
-This page is a placeholder. Any content on this page is displaced from 
-elsewhere and should be worked into the final content of the page, but
-the majority of the content is net-new.
-
 Realm Object Models
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
-To define an embedded object, derive a class from
-:swift-sdk:`EmbeddedObject <Classes/EmbeddedObject.html>` in Swift or
-:objc-sdk:`RLMEmbeddedObject <Classes/RLMEmbeddedObject.html>` in
-Objective-C. You can reference an embedded object type from parent
-object types in the same way as you would define a relationship:
+When you define a Realm object, you derive a class from :swift-sdk:`Object 
+<Typealiases.html#/s:10RealmSwift6Objecta>`. The models that you define 
+each map to their own collection in MongoDB Atlas. In this example, both
+``Dog`` and ``Person`` would map to separate collections in MongoDB Atlas.
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: swift
+.. code-block:: swift
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
-        :language: swift
+   class Dog: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      @Persisted var age = 0
+   }
 
-   .. tab::
-      :tabid: objective-c
-
-      .. literalinclude:: /examples/EmbeddedObjects/DefineEmbeddedObjects.m
-         :language: objectivec
+   class Person: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+   }
 
 JSON Schema
 ~~~~~~~~~~~
+
+Device Sync automatically converts the Realm Swift data types to their BSON
+analogs to store them in Atlas. When the client device syncs the data down
+from App Services via Device Sync, the BSON data types become their Swift 
+analogs again. If you query for these objects by :ref:`accessing
+MongoDB Atlas data directly <ios-mongodb-remote-access>` instead of using
+Device Sync to sync the data, you get the BSON data types. When you remotely 
+access Atlas data, it does not automatically map to the Swift data type equivalents.
+
+.. code-block:: json
+   :caption: Dog Schema in App Services
+
+   {
+     "title": "Dog",
+     "bsonType": "object",
+     "required": [
+       "_id"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "name": {
+         "bsonType": "string"
+       },
+       "age": {
+         "bsonType": "long"
+       }
+     }
+   }
+
+.. code-block:: json
+   :caption: Person Schema in App Services
+
+   {
+     "title": "Person",
+     "bsonType": "object",
+     "required": [
+       "_id"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "name": {
+         "bsonType": "string"
+       }
+     }
+   }
+
+Realm Relationships
+-------------------
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+Using the objects in the example above, consider a case where a ``Person`` 
+can have one ``Dog``. We can add a ``dog`` property to our ``Person`` model 
+that is an optional link to a ``Dog`` object. To-one relationships must be 
+optional.
+
+.. code-block:: swift
+
+   class Dog: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      @Persisted var age = 0
+   }
+
+   class Person: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      // To-one relationship
+      @Persisted var dog: Dog?
+   }
+
+JSON Schema
+```````````
+
+In the App Services schema, we see the new property translates to a field ``dog``.
+The field is not in the ``required`` array because it is an optional property.
+Its type is an ``objectId`` which links to a specific ``Dog`` object in 
+the separate ``Dog`` collection. The objectId is the primary key of the ``Dog``
+model, so it's the field that links between the two objects.
+
+.. code-block:: json
+   :caption: Person with To-One Relationship to Dog
+
+   {
+     "title": "Person",
+     "bsonType": "object",
+     "required": [
+       "_id"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "dog": {
+         "bsonType": "objectId"
+       },
+       "name": {
+         "bsonType": "string"
+       }
+     }
+   }
+
+The ``Dog`` schema doesn't change. Because this is a to-one relationship,
+it's a one-way relationship; the ``Dog`` has no relationship back to ``Person``.
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+Using the objects in the example above, consider a case where a ``Person`` 
+can have many dogs. We can add a ``dogs`` property to our ``Person`` model 
+that is a list of ``Dog`` objects. If the person has no dogs, this is an
+empty list. As the person gets dogs, we can create new dog objects and
+append them to the person's ``dogs`` list.
+
+.. code-block:: swift
+
+   class Dog: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      @Persisted var age = 0
+   }
+
+   class Person: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      // To-many relationship - a person can have many dogs
+      @Persisted var dogs: List<Dog>
+   }
+
+JSON Schema
+```````````
+
+In the App Services schema, we see the new property translates to a field 
+``dogs``. The type of this field is an array, the items in the array are 
+of type ``objectId``. This is because we defined the primary key on 
+our ``Dog`` model as an ``objectId``. This field is an array of the primary 
+keys of all of the ``Dog`` objects related to the ``Person`` object.
+
+.. code-block:: json
+   :caption: Person with To-Many Relationship to Dog
+
+   {
+     "title": "Person",
+     "bsonType": "object",
+     "required": [
+       "_id"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "name": {
+         "bsonType": "string"
+       },
+       "dogs": {
+         "bsonType": "array",
+         "items": {
+           "bsonType": "objectId"
+         }
+       }
+     }
+   }
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+Using the objects in the example above, consider a case where the ``Dog``
+object has an inverse relationship to the ``Person`` object. 
+
+.. code-block:: swift
+
+   class Dog: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      @Persisted var age = 0
+      // The backlink to the `Person` who has this `Dog`.
+      @Persisted(originProperty: "dogs") var person: LinkingObjects<Person>
+   }
+
+   class Person: Object {
+      @Persisted(primaryKey: true) var _id = ObjectId()
+      @Persisted var name = ""
+      // To-many relationship - a person can have many dogs
+      @Persisted var dogs: List<Dog>
+   }
+
+JSON Schema
+```````````
+
+In the App Services schema, we see that the ``person`` property that 
+represents the inverse relationship to a ``Person`` from our ``Dog``
+model is not present. You can't directly set the value of an inverse 
+relationship, and that relationship does not exist in Atlas. However, 
+Realm Database derives and updates those relationships for you 
+in the client application based on your Realm object model.
+
+.. code-block:: json
+   :caption: Dog with Inverse Relationship to Person
+
+   {
+     "title": "Dog",
+     "bsonType": "object",
+     "required": [
+       "_id"
+     ],
+     "properties": {
+       "_id": {
+         "bsonType": "objectId"
+       },
+       "name": {
+         "bsonType": "string"
+       },
+       "age": {
+         "bsonType": "long"
+       }
+     }
+   }
+
+Embedded Object Models
+~~~~~~~~~~~~~~~~~~~~~~
+
+When you define an embedded object with the Realm Swift SDK, you derive a 
+class from :swift-sdk:`EmbeddedObject <Classes/EmbeddedObject.html>`. 
+You can reference an embedded object type from parent object types in the 
+same way as you would define a relationship:
+
+.. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
+   :language: swift
+
+JSON Schema
+```````````
 
 .. include:: /includes/embedded-object-json-schema.rst

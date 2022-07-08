@@ -33,8 +33,8 @@ its file size.
 
 .. _ios-file-size:
 
-File Size
----------
+Key Concept: Realm File Size
+----------------------------
 
 Generally, {+client-database+} takes less space on disk than a 
 comparable SQLite database. Unexpected file growth may be related to 
@@ -110,8 +110,8 @@ autorelease pool when accessing {+realm+} from a dispatch queue.
 .. _ios-how-to-compact-a-realm:
 .. _ios-how-compacting-works:
 
-How to Compact a Realm
-----------------------
+How to Reduce Realm File Size
+-----------------------------
 
 Realm compacting works by:
 
@@ -183,8 +183,8 @@ method. The destination file cannot already exist.
 
 .. _ios-when-to-compact-a-realm:
 
-When to Compact a Realm
------------------------
+When to Reduce Realm File Size
+------------------------------
 
 Compacting a realm can be an expensive operation that can block 
 the UI thread. Your application should not compact every time you open 
