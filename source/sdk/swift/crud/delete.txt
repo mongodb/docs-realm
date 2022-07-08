@@ -13,8 +13,24 @@ CRUD - Delete - Swift SDK
    :depth: 2
    :class: singlecol
 
-About These Examples
+Delete Realm Objects
 --------------------
+
+Deleting Realm Objects must occur within write transactions. For
+more information about write trasactions, see: :ref:`Key Concept: 
+Transactions <ios-write-transactions>`.
+
+If you want to delete the Realm file itself, see: :ref:`Delete a Realm 
+<swift-delete-a-realm>`.
+
+.. important:: Do not use objects after delete
+
+   You cannot access or modify an object after you have deleted it from
+   a realm. If you try to use a deleted object, Realm Database throws an
+   error.
+
+About These Examples
+~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following models:
 
@@ -33,7 +49,7 @@ The examples on this page use the following models:
          :language: objectivec
 
 Delete an Object
-----------------
+~~~~~~~~~~~~~~~~
 
 .. tabs-realm-languages::
    
@@ -59,16 +75,10 @@ Delete an Object
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.delete.m
          :language: objectivec
 
-.. important:: Do not use objects after delete
-
-   You cannot access or modify an object after you have deleted it from
-   a realm. If you try to use a deleted object, Realm Database throws an
-   error.
-
 .. _ios-delete-multiple-objects:
 
 Delete Multiple Objects
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs::
    
@@ -110,7 +120,7 @@ Delete Multiple Objects
 .. _ios-delete-all-object-of-a-specific-type:
 
 Delete All Objects of a Specific Type
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs-realm-languages::
    
@@ -145,7 +155,7 @@ Delete All Objects of a Specific Type
 .. _ios-delete-all-objects-in-a-realm:
 
 Delete All Objects in a Realm
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs-realm-languages::
    
