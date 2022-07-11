@@ -11,6 +11,9 @@ or query methods. The Swift SDK is the exception, as it uses the
 :ref:`NSPredicate query API <ios-nspredicate-query>`.
 Some SDKs also support idiomatic APIs for querying realms in their language.
 
+Query with Realm SDKs
+---------------------
+
 For further reading on SDK-specific methods for querying realms, select the tab
 below for your SDK.
 
@@ -26,6 +29,11 @@ below for your SDK.
       :tabid: swift
 
       - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
+
+      .. note:: Swift SDK does not support Realm Query Langauge
+
+         The Swift SDK does not support querying with Realm Query Language.
+         You can instead use NSPredicate to query Realm.
 
    .. tab:: .NET SDK
       :tabid: dotnet
