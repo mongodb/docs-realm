@@ -1,11 +1,10 @@
-Realm Query Language is a string-based query language to constrain
+Realm Query Language (RQL) is a string-based query language to constrain
 searches when retrieving objects from a realm. SDK-specific methods pass queries
 to the Realm query engine, which retrives matching objects from the realm.
 
-Queries evaluate a predicate for every
-object in the collection being queried. If the predicate resolves
-to ``true``, {+client-database+} includes the object in the results
-collection.
+Queries evaluate a predicate for every object in the collection being queried.
+If the predicate resolves to ``true``, {+client-database+} includes the object
+in the results collection.
 
 You can use Realm Query Language in most Realm SDKs with your SDK's filter
 or query methods. The Swift SDK is the exception, as it uses the
@@ -60,13 +59,13 @@ below for your SDK.
 You can also use Realm Query Language to browse for data in :ref:`Realm Studio
 <realm-studio>`.
 
-Examples
---------
+Examples on This Page
+---------------------
 
 The examples in this page use a simple data set for a task list app.
 The two Realm object types are ``Project`` and ``Task``. A ``Task``
 has a name, assignee's name, and completed flag. There is also an
-arbitrary number for priority -- higher is more important -- and a
+arbitrary number for priority (higher is more important) and a
 count of minutes spent working on it. A ``Project`` has zero or more
 ``Tasks`` and an optional quota for minimum number of tasks expected
 to be completed.
@@ -201,6 +200,29 @@ one of the following:
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
    :language: javascript
 
+Parameterized Queries
+---------------------
+
+You can create parameterized queries to interpolate variables into prepared
+Realm Query Language statements. The syntax for interpolated variables is
+``$<int>``, starting at ``0``. Pass the positional arguments as
+additional arguments to Realm SDK methods that use Realm Query Language.
+
+
+Include just one parameter with ``$0``.
+
+.. code-block:: js
+
+   "assignee == $0", "Maggie"
+
+Include multiple parameters with ascending integers starting at ``$0``.
+
+.. code-block:: js
+
+   "assignee == $0", "Maggie"
+
+   "progressMinutes > $0 AND assignee == $1", 15, "Bart"
+
 Dot Notation
 ------------
 
@@ -299,7 +321,7 @@ values.
    * - Operator
      - Description
 
-   * - ``between``
+   * - ``between {number1, number2}``
      - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range.
 
    * - | ``==``, ``=``
@@ -468,6 +490,42 @@ in ``uuid(<UUID String>)``.
 
    * - | ``!=``, ``<>``
      - Evaluates to ``true`` if the left-hand value is not equal to the right-hand value.
+
+Arithmatic Operators
+~~~~~~~~~~~~~~~~~~~~
+
+You can perform basic arithmatic in one side of a RQL expression when evaluting
+numeric data types.
+
+.. code-block:: js
+
+   "2 * priority > 6"
+   // Is equivalent to
+   "priority >= 2 * (2 - 1) + 2"
+
+You can also use multiple Realm Object properties together in a mathmatic operation.
+
+.. code-block:: js
+
+   "progressMinutes * priority == 42"
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``*``
+     - Multiplication.
+   * - | ``/``
+     - Division.
+   * - | ``+``
+     - Addition.
+   * - | ``-``
+     - Subtraction.
+   * - | ``()``
+     - Group expressions together.
 
 Aggregate Operators
 -------------------
