@@ -15,7 +15,6 @@ class _Task {
 
 @RealmModel()
 class _Project {
-  @PrimaryKey()
   @MapTo("_id")
   @PrimaryKey()
   late ObjectId id;
