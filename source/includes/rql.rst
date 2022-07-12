@@ -3,8 +3,7 @@ searches when retrieving objects from a realm. SDK-specific methods pass queries
 to the Realm query engine, which retrives matching objects from the realm.
 
 Queries evaluate a predicate for every object in the collection being queried.
-If the predicate resolves to ``true``, {+client-database+} includes the object
-in the results collection.
+If the predicate resolves to ``true``, the results collection includes the object.
 
 You can use Realm Query Language in most Realm SDKs with your SDK's filter
 or query methods. The Swift SDK is the exception, as it uses the
@@ -511,7 +510,7 @@ numeric data types.
    // Is equivalent to
    "priority >= 2 * (2 - 1) + 2"
 
-You can also use multiple Realm Object properties together in a mathmatic operation.
+You can also use multiple object properties together in a mathmatic operation.
 
 .. code-block:: js
 
