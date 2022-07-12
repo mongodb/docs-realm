@@ -70,12 +70,13 @@ Examples on This Page
 ---------------------
 
 The examples in this page use a simple data set for a task list app.
-The two Realm object types are ``Project`` and ``Task``. A ``Task``
-has a name, assignee's name, and completed flag. There is also an
-arbitrary number for priority (higher is more important) and a
-count of minutes spent working on it. A ``Project`` has zero or more
-``Tasks`` and an optional quota for minimum number of tasks expected
-to be completed.
+The two Realm object types are ``Project`` and ``Task``.
+
+- A ``Task`` has a name, assignee's name, and completed flag.
+ There is also an arbitrary number for priority (higher is more important) and a
+ count of minutes spent working on it.
+- A ``Project`` has zero or more ``Tasks`` and an optional quota
+  for minimum number of tasks expected to be completed.
 
 See the schema for these two classes, ``Project`` and ``Task``, below:
 
