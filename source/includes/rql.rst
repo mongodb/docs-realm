@@ -30,7 +30,7 @@ below for your SDK.
 
       - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
 
-      .. note:: Swift SDK does not support Realm Query Langauge
+      .. note:: Swift SDK does not support Realm Query Language
 
          The Swift SDK does not support querying with Realm Query Language.
          You can instead use NSPredicate to query Realm.
