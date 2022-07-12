@@ -1,8 +1,8 @@
 .. _intro-realm-database:
 
-==============================
-Introduction to Realm Database
-==============================
+=====================
+Introduction to Realm
+=====================
 
 .. default-domain:: mongodb
 
@@ -12,29 +12,31 @@ Introduction to Realm Database
    :depth: 2
    :class: singlecol
 
-This introduction explains the {+service+} product for mobile application developers. After reading, you should understand:
+This introduction explains Realm for mobile application developers.
+After reading, you should understand:
 
-- What {+service+} is and what problems it solves.
-- How {+backend+} interacts with {+client-database+}.
-- The benefits of {+service+} compared to traditional mobile development stacks.
+- What Realm Database is and what problems it solves.
+- Reasons to use Atlas Device Sync to synchronize application data with MongoDB.
+- Ways to use the Realm SDKs with Atlas App Services to work with your application
+  data.
 
 What Problem Does Realm Solve?
 ------------------------------
 
 Mobile developers face a number of unique challenges. You must:
 
-- Handle the unpredictable environment of mobile apps. Connections can be lost, 
+- Handle the unpredictable environment of mobile apps. Connections can be lost,
   devices can shut down at any time, and clients often update long after release.
 - Maintain common data schemas and APIs between mobile clients, backend APIs, and databases.
-- Stay aware of security vulnerabilities across all components in an ecosystem. 
+- Stay aware of security vulnerabilities across all components in an ecosystem.
 - Consistently serialize objects between networks, database storage, and application memory.
 - Program in the languages and frameworks for one or more mobile operating systems.
 
-All of these challenges present different obstacles. You can solve each in isolation 
-with a wide variety of libraries and frameworks. Deciding the right solution for each 
+All of these challenges present different obstacles. You can solve each in isolation
+with a wide variety of libraries and frameworks. Deciding the right solution for each
 problem with the right tradeoffs is a challenge mobile developers know all too well.
 
-The combination of multiple environments creates even more challenges. 
+The combination of multiple environments creates even more challenges.
 For instance, you can use a Java library on your Android client to serialize objects,
 but that library likely wouldn't work on iOS. And this doesn't even take into account
 consistency across backend services.
@@ -43,66 +45,71 @@ Realm Database
 --------------
 
 Many of these challenges arise due to particularities of the mobile environment.
-These challenges include network reliability, local storage, and keeping UIs 
+These challenges include network reliability, local storage, and keeping UIs
 :wikipedia:`reactive <Reactive_user_interface>`.
-:term:`{+client-database+}` solves many common mobile programming headaches:
+Realm Database solves many common mobile programming headaches:
 
-- **Local storage**: {+client-database+} runs right on client devices. Access objects
+- **Local storage**: Realm Database runs right on client devices. Access objects
   using the native query language for each platform. Storing, accessing, and updating
   your data is simple and lightweight.
-- **Network reliability**: {+client-database+} is offline-first. You
+- **Network reliability**: Realm Database is offline-first. You
   always read from and write to the local database, not over the network.
-  When :term:`{+sync+}` is enabled, {+client-database+} synchronizes
+  When :term:`{+sync+}` is enabled, Realm Database synchronizes
   data with {+backend+} over the network in a background thread.
   The :term:`sync protocol` resolves conflicts
   consistently on each client and in the
   :term:`linked {+atlas+} cluster <linked cluster>`.
 - **Reactive UI**: :term:`Live objects <live objects>` always reflect
-  the latest data stored in {+client-database+}. You can
+  the latest data stored in Realm Database. You can
   subscribe to changes, letting you keep your UI consistently up to date.
 
-The {+service-short+} SDK lets you connect to local {+realms+} for Android, iOS,
-Node.js, React Native, and UWP development.
+The Realm SDKs connect to local realms for Android, iOS,
+Node.js, React Native, Flutter, and UWP development.
 
-MongoDB Atlas
--------------
+Sync Data with MongoDB Atlas
+----------------------------
 
 Client applications generate a lot of data. Whether it's uploaded
 reviews and ratings, posts and comments on a blog, or inventory
-in a kitchen, you need to store that data somewhere. `{+atlas+}
-<https://www.mongodb.com/realm?tck=docs_realm#atlas-form-container>`_ provides
-cloud-hosted managed instances of MongoDB that are always available.
+in a kitchen, you need to store that data somewhere.
 
-Atlas supports aggregations and other complex workloads with the full
-capabilities of MongoDB. You can connect to your {+atlas-short+}
-instance in your backend services using MongoDB drivers for a wide range
-of languages. Or connect your {+atlas-short+} instance to `{+charts+}
+The Realm SDKs use Atlas Device Sync to synchronize app data between clients and
+MongoDB Atlas. Atlas Device Sync handles network access and conflict resolution
+in a background thread of your application, so your application logic stays
+the same regardless of network conditions.
+
+Once your client data is in Atlas, you can leverage the full
+Atlas developer data platform.
+Perform aggregations and other complex workloads with the full capabilities
+of MongoDB. Or connect your {+atlas-short+} instance to `{+charts+}
 <https://www.mongodb.com/products/charts?tck=docs_realm>`_ to visualize
-your data in real time. Storing your data in {+atlas-short+} makes it
+your data in real time. Storing your data in Atlas makes it
 easy to share data across users and platforms.
 
-Atlas App Services
-------------------
+Use Atlas App Services
+----------------------
 
-{+backend+} provides services to fulfill several common application backend requirements:
+The Realm SDKs integrate with Atlas App Services to easily and securely work
+with data from your app:
 
-- :ref:`{+service-short+} Users and Authentication <users-and-authentication>`
-  provide built-in user management. Integrate with
+- Query MongoDB Atlas directly from the Realm SDKs using built-in
+  MongoDB interfaces. You can also configure the :ref:`Atlas Data API <data-api>`
+  to query MongoDB using an HTTP client in your app.
+- :ref:`Atlas App Services Users and Authentication <users-and-authentication>`
+  provide built-in user management. Integrate with a
+  :ref:`JWT authentication service <custom-jwt-authentication>` or directly with
   :ref:`third-party authentication providers <auth-providers>`,
-  like :ref:`Facebook <facebook-authentication>`,
-  :ref:`Google <google-authentication>`, and
-  :ref:`Apple <apple-id-authentication>`.
-- :ref:`{+service-short+} Functions <functions>` provide server-side logic for
-  your :term:`{+app+}`. You can call {+backend-short+} Functions from the {+service-short+} SDK in your client application.
-- :ref:`{+service-short+} Triggers <triggers>` automatically
-  execute a function at a scheduled time or when an event occurs, such
-  as a change to a database or a call to a HTTP endpoint.
-- :term:`{+service-short+} Rules` let you control who accesses what data.
-- :ref:`{+service-short+} Values and {+service-short+} Secrets <values-and-secrets>`
-  enable you to define global variables and private credentials once and
-  use them across your entire {+app+}.
-- The :ref:`GraphQL API <graphql-api>` lets you access data stored in a linked MongoDB cluster
-  using any standard GraphQL client.
+  like :ref:`Facebook <facebook-authentication>`, :ref:`Google <google-authentication>`,
+  and :ref:`Apple <apple-id-authentication>`.
+- :ref:`Atlas Triggers <triggers>` automatically execute an Atlas Function
+  at a scheduled time or when an event occurs,
+  such as a change to a MongoDB database in Atlas or a user logs in.
+- The :ref:`Atlas GraphQL API <graphql-api>` accesses data stored
+  in a linked MongoDB cluster with a standard GraphQL client.
+- :ref:`App Services Rules <rules>` control who accesses what data.
+- :ref:`App Services Values and Secrets <values-and-secrets>`
+  define global variables and private credentials once and
+  use them across your entire App.
 
 Get Started with Realm
 ----------------------
@@ -111,39 +118,37 @@ Check out our Task Tracker tutorial for any of these platforms:
 
 - :ref:`Android with Kotlin <java-sdk-tutorial>`
 - :ref:`iOS with Swift <ios-swift-tutorial>`
+- :ref:`CLI with Node.js <nodejs-cli-tutorial>`
 - :ref:`React Native with JavaScript <react-native-tutorial>`
 - :ref:`Xamarin (iOS and Android) with C# <dotnet-tutorial>`
+- :ref:`Web with JavaScript <tutorial-task-tracker-web>`
 
-Or start by experimenting with a working Sync-enabled client application 
+Or start by experimenting with a working Sync-enabled client application
 with a :ref:`template app <template-applications>`.
 
 You can also refer to the documentation for each client SDK:
 
-- :doc:`Java SDK </sdk/java>` for Kotlin and Java
-- :doc:`Swift SDK </sdk/swift>` for Swift and Objective-C
-- :doc:`.NET SDK </sdk/dotnet>` for C# / Xamarin
-- :doc:`React Native SDK </sdk/react-native>` for TypeScript and JavaScript
 - :doc:`Flutter SDK </sdk/flutter>` for Flutter
+- :doc:`Java SDK </sdk/java>` for Java
+- :doc:`Kotlin SDK </sdk/kotlin>` for Kotlin
+- :doc:`.NET SDK </sdk/dotnet>` for C# and Xamarin
+- :doc:`Node.js SDK </sdk/node>` for Node.js
+- :doc:`React Native SDK </sdk/react-native>` for TypeScript and JavaScript with React Native
+- :doc:`Swift SDK </sdk/swift>` for Swift and Objective-C
+- :doc:`Web SDK </web>` for browser JavaScript
 
 Summary
 -------
 
-- {+client-database+} is an offline-first mobile object database in
+- Realm Database is an offline-first mobile object database in
   which you can directly access and store live objects without an
   :wikipedia:`ORM <Object-relational_mapping>`.
-- Live Objects and {+sync+} offer significant benefits
-  over traditional mobile development stacks:
-
-  - Live Objects always reflect the latest state of data in the database,
-    making it easier to keep your UI in sync with changes to your data.
-  - {+sync+} synchronizes data between client-side {+realms+} and the
-    server-side {+atlas+} cluster linked to your
-    {+app+}.  
-  - {+client-database+} synchronizes data in a background thread,
-    abstracting away network usage so you don't have to worry about
-    latency or dropped connections.
-
-- {+service+} is a serverless application platform that takes care of
-  the details of deployment and scaling for you. 
-- You can customize your {+app+} with functions and triggers, custom
-  permissions via rules, and authentication.
+- Live Objects always reflect the latest state of data in the database,
+  which simplifies keeping your UI in sync with changes to your data.
+- Atlas Device Sync synchronizes data between client-side realms and the
+  server-side MongoDB Atlas cluster linked to your app.
+  Realm Database synchronizes data in a background thread,
+  abstracting away network usage so you don't have to worry about
+  latency or dropped connections.
+- The Realm SDKs integrate with Atlas App Services to easily and securely work
+  with your data in Atlas.
