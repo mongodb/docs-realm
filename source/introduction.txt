@@ -12,29 +12,30 @@ Introduction to Realm Database
    :depth: 2
    :class: singlecol
 
-This introduction explains the {+service+} product for mobile application developers. After reading, you should understand:
+This introduction explains the {+service+} product for mobile application developers.
+After reading, you should understand:
 
-- What {+service+} is and what problems it solves.
-- How {+backend+} interacts with {+client-database+}.
-- The benefits of {+service+} compared to traditional mobile development stacks.
+- What Realm is and what problems it solves.
+- How the Realm SDKs interacts with Atlas App Services.
+- The benefits of Realm compared to traditional mobile development stacks.
 
 What Problem Does Realm Solve?
 ------------------------------
 
 Mobile developers face a number of unique challenges. You must:
 
-- Handle the unpredictable environment of mobile apps. Connections can be lost, 
+- Handle the unpredictable environment of mobile apps. Connections can be lost,
   devices can shut down at any time, and clients often update long after release.
 - Maintain common data schemas and APIs between mobile clients, backend APIs, and databases.
-- Stay aware of security vulnerabilities across all components in an ecosystem. 
+- Stay aware of security vulnerabilities across all components in an ecosystem.
 - Consistently serialize objects between networks, database storage, and application memory.
 - Program in the languages and frameworks for one or more mobile operating systems.
 
-All of these challenges present different obstacles. You can solve each in isolation 
-with a wide variety of libraries and frameworks. Deciding the right solution for each 
+All of these challenges present different obstacles. You can solve each in isolation
+with a wide variety of libraries and frameworks. Deciding the right solution for each
 problem with the right tradeoffs is a challenge mobile developers know all too well.
 
-The combination of multiple environments creates even more challenges. 
+The combination of multiple environments creates even more challenges.
 For instance, you can use a Java library on your Android client to serialize objects,
 but that library likely wouldn't work on iOS. And this doesn't even take into account
 consistency across backend services.
@@ -43,7 +44,7 @@ Realm Database
 --------------
 
 Many of these challenges arise due to particularities of the mobile environment.
-These challenges include network reliability, local storage, and keeping UIs 
+These challenges include network reliability, local storage, and keeping UIs
 :wikipedia:`reactive <Reactive_user_interface>`.
 :term:`{+client-database+}` solves many common mobile programming headaches:
 
@@ -61,12 +62,13 @@ These challenges include network reliability, local storage, and keeping UIs
   the latest data stored in {+client-database+}. You can
   subscribe to changes, letting you keep your UI consistently up to date.
 
-The {+service-short+} SDK lets you connect to local {+realms+} for Android, iOS,
-Node.js, React Native, and UWP development.
+The Realm SDKs lets you connect to local {+realms+} for Android, iOS,
+Node.js, React Native, Flutter, and UWP development.
 
-MongoDB Atlas
--------------
+Sync Data with MongoDB Atlas
+----------------------------
 
+The Realm SDKs use Atlas Device Sync to synchronize 
 Client applications generate a lot of data. Whether it's uploaded
 reviews and ratings, posts and comments on a blog, or inventory
 in a kitchen, you need to store that data somewhere. `{+atlas+}
@@ -114,7 +116,7 @@ Check out our Task Tracker tutorial for any of these platforms:
 - :ref:`React Native with JavaScript <react-native-tutorial>`
 - :ref:`Xamarin (iOS and Android) with C# <dotnet-tutorial>`
 
-Or start by experimenting with a working Sync-enabled client application 
+Or start by experimenting with a working Sync-enabled client application
 with a :ref:`template app <template-applications>`.
 
 You can also refer to the documentation for each client SDK:
@@ -138,12 +140,12 @@ Summary
     making it easier to keep your UI in sync with changes to your data.
   - {+sync+} synchronizes data between client-side {+realms+} and the
     server-side {+atlas+} cluster linked to your
-    {+app+}.  
+    {+app+}.
   - {+client-database+} synchronizes data in a background thread,
     abstracting away network usage so you don't have to worry about
     latency or dropped connections.
 
 - {+service+} is a serverless application platform that takes care of
-  the details of deployment and scaling for you. 
+  the details of deployment and scaling for you.
 - You can customize your {+app+} with functions and triggers, custom
   permissions via rules, and authentication.
