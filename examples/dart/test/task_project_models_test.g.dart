@@ -10,7 +10,7 @@ class Task extends _Task with RealmEntity, RealmObject {
   static var _defaultsSet = false;
 
   Task(
-    int id,
+    ObjectId id,
     String name, {
     bool isComplete = false,
     String? assignee,
@@ -24,7 +24,7 @@ class Task extends _Task with RealmEntity, RealmObject {
         'progressMinutes': 0,
       });
     }
-    RealmObject.set(this, 'id', id);
+    RealmObject.set(this, '_id', id);
     RealmObject.set(this, 'name', name);
     RealmObject.set(this, 'isComplete', isComplete);
     RealmObject.set(this, 'assignee', assignee);
@@ -35,9 +35,9 @@ class Task extends _Task with RealmEntity, RealmObject {
   Task._();
 
   @override
-  int get id => RealmObject.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => throw RealmUnsupportedSetError();
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -75,7 +75,8 @@ class Task extends _Task with RealmEntity, RealmObject {
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Task._);
     return const SchemaObject(Task, 'Task', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('_id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('assignee', RealmPropertyType.string, optional: true),
@@ -87,12 +88,12 @@ class Task extends _Task with RealmEntity, RealmObject {
 
 class Project extends _Project with RealmEntity, RealmObject {
   Project(
-    int id,
+    ObjectId id,
     String name, {
     int? quota,
     Iterable<Task> tasks = const [],
   }) {
-    RealmObject.set(this, 'id', id);
+    RealmObject.set(this, '_id', id);
     RealmObject.set(this, 'name', name);
     RealmObject.set(this, 'quota', quota);
     RealmObject.set<RealmList<Task>>(this, 'tasks', RealmList<Task>(tasks));
@@ -101,9 +102,9 @@ class Project extends _Project with RealmEntity, RealmObject {
   Project._();
 
   @override
-  int get id => RealmObject.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => throw RealmUnsupportedSetError();
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -131,7 +132,8 @@ class Project extends _Project with RealmEntity, RealmObject {
   static SchemaObject _initSchema() {
     RealmObject.registerFactory(Project._);
     return const SchemaObject(Project, 'Project', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('_id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('tasks', RealmPropertyType.object,
           linkTarget: 'Task', collectionType: RealmCollectionType.list),
