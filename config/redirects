@@ -768,9 +768,6 @@ raw: ${prefix}/reference/service-limitations -> ${appServicesBase}/reference/ser
 raw: ${prefix}/reference/push-notifications -> ${appServicesBase}/reference/push-notifications/
 raw: ${prefix}/reference/services -> ${appServicesBase}/reference/services/
 
-# Move RQL Reference to top level
-raw: ${prefix}/reference/realm-query-language -> ${base}/realm-query-language/
-
 # Improve Discoverability SDK IA Refresh (https://jira.mongodb.org/browse/DOCSP-23502)
 raw: ${prefix}/sdk/swift/fundamentals -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/swift/fundamentals/realm-database -> ${base}/sdk/swift/realm-database/
@@ -825,3 +822,7 @@ raw: ${prefix}/sdk/swift/integrations/tvos -> ${base}/sdk/swift/realm-files/tvos
 raw: ${prefix}/sdk/swift/upgrade-from-stitch-to-realm -> ${base}/sdk/swift/install/
 raw: ${prefix}/sdk/swift/event-library -> ${base}/sdk/swift/sync/event-library/
 raw: ${prefix}/sdk/swift/additional-examples -> ${base}/sdk/swift/realm-database/
+# Move RQL Reference to top level & make single source of truth
+raw: ${prefix}/reference/realm-query-language -> ${base}/realm-query-language
+raw: ${prefix}/sdk/flutter/realm-database/query-language -> ${base}/realm-query-language
+raw: ${prefix}/sdk/kotlin/realm-database/query-language -> ${base}/realm-query-language
