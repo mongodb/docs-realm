@@ -54,8 +54,12 @@ Filter Results
 
 Filter a ``RealmList`` to retrieve a specific segment
 of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
-In the ``query()`` method's argument,
-use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
+In the ``query()`` method's argument, use Realm Query Language to perform filtering.
+Realm Query Language is a string-based query language that you can use to retrieve
+objects from a realm.
+
+For more information on constructing queries, refer to the
+:ref:`Realm Query Language reference documentation <rql>`.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
    :language: dart
@@ -65,8 +69,8 @@ use :ref:`Realm Query Language operators<flutter-query-language>` to perform fil
 Sort Results
 ~~~~~~~~~~~~
 
-Sort the results using the :ref:`Realm Query Language <flutter-query-language>`
-SORT() operator in the ``query()`` method's argument.
+Sort the results using the :ref:`Realm Query Language SORT() operator
+<rql-sort-distinct-limit>` in the ``query()`` method's argument.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
