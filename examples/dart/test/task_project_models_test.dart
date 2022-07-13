@@ -9,8 +9,9 @@ part 'task_project_models_test.g.dart'; // :remove:
 
 @RealmModel()
 class _Task {
+  @MapTo("_id")
   @PrimaryKey()
-  late int id; // Flutter SDK does not yet support ObjectId
+  late ObjectId id;
 
   late String name;
   bool isComplete = false;
@@ -21,8 +22,9 @@ class _Task {
 
 @RealmModel()
 class _Project {
+  @MapTo("_id")
   @PrimaryKey()
-  late int id; // Flutter SDK does not yet support ObjectId
+  late ObjectId id;
 
   late String name;
   late List<_Task> tasks;

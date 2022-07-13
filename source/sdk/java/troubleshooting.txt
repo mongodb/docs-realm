@@ -45,14 +45,14 @@ the APK file by adding the following code to the application's
 Network Calls to Mixpanel
 -------------------------
 
-{+service-short+} collects anonymous analytics when you run the
-{+service-short+} bytecode transformer on your source code. This is
+Realm collects anonymous analytics when you run the
+Realm bytecode transformer on your source code. This is
 completely anonymous and helps us improve the product by flagging:
 
 - which version of the SDK you use
 - which operating system you use
 - if your application uses Kotlin
-- if your application uses local-only {+client-database+} or {+sync+}
+- if your application uses local-only Realm Database or Sync
 
 Analytics do not run when your application runs on user devices - only
 when you compile your source code. To opt out of analytics, you can set
@@ -64,7 +64,7 @@ Change Listeners in Android 12 with SDK Versions Below 10.5.1
 -------------------------------------------------------------
 
 Due to a change in the Linux kernel,
-:ref:`object, collection, and {+realm+} notifications
+:ref:`object, collection, and realm notifications
 <java-client-notifications>` do not work in SDK versions below
 10.5.1 on devices running certain early versions of
 Android 12.
@@ -85,11 +85,11 @@ with the following fixes:
 Configurations Cannot be Different if Used to Open the Same File
 ----------------------------------------------------------------
 
-{+client-database+} runs checks whenever you open a {+realm+} file to
-avoid corruption. In order to avoid accidentally opening a {+realm+}
+Realm Database runs checks whenever you open a realm file to
+avoid corruption. In order to avoid accidentally opening a realm
 file with incompatible settings, the SDK uses Java's ``equals()`` method
 to compare ``RealmConfiguration`` objects. This prevents the SDK from
-opening a single {+realm+} file with different schemas, durability levels,
+opening a single realm file with different schemas, durability levels,
 or writability settings. However, configurations that include lambda
 functions, such as those passed to
 :java-sdk:`initialData() <io/realm/RealmConfiguration.Builder.html#initialData-io.realm.Realm.Transaction->`
@@ -100,7 +100,7 @@ never considered equal using Java's built-in comparison.
 To avoid this error when using lambdas, you can either:
 
 1. Store a single configuration statically in your application, so that
-   separate {+realm+} instances use the exact same
+   separate realm instances use the exact same
    ``RealmConfiguration`` object and it passes the check.
 
 #. Override the default equals check of the ``RealmConfiguration``:
@@ -203,11 +203,11 @@ of architectures supported in a single APK. This is done by adding
 Customize Dependecies Defined by the Realm Gradle Plugin
 --------------------------------------------------------
 
-{+service-short+} uses a Gradle plugin because it makes it easier to set
+Realm uses a Gradle plugin because it makes it easier to set
 up a large number of dependencies. Unfortunately this also makes it a
 bit harder to ignore specific transitive dependencies.
 
-If you want to customize {+service-short+} beyond what is exposed by the
+If you want to customize Realm beyond what is exposed by the
 plugin, you can manually set up all the dependencies and ignore the
 Gradle plugin. The following example demonstrates how to set up the SDK
 for an Android application using Kotlin manually:

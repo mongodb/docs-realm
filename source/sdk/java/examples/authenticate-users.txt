@@ -13,7 +13,7 @@ Authenticate Users - Java SDK
    :depth: 2
    :class: singlecol
 
-{+service+} provides an API for authenticating users using any enabled
+Realm provides an API for authenticating users using any enabled
 authentication provider. Instantiate a ``Credentials`` object and pass
 it to either of the  ``app.login()`` or ``app.loginAsync()`` methods to
 authenticate a user login and create a ``User`` object. Each
@@ -169,7 +169,7 @@ Custom Function User
 
 The :ref:`Custom Function authentication provider <custom-function-authentication>`
 enables users to log in to your application using a
-:ref:`Realm Function <functions>` defined in your {+app+}. To log in with custom 
+:ref:`Realm Function <functions>` defined in your App. To log in with custom 
 function authentication, create a credential by calling 
 ``Credentials.customFunction()``. The :java-sdk:`customFunction()
 <io/realm/mongodb/Credentials.html#customFunction-Document->` method expects a 
@@ -229,8 +229,8 @@ Follow the official :facebook:`Facebook Login for Android Quickstart
 application. In the login completion handler, get the logged in user's access
 token from the Facebook :facebook:`LoginResult
 <docs/reference/android/current/class/LoginResult>`. Use the access token to
-create a {+service-short+} Facebook credential and then log the user into your
-{+service-short+} app.
+create a Realm Facebook credential and then log the user into your
+Realm app.
 
 .. tabs-realm-languages::
    
@@ -268,7 +268,7 @@ To set up your application for Google User authentication:
    <https://console.cloud.google.com/apis/credentials>`__, create an
    OAuth 2.0 client ID of type "Web application".
 
-#. Configure your backend {+app+} to use that client ID and the associated
+#. Configure your backend App to use that client ID and the associated
    client secret.
 
 #. Enable OpenID Connect on the backend.
@@ -435,7 +435,7 @@ methods. Both methods:
 
 - delete locally stored user credentials from the device
 
-- immediately halt any synchronization to and from the user's {+realm+}s
+- immediately halt any synchronization to and from the user's realms
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.

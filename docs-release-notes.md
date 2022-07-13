@@ -1,3 +1,62 @@
+# July 8, 2022
+
+## Flutter SDK
+- Sync Device Data/Manage Sync Session: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Java SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Kotlin SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+- Update Kotlin SDK to 1.0.1
+
+## .NET SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Node.js SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## React Native SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Swift SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Reference
+- Realm Query Language: Document querying ObjectID & UUID
+
+## Misc
+- Update some Node.js/Web code examples based on feedback
+
+# July 1, 2022
+
+## Kotlin SDK
+- Handle Errors: New Section w/overview of types of errors
+  - Realm Errors: New Page w/tested code examples and guidance around error handling
+  - App Errors: New page w/tested code examples and guidance around error handling
+
+## Node.js SDK
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## React Native SDK
+- Install: Add note about Expo v45 not supported on Android.
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## Swift SDK
+- Landing Page & Install: Update Apple deployment targets and minimum Xcode version
+- Usage Examples/Flexible Sync: Add note about Combine support for Flexible Sync
+- Usage Examples/SwiftUI Guide
+  - Open a Realm with a Configuration: Clarify using SwiftUI w/configurations based on docs feedback
+  - Use Realm w/SwiftUI Previews: New section w/guidance & tested code examples 
+
+## Web SDK
+- Atlas App Services/MongoDB Data Access: Add Aggregation Operations w/tested code examples
+
+## Misc
+- Add redirects for App Services/Reference content
+
 # June 24, 2022
 
 ## .NET SDK

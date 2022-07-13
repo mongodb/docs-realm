@@ -1,0 +1,110 @@
+.. _ios-realm-database:
+
+==========================
+Realm Database - Swift SDK
+==========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. include:: /includes/realm-database.rst
+
+Realm vs Other Databases
+------------------------
+
+The {+service-short+} data model is similar to both relational and
+document databases but has distinct differences from both. To underscore
+these differences, it's helpful to highlight what a {+realm+} **is
+not**:
+
+A {+realm+} is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. {+app+}s often split data across multiple
+    {+realms+} to organize data more efficiently and to enforce access controls.
+
+A {+realm+} is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    {+realm+} can contain any number of object types that are relevant to a
+    given domain.
+
+A {+realm+} is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the {+realm+}. An object
+    cannot contain a property that is not described by its schema.
+
+.. _ios-realm-database-reads:
+.. _ios-live-queries:
+
+Live Queries
+------------
+
+You can read back the data that you have :ref:`stored
+<ios-write-transactions>` in :term:`{+client-database+}` by finding,
+filtering, and sorting objects.
+
+To get the best performance from {+service+} as your app grows and your
+queries become more complex, design your app's data access patterns
+around a solid understanding of {+client-database+} :ref:`read
+characteristics <ios-realm-read-characteristics>`.
+
+.. _ios-live-object:
+
+Live Object
+~~~~~~~~~~~
+
+All {+service-short+} objects are **live objects**, which means they
+automatically update whenever they're modified. Realm emits a
+:ref:`notification event <ios-react-to-changes>` whenever any property
+changes.
+
+You can use live objects to work with object-oriented data natively
+without an :wikipedia:`ORM <Object-relational_mapping>` tool. Live
+objects are direct proxies to the underlying stored data, which means
+that a live object doesn't directly contain data. Instead, a live object
+always references the most up-to-date data on disk and :wikipedia:`lazy
+loads <Lazy_loading>` property values when you access them from a
+:ref:`collection <ios-client-collections>`. This means that a {+realm+}
+can contain many objects but only pay the performance cost for data that
+the application is actually using.
+
+Valid write operations on a live object automatically persist to the
+{+realm+} and propagate to any other synced clients. You do not need to
+call an update method, modify the {+realm+}, or otherwise "push"
+updates.
+
+.. _ios-additional-examples:
+
+Realm Swift SDK Examples
+------------------------
+
+Each of the pages in the Swift SDK documentation contain example code showing
+a specific task. The Quick Starts folder contains several example applications
+you can run to experiment with different ways of using Realm Database.
+
+Beyond the examples in this documentation, the {+service-short+} community 
+has created many applications that demonstrate the usage of the 
+Realm Swift SDK.
+
+.. note:: 
+
+   These community examples are not part of the documentation, and may not
+   be actively maintained or show the most up-to-date way of working with Realm. 
+
+Examples by the Realm Engineering Team
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The :github:`realm-swift example applications
+<realm/realm-swift/tree/master/examples>` provide examples for both iOS and
+macOS that demonstrate how to use {+service-short+} features such as migrations
+and encryption. The examples also demonstrate how to combine {+service-short+}
+with common iOS concepts like ``UITableViewController``. 
+
+Community Examples
+~~~~~~~~~~~~~~~~~~
+- :github:`Performing a Client Reset with Swift by "pmanna-tse-realm" <mongodb/realm-practice/tree/main/swift/RealmPractice>`

@@ -19,9 +19,9 @@ You can use the :java-sdk:`RealmDictionary
 unique ``String`` keys paired with values. ``RealmDictionary``
 implements Java's ``Map`` interface, so it works just like the built-in
 ``HashMap`` class, except managed ``RealmDictionary`` instances persist
-their contents to a {+realm+}. ``RealmDictionary`` instances that
-contain {+service-short+} objects store references to those objects.
-When you delete a {+service-short+} object from a {+realm+}, any
+their contents to a realm. ``RealmDictionary`` instances that
+contain Realm objects store references to those objects.
+When you delete a Realm object from a realm, any
 references to that object in a ``RealmDictionary`` become ``null``
 values.
 
@@ -33,18 +33,27 @@ of type ``RealmDictionary<T>``, where ``T`` defines the values you would
 like to store in your ``RealmDictionary``. Currently, ``RealmDictionary``
 instances can only use keys of type ``String``.
 
-- Add an object to a ``RealmDictionary`` with
-  :java-sdk:`RealmDictionary.put() <io/realm/RealmDictionary.html#put-E->`
-  (or the ``[]`` operator in Kotlin)
+The following table shows which methods you can use to complete common
+collection tasks with ``RealmDictionary``:
 
-- Add multiple objects to a ``RealmDictionary`` with
-  :java-sdk:`RealmDictionary.putAll() <io/realm/RealmDictionary.html#putAll-Map->`
+.. list-table::
+   :header-rows: 1
+   :widths: 70 30
 
-- Check if the dictionary contains an specific key with
-  :java-sdk:`RealmDictionary.containsKey() <io/realm/RealmDictionary.html#containsKey-String->`
+   * - Task
+     - Method
 
-- Check if the dictionary contains a specific value with
-  :java-sdk:`RealmDictionary.containsValue() <io/realm/RealmDictionary.html#containsValue-Object->`
+   * - Add an object to a ``RealmDictionary``
+     - :java-sdk:`put() <io/realm/RealmDictionary.html#put-E->` (or the ``[]`` operator in Kotlin)
+
+   * - Add multiple objects to a ``RealmDictionary``
+     - :java-sdk:`putAll() <io/realm/RealmDictionary.html#putAll-Map->`
+
+   * - Check if the dictionary contains an specific key
+     - :java-sdk:`containsKey() <io/realm/RealmDictionary.html#containsKey-String->`
+
+   * - Check if the dictionary contains a specific value
+     - :java-sdk:`containsValue() <io/realm/RealmDictionary.html#containsValue-Object->`
 
 .. tabs-realm-languages::
    

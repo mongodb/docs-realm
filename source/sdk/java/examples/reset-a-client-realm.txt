@@ -138,11 +138,12 @@ example manually discards unsynced changes to handle the client reset:
 Manually Recover Unsynced Changes
 ---------------------------------
 
-.. note:: Manual Recovery Replaces ``SyncSession.ClientResetHandler``
+.. tip::
 
-   This strategy works like the deprecated
+   Manual recovery replaces the deprecated
    ``SyncSession.ClientResetHandler``.
-   Clients can update to manual recovery with no logic changes.
+   Clients using the deprecated handler can update to manual recovery
+   with no logic changes.
 
 We do not recommend manual client reset recovery. It requires:
 

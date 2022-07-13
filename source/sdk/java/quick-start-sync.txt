@@ -12,26 +12,26 @@ Quick Start with Sync - Java SDK
    :depth: 2
    :class: singlecol
 
-.. important:: This Guide uses Atlas Device Sync
+.. tip:: This Guide uses Device Sync
 
-   This guide can help you get started with an Android application that
-   communicates with a backend {+app+} over the network using features
+   This guide helps you get started with an Android application that
+   communicates with an App backend. The App provides features
    like :ref:`Sync <sync>`, Realm Functions, and user management. If
-   your application only requires local Realm Database functionality,
-   you should follow the :ref:`Quick Start (Local-only)
+   your application requires only local database functionality,
+   check out the :ref:`Quick Start (Local-only)
    <java-client-quick-start-local>` guide.
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get App Services
 integrated into your app. Before you begin, ensure you have:
 
-- :ref:`Created an {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Enabled Sync <enable-sync>`
 - :ref:`Installed the Java SDK <java-install>`
 
-.. note:: Check Out the Tutorial
+.. tip:: Check Out the Tutorial
 
-   This page contains only the essential information that you need to set up an
-   Atlas App Services backend. If you prefer to follow a guided tutorial that
+   This page contains the essential information to interact with an App.
+   If you prefer to follow a guided tutorial that
    shows you step-by-step how to set up a working app, check out the
    :ref:`Java Tutorial <java-sdk-tutorial>` where you'll build a mobile
    app that connects to the :ref:`Task Tracker backend
@@ -44,9 +44,9 @@ integrated into your app. Before you begin, ensure you have:
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
-{+ui+}.
+To use App Services features such as authentication and sync, you must
+access your App using your App ID. You can find your App ID in the
+App Services UI.
 
 .. tabs-realm-languages::
 
@@ -82,16 +82,16 @@ Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
-stored within {+client-database+} and synchronized to and from
-{+backend+}. You can define your application's data model in two ways:
+stored within Realm Database and synchronized to and from
+App Services. You can define your application's data model in two ways:
 
-- Via :ref:`schemas <schemas>` in {+backend+}.
+- Via :ref:`schemas <schemas>` in App Services.
 
 - Via Kotlin or Java classes in your application code with
   :ref:`Realm Object Models <create-schema-from-rom>`.
 
 This quick start uses the latter approach, which defines your schema
-using classes in your mobile application code. To define your {+app+}'s
+using classes in your mobile application code. To define your App's
 object model in this way, you need to :ref:`enable Development Mode
 <enable-development-mode>`.
 
@@ -130,7 +130,7 @@ Authenticate a User
 -------------------
 
 When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
-{+ui+}, users can immediately log into your app without providing any identifying
+App Services UI, users can immediately log into your app without providing any identifying
 information:
 
 .. tabs-realm-languages::
@@ -149,7 +149,7 @@ information:
          :language: kotlin
          :copyable: false
 
-{+service-short+} provides many additional ways to authenticate, register, and link users.
+Realm provides many additional ways to authenticate, register, and link users.
 
 .. seealso::
 
@@ -158,13 +158,11 @@ information:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
-user, you can open a synced :ref:`{+realm+} <java-realms>`. Use the
+Once you have :ref:`enabled Sync <enable-sync>` and authenticated a
+user, you can open a synced :ref:`realm <java-realms>`. Use
 ``SyncConfiguration`` to control the specifics of how your application
-synchronizes data with {+backend+}, including the :ref:`partition
-<sync-partitions>`, how long to wait before a request times out, whether
-to allow synchronous reads or writes to a {+realm+} on the UI thread,
-and more.
+synchronizes data with App Services, including timeouts, synchronous
+reads and writes on the UI thread, and more.
 
 .. tabs-realm-languages::
 
@@ -189,14 +187,14 @@ and more.
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify the
-:ref:`objects <java-realm-objects>` within that {+realm+} in a
+Once you have opened a realm, you can modify the
+:ref:`objects <java-realm-objects>` within that realm in a
 :ref:`write transaction <java-open-a-transaction>` block.
 
 .. include:: /includes/java-synchronous-reads-writes-ui-thread.rst
 
 To create a new ``Task``, instantiate an instance of the
-``Task`` class and add it to the {+realm+} in a write block:
+``Task`` class and add it to the realm in a write block:
 
 .. tabs-realm-languages::
 
@@ -215,7 +213,7 @@ To create a new ``Task``, instantiate an instance of the
          :copyable: false
 
 You can retrieve a live :ref:`collection <java-client-collections>`
-of all items in the {+realm+}:
+of all items in the realm:
 
 .. tabs-realm-languages::
 
@@ -340,17 +338,17 @@ Once logged in, you can log out:
 Complete Example
 ----------------
 
-Run the complete example by replacing the appId with your {+realm+} app ID.
+Run the complete example by replacing the appId with your realm app ID.
 If you're running this project in a fresh Android Studio project, you can
 copy and paste this file into your application's ``MainActivity`` -- just
 remember to:
 
 - change the package declaration so it matches your project
 
-- replace the App ID placeholder with your {+app+}'s App ID
+- replace the App ID placeholder with your App's App ID
 
 - update the ``import`` statements for ``Task`` and ``TaskStatus`` if
-  you're using java
+  you're using Java
 
 .. tabs-realm-languages::
 

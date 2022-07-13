@@ -249,7 +249,7 @@ where you don't need to persist data between application instances, such
 as when a user works in a temporary workspace.
 
 Atlas Device Sync
-----------
+-----------------
 
 {+sync+} adds network synchronization between an {+backend+} backend and
 client devices on top of all of the functionality of {+client-database+}.

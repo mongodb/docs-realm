@@ -1,7 +1,9 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.ObjectId
 import io.realm.kotlin.types.RealmInstant
+import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
@@ -40,7 +42,7 @@ class Fish: RealmObject {
 class Sushi: RealmObject {
     val _id: ObjectId = ObjectId.create()
     val name: String = ""
-    val fishes: List<Fish> = listOf()
+    val fishes: RealmList<Fish> = realmListOf<Fish>()
 }
 // :snippet-end:
 

@@ -28,11 +28,11 @@ Modify an Object Schema - Java SDK
          Assume that each schema change shown in the following example
          occurs after the application has used the existing schema. The
          new schema version numbers apply only after you open the
-         {+realm+} and explicitly specify the new version number.
+         realm and explicitly specify the new version number.
          In other words, you can't specify version 3 without previously
          specifying and using versions 0, 1, and 2.
 
-      A {+realm+} using schema version ``0`` has a ``Person`` object type:
+      A realm using schema version ``0`` has a ``Person`` object type:
 
       .. tabs-realm-languages::
        
@@ -136,8 +136,8 @@ Modify an Object Schema - Java SDK
       D. Migration Functions
       ----------------------
 
-      To migrate the {+realm+} to conform to the updated
-      ``Person`` schema, set the {+realm+}'s
+      To migrate the realm to conform to the updated
+      ``Person`` schema, set the realm's
       :ref:`schema version <java-schema-version>` to ``3``
       and define a migration function to set the value of
       ``fullName`` based on the existing ``firstName`` and
@@ -163,16 +163,16 @@ Modify an Object Schema - Java SDK
    .. tab:: Synchronized Realms
       :tabid: sync
 
-      You can make changes to the schema of a synchronized {+realm+} by
+      You can make changes to the schema of a synchronized realm by
       modifying the :ref:`JSON Schema <configure-your-data-model>`
-      defined in your application's backend. Synchronized {+realm+}s do
+      defined in your application's backend. Synchronized realms do
       not require migration functions, since breaking changes to
-      synchronized schemas cause synchronization errors. {+sync+}
-      handles non-breaking changes to synchronized {+realm+} schemas
+      synchronized schemas cause synchronization errors. Sync
+      handles non-breaking changes to synchronized realm schemas
       automatically. As a result, both old versions of your schema and
       new versions can synchronize as users upgrade their applications.
 
-      To learn more about schema changes to synchronized {+realm+}s,
+      To learn more about schema changes to synchronized realms,
       see :ref:`synced schema changes <synced-schema-overview>`.
 
       .. note:: Development Mode: Only for Defining Your Initial Schema
@@ -182,7 +182,7 @@ Modify an Object Schema - Java SDK
          which automatically translates client models into
          JSON Schema on the backend. However, you should make subsequent
          changes to your schema through edits to the JSON Schema in your
-         {+app+}.
+         App.
 
 .. seealso::
 
@@ -193,6 +193,6 @@ Modify an Object Schema - Java SDK
    You can use the
    :java-sdk:`RealmConfiguration.shouldDeleteRealmIfMigrationNeeded()
    <io/realm/RealmConfiguration.html#shouldDeleteRealmIfMigrationNeeded-->`
-   builder method when constructing a {+realm+} to delete the {+realm+}
+   builder method when constructing a realm to delete the realm
    instead of performing a migration when a migration is required. This
    can come in handy during development when schemas often change.

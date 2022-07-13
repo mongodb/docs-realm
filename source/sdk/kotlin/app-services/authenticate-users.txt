@@ -13,7 +13,7 @@ Authenticate Users - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-{+service+} provides an API for authenticating users using any enabled
+Realm provides an API for authenticating users using any enabled
 authentication provider. Instantiate a :file:`Credentials` object and pass
 it to `app.login()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__
@@ -122,7 +122,7 @@ To set up your application for Google User authentication:
    <https://console.cloud.google.com/apis/credentials>`__, create an
    OAuth 2.0 client ID of type "Web application".
 
-#. Configure your backend {+app+} to use that client ID and the associated
+#. Configure your backend App to use that client ID and the associated
    client secret.
 
 #. Enable OpenID Connect on the backend.
@@ -216,7 +216,7 @@ to log in, using `user.logOut()
 
 - deletes locally stored user credentials from the device
 
-- immediately halts any synchronization to and from the user's {+realm+}s
+- immediately halts any synchronization to and from the user's realms
 
 Because logging out halts synchronization, you should only log out after
 all local Realm updates have uploaded to the server.
