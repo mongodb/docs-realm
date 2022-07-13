@@ -27,7 +27,7 @@ This example uses pattern matching to run all of the tests beginning with "upser
 gradle clean jvmTest --tests CRUDTest.upsert*
 ```
 
-You can also run invidual tests:
+You can also run individual tests:
 
 ```
 gradle clean jvmTest --tests CRUDTest.upsertAnObjectTest
