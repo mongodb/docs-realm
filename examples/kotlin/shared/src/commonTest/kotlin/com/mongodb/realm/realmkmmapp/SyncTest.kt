@@ -308,6 +308,8 @@ class SyncTest: RealmTest() {
                 }
                 .build()
             val realm = Realm.open(config)
+            // wait for synchronization to complete before editing subscriptions
+            realm.subscriptions.waitForSynchronization(Duration.parse("10s"))
             // remove all subscriptions to type Toad
             realm.subscriptions.update {
                 this.removeAll(Toad::class)

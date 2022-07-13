@@ -33,4 +33,8 @@ You can also run individual tests:
 gradle clean jvmTest --tests CRUDTest.upsertAnObjectTest
 ```
 
+## Generate Bluehawk Snippets
 
+```
+bluehawk snip examples/kotlin/shared/src/ -o source/examples/generated/kotlin/
+```
