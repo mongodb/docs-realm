@@ -24,7 +24,7 @@ Key Concept: Object Types & Schemas
 field-value pairs that each contain one or more :ref:`supported
 <ios-supported-property-types>` data types.
 
-Realm objects are basically regular Swift or Objective-C classes, but
+Realm objects are regular Swift or Objective-C classes, but
 they also bring a few additional features like :ref:`live queries
 <ios-live-queries>`. The Swift SDK memory maps Realm objects directly to
 native Swift or Objective-C objects, which means there's no need to use
@@ -155,11 +155,9 @@ Your Realm object model is a collection of properties. On the most basic level,
 when you create your model, your declarations give Realm information about
 each property:
 
-- :ref:`The data type <swift-supported-property-types>` 
-- :ref:`Whether the property is optional or required <ios-specify-an-optional-required-property>`
-- :ref:`Whether Realm should store or ignore the property <persisted-property-attributes>`
-- :ref:`Whether the property is a primary key <swift-primary-keys>`
-- :ref:`Whether the property should be indexed <swift-index-a-property>`
+- The data type and whether the property is optional or required
+- Whether Realm should store or ignore the property
+- Whether the property is a primary key or should be indexed
 
 Properties are also the mechanism for establishing :ref:`relationships 
 <swift-client-relationships>` between Realm object types.
@@ -818,6 +816,15 @@ Realm does not delete the referenced object, though, unless it is
       .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.m
          :language: objectivec
 
+.. seealso::
+
+   For more information about to-one relationships, see: :ref:`Key Concept:
+   To-One Relationship <ios-to-one-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-to-one-relationship>` page for information on how 
+   the to-one relationship in Swift object models translates to Atlas documents.
+
 .. _ios-define-a-to-many-relationship-property:
 
 Define a To-Many Relationship Property
@@ -852,6 +859,15 @@ number of companion dogs as a to-many relationship.
 
       .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.m
          :language: objectivec
+
+.. seealso::
+
+   For more information about to-many relationships, see: :ref:`Key Concept:
+   To-Many Relationship <ios-to-many-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-to-many-relationship>` page for information on how 
+   the to-many relationship in Swift object models translates to Atlas documents.
 
 .. _ios-define-an-inverse-relationship-property:
 
@@ -902,6 +918,15 @@ the value of an inverse relationship property.
       .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship-objc-dynamic.swift
          :language: swift
 
+.. seealso::
+
+   For more information about inverse relationships, see: :ref:`Key Concept:
+   Inverse Relationship <ios-inverse-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-inverse-relationship>` page for information on how 
+   the inverse relationship in Swift object models translates to Atlas documents.
+
 .. _ios-define-an-embedded-object-property:
 .. _ios-embedded-objects:
 
@@ -946,6 +971,12 @@ overwritten by a new embedded object instance.
 
       .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.m
          :language: objectivec
+
+.. seealso::
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-embedded-object-models>` page for information on how 
+   embedded objects in Swift object models translate to Atlas documents.
 
 .. _ios-supported-property-types:
 .. _swift-supported-property-types:

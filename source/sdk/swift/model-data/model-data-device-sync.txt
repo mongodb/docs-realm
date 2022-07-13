@@ -15,7 +15,7 @@ Model Data with Device Sync - Swift SDK
 Realm Object Models
 -------------------
 
-When you define a Realm object, you derive a class from :swift-sdk:`Object 
+To define a Realm object, derive a class from :swift-sdk:`Object 
 <Typealiases.html#/s:10RealmSwift6Objecta>`. The models that you define 
 each map to their own collection in MongoDB Atlas. In this example, both
 ``Dog`` and ``Person`` would map to separate collections in MongoDB Atlas.
@@ -36,13 +36,13 @@ each map to their own collection in MongoDB Atlas. In this example, both
 JSON Schema
 ~~~~~~~~~~~
 
-Device Sync automatically converts the Realm Swift data types to their BSON
-analogs to store them in Atlas. When the client device syncs the data down
-from App Services via Device Sync, the BSON data types become their Swift 
-analogs again. If you query for these objects by :ref:`accessing
+Device Sync automatically converts the Realm Swift data types to BSON 
+in Atlas. When the client device syncs the data down
+from App Services via Device Sync, the SDK converts BSON back to Swift 
+objects. If you query for these objects by :ref:`accessing
 MongoDB Atlas data directly <ios-mongodb-remote-access>` instead of using
-Device Sync to sync the data, you get the BSON data types. When you remotely 
-access Atlas data, it does not automatically map to the Swift data type equivalents.
+Device Sync to sync the data, you get the BSON data types; MongoDB Data Access 
+does not automatically map to the Swift object equivalents.
 
 .. code-block:: json
    :caption: Dog Schema in App Services
@@ -88,6 +88,8 @@ access Atlas data, it does not automatically map to the Swift data type equivale
 Realm Relationships
 -------------------
 
+.. _swift-device-sync-to-one-relationship:
+
 To-One Relationship
 ~~~~~~~~~~~~~~~~~~~
 
@@ -118,7 +120,7 @@ In the App Services schema, we see the new property translates to a field ``dog`
 The field is not in the ``required`` array because it is an optional property.
 Its type is an ``objectId`` which links to a specific ``Dog`` object in 
 the separate ``Dog`` collection. The objectId is the primary key of the ``Dog``
-model, so it's the field that links between the two objects.
+model, so it's the field that links the two objects.
 
 .. code-block:: json
    :caption: Person with To-One Relationship to Dog
@@ -144,6 +146,13 @@ model, so it's the field that links between the two objects.
 
 The ``Dog`` schema doesn't change. Because this is a to-one relationship,
 it's a one-way relationship; the ``Dog`` has no relationship back to ``Person``.
+
+.. seealso::
+
+   For more information about to-one relationships, see: :ref:`Key Concept:
+   To-One Relationship <ios-to-one-relationship>`.
+
+.. _swift-device-sync-to-many-relationship:
 
 To-Many Relationship
 ~~~~~~~~~~~~~~~~~~~~
@@ -203,6 +212,13 @@ keys of all of the ``Dog`` objects related to the ``Person`` object.
      }
    }
 
+.. seealso::
+
+   For more information about to-many relationships, see: :ref:`Key Concept:
+   To-Many Relationship <ios-to-many-relationship>`.
+
+.. _swift-device-sync-inverse-relationship:
+
 Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -257,6 +273,13 @@ in the client application based on your Realm object model.
        }
      }
    }
+
+.. seealso::
+
+   For more information about inverse relationships, see: :ref:`Key Concept:
+   Inverse Relationship <ios-inverse-relationship>`.
+
+.. _swift-device-sync-embedded-object-models:
 
 Embedded Object Models
 ~~~~~~~~~~~~~~~~~~~~~~

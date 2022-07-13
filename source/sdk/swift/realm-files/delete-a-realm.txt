@@ -68,17 +68,15 @@ In practice, there are two safe times to delete the realm file:
 Delete a Realm File During a Client Reset
 -----------------------------------------
 
-When you use Device Sync, you may encounter an error condition whose solution 
-is to perform a "client reset." During a client reset, your app must delete 
-the local copy of the realm and download an updated version from the 
-App Services backend.
+When you use Device Sync, you may encounter a **client reset error**. 
+During a client reset, your app must delete the local copy of the realm 
+and download an updated version from the App Services backend.
 
 Because Synced realms are stored locally and can be used offline, deleting
-a Synced realm has potential data loss implications. If the client has 
-written to the realm and the realm has not uploaded those changes, the client
-loses that data when you delete the Synced realm. The realm may be unable
-to upload changes when the client doesn't have a network connection for
-a long period of time, or in the event of a Sync error that requires you 
-to restart Sync.
+a Synced realm could lose data. If the client has written to the realm and 
+the realm has not uploaded those changes, the client loses that data when 
+you delete the Synced realm. The realm may be unable to upload changes when 
+the client doesn't have a network connection for a long period of time, or 
+in the event of a Sync error that requires you to restart Sync.
 
 For more details on how to handle this scenario, see :ref:`ios-client-reset`.
