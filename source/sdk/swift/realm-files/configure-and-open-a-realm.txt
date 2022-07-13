@@ -187,38 +187,7 @@ closed.
    When all *in-memory* {+realm+} instances with a particular identifier
    go out of scope, {+client-database+} deletes **all data** in that
    {+realm+}. To avoid this, hold onto a strong reference to any
-   in-memory {+realms+} during your app's lifetime. 
-
-.. _ios-open-synced-realm-as-non-sync:
-
-Open a Synced Realm as a Non-Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 10.23.0
-
-.. tip::
-
-   You may temporarily pause a Sync session if you do not want to permanently
-   change a synced realm to a non-synced realm. See: :ref:`Suspend or Resume 
-   a Sync Session <ios-suspend-or-resume-a-sync-session>`.
-
-If you want to permanently stop a realm from syncing to your Atlas App Services backend,
-you can use the :swift-sdk:`writeCopy(configuration: ) 
-<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
-method to make a copy of a synced realm for use with a non-sync configuration.
-The example below creates a copy of the realm file, with all of its existing 
-data, at a file URL you specify. 
-
-This process removes the ``realm_id`` in the local realm. You must :ref:`increment 
-the schema version as if you had deleted a property <ios-delete-a-property>`.
-
-After you copy the realm for use without Sync, you can open the copy as a 
-non-synced realm. Any changes you make to the non-synced realm reflect 
-only in the local realm file. No changes propogate to other devices or
-the Atlas App Services backend.
-
-.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-local.swift
-   :language: swift
+   in-memory {+realms+} during your app's lifetime.
 
 .. _ios-close-a-realm:
 
