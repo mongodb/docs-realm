@@ -78,9 +78,10 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
 
         runBlocking {
             // :snippet-start: open-a-realm
-            val config = RealmConfiguration
-                .create(schema = setOf(Frog::class,
-                    Sample::class))
+            val config = RealmConfiguration.Builder(
+                setOf(Frog::class, Sample::class))
+                .name(REALM_NAME) // :hide:
+                .build() // :hide:
             val realm = Realm.open(config)
             Log.v("Successfully opened realm:" +
                     "${realm.configuration.name}")

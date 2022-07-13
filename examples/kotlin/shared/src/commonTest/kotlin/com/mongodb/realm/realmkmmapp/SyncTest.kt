@@ -101,7 +101,6 @@ class SyncTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
             val config = SyncConfiguration.Builder(user, setOf(Toad::class))
                 .maxNumberOfActiveVersions(10)
-                .waitForInitialRemoteData()
                 .name("realm name")
                 .initialSubscriptions { realm ->
                     add(
