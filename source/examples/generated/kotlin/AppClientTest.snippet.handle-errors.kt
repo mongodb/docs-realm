@@ -3,7 +3,7 @@ runCatching {
     app.login(Credentials.emailPassword(email, password))
 }.onSuccess {
     Log.v("Successfully logged in")
-    // transition to another activity, load a fragment, to display logged in information here
+    // transition to another activity, load a fragment, to display logged-in user information here
 }.onFailure { ex: Throwable ->
     when (ex) {
         is InvalidCredentialsException -> {
