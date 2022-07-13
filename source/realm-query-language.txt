@@ -317,6 +317,8 @@ Realm collection. With these operators, you can:
 - Evaluate sets
 - Sort and limit results
 
+.. _rql-comparison-operators:
+
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -382,6 +384,8 @@ values.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.comparison-operators.js
       :language: javascript
 
+.. _rql-logical-operators:
+
 Logical Operators
 ~~~~~~~~~~~~~~~~~
 
@@ -416,6 +420,7 @@ You can make compound predicates using logical operators.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.logical-operators.js
       :language: javascript
 
+.. _rql-string-operators:
 
 String Operators
 ~~~~~~~~~~~~~~~~
@@ -481,6 +486,8 @@ Regex-like wildcards allow more flexibility in search.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.string-operators.js
       :language: javascript
 
+.. _rql-objectid-uuid-operators:
+
 ObjectId and UUID Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -515,10 +522,12 @@ in ``uuid(<UUID String>)``.
    * - | ``!=``, ``<>``
      - Evaluates to ``true`` if the left-hand value is not equal to the right-hand value.
 
-Arithmatic Operators
+.. _rql-arithmetic-operators:
+
+Arithmetic Operators
 ~~~~~~~~~~~~~~~~~~~~
 
-You can perform basic arithmatic in one side of a RQL expression when evaluting
+You can perform basic arithmetic in one side of a RQL expression when evaluating
 numeric data types.
 
 .. code-block:: js
@@ -527,7 +536,7 @@ numeric data types.
    // Is equivalent to
    "priority >= 2 * (2 - 1) + 2"
 
-You can also use multiple object properties together in a mathmatic operation.
+You can also use multiple object properties together in a mathematic operation.
 
 .. code-block:: js
 
@@ -550,6 +559,8 @@ You can also use multiple object properties together in a mathmatic operation.
      - Subtraction.
    * - | ``()``
      - Group expressions together.
+
+.. _rql-aggregate-operators:
 
 Aggregate Operators
 -------------------
@@ -597,6 +608,8 @@ single value.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.aggregate-operators.js
       :language: javascript
+
+.. _rql-collection-operators:
 
 Collection Operators
 --------------------
