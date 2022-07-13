@@ -1,3 +1,35 @@
+# July 8, 2022
+
+## Flutter SDK
+- Sync Device Data/Manage Sync Session: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Java SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Kotlin SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+- Update Kotlin SDK to 1.0.1
+
+## .NET SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Node.js SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## React Native SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Swift SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Reference
+- Realm Query Language: Document querying ObjectID & UUID
+
+## Misc
+- Update some Node.js/Web code examples based on feedback
+
 # July 1, 2022
 
 ## Kotlin SDK
