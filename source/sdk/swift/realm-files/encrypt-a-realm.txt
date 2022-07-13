@@ -1,0 +1,100 @@
+.. _ios-encrypt-a-realm:
+
+===========================
+Encrypt a Realm - Swift SDK
+===========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+You can encrypt the {+realm+} database file on disk with AES-256 +
+SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
+{+realm+} <ios-open-a-local-realm>`.
+
+Realm transparently encrypts and decrypts data with standard
+:wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
+first 256 bits of the given 512-bit encryption key. {+service-short+}
+uses the other 256 bits of the 512-bit encryption key to validate
+integrity using a :wikipedia:`hash-based message authentication code
+(HMAC) <HMAC>`.
+
+.. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
+
+Key Concepts When Encrypting a Realm File
+-----------------------------------------
+
+Storing & Reusing Keys
+~~~~~~~~~~~~~~~~~~~~~~
+
+You must pass the same encryption key when opening the {+realm+} again.
+Apps should store the encryption key in the Keychain so that other apps
+cannot read the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Typically, reads and writes on encrypted {+realm+}s can be up to 10%
+slower than unencrypted {+realm+}s.
+
+Encryption and Atlas Device Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can encrypt a :ref:`synced realm
+<ios-sync-changes-between-devices>`. {+service+} only encrypts the data
+on the device and stores the data unencrypted in your {+atlas+}
+:term:`data source`.
+
+Multiple Processes
+~~~~~~~~~~~~~~~~~~
+
+Realm forbids opening the same encrypted realm from multiple processes.
+Attempting to do so will throw the error:
+"{+encrypted-interprocess-sharing-error-message+}"
+
+If multiple processes need to access a {+realm+} simultaneously, use an 
+unencrypted {+realm+}. Encrypted {+realms+} cannot be accessed by 
+multiple processes at the same time. 
+
+As an alternative, you can store data that you want to encrypt as 
+``NSData`` properties on {+realm+} objects. Then, you can encrypt and 
+decrypt individual fields. 
+
+One possible tool to encrypt and decrypt fields is :apple:`Apple's 
+CryptoKit framework <documentation/cryptokit>`. You can use :github:`Swift 
+Crypto <apple/swift-crypto>` to simplify app 
+development with CryptoKit.
+
+
+Example
+-------
+
+The following code demonstrates how to generate an encryption key and
+open an encrypted {+realm+}:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Encrypt.snippet.encrypt.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Encrypt.snippet.encrypt.m
+         :language: objectivec
+
+The following Swift example demonstrates how to store and retrieve a
+generated key from the Keychain:
+
+.. literalinclude:: /examples/generated/code/start/Encrypt.snippet.store-in-keychain.swift
+   :language: swift

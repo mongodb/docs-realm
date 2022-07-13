@@ -16,11 +16,11 @@ RealmAny - Java SDK
 .. versionadded:: 10.6.0
 
 You can use the :java-sdk:`RealmAny <io/realm/RealmAny.html>` data type to create
-{+service-short+} object fields that can contain any of several
+Realm object fields that can contain any of several
 underlying types. You can store multiple ``RealmAny`` instances in
 ``RealmList``, ``RealmDictionary``, or ``RealmSet`` fields. To change
 the value of a ``RealmAny`` field, assign a new ``RealmAny`` instance
-with a different underlying value. In {+sync+} backend
+with a different underlying value. In App Services backend
 :ref:`object schemas <object-schema>`, the ``RealmAny``
 data type is called **mixed**. ``RealmAny`` fields are indexable, but
 cannot be used as primary keys.
@@ -46,7 +46,7 @@ value. ``RealmAny`` instances are immutable just like ``String`` or
 ``Integer`` instances; if you want to assign a new value to a
 ``RealmAny`` field, you must create a new ``RealmAny`` instance.
 
-.. important:: Null ``RealmAny`` Values
+.. warning:: Two Possible Null ``RealmAny`` Values
 
    ``RealmAny`` instances are always :ref:`nullable
    <java-optionality>`. Additionally, instances can contain a value

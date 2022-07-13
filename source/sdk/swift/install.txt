@@ -9,7 +9,7 @@ Install Realm for iOS, macOS, tvOS, and watchOS
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 Overview
@@ -101,6 +101,17 @@ to use {+service+}:
 
       .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.import-realm.swift
          :language: swift
+
+.. _ios-app-download-file-size:
+
+App Download File Size
+----------------------
+
+{+client-database+} should only add around 5 to 8 MB to your app's download 
+size. The releases we distribute are significantly larger because they 
+include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
+and bitcode, all of which are stripped by the App Store automatically when 
+apps are downloaded.
 
 Troubleshooting
 ---------------

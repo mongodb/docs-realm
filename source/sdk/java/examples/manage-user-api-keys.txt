@@ -13,7 +13,7 @@ Manage User API Keys - Java SDK
    :class: singlecol
 
 Application users can generate user API keys with the SDK. You
-can allow devices or services to communicate with {+service+}
+can allow devices or services to communicate with Realm
 on behalf of a user by associating a unique user API key with each
 device or service.
 
@@ -21,10 +21,10 @@ User API keys are always associated with a user object created by another
 non-anonymous authentication provider. Each user can associate up to 20
 user keys with their account.
 
-.. note::
+.. tip::
 
    User API keys are not the same as **server API keys**, which allow a
-   user or service to directly authenticate with {+service+} using the
+   user or service to directly authenticate with Realm using the
    :ref:`API Key authentication provider <java-login-api-key>`. To learn
    more about server API keys, see :ref:`API Key Authentication
    <api-key-authentication>`.
@@ -39,7 +39,7 @@ To create a new user API key, call the :java-sdk:`create()
 :java-sdk:`createAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#createAsync-java.lang.String-io.realm.mongodb.App.Callback->`
 methods of a logged in user's :java-sdk:`apiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>`
 instance. The user API key will be associated with the logged in user
-and can be used to interact with {+service+} on their behalf. You cannot
+and can be used to interact with Realm on their behalf. You cannot
 create user API keys for anonymous users.
 
 .. include:: /includes/note-store-user-api-key-value.rst
@@ -71,10 +71,6 @@ method or asynchronous :java-sdk:`fetchAll()
 <io/realm/mongodb/auth/ApiKeyAuth.html#fetchAll-io.realm.mongodb.App.Callback->` method of a
 logged in user's :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
 
-.. include:: /includes/note-store-user-api-key-value.rst
-
-.. include:: /includes/note-store-user-api-key-value.rst
-
 .. tabs-realm-languages::
    
    .. tab::
@@ -96,10 +92,6 @@ key's id to the :java-sdk:`fetch() <io/realm/mongodb/auth/ApiKeyAuth.html#fetch-
 or :java-sdk:`fetchAsync() <io/realm/mongodb/auth/ApiKeyAuth.html#fetchAsync-ObjectId-io.realm.mongodb.App.Callback->`
 methods of a logged in user's
 :java-sdk:`ApiKeyAuth <io/realm/mongodb/auth/ApiKeyAuth.html>` instance.
-
-.. include:: /includes/note-store-user-api-key-value.rst
-
-.. include:: /includes/note-store-user-api-key-value.rst
 
 .. tabs-realm-languages::
    

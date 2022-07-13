@@ -1,19 +1,17 @@
-Overview
---------
-
-Realm Query Language is a string-based query language to constrain 
-searches when retrieving objects from a realm. SDK-specific methods pass queries 
+Realm Query Language (RQL) is a string-based query language to constrain
+searches when retrieving objects from a realm. SDK-specific methods pass queries
 to the Realm query engine, which retrives matching objects from the realm.
 
-Queries evaluate a predicate for every 
-object in the collection being queried. If the predicate resolves 
-to ``true``, {+client-database+} includes the object in the results 
-collection.
+Queries evaluate a predicate for every object in the collection being queried.
+If the predicate resolves to ``true``, the results collection includes the object.
 
-You can use Realm Query Language in most Realm SDKs with your SDK's filter 
-or query methods. The Swift SDK is the exception, as it uses the 
-:ref:`NSPredicate query API <ios-nspredicate-query>`. 
+You can use Realm Query Language in most Realm SDKs with your SDK's filter
+or query methods. The Swift SDK is the exception, as it uses the
+:ref:`NSPredicate query API <ios-nspredicate-query>`.
 Some SDKs also support idiomatic APIs for querying realms in their language.
+
+Query with Realm SDKs
+---------------------
 
 For further reading on SDK-specific methods for querying realms, select the tab
 below for your SDK.
@@ -30,6 +28,11 @@ below for your SDK.
       :tabid: swift
 
       - :ref:`Filter Data - Swift SDK <ios-client-query-engine>`
+
+      .. note:: Swift SDK does not support Realm Query Language
+
+         The Swift SDK does not support querying with Realm Query Language.
+         You can instead use NSPredicate to query Realm.
 
    .. tab:: .NET SDK
       :tabid: dotnet
@@ -51,7 +54,7 @@ below for your SDK.
    .. tab:: Kotlin SDK
       :tabid: kotlin
 
-      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>` 
+      - :ref:`Realm Query Language - Kotlin SDK <kotlin-query-language>`
 
    .. tab:: Flutter SDK
       :tabid: flutter
@@ -60,96 +63,24 @@ below for your SDK.
       - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
 
 
-You can also use Realm Query Language to browse for data in :ref:`Realm Studio 
+You can also use Realm Query Language to browse for data in :ref:`Realm Studio
 <realm-studio>`.
 
-Expressions
------------
+Examples on This Page
+---------------------
 
-Filters consist of **expressions** in a predicate. An expression consists of
-one of the following:
+The examples in this page use a simple data set for a task list app.
+The two Realm object types are ``Project`` and ``Task``.
 
-- The name of a property of the object currently being evaluated.
-- An operator and up to two argument expression(s). For example, in the 
-  expression ``A + B``, the entirety of ``A + B`` is an expression, but ``A``
-  and ``B`` are also argument expressions to the operator ``+``. 
-- A value, such as a string (``'hello'``) or a number (``5``).
+- A ``Task`` has a name, assignee's name, and completed flag.
+  There is also an arbitrary number for priority (higher is more important) and a
+  count of minutes spent working on it.
+- A ``Project`` has zero or more ``Tasks`` and an optional quota
+  for minimum number of tasks expected to be completed.
 
-.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
-   :language: javascript
-
-Dot Notation
-------------
-
-When referring to an object property, you can use **dot notation** to refer
-to child properties of that object. You can even refer to the properties of
-embedded objects and relationships with dot notation.
-
-For example, consider a query on an object with a ``workplace`` property that
-refers to a Workplace object. The Workplace object has an embedded object
-property, ``address``. You can chain dot notations to refer to the zipcode
-property of that address: 
-
-.. code-block:: javascript
-
-   workplace.address.zipcode == 10012
-
-Subqueries
-----------
-
-You can iterate through a collection property with another query using the
-``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
-
-.. code-block:: javascript
-
-   SUBQUERY(<collection>, <variableName>, <predicate>)
-
-- ``collection``: the name of the property to iterate through
-- ``variableName``: a variable name of the current element to use in the subquery
-- ``predicate``: a string that contains the subquery predicate. You can use the
-  variable name specified by ``variableName`` to refer to the currently-iterated
-  element.
-
-A subquery iterates through the given collection and checks the given
-predicate against each object in the collection. The predicate may refer
-to the current iterated object with the variable name passed to
-``SUBQUERY()``.
-
-A subquery expression resolves to an array. {+client-database+} only
-supports the ``@count`` :ref:`aggregate operator
-<rql-aggregate-operators>` on this result. This allows you to count how
-many objects in the subquery input collection matched the predicate.
-
-You can use the count of the subquery result as you would any other
-number in a valid expression. In particular, you can compare the count
-with a number literal (such as ``0``) or another property (such as
-``quota``).
-
-.. example::
-
-   The following example shows two filters on a ``projects`` collection.
-   
-   - The first returns projects with tasks that have not been completed by a user named Alex.
-   - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
-
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
-      :language: javascript
-
-.. note:: About the Examples On This Page
-
-   The examples in this page use a simple data set for a task list app.
-   The two Realm object types are ``Project`` and ``Task``. A ``Task``
-   has a name, assignee's name, and completed flag. There is also an
-   arbitrary number for priority -- higher is more important -- and a
-   count of minutes spent working on it. A ``Project`` has zero or more
-   ``Tasks`` and an optional quota for minimum number of tasks expected
-   to be completed.
-
-   See the schema for these two classes, ``Project`` and ``Task``, below:
-
+See the schema for these two classes, ``Project`` and ``Task``, below:
 
 .. tabs::
-
 
    .. tab:: Java SDK
       :tabid: java
@@ -157,7 +88,7 @@ with a number literal (such as ``0``) or another property (such as
       .. tabs-realm-languages::
 
          .. tab::
-             :tabid: java 
+             :tabid: java
 
              .. code-block:: java
 
@@ -179,7 +110,7 @@ with a number literal (such as ``0``) or another property (such as
          .. tab::
             :tabid: kotlin
 
-            .. code-block:: kotlin 
+            .. code-block:: kotlin
 
                open class Task(): RealmObject() {
                  var id: ObjectId = new ObjectId()
@@ -262,7 +193,100 @@ with a number literal (such as ``0``) or another property (such as
       .. literalinclude:: /examples/generated/flutter/task_project_models_test.snippet.task-project-models.dart
          :language: dart
 
+Expressions
+-----------
 
+Filters consist of **expressions** in a predicate. An expression consists of
+one of the following:
+
+- The name of a property of the object currently being evaluated.
+- An operator and up to two argument expression(s). For example, in the
+  expression ``A + B``, the entirety of ``A + B`` is an expression, but ``A``
+  and ``B`` are also argument expressions to the operator ``+``.
+- A value, such as a string (``'hello'``) or a number (``5``).
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
+   :language: javascript
+
+Parameterized Queries
+---------------------
+
+You can create parameterized queries to interpolate variables into prepared
+Realm Query Language statements. The syntax for interpolated variables is
+``$<int>``, starting at ``0``. Pass the positional arguments as
+additional arguments to Realm SDK methods that use Realm Query Language.
+
+
+Include just one parameter with ``$0``.
+
+.. code-block:: js
+
+   "assignee == $0", "Maggie"
+
+Include multiple parameters with ascending integers starting at ``$0``.
+
+.. code-block:: js
+
+   "assignee == $0", "Maggie"
+
+   "progressMinutes > $0 AND assignee == $1", 15, "Bart"
+
+Dot Notation
+------------
+
+When referring to an object property, you can use **dot notation** to refer
+to child properties of that object. You can even refer to the properties of
+embedded objects and relationships with dot notation.
+
+For example, consider a query on an object with a ``workplace`` property that
+refers to a Workplace object. The Workplace object has an embedded object
+property, ``address``. You can chain dot notations to refer to the zipcode
+property of that address:
+
+.. code-block:: javascript
+
+   workplace.address.zipcode == 10012
+
+Subqueries
+----------
+
+You can iterate through a collection property with another query using the
+``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+
+.. code-block:: javascript
+
+   SUBQUERY(<collection>, <variableName>, <predicate>)
+
+- ``collection``: the name of the property to iterate through
+- ``variableName``: a variable name of the current element to use in the subquery
+- ``predicate``: a string that contains the subquery predicate. You can use the
+  variable name specified by ``variableName`` to refer to the currently-iterated
+  element.
+
+A subquery iterates through the given collection and checks the given
+predicate against each object in the collection. The predicate may refer
+to the current iterated object with the variable name passed to
+``SUBQUERY()``.
+
+A subquery expression resolves to an array. {+client-database+} only
+supports the ``@count`` aggregate operator on this result.
+This allows you to count how many objects in the subquery input collection
+matched the predicate.
+
+You can use the count of the subquery result as you would any other
+number in a valid expression. In particular, you can compare the count
+with a number literal (such as ``0``) or another property (such as
+``quota``).
+
+.. example::
+
+   The following example shows two filters on a ``projects`` collection.
+
+   - The first returns projects with tasks that have not been completed by a user named Alex.
+   - The second returns the projects where the number of completed tasks is greater than or equal to the project's quota value.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
+      :language: javascript
 
 Operators
 ---------
@@ -286,15 +310,15 @@ values.
 .. important:: Types Must Match
 
    The type on both sides of the operator must be equivalent. For
-   example, comparing an ObjectId with string will result in a precondition 
-   failure with a message like: 
+   example, comparing an ObjectId with string will result in a precondition
+   failure with a message like:
    
    .. code-block::
       :copyable: false
    
-      "Expected object of type object id for property 'id' on object of type 
+      "Expected object of type object id for property 'id' on object of type
       'User', but received: 11223344556677889900aabb (Invalid value)"
-   
+
    You can compare any numeric type with any other numeric type,
    including decimal, float, and Decimal128.
 
@@ -305,7 +329,7 @@ values.
    * - Operator
      - Description
 
-   * - ``between``
+   * - ``between {number1, number2}``
      - Evaluates to ``true`` if the left-hand numerical or date expression is between or equal to the right-hand range. For dates, this evaluates to ``true`` if the left-hand date is within the right-hand date range.
 
    * - | ``==``, ``=``
@@ -439,4 +463,202 @@ Regex-like wildcards allow more flexibility in search.
    - Projects with names that contain 'ie'
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.string-operators.js
+      :language: javascript
+
+ObjectId and UUID Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can query :manual:`BSON ObjectIds </reference/method/ObjectId>` and
+:manual:`UUIDs </reference/method/UUID/>`.
+These data types are often used as primary keys.
+
+To query with ObjectIds, put a string representation of the ObjectId you're evaluating
+in ``oid(<ObjectId String>)``.
+
+.. code-block:: js
+
+   "_id == oid(6001c033600510df3bbfd864)"
+
+To query with UUIDs, put a string representation of the UUID you're evaluating
+in ``uuid(<UUID String>)``.
+
+.. code-block:: js
+
+   "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``==``, ``=``
+     - Evaluates to ``true`` if the left-hand value is equal to the right-hand value.
+
+   * - | ``!=``, ``<>``
+     - Evaluates to ``true`` if the left-hand value is not equal to the right-hand value.
+
+Arithmatic Operators
+~~~~~~~~~~~~~~~~~~~~
+
+You can perform basic arithmatic in one side of a RQL expression when evaluting
+numeric data types.
+
+.. code-block:: js
+
+   "2 * priority > 6"
+   // Is equivalent to
+   "priority >= 2 * (2 - 1) + 2"
+
+You can also use multiple object properties together in a mathmatic operation.
+
+.. code-block:: js
+
+   "progressMinutes * priority == 42"
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``*``
+     - Multiplication.
+   * - | ``/``
+     - Division.
+   * - | ``+``
+     - Addition.
+   * - | ``-``
+     - Subtraction.
+   * - | ``()``
+     - Group expressions together.
+
+Aggregate Operators
+-------------------
+
+You can apply an aggregate operator to a collection property of a Realm
+object. Aggregate operators traverse a collection and reduce it to a
+single value.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - | ``@avg``
+     - Evaluates to the average value of a given numerical property across a collection.
+       If any values are ``null``, they are not counted in the result.
+
+   * - | ``@count``
+     - Evaluates to the number of objects in the given collection.
+
+   * - | ``@max``
+     - Evaluates to the highest value of a given numerical property across a collection.
+       ``null`` values are ignored.
+
+   * - | ``@min``
+     - Evaluates to the lowest value of a given numerical property across a collection.
+       ``null`` values are ignored.
+
+   * - | ``@sum``
+     - Evaluates to the sum of a given numerical property across a collection,
+       excluding ``null`` values.
+
+.. example::
+
+   These examples all query for projects containing tasks that meet
+   this criteria:
+
+   - Projects with average task priority above 5.
+   - Projects with a task whose priority is less than 5.
+   - Projects with a task whose priority is greater than 5.
+   - Projects with more than 5 tasks.
+   - Projects with long-running tasks.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.aggregate-operators.js
+      :language: javascript
+
+Collection Operators
+--------------------
+
+A **collection operator** uses specific rules to determine whether
+to pass each input collection object to the output
+collection by applying a given predicate to every element of
+a given list property of
+the object.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - ``ALL``
+     - Returns objects where the predicate evaluates to ``true`` for all objects in the collection.
+
+   * - ``ANY``, ``SOME``
+     - Returns objects where the predicate evaluates to ``true`` for any objects in the collection.
+
+   * - ``NONE``
+     - Returns objects where the predicate evaluates to false for all objects in the collection.
+
+
+.. example::
+
+   We use the query engine's collection operators to find:
+
+   - Projects with no complete tasks.
+   - Projects with any top priority tasks.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
+      :language: javascript
+
+Sort, Distinct, Limit
+---------------------
+
+You can use additional operators in your queries to sort and limit the
+results collection.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``SORT``
+     - Specify the name of the property to compare. You can optionally
+       specify ascending (``ASC``) or descending (``DESC``) order.
+       If you specify multiple SORT fields, the query sorts by the first
+       field, and then the second. For example, if you ``SORT (priority, name)``, 
+       the query returns sorted by priority, and then by name when priority
+       value is the same.
+
+   * - ``DISTINCT``
+     - Specify a name of the property to compare. Remove duplicates
+       for that property in the results collection. If you specify multiple
+       DISTINCT fields, the query removes duplicates by the first field, and
+       then the second. For example, if you ``DISTINCT (name, assignee)``,
+       the query only removes duplicates where the values of both properties
+       are the same.
+
+   * - ``LIMIT``
+     - Limit the results collection to the specified number.
+
+.. example::
+
+   We use the query engine's sort, distinct, and limit operators to find:
+
+   - Tasks where the assignee is Ali
+
+     - Sorted by priority in descending order
+     - Enforcing uniqueness by name
+     - Limiting the results to 5 tasks
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript
