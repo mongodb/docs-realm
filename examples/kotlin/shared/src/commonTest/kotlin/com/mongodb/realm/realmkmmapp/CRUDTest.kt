@@ -226,16 +226,16 @@ class CRUDTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
             // :snippet-start: filter
             // Find frogs where name is 'Michigan J. Frog'
-            val michiganFrogs: ResultsChange<Frog> =
-                realm.query<Frog>("name = 'Michigan J. Frog'").find();
+            val michiganFrogs: RealmResults<Frog> =
+                realm.query<Frog>("name = 'Michigan J. Frog'").find()
 
             // Find frogs where age > 3 AND species is 'Green'
-            val oldGreenFrogs = ResultsChange<Frog> =
-                realm.query<Frog>("age > 3 AND species = 'green'").find();
+            val oldGreenFrogs: RealmResults<Frog> =
+                realm.query<Frog>("age > 3 AND species = 'green'").find()
 
             // :snippet-end:
-            asyncCallConvenience.cancel()
             realm.close();
+        }
     }
 
     @Test
