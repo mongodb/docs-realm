@@ -1,0 +1,252 @@
+.. _ios-configure-and-open-a-synced-realm:
+
+===========================================
+Configure & Open a Synced Realm - Swift SDK
+===========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-synced-realm:
+
+Key Concept: Synced Realms
+--------------------------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services 
+backend to handle the synchronization process. 
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on Device Sync, including directions on how to
+   set up sync in an App Services app, see :ref:`ios-realm-sync`.
+   
+   For code examples that show details of working with synced realms
+   in the client, see :ref:`ios-configure-and-open-synced-realms`.
+
+Synced Realms vs. Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Synced {+realms+} differ from non-synced local {+client-database+} in a 
+few ways:
+
+- Synced {+realms+} attempt to sync changes with your backend Atlas App Services App,
+  whereas non-synced {+realms+} do not.
+- Synced {+realms+} can be accessed by authenticated users, while non-synced 
+  {+realms+} have no concept of users or authentication.
+- With synced {+realms+}, you can :ref:`specify the download behavior 
+  <ios-specify-download-behavior>` to download updates before opening a 
+  {+realm+}. However, requiring changes to download before opening the 
+  realm requires the user to be online. Non-synced {+realms+} can always 
+  be used offline.
+
+You can copy data from a non-synced {+client-database+} to a synced {+realm+}, 
+and vice versa, but you cannot sync a non-synced {+client-database+}.
+
+.. _convert-realm-sync:
+
+Convert Between Synced and Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not have a direct mechanism to add sync to a non-synced realm, 
+or to permanently stop Sync for a synced realm. However, the Swift SDK does 
+provide methods that enable you to copy a realm file for use with a different 
+configuration. With these methods, you can easily duplicate a realm's data, 
+which you can then open with a sync or non-sync configuration. This lets
+you indirectly add Sync to a non-synced realm, or permanently stop a realm
+from syncing. See:
+
+- :ref:`<ios-open-non-synced-as-synced-realm>`
+- :ref:`<ios-open-synced-realm-as-non-sync>`
+
+.. _ios-login-and-open-realm:
+
+Open a Synced Realm
+-------------------
+
+The typical flow for opening a synced {+realm+} involves:
+
+1. :ref:`Authenticating the user <ios-authenticate-users>`.
+#. Creating a sync configuration.
+#. Opening the user's synced {+realm+} with the configuration.
+
+At authentication, we cache user credentials in a ``sync_metadata.realm`` 
+file on device.
+
+When you open a synced {+realm+} after authenticating, you can bypass the 
+login flow and go directly to opening the synced {+realm+}, using the same 
+sync configuration you already created.
+
+With cached credentials, you can:
+
+- Open a synced {+realm+} immediately with the data that is on the device.
+  You can use this method offline or online.
+- Open a synced {+realm+} after downloading changes from your Atlas App Services {+app+}. 
+  This requires the user to have an active internet connection.
+
+.. _ios-partition-based-sync-open-realm:
+
+Open a Synced Realm for Partition-Based Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Initialize a synced {+realm+} with a :swift-sdk:`sync configuration <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE13configuration14partitionValueAC0B0V13ConfigurationVx_tAC4BSONRzlF>`.
+This enables you to specify a partition value whose data should sync to the realm.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. versionchanged:: 10.15.0
+
+      .. seealso::
+         
+         The Realm Swift SDK supports async/await syntax for opening a realm. 
+         For completion handler syntax, see:
+         :ref:`ios-realm-open-legacy`. 
+
+         .. include:: /includes/swift-async-await-support.rst
+
+      Pass a logged-in user's :swift-sdk:`configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to 
+      :swift-sdk:`{+realm+} initializers 
+      <Structs/Realm.html#/s:10RealmSwift0A0V13configuration5queueA2C13ConfigurationV_So012OS_dispatch_D0CSgtKcfc>`.
+
+      You can optionally :ref:`specify whether a {+realm+} should download 
+      changes before opening <ios-specify-download-behavior>`. If you do not
+      specify download behavior, this opens a {+realm+} with data that is on
+      the device, and attempts to sync changes in the background.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      The first time you log in and open a synced {+realm+}, you'll log in the
+      user, and pass the user's :objc-sdk:`RLMSyncConfiguration 
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)syncConfiguration>` 
+      object with the desired :objc-sdk:`partitionValue 
+      <Classes/RLMSyncConfiguration.html#/c:objc(cs)RLMSyncConfiguration(py)partitionValue>` 
+      to :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`.
+
+      This opens a synced {+realm+} on the device. The {+realm+} 
+      attempts to sync with your {+app+} in the background to check for changes 
+      on the server, or upload changes that the user has made.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.init-synced-realm.m
+         :language: swift
+
+.. _ios-flexible-sync-open-realm:
+
+Open a Synced Realm for Flexible Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.22.0
+
+When you use Flexible Sync, use the ``flexibleSyncConfiguration()``
+to open a synced realm. 
+
+.. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
+   :language: swift
+
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, see: :ref:`<ios-sync-add-subscription>`.
+   
+.. _ios-open-synced-realm-as-different-sync-user:
+
+Open a Synced Realm as a Different Sync User
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.23.0
+
+If you want to open a synced realm as a different Sync user, you can use 
+the :swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+method to make a copy of the synced realm for use with the new user's 
+sync configuration. The example below creates a copy of the synced realm, 
+with all of its existing data, that you can use with a different sync 
+configuration.
+
+After you copy the realm for the new Sync user's configuration, you can 
+open the copy as a synced realm for that user. 
+
+.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-sync.swift
+   :language: swift
+
+.. _ios-open-non-synced-as-synced-realm:
+
+Open Non-Synced Realm as a Synced Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.23.0
+
+If you want a non-synced realm to start syncing with other devices and your 
+Atlas App Services backend, you can use the :swift-sdk:`writeCopy(configuration: ) 
+<Structs/Realm.html#/s:10RealmSwift0A0V9writeCopy13configurationyAC13ConfigurationV_tKF>` 
+method to make a copy of the non-synced realm for use with a sync configuration. 
+The example below creates a copy of a non-synced realm file, with all of 
+its existing data, that you can use with a sync configuration.
+
+After you copy the realm for use with Sync, you can open the copy as a 
+synced realm. Any changes you make to the synced realm will reflect 
+in the synced realm file, and they will also propogate to other devices and
+the Atlas App Services backend.
+
+.. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-local-to-sync.swift
+   :language: swift
+
+.. _ios-specify-download-behavior:
+
+Download Changes Before Open
+----------------------------
+
+.. versionadded:: 10.15.0
+
+When you open a synced {+realm+} with the Swift SDK, you can pass the 
+``downloadBeforeOpen`` parameter to specify whether to download the 
+changeset from your Atlas App Services {+app+} before opening the {+realm+}. 
+This parameter accepts a case from the ``OpenBehavior`` enum:
+
+- ``never``: Immediately open the {+realm+} on the device. Download changes 
+  in the background when the user has internet, but don't block opening
+  the {+realm+}.
+- ``always``: Check for changes every time you open the {+realm+}.
+  Requires the user to have an active internet connection.
+- ``once``: Download data before opening a {+realm+} for the first time, but
+  open it without downloading changes on subsequent opens. This lets you 
+  populate a {+realm+} with initial data, but enables offline-first 
+  functionality on subsequent opens.
+
+.. include:: /examples/generated/code/start/Sync.snippet.specify-download-behavior.swift.rst
+
+.. _ios-open-a-synced-realm-offline:
+
+Open a Synced Realm Offline
+---------------------------
+
+.. include:: /includes/offline-login.rst
+
+You can only open a synced realm offline if you do not require your client 
+app to ``always`` :ref:`download changes before opening the realm 
+<ios-specify-download-behavior>`.
+
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.offline-login.swift
+   :language: swift
