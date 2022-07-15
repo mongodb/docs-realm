@@ -1,3 +1,59 @@
+# July 15, 2022
+
+## Flutter SDK
+- App Services Overview: Add CTA button to "Create an App Services Account"
+- Add ObjectID to Flutter RQL example
+
+## Java SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Fundamentals/Query Engine: Clarify language around RQL, add cross-links
+- Usage Examples/Filter Data: Clarify language around RQL
+
+## Kotlin SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Realm Database/Schemas/Relationships: Update to-many relationship code example from `List` to `RealmList`
+- Realm Database/Read/Filter Data: new page w/code example & link to RQL reference
+- Update code example README and fix some tests that hang infinitely
+
+## .NET SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Fundamentals/Query Engine: Minor updates in line with RQL docs updates, removed aggregate operator reference & linked to RQL reference instead
+- Fix typo in code examples
+
+## Node.js SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Usage Examples/Query Data: Move "Query Engine" from Advanced Guides to Usage Examples, refactor based on RQL docs updates
+
+## React Native SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Usage Examples/Query Data: Move "Query Engine" from Advanced Guides to Usage Examples, refactor based on RQL docs updates
+
+## Swift SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Install: Update instructions to remove fixed release version & instead link to SDK releases page
+- Major Information Architecture refactor, including:
+  - Move "Fundamentals" content onto relevant topic-based pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define an Object Model, Read & Write Data, Sync Data Between Devices) into sections with smaller pages
+  - Add new pages: Delete a Realm, Model Data with Device Sync, Add Sync to an App
+
+## Web SDK
+- Landing Page: Add CTA button to "Create an Account"
+
+## Other
+- Introduction to Realm
+  - Update naming for product brand guidelines
+  - Copy edits to reflect current state App Services
+  - Update SDK references
+- Realm Query Language
+  - Added arithmatic operator section to page
+  - Added parameterized queries section to page
+  - Moved up the example section for clarity
+  - Removed flex sync note from the top of the page
+  - Clarified usage of BETWEEN operator
+  - Moved the RQL page up a level in the IA
+- Various Snyk upgrades and version bumps in example apps
+
 # July 8, 2022
 
 ## Flutter SDK
