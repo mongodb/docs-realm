@@ -255,38 +255,10 @@ method, which can be used to create more complex queries that are currently
 unsupported by the LINQ provider. ``Filter()`` supports SORT and DISTINCT 
 clauses in addition to filtering.
 
-You can apply any of the following aggregate operators: 
+For more information on the available aggregate operators, refer to the 
+:ref:`Realm Query Language aggregate operator reference <rql-aggregate-operators>`.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 40 60
+The following examples show different ways to aggregate data:
 
-   * - Operator
-     - Description
-
-   * - | ``@avg``
-     - Evaluates to the average value of a given numerical property across a collection.
-
-   * - | ``@count``
-     - Evaluates to the number of objects in the given collection. This
-       is currently only supported on :ref:`to-many relationship
-       collections <dotnet-to-many-relationship>` and not on lists of
-       primitives. In order to use ``@count`` on a list of primitives,
-       consider wrapping the primitives in a :ref:`{+service-short+}
-       object <dotnet-realm-objects>`.
-
-   * - | ``@max``
-     - Evaluates to the highest value of a given numerical property across a collection.
-
-   * - | ``@min``
-     - Evaluates to the lowest value of a given numerical property across a collection.
-
-   * - | ``@sum``
-     - Evaluates to the sum of a given numerical property across a collection.
-
-.. example::
-
-   The following examples show different ways to aggregate data:
-
-   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.aggregate.cs
-      :language: csharp
+.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.aggregate.cs
+  :language: csharp
