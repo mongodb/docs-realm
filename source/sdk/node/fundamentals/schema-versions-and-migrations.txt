@@ -14,11 +14,11 @@ Schema Versions & Migrations - Node.js SDK
 
 .. important:: Migrations Apply to Local Realms Only
    
-   Migrations only apply to {+realm+}s that are not synced through {+service+}.
-   Synced {+realm+}s do not have schema versions and automatically migrate
+   Migrations only apply to realms that are not synced through Realm.
+   Synced realms do not have schema versions and automatically migrate
    objects to the latest schema.
    
-   Synced {+realm+}s only support non-breaking schema changes. Breaking changes
+   Synced realms only support non-breaking schema changes. Breaking changes
    require a client reset.
 
 .. _node-schema-version:
@@ -26,23 +26,23 @@ Schema Versions & Migrations - Node.js SDK
 Schema Version
 --------------
 
-A **schema version** identifies the state of a :ref:`{+realm+} schema
-<node-realm-schema>` at some point in time. {+client-database+} tracks the
-schema version of each {+realm+} and uses it to map the objects in each
-{+realm+} to the correct schema.
+A **schema version** identifies the state of a :ref:`realm schema
+<node-realm-schema>` at some point in time. Realm Database tracks the
+schema version of each realm and uses it to map the objects in each
+realm to the correct schema.
 
 Schema versions are ascending integers that you can optionally include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
    
-   :ref:`Migrations <node-migrations>` must update a {+realm+} to a
-   higher schema version. {+client-database+} will throw an error if a client
-   application opens a {+realm+} with a schema version that is lower than
-   the {+realm+}'s current version or if the specified schema version is the
-   same as the {+realm+}'s current version but includes different
+   :ref:`Migrations <node-migrations>` must update a realm to a
+   higher schema version. Realm Database will throw an error if a client
+   application opens a realm with a schema version that is lower than
+   the realm's current version or if the specified schema version is the
+   same as the realm's current version but includes different
    :ref:`object schemas <node-object-schemas>`.
 
 .. _node-migrations:
@@ -50,17 +50,17 @@ the {+realm+} defaults to version ``0``.
 Migrations
 ----------
 
-A **migration** is a function that updates a {+realm+} and any objects it
+A **migration** is a function that updates a realm and any objects it
 contains from one :ref:`schema version <node-schema-version>` to a newer
 version. Migrations give you the flexibility to change your object schemas over
 time to accommodate new features and refactors.
 
-Whenever you open an existing {+realm+} with a schema version greater than the
-{+realm+}'s current version, Realm runs a migration function that you define.
-The function has access to the {+realm+}'s version number and incrementally
-updates objects in the {+realm+} to conform to the new schema.
+Whenever you open an existing realm with a schema version greater than the
+realm's current version, Realm runs a migration function that you define.
+The function has access to the realm's version number and incrementally
+updates objects in the realm to conform to the new schema.
 
-{+service+} automatically migrates certain changes, such as new and deleted
+Realm automatically migrates certain changes, such as new and deleted
 properties, but does not automatically set values for new properties unless the
 updated object schema specifies a default value. You can define additional logic
 in the migration function to further customize property values.

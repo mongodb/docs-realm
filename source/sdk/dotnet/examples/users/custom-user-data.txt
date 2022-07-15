@@ -17,7 +17,7 @@ Overview
 --------
 
 You can store arbitrary custom user data  about your  
-users in {+realm+}. For example,
+users in realm. For example,
 you might store a user's preferred language, date of birth, or local
 timezone. Before writing and reading this data, you must enable custom user data 
 in the backend. To learn more, see :ref:`Enable Custom User Data <custom-user-data>`.
@@ -37,7 +37,7 @@ information from your custom user data configuration:
 - The :term:`user ID field` used to map custom user data documents
   to users (via :term:`user ID`)
 
-You can find this information in the {+ui+}. In the left sidebar, click  
+You can find this information in the App Services UI. In the left sidebar, click  
 :guilabel:`App Users`,  and then select the :guilabel:`Custom User Data` tab.
 
 .. _dotnet-read-custom-user-data:
@@ -54,8 +54,8 @@ method on the ``User`` object of a logged in user:
 
 .. warning:: Custom Data May Be Stale
    
-   {+backend+} does not dynamically update the value of the 
-   ``CustomData``  immediately when underlying data changes. Instead, {+backend+} 
+   App Services does not dynamically update the value of the 
+   ``CustomData``  immediately when underlying data changes. Instead, App Services 
    fetches the most recent version of custom user data whenever a user 
    refreshes their :ref:`access token <user-sessions>` or when you explicitly 
    call the 

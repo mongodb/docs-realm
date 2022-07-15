@@ -15,11 +15,11 @@ Quick Start with Sync - React Native SDK
 Overview
 --------
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have:
 
-- :ref:`Created an {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Enabled Device Sync <enable-sync>`
 - :ref:`Installed the Node SDK <react-native-install>` to use with your Realm Native app.
 
 .. note:: Check Out the Tutorial
@@ -36,7 +36,7 @@ integrated into your app. Before you begin, ensure you have:
 Import Realm
 ------------
 
-At the top of your source files where you want to use {+service+}, add
+At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
 .. tabs-realm-languages::
@@ -57,9 +57,9 @@ the following line to import the SDK.
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID
-in the {+ui+}.
+To use App Services features such as authentication and sync, you must
+access your App using your App ID. You can find your App ID
+in the App Services UI.
 
 .. tabs-realm-languages::
 
@@ -72,7 +72,7 @@ in the {+ui+}.
 
          // Returns the shared instance of the Realm app.
          export function getRealmApp() {
-            const appId = '<enter your {+app+} ID here>'; // Set {+app+} ID here.
+            const appId = '<enter your App ID here>'; // Set App ID here.
             const appConfig = {
               id: appId,
               timeout: 10000,
@@ -90,8 +90,8 @@ in the {+ui+}.
 Define Your Object Model
 ------------------------
 
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
+If have not :ref:`enabled Device Sync <enable-sync>` or you enabled
+Sync with :term:`Development Mode` in the App Services UI, you can
 define your :ref:`object model <react-native-object-schemas>` directly in code.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
@@ -147,7 +147,7 @@ Authenticate a User
 -------------------
 
 When you have enabled :ref:`anonymous authentication
-<anonymous-authentication>` in the {+ui+}, users can immediately log
+<anonymous-authentication>` in the App Services UI, users can immediately log
 into your app without providing any identifying information:
 
 .. tabs-realm-languages::
@@ -179,7 +179,7 @@ into your app without providing any identifying information:
       code-block:: typescript
 
 
-{+service-short+} provides many additional ways to authenticate, register, and link users.
+Realm provides many additional ways to authenticate, register, and link users.
 
 .. seealso::
 
@@ -190,8 +190,8 @@ into your app without providing any identifying information:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a
-user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
+Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a
+user, you can open a synced :ref:`realm <react-native-realms>`:
 
 .. tabs-realm-languages::
 
@@ -236,7 +236,7 @@ user, you can open a synced :ref:`{+realm+} <react-native-realms>`:
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify it and its
+Once you have opened a realm, you can modify it and its
 :ref:`objects <react-native-object-schemas>` in a :ref:`write transaction
 <react-native-realm-database-writes>` block.
 
@@ -267,7 +267,7 @@ To create a new Task run the method "realm.create()" inside the
 
 
 You can retrieve a live :ref:`collection <react-native-results-collections>` of
-all tasks in the {+realm+}:
+all tasks in the realm:
 
 .. tabs-realm-languages::
 

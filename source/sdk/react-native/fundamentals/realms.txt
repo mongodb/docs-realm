@@ -20,30 +20,30 @@ the objects.
 .. tip:: Learn How to Work With a Realm
    
    See :ref:`Open & Close a Realm <react-native-open-close-realm>` for code
-   examples that show how to configure and open a {+realm+} in the React Native SDK.
+   examples that show how to configure and open a realm in the React Native SDK.
 
 Realm vs Other Databases
 ------------------------
 
-The {+service-short+} data model is similar to both relational and document
+The Realm data model is similar to both relational and document
 databases but has distinct differences from both. To underscore these
-differences, it's helpful to highlight what a {+realm+} **is not**:
+differences, it's helpful to highlight what a realm **is not**:
 
-A {+realm+} is not a single, application-wide database.
+A realm is not a single, application-wide database.
     Applications based on other database systems generally store all of their
-    data in a single database. {+app+}s often split data across multiple
-    {+realms+} to organize data more efficiently and to enforce access controls.
+    data in a single database. Apps often split data across multiple
+    realms to organize data more efficiently and to enforce access controls.
 
-A {+realm+} is not a relational table.
+A realm is not a relational table.
     Normalized tables in relational databases only store one type of
     information, such as street addresses or items in a store inventory. A
-    {+realm+} can contain any number of object types that are relevant to a
+    realm can contain any number of object types that are relevant to a
     given domain.
 
-A {+realm+} is not a collection of schemaless documents.
+A realm is not a collection of schemaless documents.
     Document databases don't necessarily enforce a strict schema for the data in
     each collection. While similar to documents in form, every Realm object
-    conforms to a schema for a specific object type in the {+realm+}. An object
+    conforms to a schema for a specific object type in the realm. An object
     cannot contain a property that is not described by its schema.
 
 .. _react-native-object-types:
@@ -55,7 +55,7 @@ Object Types & Schemas
 Every Realm object conforms to a specific **object type**, which is essentially
 a class that defines the properties and :ref:`relationships
 <react-native-client-relationships>` for objects of that type using a pre-defined
-schema. {+service-short+} guarantees that all objects in a {+realm+} conform to
+schema. Realm guarantees that all objects in a realm conform to
 the schema for their object type and validates objects whenever they're created,
 modified, or deleted.
 
@@ -92,17 +92,17 @@ Instead, you can work with Realm objects as you would any other object.
 Realm Schema
 ------------
 
-A **{+realm+} schema** is a list of valid :ref:`object schemas
+A **realm schema** is a list of valid :ref:`object schemas
 <react-native-object-schemas>` that a realm may contain. Every Realm object must conform
 to an object type that's included in its realm's schema.
 
-If a {+realm+} already contains data when you open it, {+client-database+}
+If a realm already contains data when you open it, Realm Database
 validates each object to ensure that an object schema was provided for its type
 and that it meets all of the constraints specified in the schema.
 
 .. example::
    
-   A {+realm+} that contains basic data about books in libraries might use a
+   A realm that contains basic data about books in libraries might use a
    schema like the following:
    
    .. code-block:: json
@@ -144,20 +144,20 @@ you define when you open the realm.
 
 .. note:: Auxiliary Realm Files
    
-   Realm Database creates additional files for each {+realm+}.
+   Realm Database creates additional files for each realm.
    To learn more about these files, see :ref:`Realm Database Internals
    <react-native-realm-database>`.
 
 .. warning:: Use Caution When Deleting Realm Files
    
    In some circumstances, such as a client reset scenario, you might need to
-   delete a {+realm+} file and its auxiliary files.
+   delete a realm file and its auxiliary files.
    
-   If you delete a {+realm+} file or any of its auxiliary files while one or
-   more instances of the {+realm+} are open, you might corrupt the {+realm+} or
+   If you delete a realm file or any of its auxiliary files while one or
+   more instances of the realm are open, you might corrupt the realm or
    disrupt :ref:`sync <sync>`.
    
-   You may safely delete these files when all instances of a {+realm+} are
+   You may safely delete these files when all instances of a realm are
    closed. Before you delete a realm file, make sure that you back up any
    important objects as you will lose all unsynced data in the realm.
 
@@ -168,7 +168,7 @@ In-Memory Realms
 
 You can also open a realm entirely in memory, which will not create a ``.realm``
 file or its associated auxiliary files. Instead the SDK stores objects in memory
-while the {+realm+} is open and discards them immediately when all instances are
+while the realm is open and discards them immediately when all instances are
 closed.
 
 .. _react-native-synced-realm:

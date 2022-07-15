@@ -27,7 +27,7 @@ operations in a single, idempotent update. A transaction is
 
 .. example::
    
-   Write transactions are callback functions that you pass to a {+realm+}
+   Write transactions are callback functions that you pass to a realm
    instance. For examples of specific write operations, see 
    :ref:`node-write-operations`.
    
@@ -52,24 +52,24 @@ operations in a single, idempotent update. A transaction is
 Transaction Lifecycle
 ---------------------
 
-A given {+realm+} only processes one write transaction at a time. When you 
-make a write transaction, the {+realm+} adds the transaction to a queue. The 
-{+realm+} evaluates each transaction in the order it arrived.
+A given realm only processes one write transaction at a time. When you 
+make a write transaction, the realm adds the transaction to a queue. The 
+realm evaluates each transaction in the order it arrived.
 
-After processing a transaction, {+client-db-short+} either **commits** it or
+After processing a transaction, Realm Database either **commits** it or
 **cancels** it:
 
-- After a **commit**, the {+realm+} applies all operations in the transaction. 
-  Once applied, the {+realm+} automatically updates :ref:`live queries
+- After a **commit**, the realm applies all operations in the transaction. 
+  Once applied, the realm automatically updates :ref:`live queries
   <node-live-queries>`. It notifies listeners of created, modified, and 
   deleted objects.
   
   .. note::
      
-     When using :ref:`Sync <sync>`, {+service-short+} also queues
-     the changes to send to :term:`{+service+}`. {+service-short+} sends 
+     When using :ref:`Sync <sync>`, Realm also queues
+     the changes to send to :term:`Realm`. Realm sends 
      these changes when a network is available.
 
-- {+client-db-short+} does not apply any operations in a **cancelled**
-  transaction. {+client-db-short+} cancels a transaction if an operation 
+- Realm Database does not apply any operations in a **cancelled**
+  transaction. Realm Database cancels a transaction if an operation 
   fails or is invalid.

@@ -21,7 +21,7 @@ Object Models - Swift SDK
 Key Concept: Object Types & Schemas
 -----------------------------------
 
-{+client-database+} applications model data as objects composed of
+Realm Database applications model data as objects composed of
 field-value pairs that each contain one or more :ref:`supported
 <ios-supported-property-types>` data types.
 
@@ -36,7 +36,7 @@ as you would any other class instance.
 Every Realm object conforms to a specific **object type**, which is
 essentially a class that defines the :ref:`properties <ios-client-properties>` 
 and :ref:`relationships <ios-client-relationships>` for objects of that type. 
-{+service-short+} guarantees that all objects in a {+realm+} conform to 
+Realm guarantees that all objects in a realm conform to 
 the schema for their object type and validates objects whenever they're 
 created, modified, or deleted.
 
@@ -64,28 +64,28 @@ created, modified, or deleted.
 Realm Schema
 ~~~~~~~~~~~~
 
-A **{+realm+} schema** is a list of valid :ref:`object schemas
+A **realm schema** is a list of valid :ref:`object schemas
 <ios-object-schemas>` that a realm may contain. Every Realm object must
 conform to an object type that's included in its realm's schema.
 
 By default, the Swift SDK automatically adds all classes in your project
 that derive from :objc-sdk:`RLMObject <Classes/RLMObject.html>` or
 :objc-sdk:`RLMEmbeddedObject <Classes/RLMEmbeddedObject.html>` to the
-{+realm+} schema.
+realm schema.
 
 .. tip:: Configure Your Realm Schema
    
    To control which classes Realm adds to a realm schema, see
    :ref:`ios-provide-a-subset-of-classes-to-a-realm`.
 
-If a {+realm+} already contains data when you open it,
-{+client-database+} validates each object to ensure that an object
+If a realm already contains data when you open it,
+Realm Database validates each object to ensure that an object
 schema was provided for its type and that it meets all of the
 constraints specified in the schema.
 
 .. tip:: Learn How to Work With a Realm
    
-   For code examples that show how to configure and open a {+realm+} in the
+   For code examples that show how to configure and open a realm in the
    Swift SDK, see :ref:`ios-configure-and-open-a-realm`.
 
 .. _ios-inheritance:
@@ -93,8 +93,8 @@ constraints specified in the schema.
 Model Inheritance
 ~~~~~~~~~~~~~~~~~
 
-You can subclass {+client-database+} models to share behavior between
-classes, but there are limitations. In particular, {+service-short+}
+You can subclass Realm Database models to share behavior between
+classes, but there are limitations. In particular, Realm
 does not allow you to:
 
 - Cast between polymorphic classes: subclass to subclass, subclass to parent, parent to subclass
@@ -120,10 +120,10 @@ does not allow you to:
 Swift Structs
 ~~~~~~~~~~~~~
 
-{+client-database+} does not support Swift structs as models for a variety of 
-reasons. {+service-short+}'s design focuses on “live” objects. 
+Realm Database does not support Swift structs as models for a variety of 
+reasons. Realm's design focuses on “live” objects. 
 This concept is not compatible with value type structs. By design, 
-{+service-short+} provides features that are incompatible with these 
+Realm provides features that are incompatible with these 
 semantics, such as:
  
 - :ref:`Live data <ios-live-object>`
@@ -135,7 +135,7 @@ semantics, such as:
 - :ref:`Keeping potentially complex object graphs synchronized <ios-sync-changes-between-devices>`
 
 That said, it is sometimes useful to detach objects from their backing 
-{+realm+}. This typically isn't an ideal design decision. Instead, 
+realm. This typically isn't an ideal design decision. Instead, 
 developers use this as a workaround for temporary limitations in our 
 library.
 
@@ -170,17 +170,17 @@ Key Concept: View Models with Realm
 
 .. versionadded:: 10.21.0
 
-You can work with a subset of your {+client-database+} object's properties 
+You can work with a subset of your Realm Database object's properties 
 by creating a class projection. A class projection is a class that passes 
-through or transforms some or all of your {+client-database+} object's 
+through or transforms some or all of your Realm Database object's 
 properties. Class projection enables you to build view models that use an 
 abstraction of your object model. This simplifies using and :ref:`testing 
-<ios-simplify-testing-with-class-projections>` {+client-database+} objects 
+<ios-simplify-testing-with-class-projections>` Realm Database objects 
 in your application.
 
 With class projection, you can use a subset of your object's properties 
 directly in the UI or transform them. When you use a class projection for 
-this, you get all the benefits of {+client-database+}'s live objects:
+this, you get all the benefits of Realm Database's live objects:
 
 - The class-projected object live updates
 - You can observe it for changes
@@ -236,7 +236,7 @@ Declare Properties
 ------------------
 
 When you declare the property attributes of a class, you can specify whether
-or not those properties should be managed by the {+realm+}. **Managed properties** 
+or not those properties should be managed by the realm. **Managed properties** 
 are stored or updated in the database. **Ignored properties** are not
 stored to the database. You can mix managed and ignored properties 
 within a class. 
@@ -278,7 +278,7 @@ Objective-C Dynamic Property Attributes
    This property declaration information is for versions of the SDK before 
    10.10.0. 
 
-Declare dynamic {+backend-short+} model properties in the Objective-C runtime. This 
+Declare dynamic App Services model properties in the Objective-C runtime. This 
 enables them to access the underlying database data. 
 
 You can either:
@@ -301,7 +301,7 @@ generic properties.
 
 .. tip::
 
-   For reference on which types {+client-database+} supports for use as
+   For reference on which types Realm Database supports for use as
    properties, see :ref:`ios-supported-property-types`.
 
 .. tabs::
@@ -340,7 +340,7 @@ generic properties.
       To declare properties of generic types ``LinkingObjects``,
       ``List``, and ``RealmProperty``, use ``let``. Generic properties
       cannot be represented in the Objective‑C runtime, which
-      {+client-database+} uses for dynamic dispatch of dynamic
+      Realm Database uses for dynamic dispatch of dynamic
       properties.
 
 .. note::
@@ -412,7 +412,7 @@ Primary keys are subject to the following limitations:
 - You can define only one primary key per object model.
 
 - Primary key values must be unique across all instances of an object
-  in a {+realm+}. {+client-database+} throws an error if you try to
+  in a realm. Realm Database throws an error if you try to
   insert a duplicate primary key value.
 
 - Primary key values are immutable. To change the primary key value of
@@ -572,12 +572,12 @@ Declare Enum Properties
       :tabid: swift
 
       .. versionchanged:: 10.10.0 
-         {+service-short+} supports enums of any RawType. Protocol is now 
+         Realm supports enums of any RawType. Protocol is now 
          ``PersistableEnum`` rather than ``RealmEnum``.
 
       You can use enums with ``@Persisted`` by marking it as complying with the
       :swift-sdk:`PersistableEnum <Protocols.html#/s:10RealmSwift15PersistableEnumP>` 
-      protocol. {+service-short+} supports enums of any RawType.
+      protocol. Realm supports enums of any RawType.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum.swift
          :language: swift
@@ -585,7 +585,7 @@ Declare Enum Properties
    .. tab:: Swift pre-10.10.0
       :tabid: swift-pre-10.10.0
 
-      {+service-short+} supports only ``Int``-backed ``@objc`` enums.
+      Realm supports only ``Int``-backed ``@objc`` enums.
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.realm-object-enum-objc-dynamic.swift
          :language: swift

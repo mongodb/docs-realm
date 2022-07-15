@@ -268,7 +268,7 @@ predicate against each object in the collection. The predicate may refer
 to the current iterated object with the variable name passed to
 ``SUBQUERY()``.
 
-A subquery expression resolves to an array. {+client-database+} only
+A subquery expression resolves to an array. Realm Database only
 supports the ``@count`` aggregate operator on this result.
 This allows you to count how many objects in the subquery input collection
 matched the predicate.

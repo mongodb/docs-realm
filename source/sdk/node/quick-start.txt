@@ -15,11 +15,11 @@ Quick Start with Sync - Node.js SDK
 Overview
 --------
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have:
 
-- :ref:`Created an {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Enabled Device Sync <enable-sync>`
 - :ref:`Installed the Node SDK <node-install>`
 
 .. _node-quick-start-import:
@@ -27,7 +27,7 @@ integrated into your app. Before you begin, ensure you have:
 Import Realm
 ------------
 
-At the top of your source files where you want to use {+service+}, add
+At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
 .. tabs-realm-languages::
@@ -51,9 +51,9 @@ the following line to import the SDK.
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must access
-your {+app+} using your {+app+} ID. You can :ref:`find your {+app+} ID in the
-{+ui+} <find-your-app-id>`.
+To use App Services features such as authentication and sync, you must access
+your App using your App ID. You can :ref:`find your App ID in the
+App Services UI <find-your-app-id>`.
 
 .. tabs-realm-languages::
 
@@ -76,8 +76,8 @@ your {+app+} using your {+app+} ID. You can :ref:`find your {+app+} ID in the
 Define Your Object Model
 ------------------------
 
-If you have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode`, you can define your :ref:`object
+If you have not :ref:`enabled Device Sync <enable-sync>` or you enabled
+Sync with :term:`Development Mode`, you can define your :ref:`object
 model <node-object-schemas>` directly in code.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
@@ -187,8 +187,8 @@ without providing any identifying information:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user,
-you can open a synced :ref:`{+realm+} <node-realms>` by calling
+Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user,
+you can open a synced :ref:`realm <node-realms>` by calling
 :js-sdk:`Realm.open() <Realm.html#.open>`:
 
 .. tabs-realm-languages::
@@ -259,7 +259,7 @@ you can open a synced :ref:`{+realm+} <node-realms>` by calling
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify it and its :ref:`objects
+Once you have opened a realm, you can modify it and its :ref:`objects
 <node-object-schemas>` in a :ref:`write transaction <node-realm-database-writes>`
 block.
 
@@ -302,7 +302,7 @@ Get a Collection of Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can retrieve a live :ref:`collection <node-results-collections>` that
-contains all objects of a given type in the {+realm+}:
+contains all objects of a given type in the realm:
 
 .. tabs-realm-languages::
 

@@ -35,7 +35,7 @@ This page contains all of the code for a working Realm and SwiftUI app.
 The app starts on the **ItemsView**, where you can edit a list of items:
 
 - Press the :guilabel:`Add` button on the bottom right of the screen to add randomly-generated items.
-- Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the {+realm+}.
+- Press the :guilabel:`Edit` button on the top right to modify the list order, which the app persists in the realm.
 - You can also swipe to delete items.
 
 When you have items in the list, you can press one of the items to
@@ -48,7 +48,7 @@ item name or mark it as a favorite:
 
 .. tip::
 
-   This guide optionally integrates with :ref:`{+sync+} <sync>`. See
+   This guide optionally integrates with :ref:`Device Sync <sync>`. See
    :ref:`swiftui-integrate-with-sync` below.
 
 Get Started
@@ -72,7 +72,7 @@ the top of the file, import the Realm and SwiftUI frameworks:
 Define Models
 ~~~~~~~~~~~~~
 
-A common {+service-short+} data modeling use case is to have "things" and
+A common Realm data modeling use case is to have "things" and
 "containers of things". This app defines two related Realm object models: item
 and itemGroup.
 
@@ -117,14 +117,14 @@ Views and Observed Objects
 The entrypoint of the app is the **ContentView** class that derives from
 ``SwiftUI.App``. For now, this always displays the
 **LocalOnlyContentView**. Later, this will show the **SyncContentView**
-when {+sync+} is enabled.
+when Device Sync is enabled.
 
 .. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.content-view.swift
    :language: swift
 
 .. tip::
 
-   You can use a {+realm+} other than the default {+realm+} by passing
+   You can use a realm other than the default realm by passing
    an environment object from higher in the View hierarchy:
    
    .. code-block:: swift
@@ -134,13 +134,13 @@ when {+sync+} is enabled.
 
 The LocalOnlyContentView has an :swift-sdk:`@ObservedResults
 <Structs/ObservedResults.html>` itemGroups. This implicitly uses the default
-{+realm+} to load all itemGroups when the view appears.
+realm to load all itemGroups when the view appears.
 
 This app only expects there to ever be one itemGroup. If there is an itemGroup 
-in the {+realm+}, the LocalOnlyContentView renders an **ItemsView** for
+in the realm, the LocalOnlyContentView renders an **ItemsView** for
 that itemGroup.
 
-If there is no itemGroup already in the {+realm+}, then the
+If there is no itemGroup already in the realm, then the
 LocalOnlyContentView displays a ProgressView while it adds one. Because
 the view observes the itemGroups thanks to the ``@ObservedResults`` property
 wrapper, the view immediately refreshes upon adding that first itemGroup and
@@ -168,7 +168,7 @@ The ItemsView iterates over the itemGroup's items and passes each item to an
 **ItemRow** for rendering as a list. 
 
 To define what happens when a user deletes or moves a row, we pass the
-``remove`` and ``move`` methods of the {+service-short+}
+``remove`` and ``move`` methods of the Realm
 :swift-sdk:`List <Classes/List.html>` as the handlers of the respective
 remove and move events of the SwiftUI List. Thanks to the
 ``@ObservedRealmObject`` property wrapper, we can use these methods
@@ -193,22 +193,22 @@ property wrapper to display and update properties.
    directly in a write transaction, you must ``.thaw()`` it first.
 
 At this point, you have everything you need to work with
-{+client-database+} and SwiftUI. Test it out and see if everything is
+Realm Database and SwiftUI. Test it out and see if everything is
 working as expected. Read on to learn how to integrate this app with
-{+sync+}.
+Device Sync.
 
 .. _swiftui-integrate-with-sync:
 
 Integrate Atlas Device Sync
 ---------------------------
 
-Now that we have a working {+client-database+} app, we can optionally
-integrate with {+sync+}. Sync allows you to you see the changes you make
+Now that we have a working Realm Database app, we can optionally
+integrate with Device Sync. Sync allows you to you see the changes you make
 across devices. Before you can add sync to this app, make sure to:
 
 - :ref:`Create an Atlas App Services App <create-a-realm-app>`.
 - :ref:`Enable anonymous authentication <anonymous-authentication-configuration>`.
-- :ref:`Enable {+sync+} <enable-sync>`.
+- :ref:`Enable Device Sync <enable-sync>`.
 
   1. Choose :ref:`Partition-Based Sync <partition-based-sync>` or :ref:`Flexible Sync <flexible-sync>`
   #. Specify a cluster and database.
@@ -256,7 +256,7 @@ app <Extensions/App.html>` with :ref:`your Atlas App Services App ID
 .. tip::
 
    You can change the app reference to ``nil`` to switch back to
-   local-only (non-{+sync+}) mode.
+   local-only (non-Device Sync) mode.
 
 Let's update the main ContentView to show the **SyncContentView** if the
 app reference is not ``nil``:
@@ -273,7 +273,7 @@ SyncContentView can react when a user logs in or out.
 
 This view has two possible states:
 
-- If the {+service-short+} app does not have a currently logged-in user, show the **LoginView**.
+- If the Realm app does not have a currently logged-in user, show the **LoginView**.
 - If the app does have a logged-in user, show the **OpenSyncedRealmView**.
 
 Here's the code for the SyncContentView:
@@ -317,9 +317,9 @@ Here's the code for the SyncContentView:
 
       From here, we pass the flexibleSyncConfiguration to the 
       OpenSyncedRealmView as a ``realmConfiguration`` using an environment
-      object. This is the view responsible for opening a {+realm+} and working
+      object. This is the view responsible for opening a realm and working
       with the data. Sync uses this configuration to search for data
-      that should sync to the {+realm+}.
+      that should sync to the realm.
 
       .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.realm-config-environment-object.swift
          :language: swift
@@ -332,8 +332,8 @@ Here's the code for the SyncContentView:
 
       From here, we pass the logged in user's ID to the OpenSyncedRealmView as a 
       ``partitionValue`` using an environment object. This is the view responsible 
-      for opening a {+realm+} and working with the data. With Sync, we can only
-      open the {+realm+} once a user is logged in.
+      for opening a realm and working with the data. With Sync, we can only
+      open the realm once a user is logged in.
 
       .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
          :language: swift
@@ -369,29 +369,29 @@ Once logged in, we open the realm asynchronously with the :swift-sdk:`AsyncOpen
 The OpenSyncedRealmView switches on the :swift-sdk:`AsyncOpenState 
 enum<Enums/AsyncOpenState.html>`, which lets us show different views 
 based on the state. In our example, we show a ``ProgressView`` while we're 
-connecting to the {+app+} and the {+realm+} is syncing. We then open the 
-{+realm+}, passing the ``itemGroup`` to the ``ItemsView``, or show an 
-``ErrorView`` if we can't open the {+realm+}.
+connecting to the App and the realm is syncing. We then open the 
+realm, passing the ``itemGroup`` to the ``ItemsView``, or show an 
+``ErrorView`` if we can't open the realm.
 
 .. tip::
 
-   When opening a synced {+realm+}, use the :swift-sdk:`AsyncOpen 
+   When opening a synced realm, use the :swift-sdk:`AsyncOpen 
    <Structs/AsyncOpen.html>` property wrapper to always download synced changes 
-   before opening the {+realm+}, or the :swift-sdk:`AutoOpen 
-   <Structs/AutoOpen.html>` property wrapper to open a {+realm+} while syncing
+   before opening the realm, or the :swift-sdk:`AutoOpen 
+   <Structs/AutoOpen.html>` property wrapper to open a realm while syncing
    in the background. ``AsyncOpen`` requires the user to be online, 
-   while ``AutoOpen`` opens a {+realm+} even if the user is offline.
+   while ``AutoOpen`` opens a realm even if the user is offline.
 
 This view has a few different states:
 
 - While connecting or waiting for login, show a ``ProgressView``.
-- While downloading changes to the {+realm+}, show a ``ProgressView`` with a 
+- While downloading changes to the realm, show a ``ProgressView`` with a 
   progress indicator.
-- When the {+realm+} opens, check for an itemGroup object. If one does not exist 
-  yet, create one. Then, show the ItemsView for the itemGroup in the {+realm+}. 
+- When the realm opens, check for an itemGroup object. If one does not exist 
+  yet, create one. Then, show the ItemsView for the itemGroup in the realm. 
   Provide a **LogoutButton** that the ItemsView can display on the top left 
   of the navigation bar.
-- If there is an error loading the {+realm+}, show an error view containing
+- If there is an error loading the realm, show an error view containing
   the error.
 
 When you run the app and see the main UI, there are no items in the view. 
@@ -528,7 +528,7 @@ Complete Code
 -------------
 
 In case you would like to copy and paste or examine the complete code
-with or without {+sync+}, see below.
+with or without Device Sync, see below.
 
 .. tabs::
 

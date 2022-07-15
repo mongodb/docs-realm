@@ -18,17 +18,17 @@ Read & Write Data - .NET SDK
 Read from Realm Database
 ------------------------
 
-A read from a :term:`{+realm+}` generally consists of the following
+A read from a :term:`realm` generally consists of the following
 steps:
 
-- Get all :ref:`objects <dotnet-objects>` of a certain type from the {+realm+}.
+- Get all :ref:`objects <dotnet-objects>` of a certain type from the realm.
 - Optionally, :ref:`filter <dotnet-filter-results>` the results using the :ref:`query engine <dotnet-client-query-engine>`.
 - Optionally, :ref:`sort <dotnet-sort-results>` the results.
 
 .. note:: About the examples on this page
 
    The examples on this page use the data model of a project
-   management app that has two {+service-short+} object types: ``Project``
+   management app that has two Realm object types: ``Project``
    and ``Task``. A ``Project`` has zero or more ``Tasks``.
 
    See the schema for these two classes, ``Project`` and
@@ -56,7 +56,7 @@ Query All Objects of a Given Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first step of any read is to **get all objects** of a
-certain type in a {+realm+}. With this results collection, you
+certain type in a realm. With this results collection, you
 can operate on all instances on a type or filter and sort to
 refine the results.
 
@@ -75,7 +75,7 @@ Filter Queries Based on Object Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A **filter** selects a subset of results based on the
-value(s) of one or more object properties. {+client-database+} provides a
+value(s) of one or more object properties. Realm Database provides a
 full-featured :ref:`query engine <dotnet-client-query-engine>` you
 can use to define filters. The most common use case is to
 find objects where a certain property matches a certain
@@ -103,11 +103,11 @@ Sort Query Results
 ~~~~~~~~~~~~~~~~~~
 
 A **sort** operation allows you to configure the order in
-which {+client-database+} returns queried objects. You can sort based on
+which Realm Database returns queried objects. You can sort based on
 one or more properties of the objects in the results
 collection.
 
-{+client-database+} only guarantees a consistent order of results when the
+Realm Database only guarantees a consistent order of results when the
 results are sorted.
 
 .. example::
@@ -153,9 +153,9 @@ transaction.
 .. example::
 
    The following code shows how to run a transaction with
-   the {+realm+}'s write method. If the code in the callback
-   throws an exception, {+client-database+} cancels the transaction.
-   Otherwise, {+client-database+} commits the transaction.
+   the realm's write method. If the code in the callback
+   throws an exception, Realm Database cancels the transaction.
+   Otherwise, Realm Database commits the transaction.
 
    .. literalinclude:: /examples/CRUD/BatchUpdate.cs
       :language: csharp
@@ -168,7 +168,7 @@ Create a New Object
 
 .. example::
 
-   This code demonstrates how to create an object with {+client-database+}:
+   This code demonstrates how to create an object with Realm Database:
 
    .. literalinclude:: /examples/CRUD/Create.cs
       :language: csharp
@@ -195,7 +195,7 @@ Upsert an Object
 .. example::
 
    This code demonstrates how to upsert an object with
-   {+realm+}. We create a new user named "Drew" and then update
+   realm. We create a new user named "Drew" and then update
    their name to "Andy" via upsert:
 
    .. literalinclude:: /examples/CRUD/Upsert.cs
@@ -212,7 +212,7 @@ Update a Collection
    collection. Thanks to the :ref:`implicit inverse
    relationship <dotnet-inverse-relationship>` between the
    Dog's ``owner`` property and the Person's ``dogs``
-   property, {+client-database+} automatically updates Ali's
+   property, Realm Database automatically updates Ali's
    list of dogs.
 
    .. literalinclude:: /examples/CRUD/BatchUpdate.cs
@@ -228,7 +228,7 @@ Delete an Object
 .. example::
 
    The following code shows how to delete one object from
-   its {+realm+}:
+   its realm:
 
    .. literalinclude:: /examples/CRUD/Delete.cs
       :language: csharp
@@ -242,7 +242,7 @@ Delete Multiple Objects
 .. example::
 
    The following code demonstrates how to delete a
-   collection from a {+realm+}:
+   collection from a realm:
 
    .. literalinclude:: /examples/CRUD/DeleteCollection.cs
       :language: csharp
@@ -256,9 +256,9 @@ Delete an Object and its Dependent Objects
 Sometimes, you have :ref:`dependent objects
 <dotnet-client-relationships>` that you want to delete when
 you delete the parent object. We call this a **chaining
-delete**. {+client-database+} will not delete the dependent objects for
+delete**. Realm Database will not delete the dependent objects for
 you. If you do not delete the objects yourself, they will
-remain orphaned in your {+realm+}. Whether or not this is a
+remain orphaned in your realm. Whether or not this is a
 problem depends on your application's needs.
 
 Currently, the best way to delete dependent objects is to
@@ -280,14 +280,14 @@ deleting the parent object.
 Delete All Object of a Specific Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+} supports deleting all instances of a
-:ref:`{+service-short+} type <dotnet-objects>` from a
-{+realm+}.
+Realm Database supports deleting all instances of a
+:ref:`Realm type <dotnet-objects>` from a
+realm.
 
 .. example::
 
    The following code demonstrates how to delete all
-   Dog instances from a {+realm+}:
+   Dog instances from a realm:
 
    .. literalinclude:: /examples/CRUD/DeleteAllOfClass.cs
       :language: csharp
@@ -298,14 +298,14 @@ Delete All Object of a Specific Type
 Delete All Objects in a Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is possible to delete all objects from the {+realm+}. This
-does not affect the schema of the {+realm+}. This is useful for
-quickly clearing out your {+realm+} while prototyping.
+It is possible to delete all objects from the realm. This
+does not affect the schema of the realm. This is useful for
+quickly clearing out your realm while prototyping.
 
 .. example::
 
    The following code demonstrates how to delete everything
-   from a {+realm+}:
+   from a realm:
 
    .. literalinclude:: /examples/CRUD/DeleteAll.cs
       :language: csharp

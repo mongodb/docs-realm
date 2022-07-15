@@ -16,7 +16,7 @@ Overview
 --------
 
 The Realm SDK allows multiple :ref:`users <user-accounts>` to be logged in to an
-app simultaneously on a given browser. {+service-short+} client applications run
+app simultaneously on a given browser. Realm client applications run
 in the context of a single active user even if multiple users are logged in
 simultaneously. You can quickly switch between authenticated users without
 requiring them to log in again.
@@ -34,7 +34,7 @@ requiring them to log in again.
 User Account States
 ~~~~~~~~~~~~~~~~~~~
 
-When a user first logs in through a {+service-short+} SDK on a given browser,
+When a user first logs in through a Realm SDK on a given browser,
 the SDK saves the user's information and keeps track of the user's state. The
 user's data remains in local storage, even if they log out, unless you actively
 :ref:`remove the user <web-remove-user>` or purge data from the browser.
@@ -46,7 +46,7 @@ The following states describe a tracked user at any given time:
   
   - **Active**: a single authenticated user that is currently using the
     app on a given browser. The SDK associates this user with outgoing
-    requests and {+backend-short+} evaluates data access permissions and runs
+    requests and App Services evaluates data access permissions and runs
     functions in this user's context. See :ref:`active user <active-user>` for
     more information.
    
@@ -57,7 +57,7 @@ The following states describe a tracked user at any given time:
 - **Logged Out:** any user that authenticated on the browser but
   has since logged out or had its session revoked.
 
-The following diagram shows how users within a {+service-short+} client app
+The following diagram shows how users within a Realm client app
 transition between states when certain events occur:
 
 .. figure:: /images/multi-user.png
@@ -68,7 +68,7 @@ transition between states when certain events occur:
 Add a New User to a Device
 --------------------------
 
-The {+service-short+} SDK automatically saves user data to a browser's local
+The Realm SDK automatically saves user data to a browser's local
 storage when they log in for the first time on that browser. When a user logs
 in, they immediately become the application's :ref:`active user <active-user>`.
 

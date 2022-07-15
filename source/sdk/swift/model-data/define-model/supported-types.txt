@@ -17,16 +17,16 @@ Supported Types - Swift SDK
 Key Concept: Collection Types
 -----------------------------
 
-{+service-short+} has several types to represent groups of objects,
+Realm has several types to represent groups of objects,
 which we call **collections**. A collection is an object that contains
-zero or more instances of one :ref:`{+service-short+} type
-<ios-realm-objects>`. {+service-short+} collections are **homogenous**:
+zero or more instances of one :ref:`Realm type
+<ios-realm-objects>`. Realm collections are **homogenous**:
 all objects in a collection are of the same type.
 
-You can filter and sort any collection using {+client-database+}'s
+You can filter and sort any collection using Realm Database's
 :ref:`query engine <ios-client-query-engine>`. Collections are
 :ref:`live <ios-live-object>`, so they always reflect the current state
-of the :term:`{+realm+} instance` on the current thread. You can also
+of the :term:`realm instance` on the current thread. You can also
 listen for changes in the collection by subscribing to :ref:`collection
 notifications <ios-register-a-collection-change-listener>`.
 
@@ -46,7 +46,7 @@ Results have an associated query that determines their contents.
 All collection types conform to the :swift-sdk:`RealmCollection
 <Protocols/RealmCollection.html>` protocol. This protocol inherits from
 :apple:`CollectionType <documentation/swift/collection>`, so you can use
-a {+service-short+} collection as you would any other standard library
+a Realm collection as you would any other standard library
 collections.
 
 Using the RealmCollection protocol, you can write generic code that can
@@ -73,17 +73,17 @@ in your data model:
 Collections are Live
 ~~~~~~~~~~~~~~~~~~~~
 
-Like :ref:`live objects <ios-live-object>`, {+service-short+} collections
+Like :ref:`live objects <ios-live-object>`, Realm collections
 are usually **live**:
 
 - Live results collections always reflect the current results of the associated query.
-- Live lists always reflect the current state of the relationship on the {+realm+} instance.
+- Live lists always reflect the current state of the relationship on the realm instance.
 
 There are two cases when a collection is **not** live:
 
 - The collection is unmanaged. For example, a List property of
-  a {+service-short+} object that has not been added to a {+realm+} yet
-  or that has been copied from a {+realm+} is not live.
+  a Realm object that has not been added to a realm yet
+  or that has been copied from a realm is not live.
 - The collection is :ref:`frozen <ios-frozen-objects>`.
 
 Combined with :ref:`collection notifications
@@ -585,7 +585,7 @@ both types, and use either as a :ref:`primary key <ios-specify-a-primary-key>`.
 
    However, the second will result in poorer performance. This is because the
    latter creates a new identifier that is never used any time an object is
-   read from the {+realm+}, while the former only creates them when needed.
+   read from the realm, while the former only creates them when needed.
 
    ``@Persisted var id: ObjectId`` has equivalent behavior to ``@objc dynamic 
    var _id = ObjectId.generate()``. They both make random ObjectIds. 
@@ -602,15 +602,15 @@ Data and string properties cannot hold more than 16MB. To store
 larger amounts of data, either:
 
 - Break the data into 16MB chunks, or
-- Store data directly on the file system and store paths to the files in the {+realm+}.
+- Store data directly on the file system and store paths to the files in the realm.
 
-{+service-short+} throws a runtime exception if your app attempts to
+Realm throws a runtime exception if your app attempts to
 store more than 16MB in a single property.
 
 To avoid size limitations and a performance impact, it is best not to
 store large blobs, such as image and video files, directly in a
-{+realm+}. Instead, save the file to a file store and keep only the
-location of the file and any relevant metadata in the {+realm+}.
+realm. Instead, save the file to a file store and keep only the
+location of the file and any relevant metadata in the realm.
 
 AnyRealmCollection
 ~~~~~~~~~~~~~~~~~~
@@ -652,16 +652,16 @@ containing distinct values. A ``MutableSet`` supports the following types
 Like Swift's :apple:`Set <documentation/swift/set>`, ``MutableSet`` is a 
 generic type that is parameterized on the type it stores. Unlike 
 :apple:`native Swift collections <documentation/swift/swift_standard_library/collections>`, 
-{+service-short+} mutable sets are reference types, as opposed to value 
+Realm mutable sets are reference types, as opposed to value 
 types (structs). 
 
 You can only call the ``MutableSets`` mutation methods during a write 
 transaction. As a result, ``MutableSets`` are immutable if you open the 
-managing {+realm+} as a read-only {+realm+}. 
+managing realm as a read-only realm. 
 
 You can filter and sort a ``MutableSet`` with the :ref:`same predicates 
 <ios-filter-data>` as :ref:`Results <ios-results-collections>`. Like other
-{+service-short+} collections, you can :ref:`register a change listener 
+Realm collections, you can :ref:`register a change listener 
 <ios-register-a-collection-change-listener>` on a ``MutableSet``.
 
 For example, a ``Dog`` class model might contain a ``MutableSet`` for 
@@ -696,7 +696,7 @@ Like Swift's :apple:`Dictionary <documentation/swift/dictionary>`,
 ``Map`` is a generic type that is parameterized on its key and value
 types. Unlike :apple:`native Swift collections
 <documentation/swift/swift_standard_library/collections>`,
-{+service-short+} Maps are reference types (classes), as opposed to
+Realm Maps are reference types (classes), as opposed to
 value types (structs).
 
 You can declare a Map as a property of an object:
@@ -724,7 +724,7 @@ AnyRealmValue
 
 .. versionadded:: 10.8.0
 
-``AnyRealmValue`` is a {+service-short+} property type that can hold different 
+``AnyRealmValue`` is a Realm property type that can hold different 
 data types. Supported ``AnyRealmValue`` data types include:
 
 - Int
@@ -758,7 +758,7 @@ When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
 - ``equals`` queries match on value and type
 - ``not equals`` queries match objects with either different values or 
   different types
-- {+realm+} converts comparable numeric properties where possible. For example,
+- realm converts comparable numeric properties where possible. For example,
   in a mixed type field, 1 matches all of 1.0, 1, and true.
 - String properties do not match numeric queries. For example, in a mixed
   type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
@@ -880,7 +880,7 @@ Type Projection in the Schema
 +++++++++++++++++++++++++++++
 
 When you declare your type as conforming to a type projection protocol, you
-specify the type that should be persisted in {+realm+}. For example, if 
+specify the type that should be persisted in realm. For example, if 
 you map a custom type ``URL`` to a persisted type of ``String``, a ``URL``
 property appears as a ``String`` in the schema, and dynamic access to the 
 property acts on strings.

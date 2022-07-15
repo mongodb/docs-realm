@@ -17,7 +17,7 @@ Overview
 If you have an existing app built with the Stitch SDK, you should migrate your
 app to use the new Realm SDK.  While much of the application logic and flow of
 information hasn't changed, there are a few changes to how it connects to the
-{+realm+} backend.
+realm backend.
 
 .. note::
 
@@ -32,7 +32,7 @@ information hasn't changed, there are a few changes to how it connects to the
 New Features
 ------------
 
-- The Realm Node SDK now includes {+client-database+}, which includes
+- The Realm Node SDK now includes Realm Database, which includes
   local object storage and the ability to synchronize document changes
   across devices over the internet.
 
@@ -62,11 +62,11 @@ Changes
    * - The Stitch SDK required developers to import authentication credentials from the "mongodb-stitch-server-sdk". The Realm SDK has a class, :js-sdk:`Realm.Credentials <Realm.Credentials.html>`, that creates credentials for each authentication provider.
      - Replace imports of authentication credentials with method calls for each respective authentication provider through the ``Realm.Credentials`` class.
 
-   * - Instead of calling {+backend+} functions using the app client directly via the Stitch SDK method `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html#callfunction>`__,call {+service-short+} server functions using the :js-sdk:`callFunction() <Realm.User.html#callFunction>` method of a logged-in ``Realm.User``. 
-     - Call {+backend+} functions using ``Realm.User.callFunction()`` instead of an app client.
+   * - Instead of calling App Services functions using the app client directly via the Stitch SDK method `stitchAppClient.callFunction() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js/4/interfaces/stitchappclient.html#callfunction>`__,call Realm server functions using the :js-sdk:`callFunction() <Realm.User.html#callFunction>` method of a logged-in ``Realm.User``. 
+     - Call App Services functions using ``Realm.User.callFunction()`` instead of an app client.
 
    * - The interface to the MongoDB Data Access API, containing objects like :js-sdk:`MongoDatabase <Realm-MongoDBDatabase.html>`, and :js-sdk:`MongoCollection <Realm.MongoDBCollection.html>`, has changed. Through Stitch, passing the `RemoteMongoClient.Factory <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/modules/remotemongoclient.html#factory>`__ and the string "mongodb-atlas" to `StitchAppClient.getServiceClient() <http://stitch-sdks.s3-website-us-east-1.amazonaws.com/stitch-sdks/js-server/4/interfaces/stitchappclient.html#getserviceclient>`__ would create a remote Mongodb client. The Realm JS SDK creates a remote MongoDB client through the :js-sdk:`Realm.User.mongoClient <Realm.User.html#mongoClient>` method on the user object.
      - Replace all ``mongoClient`` instantiations with ``Realm.User.mongoClient``.
 
-   * - The  {+service-short+} SDKs do not provide an interface for calling Services (like the :ref:`Twilio <twilio-service>` and :ref:`AWS <aws-service>` services).
+   * - The  Realm SDKs do not provide an interface for calling Services (like the :ref:`Twilio <twilio-service>` and :ref:`AWS <aws-service>` services).
      -  Convert references to Third Party Services (AWS or Twilio) in your Stitch Application to Realm functions in your Realm application using the corresponding npm packages. For more information, see :ref:`Add External Dependencies <add-external-dependencies>`.

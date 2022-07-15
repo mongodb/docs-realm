@@ -15,13 +15,13 @@ Use Realm React
 Overview
 --------
 :npm:`Realm React <package/@realm/react>` is an npm package that provides an easy-to-use API to perform
-common {+service-short+} operations, such as querying or writing to a {+realm+}
-and listening to {+realm+} objects.
+common Realm operations, such as querying or writing to a realm
+and listening to realm objects.
 
 Realm React helps you avoid creating boilerplate code, such as creating
 your own listeners and state management. Realm React provides access to
 Realm database through a set of hooks that update React state when the Realm data changes. This means that components using these hooks
-will re-render on any changes to data in the {+realm+}.
+will re-render on any changes to data in the realm.
 
 
 .. _react-native-setup-realm-hooks:
@@ -64,28 +64,28 @@ Create a Realm Context
 ----------------------
 
 The ``createRealmContext()`` method creates a :reactjs:`React Context
-<docs/context.html>` object for a {+realm+} with a given :js-sdk:`Realm.Configuration
+<docs/context.html>` object for a realm with a given :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>`. The ``Context`` object contains the
 following: 
 
 - A :reactjs:`Context Provider <docs/context.html#contextprovider>` component that wraps around a component and provides any of its child components with access to the hooks.
-- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened {+realm+}, query the {+realm+}, etc.
+- Various pre-built :reactjs:`Hooks <docs/hooks-intro.html>` that you can use to access the opened realm, query the realm, etc.
 
 Setup
 ~~~~~
 
-We recommend creating a file where you will define a {+service-short+} object type, a {+service-short+}
-configuration, and create a {+service-short+} ``Context``. At the top of the file, import
-{+service-short+} and the ``createRealmContext()`` method.
+We recommend creating a file where you will define a Realm object type, a Realm
+configuration, and create a Realm ``Context``. At the top of the file, import
+Realm and the ``createRealmContext()`` method.
 
 .. literalinclude:: /examples/generated/expo/Task.snippet.add-imports-to-task.ts
     :language: typescript
 
-Next, define a {+frontend-schema+} using a JavaScript class. The ``Task``
+Next, define a Object Schema using a JavaScript class. The ``Task``
 class below contains the following:
 
 - A ``generate()`` method that returns a ``Task`` insertion object that automatically sets computed values, such as ``_id`` and ``createdAt``. This insertion can be forwarded to ``realm.create`` to perform an insertion 
-- A ``schema`` property that defines this {+frontend-schema+}. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` documentation to learn more.
+- A ``schema`` property that defines this Object Schema. Read the :ref:`Define a Realm Object Schema <react-native-define-a-realm-object-schema>` documentation to learn more.
 
 .. literalinclude:: /examples/generated/expo/Task.snippet.create-task-class.ts
     :language: typescript
@@ -103,23 +103,23 @@ to the classes you have created. Pass the configuration object to the
 Using the Realm Provider
 ------------------------
 
-Wrap the component needing access to {+client-database+}, typically the top layer
+Wrap the component needing access to Realm Database, typically the top layer
 of your application, with the ``RealmProvider`` component included in the
 ``Context`` object, which was returned from ``createRealmContext``.  The
 ``RealmProvider`` provides child components access to the configured
-{+service-short+} through the hooks included in the ``Context`` object.
+Realm through the hooks included in the ``Context`` object.
 
 .. tip:: Choosing Which Components to Wrap inside the Realm Provider
    
    For simple use-cases, you may want to wrap your entire application in the
    ``RealmProvider`` component, such as the example below. For additional security,
-   you may only want to give access to the opened {+realm+} to specific screens, or
+   you may only want to give access to the opened realm to specific screens, or
    after the user has logged-in.
 
 Usage
 ~~~~~
 Import the ``Context`` object that you created. In the example below, the
-``Context`` object is called ``TaskContext`` since it refers to the {+service-short+} ``Context`` of
+``Context`` object is called ``TaskContext`` since it refers to the Realm ``Context`` of
 the Task. You can :mdn:`Destructure
 <Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring>`
 the ``TaskContext`` object to get its ``RealmProvider``. 
@@ -128,17 +128,17 @@ the ``TaskContext`` object to get its ``RealmProvider``.
     :language: typescript
 
 Wrap the ``RealmProvider`` around the component that you want
-to give access to the configured {+realm+}. In the example below, we give the entire
-app access to the {+realm+} by wrapping the ``RealmProvider`` around
+to give access to the configured realm. In the example below, we give the entire
+app access to the realm by wrapping the ``RealmProvider`` around
 the ``App`` component, which renders the application.
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.wrap-app-within-realm-provider.tsx
     :language: typescript
 
-Dynamically Update the {+service-short+} Configuration
+Dynamically Update the Realm Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can dynamically update the {+service-short+} configuration by setting
+You can dynamically update the Realm configuration by setting
 :reactjs:`props <docs/components-and-props.html>` on the ``RealmProvider``
 component. The props you set on the ``RealmProvider`` will overwrite any
 property passed into ``createRealmContext()``.
@@ -146,7 +146,7 @@ property passed into ``createRealmContext()``.
 In the following example, we update the RealmProvider with a :js-sdk:`sync
 configuration <Realm.App.Sync.html#~SyncConfiguration>` and a ``fallback``
 property that is used to render a temporary ``LoadingSpinner`` component while
-waiting for {+sync+} to open:
+waiting for Device Sync to open:
 
 .. literalinclude:: /examples/generated/expo/AppWrapper.snippet.dynamically-update-realm-config.tsx
     :language: typescript
@@ -170,9 +170,9 @@ the ``TaskContext`` object to get its hooks.
 useRealm
 ~~~~~~~~
 
-The ``useRealm()`` hook returns the opened {+realm+} instance.
+The ``useRealm()`` hook returns the opened realm instance.
 
-The ``handleAddTask()`` method of the ``App`` component writes to the {+realm+}
+The ``handleAddTask()`` method of the ``App`` component writes to the realm
 returned by the ``useRealm()`` hook in the following example.
 
 .. literalinclude:: /examples/generated/expo/App.snippet.example-userealm-hook-usage.tsx
@@ -184,12 +184,12 @@ a JavaScript object with default values for the ``_id``, ``isComplete``, and
 
 .. seealso::
   
-   Read the :ref:`write to a {+realm+} <react-native-write-operations>` documentation to learn more about modifying {+service-short+} data. 
+   Read the :ref:`write to a realm <react-native-write-operations>` documentation to learn more about modifying Realm data. 
 
 useObject
 ~~~~~~~~~
 
-The ``useObject()`` hook returns a {+service-short+} object for a given
+The ``useObject()`` hook returns a Realm object for a given
 :ref:`primary key <react-native-primary-keys>`. You can invoke it with the class
 model definition (this will add types to the returned object in TypeScript) or
 the class name as a string and the primary key. The ``useObject()`` method
@@ -206,8 +206,8 @@ and its description is rendered in the UI.
 useQuery
 ~~~~~~~~
 
-The ``useQuery()`` hook returns a collection of {+realm+} objects of a given type.
-Like ``useObject``, it is either invoked with the {+frontend-schema+} class or the model
+The ``useQuery()`` hook returns a collection of realm objects of a given type.
+Like ``useObject``, it is either invoked with the Object Schema class or the model
 name as a string.  The ``useQuery()`` method subscribes to updates to any
 objects in the collection and re-renders the component using it on any change to the query results.
 
@@ -230,7 +230,7 @@ of a `FlatList <https://reactnative.dev/docs/flatlist>`_ component.
 Using the App Provider
 ----------------------
 
-To use {+service+} features such as authentication and sync, use the
+To use Realm features such as authentication and sync, use the
 ``AppProvider`` to initiate a new :js-sdk:`Realm.App <Realm.App.html>`. Wrap the
 ``AppProvider`` outside of the ``RealmProvider`` and any components which need
 access to the :ref:`useApp <react-native-use-app-hook>` hook.
@@ -303,10 +303,10 @@ component and display the logged-in user's ``_id``.
 Summary
 -------
 - You can set up Realm React on an existing application by installing it through npm or on a new application through the Realm Expo template.
-- A Realm ``Context`` opens a {+realm+} and contains a ``RealmProvider`` and a set of pre-built hooks. 
-- A ``RealmProvider`` provides access to the configured {+realm+} using hooks to display and modify data.
-- The pre-built ``RealmProvider`` hooks provide functionality, including interacting with a {+realm+} and finding {+realm+} object(s).
-- The ``AppProvider`` instantiates a new {+app+} and provides its child components access to the {+app+} instance. 
-- You can use the ``useApp()`` hook to access the instantiated {+app+} within child components.
+- A Realm ``Context`` opens a realm and contains a ``RealmProvider`` and a set of pre-built hooks. 
+- A ``RealmProvider`` provides access to the configured realm using hooks to display and modify data.
+- The pre-built ``RealmProvider`` hooks provide functionality, including interacting with a realm and finding realm object(s).
+- The ``AppProvider`` instantiates a new App and provides its child components access to the App instance. 
+- You can use the ``useApp()`` hook to access the instantiated App within child components.
 - The ``UserProvider`` renders it's child components if the user has logged in and renders a fallback component if the user has not logged in.
 - You can use the ``useUser()`` hook to gain access to the logged-in user within any child components of the ``UserProvider``.

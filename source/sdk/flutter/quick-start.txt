@@ -13,7 +13,7 @@ Quick Start - Flutter SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your Flutter app.
 
 Before you begin, ensure you have:
@@ -26,7 +26,7 @@ Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
-stored within {+client-database+}.
+stored within Realm Database.
 You can define your application's data model via Dart
 classes in your application code with
 a Realm object schema.
@@ -127,16 +127,16 @@ Open a Realm
 ------------
 
 Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
-to control the specifics of the {+realm+} you
-would like to open, including schema and whether the {+realm+} is local-only or synced.
+to control the specifics of the realm you
+would like to open, including schema and whether the realm is local-only or synced.
 
 Pass your configuration to the :flutter-sdk:`Realm constructor <realm/Realm-class.html>`
-to generate an instance of that {+realm+}:
+to generate an instance of that realm:
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
    :language: dart
 
-You can now use that {+realm+} instance to work with objects in the database.
+You can now use that realm instance to work with objects in the database.
 
 .. seealso:: Further Reading
 
@@ -145,7 +145,7 @@ You can now use that {+realm+} instance to work with objects in the database.
 Work with Realm Objects
 -----------------------
 
-Once you've opened a {+realm+}, you can create objects within it using a
+Once you've opened a realm, you can create objects within it using a
 :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
 .. seealso:: Further Reading
@@ -156,7 +156,7 @@ Create Objects
 ~~~~~~~~~~~~~~
 
 To create a new ``Car``, instantiate an instance of the
-``Car`` class and add it to the {+realm+} in a write transaction block:
+``Car`` class and add it to the realm in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart
@@ -172,7 +172,7 @@ To modify a car, update its properties in a write transaction block:
 Query for Objects
 ~~~~~~~~~~~~~~~~~
 
-Retrieve a collection of all objects of a data model in the {+realm+} with the
+Retrieve a collection of all objects of a data model in the realm with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
@@ -250,7 +250,7 @@ Once you've finished listening to changes, close the change listener to prevent 
 Close a Realm
 -------------
 
-Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+Once you've finished working with a realm, close it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart

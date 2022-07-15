@@ -24,8 +24,8 @@ Add Device Sync to an App - Swift SDK
 Prerequisites
 -------------
 
-Before you can access a synced {+realm+} from the client, you must 
-:ref:`Enable sync <enable-sync>` in the {+ui+}.
+Before you can access a synced realm from the client, you must 
+:ref:`Enable sync <enable-sync>` in the App Services UI.
 
 Add Device Sync to a Client Application
 ---------------------------------------
@@ -34,7 +34,7 @@ Add Device Sync to a Client Application
 
    .. step:: Connect to the App Services backend
 
-      Pass the {+app+} ID for your {+app+}, which you can :ref:`find in the Realm UI
+      Pass the App ID for your App, which you can :ref:`find in the Realm UI
       <find-your-app-id>`.
 
       .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.init-realm-app-client.swift
@@ -78,19 +78,19 @@ Use the Realm
 The syntax to :ref:`read <ios-read-operations>`, :ref:`write
 <ios-write-operations>`, and
 :ref:`watch for changes <ios-react-to-changes>` on a
-synced {+realm+} is identical to the syntax for non-synced {+realms+}. While 
+synced realm is identical to the syntax for non-synced realms. While 
 you work with local data, a background thread efficiently integrates, 
 uploads, and downloads changesets.
 
-The following code creates a new ``Task`` object and writes it to the {+realm+}:
+The following code creates a new ``Task`` object and writes it to the realm:
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
    :language: swift
 
 .. important:: When Using Sync, Avoid Writes on the Main Thread
 
-   The fact that {+service-short+} performs sync integrations on a background thread means
-   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   The fact that Realm performs sync integrations on a background thread means
+   that if you write to your realm on the main thread, there's a small chance your UI
    could appear to hang as it waits for the background sync thread to finish a write
    transaction. Therefore, it's a best practice :ref:`not to write on the main thread
-   when using {+sync+} <ios-threading-three-rules>`.
+   when using Device Sync <ios-threading-three-rules>`.

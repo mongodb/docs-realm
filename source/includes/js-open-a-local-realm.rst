@@ -1,4 +1,4 @@
-To open a local (non-synced) {+realm+}, pass a :js-sdk:`Realm.Configuration
+To open a local (non-synced) realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to the asynchronous method :js-sdk:`Realm.open()
 <Realm.html#.open>`.
 

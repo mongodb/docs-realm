@@ -13,7 +13,7 @@ Live Queries - Node.js SDK
    :depth: 2
    :class: singlecol
 
-You can query a {+realm+} to find objects based on their type and the values of
+You can query a realm to find objects based on their type and the values of
 their properties. Objects and queries always reflect the latest state of an
 object and emit :ref:`notifications <node-change-notifications>` that can
 update your app whenever data changes.
@@ -28,7 +28,7 @@ update your app whenever data changes.
 Live Objects
 ------------
 
-Data in {+service-short+} is *live*, which means that an object always reflects
+Data in Realm is *live*, which means that an object always reflects
 its most recent saved state and read operations never block. Objects
 automatically update in response to changes, so you can see up-to-date data in
 your application without running a new query.
@@ -37,7 +37,7 @@ your application without running a new query.
 
    Realm can support live objects because it :wikipedia:`memory-maps
    <Memory-mapped_file>` objects in your application directly to data stored in
-   the :ref:`{+realm+} file <node-realm-file>` instead of a copy of the data
+   the :ref:`realm file <node-realm-file>` instead of a copy of the data
    stored in memory.
 
 .. _node-results-collections:
@@ -51,12 +51,12 @@ A results collection represents all objects in a realm that match a query
 operation. In general you can work with a collection like a regular JavaScript
 array but collections don't actually hold matching Realm objects in memory.
 Instead they reference the matched objects, which themselves map directly to data
-in the {+realm+} file.
+in the realm file.
 
 .. note:: Pagination & Limits
    
    Some queries only need to access a subset of all objects that match the query.
-   {+service-short+}'s lazy-loaded collections only fetch objects when you actually
+   Realm's lazy-loaded collections only fetch objects when you actually
    access them, so you do not need any special mechanism to limit query results.
    
    For example, if you only want to find 10 matching objects at a time (such as
@@ -77,7 +77,7 @@ changes, which lets you reactively update your app in response to committed
 
 You can register three types of notification listeners:
 
-- A **{+realm+} listener** fires whenever any object in a realm changes.
+- A **realm listener** fires whenever any object in a realm changes.
 - A **collection listener** fires whenever a specific query matches a new set of objects or when any matched object changes.
 - An **object listener** fires whenever a specific object is deleted or has one or more properties modified.
 

@@ -23,7 +23,7 @@ initialize and work with the Realm Expo template.
 The Realm Expo template uses:
 
 -  `Expo <https://docs.expo.dev/>`_, a framework to develop, build and deploy React Native applications quickly.
-- :npm:`Realm React <package/@realm/react>`, an NPM package that provides an easy-to-use API to perform common Realm operations, such as querying or writing to a {+realm+} and listening to realm objects. Read the :ref:`Realm React documentation <react-native-use-realm-react>` to learn more about working with it.
+- :npm:`Realm React <package/@realm/react>`, an NPM package that provides an easy-to-use API to perform common Realm operations, such as querying or writing to a realm and listening to realm objects. Read the :ref:`Realm React documentation <react-native-use-realm-react>` to learn more about working with it.
 
 
 Prerequisites
@@ -92,10 +92,10 @@ The relevant files are as follows:
      - The entry point to the application, which contains methods to create,
        update, and delete tasks. The ``RealmProvider`` component wraps around
        the ``App`` component, providing your entire application with access to
-       the {+realm+}.
+       the realm.
 
    * - TaskList.tsx
-     - A React component that gets a list of Task objects from the {+realm+} and renders each object as a ``TaskItem``  component.
+     - A React component that gets a list of Task objects from the realm and renders each object as a ``TaskItem``  component.
 
    * - TaskItem.tsx
      - A React component that displays the task's description, a checkbox to
@@ -149,7 +149,7 @@ Deploying Your Application
 To deploy your application, we recommend using the `Expo Application Services (EAS)
 <https://docs.expo.dev/eas/>`_, a suite of deeply integrated cloud services for
 Expo and React Native apps. EAS allows you to compile and :wikipedia:`sign
-<Code_signing>` your {+app+}, upload your app to the Apple App Store or Google
+<Code_signing>` your App, upload your app to the Apple App Store or Google
 Play Store with a single CLI command, and push bug fixes or small changes
 directly to app users. 
 

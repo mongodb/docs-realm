@@ -20,7 +20,7 @@ Task Tracker (Web)
    Realm application.
 
 In this tutorial, you'll build a functional web application backed by the
-{+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
+Realm GraphQL API. The app uses :reactjs:`React <>` to define UI
 components and :apollo:`Apollo Client <docs/react>` to run queries and mutations
 through the GraphQL API. We've already created most of the frontend application
 for you, so you don't need to know React to follow along.
@@ -54,7 +54,7 @@ Prerequisites
 
 Before you get started, you'll need the following:
 
-- A complete task tracker app in {+backend+}. If you haven't yet completed
+- A complete task tracker app in App Services. If you haven't yet completed
   :doc:`Set up the Task Tracker Tutorial Backend </tutorial/backend-app>`, do
   that before you continue.
 
@@ -319,12 +319,12 @@ The file ``src/components/EditPermissionsModal.js`` defines a hook named
 should also return functions that add and remove team members, but you'll need
 to define them. The :ref:`task tracker backend application
 <tutorial-task-tracker-create-realm-app>` already defines server-side
-:ref:`{+service-short+} functions <functions>` that handle the logic, so you
+:ref:`Realm functions <functions>` that handle the logic, so you
 just need to call them.
 
 .. tip::
    
-   You can call your app's {+service-short+} functions by name as asynchronous
+   You can call your app's Realm functions by name as asynchronous
    methods on the ``User.functions`` object. All function calls return a
    ``Promise``. For example, to call a function named ``myFunction`` as the
    current user, you would write ``await app.currentUser.functions.myFunction()``.
@@ -486,7 +486,7 @@ What's Next?
 You just built and deployed a functional task tracker web application built with MongoDB
 Realm. Great job!
 
-Now that you have some hands-on experience with {+backend+}, consider these
+Now that you have some hands-on experience with App Services, consider these
 options to keep practicing and learn more:
 
 - Extend the task tracker app with additional features. For example, you could:
@@ -503,7 +503,7 @@ options to keep practicing and learn more:
 
 - Use the Realm CLI to automate deploying your frontend application.
 
-- Dive deeper into the docs to learn more about {+backend+}. You'll find
+- Dive deeper into the docs to learn more about App Services. You'll find
   information and guides on features like:
   
   - Serverless :ref:`functions <functions>` that handle backend logic and

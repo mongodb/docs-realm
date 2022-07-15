@@ -2,11 +2,11 @@
 title: Enable Atlas Device Sync
 ref: enable-realm-sync
 content: |
-  Before you can add {+sync-short+} functionality within your game, you must
-  enable {+sync+} in your {+backend+} app. 
+  Before you can add Sync functionality within your game, you must
+  enable Device Sync in your App Services app. 
 
-  To enable {+sync+}, follow the steps in the :ref:`Enable Atlas Device Sync
-  <enable-realm-sync>` guide. When enabling {+sync-short+}, you will need to configure your app to:
+  To enable Device Sync, follow the steps in the :ref:`Enable Atlas Device Sync
+  <enable-realm-sync>` guide. When enabling Sync, you will need to configure your app to:
 
   - use ``Development Mode``
   - add a required :ref:`Partition Key <sync-partitions>` with the name ``"_partition"`` and with the type ``string``
@@ -14,30 +14,30 @@ content: |
 title: Connect to Your MongoDB Realm App
 ref: connect-your-mongodb-realm-app
 content: |
-  To get the app working with your backend, you first need to add your {+backend+} App
+  To get the app working with your backend, you first need to add your App Services App
   ID to the ``Constants.cs`` file:
 
   .. literalinclude:: /tutorial/generated/unity/Constants.snippet.create-constants-sync.cs
      :language: csharp
 
-  Change the value of ``AppId`` to your {+backend+} app ID, which you can :ref:`find in
-  the {+backend+} UI <find-your-app-id>`.
+  Change the value of ``AppId`` to your App Services app ID, which you can :ref:`find in
+  the App Services UI <find-your-app-id>`.
 
 ---
 title: Open a Synced Realm
 ref: open-synced-realm
 content: |
-  To configure {+service-short+} to automatically synchronize data between
-  devices, you'll need to replace your local {+realm+} with a synced {+realm+}.
+  To configure Realm to automatically synchronize data between
+  devices, you'll need to replace your local realm with a synced realm.
   
   In the ``RealmController.cs`` file, replace the existing ``GetRealm()`` method
   with the one that takes in a User as a parameter and asynchronously gets a
-  synced {+realm+} instance: 
+  synced realm instance: 
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.get-realm-synced-realm-controller.cs
      :language: csharp  
 
-  Opening a synced {+realm+} requires a logged-in {+realm+} user; you'll set
+  Opening a synced realm requires a logged-in realm user; you'll set
   that up in the next step.
 ---
 title: Update the Authentication Screen and Manager
@@ -87,7 +87,7 @@ title: Setup Authentication in your Game
 ref: enable-email-pass-auth
 content: |
   Currently, the project's only form of authentication is a username input.
-  Let's replace that in the code with {+realm+} :doc:`Email/Password
+  Let's replace that in the code with realm :doc:`Email/Password
   Authentication </sdk/dotnet/examples/users/manage-email-password-users>`
 
   In the ``RealmController.cs``, replace the ``SetLoggedInUser()`` with an
@@ -113,7 +113,7 @@ content: |
   ``RealmController.LogOutBackend()`` method below that calls
   :dotnet-sdk:`User.LogOutAsync()
   <reference/Realms.Sync.User.html#Realms_Sync_User_LogOutAsync>` to log out
-  the {+realm+} user when log out button is clicked.
+  the realm user when log out button is clicked.
 
   .. literalinclude:: /tutorial/generated/unity/RealmController.snippet.logout-backend.cs
      :language: csharp
@@ -127,11 +127,11 @@ content: |
 
   To fix this, you will update the code in the ``LeaderboardManager.cs`` file to do the following:
 
-  - Open a synced {+realm+}
+  - Open a synced realm
   - Listen to changes on all ``Stat`` objects
   - Update the Leaderboard GameObject when there is a new high score
 
-  Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced {+realm+} using the ``RealmController.syncUser`` variable that you created earlier:
+  Navigate to ``LeaderboardManager.cs`` and add the following function that opens a synced realm using the ``RealmController.syncUser`` variable that you created earlier:
 
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.sync-open-realm-in-leaderboard.cs
      :language: csharp
@@ -168,12 +168,12 @@ content: |
   .. literalinclude:: /tutorial/generated/unity/LeaderboardManager.snippet.leaderboard-cleanup-fn.cs
      :language: csharp
 
-  .. note:: Simulate New Top Scores Through {+service-short+} Studio or {+atlas+} 
+  .. note:: Simulate New Top Scores Through Realm Studio or Atlas 
 
      Since Unity Hub does not allow opening multiple instances of the same
      project by default, we recommend simulating a new top score by creating a
-     new ``Stat`` object through :ref:`{+service-short+} Studio <realm-studio>` or
-     :atlas:`{+atlas+} <>`. When you create a new ``Stat`` object with a high score,
+     new ``Stat`` object through :ref:`Realm Studio <realm-studio>` or
+     :atlas:`Atlas <>`. When you create a new ``Stat`` object with a high score,
      your leaderboard updates automatically and displays the new high score.
      Alternatively, you can use the `Unity symbolic link workaround
      <https://support.unity.com/hc/en-us/articles/115003118426-Running-multiple-instances-of-Unity-referencing-the-same-project>`_
@@ -204,4 +204,4 @@ content: |
 
   - Authenticating a new user.
   - Getting a new high score and seeing the leaderboard update in real-time.
-  - Creating a new ``Stat`` object with a high score in {+service-short+} Studio or {+atlas+} and seeing the leaderboard update in real-time.
+  - Creating a new ``Stat`` object with a high score in Realm Studio or Atlas and seeing the leaderboard update in real-time.

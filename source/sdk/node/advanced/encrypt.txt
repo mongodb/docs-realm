@@ -15,13 +15,13 @@ Encrypt a Realm - Node.js SDK
 Overview
 --------
 
-You can encrypt the {+realm+} database file on disk with AES-256 +
+You can encrypt the realm database file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
-{+realm+} <node-open-a-local-realm>`.
+realm <node-open-a-local-realm>`.
 
 Realm transparently encrypts and decrypts data with standard
 :wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
-first 256 bits of the given 512-bit encryption key. {+service-short+}
+first 256 bits of the given 512-bit encryption key. Realm
 uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
@@ -35,34 +35,34 @@ Storing & Reusing Keys
 ~~~~~~~~~~~~~~~~~~~~~~
 
 You must pass the same encryption key when opening the encrypted
-{+realm+} again. Apps should store the encryption key securely.
+realm again. Apps should store the encryption key securely.
 
 Performance Impact
 ~~~~~~~~~~~~~~~~~~
 
-Typically, reads and writes on encrypted {+realm+}s can be up to 10%
-slower than unencrypted {+realm+}s.
+Typically, reads and writes on encrypted realms can be up to 10%
+slower than unencrypted realms.
 
 Encryption and Atlas Device Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can encrypt a :ref:`synced realm <node-partition-sync-open-realm>`. {+service+} only
+You can encrypt a :ref:`synced realm <node-partition-sync-open-realm>`. Realm only
 encrypts the data on the device and stores the data unencrypted in your
-{+atlas+} :term:`data source`.
+Atlas :term:`data source`.
 
 Accessing an Encrypted Realm from Multiple Process
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Realm forbids opening the same encrypted realm from multiple processes.
 Attempting to do so will throw the error:
-"{+encrypted-interprocess-sharing-error-message+}"
+"Encrypted interprocess sharing is currently unsupported."
 
 
 Example
 -------
 
 The following code demonstrates how to generate an encryption key and
-open an encrypted {+realm+}:
+open an encrypted realm:
 
 .. tabs-realm-languages::
    

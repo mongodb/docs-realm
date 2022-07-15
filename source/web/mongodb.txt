@@ -14,7 +14,7 @@ Query MongoDB
    :class: singlecol
 
 The following actions let you query a linked MongoDB Atlas cluster
-from a Web app using the  {+service-short+} Web SDK.
+from a Web app using the  Realm Web SDK.
 
 .. include:: /includes/mongodb-data-access-query-filter-indeterminate-order-note.rst
 
@@ -37,7 +37,7 @@ Set Up Your Project
 
       Follow the steps in the :ref:`link-a-data-source` guide. Assign your service a
       meaningful name -- you'll need it to connect to the cluster using the
-      {+service-short+} SDK.
+      Realm SDK.
       
 
    .. step:: Import Realm Dependencies
@@ -364,7 +364,7 @@ operation that caused the event.
 
 .. include:: /includes/serverless-watch-note.rst
 
-{+service-short+} uses MongoDB :manual:`change streams </changeStreams/>` on
+Realm uses MongoDB :manual:`change streams </changeStreams/>` on
 watched collections to listen for changes and broadcasts notifications to
 subscribed client applications. This is useful for cases where you want to know
 when something happened while a user is online. For example:

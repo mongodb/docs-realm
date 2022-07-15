@@ -17,18 +17,18 @@ Application Services - .NET SDK
 Overview
 --------
 
-{+service+} provides SDKs that help you connect your client apps to the {+service-short+} 
-backend. The SDK provides the {+service+} functionality needed to 
+Realm provides SDKs that help you connect your client apps to the Realm 
+backend. The SDK provides the Realm functionality needed to 
 authenticate users with any of the built-in :ref:`authentication providers <authentication-providers>`, 
 call backend :ref:`functions <functions>`, and directly access a linked
 :ref:`MongoDB data source <data-sources>`.
 
 The Realm App Client
 --------------------
-When using the SDK to access the {+service-short+} backend, you start with a 
+When using the SDK to access the App Services backend, you start with a 
 Realm App object. This object provides all other functionality related to 
-{+backend+}. The ``App`` object is 
-:ref:`initialized <dotnet-init-appclient>` with the {+app+} ID, which you can 
+App Services. The ``App`` object is 
+:ref:`initialized <dotnet-init-appclient>` with the App ID, which you can 
 :ref:`find in the Realm UI <find-your-app-id>`.
 
 .. tip::
@@ -41,8 +41,8 @@ Authentication & User Management
 --------------------------------
 
 One of the most challenging aspects of client development is implementing a 
-robust and secure authentication system. With the {+service-short+} SDKs, however, you 
-can use any of the {+service+} authentication providers with very minimal backend 
+robust and secure authentication system. With the Realm SDKs, however, you 
+can use any of the Realm authentication providers with very minimal backend 
 setup or client-side code required. With the authentication APIs, you can 
 implement the following functionality:
 
@@ -67,7 +67,7 @@ Calling Functions
 -----------------
 :ref:`Realm functions <functions>` enable you to define and execute server-side 
 logic for your application. You can call these functions from your client applications
-via the {+service+} SDKs. These server-side functions can run under the context 
+via the Realm SDKs. These server-side functions can run under the context 
 of the authenticated user, and thus honor the rules, roles, and permissions that 
 you have assigned to your collections.
 

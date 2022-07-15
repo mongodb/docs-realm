@@ -77,10 +77,10 @@ content: |
        - A subclass of the Android :android:`Application
          <reference/android/app/Application>` class. Responsible for:
 
-         - initializing the connection to {+service+}
+         - initializing the connection to Realm
 
          - creating the Realm ``App`` object used by all other classes
-           to communicate with the Realm backend
+           to communicate with the App Services backend
 
          - defining a Kotlin extension method called ``TAG()`` used
            in logging methods throughout the app, which dynamically
@@ -107,7 +107,7 @@ content: |
      * - Project
        - Model describing in-app projects. Subclass of
          the ``RealmObject`` class, which allows you to store objects of
-         this class in a {+realm+}.
+         this class in a realm.
 
      * - ProjectAdapter
        - Adapter that allows the display of a list of projects in an
@@ -126,7 +126,7 @@ content: |
      * - Task
        - Model describing in-app tasks that make up the contents of a
          project. Subclass of the ``RealmObject`` class, which allows
-         you to store objects of this class in a {+realm+}.
+         you to store objects of this class in a realm.
 
      * - TaskStatus
        - Enum class capturing the various possible states of an in-app
@@ -181,9 +181,9 @@ content: |
      |-- Task Tracker.iml
 
   Open the **app** ``build.gradle`` file, where we'll configure your
-  app's connection to {+service+}. In the ``android.buildTypes``
+  app's connection to Realm. In the ``android.buildTypes``
   section, define your App ID, which ``TaskTracker`` uses to
-  instantiate a connection to your {+app+} whenever this Android app
+  instantiate a connection to your App whenever this Android app
   runs:
 
   .. code-block:: groovy
@@ -216,11 +216,11 @@ content: |
   ``AndroidManifest.xml``. This allows us to run certain logic
   once each time you run the app, such as:
 
-  - initializing {+service-short+}
+  - initializing Realm
   - defining the global ``App`` reference using the ``appId``
     variable you just configured in your app-level
     ``build.gradle`` file
-  - setting the {+service-short+} log level
+  - setting the Realm log level
 
   .. literalinclude:: /tutorial/generated/code/final/TaskTracker.snippet.initialize-realm-and-create-app.kt
      :language: kotlin
@@ -270,20 +270,20 @@ content: |
   ``ProjectActivity`` displays a list of projects that the current user
   can access. For each user, TaskTracker stores the list of accessible
   projects in the ``User`` object. Tasktracker stores each ``User``
-  object in a special :ref:`{+realm+} <sync-partitions>` with a value of
+  object in a special :ref:`realm <sync-partitions>` with a value of
   the following format: ``user=<user-id>``.
 
   .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
 
   To access the user's list of projects, we need to open a connection to
-  that {+realm+} and access the ``User`` object. To get started, open
-  the user's {+realm+} in the ``else`` block of the ``onStart()`` method
+  that realm and access the ``User`` object. To get started, open
+  the user's realm in the ``else`` block of the ``onStart()`` method
   of ``ProjectActivity``:
 
   .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.set-up-user-realm.kt
      :language: kotlin
 
-  Next, we need to query the {+realm+} to get a copy of the ``User``
+  Next, we need to query the realm to get a copy of the ``User``
   object containing the user's list of projects. Because each user
   should only ever be able to access their own user object, this realm
   only contains one object: the custom data belonging to the currently
@@ -299,7 +299,7 @@ content: |
   object after a login, we should handle the case where the user object
   doesn't yet exist immediately after account creation. To accomplish 
   this, in the event that our query doesn't return a user object, we'll
-  watch the {+realm+} for changes and only set up the project's Recycler
+  watch the realm for changes and only set up the project's Recycler
   View once the trigger runs:
 
   .. literalinclude:: /tutorial/generated/code/final/ProjectActivity.snippet.user-init-change-listener.kt
@@ -313,12 +313,12 @@ content: |
      been initialized by a Trigger. To work around this, we automatically
      create a temporary fake custom user data object whenever custom
      user data isn't yet available, so the Recycler View has something
-     to display. Since tasks are written to a separate {+realm+}, using
-     an in-memory {+realm+} for the fake custom user data doesn't impact
+     to display. Since tasks are written to a separate realm, using
+     an in-memory realm for the fake custom user data doesn't impact
      creating and syncing tasks.
 
   Finally, we need to guarantee that ``ProjectActivity`` always closes
-  the user {+realm+} when the app closes or the user logs out. To
+  the user realm when the app closes or the user logs out. To
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``ProjectActivity`` stops or finishes:
 
@@ -335,18 +335,18 @@ content: |
 
   Navigate to the ``TaskActivity`` file, where we'll display the list
   of tasks that belong to a particular project. TaskTracker stores the
-  list of tasks belonging to each project in a special :ref:`{+realm+}
+  list of tasks belonging to each project in a special :ref:`realm
   <sync-partitions>` with a value of the following format:
   ``project=<user-id>`` (where ``<user-id>`` is equal to the user ID of
   the user who owns the project). We'll begin by initializing a
-  connection to this {+realm+} when the activity starts:
+  connection to this realm when the activity starts:
 
   .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.set-up-project-realm.kt
      :language: kotlin
 
   Next, we'll query the realm for the list of tasks belonging to this
   project. Fortunately the query isn't too complicated: since every task
-  within this {+realm+} belongs to this project, there's no need to
+  within this realm belongs to this project, there's no need to
   filter the query at all. However, we do want to make sure that tasks
   always appear in the same order on the page, so users don't have to
   hunt through the full list every time they reload this activity. To
@@ -361,13 +361,13 @@ content: |
   ``TaskActivity`` needs to allow users to create a new task in the project. To
   handle this, write logic in the floating action button's
   ``setPositiveButton()`` callback that creates a new task based on the user's
-  input in ``inputText`` and adds that task to the {+realm+}:
+  input in ``inputText`` and adds that task to the realm:
 
   .. literalinclude:: /tutorial/generated/code/final/TaskActivity.snippet.add-new-task-to-project.kt
      :language: kotlin
 
   Finally, we need to guarantee that ``TaskActivity`` always closes
-  the user {+realm+} when the app closes or the user logs out. To
+  the user realm when the app closes or the user logs out. To
   accomplish this, add logic that calls the ``realm.close()`` method
   when ``TaskActivity`` finishes or stops:
 
@@ -391,7 +391,7 @@ content: |
   Fortunately, ``TaskAdapter`` already includes a layout and most
   boilerplate code for you. You'll just have to implement two methods:
   ``changeStatus``, which updates the status of a task, and
-  ``removeAt``, which deletes a task from the {+realm+}.
+  ``removeAt``, which deletes a task from the realm.
 
   We'll begin by implementing the logic for ``changeStatus``, which:
 
@@ -399,13 +399,13 @@ content: |
   #. Queries the realm for the Task with the specified ``_id`` value.
   #. Sets the ``statusEnum`` property of the Task to the specified status value.
 
-  Don't forget to read and write from the {+realm+} within a transaction!
+  Don't forget to read and write from the realm within a transaction!
 
   .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.snippet.change-task-status.kt
      :language: kotlin
 
   The logic that deletes a task is similar to the logic that updates a
-  task, but it removes the task from the {+realm+} instead of updating
+  task, but it removes the task from the realm instead of updating
   any properties:
 
   .. literalinclude:: /tutorial/generated/code/final/TaskAdapter.snippet.delete-task.kt
@@ -433,8 +433,8 @@ content: |
   built-in ``map`` function to transform the objects in the list
   returned by the function from type ``Document`` to type ``Member``,
   which is the type of data that ``MemberAdapter`` expects. You can
-  access {+service-short+} Functions through the function manager
-  found in your project-global {+service-short+} app:
+  access Realm Functions through the function manager
+  found in your project-global Realm app:
 
   .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.get-team-members.kt
      :language: kotlin
@@ -443,14 +443,14 @@ content: |
   ``MemberActivity`` to add users to the project. To handle this, write
   logic in the floating action button's ``setPositiveButton()`` callback
   that adds a new user to the project using the ``addTeamMember()``
-  {+service-short+} function. Because the team members displayed in this
+  Realm function. Because the team members displayed in this
   view aren't :ref:`live Realm Objects <java-live-object>`, this
   RecyclerView's adapter isn't a subclass of
   ``RealmRecyclerViewAdapter``, and we'll have to manually update our
   local copy of the list of team members to reflect the success of this
   method when we add a team member. To do this, call
   ``setUpRecyclerView()`` to reload the list of team members from the
-  backend when the ``addTeamMember()`` {+service-short+} Function
+  backend when the ``addTeamMember()`` Realm Function
   successfully adds a team member:
 
   .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.add-new-member-to-project.kt
@@ -466,8 +466,8 @@ content: |
   provided for you except for the logic that handles removing a team
   member from a project when the user selects "Remove User". To
   implement this logic, we'll have to call the ``removeTeamMember()``
-  {+service-short+} Function. When the ``removeTeamMember()``
-  {+service-short+} Function successfully removes a team member, we'll
+  Realm Function. When the ``removeTeamMember()``
+  Realm Function successfully removes a team member, we'll
   have to manually remove that team member from the list of team members
   with ``data.removeAt()``. Once you've removed the object from the
   underlying dataset, just call ``notifyItemRemoved()`` with the item's

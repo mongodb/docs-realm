@@ -13,19 +13,19 @@ Define a Realm Object Schema - .NET SDK
    :class: singlecol
 
 An **object schema** is a configuration object that defines the properties and 
-relationships of a {+service-short+} object. {+service-short+} client 
+relationships of a Realm object. Realm client 
 applications define object schemas with the native class implementation in their 
-respective language using the :term:`{+frontend-schema+}`.
+respective language using the :term:`Object Schema`.
 
 Object schemas specify constraints on object properties such as the data
 type of each property and whether or not a property is required. Schemas can 
 also define :ref:`relationships <dotnet-client-relationships>` between object 
-types in a {+realm+}.
+types in a realm.
 
-Every {+app+} has a :ref:`{+backend-schema+} <dotnet-realm-schema>`
+Every App has a :ref:`Realm Schema <dotnet-realm-schema>`
 composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain. {+service+} guarantees that all 
-objects in a {+realm+} conform to the
+realms in that application may contain. Realm guarantees that all 
+objects in a realm conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
@@ -37,7 +37,7 @@ Define a Relationship Property
 
 .. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
 
-{+client-database+} supports several kinds of object relationships.
+Realm Database supports several kinds of object relationships.
 
 .. seealso::
 
@@ -62,7 +62,7 @@ the distinction between a many-to-one and a one-to-one relationship is
 up to your application.
 
 Setting a relationship property to null removes the connection between
-objects, but {+client-database+} does not delete the referenced object
+objects, but Realm Database does not delete the referenced object
 unless that object is :ref:`embedded <dotnet-property-embedded>`.
 
 .. _dotnet-field-relationships-many-to-many:
@@ -84,7 +84,7 @@ using a property of type ``IList<T>``\ in your application, where ``T`` is a sub
 Inverse Relationships
 ~~~~~~~~~~~~~~~~~~~~~
 
-By default, {+client-database+} relationships are unidirectional. You
+By default, Realm Database relationships are unidirectional. You
 can follow a link from one class to a referenced class, but not in the
 opposite direction. You can provide a link in the opposite direction
 with the :dotnet-sdk:`[Backlink] <reference/Realms.BacklinkAttribute.html>` attribute:
@@ -104,15 +104,15 @@ Like any other ``RealmResults`` set, you can
 Define an Embedded Object Property
 ----------------------------------
 
-{+client-database+} provides the ability to nest objects within other
+Realm Database provides the ability to nest objects within other
 objects. This has several advantages:
 
-- If using {+sync+}, objects will translate into MongoDB documents that
+- If using Device Sync, objects will translate into MongoDB documents that
   follow a :manual:`denormalized data model </core/data-model-design/>`.
 
 - When you delete an object that contains another object, the delete
-  operation removes both objects from the {+realm+}, so unused objects
-  don't accumulate in your {+realm+} file, taking up valuable space on
+  operation removes both objects from the realm, so unused objects
+  don't accumulate in your realm file, taking up valuable space on
   user's mobile devices.
 
 To embed an object, extend 
@@ -123,7 +123,7 @@ for the class that you'd like to nest within another class:
    :language: csharp
 
 Then, any time you reference that class from another class,
-{+client-database+} will embed the referenced class within the enclosing
+Realm Database will embed the referenced class within the enclosing
 class.
 
 .. seealso::
@@ -139,7 +139,7 @@ Realm will not store a property with a custom setter. To use a custom setter,
 store the property value in a private property and then 
 map that value to a public property with the custom setter. Realm will store the 
 private property, while you modify its value via the public property.
-In the following code, the private ``email`` property is stored in the {+realm+}, 
+In the following code, the private ``email`` property is stored in the realm, 
 but the public ``Email`` property, which provides validation, is not persisted:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.custom-setter.cs
@@ -229,11 +229,11 @@ attribute:
 Ignore a Property
 ~~~~~~~~~~~~~~~~~
 
-If you don't want to save a property in your model to a {+realm+}, you can
+If you don't want to save a property in your model to a realm, you can
 ignore that property. A property is ignored by default if it is not autoimplemented or 
 does not have a setter.
 
-Ignore a property from a {+service-short+} object model with the
+Ignore a property from a Realm object model with the
 :dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.ignore.cs
@@ -243,7 +243,7 @@ Ignore a property from a {+service-short+} object model with the
 Rename a Property
 ~~~~~~~~~~~~~~~~~
 
-By default, {+client-database+} uses the name defined in the model class
+By default, Realm Database uses the name defined in the model class
 to represent properties internally. In some cases you might want to change
 this behavior:
 
@@ -267,13 +267,13 @@ attribute to rename a property:
 Rename a Class
 ~~~~~~~~~~~~~~
 
-By default, {+client-database+} uses the name defined in the model class
+By default, Realm Database uses the name defined in the model class
 to represent classes internally. In some cases you might want to change
 this behavior:
 
 - To support multiple model classes with the same simple name in different namespaces.
 - To make it easier to work across platforms, since naming conventions differ.
-- To use a class name that is longer than the 57 character limit enforced by {+client-database+}.
+- To use a class name that is longer than the 57 character limit enforced by Realm Database.
 - To change a class name in .NET without forcing a migration.
 
 Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
@@ -288,9 +288,9 @@ attribute to rename a class:
 Omit Classes from your Realm Schema
 -----------------------------------
 
-By default, your application's {+service-short+} Schema includes all
+By default, your application's Realm Schema includes all
 classes that inherit from ``RealmObject`` or ``EmbeddedObject``. If you only want to include a
-a subset of these classes in your {+service-short+}
+a subset of these classes in your Realm
 Schema, you can update your configuration to include the specific classes you want:
 
 .. literalinclude:: /examples/generated/dotnet/Objects.snippet.subset.cs

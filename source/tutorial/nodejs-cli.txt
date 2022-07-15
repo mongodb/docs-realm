@@ -61,7 +61,7 @@ directly from GitHub:
    The ``start`` branch is an incomplete version of the app that we will
    complete in this tutorial. To view the finished app, check out the
    ``final`` branch, install dependencies, and update ``realmAppId`` in
-   the ``config.js`` to point to :ref:`your {+app+} ID
+   the ``config.js`` to point to :ref:`your App ID
    <find-your-app-id>`.
 
 In your terminal, run the following command to install its dependencies:
@@ -88,7 +88,7 @@ following table describes the role of important files in this project:
 
    * - config.js
      - Provides a single location for configuration data. You will put your 
-       {+app+} ID here.
+       App ID here.
    
    * - index.js
      - The entry point for the app. Creates the Realm App that you app will use 
@@ -138,15 +138,15 @@ Change this value to your Realm App ID.
    Your App Id <find-your-app-id>` doc.
 
 Once you have made that change, you now need to complete the code needed to 
-open a {+realm+}. In ``index.js``, find the ``openRealm`` function. Replace the ``TODO`` 
-line with a line of code that opens a {+realm+} and assigns it to the ``realm`` 
+open a realm. In ``index.js``, find the ``openRealm`` function. Replace the ``TODO`` 
+line with a line of code that opens a realm and assigns it to the ``realm`` 
 property. It will look like this:
 
 .. literalinclude:: /tutorial/generated/node/index.snippet.openRealm.js
    :language: javascript
 
 Now that you have implemented the ``openRealm`` function, you will now need to 
-complete the code that retrieves the {+realm+}. In ``index.js``, find the 
+complete the code that retrieves the realm. In ``index.js``, find the 
 ``getRealm`` function. It will look like this: 
 
 .. literalinclude:: /tutorial/generated/node/index.snippet.getRealm.js
@@ -209,7 +209,7 @@ In the ``tasks.js`` and ``projects.js`` files, there are a number of functions t
 CRUD functionality: ``getTasks``, ``getTask``, ``createTask``, ``deleteTask``, 
 ``editTask``, ``changeStatus``, and ``getProjects``. Each of these functions 
 (except ``getTasks`` and ``getProjects``) prompts the user for input and then makes 
-the appropriate call to Realm. Your job is to implement the calls to {+service-short+}. 
+the appropriate call to Realm. Your job is to implement the calls to Realm. 
 The following list provides guidance on how to complete this task for each function.
 
 In ``tasks.js``: 
@@ -297,14 +297,14 @@ In ``projects.js``:
 G. Use Realm Functions
 ----------------------
 
-In the ``team.js`` file, there are functions that rely on :ref:`{+service-short+} 
-functions <functions>`. {+service-short+} functions allow you to execute server-side 
+In the ``team.js`` file, there are functions that rely on :ref:`Realm 
+functions <functions>`. Realm functions allow you to execute server-side 
 logic for your client applications. Each of the following functions require you to 
-implement the calls to {+service-short+}.
+implement the calls to Realm.
 
 * ``getTeamMembers``
 
-  To get all team members, call the ``getMyTeamMembers`` {+service-short+} function
+  To get all team members, call the ``getMyTeamMembers`` Realm function
   using the ``User.functions`` method. 
 
   .. literalinclude:: /tutorial/generated/node/team.snippet.getTeamMembers.js
@@ -313,7 +313,7 @@ implement the calls to {+service-short+}.
 * ``addTeamMember``
 
   This function prompts the user for the email of the new team member. You will need 
-  to call the ``addTeamMember`` {+service-short+} function and pass it the ``email`` 
+  to call the ``addTeamMember`` Realm function and pass it the ``email`` 
   parameter. 
 
   .. literalinclude:: /tutorial/generated/node/team.snippet.addTeamMember.js
@@ -323,7 +323,7 @@ implement the calls to {+service-short+}.
 
   This functions prompts the user for the email of the team member they would like to 
   remove from their project. You will need to call the ``removeTeamMember`` 
-  {+service-short+} function and pass it the ``email`` parameter.
+  Realm function and pass it the ``email`` parameter.
   
   .. literalinclude:: /tutorial/generated/node/team.snippet.removeTeamMember.js
      :language: javascript

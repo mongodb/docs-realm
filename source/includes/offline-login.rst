@@ -1,6 +1,6 @@
 When your Realm application authenticates a user, it caches the user's 
 credentials. You can check for existing user credentials to bypass the 
-login flow and access the cached user. Use this to open a {+realm+} offline. 
+login flow and access the cached user. Use this to open a realm offline. 
 
 .. note:: Initial login requires a network connection
 

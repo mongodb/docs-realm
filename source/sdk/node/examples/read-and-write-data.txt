@@ -42,12 +42,12 @@ can look it up directly with :js-sdk:`Realm.objectForPrimaryKey()
 Query an Object Type
 ~~~~~~~~~~~~~~~~~~~~
 
-To query for objects of a given type in a {+realm+}, pass the type name to
+To query for objects of a given type in a realm, pass the type name to
 :js-sdk:`Realm.objects() <Realm.html#objects>`.
 
-Query operations return a collection of {+service-short+} objects that match the
+Query operations return a collection of Realm objects that match the
 query as a :js-sdk:`Realm.Results <Realm.Results.html>` object. A basic query
-matches all objects of a given type in a {+realm+}, but you can also apply a
+matches all objects of a given type in a realm, but you can also apply a
 :ref:`filter <node-filter-queries>` to the collection to find specific objects.
 
 .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-data-query-an-object-type.js
@@ -60,7 +60,7 @@ Filter Queries
 ~~~~~~~~~~~~~~
 
 A **filter** selects a subset of results based on the value(s) of one or more
-object properties. {+client-database+} provides a full-featured :ref:`query
+object properties. Realm Database provides a full-featured :ref:`query
 engine <node-client-query-engine>` that you can use to define filters.
 
 To filter a query, call the :js-sdk:`filtered()
@@ -91,8 +91,8 @@ Sort Query Results
 ~~~~~~~~~~~~~~~~~~
 
 A **sort** operation allows you to configure the order in which
-{+client-database+} returns queried objects. You can sort based on one or more
-properties of the objects in the results collection. {+client-database+} only
+Realm Database returns queried objects. You can sort based on one or more
+properties of the objects in the results collection. Realm Database only
 guarantees a consistent order of results if you explicitly sort them.
 
 To sort a query, call the :js-sdk:`sorted() <Realm.Collection.html#sorted>`
@@ -124,11 +124,11 @@ Write Operations
 Create a New Object
 ~~~~~~~~~~~~~~~~~~~
 
-To add an object to a {+realm+}, instantiate it as you would any other object
+To add an object to a realm, instantiate it as you would any other object
 and then pass it to :js-sdk:`Realm.create() <Realm.html#create>` inside of a
-write transaction. If the {+realm+}'s :ref:`schema <node-realm-schema>` includes
-the object type and the object conforms to the schema, then {+service-short+}
-stores the object, which is now *managed* by the {+realm+}.
+write transaction. If the realm's :ref:`schema <node-realm-schema>` includes
+the object type and the object conforms to the schema, then Realm
+stores the object, which is now *managed* by the realm.
    
 .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-create-a-new-object.js
   :language: javascript
@@ -139,7 +139,7 @@ stores the object, which is now *managed* by the {+realm+}.
 Update an Object
 ~~~~~~~~~~~~~~~~
 
-You can add, modify, or delete properties of a {+service-short+} object inside
+You can add, modify, or delete properties of a Realm object inside
 of a write transaction in the same way that you would update any other
 JavaScript object.
 
@@ -186,7 +186,7 @@ To apply an update to a collection of objects, iterate through the collection
 .. note:: Inverse Relationships
 
    Thanks to an :ref:`inverse relationship <node-inverse-relationship>` from
-   ``Dog.owner`` to ``Person.dogs``, {+client-database+} automatically updates
+   ``Dog.owner`` to ``Person.dogs``, Realm Database automatically updates
    Ali's list of dogs whenever we set her as a puppy's owner.
 
 .. _node-delete-an-object:
@@ -195,7 +195,7 @@ To apply an update to a collection of objects, iterate through the collection
 Delete an Object
 ~~~~~~~~~~~~~~~~
 
-To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
+To delete an object from a realm, pass the object to :js-sdk:`Realm.delete()
 <Realm.html#delete>` inside of a write transaction.
 
 .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-object.js
@@ -205,7 +205,7 @@ To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
 .. important:: Do not use objects after delete
    
    You cannot access or modify an object after you have deleted it from a Realm.
-   If you try to use a deleted object, {+client-database+} throws an error.
+   If you try to use a deleted object, Realm Database throws an error.
 
 .. _node-delete-multiple-objects:
 .. _node-delete-collection:
@@ -213,7 +213,7 @@ To delete an object from a {+realm+}, pass the object to :js-sdk:`Realm.delete()
 Delete Multiple Objects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete a collection of objects from a {+realm+}, pass the collection to
+To delete a collection of objects from a realm, pass the collection to
 :js-sdk:`Realm.delete() <Realm.html#delete>` inside of a write transaction.
 
 .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-multiple-objects.js
@@ -225,7 +225,7 @@ To delete a collection of objects from a {+realm+}, pass the collection to
 Delete All Objects of a Specific Type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete all objects of a given object type from a {+realm+}, pass
+To delete all objects of a given object type from a realm, pass
 ``Realm.objects(<ObjectType>)`` to the :js-sdk:`Realm.delete()
 <Realm.html#delete>` method inside of a write transaction.
 
@@ -238,9 +238,9 @@ To delete all objects of a given object type from a {+realm+}, pass
 Delete All Objects in a Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To delete **all** objects from the {+realm+}, call :js-sdk:`Realm.deleteAll()
-<Realm.html#deleteAll>` inside of a write transaction. This clears the {+realm+}
-of all object instances but does not affect the {+realm+}'s schema.
+To delete **all** objects from the realm, call :js-sdk:`Realm.deleteAll()
+<Realm.html#deleteAll>` inside of a write transaction. This clears the realm
+of all object instances but does not affect the realm's schema.
 
 .. literalinclude:: /examples/generated/node/read-and-write-data.snippet.read-and-write-delete-all.js
   :language: javascript
@@ -249,6 +249,6 @@ of all object instances but does not affect the {+realm+}'s schema.
 .. tip:: Delete All In Development
    
    :js-sdk:`Realm.deleteAll() <Realm.html#deleteAll>` is a useful method to
-   quickly clear out your {+realm+} in the course of development. For example,
+   quickly clear out your realm in the course of development. For example,
    rather than writing a migration to update objects to a new schema, it may be
    faster to delete and then re-generate the objects with the app itself.

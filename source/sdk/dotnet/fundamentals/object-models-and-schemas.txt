@@ -14,9 +14,9 @@ Object Models & Schemas - .NET SDK
    :depth: 2
    :class: singlecol
 
-{+service+} applications model data as objects composed of property-value pairs
-that each contain one or more primitive data types or other {+service-short+}
-objects. :term:`{+service-short+} objects <Realm object>` are essentially the same
+Realm applications model data as objects composed of property-value pairs
+that each contain one or more primitive data types or other Realm
+objects. :term:`Realm objects <Realm object>` are essentially the same
 as regular objects, but they inherit from 
 :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
 :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` and include
@@ -24,27 +24,27 @@ additional features like
 :ref:`real-time updating data views <dotnet-live-object>` and reactive
 :ref:`change event handlers <dotnet-client-notifications>`.
 
-Every {+service-short+} object has an *object type* that refers to the object's
+Every Realm object has an *object type* that refers to the object's
 class. Objects of the same type share an :ref:`object schema
 <dotnet-object-schema>` that defines the properties and relationships of those
 objects.
 
 In C#, you typically define object schemas by using the C# class declarations. 
-When {+service-short+} is initialized, it discovers the 
-{+service-short+} objects defined in all assemblies that have been loaded and 
+When Realm is initialized, it discovers the 
+Realm objects defined in all assemblies that have been loaded and 
 generates schemas accordingly. This is the simplest approach to defining a 
 schema, and is generally the least error-prone. However, this approach includes 
-all loaded {+service-short+} objects, and there may be cases where you only want 
+all loaded Realm objects, and there may be cases where you only want 
 to use :ref:`a subset of classes <dotnet-omit-classes-from-schema>`, or to 
-customize {+service-short+} object schemas. To do this, you can  
+customize Realm object schemas. To do this, you can  
 :ref:`programmatically define a schema <dotnet-manual-schema>`.
 
 .. note:: 
 
    .NET does not load an assembly until you reference a class in it, so if you 
-   define your object models in one assembly and instantiate {+service-short+} 
+   define your object models in one assembly and instantiate Realm 
    in another, be sure to call a method in the assembly that contains the object 
-   models *before* initialization. Otherwise, {+service-short+} will not discover 
+   models *before* initialization. Otherwise, Realm will not discover 
    the objects when it first loads. 
 
 Example
@@ -63,7 +63,7 @@ Example
 .. note::
    
    To define a collection of objects within an object, use an ``IList<T>`` with 
-   only a getter. You do not need to initialize it in the constructor, as {+realm+} 
+   only a getter. You do not need to initialize it in the constructor, as realm 
    will generate a collection instance the first time the property is accessed. 
 
 .. _dotnet-object-schema:
@@ -72,19 +72,19 @@ Object Schema
 -------------
 
 An **object schema** is a configuration object that defines the properties and 
-relationships of a {+service-short+} object. {+service-short+} client 
+relationships of a Realm object. Realm client 
 applications define object schemas with the native class implementation in their 
-respective language using the :term:`{+frontend-schema+}`.
+respective language using the :term:`Object Schema`.
 
 Object schemas specify constraints on object properties such as the data
 type of each property and whether or not a property is required. Schemas can 
 also define :ref:`relationships <dotnet-client-relationships>` between object 
-types in a {+realm+}.
+types in a realm.
 
-Every {+app+} has a :ref:`{+backend-schema+} <dotnet-realm-schema>`
+Every App has a :ref:`Realm Schema <dotnet-realm-schema>`
 composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain. {+service+} guarantees that all 
-objects in a {+realm+} conform to the
+realms in that application may contain. Realm guarantees that all 
+objects in a realm conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
@@ -93,15 +93,15 @@ created, modified, or deleted.
 Embedded Objects
 ~~~~~~~~~~~~~~~~
 
-{+client-database+} provides the ability to nest objects within other
+Realm Database provides the ability to nest objects within other
 objects. This has several advantages:
 
-- If using {+sync+}, objects will translate into MongoDB documents that
+- If using Device Sync, objects will translate into MongoDB documents that
   follow a :manual:`denormalized data model </core/data-model-design/>`.
 
 - When you delete an object that contains another object, the delete
-  operation removes both objects from the {+realm+}, so unused objects
-  don't accumulate in your {+realm+} file, taking up valuable space on
+  operation removes both objects from the realm, so unused objects
+  don't accumulate in your realm file, taking up valuable space on
   user's mobile devices.
 
 .. seealso::
@@ -132,13 +132,13 @@ create a primary key with any of the following types (or their nullable counterp
 
 You may define a primary key on a **single property** for an 
 object type as part of the :ref:`object schema <dotnet-object-schema>`.
-{+client-database+} automatically indexes primary key properties, which
+Realm Database automatically indexes primary key properties, which
 allows you to efficiently read and modify objects based on their primary
 key. 
 
 If an object type has a primary key, then all objects of that type must
 include the primary key property with a value that is unique among
-objects of the same type in a {+realm+}.
+objects of the same type in a realm.
 
 .. seealso::
 
@@ -151,22 +151,22 @@ Indexes
 ~~~~~~~
 
 **Indexes** support the efficient execution of queries in
-{+client-database+}. Without indexes, {+client-database+} must perform a
+Realm Database. Without indexes, Realm Database must perform a
 *collection scan*, i.e. scan every document in a collection, to select
 those documents that match a query. If an appropriate index exists for a
-query, {+client-database+} can use the index to limit the number of
+query, Realm Database can use the index to limit the number of
 documents that it must inspect.
 
 Indexes are special data structures that store a small portion of a
-{+realm+}'s data in an easy to traverse form. The index stores the value
+realm's data in an easy to traverse form. The index stores the value
 of a specific property ordered by the value of the property. The ordering of
 the index entries supports efficient equality matches and range-based
 query operations.
 
 Adding an index to a property makes write operations slightly slower, but makes
-certain queries faster. Indexes require space in your {+realm+} file, so
+certain queries faster. Indexes require space in your realm file, so
 adding an index to a property will increase disk space consumed by your
-{+realm+} file.
+realm file.
 
 You can index properties with the following types:
 
@@ -199,7 +199,7 @@ interface to ensure this.
 However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
 this notification happens automatically, thus greatly simplifying your ViewModel code. 
 
-You can also bind a UI element to a {+realm+} :ref:`Live Query <dotnet-live-queries>`. 
+You can also bind a UI element to a realm :ref:`Live Query <dotnet-live-queries>`. 
 For example, if you bind a 
 `ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
 to a live query, then the list will update automatically when the results of the 
@@ -208,7 +208,7 @@ interface.
 
 For example, if you bind a ListView to a query that returns all Product 
 objects, the list of available products updates automatically 
-when a product is added, changed, or removed from the {+realm+}:
+when a product is added, changed, or removed from the realm:
 
 .. code-block:: csharp
    :copyable: false
@@ -227,18 +227,18 @@ when a product is added, changed, or removed from the {+realm+}:
 Summary
 -------
 
-- {+service-short+} objects are of a **type** defined as you would any other
+- Realm objects are of a **type** defined as you would any other
   class.
 
-- {+service-short+} objects are **live**: they always reflect the latest version
+- Realm objects are **live**: they always reflect the latest version
   on disk and update automatically when the underlying object changes.
 
-- A {+service-short+} object type may have a **primary key** property to uniquely
+- A Realm object type may have a **primary key** property to uniquely
   identify each instance of the object type.
 
-- The {+service-short+} object's **schema** defines the properties of the object and
+- The Realm object's **schema** defines the properties of the object and
   which properties are optional, which properties have a default value,
   and which properties are indexed.
 
-- Using {+realm+} objects and queries in a MVVM architecture simplifies data 
+- Using realm objects and queries in a MVVM architecture simplifies data 
   binding.

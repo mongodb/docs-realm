@@ -45,7 +45,7 @@ The following states describe an on-device user at any given time:
   
   - **Active**: a single authenticated user that is currently using the
     app on a given device. The SDK associates this user with outgoing
-    requests and {+backend-short+} evaluates data access permissions and runs
+    requests and App Services evaluates data access permissions and runs
     functions in this user's context. See :ref:`active user <active-user>` for
     more information.
    
@@ -68,7 +68,7 @@ transition between states when certain events occur:
 Add a New User to the Device
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The {+service-short+} SDK automatically adds users to a device when they
+The Realm SDK automatically adds users to a device when they
 log in for the first time on that device. When a user logs in, they
 immediately become the application's :ref:`active user <active-user>`.
 
