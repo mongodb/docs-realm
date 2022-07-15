@@ -39,8 +39,8 @@ When you are done with your transaction, Realm either
 **commits** it or **cancels** it:
 
 - When Realm **commits** a transaction, Realm writes
-  all changes to disk. For :term:`synced realms <Device Sync>`, Realm queues the change
-  for synchronization with :term:`Realm`.
+  all changes to disk. For synced realms, the SDK queues the change
+  for synchronization with App Services.
 - When Realm **cancels** a write transaction or an operation in
   the transaction causes an error, all changes are discarded
   (or "rolled back").

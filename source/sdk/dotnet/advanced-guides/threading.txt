@@ -80,7 +80,7 @@ Communication Across Threads
 ----------------------------
 
 To access the same realm file from different threads, you must initialize a 
-new realm to get a different :term:`realm instance` for every thread of 
+new realm to get a different realm instance for every thread of 
 your app. As long as you specify the same configuration, all realm instances 
 will map to the same file on disk.
 
@@ -280,7 +280,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses :term:`zero-copy` techniques
+Realm Database uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for

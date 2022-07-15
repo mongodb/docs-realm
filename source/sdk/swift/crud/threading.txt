@@ -190,7 +190,7 @@ internal version.
 
 .. note:: One Version at a Time
 
-   A :term:`realm instance` is designed to work with one version at a
+   A realm instance is designed to work with one version at a
    time, not several different versions. Consider what Realm Database
    would have to do to support working with several different versions at
    once: it would need to store a potentially enormous graph to allow the
@@ -356,7 +356,7 @@ When you open a realm, it reflects the most recent successful write
 commit and remains on that version until it is **refreshed**. This means
 that the realm will not see changes that happened on another thread
 until the next refresh. A realm on the UI thread -- more precisely,
-on any :term:`event loop` thread -- automatically refreshes itself at
+on any event loop thread -- automatically refreshes itself at
 the beginning of that thread's loop. However, you must manually refresh
 realm instances that do not exist on loop threads or that have
 auto-refresh disabled.
@@ -564,7 +564,7 @@ version is guaranteed to be valid.
 
 .. include:: /includes/commit-process-diagram.rst
 
-Realm Database uses :term:`zero-copy` techniques
+Realm Database uses zero-copy techniques
 like memory mapping to handle data. When you read a value
 from the realm, you are virtually looking at the value on
 the actual disk, not a copy of it. This is the basis for

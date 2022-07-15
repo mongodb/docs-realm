@@ -40,7 +40,7 @@ Read Operations
 ---------------
 
 You can read back the data that you have
-:ref:`stored <dotnet-realm-database-writes>` in :term:`Realm Database`.
+:ref:`stored <dotnet-realm-database-writes>` in Realm Database.
 The standard data access pattern across Realm
 SDKs is to find, filter, and sort objects, in that order. To
 get the best performance from Realm as your app grows and
@@ -111,8 +111,8 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using :term:`zero-copy`
-:term:`live objects`. :term:`Realm object` accessors point directly into
+Realm Database bypasses all of this using zero-copy
+live objects. Realm object accessors point directly into
 database storage using memory mapping, so there is no distinction
 between the objects in Realm Database and the results of your query in
 application memory. Because of this, you can traverse direct references

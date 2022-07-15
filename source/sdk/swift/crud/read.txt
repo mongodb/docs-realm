@@ -17,7 +17,7 @@ CRUD - Read - Swift SDK
 Key Concept: Read from Realm Database
 -------------------------------------
 
-A read from a :term:`realm` generally consists of the following
+A read from a realm generally consists of the following
 steps:
 
 - Get all :ref:`objects <ios-realm-objects>` of a certain type from the realm.
@@ -92,8 +92,8 @@ objects that are never accessed, but if you choose to only
 copy the foreign key, referenced object lookups can cause
 your application to slow down.
 
-Realm Database bypasses all of this using :term:`zero-copy`
-:term:`live objects`. :term:`Realm object` accessors point
+Realm Database bypasses all of this using zero-copy
+live objects. Realm object accessors point
 directly into database storage using memory mapping, so there is no
 distinction between the objects in Realm Database and the results
 of your query in application memory. Because of this, you can traverse

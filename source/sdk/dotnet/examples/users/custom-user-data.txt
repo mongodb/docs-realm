@@ -27,15 +27,14 @@ in the backend. To learn more, see :ref:`Enable Custom User Data <custom-user-da
 To create, update, or delete custom user data, you will need the following
 information from your custom user data configuration:
 
-- The :term:`custom user data cluster`
+- The custom user data cluster
 
-- The :term:`custom user data database`
+- The custom user data database
 
-- The :term:`custom user data collection` in which custom
-  user data documents are stored
+- The collection in which custom user data documents are stored
 
-- The :term:`user ID field` used to map custom user data documents
-  to users (via :term:`user ID`)
+- The user ID field used to map custom user data documents
+  to users (via user ID)
 
 You can find this information in the App Services UI. In the left sidebar, click  
 :guilabel:`App Users`,  and then select the :guilabel:`Custom User Data` tab.
@@ -69,7 +68,7 @@ Create a User's Custom User Data Document
 
 To create custom user data for a user, create a MongoDB document in the
 custom user data collection. The user ID field of the document must
-contain the the user's :term:`user ID`. The following example uses
+contain the the user's user ID. The following example uses
 :ref:`MongoDB Data Access <dotnet-mongodb-data-access>` to insert a
 document containing the user ID of the currently logged in user and several 
 custom properties into the custom user data collection:

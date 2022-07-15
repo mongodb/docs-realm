@@ -16,7 +16,7 @@ A **realm** is a set of related objects that conform to a pre-defined
 schema. Realms may contain more than one type of data as long as a 
 schema exists for each type.
 
-Every realm stores data in a separate :term:`realm file` that contains a binary
+Every realm stores data in a separate realm file that contains a binary
 encoding of each object in the realm. You can automatically :ref:`synchronize
 a realm across multiple devices <sync>` and set up :ref:`reactive event handlers
 <dotnet-client-notifications>` that call a function any time an object in a realm is
@@ -53,7 +53,7 @@ Synced Realms
 ~~~~~~~~~~~~~
 
 When using Device Sync, each realm corresponds to a subset of the data in your
-:term:`App's <App>` :term:`synced Atlas cluster <synced cluster>`. 
+App's synced Atlas cluster. 
 
 When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
 realms represent partitions of Atlas data. You can customize the 
@@ -153,13 +153,13 @@ method to safely do so. The following code demonstrates this:
 Summary
 -------
 
-- A :term:`realm` is a collection of objects that conform to a
+- A realm is a collection of objects that conform to a
   schema. It is not a single, application-wide database. There can and
   usually will be more than one realm per application.
 
 - When using :ref:`Partition-Based Sync <partition-based-sync>`, a 
-  :term:`partition value` is a realm's unique identifier.
+  partition value is a realm's unique identifier.
 
 - Realm Rules define who can read or write the realm and apply to the realm as a whole.
 
-- A :term:`Realm Schema` is a specification of the object types used in an App.
+- A Realm Schema is a specification of the object types used in an App.

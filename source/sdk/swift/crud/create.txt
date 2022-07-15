@@ -22,8 +22,8 @@ Key Concept: Transactions
 Write Transactions
 ~~~~~~~~~~~~~~~~~~
 
-:term:`Realm Database` uses a highly efficient storage engine
-to persist objects. You can **create** objects in a :term:`realm`,
+Realm Database uses a highly efficient storage engine
+to persist objects. You can **create** objects in a realm,
 **update** objects in a realm, and eventually **delete**
 objects from a realm. Because these operations modify the
 state of the realm, we call them writes.
@@ -47,8 +47,8 @@ When you are done with your transaction, Realm either
 **commits** it or **cancels** it:
 
 - When Realm **commits** a transaction, Realm writes
-  all changes to disk. For :term:`synced realms <Device Sync>`, Realm queues the change
-  for synchronization with :term:`Realm`.
+  all changes to disk. For synced realms, the SDK queues the change
+  for synchronization with App Services.
 - When Realm **cancels** a write transaction or an operation in
   the transaction causes an error, all changes are discarded
   (or "rolled back").
