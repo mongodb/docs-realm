@@ -1,6 +1,6 @@
 realm.Write(() =>
 {
-    // Create someone to take care of ssome dogs.
+    // Create someone to take care of some dogs.
     var ali = new Person { Id = 44, Name = "Ali" };
     realm.Add(ali);
 
