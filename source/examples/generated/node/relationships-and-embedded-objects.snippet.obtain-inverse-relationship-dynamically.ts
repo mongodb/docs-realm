@@ -18,5 +18,5 @@ const Task = {
   },
 };
 
-  // get the User who owns the task
-  const linkedUser = task.linkingObjects("User", "tasks")[0];
+// get the User who owns the task
+const linkedUser = task.linkingObjects("User", "tasks")[0];
