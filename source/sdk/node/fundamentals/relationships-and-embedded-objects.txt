@@ -154,13 +154,16 @@ you add or remove a related object.
            :language: javascript
            :emphasize-lines: 5, 14, 23, 32-36
 
+.. _node-inverse-relationship-dynamically:
+
 Dynamically Obtain an Inversely Linked Object
 `````````````````````````````````````````````
-You can retrieve an object with an inverse relationship dynamically without
-defining a ``linkingObjects`` type in its schema. To do so, remove the
+You can dynamically retrieve an object with an inverse relationship without
+defining a ``linkingObjects`` type in its schema. Remove the
 ``linkingObjects`` type from your schema, so your schemas look like a standard
-to-many relationship. When you need to retrieve the linked object, you can call the 
-:js-sdk:`linkingObjects <Realm.Object.html#linkingObjects>` query. 
+**to-many** relationship. When you need to retrieve the linked object, call the
+:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+query.
 
 .. example::
    
@@ -169,8 +172,8 @@ to-many relationship. When you need to retrieve the linked object, you can call 
    creates several users and task objects, and the application pushes the newly created tasks into a 
    user's task field. 
    
-   In order to find the user who owns a specific task, the developer calls ``task.linkingObjects()`` 
-   and passes in the "User" class name, and "tasks" field as parameters. 
+   To find the user who owns a specific task object, the developer calls the
+    ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
 
    .. tabs-realm-languages::
       
