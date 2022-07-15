@@ -42,7 +42,7 @@ required, depending on whether you are linking a Data Lake or a cluster.
    
    * - | ``id``
        | String
-     - A string that uniquely identifies the service. Realm
+     - A string that uniquely identifies the service. App Services
        automatically generates a unique ID for a MongoDB service when you create
        it.
    

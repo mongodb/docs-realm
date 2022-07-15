@@ -17,9 +17,9 @@ Overview
 --------
 Over time, the storage space used by Realm might become fragmented 
 and take up more space than necessary. To rearrange the internal storage and 
-potentially reduce the file size, you can compact the Realm file.
+potentially reduce the file size, you can compact the realm file.
 
-.. important:: Realm file must not be in use
+.. important:: File must not be in use
   
    Realm cannot compact a file that is in use. Be sure there are no open 
    instances that use the file.
@@ -44,7 +44,7 @@ realm instance.
 
 Realm Configuration File
 ~~~~~~~~~~~~~~~~~~~~~~~~
-You can configure Realm to check the Realm file each time 
+You can configure Realm to check the realm file each time 
 it is opened by specifying a 
 :dotnet-sdk:`ShouldCompactDelegate <reference/Realms.RealmConfiguration.ShouldCompactDelegate.html>` 
 in the configuration. The following code example shows how to do this:
@@ -59,7 +59,7 @@ is compacted prior to making the instance available.
 Realm.Compact() Method
 ~~~~~~~~~~~~~~~~~~~~~~
 Alternatively, you can compact a realm file without first obtaining an instance 
-to the Realm by calling the 
+to the realm by calling the 
 :dotnet-sdk:`Compact() <reference/Realms.Realm.html#Realms_Realm_Compact_Realms_RealmConfigurationBase_>`
 method. The following example shows how to do this:
 

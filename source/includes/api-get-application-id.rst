@@ -1,4 +1,4 @@
-To find an Application ID, make a request to the Realm
+To find an Application ID, make a request to the App Services
 :admin-api-endpoint:`GET /groups/{groupid}/apps <operation/adminListApplications>` API endpoint.
 
 This request has the following format, referencing the ``access_token`` and the Group ID:

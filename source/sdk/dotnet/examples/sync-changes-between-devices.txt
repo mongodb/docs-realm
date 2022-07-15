@@ -144,6 +144,7 @@ bytes to be transferred.
    of both transferable and transferred bytes.
 
 .. example::
+
    In the following example, we subscribe to a progress 
    observable on the ``session`` to listen for upload events indefinitely. When 
    this callback is triggered, it prints the number of transferred 
@@ -157,7 +158,7 @@ bytes to be transferred.
 
 .. note:: 
    
-   Realm optimizes download speeds by combining multiple changesets
+   The SDK optimizes download speeds by combining multiple changesets
    into a single download message, up to 16 MB. Since the progress callback is
    only invoked once before and after a download message is processed, this
    means that you'll likely see ``transferredBytes`` change in increments of roughly
@@ -206,7 +207,7 @@ strongly typed handling logic.
 
 .. note:: Additional Exception Information
 
-   For security reasons, Realm may send only a minimal amount of 
+   For security reasons, App Services may send only a minimal amount of 
    information about an exception, but the server-side logs will contain more 
    details. In these cases, the 
    `HelpLink <https://docs.microsoft.com/en-us/dotnet/api/system.exception.helplink?view=net-6.0#system-exception-helplink>`_ 

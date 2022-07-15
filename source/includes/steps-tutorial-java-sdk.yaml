@@ -16,7 +16,7 @@ content: |
      The ``start`` branch is an incomplete version of the app that we will
      complete in this tutorial. To view the finished app, check out the
      ``final`` branch and update the app's ``build.gradle`` with your
-     :ref:`Realm app ID <find-your-app-id>` (see "Connect to Your MongoDB Realm
+     :ref:`App ID <find-your-app-id>` (see "Connect to Your
      App" below).
 
 ---
@@ -77,9 +77,9 @@ content: |
        - A subclass of the Android :android:`Application
          <reference/android/app/Application>` class. Responsible for:
 
-         - initializing the connection to Realm
+         - initializing the connection to App Services
 
-         - creating the Realm ``App`` object used by all other classes
+         - creating the ``App`` object used by all other classes
            to communicate with the App Services backend
 
          - defining a Kotlin extension method called ``TAG()`` used
@@ -89,7 +89,7 @@ content: |
      * - LoginActivity
        - View launched whenever a user is not currently logged in.
          Allows users to create email/password accounts in the connected
-         MongoDB Realm application and login to existing accounts.
+         App and login to existing accounts.
 
      * - ProjectActivity
        - Displays the list of projects that the currently logged in user
@@ -116,7 +116,7 @@ content: |
      * - Member
        - Model describing in-app members of a project. Does not extend
          the ``RealmObject`` class, since we will fetch members of a
-         project using a Realm Function rather than a Realm Database
+         project using an App Services Function rather than a Realm Database
          query.
 
      * - MemberAdapter
@@ -130,7 +130,7 @@ content: |
 
      * - TaskStatus
        - Enum class capturing the various possible states of an in-app
-         task. Provides a single place to define the strings that Realm
+         task. Provides a single place to define the strings that the SDK
          stores in Realm Database to persist task status state between
          devices and app runs.
 
@@ -143,7 +143,7 @@ content: |
          projects to which that user belongs.
 
 ---
-title: Connect to Your MongoDB Realm App
+title: Connect to Your App
 ref: connect-to-your-mongodb-realm-app
 content: |
 
@@ -181,7 +181,7 @@ content: |
      |-- Task Tracker.iml
 
   Open the **app** ``build.gradle`` file, where we'll configure your
-  app's connection to Realm. In the ``android.buildTypes``
+  app's connection to App Services. In the ``android.buildTypes``
   section, define your App ID, which ``TaskTracker`` uses to
   instantiate a connection to your App whenever this Android app
   runs:
@@ -201,11 +201,11 @@ content: |
         }
      }
 
-  Replace ``<your app ID here>`` with your Realm app ID, which you can
+  Replace ``<your app ID here>`` with your App ID, which you can
   :ref:`find in the Realm UI <find-your-app-id>`.
 
 ---
-title: Create the Realm App
+title: Create the App Object
 ref: create-realm-app
 content: |
 
@@ -419,7 +419,7 @@ content: |
   A user can add and remove team members to their own Project using the
   Manage Team view. Since this logic edits the custom user data objects
   of other users (which the currently logged in user cannot edit), we
-  need to call out to our Realm functions we defined earlier, which
+  need to call out to our App Services Functions we defined earlier, which
   handle edits to other user's custom user data objects securely:
 
   Navigate to ``MemberActivity``, which defines the view
@@ -433,8 +433,8 @@ content: |
   built-in ``map`` function to transform the objects in the list
   returned by the function from type ``Document`` to type ``Member``,
   which is the type of data that ``MemberAdapter`` expects. You can
-  access Realm Functions through the function manager
-  found in your project-global Realm app:
+  access App Services Functions through the function manager
+  found in your project-global App:
 
   .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.get-team-members.kt
      :language: kotlin
@@ -443,14 +443,14 @@ content: |
   ``MemberActivity`` to add users to the project. To handle this, write
   logic in the floating action button's ``setPositiveButton()`` callback
   that adds a new user to the project using the ``addTeamMember()``
-  Realm function. Because the team members displayed in this
+  Function. Because the team members displayed in this
   view aren't :ref:`live Realm Objects <java-live-object>`, this
   RecyclerView's adapter isn't a subclass of
   ``RealmRecyclerViewAdapter``, and we'll have to manually update our
   local copy of the list of team members to reflect the success of this
   method when we add a team member. To do this, call
   ``setUpRecyclerView()`` to reload the list of team members from the
-  backend when the ``addTeamMember()`` Realm Function
+  backend when the ``addTeamMember()`` Function
   successfully adds a team member:
 
   .. literalinclude:: /tutorial/generated/code/final/MemberActivity.snippet.add-new-member-to-project.kt
@@ -466,8 +466,8 @@ content: |
   provided for you except for the logic that handles removing a team
   member from a project when the user selects "Remove User". To
   implement this logic, we'll have to call the ``removeTeamMember()``
-  Realm Function. When the ``removeTeamMember()``
-  Realm Function successfully removes a team member, we'll
+  Function. When the ``removeTeamMember()``
+  Function successfully removes a team member, we'll
   have to manually remove that team member from the list of team members
   with ``data.removeAt()``. Once you've removed the object from the
   underlying dataset, just call ``notifyItemRemoved()`` with the item's

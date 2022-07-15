@@ -111,7 +111,7 @@ Once a user authenticates, the ``User`` object persists on the device until the
 user logs off. This allows your app to 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
 synced realm in an offline state. Changes that occur while offline will be 
-synced by Realm once the device is reconnected.
+synced by the SDK once the device reconnects to your App.
 
 The following code shows how to check if there is an existing ``User`` object. 
 If none is found, it uses the process outlined about to obtain a user. If the 
