@@ -5,7 +5,7 @@ content: |
   Unity Hub comes pre-installed with templates, such as the Platformer
   Microgame, to help users learn to develop games for Unity. You'll start by
   loading the Platformer Microgame template. In later steps, you will import and
-  add {+service-short+} functionality to the game. 
+  add Realm functionality to the game. 
 
   Click the :guilabel:`Learn` tab on the left side of Unity Hub to view the list of template projects.
   Scroll to the :guilabel:`Platformer Microgame` and click it.
@@ -46,7 +46,7 @@ content: |
      to jump. Navigate through a series of platforms and defeat the "red slime" enemies by hopping on them, making them disappear.
      Collect the yellow "tokens" by touching them. Get to the end of the level to win the game. 
 
-  In later steps, you will use {+client-database+} to record: 
+  In later steps, you will use Realm Database to record: 
 
   - how many enemies the ``Player`` defeated per playthrough
   - how many tokens were collected
@@ -76,8 +76,8 @@ content: |
   Unity uses the `project manifest
   <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_ to determine packages
   to install into your project. You'll need to update your project's manifest
-  file to install {+client-database+}, and the Unity UI ToolKit and UI Builder packages to
-  develop user interfaces to interact with and display data stored in {+realm+}.
+  file to install Realm Database, and the Unity UI ToolKit and UI Builder packages to
+  develop user interfaces to interact with and display data stored in realm.
   
   Open your project's manifest file by navigating to your project on Unity Hub
   and expanding the dropdown menu on the right-hand side of your project name.
@@ -132,12 +132,12 @@ content: |
 title: Download the Realm Tutorial Repository
 ref: clone-the-repository
 content: |
-  Now that you have installed {+service-short+}, UI Builder, and UI Toolkit, you can begin
-  recording data into {+service-short+} and building a user interface that can read and
+  Now that you have installed Realm, UI Builder, and UI Toolkit, you can begin
+  recording data into Realm and building a user interface that can read and
   interact with that data.
 
   We've already put together a repository with most of the code you'll need
-  to accomplish that. You can clone or download the {+service-short+} Tutorial repository directly from
+  to accomplish that. You can clone or download the Realm Tutorial repository directly from
   :github:`GitHub <mongodb-university/realm-tutorial-unity>`:
 
   .. tabs:: 
@@ -156,7 +156,7 @@ content: |
 
         .. tip::
 
-           The ``start`` branch is an incomplete version of the {+service-short+} Tutorial repository that you will
+           The ``start`` branch is an incomplete version of the Realm Tutorial repository that you will
            complete in this tutorial. To view a complete local-only (non-sync) version of the scripts:
 
            1. Navigate to the root directory of the client application repository:
@@ -206,7 +206,7 @@ content: |
          the structure of the Leaderboard user interface.
      
      * - RealmScripts/LeaderboardManager.cs
-       - :ref:`Query {+service-short+} <dotnet-read-from-realm>` and display the top ``Stat`` objects.
+       - :ref:`Query Realm <dotnet-read-from-realm>` and display the top ``Stat`` objects.
 
      * - UI Toolkit/ScoreCard.uxml
        - `UXML <https://docs.unity3d.com/Manual/UIE-UXML.html>`_ file; defines
@@ -222,23 +222,23 @@ content: |
      * - RealmScripts/AuthenticationManager.cs
        - Interacts with the TextField's of AuthenticationScreen.uxml to
          implement user login. In part 2, you'll add :ref:`user authentication
-         <dotnet-login-email-password>` with the {+backend+}
+         <dotnet-login-email-password>` with the App Services
          :ref:`Email/Password <email-password-authentication>` provider.
 
      * - RealmScripts/RealmController.cs
-       - Open a {+realm+}, :ref:`query {+service-short+} <dotnet-read-from-realm>` the {+realm+}
+       - Open a realm, :ref:`query Realm <dotnet-read-from-realm>` the realm
          for an existing ``Player`` or create a new one and a new ``Stat`` for the current
-         playthrough. Perform :ref:`write transactions <dotnet-write-transactions>` on the {+realm+}
+         playthrough. Perform :ref:`write transactions <dotnet-write-transactions>` on the realm
          objects.
 
      * - RealmScripts/PlayerModel.cs
-       - Defines the ``Player`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the ``Player`` :ref:`Object Schema <dotnet-object-models-and-schemas>`.
 
      * - RealmScripts/StatModel.cs
-       - Defines the playthrough ``Stat`` :ref:`{+frontend-schema+} <dotnet-object-models-and-schemas>`.
+       - Defines the playthrough ``Stat`` :ref:`Object Schema <dotnet-object-models-and-schemas>`.
 
      * - RealmScripts/Constants.cs (Part 2)
-       - Part 2: Declare the {+backend-short+} :ref:`App ID <find-your-project-or-app-id>` for the {+sync+} portion of the tutorial.
+       - Part 2: Declare the App Services :ref:`App ID <find-your-project-or-app-id>` for the Device Sync portion of the tutorial.
 
 ---
 title: Explore the Schemas
@@ -250,12 +250,12 @@ content: |
   
   Note the following about the schemas:
 
-  - A ``Stat`` is a {+realm+} object representing the statistics of a
+  - A ``Stat`` is a realm object representing the statistics of a
     playthrough of the game. For instance, in one playthrough of the game, a
     ``Player`` may have defeated 10 enemies, collected 15 tokens, and had a
     score of 210. Each ``Stat`` has a ``statOwner`` that is a ``Player`` object.
 
-  - A ``Player`` is a {+realm+} object representing the user's logged-in
+  - A ``Player`` is a realm object representing the user's logged-in
     character. Each ``Player`` has a collection (IList) of ``Stat`` objects.
 
   - A ``Player`` has a string property, ``_id``, that defines the ``Player`` objects' unique partition.
@@ -333,7 +333,7 @@ title: Open a Realm
 ref: open-realm
 content: |
   Open the ``RealmController.cs`` file with a text editor, where we'll implement a
-  function to open a {+realm+}. To open a {+realm+} instance that you will use
+  function to open a realm. To open a realm instance that you will use
   throughout the ``RealmController`` class, add the following code to the
   ``GetRealm()`` method:
 
@@ -351,9 +351,9 @@ content: |
   The ``RealmController.SetLoggedInUser()`` method takes a string, ``userInput``.
   You will create code to do the following in this method:
   
-  - Query the {+realm+} to determine if a ``Player`` object already exists for the
+  - Query the realm to determine if a ``Player`` object already exists for the
     given ``userInput``. 
-  - Create an if-else block that creates a new ``Player`` and a new ``Stat`` {+realm+}
+  - Create an if-else block that creates a new ``Player`` and a new ``Stat`` realm
     object if the ``Player`` does not exist, and uses the existing ``Player`` and
     creates a new ``Stat`` object if the ``Player`` does exist.
 
@@ -415,7 +415,7 @@ content: |
   Finally, create a listener that :ref:`reacts to changes <dotnet-react-to-changes>` to the current
   playthrough's ``Stat`` and updates the Scorecard in the UI. In the`
   ``ScoreCardManager.cs`` file, you can add a change listener to the current
-  ``Stat`` {+realm+} object defined as the ``RealmController.currentStat``
+  ``Stat`` realm object defined as the ``RealmController.currentStat``
   variable. In the ``WatchForChangesToCurrentStats()`` method, handle the ``Stat`` object's
   :dotnet-sdk:`PropertyChanged event<reference/Realms.RealmObjectBase.html#Realms_RealmObjectBase_PropertyChanged>`:
    
@@ -435,7 +435,7 @@ content: |
   but nothing else happens. To expand upon this, you will update the code to do
   the following when the ``Player`` wins the game:
 
-  - Call the ``RealmController.PlayerWon()`` method to calculate and write the final score to {+realm+}
+  - Call the ``RealmController.PlayerWon()`` method to calculate and write the final score to realm
   - Display a dialog with the final score
   - Respawn the ``Player`` and restarts the game if the ``Player`` clicks the restart button
 

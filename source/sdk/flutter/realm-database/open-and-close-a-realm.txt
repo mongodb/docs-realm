@@ -18,7 +18,7 @@ Open a Realm
 ------------
 
 Use the :flutter-sdk:`Configuration <realm/Configuration-class.html>` class
-to control the specifics of the {+realm+} you
+to control the specifics of the realm you
 would like to open, including the schema.
 
 .. _flutter-open-local-only-realm:
@@ -26,7 +26,7 @@ would like to open, including the schema.
 Open a Local-Only Realm
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a {+realm+} that only persists data locally,
+To create a realm that only persists data locally,
 create a configuration with :flutter-sdk:`Configuration.local() <realm/Realm-class.html>`.
 You must provide a list of schemas as an argument.
 
@@ -35,12 +35,12 @@ Pass the ``Configuration`` to the :flutter-sdk:`Realm <realm/Realm-class.html>` 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.open-realm.dart
    :language: dart
 
-You can now use that {+realm+} instance to work with objects in the database.
+You can now use that realm instance to work with objects in the database.
 
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
 
-To open a {+realm+} that synchronizes data with {+atlas+} using {+sync+},
+To open a realm that synchronizes data with Atlas using Device Sync,
 refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 
 Open an In-Memory Realm
@@ -62,7 +62,7 @@ Pass the ``Configuration`` to the :flutter-sdk:`Realm <realm/Realm-class.html>` 
 Configure a Realm
 -----------------
 
-You can add optional properties to the {+realm+}'s ``Configuration``.
+You can add optional properties to the realm's ``Configuration``.
 
 .. _flutter-open-read-only-realm:
 
@@ -104,9 +104,9 @@ Add Initial Data to Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use :flutter-sdk:`initialDataCallback() <realm/InitialDataCallback.html>` to invoke
-a callback function the first time that you open a {+realm+}.
-The function only executes the first time that the {+realm+} on the device.
-The {+realm+} instance passed to the callback function already has a write transaction open,
+a callback function the first time that you open a realm.
+The function only executes the first time that the realm on the device.
+The realm instance passed to the callback function already has a write transaction open,
 so you do not need to wrap write operations in a ``Realm.write()`` transaction block.
 ``initialDataCallback`` can be useful for adding initial data to your application
 the first time that it is opened on a device.
@@ -125,7 +125,7 @@ Close a Realm
    .. tab:: Flutter
       :tabid: flutter
 
-      Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+      Once you've finished working with a realm, close it to prevent memory leaks.
 
       .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
          :language: dart
@@ -133,7 +133,7 @@ Close a Realm
    .. tab:: Dart
       :tabid: dart
 
-      Once you've finished working with a {+realm+}, close it to prevent memory leaks.
+      Once you've finished working with a realm, close it to prevent memory leaks.
 
       .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
          :language: dart

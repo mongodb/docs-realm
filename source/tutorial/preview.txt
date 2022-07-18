@@ -39,9 +39,9 @@ through the different components of the app.
   The frontend communicates to the backend, which handles 
   :ref:`authentication <users-and-authentication>`.
 - The black flow follows the action of Alice updating a task. The frontend writes
-  the update to the local {+client-database+} that sits on Alice's device. Then if the 
-  device has an internet connection, the data goes to the {+app+} backend
-  and the :ref:`{+atlas-short+} cluster <data-sources>`.
+  the update to the local Realm Database that sits on Alice's device. Then if the 
+  device has an internet connection, the data goes to the App backend
+  and the :ref:`Atlas cluster <data-sources>`.
 
 .. image:: /images/tutorial-1-user-dataflow-diagram.png
     :alt: diagram showing how user actions flow through the app structure.
@@ -50,7 +50,7 @@ This second diagram demonstrates how the actions of two separate users with
 separate accounts and devices might interact in the Task Tracker. 
 
 - The red flow happens first, showing Alice adding Bob to her project. Once Alice's device
-  connects to the internet, this update is received by the {+app+} and 
+  connects to the internet, this update is received by the App and 
   sent to Bob's device over the internet. At the end of the red flow, Bob has read 
   and write access to Alice's project. 
 - The blue flow starts with Bob adding a task to Alice's project and reverses 
@@ -61,28 +61,28 @@ separate accounts and devices might interact in the Task Tracker.
     :alt: diagram showing how 2 connected users' actions flow through the app structure.
 
 .. tip::
-  The :term:`{+client-database+}` stores changes made on the device, until it can sync
-  with the :term:`{+app+}`. When the device has an active internet connection, it
+  The Realm Database stores changes made on the device, until it can sync
+  with the App. When the device has an active internet connection, it
   syncs changes with the backend. When an offline device connects to the internet, 
   it uploads and downloads any changesets. The user can then see changes that other 
-  users made while they were offline. :ref:`{+sync+} <sync>` handles this process. 
+  users made while they were offline. :ref:`Device Sync <sync>` handles this process. 
 
 What We Cover in this Tutorial
 ------------------------------
 
 In building the Task Tracker, you will take advantage of some of the 
 built-in :ref:`Functions <functions>` available in 
-:ref:`{+service-short+} <realm-cloud>` and the functionality of 
-:ref:`{+sync+} <sync>`. Once your {+backend-short+} backend is set up, you 
+:ref:`Realm <realm-cloud>` and the functionality of 
+:ref:`Device Sync <sync>`. Once your App Services backend is set up, you 
 will combine it with the frontend of your choice to complete the app. 
 
 This tutorial will guide you through: 
 
-- Creating a {+atlas-short+} cluster to store your app's data in the cloud
-- Setting up an {+app+} (the backend)
-- Setting up authentication through the {+ui+}.
-- Using {+sync+} so you can have locally stored data on each device that 
-  syncs up with the data on your {+atlas-short+} cluster when the device has internet.
-- Creating a frontend that works with the {+service-short+} infrastructure you have created
+- Creating a Atlas cluster to store your app's data in the cloud
+- Setting up an App (the backend)
+- Setting up authentication through the App Services UI.
+- Using Device Sync so you can have locally stored data on each device that 
+  syncs up with the data on your Atlas cluster when the device has internet.
+- Creating a frontend that works with the Realm infrastructure you have created
 
 To get started, :doc:`set up the backend for the tutorial </tutorial/backend-app>`

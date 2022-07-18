@@ -16,20 +16,20 @@ Overview
 --------
 
 In this tutorial, you will create a Unity project that uses Unity's `Platformer
-Microgame <https://learn.unity.com/project/2d-platformer-template>`_  and {+service+}.
+Microgame <https://learn.unity.com/project/2d-platformer-template>`_  and Realm.
 
 The project is made up of two parts:
 
 - The Platformer Microgame: A working microgame provided by Unity that does not store any data in a database.
-- The {+service-short+} Tutorial repository: A repository we've created to simplify the creation of the User Interface and storing of data in {+service-short+}.
+- The Realm Tutorial repository: A repository we've created to simplify the creation of the User Interface and storing of data in Realm.
 
 In :ref:`Part 1 <unity-tutorial-local>` of this tutorial, you will set up the
-platformer microgame, clone and import the {+service-short+} tutorial
+platformer microgame, clone and import the Realm tutorial
 repository, and then add functionality to manage players and a list of game statistics
-in {+client-database+}.
+in Realm Database.
 
 Once you've completed the local version of the app, you can enhance your
-application in :ref:`Part 2 <unity-tutorial-sync>` {+sync+} to:
+application in :ref:`Part 2 <unity-tutorial-sync>` Device Sync to:
 
 - Register users with email and password.
 - Sign users into accounts with email and password and sign out later.
@@ -42,9 +42,9 @@ Part 1 should take around 30 minutes to complete. The optional part 2 should tak
    If you prefer to explore on your own rather than follow a guided tutorial,
    you can check out the following documentation:
 
-   - :ref:`{+service-short+} .NET Quick Start <dotnet-client-quick-start-local>`
-   - :ref:`{+service-short+} .NET Quick Start with {+sync-short+} <dotnet-client-quick-start>`
-   - :ref:`Integrate {+service-short+} with Unity <dotnet-unity>`
+   - :ref:`Realm .NET Quick Start <dotnet-client-quick-start-local>`
+   - :ref:`Realm .NET Quick Start with Sync <dotnet-client-quick-start>`
+   - :ref:`Integrate Realm with Unity <dotnet-unity>`
 
 .. _unity-tutorial-local:
 
@@ -69,13 +69,13 @@ Part 2: Add Sync to the Game (Optional)
 .. important:: Prerequisites
 
    - Completed :ref:`Part 1 <unity-tutorial-local>`.
-   - A :ref:`{+backend+}  application <create-a-realm-app>` with :ref:`Email/Password authentication enabled <email-password-authentication>`.
+   - A :ref:`App Services  application <create-a-realm-app>` with :ref:`Email/Password authentication enabled <email-password-authentication>`.
 
 .. tip::
 
    To view a complete synced version of the app:
 
-   1. Navigate to the root directory of the {+service-short+} Tutorial repository:
+   1. Navigate to the root directory of the Realm Tutorial repository:
 
       .. code-block:: shell
 
@@ -88,8 +88,8 @@ Part 2: Add Sync to the Game (Optional)
          git checkout sync
 
    #. In Constants.cs, replace ``<your-realm-app-ID-here>`` with
-      your {+service-short+} app ID, which you can
-      :ref:`find in the {+backend-short+} UI <find-your-app-id>`.
+      your Realm app ID, which you can
+      :ref:`find in the App Services UI <find-your-app-id>`.
 
    #. Run the game by clicking the "Play" button at the top of the Unity UI to
       enter `Play mode <https://docs.unity3d.com/Manual/GameView.html>`_.
@@ -101,8 +101,8 @@ What's Next?
 ------------
 
 - Read our :ref:`.NET SDK <dotnet-intro>` documentation.
-- Read additional information about :ref:`using {+realm+} in your Unity project <unity-integration-guide-using-realm-in-project>`. 
-- To learn more about other functionality of {+service+}, such as  :ref:`serverless functions <functions>` and :ref:`database triggers <triggers>`, try out the :ref:`{+service+} Backend tutorial <backend-tutorial>`.
+- Read additional information about :ref:`using realm in your Unity project <unity-integration-guide-using-realm-in-project>`. 
+- To learn more about other functionality of Realm, such as  :ref:`serverless functions <functions>` and :ref:`database triggers <triggers>`, try out the :ref:`App Services Backend tutorial <backend-tutorial>`.
 - Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
 - Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
 

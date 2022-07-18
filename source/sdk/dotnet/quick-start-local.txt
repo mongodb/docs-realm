@@ -20,7 +20,7 @@ app.
 .. important::
 
    If you will be using :ref:`Sync <sync>` and other backend features of 
-   {+service-short+} in your app, see :ref:`<dotnet-client-quick-start>`.
+   Realm in your app, see :ref:`<dotnet-client-quick-start>`.
 
 Import Realm
 ------------
@@ -44,7 +44,7 @@ statement:
 Define Your Object Model
 ------------------------
 Your application's :ref:`object model <dotnet-objects>` defines 
-the data that you can store within {+client-database+}. You define an object 
+the data that you can store within Realm Database. You define an object 
 model by creating a C# class that inherits from the ``RealmObject`` class.
 
 Add the following ``using`` statement at the top of your C# file:
@@ -79,12 +79,12 @@ The following code shows how to use ``GetInstance()``:
 Create Realm Objects
 --------------------
 
-Once you have opened a {+realm+}, you can create :ref:`objects <dotnet-objects>` 
+Once you have opened a realm, you can create :ref:`objects <dotnet-objects>` 
 in it. All writes must occur within a 
 :ref:`Write transaction <dotnet-realm-database-writes>` block.
 
 The following code shows how to create a new ``Guitar`` object. In it, we
-instantiate the ``Guitar`` class and then add the new guitar to the {+realm+}
+instantiate the ``Guitar`` class and then add the new guitar to the realm
 within a ``realm.Write`` block:
 
 .. literalinclude:: /examples/generated/dotnet/Program.snippet.write.cs
@@ -95,7 +95,7 @@ Find, Sort, and Filter Objects
 The following code demonstrates how to:
 
 - retrieve a live :ref:`collection <dotnet-client-collections>` of all ``Guitar`` 
-  objects in the {+realm+},
+  objects in the realm,
 
 - filter the collection by using the 
   `Linq <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/>`_ 

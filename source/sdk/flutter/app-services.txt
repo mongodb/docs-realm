@@ -48,7 +48,7 @@ Authentication & User Management
 --------------------------------
 
 One of the most challenging aspects of client development is implementing a
-robust and secure authentication system. With the App Services SDKs,
+robust and secure authentication system. With the SDKs,
 however, you can use any of the App Services authentication providers with
 minimal backend setup and client-side code. With the authentication APIs,
 you can implement the following functionality:
@@ -67,13 +67,13 @@ you can implement the following functionality:
 Device Sync
 -----------
 
-{+sync+} adds data synchronization between a {+backend+} backend and
-client devices on top of all of the functionality of {+client-database+}.
-When you use {+client-database+} with Sync, {+realm+}s exist on device
-just like when you only use {+client-database+}. However, changes to
-the data stored in those {+realm+}s synchronize between all client
-devices through a backend {+backend+} instance. That backend also stores
-{+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
+Device Sync adds data synchronization between a App Services backend and
+client devices on top of all of the functionality of Realm Database.
+When you use Realm Database with Sync, realms exist on device
+just like when you only use Realm Database. However, changes to
+the data stored in those realms synchronize between all client
+devices through a backend App Services instance. That backend also stores
+realm data in a cloud-based Atlas cluster running MongoDB.
 
 .. seealso::
 

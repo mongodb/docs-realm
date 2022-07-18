@@ -16,7 +16,7 @@ Authenticate Users - Node.js SDK
 Log In
 ------
 
-{+service+} provides an API for authenticating users using any enabled
+Realm provides an API for authenticating users into an App with any enabled
 authentication provider. Instantiate a ``Credentials`` object and pass it to the
 ``app.login()`` method to authenticate a user login and create a ``User``
 object.
@@ -231,13 +231,13 @@ authenticate users through a Google project using their existing Google account.
    You must enable OpenID Connect to use the Google Authentication Provider with the
    Node.js SDK.
 
-To set up your {+app+} for Google User authentication in your {+app+} configuration:
+To set up your App for Google User authentication in your App configuration:
 
 1. In the `Google Cloud Platform console
    <https://console.cloud.google.com/apis/credentials>`__, create an
    OAuth 2.0 client ID of type "Web application".
 
-#. Configure your backend {+app+} to use that client ID and the associated
+#. Configure your backend App to use that client ID and the associated
    client secret.
 
 #. Enable OpenID Connect on the backend.
@@ -269,7 +269,7 @@ to handle the user authentication and redirect flow from a Node.js client applic
 
 #. Process the request from the the Google authentication server, which includes 
    an access code in the query string using the Google OAuth 2.0 client's ``getToken()``
-   method. In the callback function, sign in to your {+app+} using the ``id_token``.
+   method. In the callback function, sign in to your App using the ``id_token``.
 
    .. literalinclude:: /examples/generated/node/server.snippet.login-with-token.js
       :language: javascript
@@ -287,8 +287,8 @@ to handle the user authentication and redirect flow from a Node.js client applic
    authentication library.
 
    You might want to authenticate with Google on a Node.js server 
-   to perform server-side operations on behalf of a user, like call a {+service-short+}
-   Function with a user's credentials.    
+   to perform server-side operations on behalf of a user, like call an
+   Atlas Function with a user's credentials.    
 
 .. _node-apple-login:
 .. _node-login-apple:
@@ -353,7 +353,7 @@ Offline Login
    :language: javascript
 
 To learn how to use the cached user in the Sync Configuration and access a
-{+realm+} while offline, read the :ref:`Open a Synced Realm While Offline
+realm while offline, read the :ref:`Open a Synced Realm While Offline
 <node-open-synced-realm-offline>` docs.
 
 .. _node-logout:

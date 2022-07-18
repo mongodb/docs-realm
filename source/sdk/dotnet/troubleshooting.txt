@@ -31,7 +31,7 @@ There are three known causes of this exception:
   attribute on the class declaration. The linker only preserves class members 
   that you have referenced explicitly in the code or marked with the 
   ``[Preserve(AllMembers = true)]`` attribute. This means that if you want to 
-  persist a property in {+realm+} and it is not referenced anywhere 
+  persist a property in realm and it is not referenced anywhere 
   in your code, the linker may remove it, causing a schema mismatch.
 
 - You are using a code obfuscation tool which is interfering with 

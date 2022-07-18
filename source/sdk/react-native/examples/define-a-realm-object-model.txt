@@ -19,7 +19,7 @@ Define a New Object Type
 
 To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
-a {+realm+}. For details on how to define specific properties, see :ref:`Define
+a realm. For details on how to define specific properties, see :ref:`Define
 Object Properties <react-native-define-a-property>`.
 
 .. code-block:: javascript
@@ -35,7 +35,7 @@ Object Properties <react-native-define-a-property>`.
 
 .. note::
    
-   You can :ref:`open a {+realm+} <node-open-a-local-realm>` using the Realm
+   You can :ref:`open a realm <node-open-a-local-realm>` using the Realm
    Object you have defined.
    
    .. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
@@ -65,12 +65,12 @@ Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 Supported Property Types
 ------------------------
 
-Every property in a {+service-short+} object has a strongly defined data type. A
+Every property in a Realm object has a strongly defined data type. A
 property's type can be a primitive data type or an object type defined in the
-same {+realm+}. The type also specifies whether the property contains a single
+same realm. The type also specifies whether the property contains a single
 value or a list of values.
 
-{+client-database+} supports the following primitive data types:
+Realm Database supports the following primitive data types:
 
 - ``bool`` for boolean values
 - ``int`` and ``double``, which map to JavaScript ``number`` values
@@ -129,15 +129,15 @@ To specify a property as an object type's primary key, set the schema's
 .. note::
    
    A **primary key** is a property that uniquely identifies an
-   object. {+client-database+} automatically :ref:`indexes <react-native-indexes>`
+   object. Realm Database automatically :ref:`indexes <react-native-indexes>`
    primary key properties, which allows you to efficiently read and modify
    objects based on their primary key.
    
    If an object type has a primary key, then all objects of that type must
    include the primary key property with a value that is unique among objects of
-   the same type in a {+realm+}. An object type may have at most one primary
+   the same type in a realm. An object type may have at most one primary
    key. You cannot change the primary key property for an object type after any
-   object of that type is added to a {+realm+} and you cannot modify an object's
+   object of that type is added to a realm and you cannot modify an object's
    primary key value.
 
 .. example::
@@ -202,13 +202,13 @@ Remap a Property
 ~~~~~~~~~~~~~~~~
 
 To use a different property name in your code than is stored in
-{+client-database+}, set ``mapTo`` to the name of the property as it appears in
+Realm Database, set ``mapTo`` to the name of the property as it appears in
 your code.
 
 .. example::
    
    A developer opens a realm using the following ``Dog`` object schema.
-   {+client-database+} stores each dog's first name with the snake case
+   Realm Database stores each dog's first name with the snake case
    ``first_name`` property. The schema maps the property to ``firstName`` for
    objects used in JavaScript code.
    
@@ -277,7 +277,7 @@ Define an Inverse Relationship Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An **inverse relationship** property is an automatic backlink relationship.
-{+client-database+} automatically updates implicit relationships whenever an
+Realm Database automatically updates implicit relationships whenever an
 object is added or removed in a corresponding to-many list. You cannot manually
 set the value of an inverse relationship property.
 
@@ -319,7 +319,7 @@ relationship to invert.
 Define an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To define a Realm object model with an embedded object (nested {+service-short+}
+To define a Realm object model with an embedded object (nested Realm
 object), set ``embedded`` to ``true``.
 
 .. note::

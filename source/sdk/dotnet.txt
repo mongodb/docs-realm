@@ -28,11 +28,11 @@ Realm .NET SDK
    :depth: 2
    :class: singlecol
 
-The {+service+} .NET SDK enables client applications written in C# for the .NET,
+The Realm .NET SDK enables client applications written in C# for the .NET,
 `UWP <https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__, `Xamarin
 <https://dotnet.microsoft.com/apps/xamarin>`__, and `Unity
-<https://unity.com/>`_ platforms to access data stored in local {+realms+} and
-interact with {+backend+} services like Functions, MongoDB Data Access, and
+<https://unity.com/>`_ platforms to access data stored in local realms and
+interact with App Services services like Functions, MongoDB Data Access, and
 authentication.
 
 .. _dotnet_supported-platforms:
@@ -46,7 +46,7 @@ Realm supports the following platforms for developing Realm apps for iOS and
   
   .. note:: Use Latest Xamarin.iOS Version
   
-     Starting with version 10.3.0 of the {+service+} .NET SDK, you must use 
+     Starting with version 10.3.0 of the Realm .NET SDK, you must use 
      `Xamarin.iOS version 14.14.2.5 <https://docs.microsoft.com/en-us/xamarin/ios/release-notes/14/14.14#march-2-2021---xamarinios-141425>`__ 
      or later.
 
@@ -71,10 +71,10 @@ the .NET SDK:
 
 .. note::
 
-    The :doc:`{+service-short+} .NET SDK </sdk/dotnet>` may be compatible with
+    The :doc:`Realm .NET SDK </sdk/dotnet>` may be compatible with
     other versions of Unity, but ``2020.3.12f1 (LTS)`` is the version that the
-    {+service-short+} team uses for testing and development. We recommend using
-    this version to ensure your project works with {+service-short+} and that
+    Realm team uses for testing and development. We recommend using
+    this version to ensure your project works with Realm and that
     the install steps match the :doc:`Integrate Realm with Unity
     </sdk/dotnet/unity>` documentation steps  since Unity's UI
     often changes between versions. 
@@ -82,28 +82,28 @@ the .NET SDK:
 Installation
 ------------
 
-To learn how to add the {+service+} .NET SDK library as a dependency
+To learn how to add the Realm .NET SDK library as a dependency
 to your application, see :ref:`Install Realm for .NET
 <dotnet-install>`.
 
-To learn how to add the {+service+} .NET SDK library as a dependency to your
+To learn how to add the Realm .NET SDK library as a dependency to your
 Unity project, see the :doc:`Integrate Realm with Unity
 </sdk/dotnet/unity>` documentation.
 
 The Realm Data Model
 --------------------
 
-You can store a wide variety of data within {+realms+} stored on your
-device, and if you enable :term:`{+sync+}`, updates to that data are available 
+You can store a wide variety of data within realms stored on your
+device, and if you enable Device Sync, updates to that data are available 
 across multiple client devices. Data models are classes defined in your 
-code and in {+realm+} schemas.
+code and in realm schemas.
 
-For information about the structure of data you can store in {+realms+},
+For information about the structure of data you can store in realms,
 see :ref:`Realms <dotnet-realms>`, :ref:`Objects
 <dotnet-objects>`, and :ref:`Relationships
 <dotnet-client-relationships>`.
 
-Building C# classes to represent the data you store in {+realm+} ensures data 
+Building C# classes to represent the data you store in realm ensures data 
 consistency when serializing/deserializing and makes working with the data 
 simpler. 
 
@@ -113,28 +113,28 @@ Realm Database
 Once you have defined the data model(s) for your application, you
 can :ref:`write <dotnet-realm-database-writes>` and
 :ref:`read <dotnet-realm-database-reads>` data to and from
-your {+realm+}s.
+your realms.
 
-To learn how to query for data in local {+realms+}, see
+To learn how to query for data in local realms, see
 :ref:`Query Engine <dotnet-client-query-engine>`.
 
-To learn about the results returned from {+realm+} queries, see
+To learn about the results returned from realm queries, see
 :ref:`Collections <dotnet-client-collections>`.
 
 Mobile application development can be complicated by threading. To learn 
-how to work with {+backend-short+} across threads in your application, 
+how to work with App Services across threads in your application, 
 see :ref:`Threading <dotnet-client-threading>`.
 
 Atlas App Services
 ------------------
 
-The .NET SDK also connects your {+service-short+} client application
-with your {+app+}'s backend services, including Functions, Services,
-HTTPS Endpoints, {+sync+}, and built-in third-party authentication.
+The .NET SDK also connects your Realm client application
+with your App's backend services, including Functions, Services,
+HTTPS Endpoints, Device Sync, and built-in third-party authentication.
 
-To learn how to connect to an {+backend+} app to call
-Functions, query data in an instance of {+atlas+}, and synchronize data
-in {+realms+}, see :ref:`Call a Function <dotnet-call-a-function>`.
+To learn how to connect to an App Services app to call
+Functions, query data in an instance of Atlas, and synchronize data
+in realms, see :ref:`Call a Function <dotnet-call-a-function>`.
 
 To learn how to handle schema updates in your client application, see
 :ref:`<dotnet-schema-versions-and-migrations>`.

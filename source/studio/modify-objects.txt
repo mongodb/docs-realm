@@ -16,13 +16,13 @@ Overview
 --------
 
 Realm Studio gives you the ability to view and modify objects in your 
-{+realm+} file. You can:
+realm file. You can:
 
 - Import data from a CSV
 - Create new objects
 - Modify and delete existing objects
 
-You can then save the data as JSON or a {+realm+} file, and import it 
+You can then save the data as JSON or a realm file, and import it 
 into your client app or production database.
 
 .. _realm-studio-import-from-a-csv:
@@ -51,7 +51,7 @@ The categories have a to-many relationship to the tasks; one category
 may have many tasks. The tasks have an inverse relationship 
 to the category. 
   
-In {+client-database+}, a to-many relationship is represented as a 
+In Realm Database, a to-many relationship is represented as a 
 ``list`` property linking the two objects. In the example of a to-do app, 
 the ``Category`` class has a ``list`` property whose value is all of the 
 related ``Task`` objects.
@@ -92,7 +92,7 @@ Create the Object
 Modify an Object
 ----------------
 
-There are a few ways you can modify a {+realm+} object in Realm Studio:
+There are a few ways you can modify a realm object in Realm Studio:
 
 - Change a field value
 - Change an object relationship
@@ -147,7 +147,7 @@ To remove an object relationship:
 Delete an Object
 ----------------
 
-To delete an object from a {+realm+}:
+To delete an object from a realm:
 
 - Right-click (or control-click) the object you want to delete, and 
   select :guilabel:`Delete selected object`.
@@ -171,8 +171,8 @@ To delete an object from a {+realm+}:
 Save the Data
 -------------
 
-Because {+realm+} objects are live objects, you can make changes to a 
-{+realm+} file and see them reflected in a client app in realtime. Realm 
+Because realm objects are live objects, you can make changes to a 
+realm file and see them reflected in a client app in realtime. Realm 
 Studio gives you a few save options if you want to do other things with
 the data.
 
@@ -188,15 +188,15 @@ Once you have saved the data, you can import it back into your app.
 If you save it as JSON, you can use your preferred method to import the
 JSON into your app. 
 
-If you save the data as a {+realm+} file, and you haven't :ref:`modified 
-the schema <realm-studio-modify-schema>`, you can use that {+realm+} 
+If you save the data as a realm file, and you haven't :ref:`modified 
+the schema <realm-studio-modify-schema>`, you can use that realm 
 file as a direct replacement for the existing realm file in your client 
-app. Simply replace the existing {+realm+} file on your filesystem with 
+app. Simply replace the existing realm file on your filesystem with 
 the new one. 
 
-Alternately, you could save a copy of the {+realm+}, open the copy, and 
+Alternately, you could save a copy of the realm, open the copy, and 
 make schema changes on the copy. This would preserve your intact original 
-{+realm+} file, but still enable you to iterate on schema. You would then 
-be able to continue to use your existing {+realm+} file in your client 
+realm file, but still enable you to iterate on schema. You would then 
+be able to continue to use your existing realm file in your client 
 app without performing a migration. You could test migrations for your 
-new schema with the second {+realm+} file at your leisure.
+new schema with the second realm file at your leisure.

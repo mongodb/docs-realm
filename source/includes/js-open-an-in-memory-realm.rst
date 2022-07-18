@@ -9,5 +9,5 @@ add ``inMemory: true`` to your :js-sdk:`Realm.Configuration
 
 .. note:: 
 
-   In-memory {+realms+} may use disk space if memory is running low, but files
-   created by an in-memory {+realm+} are deleted when you close the {+realm+}.
+   In-memory realms may use disk space if memory is running low, but files
+   created by an in-memory realm are deleted when you close the realm.

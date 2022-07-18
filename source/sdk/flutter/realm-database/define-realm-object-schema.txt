@@ -11,14 +11,14 @@ Define a Realm Object Schema - Flutter SDK
    :class: singlecol
 
 An **object schema** is a configuration object that defines the properties and
-relationships of a {+service-short+} object. {+service-short+} client
+relationships of a Realm object. Realm client
 applications define object schemas with the native class implementation in their
-respective language using the :term:`{+frontend-schema+}`.
+respective language using the Object Schema.
 
 Object schemas specify constraints on object properties such as the data
 type of each property and whether or not a property is required. Schemas can
 also define :ref:`relationships <flutter-client-relationships>` between object
-types in a {+realm+}.
+types in a realm.
 
 .. _flutter-create-model:
 
@@ -132,22 +132,22 @@ Create Model
 Using Schemas with Device Sync
 ------------------------------
 
-A **{+backend-schema+}** is a list of valid object schemas that
-each define an object type that a {+app+} may persist.
-All synced objects in a {+realm+} must conform to the {+backend-schema+}.
+A **App Services Schema** is a list of valid object schemas that
+each define an object type that a App may persist.
+All synced objects in a realm must conform to the App Services Schema.
 
-Client applications provide a {+frontend-schema+} when they open a {+realm+}. If a
-{+realm+} already contains data, then it already has a schema, and when it is opened,
-{+client-database+} validates the schema on the client against the existing schema.
+Client applications provide a Object Schema when they open a realm. If a
+realm already contains data, then it already has a schema, and when it is opened,
+Realm Database validates the schema on the client against the existing schema.
 
-You can define {+backend-schema+}s in the following ways:
+You can define App Services Schemas in the following ways:
 
-- Automatically with the {+frontend-schema+} if :ref:`development mode is enabled
+- Automatically with the Object Schema if :ref:`development mode is enabled
   <concept-development-mode>`.
-- Explicitly define the {+backend-schema+} with {+backend+}.
+- Explicitly define the App Services Schema with App Services.
 
 In your schema you must use the ``MapTo("_id")`` annotation with your primary key
-in the ``RealmModel`` to successfully sync your {+frontend-schema+} with {+backend+}.
+in the ``RealmModel`` to successfully sync your Object Schema with App Services.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.sync-schema.dart
    :language: dart
@@ -394,22 +394,22 @@ Update a Realm Schema
 Schema Version
 ~~~~~~~~~~~~~~
 
-A **schema version** identifies the state of a :ref:`{+realm+} schema
-<flutter-realm-schema>` at some point in time. {+client-database+} tracks the
-schema version of each {+realm+} and uses it to map the objects in each
-{+realm+} to the correct schema.
+A **schema version** identifies the state of a :ref:`realm schema
+<flutter-realm-schema>` at some point in time. Realm Database tracks the
+schema version of each realm and uses it to map the objects in each
+realm to the correct schema.
 
 Schema versions are ascending integers that you can optionally include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
 
 .. TODO: add version of this content in when migrations are supported
-.. :ref:`Migrations <node-migrations>` must update a {+realm+} to a
-.. higher schema version. {+client-database+} will throw an error if a client
-.. application opens a {+realm+} with a schema version that is lower than
-.. the {+realm+}'s current version or if the specified schema version is the
-.. same as the {+realm+}'s current version but includes different
+.. :ref:`Migrations <node-migrations>` must update a realm to a
+.. higher schema version. Realm Database will throw an error if a client
+.. application opens a realm with a schema version that is lower than
+.. the realm's current version or if the specified schema version is the
+.. same as the realm's current version but includes different
 .. object schemas.
 
 .. _flutter-add-a-property:
@@ -426,12 +426,12 @@ To add a property to a schema:
 
 .. example::
 
-   A {+realm+} using schema version ``1`` has a ``Person`` object type with a
+   A realm using schema version ``1`` has a ``Person`` object type with a
    ``firstName``, and ``lastName`` property. The developer decides to add an
    ``age`` property to the ``_Person`` RealmModel class.
 
-   To change the {+realm+} to conform to the updated ``Person`` schema, the
-   developer sets the {+realm+}'s :ref:`schema version <flutter-schema-version>`
+   To change the realm to conform to the updated ``Person`` schema, the
+   developer sets the realm's :ref:`schema version <flutter-schema-version>`
    to ``2``.
 
    .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.modify-schema-model.dart
@@ -457,12 +457,12 @@ Deleting a property does not impact existing objects.
 
 .. example::
 
-   A {+realm+} using schema version ``1`` has a ``Dog`` object type with a
+   A realm using schema version ``1`` has a ``Dog`` object type with a
    ``weight`` property. The developer decides to remove the property from the
    schema.
 
-   To migrate the {+realm+} to conform to the updated ``Dog`` schema, the
-   developer sets the {+realm+}'s :ref:`schema version <flutter-schema-version>` to
+   To migrate the realm to conform to the updated ``Dog`` schema, the
+   developer sets the realm's :ref:`schema version <flutter-schema-version>` to
    ``2``.
 
    .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.schema-version.dart

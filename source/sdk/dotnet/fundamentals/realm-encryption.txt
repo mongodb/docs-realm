@@ -15,19 +15,19 @@ Encryption - .NET SDK
 Overview
 --------
 
-You can encrypt your {+realm+}s to ensure that the data stored to disk can't be 
-read outside of your application. You encrypt the {+realm+} database file on 
+You can encrypt your realms to ensure that the data stored to disk can't be 
+read outside of your application. You encrypt the realm database file on 
 disk with AES-256 + SHA-2 by supplying a 64-byte encryption key when 
-:ref:`opening the {+realm+} <dotnet-open-a-realm>`.
+:ref:`opening the realm <dotnet-open-a-realm>`.
 
 .. important::
 
-   For details and code examples for implementing {+service-short+} encryption, 
+   For details and code examples for implementing Realm encryption, 
    see :ref:`Encrypt a Realm <dotnet-encrypt-a-realm>`.
 
 Realm transparently encrypts and decrypts data with standard
 :wikipedia:`AES-256 encryption <Advanced_Encryption_Standard>` using the
-first 256 bits of the given 512-bit encryption key. {+service-short+}
+first 256 bits of the given 512-bit encryption key. Realm
 uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
@@ -40,7 +40,7 @@ integrity using a :wikipedia:`hash-based message authentication code
 Storing & Reusing Keys
 ----------------------
 
-You must pass the same encryption key when opening the encrypted {+realm+}
+You must pass the same encryption key when opening the encrypted realm
 again. Apps should securely store the encryption key, typically in the target
 platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
 Storage <essentials/secure-storage>` to simplify the access to underlying
@@ -50,9 +50,9 @@ attackers cannot easily extract the key.
 Encryption and Atlas Device Sync
 --------------------------------
 
-You can encrypt a :ref:`synced realm <dotnet-sync-data>`, too. {+service+} only
+You can encrypt a :ref:`synced realm <dotnet-sync-data>`, too. Realm only
 encrypts the data on the device, and stores the data unencrypted in your
-{+atlas+} :term:`data source`. The transfer between client server is fully
+Atlas data source. The transfer between client server is fully
 encrypted.
 
 If you need unique keys for each user of your application, you can use an OAuth 

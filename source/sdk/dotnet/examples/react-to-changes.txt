@@ -15,15 +15,15 @@ React to Changes - .NET SDK
 
 .. note::
 
-   Notifications only work when your {+realm+} regularly refreshes.
-   In the Main or UI thread of your application, {+realm+} refreshes
+   Notifications only work when your realm regularly refreshes.
+   In the Main or UI thread of your application, realm refreshes
    happen automatically.
    On background threads, you need to handle this
    yourself by either calling :dotnet-sdk:`Realm.Refresh()
    <reference/Realms.Realm.html#Realms_Realm_Refresh>` or installing a
    `SynchronizationContext
    <https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext>`__
-   on the thread before opening the {+realm+}. The third-party library
+   on the thread before opening the realm. The third-party library
    `Nito.AsyncEx.Context <https://www.nuget.org/packages/Nito.AsyncEx.Context/1.1.0>`__
    provides a ``SynchronizationContext`` implementation and a convenient API to 
    install it.
@@ -43,7 +43,7 @@ Realm emits three kinds of notifications:
 - :ref:`Realm notifications <dotnet-realm-notifications>` whenever a specific 
   Realm commits a write transaction.
 - :ref:`Collection notifications <dotnet-collection-notifications>` whenever 
-  any :term:`Realm object` in a collection changes, including inserts, updates, and deletes.
+  any Realm object in a collection changes, including inserts, updates, and deletes.
 - :ref:`Object notifications <dotnet-object-notifications>` whenever a specific 
   Realm object changes.
 

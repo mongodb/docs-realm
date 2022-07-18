@@ -10,34 +10,34 @@ Open a Synced Realm - Flutter SDK
    :depth: 2
    :class: singlecol
 
-This page describes how to open a synced {+realm+} using {+sync+}.
-To learn how to open and configure non-synced {+realm+}s,
+This page describes how to open a synced realm using Device Sync.
+To learn how to open and configure non-synced realms,
 see :ref:`Open and Close a Realm <flutter-open-close-realm>`.
 
 Before You Begin
 ----------------
 
-Before you open a {+realm+} with Flexible Sync in a Flutter application:
+Before you open a realm with Flexible Sync in a Flutter application:
 
 #. :ref:`Configure Flexible Sync on the backend <enable-flexible-sync>`.
    You must configure Flexible Sync in the backend before you can use it with your
    client application.
-#. :ref:`Initialize the {+app+} client <flutter-connect-to-backend>`.
+#. :ref:`Initialize the App client <flutter-connect-to-backend>`.
 #. :ref:`Authenticate a user <flutter-authenticate>` in your client project.
 
 Open a Synced Realm
 -------------------
 
-To open a synced {+realm+}, pass a logged in user, a list of
+To open a synced realm, pass a logged in user, a list of
 Realm object schemas, and additional optional parameters to the
 :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>` constructor.
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
-to open an instance of the {+realm+}.
+to open an instance of the realm.
 
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.open-flexible-sync-realm.dart
    :language: dart
 
-Once you open a synced {+realm+}, :ref:`configure and manage the sync session
+Once you open a synced realm, :ref:`configure and manage the sync session
 <flutter-manage-sync-session>`.
 
 Configure a Realm
@@ -49,7 +49,7 @@ For more information on additional configuration options, refer to
 Close a Realm
 -------------
 
-Once you've finished working with a synced {+realm+}, close it to prevent memory leaks.
+Once you've finished working with a synced realm, close it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart
@@ -58,4 +58,4 @@ Further Reading
 ---------------
 
 - :ref:`Manage a Sync Session <flutter-manage-sync-session>`: Learn how to add,
-  modify, and remove sync subscriptions once you've opened a synced {+realm+}.
+  modify, and remove sync subscriptions once you've opened a synced realm.

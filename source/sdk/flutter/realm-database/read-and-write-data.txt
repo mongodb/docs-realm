@@ -17,10 +17,10 @@ Read & Write Data - Flutter SDK
 Read from Realm Database
 ------------------------
 
-A read from a :term:`{+realm+}` generally consists of the following
+A read from a realm generally consists of the following
 steps:
 
-- Get all objects of a certain type from the {+realm+}.
+- Get all objects of a certain type from the realm.
 - Optionally, :ref:`filter <flutter-filter-results>` the results
   using the :ref:`Realm Query Language <rql>`.
 - Optionally, :ref:`sort <flutter-sort-results>` the results using Realm Query Language.
@@ -30,7 +30,7 @@ steps:
 Query All Objects
 ~~~~~~~~~~~~~~~~~
 
-Retrieve a collection of all objects of a data model in the {+realm+} with the
+Retrieve a collection of all objects of a data model in the realm with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
@@ -80,11 +80,11 @@ Sort the results using the :ref:`Realm Query Language SORT() operator
 Write Operations
 ----------------
 
-Once you've opened a {+realm+}, you can create objects within it using a
+Once you've opened a realm, you can create objects within it using a
 :flutter-sdk:`Realm.write() transaction block <realm/Realm/write.html>`.
 All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
 If an operation in the write transaction fails, the whole transaction fails,
-Realm throws an error, and no changes from the transaction block are applied to the {+realm+}.
+Realm throws an error, and no changes from the transaction block are applied to the realm.
 
 .. code-block:: dart
 
@@ -103,7 +103,7 @@ Create Objects
 ~~~~~~~~~~~~~~
 
 To create a new ``Car``, instantiate an instance of the
-``Car`` class and add it to the {+realm+} in a write transaction block:
+``Car`` class and add it to the realm in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart

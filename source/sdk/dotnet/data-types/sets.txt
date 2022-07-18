@@ -17,14 +17,14 @@ Sets - .NET SDK
 Overview
 --------
 
-A {+service-short+} set, like the C# 
+A Realm set, like the C# 
 `HashSet<> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1?view=net-5.0>`_, 
 is an implementation of   
 `ICollection<> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.icollection-1?view=net-5.0>`_ 
 and
 `IEnumerable<> <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1?view=net-5.0>`_. 
 It supports values of any 
-:ref:`{+service-short+} type <dotnet-objects>` except :ref:`collections <dotnet-client-collections>`. 
+:ref:`Realm type <dotnet-objects>` except :ref:`collections <dotnet-client-collections>`. 
 To define a set, use a getter-only ``ISet<TValue>`` property, where ``TValue`` 
 is any of the supported types.
 
@@ -39,7 +39,7 @@ contains nullable reference types, such as ``string`` or ``byte[]``.
 
 .. important:: Not Supported with Sync
 
-   Local-only {+client-database+}s support collections of nullable (optional) values, 
+   Local-only Realm Databases support collections of nullable (optional) values, 
    but ``Sync`` does not.
 
 Set Types

@@ -16,7 +16,7 @@ Authenticate Users - React Native SDK
 Log In
 ------
 
-{+service+} provides an API for authenticating users using any enabled
+Realm provides an API for authenticating users using any enabled
 authentication provider. Instantiate a ``Credentials`` object and pass it to the
 ``app.login()`` method to authenticate a user login and create a ``User``
 object.
@@ -232,7 +232,7 @@ authenticate users with their existing Google account.
 
 There is no official Sign in with Google integration with React Native. The simplest
 approach to integrating Sign in With Google into your React Native app 
-with {+service-short+} authentication is to use a third-party library. 
+with Realm authentication is to use a third-party library. 
 The below example uses the library 
 :github:`React Native Google Sign In <react-native-google-signin/google-signin>`.
 You can also build your own solution using :google:`Google Identity Services <identity>` to handle the user
@@ -332,7 +332,7 @@ Offline Login
    :language: javascript
 
 To learn how to use the cached user in the Sync Configuration and access a
-{+realm+} while offline, read the :ref:`Open a Synced Realm While Offline
+realm while offline, read the :ref:`Open a Synced Realm While Offline
 <react-native-open-synced-realm-offline>` docs.
 
 .. _react-native-logout:

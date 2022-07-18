@@ -38,7 +38,7 @@ content: |
   all login and user registration logic. This controller is set up with a text
   field for email and password, sign in and sign up buttons, and an activity
   indicator to show when the app is handling an authentication request.
-  To enable users to log in with {+service+} accounts, we'll add a field
+  To enable users to log in with App Services accounts, we'll add a field
   where the user can enter a password and a button to register
   an account as variables in WelcomeViewController:
 
@@ -58,7 +58,7 @@ content: |
      :language: swift
 
   Change the placeholder value of the username entry field to "Email",
-  since usernames for {+service+} accounts should be email addresses:
+  since usernames for App Services accounts should be email addresses:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.snippet.username-field-placeholder.swift
      :language: swift
@@ -82,15 +82,15 @@ content: |
 
   Implement the ``signUp()`` method to register a new user, which uses the
   :ref:`email/password authentication provider <email-password-authentication>`
-  of the Realm app to register a new user:
+  of the App to register a new user:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.snippet.sign-up.swift
      :language: swift
 
   Finally, implement the ``signIn()`` method to authenticate user credentials
-  with your backend {+app+} using email/password credentials. Once logged in
-  successfully, open the user {+realm+} and navigate to the
-  ProjectsViewController. We open the {+realm+} using ``asyncOpen()`` because it
+  with your backend App using email/password credentials. Once logged in
+  successfully, open the user realm and navigate to the
+  ProjectsViewController. We open the realm using ``asyncOpen()`` because it
   fully downloads any remote data before proceeding:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/WelcomeViewController.snippet.sign-in.swift
@@ -112,13 +112,13 @@ content: |
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ProjectsViewController.snippet.log-out-button-did-click.swift
      :language: swift
 
-  Next, open the {+realm+} with the configuration passed in from the previous
+  Next, open the realm with the configuration passed in from the previous
   controller. By receiving the configuration rather than creating one here, the
-  ViewController does not need to know whether the {+realm+} is using Sync or
+  ViewController does not need to know whether the realm is using Sync or
   not.
 
   Add a change listener at the end of the ``init`` method that watches for a new
-  ``User`` object in the user {+realm+}. Because your backend app creates
+  ``User`` object in the user realm. Because your backend app creates
   ``User`` objects with a Trigger, it can sometimes take a few seconds after
   account creation for the backend Trigger to generate a user's ``User`` object.
 
@@ -154,7 +154,7 @@ content: |
 
   Implement the ``tableView(_:didSelectRowAt:)`` method to handle what
   happens when the user clicks a project in the list. We'll open the
-  project {+realm+} before navigating to the TasksViewController so that
+  project realm before navigating to the TasksViewController so that
   if anything goes wrong, we can handle the error before launching a
   separate view:
 
@@ -195,7 +195,7 @@ ref: implement-the-manage-team-view
 content: |
   A user can add and remove team members to their own Project using the Manage
   Team view. Since the client side cannot handle access management, we need to
-  call out to our Realm functions we defined earlier.
+  call out to our Atlas Functions we defined earlier.
 
   .. warning::
 
@@ -217,8 +217,8 @@ content: |
   logic to get a sense of how team management works in Task Tracker.
 
   The ManageTeamViewController uses ``fetchTeamMembers()`` to get the
-  list of team members, which calls the ``getMyTeamMembers`` Realm
-  function to access a list of users with access to the project:
+  list of team members, which calls the ``getMyTeamMembers`` Atlas
+  Function to access a list of users with access to the project:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.snippet.fetch-team-members.swift
      :language: swift
@@ -227,14 +227,14 @@ content: |
   functionality to the ``addTeamMember()`` and ``removeTeamMember()`` methods,
   respectively.
 
-  The ``addTeamMember()`` method calls the ``addTeamMember`` Realm function and
+  The ``addTeamMember()`` method calls the ``addTeamMember`` Atlas Function and
   can use the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 
   .. literalinclude:: /tutorial/generated/swift-ios/sync/ManageTeamViewController.snippet.add-team-member.swift
      :language: swift
 
-  The ``removeTeamMember()`` method calls the ``removeTeamMember`` Realm function and
+  The ``removeTeamMember()`` method calls the ``removeTeamMember`` Atlas Function and
   also uses the ``onTeamMemberOperationComplete()`` method as a completion
   handler:
 

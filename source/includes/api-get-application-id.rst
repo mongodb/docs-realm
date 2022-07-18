@@ -1,4 +1,4 @@
-To find an Application ID, make a request to the {+service-short+}
+To find an Application ID, make a request to the App Services
 :admin-api-endpoint:`GET /groups/{groupid}/apps <operation/adminListApplications>` API endpoint.
 
 This request has the following format, referencing the ``access_token`` and the Group ID:
@@ -9,7 +9,7 @@ This request has the following format, referencing the ``access_token`` and the 
      --header 'Authorization: Bearer <access_token>' \
      https://realm.mongodb.com/api/admin/v3.0/groups/{groupId}/apps
 
-This will return a list of objects describing each {+app+} in the provided
+This will return a list of objects describing each App in the provided
 group. For Admin API requests, your Application ID is the ObjectId value in the
 ``_id`` field, *not* the ``client_app_id``.
 

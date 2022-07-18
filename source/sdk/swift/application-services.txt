@@ -24,25 +24,25 @@ Application Services - Swift SDK
 Overview
 --------
 
-Realm SDKs let you connect your client apps to the Atlas App Services backend. 
-The SDKs provide the {+service+} functionality 
-needed to authenticate users with any of the built-in :ref:`authentication 
-providers <authentication-providers>`, call backend :ref:`functions 
-<functions>`, and directly access a linked :ref:`MongoDB data source 
-<data-sources>`. You can also use an Atlas App Services App to :ref:`sync data 
+Realm SDKs let you connect your client apps to the App Services backend.
+The SDKs provide the functionality
+needed to authenticate users with any of the built-in :ref:`authentication
+providers <authentication-providers>`, call backend :ref:`functions
+<functions>`, and directly access a linked :ref:`MongoDB data source
+<data-sources>`. You can also use an Atlas App Services App to :ref:`sync data
 between devices <ios-realm-sync>`.
 
-The Realm App Client
+The App Client
 --------------------
-When using the SDK to access the Atlas App Services backend, you start with a 
-Realm App object. This object provides all other functionality related to 
-{+backend+}. The ``App`` object is 
-:ref:`initialized <ios-init-appclient>` with the Atlas App Services {+app+} 
-ID, which you can :ref:`find in the Atlas App Services UI <find-your-app-id>`.
+When using the SDK to access the Atlas App Services backend, you start with a
+App object. This object provides all other functionality related to
+App Services. The ``App`` object is
+:ref:`initialized <ios-init-appclient>` with the Atlas App Services App
+ID, which you can :ref:`find in the App Services UI <find-your-app-id>`.
 
 .. tip::
 
-   To learn how to initialize the Realm App client, see
+   To learn how to initialize the App client, see
    :ref:`ios-init-appclient`.
 
 
@@ -50,7 +50,7 @@ Authentication & User Management
 --------------------------------
 
 One of the most challenging aspects of client development is implementing a 
-robust and secure authentication system. With the {+service-short+} SDKs, however, you 
+robust and secure authentication system. With the Realm SDKs, however, you 
 can use any of the Atlas App Services authentication providers with very 
 minimal backend setup or client-side code required. With the authentication 
 APIs, you can implement the following functionality:
@@ -74,22 +74,24 @@ APIs, you can implement the following functionality:
 
 Calling Functions
 -----------------
-:ref:`Atlas App Services functions <functions>` enable you to define and execute server-side 
-logic for your application. You can call these functions from your client applications
-via the {+service+} SDKs. These server-side functions can run under the context 
+
+:ref:`Atlas Functions <functions>` enable you to define and execute server-side 
+logic for your application. You can call these Functions from your client applications
+via the Realm SDKs. These server-side functions can run under the context 
 of the authenticated user, and thus honor the rules, roles, and permissions that 
 you have assigned to your collections.
 
-By using App Services Functions, you provide a secure way for a variety of client 
+By using Functions, you provide a secure way for a variety of client 
 applications to share complex functionality without having to reproduce that 
 logic client-side. 
 
 .. tip::
 
-   To learn how to call functions, see :ref:`Call a Function <ios-call-a-function>`.
+   To learn how to call Functions, see :ref:`Call a Function <ios-call-a-function>`.
 
 Accessing MongoDB
 -----------------
+
 The Realm SDKs include APIs for accessing a MongoDB Atlas instance directly. 
 With these APIs, you can perform all of the standard CRUD operations from your 
 client. For security, you configure server-side :ref:`data access rules <mongodb-rules>` 
@@ -107,18 +109,18 @@ Sync Data
 
 Atlas Device Sync automatically synchronizes data between client applications and 
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
-device is online, {+sync-short+} asynchronously synchronizes data in a 
+device is online, Sync asynchronously synchronizes data in a 
 background thread between the device and your backend Atlas App Services App. 
 
 When you use Sync in your client application, your implementation must match 
-the Sync Mode you select in your backend {+app+} configuration. The Sync Mode
+the Sync Mode you select in your backend App configuration. The Sync Mode
 options are:
 
 - Partition-Based Sync
 - Flexible Sync
 
 You can only use one Sync Mode for your application. You cannot mix 
-Partition-Based Sync and Flexible Sync within the same {+app+}.
+Partition-Based Sync and Flexible Sync within the same App.
 
 .. seealso::
 
@@ -130,7 +132,7 @@ Partition-Based Sync
 ~~~~~~~~~~~~~~~~~~~~
 
 When you select :ref:`Partition-Based Sync <partition-based-sync>` for your 
-backend {+app+} configuration, your client implementation must include a 
+backend App configuration, your client implementation must include a 
 partition value. This is the value of the :ref:`partition key 
 <partition-key>` field you select when you configure Partition-Based Sync. 
 
@@ -145,7 +147,7 @@ Flexible Sync
 
 .. versionadded:: 10.22.0
 
-When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+} 
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend App 
 configuration, your client implementation must include subscriptions to 
 queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works 
 by synchronizing data that matches query subscriptions you maintain in the 

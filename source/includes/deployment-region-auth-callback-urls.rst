@@ -3,7 +3,7 @@
    :widths: 1 4
 
    * - Region
-     - {+service-short+} Authentication Callback URL
+     - App Services Authentication Callback URL
 
    * - | **Global**
      - .. code-block:: text
