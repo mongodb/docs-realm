@@ -154,6 +154,41 @@ you add or remove a related object.
            :language: javascript
            :emphasize-lines: 5, 14, 23, 32-36
 
+.. _node-inverse-relationship-dynamically:
+
+Dynamically Obtain an Inversely Linked Object
+`````````````````````````````````````````````
+You can dynamically retrieve an object with an inverse relationship without
+defining a ``linkingObjects`` type in its schema. Remove the
+``linkingObjects`` type from your schema, so your schemas look like a standard
+**to-many** relationship. When you need to retrieve the linked object, call the
+:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+query.
+
+.. example::
+   
+   In the following continuation from the inverse relationship example, we have removed the
+   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
+   creates several users and task objects, and the application pushes the newly created tasks into a 
+   user's task field. 
+   
+   To find the user who owns a specific task object, the developer calls the
+   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
+            :language: javascript
+      
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
+            :language: javascript
+          
 .. _node-embedded-objects:
 
 Embedded Objects
