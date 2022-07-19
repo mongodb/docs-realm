@@ -90,7 +90,7 @@ class NotificationsTest: RealmTest() {
             val characters = realm.query(Character::class)
 
             // flow.collect() is blocking -- run it in a background context
-            CoroutineScope(Dispatchers.Unconfined).launch {
+            val job = CoroutineScope(Dispatchers.Default).launch {
                 // create a Flow from that collection, then add a listener to the Flow
                 val charactersFlow = characters.asFlow()
                 val subscription = charactersFlow.collect { changes: ResultsChange<Character> ->
@@ -113,7 +113,7 @@ class NotificationsTest: RealmTest() {
             }
             // Listen for changes on RealmResults
             val hobbits = realm.query(Character::class, "species == 'Hobbit'")
-            CoroutineScope(Dispatchers.Unconfined).launch {
+            val hobbitJob = CoroutineScope(Dispatchers.Default).launch {
                 val hobbitsFlow = hobbits.asFlow()
                 val hobbitsSubscription = hobbitsFlow.collect { changes: ResultsChange<Character> ->
                     // ... all the same data as above
@@ -140,7 +140,7 @@ class NotificationsTest: RealmTest() {
             // query for the specific object you intend to listen to
             val frodo = realm.query(Character::class, "name == 'Frodo'").first()
             // flow.collect() is blocking -- run it in a background context
-            CoroutineScope(Dispatchers.Unconfined).launch {
+            val job = CoroutineScope(Dispatchers.Default).launch {
                 val frodoFlow = frodo.asFlow()
                 frodoFlow.collect { changes: SingleQueryChange<Character> ->
                     when (changes) {
@@ -178,7 +178,7 @@ class NotificationsTest: RealmTest() {
             val fellowshipOfTheRing = realm.query(Fellowship::class, "name == 'Fellowship of the Ring'").first().find()!!
             val members = fellowshipOfTheRing.members
             // flow.collect() is blocking -- run it in a background context
-            CoroutineScope(Dispatchers.Unconfined).launch {
+            val job = CoroutineScope(Dispatchers.Default).launch {
                 val membersFlow = members.asFlow()
                 membersFlow.collect { changes: ListChange<Character> ->
                     when (changes) {
@@ -197,6 +197,35 @@ class NotificationsTest: RealmTest() {
                     }
                 }
             }
+            // :snippet-end:
+
+            realm.close()
+        }
+    }
+
+    @Test
+    fun cancelChangeListenerTest() {
+        val REALM_NAME = getRandom()
+        seedSampleData(REALM_NAME)
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Fellowship::class, Character::class))
+                .directory("/tmp/")
+                .name(REALM_NAME)
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :snippet-start: cancel-change-listener
+            // query for the specific object you intend to listen to
+            val fellowshipOfTheRing = realm.query(Fellowship::class, "name == 'Fellowship of the Ring'").first().find()!!
+            val members = fellowshipOfTheRing.members
+            // flow.collect() is blocking -- run it in a background context
+            val job = CoroutineScope(Dispatchers.Default).launch {
+                val membersFlow = members.asFlow()
+                membersFlow.collect { changes: ListChange<Character> ->
+                    // change listener stuff in here
+                }
+            }
+            job.cancel() // cancel the coroutine containing the listener
             // :snippet-end:
 
             realm.close()

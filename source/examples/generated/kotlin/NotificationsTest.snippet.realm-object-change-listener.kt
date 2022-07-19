@@ -1,7 +1,7 @@
 // query for the specific object you intend to listen to
 val frodo = realm.query(Character::class, "name == 'Frodo'").first()
 // flow.collect() is blocking -- run it in a background context
-CoroutineScope(Dispatchers.Unconfined).launch {
+val job = CoroutineScope(Dispatchers.Default).launch {
     val frodoFlow = frodo.asFlow()
     frodoFlow.collect { changes: SingleQueryChange<Character> ->
         when (changes) {

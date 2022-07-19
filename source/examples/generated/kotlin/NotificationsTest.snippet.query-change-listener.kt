@@ -2,7 +2,7 @@
 val characters = realm.query(Character::class)
 
 // flow.collect() is blocking -- run it in a background context
-CoroutineScope(Dispatchers.Unconfined).launch {
+val job = CoroutineScope(Dispatchers.Default).launch {
     // create a Flow from that collection, then add a listener to the Flow
     val charactersFlow = characters.asFlow()
     val subscription = charactersFlow.collect { changes: ResultsChange<Character> ->
@@ -25,7 +25,7 @@ CoroutineScope(Dispatchers.Unconfined).launch {
 }
 // Listen for changes on RealmResults
 val hobbits = realm.query(Character::class, "species == 'Hobbit'")
-CoroutineScope(Dispatchers.Unconfined).launch {
+val hobbitJob = CoroutineScope(Dispatchers.Default).launch {
     val hobbitsFlow = hobbits.asFlow()
     val hobbitsSubscription = hobbitsFlow.collect { changes: ResultsChange<Character> ->
         // ... all the same data as above

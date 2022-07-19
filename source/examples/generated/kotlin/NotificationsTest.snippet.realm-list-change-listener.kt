@@ -2,7 +2,7 @@
 val fellowshipOfTheRing = realm.query(Fellowship::class, "name == 'Fellowship of the Ring'").first().find()!!
 val members = fellowshipOfTheRing.members
 // flow.collect() is blocking -- run it in a background context
-CoroutineScope(Dispatchers.Unconfined).launch {
+val job = CoroutineScope(Dispatchers.Default).launch {
     val membersFlow = members.asFlow()
     membersFlow.collect { changes: ListChange<Character> ->
         when (changes) {
