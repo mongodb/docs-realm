@@ -178,3 +178,9 @@ using the following properties:
 
 .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-list-change-listener.kt
    :language: kotlin
+   
+Unsubscribe a Change Listener
+-----------------------------
+
+Unsubscribe from your change listener when you no longer want to receive notifications on updates to the data it's watching. To unsubscribe a change listener, `cancel the enclosing coroutine <https://kotlinlang.org/docs/cancellation-and-timeouts.html>`__.
+
