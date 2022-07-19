@@ -1,0 +1,177 @@
+.. _kotlin-react-to-changes:
+
+=============================
+React to Changes - Kotlin SDK
+=============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Any modern app should be able to react when data changes,
+regardless of where that change originated. When a user adds a new item to a list,
+you may want to update the UI, show a notification, or log a message.
+When someone updates that item, you may want to change its visual state
+or fire off a network request.
+Finally, when someone deletes the item, you probably want to remove it from the UI.
+Realm's notification system allows you to watch for and react to changes in your data,
+independent of the writes that caused the changes.
+
+The frozen architecture of the Kotlin SDK makes notifications even more
+important. Because the Kotlin SDK doesn't have live objects that update
+automatically, you'll use notifications to update your data layer.
+
+You can subscribe to changes on the following events:
+
+- :ref:`Query on collection <kotlin-query-change-listener>`
+- :ref:`Realm object <kotlin-realm-object-change-listener>`
+- :ref:`List in a Realm object <kotlin-realm-list-change-listener>`
+
+.. example:: About the Examples on This Page
+
+   The examples in this page use two Realm object types, ``Character`` and
+   ``Fellowship``:
+
+   .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.sample-data-models.kt
+      :language: kotlin
+
+   The examples have this sample data:
+
+   .. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.sample-data-seed.kt
+      :language: kotlin
+
+
+.. _kotlin-query-change-listener:
+
+Register a Query Change Listener
+--------------------------------
+
+You can register a notification handler on any query within a Realm.
+First, create a Kotlin Flow from the query with `asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__.
+Next, use the ``collect()`` method to handle events on that Flow. Events
+of type ``UpdatedResults`` record all changes to the objects matching the
+query using the following properties:
+
+.. list-table::
+
+   * - Property
+     - Type
+     - Description
+
+   * - ``insertions``
+     - *IntArray*
+     - Indexes in the new collection which were added in this version.
+
+   * - ``insertionRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the new collection which were added in this version.
+
+   * - ``changes``
+     - *IntArray*
+     -  Indexes of the objects in the new collection which were modified in this version.
+
+   * - ``changeRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the new collection which were modified in this version.
+
+   * - ``deletions``
+     - *IntArray*
+     -  Indexes in the previous version of the collection which have been removed from this one.
+
+   * - ``deletionRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the previous version of the collection which have been removed from this one.
+
+   * - ``list``
+     - *RealmResults<T as RealmObject>*
+     - Results collection being monitored for changes.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.query-change-listener.kt
+   :language: kotlin
+
+.. _kotlin-realm-object-change-listener:
+
+Register a RealmObject Change Listener
+--------------------------------------
+
+You can register a notification handler on a specific object within a realm.
+Realm notifies your handler when any of the object's properties change.
+To register a change listener on a single object, obtain a `RealmSingleQuery <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-single-query/index.html>`
+with ``realm.query.first()``. Generate a Flow from that query with `asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__.
+The handler receives a ``SingleQueryChange`` object that communicates
+object changes using the following subtypes:
+
+.. list-table::
+
+   * - Subtype
+     - Properties
+     - Notes
+
+   * - ``UpdatedObject``
+     - *changedFields*, *obj*
+     - Pass a field name to ``isFieldChanged()`` to check if that field changed.
+
+   * - ``DeletedObject``
+     - *obj*
+     - Since *obj* always reflects the latest version of the object, it always returns a null value in this subtype.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-object-change-listener.kt
+   :language: kotlin
+
+.. _kotlin-realm-list-change-listener:
+
+Register a RealmList Change Listener
+------------------------------------
+
+You can register a notification handler on a list of ``RealmObjects`` within another ``RealmObject``.
+Realm notifies your handler when any of the list items change.
+First, create a Kotlin Flow from the list with `asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/as-flow.html>`__.
+Next, use the ``collect()`` method to handle events on that Flow. Events
+of type ``UpdatedList`` record all changes to the list
+using the following properties:
+
+.. list-table::
+
+   * - Property
+     - Type
+     - Description
+
+   * - ``insertions``
+     - *IntArray*
+     - Indexes in the new collection which were added in this version.
+
+   * - ``insertionRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the new collection which were added in this version.
+
+   * - ``changes``
+     - *IntArray*
+     -  Indexes of the objects in the new collection which were modified in this version.
+
+   * - ``changeRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the new collection which were modified in this version.
+
+   * - ``deletions``
+     - *IntArray*
+     -  Indexes in the previous version of the collection which have been removed from this one.
+
+   * - ``deletionRanges``
+     - *Array<ListChangeSet.Range>*
+     - Ranges of indexes in the previous version of the collection which have been removed from this one.
+
+   * - ``list``
+     - *RealmResults<T as RealmObject>*
+     - Results collection being monitored for changes.
+
+.. important::
+
+   You can only apply a change listener to a ``RealmList<T as RealmObject>``.
+
+.. literalinclude:: /examples/generated/kotlin/NotificationsTest.snippet.realm-list-change-listener.kt
+   :language: kotlin
