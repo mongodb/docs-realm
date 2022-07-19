@@ -153,12 +153,67 @@ and clean the Xcode build folder.
    .. tab:: CocoaPods
       :tabid: cocoapods
 
-      .. include:: /includes/steps/troubleshoot-cocoapods-install.rst
+      .. procedure::
+         :style: normal
+
+         .. step:: Reset the Cocoapods Integration State
+
+
+            Run these commands in the terminal, in the root of your project:
+
+            .. code-block:: bash
+
+               pod cache clean Realm
+               pod cache clean RealmSwift
+               pod deintegrate || rm -rf Pods
+               pod install --repo-update --verbose
+               # Assumes the default DerivedData location:
+               rm -rf ~/Library/Developer/Xcode/DerivedData
+
+
+         .. step:: Clean the Xcode Build Folder
+
+
+            With your project open in Xcode, go to the Product drop-down menu,
+            and select Clean Build Folder.
+
+            .. figure:: /images/xcode-clean-build-folder.png
+               :alt: Select Product, then Clean Build Folder.
+               :lightbox:
 
    .. tab:: Carthage
       :tabid: carthage
 
-      .. include:: /includes/steps/troubleshoot-carthage-install.rst
+      .. procedure::
+         :style: normal
+
+         .. step:: Reset Carthage-managed Dependency State
+
+
+            Run these commands in the terminal, in the root of your project:
+
+            .. code-block:: bash
+
+               rm -rf Carthage
+               # Assumes default DerivedData location:
+               rm -rf ~/Library/Developer/Xcode/DerivedData
+               carthage update
+
+            .. important::
+
+               This will update **all** of your Carthage-managed dependencies, not
+               just App Services.
+
+
+         .. step:: Clean the Xcode Build Folder
+
+
+            With your project open in Xcode, go to the Product drop-down menu,
+            and select Clean Build Folder.
+
+            .. figure:: /images/xcode-clean-build-folder.png
+               :alt: Select Product, then Clean Build Folder.
+               :lightbox:
 
 .. _ios-schema-discovery-issues:
 

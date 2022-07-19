@@ -147,7 +147,43 @@ Some of the functionality in ``RealmApp.js`` is not fully defined. You need to
 update the code to use the SDK to connect to your App Services backend and
 handle user authentication.
 
-.. include:: /includes/steps/task-tracker-web-realmapp.rst
+.. procedure::
+   :style: normal
+
+   .. step:: Create a Realm App Client
+
+      The app client is the primary interface to your Realm app from the SDK. In
+      ``src/App.js``, replace ``"TODO"`` with your Realm App ID:
+
+      .. literalinclude:: /tutorial/generated/code/final/App.snippet.appID.js
+         :caption: src/App.js
+         :language: javascript
+
+      .. note:: Use Your App ID
+
+         Make sure to replace ``"TODO"`` with your app's unique
+         :guilabel:`App ID`. You can find your :guilabel:`App ID` by clicking the
+         copy button next to the name of your app in the lefthand navigation of the
+         Realm UI.
+
+         .. figure:: /images/task-tracker-web-copy-appid.png
+            :alt: The copy app id button in the UI
+
+
+   .. step:: Complete the Registration & Authentication Functions
+
+      The app client provides methods that allow you to authenticate and register
+      users through the email/password authentication provider. In
+      ``src/RealmApp.js``, the ``RealmAppProvider`` component wraps these functions
+      and keeps the app client in sync with local React state.
+
+      These wrapping functions already have the state update calls but don't
+      currently use the app client you created. You need to update the functions to
+      actually call the SDK authentication and registration methods.
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApp.snippet.realmAppProvider.js
+         :caption: src/RealmApp.js
+         :language: javascript
 
 .. example:: How We Use It
    
@@ -289,7 +325,36 @@ provides the ``ApolloClient`` object but the function that instantiates the
 client is incomplete. You need to update the file to create a client that can
 connect to your app's GraphQL API.
 
-.. include:: /includes/steps/task-tracker-web-apollo.rst
+.. procedure::
+   :style: normal
+
+   .. step:: Instantiate an ApolloClient
+
+      The ``RealmApolloProvider`` component should call
+      ``createRealmApolloClient()`` to instantiate the client. Update the
+      component with the following code to create an ``ApolloClient`` object that
+      connects to your app:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.realmApolloProvider.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
+
+   .. step:: Authenticate GraphQL Requests
+
+      The ``createRealmApolloClient()`` function now instantiates a client object, but
+      you won't be able to run any GraphQL queries or mutations just yet. Every
+      GraphQL request must include an Authorization header that specifies a valid
+      user access token. The current client does not include any Authorization
+      headers, so all requests it makes will fail.
+
+      To fix this, update the ``createRealmApolloClient()`` function to include the
+      current user's access token in an Authorization header with every request:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.createRealmApolloClient.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
 
 .. _web-tutorial-implement-the-project-list:
 
