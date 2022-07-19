@@ -99,7 +99,7 @@ Register a RealmObject Change Listener
 
 You can register a notification handler on a specific object within a realm.
 Realm notifies your handler when any of the object's properties change.
-To register a change listener on a single object, obtain a `RealmSingleQuery <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-single-query/index.html>`
+To register a change listener on a single object, obtain a `RealmSingleQuery <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-single-query/index.html>`__
 with ``realm.query.first()``. Generate a Flow from that query with `asFlow()
 <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-element-query/as-flow.html>`__.
 The handler receives a ``SingleQueryChange`` object that communicates
