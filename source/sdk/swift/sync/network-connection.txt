@@ -1,0 +1,64 @@
+.. _swift-check-network-connection:
+.. _ios-check-network-connection:
+
+========================================
+Check the Network Connection - Swift SDK
+========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Check the Network Connection
+----------------------------
+
+.. tip:: 
+
+   Realm's *offline-first* design means that you generally don't
+   need to check the current network connection state. That said, the
+   ``connectionState`` property is available if your app calls for some
+   indication of connection state.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      To check the connection state, you can read the synced realm's
+      SyncSession instance's :swift-sdk:`connectionState
+      <Extensions/SyncSession.html#/s:So14RLMSyncSessionC10RealmSwiftE15ConnectionStatea>`
+      property directly. 
+
+      This property is :apple:`KVO-compliant
+      <library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`,
+      so you can observe changes using KVO or even Combine.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To check the connection state, you can read the synced realm's
+      RLMSyncSession instance's :objc-sdk:`connectionState
+      <Classes/RLMSyncSession.html#/c:objc(cs)RLMSyncSession(py)connectionState>`
+      property directly.
+
+      This property is :apple:`KVO-compliant
+      <library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html>`,
+      so you can observe changes using KVO. The following example
+      demonstrates how to implement an observer class:
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection-setup.m
+         :language: objectivec
+
+      You can then attach an observer instance to the RLMSyncSession
+      object. Be sure to remove the observer when finished.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.check-network-connection.m
+         :language: objectivec
+         

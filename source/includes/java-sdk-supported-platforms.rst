@@ -1,4 +1,4 @@
-{+service+}'s Java SDK enables you to build apps for the
+Realm's Java SDK enables you to build apps for the
 following platforms:
 
 - Android

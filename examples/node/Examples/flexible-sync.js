@@ -8,6 +8,7 @@ const TaskSchema = {
     status: "string?",
     progressMinutes: "int?",
     owner: "string?",
+    dueDate: "date?",
   },
   primaryKey: "_id",
 };
@@ -112,5 +113,138 @@ describe("Flexible Sync Tests", () => {
       mutableSubs.removeAll();
     });
     // :snippet-end:
+  });
+  test.skip("should open a FS realm with initial subscriptions", async () => {
+    await app.logIn(Realm.Credentials.anonymous());
+
+    // :snippet-start: create-initial-subscriptions-on-fs-realm
+    const config = {
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            subs.add(
+              realm.objects("Team").filtered("name == 'Developer Education'")
+            );
+          },
+        },
+      },
+    };
+    const realm = await Realm.open(config);
+    // :snippet-end:
+
+    realm.write(() => {
+      const t1 = realm.create("Team", {
+        _id: 3124513,
+        name: "Developer Education",
+        description: "Drivers Docs Sub Team",
+      });
+      const t2 = realm.create("Team", {
+        _id: 2042991,
+        name: "Developer Education",
+        description: "Realm Docs Sub Team",
+      });
+      const t3 = realm.create("Team", {
+        _id: 1047714,
+        name: "Server",
+        description: "Server Docs Team",
+      });
+    });
+
+    expect(
+      realm.objects("Team").filtered("name == 'Developer Education'").length
+    ).toBe(1); // should not include Server Docs team
+  });
+
+  test.skip("should rerun the initial subscription on open", async () => {
+    await app.logIn(Realm.Credentials.anonymous());
+
+    // :snippet-start: rerun-initial-subscriptions-on-open
+    // Set the date a week ago and the date a week from now, as those are the dates we'll use
+    // in the Flexible Sync query. `rerunOnOpen` lets the app recalculate this query every
+    // time the app opens.
+    const todaysDate = new Date();
+    const dateLastWeek = new Date(
+      todaysDate.getFullYear(),
+      todaysDate.getMonth(),
+      todaysDate.getDate() - 7
+    );
+    const dateNextWeek = new Date(
+      todaysDate.getFullYear(),
+      todaysDate.getMonth(),
+      todaysDate.getDate() + 7
+    );
+
+    const config = {
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        initialSubscriptions: {
+          update: (subs, realm) => {
+            subs.add(
+              realm
+                .objects("Task")
+                .filtered(
+                  "dueDate >= $0 && dueDate <= $1",
+                  dateLastWeek,
+                  dateNextWeek
+                )
+            );
+          },
+          rerunOnOpen: true,
+        },
+      },
+    };
+    const realm = await Realm.open(config);
+    // :snippet-end:
+
+    realm.write(() => {
+      realm.deleteAll();
+      const task1 = realm.create("Task", {
+        // should not be included
+        _id: Math.floor(Math.random() * 1000000),
+        name: "Do English Homework 1",
+      });
+      const task2 = realm.create("Task", {
+        // should be included
+        _id: Math.floor(Math.random() * 1000000),
+        name: "Do English Homework 2",
+        dueDate: new Date(),
+      });
+      const task3 = realm.create("Task", {
+        // should be included
+        _id: Math.floor(Math.random() * 1000000),
+        name: "Do English Homework 3",
+        dueDate: new Date(
+          todaysDate.getFullYear(),
+          todaysDate.getMonth(),
+          todaysDate.getDate() + 7
+        ),
+      });
+
+      const task4 = realm.create("Task", {
+        // should be included
+        _id: Math.floor(Math.random() * 1000000),
+        name: "Do English Homework 4",
+        dueDate: new Date(
+          todaysDate.getFullYear(),
+          todaysDate.getMonth(),
+          todaysDate.getDate() - 7
+        ),
+      });
+
+      const task5 = realm.create("Task", {
+        // should not be included
+        _id: Math.floor(Math.random() * 1000000),
+        name: "Do English Homework 5",
+        dueDate: new Date(
+          todaysDate.getFullYear(),
+          todaysDate.getMonth(),
+          todaysDate.getDate() - 9
+        ),
+      });
+    });
+    expect(realm.objects("Task").length).toBe(3); // should not include English Homework 1 (without a date) and Homework 5 (dueDate is 9 days ago)
   });
 });

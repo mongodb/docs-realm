@@ -1,6 +1,6 @@
 .. important:: Synchronous Reads and Writes on the UI Thread
    
-   By default, you can only read or write to a {+realm+} in your
+   By default, you can only read or write to a realm in your
    application's UI thread using
    :ref:`asynchronous transactions <java-async-api>`. That is,
    you can only use ``Realm`` methods whose name ends with the word
@@ -12,7 +12,7 @@
    unresponsive or slow UI interactions, so it's usually best to handle
    these operations either asynchronously or in a background thread.
    However, if your application requires the use of synchronous
-   {+realm+} reads or writes on the UI thread, you can explicitly allow
+   realm reads or writes on the UI thread, you can explicitly allow
    the use of synchronous methods with the following
    ``SyncConfiguration`` options:
 

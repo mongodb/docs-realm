@@ -28,12 +28,12 @@ to the updated schema.
 
    Assume that each schema change in this example occurs after
    an application has used each version for some amount of time. New
-   schema version numbers only apply once you open the {+realm+} 
+   schema version numbers only apply once you open the realm 
    with an updated schema and explicitly specify the new version
    number, so in order to get to version 3, you would first need to
    open the app with versions 1 and 2.
 
-A {+realm+} using schema version ``1`` has a ``Person`` object type:
+A realm using schema version ``1`` has a ``Person`` object type:
 
 .. literalinclude:: /examples/generated/dotnet/Migrations.snippet.ro1.cs
    :language: csharp
@@ -92,8 +92,8 @@ Migration Functions
 
    Never release an app to production with this flag set to ``true``.
 
-To migrate the {+realm+} to conform to the updated ``Person`` schema, the
-set the {+realm+}'s :ref:`schema version <dotnet-schema-version>` to
+To migrate the realm to conform to the updated ``Person`` schema, the
+set the realm's :ref:`schema version <dotnet-schema-version>` to
 ``4`` and define a migration function to set the value of
 ``FullName`` based on the existing ``FirstName`` and ``LastName``
 properties and the value of ``Birthday`` based on ``Age``:

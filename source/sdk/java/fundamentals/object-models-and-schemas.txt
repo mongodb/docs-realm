@@ -13,37 +13,37 @@ Object Models & Schemas - Java SDK
    :class: singlecol
 
 An **object schema** is a configuration object that defines the fields and
-relationships of a {+service-short+} object type. Android
-{+service-short+} applications define object schemas with Java or Kotlin
-classes using :term:`{+frontend-schema+}s <{+frontend-schema+}>`.
+relationships of a Realm object type. Android
+Realm applications define object schemas with Java or Kotlin
+classes using Realm Schemas.
 
 Object schemas specify constraints on object fields such as the data
 :ref:`type <java-supported-data-types>` of each field, whether a
 field is required, and default field values. Schemas can also define
 :ref:`relationships <java-client-relationships>` between object types in
-a {+realm+}.
+a realm.
 
-Modifying your application's {+frontend-schema+} requires you to
+Modifying your application's Realm Schema requires you to
 :ref:`migrate <java-schema-versions-and-migrations>` data from older
-versions of your {+frontend-schema+} to the new version.
+versions of your Realm Schema to the new version.
 
 Realm Apps
 ----------
 
-Every {+app+} has a :ref:`{+backend-schema+} <java-realm-schema>`
+Every App has a :ref:`Realm Schema <java-realm-schema>`
 composed of a list of object schemas for each type of object that the
-{+realms+} in that application may contain.
+realms in that application may contain.
 
-{+service+} guarantees that all objects in a {+realm+} conform to the
+Realm guarantees that all objects in a realm conform to the
 schema for their object type and validates objects whenever they're
 created, modified, or deleted.
 
-{+app+}s that take advantage of {+sync+} can define schemas in two ways:
+Apps that use Atlas Device Sync can define schemas in two ways:
 
 - object schemas :ref:`using Kotlin and Java class declarations
   <create-schema-from-rom>` with :ref:`Development Mode <enable-development-mode>`.
 
-- JSON :ref:`object schemas <object-schema>` in your {+app+} backend.
+- JSON :ref:`object schemas <object-schema>` in your App backend.
 
 .. _java-primary-key-fundamentals:
 
@@ -52,10 +52,11 @@ Primary Keys
 
 .. versionadded:: 10.6.0
 
-   {+client-database+} automatically :ref:`indexes <java-indexes-fundamentals>`
-   primary key fields. Previously, only ``String`` fields were automatically indexed.
+   Realm Database automatically :ref:`indexes <java-indexes-fundamentals>`
+   primary key fields. Previously, Realm only indexed ``String`` primary
+   keys automatically.
 
-{+service-short+} treats fields marked with the
+Realm treats fields marked with the
 :java-sdk:`@PrimaryKey <io/realm/annotations/PrimaryKey.html>` annotation
 as primary keys for their corresponding object schema. Primary keys are
 subject to the following limitations:
@@ -63,7 +64,7 @@ subject to the following limitations:
 - You can define only one primary key per object schema.
 
 - Primary key values must be unique across all instances of an object
-  in a {+realm+}. Attempting to insert a duplicate primary key value
+  in a realm. Attempting to insert a duplicate primary key value
   results in a :java-sdk:`RealmPrimaryKeyConstraintException
   <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
 
@@ -87,15 +88,15 @@ You can create a primary key with any of the following types:
 Non-primitive types can contain a value of ``null`` as a primary key
 value, but only for one object of a particular type, since each primary
 key value must be unique. Attempting to insert an object with an existing
-primary key into a {+realm+} will result in a
+primary key into a realm will result in a
 :java-sdk:`RealmPrimaryKeyConstraintException <io/realm/exceptions/RealmPrimaryKeyConstraintException.html>`.
 
-{+client-database+} automatically :ref:`indexes <java-index-field>`
+Realm Database automatically :ref:`indexes <java-index-field>`
 primary key fields, which allows you to efficiently read and modify
 objects based on their primary key.
 
 You cannot change the primary key field for an object type after adding
-any object of that type to a {+realm+}. If you are using {+sync+},
+any object of that type to a realm. If you are using Sync,
 you cannot change the primary key field for an object after defining the
 primary key in your backend :ref:`schema <schemas>`.
 
@@ -141,7 +142,7 @@ Primitive types such as ``int`` and the ``RealmList`` type are
 implicitly required. Fields with the ``RealmObject`` type are always
 nullable, and cannot be made required.
 
-.. warning:: Kotlin Types and Nullability
+.. important:: Kotlin Types and Nullability
 
    In Kotlin, types are non-nullable by default unless you explicitly
    add a ``?`` suffix to the type. You can only annotate
@@ -174,7 +175,7 @@ nullable, and cannot be made required.
    .. tab::
       :tabid: java
 
-      Nullable fields are optional by default in {+client-database+}, unless
+      Nullable fields are optional by default in Realm Database, unless
       otherwise specified with the :ref:`@Required <java-required-field>`
       annotation. The following types are nullable:
 
@@ -214,9 +215,9 @@ You can make **inverse** relationships traversable with the
 :java-sdk:`@LinkingObjects <io/realm/annotations/LinkingObjects.html>`
 annotation on a :java-sdk:`RealmResults <io/realm/RealmResults.html>`
 field. In an instance of a ``RealmObject``, inverse relationship fields
-contain the set of {+service-short+} objects that point to that object
+contain the set of Realm objects that point to that object
 instance through the described relationship. You can find the same set
-of {+service-short+} objects with a manual query, but the inverse
+of Realm objects with a manual query, but the inverse
 relationship field reduces boilerplate query code and capacity for error.
 
 .. seealso::
@@ -230,22 +231,22 @@ Indexes
 -------
 
 **Indexes** support the efficient execution of queries in
-{+client-database+}. Without indexes, {+client-database+} must perform a
+Realm Database. Without indexes, Realm Database must perform a
 *collection scan*, i.e. scan every document in a collection, to select
 those documents that match a query. If an appropriate index exists for a
-query, {+client-database+} can use the index to limit the number of
+query, Realm Database can use the index to limit the number of
 documents that it must inspect.
 
 Indexes are special data structures that store a small portion of a
-{+realm+}'s data in an easy to traverse form. The index stores the value
+realm's data in an easy to traverse form. The index stores the value
 of a specific field ordered by the value of the field. The ordering of
 the index entries supports efficient equality matches and range-based
 query operations.
 
 Adding an index to a field makes writing slightly slower, but makes
-certain queries faster. Indexes require space in your {+realm+} file, so
+certain queries faster. Indexes require space in your realm file, so
 adding an index to a field will increase disk space consumed by your
-{+realm+} file.
+realm file.
 
 You can index fields with the following types:
 
@@ -260,7 +261,7 @@ You can index fields with the following types:
 - ``Date``
 - ``RealmAny``
 
-{+service-short+} creates indexes for fields annotated with
+Realm creates indexes for fields annotated with
 :java-sdk:`@Index <io/realm/annotations/Index.html>`. Indexes speed up
 some queries, but have a negative impact on insert and update operation
 speed. Indexes also consume additional space on disk.
@@ -274,18 +275,18 @@ speed. Indexes also consume additional space on disk.
 Modules
 -------
 
-{+service-short+} Modules describe the set of {+service-short+} objects
-that can be stored in a {+realm+}. By default, {+service-short+}
-automatically creates a {+service-short+} Module that contains all
-{+service-short+} objects defined in your application.
+Realm Modules describe the set of Realm objects
+that can be stored in a realm. By default, Realm
+automatically creates a Realm Module that contains all
+Realm objects defined in your application.
 You can define a :java-sdk:`RealmModule <io/realm/annotations/RealmModule.html>`
-to restrict a {+realm+} to a subset of classes defined in an application.
-If you produce a library that uses {+service-short+}, you can use a
-{+service-short+} Module to explicitly include only the {+service-short+}
-objects defined in your library in your {+realm+}. This allows
-applications that include your library to also use {+service-short+}
+to restrict a realm to a subset of classes defined in an application.
+If you produce a library that uses Realm, you can use a
+Realm Module to explicitly include only the Realm
+objects defined in your library in your realm. This allows
+applications that include your library to also use Realm
 without managing object name conflicts and migrations with your library's
-defined {+service-short+} objects.
+defined Realm objects.
 
 .. seealso::
 
@@ -297,15 +298,15 @@ Realm Objects
 -------------
 
 Unlike normal Java objects, which contain their own data, a
-{+service-short+} object doesn't contain data. Instead,
-{+service-short+} objects read and write properties directly to
-{+client-database+}.
+Realm object doesn't contain data. Instead,
+Realm objects read and write properties directly to
+Realm Database.
 
 Instances of Realm objects can be either **managed** or **unmanaged**.
 
 - **Managed** objects are:
 
-  - persisted in {+client-database+}
+  - persisted in Realm Database
 
   - always up to date
 
@@ -329,12 +330,12 @@ and :java-sdk:`realm.copyFromRealm()
 RealmProxy
 ~~~~~~~~~~
 
-The ``RealmProxy`` classes are the {+service-short+} SDK's way of
-ensuring that {+service-short+} objects don't contain any data
+The ``RealmProxy`` classes are the Realm SDK's way of
+ensuring that Realm objects don't contain any data
 themselves. Instead, each class's ``RealmProxy`` accesses data directly
 in the database.
 
-For every model class in your project, the {+service-short+} annotation
+For every model class in your project, the Realm annotation
 processor generates a corresponding ``RealmProxy`` class. This class
 extends your model class and is returned when you call
 ``Realm.createObject()``. In your code, this object works just like your
@@ -345,7 +346,7 @@ model class.
 Realm Object Limitations
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+service-short+} objects:
+Realm objects:
 
 - cannot contain fields that use the ``final`` or ``volatile`` modifiers
   (except for :ref:`inverse relationship <java-inverse-relationship>`
@@ -370,16 +371,16 @@ Size limitations:
 
 Usage limitations:
 
-- Because {+service-short+} objects are live and can change at any time,
+- Because Realm objects are live and can change at any time,
   their ``hashCode()`` value can change over time. As a result, you
   should not use ``RealmObject`` instances as a key in any map or set.
 
 Incremental Builds
 ------------------
 
-The bytecode transformer used by {+service-short+} supports incremental
+The bytecode transformer used by Realm supports incremental
 builds, but your application requires a full rebuild when adding or
-removing the following from a {+service-short+} object field:
+removing the following from a Realm object field:
 
 - an ``@Ignore`` annotation
 
@@ -389,16 +390,3 @@ removing the following from a {+service-short+} object field:
 
 You can perform a full rebuild with :guilabel:`Build > Clean Project`
 and :guilabel:`Build > Rebuild Project` in these cases.
-
-Summary
--------
-
-- {+service-short+} objects are of a **type** defined as you would any other
-  class.
-
-- The {+service-short+} object's **schema** defines the fields of the object and
-  which fields are optional, which fields have a default value,
-  and which fields are indexed.
-
-- You can define to-one, to-many, and inverse relationships in your schema. Inverse relationships automatically
-  form backlinks.

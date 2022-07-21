@@ -16,7 +16,7 @@ Integrate Realm with Unity - .NET SDK
 Overview
 --------
 
-This page contains information on how to install and integrate {+service+} into
+This page contains information on how to install and integrate Realm into
 your Unity project. 
 
 If you're looking for a tutorial to learn how you might persist data to
@@ -25,9 +25,9 @@ Realm Database in a Unity game, see: :ref:`Create a Unity Game with Realm
 
 .. note:: Known Issue When Developing With Unity on Windows
 
-   On Windows, if you are using {+sync+}, your project may crash when running
+   On Windows, if you are using Device Sync, your project may crash when running
    multiple instances of your project since multiple processes are attempting to
-   access the same synced {+realm+}. If you are using a local {+realm+}, you are
+   access the same synced realm. If you are using a local realm, you are
    able to run multiple instances of your project without crashes. 
 
 Prerequisites
@@ -36,10 +36,10 @@ Prerequisites
 
 .. note::
 
-    The :doc:`{+service-short+} .NET SDK </sdk/dotnet>` may be compatible
+    The :doc:`Realm .NET SDK </sdk/dotnet>` may be compatible
     with other versions of Unity, but ``2020.3.12f1 (LTS)`` is the version that
-    the {+service-short+} team uses for testing and development. We recommend
-    using this version to ensure your project works with {+service-short+} and
+    the Realm team uses for testing and development. We recommend
+    using this version to ensure your project works with Realm and
     that the install steps match the steps below since Unity's UI often changes
     between versions. 
 
@@ -47,10 +47,10 @@ Prerequisites
 
 Install
 -------
-{+service-short+} provides various ways to install the :doc:`{+service-short+}
+Realm provides various ways to install the :doc:`Realm
 .NET SDK </sdk/dotnet>` for use with Unity. Experienced Unity developers may
-find installing {+service-short+} manually with a tarball to be intuitive.
-However, we recommend installing the :doc:`{+service-short+} .NET SDK
+find installing Realm manually with a tarball to be intuitive.
+However, we recommend installing the :doc:`Realm .NET SDK
 </sdk/dotnet>` via npm since it provides `notifications of version
 updates through Unity's package manager
 <https://docs.unity3d.com/Packages/com.unity.package-manager-ui@2.0/manual/index.html#PackManUpdate>`_.
@@ -60,12 +60,152 @@ updates through Unity's package manager
    .. tab:: Install with NPM
       :tabid: npm
 
-      .. include:: /includes/steps/install-realm-dotnet-npm.rst
+      .. procedure::
+
+         .. step:: Add NPM as a Scoped Registry
+
+
+            Before you can download and use Realm within your Unity project, you
+            must add :npm:`NPM <>` as a `scoped registry
+            <https://docs.unity3d.com/Manual/upm-scoped.html>`_. Adding NPM as a scoped
+            registry configures Unity to communicate with NPM, allowing you to install
+            packages, such as Realm.
+
+            Open the `Unity package manager
+            <https://docs.unity3d.com/Manual/upm-ui.html>`_ by clicking the
+            :guilabel:`Window` tab on the top of the Unity menu. Click :guilabel:`Package
+            Manager` from the :guilabel:`Window dropdown`. Then, click the gear icon on
+            the right-hand corner. Select the :guilabel:`Advanced Project
+            Settings` option from the dropdown.
+
+            .. figure:: /images/unity-open-advanced-project-settings.png
+               :alt: Select "Advanced Project Settings"
+
+            Fill out the scoped registry form with the details below and click the save
+            button.
+
+            .. code-block:: none
+
+             name = NPM
+             URL = https://registry.npmjs.org
+             Scope(s) = io.realm.unity
+
+            .. figure:: /images/add-scoped-registry-form.png
+               :alt: Download the latest release of the .NET SDK
+
+
+         .. step:: Add Realm to the Project Manifest
+
+
+            Now that Unity can install the Realm .NET SDK from NPM, you need
+            to add Realm as a dependency in your  project's `manifest file
+            <https://docs.unity3d.com/Manual/upm-manifestPrj.html>`_. Open
+            "Packages/manifest.json" file in `Visual Studio
+            <https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor. At
+            the bottom of the dependency's object, add the field, "io.realm.unity" and
+            its value, the Realm .NET version number you want to use in
+            quotes.
+
+            .. code-block:: none
+
+             "io.realm.unity": "<version-number>"
+
+            Remember to replace the ``<version-number>`` above with the actual version
+            number. Your full manifest file should look something like the following:
+
+            .. code-block:: none
+
+             {
+              "dependencies": {
+                ...
+                "io.realm.unity": "10.2.1"
+              },
+              "scopedRegistries": [
+                {
+                  "name": "NPM",
+                  "url": "https://registry.npmjs.org/",
+                  "scopes": [
+                    "io.realm.unity"
+                  ]
+                }
+              ]
+             }
+
+            When you save this file, Unity downloads the specified version of the
+            Realm .NET SDK package from the NPM registry.
+
+            .. figure:: /images/unity-resolve-packages.png
+               :width: 400px
+               :alt: Unity downloading Realm .NET SDK package
+
+
+         .. step:: Verify the Realm Dependency and Check for Updates
+
+
+            To verify that the Realm package has been downloaded from NPM,
+            open your Unity package manager by clicking the :guilabel:`Window` tab on the
+            top of the Unity menu. Click :guilabel:`Package Manager` from the
+            :guilabel:`Window` dropdown. You should see Realm on the :guilabel:`"Packages: In
+            Project"` tab.
+
+            .. figure:: /images/unity-realm-is-installed.png
+               :alt: Unity Realm Installed
+
+            If you see a green check icon next to the version number of the
+            Realm package, that means your package is up-to-date. However, if
+            you see the up arrow icon, a new version of the package is available. Clicking
+            it gives you the option to upgrade to the latest release.
+
 
    .. tab:: Manually Install a Tarball
       :tabid: tarball
 
-      .. include:: /includes/steps/install-realm-dotnet-tarball.rst
+      .. procedure::
+
+         .. step:: Download the Latest Realm .NET SDK Release
+
+
+            Before you begin using Realm within your Unity project, you must
+            download the Realm .NET SDK.
+
+            Navigate to the :github:`realm-dotnet repository releases
+            <realm/realm-dotnet/releases>` page, and scroll down to the release you want
+            to use in your project. If you are unsure of which release to use, you can use
+            the one labeled **"latest release"** on the left row.
+
+            .. figure:: /images/find-latest-dotnet-release.png
+               :alt: Find the latest release of the .NET SDK
+
+            Scroll down to the **"Assets"** dropdown of the release and click the link
+            labeled **"io.realm.unity-<version-number>.tgz"** to download the SDK.
+
+            .. figure:: /images/download-unity-tgz.png
+               :alt: Download the latest release of the .NET SDK
+
+
+         .. step:: Add the Tarball to Your Projects Package Manager
+
+
+            Move your downloaded Realm .NET SDK tarball inside of your
+            project. You can do this by dragging and dropping the file into your project's
+            folder. Copying the tarball to your project folder and committing it to version
+            control ensures other developers working on the project can just clone the
+            repository and build without manually downloading the Realm dependency.
+
+            Next, you must load the tarball into your project using the `Unity package manager
+            <https://docs.unity3d.com/Manual/upm-ui.html>`_.
+
+            To open the package manager, click the :guilabel:`Window` tab on the top of
+            the Unity menu. Click :guilabel:`Package Manager` from the :guilabel:`Window
+            dropdown`. Once the package manager model opens, click the :guilabel:`+` icon
+            in the top left corner of the model. Select the :guilabel:`Add package from
+            tarball...` option.
+
+            .. figure:: /images/add-package-from-tar-unity.png
+               :alt: Add package from tarball Unity UI
+
+            Select your **"io.realm.unity-bundled-<version-number>.tgz"** file to
+            begin importing your project.
 
 .. _unity-integration-guide-import-realm:
 
@@ -75,7 +215,7 @@ Import Realm
 <https://docs.unity3d.com/Manual/CreatingAndUsingScripts.html>`_ or use a C#
 script you have already created. Open that script in `Visual Studio
 <https://docs.microsoft.com/en-us/visualstudio/>`_ or another text editor and add
-the following line to import your {+service-short+} package: 
+the following line to import your Realm package: 
 
 .. code-block:: csharp
 
@@ -83,9 +223,9 @@ the following line to import your {+service-short+} package:
 
 .. _unity-integration-guide-using-realm-in-project:
 
-Using {+service-short+} in Your Unity Project
+Using Realm in Your Unity Project
 ---------------------------------
-When developing with :doc:`{+service-short+} .NET SDK </sdk/dotnet>`, the API
+When developing with :doc:`Realm .NET SDK </sdk/dotnet>`, the API
 methods are the same regardless of whether you use Unity or another platform.
 However, since Unity has some `scripting restrictions
 <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_, you should keep
@@ -93,7 +233,7 @@ the following additional considerations in mind when developing your project:
 
 dynamic`` Keyword Support
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the {+service-short+} .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the {+service-short+} .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
+Unity does not support the `dynamic keyword <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/using-type-dynamic>`_ when using `IL2CPP  <https://docs.unity3d.com/Manual/IL2CPP.html>`_. This means all types used in C# scripts must be known at compile time. When you use the Realm .NET SDK with Unity, you must convert dynamic types to concrete types. To view the full list of limitations, see the Unity `scripting limitations <https://docs.unity3d.com/Manual/ScriptingRestrictions.html>`_ documentation. Although the Realm .NET SDK exposes the :dotnet-sdk:`Dynamic API<reference/Realms.Realm.Dynamic.html?q=dynamic>`, we recommend it only when performing migrations.
 
 .. example::
 
@@ -112,19 +252,19 @@ Unity performs `managed code stripping <https://docs.unity3d.com/Manual/ManagedC
 
 Using Realm While the Application is Quitting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The {+service-short+} .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot write data to a Realm while the player application is quitting. If you need to store some data just before the app exits, consider using the `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ event instead.
+The Realm .NET SDK cannot be accessed within the `AppDomain.DomainUnload Event <https://docs.microsoft.com/en-us/dotnet/api/system.appdomain.domainunload?view=net-5.0>`_ or the `Application.quitting <https://docs.unity3d.com/ScriptReference/Application-quitting.html>`_ event. This means you cannot write data to a Realm while the player application is quitting. If you need to store some data just before the app exits, consider using the `Application.wantsToQuit <https://docs.unity3d.com/ScriptReference/Application-wantsToQuit.html>`_ event instead.
 
 Additional Examples
 -------------------
-The {+service+} community has created many projects that demonstrate the usage
+The Realm community has created many projects that demonstrate the usage
 of the Realm .NET SDK. Check out the examples below that demonstrate the usage
-of the :doc:`{+service-short+} .NET SDK </sdk/dotnet>` with Unity! 
+of the :doc:`Realm .NET SDK </sdk/dotnet>` with Unity! 
 
 .. note:: 
 
    The MongoDB Documentation team does not directly maintain these examples. 
 
-- `MongoDB Devhub: Unity with {+service-short+} Articles <https://developer.mongodb.com/learn/?content=Articles&text=unity>`_
+- `MongoDB Devhub: Unity with Realm Articles <https://developer.mongodb.com/learn/?content=Articles&text=unity>`_
 - `MongoDB Youtube Channel: Getting Started with the Realm SDK for Unity <https://www.youtube.com/watch?v=df2qo8G2ZfU>`_
 - `MongoDB Youtube Channel: Build an Infinite Runner Game with Unity and the Realm Unity SDK <https://www.youtube.com/watch?v=8S0NuFwFazY>`_
 - `dodoTV42 Youtube Channel: How to SAVE and LOAD data in Unity3D with Realm SDK <https://www.youtube.com/watch?v=8jo_S02HLkI>`_

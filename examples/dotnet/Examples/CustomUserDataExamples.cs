@@ -44,7 +44,7 @@ namespace Examples
             Assert.AreEqual(user.Id, insertResult.InsertedId);
         }
 
-        [Test]
+        [Test, Order(0)]
         public async Task Reads()
         {
             // :snippet-start: read
@@ -61,7 +61,7 @@ namespace Examples
             Assert.IsTrue(cud.IsCool);
         }
 
-        [Test]
+        [Test, Order(1)]
         public async Task Updates()
         {
             // :snippet-start: update
@@ -83,7 +83,22 @@ namespace Examples
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            await cudCollection.DeleteManyAsync();
+            // :snippet-start: delete
+            var deleteResult = await cudCollection.DeleteOneAsync(
+                new BsonDocument("_id", user.Id));
+
+            // The `DeletedCount` should be 1
+            Console.WriteLine(deleteResult.DeletedCount);
+
+            // There should no longer be a custom user document for the user
+            var customData = await cudCollection.FindOneAsync(
+                new BsonDocument("_id", user.Id));
+
+            Console.WriteLine(customData == null);
+
+            // :snippet-end:
+
+            //await cudCollection.DeleteManyAsync();
         }
 
     }

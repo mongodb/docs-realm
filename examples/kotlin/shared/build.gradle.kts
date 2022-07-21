@@ -4,7 +4,7 @@ plugins {
     id("io.realm.kotlin")
 }
 
-val realmVersion = "1.0.0" // DON'T FORGET TO UPDATE VERSION IN PROJECT/ANDROID GRADLE
+val realmVersion = "1.0.1" // DON'T FORGET TO UPDATE VERSION IN PROJECT/ANDROID GRADLE
 val coroutinesVersion = "1.6.0-native-mt"
 version = "1.0"
 

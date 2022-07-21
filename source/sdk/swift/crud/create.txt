@@ -1,0 +1,344 @@
+.. _swift-crud-create:
+.. _ios-read-and-write-data:
+.. _ios-write-operations:
+
+=========================
+CRUD - Create - Swift SDK
+=========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _ios-write-transactions:
+
+Key Concept: Transactions
+-------------------------
+
+Write Transactions
+~~~~~~~~~~~~~~~~~~
+
+Realm Database uses a highly efficient storage engine
+to persist objects. You can **create** objects in a realm,
+**update** objects in a realm, and eventually **delete**
+objects from a realm. Because these operations modify the
+state of the realm, we call them writes.
+
+Realm handles writes in terms of **transactions**. A
+transaction is a list of read and write operations that
+Realm treats as a single indivisible operation. In other
+words, a transaction is *all or nothing*: either all of the
+operations in the transaction succeed or none of the
+operations in the transaction take effect. 
+
+All writes must happen in a transaction.
+
+A realm allows only one open transaction at a time. Realm
+blocks other writes on other threads until the open
+transaction is complete. Consequently, there is no race
+condition when reading values from the realm within a
+transaction.
+
+When you are done with your transaction, Realm either
+**commits** it or **cancels** it:
+
+- When Realm **commits** a transaction, Realm writes
+  all changes to disk. For synced realms, the SDK queues the change
+  for synchronization with App Services.
+- When Realm **cancels** a write transaction or an operation in
+  the transaction causes an error, all changes are discarded
+  (or "rolled back").
+
+.. _ios-open-a-transaction:
+
+Run a Transaction
+~~~~~~~~~~~~~~~~~
+
+The Swift SDK represents each transaction as a callback function
+that contains zero or more read and write operations. To run
+a transaction, define a transaction callback and pass it to
+the realm's ``write`` method. Within this callback, you are
+free to create, read, update, and delete on the realm. If
+the code in the callback throws an exception when Realm runs
+it, Realm cancels the transaction. Otherwise, Realm commits
+the transaction immediately after the callback.
+
+.. important:: Concurrency Concerns
+
+   Since transactions block each other, it is best to avoid
+   opening transactions on both the UI thread and a
+   background thread. If you are using :ref:`Sync
+   <sync>`, avoid opening transactions on the
+   UI thread altogether, as Realm processes synchronizations
+   on a background thread. If a background transaction
+   blocks your UI thread's transaction, your app may appear
+   unresponsive.
+
+.. example::
+
+   The following code shows how to run a transaction with
+   the realm's write method. If the code in the callback
+   throws an exception, Realm cancels the transaction.
+   Otherwise, Realm commits the transaction.
+
+   .. tabs-realm-languages::
+
+      .. tab::
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.transaction.m
+            :language: objectivec
+
+      .. tab::
+         :tabid: swift
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.transaction.swift
+            :language: swift
+
+.. seealso::
+
+   :ref:`Usage Example: Read and Write Data <ios-read-and-write-data>`
+
+.. _ios-interface-driven-writes:
+.. _ios-silent-writes:
+
+Key Concept: Interface-Driven Writes
+------------------------------------
+
+Realm always delivers notifications asynchronously, so they
+never block the UI thread. However, there are situations when the UI
+must reflect changes instantly. If you update the UI directly at the
+same time as the write, the eventual notification could double that
+update. This could lead to your app crashing due to inconsistent state
+between the UI and the backing data store. To avoid this, you can write
+without sending a notification to a specific handler. We call this type
+of transaction an **interface-driven write**.
+
+.. example::
+
+   Say we decide to manage a table view's data source manually, because
+   our app design requires an instantaneous response to UI-driven table
+   updates. As soon as a user adds an item to the table view, we insert
+   it to our data source, which writes to the realm but also
+   immediately kicks off the animation. However, when Realm
+   delivers the change notification for this insertion a little later,
+   it indicates that an object has been added. But we already updated
+   the table view for it! Rather than writing complicated code to handle
+   this case, we can use interface-driven writes to prevent a specific
+   notification handler from firing for that specific write.
+
+Interface-driven writes, also known as silent writes, are especially
+useful when using fine-grained collection notifications with a
+:ref:`synchronized realm <sync>` realm. While you use
+interface-driven writes for the current user's updates and update the UI
+immediately, the sync process can use standard notifications to update
+the UI.
+
+.. seealso::
+
+   :ref:`ios-write-silently`
+
+Create a New Object
+-------------------
+
+About These Examples
+~~~~~~~~~~~~~~~~~~~~
+
+The examples on this page use the following models:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+      
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.m
+         :language: objectivec
+
+.. _ios-create-a-new-object:
+
+Create an Object
+~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To add an object to a realm, instantiate it as you would any other
+      object and then pass it to :swift-sdk:`Realm.add(_:update:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
+      inside of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.create.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To add an object to a realm, instantiate it as you would any other
+      object and then pass it to :objc-sdk:`-[RLMRealm addObject:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(im)addObject:>` inside
+      of a write transaction.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.create.m
+         :language: objectivec
+
+.. _ios-initialize-an-object-with-a-value:
+
+Initialize Objects with a Value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can initialize an object by passing an initializer value to
+:swift-sdk:`Object.init(value:)
+<Extensions/Object.html#/s:So16RealmSwiftObjectC0aB0E5valueAByp_tcfc>`.
+The initializer value can be a :apple:`key-value coding
+<library/archive/documentation/Cocoa/Conceptual/KeyValueCoding/>`
+compliant object, a dictionary, or an array containing one element for
+each managed property.
+
+.. note::
+
+   When using an array as an initializer value, you must include all
+   properties in the same order as they are defined in the model.
+
+You can even initialize :ref:`related <ios-client-relationships>` or
+:ref:`embedded objects <ios-embedded-objects>` by nesting initializer
+values:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.nested-objects.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.nested-objects.m
+         :language: objectivec
+
+
+Some Property Types are Only Mutable in a Write Transaction
+```````````````````````````````````````````````````````````
+
+Some property types are only mutable in a write transaction. For example, 
+you can instantiate an object with a :ref:`MutableSet <ios-mutableset-data-type>` 
+property, but you can only set that property's value in a write transaction. 
+You cannot initialize the object with a value for that property unless 
+you do so inside a write transaction.
+
+.. _ios-create-an-object-with-json:
+
+Create an Object with JSON
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not directly support JSON, but you can use
+:apple:`JSONSerialization.jsonObject(with:options:)
+<documentation/foundation/jsonserialization/1415493-jsonobject>` to
+convert JSON into a value that you can pass to
+:swift-sdk:`Realm.create(_:value:update:)
+<Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.json.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.json.m
+         :language: objectivec
+
+Nested objects or arrays in the JSON map to :ref:`to-one
+<ios-to-one-relationship>` or :ref:`to-many relationships
+<ios-to-one-relationship>`. 
+
+The JSON property names and types must match the destination
+:ref:`object schema <ios-object-schemas>` exactly. For example:
+
+- ``float`` properties must be initialized with float-backed ``NSNumbers``.
+- ``Date`` and ``Data`` properties cannot be inferred from strings. Convert them to the appropriate type before passing to :swift-sdk:`Realm.create(_:value:update:) <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`.
+- Required properties cannot be ``null`` or missing in the JSON.
+
+Realm ignores any properties in the JSON not defined in the
+object schema.
+
+.. tip::
+
+   If your JSON schema doesn't exactly align with your Realm objects,
+   consider using a third-party framework to transform your JSON. There
+   are many model mapping frameworks that work with Realm.
+   See a :github:`partial list in the realm-swift repository
+   <realm/realm-swift/issues/694#issuecomment-144785299>`.
+
+.. _swift-create-embedded-object:
+
+Create an Embedded Object
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create an embedded object, assign an instance of the embedded object
+to a parent object's property:
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.create-an-embedded-object.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.m
+         :language: objectivec
+
+.. _ios-copy-an-object-to-another-realm:
+
+Copy an Object to Another Realm
+-------------------------------
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To copy an object from one realm to another, pass the original
+      object to :swift-sdk:`Realm.create(_:value:update:):
+      <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.copy-to-another-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To copy an object from one realm to another, pass the original
+      object to :objc-sdk:`+[RLMObject createInRealm:withValue:]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)createInRealm:withValue:>`:
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.copy-to-another-realm.m
+         :language: objectivec
+
+.. important::
+
+   The ``create`` methods do not support handling cyclical object
+   graphs. Do not pass in an object containing relationships involving
+   objects that refer back to their parents, either directly or
+   indirectly.

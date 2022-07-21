@@ -1,0 +1,311 @@
+.. _ios-realm-open-legacy:
+
+====================================
+Legacy Sync Open Methods - Swift SDK
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The examples on this page describe how to work with synced realms in
+Swift SDK versions prior to 10.15.0. Alternately, if you're building apps 
+for iOS targets prior to 15.0, with Swift versions older than 5.5, or with 
+Objective-C, you can use these methods and code examples to work with 
+realms asynchronously.
+
+.. note::
+  
+   The ``OpenBehavior`` enum, and :ref:`the ability to specify whether to download
+   data before opening a realm<ios-specify-download-behavior>`, do not 
+   apply to the legacy examples on this page. If you want to require 
+   downloading changes before opening a realm with this older syntax, 
+   you must use ``asyncOpen``, which :ref:`always downloads changes before 
+   opening a realm<ios-open-synced-realm-after-sync>`.
+
+.. seealso::
+
+   If you're using Swift 5.5 with Swift SDK 10.15.0 or newer, see the 
+   :ref:`Sync Changes Between Devices page <ios-sync-changes-between-devices>`.
+
+Open A Synced Realm Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can work with synced realms offline if the user credentials are
+cached and you use App Services initializers to open the realms.
+If you use ``asyncOpen`` instead of initializers to open the realm, 
+the user always has the most up-to-date data, but must have a network 
+connection.
+
+Open a Synced Realm for the First Time
+--------------------------------------
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+The first time a user opens a realm, you must authenticate the user. 
+Upon this initial login, Realm caches login credentials. On 
+subsequent opens, check for a logged-in user, and then open new realms. 
+You can skip the login flow while you have a logged-in user. 
+
+Depending on your business logic, you may also require the user to download 
+data from App Services before opening a synced realm on device.
+
+Log In and Open a Synced Realm with Data on the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      The first time you log in and open a synced realm, you log the
+      user in, and pass the  user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to
+      :swift-sdk:`Realm.asyncOpen(configuration:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
+
+      This opens a synced realm on the device with data that is present
+      on the device. The realm attempts to sync with your App in
+      the background to check for changes on the server, or upload changes 
+      that the user has made.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.login-and-init-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      The first time you log in and open a synced realm, log the
+      user in, and pass the user's :objc-sdk:`RLMSyncConfiguration 
+      <Classes/RLMRealmConfiguration.html#/c:objc(cs)RLMRealmConfiguration(py)syncConfiguration>` 
+      object with the desired :objc-sdk:`partitionValue 
+      <Classes/RLMSyncConfiguration.html#/c:objc(cs)RLMSyncConfiguration(py)partitionValue>` 
+      to :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`.
+
+      This opens a synced realm on the device with data that is present
+      on the device. The realm attempts to sync with your App in
+      the background to check for changes on the server, or upload changes 
+      that the user has made.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.init-synced-realm.m
+         :language: swift
+
+Log In and Download Changes Before Opening a Realm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      If you want to download data from your backend App before the user 
+      can work with the synced realm, log the user in, and pass the 
+      user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to
+      :swift-sdk:`Realm.asyncOpen(configuration:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
+
+      When this is the first time opening the realm on the device, ``asyncOpen`` 
+      downloads the entire remote realm before opening the file on device. 
+      If the synced realm is already present on the device, ``asyncOpen`` 
+      downloads only the latest changes since the realm last synced with 
+      the App.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.login-asyncopen-synced-realm.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To open a synced realm asynchronously, pass the logged-in user's
+      :objc-sdk:`RLMRealmConfiguration
+      <Classes/RLMRealmConfiguration.html>` object with the desired
+      :ref:`partition value <partition-value>` to :objc-sdk:`+[RLMRealm
+      asyncOpenWithConfiguration:callbackQueue:callback]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
+
+      If this is the first time opening the realm on the device, ``asyncOpen`` 
+      downloads the entire remote realm before opening the file on device. 
+      If a realm is already present on the device, ``asyncOpen`` downloads 
+      only the latest changes since the realm last synced with the App.
+      
+      A common pattern is to use ``asyncOpen`` during a login 
+      flow, but use ``init`` to open a realm on subsequent opens.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.asyncopen-synced-realm.m
+         :language: objectivec
+
+Open a Synced Realm with Cached Credentials
+-------------------------------------------
+
+After you have authenticated a user and created a sync configuration to 
+open a realm, you can open the same realm again using the sync 
+configuration with cached credentials. You can use two different methods to 
+open the synced realm, depending on your needs:
+
+- :ref:`Open a synced realm with data that is on the device 
+  <ios-open-synced-realm-with-data-on-device>` immediately. This works regardless 
+  of network status, and enables the user to start working with the realm 
+  without waiting for changes to download from the server. However, data that 
+  is on the device may be stale. Additionally, this may result in behavior that 
+  seems unexpected or surprising to the user. Data may appear "suddenly" as 
+  it syncs in the background after the user has already begun working with the 
+  realm. You must account for this in your UI logic.
+- :ref:`Open a synced realm after syncing changes <ios-open-synced-realm-after-sync>`. 
+  This requires the user to have a network connection, so you should 
+  :ref:`check the network connection <ios-check-network-connection>` before 
+  attempting to open the realm from the server. This method of opening the 
+  realm ensures that the user always has the most up-to-date data from the 
+  server. The cost of using this method is an upfront pause while loading, and 
+  being unable to open the realm offline.
+
+.. _ios-open-synced-realm-with-data-on-device:
+
+Open a Synced Realm with Data on the Device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use initializers to open the realm immediately, using the data
+that is on the device. If you want to open a synced realm offline, use 
+this method. You must have a cached, logged-in user.
+
+.. example::
+
+   Consider the example of a note-taking app. You might decide it's most 
+   important for your user to be able to quickly jot down a note. The user 
+   shouldn't have to wait while downloading changes that a family member made 
+   to a shared note. In this case, opening a realm with ``init`` gets the 
+   user to the UI right away, or while the user is offline. When the user has
+   a network connection, changes sync in the background.
+
+   In contrast, you might want a store inventory app to always check the server 
+   for changes before working with a realm. If you use stale data from the
+   last time the realm was open on the device, the app data could reflect 
+   incorrect counts, inaccurate pricing data, or other out-of-date data issues. 
+   In that case, you'd want the app to download changes before letting the user
+   work with the data.
+
+.. note::
+
+   A synced realm is not interchangeable with a local Realm Database.
+   If you want to sync a local Realm Database, you must :ref:`copy the
+   content from the local realm to a synced realm <copy-local-data-to-synced-realm>`. 
+   A local realm lives only on the device and never attempts to sync with 
+   the server. A synced realm contains additional Sync-related 
+   metadata, and consistently and persistently attempts to connect and sync 
+   data with the server.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To open a synced realm with data on the device, pass the 
+      logged-in user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to
+      :swift-sdk:`Realm() <Structs/Realm.html>` initializers. This opens 
+      the realm immediately, before downloading changesets from the server.
+      This works if the device is offline, but may lead to temporary data
+      inconsistencies while your app downloads any new remote data. The 
+      realm updates from the server in the background.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm-offline.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can open the realm synchronously with the
+      :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
+      <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
+      initializers. This opens the realm immediately, before downloading 
+      changesets from the server. This works if the device is offline, but 
+      may lead to temporary data inconsistencies while your app downloads 
+      any new remote data. The realm updates from the server in the 
+      background.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm-synchronously.m
+         :language: objectivec
+
+.. _ios-open-synced-realm-after-sync:
+
+Open a Synced Realm After Downloading Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+In some apps, such as games, you might want the user to always have current data. 
+Use ``asyncOpen`` to sync the realm with the App before opening it.
+
+.. example::
+
+   Say a user plays a game on both an iPad and an iPhone. The user progresses 
+   three levels on the iPad. Later, the user opens the game on an iPhone. In this 
+   case, ``asyncOpen`` is a better way to open the realm. Loading with stale 
+   data would get the user into the game faster, but the user's data would be 
+   three levels out of sync.
+
+   In contrast, if you had an app that allowed the user to record and save their
+   favorite recipes, you might want to give them the option to create a new 
+   recipe without waiting to download updates, or even if they're offline. If 
+   you opened a synced realm with data on the device, the user could enter a 
+   new recipe, which would sync with the App when they next had a network 
+   connection.
+
+A common pattern is to open a realm with ``asyncOpen`` in the login flow, 
+and then use ``init`` for subsequent opens. If you want users to only interact 
+with the most up-to-date version of your data, you can exclusively use 
+``asyncOpen``. This incurs the cost of additional loading time and prevents 
+users from opening a realm while offline.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To open a synced realm only after it has downloaded changes from your 
+      App, verify that the user has :ref:`a network connection <ios-check-network-connection>`, 
+      and then pass the logged-in user's :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` 
+      object with the desired :ref:`partition value <partition-value>` to
+      :swift-sdk:`Realm.asyncOpen(configuration:)
+      <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`:
+
+      If this is the first time opening the realm on the device, ``asyncOpen`` 
+      downloads the entire remote realm before opening the file on device. 
+      If a realm is already present on the device, ``asyncOpen`` downloads 
+      only the latest changes since the realm last synced with the App.
+      
+      You might use ``asyncOpen`` exclusively to open realms when you need
+      to ensure that the user always has the latest data from the server.
+      However, if the user is currently offline, the user won't be able to
+      work with the realm.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.use-async-open-with-cached-credentials.swift
+         :language: swift
+
+   .. tab::
+         :tabid: objective-c
+
+         To open a synced realm asynchronously, pass the logged-in user's
+         :objc-sdk:`RLMRealmConfiguration
+         <Classes/RLMRealmConfiguration.html>` object with the desired
+         :ref:`partition value <partition-value>` to :objc-sdk:`+[RLMRealm
+         asyncOpenWithConfiguration:callbackQueue:callback]
+         <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)asyncOpenWithConfiguration:callbackQueue:callback:>`:
+
+         If this is the first time opening the realm on the device, ``asyncOpen`` 
+         downloads the entire remote realm before opening the file on device. 
+         If a realm is already present on the device, ``asyncOpen`` downloads 
+         only the latest changes since the realm last synced with the App.
+         
+         A common pattern is to use ``asyncOpen`` during a login 
+         flow, but use ``init`` to open a realm on subsequent opens.
+
+         .. literalinclude:: /examples/generated/code/start/Sync.snippet.open-synced-realm.m
+            :language: objectivec

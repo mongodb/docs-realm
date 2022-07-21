@@ -1,0 +1,308 @@
+.. _swift-model-relationships:
+
+===============================
+Model Relationships - Swift SDK
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+.. _ios-client-relationships:
+.. _swift-client-relationships:
+
+Key Concept: Relationships
+--------------------------
+
+Realm Database doesn't use bridge tables or explicit joins to define 
+relationships as you would in a relational database. Realm Database
+handles relationships through embedded objects or reference properties to 
+other Realm Database objects. You read from and write to these 
+properties directly. This makes querying relationships as performant as 
+querying against any other property.
+
+Realm Database supports **to-one**, **to-many**, and **inverse**
+relationships.
+
+.. _ios-to-one-relationship:
+
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship means that an object relates to one other object. 
+You define a to-one relationship for an object type in its object 
+schema. Specify a property where the type is the related Realm 
+object type. For example, a dog might have a to-one relationship with 
+a favorite toy.
+
+.. tip::
+
+   To learn how to define a to-one relationship, see
+   :ref:`ios-define-a-to-one-relationship-property`.
+
+.. _ios-to-many-relationship:
+.. _ios-list-collections:
+
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object relates to more than one 
+other object. In Realm Database, a to-many relationship is a list of 
+references to other objects. For example, a person might have many dogs.
+
+A :swift-sdk:`List <Classes/List.html>` represents the :ref:`to-many
+relationship <ios-to-many-relationship>` between two Realm
+types. Lists are mutable: within a write transaction, you can add and
+remove elements to and from a list. Lists are not associated with a
+query and are usually declared as a property of an object model.
+
+.. tip::
+
+   To learn how to define a to-many relationship, see
+   :ref:`ios-define-a-to-many-relationship-property`.
+
+.. _ios-inverse-relationship:
+.. _ios-linking-objects:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+Relationship definitions in Realm Database are unidirectional. An 
+**inverse relationship** links an object back to an object that refers 
+to it. You must explicitly define a property in the object's model as an 
+inverse relationship. Inverse relationships can link back to objects in 
+a to-one or to-many relationship.
+
+A :swift-sdk:`LinkingObjects <Structs/LinkingObjects.html>` collection
+represents the :ref:`inverse relationship <ios-inverse-relationship>`
+between two Realm types. You cannot directly add or remove
+items from a LinkingObjects collection.
+
+Inverse relationships automatically update themselves with corresponding 
+backlinks. You can find the same set of Realm objects with a 
+manual query, but the inverse relationship field reduces boilerplate query 
+code and capacity for error.
+
+For example, consider a task tracker with the to-many relationship "User has 
+many Tasks". This does not automatically create the inverse relationship 
+"Task belongs to User". To create the inverse relationship, add a User 
+property on the Task that points back to the task's owner. When you specify 
+the inverse relationship from task to user, you can query on that. If you 
+don't specify the inverse relationship, you must run a separate query to 
+look up the user to whom the task is assigned.
+
+.. important::
+
+   You cannot manually set the value of an inverse relationship property.
+   Instead, Realm Database updates implicit relationships when you add 
+   or remove an object in the relationship.
+
+Relationships can be many-to-one or many-to-many. So following inverse 
+relationships can result in zero, one, or many objects.
+
+.. tip::
+
+   To learn how to define an inverse relationship, see
+   :ref:`ios-define-an-inverse-relationship-property`.
+
+.. _ios-declare-relationship-properties:
+
+Declare Relationship Properties
+-------------------------------
+
+.. include:: /includes/see-also-define-relationship-in-app-services-ui.rst
+
+.. _ios-define-a-to-one-relationship-property:
+
+Define a To-One Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-one** relationship maps one property to a single instance of
+another object type. For example, you can model a person having at most
+one companion dog as a to-one relationship.
+
+Setting a relationship field to null removes the connection between objects. 
+Realm does not delete the referenced object, though, unless it is 
+:ref:`an embedded object <ios-embedded-objects>`.
+
+.. include:: /includes/note-to-one-relationships-must-be-optional.rst
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-one-relationship.m
+         :language: objectivec
+
+.. seealso::
+
+   For more information about to-one relationships, see: :ref:`Key Concept:
+   To-One Relationship <ios-to-one-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-to-one-relationship>` page for information on how 
+   the to-one relationship in Swift object models translates to Atlas documents.
+
+.. _ios-define-a-to-many-relationship-property:
+
+Define a To-Many Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship maps one property to zero or more instances
+of another object type. For example, you can model a person having any
+number of companion dogs as a to-many relationship.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      Use :swift-sdk:`List <Classes/List.html>` tagged with your target
+      type to define your to-many relationship property.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      Use :objc-sdk:`RLMArray <Classes/RLMArray.html>` tagged with your
+      target type to define your to-many relationship property.
+
+      .. tip::
+
+         Remember to use the ``RLM_ARRAY_TYPE()`` macro with your type
+         to :ref:`declare the RLMArray protocol for your type
+         <ios-declare-a-property>`.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.to-many-relationship.m
+         :language: objectivec
+
+.. seealso::
+
+   For more information about to-many relationships, see: :ref:`Key Concept:
+   To-Many Relationship <ios-to-many-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-to-many-relationship>` page for information on how 
+   the to-many relationship in Swift object models translates to Atlas documents.
+
+.. _ios-define-an-inverse-relationship-property:
+
+Define an Inverse Relationship Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** property is an automatic backlink
+relationship. Realm Database automatically updates implicit
+relationships whenever an object is added or removed in a corresponding
+to-many list or to-one relationship property. You cannot manually set
+the value of an inverse relationship property.
+
+.. tabs::
+
+   .. tab:: Swift
+      :tabid: swift
+
+      To define an inverse relationship, use :swift-sdk:`LinkingObjects
+      <Structs/LinkingObjects.html>` in your object model. The
+      ``LinkingObjects`` definition specifies the object type and
+      property name of the relationship that it inverts.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship.swift
+         :language: swift
+
+   .. tab:: Objective C
+      :tabid: objective-c
+
+      To define an inverse relationship, use
+      :objc-sdk:`RLMLinkingObjects
+      <Classes.html#/c:objc(cs)RLMLinkingObjects>` in your object model.
+      Override :objc-sdk:`+[RLMObject linkingObjectProperties]
+      <Classes/RLMObject.html#/c:objc(cs)RLMObject(cm)linkingObjectsProperties>`
+      method in your class to specify the object type and property name
+      of the relationship that it inverts.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship.m
+         :language: objectivec
+
+   .. tab:: Swift pre-10.10.0
+      :tabid: swift-pre-10.10.0
+
+      To define an inverse relationship, use `LinkingObjects
+      <https://www.mongodb.com/docs/realm-sdks/swift/10.9.0/Structs/LinkingObjects.html>`_ 
+      in your object model. The ``LinkingObjects`` definition specifies 
+      the object type and property name of the relationship that it inverts.
+
+      .. literalinclude:: /examples/generated/code/start/Relationships.snippet.inverse-relationship-objc-dynamic.swift
+         :language: swift
+
+.. seealso::
+
+   For more information about inverse relationships, see: :ref:`Key Concept:
+   Inverse Relationship <ios-inverse-relationship>`.
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-inverse-relationship>` page for information on how 
+   the inverse relationship in Swift object models translates to Atlas documents.
+
+.. _ios-define-an-embedded-object-property:
+.. _ios-embedded-objects:
+
+Define an Embedded Object Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An **embedded object** exists as nested data inside of a single,
+specific parent object. It inherits the lifecycle of its parent object
+and cannot exist as an independent Realm object. Realm automatically
+deletes embedded objects if their parent object is deleted or when
+overwritten by a new embedded object instance.
+
+.. note:: Realm Uses Cascading Deletes for Embedded Objects
+   
+   When you delete a Realm object, any embedded objects referenced by
+   that object are deleted with it. If you want the referenced objects
+   to persist after the deletion of the parent object, your type should
+   not be an embedded object at all. Use a regular :ref:`Realm object
+   <ios-define-a-new-object-type>` with a :ref:`to-one relationship
+   <ios-define-a-to-one-relationship-property>` instead.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can define an embedded object by deriving from the
+      :swift-sdk:`EmbeddedObject <Extensions/EmbeddedObject.html>`
+      class. You can use your embedded object in another model as you
+      would any other type.
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can define an embedded object by deriving from the
+      :objc-sdk:`RLMEmbeddedObject
+      <Classes/RLMEmbeddedObject.html>` class. You can use your
+      embedded object in another model as you would any other type.
+
+      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.models.m
+         :language: objectivec
+
+.. seealso::
+
+   If your app uses Device Sync, see the :ref:`Model Data with Device Sync 
+   <swift-device-sync-embedded-object-models>` page for information on how 
+   embedded objects in Swift object models translate to Atlas documents.

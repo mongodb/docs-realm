@@ -15,7 +15,7 @@ Platform and Framework Compatibility - .NET SDK
 Frameworks
 ----------
 The following table shows which .NET and Xamarin framework
-version(s) you can use with {+service-short+} on your target platforms:
+version(s) you can use with Realm on your target platforms:
 
 .. list-table::
    :header-rows: 1
@@ -48,11 +48,11 @@ version(s) you can use with {+service-short+} on your target platforms:
 
 .. note:: 
 
-   The {+service-short+} .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip.
+   The Realm .NET SDK only supports Intel64 Macs and does not yet support Macs with the Apple M1 chip.
 
 Android Deployment
 ------------------
-Due to some instruction set limitations, {+service-short+} does not support 
+Due to some instruction set limitations, Realm does not support 
 deploying Android apps to the ``armeabi`` ABI. Because default templates often 
 have different ABI settings for Debug and Release modes, your app may throw 
 a ``System.TypeInitializationException`` exception in Release mode but not when 
@@ -83,7 +83,7 @@ In addition, for iOS apps, the total size of all open Realm files cannot be
 larger than the amount of memory your application is allowed to map in iOS. This 
 varies per device, and depends on how fragmented the memory space on the device is. 
 If you need to store more data than is allowed, you can split your data into 
-multiple Realm files, open a {+realm+} only when needed, and close it when it is 
+multiple Realm files, open a realm only when needed, and close it when it is 
 no longer needed.
 
 For more information, see `Open Radar 17119975 <http://www.openradar.me/17119975>`_.

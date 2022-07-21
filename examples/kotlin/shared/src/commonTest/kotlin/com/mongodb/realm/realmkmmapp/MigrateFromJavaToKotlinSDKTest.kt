@@ -72,15 +72,17 @@ class Student : RealmObject {
 // :snippet-end:
 
 class MigrateFromJavaToKotlinSDKTest: RealmTest() {
-    @Test
+    // disabling this test because using the "default.realm" default
+    // flexible sync realm name conflicts with other tests...
+    // but it's still a useful example. It's small so NBD.
+    //@Test
     fun openARealmTest() {
         val REALM_NAME = getRandom()
 
         runBlocking {
             // :snippet-start: open-a-realm
-            val config = RealmConfiguration
-                .create(schema = setOf(Frog::class,
-                    Sample::class))
+            val config = RealmConfiguration.create(
+                setOf(Frog::class, Sample::class))
             val realm = Realm.open(config)
             Log.v("Successfully opened realm:" +
                     "${realm.configuration.name}")
@@ -256,6 +258,13 @@ class MigrateFromJavaToKotlinSDKTest: RealmTest() {
                 }
             }
             // :snippet-end:
+            // synchronous operation to block realm from closing too early
+            realm.writeBlocking {
+                if (sample != null) {
+                    findLatest(sample)
+                        ?.also { delete(it) }
+                }
+            }
             realm.close()
         }
     }

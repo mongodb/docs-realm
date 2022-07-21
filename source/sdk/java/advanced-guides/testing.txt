@@ -18,8 +18,8 @@ You can test your application using unit tests or integration tests.
 writes, and calls to your application's backend, if you have one. Unit tests
 run on your development machine using the JVM, while integration tests
 run on a physical or emulated Android device. You can run integration
-tests by communicating with actual instances of {+client-database+}
-or an {+app+} backend using Android's built-in instrumented tests.
+tests by communicating with actual instances of Realm Database
+or an App backend using Android's built-in instrumented tests.
 
 Android uses specific file paths and folder names in Android projects
 for unit tests and instrumented tests:
@@ -39,24 +39,24 @@ for unit tests and instrumented tests:
 
 Because the SDK uses C++ code via Android Native for data
 storage, unit testing requires you to entirely mock interactions with
-{+client-database+}. Prefer integration tests for logic that requires
+Realm Database. Prefer integration tests for logic that requires
 extensive interaction with the database.
 
 Integration Tests
 -----------------
 
 This section shows how to integration test an application that uses
-the {+service-short+} SDK. It covers the following concepts in the test
+the Realm SDK. It covers the following concepts in the test
 environment:
 
 - acquiring an application context
 - executing logic on a ``Looper`` thread
 - how to delay test execution while asynchronous method calls complete
 
-Applications that use {+sync+} or a backend {+app+} also require (not
+Applications that use Sync or a backend App also require (not
 covered here):
 
-- a separate {+app+} backend for testing, with separate user accounts
+- a separate App backend for testing, with separate user accounts
   and data
 - a separate Atlas cluster containing test-only data
 
@@ -88,7 +88,7 @@ should :ref:`block your test from executing further
 
 The following example uses an ``ActivityScenario``, an empty testing
 activity, and a ``CountDownLatch`` to demonstrate how to set up an
-environment where you can test your {+service-short+} application:
+environment where you can test your Realm application:
 
 .. tabs-realm-languages::
    
@@ -109,7 +109,7 @@ environment where you can test your {+service-short+} application:
 Looper Thread
 ~~~~~~~~~~~~~
 
-{+client-database+} functionality such as 
+Realm Database functionality such as 
 :ref:`Live objects <java-live-object>` and change notifications only
 work on :android:`Looper <reference/android/os/Looper>` threads.
 Threads configured with a ``Looper`` object pass events over a message
@@ -189,7 +189,7 @@ thread:
 Testing Backend
 ~~~~~~~~~~~~~~~
 
-Applications that use an {+app+} backend should not connect to the
+Applications that use an App backend should not connect to the
 production backend for testing purposes for the following reasons:
 
 - you should always keep test users and production users separate
@@ -204,7 +204,7 @@ apps for testing and production.
 Testing Atlas Cluster
 ~~~~~~~~~~~~~~~~~~~~~
 
-Applications that use {+sync+} or :ref:`MongoDB queries
+Applications that use Sync or :ref:`MongoDB queries
 <java-mongodb-data-access>` may read, write, update, or delete data
 stored in connected Atlas clusters. For security purposes, you shouldn't
 store production data and testing data on the same cluster. Additionally,
@@ -216,7 +216,7 @@ Full Example
 ~~~~~~~~~~~~
 
 The following example shows a full Junit instrumented ``androidTest``
-example running {+client-database+} in integration tests:
+example running Realm Database in integration tests:
 
 .. tabs-realm-languages::
    
@@ -236,15 +236,15 @@ example running {+client-database+} in integration tests:
 
 .. seealso::
 
-   See the :github:`{+service-short+} Documentation Examples App
+   See the :github:`Realm Documentation Examples App
    <mongodb/docs-realm/tree/master/examples/java>` for an example
    of integration testing the SDK locally and with a live backend.
 
 Unit Tests
 ----------
 
-To unit test {+service-short+} applications that use {+service-short+},
-you must :wikipedia:`mock <Mock_object>` {+client-database+} (and your
+To unit test Realm applications that use Realm,
+you must :wikipedia:`mock <Mock_object>` Realm Database (and your
 application backend, if you use one). Use the following libraries to
 mock SDK functionality:
 
@@ -270,7 +270,7 @@ add the following to the ``dependencies`` block of your application
 
    Mocking the SDK in unit tests requires Robolectric, Mockito, and
    Powermock because the SDK uses Android Native C++ method calls to
-   interact with {+client-database+}. Because the frameworks required to
+   interact with Realm Database. Because the frameworks required to
    override these method calls can be delicate, you should use the
    versions listed above to ensure that your mocking is successful. Some
    recent version updates (particularly Robolectric version 4.2+) can
@@ -337,7 +337,7 @@ Once you've completed the setup required for mocking, you can start
 mocking components and wiring up behavior for your tests. You can also
 configure PowerMockito to return specific objects when new objects of
 a type are instantiated, so even code that references the default
-{+realm+} in your application won't break your tests:
+realm in your application won't break your tests:
 
 .. tabs-realm-languages::
    
@@ -355,7 +355,7 @@ a type are instantiated, so even code that references the default
          :language: java
          :copyable: false
 
-After mocking a {+realm+}, you'll have to configure data for your test
+After mocking a realm, you'll have to configure data for your test
 cases. See the full example below for some examples of how you can
 provide testing data in unit tests.
 
@@ -363,8 +363,8 @@ Full Example
 ~~~~~~~~~~~~
 
 The following example shows a full JUnit ``test``
-example mocking {+client-database+} in unit tests. This example tests
-an activity that performs some basic {+client-database+} operations.
+example mocking Realm Database in unit tests. This example tests
+an activity that performs some basic Realm Database operations.
 The tests use mocking to simulate those operations when that activity is
 started during a unit test:
 
@@ -397,4 +397,4 @@ started during a unit test:
    See the :github:`Unit Testing Example App
    <realm/realm-java/tree/master/examples/unitTestExample>`
    for an example of unit testing an application that uses
-   {+service-short+}.
+   Realm.

@@ -1,0 +1,48 @@
+.. _swift-set-client-log-level:
+.. _ios-set-the-client-log-level:
+
+====================================
+Set the Client Log Level - Swift SDK
+====================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Set the Client Log Level
+------------------------
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can set the Device Sync client log level on the
+      :swift-sdk:`SyncManager
+      <Typealiases.html#/s:10RealmSwift11SyncManagera>` instance on your
+      :swift-sdk:`App <Extensions/App.html>`.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can set the Device Sync client log level on the
+      :objc-sdk:`RLMSyncManager <Classes/RLMSyncManager.html>` instance
+      on your :objc-sdk:`RLMApp <Classes/RLMApp.html>`.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.set-log-level.m
+         :language: objectivec
+
+.. tip::
+
+   See :objc-sdk:`RLMSyncLogLevel <Enums/RLMSyncLogLevel.html>` for a
+   description of each available log level. Note that more logging can
+   negatively affect performance.
+
+.. include:: /includes/tip-sync-log-levels.rst

@@ -1,4 +1,3 @@
-// @Skip('WIP') // skip these tests
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
@@ -59,8 +58,18 @@ void main() {
       );
       realm = Realm(config);
       await realm.subscriptions.waitForSynchronization();
+      final planeQuery = realm.all<Plane>();
+      final longTrainQuery = realm.all<Train>().query("numCars >= 4");
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.add(planeQuery, name: "all-planes");
+        mutableSubscriptions.add(longTrainQuery, name: 'long-trains');
+      });
+      await realm.subscriptions.waitForSynchronization();
     });
     tearDown(() async {
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.clear();
+      });
       await realm.subscriptions.waitForSynchronization();
       realm.close();
       await Future.delayed(Duration(milliseconds: 300));
@@ -69,21 +78,21 @@ void main() {
     test('Add query to subscription set', () async {
       // :snippet-start: add-subscription
       final planeQuery = realm.all<Plane>();
-      final longTrainQuery = realm.query<Train>("numCars >= 4");
+      final longTrainQuery = realm.query<Train>("numCars >= 5");
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
-        mutableSubscriptions.add(planeQuery, name: "all-planes");
+        mutableSubscriptions.add(planeQuery, name: "planes");
         mutableSubscriptions.add(longTrainQuery,
             name: 'long-trains', update: true);
       });
       await realm.subscriptions.waitForSynchronization();
       // :snippet-end:
-      expect(realm.subscriptions.length, 2);
+      expect(realm.subscriptions.length, 3);
     });
     test('Get subscriptions', () async {
       // :snippet-start: get-subscriptions
       SubscriptionSet subscriptions = realm.subscriptions;
       // :snippet-end:
-      expect(subscriptions, isEmpty);
+      expect(subscriptions.length, 2);
     });
     test('Wait for subscription changes to sync', () async {
       // :snippet-start: wait-for-subscription-change
@@ -91,85 +100,51 @@ void main() {
       // :snippet-end:
       expect(realm.subscriptions.state, SubscriptionSetState.complete);
     });
-    group('Modify existing subscriptions', () {
-      // NOTE: wrapping these in a group b/c they have the same setup
 
-      late RealmResults<Train> longTrainQuery;
+    test('Update subscriptions with new query', () async {
+      // :snippet-start: update-subscriptions-new-query
+      final longerTrainQuery = realm.query<Train>("numCars > 10");
 
-      setUp(() async {
-        Configuration config = Configuration.flexibleSync(
-          currentUser,
-          [Plane.schema, Train.schema, Boat.schema],
-          path: 'flex-${generateRandomString(10)}.realm',
-        );
-        realm = Realm(config);
-        await realm.subscriptions.waitForSynchronization();
-        final planeQuery = realm.all<Plane>();
-        longTrainQuery = realm.all<Train>().query("numCars >= 4");
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.add(planeQuery, name: "all-planes");
-          mutableSubscriptions.add(longTrainQuery,
-              name: 'long-trains', update: true);
-        });
-        await realm.subscriptions.waitForSynchronization();
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.add(longerTrainQuery,
+            name: 'long-trains', update: true);
       });
-      tearDown(() async {
-        await realm.subscriptions.waitForSynchronization();
-        realm.close();
-        await Future.delayed(Duration(milliseconds: 300));
-        Realm.deleteRealm(realm.config.path);
+      // :snippet-end:
+      expect(realm.subscriptions.findByName('long-trains')?.queryString.trim(),
+          "numCars > 10");
+    });
+    test('Remove subscription by query', () async {
+      // :snippet-start: remove-subscriptions-by-query
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.removeByQuery(realm.all<Plane>());
       });
-
-      test('Update subscriptions with new query', () async {
-        // :snippet-start: update-subscriptions-new-query
-        final longerTrainQuery = realm.query<Train>("numCars >= 10");
-
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.add(longerTrainQuery, name: 'long-trains');
-        });
-        // :snippet-end:
-        expect(realm.subscriptions.findByName('long-trains')?.queryString,
-            "numCars >= 10");
-      }, skip: 'sigh');
-      test('Remove subscription by query', () async {
-        // :snippet-start: remove-subscriptions-by-query
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.removeByQuery(realm.all<Plane>());
-        });
-        // :snippet-end:
-        // expect(realm.subscriptions.length, 1);
-      }, skip: 'idk');
-      test('Remove subscription by name', () async {
-        // :snippet-start: remove-subscriptions-by-name
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.removeByName('long-trains');
-        });
-        // :snippet-end:
-        expect(realm.subscriptions.length, 1);
-      }, skip: 'hmm');
-      test('Remove all subscriptions by reference', () async {
-        // :snippet-start: remove-subscriptions-by-reference
-        Subscription sub = realm.subscriptions[0];
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.remove(sub);
-        });
-        // :snippet-end:
-        expect(realm.subscriptions.length, 1);
-      }, skip: 'hmm');
-      test('Remove all subscriptions', () async {
-        // :snippet-start: remove-all-subscriptions
-        realm.subscriptions
-            .update((MutableSubscriptionSet mutableSubscriptions) {
-          mutableSubscriptions.clear();
-        });
-        // :snippet-end:
-        expect(realm.subscriptions, isEmpty);
-      }, skip: 'hmm');
+      // :snippet-end:
+      // expect(realm.subscriptions.length, 1);
+    });
+    test('Remove subscription by name', () async {
+      // :snippet-start: remove-subscriptions-by-name
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.removeByName('long-trains');
+      });
+      // :snippet-end:
+      expect(realm.subscriptions.length, 1);
+    });
+    test('Remove all subscriptions by reference', () async {
+      // :snippet-start: remove-subscriptions-by-reference
+      Subscription sub = realm.subscriptions[0];
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.remove(sub);
+      });
+      // :snippet-end:
+      expect(realm.subscriptions.length, 1);
+    });
+    test('Remove all subscriptions', () async {
+      // :snippet-start: remove-all-subscriptions
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.clear();
+      });
+      // :snippet-end:
+      expect(realm.subscriptions, isEmpty);
     });
   });
 }

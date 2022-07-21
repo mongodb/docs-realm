@@ -15,19 +15,19 @@ Quick Start - Node.js SDK
 Overview
 --------
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your app.
 
 .. important::
 
    If you will be using :ref:`Sync <sync>` and other backend features of 
-   {+service-short+} in your app, see :ref:`<node-client-quick-start>`.
+   Realm in your app, see :ref:`<node-client-quick-start>`.
 
 .. _node-quickstart-local-import-realm:
 
 Import Realm
 ------------
-At the top of your source files where you want to use {+service+}, add
+At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
 .. literalinclude:: /examples/generated/node/quickstart-local.snippet.import-realm.js
@@ -38,11 +38,11 @@ the following line to import the SDK.
 Define Your Object Model
 ------------------------
 Your application's :ref:`object model <node-object-schemas>` defines the data
-that you can store within {+client-database+}. 
+that you can store within Realm Database. 
 
 To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
-a {+realm+}. For details on how to define specific properties, see :ref:`Define
+a realm. For details on how to define specific properties, see :ref:`Define
 Object Properties <node-define-a-property>`.
 
 .. example::
@@ -60,7 +60,7 @@ Object Properties <node-define-a-property>`.
 
 Open a Realm
 ------------
-To open a {+realm+}, pass a :js-sdk:`Realm.Configuration
+To open a realm, pass a :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
 <Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
 
@@ -72,7 +72,7 @@ To open a {+realm+}, pass a :js-sdk:`Realm.Configuration
 Create Realm Objects
 --------------------
 
-Once you have opened a {+realm+}, you can create :ref:`objects
+Once you have opened a realm, you can create :ref:`objects
 <node-object-types>` in it. All writes must occur within a :ref:`Write
 transaction <node-write-transactions>`.
 

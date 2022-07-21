@@ -20,9 +20,9 @@ Testing
 Test Using a Default Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The easiest way to use and test {+client-database+}-backed applications 
-is to use the default {+realm+}. To avoid overriding application data or 
-leaking state between tests, set the default {+realm+} to a new file for 
+The easiest way to use and test Realm Database-backed applications 
+is to use the default realm. To avoid overriding application data or 
+leaking state between tests, set the default realm to a new file for 
 each test.
 
 .. literalinclude:: /examples/generated/code/start/TestingAndDebugging.snippet.test-base-case.swift
@@ -33,9 +33,9 @@ each test.
 Injecting Realm Instances
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Another way to test {+client-db-short+}-related code is to have all the 
-methods you'd like to test accept a {+realm+} instance as an argument. This 
-enables you to pass in different {+realms+} when running the app and when 
+Another way to test Realm Database-related code is to have all the 
+methods you'd like to test accept a realm instance as an argument. This 
+enables you to pass in different realms when running the app and when 
 testing it. 
 
 For example, suppose your app has a method to ``GET`` a user profile 
@@ -55,8 +55,8 @@ Simplify Testing with Class Projections
 If you want to work with a subset of an object's properties for testing, 
 you can :ref:`create a class projection <ios-define-a-class-projection>`. 
 A class projection is a model abstraction where you can pass through, rename, 
-or exclude {+realm+} object properties. While this feature simplifies view 
-model implementation, it also simplifies testing with {+client-database+}.
+or exclude realm object properties. While this feature simplifies view 
+model implementation, it also simplifies testing with Realm Database.
 
 .. example::
 
@@ -64,7 +64,7 @@ model implementation, it also simplifies testing with {+client-database+}.
    and the :ref:`class projection <ios-define-a-class-projection>` from the 
    :ref:`Define and Use Class Projections page <ios-define-and-use-class-projections>`. 
    
-   In this example, we create a {+realm+} object using the full object model. 
+   In this example, we create a realm object using the full object model. 
    Then, we view retrieve the object as a class projection, working with 
    only a subset of its properties.
 
@@ -79,9 +79,9 @@ model implementation, it also simplifies testing with {+client-database+}.
 Test Targets
 ~~~~~~~~~~~~
 
-Don't link the {+client-db-short+} framework directly to your test target. 
+Don't link the Realm Database framework directly to your test target. 
 This can cause your tests to fail with an exception message "Object type 
-'YourObject' is not managed by the Realm." Unlinking {+client-db-short+} 
+'YourObject' is not managed by the Realm." Unlinking Realm Database 
 from your test target should resolve this issue.
 
 Compile your model class files in your application or framework targets; 
@@ -91,8 +91,8 @@ duplicated when testing, which can lead to difficult-to-debug issues.
 Expose all the code that you need for testing to your unit test 
 targets. Use the ``public`` access modifier or :apple:`@testable <library/archive/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html>`.
 
-Since you're using {+client-db-short+} as a dynamic framework, you'll 
-need to make sure your unit test target can find {+client-db-short+}. 
+Since you're using Realm Database as a dynamic framework, you'll 
+need to make sure your unit test target can find Realm Database. 
 Add the parent path to ``RealmSwift.framework`` to your unit test's 
 “Framework Search Paths”.
 
@@ -107,27 +107,27 @@ Debug Using Realm Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`Realm Studio <realm-studio>` enables you to open and edit local 
-{+realms+}. It supports Mac, Windows and Linux.
+realms. It supports Mac, Windows and Linux.
 
 .. _ios-lldb:
 
 LLDB
 ~~~~
 
-Debugging apps using {+client-db-short+}'s Swift API must be done through 
+Debugging apps using Realm Database's Swift API must be done through 
 the LLDB console.
 
-Although the LLDB script allows inspecting the contents of your {+realm+} 
+Although the LLDB script allows inspecting the contents of your realm 
 variables in Xcode's UI, this doesn't yet work for Swift. Those 
 variables will show incorrect data. Instead, use LLDB's ``po``
-command to inspect the contents of data stored in a {+realm+}.
+command to inspect the contents of data stored in a realm.
 
 .. _ios-resolve-build-issues:
 
 Resolve Build Issues
 --------------------
 
-Some developers experience build issues after installing {+backend+} via 
+Some developers experience build issues after installing App Services via 
 CocoaPods or Carthage. Common causes of these issues include:
 
 - Installation issues:
@@ -153,27 +153,80 @@ and clean the Xcode build folder.
    .. tab:: CocoaPods
       :tabid: cocoapods
 
-      .. include:: /includes/steps/troubleshoot-cocoapods-install.rst
+      .. procedure::
+
+         .. step:: Reset the Cocoapods Integration State
+
+
+            Run these commands in the terminal, in the root of your project:
+
+            .. code-block:: bash
+
+               pod cache clean Realm
+               pod cache clean RealmSwift
+               pod deintegrate || rm -rf Pods
+               pod install --repo-update --verbose
+               # Assumes the default DerivedData location:
+               rm -rf ~/Library/Developer/Xcode/DerivedData
+
+
+         .. step:: Clean the Xcode Build Folder
+
+
+            With your project open in Xcode, go to the Product drop-down menu,
+            and select Clean Build Folder.
+
+            .. figure:: /images/xcode-clean-build-folder.png
+               :alt: Select Product, then Clean Build Folder.
+               :lightbox:
 
    .. tab:: Carthage
       :tabid: carthage
 
-      .. include:: /includes/steps/troubleshoot-carthage-install.rst
+      .. procedure::
+
+         .. step:: Reset Carthage-managed Dependency State
+
+
+            Run these commands in the terminal, in the root of your project:
+
+            .. code-block:: bash
+
+               rm -rf Carthage
+               # Assumes default DerivedData location:
+               rm -rf ~/Library/Developer/Xcode/DerivedData
+               carthage update
+
+            .. important::
+
+               This will update **all** of your Carthage-managed dependencies, not
+               just App Services.
+
+
+         .. step:: Clean the Xcode Build Folder
+
+
+            With your project open in Xcode, go to the Product drop-down menu,
+            and select Clean Build Folder.
+
+            .. figure:: /images/xcode-clean-build-folder.png
+               :alt: Select Product, then Clean Build Folder.
+               :lightbox:
 
 .. _ios-schema-discovery-issues:
 
 Issues Opening Realm Before Loading the UI
 ------------------------------------------
 
-You may open a {+realm+} and immediately see crashes with error messages 
+You may open a realm and immediately see crashes with error messages 
 related to properties being optional or required. Issues with your 
 :ref:`object model <ios-define-a-realm-object-schema>` can cause 
-these types of crashes. These errors occur after you open a {+realm+}, 
+these types of crashes. These errors occur after you open a realm, 
 but before you get to the UI. 
 
-Realm has a "schema discovery" phase when a {+realm+} opens on the device.
+Realm has a "schema discovery" phase when a realm opens on the device.
 At this time, Realm examines the schema for any objects that it manages.
-You can specify that a given {+realm+} should manage only a :ref:`subset 
+You can specify that a given realm should manage only a :ref:`subset 
 of objects <ios-provide-a-subset-of-classes-to-a-realm>` in your 
 application. 
 

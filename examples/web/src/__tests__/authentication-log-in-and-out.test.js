@@ -107,7 +107,7 @@ describe("Log in user", () => {
         console.error("Failed to log in", err);
       }
     }
-    loginCustomFunction({ username: "mongolover" }).then((user) => {
+    loginCustomFunction({ username: "ilovemongodb" }).then((user) => {
       console.log("Successfully logged in!", user);
     });
     // :snippet-end:

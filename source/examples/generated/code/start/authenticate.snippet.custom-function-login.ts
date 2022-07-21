@@ -1,5 +1,5 @@
 // Create a custom function credential
-const credentials = Realm.Credentials.function({ username: "mongolover" });
+const credentials = Realm.Credentials.function({ username: "ilovemongodb" });
 try {
   const user = await app.logIn(credentials);
   console.log("Successfully logged in!", user.id);

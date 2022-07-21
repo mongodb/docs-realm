@@ -13,7 +13,7 @@ Quick Start - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your app. Before you begin, ensure you have installed
 the Kotlin SDK for your platform:
 
@@ -24,7 +24,7 @@ Define Your Object Model
 ------------------------
 
 Your application's **data model** defines the structure of data
-stored within {+client-database+}.
+stored within Realm Database.
 You can define your application's data model via Kotlin
 classes in your application code with
 :ref:`Realm Object Models <create-schema-from-rom>`.
@@ -41,11 +41,11 @@ Open a Realm
 
 Use `RealmConfiguration
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__
-to control the specifics of the {+realm+} you
+to control the specifics of the realm you
 would like to open, including the name, location, and schema.
 Pass your configuration to the `Realm factory constructor
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
-to generate an instance of that {+realm+}:
+to generate an instance of that realm:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-realm.kt
    :language: kotlin
@@ -54,18 +54,18 @@ to generate an instance of that {+realm+}:
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once opened, you can create objects within a {+realm+} in a
+Once opened, you can create objects within a realm in a
 `write transaction block
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
 
 To create a new :file:`Task`, instantiate an instance of the
-:file:`Task` class and add it to the {+realm+} in a write transaction block:
+:file:`Task` class and add it to the realm in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-create.kt
    :language: kotlin
    :copyable: false
 
-You can retrieve a collection of all tasks in the {+realm+} with
+You can retrieve a collection of all tasks in the realm with
 `query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-read.kt
@@ -79,10 +79,10 @@ of objects:
    :language: kotlin
    :copyable: false
 
-.. note:: Realm Query Language
+.. seealso::
 
-   You can find more information about string {+client-database+} queries in
-   :ref:`Realm Query Language <kotlin-query-language>`.
+   Find more information about string Realm Database queries in
+   :ref:`Filter Data <kotlin-filter-data>`.
 
 To modify a task, update its properties in a write transaction block:
 

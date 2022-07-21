@@ -1,0 +1,48 @@
+.. _swift-suspend-resume-sync:
+.. _ios-suspend-or-resume-a-sync-session:
+
+============================================
+Suspend or Resume a Sync Session - Swift SDK
+============================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Suspend or Resume a Sync Session
+--------------------------------
+
+Opening a synced realm starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
+for that realm. You can suspend and resume the sync session on the realm.
+Pausing a sync session only suspends that realm's sync session. If you have
+more than one open realm, suspend does not affect the sync sessions for 
+other realms.
+
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: swift
+
+      You can suspend or resume a sync session using the
+      :swift-sdk:`SyncSession <Extensions/SyncSession.html>` instance of
+      a synced realm.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      You can suspend or resume a sync session using the
+      :objc-sdk:`RLMSyncSession <Classes/RLMSyncSession.html>` instance
+      of a synced realm.
+
+      .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.m
+         :language: objectivec
+
+.. |pause_func_name| replace:: ``.suspend()``
+.. include:: /includes/note-details-about-pause.rst

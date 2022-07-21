@@ -19,11 +19,11 @@ Overview
 
 Atlas Device Sync automatically synchronizes data between client applications and
 an :ref:`Atlas App Services backend <realm-cloud>`. When a client
-device is online, {+sync-short+} asynchronously synchronizes data in a
-background thread between the device and your backend {+app+}.
+device is online, Sync asynchronously synchronizes data in a
+background thread between the device and your backend App.
 
 When you use Sync in your client application, your implementation must match
-the :ref:`Sync <sync-modes>` you select in your backend {+app+} configuration.
+the :ref:`Sync <sync-modes>` you select in your backend App configuration.
 The Sync Mode options are:
 
 - Partition-Based Sync
@@ -41,7 +41,7 @@ Partition-Based Sync
 --------------------
 
 When you select :ref:`Partition-Based Sync <partition-based-sync>` for your
-backend {+app+} configuration, your client implementation must include a
+backend App configuration, your client implementation must include a
 partition value. This is the value of the :ref:`partition key
 <partition-key>` field you select when you configure Partition-Based Sync.
 
@@ -54,7 +54,7 @@ You must provide a partition value when you open a synced realm.
 Flexible Sync
 -------------
 
-When you select :ref:`Flexible Sync <flexible-sync>` for your backend {+app+}
+When you select :ref:`Flexible Sync <flexible-sync>` for your backend App
 configuration, your client implementation must include subscriptions to
 queries on :ref:`queryable fields <queryable-fields>`. Flexible Sync works
 by synchronizing data that matches query subscriptions you maintain in the

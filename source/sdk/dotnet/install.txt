@@ -15,7 +15,7 @@ Install Realm - .NET SDK
 Overview
 --------
 
-{+service+}'s .NET SDK enables development of applications in C# for the .NET,
+Realm's .NET SDK enables development of applications in C# for the .NET,
 `UWP <https://docs.microsoft.com/en-us/windows/uwp/get-started/>`__, `Xamarin
 <https://dotnet.microsoft.com/apps/xamarin>`__, and Unity ecosystems.
 
@@ -39,25 +39,93 @@ Before getting started, ensure you have installed Visual Studio:
 Installation
 ------------
 
-Follow these steps to add the {+service+} .NET SDK to your project.
+Follow these steps to add the Realm .NET SDK to your project.
 
 .. tabs::
 
    .. tab:: Visual Studio for Mac
       :tabid: vs-mac
 
-      .. include:: /includes/steps/install-dotnet-vs-mac.rst
+      .. procedure::
+
+         .. step:: Open the NuGet Package Manager
+
+
+            Under the :guilabel:`Project` menu, select
+            :guilabel:`Manage NuGet Packages...` to open the NuGet
+            Package management window.
+
+            .. figure:: /images/vs-mac-nuget.png
+               :alt: Open the NuGet Package management window.
+               :lightbox:
+
+
+         .. step:: Add the Realm Package
+
+
+            In the search bar, search for **Realm**. Select the
+            result and click :guilabel:`Add Package`. When prompted,
+            select all projects and click :guilabel:`Ok`.
+
+
+            .. important::
+
+               Be sure to check the "Show pre-release packages" checkbox!
+
+            .. figure:: /images/vs-mac-nuget-search.png
+               :alt: Search for Realm and add it to your project(s).
+               :lightbox:
+
+
+         .. step:: (Optional) Add the Realm Weaver to FodyWeavers.xml
+
+
+            .. include:: /includes/add-realm-fody-weaver.rst
 
    .. tab:: Visual Studio on Windows
       :tabid: vs-win
 
-      .. include:: /includes/steps/install-dotnet-vs-win.rst
+      .. procedure::
+
+         .. step:: Open the NuGet Package Manager
+
+
+            In the Solution Explorer, right-click your solution and
+            select :guilabel:`Manage NuGet Packages for Solution...`
+            to open the NuGet Package management window.
+
+            .. figure:: /images/vs-win-nuget.png
+               :alt: Open the NuGet Package management window.
+               :lightbox:
+
+
+         .. step:: Add the Realm Package
+
+
+            In the search bar, search for **Realm**. Select the
+            result and click :guilabel:`Install`. When prompted,
+            select all projects and click :guilabel:`Ok`.
+
+
+            .. important::
+
+               Be sure to check the "Include prerelease" checkbox!
+
+            .. figure:: /images/vs-win-nuget-search.png
+               :alt: Search for Realm and add it to your project(s).
+               :lightbox:
+
+
+         .. step:: Add the Realm Weaver to FodyWeavers.xml
+
+
+            .. include:: /includes/add-realm-fody-weaver.rst
 
 
 Import Realm
 ------------
 
-Add the following line to the top of your source files to use {+service+}:
+Add the following line to the top of your source files to use Realm:
 
 .. code-block:: csharp
 

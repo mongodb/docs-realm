@@ -8,7 +8,7 @@ Use your MongoDB Cloud API key pair to call the authentication endpoint:
      --data '{"username": "<Public API Key>", "apiKey": "<Private API Key>"}' \
      https://realm.mongodb.com/api/admin/v3.0/auth/providers/mongodb-cloud/login
 
-If authentication succeeds, {+backend+} returns an access token as part of
+If authentication succeeds, App Services returns an access token as part of
 the JSON response document:
 
 .. code-block:: json

@@ -16,8 +16,8 @@ Sets - Node.js SDK
 
 Overview
 --------
-A **{+service-short+} Set** is a special object that allows you to store a
-collection of unique values. **{+service-short+} Sets** are based on JavaScript
+A **Realm Set** is a special object that allows you to store a
+collection of unique values. **Realm Sets** are based on JavaScript
 :mdn:`sets <Web/JavaScript/Reference/Global_Objects/Set>`, but can only contain
 values of a single type and can only be modified within a write transaction.
 Sets allow you to perform math operations such as finding the union,
@@ -29,7 +29,7 @@ these operations, see the MDN docs for :mdn:`Implementing basic set operations
 
 Realm Object Models
 -------------------
-To define a property type as a **{+service-short+} Set**, specify the data type
+To define a property type as a **Realm Set**, specify the data type
 you want in the set, followed by ``<>``. For instance, for a set made of integer
 values, specify ``"int<>"``. 
 
@@ -40,9 +40,9 @@ values, specify ``"int<>"``.
 
 Create an Object With a Set
 ---------------------------
-To create an object with a **{+service-short+} Set** property, you must create
-the object within a write transaction. When defining your {+service-short+}
-object, initialize the **{+service-short+} Set** by passing an empty array or an
+To create an object with a **Realm Set** property, you must create
+the object within a write transaction. When defining your Realm
+object, initialize the **Realm Set** by passing an empty array or an
 array with your initial values.
 
 .. literalinclude:: /examples/generated/node/data-types.snippet.create-set-objects.js
@@ -109,7 +109,7 @@ To traverse a set, use the ``<Realm.Set>.forEach()`` method or alternative :mdn:
 
 .. example:: Traversing a Set in Order
 
-   The order of the **{+service-short+} Set** may be different from the order that 
+   The order of the **Realm Set** may be different from the order that 
    the items were added.
 
    You can track the set order by updating an array when a new value is added. For example:

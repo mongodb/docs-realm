@@ -18,19 +18,19 @@ Relationships & Embedded Objects - Node.js SDK
 Relationships
 -------------
 
-{+service+} allows you to define explicit relationships between the types of
-objects in an {+app+}. A relationship is an object property that references
-another {+service-short+} object type. You can define
+Realm allows you to define explicit relationships between the types of
+objects in an App. A relationship is an object property that references
+another Realm object type. You can define
 relationships by setting an object's property to another object type
 in the :ref:`property schema <node-realm-schema>`.
 
-Relationships are direct references to other objects in a {+realm+}.
+Relationships are direct references to other objects in a realm.
 You don't need bridge tables or create joins to define a relationship like you
 would in a relational database. 
 Instead you can access related objects by reading and writing to the property
 that defines the relationship.
 
-{+client-database+} executes read operations lazily as they come in.
+Realm Database executes read operations lazily as they come in.
 Querying a relationship is just as performant as reading a regular property.
 
 There are three primary types of relationships between objects:
@@ -68,7 +68,7 @@ To-One Relationship
 A **to-one** relationship means that an object is related to no more than 
 one other object in an :ref:`object schema <node-object-schemas>`. 
 To define a to-one relationship, specify the property type as the related
-{+service-short+} object type.
+Realm object type.
 
 
 .. example::
@@ -121,7 +121,7 @@ object model. ``linkingObjects`` specifies the object type and
 property name of the relationship that it inverts.
 
 You cannot manually set the value of an inverse relationship property.
-{+client-database+} automatically updates implicit relationships whenever 
+Realm Database automatically updates implicit relationships whenever 
 you add or remove a related object.
 
 .. example::
@@ -154,6 +154,41 @@ you add or remove a related object.
            :language: javascript
            :emphasize-lines: 5, 14, 23, 32-36
 
+.. _node-inverse-relationship-dynamically:
+
+Dynamically Obtain an Inversely Linked Object
+`````````````````````````````````````````````
+You can dynamically retrieve an object with an inverse relationship without
+defining a ``linkingObjects`` type in its schema. Remove the
+``linkingObjects`` type from your schema, so your schemas look like a standard
+**to-many** relationship. When you need to retrieve the linked object, call the
+:js-sdk:`Realm.Object.linkingObjects() <Realm.Object.html#linkingObjects>`
+query.
+
+.. example::
+   
+   In the following continuation from the inverse relationship example, we have removed the
+   ``assignee`` field with type 'linkingObjects' from the Task schema. An application developer
+   creates several users and task objects, and the application pushes the newly created tasks into a 
+   user's task field. 
+   
+   To find the user who owns a specific task object, the developer calls the
+   ``task.linkingObjects()`` method and passes the "User" class name and "tasks" field as parameters. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+          :tabid: javascript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.js
+            :language: javascript
+      
+      .. tab::
+          :tabid: typescript
+           
+          .. literalinclude:: /examples/generated/node/relationships-and-embedded-objects.snippet.obtain-inverse-relationship-dynamically.ts
+            :language: javascript
+          
 .. _node-embedded-objects:
 
 Embedded Objects

@@ -9,16 +9,16 @@ Install Realm for iOS, macOS, tvOS, and watchOS
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 Overview
 --------
 
-{+service+}'s Swift SDK enables your iOS, macOS, tvOS,
-and watchOS applications to interact with {+service+} using either
+Realm's Swift SDK enables your iOS, macOS, tvOS,
+and watchOS applications to interact with Realm using either
 the Swift or Objective-C programming languages. This page
-details how to install {+service-short+} in your project and get
+details how to install Realm in your project and get
 started.
 
 Prerequisites
@@ -27,41 +27,255 @@ Prerequisites
 Before getting started, ensure your development environment
 meets the following prerequisites:
 
-- `Xcode <https://developer.apple.com/xcode/>`__ version 12.4 or higher.
-- Target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
-- If using Swift Package Manager, target of iOS 11+ or macOS 10.10+ is required.
+- `Xcode <https://developer.apple.com/xcode/>`__ version 13.1 or higher.
+- When using Xcode 13, a target of iOS 9.0 or higher, macOS 10.9 or higher, tvOS 9.0 or higher, or watchOS 2.0 or higher.
+- If using Swift Package Manager with Xcode 13, target of iOS 11+ or macOS 10.10+ is required.
+- When using Xcode 14, a target of iOS 11.0 or higher, macOS 10.13 or higher, tvOS 11.0 or higher, or watchOS 4.0 or higher.
 
-.. important::
+.. note::
 
-   There are special considerations when using {+client-database+} with
+   There are special considerations when using Realm Database with
    tvOS. See :ref:`ios-tvos` for more information.
 
 Installation
 ------------
 
 You can use ``SwiftPM``, ``CocoaPods``, or ``Carthage`` to add the
-{+service+} Swift SDK to your project.
+Realm Swift SDK to your project.
 
 .. tabs::
 
    .. tab:: SwiftPM
       :tabid: swiftpm
 
-      .. include:: /includes/steps/install-swiftpm.rst
+      .. procedure::
+
+         .. step:: Add Package Dependency
+
+
+            In Xcode, select ``File`` > ``Add Packages...``.
+
+
+         .. step:: Specify the Repository
+
+
+            Copy and paste the following into the search/input box.
+
+            .. code-block:: sh
+
+               https://github.com/realm/realm-swift.git
+
+
+         .. step:: Specify Options
+
+
+            In the options for the ``realm-swift`` package, we recommend setting
+            the ``Dependency Rule`` to ``Up to Next Major Version``,
+            and enter the `current Realm Swift SDK version
+            <https://github.com/realm/realm-swift/releases>`__ . Then, click ``Add Package``.
+
+
+         .. step:: Select the Package Products
+
+
+            Select both ``Realm`` and ``RealmSwift``, then click ``Add Package``.
 
    .. tab:: CocoaPods
       :tabid: cocoapods
 
       If you are installing with `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__, you need CocoaPods 1.10.1 or later.
 
-      .. include:: /includes/steps/install-cocoapods.rst
+      .. procedure::
+
+         .. step:: Update the CocoaPods repositories
+
+
+            On the command line, run ``pod repo update`` to ensure
+            CocoaPods can access the latest available Realm versions.
+
+
+         .. step:: Initialize CocoaPods for Your Project
+
+
+            If you do not already have a Podfile for your project,
+            run ``pod init`` in the root directory of your project to
+            create a Podfile for your project. A Podfile allows you
+            to specify project dependencies to CocoaPods.
+
+
+         .. step:: Add Realm as a Dependency in Your Podfile
+
+
+            .. tabs-realm-languages::
+
+              .. tab::
+                  :tabid: swift
+
+                  Add the line ``use_frameworks!`` if it is not
+                  already there.
+
+                  Add the line ``pod 'RealmSwift', '~>10'`` to your main and test
+                  targets.
+
+                  When done, your Podfile should look something like this:
+
+                  .. code-block:: text
+                     :emphasize-lines: 8
+
+                     platform :ios, '12.0'
+
+                     target 'MyRealmProject' do
+                       # Comment the next line if you don't want to use dynamic frameworks
+                       use_frameworks!
+
+                       # Pods for MyRealmProject
+                       pod 'RealmSwift', '~>10'
+
+                     end
+
+              .. tab::
+                  :tabid: objective-c
+
+                  Add the line ``pod 'Realm', '~>10'`` to your main and test
+                  targets.
+
+                  Add the line ``use_frameworks!`` as well if it is not
+                  already there.
+
+                  When done, your Podfile should look something like this:
+
+                  .. code-block:: text
+                     :emphasize-lines: 6, 9, 14
+
+                     # Uncomment the next line to define a global platform for your project
+                     # platform :ios, '9.0'
+
+                     target 'MyRealmProject' do
+                     # Comment the next line if you don't want to use dynamic frameworks
+                     use_frameworks!
+
+                     # Pods for MyRealmProject
+                     pod 'Realm', '~>10'
+
+                     target 'MyRealmProjectTests' do
+                        inherit! :search_paths
+                        # Pods for testing
+                        pod 'Realm', '~>10'
+                     end
+
+                     end
+
+
+         .. step:: Install the Dependencies
+
+
+            From the command line, run ``pod install`` to fetch the
+            dependencies.
+
+
+         .. step:: Use the CocoaPods-Generated ``.xcworkspace`` File
+
+
+            CocoaPods generates an ``.xcworkspace`` file for you. This
+            file has all of the dependencies configured. From now on,
+            open this file -- not the ``.xcodeproj`` file -- to work
+            on your project.
 
    .. tab:: Carthage
       :tabid: carthage
 
       If you are installing with `Carthage <https://github.com/Carthage/Carthage#installing-carthage>`__, you need Carthage 0.33 or later.
 
-      .. include:: /includes/steps/install-carthage.rst
+      .. procedure::
+
+         .. step:: Add Realm as a Dependency in Your Cartfile
+
+
+            Add Realm as a dependency by appending the line ``github
+            "realm/realm-swift"`` to your Cartfile.
+
+            You can create a Cartfile or append to an existing one by
+            running the following command in your project directory:
+
+            .. code-block:: bash
+
+               echo 'github "realm/realm-swift"' >> Cartfile
+
+
+         .. step:: Install the Dependencies
+
+
+            From the command line, run ``carthage update`` to fetch
+            the dependencies.
+
+
+         .. step:: Add the Frameworks to Your Project
+
+
+            Carthage pulls the dependencies into a platform directory
+            (e.g. "Mac" for macOS) within a ``Carthage/Build/``
+            directory.
+
+            Open your project's ``xcodeproj`` file in Xcode. Go to
+            the Project Navigator panel and click your application
+            name to open the project settings editor. Select the
+            :guilabel:`General` tab.
+
+            In Finder, open your target platform's directory within
+            the ``Carthage/Build/`` directory. Drag the
+            ``RealmSwift.framework`` and ``Realm.framework`` files
+            found in that directory to the :guilabel:`Frameworks,
+            Libraries, and Embedded Content` section of your
+            project's :guilabel:`General` settings.
+
+            .. figure:: /images/carthage-add-frameworks.png
+               :alt: Drag the framework files into the Xcode project.
+               :lightbox:
+
+
+         .. step:: Enable the Copy Frameworks Script (iOS, tvOS, and watchOS only)
+
+
+            To work around an `App Store submission bug
+            <http://www.openradar.me/radar?id=6409498411401216>`__
+            for iOS, tvOS, and watchOS apps, you must add a script to
+            copy the frameworks as a build phase.
+
+            In Xcode, select the :guilabel:`Build Phases` tab in the
+            project settings editor. Click the :guilabel:`+` icon and
+            choose "New Run Script Phase" to create a new script. In
+            the source input box for the new script, paste the
+            following snippet:
+
+            .. code-block:: bash
+
+               /usr/local/bin/carthage copy-frameworks
+
+            In the :guilabel:`Input Files` box below the source
+            input box, add the paths to the frameworks for your
+            target platform. If you are not targeting iOS, change
+            "iOS" in the paths below to "tvOS" or "watchOS":
+
+            .. tabs-realm-languages::
+
+              .. tab::
+                  :tabid: swift
+
+                  .. code-block:: text
+
+                     $(SRCROOT)/Carthage/Build/iOS/Realm.framework
+                     $(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework
+
+              .. tab::
+                  :tabid: objective-c
+
+                  .. code-block:: text
+
+                     $(SRCROOT)/Carthage/Build/iOS/Realm.framework
+
+            .. figure:: /images/carthage-build-phase-script.png
+               :alt: Enabling the copy frameworks script in Xcode
+               :lightbox:
 
    .. tab:: Static Framework
       :tabid: static-framework
@@ -69,7 +283,30 @@ You can use ``SwiftPM``, ``CocoaPods``, or ``Carthage`` to add the
       Installing the Realm Swift SDK as a static framework is only available
       for iOS targets.
 
-      .. include:: /includes/steps/install-swift-static-framework.rst
+      .. procedure::
+
+         .. step:: Download and Extract the Framework
+
+
+            Download the `latest release of Realm
+            <https://github.com/realm/realm-swift/releases>`__ and extract the zip.
+
+
+         .. step:: Copy Framework(s) Into Your Project
+
+
+            Drag ``Realm.xcframework`` and ``RealmSwift.xcframework`` (if using)
+            to the File Navigator of your Xcode project. Select the
+            :guilabel:`Copy items if needed` checkbox and press :guilabel:`Finish`.
+
+
+         .. step:: Link Binaries
+
+
+            Select your project in the Xcode File Navigator. Select your app's
+            target and go to the :guilabel:`Build Phases` tab. Under
+            :guilabel:`Link Binary with Libraries`, click :guilabel:`+` and add
+            ``libc++.tbd``, ``libz.tbd``, and ``libcompression.tbd``.
        
       .. tip::
       
@@ -85,7 +322,7 @@ Import Realm
 ------------
 
 Add the following line at the top of your source files
-to use {+service+}:
+to use Realm:
 
 .. tabs-realm-languages::
 
@@ -101,9 +338,20 @@ to use {+service+}:
       .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.import-realm.swift
          :language: swift
 
+.. _ios-app-download-file-size:
+
+App Download File Size
+----------------------
+
+Realm Database should only add around 5 to 8 MB to your app's download 
+size. The releases we distribute are significantly larger because they 
+include support for the iOS, watchOS and tvOS simulators, some debug symbols, 
+and bitcode, all of which are stripped by the App Store automatically when 
+apps are downloaded.
+
 Troubleshooting
 ---------------
 
 If you have build issues after using one of these methods to install 
-{+service-short+}, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
-for information about resolving those issues {+realm+}.
+Realm, see :ref:`our troubleshooting guidelines <ios-resolve-build-issues>` 
+for information about resolving those issues realm.

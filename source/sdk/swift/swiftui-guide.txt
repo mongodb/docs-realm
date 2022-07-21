@@ -1,0 +1,810 @@
+.. _ios-swiftui-examples:
+
+===============================
+Use Realm Database with SwiftUI
+===============================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Overview
+--------
+
+The Realm Swift SDK offers features to simplify development with SwiftUI.
+This page provides an overview of those features.
+
+.. seealso::
+
+   - :ref:`SwiftUI Quick Start Example App <ios-swiftui-quick-start>`
+   - `Realm Swift SDK API Reference <https://www.mongodb.com/docs/realm-sdks/swift/latest>`__
+
+Requirements
+------------
+
+- Xcode project using the SwiftUI "App" template. To use all of the Realm
+  Swift SDK's SwiftUI features, the minimum iOS target is 15.0. Some features
+  are compatible with older versions of iOS.
+- :ref:`Install the Swift SDK <ios-install>`. Use the most recent version of 
+  the Realm Swift SDK to get all of the features and enhancements for SwiftUI.
+
+.. _ios-open-realm-swiftui:
+
+Open a Realm
+------------
+
+The Swift SDK provides several different property wrappers that make it 
+easier to open a realm. 
+
+You can:
+
+- :ref:`Implicitly open a realm <ios-open-realm-with-configuration-swiftui>` 
+  with a ``defaultConfiguration``, or specify a different configuration. 
+  This works for both non-synced and synced realms.
+- :ref:`Always download changes before opening a synced realm 
+  <swiftui-async-open-synced-realm>`, which times out when the user is offline.
+- :ref:`Open a synced realm even when a user is offline 
+  <swiftui-auto-open-synced-realm>`, but may lack the most recent data.
+
+.. _ios-open-realm-with-configuration-swiftui:
+
+Open a Realm with a Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use :swift-sdk:`@ObservedRealmObject <Structs/ObservedRealmObject.html>` 
+or :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`, these 
+property wrappers implicitly open a realm and retrieve the specified 
+objects or results.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.implicitly-open-realm.swift
+   :language: swift
+
+When you do not specify a configuration, these property wrappers use the 
+:swift-sdk:`defaultConfiguration <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV07defaultC0AEvpZ>`. 
+You can :ref:`set the defaultConfiguration <ios-default-and-file-url-realm>`
+globally, and property wrappers across the app can use that configuration 
+when they implicitly open a realm.
+
+You can provide alternative configurations that the property wrappers use 
+to implicitly open the realm. You might want to do this when using 
+multiple configurations in your app, as in cases where you have both
+a :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` and 
+a local :swift-sdk:`Configuration <Structs/Realm/Configuration.html>`.
+To do this, :ref:`create explicit configurations <ios-configure-and-open-a-realm>`. 
+Then, :ref:`use environment injection to pass the respective configurations 
+to the views that need them <ios-swiftui-inject-realm-configuration>`.
+Passing a configuration to a view where property wrappers open a realm 
+uses the passed configuration instead of the ``defaultConfiguration``.
+
+.. _ios-open-synced-realm-swiftui:
+
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.12.0
+
+These SwiftUI property wrappers open synced realms and populate views.
+The main difference between these property wrappers is whether the user 
+must be online:
+
+- To download updates from your Atlas App Services app before opening a realm, use the 
+  :ref:`@AsyncOpen <swiftui-async-open-synced-realm>` property wrapper. This 
+  requires the user to have a network connection. 
+- To open a synced realm regardless of whether the user has a network 
+  connection, use the :ref:`@AutoOpen <swiftui-auto-open-synced-realm>` 
+  property wrapper. This property wrapper enables developers to design 
+  offline-first capabilities into their apps.
+
+.. _swiftui-async-open-synced-realm:
+
+Download Changes Before Opening a Synced Realm
+``````````````````````````````````````````````
+
+Use the :swift-sdk:`@AsyncOpen <Structs/AsyncOpen.html>` property wrapper 
+for apps that require up-to-date information from the server, such as game 
+apps with live leaderboards that the user can play on multiple devices. This 
+ensures the user is never using the app with stale data.
+
+.. tabs::
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      .. versionadded:: 10.27.0
+
+      Realm Swift SDK version 10.27.0 adds :ref:`Flexible Sync <flexible-sync>` 
+      versions of the property wrappers to open Realm with SwiftUI. You can 
+      add subscription queries in ``.onAppear`` after opening the realm.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.fs-property-wrapper-sans-config-comment.swift
+         :language: swift
+
+      .. versionadded:: 10.28.0
+
+      You can create a :swift-sdk:`flexibleSyncConfiguration() 
+      <https://www.mongodb.com/docs/realm-sdks/swift/latest/Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>` 
+      with the ``initialSubscriptions`` parameter. You can use this parameter 
+      to :ref:`subscribe to Flexible Sync queries 
+      <ios-sync-subscribe-to-queryable-fields>` in the configuration. If 
+      this runs more than once - for example, if it's in a view that 
+      reloads regularly - check whether the subscription exists already
+      before adding it. Adding the same subscription again throws an error.
+      
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.flex-sync-config-initial-subscriptions.swift
+         :language: swift
+
+      Then, pass the configuration to the view that contains the property 
+      wrappers as an environment object.
+
+      .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.realm-config-environment-object.swift
+         :language: swift
+
+      For a complete example, see the :ref:`SwiftUI Quick Start <swiftui-integrate-with-sync>`.
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      To open a realm with :ref:`Partition-Based Sync <partition-based-sync>`, 
+      add a ``partitionValue`` to the property wrapper:
+
+      .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
+         :language: swift
+
+This SwiftUI property wrapper initiates ``Realm.asyncOpen()`` for the current 
+user. The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
+enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
+which you can use to update the view. 
+
+.. example::
+
+   This example illustrates one way you might use ``@AsyncOpen`` to 
+   open a realm in a view. First, check for a user, or log them in.
+   Then, attempt to open the realm, switching on the ``AsyncOpenState``
+   to display an appropriate view. When the realm opens successfully,
+   inject it as an environment value to populate the view.
+
+   .. tabs::
+
+      .. tab:: Flexible Sync
+         :tabid: flex-sync
+
+         .. literalinclude:: /examples/generated/swiftui/flex-sync/SwiftUIFlexSyncExampleApp.snippet.open-realm-view-flex-sync.swift
+            :language: swift
+
+      .. tab:: Partition-Based Sync
+         :tabid: pbs
+
+         .. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.open-synced-realm-view.swift
+            :language: swift
+
+.. _swiftui-auto-open-synced-realm:
+
+Open a Synced Realm Offline
+```````````````````````````
+
+Like ``@AsyncOpen``, :swift-sdk:`@AutoOpen <Structs/AutoOpen.html>` attempts 
+to download updates before opening the realm. However, if a network 
+connection is not available, this method instead opens a realm with 
+data on the device.
+
+Use this property wrapper for apps where it's not a problem for the user 
+to work with potentially stale data, such as note-taking apps where users 
+should be able to work with data on the device
+
+.. tabs::
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      .. code-block:: swift
+
+         @AutoOpen(appId: "app_id") var autoOpen
+
+   .. tab:: Partition-Based Sync
+      :tabid: pbs
+
+      .. code-block:: swift
+
+         @AutoOpen(appId: "app_id", partitionValue: <partition_value>) var autoOpen
+
+This SwiftUI property wrapper attempts to download updates before opening a 
+realm for the current user. If there is no internet connection, this property 
+wrapper instead returns the most up-to-date version of the local realm file 
+for the given ``appId`` and Flexible Sync or Partition-Based Sync 
+configuration.
+
+The property wrapper publishes states, represented by the :swift-sdk:`AsyncOpenState 
+enum <Enums/AsyncOpenState.html#/s:10RealmSwift14AsyncOpenStateO5erroryACs5Error_pcACmF>`,
+which you can use to update the view. For a full example, see the ``@AsyncOpen``
+code examples above.
+
+Pass Realm Data Between Views
+-----------------------------
+
+The Realm Swift SDK provides several ways to pass realm data between views:
+
+- Pass Realm Database objects to a view
+- Use environment injection to:
+
+  - Inject a partition value into a view
+  - Inject an opened realm into a view
+  - Inject a realm configuration into a view
+
+Pass Realm Objects to a View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use the ``@ObservedRealmObject`` or ``@ObservedResults`` property 
+wrapper, you implicitly open a realm and retrieve the specified objects 
+or results. You can then pass those objects to a view further down the 
+hierarchy.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
+   :language: swift
+
+.. _ios-swiftui-pass-environment-values:
+
+Pass Environment Values
+~~~~~~~~~~~~~~~~~~~~~~~
+
+:apple:`Environment <documentation/swiftui/environment>` injection is a 
+useful tool in SwiftUI development with Realm Database. 
+Realm Database property wrappers provide different ways for you to 
+work with environment values when developing your SwiftUI application.
+
+Inject the Partition Value
+``````````````````````````
+
+If you are using :ref:`Partition-Based Sync <partition-based-sync>`, you 
+can use environment injection to pass the ``.partitionValue`` environment 
+value. Inject this into a view where you perform the ``@AsyncOpen`` or 
+``@AutoOpen``:
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-environment-object.swift
+   :language: swift
+
+Then, when you use the property wrapper to open a synced realm, leave
+the ``partitionValue`` an empty string. The property wrapper populates the 
+value from the environment object passed in from above.
+
+.. literalinclude:: /examples/generated/swiftui/sync/QuickStart.snippet.partition-value-empty-string.swift
+   :language: swift
+
+.. _inject-realm-as-environment-value:
+
+Inject an Opened Realm
+``````````````````````
+
+You can inject a realm that you opened in another SwiftUI view into 
+a view as an environment value. The property wrapper uses this passed-in 
+realm to populate the view:
+
+.. code-block:: swift
+
+   ListView()
+      .environment(\.realm, realm)
+
+.. _ios-swiftui-inject-realm-configuration:
+
+Inject a Realm Configuration
+````````````````````````````
+
+You can use a realm other than the default realm by passing a different 
+configuration in an environment object.
+
+.. code-block:: swift
+
+   LocalOnlyContentView()
+   .environment(\.realmConfiguration, Realm.Configuration( /* ... */ ))
+
+.. _swiftui-update-view-observed-collection:
+
+Update the UI When an Object Changes
+------------------------------------
+
+The Swift SDK provides the :swift-sdk:`@ObservedRealmObject 
+<Structs/ObservedRealmObject.html>` property wrapper that invalidates a view 
+when an observed object changes. You can use this property wrapper to 
+create a view that automatically updates itself when the observed object
+changes, such as a new item being added to a group.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.items-view.swift
+   :language: swift
+
+Search a Realm Collection
+-------------------------
+
+.. versionadded:: 10.19.0
+
+The Realm Swift SDK allows you to extend :apple:`.searchable 
+<swiftui/form/searchable(text:placement:prompt:)-6royb>`. When you use 
+:swift-sdk:`ObservedResults <Structs/ObservedResults.html>` to query a realm,
+you can specify collection and keypath in the result set to denote it is
+searchable. 
+
+.. literalinclude:: /examples/generated/swiftui/examples/ExampleApp.snippet.searchable.swift
+   :language: swift
+
+Filter or Query a Realm with ObservedResults
+--------------------------------------------
+
+The :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>` property wrapper
+opens a realm and returns all objects of the specified type. However, you 
+can filter or query ``@ObservedResults`` to use only a subset of the objects
+in your view.
+
+Filter with an NSPredicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API 
+<ios-nspredicate-query>`, pass an :apple:`NSPredicate 
+<documentation/foundation/nspredicate>` as an argument to ``filter``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, filter: NSPredicate(format: "isFavorite == true")) var items
+
+Query with the Realm Type-Safe Query API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.24.0 
+   Use *where* to perform type-safe queries on ObservedResults.
+
+To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API 
+<ios-realm-swift-query-api>`, pass a query in a closure as an argument to 
+``where``:
+
+.. code-block:: swift
+
+   @ObservedResults(Item.self, where: ( { $0.isFavorite == true } )) var items
+
+.. _ios-use-class-projection-in-swiftui-view:
+
+Use a Class Projection in a SwiftUI View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use class projection in SwiftUI views. Class projection works with 
+SwiftUI property wrappers:
+
+- :swift-sdk:`ObservedRealmObject <Structs/ObservedRealmObject.html>`
+- :swift-sdk:`ObservedResults <Structs/ObservedResults.html>`
+
+You can access the class projection's properties to populate UI elements.
+
+.. seealso::
+
+   For a complete example of using a class projection in a SwiftUI 
+   application, see :github:`the Projections example app 
+   <realm/realm-cocoa/tree/master/examples#projections>`.
+
+Perform a Quick Write Outside of a Transaction
+----------------------------------------------
+
+In addition to performing writes inside a transaction block, the Realm Swift 
+SDK offers a convenience feature to enable quick writes outside of a 
+transaction.
+
+When you use the ``@ObservedRealmObject`` or ``@ObservedResults`` property 
+wrappers, you can implicitly open a write transaction. Use the ``$`` operator
+to create a two-way binding to one of the state object's properties. Then,
+when you update this value, you initiate an implicit write.
+
+In this example, we create two-way bindings with two of the state object's
+properties:
+
+- ``$item.name`` creates a binding to the model Item object's ``name`` 
+  property
+- ``$item.isFavorite`` creates a binding to the model Item object's 
+  ``isFavorite`` property
+
+When the app user updates those fields in this example, Realm Database
+opens an implicit write transaction and saves the new values to the database.
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.quick-write-observed-realm-object.swift
+   :language: swift
+
+.. literalinclude:: /examples/generated/swiftui/local/QuickStart.snippet.local-only-content-view.swift
+   :language: swift
+
+.. _swiftui-realm-migrations:
+
+SwiftUI Realm Migrations
+------------------------
+
+.. seealso:: Swift SDK Migration Logic
+
+   For more general information about migration logic in the Realm Swift SDK, 
+   such as how to increment a schema or write a migration block, see:
+   :ref:`ios-modify-an-object-schema`.
+
+To perform a migration:
+
+- Update your schema and write a migration block, if required
+- Specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>`
+  that uses this migration logic and/or updated schema version when you 
+  initialize your realm.
+
+From here, you have two options to pass the configuration object. You can either:
+
+- Use environment injection to provide this configuration to the first view 
+  in your hierarchy that uses Realm
+- Explicitly provide the configuration to a Realm property wrapper that takes
+  a configuration object, such as ``@ObservedResults`` or ``@AsyncOpen``.
+
+.. example:: 
+
+   For example, you might want to add a property to an existing object, such as
+   the ``Item`` object in the :ref:`SwiftUI Quick Start <swiftui_quickstart-define-models>`:
+
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.add-property-to-model.swift
+      :language: swift
+
+   After you add your new property to the schema, you must increment the 
+   schema version. Your ``Realm.Configuration`` might look like this:
+
+   .. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.realm-configuration-increment-schema.swift
+      :language: swift
+
+   Declare this configuration somewhere that is accessible to the first view 
+   in the hierarchy that needs it. Declaring this above your ``@main`` app 
+   entrypoint makes it available everywhere, but you could also put it in 
+   the file where you first open a realm.
+
+Pass the Configuration Object as an Environment Object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have declared the configuration, you can pass it as an environment 
+object to the first view in your hierarchy that opens a realm. If you are 
+using the ``@ObservedResults`` or ``@ObservedRealmObject`` property wrappers, 
+these views implicitly open a realm, so they also need access to this 
+configuration.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-as-environment-object.swift
+   :language: swift
+
+In the SwiftUI quickstart, the first view in the hiearchy that opens a realm 
+varies depending on whether you're using the app with or without Sync.
+
+Without sync, you can pass the realm configuration environment object directly
+to the ``LocalOnlyContentView``: 
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-environment-object-to-local-content-view.swift.rst
+
+Which opens a realm implicitly with:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.implicitly-open-realm.swift.rst
+
+However, for the Sync version of the quickstart, you open the Realm explicitly
+using the ``@AsyncOpen`` or ``@AutoOpen`` property wrapper:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.auto-open-synced-realm.swift.rst
+
+So you must pass pass the environment object to the ``OpenSyncedRealmView``:
+
+.. include:: /examples/generated/swiftui/migration/ExampleApp.snippet.pass-realm-config-to-synced-realm-view.swift.rst
+
+The important thing to remember is to make sure to pass the 
+``Realm.Configuration`` that encompasses your migration logic to any view 
+hierarchy that implicitly or explicitly opens a realm.
+
+Explicitly Pass the Updated Configuration to a Realm SwiftUI Property Wrapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can explicitly pass the configuration object to a Realm SwiftUI
+property wrapper that takes a configuration object, such as ``@ObservedResults``
+or ``@AutoOpen``. In this case, you might pass it directly to ``@ObservedResults``
+in our ``ItemsView``.
+
+.. literalinclude:: /examples/generated/swiftui/migration/ExampleApp.snippet.explicitly-provide-config-to-property-wrappers.swift
+   :language: swift
+
+Use Realm with SwiftUI Previews
+-------------------------------
+
+.. _swift-use-objects-in-a-detail-view:
+
+Initialize an Object for a Detail View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the simplest case, you can use SwiftUI Previews with one or more objects 
+that use Realm properties you can set directly at initialization. 
+You might want to do this when previewing a Detail view. Consider our 
+ItemDetailsView:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.item-details-view.swift
+   :language: swift
+
+Create an extension for your model object. Where you put this extension depends 
+on convention in your codebase. You may put it directly in the model file,
+have a dedicated directory for sample data, or use some other convention in 
+your codebase.
+
+In this extension, initialize one or more Realm objects with ``static let``:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-extend-model-class-with-objects.swift
+   :language: swift
+
+In this example, we :ref:`initialize objects with a value 
+<ios-initialize-an-object-with-a-value>`. You can only initialize objects with
+a value when your model contains properties that you can directly initialize.
+If your model object contains properties that are only mutable within a 
+write transaction, such as a :ref:`List property <ios-list-collections>`,
+you must instead :ref:`create a realm to use with your SwiftUI Previews 
+<swift-create-a-realm-with-data>`.
+
+After you have initialized an object as an extension of your model class, 
+you can use it in your SwiftUI Preview. You can pass the object directly
+to the View in the Preview:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-detail-view.swift
+   :language: swift
+
+.. _conditionally-use-observedresults-in-a-list-view:
+
+Conditionally Use ObservedResults in a List View
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>`
+in a List view, this implicitly opens a realm and queries it. For this to 
+work in a Preview, you need :ref:`a realm populated with data 
+<swift-create-a-realm-with-data>`. As an alternative, you can conditionally 
+use a static array in Previews and only use the ``@ObservedResults`` variable 
+when running the app.
+
+You could do this in multiple ways, but for the sake of making our
+code easier to read and understand, we'll create an ``EnvironmentValue`` 
+that can detect whether the app is running in a Preview:
+
+.. code-block:: swift
+
+   import Foundation
+   import SwiftUI
+
+   public extension EnvironmentValues {
+      var isPreview: Bool {
+         #if DEBUG
+         return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+         #else
+         return false
+         #endif
+      }
+   }
+
+Then, we can use this as an environment value in our view, and conditionally
+change which variable we use based on whether or not we are in a Preview.
+
+This example builds on the :ref:`Item extension we defined above 
+<swift-use-objects-in-a-detail-view>`. We'll create an ``itemArray`` as 
+a ``static let`` in our Item extension, and include the item objects we
+already created:
+
+.. code-block:: swift
+
+   static let itemArray = [item2, item2, item3]
+
+Then, when we iterate through our List, use the static ``itemArray`` if
+running in a Preview, or use the ``@ObservedResults`` query if not in a Preview.
+
+.. code-block:: swift
+
+   struct ItemListView: View {
+      @Environment(\.isPreview) var isPreview
+      @ObservedResults(Item.self) var items
+      var previewItems = Item.itemArray
+
+      var body: some View {
+         NavigationView {
+            VStack {
+               List {
+                  if isPreview {
+                     ForEach(previewItems) { item in
+                        ItemRow(item: item)
+                     }
+                  } else {
+                     ForEach(items) { item in
+                        ItemRow(item: item)
+                     }.onDelete(perform: $items.remove)
+                     .onMove(perform: $items.move)
+                  }
+               }
+               ... More View code
+
+This has the benefit of being lightweight and not persisting any data, but 
+the downside of making the View code more verbose. If you prefer cleaner 
+View code, you can create a realm with data that you use in the Previews.
+
+.. _swift-create-a-realm-with-data:
+
+Create a Realm with Data for Previews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, your only option to see realm data in a SwiftUI Preview
+is to create a realm that contains the data. You might do this when populating 
+a property that can only be populated during a write transaction, rather 
+than initialized directly with a value, such as a :ref:`List 
+<ios-list-collections>` or :ref:`MutableSet <ios-mutableset-data-type>`. 
+You might also want to do this if your view relies on more complex object 
+hierarchies being passed in from other views.
+
+However, using a realm directly does inject state into your SwiftUI Previews, 
+which can come with drawbacks. Whether you're using Realm or Core Data, 
+stateful SwiftUI Previews can cause issues like:
+
+- Seeing unexpected or duplicated data due to re-running the realm file 
+  creation steps repeatedly
+- Needing to perform a migration within the SwiftUI Preview when you make model changes
+- Potential issues related to changing state within views
+- Unexplained crashes or performance issues related to issues that are not
+  surfaced in a visible way in SwiftUI Previews
+
+You can avoid or fix some of these issues with these tips:
+
+- :ref:`Use an in-memory realm, when possible (demonstrated in the example above) <swiftui-preview-use-in-memory-realm>`
+- :ref:`Manually delete all preview data from the command line to reset state <swiftui-preview-delete-realm-from-preview>`
+- :ref:`Check out diagnostic logs to try to troubleshoot SwiftUI Preview issues <swiftui-preview-diagnose-crashes>`
+
+You can create a static variable for your realm in your model extension.
+This is where you do the work to populate your realm. In our case, we 
+create an ``ItemGroup`` and append some ``Item`` objects to the ``items``
+List property. This example builds on the example above where we :ref:`initialized
+a few Item objects in an Item extension <swift-use-objects-in-a-detail-view>`.
+
+
+We'll create an ``ItemGroup`` extension, and create a single ``ItemGroup`` object
+in that extension. Then, we'll create a ``previewRealm`` by adding the 
+``ItemGroup`` we just created, and appending the example ``Item`` objects from 
+the ``Item`` extension.
+
+To avoid adding these objects more than once, we add a check to see if the 
+ItemGroup already exists by querying for ItemGroup objects and checking that 
+the count is 1. If the realm contains an ItemGroup, we can use it in our 
+SwiftUI Preview. If not, we add the data.
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-extend-model-class-with-realm.swift
+   :language: swift
+
+To use it in the SwiftUI Preview, our ItemsView code expects an ItemGroup. 
+In our Preview, we can get the realm, query it for the ItemGroup, and pass 
+it to the view:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-with-realm.swift
+   :language: swift
+
+If you don't have a View that is expecting a realm object to be passed in,
+but instead uses ``@ObservedResults`` to query a realm or otherwise work
+with an existing realm, you can :ref:`inject the realm into the view as an 
+environment value <inject-realm-as-environment-value>`:
+
+.. code-block:: swift
+
+   struct SomeListView_Previews: PreviewProvider {
+      static var previews: some View {
+         SomeListView()
+            .environment(\.realm, ItemGroup.previewRealm)
+      }
+   }
+
+.. _swiftui-preview-use-in-memory-realm:
+
+Use an In-Memory Realm
+``````````````````````
+
+When possible, use an :ref:`in-memory realm <ios-open-an-in-memory-realm>` 
+to get around some of the state-related issues that can come from using 
+a database within a SwiftUI Preview.
+
+Use the :swift-sdk:`inMemoryIdentifier 
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV18inMemoryIdentifierSSSgvp>` 
+configuration property when you initialize the realm.
+
+.. code-block:: swift
+
+   static var previewRealm: Realm {
+      var realm: Realm
+      let identifier = "previewRealm"
+      let config = Realm.Configuration(inMemoryIdentifier: identifier)
+      do {
+         realm = try Realm(configuration: config)
+         ... Add data to realm
+
+.. note::
+
+   Do not use the the :swift-sdk:`deleteRealmIfMigrationNeeded 
+   <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>`
+   configuration property when you initialize a realm for SwiftUI Previews.
+   Due to the way Apple has implemented SwiftUI Previews, using this property
+   to bypass migration issues causes SwiftUI Previews to crash.
+
+.. _swiftui-preview-delete-realm-from-preview:
+
+Delete SwiftUI Previews
+```````````````````````
+
+If you run into other SwiftUI Preview issues related to state, 
+such as a failure to load a realm in a Preview due to migration being 
+required, there are a few things you can do to remove cached Preview data.
+
+The Apple-recommended fix is to close Xcode and use the command line to 
+delete all your existing SwiftUI Preview data. 
+
+1. Close Xcode.
+2. From your command line, run:
+
+   .. code-block:: shell
+
+      xcrun simctl --set previews delete all
+
+It's possible that data may persist after running this command. This is 
+likely due to Xcode retaining a reference due to something in the Preview
+and being unable to delete it. You can also try these steps to resolve issues:
+
+- Build for a different simulator 
+- Restart the computer and re-run ``xcrun simctl --set previews delete all``
+- Delete stored Preview data directly. This data is stored in 
+  ``~/Library/Developer/Xcode/UserData/Previews``.
+
+.. _swiftui-preview-diagnose-crashes:
+
+Get Detailed Information about SwiftUI Preview Crashes
+``````````````````````````````````````````````````````
+
+If you have an unexplained SwiftUI Preview crash when using realm, first try
+running the application on the simulator. The error messaging and logs available
+for the simulator make it easier to find and diagnose issues. If you can
+debug the issue in the simulator, this is the easiest route.
+
+If you cannot replicate a SwiftUI Preview crash in the simulator, you can 
+view crash logs for the SwiftUI Preview app. These logs are available in 
+``~/Library/Logs/DiagnosticReports/``. These logs sometimes appear after 
+a delay, so wait a few minutes after a crash if you don't see the relevant 
+log immediately.
+
+.. _swift-use-a-synced-realm-in-previews:
+
+Use a Synced Realm in Previews
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your app uses Atlas Device Sync, you may wonder how to use a synced realm
+in your SwiftUI Previews. A better practice is to use static objects or a 
+local realm that you populate with data for your SwiftUI Previews.
+
+In our example app, we can preview a view *associated* with Device Sync - 
+the LoginView - without needing to use a realm at all:
+
+.. literalinclude:: /examples/generated/swiftui/examples/SwiftUIFlexSyncExampleApp.snippet.preview-view-associated-with-sync.swift
+   :language: swift
+
+Since we're only viewing the static UI, we don't need to worry about the 
+SyncContentView that contains the logic of whether to show the LoginView 
+or go to the OpenSyncedRealmView. We can also skip previewing the 
+OpenSyncedRealmView, because that just handles logic associated with opening
+a synced realm and populating it for the ItemsView. So the next view we
+want to see in a Preview is the ItemsView.
+
+Fortunately, with Realm, the code to work with the realm doesn't care whether
+the realm uses Device Sync or not - you work with the realm in the same way.
+So we can use the same local realm that we :ref:`created in the example above 
+<swift-create-a-realm-with-data>` in the SwiftUI Preview. The only difference
+is that we would want to show the LogoutButton on the SwiftUI Preview to
+see all of the UI components in the Preview:
+
+.. code-block:: swift
+
+   struct ItemsView_Previews: PreviewProvider {
+      static var previews: some View {
+         let realm = ItemGroup.previewRealm
+         let itemGroup = realm.objects(ItemGroup.self)
+         ItemsView(itemGroup: itemGroup.first!, leadingBarButton: AnyView(LogoutButton()))
+      }
+   }
+
+This is the same as our code above for the non-Synced realm, but we pass the 
+``LogoutButton()`` here to see it in the SwiftUI Preview. However, the 
+LogoutButton View code disables the logout button unless there is a logged-in
+``app.currentUser``. Because there is no logged-in user in our SwiftUI Preview,
+the Logout button is grayed out to indicate that it is disabled. When you
+run the app in the simulator, you see it working as expected because you have
+a logged-in user there.

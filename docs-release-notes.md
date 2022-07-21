@@ -1,3 +1,158 @@
+# July 15, 2022
+
+## Flutter SDK
+- App Services Overview: Add CTA button to "Create an App Services Account"
+- Add ObjectID to Flutter RQL example
+
+## Java SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Fundamentals/Query Engine: Clarify language around RQL, add cross-links
+- Usage Examples/Filter Data: Clarify language around RQL
+
+## Kotlin SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Realm Database/Schemas/Relationships: Update to-many relationship code example from `List` to `RealmList`
+- Realm Database/Read/Filter Data: new page w/code example & link to RQL reference
+- Update code example README and fix some tests that hang infinitely
+
+## .NET SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Fundamentals/Query Engine: Minor updates in line with RQL docs updates, removed aggregate operator reference & linked to RQL reference instead
+- Fix typo in code examples
+
+## Node.js SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Usage Examples/Query Data: Move "Query Engine" from Advanced Guides to Usage Examples, refactor based on RQL docs updates
+
+## React Native SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Usage Examples/Query Data: Move "Query Engine" from Advanced Guides to Usage Examples, refactor based on RQL docs updates
+
+## Swift SDK
+- Landing Page: Add CTA button to "Create an Account"
+- Install: Update instructions to remove fixed release version & instead link to SDK releases page
+- Major Information Architecture refactor, including:
+  - Move "Fundamentals" content onto relevant topic-based pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define an Object Model, Read & Write Data, Sync Data Between Devices) into sections with smaller pages
+  - Add new pages: Delete a Realm, Model Data with Device Sync, Add Sync to an App
+
+## Web SDK
+- Landing Page: Add CTA button to "Create an Account"
+
+## Other
+- Introduction to Realm
+  - Update naming for product brand guidelines
+  - Copy edits to reflect current state App Services
+  - Update SDK references
+- Realm Query Language
+  - Added arithmatic operator section to page
+  - Added parameterized queries section to page
+  - Moved up the example section for clarity
+  - Removed flex sync note from the top of the page
+  - Clarified usage of BETWEEN operator
+  - Moved the RQL page up a level in the IA
+- Various Snyk upgrades and version bumps in example apps
+
+# July 8, 2022
+
+## Flutter SDK
+- Sync Device Data/Manage Sync Session: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Java SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Kotlin SDK
+- Cleanup, standardize, and remove unnecessary callouts
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+- Update Kotlin SDK to 1.0.1
+
+## .NET SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Node.js SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## React Native SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Swift SDK
+- Usage Examples/Flexible Sync: Add Flexible Sync Limitations/unsupported RQL operators directly to page
+
+## Reference
+- Realm Query Language: Document querying ObjectID & UUID
+
+## Misc
+- Update some Node.js/Web code examples based on feedback
+
+# July 1, 2022
+
+## Kotlin SDK
+- Handle Errors: New Section w/overview of types of errors
+  - Realm Errors: New Page w/tested code examples and guidance around error handling
+  - App Errors: New page w/tested code examples and guidance around error handling
+
+## Node.js SDK
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## React Native SDK
+- Install: Add note about Expo v45 not supported on Android.
+- Usage Examples/Query MongoDB: Add Aggregation Operations w/tested code examples
+
+## Swift SDK
+- Landing Page & Install: Update Apple deployment targets and minimum Xcode version
+- Usage Examples/Flexible Sync: Add note about Combine support for Flexible Sync
+- Usage Examples/SwiftUI Guide
+  - Open a Realm with a Configuration: Clarify using SwiftUI w/configurations based on docs feedback
+  - Use Realm w/SwiftUI Previews: New section w/guidance & tested code examples 
+
+## Web SDK
+- Atlas App Services/MongoDB Data Access: Add Aggregation Operations w/tested code examples
+
+## Misc
+- Add redirects for App Services/Reference content
+
+# June 24, 2022
+
+## .NET SDK
+- Add "Work with Users" section, move authentication-related pages from Usage Examples and Advanced Guides into this section
+  - Add information & code examples for deleting a user and deleting the user's Custom User Data
+  - Add information & code examples for  reading user metadata
+
+## Node.js SDK
+- Usage Examples/Flexible Sync: Add docs & code examples for initial subscriptions & reRunOnStartup
+
+## React Native SDK
+- Usage Examples/Flexible Sync: Add docs & code examples for initial subscriptions & reRunOnStartup
+
+## Swift SDK
+- Event Library: New page w/SDK implementation details for the Event Library
+
+# June 17, 2022
+
+## Tutorial
+- Task Tracker (Web): Remove unnecessary dependencies that conflict with Create React App base config
+
+## Flutter SDK
+- Sync Device Data/Manage Sync Session: Update docs on behavior of updating a Flex Sync subscription, update tested code examples
+
+## Kotlin SDK
+- App Services/Authenticate Users: Link to related docs for auth examples on other platforms
+
+## .NET SDK
+- Usage Examples/Flexible Sync: Add info & code for bootstrapping realm with initial subscription 
+
+## Swift SDK
+- Usage Examples
+  - SwiftUI Guide: Clarify SwiftUI migration details based on user feedback
+  - Flexible Sync: Update `rerunOnOpen` example to show re-computing vars
+- Unit Tests: Add delays to Sync tests to fix failures
+- Generate new code examples for updates renaming Realm App to App Services
+
+## Reference
+- Restore section after App Services docs split w/links to Glossary & Realm Query Language pages
+
 # June 10, 2022
 
 As the documentation is now split into separate repositories, and "App Services" is officially no longer directly associated with Realm Database SDKs, we're moving App Services release notes to the [App Services repository](https://github.com/mongodb/docs-app-services).

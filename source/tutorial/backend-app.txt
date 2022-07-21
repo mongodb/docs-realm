@@ -10,10 +10,10 @@ Overview
 --------
 
 Before we can implement any client SDK functionality for the Task
-Tracker, we need to create a backend {+app+} to serve SDK requests
-like authentication and {+sync+}. To make this easier and faster, we've
-already prepared a backend {+app+} configuration for you, complete
-with functions, triggers, a schema, and the {+sync+} configuration
+Tracker, we need to create a backend App to serve SDK requests
+like authentication and Device Sync. To make this easier and faster, we've
+already prepared a backend App configuration for you, complete
+with functions, triggers, a schema, and the Device Sync configuration
 you'll need to connect with one of our front-end tutorial apps.
 
 **Prefer to learn by watching? Follow along while we set up the backend in this 
@@ -28,7 +28,7 @@ A. Create an Atlas account, if you don't already have one. *(3 minutes)*
 #. Install the Realm CLI. *(5 minutes)*
 #. Add a programmatic API key to your Atlas project and use it to log
    into the Realm CLI. *(5 minutes)*
-#. Use the Realm CLI to create a new Task Tracker backend {+app+} with
+#. Use the Realm CLI to create a new Task Tracker backend App with
    our pre-made Task Tracker backend. *(5 minutes)*
 
 Once we've finished these steps, we can start writing code to implement
@@ -86,7 +86,7 @@ B. Create a Free Atlas Cluster
 
 .. include:: /includes/mongodb-4.4-required-for-sync-admonition.rst
 
-Next, you'll need an {+atlas+} cluster running MongoDB 4.4 or higher.
+Next, you'll need an Atlas cluster running MongoDB 4.4 or higher.
 If you've already created a free cluster in your Atlas project running a
 version of MongoDB lower than 4.4, you can
 :atlas:`create a new project in Atlas
@@ -95,7 +95,7 @@ and then create a new cluster running MongoDB 4.4 or higher in that project usin
 the instructions below. If you haven't created any clusters yet, follow
 the instructions below to create your first free cluster:
 
-1. Log into your {+atlas+} account at `cloud.mongodb.com
+1. Log into your Atlas account at `cloud.mongodb.com
    <https://cloud.mongodb.com?tck=docs_realm>`__.
 
 #. Once you're logged into your account, Atlas should prompt you to
@@ -141,19 +141,19 @@ C. Install the Realm CLI
 *Time estimate: 5 minutes*
 
 Now that you've created a cluster to use as the data source for your
-{+app+}, we need some way to create the app itself. In most cases you'd
+App, we need some way to create the app itself. In most cases you'd
 use the Realm UI, which you can access through the Atlas UI. However,
 for the purposes of this tutorial, we're going to use the :ref:`Realm
 Command Line Interface <realm-cli-quickstart>`, also known as ``realm-cli``.
 
 We're using the Realm CLI because ``realm-cli`` allows you to manage
-your {+app+}s programmatically using JSON configuration files instead of
-the {+service-short+} UI. This lets you get started with a pre-prepared
+your Apps programmatically using JSON configuration files instead of
+the Realm UI. This lets you get started with a pre-prepared
 app configuration faster. Follow the instructions below to install
 the Realm CLI in your development environment using either a package
 manager or the ``realm-cli`` binary:
 
-{+cli+} is available on ``npm``. To install it on your system, ensure that you
+Realm CLI is available on ``npm``. To install it on your system, ensure that you
 have `Node.js <https://nodejs.org/en/download/>`_ installed and then run the
 following command in your shell:
 
@@ -238,7 +238,7 @@ successfully authenticated:
 .. see::
 
    For additional details about how to create a programmatic API key
-   in {+atlas+}, see the
+   in Atlas, see the
    :atlas:`documentation for configuring API access
    </configure-api-access/#programmatic-api-keys>`.
 
@@ -282,7 +282,7 @@ line tool:
 
    The directory where you ran the above ``git clone`` command should now
    contain another directory called ``realm-tutorial-backend``. We'll use the
-   contents of that directory to create your very own Task Tracker {+app+}
+   contents of that directory to create your very own Task Tracker App
    backend with the Realm CLI.
 
    .. important:: Realm CLI Version Compatibility
@@ -335,7 +335,7 @@ You should see the following output if your push command successfully created a 
 
 You can confirm that your app was created successfully by
 navigating to the :guilabel:`Realm` tab in the Atlas UI. You should
-see an {+app+} named ``tasktracker``:
+see an App named ``tasktracker``:
 
 .. image:: /images/realm-app-tasktracker.png
    :alt: A newly created TaskTracker backend in the Atlas UI.
@@ -384,9 +384,9 @@ Schema tab to view the JSON Schema that defines the structure of the
 data in each collection.
 
 While MongoDB's document model allows us to store data in a wide variety
-of shapes and sizes, Realm Database and {+sync+} require data to follow
+of shapes and sizes, Realm Database and Device Sync require data to follow
 a set schema. Data that follows this schema synchronizes between the
-MongoDB Atlas linked data source and devices connected to your {+app+}
+MongoDB Atlas linked data source and devices connected to your App
 via a client SDK. This schema should match the models defined in client
 applications, with minor exceptions.
 
@@ -407,7 +407,7 @@ the different ways that users can log into the Task Tracker app. In the
 provided Task Tracker configuration, users can only log in via
 "Email/Password" authentication, which lets users define an email
 username and a secret password known only to them to access their
-account in your {+app+}.
+account in your App.
 
 If you click on the :guilabel:`Email/Password` entry in the list of
 authentication providers, you can view the details of Task Tracker's
@@ -426,35 +426,35 @@ fields here:
 
 .. see::
 
-   To learn more about authentication in {+service+}, see the
+   To learn more about authentication in Realm, see the
    :ref:`documentation on Authentication <users-and-authentication>`.
 
 Sync
 ~~~~
 
-In the :guilabel:`Sync` section, you'll find information about {+sync+},
+In the :guilabel:`Sync` section, you'll find information about Device Sync,
 which synchronizes data between client devices and your MongoDB Atlas
 cluster. To enable sync, we've defined a **partition key**, which
-:ref:`sorts the data in Atlas into multiple {+realm+}s <sync-partitions>`.
+:ref:`sorts the data in Atlas into multiple realms <sync-partitions>`.
 We've chosen an easy-to-understand name for our partition key:
-``_partition``. Task Tracker also defines **permissions** for {+sync+},
+``_partition``. Task Tracker also defines **permissions** for Device Sync,
 which determine what partitions each user can access. Click the
 :guilabel:`Define Permissions` dropdown to view the permission
 definitions, which call the ``canReadPartition`` and
 ``canWritePartition`` functions to determine whether a user can read or
-write a particular {+realm+}.
+write a particular realm.
 
 .. see::
 
-   To learn more about {+sync+}, see :ref:`sync`.
+   To learn more about Device Sync, see :ref:`sync`.
 
 Custom User Data & Permissions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In {+service+}, each user can have an associated :ref:`custom data object
+In Realm, each user can have an associated :ref:`custom data object
 <custom-user-data>`. We designed this app to use data stored in the user's
 custom data to determine permissions -- that is, whether that user can read or
-write a given realm or set of data, such as a project. While {+service-short+}
+write a given realm or set of data, such as a project. While Realm
 allows clients to read and write data depending on how you configure your app
 permissions, we configured this app so that only :ref:`system functions
 <system-functions>` running on the backend can modify a user's custom data
@@ -489,7 +489,7 @@ definition. You can even run the function with test input.
 
 .. see::
 
-   To learn more about functions in {+service+}, see the
+   To learn more about functions in Realm, see the
    :ref:`documentation on functions <functions>`.
 
 Triggers
@@ -509,7 +509,7 @@ start adding to-do tasks or even other users as project members.
 
 .. see::
 
-   To learn more about triggers in {+service+}, see the
+   To learn more about triggers in Realm, see the
    :ref:`documentation on triggers <triggers-overview>`.
 
 .. _client-sdk-guides:
@@ -518,7 +518,7 @@ What's Next?
 ------------
 
 You just built a functional task tracker application backend for Realm with
-{+backend+}. Great job!
+App Services. Great job!
 
 Now that you have a working backend application, you can follow one of our
 client application tutorials to connect to your Realm app and manage tasks from

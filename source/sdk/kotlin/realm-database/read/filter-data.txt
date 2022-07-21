@@ -1,0 +1,20 @@
+.. _kotlin-filter-data:
+
+========================
+Filter Data - Kotlin SDK
+========================
+
+Filter results to retrieve a specific segment
+of objects with `realm.query()
+<{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/query.html>`__.
+In the argument of ``realm.query()``, use Realm Query Language to perform filtering.
+Realm Query Language is a string-based query language that you can use to retrieve
+objects from a realm.
+Specify the object type as a type parameter passed to :file:`query()`.
+
+
+For more information on constructing queries, refer to the
+:ref:`Realm Query Language reference documentation <rql>`.
+
+.. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.filter.kt
+   :language: kotlin

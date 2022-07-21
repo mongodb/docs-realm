@@ -184,6 +184,61 @@ class CRUDTest: RealmTest() {
     }
 
     @Test
+    fun filterTest() {
+        val REALM_NAME = getRandom()
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Frog::class, Sample::class))
+                .name(REALM_NAME)
+                .directory(TMP_PATH)
+                .build()
+            val realm = Realm.open(config)
+            // insert an object that meets our example query
+            realm.writeBlocking {
+                this.copyToRealm(Frog().apply {
+                    _id = ObjectId.create()
+                    name = "Kermit"
+                    age = 67
+                    species = "Green"
+                    owner = "Jim"
+                })
+            }
+            // insert an object that meets our example query
+            realm.writeBlocking {
+                this.copyToRealm(Frog().apply {
+                    _id = ObjectId.create()
+                    name = "Frogger"
+                    age = 41
+                    species = "Green"
+                    owner = "Konami"
+                })
+            }
+            // insert an object that meets our example query
+            realm.writeBlocking {
+                this.copyToRealm(Frog().apply {
+                    _id = ObjectId.create()
+                    name = "Michigan J. Frog"
+                    age = 67
+                    species = "Green"
+                    owner = "Chuck"
+                })
+            }
+
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+            // :snippet-start: filter
+            // Find frogs where name is 'Michigan J. Frog'
+            val michiganFrogs: RealmResults<Frog> =
+                realm.query<Frog>("name = 'Michigan J. Frog'").find()
+
+            // Find frogs where age > 3 AND species is 'Green'
+            val oldGreenFrogs: RealmResults<Frog> =
+                realm.query<Frog>("age > 3 AND species = 'green'").find()
+
+            // :snippet-end:
+            realm.close();
+        }
+    }
+
+    @Test
     fun sortTest() {
         val REALM_NAME = getRandom()
 

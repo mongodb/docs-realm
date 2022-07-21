@@ -17,12 +17,12 @@ Read & Write Data - Flutter SDK
 Read from Realm Database
 ------------------------
 
-A read from a :term:`{+realm+}` generally consists of the following
+A read from a realm generally consists of the following
 steps:
 
-- Get all objects of a certain type from the {+realm+}.
+- Get all objects of a certain type from the realm.
 - Optionally, :ref:`filter <flutter-filter-results>` the results
-  using the :ref:`Realm Query Language <flutter-query-language>`.
+  using the :ref:`Realm Query Language <rql>`.
 - Optionally, :ref:`sort <flutter-sort-results>` the results using Realm Query Language.
 
 .. _flutter-query-objects:
@@ -30,7 +30,7 @@ steps:
 Query All Objects
 ~~~~~~~~~~~~~~~~~
 
-Retrieve a collection of all objects of a data model in the {+realm+} with the
+Retrieve a collection of all objects of a data model in the realm with the
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>` method.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
@@ -54,8 +54,12 @@ Filter Results
 
 Filter a ``RealmList`` to retrieve a specific segment
 of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
-In the ``query()`` method's argument,
-use :ref:`Realm Query Language operators<flutter-query-language>` to perform filtering.
+In the ``query()`` method's argument, use Realm Query Language to perform filtering.
+Realm Query Language is a string-based query language that you can use to retrieve
+objects from a realm.
+
+For more information on constructing queries, refer to the
+:ref:`Realm Query Language reference documentation <rql>`.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
    :language: dart
@@ -65,8 +69,8 @@ use :ref:`Realm Query Language operators<flutter-query-language>` to perform fil
 Sort Results
 ~~~~~~~~~~~~
 
-Sort the results using the :ref:`Realm Query Language <flutter-query-language>`
-SORT() operator in the ``query()`` method's argument.
+Sort the results using the :ref:`Realm Query Language SORT() operator
+<rql-sort-distinct-limit>` in the ``query()`` method's argument.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
@@ -76,11 +80,11 @@ SORT() operator in the ``query()`` method's argument.
 Write Operations
 ----------------
 
-Once you've opened a {+realm+}, you can create objects within it using a
+Once you've opened a realm, you can create objects within it using a
 :flutter-sdk:`Realm.write() transaction block <realm/Realm/write.html>`.
 All operations within a write transaction are :wikipedia:`atomic <Atomicity_(database_systems)>`.
 If an operation in the write transaction fails, the whole transaction fails,
-Realm throws an error, and no changes from the transaction block are applied to the {+realm+}.
+Realm throws an error, and no changes from the transaction block are applied to the realm.
 
 .. code-block:: dart
 
@@ -99,7 +103,7 @@ Create Objects
 ~~~~~~~~~~~~~~
 
 To create a new ``Car``, instantiate an instance of the
-``Car`` class and add it to the {+realm+} in a write transaction block:
+``Car`` class and add it to the realm in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart
@@ -122,7 +126,7 @@ Delete Objects
 .. _flutter-delete-single-object:
 
 Delete a Single Object
-^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````
 
 Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 method in a write transaction block:
@@ -133,7 +137,7 @@ method in a write transaction block:
 .. _flutter-delete-multiple-objects:
 
 Delete Multiple Objects
-^^^^^^^^^^^^^^^^^^^^^^^
+```````````````````````
 
 Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
 <realm/Realm/deleteMany.html>` method in a write transaction block.

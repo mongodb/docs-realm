@@ -20,7 +20,7 @@ Task Tracker (Web)
    Realm application.
 
 In this tutorial, you'll build a functional web application backed by the
-{+service+} GraphQL API. The app uses :reactjs:`React <>` to define UI
+Realm GraphQL API. The app uses :reactjs:`React <>` to define UI
 components and :apollo:`Apollo Client <docs/react>` to run queries and mutations
 through the GraphQL API. We've already created most of the frontend application
 for you, so you don't need to know React to follow along.
@@ -54,7 +54,7 @@ Prerequisites
 
 Before you get started, you'll need the following:
 
-- A complete task tracker app in {+backend+}. If you haven't yet completed
+- A complete task tracker app in App Services. If you haven't yet completed
   :doc:`Set up the Task Tracker Tutorial Backend </tutorial/backend-app>`, do
   that before you continue.
 
@@ -147,7 +147,42 @@ Some of the functionality in ``RealmApp.js`` is not fully defined. You need to
 update the code to use the SDK to connect to your App Services backend and
 handle user authentication.
 
-.. include:: /includes/steps/task-tracker-web-realmapp.rst
+.. procedure::
+
+   .. step:: Create a Realm App Client
+
+      The app client is the primary interface to your Realm app from the SDK. In
+      ``src/App.js``, replace ``"TODO"`` with your Realm App ID:
+
+      .. literalinclude:: /tutorial/generated/code/final/App.snippet.appID.js
+         :caption: src/App.js
+         :language: javascript
+
+      .. note:: Use Your App ID
+
+         Make sure to replace ``"TODO"`` with your app's unique
+         :guilabel:`App ID`. You can find your :guilabel:`App ID` by clicking the
+         copy button next to the name of your app in the lefthand navigation of the
+         Realm UI.
+
+         .. figure:: /images/task-tracker-web-copy-appid.png
+            :alt: The copy app id button in the UI
+
+
+   .. step:: Complete the Registration & Authentication Functions
+
+      The app client provides methods that allow you to authenticate and register
+      users through the email/password authentication provider. In
+      ``src/RealmApp.js``, the ``RealmAppProvider`` component wraps these functions
+      and keeps the app client in sync with local React state.
+
+      These wrapping functions already have the state update calls but don't
+      currently use the app client you created. You need to update the functions to
+      actually call the SDK authentication and registration methods.
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApp.snippet.realmAppProvider.js
+         :caption: src/RealmApp.js
+         :language: javascript
 
 .. example:: How We Use It
    
@@ -289,14 +324,42 @@ provides the ``ApolloClient`` object but the function that instantiates the
 client is incomplete. You need to update the file to create a client that can
 connect to your app's GraphQL API.
 
-.. include:: /includes/steps/task-tracker-web-apollo.rst
+.. procedure::
+
+   .. step:: Instantiate an ApolloClient
+
+      The ``RealmApolloProvider`` component should call
+      ``createRealmApolloClient()`` to instantiate the client. Update the
+      component with the following code to create an ``ApolloClient`` object that
+      connects to your app:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.realmApolloProvider.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
+
+   .. step:: Authenticate GraphQL Requests
+
+      The ``createRealmApolloClient()`` function now instantiates a client object, but
+      you won't be able to run any GraphQL queries or mutations just yet. Every
+      GraphQL request must include an Authorization header that specifies a valid
+      user access token. The current client does not include any Authorization
+      headers, so all requests it makes will fail.
+
+      To fix this, update the ``createRealmApolloClient()`` function to include the
+      current user's access token in an Authorization header with every request:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.createRealmApolloClient.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
 
 .. _web-tutorial-implement-the-project-list:
 
 F. Implement the Projects List
 ------------------------------
 
-As defined by our data model, a ``Project`` is an :term:`embedded object` inside
+As defined by our data model, a ``Project`` is an embedded object inside
 of a ``User`` document. This means that we can use :ref:`custom user data
 <custom-user-data>` to access a given user's list of projects
 directly from their ``Realm.User`` object.
@@ -319,12 +382,12 @@ The file ``src/components/EditPermissionsModal.js`` defines a hook named
 should also return functions that add and remove team members, but you'll need
 to define them. The :ref:`task tracker backend application
 <tutorial-task-tracker-create-realm-app>` already defines server-side
-:ref:`{+service-short+} functions <functions>` that handle the logic, so you
+:ref:`Atlas Functions <functions>` that handle the logic, so you
 just need to call them.
 
 .. tip::
    
-   You can call your app's {+service-short+} functions by name as asynchronous
+   You can call your app's Functions by name as asynchronous
    methods on the ``User.functions`` object. All function calls return a
    ``Promise``. For example, to call a function named ``myFunction`` as the
    current user, you would write ``await app.currentUser.functions.myFunction()``.
@@ -486,7 +549,7 @@ What's Next?
 You just built and deployed a functional task tracker web application built with MongoDB
 Realm. Great job!
 
-Now that you have some hands-on experience with {+backend+}, consider these
+Now that you have some hands-on experience with App Services, consider these
 options to keep practicing and learn more:
 
 - Extend the task tracker app with additional features. For example, you could:
@@ -503,7 +566,7 @@ options to keep practicing and learn more:
 
 - Use the Realm CLI to automate deploying your frontend application.
 
-- Dive deeper into the docs to learn more about {+backend+}. You'll find
+- Dive deeper into the docs to learn more about App Services. You'll find
   information and guides on features like:
   
   - Serverless :ref:`functions <functions>` that handle backend logic and

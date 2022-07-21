@@ -17,7 +17,7 @@ Overview
 --------
 
 Flexible Sync uses subscriptions and permissions to determine which
-data to sync with your {+app+}.
+data to sync with your App.
 
 To use Flexible Sync in a .NET application:
 
@@ -39,6 +39,12 @@ syncs to the client device.
    10.9.0 <realm/realm-dotnet/releases>` or greater in order to use Flexible Sync
    in your .NET client application.
 
+.. important::
+
+   Flexible Sync does not support all the operators available in Realm 
+   Query Language. See :ref:`Flexible Sync RQL Limitations 
+   <dotnet-flexible-sync-rql-limitations>` for details.
+
 .. _dotnet-flexible-sync-manage-subscriptions:
 
 Manage Your Subscriptions
@@ -58,12 +64,12 @@ You can:
 - Remove individual subscriptions or all subscriptions of a type
 
 When the data matches the subscription, and the authenticated user has the
-appropriate permissions, {+service-short+} syncs the backend data with the client app.
+appropriate permissions, App Services syncs the backend data with the client app.
 
 You can specify a string name for your subscription. If you do not give your
 subscription a name, the name is set to null.
 
-When you create a subscription, Realm looks for data matching a query on a
+When you create a subscription, App Services looks for data matching a query on a
 specific object type. In your Flexible Sync subscriptions, you can have
 subscriptions on several different object types or several queries on the same
 object type.
@@ -103,7 +109,7 @@ to the realm. You can create one or more initial subscriptions when you
 configure Flexible Sync, or you can add subscriptions after initialization. 
 
 Bootstrap the Realm with Initial Subscriptions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````````````````````
 
 You can bootstrap a realm with an initial subscription set
 when you open it with a :dotnet-sdk:`FlexibleSyncConfiguration  
@@ -118,7 +124,7 @@ queries you want to use to bootstrap the realm, as shown in the following exampl
 
 
 Add a Subscription
-^^^^^^^^^^^^^^^^^^
+``````````````````
 To add a subscription to an existing ``FlexibleSyncConfiguration``, 
 You must perform all mutations on the subscriptions set within an update block.
 To create an update block, call the :dotnet-sdk:`SubscriptionSet.Update()
@@ -128,8 +134,6 @@ method.
 Within the delegate, call the :dotnet-sdk:`SubscriptionSet.Add()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Add__1_System_Linq_IQueryable___0__Realms_Sync_SubscriptionOptions_>`
 method on the ``SubscriptionSet`` to add a query to the subscription.
-
-.. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
 The ``Add()`` method takes two arguments, a ``query`` and an optional 
 :dotnet-sdk:`SubscriptionOptions <reference/Realms.Sync.SubscriptionOptions.html>` object.
@@ -149,7 +153,7 @@ but a different query throws an exception. ``UpdateExisting`` defaults to true.
 .. note:: Duplicate Subscriptions 
 
    If you add a duplicate **unnamed** subscription with the same query, 
-   {+service-short+} automatically removes it; adding an identical 
+   the SDK automatically removes it; adding an identical 
    **named** subscription is a :wikipedia:`no-op <NOP_(code)>`. Therefore, in 
    both cases, duplicate subscriptions are ignored.
 
@@ -205,7 +209,7 @@ When you remove a subscription query, the server also removes synced data from
 the client device.
 
 Remove a Subscription by Query
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``````````````````````````````
 Within an update block, you can remove a specific subscription by query. Pass the query to the :dotnet-sdk:`Remove()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove__1_System_Linq_IQueryable___0__System_Boolean_>`
 method on the ``SubscriptionSet``.
@@ -217,7 +221,7 @@ removed from the subscriptions set.
    :language: csharp
 
 Remove a Subscription by Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`````````````````````````````
 Within an update block, you can remove a specific subscription by name. Pass the name to the
 :dotnet-sdk:`Remove()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_Remove_System_String_>`
@@ -228,7 +232,7 @@ method on the ``SubscriptionSet``.
 
 
 Remove All Subscriptions of a Class Name or Object Type
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```````````````````````````````````````````````````````
 Within an update block, you can remove remove all unnamed subscriptions of a
 class by passing the class name as a string to the
 :dotnet-sdk:`RemoveAll("ClassName")
@@ -248,7 +252,7 @@ it is set to ``true``. ``removedName`` is set to false by default.
 
 
 Remove All Subscriptions
-^^^^^^^^^^^^^^^^^^^^^^^^
+````````````````````````
 Within an update block, you can remove all unnamed subscriptions from the
 subscriptions set. Call the :dotnet-sdk:`RemoveAll()
 <reference/Realms.Sync.SubscriptionSet.html#Realms_Sync_SubscriptionSet_RemoveAll_System_Boolean_>`
@@ -277,7 +281,14 @@ an exception will be thrown.
 An exception may occur if: 
 
 - an unsupported query is subscribed to. Subscribing to an unsupported query will pause synchronization. To resume synchronization, :ref:`remove the unsupported query <dotnet-remove-subscriptions>`.
-- you are performing an invalid action, such as adding an object that does not match a subscription. This triggers a :ref:`client reset <client-resets>`: data is erased from the {+realm+}, and a new copy of the data is created without any subscriptions in the set.
+- you are performing an invalid action, such as adding an object that does not match a subscription. This triggers a :ref:`client reset <client-resets>`: data is erased from the realm, and a new copy of the data is created without any subscriptions in the set.
 
 .. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.wait-for-synchronization.cs
    :language: csharp
+
+.. _dotnet-flexible-sync-rql-limitations:
+
+Flexible Sync RQL Limitations
+-----------------------------
+
+.. include:: /includes/flex-sync-limitations.rst

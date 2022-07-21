@@ -66,6 +66,44 @@ final class ItemGroup: Object, ObjectKeyIdentifiable {
 }
 // :snippet-end:
 
+// :snippet-start: preview-extend-model-class-with-objects
+extension Item {
+    static let item1 = Item(value: ["name": "fluffy coasters", "isFavorite": false, "ownerId": "previewRealm"])
+    static let item2 = Item(value: ["name": "sudden cinder block", "isFavorite": true, "ownerId": "previewRealm"])
+    static let item3 = Item(value: ["name": "classy mouse pad", "isFavorite": false, "ownerId": "previewRealm"])
+}
+// :snippet-end:
+
+// :snippet-start: preview-extend-model-class-with-realm
+extension ItemGroup {
+    static let itemGroup = ItemGroup(value: ["ownerId": "previewRealm"])
+    
+    static var previewRealm: Realm {
+        var realm: Realm
+        let identifier = "previewRealm"
+        let config = Realm.Configuration(inMemoryIdentifier: identifier)
+        do {
+            realm = try Realm(configuration: config)
+            // Check to see whether the in-memory realm already contains an ItemGroup.
+            // If it does, we'll just return the existing realm.
+            // If it doesn't, we'll add an ItemGroup and append the Items.
+            let realmObjects = realm.objects(ItemGroup.self)
+            if realmObjects.count == 1 {
+                return realm
+            } else {
+                try realm.write {
+                    realm.add(itemGroup)
+                    itemGroup.items.append(objectsIn: [Item.item1, Item.item2, Item.item3])
+                }
+                return realm
+            }
+        } catch let error {
+            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+        }
+    }
+}
+// :snippet-end:
+
 // MARK: Views
 
 // MARK: Main Views
@@ -253,6 +291,14 @@ struct LoginView: View {
     }
 }
 
+// :snippet-start: preview-view-associated-with-sync
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView()
+    }
+}
+// :snippet-end:
+
 /// A button that handles logout requests.
 struct LogoutButton: View {
     @State var isLoggingOut = false
@@ -319,6 +365,16 @@ struct ItemsView: View {
     }
 }
 
+// :snippet-start: preview-with-realm
+struct ItemsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let realm = ItemGroup.previewRealm
+        let itemGroup = realm.objects(ItemGroup.self)
+        ItemsView(itemGroup: itemGroup.first!)
+    }
+}
+// :snippet-end:
+
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
@@ -335,6 +391,7 @@ struct ItemRow: View {
     }
 }
 
+// :snippet-start: item-details-view
 /// Represents a screen where you can edit the item's name.
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
@@ -349,6 +406,17 @@ struct ItemDetailsView: View {
                     Image(systemName: item.isFavorite ? "heart.fill" : "heart")
                 })
         }.padding()
+    }
+}
+// :snippet-end:
+// :snippet-end:
+
+// :snippet-start: preview-detail-view
+struct ItemDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            ItemDetailsView(item: Item.item2)
+        }
     }
 }
 // :snippet-end:

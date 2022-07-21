@@ -15,11 +15,11 @@ Quick Start with Sync - .NET SDK
 Overview
 --------
 
-This page contains information to quickly get {+client-database+}
+This page contains information to quickly get Realm Database
 integrated into your .NET app. Before you begin, ensure you have:
 
-- :ref:`Created an {+app+} <create-a-realm-app>`
-- :ref:`Enabled {+sync+} <enable-sync>`
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Enabled Device Sync <enable-sync>`
 
 .. note::
 
@@ -47,9 +47,9 @@ statement:
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must
-access your {+app+} using your {+app+} ID. You can find your {+app+} ID in the
-{+ui+}. With that, you can initialize the {+realm+} app, as shown in the following 
+To use App Services features such as authentication and sync, you must
+access your App using your App ID. You can find your App ID in the
+App Services UI. With that, you can initialize the realm app, as shown in the following 
 code:
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
@@ -59,11 +59,11 @@ Define Your Object Model
 ------------------------
 
 Your application's :ref:`object model <dotnet-objects>` defines 
-the data that you can store within {+client-database+} and synchronize
-to and from {+backend+}.
+the data that you can store within Realm Database and synchronize
+to and from App Services.
 
-If have not :ref:`enabled {+sync+} <enable-sync>` or you enabled
-{+sync-short+} with :term:`Development Mode` in the {+ui+}, you can
+If have not :ref:`enabled Device Sync <enable-sync>` or you enabled
+Sync with Development Mode in the App Services UI, you can
 define your object model directly in code.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
@@ -83,7 +83,7 @@ Authenticate a User
 -------------------
 
 After you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
-{+ui+}, users can immediately log into your app without providing any identifying
+App Services UI, users can immediately log into your app without providing any identifying
 information:
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.anon-login.cs
@@ -102,10 +102,10 @@ how to do this by calling ``LogOutAsync()``:
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-sync>` and authenticated a user, 
-you can open a synced :ref:`{+realm+} <dotnet-realms>`. Use the ``PartitionSyncConfiguration``
+Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user, 
+you can open a synced :ref:`realm <dotnet-realms>`. Use the ``PartitionSyncConfiguration``
 to control the specifics of how your application synchronizes data with
-{+backend+}, which might include the :ref:`partition <sync-partitions>` name,
+App Services, which might include the :ref:`partition <sync-partitions>` name,
 whether to wait for an initial batch of data to sync, and more.
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.config.cs
@@ -118,20 +118,20 @@ whether to wait for an initial batch of data to sync, and more.
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify the 
+Once you have opened a realm, you can modify the 
 :ref:`objects <dotnet-objects>` in it. All changes to the data 
 (creates, writes, and updates) must occur within a 
 :ref:`Write transaction <dotnet-realm-database-writes>` block.
 
 The following code shows how to create a new ``Task``. You instantiate the 
-``Task`` class and then add the new Task to the {+realm+} in a write block:
+``Task`` class and then add the new Task to the realm in a write block:
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
    :language: csharp
 
 The following code demonstrates how to retrieve a live 
 :ref:`collection <dotnet-client-collections>` of all ``Task`` objects in the 
-{+realm+}:
+realm:
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.read-all.cs
    :language: csharp

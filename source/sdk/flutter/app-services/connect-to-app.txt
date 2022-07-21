@@ -1,8 +1,8 @@
 .. _flutter-connect-to-backend:
 
-====================================================
-Connect to a MongoDB Realm Backend App - Flutter SDK
-====================================================
+============================================
+Connect to an App Services App - Flutter SDK
+============================================
 
 .. contents:: On this page
    :local:
@@ -10,9 +10,9 @@ Connect to a MongoDB Realm Backend App - Flutter SDK
    :depth: 2
    :class: singlecol
 
-The {+app+} client is the interface to the Atlas App Services
+The App client is the interface to the Atlas App Services
 backend. It provides access to the :ref:`authentication
-<flutter-authenticate>` and {+sync+}.
+<flutter-authenticate>` and Device Sync.
 
 Before You Begin
 ----------------
@@ -26,7 +26,7 @@ Access the App Client
 
 #. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
 #. Create an :flutter-sdk:`AppConfiguration <realm/AppConfiguration-class.html>`
-   object with your {+app+}'s App ID as the argument.
+   object with your App's App ID as the argument.
 #. Create an :flutter-sdk:`App <realm/App-class.html>`
    with the ``AppConfiguration`` you just created. You use this
    ``App`` instance to access Atlas App Services features throughout your client application.
@@ -37,7 +37,7 @@ Access the App Client
 .. note::
 
    You can create multiple ``App`` instances to connect to multiple
-   {+app+}s or to the same {+app+} with different configurations. All
+   Apps or to the same App with different configurations. All
    ``App`` instances that share the same App ID use the same underlying
    connection.
 

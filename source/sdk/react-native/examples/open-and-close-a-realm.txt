@@ -28,11 +28,11 @@ Open a Local Realm
 Open a Synced Realm
 -------------------
 
-You can open a Synced {+realm+} with a Flexible Sync or Partition-Based Sync. If
+You can open a Synced realm with a Flexible Sync or Partition-Based Sync. If
 you have not yet decided or are unsure which to use, read the :ref:`Choose Your
 Sync Mode <sync-modes>` page.
 
-By default, {+service-short+} syncs all data from the server before returning.
+By default, Realm syncs all data from the server before returning.
 If you want to sync data in the background, read the :ref:`Open a Synced Realm
 While Offline <react-native-open-synced-realm-offline>` section.
 
@@ -41,7 +41,7 @@ While Offline <react-native-open-synced-realm-offline>` section.
 Open a Flexible Synced Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To open a {+realm+} using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
+To open a realm using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
 Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
 object, which must include the ``sync`` property defining a 
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
@@ -86,7 +86,7 @@ to enable background synchronization.
 
 .. important:: Offline Login is Supported for Both Flexible and Partition-Based Sync Configurations
 
-   You can open a {+realm+} immediately with background sync or after a timeout
+   You can open a realm immediately with background sync or after a timeout
    elapses using either Flexible and Partition-Based Sync.
 
 .. _react-native-open-immediately-with-background-sync:
@@ -108,13 +108,13 @@ Open After Timeout with Background Sync
 
 If you want to sync data but you're in an environment where it's uncertain if
 the user has an Internet connection, specify a ``timeOut``. This
-automatically opens the {+realm+} when either: 
+automatically opens the realm when either: 
 
 - the timeout period elapses.
-- the {+realm+} has completely downloaded.
+- the realm has completely downloaded.
 
-If the {+realm+} doesn't finish downloading before the timeout, the initial
-{+sync-short+} continues in the background.
+If the realm doesn't finish downloading before the timeout, the initial
+Sync continues in the background.
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
   :language: javascript
@@ -127,7 +127,7 @@ Copy Data and Open a New Realm
 
 .. versionadded:: 10.14.0
 
-To copy data from an existing {+realm+} to a new {+realm+} with different
+To copy data from an existing realm to a new realm with different
 configuration options, pass the new configuration the
 :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
 

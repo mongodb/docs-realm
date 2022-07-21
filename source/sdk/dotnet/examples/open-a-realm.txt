@@ -17,11 +17,11 @@ Open a Realm - .NET SDK
 
 Local Realms
 ------------
-When opening a local (non-synced) {+realm+}, pass a 
+When opening a local (non-synced) realm, pass a 
 :dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html#Realms_RealmConfiguration__ctor_System_String_>` 
 object to either ``GetInstanceAsync()`` or ``GetInstance()``. The following example 
 creates a ``RealmConfiguration`` object with a local file path, sets the 
-``IsReadOnly`` property to ``true``, and then opens a local {+realm+}  with that 
+``IsReadOnly`` property to ``true``, and then opens a local realm  with that 
 configuration information:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.local-realm.cs
@@ -31,22 +31,22 @@ In-Memory Realms
 ----------------
 With an 
 :dotnet-sdk:`InMemoryConfiguration <reference/Realms.InMemoryConfiguration.html>` 
-object, you can create a {+realm+} that runs entirely in memory (that is, without 
+object, you can create a realm that runs entirely in memory (that is, without 
 the data written to disk.) The following example shows how to do this: 
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.in-memory.cs
    :language: csharp
 
-In-memory {+realm+}s might still use disk space if memory is running low, but all 
-files created by an in-memory {+realm+} will be deleted when the {+realm+} is 
-closed. When creating an in-memory {+realm+}, the identifier must be unique to all 
-{+realm+}s, including both in-memory and persisted {+realm+}s. 
+In-memory realms might still use disk space if memory is running low, but all 
+files created by an in-memory realm will be deleted when the realm is 
+closed. When creating an in-memory realm, the identifier must be unique to all 
+realms, including both in-memory and persisted realms. 
 
 .. important::
 
-   When an in-memory {+realm+} is disposed or garbage-collected, the data is lost. 
-   To keep an in-memory {+realm+} “alive” throughout your app's execution, be sure 
-   to hold a reference to {+realm+}. 
+   When an in-memory realm is disposed or garbage-collected, the data is lost. 
+   To keep an in-memory realm “alive” throughout your app's execution, be sure 
+   to hold a reference to realm. 
 
 
 Synced Realms
@@ -54,13 +54,13 @@ Synced Realms
 To open a synced realm, you must have an authenticated 
 :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.  To 
 obtain an initial ``User`` instance, you need to authenticate against the 
-{+service-short+} backend, which requires the device to be online  
+App Services backend, which requires the device to be online  
 the first time a user logs in. Once initial authentication has occurred, you can 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
 
 .. note::
 
-   The first time a user logs on to your app, you should open the {+realm+} 
+   The first time a user logs on to your app, you should open the realm 
    *asynchronously* to sync data from the server to the device in a background 
    thread. After that initial sync, you can open a realm *synchronously* to 
    ensure the app works in an offline state. 
@@ -70,7 +70,7 @@ the first time a user logs in. Once initial authentication has occurred, you can
 
 Open a Partition-Based Sync Realm While Online
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The steps for opening a synced {+realm+} while online are:
+The steps for opening a synced realm while online are:
 
 1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
 
@@ -79,7 +79,7 @@ The steps for opening a synced {+realm+} while online are:
    object that includes the :ref:`partition name <partition-value>` and 
    the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
 
-#. Open a synced {+realm+} by calling the 
+#. Open a synced realm by calling the 
    :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
    method, passing in the ``PartitionSyncConfiguration`` object.
    
@@ -88,8 +88,8 @@ The following code demonstrates these steps:
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
    :language: csharp
 
-In the above example, the code shows how to open the {+realm+} *asynchronously* 
-by calling ``GetInstanceAsync()``. You can also open a {+realm+} *synchronously* 
+In the above example, the code shows how to open the realm *asynchronously* 
+by calling ``GetInstanceAsync()``. You can also open a realm *synchronously* 
 by calling the 
 :dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
 method:
@@ -110,12 +110,12 @@ Open a Partition-Based Sync Realm While Offline
 Once a user authenticates, the ``User`` object persists on the device until the 
 user logs off. This allows your app to 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
-synced {+realm+} in an offline state. Changes that occur while offline will be 
-synced by {+service-short+} once the device is reconnected.
+synced realm in an offline state. Changes that occur while offline will be 
+synced by the SDK once the device reconnects to your App.
 
 The following code shows how to check if there is an existing ``User`` object. 
 If none is found, it uses the process outlined about to obtain a user. If the 
-device already has a ``user``, it opens the synced {+realm+} with that user:
+device already has a ``user``, it opens the synced realm with that user:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
    :language: csharp
@@ -140,16 +140,16 @@ object to open a synced realm.
 Scoping the Realm
 -----------------
 
-The {+realm+} instance implements ``IDisposable`` to ensure native resources are 
+The realm instance implements ``IDisposable`` to ensure native resources are 
 freed up. You should dispose of a realm object immediately after use, especially 
 on background threads. The simplest way to do this is by declaring the realm 
 object with a ``using`` statement, or wrapping the code that interacts with a 
-{+realm+} in a ``using (...)`` statement:
+realm in a ``using (...)`` statement:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.scope.cs
    :language: csharp
 
-If you require a {+realm+} object to be shared outside of a single method, be sure 
+If you require a realm object to be shared outside of a single method, be sure 
 to manage its state by calling the
 :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
 
@@ -159,8 +159,8 @@ to manage its state by calling the
 .. note::
    
    As a general rule, you should dispose of the realm only on background threads,  
-   because disposing of a {+realm+} invalidates all objects associated with that 
-   instance. If you are data binding the {+realm+} objects on the main thread, 
+   because disposing of a realm invalidates all objects associated with that 
+   instance. If you are data binding the realm objects on the main thread, 
    for example, you should not call ``Dispose()``. 
 
 .. _dotnet-provide-a-subset-of-classes-to-a-realm:
@@ -168,12 +168,12 @@ to manage its state by calling the
 Class Subsets
 -------------
 
-By default, all ``RealmObject`` classes are stored in a {+realm+}. In some 
+By default, all ``RealmObject`` classes are stored in a realm. In some 
 scenarios, you may want to limit the classes that get stored, which you can do 
 with the 
 :dotnet-sdk:`Schema <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_Schema>` 
 property of the ``RealmConfiguration`` object. The following code demonstrates 
-how you specify two classes you want stored in the {+realm+}:
+how you specify two classes you want stored in the realm:
 
 .. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.subset.cs
    :language: csharp

@@ -15,14 +15,14 @@ Quick Start with Device Sync - Swift SDK
 Overview
 --------
 
-This page contains information to quickly get {+client-database+} and
-{+sync+} integrated into your app. Before you begin, ensure you have:
+This page contains information to quickly get Realm Database and
+Device Sync integrated into your app. Before you begin, ensure you have:
 
-- :ref:`Created an {+app+} <create-a-realm-app>`
+- :ref:`Created an App <create-a-realm-app>`
 - :ref:`Enabled Partition-Based Sync <enable-pbs-sync>`
 - :ref:`Installed the Swift SDK <ios-install>`
 
-.. note:: Check Out the Tutorial
+.. tip:: Check Out the Tutorial
    
    This page contains only the essential information that you need to set up an
    Atlas App Services backend. If you prefer to follow a guided tutorial that
@@ -44,9 +44,9 @@ statement:
 Initialize the App
 ------------------
 
-To use {+backend+} features such as authentication and sync, you must
-access your App Services App using your {+app+} ID. You can find your 
-{+app+} ID in the {+ui+}.
+To use App Services features such as authentication and sync, you must
+access your App Services App using your App ID. You can find your 
+App ID in the App Services UI.
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.initialize-app.swift
    :language: swift
@@ -54,8 +54,8 @@ access your App Services App using your {+app+} ID. You can find your
 Define Your Object Model
 ------------------------
 
-If have not :ref:`enabled {+sync+} <enable-pbs-sync>` or you enabled {+sync-short+} with
-:term:`Development Mode` in the {+ui+}, you can define your :ref:`object model
+If have not :ref:`enabled Device Sync <enable-pbs-sync>` or you enabled Sync with
+Development Mode in the App Services UI, you can define your :ref:`object model
 <ios-realm-objects>` directly in code.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
@@ -69,7 +69,7 @@ Authenticate a User
 -------------------
 
 When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
-{+ui+}, users can immediately log into your app without providing any identifying
+App Services UI, users can immediately log into your app without providing any identifying
 information:
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.authenticate-user.swift
@@ -84,8 +84,8 @@ The Realm Swift SDK provides many additional ways to authenticate, register, and
 Open a Realm
 ------------
 
-Once you have :ref:`enabled {+sync+} <enable-pbs-sync>` and authenticated a user, 
-you can open a :ref:`{+realm+} <ios-realms>` asynchronously by calling 
+Once you have :ref:`enabled Device Sync <enable-pbs-sync>` and authenticated a user, 
+you can open a :ref:`realm <ios-realms>` asynchronously by calling 
 :swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
 passing in the user's  
 :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
@@ -101,14 +101,14 @@ includes the partition name. The following code demonstrates this:
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once you have opened a {+realm+}, you can modify it and its :ref:`objects <ios-realm-objects>` in a :ref:`write transaction <ios-write-transactions>` block.
+Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` in a :ref:`write transaction <ios-write-transactions>` block.
 
-To create a new Task, instantiate the Task class and add it to the {+realm+} in a write block:
+To create a new Task, instantiate the Task class and add it to the realm in a write block:
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
    :language: swift
 
-You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the {+realm+}:
+You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the realm:
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.get-all-tasks.swift
    :language: swift
@@ -134,7 +134,9 @@ Watch for Changes
 You can :ref:`watch a realm, collection, or object for changes
 <ios-react-to-changes>` with the ``observe`` method.
 
-.. note::
+.. include:: /includes/serverless-watch-note.rst
+
+.. important::
 
    Be sure to retain the notification token returned by ``observe`` as long as you want to continue observing. When you are done observing, invalidate the token to free the resources.
 
@@ -158,7 +160,7 @@ Once logged in, you can log out:
 Complete Example
 ----------------
 
-Run the complete example by replacing the app ID with your {+app+} ID and
+Run the complete example by replacing the app ID with your App ID and
 calling ``runExample()``.
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.complete-quick-start.swift
