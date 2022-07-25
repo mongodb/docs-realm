@@ -591,9 +591,10 @@ single value.
 Collection Operators
 --------------------
 
-A **collection operator** uses specific rules to determine whether
-to pass each input collection object to the output collection by applying
-a given predicate to every element of a given list property of the object.
+A **collection operator** lets you query list properties within a collection of objects.
+Collection operators filter a collection by applying a predicate
+to every element of a given list property of the object.
+If the predicate returns true, the object is included in the output collection.
 
 .. list-table::
    :header-rows: 1
@@ -617,58 +618,74 @@ a given predicate to every element of a given list property of the object.
 
 .. example::
 
-   We use the query engine's collection operators to find:
+   This example uses collection operators to find projects that contain tasks
+   matching certain criteria:
 
-   - Projects with no complete tasks.
-   - Projects with any top priority tasks.
+   .. code-block:: js
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
-      :language: javascript
+      // Projects with no complete tasks.
+      "NONE tasks.isComplete == true"
+
+      // Projects that contain a task with priority 10
+      "ANY tasks.priority == 10"
+
+      // Projects that only contain completed tasks
+      "ALL tasks.isComplete == true"
+
 
 .. _rql-subqueries:
 
 Subqueries
 ----------
 
-You can iterate through a collection property with another query using the
-``SUBQUERY()`` predicate function. ``SUBQUERY()`` has the following signature:
+You can iterate through list properties with another query using the
+``SUBQUERY()`` predicate function.
+
+Subqueries are useful for the following scenarios:
+
+- Matching each object in a list property on multiple conditions
+- Counting the number of objects that match a subquery
+
+
+``SUBQUERY()`` has the following structure:
 
 .. code-block:: javascript
 
    SUBQUERY(<collection>, <variableName>, <predicate>)
 
-- ``collection``: the name of the property to iterate through
-- ``variableName``: a variable name of the current element to use in the subquery
-- ``predicate``: a string that contains the subquery predicate. You can use the
-  variable name specified by ``variableName`` to refer to the currently-iterated
-  element.
+- ``collection``: The name of the property to iterate through
+- ``variableName``: A variable name of the element to use in the subquery
+- ``predicate``: The subquery predicate.
+  Use the variable specified by ``variableName`` to refer to the
+  currently-iterated element.
 
-A subquery iterates through the given collection and checks the given
-predicate against each object in the collection. The predicate may refer
-to the current iterated object with the variable name passed to
-``SUBQUERY()``.
+A subquery iterates through the given collection and checks the given predicate
+against each object in the collection. The predicate can refer to the current
+iterated object with the variable name passed to ``SUBQUERY()``.
 
-A subquery expression resolves to an array. Realm Database only
-supports the ``@count`` aggregate operator on this result.
-This allows you to count how many objects in the subquery input collection
-matched the predicate.
+A subquery expression resolves to a list of objects.
+Realm Database only supports the ``@count`` aggregate operator on the result
+of a subquery. This allows you to count how many objects in the subquery
+input collection matched the predicate.
 
-You can use the count of the subquery result as you would any other
-number in a valid expression. In particular, you can compare the count
-with a number literal (such as ``0``) or another property (such as
-``quota``).
+You can use the count of the subquery result as you would any other number
+in a valid expression. In particular, you can compare the count with the
+number ``0`` to return all matching objects.
+
 
 .. example::
 
-   The following example shows two filters on a ``projects`` collection.
+   The following example shows two subquery filters on a collection of projects.
 
-   - The first returns projects with tasks that have not been completed
-     by a user named Alex.
-   - The second returns the projects where the number of completed tasks
-     is greater than or equal to the project's quota value.
+   .. code-block:: js
 
-   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
-      :language: javascript
+      // Returns projects with tasks that have not been completed
+      // by a user named Alex.
+      "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
+
+      // Returns the projects where the number of completed tasks is
+      // greater than or equal to the value of a project's `quota` property.
+      "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
 
 .. _rql-sort-distinct-limit:
 
@@ -716,6 +733,125 @@ results collection.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript
+
+.. _rql-type-operator:
+
+Type Operator
+-------------
+
+You can check the type of a property using the ``@type`` operator.
+This operator can be useful for type checking a mixed data type or
+validating the type of data stored within a dictionary.
+Evaluate the property against a string representation of the data type name.
+Refer to SDK documentation on the mapping from the SDK language's data types
+to Realm data types.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``@type``
+     - Check if type of a property is the property name as a string.
+       Use ``==`` and ``!=`` to compare equality.
+
+.. code-block:: js
+
+   "assignee.@type == 'string'"
+
+   "isComplete.@type == 'bool'"
+
+.. _rql-dictionary-operators:
+
+Dictionary Operators
+--------------------
+
+You can compare dictionary values using these dictionary operators.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``@values``
+     - Returns objects that have the value specified in the right-hand expression.
+
+   * - ``@keys``
+     - Returns objects that have the key specified in the right-hand expression.
+
+   * - ``@size``, ``@count``
+     - The number of elements in a dictionary.
+
+   * - ``Dictionary['key']``
+     - Access the value at a key of a dictionary.
+
+   * - ``ALL | ANY | NONE <property>.@type``
+     - Checks if the dictionary contains any properties of certain type.
+
+You can also use dictionary operators in combination with
+:ref:`comparison operators <rql-comparison-operators>` to filter objects
+based on dictionary keys and values. The following examples show some ways
+to use dictionary operators with comparison operators. All examples query
+a collection of Realm objects with a dictionary property named ``dict``.
+
+.. code-block:: js
+
+   // Evaluates if all the dictionary's values are integers
+   "ALL dict.@type == 'int'"
+
+   // Evaluates if there is a dictionary key with the name 'Foo'
+   "ANY dict.@keys == 'Foo'"
+
+   // ANY is implied. All have int values.
+   "dict.@type == 'int'"
+
+   // Evaluates if dictionary does not have any values of type int
+   "NONE dict.@type == 'int'"
+
+   // Evaluates if dictionary has property of type 'string'
+   "ANY dict.@type == 'string'"
+
+.. _rql-datetime-operators:
+
+Datetime Operators
+------------------
+
+You can query datetime types in a realm.
+
+Generally, you should use parameterized query to pass a datetime data type
+from the SDK language you are using to a query.
+
+.. code-block:: js
+
+   "timeCompleted < $0", yesterdayAtNoon
+
+You can also represent datetimes the following ways:
+
+- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn``å (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+  You can also use ``T`` instead of ``@`` to separate the date from the time.
+- ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
+  since :wikipedia:`unix epoch <Unix_time>`.
+
+Datetime supports the following :ref:`comparison operators <rql-comparison-operators>`:
+
+- ``==``
+- ``!=``
+- ``<``
+- ``>``
+- ``<=``
+- ``>=``
+
+.. code-block:: js
+
+   "timeCompleted > 2021-02-20@17:30:15:0"
+
+   "timeCompleted > T1613842215:0"
+
+
 
 .. _flexible-sync-rql-limitations:
 
