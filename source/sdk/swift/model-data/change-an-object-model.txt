@@ -27,7 +27,7 @@ and perform a migration.
    migration examples <swiftui-realm-migrations>`.
 
 If your schema update adds optional properties or removes properties, 
-{+client-database+} can perform the migration automatically. You only need to 
+Realm Database can perform the migration automatically. You only need to 
 increment the ``schemaVersion``. 
 
 For more complex schema updates, you must also manually specify the migration logic 
@@ -55,23 +55,23 @@ in a ``migrationBlock``. This might include changes such as:
 Key Concept: Schema Version
 ---------------------------
 
-A **schema version** identifies the state of a :ref:`{+backend-schema+}
-<ios-realm-schema>` at some point in time. {+client-database+} tracks the schema
-version of each {+realm+} and uses it to map the objects in each {+realm+}
+A **schema version** identifies the state of a :ref:`Realm Schema
+<ios-realm-schema>` at some point in time. Realm Database tracks the schema
+version of each realm and uses it to map the objects in each realm
 to the correct schema.
 
 Schema versions are integers that you may include
-in the {+realm+} configuration when you open a {+realm+}. If a client
-application does not specify a version number when it opens a {+realm+} then
-the {+realm+} defaults to version ``0``.
+in the realm configuration when you open a realm. If a client
+application does not specify a version number when it opens a realm then
+the realm defaults to version ``0``.
 
 .. important:: Increment Versions Monotonically
 
-   Migrations must update a {+realm+} to a higher schema version.
-   {+client-database+} will throw an error if a client application opens
-   a {+realm+} with a schema version that is lower than the {+realm+}'s
+   Migrations must update a realm to a higher schema version.
+   Realm Database will throw an error if a client application opens
+   a realm with a schema version that is lower than the realm's
    current version or if the specified schema version is the same as the
-   {+realm+}'s current version but includes different :ref:`object
+   realm's current version but includes different :ref:`object
    schemas <ios-object-models-and-schemas>`.
 
 .. _ios-migrations:
@@ -79,14 +79,14 @@ the {+realm+} defaults to version ``0``.
 Migrations
 ~~~~~~~~~~
 
-A **local migration** is a migration for a {+realm+} that does
-not automatically :ref:`{+sync-short+} <sync>` with
-another {+realm+}. Local migrations have access to the existing
-{+backend-schema+}, version, and objects and define logic that
-incrementally updates the {+realm+} to its new schema version.
+A **local migration** is a migration for a realm that does
+not automatically :ref:`Sync <sync>` with
+another realm. Local migrations have access to the existing
+Realm Schema, version, and objects and define logic that
+incrementally updates the realm to its new schema version.
 To perform a local migration you must specify a new schema
 version that is higher than the current version and provide
-a migration function when you open the out-of-date {+realm+}.
+a migration function when you open the out-of-date realm.
 
 In iOS, you can update underlying data to reflect schema changes using
 :ref:`manual migrations <ios-perform-a-schema-migration>`. During such a
@@ -101,13 +101,13 @@ Automatically Update Schema
 Add a Property
 ~~~~~~~~~~~~~~
 
-{+client-database+} can automatically migrate added
+Realm Database can automatically migrate added
 properties, but you must specify an updated schema version when you make 
 these changes.
 
 .. note::
 
-   {+client-database+} does not automatically set values for new required 
+   Realm Database does not automatically set values for new required 
    properties. You must use a migration block to set default values for
    new required properties. For new optional properties, existing records 
    can have null values. This means you don't need a migration block when 
@@ -115,7 +115,7 @@ these changes.
 
 .. example::
 
-   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   A realm using schema version ``1`` has a ``Person`` object type
    that has first name, last name, and age properties:
    
    .. tabs-realm-languages::
@@ -147,8 +147,8 @@ these changes.
          .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update1.m
                   :language: objectivec
 
-   {+client-database+} automatically migrates the {+realm+} to conform to 
-   the updated ``Person`` schema. But the developer must set the {+realm+}'s 
+   Realm Database automatically migrates the realm to conform to 
+   the updated ``Person`` schema. But the developer must set the realm's 
    schema version to ``2``.
 
    .. tabs-realm-languages::
@@ -175,7 +175,7 @@ will not impact existing objects.
 
 .. example::
 
-   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   A realm using schema version ``1`` has a ``Person`` object type
    that has first name, last name, and age properties:
    
    .. tabs-realm-languages::
@@ -206,8 +206,8 @@ will not impact existing objects.
          .. literalinclude:: /examples/generated/code/start/Migrations.snippet.model-v1-update2.m
                   :language: objectivec
 
-   {+client-database+} automatically migrates the {+realm+} to conform to 
-   the updated ``Person`` schema. But the developer must set the {+realm+}'s 
+   Realm Database automatically migrates the realm to conform to 
+   the updated ``Person`` schema. But the developer must set the realm's 
    schema version to ``2``.
 
    .. tabs-realm-languages::
@@ -239,7 +239,7 @@ will not impact existing objects.
 Manually Migrate Schema
 -----------------------
 
-For more complex schema updates, {+client-database+} requires a manual
+For more complex schema updates, Realm Database requires a manual
 migration for old instances of a given object to the new schema.
 
 .. _ios-rename-a-property:
@@ -252,7 +252,7 @@ To rename a property during a migration, use the
 <Structs/Migration.html#/s:10RealmSwift9MigrationV14renameProperty6onType4from2toySS_S2StF>`
 method. 
 
-{+client-database+} applies any new nullability or indexing settings
+Realm Database applies any new nullability or indexing settings
 during the rename operation.
 
 .. example::
@@ -281,7 +281,7 @@ Modify Properties
 .. tip::
 
    You can use the :swift-sdk:`deleteRealmIfMigrationNeeded <Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
-   method to delete the {+realm+} if it would require a migration. This can
+   method to delete the realm if it would require a migration. This can
    be useful during development when you need to iterate quickly and don't
    want to perform the migration.
 
@@ -296,11 +296,11 @@ The migration block receives a :swift-sdk:`Migration object
 can use the Migration object's :swift-sdk:`enumerateObjects(ofType:_:)
 <Structs/Migration.html#/s:10RealmSwift9MigrationV16enumerateObjects6ofType_ySS_yAA13DynamicObjectCSg_AHtXEtF>`
 method to iterate over and update all instances of a given
-{+service-short+} type in the {+realm+}.
+Realm type in the realm.
 
 .. example::
 
-   A {+realm+} using schema version ``1`` has a ``Person`` object type
+   A realm using schema version ``1`` has a ``Person`` object type
    that has separate fields for first and last names:
 
    .. tabs-realm-languages::
@@ -322,8 +322,8 @@ method to iterate over and update all instances of a given
    ``fullName`` field instead of the separate ``firstName`` and
    ``lastName`` fields and updates the schema. 
 
-   To migrate the {+realm+} to conform to the updated ``Person`` schema,
-   the developer sets the {+realm+}'s schema version to ``2`` and
+   To migrate the realm to conform to the updated ``Person`` schema,
+   the developer sets the realm's schema version to ``2`` and
    defines a migration function to set the value of ``fullName`` based
    on the existing ``firstName`` and ``lastName`` properties.
 
@@ -350,8 +350,8 @@ method to iterate over and update all instances of a given
    Later, the developer decides that the ``age`` field should be of type ``String``
    rather than ``Int`` and updates the schema. 
 
-   To migrate the {+realm+} to conform to the updated ``Person`` schema,
-   the developer sets the {+realm+}'s schema version to ``3`` and
+   To migrate the realm to conform to the updated ``Person`` schema,
+   the developer sets the realm's schema version to ``3`` and
    adds a conditional to the migration function so that the function defines 
    how to migrate from any previous version to the new one.
 
@@ -392,7 +392,7 @@ Convert from Object to EmbeddedObject
 :ref:`Embedded objects <ios-embedded-objects>` cannot exist
 independently of a parent object. When changing an Object to an
 EmbeddedObject, the migration block must ensure that every embedded
-object has exactly one :term:`backlink <backlink>` to a parent object. Having no backlinks
+object has exactly one backlink to a parent object. Having no backlinks
 or multiple backlinks raises the following exceptions:
 
 .. code-block::

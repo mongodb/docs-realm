@@ -16,13 +16,13 @@ Overview
 --------
 
 Realm Studio gives you the ability to view and modify objects in your 
-{+realm+} file. You can:
+realm file. You can:
 
 - Import data from a CSV
 - Create new objects
 - Modify and delete existing objects
 
-You can then save the data as JSON or a {+realm+} file, and import it 
+You can then save the data as JSON or a realm file, and import it 
 into your client app or production database.
 
 .. _realm-studio-import-from-a-csv:
@@ -35,7 +35,31 @@ Import from a CSV
    If you want to use a new class when importing data, you must create 
    the class before starting the import.
 
-.. include:: /includes/steps/realm-studio-import-from-csv.rst
+.. procedure::
+
+   .. step:: Browse to the Import from CSV option
+
+      In Realm Studio, go to: :guilabel:`File` > :guilabel:`Import data from` > :guilabel:`CSV`
+
+
+   .. step:: Select a CSV to import
+
+      Browse to the location of your CSV file, and select it.
+
+      Press the :guilabel:`Open` button.
+
+
+   .. step:: Choose the destination class for your objects
+
+      You'll see a drop-down selector containing the available classes in
+      your realm file. Select the class where the imported data should
+      become objects.
+
+      Press the :guilabel:`Import data` button.
+
+      Now you'll see newly-created objects created from the data you imported.
+      Each object's properties map to the properties of the class you selected
+      during import.
 
 .. _realm-studio-create-an-object:
 
@@ -51,7 +75,7 @@ The categories have a to-many relationship to the tasks; one category
 may have many tasks. The tasks have an inverse relationship 
 to the category. 
   
-In {+client-database+}, a to-many relationship is represented as a 
+In Realm Database, a to-many relationship is represented as a 
 ``list`` property linking the two objects. In the example of a to-do app, 
 the ``Category`` class has a ``list`` property whose value is all of the 
 related ``Task`` objects.
@@ -85,14 +109,38 @@ where it belongs.
 Create the Object
 ~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/steps/realm-studio-create-object.rst
+.. procedure::
+
+   .. step:: Select a class for the new object
+
+      The left sidebar of Realm Studio displays the classes that comprise the
+      schema. Select the class for the type of object you want to create.
+
+
+   .. step:: Create the new object
+
+      Once you've decided where to create your new object, you can do this in
+      two ways:
+
+      - Click the :guilabel:`Create {Class name}` button in the upper right
+        corner of the app
+      - Right click (or control click) anywhere in the main window to bring
+        up the contextual menu, and select :guilabel:`Create new {Class name}`
+
+      Either option will open a dialog where you can set the properties
+      for the object. When you've specified the required properties, press the
+      :guilabel:`Create` button.
+
+      If you create an orphaned object that is not associated with a parent
+      object via a linking property, you'll need to add it manually to the
+      linked object. See: :ref:`Modify an Object <realm-studio-modify-an-object>`.
 
 .. _realm-studio-modify-an-object:
 
 Modify an Object
 ----------------
 
-There are a few ways you can modify a {+realm+} object in Realm Studio:
+There are a few ways you can modify a realm object in Realm Studio:
 
 - Change a field value
 - Change an object relationship
@@ -147,7 +195,7 @@ To remove an object relationship:
 Delete an Object
 ----------------
 
-To delete an object from a {+realm+}:
+To delete an object from a realm:
 
 - Right-click (or control-click) the object you want to delete, and 
   select :guilabel:`Delete selected object`.
@@ -171,8 +219,8 @@ To delete an object from a {+realm+}:
 Save the Data
 -------------
 
-Because {+realm+} objects are live objects, you can make changes to a 
-{+realm+} file and see them reflected in a client app in realtime. Realm 
+Because realm objects are live objects, you can make changes to a 
+realm file and see them reflected in a client app in realtime. Realm 
 Studio gives you a few save options if you want to do other things with
 the data.
 
@@ -188,15 +236,15 @@ Once you have saved the data, you can import it back into your app.
 If you save it as JSON, you can use your preferred method to import the
 JSON into your app. 
 
-If you save the data as a {+realm+} file, and you haven't :ref:`modified 
-the schema <realm-studio-modify-schema>`, you can use that {+realm+} 
+If you save the data as a realm file, and you haven't :ref:`modified 
+the schema <realm-studio-modify-schema>`, you can use that realm 
 file as a direct replacement for the existing realm file in your client 
-app. Simply replace the existing {+realm+} file on your filesystem with 
+app. Simply replace the existing realm file on your filesystem with 
 the new one. 
 
-Alternately, you could save a copy of the {+realm+}, open the copy, and 
+Alternately, you could save a copy of the realm, open the copy, and 
 make schema changes on the copy. This would preserve your intact original 
-{+realm+} file, but still enable you to iterate on schema. You would then 
-be able to continue to use your existing {+realm+} file in your client 
+realm file, but still enable you to iterate on schema. You would then 
+be able to continue to use your existing realm file in your client 
 app without performing a migration. You could test migrations for your 
-new schema with the second {+realm+} file at your leisure.
+new schema with the second realm file at your leisure.

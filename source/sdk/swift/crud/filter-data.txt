@@ -16,19 +16,19 @@ Filter Data - Swift SDK
 Overview
 --------
 
-To filter data in your {+realm+}, you can leverage
-{+client-database+}'s query engine. 
+To filter data in your realm, you can leverage
+Realm Database's query engine. 
 
 .. versionadded:: 10.19.0: Realm Swift Query API
 
 The :ref:`Realm Swift Query API <ios-realm-swift-query-api>` offers an 
 idiomatic way for Swift developers to query data. Use Swift-style syntax 
-to query {+client-database+} with the benefits of auto-completion and 
+to query Realm Database with the benefits of auto-completion and 
 type safety. The Realm Swift Query API does not replace the NSPredicate
 Query API in newer SDK versions; instead, you can use either.
 
 For SDK versions prior to 10.19.0, or for Objective-C developers, 
-{+client-database+}'s query engine supports :ref:`NSPredicate Query
+Realm Database's query engine supports :ref:`NSPredicate Query
 <ios-nspredicate-query>`.
 
 About the Examples on This Page
@@ -59,7 +59,7 @@ See the schema for these two classes, ``Project`` and
       .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.models.m
          :language: objectivec
 
-You can set up the {+realm+} for these examples with the following code:
+You can set up the realm for these examples with the following code:
 
 .. tabs-realm-languages::
 
@@ -86,7 +86,7 @@ Realm Swift Query API
    <ios-nspredicate-query>`.
 
 You can build a filter with Swift-style syntax using the ``.where`` 
-:swift-sdk:`{+client-db-short+} Swift query API <Structs/Query.html>`:
+:swift-sdk:`Realm Database Swift query API <Structs/Query.html>`:
 
 .. literalinclude:: /examples/generated/code/start/QueryEngine.snippet.realm-swift-query.swift
    :language: swift
@@ -133,7 +133,7 @@ Operators
 There are several types of operators available to query a
 :ref:`Realm collection <ios-client-collections>`. Queries
 work by **evaluating** an operator expression for every
-:term:`object <Realm object>` in the collection being
+object in the collection being
 queried. If the expression resolves to ``true``, Realm
 Database includes the object in the results collection.
 
@@ -304,7 +304,7 @@ to a single value.
        is currently only supported on :ref:`to-many relationship
        collections <ios-to-many-relationship>` and not on lists of
        primitives. In order to use ``.count`` on a list of primitives,
-       consider wrapping the primitives in a :ref:`{+service-short+}
+       consider wrapping the primitives in a :ref:`Realm
        object <ios-realm-objects>`.
 
    * - | ``.max``
@@ -463,7 +463,7 @@ Operators
 There are several types of operators available to filter a
 :ref:`Realm collection <ios-client-collections>`. Filters
 work by **evaluating** an operator expression for every
-:term:`object <Realm object>` in the collection being
+object in the collection being
 filtered. If the expression resolves to ``true``, Realm
 Database includes the object in the results collection.
 
@@ -718,7 +718,7 @@ to a single value.
        is currently only supported on :ref:`to-many relationship
        collections <ios-to-many-relationship>` and not on lists of
        primitives. In order to use ``@count`` on a list of primitives,
-       consider wrapping the primitives in a :ref:`{+service-short+}
+       consider wrapping the primitives in a :ref:`Realm
        object <ios-realm-objects>`.
 
    * - | ``@max``

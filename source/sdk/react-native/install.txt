@@ -15,7 +15,7 @@ Install Realm for React Native
 Overview
 --------
 
-The {+service+} React Native SDK enables development of `React
+The Realm React Native SDK enables development of `React
 Native <https://facebook.github.io/react-native/>`__
 applications using the JavaScript and `TypeScript
 <https://www.typescriptlang.org/>`__ languages. React Native
@@ -44,7 +44,7 @@ meets the following prerequisites:
 .. note:: Realm JS version 10.6.0 Supports Mac Catalyst
    
    For `React Native version 0.64 and below
-   <https://reactnative.dev/versions>`_, building your {+service-short+} React
+   <https://reactnative.dev/versions>`_, building your Realm React
    Native application requires additional steps in order to :doc:`build your
    application when using Mac Catalyst
    </sdk/react-native/integrations/mac-catalyst>`.
@@ -54,25 +54,189 @@ Installation
 
 Select the tab below that corresponds to your React Native
 version. Follow the steps to create a React Native project
-and add the {+service-short+} React Native SDK to it.
+and add the Realm React Native SDK to it.
 
 .. tabs::
 
    .. tab:: React Native v.60+
       :tabid: rn-v-60-plus
 
-      .. include:: /includes/steps/install-react-native-v60-plus.rst
+      .. procedure::
+
+         .. step:: Create a React Native Project
+
+
+            Create your React Native project with the following
+            command:
+
+            .. code-block:: bash
+
+               npx react-native init MyRealmApp
+
+            Change to the project directory that the previous command
+            just created:
+
+            .. code-block:: bash
+
+               cd MyRealmApp
+
+
+         .. step:: Install Realm with NPM
+
+
+            In your React Native project directory, add Realm to your
+            project with the following command:
+
+            .. code-block:: bash
+
+               npm install realm
+
+
+         .. step:: Resolve CocoaPods Dependencies
+
+
+            For the iOS app, fetch the CocoaPods dependencies with
+            the following commands from your React Native project
+            directory:
+
+            .. code-block:: bash
+
+               cd ios && pod install && cd ..
+
+            This downloads the Realm libraries and regenerates the
+            project ``.xcworkspace`` file that you can work with in
+            Xcode to run your application.
+
+
+         .. step:: Enable TypeScript (optional)
+
+
+            .. include:: /includes/react-native-enable-typescript.rst
+
+
+         .. step:: Run the App
+
+
+            .. include:: /includes/react-native-run-the-app.rst
+
 
    .. tab:: Older React Native Versions
       :tabid: rn-pre-v-60
 
-      .. include:: /includes/steps/install-react-native-pre-v60.rst
+      .. procedure::
+
+         .. step:: Create a React Native Project
+
+
+            Create your React Native project with the following
+            command:
+
+            .. code-block:: bash
+
+               react-native init MyRealmApp
+
+            Change to the project directory that the previous command
+            just created:
+
+            .. code-block:: bash
+
+               cd MyRealmApp
+
+
+         .. step:: Install Realm Using NPM
+
+
+            In your React Native project directory, add Realm to your
+            project with the following command:
+
+            .. code-block:: bash
+
+               npm install realm
+
+
+         .. step:: Link the Realm Native Module
+
+
+            In your React Native project directory, link the Realm
+            native module to your project with the following command:
+
+            .. code-block:: bash
+
+               react-native link realm
+
+
+         .. step:: Confirm the Link Step (Android)
+
+
+            For Android development, confirm that the link step
+            correctly added the Realm module to the Gradle
+            configuration files. In some versions, React Native has
+            been known to fail to link Realm properly. If this
+            happens, you can link Realm manually by adding any
+            missing lines below to the corresponding files.
+
+            First, ensure the ``android/settings.gradle`` file
+            includes Realm and specifies Realm's project directory:
+
+            .. code-block:: text
+               :emphasize-lines: 2-3
+
+               rootProject.name = 'MyRealmApp'
+               include ':realm'
+               project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
+               apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+               include ':app'
+
+            Second, ensure the ``android/app/build.gradle`` file's
+            ``dependencies`` section declares Realm as a dependency:
+
+            .. code-block:: text
+               :emphasize-lines: 2
+
+               dependencies {
+                   implementation project(':realm')
+                   implementation fileTree(dir: "libs", include: ["*.jar"])
+                   implementation "com.facebook.react:react-native:+"  // From node_modules
+                   // ...
+               }
+
+            Finally, ensure the ``MainApplication.java`` file imports
+            the ``RealmReactPackage`` and instantiates it in its
+            packages list.
+
+            .. code-block:: java
+               :emphasize-lines: 1, 8
+
+               import io.realm.react.RealmReactPackage; // Add this import.
+
+               public class MainApplication extends Application implements ReactApplication {
+                   @Override
+                   protected List<ReactPackage> getPackages() {
+                       return Arrays.<ReactPackage>asList(
+                           new MainReactPackage(),
+                           new RealmReactPackage() // Add this line.
+                       );
+                   }
+                   // ...
+               }
+
+
+         .. step:: Enable TypeScript (optional)
+
+
+            .. include:: /includes/react-native-enable-typescript.rst
+
+
+         .. step:: Run the App
+
+
+            .. include:: /includes/react-native-run-the-app.rst
 
 Import Realm
 ------------
 
 Add the following line to the top of your source files where
-you want to use {+service+}:
+you want to use Realm:
 
 .. tabs-realm-languages::
 

@@ -13,8 +13,8 @@ Configure & Open a Realm - Swift SDK
    :depth: 2
    :class: singlecol
 
-A **{+realm+}** is the core data structure used to organize data in
-{+client-database+}. A realm is a collection of the objects that you use 
+A **realm** is the core data structure used to organize data in
+Realm Database. A realm is a collection of the objects that you use 
 in your application, called Realm objects, as well as additional metadata 
 that describe the objects. To learn how to define a Realm object, see
 :ref:`Define an Object Model <ios-define-a-realm-object-schema>`.
@@ -42,7 +42,7 @@ about how to configure the realm file. This includes things like:
 Key Concept: Realm Files
 ------------------------
 
-{+client-database+} stores a binary encoded version of every object and type in a
+Realm Database stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at :ref:`a specific 
 path <find-the-default-realm-path>` that you can define when you open the realm.
 You can open, view, and edit the contents of these files with 
@@ -50,7 +50,7 @@ You can open, view, and edit the contents of these files with
 
 .. see:: Auxiliary Realm Files
    
-   Realm Database creates additional files for each {+realm+}.
+   Realm Database creates additional files for each realm.
    To learn more about these files, see :ref:`Realm Database Internals
    <ios-realm-database>`. Deleting these files has important implications.
    For more information about deleting ``.realm`` or auxiliary files, see: 
@@ -63,7 +63,7 @@ In-Memory Realms
 
 You can also open a realm entirely in memory, which does not create a ``.realm``
 file or its associated auxiliary files. Instead the SDK stores objects in memory
-while the {+realm+} is open and discards them immediately when all instances are
+while the realm is open and discards them immediately when all instances are
 closed.
 
 .. see:: Open an In-Memory Realm
@@ -76,8 +76,8 @@ Default Realm
 ~~~~~~~~~~~~~
 
 Calling :swift-sdk:`Realm()<Structs/Realm.html>` or 
-:objc-sdk:`RLMRealm<Classes/RLMRealm.html>` opens the default {+realm+}. 
-This method returns a {+realm+} object that maps to a file named 
+:objc-sdk:`RLMRealm<Classes/RLMRealm.html>` opens the default realm. 
+This method returns a realm object that maps to a file named 
 ``default.realm``. You can find this file:
 
 - iOS: in the Documents folder of your app
@@ -137,7 +137,7 @@ Open a Default Realm or Realm at a File URL
       :objc-sdk:`+[RLMRealm realmWithConfiguration:error:]
       <Classes/RLMRealm.html#/c:objc(cs)RLMRealm(cm)realmWithConfiguration:error:>`
       to open a realm at a specific file URL, in memory, or with
-      :ref:`{+sync+} <sync>`.
+      :ref:`Device Sync <sync>`.
 
       You can set the default realm configuration by passing a
       RLMRealmConfiguration instance to 
@@ -155,7 +155,7 @@ Open an In-Memory Realm
 You can open a realm entirely in memory, which will not create a
 ``.realm`` file or its associated :ref:`auxiliary files
 <ios-realm-file>`. Instead the SDK stores objects in memory while the
-{+realm+} is open and discards them immediately when all instances are
+realm is open and discards them immediately when all instances are
 closed.
 
 .. tabs-realm-languages::
@@ -184,21 +184,21 @@ closed.
 
 .. important::
 
-   When all *in-memory* {+realm+} instances with a particular identifier
-   go out of scope, {+client-database+} deletes **all data** in that
-   {+realm+}. To avoid this, hold onto a strong reference to any
-   in-memory {+realms+} during your app's lifetime.
+   When all *in-memory* realm instances with a particular identifier
+   go out of scope, Realm Database deletes **all data** in that
+   realm. To avoid this, hold onto a strong reference to any
+   in-memory realms during your app's lifetime.
 
 .. _ios-close-a-realm:
 
 Close a Realm
 -------------
 
-There is no need to manually close a {+realm+} in Swift or Objective-C.
-When a {+realm+} goes out of scope and is removed from memory due to
+There is no need to manually close a realm in Swift or Objective-C.
+When a realm goes out of scope and is removed from memory due to
 `ARC
 <https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html>`__,
-the {+realm+} is closed.
+the realm is closed.
 
 .. _ios-handle-errors:
 
@@ -210,7 +210,7 @@ Handle Errors When Accessing a Realm
    .. tab::
       :tabid: swift
 
-      To handle errors when accessing a {+realm+}, use Swift's built-in
+      To handle errors when accessing a realm, use Swift's built-in
       error handling mechanism:
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.handle-error.swift
@@ -219,7 +219,7 @@ Handle Errors When Accessing a Realm
    .. tab::
       :tabid: objective-c
 
-      To handle errors when accessing a {+realm+}, provide an
+      To handle errors when accessing a realm, provide an
       ``NSError`` pointer to the ``error`` parameter:
 
       .. literalinclude:: /examples/generated/code/start/OpenCloseRealm.snippet.handle-error.m
@@ -234,7 +234,7 @@ Provide a Subset of Classes to a Realm
    
    Some applications, such as watchOS apps and iOS app extensions, have
    tight constraints on their memory footprints. To optimize your data
-   model for low-memory environments, open the {+realm+} with a subset
+   model for low-memory environments, open the realm with a subset
    of classes.
 
 .. tabs-realm-languages::
@@ -276,7 +276,7 @@ Initialize Properties Using Realm APIs
 --------------------------------------
 
 You might define properties whose values are initialized using
-{+client-database+} APIs. For example:
+Realm Database APIs. For example:
 
 .. code-block:: swift
 
@@ -287,17 +287,17 @@ You might define properties whose values are initialized using
 
 If this initialization code runs before you set up your Realm
 configurations, you might get unexpected behavior. For example, if you
-set a :ref:`migration <ios-migrations>` block for the default {+realm+}
+set a :ref:`migration <ios-migrations>` block for the default realm
 configuration in ``applicationDidFinishLaunching()``, but you create an
 instance of ``SomeSwiftType`` before
 ``applicationDidFinishLaunching()``, you might be accessing your
-{+realm+} before it has been correctly configured.
+realm before it has been correctly configured.
 
 To avoid such issues, consider doing one of the following:
 
-- Defer instantiation of any type that eagerly initializes properties using {+client-database+} APIs until after your app has completed setting up its {+realm+} configurations. 
-- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application's lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its {+realm+} configurations.
-- Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open {+realms+}.
+- Defer instantiation of any type that eagerly initializes properties using Realm Database APIs until after your app has completed setting up its realm configurations. 
+- Define your properties using Swift's ``lazy`` keyword. This allows you to safely instantiate such types at any time during your application's lifecycle, as long as you do not attempt to access your ``lazy`` properties until after your app has set up its realm configurations.
+- Only initialize your properties using Realm APIs that explicitly take in user-defined configurations. You can be sure that the configuration values you are using have been set up properly before they are used to open realms.
 
 .. _use-realm-when-the-device-is-locked:
 
@@ -306,7 +306,7 @@ Use Realm When the Device Is Locked
 
 By default, iOS 8 and above encrypts app files using
 ``NSFileProtection`` whenever the device is locked. If your app attempts
-to access a {+realm+} while the device is locked, you might see the
+to access a realm while the device is locked, you might see the
 following error:
 
 .. code-block:: text
@@ -326,12 +326,12 @@ allows file access even when the device is locked.
    instead.
 
 This example shows how to apply a less strict protection level to the
-parent directory of the default {+realm+}.
+parent directory of the default realm.
 
 .. literalinclude:: /examples/generated/code/start/Encrypt.snippet.background-app-refresh-encryption.swift
    :language: swift
 
-{+service-short+} may create and delete auxiliary files at any time.
+Realm may create and delete auxiliary files at any time.
 Instead of downgrading file protection on the files, apply it to the
 parent folder. This way, the file protection applies to all relevant
 files regardless of creation time.

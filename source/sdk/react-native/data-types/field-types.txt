@@ -10,12 +10,12 @@ Field Types - React Native SDK
    :depth: 2
    :class: singlecol
 
-{+client-database+} supports the following field data types:
+Realm Database supports the following field data types:
 
 - ``bool`` maps to the JavaScript :mdn:`Boolean <Web/JavaScript/Reference/Global_Objects/Boolean>` type
-- ``int`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, {+client-database+} stores ``int`` with 64 bits.
-- ``float`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, {+client-database+} stores ``float`` with 32 bits.
-- ``double`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, {+client-database+} stores ``double`` with 64 bits.
+- ``int`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm Database stores ``int`` with 64 bits.
+- ``float`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm Database stores ``float`` with 32 bits.
+- ``double`` maps to the JavaScript :mdn:`Number <Web/JavaScript/Reference/Global_Objects/Number>` type. Internally, Realm Database stores ``double`` with 64 bits.
 - ``string`` maps to the JavaScript :mdn:`String <Web/JavaScript/Reference/Global_Objects/String>` type.
 - ``decimal128`` for high precision numbers.
 - ``objectId`` maps to BSON :manual:`ObjectId </reference/method/ObjectId/>` type.
@@ -24,6 +24,6 @@ Field Types - React Native SDK
 - ``list`` maps to the JavaScript :mdn:`Array <Web/JavaScript/Reference/Global_Objects/Array>` type. You can also specify that a field contains a list of primitive value type by appending ``[]`` to the type name.
 - ``linkingObjects`` is a special type used to define an inverse relationship.
 - ``dictionary`` used to manage a collection of unique String keys paired with values. The ``Dictionary`` data type is available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
-- ``set`` is based on the JavaScript :mdn:`Set <Web/JavaScript/Reference/Global_Objects/Set>` type. ``{+service-short+} Set`` is available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
+- ``set`` is based on the JavaScript :mdn:`Set <Web/JavaScript/Reference/Global_Objects/Set>` type. ``Realm Set`` is available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
 - ``mixed`` is a property type that can hold different data types. The ``Mixed`` data type is available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.
 - ``uuid`` is a universally unique identifier from :js-sdk:`Realm.BSON <Realm.html#.BSON>`. The ``UUID`` data type is available in the :github:`realm-js@10.5.0 release <realm/realm-js/releases/tag/v10.5.0>`.

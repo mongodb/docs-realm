@@ -54,12 +54,12 @@ Realm Database solves many common mobile programming headaches:
   your data is simple and lightweight.
 - **Network reliability**: Realm Database is offline-first. You
   always read from and write to the local database, not over the network.
-  When :term:`{+sync+}` is enabled, Realm Database synchronizes
-  data with {+backend+} over the network in a background thread.
-  The :term:`sync protocol` resolves conflicts
+  When Device Sync is enabled, Realm Database synchronizes
+  data with App Services over the network in a background thread.
+  The sync protocol resolves conflicts
   consistently on each client and in the
-  :term:`linked {+atlas+} cluster <linked cluster>`.
-- **Reactive UI**: :term:`Live objects <live objects>` always reflect
+  linked Atlas cluster.
+- **Reactive UI**: Live objects always reflect
   the latest data stored in Realm Database. You can
   subscribe to changes, letting you keep your UI consistently up to date.
 
@@ -81,7 +81,7 @@ the same regardless of network conditions.
 Once your client data is in Atlas, you can leverage the full
 Atlas developer data platform.
 Perform aggregations and other complex workloads with the full capabilities
-of MongoDB. Or connect your {+atlas-short+} instance to `{+charts+}
+of MongoDB. Or connect your Atlas instance to `Charts
 <https://www.mongodb.com/products/charts?tck=docs_realm>`_ to visualize
 your data in real time. Storing your data in Atlas makes it
 easy to share data across users and platforms.

@@ -16,8 +16,8 @@ Use Change Listeners In Components - React Native SDK
 Overview
 --------
 
-A best practice is to copy {+service-short+} objects to your component's :reactjs:`state
-<docs/state-and-lifecycle.html>`. However, since {+service-short+} objects are
+A best practice is to copy Realm objects to your component's :reactjs:`state
+<docs/state-and-lifecycle.html>`. However, since Realm objects are
 live and automatically update in response to changes, you must update the copies
 of them to prevent your UI from drifting out of date with underlying data. You can do this by
 registering a :ref:`change listener <react-native-change-notifications>` in your
@@ -31,7 +31,7 @@ Learn more about change listener APIs in the
 
 .. warning::
 
-   Failing to update copies of {+service-short+} objects leads to out-of-date data displayed
+   Failing to update copies of Realm objects leads to out-of-date data displayed
    in your UI as objects are deleted or changed.
 
 .. tip:: Handling Exceptions Inside a Listener
@@ -42,16 +42,16 @@ Learn more about change listener APIs in the
 Procedure
 ---------
 
-#. To keep your UI up-to-date with changes to underlying {+service-short+} objects,
-   declare a state variable for your {+service-short+} objects using the
+#. To keep your UI up-to-date with changes to underlying Realm objects,
+   declare a state variable for your Realm objects using the
    :reactjs:`useState() <docs/hooks-state.html>` hook.
 
 #. Within the :reactjs:`useEffect() <docs/hooks-effect.html>` hook, set the state variable to
    the initial value of your objects. Then declare a change listener on the
-   {+service-short+} objects.
+   Realm objects.
 
 #. Finally, return an anonymous cleanup function that you can use to remove the
-   change listener and close the {+service-short+}. React.js will call this cleanup function when
+   change listener and close the Realm. React.js will call this cleanup function when
    the component unmounts.
 
 If you need to access Realm objects in other components further down the component tree,
@@ -66,10 +66,10 @@ pass the state variable for your Realm object as a prop or use
    saved in the database after the component mounts. To do this, they :ref:`open
    a realm <react-native-open-a-local-realm>` within a ``useEffect`` function and
    then set the ``tasks`` state variable to the initial value of the ``tasks``
-   stored in the {+service-short+}. 
+   stored in the Realm. 
 
    The developer registers a change listener to update the state variable when
-   changes to the ``tasks`` have been made in the {+client-database+}. The
+   changes to the ``tasks`` have been made in the Realm Database. The
    developer then creates some additional tasks. 
 
    Once the component unmounts, the developer wants to unregister the change

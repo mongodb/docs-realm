@@ -12,7 +12,6 @@ Realm Database Overview - Flutter SDK
    Open & Close a Realm </sdk/flutter/realm-database/open-and-close-a-realm>
    Read & Write Data </sdk/flutter/realm-database/read-and-write-data>
    React to Changes </sdk/flutter/realm-database/react-to-changes>
-   Query Language </sdk/flutter/realm-database/query-language>
    Data Types </sdk/flutter/realm-database/data-types>
    Database Internals </sdk/flutter/realm-database/database-internals>
 
@@ -22,7 +21,7 @@ Realm Database Overview - Flutter SDK
    :depth: 1
    :class: singlecol
 
-{+client-database+} is a reactive, object-oriented, cross-platform,
+Realm Database is a reactive, object-oriented, cross-platform,
 mobile database:
 
 - **Reactive**: query the current state of data
@@ -38,18 +37,18 @@ mobile database:
 - **Mobile**: designed for the low-power, battery-sensitive, real-time
   environment of a mobile device.
 
-{+client-database+} is an alternative to `SQLite <https://www.sqlite.org/index.html>`__
+Realm Database is an alternative to `SQLite <https://www.sqlite.org/index.html>`__
 and :apple:`Core Data <documentation/coredata>`.
 
 Features
 --------
 
-{+client-database+} supports many popular database features.
+Realm Database supports many popular database features.
 
 Queries
 ~~~~~~~
 
-You can query {+client-database+} using platform-native queries or a
+You can query Realm Database using platform-native queries or a
 raw query language that works across platforms.
 
 Indexes
@@ -62,11 +61,11 @@ support one column, and thus only one property, at a time.
 Schemas
 ~~~~~~~
 
-Every {+realm+} object has a schema. That schema is defined via a native
+Every realm object has a schema. That schema is defined via a native
 object in your SDK's language. Object schemas can include embedded lists
 and relations between object instances.
 
-Each {+realm+} uses a versioned schema. When that schema changes, you
+Each realm uses a versioned schema. When that schema changes, you
 must define a migration to move object data between schema versions.
 Non-breaking schema changes, also referred to as additive schema changes,
 happen automatically. However, your SDK may require you to increase the
@@ -77,21 +76,21 @@ a migration function.
 Sync
 ~~~~
 
-{+sync+} adds network synchronization between a {+backend+} backend and
-client devices on top of all of the functionality of {+client-database+}.
-When you use {+client-database+} with Sync, {+realm+}s exist on device
-just like when you only use {+client-database+}. However, changes to
-the data stored in those {+realm+}s synchronize between all client
-devices through a backend {+backend+} instance. That backend also stores
-{+realm+} data in a cloud-based {+atlas+} cluster running MongoDB.
+Device Sync adds network synchronization between a App Services backend and
+client devices on top of all of the functionality of Realm Database.
+When you use Realm Database with Sync, realms exist on device
+just like when you only use Realm Database. However, changes to
+the data stored in those realms synchronize between all client
+devices through a backend App Services instance. That backend also stores
+realm data in a cloud-based Atlas cluster running MongoDB.
 
-{+sync+} relies on a worker client that communicates with your
+Device Sync relies on a worker client that communicates with your
 application backend in a dedicated thread in your application.
-Additionally, synced {+realm+}s keep a history of changes to contained
+Additionally, synced realms keep a history of changes to contained
 objects. Sync uses this history to resolve conflicts between client
 changes and backend changes.
 
-Applications that use {+sync+} define their schema on the backend using
+Applications that use Device Sync define their schema on the backend using
 `JSON Schema <https://json-schema.org/learn/getting-started-step-by-step.html>`__.
 Client applications must match that backend schema to synchronize data.
 However, if you prefer to define your initial schema in your application's

@@ -16,10 +16,10 @@ Dictionaries - .NET SDK
 
 Overview
 --------
-A {+service-short+} dictionary is an implementation of   
+A Realm dictionary is an implementation of   
 `IDictionary <https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.idictionary-2?view=net-5.0>`_ 
 that has keys of type ``String`` and supports values of any 
-:ref:`{+service-short+} type <dotnet-objects>` except 
+:ref:`Realm type <dotnet-objects>` except 
 :ref:`collections <dotnet-client-collections>`. 
 To define a dictionary, use 
 a getter-only ``IDictionary<string, TValue>`` property, where ``TValue`` is any 
@@ -38,7 +38,7 @@ contains nullable reference types, such as ``string`` or ``byte[]``.
 
 .. important:: Not Supported with Sync
 
-   Local-only {+client-database+}s support collections of nullable (optional) values, 
+   Local-only Realm Databases support collections of nullable (optional) values, 
    but ``Sync`` does not.
 
 The following code shows examples of dictionary types:
@@ -52,7 +52,7 @@ The following code shows how to create, write to, and read from Dictionaries.
 
 .. note::
 
-   You cannot use Linq to query against a {+service-short+} Dictionary. Instead, 
+   You cannot use Linq to query against a Realm Dictionary. Instead, 
    use a string query.
 
 .. literalinclude:: /examples/generated/dotnet/DataTypesSectionExamples.snippet.query-dictionaries.cs

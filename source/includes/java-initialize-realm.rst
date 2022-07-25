@@ -1,17 +1,17 @@
 Initialize Realm
 ----------------
 
-Before you can use {+service-short+} in your app, you must
-initialize the {+service-short+} library. Your application should
-initialize {+service-short+} just once each time the application runs.
+Before you can use Realm in your app, you must
+initialize the Realm library. Your application should
+initialize Realm just once each time the application runs.
 
-To initialize the {+service-short+} library, provide an Android
+To initialize the Realm library, provide an Android
 ``context`` to the ``Realm.init()`` static function. You can provide
 an Activity, Fragment, or Application ``context`` for initialization with no
-difference in behavior. You can initialize the {+service-short+} library
+difference in behavior. You can initialize the Realm library
 in the ``onCreate()`` method of an `application subclass
 <https://developer.android.com/reference/android/app/Application>`__ to
-ensure that you only initialize {+service-short+} once each time the
+ensure that you only initialize Realm once each time the
 application runs.
 
 .. tabs-realm-languages::

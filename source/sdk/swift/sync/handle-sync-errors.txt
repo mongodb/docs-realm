@@ -16,7 +16,7 @@ Handle Sync Errors - Swift SDK
 Handle Sync Errors
 ------------------
 
-While developing an application that uses {+sync+}, you should set an error
+While developing an application that uses Device Sync, you should set an error
 handler. This error handler will detect and respond to any failed sync-related
 API calls. 
 
@@ -63,19 +63,19 @@ API calls.
 Client Reset
 ------------
 
-When using :ref:`{+sync+} <sync>`, a **client reset** is a serious
+When using :ref:`Device Sync <sync>`, a **client reset** is a serious
 error recovery task that your client app must perform in the following
 situation:
 
-- The given synced {+realm+} on the server was restored from a backup.
-  For example, due to a {+service-short+} server crash.
+- The given synced realm on the server was restored from a backup.
+  For example, due to a Realm server crash.
 
-- The client app made changes to that {+realm+} since the backup was made,
+- The client app made changes to that realm since the backup was made,
   but did not sync those changes back to the server before the server
   was restored.
 
 In other words, the client app must carry out a client reset on a given
-synced {+realm+} if the server is restored to a version older than the
+synced realm if the server is restored to a version older than the
 version on the client.
 
 A client reset discards local data and reverts to the data stored in 
@@ -174,13 +174,13 @@ to do so by the Atlas App Services App. When a client reset occurs, the SDK crea
 backup of local data. By default, the SDK makes no effort to
 recover lost local changes from this backup. However, you can manually
 override the client reset handler to transfer data from the backup 
-copy to the new {+realm+}.
+copy to the new realm.
 
 If you override the client reset handler, you can access this backup
 copy through the path stored in the :objc-sdk:`SyncError
 <Enums/RLMSyncError.html#/c:@E@RLMSyncError@RLMSyncErrorClientResetError>`
 to manually transfer data from the backup copy to the newly created
-{+realm+}.
+realm.
 
 .. tabs-realm-languages::
    

@@ -38,7 +38,7 @@ namespace Examples
             // }
             realm.Write(() =>
             {
-                // Create someone to take care of ssome dogs.
+                // Create someone to take care of some dogs.
                 var ali = new WritePerson { Id = 44, Name = "Ali" };
                 realm.Add(ali);
 
@@ -143,7 +143,7 @@ namespace Examples
             // }
             realm.Write(() =>
             {
-                // Create someone to take care of ssome dogs.
+                // Create someone to take care of some dogs.
                 var ali = new WritePerson { Id = 1, Name = "Ali" };
                 realm.Add(ali);
 

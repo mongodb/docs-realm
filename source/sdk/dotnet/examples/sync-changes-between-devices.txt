@@ -15,9 +15,9 @@ Sync Changes Between Devices - .NET SDK
 Prerequisites
 -------------
 
-Before you can access a synced {+realm+} from the client, you must:
+Before you can access a synced realm from the client, you must:
 
-- :ref:`Enable sync <enable-sync>` in the {+ui+}.
+- :ref:`Enable sync <enable-sync>` in the App Services UI.
 
 - :ref:`Authenticate a user <dotnet-quick-start-authenticate>` in
   your client project.
@@ -30,19 +30,19 @@ Sync Data
 ---------
 
 The syntax to :ref:`read <dotnet-realm-database-reads>` and :ref:`write
-<dotnet-realm-database-writes>` on a synced {+realm+} is identical to the syntax 
-for non-synced {+realms+}. While you work with local data, a background thread 
+<dotnet-realm-database-writes>` on a synced realm is identical to the syntax 
+for non-synced realms. While you work with local data, a background thread 
 efficiently integrates, uploads, and downloads changesets.
 
 .. important:: When Using Sync, Avoid Writes on the Main Thread
    
-   The fact that {+service-short+} performs sync integrations on a background thread means
-   that if you write to your {+realm+} on the main thread, there's a small chance your UI
+   The fact that Realm performs sync integrations on a background thread means
+   that if you write to your realm on the main thread, there's a small chance your UI
    could appear to hang as it waits for the background sync thread to finish a write
    transaction. Therefore, it's a best practice :ref:`never to write on the main thread
-   when using {+sync+} <dotnet-threading-three-rules>`.
+   when using Device Sync <dotnet-threading-three-rules>`.
 
-The following code creates a new ``Task`` object and writes it to the {+realm+}:
+The following code creates a new ``Task`` object and writes it to the realm:
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
    :language: csharp
@@ -55,7 +55,7 @@ The following code creates a new ``Task`` object and writes it to the {+realm+}:
 
 Pause or Resume a Sync Session
 ------------------------------
-Opening a synced {+realm+} starts a {+sync-short+} 
+Opening a synced realm starts a Sync 
 :dotnet-sdk:`Session <reference/Realms.Sync.Session.html>`. To pause synchronization 
 for a specific session, you can call the 
 :dotnet-sdk:`Stop() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Stop>` 
@@ -63,12 +63,12 @@ method on the session.
 
 When you then call the 
 :dotnet-sdk:`Start() <reference/Realms.Sync.Session.html#Realms_Sync_Session_Start>`  
-method on the paused session, the {+sync-short+} session resumes. 
+method on the paused session, the Sync session resumes. 
 
 .. note:: Each session is independent
 
    You must manually call the ``Stop()`` and ``Start()`` methods for each  
-   {+realm+} whose {+sync-short+} session you want to pause and restart. The 
+   realm whose Sync session you want to pause and restart. The 
    sync state of one session has no impact on other open sessions. 
 
 The following code block demonstrates calling the ``Stop()`` and ``Start()`` 
@@ -81,14 +81,14 @@ methods:
 
 Monitor Sync Progress and Status
 --------------------------------
-You may want to know the status of {+sync-short+} operations in your app. For 
+You may want to know the status of Sync operations in your app. For 
 example, you might want specific code to run only after all of the data is 
-synced with {+backend+}. You might also want to provide users with the 
-status of {+sync-short+} operations. 
+synced with App Services. You might also want to provide users with the 
+status of Sync operations. 
 
-You can set up your {+sync-short+} session to wait for changes to be uploaded 
-or downloaded. You can also configure your {+sync-short+} session to
-notify when the {+sync-short+} connection status changes.
+You can set up your Sync session to wait for changes to be uploaded 
+or downloaded. You can also configure your Sync session to
+notify when the Sync connection status changes.
 
 .. _dotnet-check-sync-progress-wait-for-upload-or-download:
 
@@ -108,10 +108,10 @@ methods. For example:
 
 .. _dotnet-sync-status-change:
 
-Monitor {+sync-short+} Progress
+Monitor Sync Progress
 ~~~~~~~~~~~~~~~~~~~~~
 
-To monitor {+sync-short+} progress, get the 
+To monitor Sync progress, get the 
 sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
 <reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
 progress notification by calling the 
@@ -138,12 +138,13 @@ bytes to be transferred.
 .. note:: 
    
    The number of transferred and transferable bytes are only estimates. 
-   The {+sync-short+} changesets are compressed with 
+   The Sync changesets are compressed with 
    `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so 
    the actual size of transmitted bytes will be smaller than the reported number  
    of both transferable and transferred bytes.
 
 .. example::
+
    In the following example, we subscribe to a progress 
    observable on the ``session`` to listen for upload events indefinitely. When 
    this callback is triggered, it prints the number of transferred 
@@ -157,7 +158,7 @@ bytes to be transferred.
 
 .. note:: 
    
-   {+service-short+} optimizes download speeds by combining multiple changesets
+   The SDK optimizes download speeds by combining multiple changesets
    into a single download message, up to 16 MB. Since the progress callback is
    only invoked once before and after a download message is processed, this
    means that you'll likely see ``transferredBytes`` change in increments of roughly
@@ -196,7 +197,7 @@ object, and checking the Sync status:
 Handle Sync Errors
 ------------------
 
-{+sync+} represents errors via :dotnet-sdk:`SessionExceptions <reference/Realms.Sync.Exceptions.SessionException.html>`. In
+Device Sync represents errors via :dotnet-sdk:`SessionExceptions <reference/Realms.Sync.Exceptions.SessionException.html>`. In
 addition to the standard exception properties, you have access to an :dotnet-sdk:`ErrorCode <reference/Realms.Sync.Exceptions.ErrorCode.html>`
 that contains information about the type of the error and allows you to have
 strongly typed handling logic.
@@ -206,7 +207,7 @@ strongly typed handling logic.
 
 .. note:: Additional Exception Information
 
-   For security reasons, {+service-short+} may send only a minimal amount of 
+   For security reasons, App Services may send only a minimal amount of 
    information about an exception, but the server-side logs will contain more 
    details. In these cases, the 
    `HelpLink <https://docs.microsoft.com/en-us/dotnet/api/system.exception.helplink?view=net-6.0#system-exception-helplink>`_ 

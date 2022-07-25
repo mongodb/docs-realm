@@ -26,8 +26,8 @@ Realm Node.js SDK
    :depth: 2
    :class: singlecol
 
-The {+service+} Node.js SDK allows you to use {+client-database+} and
-backend {+app+}s from Node.js applications written in JavaScript or TypeScript.
+The Realm Node.js SDK allows you to use Realm Database and
+backend Apps from Node.js applications written in JavaScript or TypeScript.
 
 .. note::
 
@@ -43,8 +43,8 @@ backend {+app+}s from Node.js applications written in JavaScript or TypeScript.
 Local Realm Database
 --------------------
 
-With the {+service+} Node.js SDK, you can access objects stored in a local
-instance of {+client-database+}. With {+client-database+}, you can:
+With the Realm Node.js SDK, you can access objects stored in a local
+instance of Realm Database. With Realm Database, you can:
 
 Define an Object Schema
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +67,7 @@ Query Realm Database
 Update Live Objects
 ~~~~~~~~~~~~~~~~~~~
 
-:ref:`Update <node-update-an-object>` objects in {+client-database+} by
+:ref:`Update <node-update-an-object>` objects in Realm Database by
 updating field values on an instance of the object within a transaction:
 
 .. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-update-live-objects.js
@@ -77,7 +77,7 @@ Watch for Object Updates
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`Receive object updates and notifications automatically
-<node-react-to-changes>` when objects stored in {+client-database+}
+<node-react-to-changes>` when objects stored in Realm Database
 change:
 
 .. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-watch-for-object-updates.js
@@ -94,26 +94,26 @@ of an object up to date at all times:
 
 .. seealso::
 
-   To get started with {+client-database+}, try our
+   To get started with Realm Database, try our
    :ref:`Quick Start <node-client-quick-start-local>`.
 
 Realm Apps
 ----------
 
-{+app+}s are backends for client applications hosted by MongoDB in the cloud.
+Apps are backends for client applications hosted by MongoDB in the cloud.
 They provide the ability to synchronize data stored in
-{+client-database+}, called **{+sync+}**, as well as a layer of backend
+Realm Database, called **Device Sync**, as well as a layer of backend
 functionality collectively called **App Services**.
-The {+service+} Node.js SDK optionally contains the ability to access
-these {+app+}s running in the cloud. In addition to local
-{+client-database+} in the SDK, {+app+}s provide the
+The Realm Node.js SDK optionally contains the ability to access
+these Apps running in the cloud. In addition to local
+Realm Database in the SDK, Apps provide the
 following functionality:
 
 Atlas Device Sync
 ~~~~~~~~~~~~~~~~~
 
-Automatically sync data between {+realm+}s on client devices and your backend
-MongoDB Atlas data store with :ref:`{+sync+} <node-sync-changes-between-devices>`:
+Automatically sync data between realms on client devices and your backend
+MongoDB Atlas data store with :ref:`Device Sync <node-sync-changes-between-devices>`:
 
 .. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-sync-data-between-realms.js
   :language: javascript
@@ -121,24 +121,24 @@ MongoDB Atlas data store with :ref:`{+sync+} <node-sync-changes-between-devices>
 App Services
 ~~~~~~~~~~~~
 
-- Use {+service-short+}'s built-in user management to enable
+- Use Realm's built-in user management to enable
   :ref:`user account creation <node-register-new-user>`
   and user :ref:`authentication <node-authenticate-users>` across
   devices.
 
 - Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-  in your backend {+app+} using a
-  :ref:`{+atlas+} database <data-sources>`.
+  in your backend App using a
+  :ref:`Atlas database <data-sources>`.
 
-- Execute logic in your backend {+app+} from a client application using
+- Execute logic in your backend App from a client application using
   :ref:`Functions <node-call-a-function>`.
 
-- React to events in your backend {+app+} using
+- React to events in your backend App using
   :ref:`Triggers <triggers>`.
 
 .. seealso::
 
-   To get started with {+service+}, try the
+   To get started with Realm, try the
    :ref:`Quick Start with Sync <node-client-quick-start>`.
 
 
@@ -149,18 +149,18 @@ App Services
 Get Started
 -----------
 
-To start using the {+service+} Node.js SDK
+To start using the Realm Node.js SDK
 in your Node.js application, see :ref:`Install Realm for Node.js
 <node-install>` to add the Realm JS SDK dependency and then check
 out the :ref:`Quick Start <node-client-quick-start-local>`.
 
-To learn more about the concepts that underly {+client-database+},
+To learn more about the concepts that underly Realm Database,
 such as :ref:`write transactions <node-write-transactions>`, the 
 :ref:`Query Engine <node-client-query-engine>`, and more,
 check out the Fundamentals.
 
-For practical code samples of common tasks in {+client-database+} and
-{+app+}s, take a look at the Examples.
+For practical code samples of common tasks in Realm Database and
+Apps, take a look at the Examples.
    
 .. list-table::
    :header-rows: 1
@@ -201,6 +201,8 @@ For practical code samples of common tasks in {+client-database+} and
        
        :doc:`React to Changes </sdk/node/examples/react-to-changes>`
        
+       :doc:`Query Data </sdk/node/examples/query-data>`
+       
        :doc:`Modify an Object Schema </sdk/node/examples/modify-an-object-schema>`
        
      - :doc:`Connect to an Atlas App Services backend </sdk/node/examples/connect-to-app-services-backend>`
@@ -229,7 +231,6 @@ Realm Database
 ~~~~~~~~~~~~~~
 
 - :doc:`Encryption </sdk/node/advanced/encrypt>`
-- :doc:`Query Engine </sdk/node/advanced/query-engine>`
 
 Realm Apps
 ~~~~~~~~~~

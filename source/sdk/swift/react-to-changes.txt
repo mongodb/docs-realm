@@ -17,8 +17,8 @@ React to Changes - Swift SDK
 Register a Realm Change Listener
 --------------------------------
 
-You can register a notification handler on an entire :ref:`{+realm+}
-<ios-realms>`. {+client-database+} calls the notification
+You can register a notification handler on an entire :ref:`realm
+<ios-realms>`. Realm Database calls the notification
 handler whenever any write transaction involving that Realm is
 committed. The handler receives no information about the change.
 
@@ -42,7 +42,7 @@ Register a Collection Change Listener
 -------------------------------------
 
 You can register a notification handler on a collection within a
-{+realm+}.
+realm.
 
 Realm Database notifies your handler:
 
@@ -196,7 +196,7 @@ behaviors:
 Write Silently
 --------------
 
-You can write to a {+realm+} *without* sending a notification to a
+You can write to a realm *without* sending a notification to a
 specific observer by passing the observer's notification token in an
 array to :swift-sdk:`realm.write(withoutNotifying:_:)
 <Structs/Realm.html#/s:10RealmSwift0A0V5write16withoutNotifying_xSaySo20RLMNotificationTokenCG_xyKXEtKlF>`:
@@ -256,7 +256,7 @@ Key-value Observation
 Key-value Observation Compliance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{+client-database+} objects are :apple:`key-value observing (KVO) 
+Realm Database objects are :apple:`key-value observing (KVO) 
 compliant<documentation/swift/cocoa_design_patterns/using_key-value_observing_in_swift>` 
 for most properties:
 
@@ -267,7 +267,7 @@ You cannot observe ``LinkingObjects`` properties via Key-value observation.
 
 .. important::
 
-   You cannot add an object to a {+realm+} (with ``realm.add(obj)`` or similar 
+   You cannot add an object to a realm (with ``realm.add(obj)`` or similar 
    methods) while it has any registered observers.
 
 Managed vs. Unmanaged KVO Considerations
@@ -277,14 +277,14 @@ Observing the properties of unmanaged instances of ``Object`` subclasses
 works like any other dynamic property.
 
 Observing the properties of managed objects works differently. With 
-{+realm+}-managed objects, the value of a property may change when:
+realm-managed objects, the value of a property may change when:
 
 - You assign to it
 - The realm is refreshed, either manually with ``realm.refresh()`` or 
   automatically on a runloop thread
 - You begin a write transaction after changes on another thread
 
-{+service-short+} applies changes made in the write transaction(s) on other threads 
+Realm applies changes made in the write transaction(s) on other threads 
 at once. Observers see Key-value observation notifications at once. 
 Intermediate steps do not trigger KVO notifications.
 
@@ -303,14 +303,14 @@ write transaction.
 Observing Realm Lists
 ~~~~~~~~~~~~~~~~~~~~~
 
-Observing changes made to {+service-short+} ``List`` properties is simpler than 
+Observing changes made to Realm ``List`` properties is simpler than 
 ``NSMutableArray`` properties:
 
 - You don't have to mark ``List`` properties as dynamic to observe them.
 - You can call modification methods on ``List`` directly. Anyone observing 
   the property that stores it gets a notification.
 
-You don't need to use ``mutableArrayValueForKey(_:)``, although {+realm+} 
+You don't need to use ``mutableArrayValueForKey(_:)``, although realm 
 does support this for code compatibility. 
 
 .. seealso::
@@ -324,7 +324,7 @@ does support this for code compatibility.
 React to Changes to a Class Projection
 --------------------------------------
 
-Like other {+realm+} objects, you can :ref:`react to changes <ios-react-to-changes>`
+Like other realm objects, you can :ref:`react to changes <ios-react-to-changes>`
 to a class projection. When you register a class projection change listener, 
 you see notifications for changes made through the class projection object 
 directly. You also see notifications for changes to the underlying object's 

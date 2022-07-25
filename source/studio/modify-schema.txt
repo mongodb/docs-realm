@@ -24,7 +24,7 @@ can:
 .. important::
 
    If you make changes to your schema in Realm Studio, you must migrate 
-   the {+realm+} file when you use it in your client app.
+   the realm file when you use it in your client app.
 
 After you make schema changes, you can :ref:`add values <realm-studio-modify-an-object>` 
 to the new properties and classes from within Realm Studio. You can also
@@ -38,8 +38,8 @@ definitions <realm-studio-export-model-definitions>` from Realm Studio.
 This gives you new class definitions in your language of choice, which 
 you can drop into your code.
 
-You can also :ref:`save an updated version of the {+realm+} file 
-<realm-studio-save-data>` to use in your app. When you save a {+realm+} 
+You can also :ref:`save an updated version of the realm file 
+<realm-studio-save-data>` to use in your app. When you save a realm 
 file with an updated schema, you must :ref:`perform a migration 
 <realm-studio-perform-migration>` to use it in your app.
 
@@ -106,11 +106,11 @@ Perform a Migration
 After you make changes to your schema, you can :ref:`add values to new 
 properties <realm-studio-modify-an-object>` and even :ref:`create new 
 objects <realm-studio-create-an-object>`. If you want to then use this 
-updated {+realm+} file in your app, you can :ref:`save the data <realm-studio-save-data>`. 
+updated realm file in your app, you can :ref:`save the data <realm-studio-save-data>`. 
 Before you can use it in your client app, though, you'll need to perform 
 a migration.
 
-{+client-database+} requires you to increment the version monotonically when 
+Realm Database requires you to increment the version monotonically when 
 you change the schema. If you try to open a realm with an updated object 
 schema without migrating, your client will throw an error.
 

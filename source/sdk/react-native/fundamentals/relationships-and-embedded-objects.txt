@@ -18,19 +18,19 @@ Relationships & Embedded Objects - React Native SDK
 Relationships
 -------------
 
-{+service+} allows you to define explicit relationships between the types of
-objects in an {+app+}. A relationship is an object property that references
-another {+service-short+} object type. You can define
+Realm allows you to define explicit relationships between the types of
+objects in an App. A relationship is an object property that references
+another Realm object type. You can define
 relationships by setting an object's property to another object type
 in the :ref:`property schema <react-native-realm-schema>`.
 
-Relationships are direct references to other objects in a {+realm+}.
+Relationships are direct references to other objects in a realm.
 You don't need bridge tables or joins to define a relationship like you
 would in a relational database. 
 Instead you can access related objects by reading and writing to the property
 that defines the relationship.
 
-{+client-database+} executes read operations lazily as they come in.
+Realm Database executes read operations lazily as they come in.
 Querying a relationship is just as performant as reading a regular property.
 
 There are three primary types of relationships between objects:
@@ -68,7 +68,7 @@ To-One Relationship
 A **to-one** relationship means that an object is related to no more than 
 one other object in an :ref:`object schema <react-native-object-schemas>`. 
 To define a to-one relationship, specify the property type as the related
-{+service-short+} object type.
+Realm object type.
 
 
 .. example::
@@ -121,7 +121,7 @@ object model. ``linkingObjects`` specifies the object type and
 property name of the relationship that it inverts.
 
 You cannot manually set the value of an inverse relationship property.
-{+client-database+} automatically updates implicit relationships whenever 
+Realm Database automatically updates implicit relationships whenever 
 you add or remove a related object.
 
 .. example::

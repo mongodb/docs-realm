@@ -20,7 +20,7 @@ Work with Users - .NET SDK
 Overview
 --------
 
-When you use {+backend+} to back your client app, you get access to a
+When you use App Services to back your client app, you get access to a
 :ref:`user object <user-objects>`. You can use the .NET SDK to:
 
 - Create and delete users
@@ -34,7 +34,7 @@ Create and Delete Users
 -----------------------
 
 For all authentication providers other than email/password authentication,
-{+backend+} automatically :ref:`creates a user object <dotnet-create-user>` 
+App Services automatically :ref:`creates a user object <dotnet-create-user>` 
 the first time a user authenticates. If a user authenticates via more than 
 one method, you can :ref:`link these user identities <dotnet-link-user-identities>` 
 to a single user object. 
@@ -56,14 +56,14 @@ users in and out <dotnet-authenticate>` of your client app. You can:
 
 - Log users in with an existing third-party account, such as Apple, Facebook,
   or Google. 
-- Create new user accounts with {+backend-short+} email/password management,
+- Create new user accounts with App Services email/password management,
   or your own custom function or custom JWT user management.
 - Enable anonymous users to let users access your App Services App without 
   persisting user data.
 
 When you have a logged-in user, SDK methods enable you to:
 
-- :ref:`Open a synced {+realm+} <dotnet-open-a-synced-realm>` with the user's 
+- :ref:`Open a synced realm <dotnet-open-a-synced-realm>` with the user's 
   configuration object
 - :ref:`Run a backend function <dotnet-call-a-function>` as the logged-in user
 - :ref:`Log the user out <dotnet-logout>`
@@ -73,7 +73,7 @@ When you have a logged-in user, SDK methods enable you to:
 
 On successful login, the .NET SDK caches credentials on the device. You 
 can bypass the login flow and access the cached user. Use this to open a 
-{+realm+} or call a function upon subsequent app opens. 
+realm or call a function upon subsequent app opens. 
 
 User Sessions
 ~~~~~~~~~~~~~
@@ -97,7 +97,7 @@ to :ref:`access custom user data <dotnet-read-custom-user-data>`.
 
 To :ref:`create <dotnet-create-custom-user-data>` and :ref:`update 
 <dotnet-update-custom-user-data>` custom user data, you must access 
-your MongoDB data source directly. {+backend-short+} does not offer a SDK 
+your MongoDB data source directly. App Services does not offer a SDK 
 method to create or update this custom user data; it's a read-only property.
 
 .. _dotnet-app-read-user-metadata-from-login-providers:
@@ -107,6 +107,6 @@ Read User Metadata from Login Providers
 
 Some authentication providers enable developers to access user metadata, such
 as full name or email address. When you configure these metadata fields on 
-the {+backend+} application, you can read this medata from your client app. A
+the App Services application, you can read this medata from your client app. A
 user object has a ``profile`` property that you can use to :ref:`access 
 user metadata <dotnet-read-user-metadata>`.

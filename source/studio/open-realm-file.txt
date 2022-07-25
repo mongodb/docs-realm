@@ -15,19 +15,19 @@ Open a Realm File
 Overview
 --------
 
-If you have a local {+realm+} file that you've created by running a client 
+If you have a local realm file that you've created by running a client 
 application, you can open it in Realm Studio. 
 
-If you don't already have a {+realm+} file, you can create one by 
+If you don't already have a realm file, you can create one by 
 importing a CSV, or you can download a demo file.
 
 Open a Local Realm File
 -----------------------
 
-You can use Realm Studio to open and explore a local {+realm+} file.  
+You can use Realm Studio to open and explore a local realm file.  
 This could be a file generated from running an emulator on your local 
 machine, or a file from another source. Some development tools even 
-allow you to view and edit the {+realm+} file while the emulator is 
+allow you to view and edit the realm file while the emulator is 
 running. This workflow supports fast, simple iteration for changes to 
 objects and schemas.
 
@@ -37,11 +37,11 @@ objects and schemas.
 Find a Realm File
 ~~~~~~~~~~~~~~~~~
 
-{+client-database+} stores a binary-encoded version of every object and 
-type in a single {+realm+} file. The file is located at a specific path 
+Realm Database stores a binary-encoded version of every object and 
+type in a single realm file. The file is located at a specific path 
 that you define when you open the realm.
 
-To find your default {+realm+} file path:
+To find your default realm file path:
 
 .. tabs::
 
@@ -65,7 +65,7 @@ To find your default {+realm+} file path:
 
       .. include:: /includes/find-realm-file-dotnet.rst
 
-Once you know the location of your local {+realm+} file, you can browse
+Once you know the location of your local realm file, you can browse
 to that location from the :guilabel:`Open Realm file` dialog.
 
 .. note:: Files at hidden paths
@@ -76,18 +76,18 @@ to that location from the :guilabel:`Open Realm file` dialog.
    file` dialog. 
    
    Use another technique to view the file, such as ``Go to Folder`` in 
-   Finder, and open the {+realm+} from there.
+   Finder, and open the realm from there.
 
 Create from a CSV
 -----------------
 
-If you don't have a local {+realm+} file, you can create one from a CSV
+If you don't have a local realm file, you can create one from a CSV
 in Realm Studio.
 
-When you create a {+realm+} from CSV, Realm Studio infers these details:
+When you create a realm from CSV, Realm Studio infers these details:
 
-- The name of your CSV becomes the class name in the {+realm+} file
-- The first row of your CSV becomes the class property names in the {+realm+} 
+- The name of your CSV becomes the class name in the realm file
+- The first row of your CSV becomes the class property names in the realm 
 - The values of each column shape the class property types. A column of 
   'true' and 'false' values becomes a boolean property type. A column of
   whole numbers becomes an integer property type, and so on. If Realm Studio
@@ -108,18 +108,51 @@ Becomes a class model named ``data`` that has three properties:
 - ``number``, with a type ``int``
 - ``flag``, with a type ``bool``
 
-.. include:: /includes/steps/create-realm-from-csv.rst
+.. procedure::
+
+   .. step:: Browse to the Create Realm from CSV option
+
+      In Realm Studio, go to: :guilabel:`File` > :guilabel:`Create Realm from` > :guilabel:`CSV`
+
+
+   .. step:: Open your CSV
+
+      Browse to the location of your CSV file, and select it.
+
+      Press the :guilabel:`Open` button.
+
+
+   .. step:: Choose where to store the imported data
+
+      Enter a name for the realm file that will be created from your CSV.
+
+      Browse to the location where you want to save it.
+
+      Press the :guilabel:`Save` button.
+
+
+   .. step:: Add more data to the realm
+
+      When you create a new realm file from a CSV, you may get this message:
+
+      "Failed to import data: Class name (name-of-file.csv) missing from schema"
+
+      If this happens, press :guilabel:`OK`. You'll see that creating a realm
+      from your CSV has created a class definition, but there are no objects
+      in your realm. From here, you can :ref:`Import from a CSV<realm-studio-import-from-a-csv>`
+      to populate your realm with object that map to the class definition
+      you just created.
 
 Download an Example
 -------------------
 
-If you're new to {+client-database+} and don't have a {+realm+} file or 
+If you're new to Realm Database and don't have a realm file or 
 CSV to import, you can still try out Realm Studio.
 
 When you open Realm Studio, you'll see an option to :guilabel:`Download 
 a demo Realm file`.
 
 When you click the link to download the demo file in Realm Studio, 
-you can specify a name and location to save a {+realm+} file containing 
+you can specify a name and location to save a realm file containing 
 demo data. Once you have downloaded the file, you can use the 
 :guilabel:`Open Realm file` dialog to open it.

@@ -16,11 +16,11 @@ Suspend or Resume a Sync Session - Swift SDK
 Suspend or Resume a Sync Session
 --------------------------------
 
-Opening a synced {+realm+} starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
-for that {+realm+}. You can suspend and resume the sync session on the {+realm+}.
-Pausing a sync session only suspends that {+realm+}'s sync session. If you have
-more than one open {+realm+}, suspend does not affect the sync sessions for 
-other {+realms+}.
+Opening a synced realm starts a :swift-sdk:`SyncSession <Extensions/SyncSession.html>`
+for that realm. You can suspend and resume the sync session on the realm.
+Pausing a sync session only suspends that realm's sync session. If you have
+more than one open realm, suspend does not affect the sync sessions for 
+other realms.
 
 .. tabs-realm-languages::
 
@@ -29,7 +29,7 @@ other {+realms+}.
 
       You can suspend or resume a sync session using the
       :swift-sdk:`SyncSession <Extensions/SyncSession.html>` instance of
-      a synced {+realm+}.
+      a synced realm.
 
       .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.swift
          :language: swift
@@ -39,7 +39,7 @@ other {+realms+}.
 
       You can suspend or resume a sync session using the
       :objc-sdk:`RLMSyncSession <Classes/RLMSyncSession.html>` instance
-      of a synced {+realm+}.
+      of a synced realm.
 
       .. literalinclude:: /examples/generated/code/start/Sync.snippet.pause-resume-sync-session.m
          :language: objectivec
