@@ -536,6 +536,123 @@ You can also use multiple object properties together in a mathematic operation.
    * - | ``()``
      - Group expressions together.
 
+.. _rql-type-operator:
+
+Type Operator
+-------------
+
+You can check the type of a property using the ``@type`` operator.
+This operator can be useful for type checking a mixed data type or
+validating the type of data stored within a dictionary.
+Evaluate the property against a string representation of the data type name.
+Refer to SDK documentation on the mapping from the SDK language's data types
+to Realm data types.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``@type``
+     - Check if type of a property is the property name as a string.
+       Use ``==`` and ``!=`` to compare equality.
+
+.. code-block:: js
+
+   "assignee.@type == 'string'"
+
+   "isComplete.@type == 'bool'"
+
+.. _rql-dictionary-operators:
+
+Dictionary Operators
+--------------------
+
+You can compare dictionary values using these dictionary operators.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``@values``
+     - Returns objects that have the value specified in the right-hand expression.
+
+   * - ``@keys``
+     - Returns objects that have the key specified in the right-hand expression.
+
+   * - ``@size``, ``@count``
+     - The number of elements in a dictionary.
+
+   * - ``Dictionary['key']``
+     - Access the value at a key of a dictionary.
+
+   * - ``ALL | ANY | NONE <property>.@type``
+     - Checks if the dictionary contains any properties of certain type.
+
+You can also use dictionary operators in combination with
+:ref:`comparison operators <rql-comparison-operators>` to filter objects
+based on dictionary keys and values. The following examples show some ways
+to use dictionary operators with comparison operators. All examples query
+a collection of Realm objects with a dictionary property named ``dict``.
+
+.. code-block:: js
+
+   // Evaluates if all the dictionary's values are integers
+   "ALL dict.@type == 'int'"
+
+   // Evaluates if there is a dictionary key with the name 'Foo'
+   "ANY dict.@keys == 'Foo'"
+
+   // ANY is implied. All have int values.
+   "dict.@type == 'int'"
+
+   // Evaluates if dictionary does not have any values of type int
+   "NONE dict.@type == 'int'"
+
+   // Evaluates if dictionary has property of type 'string'
+   "ANY dict.@type == 'string'"
+
+.. _rql-datetime-operators:
+
+Datetime Operators
+------------------
+
+You can query datetime types in a realm.
+
+Generally, you should use parameterized query to pass a datetime data type
+from the SDK language you are using to a query.
+
+.. code-block:: js
+
+   "timeCompleted < $0", yesterdayAtNoon
+
+You can also represent datetimes the following ways:
+
+- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn``å (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+  You can also use ``T`` instead of ``@`` to separate the date from the time.
+- ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
+  since :wikipedia:`unix epoch <Unix_time>`.
+
+Datetime supports the following :ref:`comparison operators <rql-comparison-operators>`:
+
+- ``==``
+- ``!=``
+- ``<``
+- ``>``
+- ``<=``
+- ``>=``
+
+.. code-block:: js
+
+   "timeCompleted > 2021-02-20@17:30:15:0"
+
+   "timeCompleted > T1613842215:0"
+
 .. _rql-aggregate-operators:
 
 Aggregate Operators
@@ -689,8 +806,8 @@ number ``0`` to return all matching objects.
 
 .. _rql-sort-distinct-limit:
 
-Sort, Distinct & Limit Operators
---------------------------------
+Sort, Distinct & Limit
+----------------------
 
 You can use additional operators in your queries to sort and limit the
 results collection.
@@ -733,125 +850,6 @@ results collection.
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript
-
-.. _rql-type-operator:
-
-Type Operator
--------------
-
-You can check the type of a property using the ``@type`` operator.
-This operator can be useful for type checking a mixed data type or
-validating the type of data stored within a dictionary.
-Evaluate the property against a string representation of the data type name.
-Refer to SDK documentation on the mapping from the SDK language's data types
-to Realm data types.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 40 60
-
-   * - Operator
-     - Description
-
-   * - ``@type``
-     - Check if type of a property is the property name as a string.
-       Use ``==`` and ``!=`` to compare equality.
-
-.. code-block:: js
-
-   "assignee.@type == 'string'"
-
-   "isComplete.@type == 'bool'"
-
-.. _rql-dictionary-operators:
-
-Dictionary Operators
---------------------
-
-You can compare dictionary values using these dictionary operators.
-
-.. list-table::
-   :header-rows: 1
-   :widths: 40 60
-
-   * - Operator
-     - Description
-
-   * - ``@values``
-     - Returns objects that have the value specified in the right-hand expression.
-
-   * - ``@keys``
-     - Returns objects that have the key specified in the right-hand expression.
-
-   * - ``@size``, ``@count``
-     - The number of elements in a dictionary.
-
-   * - ``Dictionary['key']``
-     - Access the value at a key of a dictionary.
-
-   * - ``ALL | ANY | NONE <property>.@type``
-     - Checks if the dictionary contains any properties of certain type.
-
-You can also use dictionary operators in combination with
-:ref:`comparison operators <rql-comparison-operators>` to filter objects
-based on dictionary keys and values. The following examples show some ways
-to use dictionary operators with comparison operators. All examples query
-a collection of Realm objects with a dictionary property named ``dict``.
-
-.. code-block:: js
-
-   // Evaluates if all the dictionary's values are integers
-   "ALL dict.@type == 'int'"
-
-   // Evaluates if there is a dictionary key with the name 'Foo'
-   "ANY dict.@keys == 'Foo'"
-
-   // ANY is implied. All have int values.
-   "dict.@type == 'int'"
-
-   // Evaluates if dictionary does not have any values of type int
-   "NONE dict.@type == 'int'"
-
-   // Evaluates if dictionary has property of type 'string'
-   "ANY dict.@type == 'string'"
-
-.. _rql-datetime-operators:
-
-Datetime Operators
-------------------
-
-You can query datetime types in a realm.
-
-Generally, you should use parameterized query to pass a datetime data type
-from the SDK language you are using to a query.
-
-.. code-block:: js
-
-   "timeCompleted < $0", yesterdayAtNoon
-
-You can also represent datetimes the following ways:
-
-- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn``å (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
-  You can also use ``T`` instead of ``@`` to separate the date from the time.
-- ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
-  since :wikipedia:`unix epoch <Unix_time>`.
-
-Datetime supports the following :ref:`comparison operators <rql-comparison-operators>`:
-
-- ``==``
-- ``!=``
-- ``<``
-- ``>``
-- ``<=``
-- ``>=``
-
-.. code-block:: js
-
-   "timeCompleted > 2021-02-20@17:30:15:0"
-
-   "timeCompleted > T1613842215:0"
-
-
 
 .. _flexible-sync-rql-limitations:
 
