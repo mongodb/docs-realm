@@ -84,7 +84,7 @@ to view, edit, and design Realm Database files.
 Examples on This Page
 ---------------------
 
-The examples in this page use a simple data set for a task list app.
+Many of the examples in this page use a simple data set for a task list app.
 The two Realm object types are ``Project`` and ``Task``.
 
 - A ``Task`` has a name, assignee's name, and completed flag.
@@ -585,7 +585,7 @@ Compare dictionary values using these dictionary operators.
      - Access the value at a key of a dictionary.
 
    * - ``ALL | ANY | NONE <property>.@type``
-     - Checks if the dictionary contains any properties of certain type.
+     - Checks if the dictionary contains properties of certain type.
 
 You can also use dictionary operators in combination with
 :ref:`comparison operators <rql-comparison-operators>` to filter objects
@@ -593,24 +593,12 @@ based on dictionary keys and values. The following examples show some ways
 to use dictionary operators with comparison operators. All examples query
 a collection of Realm objects with a dictionary property named ``dict``.
 
-TODO(DOCSP-20137): literalinclude
+.. example::
 
-.. code-block:: js
+   The following examples use various dictionary operators.
 
-   // Evaluates if all the dictionary's values are integers
-   "ALL dict.@type == 'int'"
-
-   // Evaluates if there is a dictionary key with the name 'Foo'
-   "ANY dict.@keys == 'Foo'"
-
-   // ANY is implied. All have int values.
-   "dict.@type == 'int'"
-
-   // Evaluates if dictionary does not have any values of type int
-   "NONE dict.@type == 'int'"
-
-   // Evaluates if dictionary has property of type 'string'
-   "ANY dict.@type == 'string'"
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.dictionary-operators.js
+      :language: js
 
 .. _rql-date-operators:
 
@@ -634,8 +622,13 @@ You can also represent dates the following ways:
 
 Date supports :ref:`comparison operators <rql-comparison-operators>`.
 
-.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
-   :language: js
+.. example::
+
+   The following example shows how to compare dates with their different
+   representations.
+
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
+      :language: js
 
 .. _rql-aggregate-operators:
 

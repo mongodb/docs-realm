@@ -530,4 +530,110 @@ describe("Realm Query Language Reference", () => {
       expect(res3.length).toBe(2);
     });
   });
+  describe("Dictionary operators", () => {
+    const Dictionary = {
+      name: "Dictionary",
+      properties: { dict: "{}" },
+    };
+
+    let realm;
+    const path = "dictionary.realm";
+    beforeAll(async () => {
+      realm = await Realm.open({
+        schema: [Dictionary],
+        path,
+      });
+      realm.write(() => {
+        realm.create("Dictionary", {
+          dict: {
+            foo: "bar",
+          },
+        });
+        realm.create("Dictionary", {
+          dict: {
+            num: 42,
+          },
+        });
+        realm.create("Dictionary", {
+          dict: {
+            baz: "Biz",
+            num: 1,
+          },
+        });
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+    test("Dictionary operators", () => {
+      const dictionaries = realm.objects("Dictionary");
+
+      const fooKey = dictionaries.filtered(
+        // :snippet-start: dictionary-operators
+        // Evaluates if there is a dictionary key with the name 'foo'
+        "ANY dict.@keys == 'foo'"
+
+        // :remove-start:
+      );
+      const fooBarKeyValue = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+        "dict['foo'] == 'bar'"
+
+        // :remove-start:
+      );
+
+      const numItemsInDict = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+        "dict.@count > 1"
+
+        // :remove-start:
+      );
+
+      const hasString = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if dictionary has property of type 'string'
+        "ANY dict.@type == 'string'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const allInt = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if all the dictionary's values are integers
+        "ALL dict.@type == 'int'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const noInts = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if dictionary does not have any values of type int
+        "NONE dict.@type == 'int'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const allIntNoKeyWord = dictionaries.filtered(
+        // :remove-end:
+        // ALL is implied. All have int values.
+        "dict.@type == 'int'"
+        // :snippet-end:
+      );
+
+      expect(fooKey.length).toBe(1);
+      expect(fooBarKeyValue.length).toBe(1);
+      expect(numItemsInDict.length).toBe(1);
+      expect(hasString.length).toBe(2);
+      // all below tests are failing :(
+      expect(allInt.length).toBe(1);
+      expect(noInts.length).toBe(1);
+      expect(allIntNoKeyWord.length).toBe(1);
+    });
+  });
 });
