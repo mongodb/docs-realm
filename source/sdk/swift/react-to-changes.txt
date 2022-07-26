@@ -66,6 +66,12 @@ objects are deleted, added, or modified during the write transaction. This
 resolves to an array of index paths that you can pass to a ``UITableView``'s 
 batch update methods.
 
+.. important:: High-frequency updates
+
+   This example collection change listener implementation does not support 
+   high-frequency updates. In cases with an intense workload, this collection 
+   change listener may cause the app to throw an exception.
+
 .. tabs-realm-languages::
 
   .. tab::
