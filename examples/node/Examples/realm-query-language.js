@@ -293,29 +293,29 @@ describe("Realm Query Language Reference", () => {
   });
   test("Basic arithmetic", () => {
     const tasks = realm.objects("Task");
-    const res1 = tasks.filtered(
+    const basicMath = tasks.filtered(
       // :snippet-start: basic-arithmetic
       "2 * priority > 6"
       // :remove-start:
     );
-    const res2 = tasks.filtered(
+    const lessBasicMath = tasks.filtered(
       // :remove-end:
       // Is equivalent to
       "priority >= 2 * (2 - 1) + 2"
       // :snippet-end:
     );
 
-    expect(res1.length).toBe(3);
-    expect(res2.length).toBe(3);
+    expect(basicMath.length).toBe(3);
+    expect(lessBasicMath.length).toBe(3);
   });
   test("Arithmetic with object properties", () => {
     const tasks = realm.objects("Task");
-    const res = tasks.filtered(
+    const mathWithObjProps = tasks.filtered(
       // :snippet-start: arithmetic-obj-properties
       "progressMinutes * priority == 90"
       // :snippet-end:
     );
-    expect(res.length).toBe(1);
+    expect(mathWithObjProps.length).toBe(1);
   });
 
   describe("ObjectId and UUID tests", () => {
@@ -351,29 +351,29 @@ describe("Realm Query Language Reference", () => {
 
     test("ObjectId Operator", () => {
       const oidUuids = realm.objects("OidUuid");
-      const resStringLiteral = oidUuids.filtered(
+      const oidStringLiteral = oidUuids.filtered(
         // :snippet-start: oid
         "_id == oid(6001c033600510df3bbfd864)"
         // :snippet-end:
       );
       // prettier-ignore
-      const resInterpolation = oidUuids.filtered(
+      const oidInterpolation = oidUuids.filtered(
         // :snippet-start:oid-literal
         "_id == $0", oid1
         // :snippet-end:
       );
 
-      expect(resStringLiteral.length).toBe(1);
-      expect(resInterpolation.length).toBe(1);
+      expect(oidStringLiteral.length).toBe(1);
+      expect(oidInterpolation.length).toBe(1);
     });
     test("UUID Operator", () => {
       const oidUuids = realm.objects("OidUuid");
-      const res = oidUuids.filtered(
+      const uuid = oidUuids.filtered(
         // :snippet-start: uuid
         "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
         // :snippet-end:
       );
-      expect(res.length).toBe(1);
+      expect(uuid.length).toBe(1);
     });
   });
   describe("Dot notation", () => {
@@ -414,12 +414,12 @@ describe("Realm Query Language Reference", () => {
     });
     test("Deeply nested dot notation", () => {
       const employees = realm.objects("Employee");
-      const res = employees.filtered(
+      const deeplyNestedMatch = employees.filtered(
         // :snippet-start: deep-dot-notation
         "workplace.address.zipcode == 10019"
         // :snippet-end:
       );
-      expect(res.length).toBe(1);
+      expect(deeplyNestedMatch.length).toBe(1);
     });
   });
   describe("Type operator", () => {
@@ -456,19 +456,19 @@ describe("Realm Query Language Reference", () => {
     });
     test("Type operator", () => {
       const mixed = realm.objects("Mixed");
-      const res1 = mixed.filtered(
+      const mixedString = mixed.filtered(
         // :snippet-start: type-operator
         "mixedType.@type == 'string'"
         // :remove-start:
       );
-      const res2 = mixed.filtered(
+      const mixedBool = mixed.filtered(
         // :remove-end:
 
         "mixedType.@type == 'bool'"
         // :snippet-end:
       );
-      expect(res1.length).toBe(1);
-      expect(res2.length).toBe(1);
+      expect(mixedString.length).toBe(1);
+      expect(mixedBool.length).toBe(1);
     });
   });
   describe("Date operators", () => {
@@ -508,26 +508,26 @@ describe("Realm Query Language Reference", () => {
       const someDate = new Date("December 17, 2011 03:24:00");
 
       // prettier-ignore
-      const res1 = dates.filtered(
+      const dateParameterizedQuery = dates.filtered(
         // :snippet-start: date-parameterized-query
         "timeCompleted < $0", someDate
         // :snippet-end:
       );
 
-      const res2 = dates.filtered(
+      const dateAlt1 = dates.filtered(
         // :snippet-start: date-alt-representation
         "timeCompleted > 2021-02-20@17:30:15:0"
         // :remove-start:
       );
-      const res3 = dates.filtered(
+      const dateAlt2 = dates.filtered(
         // :remove-end:
         "timeCompleted > 2021-02-20@17:30:15:0"
         // :snippet-end:
       );
 
-      expect(res1.length).toBe(1);
-      expect(res2.length).toBe(2);
-      expect(res3.length).toBe(2);
+      expect(dateParameterizedQuery.length).toBe(1);
+      expect(dateAlt1.length).toBe(2);
+      expect(dateAlt2.length).toBe(2);
     });
   });
   describe("Dictionary operators", () => {
