@@ -180,18 +180,28 @@ describe("Realm Query Language Reference", () => {
     const projects = realm.objects("Project");
     const noCompleteTasks = projects.filtered(
       // :snippet-start: set-operators
+      // Projects with no complete tasks.
       "NONE tasks.isComplete == true"
       // :remove-start:
     );
-    expect(noCompleteTasks.length).toBe(1);
 
     const anyTopPriorityTasks = projects.filtered(
       // :remove-end:
 
+      // Projects that contain a task with priority 10
       "ANY tasks.priority == 10"
+      // :remove-start:
+    );
+    const allTasksCompleted = projects.filtered(
+      // :remove-end:
+
+      // Projects that only contain completed tasks
+      "ALL tasks.isComplete == true"
       // :snippet-end:
     );
+    expect(noCompleteTasks.length).toBe(1);
     expect(anyTopPriorityTasks.length).toBe(1);
+    expect(allTasksCompleted.length).toBe(0);
   });
 
   test("sort, distinct and limit queries", () => {

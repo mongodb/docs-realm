@@ -722,19 +722,8 @@ If the predicate returns true, the object is included in the output collection.
    This example uses collection operators to find projects that contain tasks
    matching certain criteria:
 
-
-   TODO(DOCSP-20137): literalinclude
-
-   .. code-block:: js
-
-      // Projects with no complete tasks.
-      "NONE tasks.isComplete == true"
-
-      // Projects that contain a task with priority 10
-      "ANY tasks.priority == 10"
-
-      // Projects that only contain completed tasks
-      "ALL tasks.isComplete == true"
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
+      :language: js
 
 
 .. _rql-subqueries:
