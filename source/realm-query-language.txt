@@ -14,6 +14,8 @@ Realm Query Language
 Realm Query Language (RQL) is a string-based query language to constrain
 searches when retrieving objects from a realm. SDK-specific methods pass queries
 to the Realm query engine, which retrieves matching objects from the realm.
+Realm Query Language syntax is based on `NSPredicate
+<https://developer.apple.com/documentation/foundation/nspredicate>`__.
 
 Queries evaluate a predicate for every object in the collection being queried.
 If the predicate resolves to ``true``, the results collection includes the object.
@@ -75,8 +77,9 @@ below for your SDK.
       - :ref:`Filter & Sort Results - Flutter SDK <flutter-filter-results>`
 
 
-You can also use Realm Query Language to browse for data in :ref:`Realm Studio
-<realm-studio>`.
+You can also use Realm Query Language to browse for data in
+:ref:`Realm Studio <realm-studio>`. Realm Studio is a visual tool
+to view, edit, and design Realm Database files.
 
 Examples on This Page
 ---------------------
@@ -223,25 +226,20 @@ one of the following:
 Parameterized Queries
 ---------------------
 
-You can create parameterized queries to interpolate variables into prepared
+Create parameterized queries to interpolate variables into prepared
 Realm Query Language statements. The syntax for interpolated variables is
 ``$<int>``, starting at ``0``. Pass the positional arguments as
 additional arguments to Realm SDK methods that use Realm Query Language.
 
-
 Include just one parameter with ``$0``.
 
-.. code-block:: js
-
-   "assignee == $0", "Maggie"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
+   :language: js
 
 Include multiple parameters with ascending integers starting at ``$0``.
 
-.. code-block:: js
-
-   "assignee == $0", "Maggie"
-
-   "progressMinutes > $0 AND assignee == $1", 15, "Bart"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.multiple-predicate.js
+   :language: js
 
 Dot Notation
 ------------
@@ -255,9 +253,8 @@ refers to a Workplace object. The Workplace object has an embedded object
 property, ``address``. You can chain dot notations to refer to the zipcode
 property of that address:
 
-.. code-block:: javascript
-
-   workplace.address.zipcode == 10012
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.deep-dot-notation.js
+   :language: js
 
 .. _rql-operators:
 .. _rql-comparison-operators:
@@ -290,7 +287,7 @@ values.
    * - Operator
      - Description
 
-   * - ``between {number1, number2}``
+   * - ``BETWEEN {number1, number2}``
      - Evaluates to ``true`` if the left-hand numerical or date expression
        is between or equal to the right-hand range. For dates, this evaluates
        to ``true`` if the left-hand date is within the right-hand date range.
@@ -311,7 +308,7 @@ values.
        For dates, this evaluates to ``true`` if the left-hand date is later than
        or the same as the right-hand date.
 
-   * - ``in``
+   * - ``IN``
      - Evaluates to ``true`` if the left-hand expression is in the
        right-hand list or string.
 
@@ -333,8 +330,7 @@ values.
 
 .. example::
 
-   The following example uses the query engine's
-   comparison operators to:
+   The following example uses Realm Query Language's comparison operators to:
 
    - Find high priority tasks by comparing the value of the ``priority``
      property value with a threshold number, above which priority can be considered high.
@@ -353,7 +349,7 @@ values.
 Logical Operators
 -----------------
 
-You can make compound predicates using logical operators.
+Make compound predicates using logical operators.
 
 .. list-table::
    :header-rows: 1
@@ -389,7 +385,7 @@ You can make compound predicates using logical operators.
 String Operators
 ----------------
 
-You can compare string values using these string operators.
+Compare string values using these string operators.
 Regex-like wildcards allow more flexibility in search.
 
 .. note::
@@ -409,27 +405,27 @@ Regex-like wildcards allow more flexibility in search.
    * - Operator
      - Description
 
-   * - | ``beginsWith``
+   * - | ``BEGINSWITH``
      - Evaluates to ``true`` if the left-hand string expression begins with
        the right-hand string expression. This is similar to ``contains``,
        but only matches if the right-hand string expression is found
        at the beginning of the left-hand string expression.
 
-   * - | ``in``
+   * - | ``IN``
      - Evaluates to ``true`` if the left-hand string expression is found
        anywhere in the right-hand string expression.
 
-   * - | ``contains``
+   * - | ``CONTAINS``
      - Evaluates to ``true`` if the right-hand string expression
        is found anywhere in the left-hand string expression.
 
-   * - | ``endsWith``
+   * - | ``ENDSWITH``
      - Evaluates to ``true`` if the left-hand string expression ends
        with the right-hand string expression. This is similar to ``contains``,
        but only matches if the left-hand string expression is found
        at the very end of the right-hand string expression.
 
-   * - | ``like``
+   * - | ``LIKE``
      - Evaluates to ``true`` if the left-hand string expression
        matches the right-hand string wildcard string
        expression. A wildcard string expression is a string
@@ -465,23 +461,27 @@ Regex-like wildcards allow more flexibility in search.
 ObjectId and UUID Operators
 ---------------------------
 
-You can query :manual:`BSON ObjectIds </reference/method/ObjectId>` and
+Query :manual:`BSON ObjectIds </reference/method/ObjectId>` and
 :manual:`UUIDs </reference/method/UUID/>`.
 These data types are often used as primary keys.
 
-To query with ObjectIds, put a string representation of the ObjectId
-you're evaluating in ``oid(<ObjectId String>)``.
+To query with ObjectIds, use a parameterized query. Pass the ObjectId or UUID
+you're querying against as the argument.
 
-.. code-block:: js
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.oid-literal.js
+   :language: js
 
-   "_id == oid(6001c033600510df3bbfd864)"
+You can also put a string representation of the ObjectId you're evaluating
+in ``oid(<ObjectId String>)``.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.oid.js
+   :language: js
 
 To query with UUIDs, put a string representation of the UUID you're evaluating
 in ``uuid(<UUID String>)``.
 
-.. code-block:: js
-
-   "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.uuid.js
+   :language: js
 
 .. list-table::
    :header-rows: 1
@@ -503,20 +503,16 @@ in ``uuid(<UUID String>)``.
 Arithmetic Operators
 --------------------
 
-You can perform basic arithmetic in one side of a RQL expression when evaluating
+Perform basic arithmetic in one side of a RQL expression when evaluating
 numeric data types.
 
-.. code-block:: js
-
-   "2 * priority > 6"
-   // Is equivalent to
-   "priority >= 2 * (2 - 1) + 2"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.basic-arithmetic.js
+   :language: js
 
 You can also use multiple object properties together in a mathematic operation.
 
-.. code-block:: js
-
-   "progressMinutes * priority == 42"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.arithmetic-obj-properties.js
+   :language: js
 
 .. list-table::
    :header-rows: 1
@@ -541,9 +537,9 @@ You can also use multiple object properties together in a mathematic operation.
 Type Operator
 -------------
 
-You can check the type of a property using the ``@type`` operator.
-This operator can be useful for type checking a mixed data type or
-validating the type of data stored within a dictionary.
+Check the type of a property using the ``@type`` operator.
+You can only use the type operator with mixed types and dictionaries.
+
 Evaluate the property against a string representation of the data type name.
 Refer to SDK documentation on the mapping from the SDK language's data types
 to Realm data types.
@@ -559,18 +555,15 @@ to Realm data types.
      - Check if type of a property is the property name as a string.
        Use ``==`` and ``!=`` to compare equality.
 
-.. code-block:: js
-
-   "assignee.@type == 'string'"
-
-   "isComplete.@type == 'bool'"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.type-operator.js
+   :language: js
 
 .. _rql-dictionary-operators:
 
 Dictionary Operators
 --------------------
 
-You can compare dictionary values using these dictionary operators.
+Compare dictionary values using these dictionary operators.
 
 .. list-table::
    :header-rows: 1
@@ -600,6 +593,8 @@ based on dictionary keys and values. The following examples show some ways
 to use dictionary operators with comparison operators. All examples query
 a collection of Realm objects with a dictionary property named ``dict``.
 
+TODO(DOCSP-20137): literalinclude
+
 .. code-block:: js
 
    // Evaluates if all the dictionary's values are integers
@@ -617,48 +612,37 @@ a collection of Realm objects with a dictionary property named ``dict``.
    // Evaluates if dictionary has property of type 'string'
    "ANY dict.@type == 'string'"
 
-.. _rql-datetime-operators:
+.. _rql-date-operators:
 
-Datetime Operators
-------------------
+Date Operators
+--------------
 
-You can query datetime types in a realm.
+Query date types in a realm.
 
-Generally, you should use parameterized query to pass a datetime data type
+Generally, you should use parameterized query to pass a date data type
 from the SDK language you are using to a query.
 
-.. code-block:: js
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
+   :language: js
 
-   "timeCompleted < $0", yesterdayAtNoon
+You can also represent dates the following ways:
 
-You can also represent datetimes the following ways:
-
-- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn``å (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
+- ``YYYY-MM-DD@HH:mm:ss:nnnnnnnnnn`` (year-month-day@hours:minutes:seconds:nanoseconds), UTC.
   You can also use ``T`` instead of ``@`` to separate the date from the time.
 - ``Ts:n``, where ``s`` is the number of seconds and n the number of nanoseconds
   since :wikipedia:`unix epoch <Unix_time>`.
 
-Datetime supports the following :ref:`comparison operators <rql-comparison-operators>`:
+Date supports :ref:`comparison operators <rql-comparison-operators>`.
 
-- ``==``
-- ``!=``
-- ``<``
-- ``>``
-- ``<=``
-- ``>=``
-
-.. code-block:: js
-
-   "timeCompleted > 2021-02-20@17:30:15:0"
-
-   "timeCompleted > T1613842215:0"
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-alt-representation.js
+   :language: js
 
 .. _rql-aggregate-operators:
 
 Aggregate Operators
 -------------------
 
-You can apply an aggregate operator to a collection property of a Realm
+Apply an aggregate operator to a collection property of a Realm
 object. Aggregate operators traverse a collection and reduce it to a
 single value.
 
@@ -738,6 +722,9 @@ If the predicate returns true, the object is included in the output collection.
    This example uses collection operators to find projects that contain tasks
    matching certain criteria:
 
+
+   TODO(DOCSP-20137): literalinclude
+
    .. code-block:: js
 
       // Projects with no complete tasks.
@@ -755,7 +742,7 @@ If the predicate returns true, the object is included in the output collection.
 Subqueries
 ----------
 
-You can iterate through list properties with another query using the
+Iterate through list properties with another query using the
 ``SUBQUERY()`` predicate function.
 
 Subqueries are useful for the following scenarios:
@@ -766,7 +753,7 @@ Subqueries are useful for the following scenarios:
 
 ``SUBQUERY()`` has the following structure:
 
-.. code-block:: javascript
+.. code-block:: js
 
    SUBQUERY(<collection>, <variableName>, <predicate>)
 
@@ -794,6 +781,8 @@ number ``0`` to return all matching objects.
 
    The following example shows two subquery filters on a collection of projects.
 
+   TODO(DOCSP-20137): literalinclude
+
    .. code-block:: js
 
       // Returns projects with tasks that have not been completed
@@ -809,8 +798,7 @@ number ``0`` to return all matching objects.
 Sort, Distinct & Limit
 ----------------------
 
-You can use additional operators in your queries to sort and limit the
-results collection.
+Sort and limit the results collection of your query using additional operators.
 
 .. list-table::
    :header-rows: 1
@@ -840,13 +828,12 @@ results collection.
 
 .. example::
 
-   We use the query engine's sort, distinct, and limit operators to find:
+   Use the query engine's sort, distinct, and limit operators to find tasks
+   where the assignee is Ali:
 
-   - Tasks where the assignee is Ali
-
-     - Sorted by priority in descending order
-     - Enforcing uniqueness by name
-     - Limiting the results to 5 tasks
+   - Sorted by priority in descending order
+   - Enforcing uniqueness by name
+   - Limiting the results to 5 tasks
 
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.sort-distinct-limit.js
       :language: javascript
