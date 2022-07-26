@@ -1,0 +1,71 @@
+name: Readability
+
+on: pull_request
+
+# Also see SCORES_DIR environment variable definition as a step below.
+env:
+  SCORES_FILE_NAME: Scores.txt
+
+jobs:
+  scoreText:
+    name: Parse text, score text, and report scores on PR.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repo.
+        uses: actions/checkout@v3
+      - name: Get changed files.
+        id: changed-files
+        uses: tj-actions/changed-files@v23.2
+      - name: List changed files (debugging log statement).
+        run: |
+          echo ${{ steps.changed-files.outputs.all_changed_files }}
+      - name: Checkout docdoctor repo.
+        uses: actions/checkout@v3
+        with: 
+          repository: dacharyc/docdoctor
+          ref: 'readability'
+          path: 'docdoctor'
+      - name: Display workspace directory structure (debugging log statement)
+        run: |
+          ls $GITHUB_WORKSPACE
+      - name: Install Node.js.
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Parse text from rST.
+        run: |
+          pushd docdoctor && npm i && npm run build && popd
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            node ./docdoctor getReadabilityText $file
+          done
+      - name: Set scores directory environment variable using workaround for home path expansion.
+        run: |
+          echo "SCORES_DIR=$HOME/scores" >> $GITHUB_ENV
+      - name: Setup Python
+        uses: actions/setup-python@v4.1.0
+        with:
+            # We need Python version 3.5 or greater for rglob.
+            python-version: '3.6'
+            architecture: 'x64'
+      - name: Install textstat
+        run: pip install textstat
+      - name: Create scores directory.
+        run: mkdir $SCORES_DIR
+      - name: Calculate Readability score.
+        run: python $GITHUB_WORKSPACE/Calculate_Readability_Score.py
+      - name: Extract scores from downloaded artifact file into GitHub environment variable.
+        run: |
+          echo 'SCORES<<\n' >> $GITHUB_ENV
+          cat $SCORES_DIR/$SCORES_FILE_NAME >> $GITHUB_ENV
+          echo '\n' >> $GITHUB_ENV
+      - name: Leave a comment on the PR with the readability score.
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${{ env.SCORES }}`
+            })
