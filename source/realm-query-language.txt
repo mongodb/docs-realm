@@ -770,17 +770,8 @@ number ``0`` to return all matching objects.
 
    The following example shows two subquery filters on a collection of projects.
 
-   TODO(DOCSP-20137): literalinclude
-
-   .. code-block:: js
-
-      // Returns projects with tasks that have not been completed
-      // by a user named Alex.
-      "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
-
-      // Returns the projects where the number of completed tasks is
-      // greater than or equal to the value of a project's `quota` property.
-      "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
+   .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.subquery.js
+      :language: js
 
 .. _rql-sort-distinct-limit:
 
