@@ -1,0 +1,27 @@
+on:
+  workflow_run:
+    workflows: [Readability]
+    types:
+      - completed
+
+jobs:
+  postScoreAsComment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download readability score artifact"
+        uses: actions/download-artifact@v3
+        with:
+          name: readabilityScore
+      - name: Leave a comment on the PR with the readability score.
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let fs = require("fs");
+            let scores = fs.readFileSync("./scores/Scores.txt");
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${{ env.SCORES }}`
+            })
