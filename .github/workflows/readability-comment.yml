@@ -1,3 +1,5 @@
+name: Comment Readability Score
+
 on:
   workflow_run:
     workflows: [Readability]
@@ -23,5 +25,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${{ env.SCORES }}`
+              body: scores
             })
