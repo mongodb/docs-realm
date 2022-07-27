@@ -164,15 +164,6 @@ check if that property has been cleared.
   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.clear-collection.cs
      :language: csharp
 
-:dotnet-sdk:`ChangeSet <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>`
-is cleared 
-
-Added boolean property ChangeSet.IsCleared that is true when the collection gets
-cleared. Also Realm collections now raise CollectionChanged event with action
-Reset instead of Remove when the collections is cleared. Please note that this
-will work only with collection properties, such as IList and ISet. (Issue #2856)
-
-
 .. _dotnet-register-an-object-change-listener:
 .. _dotnet-object-notifications:
 
