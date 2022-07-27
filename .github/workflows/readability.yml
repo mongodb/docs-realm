@@ -2,10 +2,6 @@ name: Readability
 
 on: pull_request
 
-env:
-  SCORES_FILE_NAME: Scores.txt
-  SCORES_DIR: scores
-
 jobs:
   scoreText:
     name: Parse text, score text, and report scores on PR.
@@ -47,11 +43,11 @@ jobs:
       - name: Install textstat
         run: pip install textstat
       - name: Create scores directory.
-        run: mkdir -p "$SCORES_DIR"
+        run: mkdir -p scores
       - name: Calculate Readability score.
         run: python $GITHUB_WORKSPACE/Calculate_Readability_Score.py
       - name: Upload score results
         uses: actions/upload-artifact@v3
         with:
-          name: readabilityScore
-          path: $SCORES_DIR
+          name: Scores.txt
+          path: scores

@@ -13,7 +13,7 @@ jobs:
       - name: "Download readability score artifact"
         uses: actions/download-artifact@v3
         with:
-          name: readabilityScore
+          name: Scores.txt
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         with:
