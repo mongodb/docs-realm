@@ -8,7 +8,7 @@ import textstat
 # Config variable for which directory to scan for text files to score.
 text_files_dir = './output'
 # Config variable for which directory to store scores in.
-scores_dir = str(Path.home()) + '/scores'
+scores_dir = './scores'
 # Config variable for scores file name.
 scores_file_name = 'Scores.txt'
 

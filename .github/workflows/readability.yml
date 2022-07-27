@@ -38,10 +38,6 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             node ./docdoctor getReadabilityText "$file"
           done
-      - name: Set scores directory environment variable using workaround for home path expansion.
-        run: |
-          mkdir -p ./readabilityScore/
-          echo "SCORES_DIR=$HOME/scores" > ./readabilityScore/score
       - name: Setup Python
         uses: actions/setup-python@v4.1.0
         with:
