@@ -139,10 +139,16 @@ list or other view that represents the collection in the UI.
 
 Check if the ChangeSet Has Been Cleared
 ```````````````````````````````````````
-When you clear a collection, such as when you ``.Clear()`` on a ``IList`` or
-``ISet`` to reset the property, {+realm+} raises a ``CollectionChanged`` event
-with the action ``Reset``. You can check if the collection has been cleared
-by registering a change listener on collection's ``IList`` or ``ISet`` property.
+When you clear a collection by calling ``Clear()`` on an `IList
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`_
+or `ISet
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`_
+to reset the property, {+realm+} raises a ``CollectionChanged`` event with the
+action `Reset
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction?view=net-6.0>`_.
+
+Register a change listener on a collection's ``IList`` or ``ISet`` property to
+check if that property has been cleared.
 
 .. example::
 
@@ -152,8 +158,8 @@ by registering a change listener on collection's ``IList`` or ``ISet`` property.
   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.get-notification-if-collection-is-cleared.cs
      :language: csharp
 
-  If Fido's owners are cleared, like in the example below, then the logic in the
-  ``if`` block in the code snippet above is executed.
+  In the code snippet below, Fido's owner property is cleared, triggering the
+  change listener in the code snippet above and the logic in the ``if`` block.
 
   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.clear-collection.cs
      :language: csharp
