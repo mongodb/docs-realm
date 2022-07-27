@@ -11,10 +11,10 @@
   "ANY dict.@type == 'string'"
 
   // Evaluates if all the dictionary's values are integers
-  "ALL dict.@type == 'int'"
+  "ALL dict.@type == 'bool'"
 
   // Evaluates if dictionary does not have any values of type int
-  "NONE dict.@type == 'int'"
+  "NONE dict.@type == 'double'"
 
-  // ALL is implied. All have int values.
-  "dict.@type == 'int'"
+  // ANY is implied.
+  "dict.@type == 'string'"

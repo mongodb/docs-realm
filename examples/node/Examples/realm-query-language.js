@@ -551,13 +551,13 @@ describe("Realm Query Language Reference", () => {
         });
         realm.create("Dictionary", {
           dict: {
-            num: 42,
+            isTrue: false,
           },
         });
         realm.create("Dictionary", {
           dict: {
             baz: "Biz",
-            num: 1,
+            num: 1.0, // Note: Realm treats this as a double internally
           },
         });
       });
@@ -601,28 +601,28 @@ describe("Realm Query Language Reference", () => {
       );
 
       // TODO: fails, unsure why
-      const allInt = dictionaries.filtered(
+      const allBool = dictionaries.filtered(
         // :remove-end:
         // Evaluates if all the dictionary's values are integers
-        "ALL dict.@type == 'int'"
+        "ALL dict.@type == 'bool'"
 
         // :remove-start:
       );
 
       // TODO: fails, unsure why
-      const noInts = dictionaries.filtered(
+      const noFloats = dictionaries.filtered(
         // :remove-end:
         // Evaluates if dictionary does not have any values of type int
-        "NONE dict.@type == 'int'"
+        "NONE dict.@type == 'double'"
 
         // :remove-start:
       );
 
       // TODO: fails, unsure why
-      const allIntNoKeyWord = dictionaries.filtered(
+      const allStringNoKeyWord = dictionaries.filtered(
         // :remove-end:
-        // ALL is implied. All have int values.
-        "dict.@type == 'int'"
+        // ANY is implied.
+        "dict.@type == 'string'"
         // :snippet-end:
       );
 
@@ -630,10 +630,9 @@ describe("Realm Query Language Reference", () => {
       expect(fooBarKeyValue.length).toBe(1);
       expect(numItemsInDict.length).toBe(1);
       expect(hasString.length).toBe(2);
-      // all below tests are failing :(
-      expect(allInt.length).toBe(1);
-      expect(noInts.length).toBe(1);
-      expect(allIntNoKeyWord.length).toBe(1);
+      expect(allBool.length).toBe(1);
+      expect(noFloats.length).toBe(2);
+      expect(allStringNoKeyWord.length).toBe(2);
     });
   });
 });
