@@ -10,14 +10,18 @@ Quick Start with Sync - Flutter SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly get Realm Database and
-:ref:`Atlas Device Sync <sync>` integrated into your Flutter app.
+This page contains information to quickly integrate Realm Database and
+:ref:`Atlas Device Sync <sync>` into your Flutter app.
 Atlas Device Sync is an MongoDB Atlas App Service that synchronizes data between
 a client application and a MongoDB database cluster on Atlas.
 
 To synchronize data with Atlas using Device Sync, the Flutter SDK uses
 :ref:`Flexible Sync <flexible-sync>`. Flexible Sync lets you define a query for
 the data that you synchronize from the client app.
+
+.. note::
+
+   The Flutter SDK does not support :ref:`Partition-Based Sync <partition-based-sync>`.
 
 .. _flutter-template-app:
 
@@ -188,63 +192,157 @@ information:
 TODO_FLUTTER_EXAMPLE
 
 .. seealso::
-   
+
    :ref:`Authenticate a User <flutter-authenticate>`
 
+Open a Synced Realm
+-------------------
 
-Open a Realm
-------------
+Once you have enabled Device Sync and authenticated a user,
+open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`.
+Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
+to open an instance of the realm.
 
-Once you have :ref:`enabled Device Sync <enable-pbs-sync>` and authenticated a user,
-you can open a realm by calling
-:swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
-passing in the user's  
-:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
-includes the partition name. The following code demonstrates this:
-
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.open-realm.swift
-   :language: swift
+TODO_CODE_EXAMPLE
 
 .. seealso::
 
-   :ref:`Sync Data <ios-open-a-synced-realm>`
+   :ref:`Open a Synced Realm <flutter-open-synced-realm>`
 
-Create, Read, Update, and Delete Objects
-----------------------------------------
+Add a Sync Subscription
+-----------------------
 
-Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` in a :ref:`write transaction <ios-write-transactions>` block.
+Now create a subscription to synchronize data with Atlas using Device Sync.
+Add the subscription within the :flutter-sdk:`SubscriptionSet.update() <realm/SubscriptionSet/update.html>`
+callback function.
 
-To create a new Task, instantiate the Task class and add it to the realm in a write block:
+The update block callback function, includes a :flutter-sdk:`MutableSubscriptionSet()
+<realm/MutableSubscriptionSet-class.html>` object as an argument.
+Use ``MutableSubscriptionSet.add()`` to add a new subscription.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
-   :language: swift
+TODO_CODE_EXAMPLE
 
-You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the realm:
+.. seealso::
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.get-all-tasks.swift
-   :language: swift
+   :ref:`Manage Sync Session <flutter-manage-sync-session>`
 
-You can also filter that collection using :ref:`where <ios-client-query-engine>`:
+TODO: update example
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.filter.swift
-   :language: swift
+Work with Realm Objects
+-----------------------
 
-To modify a task, update its properties in a write transaction block:
+Once you've opened a realm, you can create, update, and delete objects
+within it using a :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
+All creation, update, and deletion operations on objects matching
+a sync subscription query synchronize with Atlas in a background thread.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.modify-write-block.swift
-   :language: swift
+.. seealso:: Further Reading
 
-Finally, you can delete a task:
+   :ref:`Read and Write Data - Flutter SDK <flutter-read-write-data>`
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.delete.swift
-   :language: swift
+Create Objects
+~~~~~~~~~~~~~~
 
-Watch for Changes
------------------
+To create a new ``Car``, instantiate an instance of the
+``Car`` class and add it to the realm in a write transaction block:
 
-Use the :flutter-sdk:`RealmResultsChanges <realm/RealmResultsChanges-class.html>`
-to listen 
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
+   :language: dart
 
+Update Objects
+~~~~~~~~~~~~~~
+
+To modify a car, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
+   :language: dart
+
+Query for Objects
+~~~~~~~~~~~~~~~~~
+
+Retrieve a collection of all objects of a data model in the realm with the
+:flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
+   :language: dart
+
+Filter a collection to retrieve a specific segment
+of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
+In the ``query()`` method's argument,
+use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
+
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
+   :language: dart
+
+Sort the results using the :ref:`Realm Query Language SORT() operator
+<rql-sort-distinct-limit>` in the ``query()`` method's argument.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
+   :language: dart
+
+Delete Objects
+~~~~~~~~~~~~~~
+
+Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
+method in a write transaction block:
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
+   :language: dart
+
+Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
+<realm/Realm/deleteMany.html>` method in a write transaction block.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
+   :language: dart
+
+React to Changes
+~~~~~~~~~~~~~~~~
+
+Listen and respond to changes to a query, a single object, or a list within an object.
+The change listener is a Stream that invokes a callback function with an containing
+changes since last invocation as its argument. You receive notifications when changes occur
+locally and also when synchronized objects on Atlas are updated.
+
+To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
+<realm/RealmResultsChanges-class.html>`.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
+   :language: dart
+
+To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
+<realm/RealmObjectChanges-class.html>`.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
+   :language: dart
+
+To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
+<realm/RealmListChanges-class.html>`.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
+   :language: dart
+
+You can pause and resume subscriptions as well.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.pause-resume-subscription.dart
+   :language: dart
+
+Once you've finished listening to changes, close the change listener to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
+   :language: dart
+
+.. seealso:: Further Reading
+
+   :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`
+
+Close a Realm
+-------------
+
+Once you've finished working with a realm, close it to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
+   :language: dart
 
 Log Out
 -------
@@ -257,15 +355,18 @@ Once logged in, you can log out:
 Complete Example
 ----------------
 
-To see a complete example of  the complete example by replacing the ``TODO_APP_ID_VARIABLE_NAME``
-with your App ID and then . 
+TODO: this will be a little more involved w Flutter than the other SDKs
+b.c you need to generate. also prob easiest to do plain old dart, not flutter version 
+of SDK. figure out how to elegantly convey.
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.complete-quick-start.swift
-   :language: swift
+To see a complete example of  the complete example by replacing the ``TODO_APP_ID_VARIABLE_NAME``
+with your App ID and then ...TODO....
+
+TODO_CODE_EXAMPLE
 
 Output
 ~~~~~~
-Running the above code should output something like the following:
 
-.. literalinclude:: /examples/QuickStarts/CompleteSwiftOutput
+Running the above code creates an output resembling the following:
 
+TODO_CODE_EXAMPLE
