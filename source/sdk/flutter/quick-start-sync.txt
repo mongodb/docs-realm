@@ -15,6 +15,12 @@ This page contains information to quickly get Realm Database and
 Atlas Device Sync is an MongoDB Atlas App Service that synchronizes data between
 a client application and a MongoDB database cluster on Atlas.
 
+To synchronize data with Atlas using Device Sync, the Flutter SDK uses
+:ref:`Flexible Sync <flexible-sync>`. Flexible Sync lets you define a query for
+the data that you synchronize from the client app.
+
+.. _flutter-template-app:
+
 Flutter Template App
 --------------------
 
@@ -30,5 +36,236 @@ To use the Realm Flutter template app:
 #. Follow the instruction to :ref:`create a new template app <create-template-app>`.
 #. Create the Flutter template app by selecting: ``flutter.todo.flex``
 
-The rest of this page looks at how you can add the Realm Flutter SDK to a Flutter
-application uses examples from the template app.
+TODO(DOCSP-22738): flutterify
+
+Import Realm
+------------
+
+Near the top of any file that uses Realm, add the following import
+statement:
+
+TODO(DOCSP-22738): code example
+
+Define Your Object Model
+------------------------
+
+Your application's **data model** defines the structure of data
+stored within Realm Database.
+You can define your application's data model via Dart
+classes in your application code with
+a Realm object schema.
+You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
+class that's used within your application.
+
+.. seealso:: Further Reading
+
+   :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`
+
+TODO(DOCSP-22738): update models to be syncier
+
+Create Data Model
+~~~~~~~~~~~~~~~~~
+
+To define your application's data model, add a Realm model class
+definition to your application code.
+
+Some considerations when defining your Realm model class:
+
+- Import package at the top of your class definition file.
+
+- In your file, give your class a private name (starting with ``_``),
+  such as a file ``car.dart`` with a class ``_Car``.
+  You generate the public RealmObject class using the command in the following
+  Generate RealmObject Class section. This command
+  outputs a public class, such as ``Car``.
+
+- Make sure to include the generated file name, such as ``part car.g.dart``,
+  before the code defining your model.
+  This is required to generate the RealmObject class.
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-flutter.dart
+         :language: dart
+         :caption: car.dart
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-dart.dart
+         :language: dart
+         :caption: car.dart
+
+.. _flutter-generate-realmobject-class:
+
+Generate RealmObject Class
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now generate a RealmObject class ``Car`` from the data model class ``Car``:
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+
+         flutter pub run realm generate
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate
+
+Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory
+where you defined the model class per the preceding Create Data Model section.
+This ``Car`` class is public and part of the same library
+as the ``_Car`` data model class.
+The generated ``Car`` class is what's used throughout your application.
+
+If you'd like to watch your data model class to generate a new ``Car`` class whenever
+there's a change to ``_Car``, run:
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block::
+
+         flutter pub run realm generate --watch
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block::
+
+         dart run realm_dart generate --watch
+
+Set Up Atlas Device Sync
+------------------------
+
+Before you can use Atlas Device Sync with Realm in your Flutter app, you must:
+
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Enable Anonymous Authentication <anonymous-authentication>`
+#. :ref:`Enable Flexible Sync <enable-flexible-sync>`
+
+On a high level, to add Device Sync to your Flutter app, you perform the following:
+
+#. Create an Atlas App Services ``App`` instance. Realm uses the ``App``
+   to help manage the Device Sync session.
+#. Log a user into the ``App``.
+#. Open a Realm Database instance with a Device Sync subscription to synchronize
+   data between the client app and MongoDB Atlas.
+
+.. tip:: Use Realm Flutter Template App
+
+   If you want a working Flutter app with Device Sync already set up in the client
+   and on that App Service backend, use the :ref:`Flutter Template App <flutter-template-app>`.
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+
+To use App Services features such as authentication and sync, you must
+access your App Services App using your App ID. You can find your
+App ID in the App Services UI.
+
+TODO_FLUTTER_EXAMPLE
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+After you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+App Services UI, users can immediately log into your app without providing any identifying
+information:
+
+TODO_FLUTTER_EXAMPLE
+
+.. seealso::
+   
+   :ref:`Authenticate a User <flutter-authenticate>`
+
+
+Open a Realm
+------------
+
+Once you have :ref:`enabled Device Sync <enable-pbs-sync>` and authenticated a user,
+you can open a realm by calling
+:swift-sdk:`asyncOpen <Structs/Realm.html#/s:10RealmSwift0A0V9asyncOpen13configuration13callbackQueue0F0AC05AsyncD4TaskVAC13ConfigurationV_So17OS_dispatch_queueCyACSg_s5Error_pSgtctFZ>`, 
+passing in the user's  
+:swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object, which  
+includes the partition name. The following code demonstrates this:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.open-realm.swift
+   :language: swift
+
+.. seealso::
+
+   :ref:`Sync Data <ios-open-a-synced-realm>`
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` in a :ref:`write transaction <ios-write-transactions>` block.
+
+To create a new Task, instantiate the Task class and add it to the realm in a write block:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
+   :language: swift
+
+You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the realm:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.get-all-tasks.swift
+   :language: swift
+
+You can also filter that collection using :ref:`where <ios-client-query-engine>`:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.filter.swift
+   :language: swift
+
+To modify a task, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.modify-write-block.swift
+   :language: swift
+
+Finally, you can delete a task:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.delete.swift
+   :language: swift
+
+Watch for Changes
+-----------------
+
+Use the :flutter-sdk:`RealmResultsChanges <realm/RealmResultsChanges-class.html>`
+to listen 
+
+
+Log Out
+-------
+
+Once logged in, you can log out:
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.logout.swift
+   :language: swift
+
+Complete Example
+----------------
+
+To see a complete example of  the complete example by replacing the ``TODO_APP_ID_VARIABLE_NAME``
+with your App ID and then . 
+
+.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.complete-quick-start.swift
+   :language: swift
+
+Output
+~~~~~~
+Running the above code should output something like the following:
+
+.. literalinclude:: /examples/QuickStarts/CompleteSwiftOutput
+
