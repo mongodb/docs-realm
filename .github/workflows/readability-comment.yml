@@ -37,10 +37,11 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require("fs");
-            const scores = fs.readFileSync("${{github.workspace}}/scores.md", "utf8");
+            const body = fs.readFileSync("${{github.workspace}}/scores/scores.md", "utf8");
+            const issue_number = Number(fs.readFileSync("${{github.workspace}}/scores/issue_number", "utf8"));
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: scores
+              body,
             })

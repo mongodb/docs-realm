@@ -42,12 +42,14 @@ jobs:
           architecture: "x64"
       - name: Install textstat
         run: pip install textstat
-      - name: Create scores directory.
-        run: mkdir -p scores
+      - name: Create scores directory and save PR number.
+        run: |
+          mkdir -p scores
+          echo ${{ github.event.number }} > ./scores/issue_number
       - name: Calculate Readability score.
         run: python $GITHUB_WORKSPACE/Calculate_Readability_Score.py
       - name: Upload score results
         uses: actions/upload-artifact@v3
         with:
           name: scores
-          path: scores/scores.md
+          path: scores
