@@ -10,7 +10,7 @@ text_files_dir = './output'
 # Config variable for which directory to store scores in.
 scores_dir = './scores'
 # Config variable for scores file name.
-scores_file_name = 'Scores.txt'
+scores_file_name = 'scores.md'
 
 # Creating the scores file.
 with open(os.path.join(scores_dir, scores_file_name), 'w') as scores_file:
