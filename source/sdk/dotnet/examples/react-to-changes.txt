@@ -138,17 +138,17 @@ list or other view that represents the collection in the UI.
 .. _dotnet-change-set-cleared:
 
 Check if the ChangeSet Has Been Cleared
-```````````````````````````````````````
-When you clear a collection by calling ``Clear()`` on an `IList
+---------------------------------------
+
+Use ``SubscribeForNotifications`` to handle if a collection has been
+cleared by calling ``Clear()`` on an `IList
 <https://docs.microsoft.com/en-us/dotnet/api/system.collections.ilist?view=net-6.0>`_
 or `ISet
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`_
-to reset the property, Realm Database raises a ``CollectionChanged`` event with the
-action `Reset
-<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction?view=net-6.0>`_.
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.iset-1?view=net-6.0>`_. property. 
 
-Register a change listener on a collection's ``IList`` or ``ISet`` property to
-check if that property has been cleared.
+When all elements are removed from the property, The Realm .NET SDK sets the
+:dotnet-sdk:`ChangeSet.IsCleared
+<reference/Realms.ChangeSet.html#Realms_ChangeSet_IsCleared>` property to true.
 
 .. example::
 
@@ -163,6 +163,33 @@ check if that property has been cleared.
 
   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.clear-collection.cs
      :language: csharp
+
+.. note:: CollectionChanged Event
+
+   As of Realm .NET SDK version 10.14.0, Realm collections raise the
+   `CollectionChanged
+   <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged.collectionchanged?view=net-6.0>`
+   event with action ``Reset`` when the collection is cleared. 
+
+   .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.call-handle-collection-changed.cs
+      :language: csharp
+ 
+   .. literalinclude:: /WorkWithRealm.snippet.define-handle-collection-changed.cs
+      :language: csharp   
+
+
+Also Realm collections now raise CollectionChanged event with action Reset instead of Remove when the collections is cleared.
+
+With CollectionChanged  then NotifyCollectionChangedEventArgs args will have args.Action = NotifyCollectionChangedAction.Reset.
+
+
+ Realm Database raises a ``CollectionChanged`` event with the
+action `Reset
+<https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.notifycollectionchangedaction?view=net-6.0>`_.
+
+Register a change listener on a collection's ``IList`` or ``ISet`` property to
+check if that property has been cleared.
+
 
 .. _dotnet-register-an-object-change-listener:
 .. _dotnet-object-notifications:

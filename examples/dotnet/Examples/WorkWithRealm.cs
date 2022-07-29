@@ -251,12 +251,16 @@ namespace Examples
 
                 if (changes.IsCleared)
                 {
-                    // ... handle a CollectionChanged Event with action `Reset`
+                    // ... handle collection has been cleared ...
                     // :remove-start:
                     changesHaveBeenCleared = true;
                     // :remove-end:
                 }
             });
+            // :snippet-end:
+
+            // :snippet-start: call-handle-collection-changed
+            fido.Owners.AsRealmCollection().CollectionChanged += HandleCollectionChanged;
             // :snippet-end:
 
             // :snippet-start: clear-collection
@@ -271,6 +275,17 @@ namespace Examples
             Assert.IsTrue(changesHaveBeenCleared);
 
         }
+
+        // :snippet-start: define-handle-collection-changed
+        private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                // ... handle a CollectionChanged Event with action `Reset`
+            }
+        }
+        // :snippet-end:
+
 
         class NotificationUnsub
         {

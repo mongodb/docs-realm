@@ -5,6 +5,6 @@ var token = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
 
     if (changes.IsCleared)
     {
-        // ... handle a CollectionChanged Event with action `Reset`
+        // ... handle collection has been cleared ...
     }
 });
