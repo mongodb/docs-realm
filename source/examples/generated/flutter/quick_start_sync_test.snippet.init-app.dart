@@ -1,1 +1,1 @@
-App app = App(AppConfiguration(id));
+App app = App(AppConfiguration(APP_ID));

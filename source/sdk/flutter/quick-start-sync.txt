@@ -115,55 +115,9 @@ Some considerations when defining your Realm model class:
   before the code defining your model.
   This is required to generate the RealmObject class.
 
-TODO: literalinclude
-
-.. tabs::
-
-   .. tab:: Flutter
-      :tabid: flutter
-
-      .. code-block:: dart
-        :caption: schemas.dart
-
-          import 'package:realm/realm.dart';
-
-          part 'sch emas.g.dart';
-
-          @RealmModel()
-          class _Todo {
-            // When modeling data for a Realm with Device Sync, you must map
-            // your primary key to `_id` with the decorator @MapTo('id').
-            @MapTo('_id')
-            @PrimaryKey()
-            late ObjectId id;
-            bool isComplete = false;
-            late String summary;
-            @MapTo('owner_id')
-            late String ownerId;
-          }
-
-   .. tab:: Dart
-      :tabid: dart
-
-      .. code-block:: dart
-        :caption: schemas.dart
-
-          import 'package:real_dart/realm.dart';
-
-          part 'schemas.g.dart';
-
-          @RealmModel()
-          class _Todo {
-            // When modeling data for a Realm with Device Sync, you must map
-            // your primary key to `_id` with the decorator @MapTo('id').
-            @MapTo('_id')
-            @PrimaryKey()
-            late ObjectId id;
-            bool isComplete = false;
-            late String summary;
-            @MapTo('owner_id')
-            late String ownerId;
-          }
+.. literalinclude:: /examples/generated/flutter/sync_schemas.snippet.schema.dart
+   :caption: sync_schema.dart
+   :language: dart
 
 .. seealso:: Further Reading
 
@@ -296,8 +250,6 @@ Create Objects
 To create a new ``Todo``, instantiate an instance of the
 ``Todo`` class and add it to the realm in a write transaction block.
 
-TODO: literalinclude
-
 .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.create-object.dart
    :language: dart
 
@@ -358,8 +310,6 @@ To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
 <realm/RealmObjectChanges-class.html>`.
 
-TODO: literalinclude
-
 .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.watch-changes-object.dart
    :language: dart
 
@@ -396,18 +346,97 @@ Once logged in, you can log out:
 Complete Example
 ----------------
 
-TODO: this will be a little more involved w Flutter than the other SDKs
-b.c you need to generate. also prob easiest to do plain old dart, not flutter version
-of SDK. figure out how to elegantly convey.
+This example uses the Dart-standalone Realm SDK, as it doesn't require a full
+Flutter application to show functionality.
 
-To see a complete example of  the complete example by replacing the ``TODO_APP_ID_VARIABLE_NAME``
-with your App ID and then ...TODO....
+.. procedure::
 
-TODO_CODE_EXAMPLE
+   .. step:: Create App Services App with Device Sync
+
+      TODO
+
+   .. step:: Set up Dart project with Realm
+
+      First create a new Dart project:
+
+      .. code-block:: sh
+
+         dart create -t console realm_demo
+
+      Then add Realm Dart to the project:
+
+      .. code-block:: sh
+
+         cd realm_demo
+         dart pub add realm_dart
+         dart run realm_dart install
+   
+   .. step:: Create data model
+
+      Create a file for your models, ``bin/sync_schemas.dart``.
+
+      In this file, add the following code:
+
+      TODO: literalinclude once make 2 versions, 1 for dart only, 1 for flutter
+      Need to figure out how to do this w/ bluehawk.
+
+      .. code-block:: dart
+         :caption: bin/sync_schemas.dart
+
+         import 'package:realm_dart/realm.dart';
+
+         part 'sync_schemas.g.dart';
+
+         @RealmModel()
+         class _Todo {
+            // When modeling data for a Realm with Device Sync, you must map
+            // your primary key to `_id` with the decorator @MapTo('id').
+            @MapTo('_id')
+            @PrimaryKey()
+            late ObjectId id;
+            bool isComplete = false;
+            late String summary;
+            @MapTo('owner_id')
+            late String ownerId;
+         }
+
+      Now generate the ``RealmObject`` class:
+
+      .. code-block:: sh
+
+         dart run realm_dart generate
+
+      This creates the file ``bin/sync_schemas.g.dart``.
+   
+   .. step:: Add the test script
+
+      Add the following code to the file ``bin/realm_demo.dart``:
+
+      .. literalinclude:: TODO_ADD_FULL EXAMPLE
+         :language: dart
+         :caption: bin/realm_demo.dart
+
+   .. step:: TO BE CONTINUED
 
 Output
 ~~~~~~
 
 Running the above code creates an output resembling the following:
 
-TODO_CODE_EXAMPLE
+.. code-block::
+
+   Logged in anonymously with user id: 62e440a4680dbdd7de4cdd4e
+   Created task: Buy milk
+   'Buy milk' status _before_ update: false
+   Deleting 'Buy Milk'
+   'Buy milk' status _after update: true
+   'Drink coffee' updated
+   'Take nap' updated
+   [INFO] Realm: Connection[1]: Session[1]: client_reset_config = false, Realm exists = true, client reset = false
+   [INFO] Realm: Connected to endpoint '34.227.4.145:443' (from '192.168.1.163:54032')
+   'Drink coffee' updated
+   'Take nap' updated
+   'Buy milk' status update: true
+   'Buy milk' status update: true
+   [INFO] Realm: Connection[1]: Disconnected
+   Bye bye :)

@@ -1,4 +1,3 @@
-import 'package:realm/realm.dart';
 
 
 @RealmModel()

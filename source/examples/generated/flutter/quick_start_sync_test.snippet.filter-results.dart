@@ -1,1 +1,1 @@
-RealmList<Todo> incompleteTodos = realm.query<Todo>("isComplete == false");
+RealmResults<Todo> incompleteTodos = realm.query<Todo>("isComplete == false");

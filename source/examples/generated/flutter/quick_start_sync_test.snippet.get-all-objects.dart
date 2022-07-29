@@ -1,1 +1,1 @@
-RealmList<Todo> allTodos = realm.all<Todo>();
+RealmResults<Todo> allTodos = realm.all<Todo>();

@@ -1,5 +1,4 @@
 
-import 'package:realm/realm.dart';
 
 part 'car.g.dart';
 

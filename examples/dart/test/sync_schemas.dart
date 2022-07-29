@@ -1,10 +1,11 @@
 // :snippet-start: schema
-// :state-start: dart
-import 'package:realm_dart/realm.dart';
-// :state-end:
-// :state-uncomment-start: flutter
+import 'package:realm_dart/realm.dart'; // :remove:
+// :remove-start:
 // import 'package:realm/realm.dart';
-// :state-uncomment-end:
+// If you are using Dart-standalone Realm (not Flutter),
+//replace the import statement with:
+// import 'package:realm_dart/realm.dart';
+// :remove-end:
 
 part 'sync_schemas.g.dart'; // :remove:
 
