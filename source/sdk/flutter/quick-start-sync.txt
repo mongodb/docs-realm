@@ -40,15 +40,49 @@ To use the Realm Flutter template app:
 #. Follow the instruction to :ref:`create a new template app <create-template-app>`.
 #. Create the Flutter template app by selecting: ``flutter.todo.flex``
 
-TODO(DOCSP-22738): flutterify
+The examples on this page are loosely based on the Flutter template app.
 
-Import Realm
-------------
+Add Realm to Project
+--------------------
+
+Add the Realm package to your project.
+
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block:: sh
+
+        flutter pub add realm
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block:: sh
+
+        dart pub add realm_dart \
+        && dart run realm_dart install
+
 
 Near the top of any file that uses Realm, add the following import
-statement:
+statement.
 
-TODO(DOCSP-22738): code example
+.. tabs::
+
+   .. tab:: Flutter
+      :tabid: flutter
+
+      .. code-block:: dart
+
+        import 'package:realm/realm.dart';
+
+   .. tab:: Dart
+      :tabid: dart
+
+      .. code-block:: dart
+
+        import 'package:realm_dart/realm.dart';
 
 Define Your Object Model
 ------------------------
@@ -61,12 +95,6 @@ a Realm object schema.
 You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
 class that's used within your application.
 
-.. seealso:: Further Reading
-
-   :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`
-
-TODO(DOCSP-22738): update models to be syncier
-
 Create Data Model
 ~~~~~~~~~~~~~~~~~
 
@@ -78,37 +106,75 @@ Some considerations when defining your Realm model class:
 - Import package at the top of your class definition file.
 
 - In your file, give your class a private name (starting with ``_``),
-  such as a file ``car.dart`` with a class ``_Car``.
+  such as a file ``schemas.dart`` with a class ``_Todo``.
   You generate the public RealmObject class using the command in the following
   Generate RealmObject Class section. This command
-  outputs a public class, such as ``Car``.
+  outputs a public class, such as ``Todo``.
 
-- Make sure to include the generated file name, such as ``part car.g.dart``,
+- Make sure to include the generated file name, such as ``part schemas.g.dart``,
   before the code defining your model.
   This is required to generate the RealmObject class.
+
+TODO: literalinclude
 
 .. tabs::
 
    .. tab:: Flutter
       :tabid: flutter
 
-      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-flutter.dart
-         :language: dart
-         :caption: car.dart
+      .. code-block:: dart
+        :caption: schemas.dart
+
+          import 'package:realm/realm.dart';
+
+          part 'schemas.g.dart';
+
+          @RealmModel()
+          class _Todo {
+            // When modeling data for a Realm with Device Sync, you must map
+            // your primary key to `_id` with the decorator @MapTo('id').
+            @MapTo('_id')
+            @PrimaryKey()
+            late ObjectId id;
+            bool isComplete = false;
+            late String summary;
+            @MapTo('owner_id')
+            late String ownerId;
+          }
 
    .. tab:: Dart
       :tabid: dart
 
-      .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.define-model-dart.dart
-         :language: dart
-         :caption: car.dart
+      .. code-block:: dart
+        :caption: schemas.dart
+
+          import 'package:real_dart/realm.dart';
+
+          part 'schemas.g.dart';
+
+          @RealmModel()
+          class _Todo {
+            // When modeling data for a Realm with Device Sync, you must map
+            // your primary key to `_id` with the decorator @MapTo('id').
+            @MapTo('_id')
+            @PrimaryKey()
+            late ObjectId id;
+            bool isComplete = false;
+            late String summary;
+            @MapTo('owner_id')
+            late String ownerId;
+          }
+
+.. seealso:: Further Reading
+
+   :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`
 
 .. _flutter-generate-realmobject-class:
 
 Generate RealmObject Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now generate a RealmObject class ``Car`` from the data model class ``Car``:
+Now generate a RealmObject class ``Todo`` from the data model class ``_Todo``:
 
 .. tabs::
 
@@ -126,30 +192,11 @@ Now generate a RealmObject class ``Car`` from the data model class ``Car``:
 
          dart run realm_dart generate
 
-Running this creates a ``Car`` class in a ``car.g.dart`` file located in the directory
+Running this creates a ``Todo`` class in a ``schemas.g.dart`` file located in the directory
 where you defined the model class per the preceding Create Data Model section.
-This ``Car`` class is public and part of the same library
-as the ``_Car`` data model class.
-The generated ``Car`` class is what's used throughout your application.
-
-If you'd like to watch your data model class to generate a new ``Car`` class whenever
-there's a change to ``_Car``, run:
-
-.. tabs::
-
-   .. tab:: Flutter
-      :tabid: flutter
-
-      .. code-block::
-
-         flutter pub run realm generate --watch
-
-   .. tab:: Dart
-      :tabid: dart
-
-      .. code-block::
-
-         dart run realm_dart generate --watch
+This ``Todo`` class is public and part of the same library
+as the ``_Todo`` data model class.
+The generated ``Todo`` class is what's used throughout your application.
 
 Set Up Atlas Device Sync
 ------------------------
@@ -180,7 +227,11 @@ To use App Services features such as authentication and sync, you must
 access your App Services App using your App ID. You can find your
 App ID in the App Services UI.
 
-TODO_FLUTTER_EXAMPLE
+TODO: literalinclude
+
+.. code-block:: dart
+
+   App app = App(AppConfiguration(id));
 
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
@@ -189,7 +240,12 @@ After you have enabled :ref:`anonymous authentication <anonymous-authentication>
 App Services UI, users can immediately log into your app without providing any identifying
 information:
 
-TODO_FLUTTER_EXAMPLE
+TODO: literalinclude
+
+.. code-block:: dart
+
+    User loggedInUser =
+        await _app.logIn(Credentials.anonymous());
 
 .. seealso::
 
@@ -203,7 +259,12 @@ open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Confi
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
 to open an instance of the realm.
 
-TODO_CODE_EXAMPLE
+.. code-block:: dart
+
+   Configuration config = Configuration.flexibleSync(currentUser, [Todo.schema]);
+   Realm realm = Realm(
+     config,
+   );
 
 .. seealso::
 
@@ -220,13 +281,23 @@ The update block callback function, includes a :flutter-sdk:`MutableSubscription
 <realm/MutableSubscriptionSet-class.html>` object as an argument.
 Use ``MutableSubscriptionSet.add()`` to add a new subscription.
 
-TODO_CODE_EXAMPLE
+TODO: literalinclude
+
+.. code-block:: dart
+
+   // Check if the subscription already exists before adding
+   final userTodoSub = realm.subscriptions.findByName('getUserTodos');
+   if (userTodoSub == null) {
+     realm.subscriptions.update((mutableSubscriptions) {
+       // server-side rules ensure user only downloads their own Todos
+       mutableSubscriptions.add(realm.all<Todo>(), name: 'getUserTodos');
+     });
+   }
 
 .. seealso::
 
    :ref:`Manage Sync Session <flutter-manage-sync-session>`
 
-TODO: update example
 
 Work with Realm Objects
 -----------------------
@@ -243,58 +314,80 @@ a sync subscription query synchronize with Atlas in a background thread.
 Create Objects
 ~~~~~~~~~~~~~~
 
-To create a new ``Car``, instantiate an instance of the
-``Car`` class and add it to the realm in a write transaction block:
+To create a new ``Todo``, instantiate an instance of the
+``Todo`` class and add it to the realm in a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
-   :language: dart
+TODO: literalinclude
 
-Update Objects
-~~~~~~~~~~~~~~
+.. code-block:: dart
 
-To modify a car, update its properties in a write transaction block:
-
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
-   :language: dart
+   realm.write(() {
+     Todo buyMilk =
+      Todo(ObjectId(), 'Buy milk', currentUser!.id);
+     realm.add<Todo>(newTodo);
+   });
 
 Query for Objects
 ~~~~~~~~~~~~~~~~~
 
-Retrieve a collection of all objects of a data model in the realm with the
-:flutter-sdk:`Realm.all() <realm/Realm/all.html>` method:
+Retrieve a collection of all objects of a data model in the realm with
+:flutter-sdk:`Realm.all() <realm/Realm/all.html>`.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-all-realm-objects.dart
-   :language: dart
+.. code-block:: dart
+
+   RealmList<Todo> allTodos = realm.all<Todo>();
 
 Filter a collection to retrieve a specific segment
-of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method.
+of objects with :flutter-sdk:`Realm.query() <realm/Realm/query.html>`.
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
 
+TODO: literalinclude
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
-   :language: dart
+.. code-block:: dart
 
-Sort the results using the :ref:`Realm Query Language SORT() operator
-<rql-sort-distinct-limit>` in the ``query()`` method's argument.
+   RealmList<Todo> allTodos = realm.query<Todo>('"summary = 'Buy milk'"');
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
-   :language: dart
+Update Objects
+~~~~~~~~~~~~~~
+
+To modify a Todo, update its properties in a write transaction block.
+
+TODO: literalinclude
+
+.. code-block:: dart
+
+   Todo buyMilk = realm.query<Todo>("summary = 'Buy milk'")[0];
+   realm.write(() {
+        buyMilk.isComplete = true;
+   });
 
 Delete Objects
 ~~~~~~~~~~~~~~
 
-Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
-method in a write transaction block:
+Delete a Todo by calling :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
+in a write transaction block.
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
-   :language: dart
+TODO: literalinclude
 
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
-<realm/Realm/deleteMany.html>` method in a write transaction block.
+.. code-block:: dart
 
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
-   :language: dart
+   Todo buyMilk = realm.query<Todo>("summary = 'Buy milk'")[0];
+   realm.write(() {
+        realm.delete(buyMilk)
+   });
+
+Delete multiple Todos with :flutter-sdk:`Realm.deleteMany()
+<realm/Realm/deleteMany.html>` in a write transaction block.
+
+TODO: literalinclude
+
+.. code-block:: dart
+
+   RealmList<Todo> allTodos = realm.query<Todo>('"summary = 'Buy milk'"');
+   realm.write(() {
+     realm.deleteMany(allTodos);
+   });
 
 React to Changes
 ~~~~~~~~~~~~~~~~
@@ -349,14 +442,14 @@ Log Out
 
 Once logged in, you can log out:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.logout.swift
-   :language: swift
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.log-out.dart
+   :language: dart
 
 Complete Example
 ----------------
 
 TODO: this will be a little more involved w Flutter than the other SDKs
-b.c you need to generate. also prob easiest to do plain old dart, not flutter version 
+b.c you need to generate. also prob easiest to do plain old dart, not flutter version
 of SDK. figure out how to elegantly convey.
 
 To see a complete example of  the complete example by replacing the ``TODO_APP_ID_VARIABLE_NAME``
