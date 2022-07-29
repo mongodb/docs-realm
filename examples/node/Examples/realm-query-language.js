@@ -325,14 +325,14 @@ describe("Realm Query Language Reference", () => {
     };
     let realm;
     const path = "oidUuid.realm";
-    const oid1String = "6001c033600510df3bbfd864";
+    const oidValueString = "6001c033600510df3bbfd864";
     const uuid1String = "d1b186e1-e9e0-4768-a1a7-c492519d47ee";
-    const oid1 = new Realm.BSON.ObjectId(oid1String);
+    const oidValue = new Realm.BSON.ObjectId(oidValueString);
     const uuid1 = new Realm.BSON.UUID(uuid1String);
     beforeAll(async () => {
       realm = await Realm.open({ schema: [OidUuid], path });
       const obj1 = {
-        _id: oid1,
+        _id: oidValue,
         id: uuid1,
       };
       const obj2 = {
@@ -359,7 +359,7 @@ describe("Realm Query Language Reference", () => {
       // prettier-ignore
       const oidInterpolation = oidUuids.filtered(
         // :snippet-start:oid-literal
-        "_id == $0", oid1
+        "_id == $0", oidValue
         // :snippet-end:
       );
 
