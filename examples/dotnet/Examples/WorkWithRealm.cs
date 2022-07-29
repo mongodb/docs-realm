@@ -226,6 +226,7 @@ namespace Examples
                 Id = ObjectId.GenerateNewId(),
                 Name = "Fido"
             };
+            
             realm.Write(() =>
             {
                 fido = realm.Add<Dog>(fido);
