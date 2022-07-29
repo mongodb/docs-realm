@@ -127,7 +127,7 @@ TODO: literalinclude
 
           import 'package:realm/realm.dart';
 
-          part 'schemas.g.dart';
+          part 'sch emas.g.dart';
 
           @RealmModel()
           class _Todo {
@@ -227,11 +227,8 @@ To use App Services features such as authentication and sync, you must
 access your App Services App using your App ID. You can find your
 App ID in the App Services UI.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   App app = App(AppConfiguration(id));
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.init-app.dart
+   :language: dart
 
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
@@ -240,12 +237,8 @@ After you have enabled :ref:`anonymous authentication <anonymous-authentication>
 App Services UI, users can immediately log into your app without providing any identifying
 information:
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-    User loggedInUser =
-        await _app.logIn(Credentials.anonymous());
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.log-in.dart
+   :language: dart
 
 .. seealso::
 
@@ -259,12 +252,8 @@ open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Confi
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
 to open an instance of the realm.
 
-.. code-block:: dart
-
-   Configuration config = Configuration.flexibleSync(currentUser, [Todo.schema]);
-   Realm realm = Realm(
-     config,
-   );
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.open-sync-realm.dart
+   :language: dart
 
 .. seealso::
 
@@ -281,18 +270,8 @@ The update block callback function, includes a :flutter-sdk:`MutableSubscription
 <realm/MutableSubscriptionSet-class.html>` object as an argument.
 Use ``MutableSubscriptionSet.add()`` to add a new subscription.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   // Check if the subscription already exists before adding
-   final userTodoSub = realm.subscriptions.findByName('getUserTodos');
-   if (userTodoSub == null) {
-     realm.subscriptions.update((mutableSubscriptions) {
-       // server-side rules ensure user only downloads their own Todos
-       mutableSubscriptions.add(realm.all<Todo>(), name: 'getUserTodos');
-     });
-   }
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.add-sync-subscription.dart
+   :language: dart
 
 .. seealso::
 
@@ -319,13 +298,8 @@ To create a new ``Todo``, instantiate an instance of the
 
 TODO: literalinclude
 
-.. code-block:: dart
-
-   realm.write(() {
-     Todo buyMilk =
-      Todo(ObjectId(), 'Buy milk', currentUser!.id);
-     realm.add<Todo>(newTodo);
-   });
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.create-object.dart
+   :language: dart
 
 Query for Objects
 ~~~~~~~~~~~~~~~~~
@@ -333,34 +307,24 @@ Query for Objects
 Retrieve a collection of all objects of a data model in the realm with
 :flutter-sdk:`Realm.all() <realm/Realm/all.html>`.
 
-.. code-block:: dart
-
-   RealmList<Todo> allTodos = realm.all<Todo>();
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.get-all-objects.dart
+   :language: dart
 
 Filter a collection to retrieve a specific segment
 of objects with :flutter-sdk:`Realm.query() <realm/Realm/query.html>`.
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   RealmList<Todo> allTodos = realm.query<Todo>('"summary = 'Buy milk'"');
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.filter-results.dart
+   :language: dart
 
 Update Objects
 ~~~~~~~~~~~~~~
 
 To modify a Todo, update its properties in a write transaction block.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   Todo buyMilk = realm.query<Todo>("summary = 'Buy milk'")[0];
-   realm.write(() {
-        buyMilk.isComplete = true;
-   });
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.update-object.dart
+   :language: dart
 
 Delete Objects
 ~~~~~~~~~~~~~~
@@ -368,26 +332,14 @@ Delete Objects
 Delete a Todo by calling :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
 in a write transaction block.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   Todo buyMilk = realm.query<Todo>("summary = 'Buy milk'")[0];
-   realm.write(() {
-        realm.delete(buyMilk)
-   });
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.delete-one.dart
+   :language: dart
 
 Delete multiple Todos with :flutter-sdk:`Realm.deleteMany()
 <realm/Realm/deleteMany.html>` in a write transaction block.
 
-TODO: literalinclude
-
-.. code-block:: dart
-
-   RealmList<Todo> allTodos = realm.query<Todo>('"summary = 'Buy milk'"');
-   realm.write(() {
-     realm.deleteMany(allTodos);
-   });
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.delete-many.dart
+   :language: dart
 
 React to Changes
 ~~~~~~~~~~~~~~~~
@@ -400,19 +352,15 @@ locally and also when synchronized objects on Atlas are updated.
 To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 <realm/RealmResultsChanges-class.html>`.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.watch-changes-collection.dart
    :language: dart
 
 To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
 <realm/RealmObjectChanges-class.html>`.
 
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
-   :language: dart
+TODO: literalinclude
 
-To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
-<realm/RealmListChanges-class.html>`.
-
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.watch-changes-object.dart
    :language: dart
 
 You can pause and resume subscriptions as well.
