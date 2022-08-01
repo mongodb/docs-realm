@@ -353,11 +353,19 @@ Flutter application to show functionality.
 
    .. step:: Create App Services App with Device Sync
 
-      TODO
+      #. :ref:`Set up the Realm CLI <install-realm-cli>`.
+      #. Bootstrap the backend:
+
+         .. code-block:: sh
+
+            realm-cli apps create -n todo_backend --template sync.todo
+      3. Save the value for ``client_app_id``. You need to add this
+         to your client code in a later step.
 
    .. step:: Set up Dart project with Realm
 
-      First create a new Dart project:
+      First create a new Dart project. This example uses a Dart template for above
+      command line applicaiton, for ease of set up. Run the following command:
 
       .. code-block:: sh
 
@@ -376,9 +384,6 @@ Flutter application to show functionality.
       Create a file for your models, ``bin/sync_schemas.dart``.
 
       In this file, add the following code:
-
-      TODO: literalinclude once make 2 versions, 1 for dart only, 1 for flutter
-      Need to figure out how to do this w/ bluehawk.
 
       .. code-block:: dart
          :caption: bin/sync_schemas.dart
@@ -410,33 +415,38 @@ Flutter application to show functionality.
    
    .. step:: Add the test script
 
-      Add the following code to the file ``bin/realm_demo.dart``:
+      Add the following code to the file ``bin/realm_demo.dart``.
+      Replace ``YOUR_APP_ID_HERE`` with the ``client_app_id`` you copied
+      from the CLI output in the first step.
 
-      .. literalinclude:: TODO_ADD_FULL EXAMPLE
+      .. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.quick-start-sync-complete.dart
          :language: dart
          :caption: bin/realm_demo.dart
 
-   .. step:: TO BE CONTINUED
+   .. step:: Run the application
 
-Output
-~~~~~~
+      In the ``realm_demo`` directory, run the following command:
 
-Running the above code creates an output resembling the following:
+      .. code-block:: sh
 
-.. code-block::
+         dart run
 
-   Logged in anonymously with user id: 62e440a4680dbdd7de4cdd4e
-   Created task: Buy milk
-   'Buy milk' status _before_ update: false
-   Deleting 'Buy Milk'
-   'Buy milk' status _after update: true
-   'Drink coffee' updated
-   'Take nap' updated
-   [INFO] Realm: Connection[1]: Session[1]: client_reset_config = false, Realm exists = true, client reset = false
-   [INFO] Realm: Connected to endpoint '34.227.4.145:443' (from '192.168.1.163:54032')
-   'Drink coffee' updated
-   'Take nap' updated
-   'Buy milk' status update: true
-   'Buy milk' status update: true
-   [INFO] Realm: Connection[1]: Disconnected
-   Bye bye :)
+      Running the above code creates an output resembling the following:
+
+      .. code-block::
+
+         Logged in anonymously with user id: 62e440a4680dbdd7de4cdd4e
+         Created task: Buy milk
+         'Buy milk' status _before_ update: false
+         Deleting 'Buy Milk'
+         'Buy milk' status _after update: true
+         'Drink coffee' updated
+         'Take nap' updated
+         [INFO] Realm: Connection[1]: Session[1]: client_reset_config = false, Realm exists = true, client reset = false
+         [INFO] Realm: Connected to endpoint '34.227.4.145:443' (from '192.168.1.163:54032')
+         'Drink coffee' updated
+         'Take nap' updated
+         'Buy milk' status update: true
+         'Buy milk' status update: true
+         [INFO] Realm: Connection[1]: Disconnected
+         Bye bye :)
