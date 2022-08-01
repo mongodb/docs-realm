@@ -1,0 +1,15 @@
+{
+  "rules": {},
+  "defaultRoles": [
+    {
+      "name": "owner-read-write",
+      "applyWhen": {},
+      "read": {
+        "owner_id": "%%user.id"
+      },
+      "write": {
+        "owner_id": "%%user.id"
+      }
+    }
+  ]
+}

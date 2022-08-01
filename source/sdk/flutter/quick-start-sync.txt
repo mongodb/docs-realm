@@ -155,19 +155,33 @@ The generated ``Todo`` class is what's used throughout your application.
 Set Up Atlas Device Sync
 ------------------------
 
-Before you can use Atlas Device Sync with Realm in your Flutter app, you must:
-
-#. :ref:`Create an App Services App <create-a-realm-app>`
-#. :ref:`Enable Anonymous Authentication <anonymous-authentication>`
-#. :ref:`Enable Flexible Sync <enable-flexible-sync>`
-
 On a high level, to add Device Sync to your Flutter app, you perform the following:
 
+#. Create an App Services that you can use to sync data from your client app to
+   MongoDB Atlas.
 #. Create an Atlas App Services ``App`` instance. Realm uses the ``App``
    to help manage the Device Sync session.
 #. Log a user into the ``App``.
 #. Open a Realm Database instance with a Device Sync subscription to synchronize
    data between the client app and MongoDB Atlas.
+
+Configure App Services Backend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before you can use Device Sync with Realm in your client app,
+you must configure Device Sync using Atlas App Services:
+
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Enable Anonymous Authentication <anonymous-authentication>`
+#. :ref:`Enable Flexible Sync <enable-flexible-sync>`. Include the following
+   Flexible Sync configuration:
+
+   - Set ``owner_id`` as a **queryable field**.
+   - Add the following backend permissions to have the user only be able to read
+     and write their own data:
+
+     .. literalinclude:: /examples/generated/code/start/todo-flex-sync-permissions.json
+        :language: json
 
 .. tip:: Use Realm Flutter Template App
 
