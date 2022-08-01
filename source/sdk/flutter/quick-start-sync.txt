@@ -119,7 +119,7 @@ Some considerations when defining your Realm model class:
    :caption: sync_schema.dart
    :language: dart
 
-.. seealso:: Further Reading
+.. seealso::
 
    :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`
 
@@ -240,7 +240,7 @@ within it using a :flutter-sdk:`write transaction block <realm/Realm/write.html>
 All creation, update, and deletion operations on objects matching
 a sync subscription query synchronize with Atlas in a background thread.
 
-.. seealso:: Further Reading
+.. seealso::
 
    :ref:`Read and Write Data - Flutter SDK <flutter-read-write-data>`
 
@@ -323,7 +323,7 @@ Once you've finished listening to changes, close the change listener to prevent 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart
 
-.. seealso:: Further Reading
+.. seealso::
 
    :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`
 
@@ -359,8 +359,8 @@ Flutter application to show functionality.
          .. code-block:: sh
 
             realm-cli apps create -n todo_backend --template sync.todo
-      #. Save the value for ``client_app_id``. You need to add this
-         to your client code in a later step.
+      #. From the terminal output, save the value for ``client_app_id``.
+         You need to add this to your client code in a later step.
 
    .. step:: Set up Dart project with Realm
 
@@ -413,7 +413,7 @@ Flutter application to show functionality.
 
       This creates the file ``bin/sync_schemas.g.dart``.
    
-   .. step:: Add the test script
+   .. step:: Add the demo script
 
       Add the following code to the file ``bin/realm_demo.dart``.
       Replace ``YOUR_APP_ID_HERE`` with the ``client_app_id`` you copied
