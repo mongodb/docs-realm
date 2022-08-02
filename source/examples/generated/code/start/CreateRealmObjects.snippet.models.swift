@@ -10,6 +10,9 @@ class Dog: Object {
 
     // To-one relationship
     @Persisted var favoriteToy: DogToy?
+
+    // Map of city name -> favorite park in that city
+    @Persisted var favoriteParksByCity: Map<String, String>
 }
 
 class Person: Object {

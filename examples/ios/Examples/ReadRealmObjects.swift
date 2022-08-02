@@ -20,6 +20,9 @@ class ReadExamples_Dog: Object {
 
     // To-one relationship
     @Persisted var favoriteToy: ReadExamples_DogToy?
+
+    // Map of city name -> favorite park in that city
+    @Persisted var favoriteParksByCity: Map<String, String>
 }
 // :snippet-start: embedded-object-models
 class ReadExamples_Person: Object {
@@ -35,7 +38,7 @@ class ReadExamples_Person: Object {
     // Embed a single object.
     // Embedded object properties must be marked optional.
     @Persisted var address: ReadExamples_Address?
-    
+
     convenience init(name: String, address: ReadExamples_Address) {
         self.init()
         self.name = name
@@ -46,11 +49,11 @@ class ReadExamples_Person: Object {
 class ReadExamples_DogClub: Object {
     @Persisted var name = ""
     @Persisted var members: List<ReadExamples_Person>
-    
+
     // ReadExamples_DogClub has an array of regional office addresses.
     // These are embedded objects.
     @Persisted var regionalOfficeAddresses: List<ReadExamples_Address>
-    
+
     convenience init(name: String, addresses: [ReadExamples_Address]) {
         self.init()
         self.name = name
@@ -338,6 +341,44 @@ class ReadRealmObjects: XCTestCase {
             $0.name.starts(with: "B")
         }
         // :snippet-end:
+    }
+
+    func testReadAndIterateMapValues() {
+        // :snippet-start: map
+        let realm = try! Realm()
+        // :remove-start:
+        // Create a test dog to see data
+        let dog = ReadExamples_Dog()
+        dog.name = "Wolfie"
+        try! realm.write {
+            realm.add(dog)
+            // Set map values
+            dog.favoriteParksByCity["New York"] = "Domino Park"
+            dog.favoriteParksByCity["Chicago"] = "Wiggly Field"
+            dog.favoriteParksByCity.setValue("Bush Park", forKey: "Ottawa")
+        }
+        // :remove-end:
+
+        let dogs = realm.objects(ReadExamples_Dog.self)
+
+        // Find dogs who have favorite parks
+        let dogsWithFavoriteParks = dogs.where {
+            $0.favoriteParksByCity.count >= 1
+        }
+
+        for dog in dogsWithFavoriteParks {
+            // Check if an entry exists
+            if dog.favoriteParksByCity.keys.contains("Chicago") {
+                print("\(dog.name) has a favorite park in Chicago")
+            }
+
+            // Iterate over entries
+            for element in dog.favoriteParksByCity {
+                print("\(dog.name)'s favorite park in \(element.key) is \(element.value)")
+            }
+        }
+        // :snippet-end:
+        XCTAssertEqual(dogsWithFavoriteParks.count, 1)
     }
 
 }

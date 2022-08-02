@@ -12,6 +12,9 @@ class DeleteExamples_Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+
+    // Map of city name -> favorite park in that city
+    @Persisted var favoriteParksByCity: Map<String, String>
 }
 // :snippet-end:
 class DeleteExamples_Person: Object {
@@ -95,6 +98,42 @@ class DeleteRealmObjects: XCTestCase {
             // Delete the objects in the collection from the realm.
             realm.delete(puppies)
         }
+        // :snippet-end:
+    }
+
+    func testDeleteMapExample() {
+        // :snippet-start: map
+        let realm = try! Realm()
+        // :remove-start:
+        // Create a test dog
+        let dog = DeleteExamples_Dog()
+        dog.name = "Wolfie"
+        dog.currentCity = "New York"
+        try! realm.write {
+            realm.add(dog)
+            // Set values
+            dog.favoriteParksByCity["New York"] = "Domino Park"
+            dog.favoriteParksByCity["Chicago"] = "Wiggly Field"
+            // Another way to set values
+            dog.favoriteParksByCity.setValue("Bush Park", forKey: "Ottawa")
+        }
+        // :remove-end:
+        
+        // Find the dog we want to update
+        let wolfie = realm.objects(DeleteExamples_Dog.self).where {
+            $0.name == "Wolfie"
+        }.first!
+
+        // Delete an entry
+        try! realm.write {
+            // Use removeObject(for:)
+            wolfie.favoriteParksByCity.removeObject(for: "New York")
+            // Or assign `nil` to delete non-optional values.
+            // If the value type were optional (e.g. Map<String, String?>)
+            // this would assign `nil` to that entry rather than deleting it.
+            wolfie.favoriteParksByCity["New York"] = nil
+        }
+        XCTAssertNil(wolfie.favoriteParksByCity["New York"])
         // :snippet-end:
     }
 

@@ -11,6 +11,9 @@ class Dog: Object {
 
     // To-one relationship
     @Persisted var favoriteToy: DogToy?
+
+    // Map of city name -> favorite park in that city
+    @Persisted var favoriteParksByCity: Map<String, String>
 }
 class Person: Object {
     @Persisted(primaryKey: true) var id = 0
@@ -25,7 +28,7 @@ class Person: Object {
     // Embed a single object.
     // Embedded object properties must be marked optional.
     @Persisted var address: Address?
-    
+
     convenience init(name: String, address: Address) {
         self.init()
         self.name = name
@@ -36,11 +39,11 @@ class Person: Object {
 class DogClub: Object {
     @Persisted var name = ""
     @Persisted var members: List<Person>
-    
+
     // DogClub has an array of regional office addresses.
     // These are embedded objects.
     @Persisted var regionalOfficeAddresses: List<Address>
-    
+
     convenience init(name: String, addresses: [Address]) {
         self.init()
         self.name = name
