@@ -7,43 +7,20 @@ import XCTest
 import RealmSwift
 
 // :snippet-start: models
-class DeleteExamples_DogToy: Object {
-    @Persisted var name = ""
-}
-
 class DeleteExamples_Dog: Object {
     @Persisted var name = ""
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
-
-    // To-one relationship
-    @Persisted var favoriteToy: DeleteExamples_DogToy?
 }
-
+// :snippet-end:
 class DeleteExamples_Person: Object {
     @Persisted(primaryKey: true) var id = 0
     @Persisted var name = ""
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<DeleteExamples_Dog>
-
-    // Inverse relationship - a person can be a member of many clubs
-    @Persisted(originProperty: "members") var clubs: LinkingObjects<DeleteExamples_DogClub>
 }
-
-class DeleteExamples_DogClub: Object {
-    @Persisted var name = ""
-    @Persisted var members: List<DeleteExamples_Person>
-}
-// :snippet-end:
-
-// :snippet-start: object-id-model
-class DeleteExamples_User: Object {
-    @Persisted var id: ObjectId
-    @Persisted var name = ""
-}
-// :snippet-end:
 
 class DeleteRealmObjects: XCTestCase {
     override func tearDown() {
@@ -128,17 +105,17 @@ class DeleteRealmObjects: XCTestCase {
         let realm = try! Realm()
         try! realm.write {
             // Create a person to take care of some dogs.
-            let person = ReadWriteDataExamples_Person(value: ["id": 1, "name": "Ali"])
+            let person = DeleteExamples_Person(value: ["id": 1, "name": "Ali"])
             realm.add(person)
 
-            let dog = ReadWriteDataExamples_Dog(value: ["name": "Rex", "age": 1])
+            let dog = DeleteExamples_Dog(value: ["name": "Rex", "age": 1])
             realm.add(dog)
 
             // :remove-start:
             XCTAssert(person.dogs.count == 0)
             // :remove-end:
             // Find dogs younger than 2.
-            let puppies = realm.objects(ReadWriteDataExamples_Dog.self).filter("age < 2")
+            let puppies = realm.objects(DeleteExamples_Dog.self).filter("age < 2")
 
             // Give all puppies to Ali.
             person.setValue(puppies, forKey: "dogs")
@@ -150,7 +127,7 @@ class DeleteRealmObjects: XCTestCase {
         // :snippet-end:
 
         // :snippet-start: cascading-delete
-        let person = realm.object(ofType: ReadWriteDataExamples_Person.self, forPrimaryKey: 1)!
+        let person = realm.object(ofType: DeleteExamples_Person.self, forPrimaryKey: 1)!
         // :remove-start:
         XCTAssert(person.dogs.count == 1)
         // :remove-end:
@@ -160,8 +137,8 @@ class DeleteRealmObjects: XCTestCase {
             realm.delete(person)
         }
         // :snippet-end:
-        XCTAssert(realm.objects(ReadWriteDataExamples_Dog.self).count == 0)
-        XCTAssert(realm.objects(ReadWriteDataExamples_Person.self).count == 0)
+        XCTAssert(realm.objects(DeleteExamples_Dog.self).count == 0)
+        XCTAssert(realm.objects(DeleteExamples_Person.self).count == 0)
         */
     }
 }

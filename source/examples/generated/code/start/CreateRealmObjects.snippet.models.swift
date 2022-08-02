@@ -18,12 +18,4 @@ class Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<Dog>
-
-    // Inverse relationship - a person can be a member of many clubs
-    @Persisted(originProperty: "members") var clubs: LinkingObjects<DogClub>
-}
-
-class DogClub: Object {
-    @Persisted var name = ""
-    @Persisted var members: List<Person>
 }

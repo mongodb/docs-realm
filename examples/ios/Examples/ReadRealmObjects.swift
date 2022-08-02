@@ -8,6 +8,7 @@ import RealmSwift
 
 // :snippet-start: models
 class ReadExamples_DogToy: Object {
+    @Persisted var id: ObjectId
     @Persisted var name = ""
 }
 
@@ -35,13 +36,6 @@ class ReadExamples_Person: Object {
 class ReadExamples_DogClub: Object {
     @Persisted var name = ""
     @Persisted var members: List<ReadExamples_Person>
-}
-// :snippet-end:
-
-// :snippet-start: object-id-model
-class ReadExamples_User: Object {
-    @Persisted var id: ObjectId
-    @Persisted var name = ""
 }
 // :snippet-end:
 
@@ -188,30 +182,30 @@ class ReadRealmObjects: XCTestCase {
         // :snippet-start: query-object-id
         let realm = try! Realm()
 
-        let users = realm.objects(ReadExamples_User.self)
+        let dogToys = realm.objects(ReadExamples_DogToy.self)
 
-        // Get specific user by ObjectId id
-        let specificUser = users.filter("id = %@", ObjectId("11223344556677889900aabb")).first
+        // Get specific toy by ObjectId id
+        let specificToy = dogToys.filter("id = %@", ObjectId("11223344556677889900aabb")).first
 
         // WRONG: Realm will not convert the string to an object id
         // users.filter("id = '11223344556677889900aabb'") // not ok
         // users.filter("id = %@", "11223344556677889900aabb") // not ok
         // :snippet-end:
-        print("\(specificUser ?? ReadExamples_User())")
+        print("\(specificToy ?? ReadExamples_DogToy())")
     }
 
     func testTypeSafeQueryObjectId() {
         // :snippet-start: tsq-object-id
         let realm = try! Realm()
 
-        let users = realm.objects(ReadExamples_User.self)
+        let dogToys = realm.objects(ReadExamples_DogToy.self)
 
         // Get specific user by ObjectId id
-        let specificUser = users.where {
+        let specificToy = dogToys.where {
             $0.id == ObjectId("11223344556677889900aabb")
         }
         // :snippet-end:
-        print("\(specificUser)")
+        print("\(specificToy)")
     }
 
     func testAggregate() {

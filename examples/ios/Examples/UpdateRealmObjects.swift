@@ -7,18 +7,11 @@ import XCTest
 import RealmSwift
 
 // :snippet-start: models
-class UpdateExamples_DogToy: Object {
-    @Persisted var name = ""
-}
-
 class UpdateExamples_Dog: Object {
     @Persisted var name = ""
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
-
-    // To-one relationship
-    @Persisted var favoriteToy: UpdateExamples_DogToy?
 }
 
 class UpdateExamples_Person: Object {
@@ -27,21 +20,6 @@ class UpdateExamples_Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<UpdateExamples_Dog>
-
-    // Inverse relationship - a person can be a member of many clubs
-    @Persisted(originProperty: "members") var clubs: LinkingObjects<UpdateExamples_DogClub>
-}
-
-class UpdateExamples_DogClub: Object {
-    @Persisted var name = ""
-    @Persisted var members: List<UpdateExamples_Person>
-}
-// :snippet-end:
-
-// :snippet-start: object-id-model
-class UpdateExamples_User: Object {
-    @Persisted var id: ObjectId
-    @Persisted var name = ""
 }
 // :snippet-end:
 

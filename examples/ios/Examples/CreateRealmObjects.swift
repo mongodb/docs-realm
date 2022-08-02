@@ -27,21 +27,6 @@ class CreateExamples_Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<CreateExamples_Dog>
-
-    // Inverse relationship - a person can be a member of many clubs
-    @Persisted(originProperty: "members") var clubs: LinkingObjects<CreateExamples_DogClub>
-}
-
-class CreateExamples_DogClub: Object {
-    @Persisted var name = ""
-    @Persisted var members: List<CreateExamples_Person>
-}
-// :snippet-end:
-
-// :snippet-start: object-id-model
-class CreateExamples_User: Object {
-    @Persisted var id: ObjectId
-    @Persisted var name = ""
 }
 // :snippet-end:
 

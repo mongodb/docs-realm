@@ -1,4 +1,5 @@
 class DogToy: Object {
+    @Persisted var id: ObjectId
     @Persisted var name = ""
 }
 
