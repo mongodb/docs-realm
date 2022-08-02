@@ -187,33 +187,33 @@ class FlexibleSync: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-    func testAddInitialSubscriptions() async {
-        let app = App(id: APPID)
-
-        do {
-            let user = try await app.login(credentials: Credentials.anonymous)
-            // :snippet-start: add-initial-subscriptions
-            var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
-                subs.append(
-                    QuerySubscription<FlexibleSync_Team> {
-                           $0.teamName == "Developer Education"
-                        })
-            })
-            // :snippet-end:
-            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-            do {
-                let realm = try await Realm(configuration: flexSyncConfig)
-                print("Successfully opened realm: \(realm)")
-                let subscriptions = realm.subscriptions
-                XCTAssertEqual(subscriptions.count, 1)
-            } catch {
-                print("Failed to open realm: \(error.localizedDescription)")
-                // handle error
-            }
-        } catch {
-            fatalError("Login failed: \(error.localizedDescription)")
-        }
-    }
+//    func testAddInitialSubscriptions() async {
+//        let app = App(id: APPID)
+//
+//        do {
+//            let user = try await app.login(credentials: Credentials.anonymous)
+//            // :snippet-start: add-initial-subscriptions
+//            var flexSyncConfig = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
+//                subs.append(
+//                    QuerySubscription<FlexibleSync_Team> {
+//                           $0.teamName == "Developer Education"
+//                        })
+//            })
+//            // :snippet-end:
+//            flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+//            do {
+//                let realm = try await Realm(configuration: flexSyncConfig)
+//                print("Successfully opened realm: \(realm)")
+//                let subscriptions = realm.subscriptions
+//                XCTAssertEqual(subscriptions.count, 1)
+//            } catch {
+//                print("Failed to open realm: \(error.localizedDescription)")
+//                // handle error
+//            }
+//        } catch {
+//            fatalError("Login failed: \(error.localizedDescription)")
+//        }
+//    }
 
     func testAddInitialSubscriptionsWithRerunOnOpen() async {
         let app = App(id: APPID)

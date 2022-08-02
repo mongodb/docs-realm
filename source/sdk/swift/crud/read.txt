@@ -136,7 +136,7 @@ The examples on in this section use the following models:
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.models.swift
          :language: swift
 
    .. tab::
@@ -160,7 +160,7 @@ Find a Specific Object by Primary Key
       :swift-sdk:`Realm.object(ofType:forPrimaryKey:)
       <Structs/Realm.html#/s:10RealmSwift0A0V6object6ofType13forPrimaryKeyxSgxm_q_tSo0aB6ObjectCRbzr0_lF>`.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.find-a-specific-object-by-primary-key.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.find-a-specific-object-by-primary-key.swift
          :language: swift
 
    .. tab::
@@ -190,7 +190,7 @@ Query All Objects of a Given Type
       This returns a :swift-sdk:`Results <Structs/Results.html>` object
       representing all objects of the given type in the realm.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.objects.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.objects.swift
          :language: swift
 
    .. tab::
@@ -228,7 +228,7 @@ more object properties. Realm Database provides a full-featured
       call :swift-sdk:`.where <Structs/Query.html>` with a closure that 
       contains a query expression as an argument.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.where.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.where.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -238,7 +238,7 @@ more object properties. Realm Database provides a full-featured
       <Structs/Results.html#/s:10RealmSwift7ResultsV6filteryACyxGSo11NSPredicateCF>`
       with a query predicate.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.filter.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.filter.swift
          :language: swift
 
    .. tab:: Objective C
@@ -283,10 +283,10 @@ Realm Database does not automatically convert strings to ObjectIds.
       The Realm Swift Query API's built-in type safety simplifies writing a
       query with an ObjectId:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.object-id-model.swift
          :language: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-object-id.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -295,10 +295,10 @@ Realm Database does not automatically convert strings to ObjectIds.
       The following example shows the correct and incorrect way to write a
       query with an ObjectId given the following Realm Database object:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.object-id-model.swift
          :language: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-object-id.swift
          :language: swift
 
 .. _ios-query-a-relationship:
@@ -314,7 +314,7 @@ member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-a-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-a-relationship.swift
          :language: swift
 
    .. tab::
@@ -337,7 +337,7 @@ access a member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-an-inverse-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-an-inverse-relationship.swift
          :language: swift
 
    .. tab::
@@ -397,7 +397,7 @@ guarantees a consistent order of results if you explicitly sort them.
       <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
       with the desired key path to sort by.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.sort.swift
          :language: swift
 
    .. tab::
@@ -435,13 +435,13 @@ against list properties.
 
       .. versionadded:: 10.19.0
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-aggregate.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-aggregate.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
       :tabid: swift-nspredicate
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.aggregate.swift
          :language: swift
 
    .. tab:: Objective C
@@ -472,13 +472,13 @@ query.
 
          .. versionadded:: 10.19.0
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-chain-query.swift
+         .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-chain-query.swift
             :language: swift
 
       .. tab:: Swift NSPredicate
          :tabid: swift-nspredicate
          
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.swift
+         .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.chain-query.swift
             :language: swift
 
       .. tab:: Objective C

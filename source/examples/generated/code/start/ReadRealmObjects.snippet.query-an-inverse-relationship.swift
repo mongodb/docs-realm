@@ -20,4 +20,3 @@ let clubs = specificPerson!.clubs
 let firstClub = clubs[0]
 print("# memberships: \(clubs.count)")
 print("First club's name: \(firstClub.name)")
-

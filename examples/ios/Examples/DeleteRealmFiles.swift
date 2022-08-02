@@ -1,0 +1,50 @@
+import XCTest
+import RealmSwift
+
+class DeleteRealmFiles: XCTestCase {
+
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testDeleteRealmIfMigrationNeeded() {
+        // :snippet-start: delete-if-migration-needed
+        do {
+            // Delete the realm if a migration would be required, instead of migrating it.
+            // Useful during development, but do not leave this set to `true` in a production app!
+            let configuration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(configuration: configuration)
+        } catch {
+            print("Error opening realm: \(error.localizedDescription)")
+        }
+        // :snippet-end:
+    }
+
+    func testDeleteNonSyncedClientRealmFile() {
+
+    }
+
+    func testDeleteSyncedClientRealmFile() {
+        // :snippet-start: delete-client-realm-file
+        autoreleasepool {
+            // all Realm usage here -- explicitly guarantee
+            // that all realm objects are deallocated
+            // before deleting the files
+        }
+        do {
+            let app = App(id: YOUR_APP_SERVICES_APP_ID)
+            var configuration = app.currentUser!.configuration(partitionValue: "some partition value")
+            // :remove-start:
+            configuration.objectTypes = [SyncExamples_Task.self]
+            // :remove-end:
+            _ = try Realm.deleteFiles(for: configuration)
+        } catch {
+            // handle error
+        }
+        // :snippet-end:
+    }
+}
