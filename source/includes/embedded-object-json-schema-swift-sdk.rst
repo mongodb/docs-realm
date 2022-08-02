@@ -3,7 +3,7 @@ Embedded objects map to embedded documents in the parent type's :ref:`schema
 This behavior differs from regular Realm objects, which map to their own MongoDB collection.
 
 .. code-block:: json
-   :emphasize-lines: 8-17
+   :emphasize-lines: 14-23
 
    {
      "title": "Person",
@@ -32,7 +32,7 @@ This behavior differs from regular Realm objects, which map to their own MongoDB
    }
 
 .. code-block:: json
-   :emphasize-lines: 8-20
+   :emphasize-lines: 4-26
 
    {
      "title": "DogClub",
