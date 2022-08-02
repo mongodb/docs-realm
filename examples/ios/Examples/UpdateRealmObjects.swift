@@ -20,6 +20,17 @@ class UpdateExamples_Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<UpdateExamples_Dog>
+
+    // Embed a single object.
+    // Embedded object properties must be marked optional.
+    @Persisted var address: UpdateExamples_Address?
+}
+
+class UpdateExamples_Address: EmbeddedObject {
+    @Persisted var street: String?
+    @Persisted var city: String?
+    @Persisted var country: String?
+    @Persisted var postalCode: String?
 }
 // :snippet-end:
 
@@ -144,6 +155,77 @@ class UpdateRealmObjects: XCTestCase {
             realm.create(UpdateExamples_Person.self,
                          value: ["id": 123, "dogs": [["Buster", 5]]],
                          update: .modified)
+        }
+        // :snippet-end:
+    }
+
+    func testUpdateEmbeddedObjectProperty() {
+        // :snippet-start:  update-an-embedded-object-property
+        // Open the default realm
+        let realm = try! Realm()
+        // :remove-start:
+        // Create a test person
+        do {
+            try realm.write {
+                realm.create(UpdateExamples_Person.self, value: ["id": 123, "name": "Jane Smith"])
+            }
+        } catch {
+            print("Error creating object: \(error.localizedDescription)")
+        }
+        // :remove-end:
+
+        let idOfPersonToUpdate = 123
+
+        // Find the person to update by ID
+        guard let person = realm.object(ofType: UpdateExamples_Person.self, forPrimaryKey: idOfPersonToUpdate) else {
+            print("UpdateExamples_Person \(idOfPersonToUpdate) not found")
+            return
+        }
+
+        try! realm.write {
+            // Update the embedded object directly through the person
+            // If the embedded object is null, updating these properties has no effect
+            person.address?.street = "789 Any Street"
+            person.address?.city = "Anytown"
+            person.address?.postalCode = "12345"
+            print("Updated person: \(person)")
+        }
+        // :snippet-end:
+    }
+
+    func testOverwriteEmbeddedObject() {
+        // :snippet-start: overwrite-an-embedded-object
+        // Open the default realm
+        let realm = try! Realm()
+        // :remove-start:
+        // Create a test person
+        do {
+            try realm.write {
+                realm.create(UpdateExamples_Person.self, value: ["id": 123, "name": "Jane Smith"])
+            }
+        } catch {
+            print("Error creating object: \(error.localizedDescription)")
+        }
+        // :remove-end:
+
+        let idOfPersonToUpdate = 123
+
+        // Find the person to update by ID
+        guard let person = realm.object(ofType: UpdateExamples_Person.self, forPrimaryKey: idOfPersonToUpdate) else {
+            print("UpdateExamples_Person \(idOfPersonToUpdate) not found")
+            return
+        }
+
+        try! realm.write {
+            let newAddress = UpdateExamples_Address()
+            newAddress.street = "789 Any Street"
+            newAddress.city = "Anytown"
+            newAddress.country = "USA"
+            newAddress.postalCode = "12345"
+
+            // Overwrite the embedded object
+            person.address = newAddress
+            print("Updated person: \(person)")
         }
         // :snippet-end:
     }

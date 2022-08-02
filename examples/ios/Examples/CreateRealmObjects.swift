@@ -27,6 +27,23 @@ class CreateExamples_Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<CreateExamples_Dog>
+
+    // Embed a single object.
+    // Embedded object properties must be marked optional.
+    @Persisted var address: CreateExamples_Address?
+
+    convenience init(name: String, address: CreateExamples_Address) {
+        self.init()
+        self.name = name
+        self.address = address
+    }
+}
+
+class CreateExamples_Address: EmbeddedObject {
+    @Persisted var street: String?
+    @Persisted var city: String?
+    @Persisted var country: String?
+    @Persisted var postalCode: String?
 }
 // :snippet-end:
 
@@ -146,6 +163,23 @@ class CreateRealmObjects: XCTestCase {
         } catch let error as NSError {
             // Failed to write to realm.
             // ... Handle error ...
+        }
+        // :snippet-end:
+    }
+
+    func testCreateEmbeddedObject() {
+        // :snippet-start: create-an-embedded-object
+        // Open the default realm
+        let realm = try! Realm()
+
+        try! realm.write {
+            let address = CreateExamples_Address()
+            address.street = "123 Fake St"
+            address.city = "Springfield"
+            address.country = "USA"
+            address.postalCode = "90710"
+            let contact = CreateExamples_Person(name: "Nick Riviera", address: address)
+            realm.add(contact)
         }
         // :snippet-end:
     }

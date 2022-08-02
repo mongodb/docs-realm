@@ -21,7 +21,7 @@ class ReadExamples_Dog: Object {
     // To-one relationship
     @Persisted var favoriteToy: ReadExamples_DogToy?
 }
-
+// :snippet-start: embedded-object-models
 class ReadExamples_Person: Object {
     @Persisted(primaryKey: true) var id = 0
     @Persisted var name = ""
@@ -31,12 +31,40 @@ class ReadExamples_Person: Object {
 
     // Inverse relationship - a person can be a member of many clubs
     @Persisted(originProperty: "members") var clubs: LinkingObjects<ReadExamples_DogClub>
+
+    // Embed a single object.
+    // Embedded object properties must be marked optional.
+    @Persisted var address: ReadExamples_Address?
+    
+    convenience init(name: String, address: ReadExamples_Address) {
+        self.init()
+        self.name = name
+        self.address = address
+    }
 }
 
 class ReadExamples_DogClub: Object {
     @Persisted var name = ""
     @Persisted var members: List<ReadExamples_Person>
+    
+    // ReadExamples_DogClub has an array of regional office addresses.
+    // These are embedded objects.
+    @Persisted var regionalOfficeAddresses: List<ReadExamples_Address>
+    
+    convenience init(name: String, addresses: [ReadExamples_Address]) {
+        self.init()
+        self.name = name
+        self.regionalOfficeAddresses.append(objectsIn: addresses)
+    }
 }
+
+class ReadExamples_Address: EmbeddedObject {
+    @Persisted var street: String?
+    @Persisted var city: String?
+    @Persisted var country: String?
+    @Persisted var postalCode: String?
+}
+// :snippet-end:
 // :snippet-end:
 
 class ReadRealmObjects: XCTestCase {
@@ -206,6 +234,34 @@ class ReadRealmObjects: XCTestCase {
         }
         // :snippet-end:
         print("\(specificToy)")
+    }
+
+    func testQueryEmbeddedObject() {
+        // :snippet-start: query-an-embedded-object
+        // Open the default realm
+        let realm = try! Realm()
+
+        // Get all people in Los Angeles, sorted by street address
+        let losAngelesPeople = realm.objects(ReadExamples_Person.self)
+            .filter("address.city = %@", "Los Angeles")
+            .sorted(byKeyPath: "address.street")
+        print("Los Angeles ReadExamples_Person: \(losAngelesPeople)")
+        // :snippet-end:
+    }
+
+    func testTypeSafeQueryEmbeddedObject() {
+        // :snippet-start: tsq-query-an-embedded-object
+        // Open the default realm
+        let realm = try! Realm()
+
+        // Get all contacts in Los Angeles, sorted by street address
+        let losAngelesPeople = realm.objects(ReadExamples_Person.self)
+            .where {
+                $0.address.city == "Los Angeles"
+            }
+            .sorted(byKeyPath: "address.street")
+        print("Los Angeles ReadExamples_Person: \(losAngelesPeople)")
+        // :snippet-end:
     }
 
     func testAggregate() {

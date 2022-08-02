@@ -7,6 +7,6 @@ try! realm.write {
     address.city = "Springfield"
     address.country = "USA"
     address.postalCode = "90710"
-    let contact = Contact(name: "Nick Riviera", address: address)
+    let contact = Person(name: "Nick Riviera", address: address)
     realm.add(contact)
 }

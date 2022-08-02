@@ -11,4 +11,15 @@ class Person: Object {
 
     // To-many relationship - a person can have many dogs
     @Persisted var dogs: List<Dog>
+
+    // Embed a single object.
+    // Embedded object properties must be marked optional.
+    @Persisted var address: Address?
+}
+
+class Address: EmbeddedObject {
+    @Persisted var street: String?
+    @Persisted var city: String?
+    @Persisted var country: String?
+    @Persisted var postalCode: String?
 }

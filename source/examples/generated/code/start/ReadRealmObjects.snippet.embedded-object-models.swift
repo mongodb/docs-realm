@@ -1,17 +1,3 @@
-class DogToy: Object {
-    @Persisted var id: ObjectId
-    @Persisted var name = ""
-}
-
-class Dog: Object {
-    @Persisted var name = ""
-    @Persisted var age = 0
-    @Persisted var color = ""
-    @Persisted var currentCity = ""
-
-    // To-one relationship
-    @Persisted var favoriteToy: DogToy?
-}
 class Person: Object {
     @Persisted(primaryKey: true) var id = 0
     @Persisted var name = ""
