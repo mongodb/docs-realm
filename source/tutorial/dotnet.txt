@@ -183,7 +183,7 @@ Modify the Application
 
       To do this, follow these steps:
 
-      1. Expand the ``realm-todo-dotnet`` project. 
+      A. Expand the ``realm-todo-dotnet`` project. 
 
       #. Expand the ``Models`` folder and open the ``Item`` class file.
 
@@ -209,7 +209,7 @@ Modify the Application
          
    .. step:: Set the Priority when Creating a New Item
 
-      1. In ``NewItemPopup.xaml.cs``, add a new public property under the  
+      A. In ``NewItemPopup.xaml.cs``, add a new public property under the  
          existing ``ItemName`` and ``IsOK`` properties:
 
          .. code-block:: csharp
@@ -218,14 +218,6 @@ Modify the Application
             public string ItemName { get; set; }
             public bool IsOK { get; set; }
             public int Priority { get; set; }
-      
-      #. In the same file, find the ``OK_Button_Clicked`` event handler, 
-         which currently sets the ``ItemName`` and ``IsOK`` properties. Add a line 
-         to also set the ``Priority`` property:
-
-         .. code-block:: csharp
-
-            this.Priority = newItemPriority.SelectedIndex;
 
       #. Open the ``NewItemPopup.xaml`` file. This file defines the UI 
          element for creating a new Item. We will add two UI elements: a label and a 
@@ -245,10 +237,27 @@ Modify the Application
                </Picker.Items>
             </Picker>
 
+      #. Now switch back to the NewItemPopup.xaml.cs file. Find the 
+         ``OK_Button_Clicked`` event handler, which currently sets the 
+         ``ItemName`` and ``IsOK`` properties. Add a line to also set the 
+         ``Priority`` property:
+
+         .. code-block:: csharp
+
+            this.Priority = newItemPriority.SelectedIndex;
+
+         .. note:: Using SelectedIndex
+
+         Because we ordered the priorites in the ``Picker`` element from highest 
+         to lowest, the lower the selected item's index, the higher that Item's 
+         priority is: 0 for Severe, 1 for High, etc. Therefore, the index 
+         matches the ``Priority`` enum values.
+
       #. Finally, open the ``ItemPage.xaml.cs`` file, and find the ``Popup_Popped`` 
          event handler, which fires when the NewItemPopup is closed. In this 
          method, we create a new Item and save it to the realm. Where we set the 
-         other Item properties, add a line of code to set the new Priority property:
+         other Item properties, add a line of code to set the new Priority 
+         property:
 
          .. code-block:: csharp
             :emphasize-lines: 6
@@ -276,6 +285,8 @@ Modify the Application
       the following screenshot:
 
       .. figure:: /images/dotnet-tutorial-two-new-items.png
+         :alt:  Two items in a collection
+         :figwidth: 300px
 
       .. note:: Why Didn't This Break Sync?
       
@@ -297,7 +308,10 @@ Modify the Application
       that, and also add a rule that shows only Items that are marked as High or 
       Severe priority. 
 
-      To do this, edit the LINQ statement to include logic that includes documents 
+      As you may recall, the Priority field is of type ``Int``, where the highest 
+      priority ("Severe") has a value of 0, and the lowest priority ("Low") has 
+      a value of 3. This makes it straight-forward to compare and filter on the 
+      Priority property. To do so, edit the LINQ statement to include documents 
       where the priority is equal or less than 1, as shown here:
 
       .. code-block:: csharp
@@ -310,15 +324,6 @@ Modify the Application
                     && t.Priority <= 1);
                 subscriptions.Add(defaultSubscription);
             });
-      
-      
-      .. note:: Priorities as Ints
-
-         Because we ordered the priorites in the ``Picker`` element from highest 
-         to lowest, the lower the selected item's index, the higher the priority. 
-         This approach allows us to get the index of the selected item and have it 
-         match the ``Priority`` enum value. We can then say a priority of "1 or 
-         less" means "High" (value of 1) or "Severe" (value of 0).
 
    .. step:: Run and Test
     
@@ -336,8 +341,8 @@ Modify the Application
    
    .. step:: Update Flexible Sync on the Server
 
-      1. Switch back to the Atlas page in your browser. Select the 
-      :guilabel:`Atlas App Services` tab and open the app you are using.
+      A. Switch back to the Atlas page in your browser. Select the 
+         :guilabel:`Atlas App Services` tab and open the app you are using.
 
       #. In the left-hand navigation, choose :guilabel:`Device Sync`, and then 
          click **OK** in the dialog box about Development Mode being enabled.
@@ -347,6 +352,7 @@ Modify the Application
          "priority". The priority field will be added to the fields shown:
 
          .. figure:: /images/dotnet-tutorial-priority-subscribed.png
+            :alt:  Priority field is now queryable.
 
       #. Save your changes.
    
