@@ -139,31 +139,6 @@ subset of the values to update:
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.m
          :language: objectivec
 
-Update Mutable Sets
-~~~~~~~~~~~~~~~~~~~
-
-You can update a ``MutableSet`` during write transactions:
-
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-collections.swift
-   :language: swift
-
-MutableSet Intersection Methods
-```````````````````````````````
-
-Realm ``MutableSet`` also provides some set-specific methods to
-work with the data, including methods to compare sets and mutate them in place.
-For example, ``MutableSet`` intersection methods:
-
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-intersection-methods.swift
-   :language: swift
-
-.. seealso::
-
-   - For a complete list of methods available, such as ``contains``, 
-     ``isSubset``, ``union``, ``subtract``, see: 
-     :swift-sdk:`MutableSet API reference <Classes/MutableSet.html>`
-   - For more info on to-many relationships, see: :ref:`To-Many Relationships <ios-to-many-relationship>`
-
 Update a Map/Dictionary
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -171,6 +146,20 @@ You can update a realm :swift-sdk:`map <Classes/Map.html>` as you would a
 standard :apple:`Dictionary <documentation/swift/dictionary>`:
 
 .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.map.swift
+   :language: swift
+
+.. _swift-update-mutableset-property:
+
+Update a MutableSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can ``insert`` elements into a :swift-sdk:`MutableSet 
+<Classes/MutableSet.html>` during write transactions to add them to the 
+property. If you are working with multiple sets, you can also insert set 
+elements into or remove set elements from the other set, or mutate a set 
+to contain only the common elements from both.
+
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.set-collections.swift
    :language: swift
 
 Update an Embedded Object Property

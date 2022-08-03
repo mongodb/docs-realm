@@ -12,6 +12,7 @@ class DeleteExamples_Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
@@ -118,7 +119,7 @@ class DeleteRealmObjects: XCTestCase {
             dog.favoriteParksByCity.setValue("Bush Park", forKey: "Ottawa")
         }
         // :remove-end:
-        
+
         // Find the dog we want to update
         let wolfie = realm.objects(DeleteExamples_Dog.self).where {
             $0.name == "Wolfie"
@@ -134,6 +135,37 @@ class DeleteRealmObjects: XCTestCase {
             wolfie.favoriteParksByCity["New York"] = nil
         }
         XCTAssertNil(wolfie.favoriteParksByCity["New York"])
+        // :snippet-end:
+    }
+
+    func testDeleteMutableSetExample() {
+        // :snippet-start: set-collections
+        let realm = try! Realm()
+
+        // Record a dog's name and list of cities he has visited.
+        let dog = DeleteExamples_Dog()
+        dog.name = "Maui"
+        let dogCitiesVisited = ["New York", "Boston", "Toronto"]
+        try! realm.write {
+            realm.add(dog)
+            dog.citiesVisited.insert(objectsIn: dogCitiesVisited)
+        }
+        XCTAssertEqual(dog.citiesVisited.count, 3)
+
+        // Later... we decide the dog didn't really visit Toronto
+        // since the plane just stopped there for a layover.
+        // Remove the element from the set.
+        try! realm.write {
+            dog.citiesVisited.remove("Toronto")
+        }
+        XCTAssertEqual(dog.citiesVisited.count, 2)
+
+        // Or, in the case where the person entered the data for
+        // the wrong dog, remove all elements from the set.
+        try! realm.write {
+            dog.citiesVisited.removeAll()
+        }
+        XCTAssertEqual(dog.citiesVisited.count, 0)
         // :snippet-end:
     }
 

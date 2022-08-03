@@ -3,6 +3,7 @@ class Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>

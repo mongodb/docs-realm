@@ -8,6 +8,7 @@ class Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 
     // To-one relationship
     @Persisted var favoriteToy: DogToy?

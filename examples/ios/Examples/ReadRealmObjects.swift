@@ -17,6 +17,7 @@ class ReadExamples_Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 
     // To-one relationship
     @Persisted var favoriteToy: ReadExamples_DogToy?
@@ -379,6 +380,62 @@ class ReadRealmObjects: XCTestCase {
         }
         // :snippet-end:
         XCTAssertEqual(dogsWithFavoriteParks.count, 1)
+    }
+
+    func testQueryMutableSet() {
+        // :snippet-start: set-collections
+        let realm = try! Realm()
+
+        // :remove-start:
+        // Create a test dog
+        let dog = ReadExamples_Dog()
+        dog.name = "Maui"
+        let dogCitiesVisited = ["New York", "Toronto", "New York"]
+        try! realm.write {
+            realm.add(dog)
+            dog.citiesVisited.insert(objectsIn: dogCitiesVisited)
+        }
+        XCTAssert(dog.citiesVisited.count == 2)
+        // :remove-end:
+        // Find dogs who have visited New York
+        let newYorkDogs = realm.objects(ReadExamples_Dog.self).where {
+            $0.citiesVisited.contains("New York")
+        }
+        // :remove-start:
+        XCTAssertNotNil(newYorkDogs)
+        // :remove-end:
+
+        // Get some information about the cities they have visited
+        for dog in newYorkDogs {
+            print("Cities \(dog.name) has visited: \(dog.citiesVisited)")
+        }
+        // :remove-start:
+        // Create another sample dog
+        let dog2 = ReadExamples_Dog()
+        dog2.name = "Lita"
+        let dog2Cities = ["Boston", "New York", "Toronto", "Montreal", "Boston"]
+        try! realm.write {
+            realm.add(dog2)
+            dog2.citiesVisited.insert(objectsIn: dog2Cities)
+
+        }
+        XCTAssert(dog2.citiesVisited.count == 4)
+        // :remove-end:
+
+        // Check whether two dogs have visited some of the same cities.
+        // Use "intersects" to find out whether the values of the two sets share common elements.
+        let isInBothCitiesVisited = (dog.citiesVisited.intersects(dog2.citiesVisited))
+
+        print("The two dogs have visited some of the same cities: \(isInBothCitiesVisited)")
+        // Prints "The two dogs have visited some of the same cities: true"
+
+        // Or you can check whether a set is a subset of another set. In this example,
+        // the first dog has visited "New York" and "Toronto", while dog2 has visited both of
+        // those but also "Toronto" and "Boston".
+        let isSubset = (dog.citiesVisited.isSubset(of: dog2.citiesVisited))
+        print("\(dog.name)'s set of cities visited is a subset of \(dog2.name)'s: \(isSubset)")
+        // Prints "Maui's set of cities visited is a subset of Lita's: true"
+        // :snippet-end:
     }
 
 }

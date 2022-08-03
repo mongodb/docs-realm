@@ -320,6 +320,19 @@ When you create an object that has a :swift-sdk:`map property
 .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.map.swift
    :language: swift
 
+.. _swift-create-object-mutableset-property:
+
+Create an Object with a MutableSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create objects that contain :swift-sdk:`MutableSet 
+<Classes/MutableSet.html>` properties as you would any Realm object, but you
+can only mutate a MutableSet within a write transaction. This means you can
+only set the value(s) of a mutable set property within a write transaction.
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.set-collections.swift
+   :language: swift
+
 .. _ios-copy-an-object-to-another-realm:
 
 Copy an Object to Another Realm

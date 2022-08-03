@@ -16,6 +16,7 @@ class CreateExamples_Dog: Object {
     @Persisted var age = 0
     @Persisted var color = ""
     @Persisted var currentCity = ""
+    @Persisted var citiesVisited: MutableSet<String>
 
     // To-one relationship
     @Persisted var favoriteToy: CreateExamples_DogToy?
@@ -203,6 +204,33 @@ class CreateRealmObjects: XCTestCase {
             dog.favoriteParksByCity["Chicago"] = "Wiggly Field"
             dog.favoriteParksByCity.setValue("Bush Park", forKey: "Ottawa")
         }
+        // :snippet-end:
+    }
+
+    func testCreateMutableSet() {
+        // :snippet-start: set-collections
+        let realm = try! Realm()
+
+        // Record a dog's name and current city
+        let dog = CreateExamples_Dog()
+        dog.name = "Maui"
+        dog.currentCity = "New York"
+
+        // Store the data in a realm. Add the dog's current city
+        // to the citiesVisited MutableSet
+        try! realm.write {
+            realm.add(dog)
+            // You can only mutate the MutableSet in a write transaction.
+            // This means you can't set values at initialization, but must do it during a write.
+            dog.citiesVisited.insert(dog.currentCity)
+        }
+
+        // You can also add multiple items to the set.
+        try! realm.write {
+            dog.citiesVisited.insert(objectsIn: ["Boston", "Chicago"])
+        }
+
+        print("\(dog.name) has visited: \(dog.citiesVisited)")
         // :snippet-end:
     }
 }

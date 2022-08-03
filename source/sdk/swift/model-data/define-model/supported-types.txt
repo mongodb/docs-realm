@@ -667,8 +667,14 @@ Realm collections, you can :ref:`register a change listener
 For example, a ``Dog`` class model might contain a ``MutableSet`` for 
 ``citiesVisited``:
 
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-collections-model.swift
-   :language: swift
+.. code-block:: swift
+   :copyable: false
+
+   class Dog: Object {
+       @Persisted var name = ""
+       @Persisted var currentCity = ""
+       @Persisted var citiesVisited: MutableSet<String>
+   }
 
 .. note::
 
@@ -701,8 +707,16 @@ value types (structs).
 
 You can declare a Map as a property of an object:
 
-.. literalinclude:: /examples/generated/code/start/MapExample.snippet.models.swift
-   :language: swift
+.. code-block:: swift
+   :copyable: false
+
+   class Dog: Object {
+       @Persisted var name = ""
+       @Persisted var currentCity = ""
+       
+       // Map of city name -> favorite park in that city
+       @Persisted var favoriteParksByCity: Map<String, String>
+   }
 
 .. note::
 
