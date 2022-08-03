@@ -392,6 +392,19 @@ of the other set.
 .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.set-collections.swift
    :language: swift
 
+.. _swift-read-anyrealmvalue-property:
+
+Read an AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you read an AnyRealmValue property, check the value's type before doing
+anything with it. The Realm Swift SDK provides an :swift-sdk:`AnyRealmValue 
+enum <Enums/AnyRealmValue.html>` that iterates all of the types the 
+AnyRealmValue can store.
+
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.mixed-data-type.swift
+   :language: swift
+
 .. _ios-sort-query-results:
 
 Sort Query Results

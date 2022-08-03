@@ -8,6 +8,7 @@ class Dog: Object {
     @Persisted var color = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
+    @Persisted var companion: AnyRealmValue
 
     // To-one relationship
     @Persisted var favoriteToy: DogToy?

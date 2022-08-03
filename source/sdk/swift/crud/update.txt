@@ -162,6 +162,19 @@ to contain only the common elements from both.
 .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.set-collections.swift
    :language: swift
 
+.. _swift-update-anyrealmvalue-property:
+
+Update an AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can update an AnyRealmValue property through assignment, but you must 
+specify the type of the value when you assign it. The Realm Swift SDK 
+provides an :swift-sdk:`AnyRealmValue enum <Enums/AnyRealmValue.html>` that 
+iterates all of the types the AnyRealmValue can store.
+
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.mixed-data-type.swift
+   :language: swift
+
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -13,6 +13,7 @@ class UpdateExamples_Dog: Object {
     @Persisted var color = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
+    @Persisted var companion: AnyRealmValue
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
@@ -319,6 +320,33 @@ class UpdateRealmObjects: XCTestCase {
             dog.citiesVisited.formIntersection(dog2.citiesVisited)
         }
         XCTAssertEqual(dog.citiesVisited.count, 0)
+        // :snippet-end:
+    }
+
+    func testUpdateAnyRealmValue() {
+        // :snippet-start: mixed-data-type
+        let realm = try! Realm()
+        // :remove-start:
+        // Populate some example data
+        let myDog = UpdateExamples_Dog()
+        myDog.name = "Rex"
+        myDog.companion = .none
+
+        try! realm.write {
+            realm.add(myDog)
+        }
+        // :remove-end:
+
+        // Get a dog to update
+        let rex = realm.objects(UpdateExamples_Dog.self).where {
+            $0.name == "Rex"
+        }.first!
+
+        try! realm.write {
+            // As with creating an object with an AnyRealmValue, you must specify the
+            // type of the value when you update the property.
+            rex.companion = .object(UpdateExamples_Dog(value: ["name": "Regina"]))
+        }
         // :snippet-end:
     }
 }

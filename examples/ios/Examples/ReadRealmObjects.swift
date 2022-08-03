@@ -18,6 +18,7 @@ class ReadExamples_Dog: Object {
     @Persisted var color = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
+    @Persisted var companion: AnyRealmValue
 
     // To-one relationship
     @Persisted var favoriteToy: ReadExamples_DogToy?
@@ -437,5 +438,60 @@ class ReadRealmObjects: XCTestCase {
         // :snippet-end:
     }
 
+    func testReadAnyRealmValues() {
+        // :snippet-start: mixed-data-type
+        let realm = try! Realm()
+        // :remove-start:
+        // Populate some example data
+        let myDog = ReadExamples_Dog()
+        myDog.name = "Rex"
+        myDog.companion = .none
+
+        let theirDog = ReadExamples_Dog()
+        theirDog.name = "Wolfie"
+        theirDog.companion = .string("Fluffy the Cat")
+
+        let anotherDog = ReadExamples_Dog()
+        anotherDog.name = "Fido"
+        anotherDog.companion = .object(ReadExamples_Dog(value: ["name": "Spot"]))
+
+        try! realm.write {
+            realm.add([myDog, theirDog, anotherDog])
+        }
+        // :remove-end:
+
+        let dogs = realm.objects(ReadExamples_Dog.self)
+        // :remove-start:
+        XCTAssertEqual(dogs.count, 4)
+        // :remove-end:
+
+        for dog in dogs {
+            // Verify the type of the ``AnyRealmProperty`` when attempting to get it. This
+            // returns an object whose property contains the matched type.
+
+            // If you only care about one type, check for that type.
+            if case let .string(companion) = dog.companion {
+                print("\(dog.name)'s companion is: \(companion)")
+                // Prints "Wolfie's companion is: Fluffy the Cat"
+            }
+
+            // Or if you want to do something with multiple types of data
+            // that could be in the value, switch on the type.
+            switch dog.companion {
+            case .string:
+                print("\(dog.name)'s companion is: \(dog.companion)")
+                // Prints "Wolfie's companion is: string("Fluffy the Cat")
+            case .object:
+                print("\(dog.name)'s companion is: \(dog.companion)")
+                // Prints "Fido's companion is: object(Dog { name = Spot })"
+            case .none:
+                print("\(dog.name) has no companion")
+                // Prints "Rex has no companion" and "Spot has no companion"
+            default:
+                print("\(dog.name)'s companion is another type.")
+            }
+        }
+        // :snippet-end:
+    }
 }
 // :replace-end:

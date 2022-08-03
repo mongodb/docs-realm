@@ -333,6 +333,23 @@ only set the value(s) of a mutable set property within a write transaction.
 .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.set-collections.swift
    :language: swift
 
+.. _swift-create-object-anyrealvalue-property:
+
+Create an Object with an AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create an object with an :ref:`AnyRealmValue property 
+<ios-mixed-data-type>`, you must specify the type of the value you store in 
+the property. The Realm Swift SDK provides an :swift-sdk:`AnyRealmValue enum 
+<Enums/AnyRealmValue.html>` that iterates all of the types the AnyRealmValue
+can store.
+
+Later, when you :ref:`read an AnyRealmValue <swift-read-anyrealmvalue-property>`, 
+you must check the type before you do anything with the value.
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.mixed-data-type.swift
+   :language: swift
+
 .. _ios-copy-an-object-to-another-realm:
 
 Copy an Object to Another Realm

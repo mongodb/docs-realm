@@ -13,6 +13,7 @@ class DeleteExamples_Dog: Object {
     @Persisted var color = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
+    @Persisted var companion: AnyRealmValue
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
@@ -211,6 +212,32 @@ class DeleteRealmObjects: XCTestCase {
         XCTAssert(realm.objects(DeleteExamples_Dog.self).count == 0)
         XCTAssert(realm.objects(DeleteExamples_Person.self).count == 0)
         */
+    }
+
+    func testRemoveValueOfAnyRealmValue() {
+        // :snippet-start: mixed-data-type
+        let realm = try! Realm()
+        // :remove-start:
+        // Create an example dog
+        let dog = DeleteExamples_Dog()
+        dog.name = "Wolfie"
+        dog.companion = .string("Fluffy the Cat")
+        try! realm.write {
+            realm.add(dog)
+        }
+        // :remove-end:
+
+        // Wolfie's companion is "Fluffy the Cat", represented by a string.
+        // Fluffy has gone to visit friends for the summer, so Wolfie has no companion.
+        let wolfie = realm.objects(DeleteExamples_Dog.self).where {
+            $0.name == "Wolfie"
+        }.first!
+
+        try! realm.write {
+            // You cannot set an AnyRealmValue to nil; you must set it to `.none`, instead.
+            wolfie.companion = .none
+        }
+        // :snippet-end:
     }
 }
 // :replace-end:

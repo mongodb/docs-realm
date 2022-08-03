@@ -17,6 +17,7 @@ class CreateExamples_Dog: Object {
     @Persisted var color = ""
     @Persisted var currentCity = ""
     @Persisted var citiesVisited: MutableSet<String>
+    @Persisted var companion: AnyRealmValue
 
     // To-one relationship
     @Persisted var favoriteToy: CreateExamples_DogToy?
@@ -231,6 +232,41 @@ class CreateRealmObjects: XCTestCase {
         }
 
         print("\(dog.name) has visited: \(dog.citiesVisited)")
+        // :snippet-end:
+    }
+
+    func testCreateAnyRealmValue() {
+        // :snippet-start: mixed-data-type
+        // Create a CreateExamples_Dog object and then set its properties
+        let myDog = CreateExamples_Dog()
+        myDog.name = "Rex"
+        // This dog has no companion.
+        // You can set the field's type to "none", which represents `nil`
+        myDog.companion = .none
+
+        // Create another CreateExamples_Dog whose companion is a cat.
+        // We don't have a Cat object, so we'll use a string to describe the companion.
+        let theirDog = CreateExamples_Dog()
+        theirDog.name = "Wolfie"
+        theirDog.companion = .string("Fluffy the Cat")
+
+        // Another dog might have a dog as a companion.
+        // We do have an object that can represent that, so we can specify the
+        // type is a CreateExamples_Dog object, and even set the object's value.
+        let anotherDog = CreateExamples_Dog()
+        anotherDog.name = "Fido"
+        // Note: this sets Spot as a companion of Fido, but does not set
+        // Fido as a companion of Spot. Spot has no companion in this instance.
+        anotherDog.companion = .object(CreateExamples_Dog(value: ["name": "Spot"]))
+
+        // Add the dogs to the realm
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add([myDog, theirDog, anotherDog])
+        }
+        // After adding these dogs to the realm, we now have 4 dog objects.
+        let dogs = realm.objects(CreateExamples_Dog.self)
+        XCTAssertEqual(dogs.count, 4)
         // :snippet-end:
     }
 }
