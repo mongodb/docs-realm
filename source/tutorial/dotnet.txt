@@ -51,7 +51,7 @@ Prerequisites
 
          - `Visual Studio for Mac <https://visualstudio.microsoft.com/downloads/>`__ 2019.
          - `Xcode <https://developer.apple.com/xcode/>`_ 10.0 or newer. Note that 
-               Xcode 10 requires macOS High Sierra (10.13) or newer.
+            Xcode 10 requires macOS High Sierra (10.13) or newer.
          - `iOS 12 SDK <https://developer.apple.com/ios/>`_.
          - `Android 6.0 / API level 23 <https://developer.android.com/studio>`_.
 
@@ -60,11 +60,11 @@ Prerequisites
 
          - Windows 7 or newer. Windows 10 recommended. 
          - `Visual Studio <https://visualstudio.microsoft.com/downloads/>`_ 2017 
-               (Visual Studio 2019 is recommended)
+            (Visual Studio 2019 is recommended)
          - `Android 6.0 / API level 23 <https://developer.android.com/studio>`_.
          - To build iOS projects on Windows, you will also need a Mac computer, 
-               network-accessible from the Windows computer, that 
-               conforms to the minimum requirements for running Xamarin on macOS.
+           network-accessible from the Windows computer, that 
+           conforms to the minimum requirements for running Xamarin on macOS.
 
 2. You need previous experience deploying a Xamarin app to an Android Emulator, 
    iOS Simulator, and/or a physical device. 
@@ -83,7 +83,7 @@ command to set up the backend and create the Xamarin base app:
    realm-cli apps create --template xamarin.todo.flex --deployment-model global 
       --location us-or --environment production
 
-To learn more about the Template aApps, and to install the Template App that this 
+To learn more about the Template Apps, and to install the Template App that this 
 tutorial uses in the {+ui+}, see :ref:`<template-applications>`. 
 
 Set up the Template App
@@ -151,12 +151,12 @@ Set up the Template App
    .. step:: Run the App
 
       Without making any changes to the code, you should be able to run the app 
-      in either the Android emulator or the iOS Simulator (or on a physical device.)
+      in either the Android emulator or the iOS Simulator, or on a physical device.
       When you installed the template app, the {+cli-bin+} also set up a new 
       backend for you and populated the ``realm.json`` file with the correct app 
       ID. 
 
-      Run the app, create a new user account, and then add a new Item to your 
+      Run the app, register a new user account, and then add a new Item to your 
       todo list.
 
    .. step:: Check the Backend
@@ -166,7 +166,6 @@ Set up the Template App
       of databases, find and expand the :guilabel:`todo` database, and then the 
       :guilabel:`Item` collection. You should see the document you created 
       in this collection.
-
 
 Modify the Application
 ----------------------
@@ -192,8 +191,8 @@ Modify the Application
          .. code-block:: csharp
 
             [MapTo("priority")]
-               public int? Priority { get; set; }
-            }
+            public int? Priority { get; set; }
+            
 
       #. Also add the enum below the ``Item`` class:
          
@@ -248,10 +247,10 @@ Modify the Application
 
          .. note:: Using SelectedIndex
 
-         Because we ordered the priorites in the ``Picker`` element from highest 
-         to lowest, the lower the selected item's index, the higher that Item's 
-         priority is: 0 for Severe, 1 for High, etc. Therefore, the index 
-         matches the ``Priority`` enum values.
+            Because we ordered the priorities in the ``Picker`` element from highest 
+            to lowest, the lower the selected item's index, the higher that Item's 
+            priority is: 0 for Severe, 1 for High, etc. Therefore, the index 
+            matches the ``Priority`` enum values.
 
       #. Finally, open the ``ItemPage.xaml.cs`` file, and find the ``Popup_Popped`` 
          event handler, which fires when the NewItemPopup is closed. In this 
@@ -269,7 +268,6 @@ Modify the Application
                 IsComplete = false,
                 Priority = popup.Priority
             };
-
 
    .. step:: Run and Test
     
@@ -312,7 +310,7 @@ Modify the Application
       priority ("Severe") has a value of 0, and the lowest priority ("Low") has 
       a value of 3. This makes it straight-forward to compare and filter on the 
       Priority property. To do so, edit the LINQ statement to include documents 
-      where the priority is equal or less than 1, as shown here:
+      where the priority is equal to or less than 1, as shown here:
 
       .. code-block:: csharp
          :emphasize-lines: 5
@@ -330,11 +328,10 @@ Modify the Application
       Run the application again. Log in using the account 
       you created earlier in this tutorial. You would expect to see the Item you 
       most recently created, since it has a priority of "High" (1). But it is 
-      not in the list. If you check your applicaiton logs, you will see an entry 
+      not in the list. If you check your application logs, you will see an entry 
       that looks something like this:
 
-      ``"Client provided query with bad syntax: unsupported query for table "Item": 
-      key "priority" is not a queryable field" (error_code=300, query_version=1)``
+      ``"Client provided query with bad syntax: unsupported query for table "Item": key "priority" is not a queryable field" (error_code=300, query_version=1)``
 
       This message tells us that we have added a field to our subscription without 
       configuring Flexible Sync to use that field. 
@@ -359,26 +356,46 @@ Modify the Application
    .. step:: Test the changes
 
       Return to your mobile app, log out the current user, and then log in again. 
-      After an initial moment when Realm resynces the docuemnt collection, you 
-      will see the new Item of High priority that you created. If you want to 
-      further test the functionality, you can create Items of various 
+      After an initial moment when Realm resyncs the document collection, you 
+      will see the new Item of High priority that you created.
+      
+      If you want to further test the functionality, you can create Items of various 
       priorities and verify that the app only displays those Items that have a 
       priority of "Severe" or "High".
 
+      You'll note, too, that the document you initially created is not synced, 
+      because it has a priority of ``null``. If you want this Item to be synced, 
+      you can edit the document in the Atlas UI and add a value for the priority 
+      field, or you can change your subscription to include documents with null 
+      values:
+
+
+      .. code-block:: csharp
+         :emphasize-lines: 5
+
+         subscriptions.Update(() =>
+            {
+               var defaultSubscription = _itemsRealm.All<Item>()
+                    .Where(t => t.OwnerId == _user.Id
+                    && (t.Priority == null || t.Priority <= 1));
+                subscriptions.Add(defaultSubscription);
+            });
 
 Conclusion
 ----------
-Adding a property to an existing Realm object is not a breaking change, and 
+Adding a property to an existing Realm object is a non-breaking change, and 
 Development Mode ensures that the schema change is reflected server-side. If 
-you add or change a subscription to use an additional field -- whether newly-
-added or previously existant, you need to modify the Flexible Sync settings to 
+you add or change a subscription to use an additional field, whether newly 
+added or previously existent, you need to modify the Flexible Sync settings to 
 enable querying against that field.
 
 What's Next?
 ------------
 
 - Read our :ref:`.NET SDK <dotnet-intro>` documentation.
-- Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
-- Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
+- Find developer-oriented blog posts and integration tutorials on the 
+  `MongoDB Developer Hub <https://developer.mongodb.com>`__.
+- Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ 
+  to learn from other MongoDB developers and technical experts.
 
 .. include:: /includes/tutorial-request-for-feedback-note.rst
