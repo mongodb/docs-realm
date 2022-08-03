@@ -13,7 +13,6 @@ for dog in newYorkDogs {
 // Check whether two dogs have visited some of the same cities.
 // Use "intersects" to find out whether the values of the two sets share common elements.
 let isInBothCitiesVisited = (dog.citiesVisited.intersects(dog2.citiesVisited))
-
 print("The two dogs have visited some of the same cities: \(isInBothCitiesVisited)")
 // Prints "The two dogs have visited some of the same cities: true"
 
