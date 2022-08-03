@@ -13,7 +13,7 @@ for dog in dogs {
     }
 
     // Or if you want to do something with multiple types of data
-    // that could be in the value, you can switch on the type.
+    // that could be in the value, switch on the type.
     switch dog.companion {
     case .string:
         print("\(dog.name)'s companion is: \(dog.companion)")

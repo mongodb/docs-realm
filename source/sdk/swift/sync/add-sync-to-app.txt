@@ -25,7 +25,17 @@ Prerequisites
 -------------
 
 Before you can access a synced realm from the client, you must 
-:ref:`Enable sync <enable-sync>` in the App Services UI.
+:ref:`Enable sync <enable-flexible-sync>` in the App Services UI. During
+this process, you must :ref:`define queryable fields <queryable-fields>`
+that match fields in your schema. You also :ref:`define read and write 
+permissions <flexible-sync-rules-and-permissions>` for app users.
+
+In this example, our model includes an ``ownerId`` field that maps to the
+``user.id`` of the Flexible Sync user.
+
+.. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.model.swift
+   :language: swift
+
 
 Add Device Sync to a Client Application
 ---------------------------------------
@@ -37,7 +47,7 @@ Add Device Sync to a Client Application
       Pass the App ID for your App, which you can :ref:`find in the Realm UI
       <find-your-app-id>`.
 
-      .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.init-realm-app-client.swift
+      .. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.connect-to-backend.swift
          :language: swift
 
    .. step:: Authenticate a user
@@ -46,7 +56,7 @@ Add Device Sync to a Client Application
       project. Here, we'll use :ref:`anonymous authentication 
       <ios-login-anonymous>`. 
 
-      .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.async-await.swift
+      .. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.authenticate-user.swift
          :language: swift
 
    .. step:: Open a Synced Realm
@@ -56,20 +66,12 @@ Add Device Sync to a Client Application
       it opens. Here, we use a :ref:`Flexible Sync configuration 
       <ios-flexible-sync-open-realm>` and specify that the SDK
       should always download the most recent updates before opening the realm.
-      We also :ref:`specify the object types 
-      <ios-provide-a-subset-of-classes-to-a-realm>` that we want to 
+      We :ref:`bootstrap the realm with an initial subscription 
+      <ios-sync-add-initial-subscriptions>`. We also :ref:`specify the object 
+      types <ios-provide-a-subset-of-classes-to-a-realm>` that we want to 
       include in this realm.
 
-      .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
-         :language: swift
-
-      If you're using :ref:`Flexible Sync <sync-modes-flexible-sync>` 
-      in your app, you'll also need to :ref:`add subscriptions 
-      <swift-manage-flexible-sync-subscriptions>` before you can open the 
-      realm. Here, we'll :ref:`check to see whether a subscription already 
-      exists <ios-check-existing-subscriptions-before-adding>` before adding it:
-
-      .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.check-before-adding-subscription.swift
+      .. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.open-synced-realm.swift
          :language: swift
 
 Use the Realm
@@ -84,7 +86,7 @@ uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the realm:
 
-.. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.create-task.swift
+.. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.create-todo.swift
    :language: swift
 
 .. important:: When Using Sync, Avoid Writes on the Main Thread
