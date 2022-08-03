@@ -325,13 +325,16 @@ Modify the Application
 
    .. step:: Run and Test
     
-      Run the application again. Log in using the account 
-      you created earlier in this tutorial. You would expect to see the Item you 
-      most recently created, since it has a priority of "High" (1). But it is 
-      not in the list. If you check your application logs, you will see an entry 
-      that looks something like this:
+      Run the application again. Log in using the account you created earlier 
+      in this tutorial. You would expect to see the Item you most recently created, 
+      since it has a priority of "High" (1). But it is not in the list. If you 
+      check your application logs, you will see an entry that looks something 
+      like this:
 
-      ``"Client provided query with bad syntax: unsupported query for table "Item": key "priority" is not a queryable field" (error_code=300, query_version=1)``
+      .. code-block:: sh
+         
+         "Client provided query with bad syntax: unsupported query for table "Item": 
+            key "priority" is not a queryable field" (error_code=300, query_version=1)
 
       This message tells us that we have added a field to our subscription without 
       configuring Flexible Sync to use that field. 
