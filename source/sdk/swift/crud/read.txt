@@ -126,17 +126,17 @@ corresponds to the target page.
 Read Realm Objects
 ------------------
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+About The Examples On This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The examples on in this section use the following models:
+The examples on this page use the following models:
 
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.models.swift
          :language: swift
 
    .. tab::
@@ -160,7 +160,7 @@ Find a Specific Object by Primary Key
       :swift-sdk:`Realm.object(ofType:forPrimaryKey:)
       <Structs/Realm.html#/s:10RealmSwift0A0V6object6ofType13forPrimaryKeyxSgxm_q_tSo0aB6ObjectCRbzr0_lF>`.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.find-a-specific-object-by-primary-key.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.find-a-specific-object-by-primary-key.swift
          :language: swift
 
    .. tab::
@@ -190,7 +190,7 @@ Query All Objects of a Given Type
       This returns a :swift-sdk:`Results <Structs/Results.html>` object
       representing all objects of the given type in the realm.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.objects.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.objects.swift
          :language: swift
 
    .. tab::
@@ -228,7 +228,7 @@ more object properties. Realm Database provides a full-featured
       call :swift-sdk:`.where <Structs/Query.html>` with a closure that 
       contains a query expression as an argument.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.where.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.where.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -238,7 +238,7 @@ more object properties. Realm Database provides a full-featured
       <Structs/Results.html#/s:10RealmSwift7ResultsV6filteryACyxGSo11NSPredicateCF>`
       with a query predicate.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.filter.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.filter.swift
          :language: swift
 
    .. tab:: Objective C
@@ -258,10 +258,6 @@ more object properties. Realm Database provides a full-featured
    <ios-define-an-embedded-object-property>` or a :ref:`related object
    <ios-declare-relationship-properties>`, use dot-notation as if it were
    in a regular, nested object.
-
-.. seealso::
-   
-   :ref:`ios-filter-data`
 
 .. _ios-filter-object-id:
 
@@ -283,10 +279,7 @@ Realm Database does not automatically convert strings to ObjectIds.
       The Realm Swift Query API's built-in type safety simplifies writing a
       query with an ObjectId:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
-         :language: swift
-
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-object-id.swift
          :language: swift
 
    .. tab:: Swift NSPredicate
@@ -295,10 +288,7 @@ Realm Database does not automatically convert strings to ObjectIds.
       The following example shows the correct and incorrect way to write a
       query with an ObjectId given the following Realm Database object:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.object-id-model.swift
-         :language: swift
-
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-object-id.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-object-id.swift
          :language: swift
 
 .. _ios-query-a-relationship:
@@ -314,7 +304,7 @@ member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-a-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-a-relationship.swift
          :language: swift
 
    .. tab::
@@ -337,7 +327,7 @@ access a member of a regular Swift or Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.query-an-inverse-relationship.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-an-inverse-relationship.swift
          :language: swift
 
    .. tab::
@@ -363,13 +353,13 @@ property value:
 
       .. versionadded:: 10.19.0
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.tsq-query-an-embedded-object.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-query-an-embedded-object.swift
          :language: swift
 
    .. tab:: NSPredicate Query
       :tabid: swift-nspredicate
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.query-an-embedded-object.swift
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.query-an-embedded-object.swift
          :language: swift
 
    .. tab:: Objective C
@@ -378,157 +368,66 @@ property value:
       .. literalinclude:: /examples/EmbeddedObjects/QueryEmbeddedObjects.m
          :language: objectivec
 
-.. _ios-sort-query-results:
+.. _swift-query-and-iterate-map:
 
-Sort Query Results
-------------------
-
-A sort operation allows you to configure the order in which Realm
-Database returns queried objects. You can sort based on one or more
-properties of the objects in the results collection. Realm Database only
-guarantees a consistent order of results if you explicitly sort them.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: swift
-
-      To sort, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
-      <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
-      with the desired key path to sort by.
-
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.swift
-         :language: swift
-
-   .. tab::
-      :tabid: objective-c
-
-      To sort, call :objc-sdk:`-[RLMResults
-      sortedResultsUsingKeyPath:ascending:]
-      <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)sortedResultsUsingKeyPath:ascending:>`
-      with the desired key path to sort by.
-
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.m
-         :language: objectivec
-
-.. tip:: Sort on Related and Embedded Object Properties
-
-   To sort a query based on a property of an :ref:`embedded object
-   <ios-define-an-embedded-object-property>` or a :ref:`related object
-   <ios-declare-relationship-properties>`, use dot-notation as if it
-   were in a regular, nested object.
-
-.. include:: /includes/string-sort-and-query-limitations-note.rst
-
-.. _ios-aggregate-data:
-
-Aggregate Data
---------------
-
-You can use Realm's aggregation operators for sophisticated queries
-against list properties.
-
-.. tabs::
-   
-   .. tab:: Realm Swift Query API
-      :tabid: swift
-
-      .. versionadded:: 10.19.0
-      
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-aggregate.swift
-         :language: swift
-
-   .. tab:: Swift NSPredicate
-      :tabid: swift-nspredicate
-      
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.swift
-         :language: swift
-
-   .. tab:: Objective C
-      :tabid: objective-c
-
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.m
-         :language: objectivec
-
-.. _ios-chain-queries:
-
-Chain Queries
--------------
-
-Because :ref:`results are lazily evaluated <ios-results-are-lazy>`, you
-can chain several queries together. Unlike traditional databases, this
-does not require a separate trip to the database for each successive
-query.
-
-.. example::
-
-   To get a result set for tan dogs, and tan dogs whose names start with
-   'B', chain two queries like this:
-
-   .. tabs::
-
-      .. tab:: Realm Swift Query API
-         :tabid: swift
-
-         .. versionadded:: 10.19.0
-
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.tsq-chain-query.swift
-            :language: swift
-
-      .. tab:: Swift NSPredicate
-         :tabid: swift-nspredicate
-         
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.swift
-            :language: swift
-
-      .. tab:: Objective C
-         :tabid: objective-c
-
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.m
-            :language: objectivec
-
-Query Class Projections
------------------------
-
-About These Examples
+Query a Map Property
 ~~~~~~~~~~~~~~~~~~~~
 
-The examples in this section use a simple data set. The two Realm object 
-types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
-a first and last name, an optional ``Address``, and a list of friends 
-consisting of other ``Person`` objects. An ``Address`` has a city and country.
+You can iterate and check the values of a realm :swift-sdk:`map <Classes/Map.html>` 
+as you would a standard :apple:`Dictionary <documentation/swift/dictionary>`:
 
-See the schema for these two classes, ``Person`` and ``Address``, below:
-
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.map.swift
    :language: swift
 
-.. _swift-query-for-class-projection:
+.. _swift-query-mutableset-property:
 
-Query for a Class Projection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Query a MutableSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To query for class projections in a realm, pass the metatype instance 
-``YourProjectionName.self`` to :swift-sdk:`Realm.objects(_:)
-<Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`.
-This returns a :swift-sdk:`Results <Structs/Results.html>` object
-representing all of the class projection objects in the realm.
+You can query a :swift-sdk:`MutableSet <Classes/MutableSet.html>` to check if
+it contains an element. If you are working with multiple sets, you can 
+check for the intersection of two sets, or check whether one set is a subset
+of the other set.
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.retrieve-data-through-class-projection.swift
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.set-collections.swift
    :language: swift
 
-.. tip::
+.. _swift-read-anyrealmvalue-property:
 
-   Don't do derived queries on top of class projection results. Instead, run a 
-   query against the Realm object directly and then project the result. If you 
-   try to do a derived query on top of class projection results, querying a 
-   field with the same name and type as the original object works, but querying 
-   a field with a name or type that isn't in the original object fails.
+Read and Query AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Access Projected Types
-~~~~~~~~~~~~~~~~~~~~~~
+When you read an AnyRealmValue property, check the value's type before doing
+anything with it. The Realm Swift SDK provides an :swift-sdk:`AnyRealmValue 
+enum <Enums/AnyRealmValue.html>` that iterates through all of the types the 
+AnyRealmValue can store.
 
-When you access projected types in Realm, this access is often based on the 
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.mixed-data-type.swift
+   :language: swift
+
+You can :ref:`compare <ios-filter-data-operators>` these mixed value types:
+
+- Numeric: int, bool, float, double, decimal
+- Byte-based: string, binary
+- Time-based: timestamp, objectId
+
+When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
+
+- ``equals`` queries match on value and type
+- ``not equals`` queries match objects with either different values or 
+  different types
+- realm converts comparable numeric properties where possible. For example,
+  in a mixed type field, 1 matches all of 1.0, 1, and true.
+- String properties do not match numeric queries. For example, in a mixed
+  type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+
+.. _swift-query-type-projection:
+
+Query a Custom Persistable Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use :ref:`type projection <ios-type-projection>` to map unsupported 
+types to supported types, accessing those properties is often based on the 
 persisted type. 
 
 Queries on Realm Objects
@@ -570,3 +469,133 @@ The most common use of the dynamic APIs is migration. You can write projected
 types during migration, and Realm converts the projected type to the persisted
 type. However, reading data during a migration gives the underlying persisted
 type.
+
+.. _ios-sort-query-results:
+
+Sort Query Results
+------------------
+
+A sort operation allows you to configure the order in which Realm
+Database returns queried objects. You can sort based on one or more
+properties of the objects in the results collection. Realm Database only
+guarantees a consistent order of results if you explicitly sort them.
+
+.. tabs-realm-languages::
+   
+   .. tab::
+      :tabid: swift
+
+      To sort, call :swift-sdk:`Results.sorted(byKeyPath:ascending:)
+      <Structs/Results.html#/s:10RealmSwift7ResultsV6sorted9byKeyPath9ascendingACyxGSS_SbtF>`
+      with the desired key path to sort by.
+
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.sort.swift
+         :language: swift
+
+   .. tab::
+      :tabid: objective-c
+
+      To sort, call :objc-sdk:`-[RLMResults
+      sortedResultsUsingKeyPath:ascending:]
+      <Classes/RLMResults.html#/c:objc(cs)RLMResults(im)sortedResultsUsingKeyPath:ascending:>`
+      with the desired key path to sort by.
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.sort.m
+         :language: objectivec
+
+.. tip:: Sort on Related and Embedded Object Properties
+
+   To sort a query based on a property of an :ref:`embedded object
+   <ios-define-an-embedded-object-property>` or a :ref:`related object
+   <ios-declare-relationship-properties>`, use dot-notation as if it
+   were in a regular, nested object.
+
+.. include:: /includes/string-sort-and-query-limitations-note.rst
+
+.. _ios-aggregate-data:
+
+Aggregate Data
+--------------
+
+You can use Realm's aggregation operators for sophisticated queries
+against list properties.
+
+.. tabs::
+   
+   .. tab:: Realm Swift Query API
+      :tabid: swift
+
+      .. versionadded:: 10.19.0
+      
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-aggregate.swift
+         :language: swift
+
+   .. tab:: Swift NSPredicate
+      :tabid: swift-nspredicate
+      
+      .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.aggregate.swift
+         :language: swift
+
+   .. tab:: Objective C
+      :tabid: objective-c
+
+      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.aggregate.m
+         :language: objectivec
+
+.. _ios-chain-queries:
+
+Chain Queries
+-------------
+
+Because :ref:`results are lazily evaluated <ios-results-are-lazy>`, you
+can chain several queries together. Unlike traditional databases, this
+does not require a separate trip to the database for each successive
+query.
+
+.. example::
+
+   To get a result set for tan dogs, and tan dogs whose names start with
+   'B', chain two queries like this:
+
+   .. tabs::
+
+      .. tab:: Realm Swift Query API
+         :tabid: swift
+
+         .. versionadded:: 10.19.0
+
+         .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.tsq-chain-query.swift
+            :language: swift
+
+      .. tab:: Swift NSPredicate
+         :tabid: swift-nspredicate
+         
+         .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.chain-query.swift
+            :language: swift
+
+      .. tab:: Objective C
+         :tabid: objective-c
+
+         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.chain-query.m
+            :language: objectivec
+
+Query Class Projections
+-----------------------
+
+To query for :ref:`class projections <ios-define-a-class-projection>` in a 
+realm, pass the metatype instance ``YourProjectionName.self`` to 
+:swift-sdk:`Realm.objects(_:)
+<Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`.
+This returns a :swift-sdk:`Results <Structs/Results.html>` object
+representing all of the class projection objects in the realm.
+
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.retrieve-data-through-class-projection.swift
+   :language: swift
+
+.. tip::
+
+   Don't do derived queries on top of class projection results. Instead, run a 
+   query against the Realm object directly and then project the result. If you 
+   try to do a derived query on top of class projection results, querying a 
+   field with the same name and type as the original object works, but querying 
+   a field with a name or type that isn't in the original object fails.

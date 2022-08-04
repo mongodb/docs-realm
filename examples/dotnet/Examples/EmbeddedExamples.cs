@@ -21,7 +21,7 @@ namespace Examples
         {
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-            config = new RealmConfiguration();// "myPart", user);
+            config = new RealmConfiguration();
 
             // Synchronous here because setup and tear down don't support async
             var realm = Realm.GetInstance(config);
