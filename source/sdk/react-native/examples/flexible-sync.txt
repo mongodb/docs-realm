@@ -175,26 +175,6 @@ application:
 .. literalinclude:: /examples/generated/node/flexible-sync.snippet.create-initial-subscriptions-on-fs-realm.js
    :language: javascript
 
-If your realm needs to rerun this initial subscription on every initialization,
-include the additional boolean configuration value ``rerunOnOpen: true``. 
-This denotes that the initial subscription should re-run every time the 
-app starts. You might need to do this to re-run dynamic time ranges 
-or other queries that require a re-computation of static variables for the 
-subscription.
-
-.. example:: 
-
-   In the following example, we don't want users to be overwhelmed by irrelevant tasks,
-   so we'll load only tasks due within the previous 7 days and the next 7 days.
-   Tasks that were due more than a week ago are no longer relevant, and tasks
-   that are due further out than the next week are also not relevant. With
-   ``rerunOnOpen`` here, the query dynamically recalculates the relevant 
-   objects to sync based on the desired date range every time the app starts.
-
-   .. literalinclude:: /examples/generated/node/flexible-sync.snippet.rerun-initial-subscriptions-on-open.js
-      :emphasize-lines: 32
-      :language: javascript
-
 .. _react-native-flexible-sync-wait-for-sync:
 
 Check the Status of Subscriptions

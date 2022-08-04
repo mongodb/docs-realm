@@ -31,6 +31,22 @@ deallocation of these objects:
    more instances of the realm are open, you might corrupt the realm or
    disrupt :ref:`sync <sync>`.
 
+Delete a Realm File to Avoid Migration
+--------------------------------------
+
+If you iterate rapidly as you develop your app, you may want to delete a 
+realm file instead of migrating it when you make schema changes. The Realm 
+configuration provides a :swift-sdk:`deleteRealmIfMigrationNeeded 
+<Structs/Realm/Configuration.html#/s:10RealmSwift0A0V13ConfigurationV06deleteA17IfMigrationNeededSbvp>` 
+parameter to help with this case. 
+
+When you set this property to ``true``, the SDK deletes the realm file when 
+a migration would be required. Then, you can create objects that match the 
+new schema instead of writing migration blocks for development or test data.
+
+.. literalinclude:: /examples/generated/code/start/DeleteRealmFiles.snippet.delete-if-migration-needed.swift
+   :language: swift
+
 Delete a Realm File
 -------------------
 

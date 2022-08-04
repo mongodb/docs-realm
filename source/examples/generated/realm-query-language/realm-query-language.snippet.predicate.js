@@ -1,2 +1,1 @@
-"progressMinutes > 1 AND assignee == $0",
-"Ali"
+"progressMinutes > 1 AND assignee == $0", "Ali"
