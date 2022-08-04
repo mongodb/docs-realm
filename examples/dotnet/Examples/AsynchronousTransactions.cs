@@ -74,21 +74,6 @@ namespace Examples
             Assert.AreEqual(person.Name, "John Doe");
             Assert.AreEqual(person2.Name, "Jane Doe");
 
-            //// Open a thread-safe transaction.
-            //var transaction = realm.BeginWrite();
-            //try
-            //{
-            //    // Perform a write op...
-            //    realm.Add(myDog);
-            //    // Do other work that needs to be included in
-            //    // this transaction
-            //    transaction.Commit();
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Something went wrong; roll back the transaction
-            //    transaction.Dispose();
-            //}
         }
 
         public class PersonObject : RealmObject
