@@ -1,5 +1,4 @@
 .. _dotnet-client-resets:
-.. _dotnet-client-reset:
 
 ========================
 Client Resets - .NET SDK
@@ -39,8 +38,7 @@ reset strategy in your :dotnet-sdk:`PartitionSyncConfiguration
 :dotnet-sdk:`ClientResetHandler <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_ClientResetHandler>` property can be set to either the 
 :dotnet-sdk:`DiscardLocalResetHandler <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html>` method (for ``PartitionSyncConfiguration``), 
 or the :dotnet-sdk:`ManualRecoveryHandler <reference/Realms.Sync.ErrorHandling.ManualRecoveryHandler.html>` method for either configuration 
-type. If you do not specify a ``ClientResetHandler``, the default is 
-``ManualRecoveryHandler``.  
+type. If you do not specify a ``ClientResetHandler``, the default is :dotnet-sdk:`DiscardLocalResetHandler <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html>`.
 
 Using the DiscardLocalResetHandler
 ----------------------------------

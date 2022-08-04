@@ -20,8 +20,8 @@ Updates to Realm Objects must occur within write transactions. For
 more information about write trasactions, see: :ref:`Key Concept: 
 Transactions <ios-write-transactions>`.
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+About The Examples On This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following models:
 
@@ -30,7 +30,7 @@ The examples on this page use the following models:
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.models.swift
          :language: swift
 
    .. tab::
@@ -51,7 +51,7 @@ Objective-C object.
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.update.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.update.swift
          :language: swift
 
    .. tab::
@@ -83,7 +83,7 @@ Applying KVC to a collection is a great way to update objects in bulk.
 Avoid the overhead of iterating over a collection while creating 
 accessors for every item.
 
-.. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.key-value-coding.swift
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.key-value-coding.swift
    :language: swift
 
 .. tip::
@@ -109,7 +109,7 @@ the object already exists. Upserts require the data model to have a
       <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
       with the second parameter, update policy, set to ``.modified``.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.upsert.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.upsert.swift
          :language: swift
 
    .. tab::
@@ -130,7 +130,7 @@ subset of the values to update:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.partial-update.swift
          :language: swift
 
    .. tab::
@@ -139,79 +139,55 @@ subset of the values to update:
       .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.partial-update.m
          :language: objectivec
 
-Update Mutable Sets
-~~~~~~~~~~~~~~~~~~~
-
-You can update a ``MutableSet`` during write transactions:
-
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-collections.swift
-   :language: swift
-
-MutableSet Intersection Methods
-```````````````````````````````
-
-Realm ``MutableSet`` also provides some set-specific methods to
-work with the data, including methods to compare sets and mutate them in place.
-For example, ``MutableSet`` intersection methods:
-
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-intersection-methods.swift
-   :language: swift
-
-.. seealso::
-
-   - For a complete list of methods available, such as ``contains``, 
-     ``isSubset``, ``union``, ``subtract``, see: 
-     :swift-sdk:`MutableSet API reference <Classes/MutableSet.html>`
-   - For more info on to-many relationships, see: :ref:`To-Many Relationships <ios-to-many-relationship>`
-
 Update a Map/Dictionary
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You can update, check values, iterate over, and delete from the Map
-as you would a standard :apple:`Dictionary
-<documentation/swift/dictionary>`:
+You can update a realm :swift-sdk:`map <Classes/Map.html>` as you would a 
+standard :apple:`Dictionary <documentation/swift/dictionary>`:
 
-.. literalinclude:: /examples/generated/code/start/MapExample.snippet.map.swift
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.map.swift
    :language: swift
 
-Update Properties through Class Projections
--------------------------------------------
+.. _swift-update-mutableset-property:
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+Update a MutableSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The examples in this page use a simple data set. The two Realm object 
-types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
-a first and last name, an optional ``Address``, and a list of friends 
-consisting of other ``Person`` objects. An ``Address`` has a city and country.
+You can ``insert`` elements into a :swift-sdk:`MutableSet 
+<Classes/MutableSet.html>` during write transactions to add them to the 
+property. If you are working with multiple sets, you can also insert or 
+remove set elements contained in one set from the other set. Alternately, 
+you can mutate a set to contain only the common elements from both.
 
-See the schema for these two classes, ``Person`` and ``Address``, below:
-
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.set-collections.swift
    :language: swift
 
-.. _ios-make-changes-to-class-projection-properties:
+.. _swift-update-anyrealmvalue-property:
 
-Change Class Projection Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update an AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can make changes to a class projection's properties in a write transaction.
+You can update an AnyRealmValue property through assignment, but you must 
+specify the type of the value when you assign it. The Realm Swift SDK 
+provides an :swift-sdk:`AnyRealmValue enum <Enums/AnyRealmValue.html>` that 
+iterates through all of the types the AnyRealmValue can store.
 
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.change-class-projection-property-value-in-a-write.swift
+.. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.mixed-data-type.swift
    :language: swift
 
 Update an Embedded Object Property
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To update a property in an embedded object, modify the property in a
-write transaction:
+write transaction. If the embedded object is null, updating an embedded
+object property has no effect.
 
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.update-an-embedded-object-property.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.update-an-embedded-object-property.swift
          :language: swift
 
    .. tab::
@@ -224,14 +200,14 @@ Overwrite an Embedded Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To overwrite an embedded object, reassign the embedded object property
-of a party to a new instance in a write transaction:
+of a party to a new instance in a write transaction.
 
 .. tabs-realm-languages::
    
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.overwrite-an-embedded-object.swift
+      .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.overwrite-an-embedded-object.swift
          :language: swift
 
    .. tab::
@@ -239,3 +215,16 @@ of a party to a new instance in a write transaction:
 
       .. literalinclude:: /examples/EmbeddedObjects/ReplaceEmbeddedObject.m
          :language: objectivec
+
+Update Properties through Class Projections
+-------------------------------------------
+
+.. _ios-make-changes-to-class-projection-properties:
+
+Change Class Projection Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can make changes to a class projection's properties in a write transaction.
+
+.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.change-class-projection-property-value-in-a-write.swift
+   :language: swift

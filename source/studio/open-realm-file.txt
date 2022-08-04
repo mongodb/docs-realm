@@ -156,3 +156,28 @@ When you click the link to download the demo file in Realm Studio,
 you can specify a name and location to save a realm file containing 
 demo data. Once you have downloaded the file, you can use the 
 :guilabel:`Open Realm file` dialog to open it.
+
+Error Opening Realm File
+------------------------
+
+If you get an error when you try to open a realm file, this may be due to 
+a version mismatch between the Realm file format supported in Realm Studio
+and the Realm file format produced by the SDK.
+
+To verify compatibility, check the release notes for your SDK version or
+your :github:`Realm Studio version <realm/realm-studio/releases/>`. 
+You may need to upgrade or downgrade Realm Studio or the Realm SDK version. 
+
+These error messages may resemble:
+
+.. code-block:: console
+
+   Realm file is currently open in another process which cannot share access 
+   with this process. All processes sharing a single file must be the same 
+   architecture.
+
+.. code-block:: console
+
+   The file is already opened by another process, with an incompatible 
+   lock file format. Try up- or downgrading Realm Studio or SDK to match 
+   their versions of Realm Core.

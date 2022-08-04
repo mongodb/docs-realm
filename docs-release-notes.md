@@ -1,3 +1,46 @@
+# July 29, 2022
+
+## .NET SDK
+- Advanced Guides/Client Resets: Update client reset handler docs to reflect `DiscardLocalResetHandler` as default
+
+## Node.js SDK
+- Advanced Guides/Access Custom User Data: Update code block formatting to fix syntax highlighting
+
+## Swift SDK
+- Install: Typo fix
+- Model Data/Model Data with Device Sync: Add section describing how to generate object models from schemas & vice versa
+- React to Changes: Note collection change listener example does not support high-frequency updates
+
+## Web SDK
+- Install: New page with instructions to install the Web SDK
+
+## Realm Studio
+- Open a Realm File: Add an "Error Opening Realm File" section re: realm file version mismatch errors
+
+## Other
+- Realm Query Language: Add documentation for additional operators: type, dictionary, and date. Page formatting updates.
+- Add Readability check to post readability scores on docs PRs
+
+# July 22, 2022
+
+## Java SDK
+- Bump Java SDK version to 10.11.1 
+
+## Kotlin SDK
+- React to Changes: New page with tested code examples for registering & unsubscribing change listeners
+
+## Node.js SDK
+- Fundamentals/Relationships & Embedded Objects: Add code example and docs for dynamically obtaining an inverse linked object
+
+## React Native SDK
+- Fundamentals/Relationships & Embedded Objects: Add code example and docs for dynamically obtaining an inverse linked object
+
+## Other
+- Various Snyk upgrades and version bumps in example apps
+- Various dependabot version bumps in example apps
+- Remove admonitions, switch to appropriate admonition types, clean up terms and source constants across all docs pages
+- Switch all YAML step files to use new rST procedure directive
+
 # July 15, 2022
 
 ## Flutter SDK
