@@ -1,8 +1,8 @@
 let realm = try! Realm()
 
-let users = realm.objects(User.self)
+let dogToys = realm.objects(DogToy.self)
 
 // Get specific user by ObjectId id
-let specificUser = users.where {
+let specificToy = dogToys.where {
     $0.id == ObjectId("11223344556677889900aabb")
 }
