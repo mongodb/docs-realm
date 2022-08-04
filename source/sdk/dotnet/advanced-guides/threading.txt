@@ -145,14 +145,20 @@ Realms are also refreshed when write transactions are committed with
 Asynchronous Writes
 -------------------
 
-The :dotnet-sdk:`WriteAsync() <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_Realms_Realm__>`
-method provides a simple way to offload the UI thread by performing writes in a 
-background thread. When run on the UI thread, Realm creates a 
-temporary realm instance that is passed to the Lambda function, performs the 
-write, disposes of the temporary instance, and then calls ``Realm.Refresh()`` on 
-the UI thread to update the realm. When ``WriteAsync()`` is 
-run in a background thread, Realm forwards the call to ``Write()`` on 
-the current background thread. 
+The :dotnet-sdk:`WriteAsync()
+<reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
+method provides a performant way to execute many changes to your realm objects.
+``WriteAsync()`` asynchronously acquires a write lock for a transaction, but the
+transaction itself is executed on the main thread. This means you can use
+objects and queries captured inside the write block without relying on
+thread-safe references. Finally, Realm commits the transaction asynchronously
+unless it is on a background thread.
+
+Calls to ``WriteAsync()`` on background threads are performed synchronously. In
+background threads, we recommend simply using Realm.Write for readability. 
+
+.. literalinclude:: /examples/generated/dotnet/AsynchronousTransactions.snippet.write-async.cs
+   :language: csharp
 
 .. note::
 
@@ -164,6 +170,23 @@ the current background thread.
    time-consuming, and performing the changes synchronously might lead to 
    interface jitters and a poor user experience. Using ``WriteAsync()`` 
    prevents this.
+
+Alternatively, you can use the :dotnet-sdk:`BeginWriteAsync()
+<reference/Realms.Realm.html#Realms_Realm_BeginWriteAsync_System_Threading_CancellationToken_>`
+method to execute many changes to your realm objects in a performant way.
+``BeginWriteAsync()`` asynchronously acquires the write lock and then dispatches
+the continuation on the thread you opened the Realm in. 
+
+In threads without a SynchronizationContext such as background threads, this
+method calls ``BeginWrite()`` and executes synchronously. In background threads, we
+recommend simply using BeginWrite for readability. 
+
+Finally, to save your changes to the Realm, use the 
+:dotnet-sdk:`CommitAsync() <reference/Realms.Transaction.html#Realms_Transaction_CommitAsync_System_Threading_CancellationToken_>`
+method, which completes when Realm has written the changes to the disk. 
+
+.. literalinclude:: /examples/generated/dotnet/AsynchronousTransactions.snippet.commit-async.cs
+   :language: csharp
 
 .. _dotnet-frozen-objects:
 
