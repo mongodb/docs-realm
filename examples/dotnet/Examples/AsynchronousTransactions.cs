@@ -2,30 +2,16 @@
 using MongoDB.Bson;
 using NUnit.Framework;
 using Realms;
-using Realms.Sync;
 using Task = Examples.Models.Task;
-using TaskStatus = Examples.Models.TaskStatus;
 using ThreadTask = System.Threading.Tasks.Task;
 
 namespace Examples
 {
     public class AsynchronousTransactions
     {
-        App app;
-        ObjectId testTaskId;
-        User user;
-        PartitionSyncConfiguration config;
-        const string myRealmAppId = Config.appid;
 
         public AsynchronousTransactions()
         {
-        }
-
-        [OneTimeSetUp]
-        public async ThreadTask Setup()
-        {
-            app = App.Create(myRealmAppId);
-            return;
         }
 
         [Test]
