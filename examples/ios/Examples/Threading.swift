@@ -2,7 +2,7 @@
 //   "terms": {
 //     "ThreadingExamples_": "",
 //     "fileprivate ": "",
-//     "ReadWriteDataExamples_": ""
+//     "CreateExamples_": ""
 //   }
 // }
 import XCTest
@@ -135,8 +135,8 @@ class Threading: XCTestCase {
 
     func testAppendToFrozenCollection() {
         let hiddenRealm = try! Realm()
-        let person = ReadWriteDataExamples_Person(value: ["name": "Timmy"])
-        let dog = ReadWriteDataExamples_Dog(value: ["name": "Lassie", "age": 79, "color": "Brown and white", "currentCity": "Yorkshire"])
+        let person = CreateExamples_Person(value: ["name": "Timmy"])
+        let dog = CreateExamples_Dog(value: ["name": "Lassie", "age": 79, "color": "Brown and white", "currentCity": "Yorkshire"])
         try! hiddenRealm.write {
             hiddenRealm.add(person)
             hiddenRealm.add(dog)
@@ -146,10 +146,10 @@ class Threading: XCTestCase {
         // Get a copy of frozen objects.
         // Here, we're getting them from a frozen realm,
         // but you might also be passing them across threads.
-        let frozenTimmy = frozenRealm.objects(ReadWriteDataExamples_Person.self).where {
+        let frozenTimmy = frozenRealm.objects(CreateExamples_Person.self).where {
             $0.name == "Timmy"
         }.first!
-        let frozenLassie = frozenRealm.objects(ReadWriteDataExamples_Dog.self).where {
+        let frozenLassie = frozenRealm.objects(CreateExamples_Dog.self).where {
             $0.name == "Lassie"
         }.first!
         // Confirm the objects are frozen.

@@ -29,4 +29,4 @@
    .. tab::
       :tabid: dotnet
 
-      Learn how to perform a :ref:`Client Reset using the .NET SDK <dotnet-client-reset>`.
+      Learn how to perform a :ref:`Client Reset using the .NET SDK <dotnet-client-resets>`.
