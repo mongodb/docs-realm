@@ -9,7 +9,7 @@ try! realm.write {
     dog.citiesVisited.insert(dog.currentCity)
 }
 
-// Later... update the dog's current city, and add it to the set of cities visited
+// Update the dog's current city, and add it to the set of cities visited.
 try! realm.write {
     dog.currentCity = "Toronto"
     dog.citiesVisited.insert(dog.currentCity)

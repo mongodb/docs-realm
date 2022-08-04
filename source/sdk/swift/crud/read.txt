@@ -126,10 +126,10 @@ corresponds to the target page.
 Read Realm Objects
 ------------------
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+About The Examples On This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The examples on in this section use the following models:
+The examples on this page use the following models:
 
 .. tabs-realm-languages::
    
@@ -399,7 +399,7 @@ Read and Query AnyRealmValue Property
 
 When you read an AnyRealmValue property, check the value's type before doing
 anything with it. The Realm Swift SDK provides an :swift-sdk:`AnyRealmValue 
-enum <Enums/AnyRealmValue.html>` that iterates all of the types the 
+enum <Enums/AnyRealmValue.html>` that iterates through all of the types the 
 AnyRealmValue can store.
 
 .. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.mixed-data-type.swift
@@ -420,6 +420,55 @@ When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
   in a mixed type field, 1 matches all of 1.0, 1, and true.
 - String properties do not match numeric queries. For example, in a mixed
   type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+
+.. _swift-query-type-projection:
+
+Query a Custom Persistable Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use :ref:`type projection <ios-type-projection>` to map unsupported 
+types to supported types, accessing those properties is often based on the 
+persisted type. 
+
+Queries on Realm Objects
+````````````````````````
+
+When working with projected types, queries operate on the persisted type. 
+However, you can use the mapped types interchangeably with the persisted 
+types in arguments in most cases. The exception is queries on embedded 
+objects.
+
+.. tip::
+
+   Projected types support :ref:`sorting and aggregates <ios-filter-data>` where 
+   the persisted type supports them.
+
+.. literalinclude:: /examples/generated/code/start/TypeProjection.snippet.query-objects-with-type-projection.swift
+   :language: swift
+
+Queries on Embedded Objects
+```````````````````````````
+
+You can query embedded types on the supported property types within the 
+object using memberwise equality. 
+
+Object link properties support equality comparisons, but do not support 
+memberwise comparisons. You can query embedded objects for memberwise
+equality on all primitive types. You cannot perform memberwise comparison 
+on objects and collections.
+
+Dynamic APIs
+````````````
+
+Because the schema has no concept of custom type mappings, reading data via
+any of the dynamic APIs gives the underlying persisted type. Realm does 
+support writing mapped types via a dynamic API, and converts the projected
+type to the persisted type.
+
+The most common use of the dynamic APIs is migration. You can write projected
+types during migration, and Realm converts the projected type to the persisted
+type. However, reading data during a migration gives the underlying persisted
+type.
 
 .. _ios-sort-query-results:
 
@@ -533,26 +582,9 @@ query.
 Query Class Projections
 -----------------------
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
-
-The examples in this section use a simple data set. The two Realm object 
-types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
-a first and last name, an optional ``Address``, and a list of friends 
-consisting of other ``Person`` objects. An ``Address`` has a city and country.
-
-See the schema for these two classes, ``Person`` and ``Address``, below:
-
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
-   :language: swift
-
-.. _swift-query-for-class-projection:
-
-Query for a Class Projection
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To query for class projections in a realm, pass the metatype instance 
-``YourProjectionName.self`` to :swift-sdk:`Realm.objects(_:)
+To query for :ref:`class projections <ios-define-a-class-projection>` in a 
+realm, pass the metatype instance ``YourProjectionName.self`` to 
+:swift-sdk:`Realm.objects(_:)
 <Structs/Realm.html#/s:10RealmSwift0A0V7objectsyAA7ResultsVyxGxmSo0aB6ObjectCRbzlF>`.
 This returns a :swift-sdk:`Results <Structs/Results.html>` object
 representing all of the class projection objects in the realm.
@@ -567,49 +599,3 @@ representing all of the class projection objects in the realm.
    try to do a derived query on top of class projection results, querying a 
    field with the same name and type as the original object works, but querying 
    a field with a name or type that isn't in the original object fails.
-
-Access Projected Types
-~~~~~~~~~~~~~~~~~~~~~~
-
-When you access projected types in Realm, this access is often based on the 
-persisted type. 
-
-Queries on Realm Objects
-````````````````````````
-
-When working with projected types, queries operate on the persisted type. 
-However, you can use the mapped types interchangeably with the persisted 
-types in arguments in most cases. The exception is queries on embedded 
-objects.
-
-.. tip::
-
-   Projected types support :ref:`sorting and aggregates <ios-filter-data>` where 
-   the persisted type supports them.
-
-.. literalinclude:: /examples/generated/code/start/TypeProjection.snippet.query-objects-with-type-projection.swift
-   :language: swift
-
-Queries on Embedded Objects
-```````````````````````````
-
-You can query embedded types on the supported property types within the 
-object using memberwise equality. 
-
-Object link properties support equality comparisons, but do not support 
-memberwise comparisons. You can query embedded objects for memberwise
-equality on all primitive types. You cannot perform memberwise comparison 
-on objects and collections.
-
-Dynamic APIs
-````````````
-
-Because the schema has no concept of custom type mappings, reading data via
-any of the dynamic APIs gives the underlying persisted type. Realm does 
-support writing mapped types via a dynamic API, and converts the projected
-type to the persisted type.
-
-The most common use of the dynamic APIs is migration. You can write projected
-types during migration, and Realm converts the projected type to the persisted
-type. However, reading data during a migration gives the underlying persisted
-type.

@@ -57,8 +57,8 @@ func runAddSyncExample() async {
                     })
             })
             // Pass object types to the Flexible Sync configuration
-            // as a temporary workaround for not being able to add complete schema
-            // for a Flexible Sync app
+            // as a temporary workaround for not being able to add a
+            // complete schema for a Flexible Sync app.
             config.objectTypes = [AddSyncExample_Todo.self]
             let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
             useRealm(realm, user)
@@ -86,7 +86,7 @@ func useRealm(_ realm: Realm, _ user: User) {
     print("Successfully added an item to the realm: \(todo)")
 }
 
-class AddSyncExample_Test: XCTestCase {
+class AddSyncExample: XCTestCase {
     func testRunExample() async {
         await runAddSyncExample()
     }

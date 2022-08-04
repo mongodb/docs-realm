@@ -20,8 +20,8 @@ Updates to Realm Objects must occur within write transactions. For
 more information about write trasactions, see: :ref:`Key Concept: 
 Transactions <ios-write-transactions>`.
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+About The Examples On This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following models:
 
@@ -155,9 +155,9 @@ Update a MutableSet Property
 
 You can ``insert`` elements into a :swift-sdk:`MutableSet 
 <Classes/MutableSet.html>` during write transactions to add them to the 
-property. If you are working with multiple sets, you can also insert set 
-elements into or remove set elements from the other set, or mutate a set 
-to contain only the common elements from both.
+property. If you are working with multiple sets, you can also insert or 
+remove set elements contained in one set from the other set. Alternately, 
+you can mutate a set to contain only the common elements from both.
 
 .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.set-collections.swift
    :language: swift
@@ -170,7 +170,7 @@ Update an AnyRealmValue Property
 You can update an AnyRealmValue property through assignment, but you must 
 specify the type of the value when you assign it. The Realm Swift SDK 
 provides an :swift-sdk:`AnyRealmValue enum <Enums/AnyRealmValue.html>` that 
-iterates all of the types the AnyRealmValue can store.
+iterates through all of the types the AnyRealmValue can store.
 
 .. literalinclude:: /examples/generated/code/start/UpdateRealmObjects.snippet.mixed-data-type.swift
    :language: swift
@@ -218,19 +218,6 @@ of a party to a new instance in a write transaction.
 
 Update Properties through Class Projections
 -------------------------------------------
-
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
-
-The examples in this page use a simple data set. The two Realm object 
-types are ``Person`` and an embedded object ``Address``. A ``Person`` has 
-a first and last name, an optional ``Address``, and a list of friends 
-consisting of other ``Person`` objects. An ``Address`` has a city and country.
-
-See the schema for these two classes, ``Person`` and ``Address``, below:
-
-.. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.models.swift
-   :language: swift
 
 .. _ios-make-changes-to-class-projection-properties:
 
