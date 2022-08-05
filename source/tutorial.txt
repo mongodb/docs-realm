@@ -6,46 +6,29 @@ Tutorials
 
 .. default-domain:: mongodb
 
+.. toctree::
+   :titlesonly:
+   :hidden:
+   
+   iOS with Swift </tutorial/ios-swift>	
+   Android with Kotlin </tutorial/java-sdk>	
+   Xamarin (iOS and Android) with C# </tutorial/dotnet>
+   React Native with JavaScript </tutorial/react-native>	
+   Web app with React, JavaScript, and GraphQL </tutorial/web-graphql>	
+   A Node.js Command Line Interface (CLI) </tutorial/nodejs-cli>
+
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 1
    :class: singlecol
 
-Tutorials
----------
+The Realm tutorials provide step-by-step guidance on building Realm apps. Each   
+of the tutorials starts with a Todo List Template App and then adds 
+functionality to it. To learn more about the Template Apps that these tutorials 
+build on, see :ref:`Template App <template-apps>`.
 
-Realm Database tutorials provide a walkthrough of the code required to
-implement Realm in mobile and backend applications. In these tutorials,
-you clone git repositories, and follow along with a tutorial that walks
-you through implementing Realm in your choice of:
-
-- Mobile application clients
-- Web browser
-- Node.js CLI
-
-If you prefer to learn by exploring and modifying a working application, 
-without walking through the code to implement Realm, check out the 
-:ref:`Realm template applications <template-applications>`.
-
-.. _task-tracker-tutorial:
-
-Task Tracker
-~~~~~~~~~~~~
-
-In this tutorial, you will build a collaborative task tracker app with
-Realm. 
-
-For more details, check out 
-
-- :doc:`What you will build <tutorial/preview>`
-
-
-To get started, first:
-
-- :doc:`Set up the backend for the tutorial </tutorial/backend-app>`
-
-Next, complete any of the following clients to work with your new backend:
+In this section, you will find tutorials for all of the supported platforms:
 
 - :doc:`iOS with Swift </tutorial/ios-swift>`
 - :doc:`Android with Kotlin </tutorial/java-sdk>`
@@ -55,33 +38,21 @@ Next, complete any of the following clients to work with your new backend:
 - :doc:`A Node.js Command Line Interface (CLI) </tutorial/nodejs-cli>`
 
 .. _template-applications:
+.. _tutorial-task-tracker-create-realm-app:
+.. TODO remove the ref above once the other tutorials have been updated.
 
-Template Applications
----------------------
+Before You Start
+----------------
 
-Realm template applications are working example apps you can explore and 
-modify as you learn about Realm. These apps are a good choice for developers
-who prefer to experiment directly with working code instead of reading a 
-guide that walks you through implementing the code.
+These tutorials start with the Flexible Sync Template App for your chosen language 
+and platform. You can 
 
-Check out the :ref:`Realm template apps <template-apps>`.
+.. button:: Create a Template App Now
+     :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_template_apps
 
-.. toctree::
-   :titlesonly:
-   :caption: 1: Setup
-   :hidden:
-   
-   What You Will Build </tutorial/preview>
-   Set up the Backend </tutorial/backend-app>
+And you can find detailed instructions for installing the template apps in the 
+following pages:
 
-.. toctree::
-   :titlesonly:
-   :caption: 2: Write a Client
-   :hidden:
-   
-   iOS with Swift </tutorial/ios-swift>
-   Android with Kotlin </tutorial/java-sdk>
-   React Native with JavaScript </tutorial/react-native>
-   Xamarin (iOS and Android) with C# </tutorial/dotnet>
-   Web app with React, JavaScript, and GraphQL </tutorial/web-graphql>
-   A Node.js Command Line Interface (CLI) </tutorial/nodejs-cli>
+- :ref:`How to Create an App with the App Services UI<create-a-realm-app>`
+- :ref:`How to Create an App with the Realm CLI<create-app-cli>`
+- :ref:`How to Create an App with the App Services API<create-app-api>`
