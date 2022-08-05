@@ -131,6 +131,8 @@ To copy data from an existing realm to a new realm with different
 configuration options, pass the new configuration the
 :js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
 
+.. include:: /includes/note-writecopy-pbs-only.rst
+
 In the new realm's configuration, you *must* specify the ``path``. 
 
 If you write the copied realm to a realm file that already exists, the data is written object by object.
