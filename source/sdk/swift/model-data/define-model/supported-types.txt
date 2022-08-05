@@ -667,8 +667,14 @@ Realm collections, you can :ref:`register a change listener
 For example, a ``Dog`` class model might contain a ``MutableSet`` for 
 ``citiesVisited``:
 
-.. literalinclude:: /examples/generated/code/start/MutableSetExample.snippet.set-collections-model.swift
-   :language: swift
+.. code-block:: swift
+   :copyable: false
+
+   class Dog: Object {
+       @Persisted var name = ""
+       @Persisted var currentCity = ""
+       @Persisted var citiesVisited: MutableSet<String>
+   }
 
 .. note::
 
@@ -701,8 +707,16 @@ value types (structs).
 
 You can declare a Map as a property of an object:
 
-.. literalinclude:: /examples/generated/code/start/MapExample.snippet.models.swift
-   :language: swift
+.. code-block:: swift
+   :copyable: false
+
+   class Dog: Object {
+       @Persisted var name = ""
+       @Persisted var currentCity = ""
+       
+       // Map of city name -> favorite park in that city
+       @Persisted var favoriteParksByCity: Map<String, String>
+   }
 
 .. note::
 
@@ -744,24 +758,15 @@ is :ref:`indexable <ios-index-a-property>`, but you can't use it as a
 :ref:`primary key <ios-specify-a-primary-key>`. Because ``null`` is a 
 permitted value, you can't declare an ``AnyRealmValue`` as optional.
 
-.. literalinclude:: /examples/generated/code/start/AnyRealmValue.snippet.mixed-data-type.swift
-   :language: swift
+.. code-block:: swift
+   :copyable: false
 
-You can :ref:`compare <ios-filter-data-operators>` these mixed value types:
-
-- Numeric: int, bool, float, double, decimal
-- Byte-based: string, binary
-- Time-based: timestamp, objectId
-
-When using the ``AnyRealmValue`` mixed data type, keep these things in mind:
-
-- ``equals`` queries match on value and type
-- ``not equals`` queries match objects with either different values or 
-  different types
-- realm converts comparable numeric properties where possible. For example,
-  in a mixed type field, 1 matches all of 1.0, 1, and true.
-- String properties do not match numeric queries. For example, in a mixed
-  type field, 1 does not match "1". "1" does not match 1, 1.0, or true.
+   class Dog: Object {
+       @Persisted var name = ""
+       @Persisted var currentCity = ""
+       
+       @Persisted var companion: AnyRealmValue
+   }
 
 .. _ios-type-projection:
 
