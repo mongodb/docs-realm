@@ -183,12 +183,6 @@ Modify the Application
       "Priority" property to each Item so that we can filter Items by their 
       priorities. The Priority property will be mapped to a PriorityLevel enum 
       to constrain the possible values.
-
-      .. note:: Enum Support
-      
-         Realm does not support storing enums, so we use a private int 
-         field to store the value in Realm. We could just use a public 
-         int field, but have chosen to use an enum to constrain the values. 
       
       To do this, follow these steps:
 
@@ -200,8 +194,8 @@ Modify the Application
 
          .. code-block:: csharp
 
-         [MapTo("priority")]
-         public int? Priority { get; set; }
+            [MapTo("priority")]
+            public int? Priority { get; set; }
             
       #. Also add a PriorityLevel enum below the ``Item`` class:
          
