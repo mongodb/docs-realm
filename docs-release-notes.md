@@ -1,16 +1,16 @@
 # August 5, 2022
 
 ## .NET SDK
-- Usage Examples/React to Changes: New section w/tested code examples for "Check if the Collection Has Been Cleared"
+- Usage Examples/React to Changes: Add a new section with tested code examples for "Check if the Collection Has Been Cleared"
 
 ## Node.js SDK
 - Usage Examples
-  - Open & Close a Realm: Add note about `WriteCopy` only supporting Partition-Based Sync
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
   - Flexible Sync: Remove `reRunOnOpen` API from docs
 
 ## React Native SDK
 - Usage Examples
-  - Open & Close a Realm: Add note about `WriteCopy` only supporting Partition-Based Sync
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
   - Flexible Sync: Remove `reRunOnOpen` API from docs
 
 ## Swift SDK
