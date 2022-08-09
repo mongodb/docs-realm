@@ -87,7 +87,7 @@ the command below creates an app:
       --deployment-model global --location us-va --environment development
 
 To learn more about the Template Apps, and to install the Template App that this 
-tutorial uses in the Atlas App Services UI, see :ref:`<template-applications>`. 
+tutorial uses in the Atlas App Services UI, see :ref:`template-applications`. 
 
 Explore the Template App
 ------------------------
@@ -119,9 +119,6 @@ Explore the Template App
              from the ``Realm.plist``. This is pre-populated with the 
              ``appId`` for your Template App.
 
-             To learn more about how you can customize your app configuration,
-             see :ref:`Connect to an Atlas App Services Backend <ios-init-appclient>`.
-
          * - ``realmApp.swift``
            - This file uses the values from ``AppConfig.swift`` to initialize
              the ``realmApp``. The ``realmApp`` is how your app communicates 
@@ -129,7 +126,7 @@ Explore the Template App
              authentication.
 
              To learn more about how you can customize your app configuration,
-             see :ref:`Connect to an Atlas App Services Backend <ios-init-appclient>`.
+             see: :ref:`Connect to an Atlas App Services Backend <ios-init-appclient>`.
 
              This file is also the entrypoint to the SwiftUI app. We pass the 
              ``realmApp`` to the ``ContentView`` that observes the app state 
@@ -188,7 +185,7 @@ Add a New Property
       Now that you have confirmed everything is working as expected, we can 
       add changes. In this tutorial, we have decided that we want to add a 
       "priority" property to each Item so that we can filter Items by their 
-      priorities. The Priority property will be mapped to a PriorityLevel enum 
+      priorities. The priority property uses a PriorityLevel enum 
       to constrain the possible values.
       
       To do this, follow these steps:
@@ -296,16 +293,16 @@ Change the Subscription
 
    .. step:: Update the subscription
 
-      In the ``ContentView.swift`` file, we define the Flexible Sync subscription 
+      In the ``ContentView.swift`` file, we create the Flexible Sync subscription 
       that defines which documents we sync with the user's device & account. 
       Look for the ``let config = user.flexibleSyncConfiguration(initialSubscriptions:``
       variable where we set the initial subscriptions. Within the ``subscriptions.append()`` 
       method, you can see that we are currently subscribing to all documents where 
-      the ``Owner_id`` property matches the authenticated user's id. We want to maintain 
+      the ``owner_id`` property matches the authenticated user's id. We want to maintain 
       that, but *only* sync Items that are marked as High or Severe priority. 
 
-      This is why we set the PriorityLevel enum to type ``Int``, where the highest 
-      priority (``severe``) has a value of 0, and the lowest priority (``low``) has 
+      This is why we set the ``PriorityLevel`` enum to type ``Int``, where the highest 
+      priority (severe) has a value of 0, and the lowest priority (low) has 
       a value of 3. We can make direct comparisons between an Int and the 
       priority property. To do so, update the query statement to include documents 
       where the priority is equal to or *less* than PriorityLevel.High (or 1), as 
