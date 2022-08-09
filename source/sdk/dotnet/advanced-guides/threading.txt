@@ -147,15 +147,15 @@ Asynchronous Writes
 
 The :dotnet-sdk:`WriteAsync()
 <reference/Realms.Realm.html#Realms_Realm_WriteAsync_System_Action_System_Threading_CancellationToken_>`
-method provides a performant way to execute many changes to your realm objects.
+method provides a performant way to execute multiple changes to your realm objects.
 ``WriteAsync()`` asynchronously acquires a write lock for a transaction, but the
 transaction itself is executed on the main thread. This means you can use
 objects and queries captured inside the write block without relying on
 thread-safe references. Finally, Realm commits the transaction asynchronously
 unless it is on a background thread.
 
-Calls to ``WriteAsync()`` on background threads are performed synchronously. In
-background threads, we recommend simply using Realm.Write for readability. 
+Calls to WriteAsync() on background threads are performed synchronously and are
+functionally equivalent to calling Realm.Write
 
 .. literalinclude:: /examples/generated/dotnet/AsynchronousTransactions.snippet.write-async.cs
    :language: csharp
@@ -173,15 +173,18 @@ background threads, we recommend simply using Realm.Write for readability.
 
 Alternatively, you can use the :dotnet-sdk:`BeginWriteAsync()
 <reference/Realms.Realm.html#Realms_Realm_BeginWriteAsync_System_Threading_CancellationToken_>`
-method to execute many changes to your realm objects in a performant way.
-``BeginWriteAsync()`` asynchronously acquires the write lock and then dispatches
-the continuation on the thread you opened the Realm in. 
+method to execute multiple changes to your realm objects in a performant way.
+``BeginWriteAsync()`` acquires the write lock asynchronously. You can then
+choose to commit the transaction with asynchronously with
+:dotnet-sdk:`CommitAsync()
+<reference/Realms.Transaction.html#Realms_Transaction_CommitAsync_System_Threading_CancellationToken_>`
+or synchronously with :dotnet-sdk:`Commit()
+<reference/Realms.Transaction.html#Realms_Transaction_Commit>`.
 
-In threads without a SynchronizationContext such as background threads, this
-method calls ``BeginWrite()`` and executes synchronously. In background threads, we
-recommend simply using BeginWrite for readability. 
+In threads without a SynchronizationContext, such as background threads, this
+method calls ``BeginWrite()`` and executes synchronously.
 
-Finally, to save your changes to the Realm, use the 
+Finally, to save your changes asynchronously to the Realm, use the 
 :dotnet-sdk:`CommitAsync() <reference/Realms.Transaction.html#Realms_Transaction_CommitAsync_System_Threading_CancellationToken_>`
 method, which completes when Realm has written the changes to the disk. 
 
