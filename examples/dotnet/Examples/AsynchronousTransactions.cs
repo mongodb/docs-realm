@@ -33,8 +33,8 @@ namespace Examples
             });
             // you can use/modify person now
             // without the need of using ThreadSafeReference
+            await realm.WriteAsync(() => person.Name = "Johnathan Doe");
 
-            Console.WriteLine(person.Name); // John Doe
             // :replace-end:
             // :snippet-end:
 
@@ -53,12 +53,12 @@ namespace Examples
                 // Do other work that needs to be included in this transaction
                 await transaction.CommitAsync();
             }
-            Console.WriteLine(person2.Name); // Jane Doe
+            await realm.WriteAsync(() => person2.Name = "Janet B. Doe");
             // :replace-end:
             // :snippet-end:
 
-            Assert.AreEqual(person.Name, "John Doe");
-            Assert.AreEqual(person2.Name, "Jane Doe");
+            Assert.AreEqual(person.Name, "Johnathan Doe");
+            Assert.AreEqual(person2.Name, "Janet B. Doe");
 
         }
 

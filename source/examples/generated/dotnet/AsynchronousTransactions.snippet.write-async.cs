@@ -7,5 +7,5 @@ var person = await realm.WriteAsync(() =>
 });
 // you can use/modify person now
 // without the need of using ThreadSafeReference
+await realm.WriteAsync(() => person.Name = "Johnathan Doe");
 
-Console.WriteLine(person.Name); // John Doe

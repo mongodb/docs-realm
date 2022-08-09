@@ -8,4 +8,4 @@ using (var transaction = await realm.BeginWriteAsync())
     // Do other work that needs to be included in this transaction
     await transaction.CommitAsync();
 }
-Console.WriteLine(person2.Name); // Jane Doe
+await realm.WriteAsync(() => person2.Name = "Janet B. Doe");
