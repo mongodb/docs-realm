@@ -17,9 +17,18 @@ import kotlin.time.Duration
 
 class QuickStartWithSyncTest: RealmTest() {
 
+    class Task: RealmObject {
+        @PrimaryKey
+        var _id: ObjectId = ObjectId.create()
+        var name: String = ""
+        var status: String = "Open"
+    }
+
     @Test
     fun QuickStartWithSyncTest() {
         val YOUR_APP_ID = FLEXIBLE_APP_ID
+        println("START-----------------")
+
 
         // :snippet-start: qs-with-sync-open-a-realm
         val app = App.create(YOUR_APP_ID)
