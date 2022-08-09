@@ -8,6 +8,7 @@ import kotlin.test.Test
 class OpenARealmTest: RealmTest() {
     @Test
     fun openAndCloseARealmTest() {
+        println("START-----------------")
         val REALM_NAME = getRandom()
         runBlocking {
             // :snippet-start: open-a-realm
@@ -18,6 +19,7 @@ class OpenARealmTest: RealmTest() {
                 .build()
             val realm = Realm.open(config)
             Log.v("Successfully opened realm: ${realm.configuration.name}")
+            println("Successfully opened realm: ${realm.configuration.name}")
             // :snippet-end:
             // :snippet-start: close-a-realm
             realm.close()
