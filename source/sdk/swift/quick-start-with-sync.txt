@@ -1,4 +1,4 @@
-.. _ios-client-quick-start-with-sync:
+.. _quick-start-pbs:
 
 ========================================
 Quick Start with Device Sync - Swift SDK
@@ -22,13 +22,10 @@ Device Sync integrated into your app. Before you begin, ensure you have:
 - :ref:`Enabled Partition-Based Sync <enable-pbs-sync>`
 - :ref:`Installed the Swift SDK <ios-install>`
 
-.. tip:: Check Out the Tutorial
-   
-   This page contains only the essential information that you need to set up an
-   Atlas App Services backend. If you prefer to follow a guided tutorial that
-   shows you step-by-step how to set up a working app, check out the :ref:`iOS
-   Tutorial <ios-swift-tutorial>` where you'll build a mobile app that connects
-   to the :ref:`Task Tracker backend <tutorial-task-tracker-create-realm-app>`.
+.. note::
+
+   This Quick Start demonstrates Partition-Based Sync. For Flexible Sync, 
+   see: :ref:`Quick Start with Partition-Based Sync <ios-client-quick-start-with-sync>`.
 
 Import Realm
 ------------
@@ -38,8 +35,6 @@ statement:
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.import-realm.swift
    :language: swift
-
-.. _ios-quick-start-init-app:
 
 Initialize the App
 ------------------
@@ -62,8 +57,6 @@ Development Mode in the App Services UI, you can define your :ref:`object model
 
 .. literalinclude:: /examples/generated/code/start/CompleteQuickStart.snippet.model.swift
    :language: swift
-
-.. _ios-quick-start-authenticate:
 
 Authenticate a User
 -------------------
