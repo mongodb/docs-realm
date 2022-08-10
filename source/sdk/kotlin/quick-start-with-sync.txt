@@ -22,27 +22,12 @@ Sync integrated into your app. Before you begin, ensure you have:
 - :ref:`Enabled Device Sync <enable-sync>`
 - :ref:`Installed the Kotlin SDK <react-native-install>` to use with your :ref:`Android <kotlin-install-android>` or :ref:`KMM <kotlin-install-kotlin-multiplatform>` app.
 
-.. _kotlin-client-qs-sync-define-your-data-model
-
-Define Your Object Model
-------------------------
-
-Test 123
-
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-define-your-data-model.kt
-   :language: kotlin
-   :copyable: false
-
-local quickstart...
-
-.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-update.kt
-   :language: kotlin
-   :copyable: false
-
-Test123
-
 Initialize the App
 ------------------
+
+To use App Services features such as authentication and sync, you must access
+your App using your App ID. You can :ref:`find your App ID in the
+App Services UI <find-your-app-id>`.
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-initialize-app.kt
    :language: kotlin
@@ -50,12 +35,58 @@ Initialize the App
 
 Authenticate a User
 -------------------
+
+To authenticate and log in a user, call :js-sdk:`App.logIn()
+<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+<anonymous-authentication>` is enabled, users can immediately log into your app
+without providing any identifying information:
+
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-authenticate.kt
+   :language: kotlin
+   :copyable: false
+
+.. _kotlin-client-qs-sync-define-your-data-model
+
+Define Your Object Model
+------------------------
+
+Your application's **data model** defines the structure of data
+stored within Realm Database.
+You can define your application's data model via Kotlin
+classes in your application code with
+:ref:`Realm Object Models <create-schema-from-rom>`.
+
+To define your application's data model, add the following class
+definition to your application code:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-define-your-data-model.kt
    :language: kotlin
    :copyable: false
 
 Open a Realm
 ------------
+
+Once you have enabled Device Sync, initialized your Atlas App Services app,
+authenticated a user, defined your object model, you can then create a
+`SyncConfiguration
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__ .
+
+Use `SyncConfiguration.Builder
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
+to setup a Realm Database that can be synchronized between devices using Atlas
+Device Sync. Pass your user, and ``Task`` class to the
+``SyncConfiguration.Builder`` to create a Flexible Sync Configuration.
+
+You need atleast one subscription before you can read from or write to the
+realm. Use the `initialSubscriptions
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
+to define the initial subscription set when the Realm file is first opened.
+Pass the query you wish to subscribe to, and a name for the subscription to the `add()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
+
+The example below specifies a subscription named "Open Tasks" that subscribes to
+all ``Task`` objects with a ``status`` equal to ``Open``. 
+
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
    :language: kotlin
    :copyable: false
@@ -66,6 +97,9 @@ Create, Read, Update, and Delete Objects
 Once opened, you can create objects within a realm in a
 `write transaction block
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
+
+The newly created object will sync to your Atlas database and all devices with
+the same ``SyncConfiguration``.
 
 To create a new :file:`Task`, instantiate an instance of the
 :file:`Task` class and add it to the realm in a write transaction block:
