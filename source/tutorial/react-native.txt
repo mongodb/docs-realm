@@ -15,83 +15,86 @@ React Native Tutorial
 Overview
 --------
 
-Realm provides a Node SDK that allows you to create a Mobile Application with
-React Native. This tutorial illustrates the creation of a "Task Tracker" React Native
-application that allows users to: 
+You can use the Realm JavaScript SDK and the official Realm React hooks
+library to build a mobile application with React Native. This tutorial
+walks you through how to build your own app that uses flexible sync.
 
-- Sign in to their account with their email and password and sign out later.
-- View a list of projects they are a member of.
-- View, create, modify, and delete tasks in projects.
-- View a list of team members in their project.
-- Add and remove team members to their project.
+For this tutorial, we'll start with a pre-built template application to
+see how everything fits together. Then, you'll add a new feature that
+takes advantage of flexible sync.
 
 This tutorial should take around 30 minutes.
 
 .. note:: Check Out the Quick Start
    
-   If you prefer to explore on your own rather than follow a guided tutorial,
-   check out the :ref:`React Native Quick Start
-   <react-native-client-quick-start>`. It includes copyable code examples and
-   the essential information that you need to set up an Atlas App Services
-   backend.
+   If you prefer to explore on your own rather than follow a guided
+   tutorial, check out the :ref:`React Native Quick Start
+   <react-native-client-quick-start>`. It includes copyable code
+   examples and the essential information that you need to set up a
+   React Native app with {+sync+}.
 
-Prerequisites
--------------
+Before You Begin
+----------------
 
-Ensure that you have the following:
+You must set up your local environment for React Native development
+before you can begin this tutorial. For detailed instructions, see
+`Setting up the development environment
+<https://reactnative.dev/docs/environment-setup>`_ in the React Native
+docs.
 
-- `nodejs <https://nodejs.org/dist/latest-v10.x/>`_ version 10.x or later.
+Start with the Template App
+---------------------------
 
-- If you plan to run the app on an iOS device or emulator: 
-  `Xcode <https://developer.apple.com/xcode/>`__
-  version 11.0 or higher, which requires macOS 10.14.4 or higher.
+To start, you'll create a new app on your computer and get familiar with
+it. The app will use a pre-built template that includes a working React
+Native app and its corresponding Atlas App configuration files.
 
-- If you plan to run the app on an Android device or emulator: `Android Studio
-  <https://developer.android.com/studio>`_.
+The template app is a basic "to-do list" application. Users can input a
+list of tasks that they need to do and then check each to-do off when
+they finish it. Some basic functionality is already set up for you:
 
-- The React Native CLI. Detailed instructions for setting up your development 
-  environment, including the CLI tools, can be found in the 
-  `React Native docs <https://reactnative.dev/docs/environment-setup>`_.
+- Users can create email/password accounts and log in and out of the app.
 
-- :ref:`Set up the Atlas App Services backend <tutorial-task-tracker-create-realm-app>`.
+- Users can create, read, update, and delete ``Item`` objects that
+  represent individual to-do tasks.
 
-Get Set Up
-----------
+- The ``Item`` class is set up to automatically sync to Atlas and other
+  clients with {+sync+}.
+
+Use the following steps to get the template app up and running on your
+computer:
 
 .. procedure::
 
-   .. step:: Clone the Client App Repository
-
-      We've put together a React Native application that has
-      most of the code you'll need. Clone the client application repository
-      directly from :github:`GitHub <mongodb-university/realm-tutorial-react-native>`:
-
+   .. step:: Create the Template App
+      
+      Run the following command in a terminal to create a new folder
+      with your templated configuration files and React Native app:
+      
       .. code-block:: shell
-
-         git clone --branch start https://github.com/mongodb-university/realm-tutorial-react-native.git
-
+         
+         npx mongodb-realm-cli apps create \
+           --template react-native.todo.flex \
+           --name realm-sync-tutorial
+      
       .. tip::
+         
+         The command creates a new folder in your current directory with
+         the same name as the value of the ``--name`` flag.
+   
+   .. step:: Install Dependencies
 
-         The ``start`` branch is an incomplete version of the app that we will
-         complete in this tutorial. To view the finished app, check out the
-         ``final`` branch, install dependencies (as described in the next step),
-         and update ``realmApp.js`` with your :ref:`Realm app ID <find-your-app-id>`.
-
-
-   .. step:: Install Dependencies and Launch the App
-
-      In your terminal, run the following commands to navigate to the task tracker
-      client application and install its dependencies:
+      In your terminal, run the following commands to navigate to the
+      react native app and install its dependencies:
 
       .. code-block:: shell
 
-         cd realm-tutorial-react-native
+         cd realm-sync-tutorial/frontend/react-native.todo.flex
          npm install
-
-      If you plan to run the app on an iOS device or emulator, you need to install
-      additional dependencies with
-      `CocoaPods <https://guides.cocoapods.org/using/getting-started.html>`__. Change
-      directories to the ``ios`` directory and run ``pod install``, as shown here:
+      
+      To build and run the app on an iOS device or simulator, install
+      the additional iOS dependencies with `CocoaPods
+      <https://guides.cocoapods.org/using/getting-started.html>`__.
 
       .. code-block:: shell
 
@@ -99,334 +102,578 @@ Get Set Up
          pod install --repo-update
          cd ..
 
-      Be sure to switch back to the :guilabel:`realm-tutorial-react-native` root
-      directory after installing the pods.
+      .. tip::
 
+         Make sure to switch back to the frontend project's root
+         directory after you install the pods.
 
-   .. step:: Test the Setup
+   .. step:: Build the App
 
-      At this point, you have a React Native app that can run on both iOS and Android.
-      We haven't yet implemented the necessary code for app
-      functionality, so there will be errors when the app loads, but you can
-      ensure that the app deploys properly.
+      At this point, you should have a fully functional React Native app
+      that can run on both iOS and Android.
 
-      Start by running `Metro <https://facebook.github.io/metro/>`__ in a terminal
-      window by using the following command:
+      To make sure that everything works, build the app and run it in an
+      iOS simulator or Android emulator:
 
-      .. code-block:: shell
+      .. tabs::
 
-         npx react-native start
+         .. tab:: iOS
+            :tabid: ios
+            
+            .. code-block:: shell
 
-      Leave Metro running, and in a **separate terminal window**, issue one of the
-      following commands, depending on whether you want to run on iOS or Android:
+               npx react-native run-ios
 
-      .. code-block:: shell
+         .. tab:: Android
+            :tabid: android
+            
+            .. code-block:: shell
+               
+               npx react-native run-android
 
-         npx react-native run-ios
+      .. tip::
+         
+         If you're encountering an error or otherwise having issues,
+         it's likely an issue with how your local environment is set up.
+         Check out the official React Native
+         `development environment setup
+         <https://reactnative.dev/docs/environment-setup>`_
+         guide and ensure that you've followed all the steps for
+         your Development OS and Target OS.
 
-      or
+   .. step:: Test the App
+      
+      When the build completes, you should have a functional app running
+      on your simulator. In the app, register a new account and play
+      around with the app for a few minutes:
 
-      .. code-block:: shell
+      - Add a few to-do items to the list.
+      - Press the checkbox on one or two items to mark them as complete.
+      - Press the X on an item to delete it from the list.
 
-         npx react-native run-android
+      If you connect to your Atlas cluster and query the
+      ``todo.Items`` collection you can see your app's data. New data
+      and changes from the React Native app automatically sync to
+      this collection.
+       
+      Similarly, any changes in the collection automatically sync down
+      to the React Native app. Try changing an item's completion status
+      in your cluster - the React Native app will automatically update
+      with the new value whenever there is a network connection
+      available.
+      
+      .. image:: /images/rn-tutorial-template-client.png
+         :alt: Screenshots of the welcome and to-do list screens from the template app.
 
-      After the emulator is started and the bits have been deployed, you should see
-      the app is "running" and one or more errors are displayed:
+Get Familiar With the Template App
+----------------------------------
 
-      .. figure:: /images/rn-app-initial-state.png
-        :alt: The initial state of React Native app
-        :width: 250px
+Now that you have the template app running, let's dive into the code to
+see what we're working with.
 
-      .. important:: CompileC Error
+Atlas App
+~~~~~~~~~
 
-         If, when compiling the iOS app, you get a CompileC build error that involves
-         "Flipper," you will need to edit ``/ios/Podfile``. Look for the section
-         that enables Flipper and comment out those lines:
+The template app includes a fully configured Atlas App in the
+``backend`` directory. It has a unique ``app_id`` value in
+``realm_config.json`` that client applications use to connect.
 
-         .. code-block:: text
+It also includes the following pre-defined configurations:
 
-            # Enables Flipper.
-            #
-            # Note that if you have use_frameworks! enabled, Flipper will not work and
-            # you should disable these next few lines.
-            # use_flipper!
-            #post_install do |installer|
-            #  flipper_post_install(installer)
-            #end
+- A data source linked to your Atlas Cluster.
 
-A Look Inside
--------------
-For a better understanding of the files used in this tutorial, the following table 
-highlights some of the more important files. :
+- A schema for the ``todo.Item`` collection that matches the ``Item``
+  class in the React Native app.
 
-.. cssclass:: config-table
+- An authentication provider that lets users register for and log in to
+  your app with an email and password.
+
+- A flexible sync configuration with a single session role that allows
+  users to read and write only their own data.
+
+React Native App
+~~~~~~~~~~~~~~~~
+
+The React Native app is a fully configured mobile client that can run on
+iOS and Android devices. It is located in the
+``frontend/react-native.todo.flex`` directory.
+
+The app uses the official :npm:`@realm/react` library. The library
+includes React hooks and components that let you connect to your Atlas
+App, read and write data, and automatically sync changes from other
+devices.
+
+The app contains some configuration files and directories, but you can
+ignore those unless you want to customize the app. For this tutorial,
+you'll want to be familiar with the React components in the ``src/``
+directory:
+
 .. list-table::
-    :header-rows: 1
-    :widths: 30 70
-    
-    * - File
-      - Purpose
+   :header-rows: 1
+   :widths: 20 80
 
-    * - realmApp.js
-      - Provides access to the Realm app instance.
+   * - File Name
+       
+     - Description
+     
+   * - ``ItemSchema.js``
+       
+     - This is where we define the ``Item`` class, including its object
+       schema. We import the class in ``RealmContext.js`` to include it
+       in the app's Realm schema.
+     
+   * - ``RealmContext.js``
+       
+     - This is where we create the Realm hooks and providers and then
+       export them to use throughout the app.
+     
+   * - ``App.js``
+       
+     - This is the root component of the app, which we wrap with the
+       Realm hook providers from ``RealmContext.js``.
+     
+   * - ``WelcomeView.js``
+       
+     - This is the user registration and login form that users see when
+       they first open the app.
+     
+   * - ``ItemListView.js``
+       
+     - This is the main "to-do list" app that users interact with after
+       they log in. It queries for ``Item`` objects from Realm and
+       displays them in a list.
+       
+       It also includes the code to create new ``Item`` objects and
+       store them in Realm.
+     
+   * - ``CreateToDoPrompt.js``
+       
+     - This is a UI form that lets us enter data for new ``Item``
+       objects. The code that actually creates new objects is in
+       ``ItemListView.js``.
+     
+   * - ``LogoutButton.js``
+       
+     - This is a re-usable button that logs out an authenticated user.
 
-    * - App.js
-      - Defines which screens are in the app and sets up the navigation system.
+Add a Priority Level Field
+--------------------------
 
-    * - schemas.js
-      - Defines the Realm object models used in this app.
+Now that you're more familiar with what's already provided in the
+template app, let's write some code to implement a new feature.
 
-    * - providers/AuthProvider.js
-      - Defines the AuthProvider, which handles user login, log out, and
-        project membership information for the current user.
-
-    * - providers/TasksProvider.js
-      - Defines the TasksProvider, which handles fetching, adding, updating,
-        and deleting tasks within a project.
-
-    * - components/ActionSheet.js
-      - A component that presents the user with a list of actions.
-
-    * - components/AddTask.js
-      - A button that, when pressed, prompts the user to enter new task
-        information and creates it with the given createTask function.
-
-    * - components/Logout.js
-      - A button that handles user log out.
-
-    * - components/ManageTeam.js
-      - A list of team members on the current user's project that provides
-        controls for adding and removing team members.
-
-    * - components/TaskItem.js
-      - A list item that represents a task in a list. When pressed, it presents
-        an ActionSheet with actions corresponding to deleting the task or
-        updating the task's status.
-
-    * - views/ProjectsView.js
-      - The screen that presents a list of projects that the current user is a
-        team member of.
-
-    * - views/TasksView.js
-      - The screen showing the tasks for a given project. If this is the
-        logged-in user's own project, the TasksView includes a button open a
-        ManageTeam view.
-
-    * - views/WelcomeView.js
-      - The screen that allows a user to log in or register a user.
-
-
-Build The App
--------------
+For this tutorial, we'll add a new "priority" property to each of the
+``Item`` objects. This will let us organize to-dos by how important they
+are and allow us to focus only on the most important ones.
 
 .. procedure::
 
-   .. step:: Connect to Your MongoDB Realm App
+   .. step:: Define the Priority Levels
+      
+      We want to allow a small number of named priority levels and we
+      want to easily be able sort the levels. In TypeScript, you could
+      define an `enum <https://www.typescriptlang.org/docs/handbook/enums.html>`_
+      to model this:
 
-      To get the app working with your backend, you first need to instantiate the
-      Realm app. The Realm app is the interface to the MongoDB App Services backend.
-      Navigate to the ``realmApp.js`` file and create an instance of your Realm app:
+      .. code-block:: javascript
+         
+         // Priority.High === 1
+         // Priority[Priority.High] === "High"
+         enum Priority {
+           Severe = 0,
+           High = 1,
+           Medium = 2,
+           Low = 3,
+         }
+      
+      In regular JavaScript, there is no ``enum`` keyword. Instead we'll
+      use a helper function to create something equivalent.
 
-      .. literalinclude:: /tutorial/generated/code/final/realmApp.snippet.instantiate-realm-app.js
-         :language: javascript
-
-      Be sure to enter your own Realm app ID, which you can
-      :ref:`find in the Realm UI <find-your-app-id>`.
-
-
-   .. step:: Implement the AuthProvider
-
-      Navigate to ``providers/AuthProvider.js``. In this file, and in the
-      ``providers/TasksProvider.js`` file that we will complete a bit later, we use
-      React :reactjs:`Context <docs/context.html>` and :reactjs:`hooks
-      <docs/hooks-overview.html>` to implement a data provider pattern. Don't worry
-      if you aren't too familiar with these constructs yet. The basic idea is as
-      follows:
-
-      - The Provider component handles fetching and modifying data.
-      - Any descendant of the Provider component can use a hook function to access
-        the provider's data as well as its commands for modifying the data.
-
-      The AuthProvider is responsible for logging in, registering a user, logging
-      out, and retrieving the list of projects that a user is a member of from the
-      custom user data object.
-
-      First, let's implement the login functionality that a descendant component can
-      pass an email and password in order to log in:
-
-      .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-in.js
-         :language: javascript
-
-      Next, implement the user registration functionality by using the
-      email/password provider of the Realm app:
-
-      .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-up.js
-         :language: javascript
-
-      Next, implement the log out functionality:
-
-      .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.sign-out.js
-         :language: javascript
-
-
-   .. step:: Open a Realm
-
-      The AuthProvider must access the custom user data object so it can
-      provide a list of projects associated with the user. We have set up our app
-      so that the custom user data object exists in a specific realm, where only
-      one user object exists.
-
-      .. include:: /includes/note-tutorial-custom-user-data-permissions.rst
-
-      To access the custom user data, we will create a Configuration object that
-      specifies a partition value of the  pattern ``user=<USER_ID>`` and then add
-      code to open the realm.
-
-      Because there may be a delay between when a user first registers and when the
-      authentication trigger creates the user custom data object, the
-      realm may be empty when first opened. Rather than have an empty realm, we need
-      to add an observer to the collection of users in that realm which watches for
-      the appearance of the user object and any changes to its project memberships.
-      When a user object is available, your code will read its ``memberOf`` field
-      to populate the available project data for any descendant of the provider:
-
-      .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.open-user-realm.js
-         :language: javascript
-
-      Finally, the Realm SDK requires you to close any realm you open when you are
-      finished with it. You can return a cleanup function from the effect, which
-      will close the realm any time the user changes or the component is unmounted:
-
-      .. literalinclude:: /tutorial/generated/code/final/AuthProvider.snippet.user-realm-cleanup.js
-         :language: javascript
-
-
+      Add the following code directly under the import statements in
+      ``src/ItemSchema.js``:
+      
+      .. code-block:: javascript
+         :caption: ItemSchema.js
+         
+         function createEnum(arr) {
+           arr.forEach((p, i) => arr[p] = i);
+           return arr;
+         }
+         
+         // Priority.High === 1
+         // Priority[Priority.High] === "High"
+         const Priority = createEnum([
+           "Severe",
+           "High",
+           "Medium",
+           "Low",
+         ])
+      
       .. note::
 
-         Check out the ``App.js``, ``views/WelcomeView.js``, and ``views/ProjectView.js``
-         files to see how they use the AuthProvider's ``signIn``, ``signUp``, and
-         ``signOut`` functions and the user data via the ``useAuth()`` hook function.
-         The ProjectView also uses the project data to populate the list of projects
-         available to the logged-in user.
+         The priority levels in the enum are ordered from most important
+         to least. The corresponding index value for each level
+         increases from the most important, ``Priority[0]``, to the
+         least, ``Priority[3]``. This means that a "higher" priority
+         level (i.e. a more important one) has a lower index value.
+   
+   .. step:: Update the To-Do Item Data Model
 
-      You should now be able to run the app, sign in, view your projects, and sign
-      out. We will implement the task management functionality next.
+      Now we have an ``enum`` that defines the possible values of the
+      ``priority`` field. However, we still have to define the
+      ``priority`` field in the ``Item`` class.
 
-
-   .. step:: Define the Task Schema
-
-      In order to work with task objects in the Realm Database, we need to define
-      their schema. Navigate to the ``schemas.js`` file to complete the task class's
-      schema definition where it says ``TODO``:
-
-      .. literalinclude:: /tutorial/generated/code/final/schemas.snippet.react-native-task-schema.js
-         :language: javascript
-
-
-   .. step:: Implement the TasksProvider
-
-      The TasksProvider component, like the AuthProvider, manages the data that its
-      descendants can use. As the name implies, the TasksProvider provides the task
-      objects for a given project. The project partition is passed in as a prop.
-
-      The first thing to implement is opening the realm for the specified
-      project. When configuring the user realm, we used a partition key value pattern of
-      ``user=<USER_ID>``. Similarly, projects use a partition key value pattern of
-      ``project=<USER_ID>``. For the sake of this tutorial's simplicity, each user
-      always has exactly one project, specified by the partition key value
-      containing their own user ID.
-
-      In the effect block of ``providers/TasksProvider.js``, configure and open the
-      realm. Once opened, attach an observer that will update the tasks list when
-      any changes come in:
-
-      .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.open-project-realm.js
-         :language: javascript
-
-      Again, Realm requires you to close any realm you open once you are done with
-      it. We can do that by returning a cleanup function from the effect:
-
-      .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.clean-up.js
-         :language: javascript
-
-      A user can create, update, and delete tasks in a project that they are a
-      member of. To implement the task creation functionality, find the
-      ``createTask`` function and add the following code:
-
-      .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.create-task.js
-         :language: javascript
-
-      For this application, we limit updates to changing the status of the task.
-      Find the ``setTaskStatus`` function and implement the following code, which
-      changes the Task's status:
-
-      .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.set-task-status.js
-         :language: javascript
-
-      Finally, in the ``deleteTask`` function, implement the task deletion functionality:
-
-      .. literalinclude:: /tutorial/generated/code/final/TasksProvider.snippet.delete-task.js
-         :language: javascript
-
-      Check out the ``views/TasksView.js`` and ``components/TaskItem.js`` files to see how
-      they use the provider's task data and functionality via the ``useTasks()``
-      hook function.
-
-
-   .. step:: Implement Team Management
-
-      A user can add other users to their team, which allows them to view, edit, and
-      delete tasks on the user's project. The ``ManageTeam`` component implements this
-      functionality by calling a few Realm functions on the backend that we defined
-      earlier.
-
-      Navigate to ``components/ManageTeam.js`` and find the ``getTeam`` function.
-      In this function, we need to fetch the list of  current team members:
-
-      .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.get-team.js
-         :language: javascript
-
-      Next, in the ``addTeamMember`` function, we will call the backend function
-      ``addTeamMember`` to implement add team  member functionality:
-
-      .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.add-team-member.js
-         :language: javascript
-
-      Finally, in the ``removeTeamMember`` function, we call another backend function,
-      named ``removeTeamMember``, that removes a team member:
-
-      .. literalinclude:: /tutorial/generated/code/final/ManageTeam.snippet.remove-team-member.js
-         :language: javascript
-
-
-   .. step:: Run and Test
-
-      Congratulations! Now that you have completed the code, you can run the app and
-      check functionality. Here are some things you can try in the app:
-
-      - Create a user with email *first@example.com*
-      - Explore the app, then log out or launch a second instance of the app on another device or simulator
-      - Create another user with email *second@example.com*
-      - Navigate to *second@example.com*'s project
-      - Add, update, and remove some tasks
-      - Click "Manage Team"
-      - Add *first@example.com* to your team
-      - Log out and log in as *first@example.com*
-      - See two projects in the projects list
-      - Navigate to *second@example.com*'s project
-      - Collaborate by adding, updating, and removing some new tasks
-
+      Add the following lines to your code in ``src/ItemSchema.js`` to
+      add ``priority`` to the model:
+      
+      .. code-block:: javascript
+         :caption: ItemSchema.js
+         :emphasize-lines: 5, 9, 19
+         
+         export class Item {
+           constructor({
+             id = new BSON.ObjectId(),
+             isComplete = false,
+             priority = Priority.High, // Default to High priority if none is specified
+           }) {
+             this.isComplete = isComplete;
+             this._id = id;
+             this.priority = priority
+           }
+           
+           static schema = {
+             name: 'Item',
+             properties: {
+               _id: 'objectId',
+               isComplete: {type: 'bool', default: false},
+               summary: 'string',
+               owner_id: 'string',
+               priority: 'int' // Store the index value of the Priority enum rather than the name
+             },
+             primaryKey: '_id',
+           };
+         }
+      
       .. tip::
 
-         If something isn't working for you, you can check out the ``final`` branch of
-         this repo to compare your code with our finished solution.
+         At this point your React Native ``Item`` model and its
+         corresponding schema in your Atlas App no longer agree. That's
+         okay for now.
+
+         The template app uses development mode by default. In this
+         mode, any data model changes that your client app syncs will
+         automatically update the backend schema. The next time you run
+         the React Native app, the schemas will sync.
+
+   .. step:: Add a Priority Picker
+
+      Your apps data model now includes a ``priority`` for each ``Item``
+      object. Let's update the app UI so that you can choose a priority
+      value when you add a new to-do to the list.
+      
+      First, we'll install an external library to implement the priority
+      picker component. Run the following in your terminal inside of
+      your project root:
+      
+      .. code-block:: shell
+         
+         npm install @react-native-picker/picker
+      
+      Next, let's update the new to-do creation prompt component to use
+      the picker.
+      
+      Add the following imports to the top of ``src/CreateToDoPrompt.js``:
+
+      .. code-block:: javascript
+         :caption: CreateToDoPrompt.js
+         
+         import {Picker} from '@react-native-picker/picker';
+         import {Priority} from './ItemSchema';
+   
+      Then, modify the ``CreateToDoPrompt`` component:
+      
+      - keep track of ``priority`` in a state hook
+      - connect the state to the ``Picker`` component that you imported
+      - pass ``priority`` to the ``onSubmit()`` handler
+
+      .. code-block:: javascript
+         :caption: src/CreateToDoPrompt.js
+         :emphasize-lines: 4, 12-19, 23
+         
+         export function CreateToDoPrompt(props) {
+           const {onSubmit} = props;
+           const [summary, setSummary] = useState(null);
+           const [priority, setPriority] = useState(Priority.High);
+           
+           return (
+             <View style={styles.modalWrapper}>
+               <Text h4 style={styles.addItemTitle}>
+                 Add Item
+               </Text>
+               <Input placeholder="What do you want to do?" onChangeText={setSummary} />
+               <Picker
+                 style={{width: '80%'}}
+                 selectedValue={priority}
+                 onValueChange={value => setPriority(value)}>
+                 {Priority.map(p => (
+                   <Picker.Item key={p} label={p} value={Priority[p]} />
+                 ))}
+               </Picker>
+               <Button
+                 title="Save"
+                 buttonStyle={styles.saveButton}
+                 onPress={() => onSubmit({summary, priority})}
+               />
+             </View>
+           );
+         }
+      
+      In ``src/ItemListView.js``, modify the ``createItem()`` function
+      to accept and use ``priority``:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+         :emphasize-lines: 1, 9
+         
+         const createItem = ({summary, priority}) => {
+           // if the realm exists, create a to-do item
+           if (realm) {
+             realm.write(() => {
+               realm.create('Item', {
+                 _id: new BSON.ObjectID(),
+                 owner_id: user.id,
+                 summary,
+                 priority,
+               });
+             });
+           }
+         };
+      
+      Then, modify the new to-do submission handler to accept the
+      ``priority`` level and pass it to ``createItem()``:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+         :emphasize-lines: 2, 4
+         
+         <CreateToDoPrompt
+           onSubmit={({summary, priority}) => {
+             setShowNewItemOverlay(false);
+             createItem({summary, priority});
+           }}
+         />
+      
+      Finally, modify each to-do's list item to include its ``priority``
+      before the ``summary``:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+         :emphasize-lines: 2
+         
+         <ListItem key={`${item._id}`} bottomDivider topDivider>
+           <Text style={{ borderRadius: "4px", backgroundColor: "red" }}>{item.priority}</Text>
+           <ListItem.Title style={styles.itemTitle}>
+             {item.summary}
+           </ListItem.Title>
+           <ListItem.CheckBox
+             checked={item.isComplete}
+             onPress={() => toggleItemIsComplete(item._id)}
+           />
+           <Button
+             type="clear"
+             icon={
+               <Icon
+                 name="times"
+                 size={12}
+                 color="#979797"
+                 onPress={() => deleteItem(item._id)}
+               />
+             }
+           />
+         </ListItem>
+
+   .. step:: Run and Test the App
+
+      Your app should now allow users to set a priority level for each
+      new to-do item.
+      
+      Rebuild the app and open it. Add some new to-do items to confirm
+      that you can choose a priority level and that the list displays
+      each to-do's priority.
+      
+      .. image:: /images/rn-tutorial-priority.png
+         :alt: Screenshots of the priority picker and the to-do list showing each to-do's priority.
+
+Update the Sync Subscription
+----------------------------
+
+The Device Sync protocol uses a flexible model where each sync client
+uses a standard RQL query to choose a subset of application data and
+then *subscribes* to the subset. This automatically pulls the latest
+version of all data in the subset to the device and syncs changes to the
+data between devices.
+
+For example, the template app you're using has the following
+built-in subscription to items that the current user owns:
+
+.. code-block:: javascript
+   :caption: ItemListView.js
+   
+   await realm.subscriptions.update(mutableSubs => {
+     // subscribe to all of the logged in user's to-do items
+     let ownItems = realm
+      .objects("Item")
+      .filtered(`owner_id == "${user.id}"`);
+     mutableSubs.add(ownItems, {name: "ownItems"});
+   });
+
+You can customize the subscription on the fly to sync only the data that
+your app needs. Let's add a feature to demonstrate how.
+  
+For this tutorial, we'll add a button that lets us toggle between two
+"modes": one where the app syncs *all* to-do items and another where it
+only syncs "important" ones with a ``priority`` of High or Severe.
+
+.. procedure::
+
+   .. step:: Add a Mode Toggle to the UI
+
+      First, add a ``useState()`` hook to the ``ItemListView`` component
+      to keep track of the current mode:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+
+         const [showImportantOnly, setShowImportantOnly] = useState(false);
+
+      Then, add a new button that toggles the mode to the bottom of the
+      to-do list:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+         :emphasize-lines: 6-13
+
+         {items.map(item => (
+           <ListItem key={`${item._id}`} bottomDivider topDivider>
+             {/* ... */}
+           </ListItem>
+         ))}
+         <Button
+           title={showImportantOnly ? 'Show All' : 'Show Important Only'}
+           buttonStyle={{
+             ...styles.addToDoButton,
+             backgroundColor: showImportantOnly ? '#00A35C' : '#FFC010',
+           }}
+           onPress={() => setShowImportantOnly(b => !b)}
+         />
+
+   .. step:: Update the Sync Subscription
+
+      At this point, the app can switch modes in the UI but we haven't
+      done anything else so the modes are functionally identical. Let's
+      update the sync subscription to only sync data relevant to the
+      current mode.
+
+      In the first ``useEffect`` of the ``ItemListView`` component,
+      add code that checks the current mode and appends an additional
+      ``priority`` filter to the query if "important only" mode is
+      active:
+
+      .. code-block:: javascript
+         :caption: ItemListView.js
+         :emphasize-lines: 8-11, 16
+
+         useEffect(() => {
+           // initialize the subscriptions
+           const updateSubscriptions = async () => {
+             await realm.subscriptions.update(mutableSubs => {
+               // subscribe to all of the logged in user's to-do items
+               let ownItems = realm
+                 .objects("Item")
+                 .filtered(`owner_id == "${user.id}"`);
+               if(showImportantOnly) {
+                 // More important Items have lower priority values
+                 ownItems = ownItems.filtered(`priority <= 1`);
+               }
+               mutableSubs.add(ownItems, {name: 'ownItems'});
+             });
+           };
+           updateSubscriptions();
+         }, [realm, user, showImportantOnly]);
+
+      .. important::
+
+         Don't forget to add ``showImportantOnly`` to the list of
+         dependencies in the second argument of ``useEffect``.
+
+   .. step:: Test the App
+
+      Your app is now set up to modify its sync subscription based on
+      the current mode. However, if you run the app and switch to
+      "important only" mode, you'll see that the list doesn't change and
+      a warning appears in the console:
+
+      .. code-block:: text
+         :copyable: false
+         
+         Possible Unhandled Promise Rejection (id: 0):
+         Error: Client provided query with bad syntax:
+         unsupported query for table "Item": key "priority" is not a queryable field
+      
+      .. image:: /images/rn-tutorial-queryable-fields-error.png
+         :alt: Screenshot of a console warning in an iOS simulator
+
+   .. step:: Update the Sync Configuration
+      
+      We're getting a warning because a sync client can only filter a
+      subscription based on a given field if that field is specifically
+      listed as a "queryable field" in the Device Sync configuration of
+      your Atlas App.
+
+      To get everything working, we need to add ``priority`` as a
+      queryable field in the Atlas App's sync configuration.
+      
+      First, find the template app's ``backend`` directory and modify
+      ``sync/config.json``:
+
+      .. code-block:: json
+         :emphasize-lines: 6
+
+         {
+             ...,
+             "queryable_fields_names": [
+                 "_id",
+                 "owner_id",
+                 "priority"
+             ]
+         }
+      
+      Then, run the following terminal command from within the
+      ``backend`` directory to deploy the updated sync configuration:
+
+      .. code-block:: bash
+
+         npx mongodb-realm-cli push
+
+   .. step:: Run the Completed App
+      
+      Once your updated sync configuration is deployed, your app is
+      complete and fully functional. Congratulations!
+      
+      Rebuild and run the app to make sure everything works. You should
+      be able create, complete, and delete to-do items as well as switch
+      to and from "important only" mode.
+      
+      .. image:: /images/rn-tutorial-finished.png
+         :alt: Screenshots of the finished app in both "show all" and "important only" mode
 
 What's Next?
 ------------
 
 - Read our :ref:`React Native SDK <react-native-intro>` documentation.
-- Try the :ref:`App Services Backend tutorial <backend-tutorial>`.
+
 - Find developer-oriented blog posts and integration tutorials on the `MongoDB Developer Hub <https://developer.mongodb.com>`__.
+
 - Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ to learn from other MongoDB developers and technical experts.
 
 .. include:: /includes/tutorial-request-for-feedback-note.rst
