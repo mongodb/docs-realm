@@ -1,0 +1,239 @@
+.. _ios-client-quick-start-with-sync:
+
+========================================
+Quick Start with Device Sync - Swift SDK
+========================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains information to quickly get Realm Database and
+Device Sync integrated into your app. Before you begin, ensure you have:
+
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Installed the Swift SDK <ios-install>`
+
+.. note::
+
+   This Quick Start demonstrates Flexible Sync. For Partition-Based Sync, 
+   see: :ref:`Quick Start with Partition-Based Sync <quick-start-pbs>`.
+
+Import Realm
+------------
+
+Near the top of any Swift file that uses Realm, add the following import
+statement:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.import-realm.swift
+   :language: swift
+
+.. _ios-quick-start-init-app:
+
+Initialize the App
+------------------
+
+To use App Services features such as authentication and sync, you must
+access your App Services App using your App ID. You can :ref:`find your 
+App ID <find-your-app-id>` in the App Services UI.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.connect-to-backend.swift
+   :language: swift
+
+Define Your Object Model
+------------------------
+
+You can define your :ref:`object model <ios-realm-objects>` directly in code.
+This Todo object has a name and status, but it also has an ``ownerId`` field.
+
+When we create Todo objects, we can set this field to the user ID of the 
+authenticated :swift-sdk:`user <Extensions/User.html>`. Then, when we 
+configure Flexible Sync, we can set the permissions to let users read and 
+write their own todos. The ``ownerId`` mapping to the user's ID tells Sync 
+which data the logged-in user can read and write.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.model.swift
+   :language: swift
+
+Configure Flexible Sync
+-----------------------
+
+Now that you have a model and know what permissions you'll use, you can 
+configure Flexible Sync. You can see a complete walkthrough of the procedure
+at: :ref:`Enable Flexible Sync <enable-flexible-sync>`. When you configure 
+Flexible Sync, use these settings:
+
+- Toggle :ref:`Development Mode <enable-disable-development-mode>` to the 
+  ``On`` position. This tells Device Sync to derive your server-side schema 
+  from the client object model of the data that you sync. This saves you 
+  the step of manually creating or updating your server-side schema while 
+  your app is in development.
+- Select the cluster to store your synced data.
+- Create a database to store your synced data. You might create a 
+  ``QuickStart`` database for this quick start. With Development Mode enabled,
+  the objects in your object model automatically create collections
+  for each object type in the database you set here. This means that after 
+  you run this Quick Start, you should see a new Todo collection in the
+  database you specify here.
+- Create an ``ownerId`` field in the :guilabel:`Queryable Fields` section. 
+  Because we haven't Synced yet, the UI shows this as :guilabel:`Fields not 
+  in your schema.` If we had already Synced and were updating queryable fields,
+  this would instead show a list of fields in the schema.
+- In the :guilabel:`Define Permissions` section, select the template for 
+  :guilabel:`Users can only read and write their own data`. This automatically
+  populates read and write rules where ``owner_id`` matches ``user.id``. 
+  To match Swift convention, change the ``owner_id`` in the read and write 
+  permissions from snakecase to camelcase ``ownerId``. This must match the 
+  object model and the queryable field we configured above.
+
+  .. code-block:: json
+
+     {
+       "rules": {},
+       "defaultRoles": [
+         {
+           "name": "owner-read-write",
+           "applyWhen": {},
+           "read": {
+             "ownerId": "%%user.id"
+           },
+           "write": {
+             "ownerId": "%%user.id"
+           }
+         }
+       ]
+     }
+
+Now, enable Sync. If you are using :ref:`deployment drafts <deployment-draft>`, 
+Review & Deploy your draft App changes.
+
+.. _ios-quick-start-authenticate:
+
+Authenticate a User
+-------------------
+
+When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+App Services UI, users can immediately log into your app without providing any identifying
+information. Once we have a logged-in user, we can open a realm for that user.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.authenticate-user.swift
+   :language: swift
+
+The Realm Swift SDK provides many additional ways to authenticate, register, and link users.
+
+.. seealso::
+
+   :ref:`ios-authenticate-users`
+
+Open a Realm
+------------
+
+Once you have enabled Device Sync and authenticated a user, you can create
+a :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object and 
+open the realm. In the configuration object, we specify the :ref:`Flexible Sync
+subscription <swift-manage-flexible-sync-subscriptions>` that determines 
+what data the realm can read and write. The example below does a few things:
+
+- Subscribe to all ``Todo`` objects where the ``ownerId`` matches the ``user.id`` 
+  of the logged-in user.
+- Specify that the object type that this realm manages is the ``Todo`` object.
+- When we open the realm, we specify that the realm should always download 
+  changes before opening. Other options are :ref:`never or once 
+  <ios-specify-download-behavior>`.
+
+After we open the realm, we pass the opened realm and the user to another 
+function where we use the realm.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.open-synced-realm.swift
+   :language: swift
+
+.. seealso::
+
+   :ref:`Sync Data <ios-open-a-synced-realm>`
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` 
+in a :ref:`write transaction <ios-write-transactions>` block.
+
+To create a new Todo object, instantiate the Todo class and add it to the 
+realm in a write block. Because of the Flexible Sync permissions we're using, 
+we need to set the ``ownerId`` to the ``user.id`` of the logged-in user. 
+For this reason, we need access to the ``user`` when we create new Todo
+objects. If your app used a different permissions model, your objects
+wouldn't need this field, and we wouldn't need access to the user here.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.create-todo.swift
+   :language: swift
+
+You can retrieve a live :ref:`collection <ios-client-collections>` of all todos in the realm:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.get-all-todos.swift
+   :language: swift
+
+You can also filter that collection using :ref:`where <ios-client-query-engine>`:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.filter.swift
+   :language: swift
+
+To modify a todo, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.modify-write-block.swift
+   :language: swift
+
+Finally, you can delete a todo:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.delete.swift
+   :language: swift
+
+Watch for Changes
+-----------------
+
+You can :ref:`watch a realm, collection, or object for changes
+<ios-react-to-changes>` with the ``observe`` method.
+
+.. include:: /includes/serverless-watch-note.rst
+
+.. important::
+
+   Be sure to retain the notification token returned by ``observe`` as long as you want to continue observing. When you are done observing, invalidate the token to free the resources.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.watch-for-changes.swift
+   :language: swift
+
+Later, when you're done observing, invalidate the token:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.invalidate-notification-token.swift
+   :language: swift
+
+
+Log Out
+-------
+
+Once logged in, you can log out:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.logout.swift
+   :language: swift
+
+Complete Example
+----------------
+
+Run the complete example by replacing the ``FS_APP_ID`` with your App ID and
+calling ``flexibleSyncQuickStart()``.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.complete-quick-start.swift
+   :language: swift
+
+Output
+~~~~~~
+Running the above code should output something like the following:
+
+.. literalinclude:: /examples/QuickStarts/CompleteSwiftFlexSyncOutput
