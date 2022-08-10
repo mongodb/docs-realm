@@ -1,0 +1,120 @@
+.. _kotlin-client-quick-start-sync:
+
+========================
+Quick Start - Kotlin SDK
+========================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+This page contains information to quickly get Realm Database and Atlas Device
+Sync integrated into your app. Before you begin, ensure you have:
+
+- :ref:`Created an App <create-a-realm-app>`
+- :ref:`Enabled Device Sync <enable-sync>`
+- :ref:`Installed the Kotlin SDK <react-native-install>` to use with your :ref`Android <kotlin-install-android>` or :ref:`KMM <kotlin-install-kotlin-multiplatform>` app.
+
+.. _kotlin-client-qs-sync-define-your-data-model
+
+Define Your Object Model
+------------------------
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-define-your-data-model.kt
+   :language: kotlin
+   :copyable: false
+
+Initialize the App
+------------------
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-initialize-app.kt
+   :language: kotlin
+   :copyable: false
+
+Authenticate a User
+-------------------
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-authenticate.kt
+   :language: kotlin
+   :copyable: false
+
+Open a Realm
+------------
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+   :language: kotlin
+   :copyable: false
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once opened, you can create objects within a realm in a
+`write transaction block
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
+
+To create a new :file:`Task`, instantiate an instance of the
+:file:`Task` class and add it to the realm in a write transaction block:
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-create-a-task.kt
+   :language: kotlin
+   :copyable: false
+
+You can retrieve a collection of all tasks in the realm with
+`query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-find-all-task.kt
+   :language: kotlin
+   :copyable: false
+
+You can also filter a collection to retrieve a more specific collection
+of objects:
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-filter-tasks.kt
+   :language: kotlin
+   :copyable: false
+
+.. seealso::
+
+   Find more information about string Realm Database queries in
+   :ref:`Filter Data <kotlin-filter-data>`.
+
+To modify a task, update its properties in a write transaction block:
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-modify-task.kt
+   :language: kotlin
+   :copyable: false
+
+Finally, you can delete a task by calling `mutableRealm.delete()
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
+in a write transaction block:
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-delete-task.kt
+   :language: kotlin
+   :copyable: false
+
+Watch for Changes
+-----------------
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+   :language: kotlin
+   :copyable: false
+
+
+Close a Realm
+-------------
+
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+   :language: kotlin
+   :copyable: false
+
+
+Complete Example
+----------------
+.. literalinclude:: examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync.kt
+   :language: kotlin
+   :copyable: false
