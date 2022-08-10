@@ -157,7 +157,7 @@ Explore the Template App
    .. step:: Run the App
 
       Without making any changes to the code, you should be able to run the app 
-      in the iOS Simulator, or on a physical device. When you installed the 
+      in the iOS Simulator or on a physical device. When you installed the 
       Template App, the Realm CLI also set up a new backend for you and 
       populated the ``realm.json`` file with the correct app ID. 
 
@@ -194,7 +194,7 @@ Add a New Property
 
       #. Open the ``Item.swift`` class file.
 
-      #. Add the following property:
+      #. Add the following property to the ``Item`` class:
 
          .. code-block:: swift
 
@@ -306,8 +306,11 @@ Change the Subscription
       a value of 3. We can make direct comparisons between an Int and the 
       priority property. To do so, update the query statement to include documents 
       where the priority is equal to or *less* than PriorityLevel.High (or 1), as 
-      shown here. We'll also add the ``reRunOnOpen`` bool, and set it to ``true``, 
-      to force the subscription query to recalculate which documents to sync.
+      shown here. 
+      
+      We'll also add the ``reRunOnOpen`` bool, and set it to ``true``, 
+      to force the subscription query to recalculate which documents to sync
+      every time we open the app.
 
       .. code-block:: swift
          :emphasize-lines: 3-5, 8, 11
