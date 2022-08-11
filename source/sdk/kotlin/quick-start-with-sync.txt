@@ -102,6 +102,12 @@ To create a new :file:`Task`, instantiate an instance of the
    :language: kotlin
    :copyable: false
 
+You can also create multiple realm objects within a write transaction block:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-batch-writes.kt
+   :language: kotlin
+   :copyable: false
+
 You can retrieve a collection of all tasks in the realm with
 `query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
 
