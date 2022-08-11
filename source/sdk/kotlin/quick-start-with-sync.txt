@@ -15,7 +15,7 @@ Quick Start With Device Sync - Kotlin SDK
 Overview
 --------
 
-This page contains information to quickly get Realm Database and Atlas Device
+This page contains information to quickly get Realm Database, and Atlas Device
 Sync integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Created an App <create-a-realm-app>`
@@ -69,15 +69,15 @@ Open a Realm
 Once you have initialized your Atlas App Services App, authenticated a user, and
 defined your object model, you can create a `SyncConfiguration
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
-. Pass your user, and ``Task`` class to the `SyncConfiguration.Builder
+. Pass the authenticated user and the ``Task`` class to the `SyncConfiguration.Builder
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
 function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
 
-You need atleast one subscription before you can read from or write to the
+You need at least one subscription before you can read from or write to the
 realm. Use `initialSubscriptions
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
 to define the initial subscription set when the Realm file is first opened.
-Pass the query you wish to subscribe to, and a name for the subscription to the `add()
+Pass the query you wish to subscribe to and a name for the subscription to the `add()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
 
 The example below specifies a subscription named "High Priority Tasks" that subscribes to
