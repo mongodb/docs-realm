@@ -66,26 +66,22 @@ definition to your application code:
 Open a Realm
 ------------
 
-Once you have enabled Device Sync, initialized your Atlas App Services app,
-authenticated a user, defined your object model, you can then create a
-`SyncConfiguration
-<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__ .
-
-Use `SyncConfiguration.Builder
+Once you have initialized your Atlas App Services app, authenticated a user, and
+defined your object model, you can create a `SyncConfiguration
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
+. Pass your user, and ``Task`` class to the `SyncConfiguration.Builder
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
-to setup a Realm Database that can be synchronized between devices using Atlas
-Device Sync. Pass your user, and ``Task`` class to the
-``SyncConfiguration.Builder`` to create a Flexible Sync Configuration.
+function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
 
 You need atleast one subscription before you can read from or write to the
-realm. Use the `initialSubscriptions
+realm. Use `initialSubscriptions
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
 to define the initial subscription set when the Realm file is first opened.
 Pass the query you wish to subscribe to, and a name for the subscription to the `add()
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
 
-The example below specifies a subscription named "Open Tasks" that subscribes to
-all ``Task`` objects with a ``status`` equal to ``Open``. 
+The example below specifies a subscription named "High Priority Tasks" that subscribes to
+all ``Task`` objects with a ``priority`` higher than ``3``. 
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
    :language: kotlin
@@ -94,12 +90,10 @@ all ``Task`` objects with a ``status`` equal to ``Open``.
 Create, Read, Update, and Delete Objects
 ----------------------------------------
 
-Once opened, you can create objects within a realm in a
-`write transaction block
-<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
-
-The newly created object will sync to your Atlas database and all devices with
-the same ``SyncConfiguration``.
+Once opened, you can create objects within a realm in a `write transaction block
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__. The newly created
+object will sync to your Atlas database and all devices with the same
+``SyncConfiguration``.
 
 To create a new :file:`Task`, instantiate an instance of the
 :file:`Task` class and add it to the realm in a write transaction block:
@@ -149,11 +143,6 @@ You can :ref:`watch a realm, collection, or object for changes
 
 .. include:: /includes/serverless-watch-note.rst
 
-.. important::
-
-   Be sure to retain the job referencing the coroutine as long as you want to
-   continue observing. When you are done observing, cancel the job to cancel the coroutine.
-
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-watch-for-changes.kt
    :language: kotlin
    :copyable: false
@@ -177,9 +166,8 @@ completed.
    :language: kotlin
    :copyable: false
 
-
 Complete Example
 ----------------
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-complete-example.kt
    :language: kotlin
    :copyable: false
