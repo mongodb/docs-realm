@@ -2,7 +2,7 @@
 val job = CoroutineScope(Dispatchers.Default).launch {
     // create a Flow from the Task collection, then add a listener to the Flow
     val tasksFlow = tasks.asFlow()
-    val subscription = tasksFlow.collect { changes: ResultsChange<Task> ->
+    tasksFlow.collect { changes: ResultsChange<Task> ->
         when (changes) {
             // UpdatedResults means this change represents an update/insert/delete operation
             is UpdatedResults -> {

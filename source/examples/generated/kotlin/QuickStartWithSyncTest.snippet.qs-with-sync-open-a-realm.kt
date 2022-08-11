@@ -2,10 +2,10 @@ val config = SyncConfiguration.Builder(user, setOf(Task::class))
     .initialSubscriptions { realm ->
         add(
             realm.query<Task>(
-                "status == $0",
+                "priority > 3",
                 "Open"
             ),
-            "Open Tasks"
+            "High Priority Tasks"
         )
     }
     .build()

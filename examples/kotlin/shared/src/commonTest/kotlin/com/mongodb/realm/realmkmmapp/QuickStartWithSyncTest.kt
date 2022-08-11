@@ -161,7 +161,7 @@ class QuickStartWithSyncTest : RealmTest() {
             assertEquals(true, changeHasBeenObserved)
             // :remove-end:
 
-            // :snippet-start:
+            // :snippet-start: qs-with-sync-unsubscribe-to-changes.kt
             job.cancel() // cancel the coroutine containing the listener
             // :snippet-end:
 

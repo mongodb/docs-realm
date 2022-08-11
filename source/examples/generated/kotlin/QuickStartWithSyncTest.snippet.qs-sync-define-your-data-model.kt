@@ -1,6 +1,7 @@
-class Task: RealmObject {
+class Task : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId.create()
     var name: String = ""
     var status: String = "Open"
+    var priority: Int = 1
 }
