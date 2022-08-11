@@ -103,6 +103,7 @@ class QuickStartWithSyncTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: qs-with-sync-create-a-task
+            // create a new task object
             realm.writeBlocking {
                 copyToRealm(Task().apply {
                     name = "Go Jogging"
@@ -113,6 +114,7 @@ class QuickStartWithSyncTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: qs-with-sync-batch-writes
+            // you can also create multiple realm objects within a single write block
             realm.writeBlocking {
                 copyToRealm(Task().apply {
                     name = "Go grocery shopping"
