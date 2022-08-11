@@ -144,13 +144,34 @@ in a write transaction block:
 Watch for Changes
 -----------------
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+You can :ref:`watch a realm, collection, or object for changes
+<kotlin-react-to-changes>` with the ``observe`` method.
+
+.. include:: /includes/serverless-watch-note.rst
+
+.. important::
+
+   Be sure to retain the job referencing the coroutine as long as you want to
+   continue observing. When you are done observing, cancel the job to cancel the coroutine.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-watch-for-changes.kt
+   :language: kotlin
+   :copyable: false
+
+Later, when you're done observing, cancel the job to cancel the coroutine:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-unsubscribe-to-changes.kt
    :language: kotlin
    :copyable: false
 
 
 Close a Realm
 -------------
+
+To close a realm and all underlying resources call `realm.close()
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__. The
+:file:`close()` method blocks until all write transactions on the realm have
+completed.
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
    :language: kotlin
