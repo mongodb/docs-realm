@@ -1,3 +1,4 @@
+// you can also create multiple realm objects within a single write block
 realm.writeBlocking {
     copyToRealm(Task().apply {
         name = "Go grocery shopping"

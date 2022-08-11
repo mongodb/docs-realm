@@ -11,7 +11,8 @@ runBlocking {
         var priority: Int = 1
     }
 
-    val config = SyncConfiguration.Builder(user, setOf(Task::class))
+    // create a SyncConfiguration
+    val config = SyncConfiguration.Builder(user, setOf(Task::class)) // the SyncConfiguration defaults to Flexible Sync, if a Partition is not specified
         .initialSubscriptions { realm ->
             add(
                 realm.query<Task>(
@@ -51,6 +52,7 @@ runBlocking {
         }
     }
 
+    // create a new task object
     realm.writeBlocking {
         copyToRealm(Task().apply {
             name = "Go Jogging"
@@ -59,6 +61,7 @@ runBlocking {
         })
     }
 
+    // you can also create multiple realm objects within a single write block
     realm.writeBlocking {
         copyToRealm(Task().apply {
             name = "Go grocery shopping"
@@ -74,11 +77,11 @@ runBlocking {
 
     // tasks in the realm whose name begins with the letter 'G'
     val tasksThatBeginWIthG: RealmResults<Task> =
-        realm.query<Task>("name BEGINSWITH $0", "G")
+        realm.query<Task>("name BEGINSWITH $0", "G") // Go Jogging, Go grocery shopping
             .find()
     // tasks in the realm whose status is 'Open'
     val openTasks: RealmResults<Task> =
-        realm.query<Task>("status == $0", "Open") // Go Jogging,
+        realm.query<Task>("status == $0", "Open") // Go Jogging
             .find()
 
     // change the first task to in progress status
@@ -92,7 +95,7 @@ runBlocking {
         delete(writeTransactionTasks.first())
     }
 
-
+    
     job.cancel() // cancel the coroutine containing the listener
 
     realm.close()

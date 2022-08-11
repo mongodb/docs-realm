@@ -47,7 +47,8 @@ class QuickStartWithSyncTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: qs-with-sync-open-a-realm
-            val config = SyncConfiguration.Builder(user, setOf(Task::class))
+            // create a SyncConfiguration
+            val config = SyncConfiguration.Builder(user, setOf(Task::class)) // the SyncConfiguration defaults to Flexible Sync, if a Partition is not specified
                 .initialSubscriptions { realm ->
                     add(
                         realm.query<Task>(
@@ -132,11 +133,11 @@ class QuickStartWithSyncTest : RealmTest() {
             // :snippet-start: qs-with-sync-filter-tasks
             // tasks in the realm whose name begins with the letter 'G'
             val tasksThatBeginWIthG: RealmResults<Task> =
-                realm.query<Task>("name BEGINSWITH $0", "G")
+                realm.query<Task>("name BEGINSWITH $0", "G") // Go Jogging, Go grocery shopping
                     .find()
             // tasks in the realm whose status is 'Open'
             val openTasks: RealmResults<Task> =
-                realm.query<Task>("status == $0", "Open") // Go Jogging,
+                realm.query<Task>("status == $0", "Open") // Go Jogging
                     .find()
             // :snippet-end:
 
@@ -162,8 +163,8 @@ class QuickStartWithSyncTest : RealmTest() {
             ) // only 2 tasks since the first task object has been deleted
             assertEquals(true, changeHasBeenObserved)
             // :remove-end:
-
-            // :snippet-start: qs-with-sync-unsubscribe-to-changes.kt
+            
+            // :snippet-start: qs-with-sync-unsubscribe-to-changes
             job.cancel() // cancel the coroutine containing the listener
             // :snippet-end:
 
