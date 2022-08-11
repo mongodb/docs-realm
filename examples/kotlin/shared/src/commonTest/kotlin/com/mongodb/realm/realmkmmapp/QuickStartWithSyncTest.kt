@@ -55,8 +55,7 @@ class QuickStartWithSyncTest : RealmTest() {
                 .initialSubscriptions { realm ->
                     add(
                         realm.query<Task>(
-                            "priority > 3",
-                            "Open"
+                            "priority > 3"
                         ),
                         "High Priority Tasks"
                     )
