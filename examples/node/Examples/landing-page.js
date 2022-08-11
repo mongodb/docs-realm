@@ -70,7 +70,7 @@ describe("Node Landing Page", () => {
 
     // :snippet-start: node-landing-update-live-objects
     // find a cat named "Clover"
-    const cloverCat = cats.filtered("name == 'Clover'");
+    const cloverCat = cats.filtered("name == 'Clover'")[0];
     // update the Cat in a write transaction
     realm.write(() => {
       // update clover's age to 5 years old
@@ -79,6 +79,7 @@ describe("Node Landing Page", () => {
     console.log(`Clover the cat is ${cloverCat.age} years old`);
     // :snippet-end:
     expect(cloverCat.age).toBe(5);
+    expect(cloverCat.name).toBe('Clover');
 
     // :snippet-start:  node-landing-watch-for-object-updates
     // insert a cat into the database
