@@ -1,20 +1,36 @@
 import { useEffect, useContext } from "react";
-import { logInAnon, setAccessTokenCookie } from "../realm/auth";
+import * as Realm from "realm-web";
+import { setCookie } from "nookies";
 import AppServicesContext from "../realm/AppServicesContext";
 import Link from "next/link";
+
+// Set access token as a cookie for use with server-side rendering
+function setAccessTokenCookie(user) {
+  setCookie(null, "accessToken", user.accessToken);
+  // Refresh token before session expires
+  const TWENTY_MIN_MS = 1200000;
+  setInterval(async () => {
+    await user.refreshCustomData();
+    setCookie(null, "accessToken", user.accessToken);
+  }, TWENTY_MIN_MS);
+}
 
 export default function Home() {
   const app = useContext(AppServicesContext);
 
   useEffect(() => {
+    // For initial server-side render
     if (!app) return;
+    // If no logged in user, log in
     if (!app.currentUser) {
-      logInAnon(app);
-    } else {
+      const anonymousUser = Realm.Credentials.anonymous();
+      app.logIn(anonymousUser).then((user) => setAccessTokenCookie(user));
+    }
+    // If logged in user, just set access token as cookie
+    else {
       setAccessTokenCookie(app.currentUser);
     }
   }, [app, app?.currentUser, app?.currentUser?.id]);
-  console.log(app);
 
   return (
     <div>

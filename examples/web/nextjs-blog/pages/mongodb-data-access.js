@@ -10,7 +10,6 @@ export default function MongoDbDataAccess() {
     const mongo = user.mongoClient("mongodb-atlas");
     const plants = mongo.db("example").collection("plants");
     plants.findOne({ name: "lily of the valley" }).then((lily) => {
-      console.log(lily);
       setPlant(lily);
     });
   }, [app, app.currentUser, app.currentUser?.id]);

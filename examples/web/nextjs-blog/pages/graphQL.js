@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -52,7 +51,6 @@ function GraphQL() {
   });
   if (loading || !data) return <p>Loading ...</p>;
   if (error) console.error("Failed with error:", error);
-  console.log(data.plant);
   return (
     <div>
       {data.plant ? (
