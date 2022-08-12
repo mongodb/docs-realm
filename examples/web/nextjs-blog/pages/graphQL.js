@@ -13,10 +13,8 @@ export default function GraphQLProvider() {
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
     link: new HttpLink({
-      uri: `https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/${process.env.NEXT_PUBLIC_APP_ID}/graphql`,
-      // We define a custom fetch handler for the Apollo client that lets us authenticate GraphQL requests.
-      // The function intercepts every Apollo HTTP request and adds an Authorization header with a valid
-      // access token before sending the request.
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
+      // We get the latest access token on each request
       fetch: async (uri, options) => {
         const accessToken = app?.currentUser?.accessToken;
         options.headers.Authorization = `Bearer ${accessToken}`;

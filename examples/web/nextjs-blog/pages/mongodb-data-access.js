@@ -6,12 +6,13 @@ export default function MongoDbDataAccess() {
   const app = useContext(AppServicesContext);
 
   useEffect(() => {
-    const user = app.currentUser;
-    const mongo = user.mongoClient("mongodb-atlas");
-    const plants = mongo.db("example").collection("plants");
-    plants.findOne({ name: "lily of the valley" }).then((lily) => {
-      setPlant(lily);
-    });
+    if (app?.currentUser) {
+      const mongo = app?.currentUser?.mongoClient("mongodb-atlas");
+      const plants = mongo.db("example").collection("plants");
+      plants.findOne({ name: "lily of the valley" }).then((lily) => {
+        setPlant(lily);
+      });
+    }
   }, [app, app.currentUser, app.currentUser?.id]);
   return (
     <div>

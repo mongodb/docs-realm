@@ -1,4 +1,5 @@
 import * as Realm from "realm-web";
+import Layout from "../components/layout";
 import AppServicesContext from "../realm/AppServicesContext";
 
 function MyApp({ Component, pageProps }) {
@@ -6,7 +7,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AppServicesContext.Provider value={appServices}>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </AppServicesContext.Provider>
   );
 }

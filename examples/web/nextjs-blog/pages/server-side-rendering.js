@@ -21,7 +21,7 @@ const createClient = (token) =>
   new ApolloClient({
     link: new HttpLink({
       ssrMode: true,
-      uri: `https://realm.mongodb.com/api/client/v2.0/app/${process.env.NEXT_PUBLIC_APP_ID}/graphql`,
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
       headers: {
         Authorization: `Bearer ${token}`,
       },
