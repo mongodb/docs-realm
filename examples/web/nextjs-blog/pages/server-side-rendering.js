@@ -2,6 +2,7 @@ import nookies from "nookies";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 
 export default function Ssr({ lily }) {
+  console.log(lily);
   return (
     <div>
       {lily ? (
