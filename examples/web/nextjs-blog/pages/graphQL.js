@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -12,6 +11,7 @@ import AppServicesContext from "../realm/AppServicesContext";
 
 export default function GraphQLProvider() {
   const app = useContext(AppServicesContext);
+
   const client = new ApolloClient({
     link: new HttpLink({
       uri: `https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/${process.env.NEXT_PUBLIC_APP_ID}/graphql`,
@@ -26,6 +26,7 @@ export default function GraphQLProvider() {
     }),
     cache: new InMemoryCache(),
   });
+
   return (
     <ApolloProvider client={client}>
       <GraphQL />
@@ -52,9 +53,10 @@ function GraphQL() {
   });
   if (loading || !data) return <p>Loading ...</p>;
   if (error) console.error("Failed with error:", error);
-  console.log(data.plant);
+
   return (
     <div>
+      <h1>Data from GraphQL</h1>
       {data.plant ? (
         <div>
           <p>{data.plant.name}</p>

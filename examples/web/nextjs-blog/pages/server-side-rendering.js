@@ -5,6 +5,7 @@ export default function Ssr({ lily }) {
   console.log(lily);
   return (
     <div>
+      <h1>Data from Server-Side Rendering</h1>
       {lily ? (
         <div>
           <p>{lily.name}</p>
