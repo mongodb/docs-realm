@@ -62,6 +62,17 @@ and then pass the generated credential to
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.anonymous-credentials.dart
    :language: dart
 
+If you want more than one anonymous users, set ``reuseCredentials: false``
+when creating additional anonymous credentials.
+
+TODO(DOCSP-22347): literalinclude
+
+.. code-block:: dart
+
+   User anonUser = await app.logIn(Credentials.anonymous());
+
+   User otherAnonUser = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+
 .. _flutter-login-email-password:
 
 Email/Password User
@@ -71,8 +82,8 @@ The :ref:`Email/Password authentication provider <email-password-authentication>
 enables users to log in to your application with an email username and
 a password. To log in with email/password authentication, create an
 email/password credential by calling :flutter-sdk:`Credentials.emailPassword() <realm/Credentials/Credentials.emailPassword.html>`
-with the user's email and password. Then pass the generated credential
-to ``app.logIn``.
+with the user's email and password.
+Then pass the credential to ``app.logIn``.
 
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.email-password-credentials.dart
    :language: dart
@@ -82,6 +93,111 @@ to ``app.logIn``.
    To learn more about the complete flow of using App Services Email/Password
    authentication, refer to the :ref:`Email/Password Users documentation
    <flutter-manage-email-password-users>`.
+
+.. _flutter-login-custom-jwt:
+
+Custom JWT User
+~~~~~~~~~~~~~~~
+
+If you have configured the :ref:`Custom JWT authentication provider
+<custom-jwt-authentication>`, you can log in using JWT credentials from
+an external authentication provider.
+
+To log in with Custom JWT authentication, create a JWT credential by calling
+:flutter-sdk:`Credentials.jwt() <realm/Credentials/Credentials.jwt.html>`
+on a JWT string. Then pass the credential to ``app.logIn``.
+
+TODO(DOCSP-22347): literalinclude
+
+.. code-block:: dart
+
+   Credentials jwtCredentials = Credentials.jwt(token);
+   User currentUser = await app.logIn(credentials);
+
+.. _flutter-login-custom-function:
+
+Custom Function User
+~~~~~~~~~~~~~~~~~~~~
+
+If you have configured the
+:ref:`Custom Function authentication provider <custom-function-authentication>`,
+you can log in using custom authentication logic handled by an Atlas Function.
+
+To log in with Custom Function authentication, pass a stringified JSON with
+your custom arguments to :flutter-sdk:`Credentials.function() <realm/Credentials/Credentials.function.html>`.
+Then pass the credential to ``app.logIn``.
+
+TODO(DOCSP-22347): literalinclude
+
+.. code-block:: dart
+
+   String payload = '{"username": "$username", "userId": "$userId"}';
+   Credentials customFunctionCredentials = Credentials.function(payload);
+   User currentUser = await app.logIn(customFunctionCredentials);
+
+.. _flutter-login-facebook:
+
+Facebook User
+~~~~~~~~~~~~~
+
+If you have configured the :ref:`Facebook authentication provider <facebook-authentication>`,
+you can log in using an existing Facebook account.
+
+To log in with Facebook authentication, pass a Facebook access token to
+:flutter-sdk:`Credentials.facebook() <realm/Credentials/Credentials.facebook.html>`.
+Then pass the credential to ``app.logIn``.
+
+.. code-block:: dart
+
+   Credentials facebookCredentials = Credentials.facebook(accessToken);
+   User currentUser = await app.logIn(facebookCredentials);
+
+.. include:: /includes/note-facebook-profile-picture-url.rst
+
+.. _flutter-login-google:
+
+Google User
+~~~~~~~~~~~
+
+If you have configured the :ref:`Google authentication provider <google-authentication>`,
+you can log in using an existing Google account.
+
+To log in with a Google authentication code, pass a Google authentication code to
+:flutter-sdk:`Credentials.googleAuthCode() <realm/Credentials/Credentials.googleAuthCode.html>`.
+Then pass the credential to ``app.logIn``.
+
+.. code-block:: dart
+
+   Credentials googleCredentials = Credentials.googleAuthCode(authCode);
+   User currentUser = await app.logIn(googleCredentials);
+
+To log in with a Google ID token, pass a Google ID token to
+:flutter-sdk:`Credentials.googleIdToken() <realm/Credentials/Credentials.googleIdToken.html>`.
+Then pass the credential to ``app.logIn``.
+
+.. code-block:: dart
+
+   Credentials googleCredentials = Credentials.googleIdToken(googleIdToken);
+   User currentUser = await app.logIn(googleCredentials);
+
+.. _flutter-login-apple:
+
+Apple User
+~~~~~~~~~~
+
+If you have configured the :ref:`Sign-in with Apple authentication provider <apple-id-authentication>`,
+you can log in using an existing Apple account.
+
+To log in with Apple authentication, pass an Apple access token to
+:flutter-sdk:`Credentials.apple() <realm/Credentials/Credentials.apple.html>`.
+Then pass the credential to ``app.logIn``.
+
+.. code-block:: dart
+
+   Credentials appleCredentials = Credentials.apple(accessToken);
+   User currentUser = await app.logIn(appleCredentials);
+
+.. include:: /includes/authorization-appleidcredential-string.rst
 
 .. _flutter-logout:
 
