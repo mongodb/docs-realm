@@ -4,8 +4,6 @@
 Open & Close a Realm - Flutter SDK
 ==================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -114,6 +112,43 @@ the first time that it is opened on a device.
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.initial-data-callback.dart
    :language: dart
    :emphasize-lines: 1-3, 6
+
+.. _flutter-customize-default-path:
+
+Customize Default Path
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can customize the default path where Realm stores database files
+and the default name given to database files.
+
+Use the static :flutter-sdk:`Configuration.defaultRealmName <realm/Configuration/defaultRealmName.html>`
+and :flutter-sdk:`Configuration.defaultRealmPath <realm/Configuration/defaultRealmPath.html>`
+to set default configuration for all realms opened within an application.
+
+.. code-block:: dart
+
+   Configuration.defaultRealmName = "myRealmName.realm";
+
+   String customDefaultRealmPath = path.join((await Directory.systemTemp.createTemp()).path, Configuration.defaultRealmName);
+   Configuration.defaultRealmPath = customDefaultRealmPath;
+
+   // Configurations used in the application will use these values
+   Configuration config = Configuration.local([Car.schema]);
+
+   TODO: code example showing that the default is used. smthn like:
+   print(config.path)
+
+You can also check where realm files are stored by default using the static getter
+:flutter-sdk:`Configuration.defaultStoragePath <realm/Configuration/defaultStoragePath.html>`.
+The value for this property varies depending on the platform you are using the SDK
+on and whether you are using the Dart or Flutter versions of Realm.
+Check the value of ``Configuration.defaultStoragePath`` in your application
+to see where realm files are stored in your environment.
+
+.. code-block:: dart
+
+   String storagePath = Configuration.defaultStoragePath
+   print(storagePath); // see value in your application
 
 .. _flutter-close-realm:
 
