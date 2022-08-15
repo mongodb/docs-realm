@@ -9,7 +9,7 @@ import {
 } from "@apollo/client";
 import AppServicesContext from "../realm/AppServicesContext";
 
-export default function GraphQLProvider() {
+function GraphQLProvider({ children }) {
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
     link: new HttpLink({
@@ -23,11 +23,7 @@ export default function GraphQLProvider() {
     }),
     cache: new InMemoryCache(),
   });
-  return (
-    <ApolloProvider client={client}>
-      <GraphQL />
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
 
 const GET_PLANT = gql`
@@ -43,7 +39,7 @@ const GET_PLANT = gql`
   }
 `;
 
-function GraphQL() {
+function GraphQLConsumer() {
   const { loading, error, data } = useQuery(GET_PLANT, {
     variables: { name: "lily of the valley" },
   });
@@ -62,3 +58,10 @@ function GraphQL() {
     </div>
   );
 }
+
+const FullGraphQLPage = () => {
+  <GraphQLProvider>
+    <GraphQLConsumer />
+  </GraphQLProvider>;
+};
+export default FullGraphQLPage;
