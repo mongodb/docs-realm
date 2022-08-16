@@ -5,6 +5,7 @@ using (var transaction = await realm.BeginWriteAsync())
     {
         Name = "Jane Doe"
     });
+
     // Do other work that needs to be included in this transaction
     await transaction.CommitAsync();
 }
