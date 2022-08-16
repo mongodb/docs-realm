@@ -29,7 +29,7 @@ constructor. For more information, refer to :ref:`Open a Synced Realm <flutter-o
 .. code-block:: dart
    :caption: main_process.dart
 
-   // same realm file location as secondary process
+   // Same realm file location as secondary process
    String realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
 
    Configuration flexibleConfig = Configuration.flexibleSync(user, schema, path: realmPath);
@@ -43,7 +43,7 @@ constructor. Include the schema and any additional optional named arguments.
    :caption: secondary_process.dart
    :emphasize-lines: 4
 
-   // same realm file location as primary process
+   // Same realm file location as primary process
    final realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
 
    final disconnectedSyncConfig = Configuration.disconnectedSync(schema, path: realmPath);
