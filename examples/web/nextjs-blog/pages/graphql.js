@@ -12,8 +12,12 @@ import {
 import AppServicesContext from "../realm/AppServicesContext";
 // :snippet-end:
 
+<<<<<<< HEAD
 // :snippet-start: apollo-provider
 function GraphQLProvider() {
+=======
+function GraphQLProvider({ children }) {
+>>>>>>> 825a22a5bb9d978257e3ec2cbf2d3b5a5002d5f9
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
     link: new HttpLink({
@@ -27,11 +31,15 @@ function GraphQLProvider() {
     }),
     cache: new InMemoryCache(),
   });
+<<<<<<< HEAD
   return (
     <ApolloProvider client={client}>
       <GraphQLConsumer />
     </ApolloProvider>
   );
+=======
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+>>>>>>> 825a22a5bb9d978257e3ec2cbf2d3b5a5002d5f9
 }
 // :snippet-end:
 
@@ -68,6 +76,7 @@ function GraphQLConsumer() {
     </div>
   );
 }
+<<<<<<< HEAD
 // :snippet-end:
 
 // :snippet-start: full-graphql-page
@@ -81,3 +90,14 @@ export default FullGraphQLPage;
 
 // :snippet-end:
 // :snippet-end:
+=======
+
+function FullGraphQLPage() {
+  return (
+    <GraphQLProvider>
+      <GraphQLConsumer />
+    </GraphQLProvider>
+  );
+}
+export default FullGraphQLPage;
+>>>>>>> 825a22a5bb9d978257e3ec2cbf2d3b5a5002d5f9

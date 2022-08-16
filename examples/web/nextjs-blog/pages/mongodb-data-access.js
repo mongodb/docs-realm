@@ -15,10 +15,11 @@ export default function MongoDbDataAccess() {
       });
     }
   }, [app, app.currentUser, app.currentUser?.id]);
+
   return (
     <div>
       {/* :remove-start:*/}
-      <h1>Data from MongoDB Data</h1>
+      <h1>Data from MongoDB Access</h1>
       {/* :remove-end: */}
       {plant ? (
         <div>

@@ -16,11 +16,7 @@ export default function Home() {
     // If no logged in user, log in
     if (!app.currentUser) {
       const anonymousUser = Realm.Credentials.anonymous();
-      app.logIn(anonymousUser).then((user) => setAccessTokenCookie(user));
-    }
-    // If logged in user, just set access token as cookie
-    else {
-      setAccessTokenCookie(app.currentUser);
+      app.logIn(anonymousUser);
     }
   }, [app, app?.currentUser, app?.currentUser?.id]);
 
