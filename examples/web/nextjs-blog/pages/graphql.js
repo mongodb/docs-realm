@@ -23,6 +23,7 @@ export default function GraphQLProvider() {
     }),
     cache: new InMemoryCache(),
   });
+
   return (
     <ApolloProvider client={client}>
       <GraphQL />

@@ -14,8 +14,10 @@ export default function MongoDbDataAccess() {
       });
     }
   }, [app, app.currentUser, app.currentUser?.id]);
+
   return (
     <div>
+      <h1>Data from MongoDB Data Access</h1>
       {plant ? (
         <div>
           <p>{plant.name}</p>
