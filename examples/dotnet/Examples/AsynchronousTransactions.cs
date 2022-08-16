@@ -10,9 +10,6 @@ namespace Examples
     public class AsynchronousTransactions
     {
 
-        public AsynchronousTransactions()
-        {
-        }
 
         [Test]
         public async ThreadTask TestWriteAsync()
