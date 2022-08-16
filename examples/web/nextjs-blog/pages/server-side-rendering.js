@@ -22,29 +22,13 @@ const createClient = (token) =>
   new ApolloClient({
     link: new HttpLink({
       ssrMode: true,
-      uri: `https://realm.mongodb.com/api/client/v2.0/app/${process.env.NEXT_PUBLIC_APP_ID}/graphql`,
+      uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }),
     cache: new InMemoryCache(),
   });
-
-export async function getServerSideProps(context) {
-  const { accessToken } = nookies.get(context);
-  console.log("token::", accessToken);
-  const client = createClient(accessToken);
-  const {
-    data: { plant: lily },
-  } = await client.query({
-    query: GET_PLANT,
-    variables: { name: "lily of the valley" },
-  });
-
-  return {
-    props: { lily },
-  };
-}
 
 const GET_PLANT = gql`
   query Plant($name: String!) {
@@ -58,3 +42,17 @@ const GET_PLANT = gql`
     }
   }
 `;
+export async function getServerSideProps(context) {
+  const { accessToken } = nookies.get(context);
+  const client = createClient(accessToken);
+  const {
+    data: { plant: lily },
+  } = await client.query({
+    query: GET_PLANT,
+    variables: { name: "lily of the valley" },
+  });
+
+  return {
+    props: { lily },
+  };
+}
