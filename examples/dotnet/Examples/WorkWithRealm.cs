@@ -209,6 +209,84 @@ namespace Examples
         // :replace-end:
         //:snippet-end:
 
+        [Test]
+        public void ChangeSetCleared()
+        {
+            myRealmAppId = Config.appid;
+            var app = App.Create(myRealmAppId);
+            var realm = Realm.GetInstance("");
+
+            realm.Write(() =>
+            {
+                realm.RemoveAll<Dog>();
+            });
+
+            var fido = new Dog()
+            {
+                Id = ObjectId.GenerateNewId(),
+                Name = "Fido"
+            };
+            
+            realm.Write(() =>
+            {
+                fido = realm.Add<Dog>(fido);
+            });
+
+            var johnWick = new PersonN() { Id = ObjectId.GenerateNewId(), Name = "John Wick" };
+            var helenWick = new PersonN() { Id = ObjectId.GenerateNewId(), Name = "Helen Wick" };
+
+            realm.Write(() =>
+            {
+                fido.Owners.Add(johnWick);
+                fido.Owners.Add(helenWick);
+            });
+
+            var changesHaveBeenCleared = false;
+
+            // :snippet-start: get-notification-if-collection-is-cleared
+            var token = fido.Owners.SubscribeForNotifications((sender, changes, error) =>
+            {
+                if (error != null) return;
+                if (changes == null) return;
+
+                if (changes.IsCleared)
+                {
+                    // ... handle collection has been cleared ...
+                    // :remove-start:
+                    changesHaveBeenCleared = true;
+                    // :remove-end:
+                }
+            });
+            // :snippet-end:
+
+            // :snippet-start: call-handle-collection-changed
+            fido.Owners.AsRealmCollection().CollectionChanged += HandleCollectionChanged;
+            // :snippet-end:
+
+            // :snippet-start: clear-collection
+            realm.Write(() =>
+            {
+                fido.Owners.Clear();
+            });
+            // :snippet-end:
+
+            realm.Refresh();
+
+            Assert.IsTrue(changesHaveBeenCleared);
+
+        }
+
+        // :snippet-start: define-handle-collection-changed
+        private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                // ... handle a CollectionChanged Event with action `Reset`
+            }
+        }
+        // :snippet-end:
+
+
         class NotificationUnsub
         {
             Realm realm;

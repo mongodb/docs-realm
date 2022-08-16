@@ -222,13 +222,18 @@ class FlexibleSync: XCTestCase {
         // one that should not be included in the Flexible Sync query, and one that should.
         do {
             let thisUser = try await app.login(credentials: Credentials.anonymous)
-            var thisFlexSyncConfig = thisUser.flexibleSyncConfiguration(initialSubscriptions: { subs in
-                subs.append(QuerySubscription<FlexibleSync_Task>(name: "all_tasks"))
-            })
+            var thisFlexSyncConfig = thisUser.flexibleSyncConfiguration()
             thisFlexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
                 let thisRealm = try await Realm(configuration: thisFlexSyncConfig)
+                let subscriptions = thisRealm.subscriptions
+                try await subscriptions.update {
+                    subscriptions.append(
+                        QuerySubscription<FlexibleSync_Task>(name: "all_tasks")
+                    )
+                }
                 print("Successfully opened realm: \(thisRealm)")
+                XCTAssertEqual(thisRealm.subscriptions.count, 1)
                 try thisRealm.write {
                     thisRealm.deleteAll()
                 }
@@ -248,9 +253,8 @@ class FlexibleSync: XCTestCase {
                 let thisTasks = thisRealm.objects(FlexibleSync_Task.self)
                 XCTAssertEqual(thisTasks.count, 2)
                 print("Successfully added tasks to realm: \(thisTasks)")
-                let subs = thisRealm.subscriptions
-                try await subs.update {
-                    subs.removeAll()
+                try await subscriptions.update {
+                    subscriptions.removeAll()
                 }
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")

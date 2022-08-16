@@ -1,3 +1,74 @@
+# August 12, 2022
+
+## Node.js SDK
+- Landing page: Bug fix in "Update Live Objects" code example
+
+## Other
+- Realm docs landing page: Update Hero image
+- Various Snyk upgrades and version bumps in example apps
+
+# August 5, 2022
+
+## .NET SDK
+- Usage Examples/React to Changes: Add a new section with tested code examples for "Check if the Collection Has Been Cleared"
+
+## Node.js SDK
+- Usage Examples
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
+  - Flexible Sync: Remove `reRunOnOpen` API from docs
+
+## React Native SDK
+- Usage Examples
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
+  - Flexible Sync: Remove `reRunOnOpen` API from docs
+
+## Swift SDK
+- Sync Data/Configure & Open a Synced Realm: Add a note about `writeCopy` only supporting Partition-Based Sync
+- Code examples and docs updated across 10 pages related to Swift SDK IA updates (CRUD operations, data modeling, and Add Device Sync to an App)
+
+# July 29, 2022
+
+## .NET SDK
+- Advanced Guides/Client Resets: Update client reset handler docs to reflect `DiscardLocalResetHandler` as default
+
+## Node.js SDK
+- Advanced Guides/Access Custom User Data: Update code block formatting to fix syntax highlighting
+
+## Swift SDK
+- Install: Typo fix
+- Model Data/Model Data with Device Sync: Add section describing how to generate object models from schemas & vice versa
+- React to Changes: Note collection change listener example does not support high-frequency updates
+
+## Web SDK
+- Install: New page with instructions to install the Web SDK
+
+## Realm Studio
+- Open a Realm File: Add an "Error Opening Realm File" section re: realm file version mismatch errors
+
+## Other
+- Realm Query Language: Add documentation for additional operators: type, dictionary, and date. Page formatting updates.
+- Add Readability check to post readability scores on docs PRs
+
+# July 22, 2022
+
+## Java SDK
+- Bump Java SDK version to 10.11.1 
+
+## Kotlin SDK
+- React to Changes: New page with tested code examples for registering & unsubscribing change listeners
+
+## Node.js SDK
+- Fundamentals/Relationships & Embedded Objects: Add code example and docs for dynamically obtaining an inverse linked object
+
+## React Native SDK
+- Fundamentals/Relationships & Embedded Objects: Add code example and docs for dynamically obtaining an inverse linked object
+
+## Other
+- Various Snyk upgrades and version bumps in example apps
+- Various dependabot version bumps in example apps
+- Remove admonitions, switch to appropriate admonition types, clean up terms and source constants across all docs pages
+- Switch all YAML step files to use new rST procedure directive
+
 # July 15, 2022
 
 ## Flutter SDK

@@ -180,18 +180,28 @@ describe("Realm Query Language Reference", () => {
     const projects = realm.objects("Project");
     const noCompleteTasks = projects.filtered(
       // :snippet-start: set-operators
+      // Projects with no complete tasks.
       "NONE tasks.isComplete == true"
       // :remove-start:
     );
-    expect(noCompleteTasks.length).toBe(1);
 
     const anyTopPriorityTasks = projects.filtered(
       // :remove-end:
 
+      // Projects that contain a task with priority 10
       "ANY tasks.priority == 10"
+      // :remove-start:
+    );
+    const allTasksCompleted = projects.filtered(
+      // :remove-end:
+
+      // Projects that only contain completed tasks
+      "ALL tasks.isComplete == true"
       // :snippet-end:
     );
+    expect(noCompleteTasks.length).toBe(1);
     expect(anyTopPriorityTasks.length).toBe(1);
+    expect(allTasksCompleted.length).toBe(0);
   });
 
   test("sort, distinct and limit queries", () => {
@@ -238,6 +248,8 @@ describe("Realm Query Language Reference", () => {
     const projects = realm.objects("Project");
     const subquery = projects.filtered(
       // :snippet-start: subquery
+      // Returns projects with tasks that have not been completed
+      // by a user named Alex.
       "SUBQUERY(tasks, $task, $task.isComplete == false AND $task.assignee == 'Alex').@count > 0"
       // :remove-start:
     );
@@ -247,6 +259,8 @@ describe("Realm Query Language Reference", () => {
     const subquery2 = projects.filtered(
       // :remove-end:
 
+      // Returns the projects where the number of completed tasks is
+      // greater than or equal to the value of a project's `quota` property.
       "SUBQUERY(tasks, $task, $task.isComplete == true).@count >= quota"
       // :snippet-end:
     );
@@ -257,12 +271,368 @@ describe("Realm Query Language Reference", () => {
   test("predicate substitution", () => {
     const tasks = realm.objects("Task");
 
+    // prettier-ignore
     const substitution = tasks.filtered(
       // :snippet-start: predicate
-      "progressMinutes > 1 AND assignee == $0",
-      "Ali"
+      "progressMinutes > 1 AND assignee == $0", "Ali"
       // :snippet-end:
     );
     expect(substitution.length).toBe(1);
+  });
+
+  test("multiple predicate substitution", () => {
+    const tasks = realm.objects("Task");
+
+    // prettier-ignore
+    const substitution = tasks.filtered(
+      // :snippet-start: multiple-predicate
+      "progressMinutes > $0 AND assignee == $1", 1, "Alex"
+      // :snippet-end:
+    );
+    expect(substitution.length).toBe(1);
+  });
+  test("Basic arithmetic", () => {
+    const tasks = realm.objects("Task");
+    const basicMath = tasks.filtered(
+      // :snippet-start: basic-arithmetic
+      "2 * priority > 6"
+      // :remove-start:
+    );
+    const lessBasicMath = tasks.filtered(
+      // :remove-end:
+      // Is equivalent to
+      "priority >= 2 * (2 - 1) + 2"
+      // :snippet-end:
+    );
+
+    expect(basicMath.length).toBe(3);
+    expect(lessBasicMath.length).toBe(3);
+  });
+  test("Arithmetic with object properties", () => {
+    const tasks = realm.objects("Task");
+    const mathWithObjProps = tasks.filtered(
+      // :snippet-start: arithmetic-obj-properties
+      "progressMinutes * priority == 90"
+      // :snippet-end:
+    );
+    expect(mathWithObjProps.length).toBe(1);
+  });
+
+  describe("ObjectId and UUID tests", () => {
+    const OidUuid = {
+      name: "OidUuid",
+      properties: { id: "uuid", _id: "objectId" },
+    };
+    let realm;
+    const path = "oidUuid.realm";
+    const oidValueString = "6001c033600510df3bbfd864";
+    const uuid1String = "d1b186e1-e9e0-4768-a1a7-c492519d47ee";
+    const oidValue = new Realm.BSON.ObjectId(oidValueString);
+    const uuid1 = new Realm.BSON.UUID(uuid1String);
+    beforeAll(async () => {
+      realm = await Realm.open({ schema: [OidUuid], path });
+      const obj1 = {
+        _id: oidValue,
+        id: uuid1,
+      };
+      const obj2 = {
+        _id: new Realm.BSON.ObjectId(),
+        id: new Realm.BSON.UUID(),
+      };
+      realm.write(() => {
+        realm.create("OidUuid", obj1);
+        realm.create("OidUuid", obj2);
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+
+    test("ObjectId Operator", () => {
+      const oidUuids = realm.objects("OidUuid");
+      const oidStringLiteral = oidUuids.filtered(
+        // :snippet-start: oid
+        "_id == oid(6001c033600510df3bbfd864)"
+        // :snippet-end:
+      );
+      // prettier-ignore
+      const oidInterpolation = oidUuids.filtered(
+        // :snippet-start:oid-literal
+        "_id == $0", oidValue
+        // :snippet-end:
+      );
+
+      expect(oidStringLiteral.length).toBe(1);
+      expect(oidInterpolation.length).toBe(1);
+    });
+    test("UUID Operator", () => {
+      const oidUuids = realm.objects("OidUuid");
+      const uuid = oidUuids.filtered(
+        // :snippet-start: uuid
+        "id == uuid(d1b186e1-e9e0-4768-a1a7-c492519d47ee)"
+        // :snippet-end:
+      );
+      expect(uuid.length).toBe(1);
+    });
+  });
+  describe("Dot notation", () => {
+    const Address = {
+      name: "Address",
+      properties: { zipcode: "int" },
+    };
+    const Workplace = {
+      name: "Workplace",
+      properties: { address: "Address" },
+    };
+    const Employee = {
+      name: "Employee",
+      properties: { name: "string", workplace: "Workplace" },
+    };
+
+    let realm;
+    const path = "employee.realm";
+    beforeAll(async () => {
+      realm = await Realm.open({
+        schema: [Employee, Address, Workplace],
+        path,
+      });
+      realm.write(() => {
+        realm.create("Employee", {
+          name: "Homer",
+          workplace: {
+            address: {
+              zipcode: 10019,
+            },
+          },
+        });
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+    test("Deeply nested dot notation", () => {
+      const employees = realm.objects("Employee");
+      const deeplyNestedMatch = employees.filtered(
+        // :snippet-start: deep-dot-notation
+        "workplace.address.zipcode == 10019"
+        // :snippet-end:
+      );
+      expect(deeplyNestedMatch.length).toBe(1);
+    });
+  });
+  describe("Type operator", () => {
+    const Mixed = {
+      name: "Mixed",
+      properties: { name: "string", mixedType: "mixed" },
+    };
+
+    let realm;
+    const path = "mixed.realm";
+    beforeAll(async () => {
+      realm = await Realm.open({
+        schema: [Mixed],
+        path,
+      });
+      realm.write(() => {
+        realm.create("Mixed", {
+          name: "Marge",
+          mixedType: true,
+        });
+        realm.create("Mixed", {
+          name: "Lisa",
+          mixedType: 22,
+        });
+        realm.create("Mixed", {
+          name: "Bart",
+          mixedType: "carrumba",
+        });
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+    test("Type operator", () => {
+      const mixed = realm.objects("Mixed");
+      const mixedString = mixed.filtered(
+        // :snippet-start: type-operator
+        "mixedType.@type == 'string'"
+        // :remove-start:
+      );
+      const mixedBool = mixed.filtered(
+        // :remove-end:
+
+        "mixedType.@type == 'bool'"
+        // :snippet-end:
+      );
+      expect(mixedString.length).toBe(1);
+      expect(mixedBool.length).toBe(1);
+    });
+  });
+  describe("Date operators", () => {
+    const Datetime = {
+      name: "Date",
+      properties: { name: "string", timeCompleted: "date" },
+    };
+
+    let realm;
+    const path = "date.realm";
+    beforeAll(async () => {
+      realm = await Realm.open({
+        schema: [Datetime],
+        path,
+      });
+      realm.write(() => {
+        realm.create("Date", {
+          name: "now",
+          timeCompleted: new Date(),
+        });
+        realm.create("Date", {
+          name: "after",
+          timeCompleted: new Date(),
+        });
+        realm.create("Date", {
+          name: "past",
+          timeCompleted: new Date("December 17, 1985 03:24:00"),
+        });
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+    test("Date operators", () => {
+      const dates = realm.objects("Date");
+      const someDate = new Date("December 17, 2011 03:24:00");
+
+      // prettier-ignore
+      const dateParameterizedQuery = dates.filtered(
+        // :snippet-start: date-parameterized-query
+        "timeCompleted < $0", someDate
+        // :snippet-end:
+      );
+
+      const dateAlt1 = dates.filtered(
+        // :snippet-start: date-alt-representation
+        "timeCompleted > 2021-02-20@17:30:15:0"
+        // :remove-start:
+      );
+      const dateAlt2 = dates.filtered(
+        // :remove-end:
+        "timeCompleted > 2021-02-20@17:30:15:0"
+        // :snippet-end:
+      );
+
+      expect(dateParameterizedQuery.length).toBe(1);
+      expect(dateAlt1.length).toBe(2);
+      expect(dateAlt2.length).toBe(2);
+    });
+  });
+  describe("Dictionary operators", () => {
+    const Dictionary = {
+      name: "Dictionary",
+      properties: { dict: "{}" },
+    };
+
+    let realm;
+    const path = "dictionary.realm";
+    beforeAll(async () => {
+      realm = await Realm.open({
+        schema: [Dictionary],
+        path,
+      });
+      realm.write(() => {
+        realm.create("Dictionary", {
+          dict: {
+            foo: "bar",
+          },
+        });
+        realm.create("Dictionary", {
+          dict: {
+            isTrue: false,
+          },
+        });
+        realm.create("Dictionary", {
+          dict: {
+            baz: "Biz",
+            num: 1.0, // Note: Realm treats this as a double internally
+          },
+        });
+      });
+    });
+    afterAll(() => {
+      realm.close();
+      Realm.deleteFile({ path });
+    });
+    test("Dictionary operators", () => {
+      const dictionaries = realm.objects("Dictionary");
+
+      const fooKey = dictionaries.filtered(
+        // :snippet-start: dictionary-operators
+        // Evaluates if there is a dictionary key with the name 'foo'
+        "ANY dict.@keys == 'foo'"
+
+        // :remove-start:
+      );
+      const fooBarKeyValue = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+        "dict['foo'] == 'bar'"
+
+        // :remove-start:
+      );
+
+      const numItemsInDict = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if there is a dictionary key with key 'foo' and value 'bar
+        "dict.@count > 1"
+
+        // :remove-start:
+      );
+
+      const hasString = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if dictionary has property of type 'string'
+        "ANY dict.@type == 'string'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const allBool = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if all the dictionary's values are integers
+        "ALL dict.@type == 'bool'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const noFloats = dictionaries.filtered(
+        // :remove-end:
+        // Evaluates if dictionary does not have any values of type int
+        "NONE dict.@type == 'double'"
+
+        // :remove-start:
+      );
+
+      // TODO: fails, unsure why
+      const allStringNoKeyWord = dictionaries.filtered(
+        // :remove-end:
+        // ANY is implied.
+        "dict.@type == 'string'"
+        // :snippet-end:
+      );
+
+      expect(fooKey.length).toBe(1);
+      expect(fooBarKeyValue.length).toBe(1);
+      expect(numItemsInDict.length).toBe(1);
+      expect(hasString.length).toBe(2);
+      expect(allBool.length).toBe(1);
+      expect(noFloats.length).toBe(2);
+      expect(allStringNoKeyWord.length).toBe(2);
+    });
   });
 });

@@ -1,5 +1,5 @@
 // find a cat named "Clover"
-const cloverCat = cats.filtered("name == 'Clover'");
+const cloverCat = cats.filtered("name == 'Clover'")[0];
 // update the Cat in a write transaction
 realm.write(() => {
   // update clover's age to 5 years old

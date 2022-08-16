@@ -96,12 +96,8 @@ the transaction immediately after the callback.
       .. tab::
          :tabid: swift
 
-         .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.transaction.swift
+         .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.transaction.swift
             :language: swift
-
-.. seealso::
-
-   :ref:`Usage Example: Read and Write Data <ios-read-and-write-data>`
 
 .. _ios-interface-driven-writes:
 .. _ios-silent-writes:
@@ -145,8 +141,8 @@ the UI.
 Create a New Object
 -------------------
 
-About These Examples
-~~~~~~~~~~~~~~~~~~~~
+About The Examples On This Page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The examples on this page use the following models:
 
@@ -155,7 +151,7 @@ The examples on this page use the following models:
    .. tab::
       :tabid: swift
       
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.models.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.models.swift
          :language: swift
 
    .. tab::
@@ -179,7 +175,7 @@ Create an Object
       <Structs/Realm.html#/s:10RealmSwift0A0V3add_6updateySo0aB6ObjectC_AC12UpdatePolicyOtF>`
       inside of a write transaction.
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.create.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.create.swift
          :language: swift
 
    .. tab::
@@ -220,7 +216,7 @@ values:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.nested-objects.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.nested-objects.swift
          :language: swift
 
    .. tab::
@@ -256,7 +252,7 @@ convert JSON into a value that you can pass to
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.json.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.json.swift
          :language: swift
 
    .. tab::
@@ -300,7 +296,7 @@ to a parent object's property:
    .. tab::
       :tabid: swift
 
-      .. literalinclude:: /examples/generated/code/start/EmbeddedObjects.snippet.create-an-embedded-object.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.create-an-embedded-object.swift
          :language: swift
 
    .. tab::
@@ -308,6 +304,51 @@ to a parent object's property:
 
       .. literalinclude:: /examples/EmbeddedObjects/CreateEmbeddedObject.m
          :language: objectivec
+
+.. _swift-create-object-map-property:
+
+Create an Object with a Map Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create an object that has a :swift-sdk:`map property 
+<Classes/Map.html>`, you can set the values for keys in a few ways: 
+
+- Set keys and values on the object and then add the object to the realm
+- Set the object's keys and values directly inside a write transaction
+- Use key-value coding to set or update keys and values inside a write transaction
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.map.swift
+   :language: swift
+
+.. _swift-create-object-mutableset-property:
+
+Create an Object with a MutableSet Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create objects that contain :swift-sdk:`MutableSet 
+<Classes/MutableSet.html>` properties as you would any Realm object, but you
+can only mutate a MutableSet within a write transaction. This means you can
+only set the value(s) of a mutable set property within a write transaction.
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.set-collections.swift
+   :language: swift
+
+.. _swift-create-object-anyrealvalue-property:
+
+Create an Object with an AnyRealmValue Property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create an object with an :ref:`AnyRealmValue property 
+<ios-mixed-data-type>`, you must specify the type of the value you store in 
+the property. The Realm Swift SDK provides an :swift-sdk:`AnyRealmValue enum 
+<Enums/AnyRealmValue.html>` that iterates through all of the types the 
+AnyRealmValue can store.
+
+Later, when you :ref:`read an AnyRealmValue <swift-read-anyrealmvalue-property>`, 
+you must check the type before you do anything with the value.
+
+.. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.mixed-data-type.swift
+   :language: swift
 
 .. _ios-copy-an-object-to-another-realm:
 
@@ -323,7 +364,7 @@ Copy an Object to Another Realm
       object to :swift-sdk:`Realm.create(_:value:update:):
       <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>`:
 
-      .. literalinclude:: /examples/generated/code/start/ReadWriteData.snippet.copy-to-another-realm.swift
+      .. literalinclude:: /examples/generated/code/start/CreateRealmObjects.snippet.copy-to-another-realm.swift
          :language: swift
 
    .. tab::
