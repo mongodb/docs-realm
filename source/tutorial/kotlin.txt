@@ -1,0 +1,127 @@
+.. _kotlin-tutorial:
+
+================================
+Xamarin (Android & iOS) Tutorial
+================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+Realm provides a Kotlin SDK that allows you to create an Android mobile
+application with Xamarin and C#. This tutorial is based on the Kotlin Flexible
+Sync Template App, named ``kotlin.todo.flex``, which illustrates the creation of
+a Item List management application. This application enables users to: 
+
+- Register their email as a new user account.
+- Sign in to their account with their email and password (and sign out later).
+- View, create, modify, and delete tasks.
+
+This tutorial adds on to the Template App. You will add a new ``Priority`` field 
+to the existing ``Item`` model and update the 
+:ref:`Flexible Sync subscription <queryable-fields>` to only show items within 
+a range of priorities. 
+
+Depending on your experience with Kotlin, this tutorial should take 
+around 30 minutes.
+
+.. note:: Check Out the Quick Start
+   
+   If you prefer to get started with your own application rather than follow a 
+   guided tutorial, check out the :ref:`Kotlin Quick Start <kotlin-client-quick-start>`. 
+   It includes copyable code examples and the essential information that you 
+   need to set up an Atlas App Services backend.
+
+Prerequisites
+-------------
+
+1. Ensure that you have the following installed:
+
+.. include:: /includes/kotlin-install-prerequisites.rst
+
+2. You need previous experience deploying a Kotlin app to an Android Emulator, and/or a physical device.
+
+Start with the Template
+-----------------------
+This tutorial is based on the Kotlin SDK Flexible Sync Template App named 
+``kotlin.todo.flex``. We start with the default app and build new features 
+on it. 
+
+From Realm CLI, you can run the :ref:`realm-cli apps create 
+<realm-cli-apps-create>` command to set up the backend and create the 
+SwiftUI base app. The following command creates a new app based on the 
+kotlin.todo.flex template. With the options flags we can pass during creation,
+the command below creates an app:
+
+- Named "MyTutorialApp"
+- Deployed in the US-VA region
+- With the environment set to "development" (instead of production or QA)
+
+.. code-block:: shell
+
+   realm-cli apps create -n MyTutorialApp --template kotlin.todo.flex 
+      --deployment-model global --location us-va --environment development
+
+To learn more about the Template Apps, and to install the Template App that this 
+tutorial uses in the Atlas App Services UI, see :ref:`template-applications`. 
+
+Set up the Template App
+-----------------------
+
+.. procedure::
+
+   .. step:: Open the App
+
+      Navigate to the directory where the Realm CLI created the Template App. 
+      The client code is in a ``frontend/kotlin.todo.flex`` directory.
+      Open the ``build.gradle.kts`` in Android Studio.
+
+   .. step:: Explore the App Structure
+
+      Take a few minutes to explore how the project is organized while Android
+      Studio indexes your project. Within the `app/java/com.mongodb.app`
+      directory, you can see a few files worth noting :
+
+      .. cssclass:: config-table
+      .. list-table::
+         :header-rows: 1
+         :widths: 35 65
+
+         * - File
+           - Purpose
+
+         * - Item.kt
+           - Defines the Realm object we store in the database.
+
+         * - ItemPage.xaml.cs
+           - Provides the functionality for viewing, updating, and deleting items 
+             in the user's todo list.
+
+         * - NewItemPopup.xaml and NewItemPopup.xaml.cs
+           - Provides the functionality to add a new item to the list.
+
+   .. step:: Run the App
+
+      Without making any changes to the code, you should be able to run the app 
+      in either the Android emulator or the iOS Simulator, or on a physical device.
+      When you installed the template app, the Realm CLI also set up a new 
+      backend for you and populated the ``realm.json`` file with the correct app 
+      ID. 
+
+      Run the app, register a new user account, and then add a new Item to your 
+      todo list.
+
+   .. step:: Check the Backend
+
+      Log in to `Atlas App Services <http://cloud.mongodb.com>`_. In the 
+      :guilabel:`Atlas` tab, click on :guilabel:`Browse Collections`. In the list 
+      of databases, find and expand the :guilabel:`todo` database, and then the 
+      :guilabel:`Item` collection. You should see the document you created 
+      in this collection.
