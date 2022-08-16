@@ -175,7 +175,7 @@ Alternatively, you can use the :dotnet-sdk:`BeginWriteAsync()
 <reference/Realms.Realm.html#Realms_Realm_BeginWriteAsync_System_Threading_CancellationToken_>`
 method to execute multiple changes to your realm objects in a performant way.
 ``BeginWriteAsync()`` acquires the write lock asynchronously. You can then
-choose to commit the transaction with asynchronously with
+choose to commit the transaction asynchronously with
 :dotnet-sdk:`CommitAsync()
 <reference/Realms.Transaction.html#Realms_Transaction_CommitAsync_System_Threading_CancellationToken_>`
 or synchronously with :dotnet-sdk:`Commit()
