@@ -1,8 +1,4 @@
-// :snippet-start: custom-app-wrapper
 import * as Realm from "realm-web";
-// :remove-start:
-import Layout from "../components/layout";
-// :remove-end:
 import AppServicesContext from "../realm/AppServicesContext";
 
 function MyApp({ Component, pageProps }) {
@@ -10,16 +6,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AppServicesContext.Provider value={appServices}>
-      {/* :remove-start:*/}
-      <Layout>
-        {/* :remove-end: */}
         <Component {...pageProps} />
-        {/* :remove-start:*/}
-      </Layout>
-      {/* :remove-end: */}
     </AppServicesContext.Provider>
   );
 }
 
 export default MyApp;
-// :snippet-end:

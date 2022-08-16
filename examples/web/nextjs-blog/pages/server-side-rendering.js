@@ -1,21 +1,6 @@
+// :snippet-start: server-side
 import nookies from "nookies";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
-
-export default function Ssr({ lily }) {
-  console.log(lily);
-  return (
-    <div>
-      {lily ? (
-        <div>
-          <p>{lily.name}</p>
-          <p>{lily.color}</p>
-        </div>
-      ) : (
-        "no plant"
-      )}
-    </div>
-  );
-}
 
 const createClient = (token) =>
   new ApolloClient({
@@ -41,6 +26,7 @@ const GET_PLANT = gql`
     }
   }
 `;
+
 export async function getServerSideProps(context) {
   const { accessToken } = nookies.get(context);
   const client = createClient(accessToken);
@@ -55,3 +41,21 @@ export async function getServerSideProps(context) {
     props: { lily },
   };
 }
+// :snippet-end:
+
+// :snippet-start: props-page-component
+export default function Ssr({ lily }) {
+  return (
+    <div>
+      {lily ? (
+        <div>
+          <p>{lily.name}</p>
+          <p>{lily.color}</p>
+        </div>
+      ) : (
+        "no plant"
+      )}
+    </div>
+  );
+}
+// :snippet-end:

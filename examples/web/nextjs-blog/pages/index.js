@@ -1,19 +1,11 @@
+// :snippet-start: log-in-index-js
 import { useEffect, useContext } from "react";
 import * as Realm from "realm-web";
+// :remove-start:
 import { setCookie } from "nookies";
+// :remove-end:
 import AppServicesContext from "../realm/AppServicesContext";
 import Link from "next/link";
-
-// Set access token as a cookie for use with server-side rendering
-function setAccessTokenCookie(user) {
-  setCookie(null, "accessToken", user.accessToken);
-  // Refresh token before session expires
-  const TWENTY_MIN_MS = 1200000;
-  setInterval(async () => {
-    await user.refreshCustomData();
-    setCookie(null, "accessToken", user.accessToken);
-  }, TWENTY_MIN_MS);
-}
 
 export default function Home() {
   const app = useContext(AppServicesContext);
@@ -33,6 +25,8 @@ export default function Home() {
   }, [app, app?.currentUser, app?.currentUser?.id]);
 
   return (
+    //Your app
+    // :remove-start:
     <div>
       <h1>Realm Web & Next.js Examples</h1>
       <ul>
@@ -52,5 +46,20 @@ export default function Home() {
         </li>
       </ul>
     </div>
+    // :remove-end:
   );
+}
+// :snippet-end:
+
+// Set access token as a cookie for use with server-side rendering
+function setAccessTokenCookie(user) {
+  setCookie(null, "accessToken", user.accessToken);
+  // Refresh token before session expires
+  // :snippet-start: time-out
+  const TWENTY_MIN_MS = 1200000;
+  setInterval(async () => {
+    await user.refreshCustomData();
+    setCookie(null, "accessToken", user.accessToken);
+  }, TWENTY_MIN_MS);
+  // :snippet-end:
 }

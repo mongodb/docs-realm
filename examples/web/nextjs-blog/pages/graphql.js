@@ -1,3 +1,5 @@
+// :snippet-start: whole-code-ex
+// :snippet-start: apollo-imports
 import { useContext } from "react";
 import {
   ApolloClient,
@@ -8,8 +10,10 @@ import {
   gql,
 } from "@apollo/client";
 import AppServicesContext from "../realm/AppServicesContext";
+// :snippet-end:
 
-export default function GraphQLProvider() {
+// :snippet-start: apollo-provider
+function GraphQLProvider() {
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
     link: new HttpLink({
@@ -25,11 +29,13 @@ export default function GraphQLProvider() {
   });
   return (
     <ApolloProvider client={client}>
-      <GraphQL />
+      <GraphQLConsumer />
     </ApolloProvider>
   );
 }
+// :snippet-end:
 
+// :snippet-start: mongo-query
 const GET_PLANT = gql`
   query Plant($name: String!) {
     plant(query: { name: $name }) {
@@ -43,7 +49,7 @@ const GET_PLANT = gql`
   }
 `;
 
-function GraphQL() {
+function GraphQLConsumer() {
   const { loading, error, data } = useQuery(GET_PLANT, {
     variables: { name: "lily of the valley" },
   });
@@ -62,3 +68,16 @@ function GraphQL() {
     </div>
   );
 }
+// :snippet-end:
+
+// :snippet-start: full-graphql-page
+
+const FullGraphQLPage = () => {
+  <GraphQLProvider>
+    <GraphQLConsumer />
+  </GraphQLProvider>;
+};
+export default FullGraphQLPage;
+
+// :snippet-end:
+// :snippet-end:

@@ -1,4 +1,3 @@
-// :snippet-start: mongo-data-access
 import { useContext, useEffect, useState } from "react";
 import AppServicesContext from "../realm/AppServicesContext";
 
@@ -17,9 +16,6 @@ export default function MongoDbDataAccess() {
   }, [app, app.currentUser, app.currentUser?.id]);
   return (
     <div>
-      {/* :remove-start:*/}
-      <h1>Data from MongoDB Data</h1>
-      {/* :remove-end: */}
       {plant ? (
         <div>
           <p>{plant.name}</p>
@@ -31,4 +27,3 @@ export default function MongoDbDataAccess() {
     </div>
   );
 }
-// :snippet-end:
