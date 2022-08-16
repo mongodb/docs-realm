@@ -100,19 +100,31 @@ Set up the Template App
          * - Item.kt
            - Defines the Realm object we store in the database.
 
-         * - ItemPage.xaml.cs
-           - Provides the functionality for viewing, updating, and deleting items 
-             in the user's todo list.
+         * - ItemActivity.kt
+           - UI-based class that opens a realm, and adds functionality for
+           writing Items to the realm, logging a user out, and closing a realm.
 
-         * - NewItemPopup.xaml and NewItemPopup.xaml.cs
-           - Provides the functionality to add a new item to the list.
+         * - ItemAdapter.kt
+           - Adapter that displays a list of Items in an Android
+           RecyclerView, and allows users to check & uncheck items updating
+           their status, and delete items.
+
+         * - LoginActivity.kt
+           - UI-based class that provides functionality for registering a user
+           and logging a user in.
+
+         * - TemplateApp.kt
+           - Class that initializes the App Services App
+           
 
    .. step:: Run the App
 
-      Without making any changes to the code, you should be able to run the app 
-      in either the Android emulator or the iOS Simulator, or on a physical device.
+      Without making any changes to the code, you should be able to
+      :android:`run the app <studio/run>`  
+      on an Android Emulator using Android Studio, or on a physical device.
+
       When you installed the template app, the Realm CLI also set up a new 
-      backend for you and populated the ``realm.json`` file with the correct app 
+      backend for you and populated the ``realm.xml`` file with the correct app 
       ID. 
 
       Run the app, register a new user account, and then add a new Item to your 
