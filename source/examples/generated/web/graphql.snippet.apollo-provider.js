@@ -1,4 +1,4 @@
-function GraphQLProvider() {
+function GraphQLProvider({ children }) {
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
     link: new HttpLink({
@@ -12,9 +12,5 @@ function GraphQLProvider() {
     }),
     cache: new InMemoryCache(),
   });
-  return (
-    <ApolloProvider client={client}>
-      <GraphQLConsumer />
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

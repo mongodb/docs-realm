@@ -14,6 +14,7 @@ export default function MongoDbDataAccess() {
       });
     }
   }, [app, app.currentUser, app.currentUser?.id]);
+
   return (
     <div>
       {plant ? (

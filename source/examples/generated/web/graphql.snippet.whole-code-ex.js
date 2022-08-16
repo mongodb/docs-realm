@@ -1,5 +1,3 @@
-// :snippet-start: whole-code-ex
-// :snippet-start: apollo-imports
 import { useContext } from "react";
 import {
   ApolloClient,
@@ -10,9 +8,7 @@ import {
   gql,
 } from "@apollo/client";
 import AppServicesContext from "../realm/AppServicesContext";
-// :snippet-end:
 
-// :snippet-start: apollo-provider
 function GraphQLProvider({ children }) {
   const app = useContext(AppServicesContext);
   const client = new ApolloClient({
@@ -29,9 +25,7 @@ function GraphQLProvider({ children }) {
   });
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
-// :snippet-end:
 
-// :snippet-start: mongo-query
 const GET_PLANT = gql`
   query Plant($name: String!) {
     plant(query: { name: $name }) {
@@ -64,9 +58,7 @@ function GraphQLConsumer() {
     </div>
   );
 }
-// :snippet-end:
 
-// :snippet-start: full-graphql-page
 function FullGraphQLPage() {
   return (
     <GraphQLProvider>
@@ -76,5 +68,3 @@ function FullGraphQLPage() {
 }
 export default FullGraphQLPage;
 
-// :snippet-end:
-// :snippet-end:
