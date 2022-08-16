@@ -1,0 +1,52 @@
+.. _flutter-sync-multiple-processes:
+
+=================================
+Sync Data from Multiple Processes
+=================================
+
+You can use a single realm database to synchronize data from multiple processes
+using Atlas Device Sync.
+
+Examples of scenarios where you might want to open a synced realm in a multiple
+process include:
+
+- A multi-window desktop application where each window writes to the same synced realm.
+- A server application that writes to a synced realm from multiple processes.
+
+On a high level, syncing data to a realm from multiple processes consists
+of the following:
+
+#. Creating a single **main process** that opens a Realm using a standard flexible
+   sync configuration. The main process handles synchronization.
+#. Creating one or more **secondary processes** that open the same realm using a
+   disconnected sync configuration. The secondary processes can read
+   and write data to the realm.
+
+To open a synced realm in the main process, open the realm using the
+:flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
+constructor. For more information, refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
+
+.. code-block:: dart
+   :caption: main_process.dart
+
+   // same realm file location as secondary process
+   String realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
+
+   Configuration flexibleConfig = Configuration.flexibleSync(user, schema, path: realmPath);
+   Realm realmWithSync = realm(flexibleConfig);
+
+To open a synced realm in a secondary process, create a ``Configuration`` with the
+:flutter-sdk:`Configuration.disconnectedSync() <realm/Configuration/disconnectedSync.html>`
+constructor. Include the schema and any additional optional named arguments.
+
+.. code-block:: dart
+   :caption: secondary_process.dart
+   :emphasize-lines: 4
+
+   // same realm file location as primary process
+   final realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
+
+   final disconnectedSyncConfig = Configuration.disconnectedSync(schema, path: realmPath);
+   Realm realmWithDisconnectedSync = realm(disconnectedSyncConfig);
+
+
