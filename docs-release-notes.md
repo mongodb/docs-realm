@@ -1,3 +1,12 @@
+# August 12, 2022
+
+## Node.js SDK
+- Landing page: Bug fix in "Update Live Objects" code example
+
+## Other
+- Realm docs landing page: Update Hero image
+- Various Snyk upgrades and version bumps in example apps
+
 # August 5, 2022
 
 ## .NET SDK
