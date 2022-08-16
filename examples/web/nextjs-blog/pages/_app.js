@@ -1,9 +1,7 @@
-// :snippet-start: custom-app-wrapper
 import { useEffect, useMemo } from "react";
+// :snippet-start: custom-app-wrapper
 import * as Realm from "realm-web";
-// :remove-start:
 import Layout from "../components/layout";
-// :remove-end:
 import AppServicesContext from "../realm/AppServicesContext";
 import { setCookie } from "nookies";
 
