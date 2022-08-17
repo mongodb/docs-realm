@@ -85,6 +85,7 @@ authentication documentation.
                 :language: javascript
 
 .. tip::
+
     See Also: `Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
 
 Client-Side Rendering
@@ -248,6 +249,7 @@ All together, server-side rendering page looks as follows:
             :language: javascript
 
 .. tip::
+
     See also: :ref:`Alternative ways to Query MongoDB from Next.js section <alternate-ways>`
 
 Static Rendering
@@ -276,7 +278,7 @@ You can use this integration to supplement your app by adding:
         inside are not accessible from the browser, only from your local Next 
         environment. Store your key as a variable in this file, for example:
             .. code-block:: javascript        
-                   
+
                 REALM_API_KEY = process.env.REALM_API_KEY;
         Then, you can reference this variable in a file within the `pages/api` folder. 
         On the client side, you can fetch from said file to log in, without the client 
