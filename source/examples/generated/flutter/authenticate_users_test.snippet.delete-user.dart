@@ -1,2 +1,2 @@
-final currentUser = app.currentUser!;
+User currentUser = app.currentUser!;
 await app.deleteUser(currentUser);

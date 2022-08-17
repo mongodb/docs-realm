@@ -237,7 +237,7 @@ void main() {
         Credentials.emailPassword("moe@example.com", "myStr0ngPassw0rd");
     await app.logIn(credentials);
     // :snippet-start: delete-user
-    final currentUser = app.currentUser!;
+    User currentUser = app.currentUser!;
     await app.deleteUser(currentUser);
     // :snippet-end:
     expect(app.currentUser, null);
