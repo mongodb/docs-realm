@@ -1,10 +1,9 @@
-// @Skip('currently failing (see issue 1234)')
-
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import './utils.dart';
 
-const APP_ID = "example-testers-kvjdy";
+const APP_ID = "flutter-flexible-luccm";
 
 void main() {
   late App app;
@@ -57,6 +56,51 @@ void main() {
       // :snippet-end:
       expect(app.currentUser != null, true);
       expect(emailPwCredentials.provider, AuthProviderType.emailPassword);
+    });
+    test("Custom JWT user", () async {
+      Future<String> authenticateWithExternalSystem() async {
+        // Create a json web token
+        final jwt = JWT(
+          {
+            "aud": "flutter-flexible-luccm",
+            "sub": "example-user3",
+            "name": "Jane Floww",
+            "iat": 1660769831648,
+            "exp": 1660769831648 + 1000000000000000000,
+          },
+        );
+        final token = jwt.sign(
+          SecretKey('E7D8WBPZD0Q37432NG51E7D8WBPZD0Q37432NG51'),
+        );
+        return token;
+      }
+
+      // :snippet-start: custom-jwt-credentials
+      String token = await authenticateWithExternalSystem();
+      Credentials jwtCredentials = Credentials.jwt(token);
+      User currentUser = await app.logIn(jwtCredentials);
+      print(currentUser.id);
+      // :snippet-end:
+    });
+    test("Custom Function user", () async {
+      // :snippet-start: custom-function-credentials
+      // :snippet-end:
+    });
+    test("Facebook user", () async {
+      // :snippet-start: facebook-credentials
+      // :snippet-end:
+    });
+    test("Google user (auth code)", () async {
+      // :snippet-start: google-auth-code-credentials
+      // :snippet-end:
+    });
+    test("Google user (ID token)", () async {
+      // :snippet-start: google-id-token-credentials
+      // :snippet-end:
+    });
+    test("Apple user", () async {
+      // :snippet-start: apple-credentials
+      // :snippet-end:
     });
   });
   test("Log out user", () async {
