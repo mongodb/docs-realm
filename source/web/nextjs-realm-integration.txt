@@ -137,6 +137,7 @@ MongoDB using GraphQL.
     .. step:: Import Dependencies
 
         Import relevant Apollo Client dependencies and our AppServicesContext:
+        
             .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
                 :language: javascript
     .. step:: Create GraphQLProvider
@@ -155,8 +156,8 @@ MongoDB using GraphQL.
             .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
                 :language: javascript
     .. step:: Export
-        
         Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
+
             .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
             :language: javascript
 All together, the graphQL page looks as follows: 
@@ -208,6 +209,7 @@ Next.js.
 1. Install dependencies
 
     Install the following npm packages:
+
         .. code-block:: shell
 
             npm install nookies
@@ -224,13 +226,15 @@ Next.js.
 
     a. Create a new page file to perform the server-side rendering.
     #. Import the relevant dependencies
+
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
             :language: javascript
     #. Create a function that creates a server-side graphql client on every request with the user’s current auth token.
+        
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
             :language: javascript        
     #. Create the GraphQL request that to be used by the server to fetch data
-    
+
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
             :language: javascript
     #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__ 
@@ -243,10 +247,12 @@ Next.js.
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
             :language: javascript  
     #. Render the data.
+
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
         :language: javascript
         
-All together, server-side rendering page looks as follows: 
+All together, server-side rendering page looks as follows:
+
      .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.whole-code-ex.js
             :language: javascript
 
