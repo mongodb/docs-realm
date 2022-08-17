@@ -214,45 +214,45 @@ Next.js.
 
 .. procedure::
 
-.. step:: Install dependencies
+    .. step:: Install dependencies
 
-      Install the following npm packages:
+        Install the following npm packages:
 
-      .. code-block:: shell
-         
-         npm install nookies
+        .. code-block:: shell
             
-.. step:: Update authentication to use cookies
+            npm install nookies
+                
+    .. step:: Update authentication to use cookies
 
-      Update ``pages/_app.js`` to save the access token as a cookie. You need to save 
-      it as a cookie to have it transfer to the server on every request. Do this in a 
-      useEffect hook that runs every time there's a change in the user object. This hook 
-      also creates a setInterval that updates the cookie every 20 minutes so that the 
-      credential is reset in cookies before expiring. 
+        Update ``pages/_app.js`` to save the access token as a cookie. You need to save 
+        it as a cookie to have it transfer to the server on every request. Do this in a 
+        useEffect hook that runs every time there's a change in the user object. This hook 
+        also creates a setInterval that updates the cookie every 20 minutes so that the 
+        credential is reset in cookies before expiring. 
 
-      .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-            :language: javascript
+        .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+                :language: javascript
 
-.. step:: Server-side Render the Data
-    .. procedure::
+    .. step:: Server-side Render the Data
+        .. procedure::
 
-    .. step::  Create a new page file to perform the server-side rendering.
-    
-    .. step:: Import the relevant dependencies
-
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
-            :language: javascript
-
-    .. step:: Create a function that creates a server-side graphql client on every request with the user’s current auth token.
-
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-            :language: javascript
+        .. step::  Create a new page file to perform the server-side rendering.
         
-    .. step:: Create the GraphQL request that to be used by the server to fetch data
+        .. step:: Import the relevant dependencies
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
-            :language: javascript
-        
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
+                :language: javascript
+
+        .. step:: Create a function that creates a server-side graphql client on every request with the user’s current auth token.
+
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
+                :language: javascript
+            
+        .. step:: Create the GraphQL request that to be used by the server to fetch data
+
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
+                :language: javascript
+            
     .. step:: Use the Next.js `getServerSideProps<https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>` function to perform the following
         
         .. procedure::
