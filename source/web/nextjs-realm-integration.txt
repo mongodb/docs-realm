@@ -98,7 +98,7 @@ client-side JavaScript in your Next.js application. You can query MongoDB
 using either MongoDB Data Access or the Atlas GraphQL API.
 
 MongoDB Data Access
-===================
+~~~~~~~~~~~~~~~~~~~
 
 Once the Realm Web SDK is initialized, you can use MongoDB Data Access to directly 
 query MongoDB from client code in your application. 
@@ -115,7 +115,7 @@ React Context. Use `App.User.mongoClient()<https://www.mongodb.com/docs/realm-sd
     refer to `Query MongoDB<https://www.mongodb.com/docs/realm/web/mongodb/>`__. 
 
 Atlas GraphQL API
-=================
+~~~~~~~~~~~~~~~~~
 
 Alternatively, you can use the Atlas GraphQL API to query MongoDB 
 via GraphQL. The following is a code  example showing how to query 
@@ -172,15 +172,15 @@ Entire Example:
 
 .. tip::
     For more information on querying Atlas with the GraphQL API, refer 
-    to the `Atlas GraphQL API<https://www.mongodb.com/docs/atlas/app-services/graphql/#queries>`  
-    and `Apollo Client (React)<https://www.mongodb.com/docs/realm/web/graphql-apollo-react/>` documentation.
+    to the `Atlas GraphQL API <https://www.mongodb.com/docs/atlas/app-services/graphql/#queries>`__  
+    and :ref:`Apollo Client (React) <graphql-apollo-react>` documentation.
 
 Server-Side Rendering
 =====================
 
 This section shows how you can integrate Next.js server-side rendering 
 with Realm Web SDK. Use the Realm Web SDK with server-side rendering when 
-you want to access data as a specific user, applying `App Services Rules and Permissions<https://www.mongodb.com/docs/atlas/app-services/rules/>` 
+you want to access data as a specific user, applying `App Services Rules and Permissions<https://www.mongodb.com/docs/atlas/app-services/rules/> __` 
 to their queries. To query MongoDB Atlas directly from the Next.js server, 
 you must set up two different components: Atlas GraphQL API on the Next.js 
 server and Realm Web on the browser. 
@@ -212,61 +212,36 @@ Next.js.
 
 
     #. Install dependencies
-
         Install the following npm packages:
-
         .. code-block:: shell
-            
             npm install nookies
-                
     #. Update authentication to use cookies
-
         Update ``pages/_app.js`` to save the access token as a cookie. You need to save 
         it as a cookie to have it transfer to the server on every request. Do this in a 
         useEffect hook that runs every time there's a change in the user object. This hook 
         also creates a setInterval that updates the cookie every 20 minutes so that the 
         credential is reset in cookies before expiring. 
-
         .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
                 :language: javascript
-
-    .. step:: Server-side Render the Data
-        .. procedure::
-
-        .. step::  Create a new page file to perform the server-side rendering.
-        
-        .. step:: Import the relevant dependencies
-
+    #. Server-side Render the Data
+        #. Create a new page file to perform the server-side rendering.
+        #. Import the relevant dependencies
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
                 :language: javascript
-
-        .. step:: Create a function that creates a server-side graphql client on every request with the user’s current auth token.
-
+        #. Create a function that creates a server-side graphql client on every request with the user’s current auth token.
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-                :language: javascript
-            
-        .. step:: Create the GraphQL request that to be used by the server to fetch data
-
+                :language: javascript        
+        #. Create the GraphQL request that to be used by the server to fetch data
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
                 :language: javascript
-            
-    .. step:: Use the Next.js `getServerSideProps<https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>` function to perform the following
-        
-        .. procedure::
-
-        .. step::  Parse access token from  cookies.
-        
-        .. step:: Create a graphql client with the access token.
-
-        .. step:: Run the GraphQL query.
-            
-        .. step:: Return data to be used in the server-side render.
-
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
-            :language: javascript  
-
-        .. step:: Render the data.
-
+        #. Use the Next.js `getServerSideProps<https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>` function to perform the following:
+            #. Parse access token from  cookies.           
+            #. Create a graphql client with the access token.
+            #. Run the GraphQL query.               
+            #. Return data to be used in the server-side render.
+                .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
+                :language: javascript  
+        #. Render the data.
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
             :language: javascript
             
