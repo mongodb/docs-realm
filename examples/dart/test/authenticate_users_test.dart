@@ -8,9 +8,10 @@ const APP_ID = "example-testers-kvjdy";
 
 void main() {
   late App app;
+  late EmailPasswordAuthProvider authProvider;
   setUpAll(() async {
     app = App(AppConfiguration(APP_ID));
-    EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+    authProvider = EmailPasswordAuthProvider(app);
     try {
       await authProvider.registerUser("lisa@example.com", "myStr0ngPassw0rd");
     } catch (err) {
@@ -229,4 +230,16 @@ void main() {
       expect(updatedCustomData, user.customData);
     });
   });
+
+  test('Delete user', () async {
+    await authProvider.registerUser("lisa@example.com", "myStr0ngPassw0rd");
+    final credentials =
+        Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
+    await app.logIn(credentials);
+    // :snippet-start: delete-user
+    final currentUser = app.currentUser!;
+    // await App.deleteUser(currentUser);
+    // :snippet-end:
+    expect(app.currentUser, null);
+  }, skip: "skip til 0.3.2+beta working");
 }
