@@ -232,14 +232,14 @@ void main() {
   });
 
   test('Delete user', () async {
-    // await authProvider.registerUser("lisa@example.com", "myStr0ngPassw0rd");
-    // final credentials =
-    //     Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
-    // await app.logIn(credentials);
-    // // :snippet-start: delete-user
-    // final currentUser = app.currentUser!;
-    // await app.deleteUser(currentUser);
-    // // :snippet-end:
-    expect(true, false);
+    await authProvider.registerUser("moe@example.com", "myStr0ngPassw0rd");
+    final credentials =
+        Credentials.emailPassword("moe@example.com", "myStr0ngPassw0rd");
+    await app.logIn(credentials);
+    // :snippet-start: delete-user
+    final currentUser = app.currentUser!;
+    await app.deleteUser(currentUser);
+    // :snippet-end:
+    expect(app.currentUser, null);
   });
 }

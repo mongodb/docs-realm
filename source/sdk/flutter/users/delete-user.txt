@@ -14,11 +14,8 @@ Call the :flutter-sdk:`App.deleteUser() <realm/App/deleteUser.html>`
 on a user object to delete the user's account from your App Services App.
 This deletes the account from the App on the server in addition to clearing local data.
 
-.. code-block:: dart
-
-   User currentUser = app!.currentUser;
-
-   await App.deleteUser(currentUser);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.delete-user.dart
+   :language: dart
 
 The user must sign up for a new account to use your App in the future.
 They can use the same credentials (depending on the authentication provider),
