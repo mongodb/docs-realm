@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const user = appServices?.currentUser;
     if (user) {
+      setCookie(null, "accessToken", user.accessToken);
       // Refresh token before session expires
       const TWENTY_MIN_MS = 1200000;
       const resetAccessToken = setInterval(async () => {
