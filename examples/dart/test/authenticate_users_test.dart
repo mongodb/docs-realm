@@ -37,6 +37,18 @@ void main() {
       expect(app.currentUser != null, true);
       expect(anonCredentials.provider, AuthProviderType.anonymous);
     });
+    test("Multiple anonymous users", () async {
+      // :snippet-start: multiple-anonymous-credentials
+      User anonUser = await app.logIn(Credentials.anonymous());
+
+      User otherAnonUser =
+          await app.logIn(Credentials.anonymous(reuseCredentials: false));
+      // :snippet-end:
+      expect(anonUser.id == otherAnonUser.id, false);
+      // clean up
+      await app.deleteUser(anonUser);
+      await app.deleteUser(otherAnonUser);
+    });
     test("Email/password user", () async {
       // :snippet-start: email-password-credentials
       Credentials emailPwCredentials =

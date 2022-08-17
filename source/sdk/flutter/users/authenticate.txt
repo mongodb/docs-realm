@@ -65,13 +65,8 @@ and then pass the generated credential to
 If you want more than one anonymous users, set ``reuseCredentials: false``
 when creating additional anonymous credentials.
 
-TODO(DOCSP-22347): literalinclude
-
-.. code-block:: dart
-
-   User anonUser = await app.logIn(Credentials.anonymous());
-
-   User otherAnonUser = await app.logIn(Credentials.anonymous(reuseCredentials: false));
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.multiple-anonymous-credentials.dart
+   :language: dart
 
 .. _flutter-login-email-password:
 
