@@ -85,7 +85,7 @@ authentication documentation.
                 :language: javascript
 
 .. tip::
-    See Also: :ref:`Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
+    See Also: `Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
 
 Client-Side Rendering
 =====================
@@ -131,8 +131,10 @@ MongoDB using GraphQL.
             
             npm install @apollo/client graphql
     .. step:: Create GraphQL page.
+
         Create a new page for our GraphQL queries, ``pages/graphql.js``
     .. step:: Import Dependencies
+
         Import relevant Apollo Client dependencies and our AppServicesContext:
             .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
                 :language: javascript
@@ -176,9 +178,11 @@ you must set up two different components: Atlas GraphQL API on the Next.js
 server and Realm Web on the browser. 
 
 You may want to integrate the Web SDK and Next.js for the following reasons:
+
 - Access data stored in Atlas directly on page load.
 - Apply Atlas App Services rules and permissions to requests to reduce server-side code.
 - Reduce use of client-side JavaScript.
+
 
 On a high level, the process for using the Realm Web SDK with Next.js 
 server-side rendering is as follows:
@@ -201,11 +205,13 @@ The following steps can be used to connect the Read Web SDK to server-side
 Next.js.
 
 1. Install dependencies
+
     Install the following npm packages:
         .. code-block:: shell
 
             npm install nookies
 #. Update authentication to use cookies
+
     Update ``pages/_app.js`` to save the access token as a cookie. You need to save 
     it as a cookie to have it transfer to the server on every request. Do this in a 
     useEffect hook that runs every time there's a change in the user object. This hook 
@@ -214,6 +220,7 @@ Next.js.
         .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
             :language: javascript
 #. Server-side Render the Data
+
     a. Create a new page file to perform the server-side rendering.
     #. Import the relevant dependencies
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
@@ -268,7 +275,8 @@ You can use this integration to supplement your app by adding:
         Create a `.env.local` file. Unlike normal `.env` files, the variables stored 
         inside are not accessible from the browser, only from your local Next 
         environment. Store your key as a variable in this file, for example:
-            .. code-block:: javascript               
+            .. code-block:: javascript        
+                   
                 REALM_API_KEY = process.env.REALM_API_KEY;
         Then, you can reference this variable in a file within the `pages/api` folder. 
         On the client side, you can fetch from said file to log in, without the client 
