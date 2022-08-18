@@ -4,10 +4,16 @@
 Use Next.js with Realm Web SDK
 ==============================
 
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
 .. default-domain:: mongodb
 
-This guide covers integrating the Realm Web SDK into a
-Next.js application. The Realm Web SDK allows users to access
+The following guide teaches how to integrate the Realm Web SDK into a
+Next.js application. You can use the Realm Web SDK to access
 data from Atlas in web applications, such as those created using
 Next.js with Atlas App Services. Next.js is a React framework that
 handles app configuration and structure, and supports client-side,
@@ -17,10 +23,10 @@ utilizes the Realm Web SDK differently:
 - Client-side rendering allows you to link client Next.js code
   with the Atlas Serverless Backend through the Realm Web SDK to
   directly query MongoDB from the browser.
-- Realm Web SDK is best used with Server-side Next.js to pre-render
-  a page’s HTML on each request. When used with the Realm Web SDK, you
-  can pull Atlas data directly on page load.
-- You can use Next.js Static Rendering with the Realm Web SDK to fetch
+- Server-side Next.js allows users to pre-render a page’s HTML on 
+  each request. When used with the Realm Web SDK, you can use this
+  functionality to pull Atlas data directly on page load.
+- Next.js Static Rendering with the Realm Web SDK allos users to fetch
   data from MondoDB Atlas and generate page HTML at build time.
 
 This guide covers how to use the Realm Web SDK with Next.js client-side,
@@ -41,6 +47,7 @@ Install the Realm Web SDK in Your Next.js App
 
 This section shows you how to install the Realm Web SDK to use with your application.
 
+//get rid of Install the Web SDK header, why is that still there??
 .. include:: includes/web-quickstart-install.rst
 
 For more information, see the :ref:`Realm Web Installation <web-install>` documentation.
@@ -137,7 +144,7 @@ MongoDB using GraphQL.
     .. step:: Import Dependencies
 
         Import relevant Apollo Client dependencies and our AppServicesContext:
-        
+
             .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
                 :language: javascript
     .. step:: Create GraphQLProvider

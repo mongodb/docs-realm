@@ -1,8 +1,4 @@
 .. _web-quickstart-install:
-
-Install the Web SDK
--------------------
-
 .. tabs::
    
    .. tab:: npm
