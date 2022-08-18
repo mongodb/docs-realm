@@ -58,33 +58,34 @@ authentication <https://nextjs.org/docs/authentication#authentication-providers`
 
     .. step:: Create a context for Atlas App Services.
 
-        Generate a new application template using `create-react-app
-        <https://create-react-app.dev/>`__:
+          Generate a new application template using `create-react-app
+          <https://create-react-app.dev/>`__:
 
-            .. literalinclude:: /examples/generated/web/AppServicesContext.snippet.app-services-context.js
-                :language: javascript
-
+          .. literalinclude:: /examples/generated/web/AppServicesContext.snippet.app-services-context.js
+             :language: javascript
+    
+    
     .. step:: Create a custom app wrapper
 
-        Create a custom ``App`` page wrapper that exposes the AppServices
-        context to child components. Add the file ``pages/_app.js``.
-        Include the Provider for your React Context.
+          Create a custom ``App`` page wrapper that exposes the AppServices
+          context to child components. Add the file ``pages/_app.js``.
+          Include the Provider for your React Context.
 
-            .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-                :language: javascript
-
+          .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+              :language: javascript
+    
+    
     .. step:: Log the user in
 
-        Access the ``app`` instance from ``AppServicesContext``, and use it to log a
-        user in. You can to do this automatically in the ``pages/index.js``
-        file to authenticate the user when they arrive to your app.
+          Access the ``app`` instance from ``AppServicesContext``, and use it to log a
+          user in. You can to do this automatically in the ``pages/index.js``
+          file to authenticate the user when they arrive to your app.
 
-            .. literalinclude:: /examples/generated/web/index.snippet.log-in-index-js.js
-                :language: javascript
+          .. literalinclude:: /examples/generated/web/index.snippet.log-in-index-js.js
+              :language: javascript
 
-.. tip::
-
-    See Also: `Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
+.. seealso::
+    `Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
 
 Client-Side Rendering
 =====================
@@ -109,7 +110,6 @@ React Context. Use `App.User.mongoClient() <https://www.mongodb.com/docs/realm-s
         :language: javascript
 
 .. tip::
-
     For more comprehensive documentation of using MongoDB Data Access,
     refer to :ref:`Query MongoDB <web-query-mongodb>`.
 
@@ -141,7 +141,6 @@ via GraphQL from Next.js client-side code.
 
             .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
                 :language: javascript
-
     .. step:: Create GraphQLProvider
 
         Create an ``ApolloClient`` GraphQL client and add it to the
@@ -149,8 +148,7 @@ via GraphQL from Next.js client-side code.
         the GraphQL API with the ``GraphQLProvider``.
 
         .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-provider.js
-                :language: javascript
-
+                :language: javascrip
     .. step:: Query MongoDB with GraphQL
 
         Once the connection to the Apollo Client has been established,
@@ -159,12 +157,12 @@ via GraphQL from Next.js client-side code.
 
             .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
                 :language: javascript
-
     .. step:: Export
         Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
 
             .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
             :language: javascript
+
 All together, the GraphQL page should look as follows:
     .. literalinclude:: /examples/generated/web/graphql.snippet.whole-code-ex.js
         :language: javascript       
@@ -215,46 +213,61 @@ Next.js.
 .. procedure::
 
     .. step:: Install dependencies
-        Install the following npm packages:
 
-            .. code-block:: shell
+          Install the following npm packages:
 
-                npm install nookies
-                npm install @apollo/client graphql
-                
+          .. code-block:: shell
+
+              npm install nookies
+              npm install @apollo/client graphql
+
+
     .. step:: Update authentication to use cookies
-        Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
-        as it allows the cookie to transfer to the server on every request. Set you cookie in a
-        ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
-        This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
-        credential is reset in cookies before expiring.
 
-            .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-                :language: javascript
+          Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
+          as it allows the cookie to transfer to the server on every request. Set you cookie in a
+          ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
+          This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
+          credential is reset in cookies before expiring.
+
+          .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+              :language: javascript
+
+
     .. step:: Server-side Render the Data
-        a. Create a new page file to perform the server-side rendering.
+
+        #. Create a new page file to perform the server-side rendering.
+        
         #. Import the relevant dependencies
 
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
                 :language: javascript
+        
         #. Create a function that creates a server-side GraphQL client
         on every request with the user’s current auth token.
             
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
                 :language: javascript        
+        
         #. Create the GraphQL request which the server will use to fetch data.
 
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
                 :language: javascript
+        
         #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
         function to perform the following:
-            i. Parse access token from  cookies.           
+        
+            #. Parse access token from  cookies.           
+        
             #. Create a GraphQL client with the access token.
+        
             #. Run the GraphQL query.               
+        
             #. Return data to be used in the server-side render.
 
                 .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
                 :language: javascript  
+        
         #. Render the data.
 
             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
@@ -285,34 +298,35 @@ This integration can supplement your app by adding:
 
     .. step:: Creating and guarding your API key
 
-        You need to create a Server API key for authentication. Follow the steps
-        on the API Key Configuration page to complete this step.
-        Then, in your next.js app, create a `.env.local` file.
-        Unlike normal `.env` files, the variables stored
-        inside are not accessible from the browser, only from your local Next
-        environment. Store your key as a variable in this file, for example:
+          You need to create a Server API key for authentication. Follow the steps
+          on the API Key Configuration page to complete this step.
+          Then, in your next.js app, create a `.env.local` file.
+          Unlike normal `.env` files, the variables stored
+          inside are not accessible from the browser, only from your local Next
+          environment. Store your key as a variable in this file, for example:
 
-            .. code-block:: javascript        
+          .. code-block:: javascript        
 
                 REALM_API_KEY = secret_code;
 
-        Then, on the client side, you can fetch from said file to log in as shown below,
-        without the client being able to directly access the secret key.
+          Then, on the client side, you can fetch from said file to log in as shown below,
+          without the client being able to directly access the secret key.
 
-            .. code-block:: javascript        
+          .. code-block:: javascript        
 
-                REALM_API_KEY = process.env.REALM_API_KEY;  
+              REALM_API_KEY = process.env.REALM_API_KEY;  
 
-    .. step:: Perform static rendering with  `getStaticProps()`.
 
-        If exported from a page in your app, `getStaticProps()` pre-renders the page at
-        build time. `getStaticProps()`  can also be used to directly query the MongoDB database.
+    .. step:: Perform static rendering with  ``getStaticProps()``.
 
-        In order to pre-render your page using `getStaticProps()`, connect your Next.js app
-        to the Realm Web SDK. Then, you can use `getStaticProps()` to fetch data from MongoDB.
-        The following example shows how to set up this code.
+          If exported from a page in your app, ``getStaticProps()`` pre-renders the page at
+          build time. ``getStaticProps()``  can also be used to directly query the MongoDB database.
 
-        .. literalinclude:: /examples/generated/web/static.snippet.static-render-ex.js
+          In order to pre-render your page using ``getStaticProps()``, connect your Next.js app
+          to the Realm Web SDK. Then, you can use ``getStaticProps()`` to fetch data from MongoDB.
+          The following example shows how to set up this code.
+
+          .. literalinclude:: /examples/generated/web/static.snippet.static-render-ex.js
                 :language: javascript
 
 .. _nextjs-mongodb-alternate-ways:
