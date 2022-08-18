@@ -39,7 +39,7 @@ Install the Realm Web SDK in Your Next.js App
 
 This section shows you how to install the Realm Web SDK to use with your application.
 
-.. include:: includes/web-quickstart-install.rst
+.. include:: web-quickstart-install
 
 For more information, see the :ref:`Realm Web Installation <web-install>` documentation.
 
@@ -106,8 +106,8 @@ client code in your application.
 Access the MongoDB Data Access interface from the ``app`` object you exposed with
 React Context. Use `App.User.mongoClient() <https://www.mongodb.com/docs/realm-sdks/js/latest/Realm-MongoDB.html>`__ to query MongoDB.
 
-    .. literalinclude:: /examples/generated/web/mongodb-data-access.snippet.mongo-data-access.js
-        :language: javascript
+.. literalinclude:: /examples/generated/web/mongodb-data-access.snippet.mongo-data-access.js
+    :language: javascript
 
 .. tip::
     For more comprehensive documentation of using MongoDB Data Access,
@@ -123,45 +123,45 @@ via GraphQL from Next.js client-side code.
 
     .. step:: Install the Apollo client
 
-        Apollo provides a package called `@apollo/client <https://www.npmjs.com/package/@apollo/client>`__
-        containing the relevant components needed to create a client.
-        You must also install the `graphql <https://www.npmjs.com/package/graphql>`__ package.
+          Apollo provides a package called `@apollo/client <https://www.npmjs.com/package/@apollo/client>`__
+          containing the relevant components needed to create a client.
+          You must also install the `graphql <https://www.npmjs.com/package/graphql>`__ package.
         
-        .. code-block:: shell
+          .. code-block:: shell
             
-            npm install @apollo/client graphql
+              npm install @apollo/client graphql
 
     .. step:: Create GraphQL page.
 
-        Create a new page for our GraphQL queries, called ``pages/graphql.js``
+          Create a new page for our GraphQL queries, called ``pages/graphql.js``
 
     .. step:: Import Dependencies
 
-        Import relevant Apollo Client dependencies and our ``AppServicesContext``:
+         Import relevant Apollo Client dependencies and our ``AppServicesContext``:
 
-            .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
-                :language: javascript
+          .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
+             :language: javascript
     .. step:: Create GraphQLProvider
 
-        Create an ``ApolloClient`` GraphQL client and add it to the
-        ``GraphQLProvider`` component.  Wrap any components that call
-        the GraphQL API with the ``GraphQLProvider``.
+          Create an ``ApolloClient`` GraphQL client and add it to the
+          ``GraphQLProvider`` component.  Wrap any components that call
+          the GraphQL API with the ``GraphQLProvider``.
 
-        .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-provider.js
-                :language: javascrip
+          .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-provider.js
+             :language: javascrip
     .. step:: Query MongoDB with GraphQL
 
-        Once the connection to the Apollo Client has been established,
-        you can query MongoDB. For example, you can query MongoDB to find a single entry in
-        a database by name.
+          Once the connection to the Apollo Client has been established,
+          you can query MongoDB. For example, you can query MongoDB to find a single entry in
+          a database by name.
 
-            .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
-                :language: javascript
+          .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
+              :language: javascript
     .. step:: Export
-        Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
+          Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
 
-            .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
-            :language: javascript
+          .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
+              :language: javascript
 
 All together, the GraphQL page should look as follows:
     .. literalinclude:: /examples/generated/web/graphql.snippet.whole-code-ex.js
@@ -195,11 +195,11 @@ On a high level, the process for using the Realm Web SDK with Next.js
 server-side rendering is as follows:
 
 1. Create an instance of your App Services backend app and log in a
-  user. Save the user's AccessToken as a cookie.
+   user. Save the user's AccessToken as a cookie.
 #. Add functions to your Next.js app, including ``getServerSideProps``. In this function,
    the server accesses the previously-saved cookie and allows you to set up pre-render.
 #. Add the data from ``getServerSideProps`` to your web page, which allows
-  it to pre-render for every request.
+   it to pre-render for every request.
 
 .. note::
     While possible to use the MongoDB Data Access in server-side environments to query
@@ -240,19 +240,19 @@ Next.js.
         
         #. Import the relevant dependencies
 
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
-                :language: javascript
+        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
+           :language: javascript
         
         #. Create a function that creates a server-side GraphQL client
         on every request with the user’s current auth token.
             
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-                :language: javascript        
+        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
+          :language: javascript        
         
         #. Create the GraphQL request which the server will use to fetch data.
 
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
-                :language: javascript
+        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
+           :language: javascript
         
         #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
         function to perform the following:
@@ -265,13 +265,13 @@ Next.js.
         
             #. Return data to be used in the server-side render.
 
-                .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
-                :language: javascript  
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
+              :language: javascript  
         
         #. Render the data.
 
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
-            :language: javascript
+        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
+          :language: javascript
             
     All together, server-side rendering page looks as follows:
 
@@ -300,8 +300,8 @@ This integration can supplement your app by adding:
 
           You need to create a Server API key for authentication. Follow the steps
           on the API Key Configuration page to complete this step.
-          Then, in your next.js app, create a `.env.local` file.
-          Unlike normal `.env` files, the variables stored
+          Then, in your next.js app, create a ``.env.local`` file.
+          Unlike normal ``.env`` files, the variables stored
           inside are not accessible from the browser, only from your local Next
           environment. Store your key as a variable in this file, for example:
 
