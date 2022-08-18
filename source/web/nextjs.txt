@@ -52,7 +52,7 @@ below to connect the Realm Web SDK to client-side Next.js.
 In this example, we’re going to expose Realm authentication throughout
 the app using `React’s Context API <https://reactjs.org/docs/context.html>`__. For additional ways to expose Realm
 authentication throughout your application, refer to the `Next.js
-authentication <https://nextjs.org/docs/authentication#authentication-providers`__ documentation.
+authentication <https://nextjs.org/docs/authentication#authentication-providers>`__ documentation.
 
 .. procedure::
 
@@ -224,14 +224,15 @@ Next.js.
 
     .. step:: Update authentication to use cookies
 
-          Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
-          as it allows the cookie to transfer to the server on every request. Set you cookie in a
-          ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
-          This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
-          credential is reset in cookies before expiring.
+        Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
+        as it allows the cookie to transfer to the server on every request. Set you cookie in a
+        ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
+        This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
+        credential is reset in cookies before expiring.
 
-          .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-              :language: javascript
+        .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+           :language: javascript
+
 
     .. step:: Server-side Render the Data
 
@@ -246,7 +247,7 @@ Next.js.
         on every request with the user’s current auth token.
             
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-          :language: javascript        
+           :language: javascript        
         
         #. Create the GraphQL request which the server will use to fetch data.
 
