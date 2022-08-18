@@ -39,8 +39,7 @@ Before using this integration guide, you should:
 
 - Be familiar with Next.js. Consider referring to the `Next.js documentation <https://nextjs.org/docs/getting-started>`__.
 - `Create an Atlas App Services backend application <https://www.mongodb.com/docs/atlas/app-services/manage-apps/create/create-with-ui/#std-label-create-a-realm-app>`__.
-- Create a Next.js app. If creating a Next.js application for the first time,
-  consider referring to the `Next.js Tutorial <https://nextjs.org/learn/basics/create-nextjs-app>`__.
+- Have a Next.js app.
 
 Install the Realm Web SDK in Your Next.js App
 =============================================
@@ -56,16 +55,17 @@ Add Authentication
 ==================
 
 Before you can query MongoDB from your app, you must initialize the
-App Services client and authenticate a user. You can follow the steps
+App Services client and authenticate a user with the Realm Web SDK.
+You can follow the steps
 below to connect the Realm Web SDK to client-side Next.js.
-In this example, we’re going to expose Realm authentication throughout
-the app using React’s Context API. For additional ways to expose Realm
+This example exposes App Services App instance and the authenticated user throughout
+the app using `React’s Context API <https://reactjs.org/docs/context.html>`__. For additional ways to expose Realm
 authentication throughout your application, refer to the Next.js
 authentication documentation.
 
 .. procedure::
 
-    .. step:: Create a context for Atlas App Services.
+    .. step:: Create a context for Atlas App Services
 
         Generate a new application template using `create-react-app
         <https://create-react-app.dev/>`__:
