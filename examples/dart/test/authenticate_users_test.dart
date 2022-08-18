@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:faker/faker.dart';
 import './utils.dart';
 
-const APP_ID = "flutter-flexible-luccm";
+const APP_ID = "example-testers-kvjdy";
 
 void main() {
   late App app;
@@ -59,18 +61,20 @@ void main() {
     });
     test("Custom JWT user", () async {
       Future<String> authenticateWithExternalSystem() async {
+        final faker = Faker();
         // Create a json web token
         final jwt = JWT(
           {
-            "aud": "flutter-flexible-luccm",
-            "sub": "example-user3",
-            "name": "Jane Floww",
-            "iat": 1660769831648,
-            "exp": 1660769831648 + 1000000000000000000,
+            "aud": APP_ID,
+            "sub": faker.internet.userName(),
+            "name": faker.person.name(),
+            "iat": DateTime.now().millisecondsSinceEpoch,
+            "exp": DateTime.now().millisecondsSinceEpoch * 2,
           },
         );
         final token = jwt.sign(
-          SecretKey('E7D8WBPZD0Q37432NG51E7D8WBPZD0Q37432NG51'),
+          SecretKey(
+              'E7DE0D13D66BF64EC9A9A74A3D600E840D39B4C12832D380E48ECE02070865AB'),
         );
         return token;
       }
@@ -79,12 +83,23 @@ void main() {
       String token = await authenticateWithExternalSystem();
       Credentials jwtCredentials = Credentials.jwt(token);
       User currentUser = await app.logIn(jwtCredentials);
-      print(currentUser.id);
       // :snippet-end:
+      expect(currentUser.provider, AuthProviderType.jwt);
+      // clean up
+      app.deleteUser(currentUser);
     });
     test("Custom Function user", () async {
       // :snippet-start: custom-function-credentials
+      Map<String, String> credentials = {
+        "username": "iloverealm",
+      };
+      String payload = jsonEncode(credentials);
+      Credentials customCredentials = Credentials.function(payload);
+      User currentUser = await app.logIn(customCredentials);
       // :snippet-end:
+      expect(currentUser.provider, AuthProviderType.function);
+      // clean up
+      app.deleteUser(currentUser);
     });
     test("Facebook user", () async {
       // :snippet-start: facebook-credentials
@@ -206,7 +221,7 @@ void main() {
       // :snippet-start: list-all-users
       Iterable<User> users = app.users;
       // :snippet-end:
-      expect(users.length, 3);
+      expect(users.length, 4);
     });
     test('Change the active user', () async {
       User otherUser = lisa;
