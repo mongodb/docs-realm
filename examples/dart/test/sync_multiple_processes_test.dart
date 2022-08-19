@@ -27,7 +27,7 @@ void main() {
     // intuitive to do that within a unit test (which runs in only 1 process)
     test("Sync multiple processes", () {
       final schema = [Tricycle.schema];
-      // :snippet-start: primary-process
+      // :snippet-start: main-process
       // Same realm file location as secondary process
       String realmPath =
           path.join(Configuration.defaultStoragePath, 'synced1234.realm');
@@ -35,7 +35,7 @@ void main() {
       Configuration flexibleConfig =
           Configuration.flexibleSync(currentUser, schema, path: realmPath);
       Realm realmWithSync = Realm(flexibleConfig);
-      // :snippet-end: secondary-process
+      // :snippet-end:
       // :snippet-start: secondary-process
       // Same realm file location as primary process
       final sameRealmPath =

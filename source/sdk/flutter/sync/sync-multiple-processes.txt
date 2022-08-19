@@ -26,27 +26,16 @@ To open a synced realm in the main process, open the realm using the
 :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
 constructor. For more information, refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
 
-.. code-block:: dart
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.main-process.dart
+   :language: dart
    :caption: main_process.dart
-
-   // Same realm file location as secondary process
-   String realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
-
-   Configuration flexibleConfig = Configuration.flexibleSync(user, schema, path: realmPath);
-   Realm realmWithSync = realm(flexibleConfig);
+   :emphasize-lines: 4
 
 To open a synced realm in a secondary process, create a ``Configuration`` with the
 :flutter-sdk:`Configuration.disconnectedSync() <realm/Configuration/disconnectedSync.html>`
 constructor. Include the schema and any additional optional named arguments.
 
-.. code-block:: dart
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.secondary-process.dart
+   :language: dart
    :caption: secondary_process.dart
    :emphasize-lines: 4
-
-   // Same realm file location as primary process
-   final realmPath = path.join(Configuration.defaultStoragePath, 'synced.realm');
-
-   final disconnectedSyncConfig = Configuration.disconnectedSync(schema, path: realmPath);
-   Realm realmWithDisconnectedSync = realm(disconnectedSyncConfig);
-
-
