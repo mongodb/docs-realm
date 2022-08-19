@@ -130,3 +130,42 @@ Set up the Template App
       of databases, find and expand the :guilabel:`todo` database, and then the 
       :guilabel:`Item` collection. You should see the document you created 
       in this collection.
+
+Modify the Application
+----------------------
+
+.. procedure::
+
+   .. step:: Add a New Property
+
+      Now that you have confirmed everything is working as expected, we can 
+      add changes. In this tutorial, we have decided that we want to add a 
+      "Priority" property to each Item so that we can filter Items by their 
+      priorities. The Priority property will be mapped to a PriorityLevel enum 
+      to constrain the possible values.
+      
+      To do this, follow these steps:
+
+      A. Expand the ``realm-todo-dotnet`` project. 
+
+      #. Expand the ``Models`` folder and open the ``Item`` class file.
+
+      #. Add the following public property:
+
+         .. code-block:: csharp
+
+            [MapTo("priority")]
+            public int? Priority { get; set; }
+            
+      #. Also add a PriorityLevel enum below the ``Item`` class:
+         
+         .. code-block:: csharp
+
+            public enum PriorityLevel
+            {
+               Severe = 0,
+               High = 1,
+               Medium = 2,
+               Low = 3
+            }
+         
