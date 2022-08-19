@@ -1,0 +1,56 @@
+=====================
+Filter Data - SwiftUI
+=====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Search a Realm Collection
+-------------------------
+
+.. versionadded:: 10.19.0
+
+The Realm Swift SDK allows you to extend :apple:`.searchable 
+<swiftui/form/searchable(text:placement:prompt:)-6royb>`. When you use 
+:swift-sdk:`ObservedResults <Structs/ObservedResults.html>` to query a realm,
+you can specify collection and keypath in the result set to denote it is
+searchable. 
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
+   :language: swift
+
+Filter or Query a Realm with ObservedResults
+--------------------------------------------
+
+The :swift-sdk:`@ObservedResults <Structs/ObservedResults.html>` property wrapper
+opens a realm and returns all objects of the specified type. However, you 
+can filter or query ``@ObservedResults`` to use only a subset of the objects
+in your view.
+
+Filter with an NSPredicate
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To filter ``@ObservedResults`` using the :ref:`NSPredicate Query API 
+<ios-nspredicate-query>`, pass an :apple:`NSPredicate 
+<documentation/foundation/nspredicate>` as an argument to ``filter``:
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.nspredicate-filter.swift
+   :language: swift
+
+Query with the Realm Type-Safe Query API
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.24.0 
+   Use *where* to perform type-safe queries on ObservedResults.
+
+To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API 
+<ios-realm-swift-query-api>`, pass a query in a closure as an argument to 
+``where``:
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.type-safe-query-filter.swift
+   :language: swift

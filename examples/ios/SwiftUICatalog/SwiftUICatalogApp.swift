@@ -1,3 +1,9 @@
+// :replace-start: {
+//   "terms": {
+//     "partitionBasedSyncApp": "app",
+//     "flexibleSyncApp": "app"
+//   }
+// }
 import RealmSwift
 import SwiftUI
 
@@ -10,15 +16,34 @@ let APP_SERVICES_APP_ID_HERE = "example-testers-kvjdy"
 // If you don't have an App Services app and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
-let app: RealmSwift.App? = RealmSwift.App(id: APP_SERVICES_APP_ID_HERE)
+let partitionBasedSyncApp: RealmSwift.App? = RealmSwift.App(id: APP_SERVICES_APP_ID_HERE)
 // :snippet-end:
+
+let flexibleSyncApp: RealmSwift.App? = RealmSwift.App(id: "swift-flexible-vkljj")
+
+let realm = ItemGroup.previewRealm
+let itemGroup = realm.objects(ItemGroup.self)
+let personProfile = SwiftUI_Person.previewRealm.objects(Profile.self)
 
 @main
 struct SwiftUICatalogApp: SwiftUI.App {
     static let viewBuilders: [String: () -> AnyView] = [
         "DefaultView": { AnyView(DefaultView()) },
-        "OpenSyncedRealm": { AnyView(OpenSyncedRealmView()) },
-        "SyncContentView": { AnyView(SyncContentView(thisApp: app!))}]
+        "DogDetails": { AnyView(DogDetailView(dog: SwiftUI_Dog.dog1)) },
+        "EditDogDetails": { AnyView(DogDetailsView(dog: SwiftUI_Dog.dog1)) },
+        "FilterNSPredicate": { AnyView(FilterDogsViewNSPredicate().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },
+        "FilterTypeSafeQuery": { AnyView(FilterDogsViewTypeSafeQuery().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },
+        "FSContentView": { AnyView(FlexibleSyncContentView(flexibleSyncApp: flexibleSyncApp!))},
+        "FSOrLocalRealm": { AnyView(FlexibleSyncOrLocalRealmView()) },
+        "OpenFSRealm": { AnyView(OpenFlexibleSyncRealmView()) },
+        "OpenPBSRealm": { AnyView(OpenPartitionBasedSyncRealmView()) },
+        "PassRealmObjects": { AnyView(SetUpDogsView()) },
+        "PBSContentView": { AnyView(PartitionBasedSyncContentView(thisApp: partitionBasedSyncApp!))},
+        "PBSOrLocalRealm": { AnyView(PartitionBasedSyncOrLocalRealmView()) },
+        "ProfileView": { AnyView(ProfileView(profile: personProfile.first!)) },
+        "SearchableDogsView": { AnyView(SearchableDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },
+        "WriteToCollection": { AnyView(DogsListView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) }
+    ]
     
     var body: some Scene {
         WindowGroup {
@@ -44,3 +69,8 @@ extension ProcessInfo {
         return environment["MyCustomViewName"]
     }
 }
+
+enum SyncType {
+    case pbs, fs
+}
+// :replace-end:

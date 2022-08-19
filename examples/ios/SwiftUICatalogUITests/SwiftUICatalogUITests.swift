@@ -1,11 +1,3 @@
-//
-//  SwiftUICatalogUITests.swift
-//  SwiftUICatalogUITests
-//
-//  Created by Dachary Renee Carey on 8/16/22.
-//  Copyright © 2022 MongoDB, Inc. All rights reserved.
-//
-
 import XCTest
 
 class SwiftUICatalogUITests: XCTestCase {
@@ -23,24 +15,123 @@ class SwiftUICatalogUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testPartitionBasedSyncLogin() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launchEnvironment["MyUITestsCustomView"] = "true"
-        app.launchEnvironment["MyCustomViewName"] = "SyncContentView"
+        app.launchEnvironment["MyCustomViewName"] = "PBSContentView"
         app.launch()
 
         let loginButton = app.buttons["Log in anonymously"]
-        loginButton.press(forDuration: 0.1)
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+        if loginButton.exists {
+            loginButton.tap()
         }
+        
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 5))
+    }
+    
+    func testFlexibleSyncLogin() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "FSContentView"
+        app.launch()
+
+        let loginButton = app.buttons["Log in anonymously"]
+        if loginButton.exists {
+            loginButton.tap()
+        }
+
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 5))
+    }
+    
+    func testPassRealmObjects() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "PassRealmObjects"
+        app.launch()
+
+        XCTAssert(app.staticTexts["Successfully called DogsView and it contains 3 Dogs"].waitForExistence(timeout: 2))
+    }
+    
+    func testDogExists() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "DogDetails"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Lita is a Lab mix"].waitForExistence(timeout: 2))
+    }
+    
+    func testDogsExistOnProfile() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "ProfileView"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
+    }
+    
+    func testDogsAreSearchable() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "SearchableDogsView"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
+        app.swipeDown()
+        let searchBar = app.searchFields.element
+        XCTAssert(searchBar.exists)
+        searchBar.tap()
+        searchBar.typeText("Maui")
+        XCTAssert(!app.staticTexts["Ben"].waitForExistence(timeout: 2))
+    }
+    
+    func testFilterNSPredicate() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "FilterNSPredicate"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
+        XCTAssert(!app.staticTexts["Lita"].waitForExistence(timeout: 1))
+    }
+    
+    func testFilterTypeSafeQuery() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "FilterTypeSafeQuery"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
+        XCTAssert(!app.staticTexts["Lita"].waitForExistence(timeout: 1))
+    }
+    
+    func testQuickWriteEditProperty() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "EditDogDetails"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Lita"].waitForExistence(timeout: 2))
+        app.buttons["Edit favorite toy"].tap()
+        let favoriteToy = app.textFields["Favorite toy"]
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: 12)
+        favoriteToy.tap()
+        favoriteToy.typeText(deleteString)
+        favoriteToy.typeText("Bone")
+        app.buttons["Back"].tap()
+        XCTAssert(app.staticTexts["Bone"].waitForExistence(timeout: 2))
+    }
+    
+    func testQuickWriteCollection() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "WriteToCollection"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Lita"].waitForExistence(timeout: 2))
+        app.buttons["addDogButton"].tap()
+        XCTAssert(app.staticTexts["Bandido"].waitForExistence(timeout: 2))
     }
 }
