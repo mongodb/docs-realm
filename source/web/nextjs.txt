@@ -240,19 +240,19 @@ Next.js.
         
         #. Import the relevant dependencies
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
-           :language: javascript
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
+                :language: javascript
         
         #. Create a function that creates a server-side GraphQL client
         on every request with the user’s current auth token.
             
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-           :language: javascript        
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
+             :language: javascript        
         
         #. Create the GraphQL request which the server will use to fetch data.
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
-           :language: javascript
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
+              :language: javascript
         
         #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
         function to perform the following:
@@ -265,13 +265,13 @@ Next.js.
         
             #. Return data to be used in the server-side render.
 
-            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
-              :language: javascript  
+                .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
+                 :language: javascript  
         
         #. Render the data.
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
-          :language: javascript
+            .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
+            :language: javascript
             
     All together, server-side rendering page looks as follows:
 
