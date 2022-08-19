@@ -243,21 +243,21 @@ Next.js.
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
             :language: javascript
         
-        #. Create a function that creates a server-side GraphQL client
+        3. Create a function that creates a server-side GraphQL client
            on every request with the user’s current auth token.
             
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
             :language: javascript        
         
-        #. Create the GraphQL request which the server will use to fetch data.
+        4. Create the GraphQL request which the server will use to fetch data.
 
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
             :language: javascript
 
-        #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
+        5. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
            function to perform the following:
         
-                #. Parse access token from  cookies.           
+                a. Parse access token from  cookies.           
             
                 #. Create a GraphQL client with the access token.
             
@@ -268,7 +268,7 @@ Next.js.
                 .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
                     :language: javascript  
         
-        #. Render the data.
+        6. Render the data.
 
         .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
             :language: javascript
