@@ -128,6 +128,8 @@ void main() {
     }, skip: 'not testing 3rd party auth');
     test("Apple user", () async {
       // :snippet-start: apple-credentials
+      Credentials appleCredentials = Credentials.apple(idToken);
+      User currentUser = await app.logIn(appleCredentials);
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
   });
