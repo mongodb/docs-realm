@@ -102,12 +102,8 @@ To log in with Custom JWT authentication, create a JWT credential by calling
 :flutter-sdk:`Credentials.jwt() <realm/Credentials/Credentials.jwt.html>`
 on a JWT string. Then pass the credential to ``app.logIn``.
 
-TODO(DOCSP-22347): literalinclude
-
-.. code-block:: dart
-
-   Credentials jwtCredentials = Credentials.jwt(token);
-   User currentUser = await app.logIn(credentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.custom-jwt-credentials.dart
+   :language: dart
 
 .. _flutter-login-custom-function:
 
@@ -122,13 +118,8 @@ To log in with Custom Function authentication, pass a stringified JSON with
 your custom arguments to :flutter-sdk:`Credentials.function() <realm/Credentials/Credentials.function.html>`.
 Then pass the credential to ``app.logIn``.
 
-TODO(DOCSP-22347): literalinclude
-
-.. code-block:: dart
-
-   String payload = '{"username": "$username", "userId": "$userId"}';
-   Credentials customFunctionCredentials = Credentials.function(payload);
-   User currentUser = await app.logIn(customFunctionCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.custom-function-credentials.dart
+   :language: dart
 
 .. _flutter-login-facebook:
 
@@ -142,10 +133,8 @@ To log in with Facebook authentication, pass a Facebook access token to
 :flutter-sdk:`Credentials.facebook() <realm/Credentials/Credentials.facebook.html>`.
 Then pass the credential to ``app.logIn``.
 
-.. code-block:: dart
-
-   Credentials facebookCredentials = Credentials.facebook(accessToken);
-   User currentUser = await app.logIn(facebookCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.facebook-credentials.dart
+   :language: dart
 
 .. include:: /includes/note-facebook-profile-picture-url.rst
 
@@ -161,19 +150,15 @@ To log in with a Google authentication code, pass a Google authentication code t
 :flutter-sdk:`Credentials.googleAuthCode() <realm/Credentials/Credentials.googleAuthCode.html>`.
 Then pass the credential to ``app.logIn``.
 
-.. code-block:: dart
-
-   Credentials googleCredentials = Credentials.googleAuthCode(authCode);
-   User currentUser = await app.logIn(googleCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.google-auth-code-credentials.dart
+   :language: dart
 
 To log in with a Google ID token, pass a Google ID token to
 :flutter-sdk:`Credentials.googleIdToken() <realm/Credentials/Credentials.googleIdToken.html>`.
 Then pass the credential to ``app.logIn``.
 
-.. code-block:: dart
-
-   Credentials googleCredentials = Credentials.googleIdToken(googleIdToken);
-   User currentUser = await app.logIn(googleCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.google-id-token-credentials.dart
+   :language: dart
 
 .. _flutter-login-apple:
 
@@ -187,10 +172,8 @@ To log in with Apple authentication, pass an Apple access token to
 :flutter-sdk:`Credentials.apple() <realm/Credentials/Credentials.apple.html>`.
 Then pass the credential to ``app.logIn``.
 
-.. code-block:: dart
-
-   Credentials appleCredentials = Credentials.apple(accessToken);
-   User currentUser = await app.logIn(appleCredentials);
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.apple-credentials.dart
+   :language: dart
 
 .. include:: /includes/authorization-appleidcredential-string.rst
 
@@ -225,22 +208,3 @@ the app shuts down after the initial authentication, you do not need to call
 
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.retrieve-current-user.dart
    :language: dart
-
-.. TODO(DOCSP-22353): add delete user documentation
-
-.. .. _flutter-delete-user:
-
-.. Delete a User
-.. -------------
-
-.. Call the :flutter-sdk:`FLUTTER_App.deleteUser() <>` on a user object to delete
-.. the user's account from your Realm application. This deletes the account from
-.. the server in addition to clearing local data.
-
-.. CODE_BLOCK
-
-.. To use your app in the future, the user must sign up for a new account.
-.. They can use the same credentials (depending on the authentication provider),
-.. but will not have the same User ID as their deleted account.
-
-

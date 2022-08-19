@@ -104,21 +104,31 @@ void main() {
       app.deleteUser(currentUser);
     });
     test("Facebook user", () async {
+      final accessToken = 'abc';
       // :snippet-start: facebook-credentials
+      Credentials facebookCredentials = Credentials.facebook(accessToken);
+      User currentUser = await app.logIn(facebookCredentials);
       // :snippet-end:
-    });
+    }, skip: 'not testing 3rd party auth');
     test("Google user (auth code)", () async {
+      final authCode = 'abc';
       // :snippet-start: google-auth-code-credentials
+      Credentials googleAuthCodeCredentials =
+          Credentials.googleAuthCode(authCode);
+      User currentUser = await app.logIn(googleAuthCodeCredentials);
       // :snippet-end:
-    });
+    }, skip: 'not testing 3rd party auth');
     test("Google user (ID token)", () async {
+      final idToken = 'abc';
       // :snippet-start: google-id-token-credentials
+      Credentials googleIdTokenCredentials = Credentials.googleIdToken(idToken);
+      User currentUser = await app.logIn(googleIdTokenCredentials);
       // :snippet-end:
-    });
+    }, skip: 'not testing 3rd party auth');
     test("Apple user", () async {
       // :snippet-start: apple-credentials
       // :snippet-end:
-    });
+    }, skip: 'not testing 3rd party auth');
   });
   test("Log out user", () async {
     Credentials anonCredentials = Credentials.anonymous();
