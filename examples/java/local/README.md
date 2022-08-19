@@ -30,10 +30,28 @@ by Android Studio, after waiting a short time (30 seconds to a minute) you
 should be able to run the "All Tests" target on a selected AVD using the green play button in the
 toolbar.
 
+#### Test via Android Studio
+
 You can also run the "All Tests" target by right clicking on the `app/src/androidTest/java` directory
 in Android Studio and selecting "Run 'All Tests'".
 
 You can run test files individual by right clicking on them and selecting "Run '...Test'".
+
+#### Test via CLI
+
+You can run tests through the command line with the following command:
+
+```
+./gradlew :app:connectedAndroidTest
+```
+
+This runs the `connectedAndroidTest` task in the `app` submodule of this Gradle project.
+
+Before you can run these tests, you'll need an environment where Gradle can execute the tests.
+You can provide an environment in the following ways:
+
+- Start an Android Emulator with AVD in Android Studio.
+- Connect an Android device in developer mode.
 
 ### Understand the Project Structure
 

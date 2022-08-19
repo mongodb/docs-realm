@@ -4,8 +4,6 @@ plugins {
     id("io.realm.kotlin")
 }
 
-val realmVersion = "1.0.1" // DON'T FORGET TO UPDATE VERSION IN PROJECT/ANDROID GRADLE
-val coroutinesVersion = "1.6.0-native-mt"
 version = "1.0"
 
 kotlin {
@@ -17,15 +15,15 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("io.realm.kotlin:library-sync:${realmVersion}")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation(libs.realm.sync)
+                implementation(libs.kotlinx.coroutines)
                 implementation("io.github.aakira:napier:2.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion") // required to use coroutines in test suite
+                implementation(libs.kotlinx.coroutines.test) // required to use coroutines in test suite
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(kotlin("test-junit"))
@@ -35,7 +33,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                implementation(libs.kotlinx.coroutines.android)
                 implementation("com.google.android.gms:play-services-auth:20.2.0")
                 implementation("com.google.android.gms:play-services-base:18.0.1")
             }
@@ -63,8 +61,8 @@ kotlin {
         jvm().compilations["main"].defaultSourceSet {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
     }
