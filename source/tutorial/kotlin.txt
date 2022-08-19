@@ -16,7 +16,7 @@ Overview
 --------
 
 Realm provides a Kotlin SDK that allows you to create an Android mobile
-application with Xamarin and C#. This tutorial is based on the Kotlin Flexible
+application with Kotlin. This tutorial is based on the Kotlin Flexible
 Sync Template App, named ``kotlin.todo.flex``, which illustrates the creation of
 a Item List management application. This application enables users to: 
 
@@ -49,7 +49,7 @@ on it.
 
 From Realm CLI, you can run the :ref:`realm-cli apps create 
 <realm-cli-apps-create>` command to set up the backend and create the 
-SwiftUI base app. The following command creates a new app based on the 
+Kotlin base app. The following command creates a new app based on the 
 kotlin.todo.flex template. With the options flags we can pass during creation,
 the command below creates an app:
 
@@ -146,26 +146,247 @@ Modify the Application
       
       To do this, follow these steps:
 
-      A. Expand the ``realm-todo-dotnet`` project. 
+      A. Open the ``build.gradle.kts`` file in Android Studio. 
 
-      #. Expand the ``Models`` folder and open the ``Item`` class file.
-
-      #. Add the following public property:
-
-         .. code-block:: csharp
-
-            [MapTo("priority")]
-            public int? Priority { get; set; }
+      #. Within the `app/java/com.mongodb.app` folder open the ``Item`` class file.
             
-      #. Also add a PriorityLevel enum below the ``Item`` class:
+      #. Also add a PriorityLevel enum above the ``Item`` class:
          
-         .. code-block:: csharp
+         .. code-block:: kotlin
 
-            public enum PriorityLevel
-            {
-               Severe = 0,
-               High = 1,
-               Medium = 2,
-               Low = 3
+            enum class PriorityLevel(val priority: Int) {
+                  Severe(0),
+                  High(1),
+                  Medium(2),
+                  Low(3)
             }
+
+      #. Add the following property to your Realm Object Model:
+
+         .. code-block:: kotlin
+
+            var priority: Int = PriorityLevel.Low.priority
+
+         This sets the default priority to 3, indicating that it is a low priority todo item.
+
+   .. step:: Set the Priority when Creating a New Item
+
+      A. Open the ``res/layout/create_item_dialog.xml`` file. This file defines
+         the UI element that display when a user clicks the '+' button to add a new
+         todo item. Add a :android:`Spinner <guide/topics/ui/controls/spinner>`
+         that will enable the user to pick a priority level from a drop-down list.
+   
+         .. code-block:: xml
+
+            <Spinner
+               android:id="@+id/spinner"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="20dp"
+               android:layout_marginRight="20dp"
+               android:minHeight="48dp"
+               android:paddingLeft="5px"
+               android:paddingRight="5px"
+               tools:ignore="SpeakableTextPresentCheck" />
+
+      #. Next, we will populate the spinner with user choices. Since the choices
+      for priority levels are predetermined, we will provide them through the
+      :android:`string resources file <guide/topics/resources/string-resource>`.
+      Open the ``res/values/strings.xml`` file, and add the following string
+      array before the closing of the 'resource' element. 
+   
+         .. code-block:: xml
+
+            <string-array name="priorities">
+               <item>Severe</item>
+               <item>High</item>
+               <item>Medium</item>
+               <item>Low</item>
+            </string-array>
+
+      #. Now within the `app/java/com.mongodb.app` folder, open the
+         ``ItemActivity`` file. Here we will load our string array into an
+         instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`.
+         Add the following code in the ``onFabClicked()`` function, right before we call
+         ``builder.setPositiveButton()``. 
+
+         .. code-block:: kotlin
+
+            val spinner = mView.findViewById<View>(R.id.spinner) as Spinner
+
+            val adapter = ArrayAdapter.createFromResource(
+                  this,
+                  R.array.priorities,
+                  android.R.layout.simple_spinner_item
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+            
+      #. In the ``builder.setPositiveButton()`` function, we create a new Item
+         and save it to the realm. Where we set the other Item properties, add a
+         line of code to set the new Priority property:
+
+         .. code-block:: kotlin
+            :emphasize-lines: 2
+
+            val item = Item(realmApp.currentUser!!.identity)
+            item.priority = PriorityLevel.valueOf(mSpinner.selectedItem.toString()).priority
+            item.summary = itemSummaryInput.text.toString()
+            
+            CoroutineScope(Dispatchers.IO).launch {
+                realm.write {
+                    this.copyToRealm(item)
+                }
+            }
+
+      #. Finally, we will use the :android:`Toast <guide/topics/ui/notifiers/toasts>`
+         feedback to tell the user they have successfully created a new todo item with
+         their summary and priority. Within the `Toast.makeText()`` method alter the
+         existing text to the following:
+
+         .. code-block:: kotlin
+            :emphasize-lines: 3
+
+            Toast.makeText(
+                 this,
+                 "Item created: ${item.summary} with priority: ${item.priority}",
+                 Toast.LENGTH_SHORT
+             ).show()
+
+   .. step:: Run and Test
+    
+      At this point, you can run the application again. Log in using the account 
+      you created earlier in this tutorial. You will see the one Item you 
+      previously created. Add a new Item, and you will see that you can now 
+      set the priority. Choose ``High`` for the priority and save the Item. 
+
+      Now switch back to the Atlas data page in your browser, and refresh the 
+      ``Item`` collection. You should now see the new Item with the ``priority`` 
+      field added and set to **1**. The existing Item does not have a ``priority`` 
+      field.
+
+      .. figure:: /images/dotnet-tutorial-two-new-items.png
+         :alt:  Two items in a collection
+         :figwidth: 300px
+
+      .. note:: Why Didn't This Break Sync?
+      
+         Adding a property to a Realm object is not a breaking change and therefore 
+         does not require a :ref:`client reset <client-resets>`. The template 
+         app has Development Mode enabled, so changes to the client Realm object 
+         are reflected in the server-side schema. For more information, see 
+         :ref:`<concept-development-mode>` and :ref:`<additive-changes-synced-schema>`.
+
+Change the Subscription
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. procedure:: Change the Subscription
+
+   .. step:: Update the subscription
+
+      Within the `app/java/com.mongodb.app` folder, open the ``ItemActivity``
+      where we define the Flexible Sync subscription. The subscription defines
+      which documents we sync with the user's device & account. Find the
+      ``SyncConfiguration.Builder().initialSubscriptions()`` function that our
+      application calls on start. Within the ``add()`` method, you can see that
+      we are currently subscribing to all documents where the ``OwnerId``
+      property matches the authenticated user. We want to maintain that, but
+      *only* sync Items that are marked as High or Severe priority. 
+
+      As you may recall, the Priority field is of type ``int``, where the highest 
+      priority ("Severe") has a value of 0, and the lowest priority ("Low") has 
+      a value of 3. We can make direct comparisons between an int and the 
+      Priority property. To do so, edit the LINQ statement to include documents 
+      where the priority is equal to or *less* than PriorityLevel.High (or 1), as 
+      shown here:
+
+      .. code-block:: kotlin
+         :emphasize-lines: 3-8
+
+         config = SyncConfiguration.Builder(user, setOf(Item::class))
+             .initialSubscriptions { realm ->
+                 add(
+                     realm.query<Item>(
+                         "owner_id == \$0 AND priority <= ${PriorityLevel.High.priority.toString()}",
+                         realmApp.currentUser!!.identity
+                     ),
+                     "User's High Priority Tasks"
+                 )
+             }
+
+         We set the name of the subscription above to "User's High Priority
+         Tasks", but you can set it to any string that describes the
+         subscription.
+
+   .. step:: Run and Test
+    
+      Run the application again. Log in using the account you created earlier in
+      this tutorial. You would expect to see the Item you most recently created,
+      since it has a priority of "High" (1). But it is not in the list. If you
+      check your App Services' application logs, you will see an entry that
+      looks something like this:
+
+      .. code-block:: sh
+         :copyable: false
          
+         "Client provided query with bad syntax: unsupported query for table
+         "Item": 
+            key "priority" is not a queryable field" (error_code=300,
+            query_version=1)
+
+      This message tells us that we have added a field to our subscription
+      without configuring Flexible Sync to use that field. 
+
+   .. step:: Update Flexible Sync on the Server
+
+      A. Switch back to the Atlas page in your browser. Select the 
+         :guilabel:`Atlas App Services` tab and open the app you are using.
+
+      #. In the left-hand navigation, choose :guilabel:`Device Sync`, and then 
+         click **OK** in the dialog box about Development Mode being enabled.
+      
+      #. Scroll down to the :guilabel:`Select Queryable Fields` section. In the 
+         dropdown labeled **Select or create a queryable field**, choose 
+         "priority". The priority field will be added to the fields shown:
+
+         .. figure:: /images/dotnet-tutorial-priority-subscribed.png
+            :alt:  Priority field is now queryable.
+
+      #. Save your changes.
+
+   .. step:: Test the changes
+
+      Return to your mobile app. To ensure the subscription is re-run, log out 
+      the current user, and then log in again. 
+      After an initial moment when Realm resyncs the document collection, you 
+      will see the new Item of High priority that you created.
+      
+      If you want to further test the functionality, you can create Items of various 
+      priorities. You will see that a new Item with a lower priority briefly
+      appears in the list of Items and then disappears. 
+      Realm creates the Item locally, syncs it with the backend, and then filters 
+      out the Item because it doesn't meet the subscription rules.
+
+      You'll note, too, that the document you initially created is not synced, 
+      because it has a priority of ``null``. If you want this Item to be synced, 
+      you can edit the document in the Atlas UI and add a value for the priority 
+      field.
+
+Conclusion
+----------
+Adding a property to an existing Realm object is a non-breaking change, and 
+Development Mode ensures that the schema change is reflected server-side. If 
+you add or change a subscription to use an additional field, whether newly 
+added or previously existent, you need to modify the Flexible Sync settings to 
+enable querying against that field.
+
+What's Next?
+------------
+
+- Read our :ref:`Kotlin SDK <kotlin-intro>` documentation.
+- Find developer-oriented blog posts and integration tutorials on the 
+  `MongoDB Developer Hub <https://developer.mongodb.com>`__.
+- Join the `MongoDB Community forum <https://developer.mongodb.com/community/forums/c/realm/9>`__ 
+  to learn from other MongoDB developers and technical experts.
+
+.. include:: /includes/tutorial-request-for-feedback-note.rst
