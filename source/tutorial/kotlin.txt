@@ -176,12 +176,25 @@ Modify the Application
          the UI element that displays when a user clicks the '+' button to add a new
          todo item. Add a :android:`Spinner <guide/topics/ui/controls/spinner>`
          that will enable the user to pick a priority level from a dropdown list.
+   
+         .. code-block:: xml
 
+            <Spinner
+               android:id="@+id/spinner"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="20dp"
+               android:layout_marginRight="20dp"
+               android:minHeight="48dp"
+               android:paddingLeft="5px"
+               android:paddingRight="5px"
+               tools:ignore="SpeakableTextPresentCheck" />
+               
       #. Next, we will populate the spinner with user choices. Since the choices
-      for priority levels are predetermined, we will provide them through the
-      :android:`string resources file <guide/topics/resources/string-resource>`.
-      Open the ``res/values/strings.xml`` file, and add the following string
-      array before the closing of the 'resource' element. 
+         for priority levels are predetermined, we will provide them through the
+         :android:`string resources file <guide/topics/resources/string-resource>`.
+         Open the ``res/values/strings.xml`` file, and add the following string
+         array before the closing of the 'resource' element. 
    
          .. code-block:: xml
 
