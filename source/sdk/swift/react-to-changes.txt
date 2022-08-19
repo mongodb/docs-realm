@@ -349,3 +349,28 @@ This notification block fires for changes in:
 
 .. literalinclude:: /examples/generated/code/start/ClassProjection.snippet.register-a-class-projection-change-listener.swift
    :language: swift
+
+Notification Delivery
+---------------------
+
+If you don't need strict guarantees around when notifications are delivered,
+subscribe to a dispatch queue instead of the main thread. If your notification
+logic does need strict guarantees, use care in how you write things in your
+notification handlers. Otherwise, you may trigger this error:
+
+.. code-block:: console
+   :copyable: false
+
+   Cannot register notification blocks from within write transactions.
+
+This issue occurs when you try to perform updates as a result of a 
+notification, but the notification occurs while a write transaction is in
+progress.
+
+The observe function takes a dispatch queue. If that's set, Realm delivers 
+notifications there instead of to the current thread. Realm's notification 
+system promises that notifications for writes on different threads are always 
+delivered synchronously as part of the refresh process. As long as you aren't 
+performing writes on the current thread, you can rely on the guarantee that 
+your app cannot see the value you read from an object change without 
+receiving a notification about the change in between the reads. 
