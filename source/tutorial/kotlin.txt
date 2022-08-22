@@ -62,7 +62,7 @@ the command below creates an app:
    realm-cli apps create -n MyTutorialApp --template kotlin.todo.flex 
       --deployment-model global --location us-va --environment development
 
-To learn more about the Template Apps, and to install the Template App that this
+To learn more about the Template Apps and to install the Template App that this
 tutorial uses in the Atlas App Services UI, see :ref:`template applications
 <template-applications>`. 
 
@@ -100,7 +100,7 @@ Set up the Template App
 
          * - ItemAdapter.kt
            - Adapter that displays a list of Items in an Android
-             RecyclerView, and allows users to check & uncheck items updating
+             RecyclerView, allows users to check & uncheck items updating
              their status, and delete items.
 
          * - LoginActivity.kt
@@ -128,7 +128,7 @@ Set up the Template App
 
       Log in to `Atlas App Services <http://cloud.mongodb.com>`_. In the 
       :guilabel:`Atlas` tab, click on :guilabel:`Browse Collections`. In the list 
-      of databases, find and expand the :guilabel:`todo` database, and then the 
+      of databases, find and expand the :guilabel:`todo` database and then the 
       :guilabel:`Item` collection. You should see the document you created 
       in this collection.
 
@@ -213,7 +213,7 @@ Modify the Application
 
          .. code-block:: kotlin
 
-            val spinner = mView.findViewById<View>(R.id.spinner) as Spinner
+            val spinner = view.findViewById<View>(R.id.spinner) as Spinner
 
             val adapter = ArrayAdapter.createFromResource(
                   this,
@@ -256,7 +256,7 @@ Modify the Application
 
    .. step:: Run and Test
     
-      At this point, you can run the application again. Log in using the account 
+      At this point, you can rerun the application. Log in using the account 
       you created earlier in this tutorial. You will see the one Item you 
       previously created. Add a new Item, and you will see that you can now 
       set the priority. Choose ``High`` for the priority and save the Item. 
@@ -361,7 +361,7 @@ Change the Subscription
       After an initial moment when Realm resyncs the document collection, you 
       will see the new Item of High priority that you created.
       
-      If you want to further test the functionality, you can create Items of various 
+      If you want to test the functionality further, you can create Items of various 
       priorities. You will see that a new Item with a lower priority briefly
       appears in the list of Items and then disappears. 
       Realm creates the Item locally, syncs it with the backend, and then filters 
