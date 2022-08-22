@@ -1,3 +1,15 @@
+# August 19, 2022
+
+## Flutter SDK
+- User Management/Delete a User: New page documenting deleting users, with tested code example
+
+## Swift SDK
+- React to Changes: New "Notification Delivery" section describing notification delivery guarantees
+
+## Other
+- Java SDK & Kotlin SDK: Improved Gradle documentation and dependency management across example projects
+- Various Snyk upgrades and version bumps in example apps
+
 # August 12, 2022
 
 ## Node.js SDK
