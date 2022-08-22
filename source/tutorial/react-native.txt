@@ -328,16 +328,18 @@ are and allow us to focus only on the most important ones.
       
       .. code-block:: javascript
          :caption: ItemSchema.js
-         :emphasize-lines: 5, 9, 19
+         :emphasize-lines: 6, 11, 21
          
          export class Item {
            constructor({
-             id = new BSON.ObjectId(),
+             _id = new BSON.ObjectId(),
              isComplete = false,
+             owner_id,
              priority = Priority.High, // Default to High priority if none is specified
            }) {
              this.isComplete = isComplete;
-             this._id = id;
+             this._id = _id;
+             this.owner_id = owner_id
              this.priority = priority
            }
            
@@ -471,7 +473,7 @@ are and allow us to focus only on the most important ones.
          :emphasize-lines: 2
          
          <ListItem key={`${item._id}`} bottomDivider topDivider>
-           <Text style={{ borderRadius: "4px", backgroundColor: "red" }}>{item.priority}</Text>
+           <Text>{item.priority}</Text>
            <ListItem.Title style={styles.itemTitle}>
              {item.summary}
            </ListItem.Title>
@@ -524,6 +526,7 @@ built-in subscription to items that the current user owns:
      let ownItems = realm
       .objects("Item")
       .filtered(`owner_id == "${user.id}"`);
+     // use the same name as the initial subscription to update it
      mutableSubs.add(ownItems, {name: "ownItems"});
    });
 
@@ -581,7 +584,7 @@ only syncs "important" ones with a ``priority`` of High or Severe.
 
       .. code-block:: javascript
          :caption: ItemListView.js
-         :emphasize-lines: 8-11, 16
+         :emphasize-lines: 9-12, 18
 
          useEffect(() => {
            // initialize the subscriptions
@@ -595,6 +598,7 @@ only syncs "important" ones with a ``priority`` of High or Severe.
                  // More important Items have lower priority values
                  ownItems = ownItems.filtered(`priority <= 1`);
                }
+               // use the same name as the initial subscription to update it
                mutableSubs.add(ownItems, {name: 'ownItems'});
              });
            };
