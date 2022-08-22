@@ -92,7 +92,7 @@ void main() {
     test("Custom Function user", () async {
       // :snippet-start: custom-function-credentials
       Map<String, String> credentials = {
-        "username": "iloverealm",
+        "username": "someUsername",
       };
       // payload must be a JSON-encoded string
       String payload = jsonEncode(credentials);
