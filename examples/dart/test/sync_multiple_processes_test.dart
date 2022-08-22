@@ -1,4 +1,6 @@
-@Skip('hmm')
+// @Skip('hmm')
+import 'dart:io';
+
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'package:path/path.dart' as path;
@@ -12,30 +14,37 @@ const APP_ID = "flutter-flexible-luccm";
 
 void main() {
   group('Sync multiple processes', () {
-    setUpAll(() async {
+    setUp(() async {
       AppConfiguration appConfig = AppConfiguration(APP_ID);
       app = App(appConfig);
       Credentials credentials =
-          Credentials.emailPassword("lisa@example.com", "abc123");
+          Credentials.emailPassword("bart@example.com", "abc123");
       currentUser = await app.logIn(credentials);
     });
-    tearDownAll(() async {
-      await app.currentUser?.logOut();
+    tearDown(() async {
+      await currentUser.logOut();
+      Realm.shutdown();
     });
     // Note: This test doesn't actually test what is being documented, b/c the
     // documentation is about working across multiple processes and it's not
     // intuitive to do that within a unit test (which runs in only 1 process)
-    test("Sync multiple processes", () {
+    test("Sync multiple processes", () async {
       final schema = [Tricycle.schema];
       // :snippet-start: main-process
       // Same realm file location as secondary process
       String realmPath =
-          path.join(Configuration.defaultStoragePath, 'synced1234.realm');
+          path.join(Configuration.defaultStoragePath, 'synced.realm');
 
       Configuration flexibleConfig =
           Configuration.flexibleSync(currentUser, schema, path: realmPath);
       Realm realmWithSync = Realm(flexibleConfig);
       // :snippet-end:
+      realmWithSync.subscriptions.update((mutableSubscriptions) {
+        mutableSubscriptions.add(realmWithSync.all<Tricycle>());
+      });
+      realmWithSync.write(() => realmWithSync.add(Tricycle(1, 'MyTri')));
+      await realmWithSync.subscriptions.waitForSynchronization();
+      realmWithSync.close();
       // :snippet-start: secondary-process
       // Same realm file location as primary process
       final sameRealmPath =
@@ -45,13 +54,10 @@ void main() {
           Configuration.disconnectedSync(schema, path: sameRealmPath);
       Realm realmWithDisconnectedSync = Realm(disconnectedSyncConfig);
       // :snippet-end:
-      realmWithSync.write(() => Tricycle(1, 'MyTri'));
-      final myTri = realmWithDisconnectedSync.all<Tricycle>()[0];
-      expect(myTri.name, 'MyTri');
+      final myTri = realmWithDisconnectedSync.find<Tricycle>(1);
+      expect(myTri, isNotNull);
       realmWithDisconnectedSync.close();
-      realmWithSync.close();
       // since both realm connections are only for 1 realm, this deletes both
-      Realm.deleteRealm(realmPath);
     });
   });
 }
