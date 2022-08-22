@@ -125,18 +125,8 @@ Use the static :flutter-sdk:`Configuration.defaultRealmName <realm/Configuration
 and :flutter-sdk:`Configuration.defaultRealmPath <realm/Configuration/defaultRealmPath.html>`
 to set default configuration for all realms opened within an application.
 
-.. code-block:: dart
-
-   Configuration.defaultRealmName = "myRealmName.realm";
-
-   String customDefaultRealmPath = path.join((await Directory.systemTemp.createTemp()).path, Configuration.defaultRealmName);
-   Configuration.defaultRealmPath = customDefaultRealmPath;
-
-   // Configurations used in the application will use these values
-   Configuration config = Configuration.local([Car.schema]);
-
-   TODO: code example showing that the default is used. smthn like:
-   print(config.path)
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.default-realm-name-path.dart
+   :language: dart
 
 You can also check where realm files are stored by default using the static getter
 :flutter-sdk:`Configuration.defaultStoragePath <realm/Configuration/defaultStoragePath.html>`.
@@ -145,10 +135,8 @@ on and whether you are using the Dart or Flutter versions of Realm.
 Check the value of ``Configuration.defaultStoragePath`` in your application
 to see where realm files are stored in your environment.
 
-.. code-block:: dart
-
-   String storagePath = Configuration.defaultStoragePath
-   print(storagePath); // see value in your application
+.. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.default-storage-path.dart
+   :language: dart
 
 .. _flutter-close-realm:
 
