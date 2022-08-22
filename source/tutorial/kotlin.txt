@@ -80,7 +80,7 @@ Set up the Template App
    .. step:: Explore the App Structure
 
       Take a few minutes to explore how the project organization while Android
-      Studio indexes your project. Within the `app/java/com.mongodb.app`
+      Studio indexes your project. Within the ``app/java/com.mongodb.app``
       directory, you can see a few files worth noting :
 
       .. cssclass:: config-table
@@ -96,16 +96,16 @@ Set up the Template App
 
          * - ItemActivity.kt
            - UI-based class that opens a realm, and adds functionality for
-           writing Items to the realm, logging a user out, and closing a realm.
+             writing Items to the realm, logging a user out, and closing a realm.
 
          * - ItemAdapter.kt
            - Adapter that displays a list of Items in an Android
-           RecyclerView, and allows users to check & uncheck items updating
-           their status, and delete items.
+             RecyclerView, and allows users to check & uncheck items updating
+             their status, and delete items.
 
          * - LoginActivity.kt
            - UI-based class that provides functionality for registering a user
-           and logging a user in.
+             and logging a user in.
 
          * - TemplateApp.kt
            - Class that initializes the App Services App
@@ -149,7 +149,7 @@ Modify the Application
 
       A. Open the ``build.gradle.kts`` file in Android Studio. 
 
-      #. Within the `app/java/com.mongodb.app` folder open the ``Item`` class file.
+      #. Within the ``app/java/com.mongodb.app`` folder open the ``Item`` class file.
             
       #. Also, add a PriorityLevel enum above the ``Item`` class:
          
@@ -205,7 +205,7 @@ Modify the Application
                <item>Low</item>
             </string-array>
 
-      #. Now within the `app/java/com.mongodb.app` folder, open the
+      #. Now within the ``app/java/com.mongodb.app`` folder, open the
          ``ItemActivity`` file. Here we will load our string array into an
          instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`.
          Add the following code in the ``onFabClicked()`` function, right before we call
@@ -242,7 +242,7 @@ Modify the Application
 
       #. Finally, we will use the :android:`Toast <guide/topics/ui/notifiers/toasts>`
          feedback to tell the user they have successfully created a new todo item with
-         their summary and priority. Within the `Toast.makeText()`` method alter the
+         their summary and priority. Within the ``Toast.makeText()`` method alter the
          existing text to the following:
 
          .. code-block:: kotlin
@@ -285,7 +285,7 @@ Change the Subscription
 
    .. step:: Update the subscription
 
-      Within the `app/java/com.mongodb.app` folder, open the ``ItemActivity``
+      Within the ``app/java/com.mongodb.app`` folder, open the ``ItemActivity``
       where we define the Flexible Sync subscription. The subscription defines
       which documents we sync with the user's device & account. Find the
       ``SyncConfiguration.Builder().initialSubscriptions()`` function that our
