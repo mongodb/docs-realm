@@ -15,7 +15,7 @@ React Native Tutorial
 Overview
 --------
 
-You can use the Realm JavaScript SDK and the official Realm React hooks
+You can use the Realm JavaScript SDK, and the official Realm React
 library to build a mobile application with React Native. This tutorial
 walks you through how to build your own app that uses flexible sync.
 
@@ -56,7 +56,7 @@ they finish it. Some basic functionality is already set up for you:
 - Users can create email/password accounts and log in and out of the app.
 
 - Users can create, read, update, and delete ``Item`` objects that
-  represent individual to-do tasks.
+  represent individual items to do.
 
 - The ``Item`` class is set up to automatically sync to Atlas and other
   clients with {+sync+}.
@@ -286,7 +286,7 @@ are and allow us to focus only on the most important ones.
            Low = 3,
          }
       
-      In regular JavaScript, there is no ``enum`` keyword. Instead we'll
+      In regular JavaScript, there is no ``enum`` keyword. Instead, we'll
       use a helper function to create something equivalent.
 
       Add the following code directly under the import statements in
@@ -314,7 +314,7 @@ are and allow us to focus only on the most important ones.
          The priority levels in the enum are ordered from most important
          to least. The corresponding index value for each level
          increases from the most important, ``Priority[0]``, to the
-         least, ``Priority[3]``. This means that a "higher" priority
+         least important, ``Priority[3]``. This means that a "higher" priority
          level (i.e. a more important one) has a lower index value.
    
    .. step:: Update the To-Do Item Data Model
@@ -595,7 +595,7 @@ only syncs "important" ones with a ``priority`` of High or Severe.
                  .objects("Item")
                  .filtered(`owner_id == "${user.id}"`);
                if(showImportantOnly) {
-                 // More important Items have lower priority values
+                 // 'Severe' or 'High' priority items
                  ownItems = ownItems.filtered(`priority <= 1`);
                }
                // use the same name as the initial subscription to update it
