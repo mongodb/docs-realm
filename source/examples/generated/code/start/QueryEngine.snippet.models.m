@@ -6,7 +6,7 @@
 @property int priority;
 @property int progressMinutes;
 @end
-RLM_ARRAY_TYPE(Task)
+RLM_COLLECTION_TYPE(Task)
 // Task.m
 @implementation Task
 @end
