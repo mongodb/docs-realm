@@ -14,7 +14,7 @@
 @end
 
 // Define an RLMArray<ObjectModelsExamplesObjc_Task> type
-RLM_ARRAY_TYPE(ObjectModelsExamplesObjc_Task)
+RLM_COLLECTION_TYPE(ObjectModelsExamplesObjc_Task)
 
 
 // ObjectModelsExamplesObjc_User.h

@@ -16,7 +16,7 @@
 @end
 
 // Define an RLMArray<InverseRelationshipObjcExample_Task> type
-RLM_ARRAY_TYPE(InverseRelationshipObjcExample_Task)
+RLM_COLLECTION_TYPE(InverseRelationshipObjcExample_Task)
 
 
 // InverseRelationshipObjcExample_User.h
@@ -50,7 +50,7 @@ RLM_ARRAY_TYPE(InverseRelationshipObjcExample_Task)
 @end
 
 // Define an RLMArray<ToManyObjcExample_Dog> type
-RLM_ARRAY_TYPE(ToManyObjcExample_Dog)
+RLM_COLLECTION_TYPE(ToManyObjcExample_Dog)
 
 // ToManyObjcExample_Person.h
 @interface ToManyObjcExample_Person : RLMObject
@@ -77,7 +77,7 @@ RLM_ARRAY_TYPE(ToManyObjcExample_Dog)
 @end
 
 // Define an RLMArray<ToManyObjcExample_Dog> type
-RLM_ARRAY_TYPE(ToOneRelationshipObjc_Dog)
+RLM_COLLECTION_TYPE(ToOneRelationshipObjc_Dog)
 
 // ToOneRelationshipObjc_Person.h
 @interface ToOneRelationshipObjc_Person : RLMObject

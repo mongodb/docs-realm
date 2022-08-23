@@ -15,7 +15,7 @@
 @end
 
 // Enable Dog for use in RLMArray
-RLM_ARRAY_TYPE(Dog)
+RLM_COLLECTION_TYPE(Dog)
 
 
 // Person.h
@@ -31,7 +31,7 @@ RLM_ARRAY_TYPE(Dog)
 @property (readonly) RLMLinkingObjects *clubs;
 @end
 
-RLM_ARRAY_TYPE(Person)
+RLM_COLLECTION_TYPE(Person)
 
 
 // DogClub.h
