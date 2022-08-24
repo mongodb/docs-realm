@@ -1,0 +1,66 @@
+.. _dotnet-convert-to-sync:
+
+===============================================================
+Convert Between Non-Synced Realms and Synced Realms  - .NET SDK
+===============================================================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Realm does not have a direct mechanism to add sync to a non-synced realm, or to 
+permanently stop Sync for a synced realm. However, the .NET SDK does provide a 
+method that enables you to copy a realm file for use with a different configuration. 
+With this method, you can easily duplicate a realm's data, which you can then 
+open with a sync or non-sync configuration. This lets you indirectly add Sync 
+to a non-synced realm, or permanently stop a realm from syncing.
+
+
+.. note:: Flexible Sync Only
+
+   Converting between non-synced and synced realms only works with Flexible Sync 
+   configurations.
+
+Overview
+--------
+Converting a realm from sync to non-sync (or vice versa), you do the following:
+
+1. Open the existing realm, 
+2. Create a configuration for the new realm, 
+3. Call the 
+   :dotnet-sdk:`WriteCopy() <reference/Realms.Realm.html#Realms_Realm_WriteCopy_Realms_RealmConfigurationBase_>` 
+   method on the existing realm to make a copy to the new realm. 
+
+The details of these steps differs depending on which direction then copy is 
+happening. The details are outlined in the sections that follow. 
+
+Convert a Non-Synced Realm to a Synced Realm
+--------------------------------------------
+In the following code, we open a non-synced realm, create a new 
+:dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>` 
+object and then copy the existing realm to the new realm. We then delete the 
+existing realm and open the new realm.
+
+..literalinclude:: /examples/generated/dotnet/Convert.snippet.nonsync-to-sync.cs
+   :language: csharp
+   :copyable: true
+
+
+Convert a Synced Realm to a Non-Synced Realm
+--------------------------------------------
+In the following code, we first open a synced realm. To be sure that the most 
+recent data is copied to the non-synced realm, wait for the data to be synced 
+in both directions. We do this by calling 
+:dotnet-sdk:`WaitForUploadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>`
+and 
+:dotnet-sdk:`WaitForDownloadAsync <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>`.
+Then we call ``WriteCopy()`` to copy the data to the non-synced realm. At this 
+point, we can delete the synced realm and start using the non-synced realm.
+
+..literalinclude:: /examples/generated/dotnet/Convert.snippet.sync-to-nonsync.cs
+   :language: csharp
+   :copyable: true
