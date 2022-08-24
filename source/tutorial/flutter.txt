@@ -18,7 +18,7 @@ the creation of a Todo application. This application enables users to:
 
 - Register their email as a new user account.
 - Sign in to their account with their email and password (and sign out later).
-- View, create, modify, and delete tasks.
+- View, create, modify, and delete task items.
 
 This tutorial adds on to the Template App. You will add a new ``Priority`` field
 to the existing ``Item`` model and update the
@@ -106,7 +106,7 @@ Set up the Template App
          * - ``lib/realm/init_realm.dart``
            - Initializes the realm and adds a subscription to sync data
              with MongoDB Atlas using Device Sync.
-         
+
          * - ``lib/viewmodels/todo_viewmodel.dart``
            - View model class that controls interaction between UI and Realm.
 
@@ -168,13 +168,6 @@ Modify the Application
 
             late int? priority;
 
-      #. Also add a ``PriorityLevel`` enum below the ``_Item`` class:
-
-         .. code-block:: dart
-            :caption: lib/realm/schemas.dart
-
-            enum PriorityLevel { severe, high, medium, low }
-
       #. Regenerate the ``Item`` Realm object class:
 
          .. code-block:: sh
@@ -185,66 +178,62 @@ Modify the Application
 
       TODO: resume here
 
-      A. In ``NewItemPopup.xaml.cs``, add a new public property under the
-         existing ``ItemName`` and ``IsOK`` properties:
+      A. In ``lib/viewmodels/item_viewmodel.dart``, add logic to set and update
+         ``priority``. Also add a ``PriorityLevel`` enum below the
+         ``ItemViewModel`` class:
 
-         .. code-block:: csharp
-            :emphasize-lines: 3
+         .. literalinclude:: /examples/tutorial/flutter/item_viewmodel.dart
+            :language: dart
+            :caption: lib/viewmodels/item_viewmodel.dart
+            :emphasize-lines: 8, 13-17, 28, 38-42, 46-51
 
-            public string ItemName { get; set; }
-            public bool IsOK { get; set; }
-            public int Priority { get; set; }
 
-      #. Open the ``NewItemPopup.xaml`` file. This file defines the UI
-         element for creating a new Item. We will add two UI elements: a label and a
-         Picker that enables the user to choose which priority level to set on the
-         new Item. Locate the ``OK`` button, and insert the following code *above*
-         it:
+      #. Create a new file to contain a widget to set the priority for an Item.
+         Make the file ``lib/components/select_priority.dart``.
 
-         .. code-block:: csharp
+         .. literal-include:: source/examples/tutorial/flutter/select_priority.dart
+            :language: dart
+            :caption: lib/components/select_priority.dart
 
-            <Label FontSize="18" HorizontalTextAlignment="Left" Text="Priority:"/>
-            <Picker x:Name="newItemPriority">
-               <Picker.Items>
-                     <x:String>Severe</x:String>
-                     <x:String>High</x:String>
-                     <x:String>Medium</x:String>
-                     <x:String>Low</x:String>
-               </Picker.Items>
-            </Picker>
+      #. Now add the ``SelectPriority`` widget to the
+         ``CreateItem`` and ``ModifyItem`` widgets. You also need to add
+         some additional logic to handle setting the priority. The code you must
+         add is shown below.
+         
+         Some sections of the files you are adding to are
+         replaced with comments in the below code examples to focus on the relevant
+         sections of code that are changed.
 
-      #. Now switch back to the NewItemPopup.xaml.cs file. Find the
-         ``OK_Button_Clicked`` event handler, which currently sets the
-         ``ItemName`` and ``IsOK`` properties. Add a line to also set the
-         ``Priority`` property:
+         Edit the ``CreateItemForm`` widget in ``lib/components/create_item.dart``:
 
-         .. code-block:: csharp
+         .. literal-include:: /examples/tutorial/flutter/create_item.modified.dart
+            :language: dart
+            :caption: lib/components/create_item.dart
+            :emphasize-lines: 2, 16, 20-24, 38
 
-            this.Priority = newItemPriority.SelectedIndex;
 
-         .. note:: Using SelectedIndex
+         Edit the ``ModifyItemForm`` widget in ``lib/components/modify_item.dart``:
 
-            Because we ordered the priorities in the Picker element from highest
-            to lowest, the lower the selected item's index, the higher that Item's
-            priority is: 0 for Severe, 1 for High, etc. Therefore, the index
-            matches the PriorityLevel enum values.
+         .. code-block:: source/examples/tutorial/flutter/modify_item.modified.dart
+            :language: dart
+            :caption: lib/components/create_item.dart
+            :emphasize-lines: 2, 18, 25, 35, 40-44, 65
 
-      #. Finally, open the ``ItemPage.xaml.cs`` file, and find the ``Popup_Popped``
-         event handler, which fires when the NewItemPopup is closed. In this
-         method, we create a new Item and save it to the realm. Where we set the
-         other Item properties, add a line of code to set the new Priority
-         property:
+      #. Now add a visual indicator for priority in the ``Item`` widget
+         in ``lib/components/item.dart``. Create a new widget ``_PriorityIndicator`` that gives
+         a visual indicator of the Item's priority.
 
-         .. code-block:: csharp
-            :emphasize-lines: 6
+         Add the ``_PriorityIndicator`` widget you just created to the ``Item``
+         widget.
 
-            var newItem = new Item()
-            {
-                OwnerId = _user.Id.ToString(),
-                Summary = popup.ItemName,
-                IsComplete = false,
-                Priority = popup.Priority
-            };
+         .. literal-include:: /examples/tutorial/flutter/item.modified.dart
+            :language: dart
+            :caption: lib/components/item.dart
+            :emphasize-lines: 27-35, 48-73
+
+      TODO(DOCSP-24627): currently this is breaking sync. talking w dart team
+      and debugging....
+
 
    .. step:: Run and Test
 
@@ -271,42 +260,72 @@ Modify the Application
          are reflected in the server-side schema. For more information, see
          :ref:`<concept-development-mode>` and :ref:`<additive-changes-synced-schema>`.
 
-.. procedure:: Change the Subscription
+Now that we added the priority field, we want to update the Device Sync subscription
+to only sync Items marked as a High or Severe Priority.
+
+.. procedure::
 
    .. step:: Update the subscription
 
-      In the ``ItemPage.xaml.cs`` file, we define the Flexible Sync subscription
-      that defines which documents we sync with the user's device & account.
-      Find the ``AddSubscriptionsToRealm`` method. Within the ``subscriptions.Update()``
-      method, you can see that we are currently subscribing to all documents where
-      the ``OwnerId`` property matches the authenticated user. We want to maintain
-      that, but *only* sync Items that are marked as High or Severe priority.
+      In the ``lib/realm/init_realm.dart`` file, we define the Flexible Sync
+      subscription that defines which documents we sync with the user's device
+      and account. Currently, we are syncing all all documents where
+      the ``owner`` property matches the authenticated user.
 
+      The current subscription: 
+
+      TODO(DOCSP-24627): literalinclude
+
+      .. code-block:: dart
+         :caption: lib/realm/init_realm.dart
+         :emphasize-lines: 3-5
+
+         final userItemSub = realm.subscriptions.findByName('getUserItems');
+         if (userItemSub == null) {
+            realm.subscriptions.update((mutableSubscriptions) {
+               // server-side rules ensure user only downloads own items
+               mutableSubscriptions.add(realm.all<Item>(), name: 'getUserItems');
+            });
+         }
+      
+      Now we're going to change the subscription to only sync High and Severe 
+      priority Items. 
       As you may recall, the Priority field is of type ``int``, where the highest
       priority ("Severe") has a value of 0, and the lowest priority ("Low") has
       a value of 3. We can make direct comparisons between an int and the
-      Priority property. To do so, edit the LINQ statement to include documents
-      where the priority is equal to or *less* than PriorityLevel.High (or 1), as
-      shown here:
+      Priority property. To do so, we're going to refactor the subscription query
+      to include Items where the priority is less than or equal to
+      ``PriorityLevel.high`` (or 1). We will also give the subscription the new name
+      ``"getUserItemsWithHighPriority"``.
+      
+      Update the subscription to the following: 
 
-      .. code-block:: csharp
-         :emphasize-lines: 5
+      TODO(DOCSP-24627): literalinclude
 
-         subscriptions.Update(() =>
-            {
-                var defaultSubscription = _itemsRealm.All<Item>()
-                    .Where(t => t.OwnerId == _user.Id
-                    && t.Priority <= (int)PriorityLevel.High
-                    );
+      .. code-block:: dart
+         :emphasize-lines: 1
+
+         final userItemSub = realm.subscriptions.findByName(
+            'getUserItemsWithHighPriority'
+         );
+         if (userItemSub == null) {
+            realm.subscriptions.update((mutableSubscriptions) {
+               // server-side rules ensure user only downloads own items
+               mutableSubscriptions.add(
+                  realm.query<Item>(
+                     'priority <= \$0', [PriorityLevel.high]
+                  ),
+                  name: 'getUserItemsWithHighPriority');
             });
+         }
 
    .. step:: Run and Test
 
       Run the application again. Log in using the account you created earlier
       in this tutorial. You would expect to see the Item you most recently created,
       since it has a priority of "High" (1). But it is not in the list. If you
-      check your application logs, you will see an entry that looks something
-      like this:
+      check your application logs in the terminal,
+      you will see an entry that looks something like this:
 
       .. code-block:: sh
          :copyable: false
@@ -336,7 +355,7 @@ Modify the Application
 
    .. step:: Test the changes
 
-      Return to your mobile app. To ensure the subscription is re-run, log out
+      Return to your Flutter app. To ensure the subscription is re-run, log out
       the current user, and then log in again.
       After an initial moment when Realm resyncs the document collection, you
       will see the new Item of High priority that you created.
@@ -348,28 +367,33 @@ Modify the Application
       out the Item because it doesn't meet the subscription rules.
 
       You'll note, too, that the document you initially created is not synced,
-      because it has a priority of ``null``. If you want this Item to be synced,
+      because it has a priority of ``null``. 
+      If you want this Item to be synced,
       you can edit the document in the Atlas UI and add a value for the priority
       field, or you can change your subscription to include documents with null
-      values:
+      values. You must use the Realm Query Language `nil` type to represent the
+      null value in your query.  We will also give the subscription the new name
+      ``"getUserItemsWithHighOrNoPriority"``.
 
+      TODO(DOCSP-24627): literalinclude
 
-      .. code-block:: csharp
-         :emphasize-lines: 5
+      .. code-block:: dart
+         :emphasize-lines: 9
 
-         subscriptions.Update(() =>
-            {
-               var defaultSubscription = _itemsRealm.All<Item>()
-                    .Where(t => t.OwnerId == _user.Id
-                    && (t.Priority == null || t.Priority <= 1));
-                subscriptions.Add(defaultSubscription);
+         final userItemSub = realm.subscriptions.findByName(
+            'getUserItemsWithHighOrNoPriority'
+         );
+         if (userItemSub == null) {
+            realm.subscriptions.update((mutableSubscriptions) {
+               // server-side rules ensure user only downloads own items
+               mutableSubscriptions.add(
+                  realm.query<Item>(
+                     'priority <= \$0 OR priority == nil', 
+                     [PriorityLevel.high']
+                  ),
+                  name: 'getUserItemsWithHighOrNoPriority');
             });
-
-      .. note:: Priority as Int
-
-         If you compare this subscription with the one above, you'll note we
-         specify the Priority as ``<= 1``, which is the same as comparing against
-         the ``PriorityLevel`` enum casted to an int.
+         }
 
 Conclusion
 ----------
