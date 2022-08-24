@@ -1,0 +1,79 @@
+.. _dotnet-data-binding:
+
+=======================
+Data Binding - .NET SDK
+=======================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+In Xamarin and MAUI applications, data binding updates the UI when an underlying 
+object changes, and vice versa. 
+Realm objects are :ref:`live objects <dotnet-live-object>` that update automatically 
+to reflect data changes. Realm objects implement 
+`INotifyPropertyChanged <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged>`__ 
+and Realm collections implement 
+`INotifyCollectionChanged <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged>`__,
+which means you can easily bind them directly to your UI. 
+
+.. important:: Don't Use ToList()
+
+   Because Realm objects are live objects that implement the ``INotify`` interfaces, 
+   you should not cast a Realm collection using ``ToList()``. Casting the collection 
+   to a list makes the collection no longer a live object.
+
+Data Binding a Realm Collection
+-------------------------------
+In the following code example, we're creating a public ``IEnumerable`` of 
+Realm objects called "Items" and then populating that collection with all 
+of the documents in the Items collection:
+
+.. code-block:: csharp
+   :copyable: false
+
+   public IEnumerable<Item> Items { get; }
+   
+   ... 
+   
+   _itemsRealm = Realm.GetInstance(config);
+   Items = _itemsRealm.All<Item>();
+
+In the associated XAML file, we bind a ListView to the Items ``IEnumerable`` and 
+use specific property values to display in the list:
+
+.. code-block:: xml
+   :copyable: false
+
+    <ListView x:Name="listItems" ItemsSource="{Binding Items}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid Padding="10,0,15,0" BackgroundColor="#ceF">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding Summary}"/>
+                        <Switch x:Name="chkCompleted" 
+                           IsToggled="{Binding IsComplete}" 
+                           AutomationId="{Binding Id}"/>
+                        <StackLayout Grid.Column="2" VerticalOptions="Center">
+                            <Image WidthRequest="30" x:Name="btnDelete" 
+                                    Source="trash.png" AutomationId="{Binding Id}">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Delete_Clicked" 
+                                        CommandParameter="{Binding .}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
