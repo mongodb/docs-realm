@@ -98,11 +98,9 @@ computer:
       <https://guides.cocoapods.org/using/getting-started.html>`__.
 
       .. code-block:: shell
-
-         cd ios
-         pod install --repo-update
-         cd ..
-
+         
+         npx pod-install
+      
       .. tip::
 
          Make sure to switch back to the frontend project's root
@@ -113,24 +111,32 @@ computer:
       At this point, you should have a fully functional React Native app
       that can run on both iOS and Android.
 
-      To make sure that everything works, build the app and run it in an
-      iOS simulator or Android emulator:
-
       .. tabs::
 
          .. tab:: iOS
             :tabid: ios
+
+            To make sure that everything works on iOS, build the app and
+            run it in an iOS simulator:
             
             .. code-block:: shell
 
-               npx react-native run-ios
+               npm run ios
 
          .. tab:: Android
             :tabid: android
             
-            .. code-block:: shell
+            To make sure that everything works on Android:
+            
+            1. Start an Android emulator. See :android:`Run apps on the
+               Android Emulator <studio/run/emulator>` for details on
+               how to do this.
+            
+            2. Build the app on the emulator:
                
-               npx react-native run-android
+               .. code-block:: shell
+                  
+                  npm run android
 
       .. tip::
          
@@ -153,15 +159,32 @@ computer:
       - Press the X on an item to delete it from the list.
 
       If you connect to your Atlas cluster and query the
-      ``todo.Items`` collection you can see your app's data. New data
+      ``todo.Item`` collection you can see your app's data. New data
       and changes from the React Native app automatically sync to
       this collection.
+
+      .. tip::
+
+         To learn how to connect to your Atlas cluster, see
+         :ref:`atlas-connect-to-deployment`.
        
       Similarly, any changes in the collection automatically sync down
       to the React Native app. Try changing an item's completion status
       in your cluster - the React Native app will automatically update
       with the new value whenever there is a network connection
       available.
+
+      .. code-block:: javascript
+         
+         db.Item.updateOne(
+           { "_id": "630665dba3f53b578b75bd7e" },
+           { "$set": { "isComplete": true }
+         })
+
+      .. tip::
+
+         To learn more about updating data in your cluster, see
+         :ref:`write-op-update`.
       
       .. image:: /images/rn-tutorial-template-client.png
          :alt: Screenshots of the welcome and to-do list screens from the template app.
@@ -388,14 +411,16 @@ are and allow us to focus only on the most important ones.
          
          npm install @react-native-picker/picker
       
-      After you've installed the package, make sure to link the
-      associated Cocoapods:
+      If you're building for iOS, make sure to link the associated
+      Cocoapods after you've installed the package:
 
       .. code-block:: shell
 
-         cd ios
-         pod install --repo-update
-         cd ..
+         npx pod-install
+      
+      .. tip::
+         
+         You may need to restart your project bundler after installing.
       
       Now that the package is fully installed, let's update the new
       to-do creation prompt component to use the picker.
