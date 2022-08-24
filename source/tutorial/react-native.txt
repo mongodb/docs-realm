@@ -388,8 +388,17 @@ are and allow us to focus only on the most important ones.
          
          npm install @react-native-picker/picker
       
-      Next, let's update the new to-do creation prompt component to use
-      the picker.
+      After you've installed the package, make sure to link the
+      associated Cocoapods:
+
+      .. code-block:: shell
+
+         cd ios
+         pod install --repo-update
+         cd ..
+      
+      Now that the package is fully installed, let's update the new
+      to-do creation prompt component to use the picker.
       
       Add the following imports to the top of ``src/CreateToDoPrompt.js``:
 
@@ -407,7 +416,7 @@ are and allow us to focus only on the most important ones.
 
       .. code-block:: javascript
          :caption: src/CreateToDoPrompt.js
-         :emphasize-lines: 4, 12-19, 23
+         :emphasize-lines: 4, 12-23, 27
          
          export function CreateToDoPrompt(props) {
            const {onSubmit} = props;
@@ -424,8 +433,12 @@ are and allow us to focus only on the most important ones.
                  style={{width: '80%'}}
                  selectedValue={priority}
                  onValueChange={value => setPriority(value)}>
-                 {Priority.map(p => (
-                   <Picker.Item key={p} label={p} value={Priority[p]} />
+                 {Priority.map(priority => (
+                   <Picker.Item
+                     key={priority}
+                     label={priority}
+                     value={Priority[priority]}
+                    />
                  ))}
                </Picker>
                <Button
@@ -574,7 +587,7 @@ only syncs "important" ones with a ``priority`` of High or Severe.
              ...styles.addToDoButton,
              backgroundColor: showImportantOnly ? '#00A35C' : '#FFC010',
            }}
-           onPress={() => setShowImportantOnly(b => !b)}
+           onPress={() => setShowImportantOnly(showImportantOnly => !showImportantOnly)}
          />
 
    .. step:: Update the Sync Subscription
