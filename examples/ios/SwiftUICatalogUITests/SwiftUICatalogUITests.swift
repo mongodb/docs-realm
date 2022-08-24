@@ -27,7 +27,7 @@ class SwiftUICatalogUITests: XCTestCase {
             loginButton.tap()
         }
         
-        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 5))
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
     }
     
     func testFlexibleSyncLogin() throws {
@@ -42,7 +42,7 @@ class SwiftUICatalogUITests: XCTestCase {
             loginButton.tap()
         }
 
-        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 5))
+        XCTAssert(app.staticTexts["Successfully opened the realm"].waitForExistence(timeout: 10))
     }
     
     func testPassRealmObjects() throws {
