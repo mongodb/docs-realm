@@ -27,10 +27,10 @@ To delete an object from a realm:
    your query returns the correct object, filter with unique identifying
    information such as a primary key value.
 
-#. Delete the set of `RealmResults
+#. Pass the set of `RealmResults
    <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/index.html>`__
-   returned by the query with `realmResults.delete()
-   <{+kotlin-local-prefix+}io.realm.kotlin/-realm-results/delete.html>`__.
+   returned by the query to `mutableRealm.delete()
+<{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
 
 .. literalinclude:: /examples/generated/kotlin/CRUDTest.snippet.delete-an-object.kt
    :language: kotlin
