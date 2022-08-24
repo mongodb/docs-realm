@@ -7,7 +7,7 @@
 @end
 
 // Enable Address for use in RLMArray
-RLM_ARRAY_TYPE(Address)
+RLM_COLLECTION_TYPE(Address)
 
 
 @implementation Address
