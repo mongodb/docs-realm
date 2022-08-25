@@ -34,10 +34,10 @@ between devices <ios-realm-sync>`.
 
 The App Client
 --------------------
-When using the SDK to access the Atlas App Services backend, you start with a
+When using the SDK to access the App Services backend, you start with a
 App object. This object provides all other functionality related to
 App Services. The ``App`` object is
-:ref:`initialized <ios-init-appclient>` with the Atlas App Services App
+:ref:`initialized <ios-init-appclient>` with the App
 ID, which you can :ref:`find in the App Services UI <find-your-app-id>`.
 
 .. tip::
@@ -51,7 +51,7 @@ Authentication & User Management
 
 One of the most challenging aspects of client development is implementing a 
 robust and secure authentication system. With the Realm SDKs, however, you 
-can use any of the Atlas App Services authentication providers with very 
+can use any of the App Services authentication providers with very 
 minimal backend setup or client-side code required. With the authentication 
 APIs, you can implement the following functionality:
 
@@ -108,9 +108,9 @@ Sync Data
 ---------
 
 Atlas Device Sync automatically synchronizes data between client applications and 
-an :ref:`Atlas App Services backend <realm-cloud>`. When a client 
+an :ref:`App Services backend <realm-cloud>`. When a client 
 device is online, Sync asynchronously synchronizes data in a 
-background thread between the device and your backend Atlas App Services App. 
+background thread between the device and your backend App. 
 
 When you use Sync in your client application, your implementation must match 
 the Sync Mode you select in your backend App configuration. The Sync Mode

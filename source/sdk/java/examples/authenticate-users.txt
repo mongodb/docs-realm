@@ -335,7 +335,7 @@ users in your Android application:
 #. Use the :java-sdk:`app.loginAsync()
    <io/realm/mongodb/App.html#loginAsync-io.realm.mongodb.Credentials-io.realm.mongodb.App.Callback->`
    or :java-sdk:`app.login() <io/realm/mongodb/App.html#login-io.realm.mongodb.Credentials->`
-   methods to authenticate with the App Services backend using the token.
+   methods to authenticate with the Atlas App Services backend using the token.
 
 The following code implements this flow, starting with a method call to
 ``loginWithGoogle()``:
@@ -396,7 +396,7 @@ to ``app.login()`` or ``app.loginAsync()``.
 Offline Login
 -------------
 
-Atlas App Services manages sessions with access tokens and refresh tokens. Client
+App Services manages sessions with access tokens and refresh tokens. Client
 SDKs supply the logic to manage tokens, and provide them with requests.
 
 The SDK stores these tokens in 
