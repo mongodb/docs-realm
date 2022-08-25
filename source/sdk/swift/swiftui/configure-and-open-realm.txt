@@ -18,12 +18,12 @@ SwiftUI-friendly way.
 You can:
 
 - :ref:`Implicitly open a realm <ios-open-realm-with-configuration-swiftui>` 
-  with a ``defaultConfiguration``, or specify a different configuration. 
+  with a ``defaultConfiguration`` or specify a different configuration. 
   This works for both non-synced and synced realms.
 - :ref:`Always download changes before opening a synced realm 
   <swiftui-async-open-synced-realm>`, which times out when the user is offline.
 - :ref:`Open a synced realm even when a user is offline 
-  <swiftui-auto-open-synced-realm>`, but may lack the most recent data.
+  <swiftui-auto-open-synced-realm>`. The realm may lack the most recent data.
 
 .. _ios-open-realm-with-configuration-swiftui:
 
