@@ -420,7 +420,25 @@ are and allow us to focus only on the most important ones.
       
       .. tip::
          
-         You may need to restart your project bundler after installing.
+         You may need to rebuild your app after installing. To do so,
+         stop the bundler for your project and then run the build
+         command:
+
+         .. tabs::
+            
+            .. tab:: iOS
+               :tabid: ios
+   
+               .. code-block:: shell
+                  
+                  npm run ios
+            
+            .. tab:: Android
+               :tabid: android
+   
+               .. code-block:: shell
+                  
+                  npm run android
       
       Now that the package is fully installed, let's update the new
       to-do creation prompt component to use the picker.
