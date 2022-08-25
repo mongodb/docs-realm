@@ -44,7 +44,9 @@ The ``$dogs.remove`` in the ``onDelete`` and the ``$dogs.append`` in the
 ``addDogButton`` write directly to the ``@ObservedResults`` collection.
 While a regular :ref:`Realm Results collection <ios-results-collections>`
 is immutable, ObservedResults is a mutable collection that allows you to 
-implicitly perform writes using the two-way binding.
+perform writes using the two-way binding. When you update the 
+bound collection, Realm Database opens an implicit write transaction and 
+saves the changes to the collection.
 
 .. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.update-observed-results.swift
    :language: swift
