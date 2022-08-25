@@ -4,7 +4,6 @@
 Flutter Tutorial
 ================
 
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -231,10 +230,6 @@ Modify the Application
             :caption: lib/components/item.dart
             :emphasize-lines: 27-35, 48-73
 
-      TODO(DOCSP-24627): currently this is breaking sync. talking w dart team
-      and debugging....
-
-
    .. step:: Run and Test
 
       At this point, you can run the application again. Log in using the account
@@ -272,24 +267,18 @@ to only sync Items marked as a High or Severe Priority.
       and account. Currently, we are syncing all all documents where
       the ``owner`` property matches the authenticated user.
 
-      The current subscription: 
+      The current subscription:
 
-      TODO(DOCSP-24627): literalinclude
 
-      .. code-block:: dart
+      .. literalinclude:: /examples/tutorial/flutter/init_realm.modified.dart
+         :language: dart
          :caption: lib/realm/init_realm.dart
          :emphasize-lines: 3-5
 
-         final userItemSub = realm.subscriptions.findByName('getUserItems');
-         if (userItemSub == null) {
-            realm.subscriptions.update((mutableSubscriptions) {
-               // server-side rules ensure user only downloads own items
-               mutableSubscriptions.add(realm.all<Item>(), name: 'getUserItems');
-            });
-         }
+         
       
-      Now we're going to change the subscription to only sync High and Severe 
-      priority Items. 
+      Now we're going to change the subscription to only sync High and Severe
+      priority Items.
       As you may recall, the Priority field is of type ``int``, where the highest
       priority ("Severe") has a value of 0, and the lowest priority ("Low") has
       a value of 3. We can make direct comparisons between an int and the
@@ -297,27 +286,12 @@ to only sync Items marked as a High or Severe Priority.
       to include Items where the priority is less than or equal to
       ``PriorityLevel.high`` (or 1). We will also give the subscription the new name
       ``"getUserItemsWithHighPriority"``.
-      
-      Update the subscription to the following: 
 
-      TODO(DOCSP-24627): literalinclude
+      Update the subscription to the following:
 
-      .. code-block:: dart
-         :emphasize-lines: 1
-
-         final userItemSub = realm.subscriptions.findByName(
-            'getUserItemsWithHighPriority'
-         );
-         if (userItemSub == null) {
-            realm.subscriptions.update((mutableSubscriptions) {
-               // server-side rules ensure user only downloads own items
-               mutableSubscriptions.add(
-                  realm.query<Item>(
-                     'priority <= \$0', [PriorityLevel.high]
-                  ),
-                  name: 'getUserItemsWithHighPriority');
-            });
-         }
+      .. literalinclude:: /examples/tutorial/flutter/init_realm.end-state.modified.dart
+         :language: dart
+         :emphasize-lines: 1-3, 8-11
 
    .. step:: Run and Test
 
@@ -367,7 +341,7 @@ to only sync Items marked as a High or Severe Priority.
       out the Item because it doesn't meet the subscription rules.
 
       You'll note, too, that the document you initially created is not synced,
-      because it has a priority of ``null``. 
+      because it has a priority of ``null``.
       If you want this Item to be synced,
       you can edit the document in the Atlas UI and add a value for the priority
       field, or you can change your subscription to include documents with null
@@ -377,23 +351,10 @@ to only sync Items marked as a High or Severe Priority.
 
       TODO(DOCSP-24627): literalinclude
 
-      .. code-block:: dart
+      .. literalinclude:: /examples/tutorial/flutter/init_realm.end-state-2.modified.dart
+         :language: dart
          :emphasize-lines: 9
 
-         final userItemSub = realm.subscriptions.findByName(
-            'getUserItemsWithHighOrNoPriority'
-         );
-         if (userItemSub == null) {
-            realm.subscriptions.update((mutableSubscriptions) {
-               // server-side rules ensure user only downloads own items
-               mutableSubscriptions.add(
-                  realm.query<Item>(
-                     'priority <= \$0 OR priority == nil', 
-                     [PriorityLevel.high']
-                  ),
-                  name: 'getUserItemsWithHighOrNoPriority');
-            });
-         }
 
 Conclusion
 ----------
