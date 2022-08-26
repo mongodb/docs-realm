@@ -45,6 +45,11 @@ definition to your application code:
    :language: kotlin
    :copyable: false
 
+The above example illustrates the creation of an 'Item' model that represents
+Todo items in a Todo list app.
+
+.. _kotlin-client-quick-start-open-a-local-realm:
+
 Open a Realm
 ------------
 
@@ -56,7 +61,7 @@ Pass your configuration to the `Realm factory constructor
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__
 to generate an instance of that realm:
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-realm.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-open-a-local-realm.kt
    :language: kotlin
    :copyable: false
 
@@ -67,14 +72,14 @@ Once opened, you can create objects within a realm in a
 `write transaction block
 <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write.html>`__.
 
-To create a new :file:`Task`, instantiate an instance of the
-:file:`Task` class and add it to the realm in a write transaction block:
+To create a new :file:`Item`, instantiate an instance of the
+:file:`Item` class and add it to the realm in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-create.kt
    :language: kotlin
    :copyable: false
 
-You can retrieve a collection of all tasks in the realm with
+You can retrieve a collection of all Todo items in the realm with
 `query.find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-read.kt
@@ -93,13 +98,13 @@ of objects:
    Find more information about string Realm Database queries in
    :ref:`Filter Data <kotlin-filter-data>`.
 
-To modify a task, update its properties in a write transaction block:
+To modify a Todo item, update its properties in a write transaction block:
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start-update.kt
    :language: kotlin
    :copyable: false
 
-Finally, you can delete a task by calling `mutableRealm.delete()
+Finally, you can delete a Todo item by calling `mutableRealm.delete()
 <{+kotlin-local-prefix+}io.realm.kotlin/-mutable-realm/delete.html>`__
 in a write transaction block:
 
@@ -115,7 +120,7 @@ You can :ref:`watch a realm, collection, or object for changes
 
 .. include:: /includes/serverless-watch-note.rst
 
-In the following example, we listen for changes on all ``Task`` objects.
+In the following example, we listen for changes on all ``Item`` objects.
 
 .. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-watch-for-changes.kt
    :language: kotlin
@@ -139,7 +144,7 @@ completed.
    :language: kotlin
    :copyable: false
 
-.. _kotlin-client-add-device-sync:
+.. _kotlin-client-quick-startadd-device-sync:
 
 Add Device Sync - (Optional)
 ---------------------------
@@ -160,7 +165,7 @@ To use App Services features such as authentication and sync, you must first acc
 your Atlas App Services App using your App ID. You can :ref:`find your App ID in
 the App Services UI <find-your-app-id>`.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-initialize-app.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-initialize-app.kt
    :language: kotlin
    :copyable: false
 
@@ -172,17 +177,24 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-authenticate.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-authenticate.kt
    :language: kotlin
    :copyable: false
 
-Open a Realm
-~~~~~~~~~~~~
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
 
 Once you have initialized your Atlas App Services App, authenticated a user, and
 defined your object model, you can create a `SyncConfiguration
-<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
-. Pass the authenticated user and the ``Task`` class to the `SyncConfiguration.Builder
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__. 
+
+If you have opened a local realm following the :ref:`Open a Realm
+<kotlin-client-quick-start-open-a-local-realm>` section above, replace the
+`RealmConfiguration
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm-configuration/index.html>`__ with
+the ``SyncConfiguration`` described below.
+
+Pass the authenticated user and the ``Item`` class to the `SyncConfiguration.Builder
 <{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
 function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
 
@@ -196,7 +208,7 @@ Pass the query you wish to subscribe to and a name for the subscription to the `
 The example below specifies a subscription named "User's Items" with
 all ``Item`` objects.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-open-a-synced-realm.kt
    :language: kotlin
    :copyable: false'
 

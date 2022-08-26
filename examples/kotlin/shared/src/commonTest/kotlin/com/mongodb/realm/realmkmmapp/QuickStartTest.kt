@@ -78,7 +78,7 @@ class QuickStartTest: RealmTest() {
     @Test
     fun quickStartTest() {
         // :snippet-start: quick-start
-        // :snippet-start: quick-start-open-a-realm
+        // :snippet-start: quick-start-open-a-local-realm
         val config = RealmConfiguration.Builder(schema = setOf(Item::class))
             // :remove-start:
             .directory("/tmp/")
