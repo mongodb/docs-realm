@@ -1,6 +1,6 @@
 .. code-block:: dart
    :caption: lib/components/modify_item.dart
-   :emphasize-lines: 18, 25, 33-36, 40-44
+   :emphasize-lines: 18, 25, 33-36, 40-44, 65
 
    // ... other imports
    import 'package:flutter_todo/components/select_priority.dart';

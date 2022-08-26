@@ -1,5 +1,5 @@
 .. code-block:: text
-   :emphasize-lines: 18, 25, 33-36, 40-44
+   :emphasize-lines: 18, 25, 33-36, 40-44, 65
 
    // ... other imports
    import 'package:flutter_todo/components/select_priority.dart';
@@ -65,7 +65,7 @@
                  mainAxisSize: MainAxisSize.min,
                  children: <Widget>[
                    // ... other widgets
-                   SelectPriority(_priority, _setPriority),
+                   SelectPriority(_priority, _setPriority), 
                    // ... other widgets
                  ],
                ),

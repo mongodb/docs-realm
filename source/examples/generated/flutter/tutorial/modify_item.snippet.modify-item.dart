@@ -62,7 +62,7 @@ class _ModifyItemFormState extends State<ModifyItemForm> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 // ... other widgets
-                SelectPriority(_priority, _setPriority),
+                SelectPriority(_priority, _setPriority), 
                 // ... other widgets
               ],
             ),

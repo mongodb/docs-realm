@@ -19,7 +19,7 @@ the creation of a Todo application. This application enables users to:
 - Sign in to their account with their email and password (and sign out later).
 - View, create, modify, and delete task items.
 
-This tutorial adds on to the Template App. You will add a new ``Priority`` field
+This tutorial adds on to the Template App. You will add a new ``priority`` field
 to the existing ``Item`` model and update the
 :ref:`Flexible Sync subscription <queryable-fields>` to only show items within
 a range of priorities.
@@ -61,7 +61,7 @@ region:
       --deployment-model global --location us-va --environment development
 
 To learn more about the Template Apps, and to install the Template App that this
-tutorial uses in the Atlas App Services UI, see :ref:`<template-applications>`.
+tutorial uses in the Atlas App Services UI, see :ref:`Template Apps <template-apps>`.
 
 Set up the Template App
 -----------------------
@@ -149,9 +149,8 @@ Modify the Application
 
       Now that you have confirmed everything is working as expected, we can
       add changes. In this tutorial, we have decided that we want to add a
-      "Priority" property to each Item so that we can filter Items by their
-      priorities. The Priority property will be mapped to a ``PriorityLevel`` enum
-      to constrain the possible values.
+      "priority" property to each Item so that we can filter Items by their
+      priorities.
 
       To do this, follow these steps:
 
@@ -174,8 +173,8 @@ Modify the Application
    .. step:: Set the Priority when Creating a New Item
 
       A. In ``lib/viewmodels/item_viewmodel.dart``, add logic to set and update
-         ``priority``. Also add a ``PriorityLevel`` enum below the
-         ``ItemViewModel`` class:
+         ``priority``. Also add a ``PriorityLevel`` abstract class below the
+         ``ItemViewModel`` class to constrain the possible values.
 
          .. include:: /examples/generated/flutter/tutorial/item_viewmodel.snippet.item-viewmodel.dart.modified.rst
 
@@ -236,7 +235,7 @@ Modify the Application
          :ref:`<concept-development-mode>` and :ref:`<additive-changes-synced-schema>`.
 
 Now that we added the priority field, we want to update the Device Sync subscription
-to only sync Items marked as a High or Severe Priority.
+to only sync Items marked as a High or Severe priority.
 
 .. procedure::
 
@@ -256,10 +255,10 @@ to only sync Items marked as a High or Severe Priority.
 
       Now we're going to change the subscription to only sync High and Severe
       priority Items.
-      As you may recall, the Priority field is of type ``int``, where the highest
+      As you may recall, the priority field is of type ``int``, where the highest
       priority ("Severe") has a value of 0, and the lowest priority ("Low") has
       a value of 3. We can make direct comparisons between an int and the
-      Priority property. To do so, we're going to refactor the subscription query
+      priority property. To do so, we're going to refactor the subscription query
       to include Items where the priority is less than or equal to
       ``PriorityLevel.high`` (or 1). We will also give the subscription the new name
       ``"getUserItemsWithHighPriority"``.
@@ -325,7 +324,7 @@ to only sync Items marked as a High or Severe Priority.
       null value in your query.  We will also give the subscription the new name
       ``"getUserItemsWithHighOrNoPriority"``.
 
-      .. include:: source/examples/generated/flutter/tutorial/init_realm.snippet.post-update.dart.modified.rst
+      .. include:: /examples/generated/flutter/tutorial/init_realm.snippet.post-update.dart.modified.rst
 
 Conclusion
 ----------
