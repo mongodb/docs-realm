@@ -4,6 +4,9 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.query.RealmQuery
 import io.realm.kotlin.ext.query
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.notifications.ResultsChange
 import io.realm.kotlin.notifications.UpdatedResults
 import io.realm.kotlin.query.RealmResults
@@ -12,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class QuickStartTest: RealmTest() {
 
@@ -78,6 +82,39 @@ class QuickStartTest: RealmTest() {
     @Test
     fun quickStartTest() {
         // :snippet-start: quick-start
+
+        // :snippet-start: quick-start-initialize-app
+        val app = App.create(YOUR_APP_ID)
+        // :snippet-end:
+
+        runBlocking {
+            // :snippet-start: quick-start-authenticate
+            val credentials = Credentials.anonymous()
+            val user = app.login(credentials)
+            // :snippet-end:
+
+
+            // :snippet-start: quick-start-open-a-synced-realm
+            // create a SyncConfiguration
+            val config = SyncConfiguration.Builder(
+                user,
+                setOf(Item::class)
+            ) // the SyncConfiguration defaults to Flexible Sync, if a Partition is not specified
+                .initialSubscriptions { realm ->
+                    add(
+                        realm.query<Item>(
+                            "owner_id == $0", // pass the user in as an argument
+                            user // the logged in user
+                        ),
+                        "User's Items"
+                    )
+                }
+                .build()
+            val realm = Realm.open(config)
+            // :snippet-end:
+        }
+
+
         // :snippet-start: quick-start-open-a-local-realm
         val config = RealmConfiguration.Builder(schema = setOf(Item::class))
             // :remove-start:
