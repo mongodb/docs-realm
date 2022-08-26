@@ -15,14 +15,14 @@ class _ModifyItemFormState extends State<ModifyItemForm> {
   final _formKey = GlobalKey<FormState>();
   late bool _isComplete;
   late String _summary;
-  late int _priority;
+  late int _priority; 
 
   @override
   void initState() {
     super.initState();
     _summary = widget.item.summary;
     _isComplete = widget.item.isComplete;
-    _priority = widget.item.priority;
+    _priority = widget.item.priority; 
   }
 
   @override

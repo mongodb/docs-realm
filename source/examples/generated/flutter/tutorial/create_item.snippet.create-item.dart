@@ -1,5 +1,6 @@
 // ... other imports
 import 'package:flutter_todo/viewmodels/item_viewmodel.dart';
+import 'package:flutter_todo/components/select_priority.dart'; 
 
 // ... CreateItem widget
 
@@ -13,7 +14,7 @@ class CreateItemForm extends StatefulWidget {
 }
 
 class _CreateItemFormState extends State<CreateItemForm> {
-  int _priority = PriorityLevel.low;
+  int _priority = PriorityLevel.low; 
   final _formKey = GlobalKey<FormState>();
   var taskEditingController = TextEditingController();
 
@@ -35,7 +36,7 @@ class _CreateItemFormState extends State<CreateItemForm> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           // ... other widgets
-          SelectPriority(_priority, _setPriority),
+          SelectPriority(_priority, _setPriority), 
           // .. other widgets
         ],
       ),

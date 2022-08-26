@@ -5,7 +5,7 @@ class ItemViewModel {
   final ObjectId id;
   String summary;
   bool isComplete;
-  int priority;
+  int priority; 
   final String ownerId;
   late Item item;
   final Realm realm;

@@ -1,10 +1,10 @@
-// imports
+// ...imports
 
-class Item extends StatelessWidget {
+class ItemCard extends StatelessWidget {
   final ItemViewModel viewModel;
   final Animation<double> animation;
 
-  const ItemItem(this.viewModel, this.animation, {Key? key}) : super(key: key);
+  const ItemCard(this.viewModel, this.animation, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,9 @@ class Item extends StatelessWidget {
                     SizedBox(width: 175, child: Text(viewModel.summary)),
                   ],
                 ),
-                // other ListTile properties
+                subtitle:
+                    Text(viewModel.isComplete ? 'Completed' : 'Incomplete'),
+                leading: _CompleteCheckbox(viewModel),
               ),
             ),
           ),
