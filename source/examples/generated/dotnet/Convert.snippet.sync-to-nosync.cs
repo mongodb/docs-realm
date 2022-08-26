@@ -15,12 +15,12 @@ var session = syncedRealm.SyncSession;
 await session.WaitForUploadAsync();
 await session.WaitForDownloadAsync();
 
-var nonsyncConfig = new RealmConfiguration("my.realm");
+var nonSyncConfig = new RealmConfiguration("my.realm");
 
-syncedRealm.WriteCopy(nonsyncConfig);
+syncedRealm.WriteCopy(nonSyncConfig);
 
 // You can now delete the synced realm:
 Realm.DeleteRealm(syncedConfig);
 
 // You can now use the nonsynced realm:
-var nonsyncedRealm = Realm.GetInstance(nonsyncConfig);
+var nonSyncedRealm = Realm.GetInstance(nonSyncConfig);
