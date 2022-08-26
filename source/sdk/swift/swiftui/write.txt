@@ -1,0 +1,52 @@
+====================
+Write Data - SwiftUI
+====================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Perform a Quick Write
+---------------------
+
+In addition to performing writes inside a transaction block, the Realm Swift 
+SDK offers a convenience feature to enable quick writes without explicitly 
+performing a write transaction.
+
+When you use the ``@ObservedRealmObject`` or ``@ObservedResults`` property 
+wrappers, you can implicitly open a write transaction. Use the ``$`` operator
+to create a two-way binding to the state object. Then, when you make changes 
+to the bound object or collection, you initiate an implicit write.
+
+Update an Object's Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, we create a two-way binding with one of the state object's
+properties. ``$dog.favoriteToy`` creates a binding to the model Dog 
+object's ``favoriteToy`` property
+
+When the app user updates that field in this example, Realm Database
+opens an implicit write transaction and saves the new value to the database.
+
+.. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.quick-write-property.swift
+   :language: swift
+
+Update an ObservedResults Collection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, we create a two-way binding with an 
+:swift-sdk:`ObservedResults <Structs/ObservedResults.html>` collection.
+The ``$dogs.remove`` in the ``onDelete`` and the ``$dogs.append`` in the 
+``addDogButton`` write directly to the ``@ObservedResults`` collection.
+While a regular :ref:`Realm Results collection <ios-results-collections>`
+is immutable, ObservedResults is a mutable collection that allows you to 
+perform writes using the two-way binding. When you update the 
+bound collection, Realm Database opens an implicit write transaction and 
+saves the changes to the collection.
+
+.. literalinclude:: /examples/generated/swiftui/QuickWrite.snippet.update-observed-results.swift
+   :language: swift
