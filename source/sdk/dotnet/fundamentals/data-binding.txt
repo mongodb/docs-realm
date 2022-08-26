@@ -12,25 +12,28 @@ Data Binding - .NET SDK
    :depth: 2
    :class: singlecol
 
-In Xamarin and MAUI applications, data binding updates the UI when an underlying 
-object changes, and vice versa. 
-Realm objects are :ref:`live objects <dotnet-live-object>` that update automatically 
-to reflect data changes, making data binding the UI simple and straight-forward. 
-This is because Realm objects implement 
+In Xamarin and MAUI applications, data binding enables UI updates when an 
+underlying object or collection changes, and vice versa.
+
+Realm objects and collections are :ref:`live <dotnet-live-object>` and update 
+automatically to reflect data changes. This is because 
+Realm objects implement 
 `INotifyPropertyChanged <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged>`__ 
 and Realm collections implement 
 `INotifyCollectionChanged <https://docs.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged>`__. 
+When you bind live collections and objects to your UI, both the UI and live 
+objects and collections update at the same time.
 
 .. important:: Don't Use ToList()
 
-   Because Realm objects are live objects, you should not cast a Realm collection 
-   using ``ToList()``. Casting the collection to a list makes the collection no 
-   longer a live object.
+   Because Realm collections are live, you should not call ``ToList()``. Doing so 
+   forces loading the collection from memory, so the resulting collection is 
+   no longer a live object.
 
 Data Binding a Realm Collection
 -------------------------------
-In the following code example, we're creating a public ``IEnumerable`` of 
-Realm objects called "Items" and then populating that collection with all 
+In the following code example, we create a public ``IEnumerable`` of 
+Realm objects called "Items" and then populate that collection with all 
 of the documents in the Items collection:
 
 .. code-block:: csharp
@@ -64,11 +67,10 @@ and then use the Item's property values to display information in the ListView:
                         </Grid.ColumnDefinitions>
                         <Label Text="{Binding Summary}"/>
                         <Switch x:Name="chkCompleted" 
-                           IsToggled="{Binding IsComplete}" 
-                           AutomationId="{Binding Id}"/>
+                           IsToggled="{Binding IsComplete}"/>
                         <StackLayout Grid.Column="2" VerticalOptions="Center">
                             <Image WidthRequest="30" x:Name="btnDelete" 
-                                    Source="trash.png" AutomationId="{Binding Id}">
+                                    Source="trash.png">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="Delete_Clicked" 
                                         CommandParameter="{Binding .}"/>
