@@ -122,13 +122,13 @@ You can :ref:`watch a realm, collection, or object for changes
 
 In the following example, we listen for changes on all ``Item`` objects.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-watch-for-changes.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-watch-for-changes.kt
    :language: kotlin
    :copyable: false
 
 Later, when you're done observing, cancel the job to cancel the coroutine:
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-unsubscribe-to-changes.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-unsubscribe-to-changes.kt
    :language: kotlin
    :copyable: false
 
@@ -165,7 +165,7 @@ To use App Services features such as authentication and sync, you must first acc
 your Atlas App Services App using your App ID. You can :ref:`find your App ID in
 the App Services UI <find-your-app-id>`.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-initialize-app.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-initialize-app.kt
    :language: kotlin
    :copyable: false
 
@@ -177,7 +177,7 @@ To authenticate and log in a user, call :js-sdk:`App.logIn()
 <anonymous-authentication>` is enabled, users can immediately log into your app
 without providing any identifying information:
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-authenticate.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-authenticate.kt
    :language: kotlin
    :copyable: false
 
@@ -208,7 +208,7 @@ Pass the query you wish to subscribe to and a name for the subscription to the `
 The example below specifies a subscription named "User's Items" with
 all ``Item`` objects.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-open-a-synced-realm.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-open-a-synced-realm.kt
    :language: kotlin
    :copyable: false'
 
