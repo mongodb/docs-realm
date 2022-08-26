@@ -117,13 +117,25 @@ You can :ref:`watch a realm, collection, or object for changes
 
 In the following example, we listen for changes on all ``Task`` objects.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-watch-for-changes.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-watch-for-changes.kt
    :language: kotlin
    :copyable: false
 
 Later, when you're done observing, cancel the job to cancel the coroutine:
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-unsubscribe-to-changes.kt
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.quick-start-unsubscribe-to-changes.kt
+   :language: kotlin
+   :copyable: false
+
+Close a Realm
+-------------
+
+To close a realm and all underlying resources call `realm.close()
+<{+kotlin-local-prefix+}io.realm.kotlin/-realm/close.html>`__. The
+:file:`close()` method blocks until all write transactions on the realm have
+completed.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStart.snippet.quick-start-close-realm.kt
    :language: kotlin
    :copyable: false
 

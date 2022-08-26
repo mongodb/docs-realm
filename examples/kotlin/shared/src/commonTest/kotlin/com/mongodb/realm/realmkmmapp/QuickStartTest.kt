@@ -5,6 +5,7 @@ import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.query.RealmQuery
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.notifications.ResultsChange
+import io.realm.kotlin.notifications.UpdatedResults
 import io.realm.kotlin.query.RealmResults
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
@@ -78,7 +79,7 @@ class QuickStartTest: RealmTest() {
     fun quickStartTest() {
         // :snippet-start: quick-start
         // :snippet-start: quick-start-open-a-realm
-        val config = RealmConfiguration.Builder(schema = setOf(Task::class))
+        val config = RealmConfiguration.Builder(schema = setOf(Item::class))
             // :remove-start:
             .directory("/tmp/")
             .name(getRandom())
@@ -88,53 +89,89 @@ class QuickStartTest: RealmTest() {
         // :remove-start:
         // insert some sample data
         realm.writeBlocking {
-            copyToRealm(Task().apply {
-                name = "Do work 1"
-                status = "In Progress"
+            copyToRealm(Item().apply {
+                summary = "Do work 1"
             })
         }
         realm.writeBlocking {
-            copyToRealm(Task().apply {
-                name = "Do work 2"
-                status = "Open"
+            copyToRealm(Item().apply {
+                summary = "Do work 2"
             })
         }
         // :remove-end:
         // :snippet-end:
+
+        // :snippet-start: quick-start-read
+        // all items in the realm
+        val items: RealmResults<Item> = realm.query<Item>().find()
+        // :snippet-end:
+
+
+        // :snippet-start: quick-start-watch-for-changes
+        // flow.collect() is blocking -- run it in a background context
+        val job = CoroutineScope(Dispatchers.Default).launch {
+            // create a Flow from the Item collection, then add a listener to the Flow
+            val itemsFlow = items.asFlow()
+            itemsFlow.collect { changes: ResultsChange<Item> ->
+                when (changes) {
+                    // UpdatedResults means this change represents an update/insert/delete operation
+                    is UpdatedResults -> {
+                        changes.insertions // indexes of inserted objects
+                        changes.insertionRanges // ranges of inserted objects
+                        changes.changes // indexes of modified objects
+                        changes.changeRanges // ranges of modified objects
+                        changes.deletions // indexes of deleted objects
+                        changes.deletionRanges // ranges of deleted objects
+                        changes.list // the full collection of objects
+                    }
+                    else -> {
+                        // types other than UpdatedResults are not changes -- ignore them
+                    }
+                }
+            }
+        }
+        // :snippet-end:
+
         // :snippet-start: quick-start-create
         realm.writeBlocking {
-            copyToRealm(Task().apply {
-                name = "Do work"
-                status = "Open"
+            copyToRealm(Item().apply {
+                summary = "Do the laundry"
+                isComplete = false
             })
         }
         // :snippet-end:
-        // :snippet-start: quick-start-read
-        // all tasks in the realm
-        val tasks: RealmResults<Task> = realm.query<Task>().find()
-        // :snippet-end:
+
         // :snippet-start: quick-start-read-filtered
-        // tasks in the realm whose name begins with the letter 'D'
-        val tasksThatBeginWIthD: RealmResults<Task> =
-            realm.query<Task>("name BEGINSWITH $0", "D")
+        // items in the realm whose name begins with the letter 'D'
+        val itemsThatBeginWIthD: RealmResults<Item> =
+            realm.query<Item>("summary BEGINSWITH $0", "D")
                 .find()
-        val openTasks: RealmResults<Task> =
-            realm.query<Task>("status == $0", "Open")
+        //  todo items that have not been completed yet
+        val incompleteItems: RealmResults<Item> =
+            realm.query<Item>("isComplete == false")
                 .find()
         // :snippet-end:
         // :snippet-start: quick-start-update
-        // change the first task with open status to in progress status
+        // change the first item with open status to complete to show that the todo item has been done
         realm.writeBlocking {
-            findLatest(openTasks[0])?.status = "In Progress"
+            findLatest(incompleteItems[0])?.isComplete = true
         }
         // :snippet-end:
         // :snippet-start: quick-start-delete
-        // delete the first task in the realm
+        // delete the first item in the realm
         realm.writeBlocking {
-            val writeTransactionTasks = query<Task>().find()
-            delete(writeTransactionTasks.first())
+            val writeTransactionItems = query<Item>().find()
+            delete(writeTransactionItems.first())
         }
         // :snippet-end:
+        // :snippet-end:
+
+        // :snippet-start: quick-start-unsubscribe-to-changes
+        job.cancel() // cancel the coroutine containing the listener
+        // :snippet-end:
+
+        // :snippet-start: quick-start-close-realm
+        realm.close()
         // :snippet-end:
     }
 
