@@ -13,12 +13,21 @@ Quick Start - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-This page contains information to quickly get Realm Database
-integrated into your app. Before you begin, ensure you have installed
-the Kotlin SDK for your platform:
+This page contains information to quickly use Realm Database with the Kotlin
+SDK. The optional :ref:`Add Device Sync <kotlin-client-add-device-sync>` section
+illustrates how to get Atlas Device Sync integrated your Application.
 
-- :ref:`Android <kotlin-install-android>`
+Before you begin, ensure you have installed
+the Kotlin SDK for your platform. 
+
 - :ref:`Kotlin Multiplatform <kotlin-install-kotlin-multiplatform>`
+- :ref:`Android <kotlin-install-android>`
+
+.. note:: Using this Quick Start with KMM 
+
+   If you're running this project in a fresh KMM template project, you can
+   copy and paste the following snippets into the :file:`Greeting.greeting()` method in the
+   :file:`commonMain` module.
 
 Define Your Object Model
 ------------------------
@@ -98,13 +107,95 @@ in a write transaction block:
    :language: kotlin
    :copyable: false
 
-Complete Example
-----------------
+Watch for Changes
+-----------------
 
-If you're running this project in a fresh KMM template project, you can
-copy and paste into the :file:`Greeting.greeting()` method in the
-:file:`commonMain` module.
+You can :ref:`watch a realm, collection, or object for changes
+<kotlin-react-to-changes>` with the ``observe`` method.
 
-.. literalinclude:: /examples/generated/kotlin/QuickStartTest.snippet.quick-start.kt
+.. include:: /includes/serverless-watch-note.rst
+
+In the following example, we listen for changes on all ``Task`` objects.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-watch-for-changes.kt
    :language: kotlin
    :copyable: false
+
+Later, when you're done observing, cancel the job to cancel the coroutine:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-unsubscribe-to-changes.kt
+   :language: kotlin
+   :copyable: false
+
+.. _kotlin-client-add-device-sync:
+
+Add Device Sync - (Optional)
+---------------------------
+This section illustrates how to authenticate with an Anonymous User, and open a
+Flexible Sync realm to begin syncing data between devices.
+
+.. important:: Prerequisites
+   
+   The code snippets in this section require the following: 
+
+   - :ref:`A created App Services App <create-a-realm-app>`
+   - :ref:`Enabled anonymous authentication <anonymous-authentication>` in the App Services UI
+   - :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <enable-development-mode>` toggled on and an ``ownerId`` field in the :guilabel:`Queryable Fields` section
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+To use App Services features such as authentication and sync, you must first access
+your Atlas App Services App using your App ID. You can :ref:`find your App ID in
+the App Services UI <find-your-app-id>`.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-sync-initialize-app.kt
+   :language: kotlin
+   :copyable: false
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+To authenticate and log in a user, call :js-sdk:`App.logIn()
+<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+<anonymous-authentication>` is enabled, users can immediately log into your app
+without providing any identifying information:
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-authenticate.kt
+   :language: kotlin
+   :copyable: false
+
+Open a Realm
+~~~~~~~~~~~~
+
+Once you have initialized your Atlas App Services App, authenticated a user, and
+defined your object model, you can create a `SyncConfiguration
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/index.html>`__
+. Pass the authenticated user and the ``Task`` class to the `SyncConfiguration.Builder
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__
+function to create a :ref:`Flexible Sync Configuration <kotlin-flexible-sync-fundamentals>`.
+
+You need at least one subscription before you can read from or write to the
+realm. Use `initialSubscriptions
+<{+kotlin-local-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/initial-subscriptions.html>`__
+to define the initial subscription set when the Realm file is first opened.
+Pass the query you wish to subscribe to and a name for the subscription to the `add()
+<{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-mutable-subscription-set/add.html>`__ function.
+
+The example below specifies a subscription named "User's Items" with
+all ``Item`` objects.
+
+.. literalinclude:: /examples/generated/kotlin/QuickStartWithSyncTest.snippet.qs-with-sync-open-a-realm.kt
+   :language: kotlin
+   :copyable: false'
+
+Next: Check out the Template Apps + Tutorial
+--------------------------------------------
+
+To experiment with an additional quick method to getting starting coding with
+the Realm Kotlin SDK, check out our :ref:`template app <template-apps>`. The
+Kotlin SDK template is a premade application that integrates Realm Database and
+Atlas Device Sync into a customizable android app.
+
+Alternatively, if you are interested in guided experience, you can read our
+:ref:`Android with Kotlin SDK tutorial <tutorial>` that expands on the template
+apps. 
