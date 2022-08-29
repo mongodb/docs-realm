@@ -34,7 +34,7 @@ jobs:
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         env:
-          SHA: "${{ github.sha }}"
+          SHA: "${{ github.event.pull_request.head.sha }}"
           WORKSPACE: "${{ github.workspace }}"
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
