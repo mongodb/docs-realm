@@ -31,7 +31,6 @@ jobs:
             const fs = require("fs");
             fs.writeFileSync("${{github.workspace}}/scores.zip", Buffer.from(download.data));
       - run: unzip scores.zip
-      - uses: actions/checkout@v2
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         with:
@@ -60,7 +59,7 @@ jobs:
             );
 
             // Update or create readability comment
-            const comments = await octokit.rest.issues.listComments({
+            const comments = await github.rest.issues.listComments({
               owner,
               repo,
               issue_number,
