@@ -31,17 +31,11 @@ jobs:
             const fs = require("fs");
             fs.writeFileSync("${{github.workspace}}/scores.zip", Buffer.from(download.data));
       - run: unzip scores.zip
+      - uses: actions/checkout@v2
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const fs = require("fs");
-            const body = fs.readFileSync("${{github.workspace}}/scores.md", "utf8");
-            const issue_number = Number(fs.readFileSync("${{github.workspace}}/issue_number", "utf8"));
-            github.rest.issues.createComment({
-              issue_number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body,
-            })
+            const script = require(./readabilityCommentScript.js);
+            script({github, context});
