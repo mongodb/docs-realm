@@ -308,8 +308,7 @@ Change the Subscription
              .initialSubscriptions { realm ->
                  add(
                      realm.query<Item>(
-                         "owner_id == \$0 AND priority <= ${PriorityLevel.High.priority.toString()}",
-                         realmApp.currentUser!!.identity
+                         "owner_id == ${realmApp.currentUser!!.identity} AND priority <= ${PriorityLevel.High.priority.toString()}"
                      ),
                      "User's High Priority Tasks"
                  )
