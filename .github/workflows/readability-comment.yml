@@ -38,15 +38,14 @@ jobs:
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         env:
-          SHA: "${{ github.event.pull_request.head.sha }}"
+          SHA: "${{ github.event.workflow_run.head_sha }}"
           WORKSPACE: "${{ github.workspace }}"
-          HEAD_REF: "${{ github.head_ref }}"
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             // Build header
             const { SHA } = process.env;
-            console.log('HEAD REF:', process.env.HEAD_REF)
+            console.log('HEAD SHA:', SHA);
             const { WORKSPACE } = process.env;
             const readabilityTag = '<span id="readability-score-comment"></div>';
             const header = `${readabilityTag}Readability for Commit Hash: ${SHA}
