@@ -39,15 +39,13 @@ jobs:
         env:
           SHA: "${{ github.event.pull_request.head.sha }}"
           WORKSPACE: "${{ github.workspace }}"
+          HEAD_REF: "${{ github.head_ref }}"
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             // Build header
             const { SHA } = process.env;
-            console.log('SHA:', SHA);
-            console.log('SHA:', SHA);
-            console.log('context.sha:', context.sha);
-            console.log('context.ref:', context.ref);
+            console.log('HEAD REF:', process.env.HEAD_REF)
             const { WORKSPACE } = process.env;
             const readabilityTag = '<span id="readability-score-comment"></div>';
             const header = `${readabilityTag}Readability for Commit Hash: ${SHA}
