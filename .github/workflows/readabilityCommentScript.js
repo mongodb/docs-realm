@@ -1,4 +1,5 @@
 module.exports = async ({ github, context }) => {
+  console.log(github);
   // Build header
   const { SHA } = process.env;
   const readabilityTag = '<span id="readability-score-comment"></div>';
@@ -11,14 +12,14 @@ module.exports = async ({ github, context }) => {
 
   // Create post body with header
   const fs = require("fs");
-  let body = fs.readFileSync("${{github.workspace}}/scores.md", "utf8");
+  let body = fs.readFileSync(`${github.workspace}/scores.md`, "utf8");
   body = header + body;
 
   // Set up
   const owner = context.repo.owner;
   const repo = context.repo.repo;
   const issue_number = Number(
-    fs.readFileSync("${{github.workspace}}/issue_number", "utf8")
+    fs.readFileSync(`${github.workspace}/issue_number`, "utf8")
   );
 
   // Update or create readability comment
