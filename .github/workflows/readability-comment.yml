@@ -31,10 +31,6 @@ jobs:
             const fs = require("fs");
             fs.writeFileSync("${{github.workspace}}/scores.zip", Buffer.from(download.data));
       - run: unzip scores.zip
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - name: Leave a comment on the PR with the readability score.
         uses: actions/github-script@v5
         env:
@@ -45,7 +41,6 @@ jobs:
           script: |
             // Build header
             const { SHA } = process.env;
-            console.log('HEAD SHA:', SHA);
             const { WORKSPACE } = process.env;
             const readabilityTag = '<span id="readability-score-comment"></div>';
             const header = `${readabilityTag}Readability for Commit Hash: ${SHA}
