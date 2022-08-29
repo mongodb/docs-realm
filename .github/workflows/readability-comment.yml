@@ -43,9 +43,10 @@ jobs:
             const { SHA } = process.env;
             const { WORKSPACE } = process.env;
             const readabilityTag = '<span id="readability-score-comment"></div>';
-            const header = `${readabilityTag}Commit Hash: ${SHA}
-            You can see any previous Readability scores (if they exist) by looking
-            at the comment's history.
+            const header = `${readabilityTag}Readability for Commit Hash: ${SHA}
+
+            *You can see any previous Readability scores (if they exist) by looking
+            at the comment's history.*
 
             `;
 
