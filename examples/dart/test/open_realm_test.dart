@@ -1,6 +1,8 @@
 import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
+import 'package:path/path.dart' as path;
+import 'dart:io';
 import './utils.dart';
 
 void main() {
@@ -76,6 +78,33 @@ void main() {
       expect(honda.make, 'Honda');
       expect(called, true);
       await cleanUpRealm(realm);
+    });
+    group("Customize default configuration", () {
+      test("Default realm name and path", () async {
+        // :snippet-start: default-realm-name-path
+        Configuration.defaultRealmName = "myRealmName.realm";
+
+        String customDefaultRealmPath = path.join(
+            (await Directory.systemTemp.createTemp()).path,
+            Configuration.defaultRealmName);
+        Configuration.defaultRealmPath = customDefaultRealmPath;
+
+        // Configurations used in the application will use these values
+        Configuration config = Configuration.local([Car.schema]);
+        // The path is your system's temp directory
+        // with the file named 'myRealmName.realm'
+        print(config.path);
+        // :snippet-end:
+        expect(config.path.endsWith("myRealmName.realm"), true);
+      });
+      test("Default storage path", () {
+        // :snippet-start: default-storage-path
+        String storagePath = Configuration.defaultStoragePath;
+        // See value in your application
+        print(storagePath);
+        // :snippet-end:
+        expect(storagePath.length, greaterThan(0));
+      });
     });
   });
 }
