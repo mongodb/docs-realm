@@ -38,5 +38,5 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log('made it this far');
-            const script = require("./readabilityCommentScript.js");
+            const script = require("./.github/workflows/readabilityCommentScript.js");
             script({github, context});
