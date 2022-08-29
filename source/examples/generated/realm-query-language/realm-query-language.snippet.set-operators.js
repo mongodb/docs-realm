@@ -6,3 +6,9 @@
 
   // Projects that only contain completed tasks
   "ALL tasks.isComplete == true"
+
+  // Projects with at least one task assigned to either Alex or Ali
+  "ANY tasks.assignee IN { 'Alex', 'Ali' }"
+
+  // Projects with no tasks assigned to either Alex or Ali
+  "NONE tasks.assignee IN { 'Alex', 'Ali' }"

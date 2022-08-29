@@ -100,9 +100,17 @@ describe("Realm Query Language Reference", () => {
       // :remove-end:
 
       "progressMinutes BETWEEN { 30,60 }"
-      // :snippet-end:
+      // :remove-start:
     );
     expect(progressMinutesRange.length).toBe(1);
+
+    const progressMinutesIn = tasks.filtered(
+      // :remove-end:
+
+      "progressMinutes IN { 10, 20, 30, 40, 50, 60 }"
+      // :snippet-end:
+    );
+    expect(progressMinutesIn.length).toBe(1);
   });
 
   test("logic queries", () => {
@@ -197,11 +205,27 @@ describe("Realm Query Language Reference", () => {
 
       // Projects that only contain completed tasks
       "ALL tasks.isComplete == true"
+      // :remove-start:
+    );
+    const assignedToAlexOrAli = projects.filtered(
+      // :remove-end:
+
+      // Projects with at least one task assigned to either Alex or Ali
+      "ANY tasks.assignee IN { 'Alex', 'Ali' }"
+      // :remove-start:
+    );
+    const notAssignedToAlexOrAli = projects.filtered(
+      // :remove-end:
+
+      // Projects with no tasks assigned to either Alex or Ali
+      "NONE tasks.assignee IN { 'Alex', 'Ali' }"
       // :snippet-end:
     );
     expect(noCompleteTasks.length).toBe(1);
     expect(anyTopPriorityTasks.length).toBe(1);
     expect(allTasksCompleted.length).toBe(0);
+    expect(assignedToAlexOrAli.length).toBe(1);
+    expect(notAssignedToAlexOrAli.length).toBe(0);
   });
 
   test("sort, distinct and limit queries", () => {
