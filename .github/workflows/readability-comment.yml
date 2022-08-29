@@ -64,6 +64,11 @@ jobs:
               repo,
               issue_number,
             });
+            console.log('comments are:', comments);
+            console.log('conf:', {owner,
+            repo,
+            issue_number,});
+
             const readabilityComment = comments.find((comment) =>
               comment.body.contains(readabilityTag)
             );
