@@ -41,6 +41,9 @@ jobs:
           script: |
             // Build header
             const { SHA } = process.env;
+            console.log('SHA:', SHA);
+            console.log('context.sha:', context.sha);
+            console.log('context.ref:', context.ref);
             const { WORKSPACE } = process.env;
             const readabilityTag = '<span id="readability-score-comment"></div>';
             const header = `${readabilityTag}Readability for Commit Hash: ${SHA}
