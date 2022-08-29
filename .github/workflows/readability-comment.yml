@@ -67,8 +67,8 @@ jobs:
             const readabilityComment = comments.find((comment) =>
               comment.body.contains(readabilityTag)
             );
-            const comment_id = readabilityComment.id;
             if (readabilityComment) {
+              const comment_id = readabilityComment.id;
               await github.rest.issues.updateComment({
                 owner,
                 repo,
