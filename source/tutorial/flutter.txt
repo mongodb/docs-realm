@@ -263,10 +263,15 @@ to only sync Items marked as a High or Severe priority.
       ``PriorityLevel.high`` (or 1). We will also give the subscription the new name
       ``"getUserItemsWithHighPriority"``.
 
+      First, import ``lib/viewmodels/item_viewmodel.dart``:
+
+      .. literalinclude:: /examples/generated/flutter/tutorial/init_realm.snippet.import-viewmodel.dart
+         :caption: lib/realm/init_realm.dart
+         :language: dart
+
       Update the subscription to the following:
 
       .. include:: /examples/generated/flutter/tutorial/init_realm.snippet.updated-sub.dart.modified.rst
-
 
    .. step:: Run and Test
 
