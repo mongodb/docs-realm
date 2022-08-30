@@ -25,17 +25,18 @@ server-side, and static rendering.
   content at build time.
 
 Before You Begin
-================
+----------------
 
 Before using this integration guide, you should:
 
-- Be familiar with Next.js. Consider referring to the `Next.js documentation <https://nextjs.org/docs/getting-started>`__.
-- `Create an Atlas App Services backend application <https://www.mongodb.com/docs/atlas/app-services/manage-apps/create/create-with-ui/#std-label-create-a-realm-app>`__.
+- Be familiar with Next.js. Consider referring to the
+  `Next.js documentation <https://nextjs.org/docs/getting-started>`__.
+- :ref:`Create an Atlas App Services backend application <create-a-realm-app>`.
 - Create a Next.js app. If creating a Next.js application for the first time,
   consider referring to the `Next.js Tutorial <https://nextjs.org/learn/basics/create-nextjs-app>`__.
 
 Install the Realm Web SDK in Your Next.js App
-=============================================
+---------------------------------------------
 
 This section shows you how to install the Realm Web SDK to use with your application.
 
@@ -44,51 +45,51 @@ This section shows you how to install the Realm Web SDK to use with your applica
 For more information, see the :ref:`Realm Web Installation <web-install>` documentation.
 
 Add Authentication
-==================
+------------------
 
 Before you can query MongoDB from your app, you must initialize the
 App Services client and authenticate a user. You can follow the steps
 below to connect the Realm Web SDK to client-side Next.js.
-In this example, we’re going to expose Realm authentication throughout
-the app using `React’s Context API <https://reactjs.org/docs/context.html>`__. For additional ways to expose Realm
-authentication throughout your application, refer to the `Next.js
-authentication <https://nextjs.org/docs/authentication#authentication-providers>`__ documentation.
+In this example, we're going to expose Realm authentication throughout
+the app using `React's Context API <https://reactjs.org/docs/context.html>`__.
+For additional ways to expose Realm authentication throughout your application,
+refer to the `Next.js authentication
+<https://nextjs.org/docs/authentication#authentication-providers>`__ documentation.
 
 .. procedure::
 
-    .. step:: Create a context for Atlas App Services.
+   .. step:: Create a context for Atlas App Services
 
-          Generate a new application template using `create-react-app
-          <https://create-react-app.dev/>`__:
+      Generate a new application template using `create-react-app
+      <https://create-react-app.dev/>`__:
 
-          .. literalinclude:: /examples/generated/web/AppServicesContext.snippet.app-services-context.js
-             :language: javascript
-    
-    
-    .. step:: Create a custom app wrapper
+      .. literalinclude:: /examples/generated/web/AppServicesContext.snippet.app-services-context.js
+         :language: javascript
 
-          Create a custom ``App`` page wrapper that exposes the AppServices
-          context to child components. Add the file ``pages/_app.js``.
-          Include the Provider for your React Context.
+   .. step:: Create a custom app wrapper
 
-          .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-              :language: javascript
-    
-    
+      Create a custom ``App`` page wrapper that exposes the AppServices
+      context to child components. Add the file ``pages/_app.js``.
+      Include the Provider for your React Context.
+
+      .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+         :language: javascript
+
     .. step:: Log the user in
 
-          Access the ``app`` instance from ``AppServicesContext``, and use it to log a
-          user in. You can to do this automatically in the ``pages/index.js``
-          file to authenticate the user when they arrive to your app.
+       Access the ``app`` instance from ``AppServicesContext``, and use it to log a
+       user in. You can to do this automatically in the ``pages/index.js``
+       file to authenticate the user when they arrive to your app.
 
-          .. literalinclude:: /examples/generated/web/index.snippet.log-in-index-js.js
-              :language: javascript
+       .. literalinclude:: /examples/generated/web/index.snippet.log-in-index-js.js
+          :language: javascript
 
 .. seealso::
+
     `Quick Start (React) <https://www.mongodb.com/docs/realm/web/react-web-quickstart/>`__.
 
 Client-Side Rendering
-=====================
+---------------------
 
 This section shows how you can integrate Next.js client-side rendering
 with the Realm Web SDK. Following these steps, you can directly query MongoDB
@@ -104,14 +105,16 @@ you can use MongoDB Data Access to directly query MongoDB from
 client code in your application.
 
 Access the MongoDB Data Access interface from the ``app`` object you exposed with
-React Context. Use `App.User.mongoClient() <https://www.mongodb.com/docs/realm-sdks/js/latest/Realm-MongoDB.html>`__ to query MongoDB.
+React Context. Use `App.User.mongoClient() <https://www.mongodb.com/docs/realm-sdks/js/latest/Realm-MongoDB.html>`__
+to query MongoDB.
 
 .. literalinclude:: /examples/generated/web/mongodb-data-access.snippet.mongo-data-access.js
     :language: javascript
 
 .. tip::
-    For more comprehensive documentation of using MongoDB Data Access,
-    refer to :ref:`Query MongoDB <web-query-mongodb>`.
+
+   For more comprehensive documentation of using MongoDB Data Access,
+   refer to :ref:`Query MongoDB <web-query-mongodb>`.
 
 Atlas GraphQL API
 ~~~~~~~~~~~~~~~~~
@@ -121,59 +124,65 @@ via GraphQL from Next.js client-side code.
 
 .. procedure::
 
-    .. step:: Install the Apollo client
+   .. step:: Install the Apollo client
 
-          Apollo provides a package called `@apollo/client <https://www.npmjs.com/package/@apollo/client>`__
-          containing the relevant components needed to create a client.
-          You must also install the `graphql <https://www.npmjs.com/package/graphql>`__ package.
-        
-          .. code-block:: shell
-            
-              npm install @apollo/client graphql
+      Apollo provides a package called `@apollo/client <https://www.npmjs.com/package/@apollo/client>`__
+      containing the relevant components needed to create a client.
+      You must also install the `graphql <https://www.npmjs.com/package/graphql>`__ package.
 
-    .. step:: Create GraphQL page.
+      .. code-block:: shell
 
-          Create a new page for our GraphQL queries, called ``pages/graphql.js``
+         npm install @apollo/client graphql
 
-    .. step:: Import Dependencies
+   .. step:: Create GraphQL page.
 
-         Import relevant Apollo Client dependencies and our ``AppServicesContext``:
+      Create a new page for our GraphQL queries, called ``pages/graphql.js``
 
-         .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
-             :language: javascript
-    .. step:: Create GraphQLProvider
+   .. step:: Import Dependencies
 
-          Create an ``ApolloClient`` GraphQL client and add it to the
-          ``GraphQLProvider`` component.  Wrap any components that call
-          the GraphQL API with the ``GraphQLProvider``.
+      Import relevant Apollo Client dependencies and our ``AppServicesContext``:
 
-          .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-provider.js
-             :language: javascrip
+      .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-imports.js
+         :language: javascript
+
+   .. step:: Create GraphQLProvider
+
+      Create an ``ApolloClient`` GraphQL client and add it to the
+      ``GraphQLProvider`` component.  Wrap any components that call
+      the GraphQL API with the ``GraphQLProvider``.
+
+      .. literalinclude:: /examples/generated/web/graphql.snippet.apollo-provider.js
+         :language: javascript
+
     .. step:: Query MongoDB with GraphQL
 
-          Once the connection to the Apollo Client has been established,
-          you can query MongoDB. For example, you can query MongoDB to find a single entry in
-          a database by name.
+       Once the connection to the Apollo Client has been established,
+       you can query MongoDB. For example, you can query MongoDB to find a single entry in
+       a database by name.
 
-          .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
-              :language: javascript
+       .. literalinclude:: /examples/generated/web/graphql.snippet.mongo-query.js
+          :language: javascript
+
     .. step:: Export
-          Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
 
-          .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
-              :language: javascript
+       Export ``GraphQLConsumer`` wrapped in ``GraphQLProvider``.
+
+       .. literalinclude:: /examples/generated/web/graphql.snippet.full-graphql-page.js
+          :language: javascript
 
 All together, the GraphQL page should look as follows:
-    .. literalinclude:: /examples/generated/web/graphql.snippet.whole-code-ex.js
-        :language: javascript       
+
+.. literalinclude:: /examples/generated/web/graphql.snippet.whole-code-ex.js
+    :language: javascript
 
 .. tip::
-    For more information on querying Atlas with the GraphQL API, refer
-    to the `Atlas GraphQL API <https://www.mongodb.com/docs/atlas/app-services/graphql/#queries>`__  
-    and :ref:`Apollo Client (React) <graphql-apollo-react>` documentation.
+
+   For more information on querying Atlas with the GraphQL API, refer
+   to the `Atlas GraphQL API <https://www.mongodb.com/docs/atlas/app-services/graphql/#queries>`__
+   and :ref:`Apollo Client (React) <graphql-apollo-react>` documentation.
 
 Server-Side Rendering
-=====================
+---------------------
 
 This section shows how you can integrate Next.js server-side rendering
 with the Realm Web SDK. Using the Realm Web SDK with server-side rendering allows
@@ -190,7 +199,6 @@ You may want to integrate the Web SDK and Next.js becuase it allows you to:
 - Reduce use of client-side JavaScript.
 - Perform server-side data manipulation.
 
-
 On a high level, the process for using the Realm Web SDK with Next.js
 server-side rendering is as follows:
 
@@ -202,88 +210,84 @@ server-side rendering is as follows:
    it to pre-render for every request.
 
 .. note::
-    While possible to use the MongoDB Data Access in server-side environments to query
-    MongoDB, it is not generally advisable. When used in server-side environments, MongoDB
-    Data Access makes requests from a user object, which would need to be re-authenticated
-    on every request.
 
-The following steps can be used to connect the Read Web SDK to server-side
-Next.js.
+   While possible to use the MongoDB Data Access in server-side environments to query
+   MongoDB, it is not generally advisable. When used in server-side environments, MongoDB
+   Data Access makes requests from a user object, which would need to be re-authenticated
+   on every request.
+
+The following steps outline using the Realm Web SDK with Next.js server-side rendering.
 
 .. procedure::
 
-    .. step:: Install dependencies
+   .. step:: Install dependencies
 
-        Install the following npm packages:
+      Install the following npm packages:
 
-        .. code-block:: shell
+      .. code-block:: shell
 
-            npm install nookies
-            npm install @apollo/client graphql
+         npm install nookies
+         npm install @apollo/client graphql
 
 
-    .. step:: Update authentication to use cookies
+   .. step:: Update authentication to use cookies
 
-          Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
-          as it allows the cookie to transfer to the server on every request. Set you cookie in a
-          ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
-          This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
-          credential is reset in cookies before expiring.
+      Update ``pages/_app.js`` to save the access token as a cookie. This step is required,
+      as it allows the cookie to transfer to the server on every request. Set you cookie in a
+      ``useEffect`` hook that runs every time there's a change in the user object, as shown below.
+      This hook also creates a ``setInterval`` that updates the cookie every 20 minutes. This means the
+      credential is reset in cookies before expiring.
 
-          .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+      .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+          :language: javascript
+
+
+   .. step:: Server-side Render the Data
+
+       #. Create a new page file to perform the server-side rendering.
+       #. Import the relevant dependencies
+
+           .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
               :language: javascript
 
+       #. Create a function that creates a server-side GraphQL client
+          on every request with the user's current auth token.
 
-    .. step:: Server-side Render the Data
+          .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
+             :language: javascript
 
-        #. Create a new page file to perform the server-side rendering.
-        
-        #. Import the relevant dependencies
+       #. Create the GraphQL request which the server will use to fetch data.
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-imports.js
-            :language: javascript
-        
-        3. Create a function that creates a server-side GraphQL client
-           on every request with the user’s current auth token.
-            
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.function-create.js
-            :language: javascript        
-        
-        4. Create the GraphQL request which the server will use to fetch data.
+          .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
+             :language: javascript
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.gql-request.js
-            :language: javascript
+       #. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
+          function to perform the following:
 
-        5. Use the Next.js `getServerSideProps <https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props>`__
-           function to perform the following:
-        
-                a. Parse access token from  cookies.           
-            
-                #. Create a GraphQL client with the access token.
-            
-                #. Run the GraphQL query.               
-            
-                #. Return data to be used in the server-side render.
+          a. Parse access token from  cookies.
+          #. Create a GraphQL client with the access token.
+          #. Run the GraphQL query.
+          #. Return data to be used in the server-side render.
 
-                .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
-                    :language: javascript  
-        
-        6. Render the data.
+             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.server-side-props.js
+                :language: javascript
 
-        .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
-            :language: javascript
-            
-    All together, server-side rendering page looks as follows:
+          #. Render the data.
 
-    .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.whole-code-ex.js
-         :language: javascript
+             .. literalinclude:: /examples/generated/web/server-side-rendering.snippet.render-page.js
+                :language: javascript
+
+All together, server-side rendering page looks as follows:
+
+.. literalinclude:: /examples/generated/web/server-side-rendering.snippet.whole-code-ex.js
+        :language: javascript
 
 .. seealso::
 
-    :ref:`Alternative ways to Query MongoDB from Next.js section <nextjs-mongodb-alternate-ways>`
+   :ref:`Alternative ways to Query MongoDB from Next.js section <nextjs-mongodb-alternate-ways>`
 
 Static Rendering
-================
+----------------
 
 You can use Next.js static rendering with the Realm Web SDK to pull data from
 MondoDB Atlas and generate HTML at build time.
@@ -296,51 +300,54 @@ This integration can supplement your app by adding:
 
 .. procedure::
 
-    .. step:: Creating and guarding your API key
+   .. step:: Creating and guarding your API key
 
-          You need to create a Server API key for authentication. Follow the steps
-          on the API Key Configuration page to complete this step.
-          Then, in your next.js app, create a ``.env.local`` file.
-          Unlike normal ``.env`` files, the variables stored
-          inside are not accessible from the browser, only from your local Next
-          environment. Store your key as a variable in this file, for example:
+      You need to create a Server API key for authentication. Follow the steps
+      on the API Key Configuration page to complete this step.
+      Then, in your next.js app, create a ``.env.local`` file.
+      Unlike normal ``.env`` files, the variables stored
+      inside are not accessible from the browser, only from your local Next
+      environment. Store your key as a variable in this file, for example:
 
-          .. code-block:: javascript        
+      .. code-block::
+         :caption: .env
 
-                REALM_API_KEY = secret_code;
+         REALM_API_KEY = secret_code
 
-          Then, on the client side, you can fetch from said file to log in as shown below,
-          without the client being able to directly access the secret key.
+      Then, on the client side, you can fetch from said file to log in as shown below,
+      without the client being able to directly access the secret key.
 
-          .. code-block:: javascript        
+      .. code-block:: javascript
 
-              REALM_API_KEY = process.env.REALM_API_KEY;  
+         const { REALM_API_KEY } = process.env;
 
+   .. step:: Perform static rendering with  ``getStaticProps()``.
 
-    .. step:: Perform static rendering with  ``getStaticProps()``.
+      If exported from a page in your app, ``getStaticProps()`` pre-renders the page at
+      build time. ``getStaticProps()``  can also be used to directly query the MongoDB database.
 
-          If exported from a page in your app, ``getStaticProps()`` pre-renders the page at
-          build time. ``getStaticProps()``  can also be used to directly query the MongoDB database.
+      In order to pre-render your page using ``getStaticProps()``, connect your Next.js app
+      to the Realm Web SDK. Then, you can use ``getStaticProps()`` to fetch data from MongoDB.
+      The following example shows how to set up this code.
 
-          In order to pre-render your page using ``getStaticProps()``, connect your Next.js app
-          to the Realm Web SDK. Then, you can use ``getStaticProps()`` to fetch data from MongoDB.
-          The following example shows how to set up this code.
-
-          .. literalinclude:: /examples/generated/web/static.snippet.static-render-ex.js
-                :language: javascript
+      .. literalinclude:: /examples/generated/web/static.snippet.static-render-ex.js
+            :language: javascript
 
 .. _nextjs-mongodb-alternate-ways:
+
 Alternate Ways to Query MongoDB from Next.js
-============================================
+--------------------------------------------
 
 In addition to the Realm Web SDK, you can query MongoDB from Next.js in several ways:
 
 - Integrate MongoDB with your Next.js application, then execute your MongoDB queries
-  using the MongoDB Node Driver. For more information, see the blog post `How to
-  Integrate MongoDB Into Your Next.js App <https://www.mongodb.com/developer/languages/javascript/nextjs-with-mongodb/>`__.
+  using the MongoDB Node Driver. For more information, see the blog post
+  `How to Integrate MongoDB Into Your Next.js App
+  <https://www.mongodb.com/developer/languages/javascript/nextjs-with-mongodb/>`__.
 - Use the MongoDB Data API to query MongoDB Atlas from the Next.js server.  For
   more information, see :ref:`Data API Endpoints <data-api>`.
 
 .. note::
+
     These alternate methods are incompatible with App Services rules and permissions.
     See :ref:`Rules — Atlas App Services <mongodb-rules>`.
