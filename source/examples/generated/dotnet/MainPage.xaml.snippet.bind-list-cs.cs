@@ -1,0 +1,1 @@
+Employees = realm.All<Employee>();
