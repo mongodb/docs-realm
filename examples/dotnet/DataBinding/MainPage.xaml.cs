@@ -23,13 +23,25 @@ namespace DataBinding
 
 
             //:snippet-start:bind-one-cs
+            // :uncomment-start:
+            // public Employee Employee123 { get; }
+            // ...
+            // :uncomment-end:
             Employee123 = realm.All<Employee>()
                 .FirstOrDefault(e => e.EmployeeId == "123");
             //:snippet-end:
             //:snippet-start:bind-list-cs
+            // :uncomment-start:
+            // public IEnumerable<Employee> Employees { get; }
+            // ...
+            // :uncomment-end:
             Employees = realm.All<Employee>();
             //:snippet-end:
             //:snippet-start:bind-embedded-cs
+            // :uncomment-start:
+            // public Employee Employee123 { get; }
+            // ...
+            // :uncomment-end:
             IncompleteItems = Employee123.Items
                 .AsQueryable()
                 .Where(i => i.IsComplete == false);
