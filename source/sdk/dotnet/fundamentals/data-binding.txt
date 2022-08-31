@@ -38,16 +38,17 @@ binding use cases. They all use the following Realm objects:
 .. literalinclude:: /examples/generated/dotnet/Models.snippet.binding-classes.cs
    :language: csharp
 
-.. important:: Don't Use ToList()
+.. note:: ToList()
 
-   Because Realm collections are live, you should not call ``ToList()``. Doing so 
-   forces loading the collection from memory, so the resulting collection is 
-   no longer a live object.
+   Because Realm collections are live, you should not call ``ToList()`` when 
+	obtaining a collection of Realm objects. Doing so forces loading the 
+	collection from memory, so the resulting collection is no longer a live 
+	object.
 
 Binding to a Single Realm Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In the following example, we create a public property of type Employee. Elsewhere 
-in our class, we query our realm for the Employee with an ``EmployeeId`` of "123":
+in our class, we query our realm for the Employee with an "EmployeeId" of "123":
 
 .. literalinclude:: /examples/generated/dotnet/MainPage.xaml.snippet.bind-one-cs.cs
    :language: csharp
@@ -62,7 +63,7 @@ Binding to a Realm Collection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There are two types of collections we can bind to. First, we can bind to a 
 collection of Realm objects. In this code example, we create a public 
-``IEnumerable`` of the ``Employee`` Realm object and then populate that 
+``IEnumerable`` of the **Employee** Realm object and then populate that 
 collection with all of the documents in the Employees collection:
 
 .. literalinclude:: /examples/generated/dotnet/MainPage.xaml.snippet.bind-list-cs.cs
@@ -70,14 +71,14 @@ collection with all of the documents in the Employees collection:
 
 In the associated XAML file, we bind a ``ListView`` to the **Employees** 
 ``IEnumerable`` to show a list of all Employees. In this case, we're listing 
-each employee's EmployeeId value:
+each employee's **EmployeeId** value:
 
 .. literalinclude:: /examples/generated/dotnet/MainPage.snippet.bind-list-xaml.xaml
    :language: xml
 
 We can also bind to a *collection property* of a Realm object. In this example, 
-we bind to the ``Items`` property of a specific ``Employee``. The ``Items`` 
-property on the ``Employee`` class is of type ``IList<Item>``:
+we bind to the ``Items`` property of a specific Employee``. The ``Items`` 
+property on the ``Employee`` class is of type ``IList<Item>``.
 
 .. literalinclude:: /examples/generated/dotnet/MainPage.xaml.snippet.bind-embedded-cs.cs
    :language: csharp
@@ -86,8 +87,8 @@ property on the ``Employee`` class is of type ``IList<Item>``:
 
 	Note that we are calling the :dotnet-sdk:`AsRealmQueryable()
 	<reference/Realms.CollectionExtensions.html#Realms_CollectionExtensions_AsRealmQueryable__1_System_Collections_Generic_IList___0__>`
-  	method. This is required because we are filtering the collection. If we wanted 
-	to list all of the items in the ``Items`` collection, we do not need to call 
+  	method. This is required because we are filtering the collection. If we want  
+	to list all of the Items in the ``Items`` collection, we do not need to call 
 	``AsRealmQueryable()``.
 
 The XAML implementation is similar to the example above:
