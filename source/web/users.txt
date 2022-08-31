@@ -43,13 +43,13 @@ Create and Delete Users
 -----------------------
 
 For all authentication providers other than email/password authentication,
-App Services automatically :ref:`creates a user object <web-create-user>`
+App Services automatically :ref:`creates a user <web-create-user>`
 the first time a user authenticates. If a user authenticates via more than
 one method, you can :ref:`link these user identities <web-link-user-identities>`
-to a single user object.
+to a single user.
 
-You can :ref:`delete user objects <web-delete-user>`. Deleting a user object
-deletes metadata attached to the user object, but does not delete user-entered
+You can :ref:`delete users <web-delete-user>`. Deleting a user
+deletes metadata attached to the user, but does not delete user-created
 data from the backend.
 
 .. _web-access-the-app-client:
@@ -86,9 +86,9 @@ The Web SDK stores these tokens in the browser storage.
 Read and Update Custom User Data
 --------------------------------
 
-You can :ref:`associate custom data <custom-user-data>` with a user object,
+You can :ref:`associate custom data <custom-user-data>` with a user,
 such as a preferred language or local timezone, and read it from your client
-application. A user object has a ``customData`` property that you can use
+application. A user has a ``customData`` property that you can use
 to :ref:`access custom user data <web-read-custom-user-data>`.
 
 To :ref:`create and update <web-modify-custom-user-data>` custom user data,
