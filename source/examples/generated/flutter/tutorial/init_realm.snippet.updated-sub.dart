@@ -5,7 +5,7 @@ if (userTaskSub == null) {
     // server-side rules ensure user only downloads own tasks
     mutableSubscriptions.add(
         realm.query<Item>(
-          'priority <= \$0 OR priority == nil',
+          'priority <= \$0',
           [PriorityLevel.high],
         ),
         name: 'getUserItemsWithPriority');
