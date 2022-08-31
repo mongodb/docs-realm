@@ -62,4 +62,4 @@
                        },
                      ),
                    ),
-   // ...closing brackets and parenthesis
+   // ...closing brackets and parentheses
