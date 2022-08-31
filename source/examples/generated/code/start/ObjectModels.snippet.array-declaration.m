@@ -4,7 +4,7 @@
 @end
 
 // Define an RLMArray<Task> type
-RLM_ARRAY_TYPE(Task)
+RLM_COLLECTION_TYPE(Task)
 
 
 // User.h

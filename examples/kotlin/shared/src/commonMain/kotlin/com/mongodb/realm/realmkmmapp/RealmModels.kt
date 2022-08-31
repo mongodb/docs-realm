@@ -1,6 +1,8 @@
 package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.ObjectId
+import io.realm.kotlin.types.annotations.PrimaryKey
 
 class Person : RealmObject {
     var name: String = "Foo"
@@ -21,9 +23,20 @@ class Frog : RealmObject {
 }
 // :snippet-end:
 
-// :snippet-start: quick-start-model
 class Task : RealmObject {
     var name: String = "new task"
     var status: String = "Open"
+}
+
+// :snippet-start: quick-start-model
+class Item() : RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId.create()
+    var isComplete: Boolean = false
+    var summary: String = ""
+    var owner_id: String = ""
+    constructor(ownerId: String = "") : this() {
+        owner_id = ownerId
+    }
 }
 // :snippet-end:

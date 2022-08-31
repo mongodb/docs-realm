@@ -127,6 +127,7 @@ void main() {
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
     test("Apple user", () async {
+      final idToken = 'abc';
       // :snippet-start: apple-credentials
       Credentials appleCredentials = Credentials.apple(idToken);
       User currentUser = await app.logIn(appleCredentials);
