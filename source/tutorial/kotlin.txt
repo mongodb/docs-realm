@@ -232,7 +232,7 @@ Modify the Application
             :emphasize-lines: 2
 
             val item = Item(realmApp.currentUser!!.identity)
-            item.priority = PriorityLevel.valueOf(mSpinner.selectedItem.toString()).priority
+            item.priority = PriorityLevel.valueOf(spinner.selectedItem.toString()).priority
             item.summary = itemSummaryInput.text.toString()
             
             CoroutineScope(Dispatchers.IO).launch {
