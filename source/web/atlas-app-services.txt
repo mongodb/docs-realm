@@ -1,4 +1,5 @@
 .. _web-mongodb-realm:
+.. _web-atlas-app-services:
 
 ==================
 Atlas App Services
@@ -10,12 +11,62 @@ Atlas App Services
    Initialize the App Client </web/init-app-client>
    Call a Function </web/call-a-function>
 
-- :doc:`Initialize the Realm App Client </web/init-app-client>`
-- :doc:`Authenticate a User </web/authenticate>`
-- :doc:`Manage Email/Password Users </web/manage-email-password-users>`
-- :doc:`Create & Manage User API Keys </web/create-manage-api-keys>`
-- :doc:`Work with Multiple Users </web/work-with-multiple-users>`
-- :doc:`MongoDB Data Access </web/mongodb>`
-- :doc:`Access Custom User Data </web/access-custom-user-data>`
-- :doc:`Call a Function </web/call-a-function>`
-- :doc:`Link User Identities </web/link-identities>`
+Realm SDKs let you connect your client apps to the App Services backend.
+The SDKs provide the functionality
+needed to authenticate users with any of the built-in :ref:`authentication
+providers <authentication-providers>`, call backend :ref:`functions
+<functions>`, and directly access a linked :ref:`MongoDB data source
+<data-sources>`.
+
+The App Client
+--------------
+
+When using the SDK to access the Atlas App Services backend, you start with a
+App object. This object provides all other functionality related to App Services.
+Initialize the ``App`` object with the Atlas App Services App ID,
+which you can :ref:`find in the App Services UI <find-your-app-id>`.
+
+For further information, see :ref:`Initialize the App Client <web-init-appclient>`.
+
+Authentication & User Management
+--------------------------------
+
+With the Realm Web SDK, you can manage users
+can use any of the Atlas App Services authentication providers with very
+minimal backend setup or client-side code required. With the authentication
+APIs, you can implement the following functionality:
+
+- Creation of new user accounts
+- User log-in and log-out
+- Multiple users logged on at the same time on the same device
+- Linking user accounts from different providers
+- Providing custom user data
+
+To learn how to use App Services Authentication with the Realm Web SDK,
+see :ref:`User Management <web-manage-users>`.
+
+Query MongoDB
+-------------
+
+The Realm SDKs includes the MongoDB Data Access API for performing
+CRUD and aggregation operations directly from the browser.
+For security, configure server-side :ref:`data access rules <mongodb-rules>`
+to dynamically determine read & write permissions for every object that
+a user accesses.
+
+To learn how to use the MongoDB APIs, see :ref:`Query MongoDB <web-mongodb-data-access>`.
+
+Call Functions
+--------------
+
+:ref:`Atlas Functions <functions>` enable you to define and execute server-side
+logic for your application. You can call these Functions from your client applications
+via the Realm Web SDK. These server-side functions can run under the context
+of the authenticated user, and thus honor the rules, roles, and permissions that
+you have assigned to your collections.
+
+By using Functions, you provide a secure way for multiple client
+applications to share complex functionality without having to reproduce that
+logic client-side.
+
+To learn how to use Functions, see :ref:`Call a Function <web-call-a-function>`.
