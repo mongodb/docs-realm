@@ -1,3 +1,22 @@
+# August 26, 2022
+
+## Flutter SDK
+- User Management/Authenticate Users
+  - Add an example for multiple anonymous users
+  - Add new auth provider documentation for Custom JWT, Custom Function, Facebook, Google, Apple
+
+## Kotlin SDK
+- Sync/Subscribe to Queryable Fields: Bug fix in the Update Subscription example
+
+## Swift SDK
+- Update deprecated RLM_ARRAY_TYPE to RLM_COLLECTION_TYPE macro in a few Objective-C code examples
+- Convert SwiftUI docs page into a new SwiftUI docs section w/tested View code examples
+- Update the iOS Test Suite README with information about creating & running the new SwiftUI tests
+
+## Other
+- Product naming updates across many pages to improve first/subsequent naming compliance and other naming issues
+- General maintenance including: fix broken links, remove deprecated files, update CI
+
 # August 19, 2022
 
 ## Flutter SDK

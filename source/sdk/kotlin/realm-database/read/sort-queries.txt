@@ -21,9 +21,9 @@ to constrain results to unique values of a field, and
 provides convenience methods on :file:`RealmQuery` so you don't have
 to manually write the keywords:
 
-- `realmQuery.sort() <{+kotlin-local-prefix+}io.realm.query/-realm-query/sort.html>`__
-- `realmQuery.distinct() <{+kotlin-local-prefix+}io.realm.query/-realm-query/distinct.html>`__
-- `realmQuery.limit() <{+kotlin-local-prefix+}io.realm.query/-realm-query/limit.html>`__
+- `realmQuery.sort() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/sort.html>`__
+- `realmQuery.distinct() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/distinct.html>`__
+- `realmQuery.limit() <{+kotlin-local-prefix+}io.realm.kotlin.query/-realm-query/limit.html>`__
 
 When used on the same query in both RQL and method form, :file:`SORT`,
 :file:`DISTINCT`, and :file:`LIMIT` execute in the order they're added
@@ -35,7 +35,7 @@ to the query. This can impact the results returned from your query.
 
 .. tip:: :file:`find()` is Synchronous
 
-   `find() <{+kotlin-local-prefix+}io.realm.query/find.html>`__
+   `find() <{+kotlin-local-prefix+}io.realm.kotlin.query/find.html>`__
    runs a synchronous query on the thread it is called from.
    As a result, avoid using :file:`find()` on the UI thread or in
    logic that could delay the UI thread. Prefer `asFlow()

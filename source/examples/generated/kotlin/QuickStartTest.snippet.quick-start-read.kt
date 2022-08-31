@@ -1,2 +1,2 @@
-// all tasks in the realm
-val tasks: RealmResults<Task> = realm.query<Task>().find()
+// all items in the realm
+val items: RealmResults<Item> = realm.query<Item>().find()

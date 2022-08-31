@@ -100,7 +100,7 @@ Set Up Apollo Client
    .. step:: Add the Apollo Client to Your App
 
       The Apollo ``client`` object is now configured to send authenticated GraphQL
-      requests to your Atlas App Services backend. All that's left to do is make it available
+      requests to your App Services backend. All that's left to do is make it available
       to the rest of your React application.
       
       The ``@apollo/client`` package exports an ``ApolloProvider`` component that
@@ -138,7 +138,7 @@ the file where you're using them.
    
    Components that call the query and mutation hooks must be descendants of the
    :apollo:`ApolloProvider <docs/react/api/react/hooks/#apolloprovider>` that
-   you configured for your Atlas App Services backend. The hooks call the :apollo:`query
+   you configured for your App Services backend. The hooks call the :apollo:`query
    <docs/react/api/core/ApolloClient/#ApolloClient.query>` and :apollo:`mutation
    <docs/react/api/core/ApolloClient/#ApolloClient.mutation>` methods on the
    provided ``client`` object.
