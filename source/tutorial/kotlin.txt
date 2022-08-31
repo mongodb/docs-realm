@@ -22,7 +22,7 @@ Todo Item List management application. This application enables users to:
 
 - Register their email as a new user account.
 - Sign in to their account with their email and password (and sign out later).
-- View, create, modify, and delete tasks.
+- View, create, modify, and delete todo items.
 
 This tutorial adds functionality to the Template App. You will add a new ``Priority`` field 
 to the existing ``Item`` model and update the 
@@ -311,11 +311,11 @@ Change the Subscription
                      realm.query<Item>(
                          "owner_id == ${realmApp.currentUser!!.identity} AND priority <= ${PriorityLevel.High.priority.toString()}"
                      ),
-                     "User's High Priority Tasks"
+                     "User's High Priority Items"
                  )
              }
 
-      We set the name of the subscription above to "User's High Priority Tasks",
+      We set the name of the subscription above to "User's High Priority Items",
       but you can set it to any string that describes the subscription.
 
    .. step:: Run and Test
