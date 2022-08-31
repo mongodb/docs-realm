@@ -43,7 +43,7 @@ namespace DataBinding
             // ...
             // :uncomment-end:
             IncompleteItems = Employee123.Items
-                .AsQueryable()
+                .AsRealmQueryable()
                 .Where(i => i.IsComplete == false);
             //:snippet-end:
             InitializeComponent();

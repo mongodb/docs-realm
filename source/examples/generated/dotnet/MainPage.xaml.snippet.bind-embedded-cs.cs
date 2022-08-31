@@ -1,5 +1,5 @@
 public Employee Employee123 { get; }
 ...
 IncompleteItems = Employee123.Items
-    .AsQueryable()
+    .AsRealmQueryable()
     .Where(i => i.IsComplete == false);

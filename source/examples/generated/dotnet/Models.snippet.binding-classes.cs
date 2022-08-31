@@ -13,12 +13,7 @@ public class Employee : RealmObject
     public string Name { get; set; }
 
     [MapTo("items")]
-    public List<Item> Items { get; }
-
-    public Employee()
-    {
-        this.Items = new List<Item>();
-    }
+    public IList<Item> Items { get; }
 }
 
 public class Item : RealmObject
