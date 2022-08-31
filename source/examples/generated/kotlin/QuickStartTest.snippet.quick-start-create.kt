@@ -1,6 +1,6 @@
 realm.writeBlocking {
-    copyToRealm(Task().apply {
-        name = "Do work"
-        status = "Open"
+    copyToRealm(Item().apply {
+        summary = "Do the laundry"
+        isComplete = false
     })
 }
