@@ -4,14 +4,6 @@
 Manage Users - Web SDK
 ======================
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
-
-TODO: update w web content
-
 .. toctree::
    :titlesonly:
 
@@ -22,16 +14,28 @@ TODO: update w web content
    Access Custom User Data </web/access-custom-user-data>
    Link User Identities </web/link-identities>
 
-Overview
---------
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
 
-When you use App Services to back your client app, you get access to a
-:ref:`user object <user-objects>`. Use Web SDK methods with this user
-object to conveniently:
+You must use App Services in the context of a user.
+Users are associated with one or more authentication providers.
+You can also assign data access rules to users to constrain what data they access.
+Use Realm Web SDK to perform the following authentication and user management actions:
 
-- Create and delete users
-- Log users in and out
-- Create and update custom user data
+- Creation of new user accounts
+- User log-in and log-out
+- Multiple users logged on at the same time on the same device
+- Linking user accounts from different providers
+- Providing custom user data
+
+When you have a logged-in user, SDK methods enable you to:
+
+- :ref:`Query MongoDB Atlas <web-query-mongodb>`
+- :ref:`Use the Atlas GraphQL API <graphql-apollo-react>`
+- :ref:`Run a backend function <web-call-a-function>` as the logged-in user
 
 .. _web-create-and-delete-users:
 
@@ -48,14 +52,13 @@ You can :ref:`delete user objects <web-delete-user>`. Deleting a user object
 deletes metadata attached to the user object, but does not delete user-entered
 data from the backend.
 
-
 .. _web-access-the-app-client:
 
 Log Users In and Out
 --------------------
 
-Use one or more :ref:`authentication providers <auth-providers>` to :ref:`log
-users in and out <web-authenticate>` of your client app. You can:
+Use one or more :ref:`authentication providers <auth-providers>` to log
+users in and out of your client app. You can:
 
 - Log users in with an existing social account, such as Apple, Facebook,
   or Google.
@@ -64,13 +67,8 @@ users in and out <web-authenticate>` of your client app. You can:
 - Enable anonymous users to let users access your App Services App without persisting
   user data.
 
-When you have a logged-in user, SDK methods enable you to:
+For further information, see :ref:`Authenticate Users <web-authenticate>`.
 
-- :ref:`Run a backend function <web-call-a-function>` as the logged-in user
-- :ref:`Log the user out <web-logout>`
-- :ref:`Change the active user <web-switch-user>` in a multi-user
-  application
-- :ref:`Remove a user <web-remove-user>` from the device
 
 User Sessions
 ~~~~~~~~~~~~~
