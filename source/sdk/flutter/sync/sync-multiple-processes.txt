@@ -1,0 +1,43 @@
+.. _flutter-sync-multiple-processes:
+
+=================================
+Sync Data from Multiple Processes
+=================================
+
+You can use a single realm database to synchronize data from multiple processes
+using Atlas Device Sync.
+
+Examples of scenarios where you might want to open a synced realm
+in multiple processes include:
+
+- A multi-window desktop application where each window writes to the same synced realm.
+- A server application that writes to a synced realm from multiple processes.
+
+On a high level, syncing data to a realm from multiple processes consists
+of the following:
+
+#. Creating a single **main process** that opens a Realm using a standard flexible
+   sync configuration. The main process handles synchronization.
+#. Creating one or more **secondary processes** that open the same realm using a
+   disconnected sync configuration. Using a disconnected sync configuration,
+   the secondary processes reads and writes data to the realm
+   without handling the synchronization. The main process handles
+   the synchronization of all data for the secondary process.
+
+To open a synced realm in the main process, use the
+:flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`
+constructor. For more information, refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
+
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.main-process.dart
+   :language: dart
+   :caption: main_process.dart
+   :emphasize-lines: 5,6
+
+To open a synced realm in a secondary process, create a ``Configuration`` with the
+:flutter-sdk:`Configuration.disconnectedSync() <realm/Configuration/disconnectedSync.html>`
+constructor. Include the schema and any additional optional named arguments.
+
+.. literalinclude:: /examples/generated/flutter/sync_multiple_processes_test.snippet.secondary-process.dart
+   :language: dart
+   :caption: secondary_process.dart
+   :emphasize-lines: 5,6
