@@ -1,5 +1,5 @@
 // ... other imports
-import 'package:flutter_todo/components/select_priority.dart';
+import 'package:flutter_todo/components/select_priority.dart'; 
 
 // showModifyItemModal function
 
@@ -61,7 +61,7 @@ class _ModifyItemFormState extends State<ModifyItemForm> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                // ... other widgets
+                // ... Text and TextFormField widgets
                 SelectPriority(_priority, _setPriority), 
                 // ... other widgets
               ],

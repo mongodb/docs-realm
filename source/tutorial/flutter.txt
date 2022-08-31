@@ -170,7 +170,7 @@ Modify the Application
 
             flutter pub run realm generate
 
-   .. step:: Set the Priority when Creating a New Item
+   .. step:: Set the Priority when Creating and Updating Items
 
       A. In ``lib/viewmodels/item_viewmodel.dart``, add logic to set and update
          ``priority``. Also add a ``PriorityLevel`` abstract class below the
@@ -208,6 +208,18 @@ Modify the Application
          widget.
 
          .. include:: /examples/generated/flutter/tutorial/item_card.snippet.item-card.dart.modified.rst
+
+   .. step:: Delete App from Device
+
+      Delete the Flutter app and all associated data from the device or simulator
+      that you're running it on.
+      You should do this to prevent issues with the schema migration.
+      Because the data is syncing, any Items you made still exist in MongoDB
+      Atlas and will sync when you reopen the app.
+
+      How to delete the app and associated data varies depending on where you're
+      running the app. Refer to your device or simulator's documentation
+      for help deleting app data.
 
    .. step:: Run and Test
 

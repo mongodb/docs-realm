@@ -1,5 +1,5 @@
 .. code-block:: text
-   :emphasize-lines: 3, 17, 21-25, 39
+   :emphasize-lines: 3, 17, 21-25, 39, 51-54
 
    // ... other imports
    import 'package:flutter_todo/viewmodels/item_viewmodel.dart';
@@ -38,11 +38,28 @@
            mainAxisAlignment: MainAxisAlignment.center,
            mainAxisSize: MainAxisSize.min,
            children: <Widget>[
-             // ... other widgets
+             // ... Text and TextFormField widgets
              SelectPriority(_priority, _setPriority), 
              // .. other widgets
-           ],
-         ),
-       );
-     }
-   }
+                   // Set priority when creating an Item
+                   Container(
+                     margin: const EdgeInsets.symmetric(horizontal: 10),
+                     child: Consumer<Realm>(
+                       builder: (context, realm, child) {
+                         return ElevatedButton(
+                           child: const Text('Create'),
+                           onPressed: () {
+                             if (_formKey.currentState!.validate()) {
+                               final summary = taskEditingController.text;
+                               ItemViewModel.create(
+                                   realm,
+                                   Item(ObjectId(), summary, currentUser!.id,
+                                       priority: _priority));
+                               Navigator.pop(context);
+                             }
+                           },
+                         );
+                       },
+                     ),
+                   ),
+   // ...closing brackets and parenthesis
