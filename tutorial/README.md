@@ -4,10 +4,9 @@ The Task Tracker is a collaborative project management tool.
 
 ## App Description
 
-The mobile apps (Swift/iOS, Kotlin/Android, and React Native) and the Node CLI
-implement the Task Tracker using MongoDB Atlas Device Sync.
+The Node.js CLI implements the Task Tracker using MongoDB Atlas Device Sync.
 
-The web app implements the Task Tracker using the GraphQL integration.
+The Web app implements the Task Tracker using the GraphQL integration.
 
 ## Get Started
 
@@ -62,7 +61,6 @@ The most common issue is schema mismatch due to frequent little tweaks to the
 schema as you develop your app.
 
 - Be sure to **check the logs in Realm UI** for more information as well as the console in your app.
-- **Delete the app from the simulator** to purge local data.
 - **Restart Sync** in the Realm UI by clicking "Delete Synced Data" on the Sync page.
 - Be sure to **deploy your changes** in the Realm UI.
 - If your schema does not match the server, **compare the class definitions from the SDKs tab in the Realm UI** with those in the client code.
