@@ -20,7 +20,7 @@
    class _CreateItemFormState extends State<CreateItemForm> {
      int _priority = PriorityLevel.low; 
      final _formKey = GlobalKey<FormState>();
-     var taskEditingController = TextEditingController();
+     var itemEditingController = TextEditingController();
 
      void _setPriority(int priority) {
        setState(() {
@@ -51,7 +51,7 @@
                            child: const Text('Create'),
                            onPressed: () {
                              if (_formKey.currentState!.validate()) {
-                               final summary = taskEditingController.text;
+                               final summary = itemEditingController.text;
                                ItemViewModel.create(
                                    realm,
                                    Item(ObjectId(), summary, currentUser!.id,
@@ -63,4 +63,4 @@
                        },
                      ),
                    ),
-   // ...closing brackets and parenthesis
+   // ...closing brackets and parentheses
