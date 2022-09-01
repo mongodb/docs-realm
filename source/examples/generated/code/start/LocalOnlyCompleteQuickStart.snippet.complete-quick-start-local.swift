@@ -15,9 +15,9 @@ class LocalOnlyQsTask: Object {
 // Entrypoint. Call this to run the example.
 func runLocalOnlyExample() {
     // Open the local-only default realm
-    let localRealm = try! Realm()
+    let realm = try! Realm()
     // Get all tasks in the realm
-    let tasks = localRealm.objects(LocalOnlyQsTask.self)
+    let tasks = realm.objects(LocalOnlyQsTask.self)
 
     // Retain notificationToken as long as you want to observe
     let notificationToken = tasks.observe { (changes) in
@@ -36,18 +36,18 @@ func runLocalOnlyExample() {
     }
 
     // Delete all from the realm
-    try! localRealm.write {
-        localRealm.deleteAll()
+    try! realm.write {
+        realm.deleteAll()
     }
 
     // Add some tasks
     let task = LocalOnlyQsTask(name: "Do laundry")
-    try! localRealm.write {
-        localRealm.add(task)
+    try! realm.write {
+        realm.add(task)
     }
     let anotherTask = LocalOnlyQsTask(name: "App design")
-    try! localRealm.write {
-        localRealm.add(anotherTask)
+    try! realm.write {
+        realm.add(anotherTask)
     }
 
     // You can also filter a collection
@@ -58,7 +58,7 @@ func runLocalOnlyExample() {
 
     // All modifications to a realm must happen in a write block.
     let taskToUpdate = tasks[0]
-    try! localRealm.write {
+    try! realm.write {
         taskToUpdate.status = "InProgress"
     }
 
@@ -69,9 +69,9 @@ func runLocalOnlyExample() {
 
     // All modifications to a realm must happen in a write block.
     let taskToDelete = tasks[0]
-    try! localRealm.write {
+    try! realm.write {
         // Delete the LocalOnlyQsTask.
-        localRealm.delete(taskToDelete)
+        realm.delete(taskToDelete)
     }
 
     print("A list of all tasks after deleting one: \(tasks)")

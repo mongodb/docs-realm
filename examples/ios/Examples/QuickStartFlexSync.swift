@@ -5,15 +5,15 @@
 // }
 // swiftlint:disable identifier_name
 
-import XCTest
+ import XCTest
 // :snippet-start: import-realm
-import RealmSwift
+ import RealmSwift
 // :snippet-end:
 
-let FS_APP_ID = "swift-flexible-vkljj"
+ let FS_APP_ID = "swift-flexible-vkljj"
 
 // :snippet-start: model
-class QuickStartFlexSync_Todo: Object {
+ class QuickStartFlexSync_Todo: Object {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String = ""
     @Persisted var status: String = ""
@@ -24,13 +24,12 @@ class QuickStartFlexSync_Todo: Object {
         self.name = name
         self.ownerId = ownerId
     }
-}
+ }
 // :snippet-end:
 
-class QuickStartFlexSync: XCTestCase {
+ class QuickStartFlexSync: XCTestCase {
     func testRunExample() async {
         await flexibleSyncQuickStart()
-        // :snippet-start: complete-quick-start
         // Entrypoint. Call this to run the quick start.
         func flexibleSyncQuickStart() async {
             // Instantiate the app
@@ -49,17 +48,20 @@ class QuickStartFlexSync: XCTestCase {
             // :snippet-start: open-synced-realm
             func openSyncedRealm(user: User) async {
                 do {
-                    var config = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
-                        subs.append(
-                            QuerySubscription<QuickStartFlexSync_Todo> {
-                                $0.ownerId == user.id
-                            })
-                    })
+                    var config = user.flexibleSyncConfiguration()
                     // Pass object types to the Flexible Sync configuration
                     // as a temporary workaround for not being able to add a
                     // complete schema for a Flexible Sync app.
                     config.objectTypes = [QuickStartFlexSync_Todo.self]
                     let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
+                    // You must add at least one subscription to read and write from a Flexible Sync realm
+                    let subscriptions = realm.subscriptions
+                    try await subscriptions.update {
+                        subscriptions.append(
+                            QuerySubscription<QuickStartFlexSync_Todo> {
+                                $0.ownerId == user.id
+                            })
+                    }
                     await useRealm(realm: realm, user: user)
                 } catch {
                     print("Error opening realm: \(error.localizedDescription)")
@@ -156,7 +158,6 @@ class QuickStartFlexSync: XCTestCase {
             }
             // :snippet-end:
         }
-        // :snippet-end:
     }
-}
+ }
 // :replace-end:

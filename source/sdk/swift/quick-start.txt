@@ -12,17 +12,13 @@ Quick Start - Swift SDK
    :depth: 2
    :class: singlecol
 
-Prerequisites
--------------
-
+This Quick Start demonstrates how to use Realm Database with the Realm Swift SDK. 
 Before you begin, ensure you have :ref:`Installed the Swift SDK <ios-install>`.
 
-.. tip:: This Quickstart is Local-only
-   
-   For a quickstart featuring communicating with an Atlas App Services App over the 
-   network using :ref:`Device Sync <sync>`, Realm Functions, or user 
-   management, see the :ref:`Quick Start with Sync <ios-client-quick-start-with-sync>`, 
-   or the full :ref:`iOS Tutorial <ios-swift-tutorial>`.
+.. seealso::
+
+   If your app uses SwiftUI, check out the :ref:`SwiftUI Quick Start 
+   <ios-swiftui-quick-start>`.
 
 Import Realm
 ------------
@@ -37,9 +33,10 @@ Define Your Object Model
 ------------------------
 
 For a local-only Realm Database you can define your :ref:`object model
-<ios-realm-objects>` directly in code.
+<ios-realm-objects>` directly in code. In this quick start, you can remove
+``ownerId`` unless you want to add the optional Device Sync.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-define-object-model.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.model.swift
    :language: swift
 
 Open a Realm
@@ -65,29 +62,29 @@ Create, Read, Update, and Delete Objects
 Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` 
 in a :ref:`write transaction <ios-write-transactions>` block.
 
-To create a new Task, instantiate the Task class and add it to the realm in a write block:
+To create a new Todo, instantiate the Todo class and add it to the realm in a write block:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-write-transaction.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.create-todo.swift
    :language: swift
 
-You can retrieve a live :ref:`collection <ios-client-collections>` of all tasks in the realm:
+You can retrieve a live :ref:`collection <ios-client-collections>` of all todos in the realm:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-live-collection-of-all-tasks.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.get-all-todos.swift
    :language: swift
 
-You can also query that collection using :ref:`where <ios-client-query-engine>`:
+You can also filter that collection using :ref:`where <ios-client-query-engine>`:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-filter-collection.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.filter.swift
    :language: swift
 
-To modify a task, update its properties in a write transaction block:
+To modify a todo, update its properties in a write transaction block:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-modify-task.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.modify-write-block.swift
    :language: swift
 
-Finally, you can delete a task:
+Finally, you can delete a todo:
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-delete-task.swift
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.delete.swift
    :language: swift
 
 Watch for Changes
@@ -112,11 +109,68 @@ Later, when done observing:
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-invalidate-notification-token.swift
    :language: swift
 
-Complete Example
-----------------
+Add Device Sync (Optional)
+--------------------------
 
-Run the complete example by calling ``runLocalOnlyExample()``.
+If you want to sync Realm data across devices, you can set up an Atlas 
+App Services App and enable Device Sync. For more information on what 
+you can do with App Services, see: :ref:`App Services - Swift SDK <ios-application-services>`.
 
-.. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.complete-quick-start-local.swift
+Prerequisites
+~~~~~~~~~~~~~
+
+Before you can sync Realm data, you must:
+
+- :ref:`Create an App Services App <create-a-realm-app>`
+- :ref:`Enable anonymous authentication <anonymous-authentication>`
+- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  :ref:`Development Mode <enable-development-mode>` toggled to ``On`` and an ``ownerId`` field in the :guilabel:`Queryable Fields` section.
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+
+To use App Services features such as authentication and sync, you must
+access your App Services App using your App ID. You can :ref:`find your 
+App ID <find-your-app-id>` in the App Services UI.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.connect-to-backend.swift
    :language: swift
 
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+App Services UI, users can immediately log into your app without providing any identifying
+information. Once we have a logged-in user, we can open a realm for that user.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.authenticate-user.swift
+   :language: swift
+
+The Realm Swift SDK provides many additional ways to authenticate, register, and link users.
+For other authentication providers, see: :ref:`ios-authenticate-users`
+
+Open a Realm
+~~~~~~~~~~~~
+
+Once you have enabled Device Sync and authenticated a user, you can create
+a :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object and 
+open the realm. We can then add a the :ref:`Flexible Sync
+subscription <swift-manage-flexible-sync-subscriptions>` that determines 
+what data the realm can read and write.
+
+Once we have a realm with a subscription, this example passes the realm 
+and the user to another function where we use the realm.
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.open-synced-realm.swift
+   :language: swift
+
+The syntax to :ref:`read <ios-read-operations>`, :ref:`write
+<ios-write-operations>`, and :ref:`watch for changes <ios-react-to-changes>` on a
+synced realm is identical to the syntax for non-synced realms above. While 
+you work with local data, a background thread efficiently integrates, 
+uploads, and downloads changesets. 
+
+To use Sync with this Quick Start model, add the ``ownerId`` property 
+when you create new todo objects:
+
+.. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.create-todo.swift
+   :language: swift
