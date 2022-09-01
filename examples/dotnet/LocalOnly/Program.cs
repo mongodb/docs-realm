@@ -29,6 +29,7 @@ namespace LocalOnly
                 });
                 // :remove-start:
                 someGuitarId = newGuitar.Id;
+                Console.WriteLine(someGuitarId);
                 // :remove-end:
             });
 
