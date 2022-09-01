@@ -303,7 +303,7 @@ Change the Subscription
       shown here:
 
       .. code-block:: kotlin
-         :emphasize-lines: 3-8
+         :emphasize-lines: 4-6
 
          config = SyncConfiguration.Builder(user, setOf(Item::class))
              .initialSubscriptions { realm ->
@@ -312,28 +312,23 @@ Change the Subscription
                          "owner_id == $0 AND priority <= ${PriorityLevel.High.priority.toString()}",
                          user.identity
                      ),
-                     "User's High Priority Items"
+                     "User's Items"
                  )
              }
-
-      We set the name of the subscription above to "User's High Priority Items",
-      but you can set it to any string that describes the subscription.
 
    .. step:: Run and Test
     
       Run the application again. Log in using the account you created earlier in
-      this tutorial. You would expect to see the Item you most recently created
-      since it has a priority of "High" (1). But it is not in the list. If you
-      check your App Services' application logs, you will see an entry that
-      looks something like this:
+      this tutorial. Here, you'll notice an error if you check your
+      :android:`logs using Logcat <studio/debug/am-logcat>`, you will see an
+      entry that looks something like this:
 
       .. code-block:: sh
          :copyable: false
          
-         "Client provided query with bad syntax: unsupported query for table
-         "Item": 
-            key "priority" is not a queryable field" (error_code=300,
-            query_version=1)
+         io.realm.kotlin.mongodb.exceptions.BadFlexibleSyncQueryException:
+         Client provided query with bad syntax: unsupported query for table
+         "Item": key "priority" is not a queryable field
 
       This message tells us that we have added a field to our subscription
       without configuring Flexible Sync to use that field. 
