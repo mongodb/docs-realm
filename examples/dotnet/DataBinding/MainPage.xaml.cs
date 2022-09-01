@@ -60,11 +60,8 @@ namespace DataBinding
                     EmployeeId = "123",
                     Name = "Mr. Mann",
                 };
-                tempEmp.Items.AddRange(new List<Item>()
-                        {
-                            {new Item(){Summary="Do this important thing.", IsComplete=true} },
-                            {new Item(){Summary="This is a less important thing to do.", IsComplete=false} }
-                        });
+                tempEmp.Items.Add(new Item() { Summary = "Do this important thing.", IsComplete = true });
+                tempEmp.Items.Add(new Item() { Summary = "This is a less important thing to do.", IsComplete = false });
 
                 realm.Write(() =>
                 {
@@ -78,11 +75,8 @@ namespace DataBinding
                     EmployeeId = "456",
                     Name = "Ms. Viers",
                 };
-                tempEmp.Items.AddRange(new List<Item>()
-                        {
-                            {new Item(){Summary="Do this important thing.", IsComplete=true} },
-                            {new Item(){Summary="This is a less important thing to do.", IsComplete=false} }
-                        });
+                tempEmp.Items.Add(new Item() { Summary = "Do this important thing.", IsComplete = true });
+                tempEmp.Items.Add(new Item() { Summary = "This is a less important thing to do.", IsComplete = false });
 
                 realm.Write(() =>
                 {
@@ -96,11 +90,8 @@ namespace DataBinding
                     EmployeeId = "456",
                     Name = "Ms. Viers",
                 };
-                tempEmp.Items.AddRange(new List<Item>()
-                        {
-                            {new Item(){Summary="Do this important thing.", IsComplete=true} },
-                            {new Item(){Summary="This is a less important thing to do.", IsComplete=false} }
-                        });
+                tempEmp.Items.Add(new Item() { Summary = "Do this important thing.", IsComplete = true });
+                tempEmp.Items.Add(new Item() { Summary = "This is a less important thing to do.", IsComplete = false });
 
                 realm.Write(() =>
                 {
