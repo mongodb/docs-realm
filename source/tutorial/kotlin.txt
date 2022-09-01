@@ -208,8 +208,14 @@ Modify the Application
 
       #. Now within the ``app/java/com.mongodb.app`` folder, open the
          ``ItemActivity`` file. Here we will load our string array into an
-         instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`.
-         Add the following code in the ``onFabClicked()`` function, right before we call
+         instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`. First, add the following imports below the ``package com.mongodb.app``:
+
+         .. code-block:: kotlin
+
+            import android.widget.ArrayAdapter
+            import android.widget.Spinner
+
+         Next, add the following code in the ``onFabClicked()`` function, right before we call
          ``builder.setPositiveButton()``. 
 
          .. code-block:: kotlin
