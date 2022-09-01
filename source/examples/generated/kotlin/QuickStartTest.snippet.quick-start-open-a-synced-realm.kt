@@ -7,7 +7,7 @@
                    add(
                        realm.query<Item>(
                            "owner_id == $0", // owner_id == the logged in user
-                           user
+                           user.identity
                        ),
                        "User's Items"
                    )
