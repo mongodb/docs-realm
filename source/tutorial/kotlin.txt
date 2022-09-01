@@ -312,15 +312,21 @@ Change the Subscription
          :emphasize-lines: 4-6
 
          config = SyncConfiguration.Builder(user, setOf(Item::class))
-             .initialSubscriptions { realm ->
+             .initialSubscriptions (rerunOnOpen = true) { realm ->
                  add(
                      realm.query<Item>(
                          "owner_id == $0 AND priority <= ${PriorityLevel.High.priority.toString()}",
                          user.identity
                      ),
-                     "User's Items"
+                     "User's Items",
+                     updateExisting = true,
                  )
              }
+
+         Notice, we've set ``rerunOnOpen`` to true so that the closure is re-run
+         everytime the Realm is opened. We've also set ``updateExisting`` to
+         true, so the Realm Kotlin SDK updates the previous query named "User's
+         Item", rather than subscribing to two queries.
 
    .. step:: Run and Test
     
