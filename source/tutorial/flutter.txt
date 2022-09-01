@@ -281,7 +281,8 @@ to only sync Items marked as a High or Severe priority.
          :caption: lib/realm/init_realm.dart
          :language: dart
 
-      Update the subscription to the following:
+      Update the subscription to the delete the old subscription and add
+      a new one that uses priority:
 
       .. include:: /examples/generated/flutter/tutorial/init_realm.snippet.updated-sub.dart.modified.rst
 
@@ -324,7 +325,19 @@ to only sync Items marked as a High or Severe priority.
       Return to your Flutter app. To ensure the subscription is re-run, log out
       the current user, and then log in again.
       After an initial moment when Realm resyncs the document collection, you
-      will see the new Item of High priority that you created.
+      will see an error message resembling the following:
+
+      .. code-block::
+
+         The following RangeError was thrown building StreamBuilder<RealmResultsChanges<Item>>(dirty, state:
+         _StreamBuilderBaseState<RealmResultsChanges<Item>, AsyncSnapshot<RealmResultsChanges<Item>>>#387c4):
+         RangeError (index): Invalid value: Only valid value is 0: 3
+
+      This error occurs when the ``StreamBuilder`` widget as the subscription updates.
+      In a production app, you could add error handling. But for the sake of
+      this tutorial, just perform a hot refresh and the error will go away.
+
+      Now you should see the new Item of High priority that you created.
 
       If you want to further test the functionality, you can create Items of various
       priorities. You will see that a new Item with a lower priority briefly
@@ -342,6 +355,9 @@ to only sync Items marked as a High or Severe priority.
       ``"getUserItemsWithHighOrNoPriority"``.
 
       .. include:: /examples/generated/flutter/tutorial/init_realm.snippet.post-update.dart.modified.rst
+
+      Again, when a ``StreamBuilder`` error occurs the first time you open the
+      app with the new subscription, perform a hot refresh to see the expected data.
 
 Conclusion
 ----------
