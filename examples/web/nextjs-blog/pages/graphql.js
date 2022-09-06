@@ -47,7 +47,7 @@ const GET_PLANT = gql`
 
 function GraphQLConsumer() {
   const { loading, error, data } = useQuery(GET_PLANT, {
-    variables: { name: "lily of the valley" },
+    variables: { name: "daffodil" },
   });
   if (loading || !data) return <p>Loading ...</p>;
   if (error) console.error("Failed with error:", error);

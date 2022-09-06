@@ -41,7 +41,7 @@ export async function getServerSideProps(context) {
     data: { plant: lily },
   } = await client.query({
     query: GET_PLANT,
-    variables: { name: "lily of the valley" },
+    variables: { name: "daffodil" },
   });
 
   return {

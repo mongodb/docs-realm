@@ -12,7 +12,7 @@ export async function getStaticProps() {
   const plants = mongo.db("example").collection("plants");
 
   // Use plants.findOne to query the database
-  const data = await plants.findOne({ name: "lily of the valley" });
+  const data = await plants.findOne({ name: "daffodil" });
 
   // You must parse data as JSON to use it as a prop
   const json = JSON.parse(JSON.stringify(data));
