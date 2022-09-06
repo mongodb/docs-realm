@@ -1,10 +1,9 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import * as Realm from "realm-web";
-import AppServicesContext from "../realm/AppServicesContext";
 import Link from "next/link";
 
 export default function Home() {
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
 
   useEffect(() => {
     // For initial server-side render

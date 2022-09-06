@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -7,4 +7,3 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-import AppServicesContext from "../realm/AppServicesContext";

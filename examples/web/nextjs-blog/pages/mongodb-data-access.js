@@ -1,10 +1,10 @@
 // :snippet-start: mongo-data-access
-import { useContext, useEffect, useState } from "react";
-import AppServicesContext from "../realm/AppServicesContext";
+import { useEffect, useState } from "react";
+import * as Realm from "realm-web";
 
 export default function MongoDbDataAccess() {
   const [plant, setPlant] = useState();
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
 
   useEffect(() => {
     if (app?.currentUser) {

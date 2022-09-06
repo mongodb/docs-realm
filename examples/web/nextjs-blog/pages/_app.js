@@ -2,7 +2,6 @@ import { useEffect, useMemo } from "react";
 // :snippet-start: custom-app-wrapper
 import * as Realm from "realm-web";
 import Layout from "../components/layout";
-import AppServicesContext from "../realm/AppServicesContext";
 import { setCookie } from "nookies";
 
 function MyApp({ Component, pageProps }) {
@@ -30,7 +29,7 @@ function MyApp({ Component, pageProps }) {
   }, [appServices, appServices?.currentUser, appServices?.currentUser?.id]);
 
   return (
-    <AppServicesContext.Provider value={appServices}>
+    <>
       {/* :remove-start:*/}
       <Layout>
         {/* :remove-end: */}
@@ -38,7 +37,7 @@ function MyApp({ Component, pageProps }) {
         {/* :remove-start:*/}
       </Layout>
       {/* :remove-end: */}
-    </AppServicesContext.Provider>
+    </>
   );
 }
 

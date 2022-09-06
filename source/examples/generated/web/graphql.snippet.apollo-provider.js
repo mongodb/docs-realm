@@ -1,5 +1,5 @@
 function GraphQLProvider({ children }) {
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
   const client = new ApolloClient({
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,

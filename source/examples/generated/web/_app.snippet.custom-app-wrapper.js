@@ -1,6 +1,5 @@
 import * as Realm from "realm-web";
 import Layout from "../components/layout";
-import AppServicesContext from "../realm/AppServicesContext";
 import { setCookie } from "nookies";
 
 function MyApp({ Component, pageProps }) {
@@ -14,6 +13,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const user = appServices?.currentUser;
     if (user) {
+      setCookie(null, "accessToken", user.accessToken);
       // Refresh token before session expires
       const TWENTY_MIN_MS = 1200000;
       const resetAccessToken = setInterval(async () => {
@@ -27,9 +27,9 @@ function MyApp({ Component, pageProps }) {
   }, [appServices, appServices?.currentUser, appServices?.currentUser?.id]);
 
   return (
-    <AppServicesContext.Provider value={appServices}>
+    <>
         <Component {...pageProps} />
-    </AppServicesContext.Provider>
+    </>
   );
 }
 

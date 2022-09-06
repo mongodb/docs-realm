@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-import AppServicesContext from "../realm/AppServicesContext";
+import { useEffect, useState } from "react";
+import * as Realm from "realm-web";
 
 export default function MongoDbDataAccess() {
   const [plant, setPlant] = useState();
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
 
   useEffect(() => {
     if (app?.currentUser) {
       const mongo = app?.currentUser?.mongoClient("mongodb-atlas");
       const plants = mongo.db("example").collection("plants");
-      plants.findOne({ name: "lily of the valley" }).then((lily) => {
+      plants.findOne({ name: "daffodil" }).then((lily) => {
         setPlant(lily);
       });
     }

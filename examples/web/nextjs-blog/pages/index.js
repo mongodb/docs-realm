@@ -1,14 +1,13 @@
 // :snippet-start: log-in-index-js
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import * as Realm from "realm-web";
 // :remove-start:
 import { setCookie } from "nookies";
 // :remove-end:
-import AppServicesContext from "../realm/AppServicesContext";
 import Link from "next/link";
 
 export default function Home() {
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
 
   useEffect(() => {
     // For initial server-side render

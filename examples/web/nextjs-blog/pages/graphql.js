@@ -1,6 +1,6 @@
 // :snippet-start: whole-code-ex
 // :snippet-start: apollo-imports
-import { useContext } from "react";
+import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -9,12 +9,11 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-import AppServicesContext from "../realm/AppServicesContext";
 // :snippet-end:
 
 // :snippet-start: apollo-provider
 function GraphQLProvider({ children }) {
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
   const client = new ApolloClient({
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,

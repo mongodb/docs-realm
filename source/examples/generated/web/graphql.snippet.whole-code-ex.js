@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -7,10 +7,9 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-import AppServicesContext from "../realm/AppServicesContext";
 
 function GraphQLProvider({ children }) {
-  const app = useContext(AppServicesContext);
+  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
   const client = new ApolloClient({
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
@@ -41,7 +40,7 @@ const GET_PLANT = gql`
 
 function GraphQLConsumer() {
   const { loading, error, data } = useQuery(GET_PLANT, {
-    variables: { name: "lily of the valley" },
+    variables: { name: "daffodil" },
   });
   if (loading || !data) return <p>Loading ...</p>;
   if (error) console.error("Failed with error:", error);

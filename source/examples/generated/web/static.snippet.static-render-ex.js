@@ -15,7 +15,7 @@ export async function getStaticProps() {
 
   const mongo = user.mongoClient("mongodb-atlas");
   const plants = mongo.db("tracker").collection("plants");
-  const data = await plants.findOne({ name: "lily of the valley" });
+  const data = await plants.findOne({ name: "daffodil" });
   const json = JSON.parse(JSON.stringify(data));
 
   // By returning { props: { lily } }, the Blog component
