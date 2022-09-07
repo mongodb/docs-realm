@@ -70,7 +70,7 @@ Set up the Template App
 
    .. step:: Open the App
 
-      Navigate to the ``MyTutorialApp/frontend/flutter.todo.flex`` directory,
+      Navigate to the :file:`MyTutorialApp/frontend/flutter.todo.flex` directory,
       which contains the template Realm Flutter app.
       Open the Flutter app with your code editor.
 
@@ -89,29 +89,29 @@ Set up the Template App
          * - File
            - Purpose
 
-         * - ``lib/main.dart``
+         * - :file:`lib/main.dart`
            - Entry point into the app. Contains routing and state management.
 
-         * - ``lib/realm/schemas.dart``
+         * - :file:`lib/realm/schemas.dart`
            - Defines Realm Database schema.
 
-         * - ``lib/realm/schemas.g.dart``
+         * - :file:`lib/realm/schemas.g.dart`
            - Generated Realm object class.
 
-         * - ``lib/realm/app_services.dart``
+         * - :file:`lib/realm/app_services.dart`
            - Handles interaction with Atlas App Services.
 
-         * - ``lib/realm/init_realm.dart``
+         * - :file:`lib/realm/init_realm.dart`
            - Initializes the realm and adds a subscription to sync data
              with MongoDB Atlas using Device Sync.
 
-         * - ``lib/viewmodels/todo_viewmodel.dart``
+         * - :file:`lib/viewmodels/todo_viewmodel.dart`
            - View model class that controls interaction between UI and Realm.
 
-         * - ``lib/components/``
+         * - :file:`lib/components/`
            - Component parts of app featuring Flutter widgets.
 
-         * - ``lib/screens/``
+         * - :file:`lib/screens/`
            - Pages of the app.
 
    .. step:: Run the App
@@ -154,8 +154,8 @@ Modify the Application
 
       To do this, follow these steps:
 
-      A. In the ``flutter.todo.flex`` project, open the file
-         ``lib/realm/schemas.dart``.
+      A. In the :file:`flutter.todo.flex` project, open the file
+         :file:`lib/realm/schemas.dart`.
 
       #. Add the following property to the ``_Item`` class:
 
@@ -172,14 +172,14 @@ Modify the Application
 
    .. step:: Set the Priority when Creating and Updating Items
 
-      A. In ``lib/viewmodels/item_viewmodel.dart``, add logic to set and update
+      A. In :file:`lib/viewmodels/item_viewmodel.dart`, add logic to set and update
          ``priority``. Also add a ``PriorityLevel`` abstract class below the
          ``ItemViewModel`` class to constrain the possible values.
 
          .. include:: /examples/generated/flutter/tutorial/item_viewmodel.snippet.item-viewmodel.dart.modified.rst
 
       #. Add a new file to contain a widget to set the priority for an Item.
-         Create the file ``lib/components/select_priority.dart``.
+         Create the file :file:`lib/components/select_priority.dart`.
 
          .. include:: /examples/generated/flutter/tutorial/select_priority.snippet.select-priority.dart.modified.rst
 
@@ -192,16 +192,16 @@ Modify the Application
          replaced with comments in the below code examples to focus on the relevant
          sections of code that are changed.
 
-         Edit the ``CreateItemForm`` widget in ``lib/components/create_item.dart``:
+         Edit the ``CreateItemForm`` widget in :file:`lib/components/create_item.dart`:
 
          .. include:: /examples/generated/flutter/tutorial/create_item.snippet.create-item.dart.modified.rst
 
-         Edit the ``ModifyItemForm`` widget in ``lib/components/modify_item.dart``:
+         Edit the ``ModifyItemForm`` widget in :file:`lib/components/modify_item.dart`:
 
          .. include:: /examples/generated/flutter/tutorial/modify_item.snippet.modify-item.dart.modified.rst
 
       #. Now add a visual indicator for priority in the ``ItemCard`` widget
-         in ``lib/components/item_card.dart``. Create a new widget ``_PriorityIndicator`` that gives
+         in :file:`lib/components/item_card.dart`. Create a new widget ``_PriorityIndicator`` that gives
          a visual indicator of the Item's priority.
 
          Add a ``_PriorityIndicator`` widget you just created to the ``ItemCard``
@@ -253,7 +253,7 @@ to only sync Items marked as a High or Severe priority.
 
    .. step:: Update the subscription
 
-      In the ``lib/realm/init_realm.dart`` file, we define the Flexible Sync
+      In the :file:`lib/realm/init_realm.dart` file, we define the Flexible Sync
       subscription that defines which documents we sync with the user's device
       and account. Currently, we are syncing all all documents where
       the ``owner`` property matches the authenticated user.
@@ -275,7 +275,7 @@ to only sync Items marked as a High or Severe priority.
       ``PriorityLevel.high`` (or 1). We will also give the subscription the new name
       ``"getUserItemsWithHighPriority"``.
 
-      First, import ``lib/viewmodels/item_viewmodel.dart``:
+      First, import :file:`lib/viewmodels/item_viewmodel.dart`:
 
       .. literalinclude:: /examples/generated/flutter/tutorial/init_realm.snippet.import-viewmodel.dart
          :caption: lib/realm/init_realm.dart
