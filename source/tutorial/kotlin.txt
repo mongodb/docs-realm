@@ -22,7 +22,7 @@ Todo Item List management application. This application enables users to:
 
 - Register their email as a new user account.
 - Sign in to their account with their email and password (and sign out later).
-- View, create, modify, and delete tasks.
+- View, create, modify, and delete todo items.
 
 This tutorial adds functionality to the Template App. You will add a new ``Priority`` field 
 to the existing ``Item`` model and update the 
@@ -162,7 +162,7 @@ Modify the Application
                   Low(3)
             }
 
-      #. Add the following property to your Realm Object Model:
+      #. Add the following property to your Realm Object Model, before the ``constructor``:
 
          .. code-block:: kotlin
 
@@ -173,9 +173,10 @@ Modify the Application
    .. step:: Set the Priority when Creating a New Item
 
       A. Open the ``res/layout/create_item_dialog.xml`` file. This file defines
-         the UI element that displays when a user clicks the '+' button to add a new
-         todo item. Add a :android:`Spinner <guide/topics/ui/controls/spinner>`
-         that will enable the user to pick a priority level from a dropdown list.
+         the UI element that displays when a user clicks the '+' button to add a
+         new todo item. Before the closing tag of the ``LinearLayout``, add a
+         :android:`Spinner <guide/topics/ui/controls/spinner>` that will enable
+         the user to pick a priority level from a dropdown list.
    
          .. code-block:: xml
 
@@ -207,8 +208,14 @@ Modify the Application
 
       #. Now within the ``app/java/com.mongodb.app`` folder, open the
          ``ItemActivity`` file. Here we will load our string array into an
-         instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`.
-         Add the following code in the ``onFabClicked()`` function, right before we call
+         instance of :android:`ArrayAdapter <reference/android/widget/ArrayAdapter>`. First, add the following imports below the ``package com.mongodb.app``:
+
+         .. code-block:: kotlin
+
+            import android.widget.ArrayAdapter
+            import android.widget.Spinner
+
+         Next, add the following code in the ``onFabClicked()`` function, right before we call
          ``builder.setPositiveButton()``. 
 
          .. code-block:: kotlin
@@ -231,7 +238,7 @@ Modify the Application
             :emphasize-lines: 2
 
             val item = Item(realmApp.currentUser!!.identity)
-            item.priority = PriorityLevel.valueOf(mSpinner.selectedItem.toString()).priority
+            item.priority = PriorityLevel.valueOf(spinner.selectedItem.toString()).priority
             item.summary = itemSummaryInput.text.toString()
             
             CoroutineScope(Dispatchers.IO).launch {
@@ -266,7 +273,7 @@ Modify the Application
       field added and set to **1**. The existing Item does not have a ``priority`` 
       field.
 
-      .. figure:: /images/dotnet-tutorial-two-new-items.png
+      .. figure:: /images/swiftui-tutorial-two-new-items.png
          :alt:  Two items in a collection
          :figwidth: 300px
 
@@ -302,36 +309,38 @@ Change the Subscription
       shown here:
 
       .. code-block:: kotlin
-         :emphasize-lines: 3-8
+         :emphasize-lines: 4-6
 
          config = SyncConfiguration.Builder(user, setOf(Item::class))
-             .initialSubscriptions { realm ->
+             .initialSubscriptions (rerunOnOpen = true) { realm ->
                  add(
                      realm.query<Item>(
-                         "owner_id == ${realmApp.currentUser!!.identity} AND priority <= ${PriorityLevel.High.priority.toString()}"
+                         "owner_id == $0 AND priority <= ${PriorityLevel.High.priority.toString()}",
+                         user.identity
                      ),
-                     "User's High Priority Tasks"
+                     "User's Items",
+                     updateExisting = true,
                  )
              }
 
-      We set the name of the subscription above to "User's High Priority Tasks",
-      but you can set it to any string that describes the subscription.
+         Notice, we've set ``rerunOnOpen`` to true so that the closure is re-run
+         everytime the Realm is opened. We've also set ``updateExisting`` to
+         true, so the Realm Kotlin SDK updates the previous query named "User's
+         Item", rather than subscribing to two queries.
 
    .. step:: Run and Test
     
       Run the application again. Log in using the account you created earlier in
-      this tutorial. You would expect to see the Item you most recently created
-      since it has a priority of "High" (1). But it is not in the list. If you
-      check your App Services' application logs, you will see an entry that
-      looks something like this:
+      this tutorial. Here, you'll notice an error if you check your
+      :android:`logs using Logcat <studio/debug/am-logcat>`, you will see an
+      entry that looks something like this:
 
       .. code-block:: sh
          :copyable: false
          
-         "Client provided query with bad syntax: unsupported query for table
-         "Item": 
-            key "priority" is not a queryable field" (error_code=300,
-            query_version=1)
+         io.realm.kotlin.mongodb.exceptions.BadFlexibleSyncQueryException:
+         Client provided query with bad syntax: unsupported query for table
+         "Item": key "priority" is not a queryable field
 
       This message tells us that we have added a field to our subscription
       without configuring Flexible Sync to use that field. 
