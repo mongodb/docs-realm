@@ -1,5 +1,5 @@
 .. code-block:: text
-   :emphasize-lines: 8, 13-22, 28, 38-41, 46-51
+   :emphasize-lines: 8, 13-17, 28, 38-41, 46-51
 
    import 'package:realm/realm.dart';
    import 'package:flutter_todo/realm/schemas.dart';
