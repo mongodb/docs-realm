@@ -18,9 +18,7 @@ export default function MongoDbDataAccess() {
 
   return (
     <div>
-      {/* :remove-start:*/}
       <h1>Data from MongoDB Access</h1>
-      {/* :remove-end: */}
       {plant ? (
         <div>
           <p>{plant.name}</p>

@@ -1,3 +1,4 @@
+// :snippet-start: static-rendering
 import * as Realm from "realm-web";
 
 export async function getStaticProps() {
@@ -36,3 +37,4 @@ export default function Static({ lily }) {
     </div>
   );
 }
+// :snippet-end:

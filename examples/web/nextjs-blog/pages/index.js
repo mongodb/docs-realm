@@ -1,9 +1,6 @@
 // :snippet-start: log-in-index-js
 import { useEffect } from "react";
 import * as Realm from "realm-web";
-// :remove-start:
-import { setCookie } from "nookies";
-// :remove-end:
 import Link from "next/link";
 
 export default function Home() {
@@ -45,16 +42,3 @@ export default function Home() {
   );
 }
 // :snippet-end:
-
-// Set access token as a cookie for use with server-side rendering
-function setAccessTokenCookie(user) {
-  setCookie(null, "accessToken", user.accessToken);
-  // Refresh token before session expires
-  // :snippet-start: time-out
-  const TWENTY_MIN_MS = 1200000;
-  setInterval(async () => {
-    await user.refreshCustomData();
-    setCookie(null, "accessToken", user.accessToken);
-  }, TWENTY_MIN_MS);
-  // :snippet-end:
-}

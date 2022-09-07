@@ -1,5 +1,5 @@
-// :snippet-start: whole-code-ex
-// :snippet-start: apollo-imports
+// :snippet-start: graphql-client
+// 1. Import dependencies
 import * as Realm from "realm-web";
 import {
   ApolloClient,
@@ -9,9 +9,8 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-// :snippet-end:
 
-// :snippet-start: apollo-provider
+// 2. Add GraphQL client provider
 function GraphQLProvider({ children }) {
   const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
   const client = new ApolloClient({
@@ -28,9 +27,8 @@ function GraphQLProvider({ children }) {
   });
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
-// :snippet-end:
 
-// :snippet-start: mongo-query
+// 3. GraphQL query
 const GET_PLANT = gql`
   query Plant($name: String!) {
     plant(query: { name: $name }) {
@@ -44,6 +42,7 @@ const GET_PLANT = gql`
   }
 `;
 
+// 4. Consumer of provider and query
 function GraphQLConsumer() {
   const { loading, error, data } = useQuery(GET_PLANT, {
     variables: { name: "daffodil" },
@@ -63,17 +62,14 @@ function GraphQLConsumer() {
     </div>
   );
 }
-// :snippet-end:
 
-// :snippet-start: full-graphql-page
-function FullGraphQLPage() {
+// 5. Export page with the GraphQL query
+export default function FullGraphQLPage() {
   return (
     <GraphQLProvider>
       <GraphQLConsumer />
     </GraphQLProvider>
   );
 }
-export default FullGraphQLPage;
 
-// :snippet-end:
 // :snippet-end:

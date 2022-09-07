@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
 // :snippet-start: custom-app-wrapper
+import { useEffect, useMemo } from "react";
 import * as Realm from "realm-web";
 import Layout from "../components/layout";
 import { setCookie } from "nookies";
@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     []
   );
 
+  // :state-start: ssr
   // Reset the user access token in cookies on a regular interval
   useEffect(() => {
     const user = appServices?.currentUser;
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }) {
       return () => clearInterval(resetAccessToken);
     }
   }, [appServices, appServices?.currentUser, appServices?.currentUser?.id]);
+  // :state-end:
 
   return (
     <>
