@@ -1,4 +1,4 @@
-// change the first task with open status to in progress status
+// change the first item with open status to complete to show that the todo item has been done
 realm.writeBlocking {
-    findLatest(openTasks[0])?.status = "In Progress"
+    findLatest(incompleteItems[0])?.isComplete = true
 }

@@ -5,7 +5,7 @@
 @end
 
 // Define an RLMArray<Dog> type
-RLM_ARRAY_TYPE(Dog)
+RLM_COLLECTION_TYPE(Dog)
 
 // Person.h
 @interface Person : RLMObject

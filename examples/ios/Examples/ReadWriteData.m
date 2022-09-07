@@ -24,7 +24,7 @@
 @end
 
 // Enable ReadWriteDataObjcExample_Dog for use in RLMArray
-RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Dog)
+RLM_COLLECTION_TYPE(ReadWriteDataObjcExample_Dog)
 
 
 // Person.h
@@ -40,7 +40,7 @@ RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Dog)
 @property (readonly) RLMLinkingObjects *clubs;
 @end
 
-RLM_ARRAY_TYPE(ReadWriteDataObjcExample_Person)
+RLM_COLLECTION_TYPE(ReadWriteDataObjcExample_Person)
 
 
 // DogClub.h

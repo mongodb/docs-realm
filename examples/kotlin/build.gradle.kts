@@ -6,9 +6,12 @@ buildscript {
         maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
     dependencies {
+        // version catalogs do not fully work in buildscript.dependencies, see:
+        // https://github.com/gradle/gradle/issues/16958 and https://github.com/gradle/gradle/issues/19813
+        val libs = project.extensions.getByType<VersionCatalogsExtension>().named("libs")
+        classpath(libs.findLibrary("realm-plugin").get())
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.android.tools.build:gradle:7.1.1")
-        classpath("io.realm.kotlin:gradle-plugin:1.0.1") // DON'T FORGET TO UPDATE VERSION IN SHARED/ANDROID GRADLE
+        classpath("com.android.tools.build:gradle:7.2.2")
     }
 }
 

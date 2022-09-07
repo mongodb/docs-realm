@@ -1,3 +1,62 @@
+# August 26, 2022
+
+## Flutter SDK
+- User Management/Authenticate Users
+  - Add an example for multiple anonymous users
+  - Add new auth provider documentation for Custom JWT, Custom Function, Facebook, Google, Apple
+
+## Kotlin SDK
+- Sync/Subscribe to Queryable Fields: Bug fix in the Update Subscription example
+
+## Swift SDK
+- Update deprecated RLM_ARRAY_TYPE to RLM_COLLECTION_TYPE macro in a few Objective-C code examples
+- Convert SwiftUI docs page into a new SwiftUI docs section w/tested View code examples
+- Update the iOS Test Suite README with information about creating & running the new SwiftUI tests
+
+## Other
+- Product naming updates across many pages to improve first/subsequent naming compliance and other naming issues
+- General maintenance including: fix broken links, remove deprecated files, update CI
+
+# August 19, 2022
+
+## Flutter SDK
+- User Management/Delete a User: New page documenting deleting users, with tested code example
+
+## Swift SDK
+- React to Changes: New "Notification Delivery" section describing notification delivery guarantees
+
+## Other
+- Java SDK & Kotlin SDK: Improved Gradle documentation and dependency management across example projects
+- Various Snyk upgrades and version bumps in example apps
+
+# August 12, 2022
+
+## Node.js SDK
+- Landing page: Bug fix in "Update Live Objects" code example
+
+## Other
+- Realm docs landing page: Update Hero image
+- Various Snyk upgrades and version bumps in example apps
+
+# August 5, 2022
+
+## .NET SDK
+- Usage Examples/React to Changes: Add a new section with tested code examples for "Check if the Collection Has Been Cleared"
+
+## Node.js SDK
+- Usage Examples
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
+  - Flexible Sync: Remove `reRunOnOpen` API from docs
+
+## React Native SDK
+- Usage Examples
+  - Open & Close a Realm: Add a note about `WriteCopy` only supporting Partition-Based Sync
+  - Flexible Sync: Remove `reRunOnOpen` API from docs
+
+## Swift SDK
+- Sync Data/Configure & Open a Synced Realm: Add a note about `writeCopy` only supporting Partition-Based Sync
+- Code examples and docs updated across 10 pages related to Swift SDK IA updates (CRUD operations, data modeling, and Add Device Sync to an App)
+
 # July 29, 2022
 
 ## .NET SDK
