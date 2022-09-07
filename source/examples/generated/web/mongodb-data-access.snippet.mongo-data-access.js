@@ -17,6 +17,7 @@ export default function MongoDbDataAccess() {
 
   return (
     <div>
+      <h1>Data from MongoDB Access</h1>
       {plant ? (
         <div>
           <p>{plant.name}</p>

@@ -1,6 +1,8 @@
+// 1. import dependencies
 import nookies from "nookies";
 import { ApolloClient, InMemoryCache, HttpLink, gql } from "@apollo/client";
 
+// 2. Function to create GraphQL client
 const createClient = (token) =>
   new ApolloClient({
     link: new HttpLink({
@@ -13,6 +15,7 @@ const createClient = (token) =>
     cache: new InMemoryCache(),
   });
 
+// 3. GraphQL Query used in SSR
 const GET_PLANT = gql`
   query Plant($name: String!) {
     plant(query: { name: $name }) {
@@ -26,6 +29,7 @@ const GET_PLANT = gql`
   }
 `;
 
+// 4. Server-side logic to parse cookie and run query
 export async function getServerSideProps(context) {
   const { accessToken } = nookies.get(context);
   const client = createClient(accessToken);
@@ -41,6 +45,7 @@ export async function getServerSideProps(context) {
   };
 }
 
+// Full page exported that gets the data from SSR
 export default function Ssr({ lily }) {
   return (
     <div>

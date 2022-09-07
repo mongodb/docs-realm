@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from "react";
 import * as Realm from "realm-web";
 import Layout from "../components/layout";
 import { setCookie } from "nookies";
@@ -9,22 +10,6 @@ function MyApp({ Component, pageProps }) {
     []
   );
 
-  // Reset the user access token in cookies on a regular interval
-  useEffect(() => {
-    const user = appServices?.currentUser;
-    if (user) {
-      setCookie(null, "accessToken", user.accessToken);
-      // Refresh token before session expires
-      const TWENTY_MIN_MS = 1200000;
-      const resetAccessToken = setInterval(async () => {
-        await appServices?.currentUser?.refreshCustomData();
-        setCookie(null, "accessToken", user.accessToken);
-      }, TWENTY_MIN_MS);
-      // Clear interval setting access token whenever component unmounts or
-      // there's a change in user.
-      return () => clearInterval(resetAccessToken);
-    }
-  }, [appServices, appServices?.currentUser, appServices?.currentUser?.id]);
 
   return (
     <>
