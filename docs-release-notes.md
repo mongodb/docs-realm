@@ -1,7 +1,7 @@
 # September 1, 2022
 
 ## Flutter SDK
-- Open & Close a Realm: New section w/tested code example for customizing the default configuration
+- Open & Close a Realm: New section with tested code example for customizing the default configuration
 - Sync Device Data/Sync Multiple Processes: New page showing how to use Realm with Sync from multiple processes
 
 ## Kotlin SDK
@@ -12,8 +12,8 @@
 - Sync/Subscribe to Queryable Fields: Styling bug fix in a section header
 
 ## .NET SDK
-- Fundamentals/Data Binding: New page w/tested code examples showing common data binding scenarios
-- Advanced Guides/Convert Between Non-Synced Realms and Synced Realms: New page w/tested code examples for using the WriteCopy API to copy Realms for different configurations
+- Fundamentals/Data Binding: New page with tested code examples showing common data binding scenarios
+- Advanced Guides/Convert Between Non-Synced Realms and Synced Realms: New page with tested code examples for using the WriteCopy API to copy Realms for different configurations
 
 ## Swift SDK
 - Landing page: Add section with a SwiftUI example and link to SwiftUI docs
