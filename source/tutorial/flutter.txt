@@ -289,9 +289,9 @@ to only sync Items marked as a High or Severe priority.
    .. step:: Run and Test
 
       Run the application again. Log in using the account you created earlier
-      in this tutorial. You would expect to see the Item you most recently created,
-      since it has a priority of "High" (1). But it is not in the list. If you
-      check your application logs in the terminal,
+      in this tutorial. You would expect to **not** see the first Item created,
+      since doesn't have a priority. But it is in the list.
+      If you check your application logs in the terminal,
       you will see an entry that looks something like this:
 
       .. code-block:: sh
@@ -324,8 +324,9 @@ to only sync Items marked as a High or Severe priority.
 
       Return to your Flutter app. To ensure the subscription is re-run, log out
       the current user, and then log in again.
+
       After an initial moment when Realm resyncs the document collection, you
-      will see an error message resembling the following:
+      *might* see an error message resembling the following:
 
       .. code-block::
 
@@ -333,7 +334,7 @@ to only sync Items marked as a High or Severe priority.
          _StreamBuilderBaseState<RealmResultsChanges<Item>, AsyncSnapshot<RealmResultsChanges<Item>>>#387c4):
          RangeError (index): Invalid value: Only valid value is 0: 3
 
-      This error occurs when the ``StreamBuilder`` widget as the subscription updates.
+      This error can occur with the ``StreamBuilder`` widget as the subscription updates.
       In a production app, you could add error handling. But for the sake of
       this tutorial, just perform a hot refresh and the error will go away.
 
