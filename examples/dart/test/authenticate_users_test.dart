@@ -237,7 +237,7 @@ void main() {
       // :snippet-start: list-all-users
       Iterable<User> users = app.users;
       // :snippet-end:
-      expect(users.length, 4);
+      expect(users.length, 3);
     });
     test('Change the active user', () async {
       User otherUser = lisa;
