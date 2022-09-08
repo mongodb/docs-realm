@@ -33,4 +33,4 @@ Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Flexible Sync does not support querying on properties in Embedded Objects 
-or links. For example, ``obj1.field = “foo”``.
+or links. For example, ``obj1.field = "foo"``.
