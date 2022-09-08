@@ -14,6 +14,9 @@ Unsupported Query Operators in Flexible Sync
    * - Operator Type
      - Unsupported Operators
 
+   * - Comparison Operators
+     - ``in``
+
    * - String Operators
      - ``in``
 
@@ -28,6 +31,12 @@ As a result, case insensitive queries are not recommended, since they could lead
 performance problems.
 
 Flexible Sync only supports ``@count`` for array fields.
+
+List Queries
+~~~~~~~~~~~~
+
+Flexible Sync does not support querying on lists of data using the
+``IN`` operator.
 
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
