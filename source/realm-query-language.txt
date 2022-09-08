@@ -609,7 +609,7 @@ Date Operators
 
 Query date types in a realm.
 
-Generally, you should use parameterized query to pass a date data type
+Generally, you should use a parameterized query to pass a date data type
 from the SDK language you are using to a query.
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
@@ -726,10 +726,19 @@ List Comparisons
 
 You can use :ref:`comparison operators <rql-comparison-operators>` and
 :ref:`collection operators <rql-collection-operators>` to filter based
-on lists of data. You can compare any type of list, including
-collections of Realm objects, lists defined in the query and native list
-objects passed in a :ref:`parameterized expression
-<rql-parameterized-queries>`.
+on lists of data. 
+
+You can compare any type of valid list. This includes:
+
+- collections of Realm objects, which let you filter against other data
+  in the realm.
+
+- lists defined directly in the query, which let you filter against
+  static data.
+
+- native list objects passed in a :ref:`parameterized expression
+  <rql-parameterized-queries>`, which let you pass application data
+  directly to your queries.
 
 If you do not define a collection operator, a list expression defaults
 to the ``ANY`` operator.
