@@ -1,6 +1,9 @@
 name: Dart SDK Tests
 
-on: workflow_dispatch
+on:
+  pull_request:
+    paths:
+      - examples/dart/**
 
 defaults:
   run:
