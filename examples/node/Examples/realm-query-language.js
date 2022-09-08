@@ -1,4 +1,4 @@
-import Realm from "realm";
+import Realm, { BSON } from "realm";
 
 const Project = {
   name: "Project",
@@ -11,6 +11,7 @@ const Project = {
 const Task = {
   name: "Task",
   properties: {
+    id: "objectId?",
     name: "string",
     isComplete: "bool",
     assignee: "string?",
@@ -24,6 +25,7 @@ describe("Realm Query Language Reference", () => {
   beforeEach(async () => {
     realm = await Realm.open({
       schema: [Project, Task],
+      deleteRealmIfMigrationNeeded: true,
     });
 
     // populate test objects
@@ -237,6 +239,67 @@ describe("Realm Query Language Reference", () => {
       // :snippet-end:
     );
     expect(sortedUniqueAliTasks.length).toBe(1);
+  });
+
+  test("list comparisons", () => {
+    realm.write(() => {
+      realm.create("Project", {
+        name: "List Query Project",
+        tasks: [
+          {
+            id: new BSON.ObjectId("631a072f75120729dc9223d9"),
+            name: "Do the dishes",
+            isComplete: true,
+            assignee: "Kim",
+            priority: 5,
+            progressMinutes: 32,
+          },
+          {
+            id: new BSON.ObjectId("631a0737c98f89f5b81cd24d"),
+            name: "Take out the trash",
+            isComplete: false,
+            assignee: "Tom",
+            priority: 2,
+            progressMinutes: 0,
+          },
+          {
+            id: new BSON.ObjectId("631a073c833a34ade21db2b2"),
+            name: "Feed the cat",
+            isComplete: false,
+            assignee: "Anna",
+            priority: 10,
+            progressMinutes: 0,
+          },
+        ],
+      });
+    });
+    const projects = realm.objects("Project");
+    const tasks = realm.objects("Task");
+
+    const collectionQuery = projects.filtered(
+      // :snippet-start: list-comparisons-collection
+      "oid(631a072f75120729dc9223d9) IN tasks.id"
+      // :snippet-end:
+    );
+    const staticQuery = tasks.filtered(
+      // :snippet-start: list-comparisons-static
+      "priority IN {0, 1, 2}"
+      // :snippet-end:
+    );
+    // :snippet-start: list-comparisons-parameterized
+    const ids = [
+      new BSON.ObjectId("631a072f75120729dc9223d9"),
+      new BSON.ObjectId("631a0737c98f89f5b81cd24d"),
+      new BSON.ObjectId("631a073c833a34ade21db2b2"),
+    ];
+    const parameterizedQuery = realm
+      .objects("Task")
+      .filtered("id IN $0", ids);
+    // :snippet-end:
+    
+    expect(collectionQuery.length).toBe(1);
+    expect(staticQuery.length).toBe(1);
+    expect(parameterizedQuery.length).toBe(3);
   });
 
   test("subquery queries", () => {
