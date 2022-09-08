@@ -51,11 +51,9 @@ is by omitting the configuration parameter, which uses the default realm:
 
 You can also specify a :swift-sdk:`Realm.Configuration <Structs/Realm/Configuration.html>` 
 parameter to open a realm at a specific file URL, in-memory, or with a 
-subset of classes.
+subset of classes. 
 
-.. seealso::
-
-   :ref:`Open a Local Realm <ios-open-a-local-realm>`
+For more information, see: :ref:`Configure and Open a Realm <ios-open-a-local-realm>`
 
 Create, Read, Update, and Delete Objects
 ----------------------------------------
@@ -63,7 +61,7 @@ Create, Read, Update, and Delete Objects
 Once you have opened a realm, you can modify it and its :ref:`objects <ios-realm-objects>` 
 in a :ref:`write transaction <ios-write-transactions>` block.
 
-To create a new Todo, instantiate the Todo class and add it to the realm in a write block:
+To create a new Todo object, instantiate the Todo class and add it to the realm in a write block:
 
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.create-todo.swift
    :language: swift
@@ -96,16 +94,12 @@ You can :ref:`watch a realm, collection, or object for changes
 
 .. include:: /includes/serverless-watch-note.rst
 
-.. important::
-
-   Be sure to retain the notification token returned by ``observe`` as 
-   long as you want to continue observing. When you are done observing, 
-   invalidate the token to free the resources.
-
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-set-notification-token.swift
    :language: swift
 
-Later, when done observing:
+Be sure to retain the notification token returned by ``observe`` as 
+long as you want to continue observing. When you are done observing, 
+invalidate the token to free the resources:
 
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-invalidate-notification-token.swift
    :language: swift
@@ -158,12 +152,12 @@ Open a Realm
 
 Once you have enabled Device Sync and authenticated a user, you can create
 a :swift-sdk:`Configuration <Structs/Realm/Configuration.html>` object and 
-open the realm. We can then add a the :ref:`Flexible Sync
+open the realm. You can then add a the :ref:`Flexible Sync
 subscription <swift-manage-flexible-sync-subscriptions>` that determines 
 what data the realm can read and write.
 
-Once we have a realm with a subscription, this example passes the realm 
-and the user to another function where we use the realm.
+Once you have a realm with a subscription, this example passes the realm 
+and the user to another function where you can use the realm.
 
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.open-synced-realm.swift
    :language: swift
