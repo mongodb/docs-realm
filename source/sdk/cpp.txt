@@ -31,7 +31,7 @@ Requirements
 ------------
 
 - Minimum C++ standard: C++20.
-- For development on macOSS: Xcode 11.x or later.
+- For development on macOS: Xcode 11.x or later.
 - Otherwise, we recommend git and `CMake <https://cmake.org>`_.
 
 Install
@@ -56,8 +56,8 @@ When developing with Xcode, you can use Swift Package Manager (SPM) to install r
   to. For example, the target might be the main executable of your app.
 - Click :guilabel:`Add Package`.
 
-If successful, you will have made the ``cpprealm`` library headers available to
-your project and linked the realm-cpp dependency to your build target.
+This makes the ``cpprealm`` library headers available to 
+your project and links the realm-cpp dependency to your build target.
 
 With CMake
 ~~~~~~~~~~
@@ -75,7 +75,7 @@ This adds a ``realm-cpp`` subdirectory.
 Create or modify your ``CMakeLists.txt`` in the root directory of your project.
 Use ``add_subdirectory()`` to locate the Realm dependency and
 ``target_link_libraries()`` to link the Realm dependency to your target
-executable. Remember also to set the minimum C++ standard to 20 with
+executable. Set the minimum C++ standard to 20 with
 ``set(CMAKE_CXX_STANDARD 20)``.
 
 .. code-block:: cmake
