@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
-//     "QuickStartFlexSync_": ""
+//     "QuickStartFlexSync_": "",
+//     "FS_APP_ID": "APP_ID"
 //   }
 // }
 // swiftlint:disable identifier_name

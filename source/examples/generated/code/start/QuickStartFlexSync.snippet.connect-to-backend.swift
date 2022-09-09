@@ -1,1 +1,1 @@
-let app = App(id: FS_APP_ID) // Replace FS_APP_ID with your Atlas App ID
+let app = App(id: APP_ID) // Replace APP_ID with your Atlas App ID

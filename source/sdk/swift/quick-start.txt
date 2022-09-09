@@ -44,7 +44,7 @@ Open a Realm
 ------------
 
 In a local-only Realm Database, the simplest option to open a realm
-is by omitting the configuration parameter, which uses the default realm:
+is to use the default realm with no configuration paramater:
 
 .. literalinclude:: /examples/generated/code/start/LocalOnlyCompleteQuickStart.snippet.quick-start-local-open-realm-without-config-param.swift
    :language: swift
@@ -125,7 +125,7 @@ Before you can sync Realm data, you must:
 Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
-To use App Services features such as authentication and sync, you must
+To use App Services features such as authentication and sync, 
 access your App Services App using your App ID. You can :ref:`find your 
 App ID <find-your-app-id>` in the App Services UI.
 
@@ -137,9 +137,9 @@ App ID <find-your-app-id>` in the App Services UI.
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
 
-When you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
-App Services UI, users can immediately log into your app without providing any identifying
-information. Once we have a logged-in user, we can open a realm for that user.
+In this quick start, you use :ref:`anonymous authentication <anonymous-authentication>`
+to log in users without requiring them to provide any identifying information.
+After authenticating the user, you can open a realm for that user.
 
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.authenticate-user.swift
    :language: swift
