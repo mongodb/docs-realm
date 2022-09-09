@@ -103,4 +103,57 @@ configurations that you can then use to compile your app:
 You can use CMake to generate more than simple Makefiles by using the ``-G``
 flag. See the CMake documentation for more information.
 
+Usage
+-----
+
+Include the Header
+~~~~~~~~~~~~~~~~~~
+
+Make the Realm C++ SDK available in your code by including the
+``cpprealm/sdk.hpp`` header:
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.includes.cpp
+   :language: cpp
+
+Define Your Data Model
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can define your models as classes or structs that inherit from
+``realm::object``: 
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.define-models.cpp
+   :language: cpp
+
+You must declare any property you want to store (persist) in a realm as
+``realm::persisted``.
+
+Your model must also expose a public type definition called ``schema``. Use the
+``realm::schema`` and ``realm::property`` templates to describe your schema.
+
+Realm ignores any members not declared as ``realm::persisted`` and not
+declared in the schema.
+
+Use Realm
+~~~~~~~~~
+
+You can use your data models as you would normal classes, except:
+
+- You may not modify any properties outside of a write transaction.
+
+A **realm** is a collection of persisted objects. When opening a realm, you must
+specify which models are available by passing the models into the template
+parameter list of the ``realm::open()`` function.
+
+To open a write transaction, pass a function to ``realm.write()``. Make all
+modifications within that function.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.usage.cpp
+   :language: cpp
+
+
+Further Reading
+---------------
+
+- :github:`realmcpp on GitHub <realm/realm-cpp>`
+
 
