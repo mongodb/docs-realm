@@ -1,11 +1,13 @@
 # September 9, 2022
 
 ## Tutorials
-- iOS with SwiftUI: Add new tutorial building on the Template App showing how to develop iOS apps with SwiftUI using Flexible Sync 
-- Android with Kotlin: Add new tutorial building on the Template App showing how to develop Android apps with Kotlin using Flexible Sync
-- Xamarin (iOS and Android) with C#: Add new tutorial building on the Template App showing how to develop iOS and Android apps with Xamarin/C# using Flexible Sync
-- React Native with JavaScript: Add new tutorial building on the Template App showing how to develop React Native apps with JavaScript using Flexible Sync
-- Flutter with Dart: Add new tutorial building on the Template App showing how to develop Flutter apps with Dart using Flexible Sync
+- Create new tutorials based on Template Apps using Flexible Sync for:
+  - iOS with SwiftUI
+  - Android with Kotlin
+  - Xamarin (iOS and Android) with C#
+  - React Native with JavaScript
+  - Flutter with Dart
+- Remove old Partition-Based Sync tutorials based on the clone-and-go backend
 
 ## C++ SDK
 - New C++ section consisting of:
