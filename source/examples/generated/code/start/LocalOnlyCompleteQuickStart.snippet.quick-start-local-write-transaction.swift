@@ -1,5 +1,5 @@
 // Add some tasks
 let task = LocalOnlyQsTask(name: "Do laundry")
-try! localRealm.write {
-    localRealm.add(task)
+try! realm.write {
+    realm.add(task)
 }

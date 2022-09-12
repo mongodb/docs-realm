@@ -1,5 +1,10 @@
+// :replace-start: {
+//   "terms": {
+//     "LocalOnlyQsTask_": "Todo",
+//     "localRealm": "realm"
+//   }
+// }
 import XCTest
-
 import UIKit
 
 // :snippet-start: complete-quick-start-local
@@ -111,3 +116,4 @@ class LocalOnlyQuickStartTest: XCTestCase {
         runLocalOnlyExample()
     }
 }
+// :replace-end:

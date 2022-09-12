@@ -1,26 +1,9 @@
-import RealmSwift
-
-// LocalOnlyQsTask is the Task model for this QuickStart
-class LocalOnlyQsTask: Object {
-    @Persisted var name: String = ""
-    @Persisted var owner: String?
-    @Persisted var status: String = ""
-
-    convenience init(name: String) {
-        self.init()
-        self.name = name
-    }
-}
-
-// Entrypoint. Call this to run the example.
-func runLocalOnlyExample() {
-    // Open the local-only default realm
-    let realm = try! Realm()
-    // Get all tasks in the realm
-    let tasks = realm.objects(LocalOnlyQsTask.self)
+func useRealm(realm: Realm, user: User) async {
+    // Get all todos in the realm
+    let todos = realm.objects(Todo.self)
 
     // Retain notificationToken as long as you want to observe
-    let notificationToken = tasks.observe { (changes) in
+    let notificationToken = todos.observe { (changes) in
         switch changes {
         case .initial: break
             // Results are now populated and can be accessed without blocking the UI
@@ -41,40 +24,47 @@ func runLocalOnlyExample() {
     }
 
     // Add some tasks
-    let task = LocalOnlyQsTask(name: "Do laundry")
+    let todo = Todo(name: "Do laundry", ownerId: user.id)
     try! realm.write {
-        realm.add(task)
+        realm.add(todo)
     }
-    let anotherTask = LocalOnlyQsTask(name: "App design")
+    let anotherTodo = Todo(name: "App design", ownerId: user.id)
     try! realm.write {
-        realm.add(anotherTask)
+        realm.add(anotherTodo)
     }
 
     // You can also filter a collection
-    let tasksThatBeginWithA = tasks.where {
+    let todosThatBeginWithA = todos.where {
         $0.name.starts(with: "A")
     }
-    print("A list of all tasks that begin with A: \(tasksThatBeginWithA)")
+    print("A list of all todos that begin with A: \(todosThatBeginWithA)")
 
     // All modifications to a realm must happen in a write block.
-    let taskToUpdate = tasks[0]
+    let todoToUpdate = todos[0]
     try! realm.write {
-        taskToUpdate.status = "InProgress"
+        todoToUpdate.status = "InProgress"
     }
 
-    let tasksInProgress = tasks.where {
+    let todosInProgress = todos.where {
         $0.status == "InProgress"
     }
-    print("A list of all tasks in progress: \(tasksInProgress)")
+    print("A list of all todos in progress: \(todosInProgress)")
 
     // All modifications to a realm must happen in a write block.
-    let taskToDelete = tasks[0]
+    let todoToDelete = todos[0]
     try! realm.write {
-        // Delete the LocalOnlyQsTask.
-        realm.delete(taskToDelete)
+        // Delete the Todo.
+        realm.delete(todoToDelete)
     }
 
-    print("A list of all tasks after deleting one: \(tasks)")
+    print("A list of all todos after deleting one: \(todos)")
+
+    do {
+        try await user.logOut()
+        print("Successfully logged user out")
+    } catch {
+        print("Failed to log user out: \(error.localizedDescription)")
+    }
 
     // Invalidate notification tokens when done observing
     notificationToken.invalidate()
