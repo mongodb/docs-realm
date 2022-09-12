@@ -1,3 +1,31 @@
+# September 9, 2022
+
+## Tutorials
+- iOS with SwiftUI: Add new tutorial building on the Template App showing how to develop iOS apps with SwiftUI using Flexible Sync 
+- Android with Kotlin: Add new tutorial building on the Template App showing how to develop Android apps with Kotlin using Flexible Sync
+- Xamarin (iOS and Android) with C#: Add new tutorial building on the Template App showing how to develop iOS and Android apps with Xamarin/C# using Flexible Sync
+- React Native with JavaScript: Add new tutorial building on the Template App showing how to develop React Native apps with JavaScript using Flexible Sync
+- Flutter with Dart: Add new tutorial building on the Template App showing how to develop Flutter apps with Dart using Flexible Sync
+
+## C++ SDK
+- New C++ section consisting of:
+  - Landing page with installation instructions and usage examples
+  - Generated API Reference using Doxygen
+  - Link to the GitHub repository
+
+## Flutter SDK
+- Quick Start: Add new section with tested code example for adding Device Sync (Flexible Sync) to an app
+- Install Realm: Add note about incompatibility with Dart 2.17.3
+- Realm Database/Define a Realm Object Schema: Update supported primary key types to include `ObjectId` and `Uuid`
+
+## .NET SDK
+- Fundamentals/Data Binding: Formatting and grammar improvements
+
+## Other
+- Realm Query Language: New section with info and tested code examples for List comparisons
+- Landing page: Fix broken link to Realm Introduction
+- Replace smart quotes with mono quotes across several pages
+
 # September 1, 2022
 
 ## Flutter SDK
