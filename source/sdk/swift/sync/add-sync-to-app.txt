@@ -59,8 +59,6 @@ Add Device Sync to a Client Application
       .. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.authenticate-user.swift
          :language: swift
 
-      .. include:: /includes/swift-concurrency-mainactor.rst
-
    .. step:: Open a Synced Realm
 
       Open the realm as a :ref:`synced realm <ios-login-and-open-realm>`.
@@ -72,6 +70,8 @@ Add Device Sync to a Client Application
       <ios-sync-add-initial-subscriptions>`. We also :ref:`specify the object 
       types <ios-provide-a-subset-of-classes-to-a-realm>` that we want to 
       include in this realm.
+
+      .. include:: /includes/swift-concurrency-mainactor.rst
 
       .. literalinclude:: /examples/generated/code/start/AddSyncToApp.snippet.open-synced-realm.swift
          :language: swift
