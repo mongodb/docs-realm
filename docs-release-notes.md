@@ -1,3 +1,33 @@
+# September 9, 2022
+
+## Tutorials
+- Create new tutorials based on Template Apps using Flexible Sync for:
+  - iOS with SwiftUI
+  - Android with Kotlin
+  - Xamarin (iOS and Android) with C#
+  - React Native with JavaScript
+  - Flutter with Dart
+- Remove old Partition-Based Sync tutorials based on the clone-and-go backend
+
+## C++ SDK
+- New C++ section consisting of:
+  - Landing page with installation instructions and usage examples
+  - Generated API Reference using Doxygen
+  - Link to the GitHub repository
+
+## Flutter SDK
+- Quick Start: Add new section with tested code example for adding Device Sync (Flexible Sync) to an app
+- Install Realm: Add note about incompatibility with Dart 2.17.3
+- Realm Database/Define a Realm Object Schema: Update supported primary key types to include `ObjectId` and `Uuid`
+
+## .NET SDK
+- Fundamentals/Data Binding: Formatting and grammar improvements
+
+## Other
+- Realm Query Language: New section with info and tested code examples for List comparisons
+- Landing page: Fix broken link to Realm Introduction
+- Replace smart quotes with mono quotes across several pages
+
 # September 1, 2022
 
 ## Flutter SDK
