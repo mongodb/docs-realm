@@ -42,9 +42,9 @@ const GET_PLANT = gql`
 `;
 
 // 4. Consumer of provider and query
-function GraphQLConsumer() {
+function PlantInformation({ name }) {
   const { loading, error, data } = useQuery(GET_PLANT, {
-    variables: { name: "daffodil" },
+    variables: { name },
   });
   if (loading || !data) return <p>Loading ...</p>;
   if (error) console.error("Failed with error:", error);
@@ -66,7 +66,7 @@ function GraphQLConsumer() {
 export default function FullGraphQLPage() {
   return (
     <GraphQLProvider>
-      <GraphQLConsumer />
+      <PlantInformation name="daffodil" />
     </GraphQLProvider>
   );
 }

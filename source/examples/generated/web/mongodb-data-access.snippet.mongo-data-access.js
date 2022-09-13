@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as Realm from "realm-web";
 
-export default function MongoDbDataAccess() {
+function MongoDbDataAccess({ name }) {
   const [plant, setPlant] = useState();
   const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
 
@@ -9,11 +9,11 @@ export default function MongoDbDataAccess() {
     if (app?.currentUser) {
       const mongo = app?.currentUser?.mongoClient("mongodb-atlas");
       const plants = mongo.db("example").collection("plants");
-      plants.findOne({ name: "daffodil" }).then((lily) => {
-        setPlant(lily);
+      plants.findOne({ name }).then((foundPlant) => {
+        setPlant(foundPlant);
       });
     }
-  }, [app, app.currentUser, app.currentUser?.id]);
+  }, [app, app.currentUser, app.currentUser?.id, name]);
 
   return (
     <div>
@@ -28,4 +28,8 @@ export default function MongoDbDataAccess() {
       )}
     </div>
   );
+}
+
+export default function DaffodilInformation() {
+  return <MongoDbDataAccess name="daffodil" />;
 }

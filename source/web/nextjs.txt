@@ -17,6 +17,8 @@ Next.js with Atlas App Services. Next.js is a React-based web framework that
 handles app configuration and structure, and supports client-side,
 server-side, and static rendering.
 
+The Realm Web SDK supports all of these rendering modes:
+
 - **Client-side rendering**: query MongoDB directly from the browser
   using the Atlas GraphQL API or MongoDB Data Access.
 - **Server-side rendering**: authenticate users with App Services from
@@ -34,15 +36,18 @@ Before using this integration guide, you should:
 - :ref:`Create an Atlas App Services backend application <create-a-realm-app>`.
 - Create a Next.js app. If creating a Next.js application for the first time,
   consider referring to the `Next.js Tutorial <https://nextjs.org/learn/basics/create-nextjs-app>`__.
+- Add the Realm Web SDK in your Next.js app. For more information, refer to
+  :ref:`Realm Web Installation <web-install>` documentation.
 
-Install the Realm Web SDK in Your Next.js App
----------------------------------------------
+.. tip:: MongoDB Atlas Vercel Integration
 
-This section shows you how to install the Realm Web SDK to use with your application.
+   If you're using Vercel to host your Next.js app, add the MongoDB Atlas integration
+   to easily connect your Next.js app to Atlas.
 
-.. include:: includes/web-quickstart-install.txt
+   `Learn more about the Vercel MongoDB Atlas integration.
+   <https://vercel.com/integrations/mongodbatlas>`__
 
-For more information, see the :ref:`Realm Web Installation <web-install>` documentation.
+
 
 Add Authentication
 ------------------
@@ -50,22 +55,27 @@ Add Authentication
 Before you can query MongoDB from your app, you must initialize the
 App Services client and authenticate a user. You can follow the steps
 below to connect the Realm Web SDK to client-side Next.js.
+
 In this example, we're going to expose an authenticated ``Realm.App`` instance
 throughout the app using :js-sdk:`Realm.App.getApp(APP_ID) <Realm.App.html#getApp>`.
-For additional ways to expose Realm authentication throughout your application,
-refer to the `Next.js authentication
-<https://nextjs.org/docs/authentication#authentication-providers>`__ documentation.
+
+.. seealso::
+
+   For additional ways to expose Realm authentication throughout your application,
+   refer to the `Next.js authentication documentation <https://nextjs.org/docs/authentication>`__.
 
 .. procedure::
 
-   .. step:: Add App ID to environmental variables
+   .. step:: Add an App ID environment variable
 
-      Add your App Services **App ID** to the Next.js app's environmental variables
-      to expose it throughout the app.
-      The App ID must be accessed from both browser and server-side environments.
-      To make the App ID accessible from the browser, you must preface its name
-      with ``NEXT_PUBLIC_``. Add the App ID as an environmental variable to
-      :file:`.env.local`.
+      Use the **App ID** to connect the Next.js app to Atlas App Services.
+      Expose the App ID throughout the app as an environment variable by doing
+      the following:
+
+      #. :ref:`Find Your App ID <find-your-app-id>`.
+      #. Create the file :file:`.env.local` in the project's root directory.
+      #. Add an environment variable for the App ID. To make the App ID accessible
+         from the browser in addition to the server, preface its name with ``NEXT_PUBLIC_``.
 
       .. code-block::
          :caption: .env.local
@@ -79,6 +89,8 @@ refer to the `Next.js authentication
 
    .. step:: Create a custom app wrapper
 
+      The client uses a :js-sdk:`Realm.App <Realm.App.html>` instance to connect
+      to App Services using the App ID.
       Create a custom ``App`` page wrapper that creates a ``Realm.App`` instance
       that you can later expose to child components on all pages.
       Create the file :file:`pages/_app.js`, and initialize a ``Realm.App`` instance
@@ -122,17 +134,11 @@ Once the ``App`` client is initialized and a user is authenticated,
 you can use MongoDB Data Access to directly query MongoDB from
 client code in your application.
 
-Access the MongoDB Data Access interface from the ``app`` object you exposed with
-React Context. Use :js-sdk:`App.User.mongoClient() <Realm-MongoDB.html>`
-to query MongoDB.
+Access the MongoDB Data Access interface from the ``app`` object
+with :js-sdk:`App.User.mongoClient() <Realm-MongoDB.html>` to query MongoDB.
 
 .. literalinclude:: /examples/generated/web/mongodb-data-access.snippet.mongo-data-access.js
     :language: javascript
-
-.. tip::
-
-   For more comprehensive documentation of using MongoDB Data Access,
-   refer to :ref:`Query MongoDB <web-query-mongodb>`.
 
 Atlas GraphQL API
 ~~~~~~~~~~~~~~~~~
@@ -164,9 +170,8 @@ All together, the GraphQL page should look as follows:
 
 .. tip::
 
-   For more information on querying Atlas with the GraphQL API, refer
-   to the :ref:`Atlas GraphQL API <graphql-api>`
-   and :ref:`Apollo Client (React) <graphql-apollo-react>` documentation.
+   For more information on querying Atlas with the GraphQL API with React,
+   refer to the :ref:`Apollo Client (React) <graphql-apollo-react>` documentation.
 
 Server-Side Rendering
 ---------------------
@@ -317,11 +322,8 @@ In addition to the Realm Web SDK, you can query MongoDB from Next.js in several 
   using the MongoDB Node Driver. For more information, see the blog post
   `How to Integrate MongoDB Into Your Next.js App
   <https://www.mongodb.com/developer/languages/javascript/nextjs-with-mongodb/>`__.
-- Use the MongoDB Data API to query MongoDB Atlas from the Next.js server.  For
-  more information, see :ref:`Data API Endpoints <data-api>`.
+  Using MongoDB drivers is not compatible with App Services
+  :ref:`user-based Rules and Permissions <mongodb-rules>`.
+- Use the MongoDB Data API to query MongoDB Atlas from the Next.js server.
+  For more information, see :ref:`Data API Endpoints <data-api>`.
 
-.. note::
-
-    These alternate methods are incompatible with applying
-    App Services rules and permissions to requests associated with each user.
-    See :ref:`Rules — Atlas App Services <mongodb-rules>`.
