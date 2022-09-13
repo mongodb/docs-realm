@@ -167,6 +167,8 @@ Open a Synced Realm for Flexible Sync
 When you use Flexible Sync, use the ``flexibleSyncConfiguration()``
 to open a synced realm. 
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.flex-sync-open-realm.swift
    :language: swift
 
@@ -195,6 +197,8 @@ open the copy as a synced realm for that user.
 
 .. include:: /includes/note-writecopy-pbs-only.rst
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-sync.swift
    :language: swift
 
@@ -218,6 +222,8 @@ in the synced realm file, and they will also propogate to other devices and
 the App Services backend.
 
 .. include:: /includes/note-writecopy-pbs-only.rst
+
+.. include:: /includes/swift-concurrency-mainactor.rst
 
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-local-to-sync.swift
    :language: swift
@@ -250,6 +256,8 @@ non-synced realm. Any changes you make to the non-synced realm reflect
 only in the local realm file. No changes propogate to other devices or
 the App Services backend.
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. literalinclude:: /examples/generated/code/start/ConvertSyncLocalRealms.snippet.convert-sync-to-local.swift
    :language: swift
 
@@ -275,6 +283,8 @@ This parameter accepts a case from the ``OpenBehavior`` enum:
   populate a realm with initial data, but enables offline-first 
   functionality on subsequent opens.
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. include:: /examples/generated/code/start/Sync.snippet.specify-download-behavior.swift.rst
 
 .. _ios-open-a-synced-realm-offline:
@@ -287,6 +297,8 @@ Open a Synced Realm Offline
 You can only open a synced realm offline if you do not require your client 
 app to ``always`` :ref:`download changes before opening the realm 
 <ios-specify-download-behavior>`.
+
+.. include:: /includes/swift-concurrency-mainactor.rst
 
 .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.offline-login.swift
    :language: swift

@@ -141,6 +141,8 @@ In this quick start, you use :ref:`anonymous authentication <anonymous-authentic
 to log in users without requiring them to provide any identifying information.
 After authenticating the user, you can open a realm for that user.
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.authenticate-user.swift
    :language: swift
 
@@ -158,6 +160,8 @@ what data the realm can read and write.
 
 Once you have a realm with a subscription, this example passes the realm 
 and the user to another function where you can use the realm.
+
+.. include:: /includes/swift-concurrency-mainactor.rst
 
 .. literalinclude:: /examples/generated/code/start/QuickStartFlexSync.snippet.open-synced-realm.swift
    :language: swift
