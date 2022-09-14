@@ -44,23 +44,23 @@ class OpenCloseRealm: XCTestCase {
         // :snippet-end:
     }
 
-    func testTvOs() {
-        // :snippet-start: tvos-share-path
-        let fileUrl = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
-            .appendingPathComponent("Library/Caches/default.realm")
-        // :snippet-end:
-        print(fileUrl)
-    }
-
-//    func testHandleError() {
-//        // :snippet-start: handle-error
-//        do {
-//            let realm = try Realm()
-//            // Use realm
-//        } catch let error as NSError {
-//            // Handle error
-//        }
+//    func testTvOs() {
+//        // :snippet-start: tvos-share-path
+//        let fileUrl = FileManager.default
+//            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
+//            .appendingPathComponent("Library/Caches/default.realm")
 //        // :snippet-end:
+//        print(fileUrl)
 //    }
+
+    func testHandleError() {
+        // :snippet-start: handle-error
+        do {
+            let realm = try Realm()
+            // Use realm
+        } catch let error as NSError {
+            // Handle error
+        }
+        // :snippet-end:
+    }
 }
