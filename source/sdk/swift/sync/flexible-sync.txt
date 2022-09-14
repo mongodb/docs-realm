@@ -138,6 +138,8 @@ Add a Subscription
 Add a subscription in a subscriptions update block. You append each
 new subscription to the client's Realm subscriptions.
 
+.. include:: /includes/swift-concurrency-mainactor.rst
+
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.add-single-subscription.swift
    :language: swift
 
@@ -251,6 +253,8 @@ error if the update cannot complete successfully.
          }
       }
    }
+
+.. include:: /includes/swift-concurrency-mainactor.rst
 
 SyncSubscriptionState Enum
 ``````````````````````````
