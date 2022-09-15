@@ -14,7 +14,7 @@ class AsymmetricSync_WeatherSensor: AsymmetricObject {
     @Persisted var temperatureInFahrenheit: Float
     @Persisted var barometricPressureInHg: Float
     @Persisted var windSpeedInMph: Int
-
+    
     convenience init(deviceId: String, temperatureInFahrenheit: Float, barometricPressureInHg: Float, windSpeedInMph: Int) {
         self.init()
         self.deviceId = deviceId
@@ -22,6 +22,11 @@ class AsymmetricSync_WeatherSensor: AsymmetricObject {
         self.barometricPressureInHg = barometricPressureInHg
         self.windSpeedInMph = windSpeedInMph
     }
+    // :remove-start:
+    override class func shouldIncludeInDefaultSchema() -> Bool {
+        return false
+    }
+    // :remove-end:
 }
 // :snippet-end:
 
@@ -43,23 +48,24 @@ class AsymmetricSync: XCTestCase {
 
         func openSyncedRealm(user: User) async {
             do {
-                var config = user.flexibleSyncConfiguration()
-                config.objectTypes = [AsymmetricSync_WeatherSensor.self]
-                let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
-                await useRealm(realm, user)
+                var asymmetricConfig = user.flexibleSyncConfiguration()
+                asymmetricConfig.objectTypes = [AsymmetricSync_WeatherSensor.self]
+                let asymmetricRealm = try await Realm(configuration: asymmetricConfig, downloadBeforeOpen: .always)
+                await useRealm(asymmetricRealm, user)
             } catch {
                 print("Error opening realm: \(error.localizedDescription)")
             }
         }
-        func useRealm(_ realm: Realm, _ user: User) async {
+        func useRealm(_ asymmetricRealm: Realm, _ user: User) async {
             // :snippet-start: create-asymmetric-object
-            try! realm.write {
-                realm.create(AsymmetricSync_WeatherSensor.self, value: ["_id": ObjectId.generate(),
-                                                                        "deviceId": "WX1278UIT",
-                                                                        "temperatureInFahrenheit": 66.7,
-                                                                        "barometricPressureInHg": 29.65,
-                                                                        "windSpeedInMph": 2
-                                                                       ])
+            try! asymmetricRealm.write {
+                asymmetricRealm.create(AsymmetricSync_WeatherSensor.self,
+                                       value: [ "_id": ObjectId.generate(),
+                                                "deviceId": "WX1278UIT",
+                                                "temperatureInFahrenheit": 66.7,
+                                                "barometricPressureInHg": 29.65,
+                                                "windSpeedInMph": 2
+                                                ])
             }
             // :snippet-end:
             // Add a delay to give the document time to sync
