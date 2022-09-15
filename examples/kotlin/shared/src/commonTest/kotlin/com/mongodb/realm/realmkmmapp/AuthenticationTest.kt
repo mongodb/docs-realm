@@ -33,6 +33,26 @@ class AuthenticationTest: RealmTest() {
     }
 
     @Test
+    fun deleteUserTest(){
+        val email = getRandom()
+        val password = getRandom()
+        // :snippet-start: user-delete
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // :remove-start:
+            app.emailPasswordAuth.registerUser(email, password)
+            val credentials = Credentials.emailPassword(email, password)
+            // :remove-end:
+            val user = app.login(credentials)
+            // use the user object ...
+
+            // later, delete the user object
+            user.delete() // regardless of which provider you used to login, you can logout using `delete()`
+        }
+        // :snippet-end:
+    }
+
+    @Test
     fun confirmEmailPasswordUserTest() {
         val token = getRandom()
         val tokenId = getRandom()
