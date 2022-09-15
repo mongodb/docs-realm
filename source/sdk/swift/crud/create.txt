@@ -355,6 +355,8 @@ you must check the type before you do anything with the value.
 Create an Asymmetric Object
 ---------------------------
 
+.. versionadded:: 10.29.0
+
 You can only create an AsymmetricObject using :swift-sdk:`create(_ type:, value:)
 <Structs/Realm.html#/s:10RealmSwift0A0V6create_5valueyxm_yptSo0aB16AsymmetricObjectCRbzlF>`.
 When you create an AsymmetricObject, it syncs unidirectionally to the Atlas 
@@ -366,6 +368,8 @@ AsymmetricObject locally, add it to or remove it from a realm, or query for it.
 
 You can create AsymmetricObjects for a realm initialized with a :swift-sdk:`Flexible Sync configuration 
 <Extensions/User.html#/s:So7RLMUserC10RealmSwiftE25flexibleSyncConfigurationAC0B0V0F0VyF>`.
+For more information, see: :ref:`Open a Synced Realm for Flexible Sync 
+<ios-flexible-sync-open-realm>`.
 
 .. _ios-copy-an-object-to-another-realm:
 
