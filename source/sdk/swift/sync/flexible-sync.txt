@@ -33,11 +33,16 @@ To use Flexible Sync in an iOS client:
 You can add, update, and remove query subscriptions to determine which data 
 syncs to the client device.
 
+**Note**: Flexible Sync subscriptions only apply to using Atlas Device Sync 
+with regular Realm Objects. If your app uses Asymmetric Sync to unidirectionally
+sync :swift-sdk:`AsymmetricObjects <Extensions/AsymmetricObject.html>` via an 
+Atlas App Services App, you do not create subscriptions for those objects.
+
 .. seealso::
 
    This page details how to manage subscriptions for Flexible Sync. 
    
-   For general information about using Atlas Device Sync with the Swift SDK, 
+   For general information about using Device Sync with the Swift SDK, 
    such as how to sync changes in the background or pause a sync session,
    see: :ref:`Sync Changes Between Devices <ios-sync-changes-between-devices>`.
 

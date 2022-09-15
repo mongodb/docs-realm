@@ -174,9 +174,13 @@ to open a synced realm.
 
 .. important:: Flexible Sync Requires a Subscription
 
-   You can't use a Flexible Sync realm until you add at least one subscription.
-   To learn how to add subscriptions, see: :ref:`<ios-sync-add-subscription>`.
-   
+   If your app uses regular Device Sync, you can't use a Flexible Sync 
+   realm until you add at least one subscription. To learn how to add 
+   subscriptions, see: :ref:`<ios-sync-add-subscription>`.
+
+   This does not apply to :ref:`Asymmetric Sync <app-services-concept-asymmetric-sync>`.
+   You cannot create a subscription for an ``AsymmetricObject``.
+
 .. _ios-open-synced-realm-as-different-sync-user:
 
 Open a Synced Realm as a Different Sync User
