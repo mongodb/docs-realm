@@ -8,6 +8,7 @@ import XCTest
 import RealmSwift
 import Foundation
 
+@MainActor
  class BundleRealms: XCTestCase {
 
     func testCopyRealm() async throws {

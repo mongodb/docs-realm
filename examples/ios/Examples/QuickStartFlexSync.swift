@@ -29,6 +29,7 @@
 // :snippet-end:
 
  class QuickStartFlexSync: XCTestCase {
+    @MainActor
     func testRunExample() async {
         await flexibleSyncQuickStart()
         // Entrypoint. Call this to run the quick start.

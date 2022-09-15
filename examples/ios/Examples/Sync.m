@@ -208,7 +208,7 @@
     }];
     // :snippet-end:
     (void)token;
-    [self waitForExpectationsWithTimeout:10 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:20 handler:^(NSError *error) {
         NSLog(@"Expectation failed: %@", error);
     }];
 }

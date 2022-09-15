@@ -1,6 +1,7 @@
 import XCTest
 import RealmSwift
 
+@MainActor
 class ConvertSyncAndLocalRealms: XCTestCase {
     override func setUp() async throws {
         // Populate data for synced realm examples
