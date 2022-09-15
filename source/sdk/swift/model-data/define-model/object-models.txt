@@ -677,12 +677,18 @@ with a few exceptions:
    - ``Object`` and ``List<Object>`` properties are not supported 
    - ``EmbeddedObject`` and ``List<EmbeddedObject>`` are supported
 
-You cannot link an ``AsymmetricObject`` from within an ``Object``. Doing so 
+You cannot link to an ``AsymmetricObject`` from within an ``Object``. Doing so 
 throws an error.
 
-Asymmetric objects cannot be added to or removed from a realm, or queried.
-They can only be created, and are then synced unidirectionally to the 
-Atlas database linked to your App with Device Sync.
+Asymmetric objects do not function in the same way as other Realm Objects. 
+You cannot:
+
+- Add an asymmetric object to a realm
+- Remove an asymmetric object from a realm
+- Query an asymmetric object
+
+You can only create an Asymmetric object, which then syncs unidirectionally 
+to the Atlas database linked to your App with Device Sync.
 
 For more information, see: :ref:`Create an Asymmetric Object 
 <swift-create-asymmetric-object>`.
