@@ -2,8 +2,8 @@
 import { useMemo } from "react";
 import * as Realm from "realm-web";
 import Layout from "../components/layout"; // :remove:
-import { setCookie } from "nookies";
 // :state-start: ssr
+import { setCookie } from "nookies";
 // Import the useEffect hook
 import { useEffect } from "react";
 // :state-end:

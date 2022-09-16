@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import * as Realm from "realm-web";
-import { setCookie } from "nookies";
 
 function MyApp({ Component, pageProps }) {
   // useMemo with empty dependency array only computes value for `app` on mount
