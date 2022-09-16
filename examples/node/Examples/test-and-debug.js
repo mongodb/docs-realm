@@ -12,6 +12,7 @@ const Car = {
 // :snippet-start: test
 const config = {
   schema: [Car],
+  path: "testing.realm",
 };
 let realm;
 beforeEach(async () => {
