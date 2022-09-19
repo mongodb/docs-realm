@@ -32,17 +32,17 @@ Realm supports the following Dart types:
 DateTime
 ~~~~~~~~
 
-Realm stores ``DateTime`` in UTC.
-
 When you use ``DateTime`` with the Realm Flutter SDK, you can declare 
 it in the model as you would any other Dart type:
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-model.dart
    :language: dart
 
-But when you use it, you must create the ``DateTime`` in UTC or convert it 
-with ``.toUtc()`` before you store it. If your application requires it, you 
-can convert it back to local or the desired time zone when reading from Realm.
+However, it is important to note that Realm stores ``DateTime`` in UTC.
+When you use ``DateTime``, you must create it in UTC or convert it 
+with ``.toUtc()`` before you store it. If your application requires it, 
+you can convert it back to local or the desired time zone when reading 
+from Realm.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-use.dart
    :language: dart
