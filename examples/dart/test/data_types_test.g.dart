@@ -190,3 +190,41 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
     ]);
   }
 }
+
+class Vehicle extends _Vehicle with RealmEntity, RealmObject {
+  Vehicle(
+    String nickname,
+    DateTime dateLastServiced,
+  ) {
+    RealmObject.set(this, 'nickname', nickname);
+    RealmObject.set(this, 'dateLastServiced', dateLastServiced);
+  }
+
+  Vehicle._();
+
+  @override
+  String get nickname => RealmObject.get<String>(this, 'nickname') as String;
+  @override
+  set nickname(String value) => throw RealmUnsupportedSetError();
+
+  @override
+  DateTime get dateLastServiced =>
+      RealmObject.get<DateTime>(this, 'dateLastServiced') as DateTime;
+  @override
+  set dateLastServiced(DateTime value) =>
+      RealmObject.set(this, 'dateLastServiced', value);
+
+  @override
+  Stream<RealmObjectChanges<Vehicle>> get changes =>
+      RealmObject.getChanges<Vehicle>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObject.registerFactory(Vehicle._);
+    return const SchemaObject(Vehicle, 'Vehicle', [
+      SchemaProperty('nickname', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('dateLastServiced', RealmPropertyType.timestamp),
+    ]);
+  }
+}

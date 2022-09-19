@@ -47,6 +47,15 @@ class _ObjectIdPrimaryKey {
 }
 
 // :snippet-end:
+// :snippet-start: datetime-model
+@RealmModel()
+class _Vehicle {
+  @PrimaryKey()
+  late String nickname;
+  late DateTime dateLastServiced;
+}
+
+// :snippet-end:
 main() {
   test('Uuid', () {
     // :snippet-start: uuid-use
@@ -61,5 +70,38 @@ main() {
     ObjectIdPrimaryKey object = ObjectIdPrimaryKey(id);
     // :snippet-end:
     expect(object.id.toString(), isA<String>());
+  });
+  test('DateTime', () {
+    final config = Configuration.local([Vehicle.schema]);
+    final realm = Realm(config);
+
+    // :snippet-start: datetime-use
+    // Create a Realm object with date in UTC, or convert with .toUtc() before storing
+    Vehicle subaruOutback = realm.write<Vehicle>(() {
+      return realm.add(Vehicle('Subie', DateTime.utc(2022, 9, 18, 12, 30, 0)));
+    });
+
+    final fordFusion = Vehicle('Fuse', DateTime(2022, 9, 18, 8, 30, 0).toUtc());
+    realm.write(() {
+      realm.add(fordFusion);
+    });
+
+    // When you query the object, the `DateTime` returned is UTC
+    final queriedSubaruOutback =
+        realm.all<Vehicle>().query('nickname == "Subie"')[0];
+    expect(queriedSubaruOutback.nickname, 'Subie'); // :remove:
+
+    // If your app needs it, convert it to Local() or the desired time zone
+    final localizedSubieDateLastServiced =
+        queriedSubaruOutback.dateLastServiced.toLocal();
+    // :snippet-end:
+    expect(
+        subaruOutback.dateLastServiced.toString(), '2022-09-18 12:30:00.000Z');
+
+    final queriedSubieDate = queriedSubaruOutback.dateLastServiced.toString();
+    expect(queriedSubieDate, '2022-09-18 12:30:00.000Z');
+
+    realm.close();
+    Realm.deleteRealm(realm.config.path);
   });
 }
