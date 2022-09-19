@@ -121,7 +121,7 @@ Swift Structs
 ~~~~~~~~~~~~~
 
 Realm Database does not support Swift structs as models for a variety of 
-reasons. Realm's design focuses on “live” objects. 
+reasons. Realm's design focuses on "live" objects. 
 This concept is not compatible with value type structs. By design, 
 Realm provides features that are incompatible with these 
 semantics, such as:
@@ -278,7 +278,7 @@ Objective-C Dynamic Property Attributes
    This property declaration information is for versions of the SDK before 
    10.10.0. 
 
-Declare dynamic App Services model properties in the Objective-C runtime. This 
+Declare dynamic Realm model properties in the Objective-C runtime. This
 enables them to access the underlying database data. 
 
 You can either:
@@ -320,9 +320,9 @@ generic properties.
       Objective-C interface.
       
       In order to use your interface in a Realm array, pass your
-      interface name to the ``RLM_ARRAY_TYPE()`` macro. You can put this
+      interface name to the ``RLM_COLLECTION_TYPE()`` macro. You can put this
       at the bottom of your interface's header file. The
-      ``RLM_ARRAY_TYPE()`` macro creates a protocol that allows you to
+      ``RLM_COLLECTION_TYPE()`` macro creates a protocol that allows you to
       tag :objc-sdk:`RLMArray <Classes/RLMArray.html>` with your type:
 
       .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.array-declaration.m

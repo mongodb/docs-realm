@@ -18,3 +18,6 @@ meet these requirements:
    * - 10.15.0 or 10.16.0
      - Swift 5.5
      - iOS 15.x
+
+If your app accesses Realm in an ``async/await`` context, mark the code 
+with ``@MainActor`` to avoid threading-related crashes.

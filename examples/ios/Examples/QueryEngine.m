@@ -15,7 +15,7 @@
 @property int priority;
 @property int progressMinutes;
 @end
-RLM_ARRAY_TYPE(QueryEngineExamplesObjc_Task)
+RLM_COLLECTION_TYPE(QueryEngineExamplesObjc_Task)
 // Task.m
 @implementation QueryEngineExamplesObjc_Task
 @end

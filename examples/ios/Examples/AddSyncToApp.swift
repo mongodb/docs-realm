@@ -26,6 +26,7 @@ class AddSyncExample_Todo: Object {
 // :snippet-end:
 
 // Entrypoint. Call this to run the example.
+@MainActor
 func runAddSyncExample() async {
     // Instantiate the app
     // :snippet-start: connect-to-backend

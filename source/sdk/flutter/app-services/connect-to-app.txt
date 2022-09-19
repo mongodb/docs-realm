@@ -1,8 +1,8 @@
 .. _flutter-connect-to-backend:
 
-============================================
-Connect to an App Services App - Flutter SDK
-============================================
+=====================================
+Connect to App Services - Flutter SDK
+=====================================
 
 .. contents:: On this page
    :local:
@@ -10,14 +10,14 @@ Connect to an App Services App - Flutter SDK
    :depth: 2
    :class: singlecol
 
-The App client is the interface to the Atlas App Services
+The ``App`` client is the interface to the Atlas App Services
 backend. It provides access to the :ref:`authentication
 <flutter-authenticate>` and Device Sync.
 
 Before You Begin
 ----------------
 
-#. :ref:`Create an Atlas App Services app <create-a-realm-app>`
+#. :ref:`Create an App Services app <create-a-realm-app>`
 
 .. _flutter-access-the-app-client:
 
@@ -29,7 +29,7 @@ Access the App Client
    object with your App's App ID as the argument.
 #. Create an :flutter-sdk:`App <realm/App-class.html>`
    with the ``AppConfiguration`` you just created. You use this
-   ``App`` instance to access Atlas App Services features throughout your client application.
+   ``App`` instance to access App Services features throughout your client application.
 
 .. literalinclude:: /examples/generated/flutter/app_services_test.snippet.access-app-client.dart
    :language: dart
@@ -56,4 +56,4 @@ You can add optional arguments to the :flutter-sdk:`AppConfiguration <realm/AppC
 .. note::
 
    For most use cases, you only need your application's App ID to connect
-   to Atlas App Services. The other settings demonstrated here are optional.
+   to App Services. The other settings demonstrated here are optional.

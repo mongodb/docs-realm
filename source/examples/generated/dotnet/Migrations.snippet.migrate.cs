@@ -3,7 +3,7 @@ var config = new RealmConfiguration
     SchemaVersion = 4,
     MigrationCallback = (migration, oldSchemaVersion) =>
     {
-        var oldPeople = migration.OldRealm.All<Person>();
+        var oldPeople = migration.OldRealm.DynamicApi.All("Person");
         var newPeople = migration.NewRealm.All<Person>();
 
         // Migrate Person objects

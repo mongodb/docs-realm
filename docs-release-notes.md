@@ -1,3 +1,94 @@
+# September 9, 2022
+
+## Tutorials
+- Create new tutorials based on Template Apps using Flexible Sync for:
+  - iOS with SwiftUI
+  - Android with Kotlin
+  - Xamarin (iOS and Android) with C#
+  - React Native with JavaScript
+  - Flutter with Dart
+- Remove old Partition-Based Sync tutorials based on the clone-and-go backend
+
+## C++ SDK
+- New C++ section consisting of:
+  - Landing page with installation instructions and usage examples
+  - Generated API Reference using Doxygen
+  - Link to the GitHub repository
+
+## Flutter SDK
+- Quick Start: Add new section with tested code example for adding Device Sync (Flexible Sync) to an app
+- Install Realm: Add note about incompatibility with Dart 2.17.3
+- Realm Database/Define a Realm Object Schema: Update supported primary key types to include `ObjectId` and `Uuid`
+
+## .NET SDK
+- Fundamentals/Data Binding: Formatting and grammar improvements
+
+## Other
+- Realm Query Language: New section with info and tested code examples for List comparisons
+- Landing page: Fix broken link to Realm Introduction
+- Replace smart quotes with mono quotes across several pages
+
+# September 1, 2022
+
+## Flutter SDK
+- Open & Close a Realm: New section with tested code example for customizing the default configuration
+- Sync Device Data/Sync Multiple Processes: New page showing how to use Realm with Sync from multiple processes
+
+## Kotlin SDK
+- Quick Start: Add new sections with tested code examples for:
+  - Watch for Changes
+  - Close a Realm
+  - Adding Device Sync (Flexible Sync) to an app
+- Sync/Subscribe to Queryable Fields: Styling bug fix in a section header
+
+## .NET SDK
+- Fundamentals/Data Binding: New page with tested code examples showing common data binding scenarios
+- Advanced Guides/Convert Between Non-Synced Realms and Synced Realms: New page with tested code examples for using the WriteCopy API to copy Realms for different configurations
+
+## Swift SDK
+- Landing page: Add section with a SwiftUI example and link to SwiftUI docs
+- SwiftUI Landing Page: Add link to template apps
+- Move SwiftUI Quick Start to SwiftUI section
+
+## Web SDK
+- Re-organize the Web SDK table of contents to present a more task-based information architecture
+- User Management: New page with information about managing users
+- Atlas App Services: Add summaries of App Services features, with links to related documentation
+
+## Other
+- Improvements for the Readability GitHub workflow
+
+# August 26, 2022
+
+## Flutter SDK
+- User Management/Authenticate Users
+  - Add an example for multiple anonymous users
+  - Add new auth provider documentation for Custom JWT, Custom Function, Facebook, Google, Apple
+
+## Kotlin SDK
+- Sync/Subscribe to Queryable Fields: Bug fix in the Update Subscription example
+
+## Swift SDK
+- Update deprecated RLM_ARRAY_TYPE to RLM_COLLECTION_TYPE macro in a few Objective-C code examples
+- Convert SwiftUI docs page into a new SwiftUI docs section w/tested View code examples
+- Update the iOS Test Suite README with information about creating & running the new SwiftUI tests
+
+## Other
+- Product naming updates across many pages to improve first/subsequent naming compliance and other naming issues
+- General maintenance including: fix broken links, remove deprecated files, update CI
+
+# August 19, 2022
+
+## Flutter SDK
+- User Management/Delete a User: New page documenting deleting users, with tested code example
+
+## Swift SDK
+- React to Changes: New "Notification Delivery" section describing notification delivery guarantees
+
+## Other
+- Java SDK & Kotlin SDK: Improved Gradle documentation and dependency management across example projects
+- Various Snyk upgrades and version bumps in example apps
+
 # August 12, 2022
 
 ## Node.js SDK

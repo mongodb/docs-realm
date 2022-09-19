@@ -14,6 +14,9 @@ Unsupported Query Operators in Flexible Sync
    * - Operator Type
      - Unsupported Operators
 
+   * - Comparison Operators
+     - ``in``
+
    * - String Operators
      - ``in``
 
@@ -29,8 +32,14 @@ performance problems.
 
 Flexible Sync only supports ``@count`` for array fields.
 
+List Queries
+~~~~~~~~~~~~
+
+Flexible Sync does not support querying on lists of data using the
+``IN`` operator.
+
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Flexible Sync does not support querying on properties in Embedded Objects 
-or links. For example, ``obj1.field = “foo”``.
+or links. For example, ``obj1.field = "foo"``.

@@ -223,6 +223,8 @@ one of the following:
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.predicate.js
    :language: javascript
 
+.. _rql-parameterized-queries:
+
 Parameterized Queries
 ---------------------
 
@@ -607,7 +609,7 @@ Date Operators
 
 Query date types in a realm.
 
-Generally, you should use parameterized query to pass a date data type
+Generally, you should use a parameterized query to pass a date data type
 from the SDK language you are using to a query.
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.date-parameterized-query.js
@@ -709,7 +711,6 @@ If the predicate returns true, the object is included in the output collection.
      - Returns objects where the predicate evaluates to false for all objects
        in the collection.
 
-
 .. example::
 
    This example uses collection operators to find projects that contain tasks
@@ -718,6 +719,102 @@ If the predicate returns true, the object is included in the output collection.
    .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.set-operators.js
       :language: js
 
+.. _rql-list-queries:
+
+List Comparisons
+----------------
+
+You can use :ref:`comparison operators <rql-comparison-operators>` and
+:ref:`collection operators <rql-collection-operators>` to filter based
+on lists of data.
+
+You can compare any type of valid list. This includes:
+
+- collections of Realm objects, which let you filter against other data
+  in the realm.
+
+  .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.list-comparisons-collection.js
+     :language: js
+
+- lists defined directly in the query, which let you filter against
+  static data. You define static lists as a comma-separated list of
+  literal values enclosed in opening (``{``) and closing (``}``) braces.
+
+  .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.list-comparisons-static.js
+     :language: js
+
+- native list objects passed in a :ref:`parameterized expression
+  <rql-parameterized-queries>`, which let you pass application data
+  directly to your queries.
+
+  .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.list-comparisons-parameterized.js
+     :language: js
+
+If you do not define a collection operator, a list expression defaults
+to the ``ANY`` operator.
+
+.. example::
+   
+   These two list queries are equivalent:
+   
+   - ``age == ANY {18, 21}``
+   - ``age == {18, 21}``
+
+   Both of these queries return objects with an age property equal to
+   either 18 or 21. You could also do the opposite by returning objects
+   only if the age is not equal to either 18 or 21:
+
+   - ``age == NONE {18, 21}``
+
+The following table includes examples that illustrate how collection
+operators interact with lists and comparison operators:
+
+.. list-table::
+   :widths: 45 10 45
+
+   * - Expression
+     - Match?
+     - Reason
+     
+   * - ``ANY {1, 2, 3} > ALL {1, 2}``
+     - true
+     - A value on the left (3) is greater than some value on the right (both 1 and 2)
+     
+   * - ``ANY {1, 2, 3} == NONE {1, 2}``
+     - true
+     - 3 does not match either of 1 or 2
+     
+   * - ``ANY {4, 8} == ANY {5, 9, 11}``
+     - false
+     - Neither 4 nor 8 matches any value on the right (5, 9 or 11)
+     
+   * - ``ANY {1, 2, 7} <= NONE {1, 2}``
+     - true
+     - A value on the left (7) is not less than or equal to both 1 and 2
+     
+   * - ``ALL {1, 2} IN ANY {1, 2, 3}``
+     - true
+     - Every value on the left (1 and 2) is equal to 1, 2 or 3
+     
+   * - ``ALL {3, 1, 4, 3} == NONE {1, 2}``
+     - false
+     - 1 matches a value in the NONE list (1 or 2)
+     
+   * - ``ALL {} in ALL {1, 2}``
+     - true
+     - An empty list matches all lists
+     
+   * - ``NONE {1, 2, 3, 12} > ALL {5, 9, 11}``
+     - false
+     - 12 is bigger than all values on the right (5, 9, and 11)
+     
+   * - ``NONE {4, 8} > ALL {5, 9, 11}``
+     - true
+     - 4 and 8 are both less than some value on the right (5, 9, or 11)
+     
+   * - ``NONE {0, 1} < NONE {1, 2}``
+     - true
+     - 0 and 1 are both less than none of 1 and 2
 
 .. _rql-subqueries:
 

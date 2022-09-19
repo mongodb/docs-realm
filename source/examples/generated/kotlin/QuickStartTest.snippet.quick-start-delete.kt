@@ -1,5 +1,5 @@
-// delete the first task in the realm
+// delete the first item in the realm
 realm.writeBlocking {
-    val writeTransactionTasks = query<Task>().find()
-    delete(writeTransactionTasks.first())
+    val writeTransactionItems = query<Item>().find()
+    delete(writeTransactionItems.first())
 }

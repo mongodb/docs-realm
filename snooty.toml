@@ -2,6 +2,8 @@ name = "realm"
 title = "Realm"
 
 intersphinx = [
+  "https://www.mongodb.com/docs/manual/objects.inv",
+  "https://www.mongodb.com/docs/atlas/objects.inv",
   "https://www.mongodb.com/docs/atlas/app-services/objects.inv"
 ]
 
@@ -11,11 +13,13 @@ toc_landing_pages = [
   "/tutorial",
   # SDKs
   "/sdk",
+  "/sdk/cpp",
   "/sdk/java",
   "/sdk/java/api",
   "/sdk/swift",
   "/sdk/swift/application-services",
   "/sdk/swift/work-with-users",
+  "/sdk/swift/swiftui",
   "/sdk/node",
   "/sdk/react-native",
   "/sdk/kotlin",
@@ -34,6 +38,8 @@ toc_landing_pages = [
   "/node",
   "/react-native",
   "/web",
+  "/web/users",
+  "/web/atlas-app-services",
   "/dotnet",
   # Other
   "/studio",
@@ -46,11 +52,14 @@ atlas = "Atlas"
 [constants]
 admin-api-page = "/admin/api/v3/#"
 base-url = "https://www.mongodb.com/docs/realm"
+cpp-prefix = "https://www.mongodb.com/docs/realm-sdks/cpp/latest"
 kotlin-sdk-version = "1.0.2"
 kotlinx-coroutines-version = "1.6.0-native-mt"
-kotlin-sync-prefix = "https://www.mongodb.com/docs/realm-sdks/kotlin/1.0.0/library-sync/-realm%20-kotlin%20-s-d-k%20-%20-sync/"
-kotlin-local-prefix = "https://www.mongodb.com/docs/realm-sdks/kotlin/1.0.0/library-base/-realm%20-kotlin%20-s-d-k/"
+kotlin-sync-prefix = "https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-sync/-realm%20-kotlin%20-s-d-k%20-%20-sync/"
+kotlin-local-prefix = "https://www.mongodb.com/docs/realm-sdks/kotlin/latest/library-base/-realm%20-kotlin%20-s-d-k/"
 java-sdk-version = "10.11.1"
 max-graphql-resolvers = "ten"
 max-graphql-relationship-depth = "five"
 log-retention-time = "10 days"
+sync = "Atlas Device Sync"
+sync-short = "Device Sync" # feature/product name, NOT verb

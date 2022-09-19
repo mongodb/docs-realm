@@ -45,7 +45,7 @@ realms, including both in-memory and persisted realms.
 .. important::
 
    When an in-memory realm is disposed or garbage-collected, the data is lost. 
-   To keep an in-memory realm “alive” throughout your app's execution, be sure 
+   To keep an in-memory realm "alive" throughout your app's execution, be sure 
    to hold a reference to realm. 
 
 
@@ -54,7 +54,7 @@ Synced Realms
 To open a synced realm, you must have an authenticated 
 :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.  To 
 obtain an initial ``User`` instance, you need to authenticate against the 
-App Services backend, which requires the device to be online  
+Atlas App Services backend, which requires the device to be online  
 the first time a user logs in. Once initial authentication has occurred, you can 
 :ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
 

@@ -3,7 +3,7 @@ name: iOS CI Realm Example App
 on:
   pull_request:
     paths:
-      - "examples/ios/**"
+      - "examples/ios/Examples/**"
 
 jobs:
   build:
@@ -15,18 +15,18 @@ jobs:
         uses: actions/checkout@v3
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "13.4.0"
+          xcode-version: "14.0"
       - name: Build
         env:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
         run: |
           cd examples/ios
-          xcodebuild build-for-testing -scheme "Test Examples" -destination "platform=iOS Simulator,name=iPhone 13 Pro"
+          xcodebuild build-for-testing -scheme "Test Examples" -destination "platform=iOS Simulator,name=iPhone 14 Pro"
       - name: Test
         env:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
         run: |
           cd examples/ios
-          xcodebuild test-without-building -scheme "Test Examples" -destination "platform=iOS Simulator,name=iPhone 13 Pro"
+          xcodebuild test-without-building -scheme "Test Examples" -destination "platform=iOS Simulator,name=iPhone 14 Pro"

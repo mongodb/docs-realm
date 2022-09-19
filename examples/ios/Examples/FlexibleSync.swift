@@ -28,6 +28,7 @@ class FlexibleSync_Team: Object {
 }
 // :snippet-end:
 
+@MainActor
 class FlexibleSync: XCTestCase {
 
     override func tearDown() async throws {

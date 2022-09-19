@@ -248,7 +248,7 @@ Important aspects of primary keys:
 
 - You cannot change a primary key after adding an object to a realm.
 - Only add a primary key to one property in a RealmModel.
-- Only ``String`` and ``int`` can be primary keys.
+- Only ``String``, ``int``, ``ObjectId``, and ``Uuid`` types can be primary keys.
 - Realm automatically indexes primary keys.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
@@ -421,8 +421,8 @@ To add a property to a schema:
 
 #. Add the new property to the object's ``RealmModel`` class.
 #. :ref:`Regenerate the RealmObject <flutter-generate-realm-object>`.
-#. Set a :flutter-sdk:`schema <realm/Configuration/schema.html>` version to
-   the realm's :flutter-sdk:`Configuration object <realm/Configuration-class.html>`.
+#. Set a schema version to the realm's 
+   :flutter-sdk:`Configuration object <realm/Configuration-class.html>`.
 
 .. example::
 

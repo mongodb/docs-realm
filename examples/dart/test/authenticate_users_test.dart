@@ -1,16 +1,18 @@
-// @Skip('currently failing (see issue 1234)')
-
+import 'dart:convert';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:faker/faker.dart';
 import './utils.dart';
 
 const APP_ID = "example-testers-kvjdy";
 
 void main() {
   late App app;
+  late EmailPasswordAuthProvider authProvider;
   setUpAll(() async {
     app = App(AppConfiguration(APP_ID));
-    EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+    authProvider = EmailPasswordAuthProvider(app);
     try {
       await authProvider.registerUser("lisa@example.com", "myStr0ngPassw0rd");
     } catch (err) {
@@ -37,6 +39,18 @@ void main() {
       expect(app.currentUser != null, true);
       expect(anonCredentials.provider, AuthProviderType.anonymous);
     });
+    test("Multiple anonymous users", () async {
+      // :snippet-start: multiple-anonymous-credentials
+      User anonUser = await app.logIn(Credentials.anonymous());
+
+      User otherAnonUser =
+          await app.logIn(Credentials.anonymous(reuseCredentials: false));
+      // :snippet-end:
+      expect(anonUser.id == otherAnonUser.id, false);
+      // clean up
+      await app.deleteUser(anonUser);
+      await app.deleteUser(otherAnonUser);
+    });
     test("Email/password user", () async {
       // :snippet-start: email-password-credentials
       Credentials emailPwCredentials =
@@ -46,6 +60,79 @@ void main() {
       expect(app.currentUser != null, true);
       expect(emailPwCredentials.provider, AuthProviderType.emailPassword);
     });
+    test("Custom JWT user", () async {
+      Future<String> authenticateWithExternalSystem() async {
+        final faker = Faker();
+        // Create a json web token
+        final jwt = JWT(
+          {
+            "aud": APP_ID,
+            "sub": faker.internet.userName(),
+            "name": faker.person.name(),
+            "iat": DateTime.now().millisecondsSinceEpoch,
+            "exp": DateTime.now().millisecondsSinceEpoch * 2,
+          },
+        );
+        final token = jwt.sign(
+          SecretKey(
+              'E7DE0D13D66BF64EC9A9A74A3D600E840D39B4C12832D380E48ECE02070865AB'),
+        );
+        return token;
+      }
+
+      // :snippet-start: custom-jwt-credentials
+      String token = await authenticateWithExternalSystem();
+      Credentials jwtCredentials = Credentials.jwt(token);
+      User currentUser = await app.logIn(jwtCredentials);
+      // :snippet-end:
+      expect(currentUser.provider, AuthProviderType.jwt);
+      // clean up
+      app.deleteUser(currentUser);
+    });
+    test("Custom Function user", () async {
+      // :snippet-start: custom-function-credentials
+      Map<String, String> credentials = {
+        "username": "someUsername",
+      };
+      // payload must be a JSON-encoded string
+      String payload = jsonEncode(credentials);
+
+      Credentials customCredentials = Credentials.function(payload);
+      User currentUser = await app.logIn(customCredentials);
+      // :snippet-end:
+      expect(currentUser.provider, AuthProviderType.function);
+      // clean up
+      app.deleteUser(currentUser);
+    });
+    test("Facebook user", () async {
+      final accessToken = 'abc';
+      // :snippet-start: facebook-credentials
+      Credentials facebookCredentials = Credentials.facebook(accessToken);
+      User currentUser = await app.logIn(facebookCredentials);
+      // :snippet-end:
+    }, skip: 'not testing 3rd party auth');
+    test("Google user (auth code)", () async {
+      final authCode = 'abc';
+      // :snippet-start: google-auth-code-credentials
+      Credentials googleAuthCodeCredentials =
+          Credentials.googleAuthCode(authCode);
+      User currentUser = await app.logIn(googleAuthCodeCredentials);
+      // :snippet-end:
+    }, skip: 'not testing 3rd party auth');
+    test("Google user (ID token)", () async {
+      final idToken = 'abc';
+      // :snippet-start: google-id-token-credentials
+      Credentials googleIdTokenCredentials = Credentials.googleIdToken(idToken);
+      User currentUser = await app.logIn(googleIdTokenCredentials);
+      // :snippet-end:
+    }, skip: 'not testing 3rd party auth');
+    test("Apple user", () async {
+      final idToken = 'abc';
+      // :snippet-start: apple-credentials
+      Credentials appleCredentials = Credentials.apple(idToken);
+      User currentUser = await app.logIn(appleCredentials);
+      // :snippet-end:
+    }, skip: 'not testing 3rd party auth');
   });
   test("Log out user", () async {
     Credentials anonCredentials = Credentials.anonymous();
@@ -228,5 +315,17 @@ void main() {
       // :snippet-end:
       expect(updatedCustomData, user.customData);
     });
+  });
+
+  test('Delete user', () async {
+    await authProvider.registerUser("moe@example.com", "myStr0ngPassw0rd");
+    final credentials =
+        Credentials.emailPassword("moe@example.com", "myStr0ngPassw0rd");
+    await app.logIn(credentials);
+    // :snippet-start: delete-user
+    User currentUser = app.currentUser!;
+    await app.deleteUser(currentUser);
+    // :snippet-end:
+    expect(app.currentUser, null);
   });
 }

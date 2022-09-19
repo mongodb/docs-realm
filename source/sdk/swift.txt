@@ -9,18 +9,19 @@ Realm Swift SDK
    
    Why Realm Database? </sdk/swift/realm-database>
    Install Realm </sdk/swift/install>
-   Quick Starts </sdk/swift/quick-start-index>
+   Quick Start </sdk/swift/quick-start>
    Realm Files </sdk/swift/realm-files>
    Model Data </sdk/swift/model-data>
    CRUD </sdk/swift/crud>
    React to Changes </sdk/swift/react-to-changes>
-   SwiftUI </sdk/swift/swiftui-guide>
+   SwiftUI </sdk/swift/swiftui>
    Test and Debug </sdk/swift/test-and-debug>
    API Reference </sdk/swift/api-reference>
    Release Notes <https://github.com/realm/realm-swift/releases>
    Application Services </sdk/swift/application-services>
    Manage Users </sdk/swift/work-with-users>
    Sync Data </sdk/swift/sync>
+   Realm in Xcode Playgrounds </sdk/swift/xcode-playgrounds>
 
 .. contents:: On this page
    :local:
@@ -29,7 +30,7 @@ Realm Swift SDK
    :class: singlecol
 
 The Realm Database Swift SDK enables mobile applications to access data
-stored in local realms. Optionally, interact with App Services features
+stored in local realms. Optionally, interact with Atlas App Services features
 such as Functions, MongoDB Data Access, and authentication. The 
 Realm Swift SDK supports Swift and Objective-C, and provides 
 :ref:`SwiftUI-friendly property wrappers <ios-swiftui-examples>`.
@@ -102,7 +103,7 @@ automatically updated when they're modified.
 Atlas App Services Apps
 -----------------------
 
-Atlas App Services Apps, which we may refer to as Apps, are backends 
+Apps, which we may refer to as Apps, are backends 
 for client applications hosted by MongoDB in the cloud. They provide the 
 ability to synchronize data stored in Realm Database, called 
 **Device Sync**, as well as a layer of backend functionality collectively 
@@ -133,6 +134,17 @@ app development:
 - :ref:`Functions <ios-call-a-function>`: define and execute server-side logic
 - :ref:`Triggers <triggers>`: react to events or define a schedule to execute 
   automated processes
+
+SwiftUI
+-------
+
+The Realm Swift SDK offers property wrappers and convenience features 
+designed to make it easier to work with Realm in SwiftUI. Check out the 
+:ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
+that demonstrates common Realm SwiftUI patterns.
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
+   :language: swift
 
 OS Support (Xcode 13)
 ---------------------

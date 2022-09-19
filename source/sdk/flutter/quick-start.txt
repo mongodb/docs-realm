@@ -255,10 +255,109 @@ Once you've finished working with a realm, close it to prevent memory leaks.
 .. literalinclude:: /examples/generated/flutter/open_realm_test.snippet.close-realm.dart
    :language: dart
 
+Sync Realm with MongoDB Atlas
+-----------------------------
 
-Further Examples
-----------------
+You can integrate Realm Database and
+:ref:`Atlas Device Sync <sync>` into your Flutter app.
+Atlas Device Sync is an MongoDB Atlas App Service that synchronizes data between
+a client application and a MongoDB database cluster on Atlas.
 
-For further examples of all the Flutter SDK methods described above and more, refer to
-the :github:`Realm Dart Samples Github repo <realm/realm-dart-samples>`.
+To synchronize data with Atlas using Device Sync, the Flutter SDK uses
+:ref:`Flexible Sync <flexible-sync>`. Flexible Sync lets you define a query for
+the data that you synchronize from the client app.
+
+.. note::
+
+   You do not need to add Device Sync to use Realm Database locally.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+Before you can use Device Sync with Realm in your client app,
+you must configure Device Sync using Atlas App Services:
+
+#. :ref:`Create an App Services App <create-a-realm-app>`
+#. :ref:`Enable Anonymous Authentication <anonymous-authentication>`
+#. :ref:`Enable Flexible Sync <enable-flexible-sync>`. Include the following
+   Flexible Sync configuration:
+
+   - Set ``owner_id`` as a **queryable field**.
+   - Add the following backend permissions to have the user only be able to read
+     and write their own data:
+
+   .. literalinclude:: /examples/generated/code/start/todo-flex-sync-permissions.json
+      :language: json
+
+.. tip:: Use Realm Flutter Template App
+
+   If you want a working Flutter app with Device Sync already set up in the client
+   and on that App Service backend, use the :ref:`Flutter Template App <template-apps>`
+   ``flutter.todo.flex``.
+
+Initialize App Services
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To use App Services features such as authentication and sync, you must
+access your App Services App using your App ID.
+You can :ref:`find your App ID in the App Services UI <find-your-project-or-app-id>`.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.init-app.dart
+   :language: dart
+
+For more information, refer to :ref:`Connect to App Services <flutter-connect-to-backend>`.
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+After you have enabled :ref:`anonymous authentication <anonymous-authentication>` in the
+App Services UI, users can immediately log into your app without providing any identifying
+information:
+
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.log-in.dart
+   :language: dart
+
+For more information, refer to :ref:`Authenticate a User <flutter-authenticate>`.
+
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
+Once you have enabled Device Sync and authenticated a user,
+open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`.
+Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
+to open an instance of the realm. The synced realm **must** hav a different
+:flutter-sdk:`Configuration.path <realm/Configuration/path.html>`
+from other opened local-only realms.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.open-sync-realm.dart
+   :language: dart
+
+For more information, refer to :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
+
+Add a Sync Subscription
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Now create a subscription to synchronize data with Atlas using Device Sync.
+Add the subscription within the :flutter-sdk:`SubscriptionSet.update() <realm/SubscriptionSet/update.html>`
+callback function.
+
+The update block callback function, includes a :flutter-sdk:`MutableSubscriptionSet()
+<realm/MutableSubscriptionSet-class.html>` object as an argument.
+Use ``MutableSubscriptionSet.add()`` to add a new subscription.
+
+.. literalinclude:: /examples/generated/flutter/quick_start_sync_test.snippet.add-sync-subscription.dart
+   :language: dart
+
+For more information, refer to :ref:`Manage Sync Session <flutter-manage-sync-session>`.
+
+Further Examples and Next Steps
+-------------------------------
+
+- To get started with a pre-made Flutter application using the Realm SDK and an
+  Atlas App Services backend set up, use the :ref:`Flutter template app <template-apps>`,
+  ``flutter.todo.flex``.
+- For a guided experience of adding the Realm SDK with Device Sync
+  to a Flutter app, read the :ref:`Realm Flutter SDK Tutorial <flutter-tutorial>`.
+- For further examples of the Flutter SDK methods described above and more,
+  refer to the :github:`Realm Dart Samples Github repo <realm/realm-dart-samples>`.
 

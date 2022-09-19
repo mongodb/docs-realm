@@ -1,2 +1,2 @@
 // Get all tasks in the realm
-let tasks = localRealm.objects(LocalOnlyQsTask.self)
+let tasks = realm.objects(LocalOnlyQsTask.self)

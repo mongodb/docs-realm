@@ -1,11 +1,30 @@
+// :replace-start: {
+//   "terms": {
+//     "LocalOnlyQsTask_": "Todo",
+//     "localRealm": "realm"
+//   }
+// }
 import XCTest
-
 import UIKit
 
 // :snippet-start: complete-quick-start-local
 // :snippet-start: import-realmswift
 import RealmSwift
 // :snippet-end:
+
+// QsTask is the Task model for the former Sync quick start
+// Used by many other tests
+class QsTask: Object {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String = ""
+    @Persisted var owner: String?
+    @Persisted var status: String = ""
+
+    convenience init(name: String) {
+        self.init()
+        self.name = name
+    }
+}
 
 // :snippet-start: quick-start-local-define-object-model
 // LocalOnlyQsTask is the Task model for this QuickStart
@@ -111,3 +130,4 @@ class LocalOnlyQuickStartTest: XCTestCase {
         runLocalOnlyExample()
     }
 }
+// :replace-end:
