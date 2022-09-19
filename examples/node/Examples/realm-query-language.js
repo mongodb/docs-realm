@@ -72,6 +72,14 @@ describe("Realm Query Language Reference", () => {
     }
   });
 
+  test("simple query example", () => {
+    // :snippet-start: simple-query
+    const tasks = realm.objects("Task");
+    // Gets all tasks where the 'priority' property is 7 or more.
+    const importantTasks = tasks.filtered("priority >= 7");
+    // :snippet-end:
+    expect(importantTasks.length).toBeGreaterThan(0);
+  });
   test("comparison queries", () => {
     const tasks = realm.objects("Task");
 
@@ -292,11 +300,9 @@ describe("Realm Query Language Reference", () => {
       new BSON.ObjectId("631a0737c98f89f5b81cd24d"),
       new BSON.ObjectId("631a073c833a34ade21db2b2"),
     ];
-    const parameterizedQuery = realm
-      .objects("Task")
-      .filtered("id IN $0", ids);
+    const parameterizedQuery = realm.objects("Task").filtered("id IN $0", ids);
     // :snippet-end:
-    
+
     expect(collectionQuery.length).toBe(1);
     expect(staticQuery.length).toBe(1);
     expect(parameterizedQuery.length).toBe(3);
@@ -508,6 +514,35 @@ describe("Realm Query Language Reference", () => {
       );
       expect(deeplyNestedMatch.length).toBe(1);
     });
+  });
+  test("Nil type", () => {
+    const name = "take a loooong nap";
+    const takeANap = {
+      id: new BSON.ObjectId(),
+      name,
+      isComplete: false,
+      priority: 1,
+      progressMinutes: 12,
+    };
+    realm.write(() => {
+      realm.create("Task", takeANap);
+    });
+    const res = realm.objects("Task").filtered(
+      // :snippet-start: nil-type
+      "assignee == nil"
+      // :snippet-end:
+    );
+
+    // prettier-ignore
+    const res2 = realm.objects("Task").filtered(
+      // :snippet-start: nil-type-parameterized-query
+      // comparison to language null pointer
+      "assignee == $0", null
+      // :snippet-end:
+    );
+
+    expect(res.filter(({ name: objName }) => objName === name).length).toBe(1);
+    expect(res2.filter(({ name: objName }) => objName === name).length).toBe(1);
   });
   describe("Type operator", () => {
     const Mixed = {

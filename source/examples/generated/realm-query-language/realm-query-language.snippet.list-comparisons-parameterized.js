@@ -3,6 +3,4 @@ const ids = [
   new BSON.ObjectId("631a0737c98f89f5b81cd24d"),
   new BSON.ObjectId("631a073c833a34ade21db2b2"),
 ];
-const parameterizedQuery = realm
-  .objects("Task")
-  .filtered("id IN $0", ids);
+const parameterizedQuery = realm.objects("Task").filtered("id IN $0", ids);
