@@ -258,6 +258,22 @@ property of that address:
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.deep-dot-notation.js
    :language: js
 
+.. _rql-nil-type:
+
+Nil Type
+--------
+
+Realm Query Language include the ``nil`` type to represent a null pointer.
+You can either reference ``nil`` directly in your queries or with a parameterized query.
+If you're using a parameterized query, each SDK maps its respective null pointer
+to ``nil``.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.nil-type.js
+   :language: js
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.nil-type-parameterized-query.js
+   :language: js
+
 .. _rql-operators:
 .. _rql-comparison-operators:
 

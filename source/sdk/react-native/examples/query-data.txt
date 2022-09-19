@@ -38,14 +38,9 @@ Construct a Query
 To filter data, pass a query made with Realm Query Language to
 :js-sdk:`Realm.Results.filtered() <Realm.Results.html#filtered>`
 
-TODO: literal include
-
-.. code-block:: js
-   :emphasize: 3
-
-  const tasks = realm.objects('Task');
-  // Gets all tasks where the 'priority' property is 7 or more.
-  const importantTasks = tasks.filtered("priority >= 7");
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.simple-query.js
+   :language: js
+   :emphasize-lines: 3
 
 Operators
 ---------
