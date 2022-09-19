@@ -1,3 +1,33 @@
+# September 16, 2022
+
+## Flutter SDK
+- Realm Database/Data Types: Remove outdated information about supported data types
+
+## Kotlin SDK
+- Fix broken links to API reference docs across various pages
+
+## .NET SDK
+- Install: General updates including updating screenshots, adding wording about installing the SDK for all projects, removing deprecated information
+- Usage Examples/Modify an Object Schema: Typo fix
+
+## React Native SDK
+- Test & Debug: "Clean Up Tests": add suggestion and updated code example showing Jest's built-in `beforeEach()`
+and `afterEach()` hooks when testing
+
+## Swift SDK
+- Simplify the Quick Starts section, including:
+  - Consolidate local and Sync Quick Starts into a single quick start for both local and Sync
+  - Update Quick Start Sync details to show Flexible Sync
+  - Move Xcode Playgrounds page to a top-level navigation item for Swift SDK
+  - Remove the "Quick Starts" directory and instead point to the single consolidated quick start page
+- SwifUI/Quick Start: Fix broken link to API reference doc
+- Add a new Tip alongside async/await code examples to access Realm on the `@MainActor` to avoid threading-related crashes
+- Update the iOS unit test suite for Xcode 14
+
+## Other
+- Set up a GitHub Workflow to run Dart unit tests for Flutter SDK code examples
+- Update the iOS GitHub Workflow for Xcode 14
+
 # September 9, 2022
 
 ## Tutorials
