@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
-//     "AsymmetricSync_": ""
+//     "AsymmetricSync_": "",
+//     "FLEX_SYNC_APP_ID": "INSERT_APP_ID_HERE"
 //   }
 // }
 
@@ -33,6 +34,7 @@ class AsymmetricSync_WeatherSensor: AsymmetricObject {
 class AsymmetricSync: XCTestCase {    
     @MainActor
     func testAsymmetricSync() async {
+        // :snippet-start: connect-and-authenticate
         let app = App(id: FLEX_SYNC_APP_ID)
         do {
             let user = try await login()
@@ -45,17 +47,21 @@ class AsymmetricSync: XCTestCase {
             let user = try await app.login(credentials: Credentials.anonymous)
             return user
         }
+        // :snippet-end:
 
+        // :snippet-start: open-asymmetric-sync-realm
         func openSyncedRealm(user: User) async {
             do {
                 var asymmetricConfig = user.flexibleSyncConfiguration()
                 asymmetricConfig.objectTypes = [AsymmetricSync_WeatherSensor.self]
-                let asymmetricRealm = try await Realm(configuration: asymmetricConfig, downloadBeforeOpen: .always)
+                let asymmetricRealm = try await Realm(configuration: asymmetricConfig)
                 await useRealm(asymmetricRealm, user)
             } catch {
                 print("Error opening realm: \(error.localizedDescription)")
             }
         }
+        // :snippet-end:
+        
         func useRealm(_ asymmetricRealm: Realm, _ user: User) async {
             // :snippet-start: create-asymmetric-object
             try! asymmetricRealm.write {
