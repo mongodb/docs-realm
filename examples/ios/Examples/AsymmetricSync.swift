@@ -15,14 +15,6 @@ class AsymmetricSync_WeatherSensor: AsymmetricObject {
     @Persisted var temperatureInFahrenheit: Float
     @Persisted var barometricPressureInHg: Float
     @Persisted var windSpeedInMph: Int
-    
-    convenience init(deviceId: String, temperatureInFahrenheit: Float, barometricPressureInHg: Float, windSpeedInMph: Int) {
-        self.init()
-        self.deviceId = deviceId
-        self.temperatureInFahrenheit = temperatureInFahrenheit
-        self.barometricPressureInHg = barometricPressureInHg
-        self.windSpeedInMph = windSpeedInMph
-    }
     // :remove-start:
     override class func shouldIncludeInDefaultSchema() -> Bool {
         return false
@@ -44,7 +36,7 @@ class AsymmetricSync: XCTestCase {
         }
 
         func login() async throws -> User {
-            let user = try await app.login(credentials: Credentials.anonymous)
+            let user = try await app.login(credentials: .anonymous)
             return user
         }
         // :snippet-end:

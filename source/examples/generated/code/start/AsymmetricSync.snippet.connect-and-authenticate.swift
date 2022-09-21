@@ -7,6 +7,6 @@ do {
 }
 
 func login() async throws -> User {
-    let user = try await app.login(credentials: Credentials.anonymous)
+    let user = try await app.login(credentials: .anonymous)
     return user
 }
