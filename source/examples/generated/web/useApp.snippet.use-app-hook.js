@@ -1,4 +1,3 @@
-// :snippet-start: use-app-hook
 import { useEffect, useState } from "react";
 import * as Realm from "realm-web";
 
@@ -12,4 +11,3 @@ function useApp() {
 }
 
 export default useApp;
-// :snippet-end:

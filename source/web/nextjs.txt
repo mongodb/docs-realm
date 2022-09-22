@@ -47,8 +47,6 @@ Before using this integration guide, you should:
    `Learn more about the Vercel MongoDB Atlas integration.
    <https://vercel.com/integrations/mongodbatlas>`__
 
-
-
 Add Authentication
 ------------------
 
@@ -87,17 +85,19 @@ throughout the app using :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>`.
          - :ref:`Find an App ID <find-your-app-id>`
          - `Next.js Environmental Variable documentation <https://nextjs.org/docs/basic-features/environment-variables>`__
 
-   .. step:: Create a custom app wrapper
+   .. step:: Create a React Hook to get the App
 
-      The client uses a :js-sdk:`Realm.App <Realm.App.html>` instance to connect
-      to App Services using the App ID.
-      Create a custom ``App`` page wrapper that creates a ``Realm.App`` instance
-      that you can later expose to child components on all pages.
-      Create the file :file:`pages/_app.js`, and initialize a ``Realm.App`` instance
-      using your App ID.
+      The client uses a React Hook to instantiate and access the
+      :js-sdk:`Realm.App <Realm.App.html>`, which you use to connect to App Services
+      using the App ID. You will use this hook throughout the pages you create
+      in this guide.
 
-      .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
-         :language: javascript
+      #. Create the file :file:`components/useApp.js`.
+      #. Add the following code to instantiate and access the ``App`` instance:
+
+      .. literalinclude:: /examples/generated/web/useApp.snippet.use-app-hook.js
+         :language: js
+         :caption: components/useApp.js
 
    .. step:: Log the user in
 
@@ -227,16 +227,22 @@ The following steps outline using the Realm Web SDK with Next.js server-side ren
          npm install nookies
          npm install @apollo/client graphql
 
-   .. step:: Update authentication to use cookies
+      .. step:: Create a custom app wrapper to add accessToken to cookies
 
-      Update :file:`pages/_app.js` to save the access token as a cookie.
+      The client uses the ``useApp()`` hook to connect to App Services.
+      Create a custom ``App`` page wrapper that creates a ``Realm.App`` instance
+      that you can later expose to child components on all pages.
+      Create the file :file:`pages/_app.js`, and initialize a ``Realm.App`` instance
+      using your App ID.
+
+      Save the access token as a cookie.
       This transfers the accessToken from the browser to the server on every request.
       Set your cookie in a ``useEffect`` hook that runs every time
       there's a change in the user object, as shown below.
       The ``setInterval`` also resets the credential in cookies before the token expires.
 
-      .. literalinclude:: /examples/generated/web/ssr/_app.snippet.custom-app-wrapper.js
-          :language: javascript
+      .. literalinclude:: /examples/generated/web/_app.snippet.custom-app-wrapper.js
+         :language: javascript
 
    .. step:: Server-side render the data
 
