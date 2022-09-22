@@ -55,7 +55,8 @@ App Services client and authenticate a user. You can follow the steps
 below to connect the Realm Web SDK to client-side Next.js.
 
 In this example, we're going to expose an authenticated ``Realm.App`` instance
-throughout the app using :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>`.
+throughout the app using :js-sdk:`Realm.getApp() <Realm.html#getApp>`
+in a custom React Hook.
 
 .. seealso::
 
@@ -101,10 +102,10 @@ throughout the app using :js-sdk:`Realm.App.getApp() <Realm.App.html#getApp>`.
 
    .. step:: Log the user in
 
-      Now you can access the ``app`` instance with ``Realm.App.getApp("<App ID>")``,
+      Now you can access the ``app`` instance with the ``useApp()`` hook,
       and use it to log a user in.
-      Automatically authenticate a user anonymously in :file:`pages/index.js`
-      to create a user when a user arrives to the app home page.
+      Authenticate anonymously in :file:`pages/index.js` when a user arrives
+      to the app home page.
 
       .. literalinclude:: /examples/generated/web/index.snippet.log-in-index-js.js
          :language: javascript
@@ -227,15 +228,13 @@ The following steps outline using the Realm Web SDK with Next.js server-side ren
          npm install nookies
          npm install @apollo/client graphql
 
-      .. step:: Create a custom app wrapper to add accessToken to cookies
+   .. step:: Create a custom app wrapper to add accessToken to cookies
 
-      The client uses the ``useApp()`` hook to connect to App Services.
-      Create a custom ``App`` page wrapper that creates a ``Realm.App`` instance
-      that you can later expose to child components on all pages.
-      Create the file :file:`pages/_app.js`, and initialize a ``Realm.App`` instance
-      using your App ID.
+      Create a custom ``App`` page wrapper.
+      Create the file :file:`pages/_app.js`, and get the ``Realm.App`` instance
+      with the ``useApp()`` hook.
 
-      Save the access token as a cookie.
+      If there is a user currently authenticated, save their accessToken as a cookie.
       This transfers the accessToken from the browser to the server on every request.
       Set your cookie in a ``useEffect`` hook that runs every time
       there's a change in the user object, as shown below.
