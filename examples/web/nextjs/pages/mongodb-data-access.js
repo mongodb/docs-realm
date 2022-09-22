@@ -1,10 +1,11 @@
 // :snippet-start: mongo-data-access
 import { useEffect, useState } from "react";
 import * as Realm from "realm-web";
+import useApp from "../components/useApp";
 
 function MongoDbDataAccess({ name }) {
   const [plant, setPlant] = useState();
-  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
+  const app = useApp();
 
   useEffect(() => {
     if (app?.currentUser) {
@@ -14,7 +15,7 @@ function MongoDbDataAccess({ name }) {
         setPlant(foundPlant);
       });
     }
-  }, [app, app.currentUser, app.currentUser?.id, name]);
+  }, [app, app?.currentUser, app?.currentUser?.id, name]);
 
   return (
     <div>

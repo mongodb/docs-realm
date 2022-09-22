@@ -2,6 +2,7 @@
 import { useMemo } from "react";
 import * as Realm from "realm-web";
 import Layout from "../components/layout"; // :remove:
+import useApp from "../components/useApp";
 // :state-start: ssr
 import { setCookie } from "nookies";
 // Import the useEffect hook
@@ -10,7 +11,7 @@ import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
   // useMemo with empty dependency array only computes value for `app` on mount
-  const app = useMemo(() => new Realm.App(process.env.NEXT_PUBLIC_APP_ID), []);
+  const app = useApp();
 
   // :state-start: ssr
   // Reset the user access token in cookies on a regular interval
@@ -28,7 +29,7 @@ function MyApp({ Component, pageProps }) {
       // there's a change in user.
       return () => clearInterval(resetAccessToken);
     }
-  }, [app, app?.currentUser, app?.currentUser?.id]);
+  }, [app, app?.currentUser]);
   // :state-end:
 
   return (
@@ -36,7 +37,7 @@ function MyApp({ Component, pageProps }) {
       {/* :remove-start:*/}
       <Layout>
         {/* :remove-end: */}
-        <Component {...pageProps} />
+        <Component {...pageProps} app={app} />
         {/* :remove-start:*/}
       </Layout>
       {/* :remove-end: */}

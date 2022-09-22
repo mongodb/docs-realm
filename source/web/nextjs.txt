@@ -230,10 +230,10 @@ The following steps outline using the Realm Web SDK with Next.js server-side ren
    .. step:: Update authentication to use cookies
 
       Update :file:`pages/_app.js` to save the access token as a cookie.
-      This transfers the cookie from the browser to the server on every request.
+      This transfers the accessToken from the browser to the server on every request.
       Set your cookie in a ``useEffect`` hook that runs every time
       there's a change in the user object, as shown below.
-      The ``setInterval`` also resets the credential in cookies before the cookie expires.
+      The ``setInterval`` also resets the credential in cookies before the token expires.
 
       .. literalinclude:: /examples/generated/web/ssr/_app.snippet.custom-app-wrapper.js
           :language: javascript

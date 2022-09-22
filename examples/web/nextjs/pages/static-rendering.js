@@ -19,19 +19,19 @@ export async function getStaticProps() {
   const json = JSON.parse(JSON.stringify(data));
   return {
     props: {
-      lily: json,
+      plant: json,
     },
   };
 }
 
-export default function Static({ lily }) {
+export default function Static({ plant }) {
   return (
     <div>
       <h1>Data from Static Rendering</h1>
       <div>
         <div>
-          <p>{lily.name}</p>
-          <p>{lily.color}</p>
+          <p>{plant.name}</p>
+          <p>{plant.color}</p>
         </div>
       </div>
     </div>

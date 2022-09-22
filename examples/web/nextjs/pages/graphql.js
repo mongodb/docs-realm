@@ -9,10 +9,11 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
+import useApp from "../components/useApp";
 
 // 2. Add GraphQL client provider
 function GraphQLProvider({ children }) {
-  const app = Realm.App.getApp(process.env.NEXT_PUBLIC_APP_ID);
+  const app = useApp();
   const client = new ApolloClient({
     link: new HttpLink({
       uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
