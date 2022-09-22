@@ -654,3 +654,42 @@ property in several ways:
   excluded. This enables you to watch for changes to a class projection 
   and not see changes for properties that are not part of the class 
   projection. 
+
+.. _swift-define-asymmetric-object:
+
+Define an Asymmetric Object
+--------------------------
+
+.. versionadded:: 10.29.0
+
+If your app uses Flexible Sync, you can use :ref:`Asymmetric Sync 
+<optimize-asymmetric-sync>` to sync an object unidirectionally
+from your device to the database linked to your Atlas App Services App. 
+Define an asymmetric object by inheriting from :swift-sdk:`AsymmetricObject 
+<Extensions/AsymmetricObject.html>`.
+
+.. literalinclude:: /examples/generated/code/start/AsymmetricSync.snippet.asymmetric-model.swift
+   :language: swift
+
+``AsymmetricObjects`` broadly support the same property types as ``Object``, 
+with a few exceptions:
+
+- Asymmetric objects can only link to embedded objects
+   - ``Object`` and ``List<Object>`` properties are not supported 
+   - ``EmbeddedObject`` and ``List<EmbeddedObject>`` are supported
+
+You cannot link to an ``AsymmetricObject`` from within an ``Object``. Doing so 
+throws an error.
+
+Asymmetric objects do not function in the same way as other Realm Objects. 
+You cannot:
+
+- Add an asymmetric object to a realm
+- Remove an asymmetric object from a realm
+- Query an asymmetric object
+
+You can only create an Asymmetric object, which then syncs unidirectionally 
+to the Atlas database linked to your App with Device Sync.
+
+For more information, see: :ref:`Create an Asymmetric Object 
+<swift-create-asymmetric-object>`.
