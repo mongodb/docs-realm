@@ -1,0 +1,35 @@
+.. _kotlin-uuid:
+
+=================
+UUID - Kotlin SDK
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
+objects. ``UUID`` is :ref:`indexable <node-indexes>` and you can use it as a
+:ref:`primary key <node-primary-keys>`. 
+
+Realm Database creates UUIDs with the ``RealmUUID`` type, that:
+
+- Conform `RFC 4122 version 4 <https://www.rfc-editor.org/rfc/rfc4122.htm>`_
+- Are created with random bytes
+
+.. note:: Using UUID Instead of ObjectId
+
+   In general, you can use ``UUID`` for any fields that function as a unique
+   identifier. Using ``UUID`` might be particularly useful if you are migrating
+   data not stored in MongoDB since it is likely that your object's unique
+   identifiers are already of a ``UUID`` type. Alternatively, using ``ObjectId``
+   might be useful for a collection of data that already exists in MongoDB.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.primary-key.kt
+   :language: kotlin
+   :copyable: false
