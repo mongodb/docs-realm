@@ -30,6 +30,22 @@ Realm Database creates UUIDs with the ``RealmUUID`` type, that:
    identifiers are already of a ``UUID`` type. Alternatively, using ``ObjectId``
    might be useful for a collection of data that already exists in MongoDB.
 
-.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.primary-key.kt
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.uuid.kt
+   :language: kotlin
+   :copyable: false
+
+Create a UUID from a String
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To generate a new ``RealmUUID`` from a UUID formatted string, pass the string to the ``from()`` method:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-from-string.kt
+   :language: kotlin
+   :copyable: false
+
+Create a Random UUID
+~~~~~~~~~~~~~~~~~~~~
+To generate a new ``RealmUUID`` randomly, run the ``random()`` method:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-random.kt
    :language: kotlin
    :copyable: false
