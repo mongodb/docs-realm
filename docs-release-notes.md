@@ -1,3 +1,28 @@
+# September 23, 2022
+
+## Tutorials
+- Fix the return character in the CLI create template app command in Xamarin, Flutter, Kotlin and SwiftUI tutorials
+
+## Flutter SDK
+- Realm Database/Data Types: New `DateTime` subsection with information and code example
+
+## Node.js SDK
+- Usage Examples/Query Data: Add tested code example for constructing a query
+
+## React Native SDK
+- Usage Examples/Query Data: Add tested code example for constructing a query
+
+## Swift SDK
+- Model Data/Define an Object Model: New "Define an Asymmetric Object" section
+- CRUD/Create: New "Create an Asymmetric Object" section
+- Sync Data
+  - Configure & Open a Synced Realm: Update note to specify not to use subscriptions with Asymmetric Sync
+  - Flexible Sync: Add a note that Asymmetric Sync does not require a subscription
+  - Stream Data to Atlas: New page with code examples about how to use Asymmetric Sync in the Swift SDK
+
+## Other
+- Realm Query Language: New "Nil Type" section
+
 # September 16, 2022
 
 ## Flutter SDK
