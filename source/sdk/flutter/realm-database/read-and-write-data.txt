@@ -144,33 +144,3 @@ Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart
-
-.. _flutter-dynamic-queries:
-
-Construct Dynamic Queries
--------------------------
-
-You can also query a realm using a dynamic string-based API.
-This is in contrast to the standard query API which uses strict typing.
-You can construct dynamic queries using the ``dynamic`` property
-of the following types:
-
-- :flutter-sdk:`Realm.dynamic <realm/Realm/dynamic.html>`
-- :flutter-sdk:`RealmResults.dynamic <>`
-- :flutter-sdk:`RealmObjects.dynamic <>`.
-
-For example the standard query API to get all objects of type `Car` in as realm
-is as follows:
-
-.. code-block:: dart
-
-   final cars = realm.all<Car>();
-
-The dynamic API for this same query is as follows:
-
-.. code-block:: dart
-
-   final cars = realm.dynamic.all("Car");
-
-
-
