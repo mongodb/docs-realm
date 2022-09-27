@@ -1,5 +1,4 @@
 // 1. Import dependencies
-import * as Realm from "realm-web";
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,7 +7,7 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 
 // 2. Add GraphQL client provider
 function GraphQLProvider({ children }) {

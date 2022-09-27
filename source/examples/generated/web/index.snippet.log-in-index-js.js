@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import * as Realm from "realm-web";
 import Link from "next/link";
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 
 export default function Home() {
   const app = useApp();

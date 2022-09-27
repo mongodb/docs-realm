@@ -1,4 +1,4 @@
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 import { setCookie } from "nookies";
 // Import the useEffect hook
 import { useEffect } from "react";

@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import * as Realm from "realm-web";
 import Link from "next/link";
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 
 export default function Home() {
   const app = useApp();
@@ -13,7 +13,7 @@ export default function Home() {
       const anonymousUser = Realm.Credentials.anonymous();
       app.logIn(anonymousUser);
     }
-  }, [app, app?.currentUser, app?.currentUser?.id]);
+  }, [app, app?.currentUser]);
 
   return (
     //Your app

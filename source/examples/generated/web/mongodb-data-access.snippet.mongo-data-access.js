@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import * as Realm from "realm-web";
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 
 function MongoDbDataAccess({ name }) {
   const [plant, setPlant] = useState();

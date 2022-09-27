@@ -1,6 +1,6 @@
 // :snippet-start: custom-app-wrapper
 import Layout from "../components/layout"; // :remove:
-import useApp from "../components/useApp";
+import { useApp } from "../components/useApp";
 import { setCookie } from "nookies";
 // Import the useEffect hook
 import { useEffect } from "react";
