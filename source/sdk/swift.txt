@@ -1,3 +1,7 @@
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
 .. _ios-intro:
 
 ===============
@@ -23,191 +27,159 @@ Realm Swift SDK
    Sync Data </sdk/swift/sync>
    Realm in Xcode Playgrounds </sdk/swift/xcode-playgrounds>
 
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
+.. introduction::
 
-The Realm Database Swift SDK enables mobile applications to access data
-stored in local realms. Optionally, interact with Atlas App Services features
-such as Functions, MongoDB Data Access, and authentication. The 
-Realm Swift SDK supports Swift and Objective-C, and provides 
-:ref:`SwiftUI-friendly property wrappers <ios-swiftui-examples>`.
+   Use the Realm Swift SDK to develop iOS, macOS, watchOS and tvOS apps in 
+   Swift and Objective-C. 
+   
+.. kicker:: What You Can Do
 
-.. seealso::
+Develop Apps with Realm Database
+--------------------------------
 
-   Are you looking for information about using Swift with MongoDB in a 
-   backend app, command-line utility, or running on macOS or Linux? See 
-   the `MongoDB Swift Driver documentation <https://www.mongodb.com/docs/drivers/swift/>`__.
+Use free open-source Realm Database as a local object store on a device.
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
+other clients.
 
-Realm Database
---------------
+.. tabs::
 
-With the Realm Swift SDK, you can access objects stored in a local
-instance of Realm Database.
+   .. tab:: Use Realm Database Locally
+      :tabid: local-realm
 
-Define an Object Schema
-~~~~~~~~~~~~~~~~~~~~~~~
+      .. procedure::
 
-Use Swift to idiomatically :ref:`define an object schema <ios-define-a-realm-object-schema>`.
+         .. step:: Install the Realm Swift SDK
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.coffee-drink-object.swift
-   :language: swift
+            Use Swift Package Manager, CocoaPods, or Carthage to
+            :ref:`ios-install` in your project.
 
-Create an Object
-~~~~~~~~~~~~~~~~
+            Import Realm in your project files to get started.
 
-Create a new object as you would instantiate any other object. Then,
-pass it to Realm Database inside :ref:`a write transaction <ios-create-a-new-object>`.
+         .. step:: Define an Object Schema
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.write-an-object.swift
-   :language: swift
+            Use Swift to idiomatically :ref:`define an object schema 
+            <ios-define-a-realm-object-schema>`. 
 
-Query Realm Database
-~~~~~~~~~~~~~~~~~~~~
+         .. step:: Open a Realm
 
-:ref:`Query <ios-client-query-engine>` for stored objects using 
-Swift-idiomatic queries.
+            Realm Database stores objects in realm files on your device, 
+            or you can open an in-memory realm which does not create a file.
+            :ref:`Configure and open a realm <ios-configure-and-open-a-realm>` 
+            to get started reading and writing data.
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.query.swift
-   :language: swift
+         .. step:: Read and Write Data
 
-Update Live Objects
-~~~~~~~~~~~~~~~~~~~
+            :ref:`Create <swift-crud-create>`, :ref:`read <swift-crud-read>`, 
+            :ref:`update <swift-crud-update>`, and :ref:`delete <swift-crud-delete>` 
+            objects from the realm. Filter data using Realm Swift's 
+            :ref:`type-safe .where syntax <ios-realm-swift-query-api>`, 
+            or construct an :ref:`NSPredicate <ios-nspredicate-query>`. 
 
-:ref:`Update <ios-modify-an-object>` objects by updating field values on
-an instance of the object within a transaction.
+         .. step:: React to Changes
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.update-live-objects.swift
-   :language: swift
+            Realm's live objects mean that your data is always up-to-date.
+            You can :ref:`register a notification handler <ios-react-to-changes>` 
+            to watch for changes and perform some logic, such as updating 
+            your UI. Or in SwiftUI, use the Realm Swift property wrappers 
+            to :ref:`update Views when data changes 
+            <swiftui-update-ui-when-objects-change>`.
 
-Watch for Updates
-~~~~~~~~~~~~~~~~~
+      .. image:: /images/icons/realm/realm-mobile.svg
+         :width: 100px
+         :alt: Realm Sync Illustration
 
-:ref:`Register a notification handler <ios-react-to-changes>` on an entire 
-realm, a collection, or an object, and react to changes.
+   .. tab:: Sync Data Across Devices
+      :tabid: device-sync
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.watch-for-object-updates.swift
-   :language: swift
+      .. procedure::
 
-Always Access the Latest Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         .. step:: Connect to an Atlas App Services App
 
-Because Realm Database objects are **live objects**, they're 
-automatically updated when they're modified.
+            Configure :ref:`Device Sync in an App Services App 
+            <realm-sync-get-started>`. Define data access rules. Use 
+            Development Mode to infer your schema from your Swift or 
+            Objective-C data model.
 
-.. literalinclude:: /examples/generated/code/start/LandingPageCodeExamples.snippet.always-access-the-latest-data.swift
-   :language: swift
+            Then, :ref:`connect to the backend <ios-init-appclient>` from
+            your client.
 
-Atlas App Services Apps
------------------------
+         .. step:: Authenticate a User
 
-Apps, which we may refer to as Apps, are backends 
-for client applications hosted by MongoDB in the cloud. They provide the 
-ability to synchronize data stored in Realm Database, called 
-**Device Sync**, as well as a layer of backend functionality collectively 
-called **App Services**. In addition to working with local Realm Database, 
-the Swift SDK also enables you to leverage the features of Apps.
+            Use one of our authentication providers to :ref:`authenticate a 
+            user <ios-authenticate-users>`. App Services provides access
+            to popular authentication providers, such as Apple, Google, or 
+            Facebook. Use our built-in email/password provider to manage 
+            users without a third-party, or use custom JWT authentication to 
+            integrate with other authentication providers. Anonymous authentication
+            provides access without requiring a login or persisting user data.
 
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_swift
+         .. step:: Open a Synced Realm
 
-Atlas Device Sync
-~~~~~~~~~~~~~~~~~
+            Instead of opening a local realm, :ref:`configure and open a 
+            synced Realm <ios-configure-and-open-a-synced-realm>`. 
+            :ref:`Subscribe to a query <swift-manage-flexible-sync-subscriptions>` 
+            to determine what data the synced realm can read and write.
 
-Use :ref:`Device Sync <ios-sync-changes-between-devices>` to automatically 
-sync your realms across client devices and a Atlas data store backend.
+         .. step:: Read and Write Synced Data
 
-.. important::
+            The APIs to read and write data from a realm are the same 
+            whether you're using a synced or local realm. Data that you 
+            read and write is automatically kept in sync with your Atlas 
+            cluster and other clients. Apps keep working offline and 
+            deterministically sync changes whenever a network connection is 
+            available. 
 
-   Device Sync does not currently support watchOS.
+      .. image:: /images/icons/realm/mobile-sync.svg         
+         :alt: Realm Sync Illustration
+         :width: 100px
 
-App Services
-~~~~~~~~~~~~
+   .. tab:: Use Realm with SwiftUI
+      :tabid: realm-swiftui
 
-When you create an App, you get access to a variety of services to streamline
-app development:
+      .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
+         :language: swift
 
-- :ref:`User management <ios-authenticate-users>`: built-in user management to enable account 
-  creation and authentication
-- :ref:`Functions <ios-call-a-function>`: define and execute server-side logic
-- :ref:`Triggers <triggers>`: react to events or define a schedule to execute 
-  automated processes
+      The Realm Swift SDK offers property wrappers and convenience features 
+      designed to make it easier to work with Realm in SwiftUI. Check out the 
+      :ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
+      that demonstrates common Realm SwiftUI patterns.
 
-SwiftUI
--------
+.. kicker:: Learning Paths
 
-The Realm Swift SDK offers property wrappers and convenience features 
-designed to make it easier to work with Realm in SwiftUI. Check out the 
-:ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
-that demonstrates common Realm SwiftUI patterns.
+Get Started with Realm Swift
+----------------------------
 
-.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
-   :language: swift
+.. card-group::
+   :columns: 3
 
-OS Support (Xcode 13)
----------------------
+   .. card::
+      :cta: See Code Examples
+      :url: https://www.mongodb.com/docs/realm/sdk/swift/quick-start/
+      :icon: /images/icons/realm/functions.svg
+      :icon-alt: Realm Functions Icon
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :class: index-table
+      **Quick Start**
 
-   * - Supported OS
-     - Realm Database
-     - Realm Apps
+      Minimal explanation code examples of how to work with Realm Database.
 
-   * - iOS 9.0+ (iOS 11+ if using Swift Package Manager)
-     - X
-     - X
+   .. card::
+      :cta: Explore an Example App
+      :url: https://www.mongodb.com/docs/atlas/app-services/template-apps/
+      :icon: /images/icons/realm/ios.svg
+      :icon-alt: Realm iOS Icon
 
-   * - macOS 10.9+ (macOS 10.10+ if using Swift Package Manager)
-     - X
-     - X
+      **Working Example App**
 
-   * - tvOS 9.0+
-     - X
-     - X
+      Explore a SwiftUI client app that uses Realm Database with Device
+      Sync. Learn from example by dissecting a working app.
 
-   * - watchOS 2.0+
-     - X
-     - 
+   .. card::
+      :cta: Follow the Tutorial
+      :url: https://www.mongodb.com/docs/realm/tutorial/swiftui/
+      :icon: /images/icons/realm/fast-data.svg
+      :icon-alt: Realm Fast Data Icon
 
-OS Support (Xcode 14)
----------------------
+      **Guided Tutorial**
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :class: index-table
-
-   * - Supported OS
-     - Realm Database
-     - Realm Apps
-
-   * - iOS 11.0+
-     - X
-     - X
-
-   * - macOS 10.13+
-     - X
-     - X
-
-   * - tvOS 11.0+
-     - X
-     - X
-
-   * - watchOS 4.0+
-     - X
-     - 
-
-.. important::
-
-   There are special considerations when using Realm Database with
-   tvOS. See :ref:`ios-tvos` for more information.
-
-Async/Await Support
--------------------
-
-.. include:: /includes/swift-async-await-support.rst
+      Follow a guided tutorial to learn how to adapt the example app to 
+      create your own working Realm app.
