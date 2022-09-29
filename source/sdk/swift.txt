@@ -182,3 +182,76 @@ other clients.
       designed to make it easier to work with Realm in SwiftUI. Check out the 
       :ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
       that demonstrates common Realm SwiftUI patterns.
+
+   .. tab:: Build with Atlas App Services
+      :tabid: app-services
+
+      .. procedure::
+
+         .. step:: Connect to an Atlas App Services App
+
+            As with Device Sync, the first step when building with App Services
+            is to configure an :ref:`Atlas App Services <realm-sync-get-started>`
+            backend. 
+
+            Once configured, you can :ref:`connect to the backend 
+            <ios-init-appclient>` from your client.
+
+         .. step:: Call Serverless Functions
+
+            You can :ref:`call serverless Functions <ios-call-a-function>` 
+            from your client application that run in an App Services backend.
+
+            .. code-block:: swift
+
+               let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
+
+         .. step:: Remotely Access a MongoDB Data Source
+
+            You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
+            directly from your client application code.
+
+            .. code-block:: swift
+
+               let client = app.currentUser!.mongoClient("mongodb-atlas")
+               let database = client.database(named: "ios")
+               let collection = database.collection(withName: "CoffeeDrinks")
+
+               let queryFilter: Document = ["name": "Maple Latte"]
+               let queryResult = try await collection.findOneDocument(filter: queryFilter)
+
+.. kicker:: Essential Documentation
+
+Recommended Reading
+-------------------
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Swift API Reference
+      :cta: RealmSwift Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/swift/latest
+      :icon: /images/icons/realm/realm-icon.svg
+      :icon-alt: Realm Icon
+
+      Explore generated reference docs for the RealmSwift APIs.
+
+   .. card::
+      :headline: Objective-C API Reference
+      :cta: Realm Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/objc/latest
+      :icon: /images/icons/realm/realm-icon.svg
+      :icon-alt: Realm Icon
+
+      Explore generated reference docs for the Realm Objective-C APIs.
+       
+   .. card::
+      :headline: SwiftUI Quick Start
+      :cta: Follow the Tutorial
+      :url: https://www.mongodb.com/docs/realm/sdk/swift/swiftui-tutorial
+      :icon: /images/icons/realm/realm-mobile.svg
+      :icon-alt: Realm Mobile Icon
+
+      Get started with Realm Database for SwiftUI.
