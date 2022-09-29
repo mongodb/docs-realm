@@ -186,39 +186,40 @@ other clients.
    .. tab:: Build with Atlas App Services
       :tabid: app-services
 
-      .. procedure::
+      Connect to an Atlas App Services App
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         .. step:: Connect to an Atlas App Services App
+      As with Device Sync, the first step when building with App Services
+      is to configure an :ref:`Atlas App Services <realm-sync-get-started>`
+      backend. 
 
-            As with Device Sync, the first step when building with App Services
-            is to configure an :ref:`Atlas App Services <realm-sync-get-started>`
-            backend. 
+      Once configured, you can :ref:`connect to the backend 
+      <ios-init-appclient>` from your client.
 
-            Once configured, you can :ref:`connect to the backend 
-            <ios-init-appclient>` from your client.
+      Call Serverless Functions
+      ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         .. step:: Call Serverless Functions
+      You can :ref:`call serverless Functions <ios-call-a-function>` 
+      from your client application that run in an App Services backend.
 
-            You can :ref:`call serverless Functions <ios-call-a-function>` 
-            from your client application that run in an App Services backend.
+      .. code-block:: swift
 
-            .. code-block:: swift
+         let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
 
-               let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
+      Remotely Access a MongoDB Data Source
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         .. step:: Remotely Access a MongoDB Data Source
+      You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
+      directly from your client application code.
 
-            You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
-            directly from your client application code.
+      .. code-block:: swift
 
-            .. code-block:: swift
+         let client = app.currentUser!.mongoClient("mongodb-atlas")
+         let database = client.database(named: "ios")
+         let collection = database.collection(withName: "CoffeeDrinks")
 
-               let client = app.currentUser!.mongoClient("mongodb-atlas")
-               let database = client.database(named: "ios")
-               let collection = database.collection(withName: "CoffeeDrinks")
-
-               let queryFilter: Document = ["name": "Maple Latte"]
-               let queryResult = try await collection.findOneDocument(filter: queryFilter)
+         let queryFilter: Document = ["name": "Maple Latte"]
+         let queryResult = try await collection.findOneDocument(filter: queryFilter)
 
 .. kicker:: Essential Documentation
 
