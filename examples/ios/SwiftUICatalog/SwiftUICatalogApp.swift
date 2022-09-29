@@ -42,6 +42,8 @@ struct SwiftUICatalogApp: SwiftUI.App {
         "PBSOrLocalRealm": { AnyView(PartitionBasedSyncOrLocalRealmView()) },
         "ProfileView": { AnyView(ProfileView(profile: personProfile.first!)) },
         "SearchableDogsView": { AnyView(SearchableDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) },
+        "SectionedResultsList": { AnyView(SectionedDogsView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs))},
+        "SectionedResultsListFiltered": { AnyView(SectionedDogsViewFiltered().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs))},
         "WriteToCollection": { AnyView(DogsListView().environment(\.realm, SwiftUI_Dog.previewRealmJustDogs)) }
     ]
     

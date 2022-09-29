@@ -94,7 +94,7 @@ class SwiftUICatalogUITests: XCTestCase {
         app.launch()
         
         XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
-        XCTAssert(!app.staticTexts["Lita"].waitForExistence(timeout: 1))
+        XCTAssert(!app.staticTexts["Lita"].exists)
     }
     
     func testFilterTypeSafeQuery() throws {
@@ -104,7 +104,7 @@ class SwiftUICatalogUITests: XCTestCase {
         app.launch()
         
         XCTAssert(app.staticTexts["Ben"].waitForExistence(timeout: 2))
-        XCTAssert(!app.staticTexts["Lita"].waitForExistence(timeout: 1))
+        XCTAssert(!app.staticTexts["Lita"].exists)
     }
     
     func testQuickWriteEditProperty() throws {
@@ -133,5 +133,26 @@ class SwiftUICatalogUITests: XCTestCase {
         XCTAssert(app.staticTexts["Lita"].waitForExistence(timeout: 2))
         app.buttons["addDogButton"].tap()
         XCTAssert(app.staticTexts["Bandido"].waitForExistence(timeout: 2))
+    }
+    
+    func testSectionedResultsList() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "SectionedResultsList"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["L"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Lita"].exists)
+    }
+    
+    func testSectionedResultsListFiltered() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "SectionedResultsListFiltered"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["M"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Maui"].exists)
+        XCTAssert(!app.staticTexts["Lita"].exists)
     }
 }

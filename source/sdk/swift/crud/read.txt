@@ -23,9 +23,12 @@ steps:
 - Get all :ref:`objects <ios-realm-objects>` of a certain type from the realm.
 - Optionally, :ref:`filter <ios-filter-data>` the results.
 - Optionally, :ref:`sort <ios-sort-query-results>` the results.
+- Alternately, get all objects of a certain type, :ref:`divided into 
+  sections <ios-section-query-results>`. As with regular results, you can 
+  filter and sort sectioned results.
 
-All query, filter, and sort operations return a
-:ref:`results collection <ios-results-collections>`. The results
+Query, filter, and sort operations return either a :ref:`results or 
+SectionedResults collection <ios-results-collections>`. These
 collections are live, meaning they always contain the latest
 results of the associated query.
 
@@ -511,6 +514,44 @@ guarantees a consistent order of results if you explicitly sort them.
    were in a regular, nested object.
 
 .. include:: /includes/string-sort-and-query-limitations-note.rst
+
+.. _ios-section-query-results:
+
+Section Query Results
+---------------------
+
+You can split results into individual sections. Each section corresponds 
+to a key generated from a property on the object it represents.
+
+For example, you might add a computed variable to your object to get the 
+first letter of the ``name`` property:
+
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.sectioned-result-variable.swift
+   :language: swift
+
+Then, you can create a :swift-sdk:`SectionedResults <Structs/SectionedResults.html>`
+type-safe collection for that object, and use it to retrieve objects sectioned
+by that computed variable: 
+
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.get-sectioned-results.swift
+   :language: swift
+
+You can get a count of the sections, get a list of keys, or access an individual
+:swift-sdk:`ResultSection <Structs/ResultsSection.html>` by index:
+
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.section-query-results.swift
+   :language: swift
+
+You can also section using a callback. This enables you to section a 
+collection of primitives, or have more control over how the section key is 
+generated.
+
+.. literalinclude:: /examples/generated/code/start/ReadRealmObjects.snippet.section-query-results-callback.swift
+   :language: swift
+
+You can :ref:`observe <ios-register-a-collection-change-listener>` 
+``SectionedResults`` and ``ResultsSection`` instances, and both conform to 
+:swift-sdk:`ThreadConfined <Protocols/ThreadConfined.html>`.
 
 .. _ios-aggregate-data:
 

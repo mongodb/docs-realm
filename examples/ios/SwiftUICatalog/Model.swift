@@ -39,6 +39,12 @@ class SwiftUI_Dog: Object, ObjectKeyIdentifiable {
     @Persisted var profileImageUrl: URL?
     @Persisted var dateLastUpdated = Date()
     @Persisted(originProperty: "dogs") var person: LinkingObjects<SwiftUI_Person>
+    var firstLetter: String {
+        guard let char = name.first else {
+            return ""
+        }
+        return String(char)
+    }
 }
 // :snippet-end:
 

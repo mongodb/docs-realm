@@ -68,3 +68,17 @@ To use ``@ObservedResults`` with the :ref:`Realm Type-Safe Query API
 
 .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.type-safe-query-filter.swift
    :language: swift
+
+Section Filtered Results
+------------------------
+
+.. versionadded:: 10.29.0
+
+The :swift-sdk:`@ObservedSectionedResults <Structs/ObservedSectionedResults.html>` 
+property wrapper opens a realm and returns all objects of the specified type,
+divided into sections by the specified key path. Similar to
+``@ObservedResults`` above, you can filter or query ``@ObservedSectionedResults`` 
+to use only a subset of the objects in your view:
+
+.. literalinclude:: /examples/generated/swiftui/FilterData.snippet.observed-filtered-sectioned-results.swift
+   :language: swift
