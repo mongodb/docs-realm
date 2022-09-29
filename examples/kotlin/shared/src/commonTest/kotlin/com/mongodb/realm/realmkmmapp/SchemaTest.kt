@@ -1,14 +1,20 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.types.ObjectId
-import io.realm.kotlin.types.RealmInstant
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.ext.realmSetOf
+import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.query.RealmSingleQuery
+import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 // :snippet-start: primary-key
@@ -116,6 +122,82 @@ fun Instant.toRealmInstant(): RealmInstant {
 }
 // :snippet-end:
 
+// Circular dependencies with sets
+class SetLevel1 : RealmObject {
+    var name: String = ""
+    var set: RealmSet<SetLevel2> = realmSetOf()
+}
+
+class SetLevel2 : RealmObject {
+    var name: String = ""
+    var set: RealmSet<SetLevel3> = realmSetOf()
+}
+
+class SetLevel3 : RealmObject {
+    var name: String = ""
+    var set: RealmSet<SetLevel1> = realmSetOf()
+}
+class Character: RealmObject {
+    @PrimaryKey
+    var _id: ObjectId = ObjectId.create()
+    var name: String = ""
+    var levelsCompleted: RealmSet<Int> = realmSetOf()
+    var inventory: RealmSet<String> = realmSetOf()
+}
+
 class SchemaTest: RealmTest() {
+
+    @Test
+    fun createRealmSetTypes() {
+
+        runBlocking{
+            val config = RealmConfiguration.Builder(setOf(Character::class))
+                .directory("/tmp/") // default location for jvm is... in the project root
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+
+            // :snippet-start: create-realm-set
+            realm.write {
+                this.copyToRealm(Character().apply {
+                    name = "PlayerOne"
+                    levelsCompleted = realmSetOf(4,9)
+                    inventory = realmSetOf("elixir","compass", "glowing shield")
+                })
+
+                this.copyToRealm(Character().apply {
+                    name = "PlayerOne"
+                    levelsCompleted = realmSetOf(4,9)
+                    inventory = realmSetOf("elixir","compass", "glowing shield")
+                })
+            }
+            // :snippet-end:
+
+            // :snippet-start: add-items-to-realm-set
+            val playerOne: RealmResults<Character> =
+                realm.query<Character>("name = 'PlayerOne'").find()
+
+            Log.v("SCHEMATEST: $playerOne")
+            assertEquals("PlayerOneZ", playerOne[0].name)
+//            realm.write {
+//                playerOne
+//            }
+
+            // :snippet-end:
+
+        }
+
+    }
+
+//    val child = Sample().apply {
+//        intField = 2
+//        nullableObject = leaf
+//        objectSetField = realmSetOf(leaf, leaf)
+//    }
+//    realm.writeBlocking {
+//        copyToRealm(Sample()).apply {
+//            objectSetField.add(child)
+//        }
+//    }
 
 }
