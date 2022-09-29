@@ -205,8 +205,8 @@ other clients.
       .. code-block:: swift
 
          let client = app.currentUser!.mongoClient("mongodb-atlas")
-         let database = client.database(named: "ios")
-         let collection = database.collection(withName: "CoffeeDrinks")
+         let database = client.database(named: "products")
+         let collection = database.collection(withName: "coffee_drinks")
 
          let queryFilter: Document = ["name": "Maple Latte"]
          let queryResult = try await collection.findOneDocument(filter: queryFilter)
