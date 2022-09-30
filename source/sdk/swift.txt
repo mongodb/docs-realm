@@ -45,8 +45,8 @@ Get Started with Realm Swift
       :headline: Quick Start
       :cta: See Code Examples
       :url: https://www.mongodb.com/docs/realm/sdk/swift/quick-start/
-      :icon: /images/icons/realm/functions.svg
-      :icon-alt: Realm Functions Icon
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
 
       Minimal-explanation code examples of how to work with Realm Database.
 
@@ -54,8 +54,8 @@ Get Started with Realm Swift
       :headline: Working Example App
       :cta: Explore an Example App
       :url: https://www.mongodb.com/docs/atlas/app-services/template-apps/
-      :icon: /images/icons/realm/ios.svg
-      :icon-alt: Realm iOS Icon
+      :icon: /images/icons/branding_2022/Technical_REALM_Mobile3x.pn
+      :icon-alt: Realm Mobile Icon
 
       Learn from example by dissecting a working SwiftUI client app that 
       uses Realm Database with Device Sync.
@@ -64,8 +64,8 @@ Get Started with Realm Swift
       :headline: Guided Tutorial
       :cta: Follow the Tutorial
       :url: https://www.mongodb.com/docs/realm/tutorial/swiftui/
-      :icon: /images/icons/realm/fast-data.svg
-      :icon-alt: Realm Fast Data Icon
+      :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
+      :icon-alt: Tutorial Icon
 
       Follow a guided tutorial to learn how to adapt the example app to 
       create your own working Realm app.
@@ -122,9 +122,8 @@ other clients.
             to :ref:`update Views when data changes 
             <swiftui-update-ui-when-objects-change>`.
 
-      .. image:: /images/icons/realm/realm-mobile.svg
-         :width: 100px
-         :alt: Realm Sync Illustration
+      .. image:: /images/illustrations/Mobile_hero_green.png
+         :alt: Realm Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
@@ -167,52 +166,74 @@ other clients.
             deterministically sync changes whenever a network connection is 
             available. 
 
-      .. image:: /images/icons/realm/mobile-sync.svg         
+      .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
          :alt: Realm Sync Illustration
-         :width: 100px
 
    .. tab:: Use Realm with SwiftUI
       :tabid: realm-swiftui
 
-      .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
-         :language: swift
-         :caption: SwiftUI Property Wrappers Offer Realm/SwiftUI Integration
-         :copyable: false
+      .. container::
 
-      The Realm Swift SDK offers property wrappers and convenience features 
-      designed to make it easier to work with Realm in SwiftUI. Check out the 
-      :ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
-      that demonstrates common Realm SwiftUI patterns.
+         The Realm Swift SDK offers property wrappers and convenience features 
+         designed to make it easier to work with Realm in SwiftUI. Check out the 
+         :ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
+         that demonstrates common Realm SwiftUI patterns.
+
+         .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
+            :language: swift
+            :caption: SwiftUI Property Wrappers Offer Realm/SwiftUI Integration
+            :copyable: false
+
+      .. image:: /images/illustrations/Sports_hero_green.png
+         :alt: Realm Mobile Illustration
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
 
-      Call Serverless Functions
-      ~~~~~~~~~~~~~~~~~~~~~~~~~
+      .. container::
 
-      You can :ref:`call serverless Functions <ios-call-a-function>` 
-      from your client application that run in an App Services backend.
+         Call Serverless Functions
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      .. code-block:: swift
-         :copyable: false
+         You can :ref:`call serverless Functions <ios-call-a-function>` 
+         from your client application that run in an App Services backend.
 
-         let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
+         .. code-block:: swift
+            :copyable: false
 
-      Remotely Access a MongoDB Data Source
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
 
-      You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
-      directly from your client application code.
+         Query MongoDB Atlas
+         ~~~~~~~~~~~~~~~~~~~
 
-      .. code-block:: swift
-         :copyable: false
+         You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
+         directly from your client application code.
 
-         let client = app.currentUser!.mongoClient("mongodb-atlas")
-         let database = client.database(named: "products")
-         let collection = database.collection(withName: "coffee_drinks")
+         .. code-block:: swift
+            :copyable: false
 
-         let queryFilter: Document = ["name": "Maple Latte"]
-         let queryResult = try await collection.findOneDocument(filter: queryFilter)
+            let client = app.currentUser!.mongoClient("mongodb-atlas")
+            let database = client.database(named: "products")
+            let collection = database.collection(withName: "coffee_drinks")
+
+            let queryFilter: Document = ["name": "Maple Latte"]
+            let queryResult = try await collection.findOneDocument(filter: queryFilter)
+
+         Authenticate Users
+         ~~~~~~~~~~~~~~~~~~
+
+         Authenticate users with built-in and third-party :ref:`authentication 
+         providers <ios-authenticate-users>`. Use the authenticated user to 
+         access App Services.
+
+         .. code-block:: swift
+            :copyable: false
+
+            let app = App(id: YOUR_APP_SERVICES_APP_ID)
+            let user = try await app.login(credentials: .anonymous)
+
+      .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
+         :alt: App Services Illustration
 
 .. kicker:: Essential Documentation
 
@@ -227,7 +248,7 @@ Recommended Reading
       :headline: Swift API Reference
       :cta: RealmSwift Reference
       :url: https://www.mongodb.com/docs/realm-sdks/swift/latest
-      :icon: /images/icons/realm/realm-icon.svg
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
       :icon-alt: Realm Icon
 
       Explore generated reference docs for the RealmSwift APIs.
@@ -236,7 +257,7 @@ Recommended Reading
       :headline: Objective-C API Reference
       :cta: Realm Reference
       :url: https://www.mongodb.com/docs/realm-sdks/objc/latest
-      :icon: /images/icons/realm/realm-icon.svg
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
       :icon-alt: Realm Icon
 
       Explore generated reference docs for the Realm Objective-C APIs.
@@ -245,7 +266,7 @@ Recommended Reading
       :headline: SwiftUI Quick Start
       :cta: Explore the Quick Start
       :url: https://www.mongodb.com/docs/realm/sdk/swift/swiftui-tutorial
-      :icon: /images/icons/realm/realm-mobile.svg
-      :icon-alt: Realm Mobile Icon
+      :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
+      :icon-alt: Tutorial Icon
 
       Get started with Realm Database for SwiftUI.
