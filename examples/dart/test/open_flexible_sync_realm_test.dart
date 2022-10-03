@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
@@ -29,6 +31,27 @@ void main() {
       // :snippet-end:
       expect(realm.isClosed, false);
       expect(app.currentUser?.id != null, true);
+      await cleanUpRealm(realm, app);
+      expect(realm.isClosed, true);
+      expect(app.currentUser, null);
+    });
+
+    test("Handle Sync Error", () async {
+      var handlerCalled = false;
+      Credentials credentials = Credentials.anonymous();
+      User currentUser = await app.logIn(credentials);
+      // :snippet-start: sync-error-handler
+      Configuration config = Configuration.flexibleSync(
+          currentUser, [Tricycle.schema], syncErrorHandler: (SyncError error) {
+        handlerCalled = true; // :remove:
+        print("Error message" + error.message.toString());
+      });
+      Realm realm = Realm(config);
+      // :snippet-end:
+      // TODO: generate SyncError to trigger `syncErrorHandler`
+      await Future.delayed(Duration(milliseconds: 500));
+      expect(handlerCalled, true);
+
       await cleanUpRealm(realm, app);
       expect(realm.isClosed, true);
       expect(app.currentUser, null);
