@@ -250,6 +250,8 @@ Important aspects of primary keys:
 - Only add a primary key to one property in a RealmModel.
 - Only ``String``, ``int``, ``ObjectId``, and ``Uuid`` types can be primary keys.
 - Realm automatically indexes primary keys.
+- Primary keys are nullable. ``null`` can only be the primary key of one object
+  in a collection.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
