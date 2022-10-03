@@ -1,0 +1,106 @@
+.. _flutter-bundle:
+
+============================
+Bundle a Realm - Flutter SDK
+============================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You might want to seed your mobile app with some initial data that will be available
+to users on the initial launch of the app. To do this, you:
+
+#. Build a temporary realm app
+
+#. Make a copy of an existing realm (with only the data you want bundled)
+
+#. Bundle the Realm file in your app's shared project
+
+In your production app (the one that will use this bundled realm when first
+loading), you add a few lines of code to extract the realm and save it in the
+app data. The following sections provide more information on these steps.
+
+.. procedure::
+
+   .. step:: Create a Realm File for Bundling
+
+      Create a new project with the same data model as your production app.
+      Open an existing realm with the data you wish to bundle, or create a new one.
+
+      Get the path to the realm file with the :flutter-sdk:`Realm.config.path realm/Configuration/path.html>`
+      property.
+
+     TODO: literalinclude
+
+     .. code-block:: dart
+
+        final config = Configuration.local([Car.schema], path: "realm/initial.realm");
+        final realm = Realm(config);
+        realm.write(() {
+            realm.add(Car("VW", model: "1999"));
+            realm.add(Car("Renault", model: "1990"));
+        });
+
+        String realmPath = realm.config.path;
+        print("Path to realm file: " + realmPath);
+
+   .. step:: Bundle a Realm File in Your Production Application
+
+      Now that you have a copy of the realm with the "seed" data in it, you
+      need to bundle it with your production application.
+
+      Add the realm file to your application's :flutter:`Flutter assets <development/ui/assets-and-images>`.
+      For example you could add the bundled realm in your project at the location
+      :file:`assets/realm/bundled.realm`.
+
+      Add the bundled realm to your :file:`pubspec.yaml` file to include it
+      in your production application:
+
+      .. code-block:: yaml
+         :caption: pubspec.yaml
+
+         flutter:
+           assets:
+           - realm/initial.realm
+
+   .. step:: Open a Realm from a Bundled Realm File
+
+      Now that you have a copy of the realm included with your app, you need to
+      add code to use it.
+
+      Before you deploy your app with the bundled realm, you need to add code to
+      extract the realm from the embedded resources, save it to the app's data
+      location, and then open this new realm in the app. The following code shows
+      how you can do this during start-up of the app.
+
+      Create a helper function ``initBundledRealm`` to check if the bundled realm already
+      exists within the app, and load it into the app if it does not exist yet.
+      Call ``initBundledRealm`` before calling loading the app's widgets with
+      `runApp() <https://api.flutter.dev/flutter/widgets/runApp.html>`__.
+
+
+      TODO: literalinclude
+
+      .. code-block:: dart
+         :caption: FILE_NAME.dart??
+
+          import 'package:flutter/services.dart';
+
+          Future<Realm> initBundledRealm(String assetKey) async {
+            final config = Configuration.local([Car.schema]);
+            final file = File(config.path);
+            if (!await file.exists()) {
+              ByteData realmBytes = await rootBundle.load(assetKey);
+              await file.writeAsBytes(realmBytes.buffer.asUint8List(realmBytes.offsetInBytes, realmBytes.lengthInBytes), mode: FileMode.write);
+            }
+            return Realm(config);
+          }
+
+          void main() async {
+            WidgetsFlutterBinding.ensureInitialized();
+            realm = await initRealm("realm/initial.realm");
+            runApp(const MyApp());
+          }
