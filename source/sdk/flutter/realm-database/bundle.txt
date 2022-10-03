@@ -33,19 +33,27 @@ app data. The following sections provide more information on these steps.
       Get the path to the realm file with the :flutter-sdk:`Realm.config.path realm/Configuration/path.html>`
       property.
 
-     TODO: literalinclude
+      TODO: literalinclude
 
-     .. code-block:: dart
+      .. code-block:: dart
 
-        final config = Configuration.local([Car.schema], path: "realm/initial.realm");
-        final realm = Realm(config);
-        realm.write(() {
-            realm.add(Car("VW", model: "1999"));
-            realm.add(Car("Renault", model: "1990"));
-        });
+         final config = Configuration.local([Car.schema], path: "initial.realm");
+         final realm = Realm(config);
+         realm.write(() {
+               realm.add(Car("VW", model: "1999"));
+               realm.add(Car("Renault", model: "1990"));
+         });
 
-        String realmPath = realm.config.path;
-        print("Path to realm file: " + realmPath);
+         String realmPath = realm.config.path;
+         print("Path to realm file: " + realmPath);
+
+      .. tip:: Create Bundled Realm with Dart Standalone SDK
+
+         You might want to use the Dart Standalone SDK to create the bundled realm
+         for your Flutter application for the following reasons:
+
+         - Creating a bundled realm does not require any Flutter UI elements.
+         - Dart standalone projects require less boilerplate code than Flutter projects
 
    .. step:: Bundle a Realm File in Your Production Application
 

@@ -2,25 +2,20 @@ import 'models/car.dart';
 import 'package:realm_dart/realm.dart';
 
 void main(List<String> arguments) {
-  var config = Configuration.local([Car.schema]);
-  var realm = Realm(config);
+  // :snippet-start: create-bundle
+  print("Bundling realm");
+  LocalConfiguration config =
+      Configuration.local([Car.schema], path: 'bundle.realm');
+  Realm realm = Realm(config);
 
-  print('Creating Realm object of type Car');
-  Car car = realm.write<Car>(() {
-    return realm.add(Car("Audi", model: 'A8'));
-  });
-  print('The car is ${car.make}');
+  realm.write(() => realm.deleteAll<Car>()); // :remove:
   realm.write(() {
-    car.model = "A6";
+    realm.add(Car("Audi", model: 'A8'));
+    realm.add(Car("Mercedes", model: 'G Wagon'));
   });
-  print("The car is ${car.make}");
-
-  var objects = realm.all<Car>();
-  var indexedCar = objects[0];
-  print('The indexedCar is ${indexedCar.make}');
-
-  print("Done");
+  print("Bundled realm location: " + realm.config.path);
   realm.close();
-  Realm.deleteRealm(config.path);
+  // :snippet-end:
+
   Realm.shutdown();
 }
