@@ -55,6 +55,8 @@ void main() {
       await cleanUpRealm(realm, app);
       expect(realm.isClosed, true);
       expect(app.currentUser, null);
-    });
+    },
+        skip:
+            "Skipping because there's not a straightforward way to simulate a sync error");
   });
 }
