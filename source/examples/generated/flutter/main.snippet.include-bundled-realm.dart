@@ -1,3 +1,4 @@
+// Also import Realm schema and Flutter widgets
 import 'package:flutter/services.dart';
 import 'package:realm/realm.dart';
 import 'dart:io';

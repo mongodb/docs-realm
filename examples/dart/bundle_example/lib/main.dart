@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './realm/schemas.dart';
 // :snippet-start: include-bundled-realm
+// Also import Realm schema and Flutter widgets
 import 'package:flutter/services.dart';
 import 'package:realm/realm.dart';
 import 'dart:io';
