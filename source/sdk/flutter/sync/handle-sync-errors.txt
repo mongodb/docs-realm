@@ -1,0 +1,29 @@
+.. _flutter-handle-sync-errors:
+
+================================
+Handle Sync Errors - Flutter SDK
+================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+While developing an application that uses Device Sync, you should set an error
+handler. This error handler will detect and respond to any failed sync-related
+API calls.
+
+Add a :flutter-sdk:`syncErrorHandler <realm/FlexibleSyncConfiguration/syncErrorHandler.html>`
+property to the :flutter-sdk:`FlexibleSyncConfiguration <realm/FlexibleSyncConfiguration-class.html>`
+when creating a synced realm. ``syncErrorHandler`` is a
+:flutter-sdk:`SyncErrorHandler <realm/SyncErrorHandler.html>` callback function.
+``SyncErrorHandler`` accepts a :flutter-sdk:`SyncError <realm_common/SyncError-class.html>`
+as a parameter. Whenever a ``SyncError`` occurs in the realm,
+the callback function is invoked with the ``SyncError`` as its argument.
+
+If you do not specify a ``syncErrorHandler``, the default behavior is to print the
+``SyncError`` to the console.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.sync-error-handler.dart
+   :language: dart
