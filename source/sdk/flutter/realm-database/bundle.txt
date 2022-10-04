@@ -11,17 +11,13 @@ Bundle a Realm - Flutter SDK
    :class: singlecol
 
 You might want to seed your mobile app with some initial data that will be available
-to users on the initial launch of the app. To do this, you:
+to users on the initial launch of the app. To do this, you can bundle an existing
+realm database file in your Flutter app.
 
-#. Build a temporary realm app
+.. tip:: Consider Initial Data Callback
 
-#. Make a copy of an existing realm (with only the data you want bundled)
-
-#. Bundle the Realm file in your app's shared project
-
-In your production app (the one that will use this bundled realm when first
-loading), you add a few lines of code to extract the realm and save it in the
-app data. The following sections provide more information on these steps.
+   You can also add data to your realm the first time an application opens it
+   using the :ref:`initial data callback function <flutter-initial-data-callback>`.
 
 .. procedure::
 
