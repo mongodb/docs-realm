@@ -1,3 +1,8 @@
+# September 30, 2022
+
+## Web SDK
+- Next.js Integration Guide: New page with code examples showing how devs can use Next.js with the Realm Web SDK
+
 # September 23, 2022
 
 ## Tutorials
