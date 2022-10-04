@@ -33,19 +33,8 @@ app data. The following sections provide more information on these steps.
       Get the path to the realm file with the :flutter-sdk:`Realm.config.path realm/Configuration/path.html>`
       property.
 
-      TODO: literalinclude
-
-      .. code-block:: dart
-
-         final config = Configuration.local([Car.schema], path: "initial.realm");
-         final realm = Realm(config);
-         realm.write(() {
-               realm.add(Car("VW", model: "1999"));
-               realm.add(Car("Renault", model: "1990"));
-         });
-
-         String realmPath = realm.config.path;
-         print("Path to realm file: " + realmPath);
+      .. literalinclude:: /examples/generated/flutter/myapp.snippet.create-bundle.dart
+         :language: dart
 
       .. tip:: Create Bundled Realm with Dart Standalone SDK
 
@@ -92,23 +81,6 @@ app data. The following sections provide more information on these steps.
 
       TODO: literalinclude
 
-      .. code-block:: dart
-         :caption: FILE_NAME.dart??
-
-          import 'package:flutter/services.dart';
-
-          Future<Realm> initBundledRealm(String assetKey) async {
-            final config = Configuration.local([Car.schema]);
-            final file = File(config.path);
-            if (!await file.exists()) {
-              ByteData realmBytes = await rootBundle.load(assetKey);
-              await file.writeAsBytes(realmBytes.buffer.asUint8List(realmBytes.offsetInBytes, realmBytes.lengthInBytes), mode: FileMode.write);
-            }
-            return Realm(config);
-          }
-
-          void main() async {
-            WidgetsFlutterBinding.ensureInitialized();
-            realm = await initRealm("realm/initial.realm");
-            runApp(const MyApp());
-          }
+      .. literalinclude:: /examples/generated/flutter/main.snippet.include-bundled-realm.dart
+         :language: dart
+         :caption: lib/main.dart
