@@ -3,7 +3,7 @@ val config = SyncConfiguration.Builder(
     user,
     setOf(Item::class)
 ) // the SyncConfiguration defaults to Flexible Sync, if a Partition is not specified
-    .initialSubscripti.ons { realm ->
+    .initialSubscriptions { realm ->
         add(
             realm.query<Item>(
                 "owner_id == $0", // owner_id == the logged in user
