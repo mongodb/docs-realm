@@ -25,26 +25,15 @@ Realm Web SDK
 
 .. introduction::
 
-   The Realm Web SDK enables browser-based applications to access
+   The Realm Web SDK lets browser-based applications access
    data stored in Atlas and interact with App Services services like
    Functions and authentication. The Web SDK supports both JavaScript and
-   TypeScript applications.
+   TypeScript.
 
-   The Web SDK does not support creating a local database or using :ref:`sync <sync>`.
-   Instead, web apps built with Realm use the :ref:`Atlas GraphQL API <graphql-api>`
-   or query data stored in Atlas :doc:`MongoDB Data Access </web/mongodb>`.
-
-   .. note:: React Native & Node.js SDKs
-
-      There are Realm SDKs built for React Native and Node.js.
-      Generally, you should use these when creating apps in these environments.
-      Alternatively, you can use the Web SDK for React Native or Node.js apps.
-
-      Further reading:
-
-      - :ref:`Install Web SDK for Node.js <web-install-node>`
-      - :ref:`React Native SDK <react-native-intro>`
-      - :ref:`Node.js <node-intro>`
+   Web apps built with Realm use the :ref:`Atlas GraphQL API <graphql-api>`
+   or query data stored in Atlas directly from the browser.
+   Unlike the other Realm SDKs, the Web SDK does not support creating
+   a local database or using :ref:`Atlas Device Sync <sync>`.
 
 .. kicker:: Learning Paths
 
@@ -81,7 +70,7 @@ Develop Apps with Realm Web
 
 Use the Realm Web SDK with Atlas App Services to query MongoDB directly,
 query a GraphQL API, invoke serverless functions, manage user authentication,
-and more, all from the browser.
+and more.
 
 .. tabs::
 
