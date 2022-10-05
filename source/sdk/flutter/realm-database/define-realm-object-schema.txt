@@ -60,10 +60,21 @@ Create Model
 
    .. step:: Create RealmModel
 
-      Create the model for your Realm schema in a private class.
+      Create the model for your Realm schema.
       You must include the annotation `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
-      at the top of the class definition. Prepend the class name with an underscore
-      to make it private. You'll generate the public ``RealmObject`` in step 4.
+      at the top of the class definition.
+
+      You'll use the ``RealmModel`` to generate the public ``RealmObject``
+      used throughout the application in step 4.
+
+      You can make the model private or public. We recommend making
+      the all models private and defining them in a single file.
+      Prepend the class name with an underscore (``_``) to make it private.
+
+      If you need to define your schema across multiple files,
+      you can make the RealmModel public. Prepend the name with a dollar sign (``$``)
+      to make the model public. You must do this to generate the ``RealmObject``
+      from the ``RealmModel``, as described in step 4.
 
       Add fields to the ``RealmModel``.
       You can add all :ref:`supported data types <flutter-data-types>`.
