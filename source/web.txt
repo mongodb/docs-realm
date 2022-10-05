@@ -75,8 +75,9 @@ Get Started with Realm Web
 Develop Apps with Realm Web
 ---------------------------
 
-Use the Realm Web SDK with Atlas App Services query MongoDB,
-invoke serverless functions, manage user authentication, and more from the browser.
+Use the Realm Web SDK with Atlas App Services to query MongoDB directly,
+query a GraphQL API, invoke serverless functions, manage user authentication,
+and more, all from the browser.
 
 .. tabs::
 
@@ -90,24 +91,46 @@ invoke serverless functions, manage user authentication, and more from the brows
 
          For more information, refer to the :ref:`Query MongoDB documentation <web-query-mongodb>`.
 
-      .. image:: /images/illustrations/Mobile_hero_green.png
-         :alt: Realm Mobile Illustration
+      .. image:: /images/illustrations/Spot_BrightYellow_Query_Tech_Compass@2x.png
+         :alt: Query MongoDB Illustration
 
    .. tab:: Atlas GraphQL API
       :tabid: graphql-api
 
-      .. container::
+      .. procedure::
 
-         Use the Atlas GraphQL API to query data in MongoDB Atlas directly from the
-         browser.
+         .. step:: Configure Atlas GraphQL API
 
-         For more information, refer to the :ref:`Apollo GraphQL (React) documentation
-         <graphql-apollo-react>`.
+            Configure the GraphQL API in Atlas App Services.
+            The GraphQL API automatically generates a hosted endpoint
+            with GraphQL queries and mutations based on JSON schemas
+            for the documents in your database.
 
-         TODO: different image
+            Configure App Services Authentication with data access rules to
+            control which users have access to what data.
+            provider credentials associated with your app.
 
-      .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
-         :alt: Realm Sync Illustration
+            For more information, see :ref:`Atlas GraphQL API <graphql-api>`.
+
+
+         .. step:: Authenticate a User
+
+            Use one of the App Services authentication providers to authenticate a
+            user. App Services includes custom JWT, Facebook, Google, Apple,
+            anonymous, and built-in email/password authentication providers.
+
+            For more information, see :ref:`Authenticate Users GraphQL API <web-authenticate>`.
+
+         .. step:: Query the GraphQL API
+
+            Query the GraphQL API using a GraphQL client from the browser.
+            Authenticate requests with user credentials.
+
+            Learn how to :ref:`query the GraphQL API with the Apollo
+            Client <graphql-apollo-react>`.
+
+      .. image:: /images/illustrations/Connection_Blue@2x.png
+         :alt: API Integration Image
 
    .. tab:: Build with Atlas App Services
       :tabid: app-services
