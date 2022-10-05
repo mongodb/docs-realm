@@ -105,6 +105,56 @@ on a JWT string. Then pass the credential to ``app.logIn``.
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.custom-jwt-credentials.dart
    :language: dart
 
+.. _flutter-login-api-key:
+
+API Key User
+~~~~~~~~~~~~
+
+If you have enabled :ref:`API Key authentication <api-key-authentication>`,
+you can log in using either a client or server API key.
+
+To log in with API key authentication, create an API key credential by calling
+:flutter-sdk:`Credentials.apiKey() <TODO>` on an API key string.
+Then pass the credential to ``app.logIn``.
+
+TODO: literalinclude
+
+.. code-block:: dart
+
+   Credentials apiKeyCredentials = Credentials.apiKey(myApiKey);
+   await app.logIn(apiKeyCredentials);
+
+To generate a server API key to use in your credentials,
+refer to the :ref:`Create a Server API Key documentation <api-key-authentication-server-api-key>`.
+
+To work with user API keys with the same permissions
+as the currently logged in user, the :flutter-sdk:`User.apiKeys <TODO>`.
+You can create, fetch, delete, disable, and enable user API keys.
+
+TODO: literal include and verify types..see if need more documentation on types.
+not sure if API key is own type or a string.
+also will need to refactor examples a bit
+
+.. code-block:: dart
+
+   // Create user API key
+   String apiKey = user.apiKeys.create("api-key-name");
+
+   // Get existing user API key by ID
+   String refetchedApiKey = await user.apiKeys.fetch(apiKey.id);
+
+   // Get all API keys for a user
+   List<ApiKey> apiKeys = user.apiKeys.fetchAll();
+
+   // Delete a user API key
+   await user.apiKeys.delete(apiKey.id);
+
+   // Disable API key
+   await user.apiKeys.disable(apiKey.id);
+
+   // Enable API key
+   await user.apiKeys.enable(apiKey.id);
+
 .. _flutter-login-custom-function:
 
 Custom Function User
