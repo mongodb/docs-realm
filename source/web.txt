@@ -84,12 +84,37 @@ and more, all from the browser.
    .. tab:: Query MongoDB
       :tabid: query-mongodb
 
-      .. container::
+      .. procedure::
 
-         You can use the Realm Web SDK to query MongoDB Atlas data directly from the
-         browser. Perform CRUD, aggregation, and listen for database changes.
+         .. step:: Configure Atlas App Services
 
-         For more information, refer to the :ref:`Query MongoDB documentation <web-query-mongodb>`.
+            You can use the Realm Web SDK to query MongoDB Atlas data directly
+            from the browser. Perform CRUD, aggregation, and listen for database changes.
+
+            First you must :ref:`create an App Services App <create-app-ui>`,
+            set up :ref:`database rules <rules>`, and :ref:`enable user authentication
+            <users-and-authentication>`.
+
+         .. step:: Connect to an Atlas App Services App
+
+            Connect to your App Services App from the browser using the Web SDK.
+
+            For more information, see :ref:`Initialize the App Client <web-init-appclient>`.
+
+         .. step:: Authenticate a User
+
+            Use one of the App Services authentication providers to authenticate a
+            user. App Services includes custom JWT, Facebook, Google, Apple,
+            anonymous, and built-in email/password authentication providers.
+
+            For more information, see :ref:`Authenticate Users <web-authenticate>`.
+
+         .. step:: Query MongoDB
+
+            Query MongoDB directly from the browser using your authenticated user.
+            The user can only access data that they're authorized to.
+
+            For more information, see the :ref:`Query MongoDB documentation <web-query-mongodb>`.
 
       .. image:: /images/illustrations/Spot_BrightYellow_Query_Tech_Compass@2x.png
          :alt: Query MongoDB Illustration
@@ -112,6 +137,11 @@ and more, all from the browser.
 
             For more information, see :ref:`Atlas GraphQL API <graphql-api>`.
 
+         .. step:: Connect to Atlas App Services
+
+            Connect to your App Services App from the browser using the Web SDK.
+
+            For more information, see :ref:`Initialize the App Client <web-init-appclient>`.
 
          .. step:: Authenticate a User
 
@@ -119,7 +149,7 @@ and more, all from the browser.
             user. App Services includes custom JWT, Facebook, Google, Apple,
             anonymous, and built-in email/password authentication providers.
 
-            For more information, see :ref:`Authenticate Users GraphQL API <web-authenticate>`.
+            For more information, see :ref:`Authenticate Users <web-authenticate>`.
 
          .. step:: Query the GraphQL API
 
