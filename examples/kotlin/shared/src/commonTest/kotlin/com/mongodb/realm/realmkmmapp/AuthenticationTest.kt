@@ -15,6 +15,13 @@ class AuthenticationTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
         }
         // :snippet-end:
+
+        // :snippet-start: anonymous-authentication-reuse-existing
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // logs in with an existing anonymous user, as long as the user hasn't logged out
+            val user = app.login(Credentials.anonymous(reuseExisting = true))
+        }
+        // :snippet-end:
     }
 
     @Test
