@@ -166,24 +166,65 @@ class SchemaTest: RealmTest() {
                 })
 
                 this.copyToRealm(Character().apply {
-                    name = "PlayerOne"
-                    levelsCompleted = realmSetOf(4,9)
-                    inventory = realmSetOf("elixir","compass", "glowing shield")
+                    name = "PlayerTwo"
+                    levelsCompleted = realmSetOf(1,2,5,24)
+                    inventory = realmSetOf("estus flask", "gloves", "rune")
                 })
             }
             // :snippet-end:
 
             // :snippet-start: add-items-to-realm-set
-            val playerOne: RealmResults<Character> =
-                realm.query<Character>("name = 'PlayerOne'").find()
+            val playerOne: Character =
+                realm.query<Character>("name = 'PlayerOne'").find().first()
 
-            Log.v("SCHEMATEST: $playerOne")
-            assertEquals("PlayerOneZ", playerOne[0].name)
-//            realm.write {
-//                playerOne
-//            }
+            realm.write {
+                set.add(RealmSetContainer().apply { stringField = "Dummy" })
 
+                
+                playerOne.inventory.add(Character().apply {})
+                playerOne.inventory.add("hammer")
+                playerOne.levelsCompleted.add(32)
+            }
             // :snippet-end:
+//
+//            // :snippet-start: check-if-set-contains
+//            val playerTwo: Character =
+//                realm.query<Character>("name = 'PlayerTwo'").find().first()
+//            // check if playerTwo has completed level 3 by calling the `contains()` method
+//            // on the Realm Set object
+//            val playerTwoHasCompletedLevelThree = playerTwo.levelsCompleted.contains(3)
+//            Log.v("Is level three completed by playerTwo: $playerTwoHasCompletedLevelThree")
+//            // :snippet-end:
+//
+//            // :snippet-start: check-set-size
+//            // check how many items playerTwo has in his inventory through the `count()`
+//            // method of the Realm Set object
+//            val playerTwoInventorySize = playerTwo.inventory.count()
+//            Log.v("playerTwo has $playerTwoInventorySize inventory items")
+//            // :snippet-end:
+//
+//            // :snippet-start: remove-item-from-set
+//            // remove the compass from playerOne's inventory by calling the
+//            // `remove()` method of the Realm Set object within a write transaction
+//            realm.write {
+//                playerOne.inventory.remove("compass")
+//            }
+//            // :snippet-end:
+//
+//            // :snippet-start: remove-all-items-from-set
+//            realm.write {
+//                // clear all data from the inventory slot of playerTwo by calling
+//                // the `removeAll()` method of the Realm Set object in a write transaction
+//                playerTwo.inventory.removeAll(playerTwo.inventory)
+//            }
+//            // :snippet-end:
+//
+//            // :snippet-start: iterate-over-set
+//            val iterate = playerOne.inventory.iterator()
+//            while(iterate.hasNext()){
+//                Log.v(iterate.next())
+//            }
+//            // :snippet-end:
 
         }
 
