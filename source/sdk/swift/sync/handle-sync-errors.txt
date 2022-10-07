@@ -63,7 +63,7 @@ API calls.
 Client Reset
 ------------
 
-When using :ref:`Device Sync <sync>`, a **client reset** is a serious
+When using :ref:`Device Sync <sync>`, a **client reset** is an
 error recovery task that your client app must perform in the following
 situation:
 
@@ -78,15 +78,38 @@ In other words, the client app must carry out a client reset on a given
 synced realm if the server is restored to a version older than the
 version on the client.
 
-A client reset discards local data and reverts to the data stored in 
-MongoDB Atlas. Performing a client reset loses all local changes made 
-since the client last successfully synced, unless manually recovered
-by the developer.
+.. _ios-automatic-vs-manual-client-reset:
 
-.. versionadded:: 10.25.0
+Automatic vs. Manual Client Reset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Starting in 10.25.0, the Swift SDK provides the option to specify a client 
-reset strategy in your :swift-sdk:`SyncConfiguration 
+The Realm SDKs provide :ref:`client reset modes <ios-specify-client-reset-mode>` 
+that automatically handle most client reset errors. Automatic client 
+reset modes restore your local realm file to a syncable state without 
+closing the realm or missing notifications. 
+
+All the client reset modes except ``.manual`` perform an automatic client 
+reset. The differences between the modes are based on how they handle 
+changes on the device that have not yet synced to the backend.
+
+Choose ``.recoverOrDiscardUnsyncedChanges`` to handle most client reset 
+scenarios automatically. This attempts to recover unsynced changes when a 
+client reset occurs, and falls through to discard unsynced changes when 
+the client cannot recover unsynced data.
+
+In some cases, you may want or need to :ref:`set a manual client reset handler 
+<ios-manual-client-reset-handler>`. You may want to do this if your app 
+requires specific client reset logic that can't be handled automatically.
+
+.. _ios-specify-client-reset-mode:
+
+Specify a Client Reset Mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 10.3x.0: Client recovery added, discardLocal name changed
+
+The Swift SDK provides the option to specify a client 
+reset mode in your :swift-sdk:`SyncConfiguration 
 <Structs/SyncConfiguration.html>`. This is the :swift-sdk:`.clientResetMode 
 <Structs/SyncConfiguration.html#/s:10RealmSwift17SyncConfigurationV15clientResetModeAA06ClientfG0Ovp>`
 property. 
@@ -95,111 +118,176 @@ property.
    :language: swift
 
 This property takes :swift-sdk:`an enum representing the different client 
-reset strategies <Enums/ClientResetMode.html>`: 
+reset modes <Enums/ClientResetMode.html>`: 
 
-- ``.discardLocal`` 
+- ``.recoverUnsyncedChanges``
+- ``.recoverOrDiscardUnsyncedChanges``
+- ``.discardUnsyncedChanges`` 
 - ``.manual``
 
-If you do not specify ``.clientResetMode`` in your configuration, it 
-defaults to ``.manual``.
+If you do not specify ``.clientResetMode`` in your configuration, the client 
+reset mode defaults to ``.recoverUnsyncedChanges``.
+
+You can specify a before and after block to execute during the automatic client 
+reset process. You might use this to perform recovery logic that is important 
+to your application.
+
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.client-reset-with-blocks.swift
+   :language: swift
+
+If your app has specific client recovery needs, you 
+can specify the ``.manual`` client reset mode and set a :ref:`manual client
+reset handler <ios-manual-client-reset-handler>`. You might do this if 
+you have specific custom logic your app must perform during a client reset,
+or if the :ref:`client recovery rules <ios-client-recovery-rules>` do not 
+work for your app.
+
+.. _ios-handle-schema-changes:
+
+Handle Schema Changes
+~~~~~~~~~~~~~~~~~~~~~
+
+Client Recovery can automatically manage the client reset process in most 
+cases. When you make schema changes, Client Recovery has these limitations:
+
+- The client can :ref:`recover unsynced changes <ios-recover-unsynced-changes>` 
+  when there are no schema changes, or non-breaking schema changes.
+- When you make breaking schema changes, you must set a :ref:`manual client 
+  reset handler <ios-manual-client-reset-handler>`. Automatic client recovery
+  cannot occur when your app makes breaking schema changes.
+
+For information on breaking vs. non-breaking schema changes, see: 
+:ref:`breaking-change-quick-reference`.
+
+.. _ios-recover-unsynced-changes:
+
+Recover Unsynced Changes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.3x.0
+
+During a client reset, client applications can attempt to recover data 
+in the local realm that has not yet synced to the backend. To recover 
+unsynced changes, :ref:`Client Recovery <recover-unsynced-changes>` must 
+be :ref:`enabled in your App Services App <enable-or-disable-recovery-mode>`, 
+as it is by default.
+
+If you want your app to recover changes that have not yet synced, set 
+the :swift-sdk:`.clientResetMode 
+<Structs/SyncConfiguration.html#/s:10RealmSwift17SyncConfigurationV15clientResetModeAA06ClientfG0Ovp>`
+in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to 
+one of:
+
+- ``.recoverUnsyncedChanges``: choose this mode when you do not want to fall
+  through to discard unsynced changes. When you choose this mode, the 
+  client attempts to recover unsynced changes. If there are breaking schema 
+  changes, the client cannot execute an automatic recovery and instead falls 
+  through to ``.manual``.
+- ``.recoverOrDiscardUnsyncedChanges``: choose this mode when you want to 
+  enable automatic client recovery to fall back to discard unsynced changes. 
+  The client first attempts to recover changes that have not yet synced. 
+  If the client cannot recover unsynced data, it falls through to 
+  :ref:`discard unsynced changes <ios-discard-local-changes>` but continues 
+  to automatically perform the client reset.
+
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-client-reset-mode.swift
+   :language: swift
+
+If the client reset operation cannot complete in recover unsynced changes mode, 
+as in when there are breaking schema changes, the client reset process falls 
+through to ``.manual`` mode. You can set an error handler for this fall
+through case via the :swift-sdk:`SyncManager 
+<https://www.mongodb.com/docs/realm-sdks/swift/latest/Typealiases.html#/s:10RealmSwift11SyncManagera>`:
+
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
+   :language: swift
+
+.. _ios-client-recovery-rules:
+
+Client Recovery Rules
+`````````````````````
+
+When Client Recovery is enabled, these rules determine how objects are 
+integrated, including how conflicts are resolved when both 
+the backend and the client make changes to the same object:
+
+- Objects created locally that were not synced before client reset are synced.
+- If an object is deleted on the server, but is modified on the recovering 
+  client, the delete takes precedence and the client discards the update.
+- If an object is deleted on the recovering client, but not the server, 
+  then the client applies the delete instruction.
+- In the case of conflicting updates to the same field, the client update 
+  is applied.
 
 .. _ios-discard-local-changes:
 
-Discard Local Changes
----------------------
+Discard Unsynced Changes
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you specify ``.discardLocal`` for ``.clientResetMode``, Realm 
-automatically performs a client reset with minimal code and minimal disruption 
-to your application workflow. This client reset mode restores your local 
-realm file to a syncable state without closing the realm or missing 
-notifications.
+.. versionchanged:: 10.3x.0: .discardLocal changed to .discardUnsyncedChanges
 
-Be aware: this strategy permanently deletes all local unsynced changes 
-made since the last successful sync. To incorporate changes, you must 
-recover them manually with a :ref:`client reset handler 
-<ios-manual-client-reset-handler>`. Do not use ``.discardLocal`` mode if 
-your application cannot lose local data that has not yet synced to the backend.
+The **discard unsynced changes** client reset mode permanently deletes all 
+local unsynced changes made since the last successful sync. You might 
+use this mode when your app requires client recovery logic that is not 
+consistent with the Device Sync :ref:`Client Recovery Rules 
+<ios-client-recovery-rules>`, or when you don't want to recover unsynced data.
 
-If the client reset operation cannot complete in discard local changes mode, 
-the client reset process reverts to manual mode.
+Do not use discard unsynced changes mode if your application cannot lose local 
+data that has not yet synced to the backend.
 
-The :swift-sdk:`.discardLocal 
-<Enums/ClientResetMode.html#/s:10RealmSwift15ClientResetModeO12discardLocalyACyAA0A0VcSg_yAF_AFtcSgtcACmF>` 
-version of client reset mode can take a before and after block. This gives 
-you the option to specify additional logic to execute before or after a 
-client reset occurs. You might use these blocks to send reporting or perform
-custom recovery logic, such as copying the realm to a local directory and 
-using your own logic to apply local changes.
+To perform an automatic client reset that discards unsynced changes, set 
+the :swift-sdk:`.clientResetMode 
+<Structs/SyncConfiguration.html#/s:10RealmSwift17SyncConfigurationV15clientResetModeAA06ClientfG0Ovp>`
+in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to 
+one of:
 
-.. important:: You Still Need a Manual Client Reset Handler
+- ``.recoverOrDiscardUnsyncedChanges``: choose this mode when you want to 
+  first attempt to recover unsynced changes. When you choose this mode, the 
+  client attempts to recover unsynced changes. If the client cannot recover 
+  unsynced data, it instead falls through to discard it. This enables your 
+  app to complete the automatic client reset without any manual handling 
+  except in the event of breaking schema changes.
+- ``.discardUnsyncedChanges``: choose this mode when you do not want to 
+  attempt to recover unsynced changes, but do want to automatically recover
+  from a client reset error. You might prefer to discard changes by default
+  if the :ref:`Client Recovery Rules <ios-client-recovery-rules>` do not 
+  work for your app's logic.
 
-   Some conditions, such as :ref:`breaking or destructive schema changes, 
-   <destructive-changes-synced-schema>` may cause ``.discardLocal`` 
-   client reset mode to fail. When Realm cannot perform the discard local 
-   client reset operation, the process reverts to manual mode. For this
-   reason, you should continue to provide :ref:`a manual client reset 
-   handler <ios-manual-client-reset-handler>` even if you prefer to use 
-   ``.discardLocal`` mode.
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-discard.swift
+   :language: swift
 
-.. example::
+If the client reset operation cannot complete in discard unsynced changes mode, 
+as in when there are breaking schema changes, the client reset process falls 
+through to ``.manual`` mode. You can set an error handler for this fall
+through case via the :swift-sdk:`SyncManager 
+<https://www.mongodb.com/docs/realm-sdks/swift/latest/Typealiases.html#/s:10RealmSwift11SyncManagera>`:
 
-   You can specify a before and after block to execute during the client 
-   reset process. You might use this to perform recovery logic that is 
-   important to your application.
-
-   .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.client-reset-discard-changes-with-blocks.swift
-      :language: swift
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
+   :language: swift
 
 .. _ios-manual-client-reset-handler:
 .. _ios-manual-mode:
 
 Manual Client Reset
--------------------
+~~~~~~~~~~~~~~~~~~~
 
-When you specify ``.manual`` for ``.clientResetMode``, or if you do not 
-specify a client reset mode, you should implement your own client reset handler.
-If your app uses 10.24.2 or earlier, ``.clientResetMode`` is not an 
-available property on the SyncConfiguration. Older SDK versions use the manual 
-client reset handler.
+When you specify ``.manual`` for ``.clientResetMode``, or if your app makes
+breaking schema changes, you should implement a manual client reset handler.
+If your app uses Swift SDK version 10.24.2 or earlier, ``.clientResetMode`` 
+is not an available property on the SyncConfiguration.
 
-In ``.manual`` mode, the SDK copies the local realm file into a recovery 
-directory, and deletes the original. The next time your app opens the realm 
-for that partition, the SDK downloads a new copy of the realm. This new realm
-contains all of the data from the backend, and synchronizes as normal.
-You can choose to write a handler to incorporate any local changes that exist
-in the old copied realm file into the newly downloaded realm.
+In ``.manual`` mode, you define your own client reset handler. The handler 
+can take an ``ErrorReportingBlock``. We recommend using the
+automatic client recovery modes when possible, and treating the manual
+handler as a fatal error recovery situation where you advise client app 
+users to update the app or perform some other action. 
 
-The SDK performs client resets automatically on startup when instructed 
-to do so by the App Services App. When a client reset occurs, the SDK creates a 
-backup of local data. By default, the SDK makes no effort to
-recover lost local changes from this backup. However, you can manually
-override the client reset handler to transfer data from the backup 
-copy to the new realm.
-
-If you override the client reset handler, you can access this backup
-copy through the path stored in the :objc-sdk:`SyncError
-<Enums/RLMSyncError.html#/c:@E@RLMSyncError@RLMSyncErrorClientResetError>`
-to manually transfer data from the backup copy to the newly created
-realm.
-
-.. tabs-realm-languages::
-   
-   .. tab::
-       :tabid: swift
-
-       .. literalinclude:: /examples/generated/code/start/Errors.snippet.client-reset.swift
-         :language: swift
-
-   .. tab::
-       :tabid: objective-c
-
-       .. literalinclude:: /examples/generated/code/start/Errors.snippet.client-reset.m
-         :language: objectivec
-
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-manual.swift
+   :language: swift
 
 .. tip::
 
-   To see how to recover unsynced local changes in a client reset, check out
+   If you are using an older version of the SDK, and want to see an example of 
+   how you might manually recover changes in a manual client reset, check out
    this :github:`example on GitHub
-   <mongodb/realm-practice/blob/main/swift/RealmPractice/Classes/ViewController.swift#L260>`.
-
+   <mongodb/realm-practice/blob/main/swift/RealmPractice/Classes/ViewController.swift#L286>`.
