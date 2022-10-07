@@ -37,16 +37,7 @@ You can call the :swift-sdk:`delete
 method on a user object to delete the user object from your App. 
 This deletes the object from the server in addition to clearing local data.
 
-.. important::
-
-   Deleting a user only deletes the user object, which may contain associated 
-   :ref:`metadata <ios-user-metadata>`. This does not delete :ref:`custom 
-   user data <ios-custom-user-data>` or user-entered data from your 
-   application. Apple :apple:`requires that you disclose data retention 
-   and deletion policies <app-store/review/guidelines/#5.1.1>` to your 
-   application customers and give them a way to request user data deletion.
-   If you collect additional user data, you must implement your own methods 
-   or processes to delete that data.
+.. include:: /includes/note-deleting-user-doesnt-delete-custom-data.rst
 
 Delete Users with Async/Await
 -----------------------------

@@ -15,6 +15,13 @@ class AuthenticationTest: RealmTest() {
             val user = app.login(Credentials.anonymous())
         }
         // :snippet-end:
+
+        // :snippet-start: anonymous-authentication-reuse-existing
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // logs in with an existing anonymous user, as long as the user hasn't logged out
+            val user = app.login(Credentials.anonymous(reuseExisting = true))
+        }
+        // :snippet-end:
     }
 
     @Test
@@ -28,6 +35,26 @@ class AuthenticationTest: RealmTest() {
             app.emailPasswordAuth.registerUser(email, password)
             // :remove-end:
             val user = app.login(Credentials.emailPassword(email, password))
+        }
+        // :snippet-end:
+    }
+
+    @Test
+    fun deleteUserTest(){
+        val email = getRandom()
+        val password = getRandom()
+        // :snippet-start: user-delete
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            // :remove-start:
+            app.emailPasswordAuth.registerUser(email, password)
+            val credentials = Credentials.emailPassword(email, password)
+            // :remove-end:
+            val user = app.login(credentials)
+            // use the user object ...
+
+            // later, delete the user object
+            user.delete() // regardless of which provider you used to login, you can logout using `delete()`
         }
         // :snippet-end:
     }
