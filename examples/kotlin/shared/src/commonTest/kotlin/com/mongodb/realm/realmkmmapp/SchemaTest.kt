@@ -1,15 +1,19 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.types.ObjectId
-import io.realm.kotlin.types.RealmInstant
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.ext.realmSetOf
+import io.realm.kotlin.log.RealmLogger
+import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
-
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 // :snippet-start: primary-key
 class Lizard: RealmObject {
@@ -67,6 +71,15 @@ class Knight: RealmObject {
 // :snippet-end:
 
 
+class Frog2 : RealmObject {
+    var name: String = ""
+    var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()  // realmSetOf(Snack()) // RealmSet<Snack>();
+}
+
+class Snack : RealmObject {
+    var name: String? = null
+}
+
 // :snippet-start: timestamp-workaround
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
 class RealmInstantConversion: RealmObject {
@@ -117,5 +130,71 @@ fun Instant.toRealmInstant(): RealmInstant {
 // :snippet-end:
 
 class SchemaTest: RealmTest() {
+
+//    class Frog2 : RealmObject {
+//        var name: String = ""
+//        var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()  // realmSetOf(Snack()) // RealmSet<Snack>();
+//    }
+//
+//    class Snack : RealmObject {
+//        var name: String? = null
+//    }
+
+    @Test
+    fun createRealmSetTypes() {
+        runBlocking{
+            val config = RealmConfiguration.Builder(setOf(Frog2::class, Snack::class))
+                .directory("/tmp/") // default location for jvm is... in the project root
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
+
+            realm.write {
+                val frog = this.copyToRealm(Frog2().apply {
+                    name = "Kermit"
+                })
+                // :snippet-start: add-item-to-realm-set
+                val set = frog.favoriteSnacks // get the RealmSet field from the object we just created
+
+                val fliesSnack = this.copyToRealm(Snack().apply {
+                    name = "flies"
+                })
+
+                set.add(fliesSnack)
+                // :snippet-end:
+
+                assertEquals(1, set.size)
+
+                // :snippet-start: add-all-to-realm-set
+                val cricketsSnack = this.copyToRealm(Snack().apply {
+                    name = "crickets"
+                })
+                val earthWormsSnack = this.copyToRealm(Snack().apply {
+                    name = "earth worms"
+                })
+                val waxWormsSnack = this.copyToRealm(Snack().apply {
+                    name = "wax worms"
+                })
+
+                set.addAll(setOf(cricketsSnack,earthWormsSnack,waxWormsSnack))
+                // :snippet-end:
+
+                assertEquals(4, set.size)
+
+                val applesSnack = this.copyToRealm(Snack().apply {
+                    name = "apples"
+                })
+
+                assertTrue(set.contains(waxWormsSnack))
+
+//                assertTrue(set.containsAll(setOf(fliesSnack, cricketsSnack, earthWormsSnack, waxWormsSnack)))
+
+            }
+
+
+
+        }
+
+    }
 
 }

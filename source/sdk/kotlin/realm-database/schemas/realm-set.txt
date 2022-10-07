@@ -1,0 +1,29 @@
+.. _kotlin-realm-set:
+
+===================
+RealmSet - Kotlin SDK
+===================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 1.1.0
+
+You can use the :java-sdk:`RealmSet <io/realm/RealmSet.html>` data type
+to manage a collection of unique keys. ``RealmSet`` implements Java's
+``Set`` interface, so it works just like the built-in ``HashSet`` class,
+except managed ``RealmSet`` instances persist their contents to a
+realm. ``RealmSet`` instances that contain Realm objects
+actually only store references to those objects, so deleting a
+Realm object from a realm also deletes that object from
+any ``RealmSet`` instances that contain the object.
+
+Because ``RealmSet`` implements ``RealmCollection``, it has some useful
+mathematical methods, such as ``sum``, ``min``, and ``max``. For a complete
+list of available ``RealmSet`` methods, see: :java-sdk:`the RealmSet API 
+reference <io/realm/RealmSet.html>`.
