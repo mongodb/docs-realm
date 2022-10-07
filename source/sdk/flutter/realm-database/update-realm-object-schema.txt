@@ -124,14 +124,15 @@ Manually Migrate Schema
 For more complex schema updates, Realm Database requires you to manually migrate
 old instances of a given object to the new schema.
 
-Define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
-property when you open a realm with the updated schema. The migration callback
-has the following parameters:
+When you open the realm with the updated schema,
+define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
+property of a realm's :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+The migration callback has the following parameters:
 
 - ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>` instance with access to the
   current realm, the realm that you're migrating to, and methods
   to help with other migration tasks.
-- ``oldSchemaVersion: The number of the previous schema version of the realm on
+- ``oldSchemaVersion``: The number of the previous schema version of the realm on
   the device.
 
 The following sections explain how to perform various types of migration tasks.
