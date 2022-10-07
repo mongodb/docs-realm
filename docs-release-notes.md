@@ -1,3 +1,34 @@
+# October 7, 2022
+
+## Flutter SDK
+- Realm Database
+  - Define a Realm Object Schema: Add details for how to declare Realm models across multiple files (public vs. private)
+  - Bundle a Realm: New page with procedure and tested code examples showing how to bundle a Realm in a Flutter app
+- Sync Device Data
+  - Open Synced Realm: Add link to new Handle Sync Errors page, clarify details about opening a Flexible Sync realm
+  - Handle Sync Errors: New page with info and code example showing how to handle sync errors
+
+## Kotlin SDK
+- Quick Start
+  - Grammar and typo fixes
+  - Change `user.identity` to `user.id`
+- Realm Database/Schemas/UUID: New page with info & tested code example showing how to generate a `RealmUUID`
+- Atlas App Services
+  - Register Users: Change `user.identity` to `user.id`
+  - Authenticate Users: Add details & code example to Anonymous documentation showing how to reuse an anonymous user
+  - Delete Users: New page with info and tested code example showing how to delete users
+- Bump Kotlin SDK version used in docs
+
+## .NET SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Swift SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Web SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+- Move the Next.js Integration Guide to a more prominent position in the table of contents
+
 # September 30, 2022
 
 ## Web SDK
