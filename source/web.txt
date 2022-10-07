@@ -1,3 +1,7 @@
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
 .. _web-intro:
 
 =============
@@ -17,21 +21,194 @@ Realm Web SDK
    API Reference </web/api-reference>
    Upgrade from Stitch to Realm </web/migrate>
    Release Notes <https://github.com/realm/realm-js/releases>
+   Next.js Integration Guide </web/nextjs>
 
-The Realm Web SDK enables browser-based applications to access
-data stored in Atlas and interact with App Services services like
-Functions and authentication. The Web SDK supports both JavaScript and
-TypeScript applications.
+.. introduction::
 
-The Web SDK does not support creating a local database or using :ref:`sync <sync>`. 
-Instead, web apps built with Realm use :ref:`GraphQL <graphql-api>` 
-or the :ref:`Query API <web-mongodb-data-access>` to query data stored in 
-Atlas.
+   The Realm Web SDK lets browser-based applications access
+   data stored in Atlas and interact with App Services services like
+   Functions and authentication. The Web SDK supports both JavaScript and
+   TypeScript.
 
-.. note::
+   Web apps built with Realm use the :ref:`Atlas GraphQL API <graphql-api>`
+   or query data stored in Atlas directly from the browser.
+   Unlike the other Realm SDKs, the Web SDK does not support creating
+   a local database or using :ref:`Atlas Device Sync <sync>`.
 
-   There are SDKs built for :ref:`React Native <react-native-intro>`
-   and :ref:`Node.js <node-intro>` which you should use when creating
-   apps in these environments. Alternatively, you 
-   can use the Web SDK for React Native or Node.js apps. For further instruction, 
-   refer to :ref:`Install for Node.js <web-install-node>`.
+.. kicker:: Learning Paths
+
+Get Started with Realm Web
+--------------------------
+
+.. card-group::
+   :columns: 2
+   :style: extra-compact
+
+   .. card::
+      :headline: Quick Start
+      :cta: See Code Examples
+      :url: https://www.mongodb.com/docs/realm/web/quickstart/
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
+
+      Minimal-explanation code examples of how to work with the Realm Web SDK.
+
+   .. card::
+      :headline: Working Example App
+      :cta: Explore an Example App
+      :url: https://www.mongodb.com/docs/atlas/app-services/template-apps/
+      :icon: /images/icons/branding_2022/Technical_REALM_Mobile3x.png
+      :icon-alt: Realm Mobile Icon
+
+      Learn by example through dissecting a working React app that
+      uses the Realm Web SDK and Atlas GraphQL API.
+
+.. kicker:: What You Can Do
+
+Develop Apps with Realm Web
+---------------------------
+
+Use the Realm Web SDK with Atlas App Services to query MongoDB directly,
+query a GraphQL API, invoke serverless functions, manage user authentication,
+and more.
+
+.. tabs::
+
+   .. tab:: Query MongoDB
+      :tabid: query-mongodb
+
+      .. procedure::
+
+         .. step:: Configure Atlas App Services
+
+            You can use the Realm Web SDK to query MongoDB Atlas data directly
+            from the browser. Perform CRUD, aggregation, and listen for database changes.
+
+            First, you must :ref:`create an App Services App <create-app-ui>`,
+            set up :ref:`database rules <rules>`, and :ref:`enable user authentication
+            <users-and-authentication>`.
+
+         .. step:: Connect to an Atlas App Services App
+
+            Connect to your App Services App from the browser using the Web SDK.
+
+            For more information, see :ref:`Initialize the App Client <web-init-appclient>`.
+
+         .. step:: Authenticate a User
+
+            Use one of the App Services authentication providers to authenticate a
+            user. App Services includes custom JWT, Facebook, Google, Apple,
+            anonymous, and built-in email/password authentication providers.
+
+            For more information, see :ref:`Authenticate Users <web-authenticate>`.
+
+         .. step:: Query MongoDB
+
+            Query MongoDB directly from the browser using your authenticated user.
+            The user can only access data that they're authorized to.
+
+            For more information, see the :ref:`Query MongoDB documentation <web-query-mongodb>`.
+
+      .. image:: /images/illustrations/Spot_BrightYellow_Query_Tech_Compass.png
+         :alt: Query MongoDB Illustration
+
+   .. tab:: Atlas GraphQL API
+      :tabid: graphql-api
+
+      .. procedure::
+
+         .. step:: Configure Atlas GraphQL API
+
+            Configure the GraphQL API in Atlas App Services.
+            The GraphQL API automatically generates a hosted endpoint
+            with GraphQL queries and mutations based on JSON schemas
+            for the documents in your database.
+
+            Configure App Services Authentication with data access rules to
+            control which users have access to what data.
+
+            For more information, see :ref:`Atlas GraphQL API <graphql-api>`.
+
+         .. step:: Connect to Atlas App Services
+
+            Connect to your App Services App from the browser using the Web SDK.
+
+            For more information, see :ref:`Initialize the App Client <web-init-appclient>`.
+
+         .. step:: Authenticate a User
+
+            Use one of the App Services authentication providers to authenticate a
+            user. App Services includes custom JWT, Facebook, Google, Apple,
+            anonymous, and built-in email/password authentication providers.
+
+            For more information, see :ref:`Authenticate Users <web-authenticate>`.
+
+         .. step:: Query the GraphQL API
+
+            Query the GraphQL API using a GraphQL client from the browser.
+            Authenticate requests with user credentials.
+
+            Learn how to :ref:`query the GraphQL API with the Apollo
+            Client <graphql-apollo-react>`.
+
+      .. image:: /images/illustrations/Connection_Blue.png
+         :alt: API Integration Image
+
+   .. tab:: Build with Atlas App Services
+      :tabid: app-services
+
+      .. container::
+
+         Call Serverless Functions
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can :ref:`call serverless Functions <web-call-a-function>`
+         from your client application that run in an App Services backend.
+
+         Authenticate Users
+         ~~~~~~~~~~~~~~~~~~
+
+         Authenticate users with built-in and third-party :ref:`authentication
+         providers <web-authenticate>`. Use the authenticated user to
+         access App Services.
+
+      .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
+         :alt: App Services Illustration
+
+.. kicker:: Essential Documentation
+
+Recommended Reading
+-------------------
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: Realm JavaScript Reference
+      :cta: Realm JavaScript Reference
+      :url: https://www.mongodb.com/docs/realm/web/api-reference/
+      :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
+      :icon-alt: Reference Icon
+
+      Explore reference docs for the Realm JavaScript SDKs.
+
+   .. card::
+      :headline: Quick Start with React
+      :cta: Add Realm to React project
+      :url: https://www.mongodb.com/docs/realm/web/react-web-quickstart/
+      :icon: /images/icons/react-logo-icon.png
+      :icon-alt: React Logo Icon
+
+      Learn how to add the Realm Web SDK to your React application.
+
+   .. card::
+      :headline: Next.js Integration Guide
+      :cta: Integrate with Next.js
+      :url: https://www.mongodb.com/docs/realm/nextjs
+      :icon: /images/icons/nextjs-logo-icon.png
+      :icon-alt: Next.js Logo Icon
+
+      Learn all the ways that you can use the Realm Web SDK with your Next.js
+      application.
+

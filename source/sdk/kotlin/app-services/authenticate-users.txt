@@ -57,6 +57,14 @@ and then pass the generated credential to
    :language: kotlin
    :copyable: false
 
+You can optionally specify whether the anonymous user should be reused by 
+passing ``reuseExisting = true`` to ``Credentials.anonymous()`` as long as the anonymous user being reused hasn't logged out.
+The ``reuseExisting`` parameter defaults to false, which creates a new anonymous user credential rather than reusing an existing one.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication-reuse-existing.kt
+   :language: kotlin
+   :copyable: false
+
 .. _kotlin-email-password-login:
 
 Email/Password
