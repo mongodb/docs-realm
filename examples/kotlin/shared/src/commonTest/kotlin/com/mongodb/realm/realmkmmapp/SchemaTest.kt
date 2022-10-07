@@ -1,14 +1,19 @@
 package com.mongodb.realm.realmkmmapp
 
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.types.ObjectId
-import io.realm.kotlin.types.RealmInstant
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.datetime.Instant
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 
 // :snippet-start: primary-key
@@ -66,6 +71,13 @@ class Knight: RealmObject {
 }
 // :snippet-end:
 
+// :snippet-start: uuid
+class Cat: RealmObject {
+    @PrimaryKey
+    var _id: RealmUUID = RealmUUID.random()
+}
+// :snippet-end:
+
 
 // :snippet-start: timestamp-workaround
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
@@ -117,5 +129,32 @@ fun Instant.toRealmInstant(): RealmInstant {
 // :snippet-end:
 
 class SchemaTest: RealmTest() {
+    @Test
+    fun createUUIDTypes() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Cat::class))
+                .directory("/tmp/") // default location for jvm is... in the project root
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
 
+            // :snippet-start: create-uuid-random
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.random()
+                })
+            }
+            // :snippet-end:
+
+            // :snippet-start: create-uuid-from-string
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
+                })
+            }
+            // :snippet-end:
+
+            realm.close()
+        }
+    }
 }

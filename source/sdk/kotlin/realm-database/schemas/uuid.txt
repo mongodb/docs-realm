@@ -1,0 +1,47 @@
+.. _kotlin-uuid:
+
+=================
+UUID - Kotlin SDK
+=================
+
+.. default-domain:: mongodb
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+``UUID`` (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. You can use ``UUID`` as an identifier for
+objects. ``UUID`` is :ref:`indexable <node-indexes>`, and you can use it as a
+:ref:`primary key <node-primary-keys>`. 
+
+Realm Database creates UUIDs with the `RealmUUID <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/index.html>`__ type that:
+
+- conform to `RFC 4122 version 4 <https://www.rfc-editor.org/rfc/rfc4122.htm>`_
+- are created with random bytes
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.uuid.kt
+   :language: kotlin
+   :copyable: false
+
+.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+
+Create a UUID from a String
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To generate a new ``RealmUUID`` from a UUID formatted string, pass the string to `RealmUUID.from() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/from.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-from-string.kt
+   :language: kotlin
+   :copyable: false
+
+Create a Random UUID
+~~~~~~~~~~~~~~~~~~~~
+
+To generate a random ``RealmUUID``, call `RealmUUID.random() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-u-u-i-d/-companion/random.html>`__:
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.create-uuid-random.kt
+   :language: kotlin
+   :copyable: false

@@ -86,13 +86,7 @@ UUID (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
 <Universally_unique_identifier>`. You can use a UUID as an identifier for
 objects. UUIDs are indexable and you can use them as primary keys.
 
-.. note:: Using UUID Instead of ObjectId
-
-   In general, you can use a UUID for any fields that function as a unique
-   identifier. Using a UUID might be particularly useful if you are migrating
-   data not stored in MongoDB since it is likely that your object's unique
-   identifiers are already of a UUID type. Alternatively, using ``ObjectId``
-   might be useful for a collection of data that already exists in MongoDB.
+.. include:: /includes/note-using-uuid-instead-of-objectid.rst
 
 To define a property as a UUID, set its type as ``Uuid`` in
 your :ref:`object model <flutter-create-model>`.
