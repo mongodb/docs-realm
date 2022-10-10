@@ -9,10 +9,12 @@ part of 'migrations_test.dart';
 class PersonV2 extends _PersonV2 with RealmEntity, RealmObject {
   PersonV2(
     ObjectId id,
-    String fullName,
-  ) {
+    String fullName, {
+    int? yearsSinceBirth,
+  }) {
     RealmObject.set(this, 'id', id);
     RealmObject.set(this, 'fullName', fullName);
+    RealmObject.set(this, 'yearsSinceBirth', yearsSinceBirth);
   }
 
   PersonV2._();
@@ -28,6 +30,13 @@ class PersonV2 extends _PersonV2 with RealmEntity, RealmObject {
   set fullName(String value) => RealmObject.set(this, 'fullName', value);
 
   @override
+  int? get yearsSinceBirth =>
+      RealmObject.get<int>(this, 'yearsSinceBirth') as int?;
+  @override
+  set yearsSinceBirth(int? value) =>
+      RealmObject.set(this, 'yearsSinceBirth', value);
+
+  @override
   Stream<RealmObjectChanges<PersonV2>> get changes =>
       RealmObject.getChanges<PersonV2>(this);
 
@@ -41,6 +50,7 @@ class PersonV2 extends _PersonV2 with RealmEntity, RealmObject {
     return const SchemaObject(PersonV2, 'Person', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('fullName', RealmPropertyType.string),
+      SchemaProperty('yearsSinceBirth', RealmPropertyType.int, optional: true),
     ]);
   }
 }
