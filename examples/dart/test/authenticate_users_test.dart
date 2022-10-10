@@ -239,9 +239,10 @@ void main() {
     test("Login with API key", () async {
       final user = app.currentUser!;
       final userId = user.id;
+      ApiKey apiKey = await user.apiKeys.create('myApiKey');
+      final myApiKey = apiKey.value!;
       // :snippet-start: api-key-auth
-      ApiKey myApiKey = await user.apiKeys.create('myApiKey');
-      Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
+      Credentials apiKeyCredentials = Credentials.apiKey(myApiKey);
       final apiKeyUser = await app.logIn(apiKeyCredentials);
       // :snippet-end:
       expect(userId, apiKeyUser.id);
