@@ -221,38 +221,30 @@ void main() {
     setUp(() async {
       final currentUser = await app.logIn(
           Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
-
       final apiKeys = await currentUser.apiKeys.fetchAll();
       for (ApiKey key in apiKeys) {
-        print("name is: " + key.name);
         await currentUser.apiKeys.delete(key.id);
       }
+      final apiKeysAfter = await currentUser.apiKeys.fetchAll();
     });
     tearDown(() async {
-      final currentUser = app.currentUser!;
+      final currentUser = await app.logIn(
+          Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
       final apiKeys = await currentUser.apiKeys.fetchAll();
       for (ApiKey key in apiKeys) {
-        print("name is: " + key.name);
         await currentUser.apiKeys.delete(key.id);
       }
+      await currentUser.logOut();
     });
     test("Login with API key", () async {
       final user = app.currentUser!;
       final userId = user.id;
-      print("user id is... " + userId);
       // :snippet-start: api-key-auth
-      try {
-        ApiKey myApiKey = await user.apiKeys.create('myApiKey');
-        print("successfully created API key: " + myApiKey.name);
-        Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
-        final apiKeyUser = await app.logIn(apiKeyCredentials);
-        expect(userId, apiKeyUser.id);
-      } on AppException catch (ex) {
-        print(ex.statusCode);
-      } catch (err) {
-        print('general catch all :/');
-      }
+      ApiKey myApiKey = await user.apiKeys.create('myApiKey');
+      Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
+      final apiKeyUser = await app.logIn(apiKeyCredentials);
       // :snippet-end:
+      expect(userId, apiKeyUser.id);
     });
     test("Work with user API keys", () async {
       final user = app.currentUser!;
@@ -309,7 +301,7 @@ void main() {
       // :snippet-start: list-all-users
       Iterable<User> users = app.users;
       // :snippet-end:
-      expect(users.length, 3);
+      expect(users.length, 4);
     });
     test('Change the active user', () async {
       User otherUser = lisa;
