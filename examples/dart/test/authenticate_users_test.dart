@@ -219,8 +219,14 @@ void main() {
   }, skip: 'Skipping because requires user interaction/email');
   group("API Key Users - ", () {
     setUp(() async {
-      await app.logIn(
+      final currentUser = await app.logIn(
           Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+
+      final apiKeys = await currentUser.apiKeys.fetchAll();
+      for (ApiKey key in apiKeys) {
+        print("name is: " + key.name);
+        await currentUser.apiKeys.delete(key.id);
+      }
     });
     tearDown(() async {
       final currentUser = app.currentUser!;
@@ -233,12 +239,20 @@ void main() {
     test("Login with API key", () async {
       final user = app.currentUser!;
       final userId = user.id;
+      print("user id is... " + userId);
       // :snippet-start: api-key-auth
-      ApiKey myApiKey = await user.apiKeys.create('myApiKey');
-      Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
-      final apiKeyUser = await app.logIn(apiKeyCredentials);
+      try {
+        ApiKey myApiKey = await user.apiKeys.create('myApiKey');
+        print("successfully created API key: " + myApiKey.name);
+        Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
+        final apiKeyUser = await app.logIn(apiKeyCredentials);
+        expect(userId, apiKeyUser.id);
+      } on AppException catch (ex) {
+        print(ex.statusCode);
+      } catch (err) {
+        print('general catch all :/');
+      }
       // :snippet-end:
-      expect(userId, apiKeyUser.id);
     });
     test("Work with user API keys", () async {
       final user = app.currentUser!;
