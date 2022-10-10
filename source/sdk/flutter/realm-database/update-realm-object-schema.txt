@@ -148,12 +148,8 @@ of the an object schema's name to :flutter-sdk:`Migration.deleteType() <realm/Mi
 This is useful if the previous version of a schema has a Realm object type,
 but the new version of the schema does not.
 
-TODO: full code example w literalinclude
-
-.. code-block:: dart
-
-   // Between v1 and v2 we removed the Bar type
-   migration.deleteType('Bar');
+.. literalinclude:: /examples/generated/flutter/migrations_test.snippet.migration-delete-type.dart
+   :language: dart
 
 .. _flutter-rename-property:
 
@@ -163,12 +159,8 @@ Rename a Property
 Rename a schema property with :flutter-sdk:`Migration.renameProperty()
 <realm/Migration/renameProperty.html>`.
 
-TODO: full code example w literalinclude
-
-.. code-block:: dart
-
-   // Between v2 and v3 we fixed a typo in the 'Person.name' property.
-   migration.renameProperty('Person', 'nmae', 'name');
+.. literalinclude:: /examples/generated/flutter/migrations_test.snippet.migration-delete-type.dart
+   :language: dart
 
 .. _flutter-other-migration-tasks:
 
@@ -188,22 +180,13 @@ You must use the ``oldRealm``'s dynamic API to access its objects because you
 cannot use standard type-based queries. The dynamic API lets you find Realm objects
 by a string representation of their class name.
 
-.. code-block:: dart
+To find instances of an object in an old realm in the new realm,
+use :flutter-sdk:`Migration.findInNewRealm() <realm/Migration/oldRealm.html>`.
+To access the properties of objects from the old schema,
+use the :flutter-sdk:`RealmObjects.dynamic <realm/RealmObject/dynamic.html>` API.
 
-   final v2Config = Configuration.local([Student.schema, School.schema],
-      schemaVersion: 2,
-      migrationCallback: (migration, oldSchemaVersion) {
-
-      final oldStudents = migration.oldRealm.all('Student');
-
-      var number = 0;
-      for (final oldStudent in oldStudents) {
-        final names = oldStudent.fullName.split(" ");
-        migration.newRealm.write(() {
-          migration.newRealm.add<Student>(oldStudent.id, firstName: names.first, lastName: names.last);
-        }):
-      }
-    });
+.. literalinclude:: /examples/generated/flutter/migrations_test.snippet.migrations-other.dart
+   :language: dart
 
 .. _flutter-update-schema-of-synced-realm:
 
