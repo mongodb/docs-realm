@@ -23,222 +23,216 @@ Realm React Native SDK
    Upgrade from Stitch to Realm </sdk/react-native/migrate>
    Release Notes <https://github.com/realm/realm-js/releases>
 
+.. introduction::
 
-The Realm React Native SDK allows you to use Realm Database and backend
-Apps from `React Native <https://facebook.github.io/react-native/>`__
-applications for iOS and Android written in JavaScript or TypeScript. 
+   Use the Realm React Native SDK to develop iOS and Android in 
+   JavaScript or TypeScript.
 
-.. note::
+.. kicker:: Learning Paths
 
-   The React Native SDK does not support JavaScript or TypeScript
-   applications written for web browsers. For that use case, you should
-   consider the :ref:`Web SDK <web-intro>`. For development on Node.js
-   without React, refer to the :ref:`Node.js SDK <node-intro>`
-   documentation.
+Get Started with Realm Swift
+----------------------------
 
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_reactnative
+.. card-group::
+   :columns: 3
+   :style: extra-compact
 
-Local Realm Database
---------------------
+   .. card::
+      :headline: Quick Start
+      :cta: See Code Examples
+      :url: https://www.mongodb.com/docs/realm/sdk/react-native/quick-start-local/
+      :icon: /images/icons/branding_2022/Technical_ATLAS_Functions3x.png
+      :icon-alt: Functions Icon
 
-With the Realm React Native SDK, you can access objects stored in a local
-instance of Realm Database. With Realm Database, you can:
+      Minimal-explanation code examples of how to work with Realm Database.
 
-Define an Object Schema
-~~~~~~~~~~~~~~~~~~~~~~~
+   .. card::
+      :headline: Working Example App
+      :cta: Explore an Example App
+      :url: https://www.mongodb.com/docs/atlas/app-services/template-apps/
+      :icon: /images/icons/branding_2022/Technical_REALM_Mobile3x.png
+      :icon-alt: Realm Mobile Icon
 
-:ref:`Define your object schema <react-native-define-a-realm-object-schema>` by creating
-an object or a class.
+      Learn from example by dissecting a working React Native client app that 
+      uses Realm Database with Device Sync.
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-define-object-schema.js
-  :language: javascript
+   .. card::
+      :headline: Guided Tutorial
+      :cta: Follow the Tutorial
+      :url: https://www.mongodb.com/docs/realm/tutorial/react-native/ 
+      :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
+      :icon-alt: Tutorial Icon
 
+      Follow a guided tutorial to learn how to adapt the example app to 
+      create your own working Realm app.
 
-Query Realm Database
-~~~~~~~~~~~~~~~~~~~~
+.. kicker:: What You Can Do
 
-:ref:`Query <react-native-client-query-engine>` for stored objects:
+Develop Apps with Realm Database
+--------------------------------
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-query-realm-database.js
-  :language: javascript
+Use free open-source Realm Database as a local object store on a device.
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
+other clients.
 
-Update Live Objects
-~~~~~~~~~~~~~~~~~~~
+.. tabs::
 
-:ref:`Update <react-native-update-an-object>` objects in Realm Database by
-updating field values on an instance of the object within a transaction:
+  .. tab:: Use Realm Database Locally
+      :tabid: local-realm
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-update-live-objects.js
-  :language: javascript
+      .. procedure::
 
-Watch for Object Updates
-~~~~~~~~~~~~~~~~~~~~~~~~
+         .. step:: Install the Realm React Native SDK
 
-:ref:`Receive object updates and notifications automatically
-<react-native-react-to-changes>` when objects stored in Realm Database
-change:
+            Use CocoaPods to :ref:`react-native-install` in your
+            project.
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-watch-for-object-updates.js
-  :language: javascript
+            Import Realm in your project files to get started.
 
-Always Access the Latest Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         .. step:: Define an Object Schema
 
-:ref:`Live objects <react-native-live-objects>` keep all instances
-of an object up to date at all times:
+            Use React Native to idiomatically :ref:`define an object schema 
+            <react-native-define-a-realm-object-schema>`. 
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-access-the-latest-data.js
-  :language: javascript
+         .. step:: Open a Realm
 
-.. seealso::
+            Realm Database stores objects in Realm files on your device, 
+            or you can open an in-memory realm which does not create a file.
+            :ref:`Configure and open a realm <react-native-open-close-realm>` 
+            to get started reading and writing data.
 
-   To get started with Realm Database, try our
-   :ref:`Quick Start <react-native-client-quick-start-local>`.
+         .. step:: Read and Write Data
 
-Realm Apps
-----------
+            :ref:`Create <react-native-create-a-new-object>`, :ref:`read <react-native-read-operations>`, 
+            :ref:`update <react-native-update-an-object>`, and :ref:`delete <react-native-delete-an-object>` 
+            objects from the realm. :ref:`Filter data <react-native-filter-queries>` with React Native using
+            Realm Query Language. 
 
-Apps are backends for client applications hosted by MongoDB in the cloud.
-They provide the ability to synchronize data stored in
-Realm Database, called **Device Sync**, as well as a layer of backend
-functionality collectively called **Atlas App Services**.
-The Realm React Native SDK optionally contains the ability to access
-these Apps running in the cloud. In addition to local
-Realm Database in the SDK, Apps provide the
-following functionality:
+         .. step:: React to Changes
 
-Atlas Device Sync
-~~~~~~~~~~~~~~~~~
+            Realm's live objects mean that your data is always up-to-date.
+            You can :ref:`register a notification handler <react-native-react-to-changes>` 
+            to watch for changes and perform some logic, such as updating 
+            your UI. 
 
-Automatically sync data between realms on client devices and your backend
-MongoDB Atlas data store with :ref:`Device Sync <react-native-sync-changes-between-devices>`:
+      .. image:: /images/illustrations/Mobile_hero_green.png
+         :alt: Realm Mobile Illustration
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-sync-data-between-realms.js
-  :language: javascript
+  .. tab:: Sync Data Across Devices
+      :tabid: device-sync
 
-App Services
-~~~~~~~~~~~~
+      .. procedure::
 
-- Use Realm's built-in user management to enable
-  :ref:`user account creation <react-native-register-new-user>`
-  and user :ref:`authentication <react-native-authenticate-users>` across
-  devices.
+         .. step:: Connect to an Atlas App Services App
 
-- Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-  in your backend App using a
-  :ref:`MongoDB data source <data-sources>`.
+            Configure :ref:`Device Sync in an App Services App 
+            <realm-sync-get-started>`. Define data access rules. Use 
+            Development Mode to infer your schema from your data model.
 
-- Execute logic in your backend App from a client application using
-  :ref:`Functions <react-native-call-a-function>`.
+            Then, :ref:`connect to the backend <react-native-connect-to-mongodb-realm-backend-app>` 
+            from your client.
 
-- React to events in your backend App using
-  :ref:`Triggers <triggers>`.
+         .. step:: Authenticate a User
 
-.. seealso::
+            Use one of our authentication providers to :ref:`authenticate a 
+            user <react-native-authenticate-users>`. App Services provides access
+            to popular authentication providers, such as Apple, Google, or 
+            Facebook. Use our built-in email/password provider to manage 
+            users without a third-party, or use custom JWT authentication to 
+            integrate with other authentication providers. Anonymous authentication
+            provides access without requiring a login or persisting user data.
 
-   To get started with Realm, try the
-   :ref:`Quick Start with Sync <react-native-client-quick-start>`.
+         .. step:: Open a Synced Realm
 
+            Instead of opening a local realm, :ref:`configure and open a 
+            synced Realm <react-native-open-close-realm>`. 
+            :ref:`Subscribe to a query <react-native-sync-subscribe-to-queryable-fields>` 
+            to determine what data the synced realm can read and write.
 
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_kotlin
+         .. step:: Read and Write Synced Data
 
+            The APIs to read and write data from a realm are the same 
+            whether you're using a synced or local realm. Data that you 
+            read and write is automatically kept in sync with your Atlas 
+            cluster and other clients. Apps keep working offline and 
+            deterministically sync changes whenever a network connection is 
+            available. 
 
-Get Started
------------
+      .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
+         :alt: Realm Sync Illustration
 
-To start using the Realm React Native SDK
-in your React Native application, see :ref:`Install Realm for React Native
-<react-native-install>` to add the Realm JS SDK dependency and then check
-out the :ref:`Quick Start <react-native-client-quick-start-local>`. 
-To quickly build your App using Expo, check out the :ref:`Quick Start with
-Expo <react-native-client-quick-start-expo>`.
+  .. tab:: Build with Atlas App Services
+      :tabid: app-services
 
-To learn more about the concepts that underly Realm Database,
-such as :ref:`write transactions <react-native-write-transactions>`, the 
-:ref:`Query Engine <react-native-client-query-engine>`, and more,
-check out the Fundamentals.
+      .. container::
 
-For practical code samples of common tasks in Realm Database and
-Apps, take a look at the Examples.
+         Call Serverless Functions
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+         You can :ref:`call serverless Functions <ios-call-a-function>` 
+         from your client application that run in an App Services backend.
+
+         .. code-block:: javascript
+            :copyable: false
+
+            const myFunctionResult = await user.functions.myServerlessFunction(arguments);
+
+         Query MongoDB Atlas
+         ~~~~~~~~~~~~~~~~~~~
+
+         You can :ref:`query data stored in MongoDB <react-native-query-data>`
+         directly from your client application code.
+
+         .. code-block:: javascript
+            :copyable: false
+
+            const animals = realm.objects("Animal");
+            const queryFilter = animals.filtered("name == cheetah"); 
+
+         Authenticate Users
+         ~~~~~~~~~~~~~~~~~~
+
+         Authenticate users with built-in and third-party :ref:`authentication 
+         providers <react-native-authenticate-users>`. Use the authenticated user to 
+         access App Services.
+
+         .. code-block:: javascript
+            :copyable: false
+
+            const credentials = Realm.Credentials.anonymous();
+            const user = await app.logIn(credentials);
+
+      .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
+         :alt: App Services Illustration
+
+.. kicker:: Essential Documentation
+
+Recommended Reading
+-------------------
+
+.. card-group::
+   :columns: 3
+   :style: extra-compact
+
+   .. card::
+      :headline: JavaScript API Reference
+      :cta: React Native Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/js/latest/
+      :icon: /images/icons/branding_2022/General_ACTION_BestPractices3x.png
+      :icon-alt: Realm Icon
+
+      Explore generated reference docs for the RealmSwift APIs.
+
+   .. card::
+      :headline: React Native Quick Start with Expo
+      :cta: Explore the Quick Start
+      :url: https://www.mongodb.com/docs/realm/sdk/react-native/quick-start-expo/
+      :icon: /images/icons/react_native_sdk.svg
+      :icon-alt: React Native Icon
+
+      Build and deploy a React Native application quickly using the
+      fully working Realm Expo template application.
+       
    
-.. list-table::
-   :header-rows: 1
-   :class: index-table
 
-   * - Get Started
-     - Fundamentals
-     - Examples
-     - Realm Apps Examples
-     
-   * - :doc:`Install Realm for Android </sdk/react-native/install>`
-   
-       :doc:`Quick Start </sdk/react-native/quick-start-local>`
-       
-       :doc:`Quick Start with Sync </sdk/react-native/quick-start>`
-
-       :doc:`Quick Start with Expo </sdk/react-native/quick-start-expo>`
-
-       :doc:`Use Realm React </sdk/react-native/use-realm-react>`
-              
-       :doc:`Upgrade from Stitch to Realm </sdk/react-native/migrate>`
-       
-     - :doc:`Realms </sdk/react-native/fundamentals/realms>`
-            
-       :doc:`Live Queries </sdk/react-native/fundamentals/live-queries>`
-              
-       :doc:`Write Transactions </sdk/react-native/fundamentals/write-transactions>`
-       
-       :doc:`Relationships & Embedded Objects </sdk/react-native/fundamentals/relationships-and-embedded-objects>`
-
-       :doc:`Application Services </sdk/react-native/fundamentals/application-services>`
-
-       :doc:`Atlas Device Sync </sdk/react-native/fundamentals/device-sync>`
-     
-     - :doc:`Define a Realm Object Schema </sdk/react-native/examples/define-a-realm-object-model>`
-     
-       :doc:`Open & Close a Realm </sdk/react-native/examples/open-and-close-a-realm>`
-       
-       :doc:`Read & Write Data </sdk/react-native/examples/read-and-write-data>`
-       
-       :doc:`React to Changes </sdk/react-native/examples/react-to-changes>`
-       
-       :doc:`Query Data </sdk/react-native/examples/query-data>`
-       
-       :doc:`Modify an Object Schema </sdk/react-native/examples/modify-an-object-schema>`
-       
-     - :doc:`Connect to an App Services backend </sdk/react-native/examples/connect-to-app-services-backend>`
-     
-       :doc:`Authenticate Users </sdk/react-native/examples/authenticate-users>`
-
-       :doc:`Flexible Sync </sdk/react-native/examples/flexible-sync>`
-
-       :doc:`Reset a Client Realm </sdk/react-native/examples/reset-a-client-realm>`
-       
-       :doc:`Sync Changes Between Devices </sdk/react-native/examples/sync-changes-between-devices>`
-       
-       :doc:`Call a Function </sdk/react-native/examples/call-a-function>`
-       
-       :doc:`Manage Email/Password Users </sdk/react-native/examples/manage-email-password-users>`
-       
-       :doc:`Query MongoDB </sdk/react-native/examples/query-mongodb>`
-
-Advanced Guides
----------------
-For information about advanced concepts, such as :ref:`encryption
-<react-native-encrypt-a-realm>` and the :ref:`Query Engine <react-native-client-query-engine>`,
-see the :ref:`Advanced Guides <react-native-client-advanced-guides>` section.
-
-Realm Database
-~~~~~~~~~~~~~~
-
-- :doc:`Encryption </sdk/react-native/advanced/encrypt>`
-
-Realm Apps
-~~~~~~~~~~
-
-- :doc:`Link User Identities </sdk/react-native/advanced/link-identities>`
-- :doc:`Multi-User Applications </sdk/react-native/advanced/multi-user-applications>`
-- :doc:`Custom User Data </sdk/react-native/advanced/access-custom-user-data>`
-- :doc:`Client Reset Data Recovery </sdk/react-native/advanced/client-reset-data-recovery>`
+    
