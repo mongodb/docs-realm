@@ -31,7 +31,7 @@ class Todo extends _Todo with RealmEntity, RealmObject {
   @override
   ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => RealmObject.set(this, '_id', value);
 
   @override
   bool get isComplete => RealmObject.get<bool>(this, 'isComplete') as bool;
@@ -51,6 +51,9 @@ class Todo extends _Todo with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Todo>> get changes =>
       RealmObject.getChanges<Todo>(this);
+
+  @override
+  Todo freeze() => RealmObject.freezeObject<Todo>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

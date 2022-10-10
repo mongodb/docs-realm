@@ -20,7 +20,7 @@ class Tricycle extends _Tricycle with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -30,6 +30,9 @@ class Tricycle extends _Tricycle with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Tricycle>> get changes =>
       RealmObject.getChanges<Tricycle>(this);
+
+  @override
+  Tricycle freeze() => RealmObject.freezeObject<Tricycle>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

@@ -22,7 +22,7 @@ class Plane extends _Plane with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -37,6 +37,9 @@ class Plane extends _Plane with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Plane>> get changes =>
       RealmObject.getChanges<Plane>(this);
+
+  @override
+  Plane freeze() => RealmObject.freezeObject<Plane>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -67,7 +70,7 @@ class Train extends _Train with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -82,6 +85,9 @@ class Train extends _Train with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Train>> get changes =>
       RealmObject.getChanges<Train>(this);
+
+  @override
+  Train freeze() => RealmObject.freezeObject<Train>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -112,7 +118,7 @@ class Boat extends _Boat with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -127,6 +133,9 @@ class Boat extends _Boat with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Boat>> get changes =>
       RealmObject.getChanges<Boat>(this);
+
+  @override
+  Boat freeze() => RealmObject.freezeObject<Boat>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
