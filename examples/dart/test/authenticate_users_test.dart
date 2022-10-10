@@ -217,6 +217,64 @@ void main() {
       });
     });
   }, skip: 'Skipping because requires user interaction/email');
+  group("API Key Users - ", () {
+    setUp(() async {
+      await app.logIn(
+          Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+    });
+    tearDown(() async {
+      final currentUser = app.currentUser!;
+      final apiKeys = await currentUser.apiKeys.fetchAll();
+      for (ApiKey key in apiKeys) {
+        print("name is: " + key.name);
+        await currentUser.apiKeys.delete(key.id);
+      }
+    });
+    test("Login with API key", () async {
+      final user = app.currentUser!;
+      final userId = user.id;
+      // :snippet-start: api-key-auth
+      ApiKey myApiKey = await user.apiKeys.create('myApiKey');
+      Credentials apiKeyCredentials = Credentials.apiKey(myApiKey.value!);
+      final apiKeyUser = await app.logIn(apiKeyCredentials);
+      // :snippet-end:
+      expect(userId, apiKeyUser.id);
+    });
+    test("Work with user API keys", () async {
+      final user = app.currentUser!;
+      // :snippet-start: work-with-api-keys
+      // Create user API key
+      ApiKey apiKey = await user.apiKeys.create("api-key-name");
+      expect(apiKey.id.runtimeType, ObjectId); // :remove:
+
+      // Get existing user API key by ID
+      // Returns `null` if no existing API key for the ID
+      ApiKey? refetchedApiKey = await user.apiKeys.fetch(apiKey.id);
+      expect(refetchedApiKey.runtimeType, ApiKey); // :remove:
+
+      // Get all API keys for a user
+      List<ApiKey> apiKeys = await user.apiKeys.fetchAll();
+      expect(apiKeys.length, 1); // :remove:
+
+      // Disable API key
+      await user.apiKeys.disable(apiKey.id);
+      expect(apiKey.isEnabled, false); // :remove:
+
+      // Check if API key is enabled
+      print(apiKey.isEnabled); // prints `false`
+
+      // Enable API key
+      await user.apiKeys.enable(apiKey.id);
+      expect(apiKey.isEnabled, true); // :remove:
+
+      // Delete a user API key
+      final apiKeyId = apiKey.id; // :remove:
+      await user.apiKeys.delete(apiKey.id);
+      // :snippet-end:
+      final noApiKey = await user.apiKeys.fetch(apiKeyId);
+      expect(noApiKey, null);
+    }, skip: "debuggin");
+  });
   group('Work with multiple users', () {
     late User lisa;
     late User bart;
