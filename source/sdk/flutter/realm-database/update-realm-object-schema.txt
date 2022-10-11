@@ -16,12 +16,13 @@ Depending on the changes you make to the schema, the changes can be either
 automatically applied or require a manual update to the new schema.
 Manual schema updates are called **migrations** in Realm Database.
 
-You can automatically update a Realm object schema for the following types of changes:
-
-- :ref:`Add a property <flutter-add-a-property>`
-- :ref:`Delete a property <flutter-delete-a-property>`
+You can automatically update a Realm object schema when you add or delete a property
+from a Realm object model. For more information, refer to the
+:ref:`Automatically Update Schema section <flutter-automatically-update-schema>`.
 
 You must perform a manual migration for all other schema changes.
+For more information, refer to the :ref:`Manually Migrate Schema section
+<flutter-manually-migrate-schema>`.
 
 
 .. important:: Modify Schema Properties of a Synced Realm
@@ -124,9 +125,12 @@ Manually Migrate Schema
 For more complex schema updates, Realm Database requires you to manually migrate
 old instances of a given object to the new schema.
 
-When you open the realm with the updated schema,
-define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
-property of a realm's :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+When you open the realm with the updated schema, you must do the following:
+
+- Increment the schema version
+- Define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
+  property of a realm's :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+
 The migration callback has the following parameters:
 
 - ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>` instance with access to the
