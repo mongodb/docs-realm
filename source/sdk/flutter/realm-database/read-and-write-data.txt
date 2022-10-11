@@ -129,16 +129,26 @@ To modify an object's properties, update the properties in a write transaction b
 Upsert Objects
 ``````````````
 
-Update an existing object with the same primary key or create an object
-if it doesn't already exist using :flutter-sdk:`Realm.add() <realm/Realm/add.html>`
+To upsert an object, call :flutter-sdk:`Realm.add() <realm/Realm/add.html>`
 with the optional ``update`` flag set to ``true`` inside a transaction block.
+The operation either inserts a new object with the given primary key or
+updates an existing object that already has that primary key.
 
 TODO: literalinclude
 
 .. code-block:: dart
+   :emphasize-lines: 10
 
+   // Add Joe to the realm with primary key `1`
+   Person joe = Person(1, "Joe", age: 23);
    realm.write(() {
-     realm.add(modifiedObjectAlreadyInRealm, update: true);
+     realm.add<Person>(joe);
+   });
+
+   // Update Joe's age in the realm with primary key `1`
+   Person olderJoe = Person(1, "Joe", age: 40);
+   realm.write(() {
+     realm.add<Person>(olderJoe, update: true);
    });
 
 .. _flutter-delete-objects:
