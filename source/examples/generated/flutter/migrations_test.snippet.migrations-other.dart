@@ -14,6 +14,7 @@ Configuration configWithChanges =
     // Use dynamic API to get properties from old schema and use in the
     // new schema
     newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
+        " " +
         oldPerson.dynamic.get<String>("lastName");
     // convert `id` from int to ObjectId
     final oldId = oldPerson.dynamic.get<int>("id");

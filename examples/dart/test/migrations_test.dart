@@ -35,8 +35,7 @@ void main() {
   });
   late Realm realmToTearDown;
   tearDown(() {
-    realmToTearDown.close();
-    Realm.deleteRealm(realmPath);
+    cleanUpRealm(realmToTearDown);
   });
   group("Migrations - ", () {
     test("Delete type", () {
@@ -75,6 +74,7 @@ void main() {
           continue;
         }
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
+            " " +
             oldPerson.dynamic.get<String>("lastName");
         final oldIdBytes = oldPerson.dynamic.get<int>("id");
         newPerson.id = ObjectId.fromValues(0, 0, oldIdBytes);
@@ -86,8 +86,9 @@ void main() {
     Realm realmWithRenamedAge = Realm(configWithRenamedAge);
     // :snippet-end:
     realmToTearDown = realmWithRenamedAge; // set for tear down
-    final peopleWithRenamedAge = realmWithRenamedAge.all<Person>();
-    expect(peopleWithRenamedAge.first.yearsSinceBirth, isA<int>());
+    final maceWindu =
+        realmWithRenamedAge.query<Person>("fullName == 'Mace Windu'").first;
+    expect(maceWindu.yearsSinceBirth, 40);
   });
   test("Other migration tasks", () {
     // :snippet-start: migrations-other
@@ -110,6 +111,7 @@ void main() {
         // Use dynamic API to get properties from old schema and use in the
         // new schema
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
+            " " +
             oldPerson.dynamic.get<String>("lastName");
         // convert `id` from int to ObjectId
         final oldId = oldPerson.dynamic.get<int>("id");
@@ -122,7 +124,8 @@ void main() {
     Realm realmWithChanges = Realm(configWithChanges);
     // :snippet-end:
     realmToTearDown = realmWithChanges; // set for tear down
-    final peopleWithChanges = realmWithChanges.all<Person>();
-    expect(peopleWithChanges.first.yearsSinceBirth, isA<int>());
+    final maceWindu =
+        realmWithChanges.query<Person>("fullName == 'Mace Windu'").first;
+    expect(maceWindu.yearsSinceBirth, 40);
   });
 }

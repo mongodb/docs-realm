@@ -8,7 +8,7 @@ Update a Realm Object Schema - Flutter SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 1
+   :depth: 2
    :class: singlecol
 
 You can change the schema of a Realm object after you first create it.
@@ -100,7 +100,8 @@ To delete a property from a schema:
 
 #. Remove the property from the object's ``RealmModel`` class.
 #. :ref:`Regenerate the RealmObject <flutter-generate-realm-object>`.
-#. Set a ``schema`` of the realm's ``Configuration`` object.
+#. In the realm's configuration, include the regenerated ``RealmObject.schema``
+   and increment the ``schemaVersion``.
 
 Deleting a property does not impact existing objects.
 
@@ -125,19 +126,19 @@ Manually Migrate Schema
 For more complex schema updates, Realm Database requires you to manually migrate
 old instances of a given object to the new schema.
 
-When you open the realm with the updated schema, you must do the following:
+When you open the realm with the updated schema, you must do the following
+in the realm's ``Configuration``:
 
-- Increment the schema version
+- Increment the ``schemaVersion`` property.
 - Define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
   property of a realm's :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+  The migration callback has the following parameters:
 
-The migration callback has the following parameters:
-
-- ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>` instance with access to the
-  current realm, the realm that you're migrating to, and methods
-  to help with the migration operation.
-- ``oldSchemaVersion``: The number of the previous schema version of the realm on
-  the device.
+   - ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>` instance with access to the
+   current realm, the realm that you're migrating to, and methods
+   to help with the migration operation.
+   - ``oldSchemaVersion``: The number of the previous schema version of the realm on
+   the device.
 
 The following sections explain how to perform various types of migration operations.
 
@@ -174,15 +175,14 @@ Other Migration Tasks
 To perform other realm schema migrations, use the following properties of
 the ``Migration`` object in your migration callback function:
 
-- :flutter-sdk:`Migration.newRealm <realm/Migration/newRealm.html>`: The Realm as it existed just before
-  the migration with the previous schema version.
-- :flutter-sdk:`Migration.oldRealm <realm/Migration/oldRealm.html>`:
+- :flutter-sdk:`Migration.oldRealm <realm/Migration/oldRealm.html>`: The Realm
+  as it existed just before the migration with the previous schema version.
+  You must use the ``oldRealm``'s dynamic API to access its objects because you
+  cannot use standard type-based queries. The dynamic API lets you find Realm objects
+  by a string representation of their class name.
+- :flutter-sdk:`Migration.newRealm <realm/Migration/newRealm.html>`:
   The Realm as it exists after the migration. By the end of the migration callback,
   all relevant data must be migrated from ``oldRealm`` into ``newRealm``.
-
-You must use the ``oldRealm``'s dynamic API to access its objects because you
-cannot use standard type-based queries. The dynamic API lets you find Realm objects
-by a string representation of their class name.
 
 To find instances of an object in an old realm in the new realm,
 use :flutter-sdk:`Migration.findInNewRealm() <realm/Migration/oldRealm.html>`.
