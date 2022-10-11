@@ -102,8 +102,9 @@ You can also return values from the write transaction callback function.
 Create Objects
 ~~~~~~~~~~~~~~
 
-To create a new ``Car``, instantiate an instance of the
-``Car`` class and add it to the realm in a write transaction block:
+To create a new Realm object, instantiate an instance of the object class
+and add it to the realm in a write transaction block with
+:flutter-sdk:`Realm.add() <realm/Realm/add.html>`.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.create-realm-object.dart
    :language: dart
@@ -113,10 +114,32 @@ To create a new ``Car``, instantiate an instance of the
 Update Objects
 ~~~~~~~~~~~~~~
 
-To modify a car, update its properties in a write transaction block:
+.. _flutter-update-object-properties:
+
+Update Object Properties
+````````````````````````
+
+To modify an object's properties, update the properties in a write transaction block.
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.update-realm-object.dart
    :language: dart
+
+.. _flutter-upsert-objects:
+
+Upsert Objects
+``````````````
+
+Update an existing object with the same primary key or create an object
+if it doesn't already exist using :flutter-sdk:`Realm.add() <realm/Realm/add.html>`
+with the optional ``update`` flag set to ``true`` inside a transaction block.
+
+TODO: literalinclude
+
+.. code-block:: dart
+
+   realm.write(() {
+     realm.add(modifiedObjectAlreadyInRealm, update: true);
+   });
 
 .. _flutter-delete-objects:
 
@@ -128,8 +151,8 @@ Delete Objects
 Delete a Single Object
 ``````````````````````
 
-Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
-method in a write transaction block:
+Delete a object by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.html>`
+method in a write transaction block
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
    :language: dart
