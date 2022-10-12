@@ -34,7 +34,7 @@ namespace Examples.RqlSchemaExamples
         public int ProgressMinutes { get; set; } = 0;
 
         [MapTo("projects")]
-        [Backlink(nameof(RqlProject.Tasks))]
+        [Backlink(nameof(RqlProject.RqlTasks))]
         public IQueryable<RqlProject> Projects { get; }
     }
 
