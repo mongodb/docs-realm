@@ -10,13 +10,26 @@ Freeze Data - Flutter SDK
    :depth: 2
    :class: singlecol
 
-overview of freezing
-Explain what it means for something to be frozen 
+Freezing creates an immutable snapshot of data in a realm.
+Frozen objects are not live and do not automatically update.
+You cannot manually frozen objects.
+They are snapshots of the object state at the time of freezing.
+Once you create a frozen snapshot, it cannot be unfrozen.
+
+The following object types have a ``freeze()`` method which you can use
+to freeze the object:
+
+- :flutter-sdk:`Realm.freeze() <>`
+- :flutter-sdk:`RealmResults.freeze() <>`
+- :flutter-sdk:`RealmObject.freeze() <>`
+- :flutter-sdk:`RealmList.freeze() <>`
 
 Freeze a Realm
 --------------
 
 explanation, link to API docs, and example  of freezing
+
+note that must close a frozen realm still
 
 Freeze RealmResults
 -------------------
