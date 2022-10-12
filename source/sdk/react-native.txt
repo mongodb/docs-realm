@@ -219,20 +219,14 @@ clients.
          a realm and listening to realm objects. With Realm React, you can
          avoid creating your own listeners and state management. 
 
-         Using Providers
-         ~~~~~~~~~~~~~~~
+         Using Providers and Hooks
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         Providers allow you to access components for use in hooks. Realm
-         providers give you access to the Realm database to query
-         and reference objects. App and User Providers allow easy 
-         access to features like authentication, user credentials, and sync. 
-
-         Using Hooks
-         ~~~~~~~~~~~
-
-         By wrapping app components in a Provider, you
-         have access to hook functions to dynamically manange the state 
-         of wrapped components.
+         Provider wrappers give hooks access to components, which 
+         allow you to easily query, reference objects, and use
+         features like authentication, user credentials, and sync.
+         Hook functions, like useObject() and useQuery() can dynamically
+         manange the state of wrapped components.
 
          Learn more about :ref:`Realm React here <react-native-use-realm-react>`.
 
