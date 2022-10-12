@@ -12,7 +12,7 @@ Update a Realm Object Schema - Flutter SDK
    :class: singlecol
 
 You can change the schema of a Realm object after you first create it.
-Depending on the changes you make to the schema, the changes can be either
+Depending on the type of changes you make to the schema, the changes can be either
 automatically applied or require a manual update to the new schema.
 Manual schema updates are called **migrations** in Realm Database.
 
@@ -182,7 +182,7 @@ the ``Migration`` object in your migration callback function:
   by a string representation of their class name.
 - :flutter-sdk:`Migration.newRealm <realm/Migration/newRealm.html>`:
   The Realm as it exists after the migration. By the end of the migration callback,
-  all relevant data must be migrated from ``oldRealm`` into ``newRealm``.
+  you must migrate all relevant data  from ``oldRealm`` into ``newRealm``.
 
 To find instances of an object in an old realm in the new realm,
 use :flutter-sdk:`Migration.findInNewRealm() <realm/Migration/oldRealm.html>`.
