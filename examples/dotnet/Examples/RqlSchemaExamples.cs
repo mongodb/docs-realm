@@ -32,6 +32,10 @@ namespace Examples.RqlSchemaExamples
 
         [MapTo("progressMinutes")]
         public int ProgressMinutes { get; set; } = 0;
+
+        [MapTo("projects")]
+        [Backlink(nameof(RqlProject.Tasks))]
+        public IQueryable<RqlProject> Projects { get; }
     }
 
     public class RqlProject : RealmObject

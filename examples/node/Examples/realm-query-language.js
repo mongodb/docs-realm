@@ -1,39 +1,22 @@
 import Realm, { BSON } from "realm";
-
-const Project = {
-  name: "Project",
-  properties: {
-    name: "string",
-    tasks: "Task[]",
-    quota: "int?",
-  },
-};
-const Task = {
-  name: "Task",
-  properties: {
-    id: "objectId?",
-    name: "string",
-    isComplete: "bool",
-    assignee: "string?",
-    priority: "int",
-    progressMinutes: "int",
-  },
-};
+import { TaskModel, ProjectModel } from "./schemas/rql-data-models";
 
 describe("Realm Query Language Reference", () => {
   let realm;
   beforeEach(async () => {
     realm = await Realm.open({
-      schema: [Project, Task],
+      schema: [ProjectModel, TaskModel],
       deleteRealmIfMigrationNeeded: true,
     });
 
     // populate test objects
     realm.write(() => {
       realm.create("Project", {
+        id: new Realm.BSON.ObjectId(),
         name: "New Project",
         tasks: [
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Write tests",
             isComplete: false,
             assignee: "Alex",
@@ -41,6 +24,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 125,
           },
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Run tests",
             isComplete: false,
             assignee: "Ali",
@@ -48,6 +32,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 10,
           },
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Bluehawk Tests",
             isComplete: false,
             assignee: null,
@@ -55,6 +40,52 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 55,
           },
         ],
+      });
+      const proj1 = realm.create("Project", {
+        id: new Realm.BSON.ObjectId(),
+        name: "Project with High Quota",
+        quota: 12,
+        tasks: [
+          {
+            id: new Realm.BSON.ObjectId(),
+            name: "Create a ticket",
+            isComplete: true,
+            assignee: "Nick",
+            priority: 2,
+            progressMinutes: 8,
+          },
+          {
+            id: new Realm.BSON.ObjectId(),
+            name: "Schedule a meeting",
+            isComplete: true,
+            assignee: "Chris",
+            priority: 9,
+            progressMinutes: 10,
+          },
+          {
+            id: new Realm.BSON.ObjectId(),
+            name: "Get coffee",
+            isComplete: false,
+            assignee: "Dachary",
+            priority: 11,
+            progressMinutes: 3,
+          },
+        ],
+      });
+
+      const proj2 = realm.create("Project", {
+        id: new Realm.BSON.ObjectId(),
+        name: "Another project",
+        tasks: [proj1.tasks[2]],
+      });
+
+      realm.create("Task", {
+        id: new Realm.BSON.ObjectId(),
+        name: "Assign me to a project",
+        isComplete: false,
+        assignee: "Nick",
+        priority: 2,
+        progressMinutes: 0,
       });
     });
 
@@ -88,7 +119,7 @@ describe("Realm Query Language Reference", () => {
       "priority > 5"
       // :remove-start:
     );
-    expect(highPriorityTasks.length).toBe(2);
+    expect(highPriorityTasks.length).toBe(4);
 
     const longRunningTasks = tasks.filtered(
       // :remove-end:
@@ -120,7 +151,7 @@ describe("Realm Query Language Reference", () => {
       "progressMinutes IN { 10, 20, 30, 40, 50, 60 }"
       // :snippet-end:
     );
-    expect(progressMinutesIn.length).toBe(1);
+    expect(progressMinutesIn.length).toBe(2);
   });
 
   test("logic queries", () => {
@@ -159,7 +190,7 @@ describe("Realm Query Language Reference", () => {
       "tasks.@avg.priority > 5"
       // :remove-start:
     );
-    expect(averageTaskPriorityAbove5.length).toBe(1);
+    expect(averageTaskPriorityAbove5.length).toBe(3);
 
     const allTasksLowerPriority = projects.filtered(
       // :remove-end:
@@ -175,7 +206,7 @@ describe("Realm Query Language Reference", () => {
       "tasks.@min.priority > 5"
       // :remove-start:
     );
-    expect(allTasksHighPriority.length).toBe(0);
+    expect(allTasksHighPriority.length).toBe(1);
 
     const moreThan5Tasks = projects.filtered(
       // :remove-end:
@@ -231,11 +262,11 @@ describe("Realm Query Language Reference", () => {
       "NONE tasks.assignee IN { 'Alex', 'Ali' }"
       // :snippet-end:
     );
-    expect(noCompleteTasks.length).toBe(1);
+    expect(noCompleteTasks.length).toBe(2);
     expect(anyTopPriorityTasks.length).toBe(1);
     expect(allTasksCompleted.length).toBe(0);
     expect(assignedToAlexOrAli.length).toBe(1);
-    expect(notAssignedToAlexOrAli.length).toBe(0);
+    expect(notAssignedToAlexOrAli.length).toBe(2);
   });
 
   test("sort, distinct and limit queries", () => {
@@ -252,6 +283,7 @@ describe("Realm Query Language Reference", () => {
   test("list comparisons", () => {
     realm.write(() => {
       realm.create("Project", {
+        id: new Realm.BSON.ObjectId(),
         name: "List Query Project",
         tasks: [
           {
@@ -304,17 +336,102 @@ describe("Realm Query Language Reference", () => {
     // :snippet-end:
 
     expect(collectionQuery.length).toBe(1);
-    expect(staticQuery.length).toBe(1);
+    expect(staticQuery.length).toBe(3);
     expect(parameterizedQuery.length).toBe(3);
+  });
+
+  describe("Backlink queries", () => {
+    test("dot-notation", () => {
+      const linkingObjectsResult = realm.objects("Task").filtered(
+        // :snippet-start: backlinks
+        // Find tasks that belong to a project with a quota greater than 10 (LinkingObjects)
+        "projects.quota > 10"
+        // :remove-start:
+      );
+      expect(linkingObjectsResult.length).toBe(3);
+      expect(linkingObjectsResult[0].name).toBe("Create a ticket");
+
+      const atLinksResult = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks that belong to a project with a quota greater than 10 (@links)
+        "@links.Project.tasks.quota > 10"
+        // :remove-start:
+      );
+      expect(atLinksResult.length).toBe(3);
+      expect(atLinksResult[0].name).toBe("Create a ticket");
+    });
+
+    test("collection operators", () => {
+      const anyResult = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks where any project that references the task has a quota greater than 0
+        "ANY @links.Project.tasks.quota > 0"
+        // :remove-start:
+      );
+      expect(anyResult.length).toBe(3);
+      expect(anyResult[0].name).toBe("Create a ticket");
+
+      const allResult = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks where all projects that reference the task have a quota greater than 0
+        "ALL @links.Project.tasks.quota > 0"
+        // :remove-start:
+      );
+      expect(allResult.length).toBe(3);
+      expect(allResult[0].name).toBe("Create a ticket");
+    });
+
+    test("aggregate operators (linkingObjects)", () => {
+      const shallowResultLinkingObjects = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks that are referenced by multiple projects
+        "projects.@count > 1"
+        // :remove-start:
+      );
+      expect(shallowResultLinkingObjects.length).toBe(1);
+      expect(shallowResultLinkingObjects[0].name).toBe("Get coffee");
+      
+      const shallowResultAtLinks = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks that are not referenced by any project
+        "@links.Project.tasks.@count == 0"
+        // :remove-start:
+      );
+      expect(shallowResultAtLinks.length).toBe(1);
+      expect(shallowResultAtLinks[0].name).toBe("Assign me to a project");
+
+      const deepResultAtLinks = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks that belong to a project where the average task has
+        // been worked on for at least 5 minutes
+        "@links.Project.tasks.tasks.@avg.progressMinutes > 10"
+        // :remove-start:
+      );
+      expect(deepResultAtLinks.length).toBe(3);
+      expect(deepResultAtLinks[0].name).toBe("Write tests");
+    });
+
+    test("all backlinks (@links)", () => {
+      const result = realm.objects("Task").filtered(
+        // :remove-end:
+        // Find tasks that are not referenced by another object of any type
+        "@links.@count == 0"
+        // :snippet-end:
+      );
+      expect(result.length).toBe(1);
+      expect(result[0].name).toBe("Assign me to a project");
+    });
   });
 
   test("subquery queries", () => {
     realm.write(() => {
       realm.create("Project", {
+        id: new Realm.BSON.ObjectId(),
         name: "Project with Quota",
         quota: 2,
         tasks: [
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Write tests",
             isComplete: true,
             assignee: "Alex",
@@ -322,6 +439,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 125,
           },
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Run tests",
             isComplete: true,
             assignee: "Ali",
@@ -329,6 +447,7 @@ describe("Realm Query Language Reference", () => {
             progressMinutes: 10,
           },
           {
+            id: new Realm.BSON.ObjectId(),
             name: "Bluehawk Tests",
             isComplete: false,
             assignee: null,
@@ -398,8 +517,8 @@ describe("Realm Query Language Reference", () => {
       // :snippet-end:
     );
 
-    expect(basicMath.length).toBe(3);
-    expect(lessBasicMath.length).toBe(3);
+    expect(basicMath.length).toBe(5);
+    expect(lessBasicMath.length).toBe(5);
   });
   test("Arithmetic with object properties", () => {
     const tasks = realm.objects("Task");
@@ -408,7 +527,7 @@ describe("Realm Query Language Reference", () => {
       "progressMinutes * priority == 90"
       // :snippet-end:
     );
-    expect(mathWithObjProps.length).toBe(1);
+    expect(mathWithObjProps.length).toBe(2);
   });
 
   describe("ObjectId and UUID tests", () => {
