@@ -130,17 +130,15 @@ When you open the realm with the updated schema, you must do the following
 in the realm's ``Configuration``:
 
 - Increment the ``schemaVersion`` property.
-
 - Define the migration logic in a :flutter-sdk:`migrationCallback <realm/MigrationCallback.html>`
   property of a realm's :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
   The migration callback has the following parameters:
 
-   - ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>`
-     instance with access to the current realm, the realm that you're migrating to,
-     and methods to help with the migration operation.
-
-   - ``oldSchemaVersion``: The number of the previous schema version of the realm on
-     the device.
+  - ``migration``: A :flutter-sdk:`Migration <realm/Migration-class.html>`
+    instance with access to the current realm, the realm that you're migrating to,
+    and methods to help with the migration operation.
+  - ``oldSchemaVersion``: The number of the previous schema version of the realm
+    on the device.
 
 The following sections explain how to perform various migration operations.
 
