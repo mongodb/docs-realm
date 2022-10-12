@@ -186,7 +186,6 @@ class SchemaTest: RealmTest() {
                 })
 
                 assertTrue(set.contains(waxWormsSnack))
-
 //                assertTrue(set.containsAll(setOf(fliesSnack, cricketsSnack, earthWormsSnack, waxWormsSnack)))
 
             }
