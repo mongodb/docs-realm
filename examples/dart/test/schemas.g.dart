@@ -22,7 +22,7 @@ class Car extends _Car with RealmEntity, RealmObject {
   @override
   String get make => RealmObject.get<String>(this, 'make') as String;
   @override
-  set make(String value) => throw RealmUnsupportedSetError();
+  set make(String value) => RealmObject.set(this, 'make', value);
 
   @override
   String? get model => RealmObject.get<String>(this, 'model') as String?;
@@ -37,6 +37,9 @@ class Car extends _Car with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Car>> get changes =>
       RealmObject.getChanges<Car>(this);
+
+  @override
+  Car freeze() => RealmObject.freezeObject<Car>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -62,11 +65,14 @@ class SyncSchema extends _SyncSchema with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, '_id', value);
 
   @override
   Stream<RealmObjectChanges<SyncSchema>> get changes =>
       RealmObject.getChanges<SyncSchema>(this);
+
+  @override
+  SyncSchema freeze() => RealmObject.freezeObject<SyncSchema>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -95,7 +101,7 @@ class Bike extends _Bike with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -110,6 +116,9 @@ class Bike extends _Bike with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Bike>> get changes =>
       RealmObject.getChanges<Bike>(this);
+
+  @override
+  Bike freeze() => RealmObject.freezeObject<Bike>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -140,7 +149,7 @@ class Person extends _Person with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String get firstName => RealmObject.get<String>(this, 'firstName') as String;
@@ -155,6 +164,9 @@ class Person extends _Person with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObject.getChanges<Person>(this);
+
+  @override
+  Person freeze() => RealmObject.freezeObject<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -184,7 +196,7 @@ class Scooter extends _Scooter with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -199,6 +211,9 @@ class Scooter extends _Scooter with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Scooter>> get changes =>
       RealmObject.getChanges<Scooter>(this);
+
+  @override
+  Scooter freeze() => RealmObject.freezeObject<Scooter>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -230,7 +245,7 @@ class ScooterShop extends _ScooterShop with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -247,6 +262,9 @@ class ScooterShop extends _ScooterShop with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<ScooterShop>> get changes =>
       RealmObject.getChanges<ScooterShop>(this);
+
+  @override
+  ScooterShop freeze() => RealmObject.freezeObject<ScooterShop>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
