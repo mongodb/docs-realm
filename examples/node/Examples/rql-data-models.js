@@ -35,7 +35,7 @@ const ProjectModel = {
 };
 // :snippet-end:
 
-describe("test models", async () => {
+describe("test models", () => {
   let realm;
   const config = {
     schema: [TaskModel, ProjectModel],
