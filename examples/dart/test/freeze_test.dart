@@ -30,7 +30,7 @@ void main() {
       cleanUpRealm(realmToTearDown);
     });
     test("Freeze a realm", () {
-      // :snippet-start; freeze-realm
+      // :snippet-start: freeze-realm
       final config = Configuration.local([Person.schema, Scooter.schema]);
       Realm realm = Realm(config);
       // Add scooter ownded by Mace Windu
@@ -39,6 +39,7 @@ void main() {
       realm.write(() {
         realm.add(purpleScooter);
       });
+
       // Create frozen snapshot of realm
       final frozenRealm = realm.freeze();
 
@@ -58,6 +59,7 @@ void main() {
       expect(frozenRealm.isFrozen, isTrue);
       // :remove-end:
       realm.close();
+
       // You must also close the frozen realm before exiting the process
       frozenRealm.close();
       // :snippet-end:

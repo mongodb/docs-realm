@@ -16,37 +16,73 @@ You cannot manually frozen objects.
 They are snapshots of the object state at the time of freezing.
 Once you create a frozen snapshot, it cannot be unfrozen.
 
-The following object types have a ``freeze()`` method which you can use
-to freeze the object:
+You can freeze the following object types:
 
-- :flutter-sdk:`Realm.freeze() <>`
-- :flutter-sdk:`RealmResults.freeze() <>`
-- :flutter-sdk:`RealmObject.freeze() <>`
-- :flutter-sdk:`RealmList.freeze() <>`
+- :ref:`Realm <flutter-freeze-realm>`
+- :ref:`RealmResults <flutter-freeze-realmresults>`
+- :ref:`RealmObject <flutter-freeze-realmobject>`
+- :ref:`RealmList <flutter-freeze-realmlist>`
+
+.. _flutter-freeze-realm:
 
 Freeze a Realm
 --------------
 
-explanation, link to API docs, and example  of freezing
+Create a frozen snapshot of an entire realm with :flutter-sdk:`Realm.freeze()
+<latest/realm/Realm/freeze.html>`. Once you finish working with the frozen realm,
+you must close it to prevent memory leaks.
 
-note that must close a frozen realm still
+.. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm.dart
+   :language: dart
+   :emphasize-lines: 10-11, 24-25
+
+.. _flutter-freeze-realmresults:
 
 Freeze RealmResults
 -------------------
 
-explanation, link to API docs, and example of freezing
+Create a frozen snapshot of ``RealmResults`` with :flutter-sdk:`RealmResults.freeze()
+<latest/realm/RealmResults/freeze.html>`. Once you finish working with the frozen data,
+you must close the realm associated with it to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm-results.dart
+   :language: dart
+   :emphasize-lines: 6-8, 23-25
+
+.. _flutter-freeze-realmobject:
 
 Freeze a RealmObject
 --------------------
 
-explanation, link to API docs, and example of freezing
+Create a frozen snapshot of a ``RealmObject`` with :flutter-sdk:`RealmObject.freeze()
+<latest/realm/RealmObject/freeze.html>`. Once you finish working with the frozen data,
+you must close the realm associated with it to prevent memory leaks.
 
-Freeze a List in a RealmObject
-------------------------------
+.. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm-object.dart
+   :language: dart
+   :emphasize-lines: 3-4, 16-18
 
-explanation, link to API docs, and example of freezing
+.. _flutter-freeze-realmlist:
+
+Freeze a RealmList in a RealmObject
+-----------------------------------
+
+Create a frozen snapshot of ``RealmList`` in a ``RealmObject``
+with :flutter-sdk:`RealmList.freeze() <latest/realm/RealmList/freeze.html>`.
+Once you finish working with the frozen data,
+you must close the realm associated with it to prevent memory leaks.
+
+.. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-list-in-realm-object.dart
+   :language: dart
+   :emphasize-lines: 3-5, 17-19
+
+.. _flutter-isfrozen:
 
 Check if Data Is Frozen
 -----------------------
 
-Explanation and example of the .isFrozen property for Realm, RealmResults, RealmObject, List in RealmObject
+Check if any of the freezable data types are frozen with the ``isFrozen`` property.
+``isFrozen`` returns ``true`` if an object is frozen and ``false`` if it is a live object.
+
+.. literalinclude:: /examples/generated/flutter/freeze_test.snippet.is-frozen.dart
+   :language: dart
