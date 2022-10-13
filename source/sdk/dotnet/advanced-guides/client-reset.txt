@@ -67,8 +67,8 @@ Client Reset Strategies
 The following sections describe the different strategies for handling a client 
 reset and how you can use each of the ``ClientResetHandlers``.
 
-Recover all Unsynced Local Changes Strategy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Recover All Unsynced Local Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This strategy attempts to recover all unsynced local changes automatically. There 
 are two client reset handlers that take this approach:
@@ -138,8 +138,8 @@ The following example shows using each of these callbacks:
 .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.RecoverUnsyncedChangesHandler.cs
    :language: csharp
 
-Discard Unsynced Changes Strategy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Discard Unsynced Changes
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 This strategy **permanently deletes** all local unsynced changes 
 made since the last successful sync. When you specify a 
@@ -169,8 +169,8 @@ The following example shows how you might implement a DiscardUnsyncedChangesHand
 
 .. _manual_recovery_handler:
 
-Manual Recovery Strategy
-~~~~~~~~~~~~~~~~~~~~~~~~
+Manual Recovery
+~~~~~~~~~~~~~~~
 
 Use this strategy to customize your data recovery process. You use the 
 :dotnet-sdk:`ManualRecoveryHandler(ClientResetException) <reference/Realms.Sync.ErrorHandling.ManualRecoveryHandler.html#Realms_Sync_ErrorHandling_ManualRecoveryHandler__ctor_Realms_Sync_ErrorHandling_ClientResetHandlerBase_ClientResetCallback_>` 
