@@ -12,11 +12,19 @@ void main() {
       List<int> key = List<int>.generate(64, (i) => Random().nextInt(256));
 
       Configuration encryptedConfig = Configuration.local([Car.schema],
-          encryptionKey: key, path: 'encrypted.realm');
+          path: 'encrypted.realm', // :remove:
+          // Include the encryption key in the configuration
+          encryptionKey: key);
       Realm encryptedRealm = Realm(encryptedConfig);
       // :snippet-end:
       expect(encryptedRealm.isClosed, isFalse);
-      // Note: no way to test if Realm is encrypted per SDK PR - https://github.com/realm/realm-dart/blob/7b16c62fae4baf8b257531db6f1ed36093fa7309/test/configuration_test.dart#L550-L553
+      encryptedRealm.close();
+      expect(
+          () =>
+              Realm(Configuration.local([Car.schema], path: 'encrypted.realm')),
+          throwsA(predicate((e) =>
+              e is RealmException &&
+              e.message.startsWith("Error opening realm at path"))));
       cleanUpRealm(encryptedRealm);
     });
   });
