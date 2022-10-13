@@ -24,12 +24,6 @@ startup. Until the app is restarted, users will receive no new data from the ser
 and any changes on the device are lost when the app is restarted and the 
 reset happens.
 
-.. warning::
-
-   A client reset erases all local data and downloads a new copy of the
-   data stored in MongoDB Atlas. Performing a client reset loses all local
-   changes made since the client last successfully synced.
-
 The .NET SDK provides the option to specify a client 
 reset strategy in your :dotnet-sdk:`PartitionSyncConfiguration 
 <reference/Realms.Sync.PartitionSyncConfiguration.html>` and 
