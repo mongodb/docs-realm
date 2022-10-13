@@ -16,8 +16,9 @@ site. This happens in a cloud environment known as "Autobuilder".
 ⚠️ Unfortunately, local builds are not possible, and it's not currently possible
 to provide external contributors with preview builds. Therefore, when
 contributing to docs, we recommend keeping it to simple fixes like text rework,
-typo fixes, etc. Please tap on the docs team to help with things that would
-require previews such as editing tables, etc.
+typo fixes, etc. Please tap on the docs team (tag @realmies, chat in #docs-appx,
+etc.) to help with things that would require previews such as editing tables,
+etc.
 
 ## Setup
 
