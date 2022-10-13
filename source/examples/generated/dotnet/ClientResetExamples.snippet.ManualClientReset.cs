@@ -6,16 +6,15 @@ private void SetupRealm()
 
     var config = new FlexibleSyncConfiguration(user);
     config.ClientResetHandler =
-        new ManualRecoveryHandler(HandleSessionError);
-
+        new ManualRecoveryHandler(HandleClientResetError);
     var realm = await Realm.GetInstanceAsync(config);
 }
 
-private void HandleSessionError(ClientResetException clientResetException)
+private void HandleClientResetError(ClientResetException clientResetException)
 {
     Console.WriteLine($"Client Reset requested: {clientResetException.Message}");
 
-    // Prompt user to perform a client reset immediately. If they don't do it,
+    // Prompt user to perform a client reset immediately. If they don't,
     // they won't receive any data from the server until they restart the app
     // and all changes they make will be discarded when the app restarts.
     var didUserConfirmReset = ShowUserAConfirmationDialog();

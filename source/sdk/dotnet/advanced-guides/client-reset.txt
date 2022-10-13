@@ -43,7 +43,7 @@ property can be set to one of the following:
    * - :dotnet-sdk:`RecoverOrDiscardUnsyncedChangesHandler <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html>`
        **(Default handler)**
      - Attempts to recover all unsynced local changes.
-     - If recovery fails, this handler falls back to the DiscardLocalResetHandler, 
+     - If recovery fails, this handler falls back to the DiscardUnsyncedChangesHandler, 
        which deletes all unsycned local changes. This is the default client 
        reset handler.
 
@@ -52,7 +52,7 @@ property can be set to one of the following:
      - If recovery fails, this handler falls back to a ManualRecoveryHandler, which
        requires you to implement a recovery strategy.
 
-   * - :dotnet-sdk:`DiscardLocalResetHandler <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html>`
+   * - :dotnet-sdk:`DiscardUnsyncedChangesHandler <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html>`
      - Restores your local realm file to a syncable state
      - This strategy *permanently deletes* all local unsynced changes made since 
        the last successful sync.
@@ -101,7 +101,9 @@ This handler provides the following callback methods:
 
 The following example shows using each of these callbacks:
 
-TODO
+.. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.RecoverOrDiscardUnsyncedChangesHandler.cs
+   :language: csharp
+
 
 RecoverUnsyncedChangesHandler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -127,12 +129,13 @@ callback methods:
 
 The following example shows using each of these callbacks:
 
-TODO
+.. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.RecoverUnsyncedChangesHandler.cs
+   :language: csharp
 
+DiscardUnsyncedChangesHandler
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DiscardLocalResetHandler
-~~~~~~~~~~~~~~~~~~~~~~~~
-When you specify a ``DiscardLocalResetHandler`` on a 
+When you specify a ``DiscardUnsyncedChangesHandler`` on a 
 ``PartitionSyncConfiguration`` object, the SDK restores your local realm file 
 to a syncable state without closing the realm and while maintaining notifications. 
 However, this strategy *permanently deletes* all local unsynced changes 
@@ -141,16 +144,16 @@ made since the last successful sync.
 This handler provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
-  <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_OnBeforeReset>`, 
+  <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_DiscardUnsyncedChangesHandler_OnBeforeReset>`, 
   which the SDK invokes prior to the client reset. You can use this callback to notify 
   the user before the reset begins.
 
 - :dotnet-sdk:`OnAfterReset 
-  <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_OnAfterReset>`, 
+  <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_DiscardUnsyncedChangesHandler_OnAfterReset>`, 
   which the SDK invokes if -- and only if -- the reset completes successfully. 
   You can use it to notify the user when the reset is complete.
 
-- :dotnet-sdk:`ManualResetFallback <reference/Realms.Sync.ErrorHandling.DiscardLocalResetHandler.html#Realms_Sync_ErrorHandling_DiscardLocalResetHandler_ManualResetFallback>`,
+- :dotnet-sdk:`ManualResetFallback <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_DiscardUnsyncedChangesHandler_ManualResetFallback>`,
   which the SDK invokes if the reset fails. Your logic here will 
   be similar to that described for a 
   :ref:`ManualRecoveryHandler <manual_recovery_handler>`.
@@ -160,7 +163,7 @@ This handler provides the following callback methods:
    The following example shows how you might configure the ``OnBeforeReset``, 
    ``OnAfterReset``, and ``ManualResetFallback`` callbacks.
 
-   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.DiscardLocalResetHandler.cs
+   .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.DiscardUnsyncedChangesHandler.cs
       :language: csharp
 
 .. _manual_recovery_handler:
