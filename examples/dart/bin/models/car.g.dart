@@ -22,7 +22,7 @@ class Car extends _Car with RealmEntity, RealmObject {
   @override
   String get make => RealmObject.get<String>(this, 'make') as String;
   @override
-  set make(String value) => throw RealmUnsupportedSetError();
+  set make(String value) => RealmObject.set(this, 'make', value);
 
   @override
   String? get model => RealmObject.get<String>(this, 'model') as String?;
@@ -37,6 +37,9 @@ class Car extends _Car with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Car>> get changes =>
       RealmObject.getChanges<Car>(this);
+
+  @override
+  Car freeze() => RealmObject.freezeObject<Car>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

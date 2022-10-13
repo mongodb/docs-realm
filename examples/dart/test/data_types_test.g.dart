@@ -37,7 +37,7 @@ class Car extends _Car with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String? get licensePlate =>
@@ -73,6 +73,9 @@ class Car extends _Car with RealmEntity, RealmObject {
   Stream<RealmObjectChanges<Car>> get changes =>
       RealmObject.getChanges<Car>(this);
 
+  @override
+  Car freeze() => RealmObject.freezeObject<Car>(this);
+
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
@@ -106,7 +109,7 @@ class Person extends _Person with RealmEntity, RealmObject {
   @override
   int get id => RealmObject.get<int>(this, 'id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObject.set(this, 'id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -121,6 +124,9 @@ class Person extends _Person with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObject.getChanges<Person>(this);
+
+  @override
+  Person freeze() => RealmObject.freezeObject<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -146,11 +152,14 @@ class UuidPrimaryKey extends _UuidPrimaryKey with RealmEntity, RealmObject {
   @override
   Uuid get id => RealmObject.get<Uuid>(this, 'id') as Uuid;
   @override
-  set id(Uuid value) => throw RealmUnsupportedSetError();
+  set id(Uuid value) => RealmObject.set(this, 'id', value);
 
   @override
   Stream<RealmObjectChanges<UuidPrimaryKey>> get changes =>
       RealmObject.getChanges<UuidPrimaryKey>(this);
+
+  @override
+  UuidPrimaryKey freeze() => RealmObject.freezeObject<UuidPrimaryKey>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -175,11 +184,15 @@ class ObjectIdPrimaryKey extends _ObjectIdPrimaryKey
   @override
   ObjectId get id => RealmObject.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(ObjectId value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => RealmObject.set(this, 'id', value);
 
   @override
   Stream<RealmObjectChanges<ObjectIdPrimaryKey>> get changes =>
       RealmObject.getChanges<ObjectIdPrimaryKey>(this);
+
+  @override
+  ObjectIdPrimaryKey freeze() =>
+      RealmObject.freezeObject<ObjectIdPrimaryKey>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -205,7 +218,7 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObject {
   @override
   String get nickname => RealmObject.get<String>(this, 'nickname') as String;
   @override
-  set nickname(String value) => throw RealmUnsupportedSetError();
+  set nickname(String value) => RealmObject.set(this, 'nickname', value);
 
   @override
   DateTime get dateLastServiced =>
@@ -217,6 +230,9 @@ class Vehicle extends _Vehicle with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Vehicle>> get changes =>
       RealmObject.getChanges<Vehicle>(this);
+
+  @override
+  Vehicle freeze() => RealmObject.freezeObject<Vehicle>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
