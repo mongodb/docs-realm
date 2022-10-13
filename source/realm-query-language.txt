@@ -856,14 +856,32 @@ You can access backlinks in queries using the
 and ``<PropertyName>`` refer to a specific property on an object type
 that references the queried object type.
 
-You can also define a ``linkingObjects`` property in an object schema to
-reference the backlink using standard :ref:`dot notation
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-atLinks.js
+     :language: js
+
+You can also define a ``linkingObjects`` property to explicitly include
+the backlink in your data model. This lets you reference the backlink
+through an assigned property name using standard :ref:`dot notation
 <rql-dot-notation>`.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-linkingObjects.js
+     :language: js
 
 The result of a backlink is treated like a collection and supports
 :ref:`collection operators <rql-collection-operators>`.
 
-.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks.js
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-collection-operators.js
+     :language: js
+
+You can use :ref:`aggregate operators <rql-aggregate-operators>` on the backlink collection.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-aggregate-operators.js
+     :language: js
+
+You can query the count of all relationships that point to an object by
+using the ``@count`` operator directly on ``@links``.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-atCount.js
      :language: js
 
 .. _rql-subqueries:

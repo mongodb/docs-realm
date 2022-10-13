@@ -342,28 +342,28 @@ describe("Realm Query Language Reference", () => {
 
   describe("Backlink queries", () => {
     test("dot-notation", () => {
-      const linkingObjectsResult = realm.objects("Task").filtered(
-        // :snippet-start: backlinks
-        // Find tasks that belong to a project with a quota greater than 10 (LinkingObjects)
-        "projects.quota > 10"
-        // :remove-start:
-      );
-      expect(linkingObjectsResult.length).toBe(3);
-      expect(linkingObjectsResult[0].name).toBe("Create a ticket");
-
       const atLinksResult = realm.objects("Task").filtered(
-        // :remove-end:
+        // :snippet-start: backlinks-atLinks
         // Find tasks that belong to a project with a quota greater than 10 (@links)
         "@links.Project.tasks.quota > 10"
-        // :remove-start:
+        // :snippet-end:
       );
       expect(atLinksResult.length).toBe(3);
       expect(atLinksResult[0].name).toBe("Create a ticket");
+
+      const linkingObjectsResult = realm.objects("Task").filtered(
+        // :snippet-start: backlinks-linkingObjects
+        // Find tasks that belong to a project with a quota greater than 10 (LinkingObjects)
+        "projects.quota > 10"
+        // :snippet-end:
+      );
+      expect(linkingObjectsResult.length).toBe(3);
+      expect(linkingObjectsResult[0].name).toBe("Create a ticket");
     });
 
     test("collection operators", () => {
       const anyResult = realm.objects("Task").filtered(
-        // :remove-end:
+        // :snippet-start: backlinks-collection-operators
         // Find tasks where any project that references the task has a quota greater than 0
         "ANY @links.Project.tasks.quota > 0"
         // :remove-start:
@@ -375,15 +375,15 @@ describe("Realm Query Language Reference", () => {
         // :remove-end:
         // Find tasks where all projects that reference the task have a quota greater than 0
         "ALL @links.Project.tasks.quota > 0"
-        // :remove-start:
+        // :snippet-end:
       );
       expect(allResult.length).toBe(3);
       expect(allResult[0].name).toBe("Create a ticket");
     });
 
-    test("aggregate operators (linkingObjects)", () => {
+    test("aggregate operators", () => {
       const shallowResultLinkingObjects = realm.objects("Task").filtered(
-        // :remove-end:
+        // :snippet-start: backlinks-aggregate-operators
         // Find tasks that are referenced by multiple projects
         "projects.@count > 1"
         // :remove-start:
@@ -405,15 +405,15 @@ describe("Realm Query Language Reference", () => {
         // Find tasks that belong to a project where the average task has
         // been worked on for at least 5 minutes
         "@links.Project.tasks.tasks.@avg.progressMinutes > 10"
-        // :remove-start:
+        // :snippet-end:
       );
       expect(deepResultAtLinks.length).toBe(3);
       expect(deepResultAtLinks[0].name).toBe("Write tests");
     });
 
-    test("all backlinks (@links)", () => {
+    test("count all backlinks (@links.@count)", () => {
       const result = realm.objects("Task").filtered(
-        // :remove-end:
+        // :snippet-start: backlinks-atCount
         // Find tasks that are not referenced by another object of any type
         "@links.@count == 0"
         // :snippet-end:
