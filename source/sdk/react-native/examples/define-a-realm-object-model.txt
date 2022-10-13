@@ -342,3 +342,31 @@ object), set ``embedded`` to ``true``.
    .. literalinclude:: /examples/Schemas/Embedded.js
       :language: javascript
       :emphasize-lines: 3, 18, 28
+
+.. _react-native-define-an-asymmetric-object:
+
+Define an Asymmetric Object
+---------------------------
+
+If you are using Flexible Sync and need to sync a collection unidirectionally
+from your device to your Atlas database, you can set the ``asymmetric`` property
+on your object schema.
+
+.. example::
+   
+   In the following example of a retail app, the client requires large amounts of
+   invoice data to be recorded rapidly by store employees. The client specifies
+   that invoice data does not need to be read after employees have recorded it. To
+   satisfy this requirement, the application developer defines an invoice
+   collection with its ``asymmetric`` property set to ``true``. 
+   
+   .. literalinclude::  /examples/generated/node/asymmetric-sync.snippet.asymmetric-sync.js
+      :language: javascript
+      :emphasize-lines: 4
+
+.. note:: Attempting to Read Asymmetric Sync Objects
+
+   Asymmetric Sync objects cannot be read. If you attempt to query an Asymmetric Sync object, you
+   will get the following error: "Error: You cannot query an asymmetric class.".
+
+To learn more about Asymmetric Sync, read :ref:`Optimize Sync with Asymmetric Sync <optimize-asymmetric-sync>`.
