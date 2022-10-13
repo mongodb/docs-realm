@@ -18,11 +18,14 @@ class Person extends _Person with RealmEntity, RealmObject {
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObject.getChanges<Person>(this);
+
+  @override
+  Person freeze() => RealmObject.freezeObject<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -48,7 +51,7 @@ class Team extends _Team with RealmEntity, RealmObject {
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
   RealmList<Person> get crew =>
@@ -60,6 +63,9 @@ class Team extends _Team with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Team>> get changes =>
       RealmObject.getChanges<Team>(this);
+
+  @override
+  Team freeze() => RealmObject.freezeObject<Team>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

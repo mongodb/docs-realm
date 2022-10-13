@@ -22,7 +22,7 @@ class Character extends _Character with RealmEntity, RealmObject {
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
   String get species => RealmObject.get<String>(this, 'species') as String;
@@ -37,6 +37,9 @@ class Character extends _Character with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Character>> get changes =>
       RealmObject.getChanges<Character>(this);
+
+  @override
+  Character freeze() => RealmObject.freezeObject<Character>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -65,7 +68,7 @@ class Fellowship extends _Fellowship with RealmEntity, RealmObject {
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObject.set(this, 'name', value);
 
   @override
   RealmList<Character> get members =>
@@ -77,6 +80,9 @@ class Fellowship extends _Fellowship with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Fellowship>> get changes =>
       RealmObject.getChanges<Fellowship>(this);
+
+  @override
+  Fellowship freeze() => RealmObject.freezeObject<Fellowship>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;

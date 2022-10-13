@@ -3,6 +3,7 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import '../bin/models/car.dart';
+import 'utils.dart';
 
 part 'read_write_data_test.g.dart';
 
@@ -60,5 +61,26 @@ void main() {
     expect(fordFusion.model, 'Fusion');
     realm.close();
     Realm.deleteRealm(realm.config.path);
+  });
+
+  test('Upsert data', () {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    // :snippet-start: upsert
+    // Add Toyota Prius to the realm with primary key `Toyota`
+    Car newPrius = Car("Toyota", model: "Prius", miles: 0);
+    realm.write(() {
+      realm.add<Car>(newPrius);
+    });
+
+    // Update Toyota Prius's miles in the realm with primary key `Toyota`
+    Car usedPrius = Car("Toyota", model: "Prius", miles: 500);
+    realm.write(() {
+      realm.add<Car>(usedPrius, update: true);
+    });
+    // :snippet-end:
+    final prius = realm.find<Car>("Toyota");
+    expect(prius!.miles, 500);
+    cleanUpRealm(realm);
   });
 }

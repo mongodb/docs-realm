@@ -37,7 +37,7 @@ class Task extends _Task with RealmEntity, RealmObject {
   @override
   ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -69,6 +69,9 @@ class Task extends _Task with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Task>> get changes =>
       RealmObject.getChanges<Task>(this);
+
+  @override
+  Task freeze() => RealmObject.freezeObject<Task>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
@@ -104,7 +107,7 @@ class Project extends _Project with RealmEntity, RealmObject {
   @override
   ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => throw RealmUnsupportedSetError();
+  set id(ObjectId value) => RealmObject.set(this, '_id', value);
 
   @override
   String get name => RealmObject.get<String>(this, 'name') as String;
@@ -126,6 +129,9 @@ class Project extends _Project with RealmEntity, RealmObject {
   @override
   Stream<RealmObjectChanges<Project>> get changes =>
       RealmObject.getChanges<Project>(this);
+
+  @override
+  Project freeze() => RealmObject.freezeObject<Project>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
