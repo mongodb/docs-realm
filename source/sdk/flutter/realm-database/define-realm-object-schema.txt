@@ -60,10 +60,21 @@ Create Model
 
    .. step:: Create RealmModel
 
-      Create the model for your Realm schema in a private class.
+      Create the model for your Realm schema.
       You must include the annotation `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__
-      at the top of the class definition. Prepend the class name with an underscore
-      to make it private. You'll generate the public ``RealmObject`` in step 4.
+      at the top of the class definition.
+
+      You'll use the ``RealmModel`` to generate the public ``RealmObject``
+      used throughout the application in step 4.
+
+      You can make the model private or public. We recommend making
+      the all models private and defining them in a single file.
+      Prepend the class name with an underscore (``_``) to make it private.
+
+      If you need to define your schema across multiple files,
+      you can make the RealmModel public. Prepend the name with a dollar sign (``$``)
+      to make the model public. You must do this to generate the ``RealmObject``
+      from the ``RealmModel``, as described in step 4.
 
       Add fields to the ``RealmModel``.
       You can add all :ref:`supported data types <flutter-data-types>`.
@@ -250,6 +261,8 @@ Important aspects of primary keys:
 - Only add a primary key to one property in a RealmModel.
 - Only ``String``, ``int``, ``ObjectId``, and ``Uuid`` types can be primary keys.
 - Realm automatically indexes primary keys.
+- Primary keys are nullable. ``null`` can only be the primary key of one object
+  in a collection.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
@@ -374,112 +387,3 @@ Cleaning the generator cache can be useful when debugging.
       .. code-block::
 
          dart run realm_dart generate --clean
-
-.. _flutter-update-schema:
-
-Update a Realm Schema
----------------------
-
-.. important:: Modify Schema Properties of a Synced Realm
-
-   Schema migration functions differently for synced realms.
-   Refer to :ref:`Updating the Schema of a Synced Realm <flutter-update-schema-of-synced-realm>`.
-
-.. TODO: when flutter SDK gets client reset behavior add information here about
-.. how breaking changes require client resets
-.. Breaking changes require a client reset.
-
-.. _flutter-schema-version:
-
-Schema Version
-~~~~~~~~~~~~~~
-
-A **schema version** identifies the state of a :ref:`realm schema
-<flutter-realm-schema>` at some point in time. Realm Database tracks the
-schema version of each realm and uses it to map the objects in each
-realm to the correct schema.
-
-Schema versions are ascending integers that you can optionally include
-in the realm configuration when you open a realm. If a client
-application does not specify a version number when it opens a realm then
-the realm defaults to version ``0``.
-
-.. TODO: add version of this content in when migrations are supported
-.. :ref:`Migrations <node-migrations>` must update a realm to a
-.. higher schema version. Realm Database will throw an error if a client
-.. application opens a realm with a schema version that is lower than
-.. the realm's current version or if the specified schema version is the
-.. same as the realm's current version but includes different
-.. object schemas.
-
-.. _flutter-add-a-property:
-
-Add a Property
-~~~~~~~~~~~~~~
-
-To add a property to a schema:
-
-#. Add the new property to the object's ``RealmModel`` class.
-#. :ref:`Regenerate the RealmObject <flutter-generate-realm-object>`.
-#. Set a schema version to the realm's 
-   :flutter-sdk:`Configuration object <realm/Configuration-class.html>`.
-
-.. example::
-
-   A realm using schema version ``1`` has a ``Person`` object type with a
-   ``firstName``, and ``lastName`` property. The developer decides to add an
-   ``age`` property to the ``_Person`` RealmModel class.
-
-   To change the realm to conform to the updated ``Person`` schema, the
-   developer sets the realm's :ref:`schema version <flutter-schema-version>`
-   to ``2``.
-
-   .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.modify-schema-model.dart
-      :language: dart
-      :emphasize-lines: 5
-
-   .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.schema-version.dart
-      :language: dart
-
-
-.. _flutter-delete-a-property:
-
-Delete a Property
-~~~~~~~~~~~~~~~~~
-
-To delete a property from a schema:
-
-#. Remove the property from the object's ``RealmModel`` class.
-#. :ref:`Regenerate the RealmObject <flutter-generate-realm-object>`.
-#. Set a ``schema`` of the realm's ``Configuration`` object.
-
-Deleting a property does not impact existing objects.
-
-.. example::
-
-   A realm using schema version ``1`` has a ``Dog`` object type with a
-   ``weight`` property. The developer decides to remove the property from the
-   schema.
-
-   To migrate the realm to conform to the updated ``Dog`` schema, the
-   developer sets the realm's :ref:`schema version <flutter-schema-version>` to
-   ``2``.
-
-   .. literalinclude:: /examples/generated/flutter/define_realm_model_test.snippet.schema-version.dart
-      :language: dart
-
-.. _flutter-update-schema-of-synced-realm:
-
-Updating the Schema of a Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Updating the schema of a synced realm is a separate process from updating
-the schema of a a local-only realm.
-
-Synced realms do not have schema versions and automatically migrate
-objects to the latest schema. Synced realms only support non-breaking schema changes.
-
-Learn how to :ref:`modify schema properties of a synced realm
-<synced-schema-overview>`.
-
-

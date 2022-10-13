@@ -30,7 +30,7 @@ Services integrations.
 Requirements
 ------------
 
-- Minimum C++ standard: C++20.
+- Minimum C++ standard: C++17.
 - For development on macOS: Xcode 11.x or later.
 - Otherwise, we recommend git and `CMake <https://cmake.org>`_.
 
@@ -83,7 +83,7 @@ Install
       Use ``add_subdirectory()`` to locate the Realm dependency and
       ``target_link_libraries()`` to link the Realm dependency to your target
       executable. Set the minimum C++ standard to 20 with
-      ``set(CMAKE_CXX_STANDARD 20)``.
+      ``set(CMAKE_CXX_STANDARD 20)``. You can also set it to 17 for C++17.
 
       .. code-block:: cmake
          :emphasize-lines: 6, 12, 13
@@ -136,9 +136,9 @@ You can define your models as classes or structs that inherit from
 ``realm::object``.
 
 You must declare any property you want to store (persist) in a realm as
-``realm::persisted``. Your model must also expose a public type definition
-called ``schema``. Use the ``realm::schema`` and ``realm::property`` templates
-to describe your schema.
+``realm::persisted``. Your model must also expose a public static constant
+expression (``constexpr``) member called ``schema``. Use the ``realm::schema``
+and ``realm::property`` templates to describe your schema.
 
 Realm ignores any members not declared as ``realm::persisted`` and not
 declared in the schema.

@@ -3,7 +3,7 @@ import { ObjectId } from "bson";
 
 const REALM_APP_ID = "myapp-zufnj";
 
-describe("Client Reset with Seamless Loss", () => {
+describe.skip("Client Reset with Seamless Loss", () => {
   // these tests can take longer than most, causing timeouts that make
   // the Github Actions CI fail
   jest.setTimeout(20000);

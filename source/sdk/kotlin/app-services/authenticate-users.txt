@@ -5,8 +5,6 @@
 Authenticate Users - Kotlin SDK
 ===============================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -54,6 +52,14 @@ and then pass the generated credential to
 <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb/-app/login.html>`__.
 
 .. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication.kt
+   :language: kotlin
+   :copyable: false
+
+You can optionally specify whether the anonymous user should be reused by 
+passing ``reuseExisting = true`` to ``Credentials.anonymous()`` as long as the anonymous user being reused hasn't logged out.
+The ``reuseExisting`` parameter defaults to false, which creates a new anonymous user credential rather than reusing an existing one.
+
+.. literalinclude:: /examples/generated/kotlin/AuthenticationTest.snippet.anonymous-authentication-reuse-existing.kt
    :language: kotlin
    :copyable: false
 

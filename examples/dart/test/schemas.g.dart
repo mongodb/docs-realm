@@ -137,11 +137,13 @@ class Person extends _Person with RealmEntity, RealmObject {
   Person(
     int id,
     String firstName,
-    String lastName,
-  ) {
+    String lastName, {
+    int? age,
+  }) {
     RealmObject.set(this, 'id', id);
     RealmObject.set(this, 'firstName', firstName);
     RealmObject.set(this, 'lastName', lastName);
+    RealmObject.set(this, 'age', age);
   }
 
   Person._();
@@ -162,6 +164,11 @@ class Person extends _Person with RealmEntity, RealmObject {
   set lastName(String value) => RealmObject.set(this, 'lastName', value);
 
   @override
+  int? get age => RealmObject.get<int>(this, 'age') as int?;
+  @override
+  set age(int? value) => RealmObject.set(this, 'age', value);
+
+  @override
   Stream<RealmObjectChanges<Person>> get changes =>
       RealmObject.getChanges<Person>(this);
 
@@ -176,6 +183,7 @@ class Person extends _Person with RealmEntity, RealmObject {
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
+      SchemaProperty('age', RealmPropertyType.int, optional: true),
     ]);
   }
 }
