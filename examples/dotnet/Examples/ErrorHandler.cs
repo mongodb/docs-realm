@@ -24,7 +24,6 @@ namespace Examples
             Logger.LogLevel = LogLevel.Debug;
             // :snippet-end:
 
-
             // :snippet-start: customize-logging-function
             // :uncomment-start:
             //using Realms.Logging;
@@ -48,12 +47,11 @@ namespace Examples
             config.Schema = new[] { typeof(Examples.Models.User) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
+            // :snippet-start:handle-errors
             config.OnSessionError = (session, sessionException) =>
             {
-                didTriggerErrorHandler = true;
                 switch (sessionException.ErrorCode)
                 {
-
                     case ErrorCode.AccessTokenExpired:
                     case ErrorCode.BadUserAuthentication:
                         // Ask user for credentials

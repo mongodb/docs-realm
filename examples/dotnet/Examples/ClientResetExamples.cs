@@ -120,8 +120,6 @@ namespace Examples
             return true;
         }
 
-
-
         public async Task TestRecoverOrDiscardUnsyncedChangesHandler()
         {
             var partition = ":";

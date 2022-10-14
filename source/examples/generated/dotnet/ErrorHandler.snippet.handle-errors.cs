@@ -1,6 +1,5 @@
-Session.Error += (session, errorArgs) =>
+config.OnSessionError = (session, sessionException) =>
 {
-    var sessionException = (SessionException)errorArgs.Exception;
     switch (sessionException.ErrorCode)
     {
         case ErrorCode.AccessTokenExpired:
