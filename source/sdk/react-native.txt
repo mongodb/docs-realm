@@ -86,10 +86,9 @@ clients.
 
          .. step:: Install the Realm React Native SDK
 
-            :ref:`Install React Native <react-native-install>` in your
-            project.
-
-            Import Realm in your project files to get started.
+            Set up your project with React Native and Realm. See 
+            :ref:`Install React Native <react-native-install>`to 
+            get started.
 
          .. step:: Define an Object Schema
 
@@ -104,16 +103,24 @@ clients.
 
          .. step:: Read and Write Data
 
-            :ref:`Create <react-native-create-a-new-object>`, :ref:`read <react-native-read-operations>`, 
-            :ref:`update <react-native-update-an-object>`, and :ref:`delete <react-native-delete-an-object>` 
-            objects from the realm. :ref:`Filter data <react-native-filter-queries>` with React Native using
-            :ref:`Realm Query Language <realm-query-language>`. 
+            You can create, read, update, and delete objects from the
+            realm. 
+            
+            For more information, see :ref:`Read & Write Data
+            <react-native-read-and-write-data>` and :ref:`Query Data
+            <react-native-query-data>`.
+            
 
          .. step:: React to Changes
 
             Realm's live objects mean that your data is always up-to-date.
-            You can :ref:`register a notification handler <react-native-react-to-changes>` 
-            to watch for changes and perform logic like updating your UI. 
+            You can register a change listener, a notification handler 
+            that watches for changes and performs logic like updating 
+            your UI. 
+
+            For more information, visit :ref:`React to Changes 
+            <react-native-react-to-changes>`.
+
 
       .. image:: /images/illustrations/Mobile_hero_green.png
          :alt: Realm Mobile Illustration
@@ -135,18 +142,24 @@ clients.
 
          .. step:: Authenticate a User
 
-            Use one of our authentication providers to :ref:`authenticate a 
-            user <react-native-authenticate-users>`. App Services 
-            provides access to custom JWT authentication, our built-in 
-            email/password provider, anonymous authentication, and popular 
+            App Services provides access to custom JWT authentication, 
+            our built-in email/password provider, anonymous 
+            authentication, and popular 
             authentication providers like Apple, Google, and Facebook. 
+
+            For more information, see :ref:`Authenticate Users
+            <react-native-authenticate-users>`.
 
          .. step:: Open a Synced Realm
 
-            :ref:`Configure and open a synced Realm <react-native-open-close-realm>` 
-            to access data across devices. To determine what data the 
-            synced realm can read and write, :ref:`subscribe to a query 
+            A synced realm allows you to access data across devices. 
+            Subscribe to a query to determine what data a 
+            synced realm can read and write. :ref:`subscribe to a query 
             <react-native-sync-subscribe-to-queryable-fields>`.
+
+            For more information, see :ref:`Open & Close a Realm
+            <react-native-open-close-realm>` and :ref:`Subscribe to
+            Queryable Fields <react-native-sync-subscribe-to-queryable-fields>`.
 
          .. step:: Read and Write Synced Data
 
@@ -156,6 +169,9 @@ clients.
             cluster and other clients. Apps keep working offline and 
             sync changes whenever a network connection is 
             available. 
+
+            For more information on reading and writing data, see 
+            :ref:`Read & Write Data <react-native-read-and-write-data>`.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
          :alt: Realm Sync Illustration
@@ -214,21 +230,15 @@ clients.
 
       .. container::
 
-         Realm React is a package that provides an easy-to-use API to
-         perform common Realm operations, such as querying or writing to 
-         a realm and listening to realm objects. With Realm React, you can
-         avoid creating your own listeners and state management. 
+         Realm React is an npm package that provides an easy-to-use API to
+         perform common Realm operations in your React Native app,
+         such as querying or writing to a realm and listening to realm
+         objects. Realm React includes React context, providers, and hooks 
+         for working with Realm. Use Realm React to manage a Realm 
+         Database, Atlas App Services, and Atlas Device Sync.
 
-         Using Providers and Hooks
-         ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-         Provider wrappers give hooks access to components, which 
-         allow you to easily query, reference objects, and use
-         features like authentication, user credentials, and sync.
-         Hook functions, like useObject() and useQuery() can dynamically
-         manange the state of wrapped components.
-
-         Learn more about :ref:`Realm React here <react-native-use-realm-react>`.
+         For more information, see :ref:`Realm React here 
+         <react-native-use-realm-react>`.
 
       .. image:: /images/illustrations/Sports_hero_green.png
          :alt: Realm Mobile Illustration
@@ -239,7 +249,7 @@ Recommended Reading
 -------------------
 
 .. card-group::
-   :columns: 3
+   :columns: 2
    :style: extra-compact
 
    .. card::
@@ -249,20 +259,14 @@ Recommended Reading
       :icon: /images/icons/branding_2022/General_ACTION_BestPractices3x.png
       :icon-alt: Realm Icon
 
-      Explore generated reference docs for the React Native APIs.
+      Explore generated reference docs for the React Native SDK.
 
    .. card::
       :headline: React Native Quick Start with Expo
       :cta: Explore the Quick Start
       :url: https://www.mongodb.com/docs/realm/sdk/react-native/quick-start-expo/
-      :icon: /images/icons/react_native_sdk.svg
-      :icon-alt: React Native Icon
+      :icon: /images/icons/expo_logo.svg
+      :icon-alt: Expo Icon
 
       Build and deploy a React Native application quickly using a
-      fully functional Realm Expo template application.
-
-   
-       
-   
-
-    
+      Expo template application with Realm.
