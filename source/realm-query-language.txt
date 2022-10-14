@@ -114,6 +114,8 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
                  String assignee;
                  Integer priority = 0;
                  Integer progressMinutes = 0;
+                 @LinkingObjects("tasks")
+                 final RealmResults<Project> projects = null;
                } 
                public class Project extends RealmObject {
                  ObjectId id = new ObjectId();
@@ -135,6 +137,7 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
                  var priority: Int = 0
                  var progressMinutes: Int = 0
                }
+               
                open class Project(): RealmObject() {
                  var id: ObjectId = new ObjectId()
                  lateinit var name: String
@@ -148,19 +151,20 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
       .. code-block:: swift
 
          class Task {
-             ObjectId id;
-             string name;
-             bool isComplete;
-             string? assignee;
-             int priority;
-             int progressMinutes;
+             @Persisted(primaryKey: true) var id: ObjectId
+             @Persisted var name: string
+             @Persisted var isComplete: bool
+             @Persisted var assignee: string?
+             @Persisted var priority: int
+             @Persisted var progressMinutes: int
+             @Persisted(originProperty: "tasks") var projects: LinkingObjects<Project>
          }
 
          class Project {
-             ObjectId id;
-             string name;
-             Task[] tasks;
-             int? quota;
+             @Persisted(primaryKey: true) var id: ObjectId
+             @Persisted var name: string
+             @Persisted var tasks: List<Task>
+             @Persisted var quota: int?
          }
 
    .. tab:: .NET SDK
@@ -193,6 +197,8 @@ See the schema for these two classes, ``Project`` and ``Task``, below:
            var assignee: String? = null
            var priority: Int = 0
            var progressMinutes: Int = 0
+           @LinkingObjects("tasks")
+           val projects: RealmResults<Project>? = null
          }
 
          class Project(): RealmObject {
@@ -242,6 +248,8 @@ Include multiple parameters with ascending integers starting at ``$0``.
 
 .. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.multiple-predicate.js
    :language: js
+
+.. _rql-dot-notation:
 
 Dot Notation
 ------------
@@ -831,6 +839,50 @@ operators interact with lists and comparison operators:
    * - ``NONE {0, 1} < NONE {1, 2}``
      - true
      - 0 and 1 are both less than none of 1 and 2
+
+.. _rql-backlinks:
+
+Backlink Queries
+----------------
+
+A backlink is an inverse relationship link that lets you look up objects
+that reference another object. Backlinks use the to-one and to-many
+relationships defined in your object schemas but reverse the direction.
+Every relationship that you define in your schema implicitly has a
+corresponding backlink.
+
+You can access backlinks in queries using the
+``@links.<ObjectType>.<PropertyName>`` syntax, where ``<ObjectType>``
+and ``<PropertyName>`` refer to a specific property on an object type
+that references the queried object type.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-atLinks.js
+     :language: js
+
+You can also define a ``linkingObjects`` property to explicitly include
+the backlink in your data model. This lets you reference the backlink
+through an assigned property name using standard :ref:`dot notation
+<rql-dot-notation>`.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-linkingObjects.js
+     :language: js
+
+The result of a backlink is treated like a collection and supports
+:ref:`collection operators <rql-collection-operators>`.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-collection-operators.js
+     :language: js
+
+You can use :ref:`aggregate operators <rql-aggregate-operators>` on the backlink collection.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-aggregate-operators.js
+     :language: js
+
+You can query the count of all relationships that point to an object by
+using the ``@count`` operator directly on ``@links``.
+
+.. literalinclude:: /examples/generated/realm-query-language/realm-query-language.snippet.backlinks-atCount.js
+     :language: js
 
 .. _rql-subqueries:
 

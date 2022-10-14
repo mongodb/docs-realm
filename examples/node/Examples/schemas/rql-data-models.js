@@ -1,3 +1,4 @@
+// :snippet-start: rql-data-models
 const TaskModel = {
   name: "Task",
   properties: {
@@ -32,3 +33,6 @@ const ProjectModel = {
   },
   primaryKey: "id",
 };
+// :snippet-end:
+
+export { TaskModel, ProjectModel };

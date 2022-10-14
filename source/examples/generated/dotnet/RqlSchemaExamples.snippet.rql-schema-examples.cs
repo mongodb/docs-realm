@@ -19,6 +19,10 @@ public class Task : RealmObject
 
     [MapTo("progressMinutes")]
     public int ProgressMinutes { get; set; } = 0;
+
+    [MapTo("projects")]
+    [Backlink(nameof(Project.Tasks))]
+    public IQueryable<Project> Projects { get; }
 }
 
 public class Project : RealmObject
