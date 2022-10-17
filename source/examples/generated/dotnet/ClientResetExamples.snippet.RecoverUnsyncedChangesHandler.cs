@@ -1,5 +1,4 @@
-
-var conf = new PartitionSyncConfiguration(partition, user)
+var conf = new FlexibleSyncConfiguration(user)
 {
     ClientResetHandler = new RecoverUnsyncedChangesHandler
     {

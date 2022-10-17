@@ -1,5 +1,5 @@
 {
-    var config = new PartitionSyncConfiguration("myPartition", user);
+    var config = new FlexibleSyncConfiguration(user);
     config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
     {
         // The following callbacks are optional

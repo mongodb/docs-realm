@@ -31,7 +31,7 @@ namespace Examples
             app = App.Create(myRealmAppId);
             user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
             // :remove-end:
-            var config = new PartitionSyncConfiguration("myPartition", user);
+            var config = new FlexibleSyncConfiguration(user);
             config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
             {
                 // The following callbacks are optional
@@ -124,10 +124,8 @@ namespace Examples
 
         public void TestRecoverOrDiscardUnsyncedChangesHandler()
         {
-            var partition = ":";
             // :snippet-start: RecoverOrDiscardUnsyncedChangesHandler
-
-            var conf = new PartitionSyncConfiguration(partition, user)
+            var conf = new FlexibleSyncConfiguration(user)
             {
                 ClientResetHandler = new RecoverOrDiscardUnsyncedChangesHandler
                 {
@@ -161,10 +159,8 @@ namespace Examples
 
         public void RecoverUnsyncedChangesHandler()
         {
-            var partition = ":";
             // :snippet-start: RecoverUnsyncedChangesHandler
-
-            var conf = new PartitionSyncConfiguration(partition, user)
+            var conf = new FlexibleSyncConfiguration(user)
             {
                 ClientResetHandler = new RecoverUnsyncedChangesHandler
                 {
