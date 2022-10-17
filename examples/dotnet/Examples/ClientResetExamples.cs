@@ -38,11 +38,13 @@ namespace Examples
                 OnBeforeReset = (beforeReset) =>
                 {
                     // Executed before the client reset begins
-                    // Can be used to notify the user that a reset is going to happen.
+                    // Can be used to notify the user that a reset is going
+                    // to happen
                 },
                 OnAfterReset = (beforeReset, afterReset) =>
                 {
                     // Executed after the client reset is complete
+                    // Can be used to notify the user that the reset is done
                 },
                 ManualResetFallback = (err) =>
                 {
@@ -103,12 +105,12 @@ namespace Examples
                 if (didReset)
                 {
                     // Navigate the user back to the main page or reopen the
-                    // the Realm and reinitialize the current page.
+                    // the Realm and reinitialize the current page
                 }
                 else
                 {
                     // Reset failed - notify user that they'll need to
-                    // restart the app.
+                    // restart the app
                 }
             }
         }
@@ -120,7 +122,7 @@ namespace Examples
             return true;
         }
 
-        public async Task TestRecoverOrDiscardUnsyncedChangesHandler()
+        public void TestRecoverOrDiscardUnsyncedChangesHandler()
         {
             var partition = ":";
             // :snippet-start: RecoverOrDiscardUnsyncedChangesHandler
@@ -134,11 +136,13 @@ namespace Examples
                     OnBeforeReset = (beforeFrozen) =>
                     {
                         // Executed before the client reset begins
-                        // Can be used to notify the user that a reset is going to happen.
+                        // Can be used to notify the user that a reset is going
+                        // to happen
                     },
                     OnAfterRecovery = (beforeFrozen, after) =>
                     {
                         // Executed after the client reset is complete
+                        // Can be used to notify the user that the reset is done
                     },
                     OnAfterDiscard = (beforeFrozen, after) =>
                     {
@@ -155,7 +159,7 @@ namespace Examples
             // :snippet-end:
         }
 
-        public async Task RecoverUnsyncedChangesHandler()
+        public void RecoverUnsyncedChangesHandler()
         {
             var partition = ":";
             // :snippet-start: RecoverUnsyncedChangesHandler
@@ -168,11 +172,13 @@ namespace Examples
                     OnBeforeReset = (beforeFrozen) =>
                     {
                         // Executed before the client reset begins
-                        // Can be used to notify the user that a reset is going to happen.
+                        // Can be used to notify the user that a reset is going
+                        // to happen
                     },
                     OnAfterReset = (beforeFrozen, after) =>
                     {
                         // Executed after the client reset is complete
+                        // Can be used to notify the user that the reset is done
                     },
                     ManualResetFallback = (err) =>
                     {

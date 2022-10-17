@@ -7,11 +7,13 @@ var conf = new PartitionSyncConfiguration(partition, user)
         OnBeforeReset = (beforeFrozen) =>
         {
             // Executed before the client reset begins
-            // Can be used to notify the user that a reset is going to happen.
+            // Can be used to notify the user that a reset is going
+            // to happen
         },
         OnAfterReset = (beforeFrozen, after) =>
         {
             // Executed after the client reset is complete
+            // Can be used to notify the user that the reset is done
         },
         ManualResetFallback = (err) =>
         {

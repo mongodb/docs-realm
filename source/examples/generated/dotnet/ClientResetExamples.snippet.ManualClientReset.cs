@@ -29,12 +29,12 @@ private void HandleClientResetError(ClientResetException clientResetException)
         if (didReset)
         {
             // Navigate the user back to the main page or reopen the
-            // the Realm and reinitialize the current page.
+            // the Realm and reinitialize the current page
         }
         else
         {
             // Reset failed - notify user that they'll need to
-            // restart the app.
+            // restart the app
         }
     }
 }

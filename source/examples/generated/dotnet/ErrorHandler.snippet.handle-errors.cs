@@ -2,16 +2,13 @@ config.OnSessionError = (session, sessionException) =>
 {
     switch (sessionException.ErrorCode)
     {
-        case ErrorCode.AccessTokenExpired:
-        case ErrorCode.BadUserAuthentication:
-            // Ask user for credentials
-            break;
-        case ErrorCode.PermissionDenied:
+        case ErrorCode.InvalidCredentials:
             // Tell the user they don't have permissions to work with that Realm
             break;
         case ErrorCode.Unknown:
-            // Likely the app version is too old, prompt for update
+            // See https://www.mongodb.com/docs/realm-sdks/dotnet
+            // /latest/reference/Realms.Sync.Exceptions.ErrorCode.html
+            // for all of the error codes
             break;
-            // ...
     }
 };

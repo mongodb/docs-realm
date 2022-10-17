@@ -52,33 +52,29 @@ namespace Examples
             {
                 switch (sessionException.ErrorCode)
                 {
-                    case ErrorCode.AccessTokenExpired:
-                    case ErrorCode.BadUserAuthentication:
-                        // Ask user for credentials
-                        break;
-                    case ErrorCode.PermissionDenied:
+                    case ErrorCode.InvalidCredentials:
                         // Tell the user they don't have permissions to work with that Realm
                         // :remove-start:
                         didTriggerErrorHandler = true;
                         // :remove-end:
                         break;
                     case ErrorCode.Unknown:
-                        // Likely the app version is too old, prompt for update
+                        // See https://www.mongodb.com/docs/realm-sdks/dotnet
+                        // /latest/reference/Realms.Sync.Exceptions.ErrorCode.html
+                        // for all of the error codes
                         break;
-                        // ...
                 }
             };
             // :snippet-end:
-            TestingExtensions.SimulateError(realm.SyncSession,
-            ErrorCode.PermissionDenied, "No permission to work with the Realm", false);
+            TestingExtensions.SimulateError(realm.SyncSession, ErrorCode.InvalidCredentials, "" +
+                "No permission to work with the Realm");
 
             // Close the Realm before doing the reset as it'll need
             // to be deleted and all objects obtained from it will be
             // invalidated.
             realm.Dispose();
 
-            // NOTE: this is no longer firing the handler (change since 10.17)
-            //Assert.IsTrue(didTriggerErrorHandler);
+            Assert.IsTrue(didTriggerErrorHandler);
         }
     }
 }
