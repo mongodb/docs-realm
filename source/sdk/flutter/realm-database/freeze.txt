@@ -12,8 +12,8 @@ Freeze Data - Flutter SDK
 
 Freezing creates an immutable snapshot of data in a realm at the time of freezing.
 Frozen objects are not live and do not automatically update.
-You cannot manually frozen objects.
-Once you create a frozen snapshot, it cannot be unfrozen.
+You cannot manually freeze objects.
+Once freeze data, it cannot be unfrozen.
 
 You can freeze the following object types:
 
@@ -28,7 +28,7 @@ Freeze a Realm
 --------------
 
 Create a frozen snapshot of an entire realm with :flutter-sdk:`Realm.freeze()
-<latest/realm/Realm/freeze.html>`. Once you finish working with the frozen realm,
+<realm/Realm/freeze.html>`. Once you finish working with the frozen realm,
 you must close it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm.dart
@@ -41,7 +41,7 @@ Freeze RealmResults
 -------------------
 
 Create a frozen snapshot of ``RealmResults`` with :flutter-sdk:`RealmResults.freeze()
-<latest/realm/RealmResults/freeze.html>`. Once you finish working with the frozen data,
+<realm/RealmResults/freeze.html>`. Once you finish working with the frozen data,
 you must close the realm associated with it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm-results.dart
@@ -54,7 +54,7 @@ Freeze a RealmObject
 --------------------
 
 Create a frozen snapshot of a ``RealmObject`` with :flutter-sdk:`RealmObject.freeze()
-<latest/realm/RealmObject/freeze.html>`. Once you finish working with the frozen data,
+<realm/RealmObject/freeze.html>`. Once you finish working with the frozen data,
 you must close the realm associated with it to prevent memory leaks.
 
 .. literalinclude:: /examples/generated/flutter/freeze_test.snippet.freeze-realm-object.dart
@@ -67,7 +67,7 @@ Freeze a RealmList in a RealmObject
 -----------------------------------
 
 Create a frozen snapshot of ``RealmList`` in a ``RealmObject``
-with :flutter-sdk:`RealmList.freeze() <latest/realm/RealmList/freeze.html>`.
+with :flutter-sdk:`RealmList.freeze() <realm/RealmList/freeze.html>`.
 Once you finish working with the frozen data,
 you must close the realm associated with it to prevent memory leaks.
 

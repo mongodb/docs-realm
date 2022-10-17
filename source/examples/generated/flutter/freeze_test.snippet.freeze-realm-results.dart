@@ -22,4 +22,4 @@ print(frozenFooPeople.length); // prints 0
 
 // You must also close the frozen realm associated
 // with the frozen RealmResults before exiting the process
-frozenFooPeople.realm.close();
+frozenPeople.realm.close();

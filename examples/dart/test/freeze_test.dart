@@ -100,7 +100,7 @@ void main() {
 
       // You must also close the frozen realm associated
       // with the frozen RealmResults before exiting the process
-      frozenFooPeople.realm.close();
+      frozenPeople.realm.close();
       // :snippet-end:
       // clean up
       realmToTearDown = realm;
