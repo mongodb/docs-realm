@@ -2,6 +2,7 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.log.RealmLogger
@@ -9,6 +10,9 @@ import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
 import kotlin.test.Test
@@ -181,13 +185,33 @@ class SchemaTest: RealmTest() {
 
                 assertEquals(4, set.size)
 
-                val applesSnack = this.copyToRealm(Snack().apply {
-                    name = "apples"
-                })
+                // :snippet-start: set-contains
+                Log.v("Does Kermit eat earth worms?: ${set.contains(earthWormsSnack)}")
+                // :snippet-end:
 
-                assertTrue(set.contains(waxWormsSnack))
-//                assertTrue(set.containsAll(setOf(fliesSnack, cricketsSnack, earthWormsSnack, waxWormsSnack)))
+                // :snippet-start: set-contains-multiple-items
+                val setOfFrogSnacks = setOf(cricketsSnack,earthWormsSnack,waxWormsSnack)
+                Log.v("Does Kermit eat crickets, earth worms, and wax worms?: ${set.containsAll(setOfFrogSnacks)}")
+                // :snippet-end:
 
+                // :snippet-start: remove-item-from-set
+                set.remove(fliesSnack)
+                // :snippet-end:
+
+                // :snippet-start: remove-multiple-items-from-set
+                set.removeAll(setOfFrogSnacks)
+                // :snippet-end:
+
+                // :snippet-start: react-to-changes-from-the-set
+                val kermitFrog = realm.query<Frog2>("name = 'Kermit'").first().find()
+                val job = CoroutineScope(Dispatchers.Default).launch {
+                    kermitFrog?.favoriteSnacks
+                        ?.asFlow()
+                        ?.collect() {
+                            // Listen for changes to the RealmSet
+                        }
+                }
+                // :snippet-end:
             }
 
 
