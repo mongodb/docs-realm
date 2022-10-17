@@ -21,11 +21,10 @@
 - Updated the landing page to create better getting started flow
 
 ## React Native SDK
-- Usage Examples
-  - Define a Realm Object to Schema: Documented Asymetric Sync support in new section, 'Define an Asymmetric Object'.
+- Define a Realm Object to Schema: Documented Asymetric Sync support in new section, 'Define an Asymmetric Object'.
 
 ## Web SDK 
-- Quick Start with React: Clarified name of the quick start from 'Realm- React Quick Start' to 'Quick Start with React'
+- Quick Start with React: Clarified name of the quick start from 'Realm - React Quick Start' to 'Quick Start with React'
 
 ## Other
 - Added contribution guide to the documentation repository
