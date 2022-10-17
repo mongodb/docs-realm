@@ -151,17 +151,19 @@ class SchemaTest: RealmTest() {
             Log.v("Successfully opened realm: ${realm.configuration.name}")
 
             realm.write {
+
+                // :snippet-start: add-item-to-realm-set
+                // create a Frog object that will have a RealmSet of favorite snacks
                 val frog = this.copyToRealm(Frog2().apply {
                     name = "Kermit"
                 })
-                // :snippet-start: add-item-to-realm-set
                 val set = frog.favoriteSnacks // get the RealmSet field from the object we just created
 
                 val fliesSnack = this.copyToRealm(Snack().apply {
                     name = "flies"
                 })
 
-                set.add(fliesSnack)
+                set.add(fliesSnack) // Add the flies to the set of Kermit's favorite snacks
                 // :snippet-end:
 
                 assertEquals(1, set.size)
@@ -183,12 +185,12 @@ class SchemaTest: RealmTest() {
                 assertEquals(4, set.size)
 
                 // :snippet-start: set-contains
-                Log.v("Does Kermit eat earth worms?: ${set.contains(earthWormsSnack)}")
+                Log.v("Does Kermit eat earth worms?: ${set.contains(earthWormsSnack)}") // true
                 // :snippet-end:
 
                 // :snippet-start: set-contains-multiple-items
                 val setOfFrogSnacks = setOf(cricketsSnack,earthWormsSnack,waxWormsSnack)
-                Log.v("Does Kermit eat crickets, earth worms, and wax worms?: ${set.containsAll(setOfFrogSnacks)}")
+                Log.v("Does Kermit eat crickets, earth worms, and wax worms?: ${set.containsAll(setOfFrogSnacks)}") // true
                 // :snippet-end:
 
                 // :snippet-start: remove-item-from-set

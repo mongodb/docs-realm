@@ -26,12 +26,27 @@ any ``RealmSet`` instances that contain the object.
 Define a Realm Set
 ------------------
 
+To define a property as a ``RealmSet`` specify it's type within the schema.
+Instantiate an unmanaged ``RealmSet`` by setting the default value of the field
+using the `realmSetOf()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ method.
+
+In the following example, we define a ``Frog`` schema with a ``favoriteSnacks``
+field that is a ``RealmSet`` of ``Snack`` objects.
+
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.define-a-realm-set.kt
    :language: kotlin
    :copyable: false
 
 Add an Item to a Realm Set
 --------------------------
+
+To add an item to a ``Realm Set``, pass the object that you wish to add to the `set.add()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/io.realm.kotlin.type/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
+method.
+
+In the following example, we get the ``favoriteSnacks`` set, and then add a new
+``Snack`` object to the set of favorite snacks.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-item-to-realm-set.kt
    :language: kotlin
@@ -40,12 +55,28 @@ Add an Item to a Realm Set
 Add Many Items to a Realm Set
 -----------------------------
 
+To add multiple items to a ``Realm Set``, pass the elements you wish to add to
+the `set.addAll()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/.types/-realm-set/index.html#-800009087%2FFunctions%2F-1651551339>`__
+method.
+
+In the following example, we create several ``Snack`` objects and we use the
+`setOf
+<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`_
+method to create a read-only set of the given elements. We then pass these
+elements to the ``set.addAll()`` method to add them our ``Frog`` object's favorite snacks.
+
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.add-all-to-realm-set.kt
    :language: kotlin
    :copyable: false
 
 Check if the Realm Set Contains an Item
 ---------------------------------------
+
+To check if the ``Realm Set`` contains a particular item, pass the element to
+`set.contains()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__
+The method returns true if the set contains the element.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains.kt
    :language: kotlin
@@ -54,12 +85,25 @@ Check if the Realm Set Contains an Item
 Check if the Realm Set Contains Multiple Items
 ----------------------------------------------
 
+To check if the ``Realm Set`` contains a particular item, pass the elements to
+`set.contains()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/io.realm.kotlin.types/-realm-set/index.html#607101300%2FFunctions%2F-1651551339>`__
+The method returns true if the set contains the element.
+
+In the following example, we pass the ``Snack`` objects we created earlier to
+the ``setOf()`` method to create a read-only set of favorite snacks. Then we
+check if the ``RealmSet`` contains all of these ``Snack`` objects by passing
+passing the read-only set to ``set.containsAll()``.
+
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.set-contains-multiple-items.kt
    :language: kotlin
    :copyable: false
 
 Remove an Item from a Realm Set
 -------------------------------
+
+To remove an item from a ``RealmSet``, pass the element you wish to delete to `set.remove()
+<{+kotlin-local-prefix+}io.realm.kotlin.ext/io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-item-from-set.kt
    :language: kotlin
@@ -68,12 +112,30 @@ Remove an Item from a Realm Set
 Remove Multiple Items from a Realm Set
 --------------------------------------
 
+To remove multiple items from a ``RealmSet``, pass the elements you wish to delete to
+`set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.ext/io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__
+
+In the following example, we delete the set of favorite snacks that we created earlier.
+
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-multiple-items-from-set.kt
    :language: kotlin
    :copyable: false
 
 Notifications
 -------------
+
+You can register a notification handler on a ``RealmSet``. Realm notifies your
+handler when the property changes. To register a change listener on a single
+object, generate a Flow from the ``RealmSet`` with `asFlow()
+<{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/as-flow.html>`__.
+Next, use the ``collect()`` method to handle events on that Flow. The flow will
+emit an `initialSet()
+<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
+once subscribed, and an `updatedSet()
+<{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
+on change. The flow runs indefinitely until cancelled or until you delete the parent object. 
+
+In the following example, we react to changes on the ``favoriteFoods`` set of our ``Frog`` object.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.react-to-changes-from-the-set.kt
    :language: kotlin
