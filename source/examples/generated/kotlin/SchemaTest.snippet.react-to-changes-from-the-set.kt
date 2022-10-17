@@ -1,4 +1,4 @@
-val kermitFrog = realm.query<Frog2>("name = 'Kermit'").first().find()
+val kermitFrog = realm.query<Frog>("name = 'Kermit'").first().find()
 val job = CoroutineScope(Dispatchers.Default).launch {
     kermitFrog?.favoriteSnacks
         ?.asFlow()

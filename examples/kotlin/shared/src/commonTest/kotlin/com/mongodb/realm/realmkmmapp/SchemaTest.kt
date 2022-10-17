@@ -17,7 +17,12 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+
+// :replace-start: {
+//    "terms": {
+//       "Frog2": "Frog"
+//    }
+// }
 
 // :snippet-start: primary-key
 class Lizard: RealmObject {
@@ -74,7 +79,7 @@ class Knight: RealmObject {
 }
 // :snippet-end:
 
-
+// :snippet-start: define-a-realm-set
 class Frog2 : RealmObject {
     var name: String = ""
     var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()  // realmSetOf(Snack()) // RealmSet<Snack>();
@@ -83,6 +88,7 @@ class Frog2 : RealmObject {
 class Snack : RealmObject {
     var name: String? = null
 }
+// :snippet-end:
 
 // :snippet-start: timestamp-workaround
 // model class that stores an Instant (kotlinx-datetime) field as a RealmInstant via a conversion
@@ -134,15 +140,6 @@ fun Instant.toRealmInstant(): RealmInstant {
 // :snippet-end:
 
 class SchemaTest: RealmTest() {
-
-//    class Frog2 : RealmObject {
-//        var name: String = ""
-//        var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()  // realmSetOf(Snack()) // RealmSet<Snack>();
-//    }
-//
-//    class Snack : RealmObject {
-//        var name: String? = null
-//    }
 
     @Test
     fun createRealmSetTypes() {
@@ -221,3 +218,4 @@ class SchemaTest: RealmTest() {
     }
 
 }
+// :replace-end:
