@@ -1,3 +1,37 @@
+# October 14, 2022
+
+## Flutter SDK
+- Realm Database
+  - Data Types: Added that nullable types in lists are supported.
+  - Define a Realm Object Schema: Added that primary keys are nullable
+  - Read & Write Data: Added section on how to upsert an object using Realm.add()
+  - Encrypt a Realm: Added documentation on encrypting a realm
+  - Update a Realm Object Schema: Created this new page to add details on manual migration using the migrationCallback configuration
+  - Open & Close a Realm: Added note about new 'Update a Realm Object Schema' page.
+
+- User Management
+  - Authenticate Users: Note about breaking change to email/password authentication when an app uses a version greater than 0.5.0. User will need to reset password or create a new account.
+  - Authenticate Users: Documented API key user authentication
+
+## C++ SDK 
+- Maintenance to landing page wording
+- Added note about update for C++17 support
+
+## Kotlin SDK
+- Updated the landing page to create better getting started flow
+
+## React Native SDK
+- Define a Realm Object to Schema: Documented Asymetric Sync support in new section, 'Define an Asymmetric Object'.
+
+## Web SDK 
+- Quick Start with React: Clarified name of the quick start from 'Realm - React Quick Start' to 'Quick Start with React'
+
+## Other
+- Added contribution guide to the documentation repository
+- Realm Query Language: Added section on backlink query syntax
+- Removed .. default-domain:: mongodb directive from the docs
+- Updated Jest to version ^29.0.0 and realm to ^10.21.0
+
 # October 7, 2022
 
 ## Flutter SDK
