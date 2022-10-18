@@ -3,6 +3,7 @@
 //     "ClientReset_": ""
 //   }
 // }
+// swiftlint:disable identifier_name
 import XCTest
 import RealmSwift
 
