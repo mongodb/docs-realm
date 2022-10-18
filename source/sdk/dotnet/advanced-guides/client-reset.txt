@@ -1,8 +1,8 @@
 .. _dotnet-client-resets:
 
-````````````````````````
+========================
 Client Resets - .NET SDK
-````````````````````````
+========================
 
 .. contents:: On this page
    :local:
@@ -10,24 +10,18 @@ Client Resets - .NET SDK
    :depth: 3
    :class: singlecol
 
-When using :ref:`Device Sync <sync>`, it is possible that your client app will 
-need to handle a client reset. While not a common event, you need to perform 
-a client reset when Sync is terminated on the server. For example, when a developer 
-deploys a change that includes a destructive schema change. To fix this, you must 
-stop Sync, modify the schema, and then re-enable Sync. This process causes the 
-server to send a client reset message to the clients.
+A client reset error is a scenario where a client realm cannot sync 
+data with the application backend. Clients in this state may continue to 
+run and save data locally but cannot send or receive sync changesets 
+until they perform a client reset. The Realm SDKs provide methods to 
+automatically handle client resets under most scenarios.
 
-By default, the SDK handles client reset messages automatically, but only on app 
-startup. Until the app is restarted, users will receive no new data from the server,
-and any changes on the device are lost when the app is restarted and the 
-reset happens.
+For more information, see to :ref:`client-resets`.
 
-The .NET SDK provides the option to specify a client 
-reset strategy in your :dotnet-sdk:`PartitionSyncConfiguration 
-<reference/Realms.Sync.PartitionSyncConfiguration.html>` and 
-:dotnet-sdk:`FlexibleSyncConfiguration 
-<reference/Realms.Sync.FlexibleSyncConfiguration.html>`. The 
-:dotnet-sdk:`ClientResetHandler <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_ClientResetHandler>` 
+In the .NET SDK, you can specify a client 
+reset strategy in your :dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
+and :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>`.
+The :dotnet-sdk:`ClientResetHandler <reference/Realms.Sync.SyncConfigurationBase.html#Realms_Sync_SyncConfigurationBase_ClientResetHandler>` 
 property can be set to one of the following:
 
 .. list-table::
