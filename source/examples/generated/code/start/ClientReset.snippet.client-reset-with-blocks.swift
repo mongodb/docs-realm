@@ -1,9 +1,24 @@
 let beforeClientResetBlock: (Realm) -> Void = { before in
-    // This block could be used to back-up a realm file, send reporting, etc.
+    var recoveryConfig = Realm.Configuration()
+    recoveryConfig.fileURL = myRecoveryPath
+    do {
+       try before.writeCopy(configuration: recoveryConfig)
+        // The copied realm could be used later for recovery, debugging, reporting, etc.
+     } catch {
+            // handle error
+     }
 }
 
 let afterClientResetBlock: (Realm, Realm) -> Void = { before, after in
-    // This block could be used to add custom recovery logic, send reporting, etc.
+    /// // This block could be used to add custom recovery logic, back-up a realm file, send reporting, etc. For illustration:
+    /// for object in before.objects(myClass.self) {
+    ///     let res = after.objects(myClass.self)
+    ///     if (res.filter("primaryKey == %@", object.primaryKey).first != nil) {
+    ///         // ...custom recovery logic...
+    ///     } else {
+    ///         // ...custom recovery logic...
+    ///     }
+    /// }
 }
 
 do {

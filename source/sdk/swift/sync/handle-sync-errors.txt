@@ -92,10 +92,9 @@ All the client reset modes except ``.manual`` perform an automatic client
 reset. The differences between the modes are based on how they handle 
 changes on the device that have not yet synced to the backend.
 
-Choose ``.recoverOrDiscardUnsyncedChanges`` to handle most client reset 
+Choose ``.recoverUnsyncedChanges`` to handle most client reset 
 scenarios automatically. This attempts to recover unsynced changes when a 
-client reset occurs, and falls through to discard unsynced changes when 
-the client cannot recover unsynced data.
+client reset occurs.
 
 In some cases, you may want or need to :ref:`set a manual client reset handler 
 <ios-manual-client-reset-handler>`. You may want to do this if your app 
@@ -128,7 +127,7 @@ reset modes <Enums/ClientResetMode.html>`:
 If you do not specify ``.clientResetMode`` in your configuration, the client 
 reset mode defaults to ``.recoverUnsyncedChanges``.
 
-You can specify a before and after block to execute during the automatic client 
+You can specify a ``before`` and ``after`` block to execute during the automatic client 
 reset process. You might use this to perform recovery logic that is important 
 to your application.
 
@@ -178,17 +177,17 @@ the :swift-sdk:`.clientResetMode
 in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to 
 one of:
 
-- ``.recoverUnsyncedChanges``: choose this mode when you do not want to fall
-  through to discard unsynced changes. When you choose this mode, the 
-  client attempts to recover unsynced changes. If there are breaking schema 
-  changes, the client cannot execute an automatic recovery and instead falls 
-  through to ``.manual``.
-- ``.recoverOrDiscardUnsyncedChanges``: choose this mode when you want to 
-  enable automatic client recovery to fall back to discard unsynced changes. 
-  The client first attempts to recover changes that have not yet synced. 
-  If the client cannot recover unsynced data, it falls through to 
-  :ref:`discard unsynced changes <ios-discard-local-changes>` but continues 
-  to automatically perform the client reset.
+- ``.recoverUnsyncedChanges``: When you choose this mode, the client attempts 
+  to recover unsynced changes. If there are breaking schema changes, the 
+  client cannot execute an automatic recovery and instead falls 
+  through to ``.manual``. Choose this mode when you do not want to fall
+  through to discard unsynced changes. 
+- ``.recoverOrDiscardUnsyncedChanges``: The client first attempts to recover 
+  changes that have not yet synced. If the client cannot recover unsynced 
+  data, it falls through to :ref:`discard unsynced changes 
+  <ios-discard-local-changes>` but continues to automatically perform the 
+  client reset. Choose this mode when you want to enable automatic client 
+  recovery to fall back to discard unsynced changes. 
 
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-client-reset-mode.swift
    :language: swift
@@ -241,17 +240,17 @@ the :swift-sdk:`.clientResetMode
 in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to 
 one of:
 
-- ``.recoverOrDiscardUnsyncedChanges``: choose this mode when you want to 
-  first attempt to recover unsynced changes. When you choose this mode, the 
+- ``.recoverOrDiscardUnsyncedChanges``: When you choose this mode, the 
   client attempts to recover unsynced changes. If the client cannot recover 
   unsynced data, it instead falls through to discard it. This enables your 
   app to complete the automatic client reset without any manual handling 
-  except in the event of breaking schema changes.
-- ``.discardUnsyncedChanges``: choose this mode when you do not want to 
-  attempt to recover unsynced changes, but do want to automatically recover
-  from a client reset error. You might prefer to discard changes by default
+  except in the event of breaking schema changes. Choose this mode when 
+  you want to first attempt to recover unsynced changes. 
+- ``.discardUnsyncedChanges``: You might prefer to discard changes by default
   if the :ref:`Client Recovery Rules <ios-client-recovery-rules>` do not 
-  work for your app's logic.
+  work for your app's logic. Choose this mode when you do not want to 
+  attempt to recover unsynced changes, but do want to automatically recover
+  from a client reset error.
 
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-discard.swift
    :language: swift
