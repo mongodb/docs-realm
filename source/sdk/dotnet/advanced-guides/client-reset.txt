@@ -16,7 +16,7 @@ run and save data locally but cannot send or receive sync changesets
 until they perform a client reset. The Realm SDKs provide methods to 
 automatically handle client resets under most scenarios.
 
-For more information, see to :ref:`client-resets`.
+For more information, see :ref:`client-resets`.
 
 In the .NET SDK, you can specify a client 
 reset strategy in your :dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
@@ -76,23 +76,23 @@ manual reset strategy.
 This handler provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnBeforeReset>`, 
   which the SDK invokes prior to the client reset. You can use this callback to notify 
   the user before the reset begins.
 
 - :dotnet-sdk:`OnAfterRecovery
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnAfterRecovery>`, 
   which the SDK invokes if *and only if* the automatic reset completes successfully. 
   You can use it to notify the user that the client reset is complete.
 
 - :dotnet-sdk:`OnAfterDiscard 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnAfterDiscard>`, 
   which the SDK invokes only if the automatic client reset fails **and** the discard 
   local strategy succeeds. If the discard strategy fails, this callback is not 
   invoked.
 
 - :dotnet-sdk:`ManualResetFallback 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html>`, 
   which the SDK invokes only if the automatic 
   recovery and the discard strategy have failed. You implement this callback to 
   handle the reset failure. Your logic here should 
@@ -114,15 +114,15 @@ DiscardUnsyncedChangesHandler if the automatic recovery fails. The handler
 provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverUnsyncedChangesHandler_OnBeforeReset>`, 
   which you can use to notify the user before the reset begins.
 
 - :dotnet-sdk:`OnAfterReset 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverUnsyncedChangesHandler_OnAfterReset>`, 
   which you can use to notify the user when the reset has completed successfully.
 
 - :dotnet-sdk:`ManualResetFallback 
-  <>`, 
+  <reference/Realms.Sync.ErrorHandling.RecoverUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverUnsyncedChangesHandler_ManualResetFallback>`, 
   which you implement to handle a reset failure. Your logic here should  
   be similar to that described for a 
   :ref:`ManualRecoveryHandler <manual_recovery_handler>`.
