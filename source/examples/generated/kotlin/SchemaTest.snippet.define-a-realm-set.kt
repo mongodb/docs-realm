@@ -1,6 +1,7 @@
 class Frog : RealmObject {
     var name: String = ""
-    var favoriteSnacks: RealmSet<Snack> = realmSetOf<Snack>()  // realmSetOf(Snack()) // RealmSet<Snack>();
+    var favoriteSnacks: RealmSet<Snack> =
+        realmSetOf<Snack>()
 }
 
 class Snack : RealmObject {
