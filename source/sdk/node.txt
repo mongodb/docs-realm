@@ -55,18 +55,21 @@ Develop Apps with Realm
           .. step:: Install the Realm Node.js SDK
 
               Set up your project with Node.js and Realm.
-              See :ref:`Install Node.js <node-install>` to get started.
+              To get started, see :ref:`Install Node.js <node-install>`.
 
           .. step:: Define an Object Schema
 
-              Use JavaScript to :ref:`define an object schema
+              Define the schema of objects in the database.
+
+              For more information, see :ref:`Define an Object Schema
               <node-define-a-realm-object-schema>`.
 
-          .. step:: Open a Realm
+          .. step:: Configure & Open a Realm
 
-              Realm Database stores objects on your device. :ref:`Configure
-              and open a realm <node-open-close-realm>` to get
-              started reading and writing data.
+              Set the configuration for your Realm Database, and open a connection
+              to it.
+
+              For more information, see :ref:`Open & Close a Realm <node-open-close-realm>`.
 
           .. step:: Read and Write Data
 
@@ -84,7 +87,7 @@ Develop Apps with Realm
               that watches for changes and performs logic like updating
               your UI.
 
-              For more information, visit :ref:`React to Changes
+              For more information, see :ref:`React to Changes
               <node-react-to-changes>`.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
@@ -102,13 +105,14 @@ Develop Apps with Realm
 
             .. step:: Connect to an Atlas App Services App
 
-               Configure :ref:`Device Sync in an App Services App
-               <realm-sync-get-started>`. Define data access rules or use
+               Configure :Device Sync in an App Services App
+               <realm-sync-get-started. Define data access rules or use
                Development Mode to infer a schema from your client's data model.
+               Then, connect to the backend from your Node.js client.
 
-               Then, :ref:`connect to the backend
-               <node-connect-to-mongodb-realm-backend-app>`
-               from your client.
+               For more information, see :ref:`Device Sync Overview <realm-sync-get-started>`
+               in the Atlas App Services docs and
+               :ref:`Connect to an Atlas App Services Backend <node-connect-to-mongodb-realm-backend-app>`.
 
             .. step:: Authenticate a User
 
@@ -154,45 +158,25 @@ Develop Apps with Realm
          Call Serverless Functions
          ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         You can :ref:`call serverless Functions <node-call-a-function>`
-         from your client application that run in an App Services backend.
+         You can call serverless Functions that run in an App Services App backend
+         from your client application.
 
-         .. code-block:: javascript
-            :copyable: false
-
-            const myFunctionResult =
-            await user.functions.myServerlessFunction(
-               arguments
-            );
+         For more information, see :ref:`Call a Function <node-call-a-function>`.
 
          Query MongoDB Atlas
          ~~~~~~~~~~~~~~~~~~~
 
-         You can :ref:`query data stored in MongoDB <node-mongodb-remote-access>`
-         directly from your client application code.
+         You can query data stored in MongoDB directly from your client application code.
 
-         .. code-block:: javascript
-            :copyable: false
-
-            const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-            const animals = mongodb.db("example").collection("animals");
-
-            const cheetah = await animals.findOne({ name: "cheetah" });
+         For more information, see :ref:`Query MongoDB <node-mongodb-remote-access>`.
 
          Authenticate Users
          ~~~~~~~~~~~~~~~~~~
 
-         Authenticate users with built-in and third-party :ref:`authentication
-         providers <node-authenticate-users>`. Use the authenticated user
-         to access App Services.
+         Authenticate users with built-in and third-party authentication
+         providers. Use the authenticated user to access App Services.
 
-         .. code-block:: javascript
-            :copyable: false
-
-            const jwt = await authenticateWithExternalSystem();
-            const credentials = Realm.Credentials.jwt(jwt);
-
-            const user = await app.logIn(credentials);
+         For more information, see :ref:`Authenticate Users <node-authenticate-users>`.
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration
