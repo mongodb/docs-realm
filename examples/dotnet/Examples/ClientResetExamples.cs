@@ -17,7 +17,7 @@ namespace Examples
         App app;
         RealmUser user;
 
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.fsAppId;
         Realm realm;
         App fsApp;
         Realm fsRealm;
@@ -29,7 +29,7 @@ namespace Examples
         {
             // :remove-start:
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = await app.LogInAsync(Credentials.Anonymous());
             // :remove-end:
             var config = new FlexibleSyncConfiguration(user);
             config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
