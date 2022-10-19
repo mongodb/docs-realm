@@ -35,15 +35,15 @@ property can be set to one of the following:
    * - :dotnet-sdk:`RecoverOrDiscardUnsyncedChangesHandler <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html>`
        (Default)
      - Recover all unsynced local changes
-     - If recovery fails, this handler falls back to the DiscardUnsyncedChangesHandler, 
-       which deletes all unsynced local changes. If the DiscardUnsyncedChangesHandler 
-       recovery fails, the handler falls back to a ManualRecoveryHandler, which
-       requires you to implement a recovery strategy.
+     - If recovery fails, this handler falls back to the ``DiscardUnsyncedChangesHandler``, 
+       which deletes all unsynced local changes. If the ``DiscardUnsyncedChangesHandler`` 
+       recovery fails, the handler falls back to a ``ManualRecoveryHandler``, which
+       requires you to implement a manual recovery strategy.
 
    * - :dotnet-sdk:`RecoverUnsyncedChangesHandler <reference/Realms.Sync.ErrorHandling.RecoverUnsyncedChangesHandler.html>`
      - Recover all unsynced local changes
-     - If recovery fails, this handler falls back to a ManualRecoveryHandler, which
-       requires you to implement a recovery strategy.
+     - If recovery fails, this handler falls back to a ``ManualRecoveryHandler``, 
+       which requires you to implement a manual recovery strategy.
 
    * - :dotnet-sdk:`DiscardUnsyncedChangesHandler <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html>`
      - Discard unsynced changes
@@ -63,22 +63,24 @@ reset and how you can use each of the ``ClientResetHandlers``.
 Recover All Unsynced Local Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This strategy attempts to recover all unsynced local changes automatically. There 
-are two client reset handlers that take this approach:
+This strategy attempts to recover unsynced local changes automatically.
+There are two client reset handlers that take this approach, 
+``RecoverOrDiscardUnsyncedChangesHandler`` and ``RecoverUnsyncedChangesHandler``.
 
 RecoverOrDiscardUnsyncedChangesHandler
 ``````````````````````````````````````
 
 This is the default handler, as it provides the most robust recovery process. If 
-the automatic recovery process fails, it falls back to the DiscardLocalReset 
-strategy explained below. If that process fails, it falls back again to a 
-manual reset strategy. 
+the automatic recovery process fails, it falls back to the ``DiscardLocalReset`` 
+strategy explained in the :ref:`Discard Unsynced Changes section <dotnet-client-reset-discard-unsynced-changes>`. 
+If that process fails, it falls back again to a manual reset strategy explained 
+in the :ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`. 
 This handler provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
   <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnBeforeReset>`, 
   which the SDK invokes prior to the client reset. You can use this callback to notify 
-  the user before the reset begins.
+  the user before the client reset begins.
 
 - :dotnet-sdk:`OnAfterRecovery
   <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnAfterRecovery>`, 
@@ -87,7 +89,7 @@ This handler provides the following callback methods:
 
 - :dotnet-sdk:`OnAfterDiscard 
   <reference/Realms.Sync.ErrorHandling.RecoverOrDiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverOrDiscardUnsyncedChangesHandler_OnAfterDiscard>`, 
-  which the SDK invokes only if the automatic client reset fails **and** the discard 
+  which the SDK invokes only if the automatic client reset fails *and* the discard 
   local strategy succeeds. If the discard strategy fails, this callback is not 
   invoked.
 
@@ -97,7 +99,7 @@ This handler provides the following callback methods:
   recovery and the discard strategy have failed. You implement this callback to 
   handle the reset failure. Your logic here should 
   be similar to that described for a 
-  :ref:`ManualRecoveryHandler <manual_recovery_handler>`.
+  :ref:`ManualRecoveryHandler <dotnet-client-reset-manual-recovery>`.
 
 The following example shows using each of these callbacks:
 
@@ -110,7 +112,9 @@ RecoverUnsyncedChangesHandler
 Like the ``RecoverOrDiscardUnsyncedChangesHandler``, this handler attempts to 
 recover all unsynced local changes automatically. However, unlike  
 ``RecoverOrDiscardUnsyncedChangesHandler``, this handler does not fall back to a
-DiscardUnsyncedChangesHandler if the automatic recovery fails. The handler 
+``DiscardUnsyncedChangesHandler`` if the automatic recovery fails. Instead, it 
+falls back again to a manual reset strategy explained in the 
+:ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`. The handler 
 provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
@@ -125,12 +129,14 @@ provides the following callback methods:
   <reference/Realms.Sync.ErrorHandling.RecoverUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_RecoverUnsyncedChangesHandler_ManualResetFallback>`, 
   which you implement to handle a reset failure. Your logic here should  
   be similar to that described for a 
-  :ref:`ManualRecoveryHandler <manual_recovery_handler>`.
+  :ref:`ManualRecoveryHandler <dotnet-client-reset-manual-recovery>`.
 
 The following example shows using each of these callbacks:
 
 .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.RecoverUnsyncedChangesHandler.cs
    :language: csharp
+
+.. _dotnet-client-reset-discard-unsynced-changes:
 
 Discard Unsynced Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,7 +145,10 @@ This strategy **permanently deletes** all local unsynced changes
 made since the last successful sync. If you choose to use a 
 ``DiscardUnsyncedChangesHandler``, the SDK restores your local realm file 
 to a syncable state without closing the realm and while keeping notifications 
-fully working. This handler provides the following callback methods:
+fully working. If this process fails, , it falls back again to a manual reset 
+strategy explained in the 
+:ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`. 
+This handler provides the following callback methods:
 
 - :dotnet-sdk:`OnBeforeReset 
   <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_DiscardUnsyncedChangesHandler_OnBeforeReset>`, 
@@ -154,7 +163,7 @@ fully working. This handler provides the following callback methods:
 - :dotnet-sdk:`ManualResetFallback <reference/Realms.Sync.ErrorHandling.DiscardUnsyncedChangesHandler.html#Realms_Sync_ErrorHandling_DiscardUnsyncedChangesHandler_ManualResetFallback>`,
   which the SDK invokes if the reset fails. Your logic here should  
   be similar to that described for a 
-  :ref:`ManualRecoveryHandler <manual_recovery_handler>`.
+  :ref:`ManualRecoveryHandler <dotnet-client-reset-manual-recovery>`.
 
 The following example shows how you might implement a 
 ``DiscardUnsyncedChangesHandler``:
@@ -162,7 +171,7 @@ The following example shows how you might implement a
 .. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.DiscardUnsyncedChangesHandler.cs
    :language: csharp
 
-.. _manual_recovery_handler:
+.. _dotnet-client-reset-manual-recovery:
 
 Manual Recovery
 ~~~~~~~~~~~~~~~
@@ -176,9 +185,8 @@ handler.
 .. note:: Fallbacks
 
    While the manual strategy should only be used in edge cases, the other 
-   handlers might fall back to a manual strategy (as in the case of a destructive 
-   schema change). The logic you use in those handlers is similar to the logic 
-   described here.
+   client reset handlers might fall back to a manual strategy. The logic you use 
+   in those handlers is similar to the logic described here.
 
 Within the ``ManualRecoveryHandler``, you dispose the existing realm, and then 
 call the :dotnet-sdk:`InitiateClientReset() <reference/Realms.Sync.Exceptions.ClientResetException.html#Realms_Sync_Exceptions_ClientResetException_InitiateClientReset>` 

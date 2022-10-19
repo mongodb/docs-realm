@@ -131,18 +131,18 @@ namespace Examples
                 {
                     // The following callbacks are optional
 
-                    OnBeforeReset = (beforeFrozen) =>
+                    OnBeforeReset = (beforeReset) =>
                     {
                         // Executed before the client reset begins
                         // Can be used to notify the user that a reset is going
                         // to happen
                     },
-                    OnAfterRecovery = (beforeFrozen, after) =>
+                    OnAfterRecovery = (beforeReset, afterReset) =>
                     {
                         // Executed after the client reset is complete
                         // Can be used to notify the user that the reset is done
                     },
-                    OnAfterDiscard = (beforeFrozen, after) =>
+                    OnAfterDiscard = (beforeReset, afterReset) =>
                     {
                         // Executed if the automatic recovery has failed
                         // but the DiscardUnsyncedChanges fallback has completed
@@ -165,13 +165,13 @@ namespace Examples
                 ClientResetHandler = new RecoverUnsyncedChangesHandler
                 {
                     // The following callbacks are optional
-                    OnBeforeReset = (beforeFrozen) =>
+                    OnBeforeReset = (beforeReset) =>
                     {
                         // Executed before the client reset begins
                         // Can be used to notify the user that a reset is going
                         // to happen
                     },
-                    OnAfterReset = (beforeFrozen, after) =>
+                    OnAfterReset = (beforeReset, afterReset) =>
                     {
                         // Executed after the client reset is complete
                         // Can be used to notify the user that the reset is done
