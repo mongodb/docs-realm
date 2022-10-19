@@ -64,8 +64,7 @@ Client Reset
 ------------
 
 When using :ref:`Device Sync <sync>`, a **client reset** is an
-error recovery task that your client app must perform in the following
-situation:
+error recovery task that your client app must perform when:
 
 - The given synced realm on the server was restored from a backup.
 
@@ -77,7 +76,7 @@ In other words, the client app must carry out a client reset on a given
 synced realm if the server is restored to a version older than the
 version on the client.
 
-For more information about what might cause a client reset to occur, see:
+For more information about what might cause a client reset to occur, see
 :ref:`client-resets`.
 
 .. _ios-automatic-vs-manual-client-reset:
@@ -160,11 +159,13 @@ client reset process in most cases. When you make schema changes:
 
 - The client can :ref:`recover unsynced changes <ios-recover-unsynced-changes>` 
   when there are no schema changes, or non-breaking schema changes.
-- When you make breaking schema changes, you must set a :ref:`manual client 
-  reset handler <ios-manual-client-reset-handler>`. Automatic client recovery
-  cannot occur when your app makes breaking schema changes.
+- When you make breaking schema changes, the automatic client reset modes fall
+  back to a manual error handler. You can set a :ref:`manual client 
+  reset error handler <ios-client-reset-manual-fallback>` for this case. 
+  Automatic client recovery cannot occur when your app makes breaking 
+  schema changes.
 
-For information on breaking vs. non-breaking schema changes, see: 
+For information on breaking vs. non-breaking schema changes, see 
 :ref:`breaking-change-quick-reference`.
 
 .. _ios-recover-unsynced-changes:
@@ -203,14 +204,11 @@ one of:
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-client-reset-mode.swift
    :language: swift
 
-If the client reset operation cannot complete in recover unsynced changes mode, 
-as in when there are breaking schema changes, the client reset process falls 
-through to ``.manual`` mode. You can set an error handler for this fall
-through case via the :swift-sdk:`SyncManager 
-<Typealiases.html#/s:10RealmSwift11SyncManagera>`:
-
-.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
-   :language: swift
+There may be times when the client reset operation cannot complete in 
+recover unsynced changes mode, like when there are breaking schema changes or
+:ref:`Client Recovery <recover-unsynced-changes>` is disabled in the 
+Device Sync configuration. To handle this case, your app can implement a
+:ref:`manual client reset fallback <ios-client-reset-manual-fallback>`.
 
 .. _ios-client-recovery-rules:
 
@@ -256,30 +254,26 @@ one of:
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-discard.swift
    :language: swift
 
-If the client reset operation cannot complete in discard unsynced changes mode, 
-like when there are breaking schema changes, the client reset process falls
-back to ``.manual`` mode. You can set an error handler for this fallback 
-case via the :swift-sdk:`SyncManager 
-<Typealiases.html#/s:10RealmSwift11SyncManagera>`:
-
-.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
-   :language: swift
+There may be times when the client reset operation cannot complete in 
+discard unsynced changes mode, like when there are breaking schema changes or
+:ref:`Client Recovery <recover-unsynced-changes>` is disabled in the 
+Device Sync configuration. To handle this case, your app can implement a
+:ref:`manual client reset fallback <ios-client-reset-manual-fallback>`.
 
 .. _ios-manual-client-reset-handler:
 .. _ios-manual-mode:
 
-Manual Client Reset
-~~~~~~~~~~~~~~~~~~~
+Manual Client Reset Mode
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you specify ``.manual`` for ``.clientResetMode``, or if your app makes
-breaking schema changes, you should implement a manual client reset handler.
+When you specify ``.manual`` for ``.clientResetMode``, you should implement 
+a manual client reset handler.
 
 In ``.manual`` mode, you define your own client reset handler. The handler 
 can take an ``ErrorReportingBlock``. We recommend using the
 :ref:`automatic client recovery modes <ios-automatic-vs-manual-client-reset>` 
-when possible, and treating the manual handler as a tool for fatal error 
-recovery situations where you advise users to update the app or perform 
-some other action. 
+when possible, and only choosing ``.manual`` mode if the automatic recovery 
+logic is not suitable for your app.
 
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-manual.swift
    :language: swift
@@ -290,3 +284,20 @@ some other action.
    how you might manually recover changes in a manual client reset, check out
    this :github:`example on GitHub
    <mongodb/realm-practice/blob/main/swift/RealmPractice/Classes/ViewController.swift#L286>`.
+
+.. _ios-client-reset-manual-fallback:
+
+Manual Client Reset Fallback
+----------------------------
+
+If the client reset operation cannot complete automatically, like when there 
+are breaking schema changes, the client reset process falls through to a 
+manual error handler.
+
+You can set an error handler for this fallback case via the :swift-sdk:`SyncManager 
+<Typealiases.html#/s:10RealmSwift11SyncManagera>`. We recommend treating 
+the manual handler as a tool for fatal error recovery situations where 
+you advise users to update the app or perform some other action. 
+
+.. literalinclude:: /examples/generated/code/start/ClientReset.snippet.manual-fallback-error-handler.swift
+   :language: swift
