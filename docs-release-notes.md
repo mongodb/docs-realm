@@ -1,14 +1,5 @@
 # October 21, 2022
 
-## Swift SDK
-- Why Realm Database?: Add mention of sectioned results to "Live Queries"
-- Model Data/Define an Object Model/Supported Types: Add details around SectionedResults/ResultsSection
-- CRUD/Read: New "Section Query Results" section with details and tested code examples
-- SwiftUI
-  - React to Changes: New "Observe Sectioned Results" subsection with details and tested code examples for `@ObservedSectionedResults`
-  - Filter Data: New "Section Filtered Results" section with details and tested code example for `@ObservedSectionedResults`
-- Sync Data/Handle Sync Errors: Add documentation & code examples for client reset with recovery
-
 ## Flutter SDK
 - Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
 - Realm Database/Freeze Data: New page documenting the ability to freeze objects in the Flutter SDK, with tested code examples
@@ -19,6 +10,15 @@
 
 ## React Native SDK
 - Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Swift SDK
+- Why Realm Database?: Add mention of sectioned results to "Live Queries"
+- Model Data/Define an Object Model/Supported Types: Add details around SectionedResults/ResultsSection
+- CRUD/Read: New "Section Query Results" section with details and tested code examples
+- SwiftUI
+  - React to Changes: New "Observe Sectioned Results" subsection with details and tested code examples for `@ObservedSectionedResults`
+  - Filter Data: New "Section Filtered Results" section with details and tested code example for `@ObservedSectionedResults`
+- Sync Data/Handle Sync Errors: Add documentation & code examples for client reset with recovery
 
 # October 14, 2022
 
