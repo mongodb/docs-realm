@@ -73,8 +73,8 @@ When this occurs, the unsyncable realm on the client may contain data that
 has not yet synced to the server. Realm SDKs can attempt to recover or 
 discard that data during the client reset process.
 
-For more information about what might cause a client reset to occur, see
-:ref:`client-resets`.
+For more information about what might cause a client reset to occur, go to
+:ref:`Client Resets in the App Services documentation <client-resets>`.
 
 .. _ios-automatic-vs-manual-client-reset:
 
@@ -230,28 +230,23 @@ To perform an automatic client reset that discards unsynced changes, set
 the :swift-sdk:`.clientResetMode 
 <Structs/SyncConfiguration.html#/s:10RealmSwift17SyncConfigurationV15clientResetModeAA06ClientfG0Ovp>`
 in the :swift-sdk:`SyncConfiguration <Structs/SyncConfiguration.html>` to 
-one of:
-
-- ``.recoverOrDiscardUnsyncedChanges``: When you choose this mode, the 
-  client attempts to recover unsynced changes. If the client cannot recover 
-  unsynced data, it instead falls through to discard it. This enables your 
-  app to complete the automatic client reset without any manual handling 
-  except in the event of breaking schema changes. Choose this mode when 
-  you want to first attempt to recover unsynced changes. 
-- ``.discardUnsyncedChanges``: You might prefer to discard changes by default
-  if the :ref:`Client Recovery Rules <ios-client-recovery-rules>` do not 
-  work for your app's logic. Choose this mode when you do not want to 
-  attempt to recover unsynced changes, but do want to automatically recover
-  from a client reset error.
+``.discardUnsyncedChanges``.
 
 .. literalinclude:: /examples/generated/code/start/ClientReset.snippet.specify-discard.swift
    :language: swift
 
+.. note:: Discard with Recovery
+
+   If you'd like to attempt to recover unsynced changes, but but discard 
+   any changes that cannot be recovered, refer to the 
+   ``.recoverOrDiscardUnsyncedChanges`` documentation in :ref:`Recover 
+   Unsynced Changes <ios-recover-unsynced-changes>`.
+
 There may be times when the client reset operation cannot complete in 
 discard unsynced changes mode, like when there are breaking schema changes or
 :ref:`Client Recovery <recover-unsynced-changes>` is disabled in the 
-Device Sync configuration. To handle this case, your app can implement a
-:ref:`manual client reset fallback <ios-client-reset-manual-fallback>`.
+server-side Device Sync configuration. To handle this case, your app can 
+implement a :ref:`manual client reset fallback <ios-client-reset-manual-fallback>`.
 
 .. _ios-manual-client-reset-handler:
 .. _ios-manual-mode:
