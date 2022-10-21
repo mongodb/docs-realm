@@ -102,10 +102,70 @@ such as ``Uuid.v4()``.
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.uuid-use.dart
    :language: dart
 
+.. _flutter-embedded-objects:
+
+Embedded Objects
+----------------
+
+Embedded objects are Realm objects that are belong to a single parent Realm object.
+Embedded objects have the following properties:
+
+- Embedded objects are deleted when that parent object is deleted
+  or their parent no longer references them.
+- You cannot reassign an embedded object to a different parent object.
+- you cannot link to an embedded object from multiple parent objects.
+- You can only query an embedded object by accessing it through its parent object.
+
+Declare an embedded objects by passing `ObjectType.embedded
+<https://pub.dev/documentation/realm_common/latest/realm_common/ObjectType.html>`__
+to the ``@RealmModel()`` annotation.
+Embedded objects must be nullable when defining them in the parent object's
+``RealmModel()``. You must also include the embedded object's schema in the realm's
+:flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+
+In the following example, the ``Address`` is embedded within ``Person``.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-model.dart
+   :language: dart
+
+To see how to use the ``Address`` embedded object created in the above schema,
+refer to the following example.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-examples.dart
+   :language: dart
+
+.. code-block:: dart
+
+   final realm = Realm.local([Person]);
+
+   // Create an embedded object.
+   Address joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
+   Person joe = Person("joe", joesHome);
+   realm.write(() => realm.add(joe));
+
+   // Update an embedded object property.
+   realm.write(() {
+     joe.address.street = "800 Park Place";
+   });
+
+   // Query a collection of embedded objects.
+   // You must access the embedded object through the parent RealmObject type.
+   final peopleWithNewYorkHomes = realm.query<Person>("address.state = 'NY'");
+
+   // Overwrite an embedded object.
+   // Also deletes original embedded object from realm.
+   Address joesNewHome = Address("12 Maple Way", "Toronto", "ON", "Canada");
+   realm.write(() {
+     joe.address = joesNewHome;
+   });
+
+   // Delete an embedded object. Deleting the parent object also deletes the embedded object.
+   realm.write(() => realm.delete(joe));
+
 Example
 -------
 
-.. example:: Model with some supported data types
+The following model includes some supported data types.
 
-   .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.data-types-example-model.dart
-      :language: dart
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.data-types-example-model.dart
+   :language: dart

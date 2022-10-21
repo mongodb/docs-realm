@@ -6,56 +6,58 @@ part of 'freeze_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Person extends _Person with RealmEntity, RealmObject {
+class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     int id,
     String firstName,
     String lastName, {
     Iterable<String> attributes = const [],
   }) {
-    RealmObject.set(this, 'id', id);
-    RealmObject.set(this, 'firstName', firstName);
-    RealmObject.set(this, 'lastName', lastName);
-    RealmObject.set<RealmList<String>>(
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'firstName', firstName);
+    RealmObjectBase.set(this, 'lastName', lastName);
+    RealmObjectBase.set<RealmList<String>>(
         this, 'attributes', RealmList<String>(attributes));
   }
 
   Person._();
 
   @override
-  int get id => RealmObject.get<int>(this, 'id') as int;
+  int get id => RealmObjectBase.get<int>(this, 'id') as int;
   @override
-  set id(int value) => RealmObject.set(this, 'id', value);
+  set id(int value) => RealmObjectBase.set(this, 'id', value);
 
   @override
-  String get firstName => RealmObject.get<String>(this, 'firstName') as String;
+  String get firstName =>
+      RealmObjectBase.get<String>(this, 'firstName') as String;
   @override
-  set firstName(String value) => RealmObject.set(this, 'firstName', value);
+  set firstName(String value) => RealmObjectBase.set(this, 'firstName', value);
 
   @override
-  String get lastName => RealmObject.get<String>(this, 'lastName') as String;
+  String get lastName =>
+      RealmObjectBase.get<String>(this, 'lastName') as String;
   @override
-  set lastName(String value) => RealmObject.set(this, 'lastName', value);
+  set lastName(String value) => RealmObjectBase.set(this, 'lastName', value);
 
   @override
   RealmList<String> get attributes =>
-      RealmObject.get<String>(this, 'attributes') as RealmList<String>;
+      RealmObjectBase.get<String>(this, 'attributes') as RealmList<String>;
   @override
   set attributes(covariant RealmList<String> value) =>
       throw RealmUnsupportedSetError();
 
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
-      RealmObject.getChanges<Person>(this);
+      RealmObjectBase.getChanges<Person>(this);
 
   @override
-  Person freeze() => RealmObject.freezeObject<Person>(this);
+  Person freeze() => RealmObjectBase.freezeObject<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Person._);
-    return const SchemaObject(Person, 'Person', [
+    RealmObjectBase.registerFactory(Person._);
+    return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
@@ -65,46 +67,47 @@ class Person extends _Person with RealmEntity, RealmObject {
   }
 }
 
-class Scooter extends _Scooter with RealmEntity, RealmObject {
+class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   Scooter(
     int id,
     String name, {
     Person? owner,
   }) {
-    RealmObject.set(this, 'id', id);
-    RealmObject.set(this, 'name', name);
-    RealmObject.set(this, 'owner', owner);
+    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'owner', owner);
   }
 
   Scooter._();
 
   @override
-  int get id => RealmObject.get<int>(this, 'id') as int;
+  int get id => RealmObjectBase.get<int>(this, 'id') as int;
   @override
-  set id(int value) => RealmObject.set(this, 'id', value);
+  set id(int value) => RealmObjectBase.set(this, 'id', value);
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  Person? get owner => RealmObject.get<Person>(this, 'owner') as Person?;
+  Person? get owner => RealmObjectBase.get<Person>(this, 'owner') as Person?;
   @override
-  set owner(covariant Person? value) => RealmObject.set(this, 'owner', value);
+  set owner(covariant Person? value) =>
+      RealmObjectBase.set(this, 'owner', value);
 
   @override
   Stream<RealmObjectChanges<Scooter>> get changes =>
-      RealmObject.getChanges<Scooter>(this);
+      RealmObjectBase.getChanges<Scooter>(this);
 
   @override
-  Scooter freeze() => RealmObject.freezeObject<Scooter>(this);
+  Scooter freeze() => RealmObjectBase.freezeObject<Scooter>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Scooter._);
-    return const SchemaObject(Scooter, 'Scooter', [
+    RealmObjectBase.registerFactory(Scooter._);
+    return const SchemaObject(ObjectType.realmObject, Scooter, 'Scooter', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,

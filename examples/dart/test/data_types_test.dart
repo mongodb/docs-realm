@@ -2,6 +2,8 @@ import 'package:realm_dart/realm.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
+import 'utils.dart';
+
 // :snippet-start: data-types-example-model
 
 part 'data_types_test.g.dart'; // :remove:
@@ -21,14 +23,26 @@ class _Car {
   late _Person? owner;
 }
 
+// :snippet-start: embedded-object-model
+// The generated `Address` class is an embedded object.
+@RealmModel(ObjectType.embeddedObject)
+class _Address {
+  late String street;
+  late String city;
+  late String state;
+  late String country;
+}
+
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late int id;
-
   late String name;
-  late int age;
+
+  // Embedded object in parent object schema
+  late _Address? address; // Must be nullable
 }
+
+// :snippet-end:
 // :snippet-end:
 
 // :snippet-start: uuid-model
@@ -56,6 +70,7 @@ class _Vehicle {
 }
 
 // :snippet-end:
+
 main() {
   test('Uuid', () {
     // :snippet-start: uuid-use
@@ -101,7 +116,46 @@ main() {
     final queriedSubieDate = queriedSubaruOutback.dateLastServiced.toString();
     expect(queriedSubieDate, '2022-09-18 12:30:00.000Z');
 
-    realm.close();
-    Realm.deleteRealm(realm.config.path);
+    cleanUpRealm(realm);
+  });
+
+  test("Embedded objects", () {
+    // :snippet-start: embedded-object-examples
+    // Both parent and embedded objects in schema
+    final realm = Realm(Configuration.local([Person.schema, Address.schema]));
+
+    // Create an embedded object.
+    Address joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
+    Person joe = Person("Joe", address: joesHome);
+    realm.write(() => realm.add(joe));
+    expect(realm.find<Person>("Joe"), isNotNull); // :remove:
+
+    // Update an embedded object property.
+    realm.write(() {
+      joe.address?.street = "800 Park Place";
+    });
+    // :remove-start:
+    expect(realm.find<Person>("Joe")?.address?.street, "800 Park Place");
+    // :remove-end:
+
+    // Query a collection of embedded objects.
+    // You must access the embedded object through the parent RealmObject type.
+    final peopleWithNewYorkHomes = realm.query<Person>("address.state = 'NY'");
+    expect(peopleWithNewYorkHomes.length, 1); // :remove:
+
+    // Overwrite an embedded object.
+    // Also deletes original embedded object from realm.
+    Address joesNewHome = Address("12 Maple Way", "Toronto", "ON", "Canada");
+    realm.write(() {
+      joe.address = joesNewHome;
+    });
+
+    // Delete an embedded object. Deleting the parent object also deletes the embedded object.
+    realm.write(() => realm.delete(joe));
+    // :snippet-end:
+    expect(realm.find<Person>("Joe"), isNull); // :remove:
+    // final addresses = realm.dynamic.all("Address");
+    // print(addresses.length);
+    cleanUpRealm(realm);
   });
 }

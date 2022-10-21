@@ -6,72 +6,73 @@ part of 'read_write_data_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Person extends _Person with RealmEntity, RealmObject {
+class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
     String name,
   ) {
-    RealmObject.set(this, 'name', name);
+    RealmObjectBase.set(this, 'name', name);
   }
 
   Person._();
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
   Stream<RealmObjectChanges<Person>> get changes =>
-      RealmObject.getChanges<Person>(this);
+      RealmObjectBase.getChanges<Person>(this);
 
   @override
-  Person freeze() => RealmObject.freezeObject<Person>(this);
+  Person freeze() => RealmObjectBase.freezeObject<Person>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Person._);
-    return const SchemaObject(Person, 'Person', [
+    RealmObjectBase.registerFactory(Person._);
+    return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
     ]);
   }
 }
 
-class Team extends _Team with RealmEntity, RealmObject {
+class Team extends _Team with RealmEntity, RealmObjectBase, RealmObject {
   Team(
     String name, {
     Iterable<Person> crew = const [],
   }) {
-    RealmObject.set(this, 'name', name);
-    RealmObject.set<RealmList<Person>>(this, 'crew', RealmList<Person>(crew));
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set<RealmList<Person>>(
+        this, 'crew', RealmList<Person>(crew));
   }
 
   Team._();
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
   RealmList<Person> get crew =>
-      RealmObject.get<Person>(this, 'crew') as RealmList<Person>;
+      RealmObjectBase.get<Person>(this, 'crew') as RealmList<Person>;
   @override
   set crew(covariant RealmList<Person> value) =>
       throw RealmUnsupportedSetError();
 
   @override
   Stream<RealmObjectChanges<Team>> get changes =>
-      RealmObject.getChanges<Team>(this);
+      RealmObjectBase.getChanges<Team>(this);
 
   @override
-  Team freeze() => RealmObject.freezeObject<Team>(this);
+  Team freeze() => RealmObjectBase.freezeObject<Team>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Team._);
-    return const SchemaObject(Team, 'Team', [
+    RealmObjectBase.registerFactory(Team._);
+    return const SchemaObject(ObjectType.realmObject, Team, 'Team', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('crew', RealmPropertyType.object,
           linkTarget: 'Person', collectionType: RealmCollectionType.list),
