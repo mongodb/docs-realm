@@ -123,44 +123,15 @@ Embedded objects must be nullable when defining them in the parent object's
 ``RealmModel()``. You must also include the embedded object's schema in the realm's
 :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
 
-In the following example, the ``Address`` is embedded within ``Person``.
+In the following example, the ``_Address`` model is embedded within the ``Person`` model.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-model.dart
    :language: dart
 
-To see how to use the ``Address`` embedded object created in the above schema,
-refer to the following example.
+Then, use the ``Address`` embedded object created in the above schema.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-examples.dart
    :language: dart
-
-.. code-block:: dart
-
-   final realm = Realm.local([Person]);
-
-   // Create an embedded object.
-   Address joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
-   Person joe = Person("joe", joesHome);
-   realm.write(() => realm.add(joe));
-
-   // Update an embedded object property.
-   realm.write(() {
-     joe.address.street = "800 Park Place";
-   });
-
-   // Query a collection of embedded objects.
-   // You must access the embedded object through the parent RealmObject type.
-   final peopleWithNewYorkHomes = realm.query<Person>("address.state = 'NY'");
-
-   // Overwrite an embedded object.
-   // Also deletes original embedded object from realm.
-   Address joesNewHome = Address("12 Maple Way", "Toronto", "ON", "Canada");
-   realm.write(() {
-     joe.address = joesNewHome;
-   });
-
-   // Delete an embedded object. Deleting the parent object also deletes the embedded object.
-   realm.write(() => realm.delete(joe));
 
 Example
 -------

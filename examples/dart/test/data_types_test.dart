@@ -152,6 +152,7 @@ main() {
 
     // Delete an embedded object. Deleting the parent object also deletes the embedded object.
     realm.write(() => realm.delete(joe));
+
     // :snippet-end:
     expect(realm.find<Person>("Joe"), isNull); // :remove:
     // final addresses = realm.dynamic.all("Address");
