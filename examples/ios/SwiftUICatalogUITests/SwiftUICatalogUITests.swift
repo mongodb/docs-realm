@@ -121,7 +121,7 @@ class SwiftUICatalogUITests: XCTestCase {
         favoriteToy.typeText(deleteString)
         favoriteToy.typeText("Bone")
         app.buttons["Back"].tap()
-        XCTAssert(app.staticTexts["Bone"].waitForExistence(timeout: 2))
+        XCTAssert(app.staticTexts["Bone"].waitForExistence(timeout: 4))
     }
     
     func testQuickWriteCollection() throws {
