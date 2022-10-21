@@ -155,8 +155,7 @@ main() {
 
     // :snippet-end:
     expect(realm.find<Person>("Joe"), isNull); // :remove:
-    // final addresses = realm.dynamic.all("Address");
-    // print(addresses.length);
+    expect(realm.dynamic.all("Address").length, 0);
     cleanUpRealm(realm);
   });
 }
