@@ -1,3 +1,7 @@
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
 .. _node-intro:
 
 =================
@@ -7,7 +11,7 @@ Realm Node.js SDK
 .. toctree::
    :titlesonly:
    :hidden:
-   
+
    Install Realm for Node.js </sdk/node/install>
    Quick Start </sdk/node/quick-start-local>
    Quick Start with Sync </sdk/node/quick-start>
@@ -19,223 +23,156 @@ Realm Node.js SDK
    API Reference <https://www.mongodb.com/docs/realm-sdks/js/latest/>
    Upgrade from Stitch to Realm </sdk/node/migrate>
    Release Notes <https://github.com/realm/realm-js/releases>
-   
-.. contents:: On this page
-   :local:
-   :backlinks: none
-   :depth: 2
-   :class: singlecol
+
 
 The Realm Node.js SDK allows you to use Realm Database and
-backend Apps from Node.js applications written in JavaScript or TypeScript.
+Atlas App Services from Node.js applications written in JavaScript or TypeScript.
+Use the Node.js SDK to build for server applications, desktop applications, CLIs,
+IoT programs, and more.
 
-.. note::
+The Node.js SDK does not support applications written for web browsers.
+For Web apps, use the :ref:`Realm Web SDK <web-intro>`.
+For React Native development, use the :ref:`Realm React Native SDK <react-native-intro>`.
 
-   The Node.js SDK does not support JavaScript or TypeScript
-   applications written for web browsers. For that use case, you should
-   consider the :ref:`Web SDK <web-intro>`. For development in React
-   Native, refer to the :ref:`React Native SDK <react-native-intro>`
-   documentation.
+To get started with the Node.js SDK, see :ref:`Quick Start <node-client-quick-start-local>`.
 
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_node
+.. kicker:: What You Can Do
 
-Local Realm Database
---------------------
-
-With the Realm Node.js SDK, you can access objects stored in a local
-instance of Realm Database. With Realm Database, you can:
-
-Define an Object Schema
-~~~~~~~~~~~~~~~~~~~~~~~
-
-:ref:`Define your object schema <node-define-a-realm-object-schema>` by creating
-an object or a class.
-
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-define-object-schema.js
-  :language: javascript
-
-
-Query Realm Database
-~~~~~~~~~~~~~~~~~~~~
-
-:ref:`Query <node-client-query-engine>` for stored objects:
-
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-query-realm-database.js
-  :language: javascript
-
-Update Live Objects
-~~~~~~~~~~~~~~~~~~~
-
-:ref:`Update <node-update-an-object>` objects in Realm Database by
-updating field values on an instance of the object within a transaction:
-
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-update-live-objects.js
-  :language: javascript
-
-Watch for Object Updates
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-:ref:`Receive object updates and notifications automatically
-<node-react-to-changes>` when objects stored in Realm Database
-change:
-
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-watch-for-object-updates.js
-  :language: javascript
-
-Always Access the Latest Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:ref:`Live objects <node-live-objects>` keep all instances
-of an object up to date at all times:
-
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-access-the-latest-data.js
-  :language: javascript
-
-.. seealso::
-
-   To get started with Realm Database, try our
-   :ref:`Quick Start <node-client-quick-start-local>`.
-
-Atlas App Services Apps
+Develop Apps with Realm
 -----------------------
 
-Apps are backends for client applications hosted by MongoDB in the cloud.
-They provide the ability to synchronize data stored in
-Realm Database, called **Device Sync**, as well as a layer of backend
-functionality collectively called **Atlas App Services**.
-The Realm Node.js SDK optionally contains the ability to access
-these Apps running in the cloud. In addition to local
-Realm Database in the SDK, Apps provide the
-following functionality:
+.. tabs::
 
-Atlas Device Sync
-~~~~~~~~~~~~~~~~~
+  .. tab:: Use Realm Database Locally
+      :tabid: local-realm
 
-Automatically sync data between realms on client devices and your backend
-MongoDB Atlas data store with :ref:`Device Sync <node-sync-changes-between-devices>`:
+      .. container::
 
-.. literalinclude:: /examples/generated/node/landing-page.snippet.node-landing-sync-data-between-realms.js
-  :language: javascript
+        Use open-source Realm Database to store data on a device.
 
-App Services
-~~~~~~~~~~~~
+        .. procedure::
 
-- Use Realm's built-in user management to enable
-  :ref:`user account creation <node-register-new-user>`
-  and user :ref:`authentication <node-authenticate-users>` across
-  devices.
+          .. step:: Install the Realm Node.js SDK
 
-- Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-  in your backend App using a
-  :ref:`Atlas database <data-sources>`.
+              Set up your project with Node.js and Realm.
+              To get started, :ref:`install the Realm Node.js SDK <node-install>`.
 
-- Execute logic in your backend App from a client application using
-  :ref:`Functions <node-call-a-function>`.
+          .. step:: Define an Object Schema
 
-- React to events in your backend App using
-  :ref:`Triggers <triggers>`.
+              Use JavaScript to idiomatically :ref:`define a Realm object schema <node-define-a-realm-object-schema>`.
 
-.. seealso::
+          .. step:: Configure & Open a Realm
 
-   To get started with Realm, try the
-   :ref:`Quick Start with Sync <node-client-quick-start>`.
+             To get started reading and writing data, :ref:`open and configure a realm <node-open-close-realm>`.
 
+          .. step:: Read and Write Data
 
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_kotlin
+              You can :ref:`create, read, update, and delete objects <node-read-and-write-data>`
+              from a realm. Construct complex queries to :ref:`filter data in a realm <node-query-data>`.
 
+          .. step:: React to Changes
 
-Get Started
------------
+              Realm's live objects mean that your data is always up-to-date.
+              Register a change listener to :ref:`react to changes and perform logic like updating
+              your UI <node-react-to-changes>`.
 
-To start using the Realm Node.js SDK
-in your Node.js application, see :ref:`Install Realm for Node.js
-<node-install>` to add the Realm JS SDK dependency and then check
-out the :ref:`Quick Start <node-client-quick-start-local>`.
+      .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
+         :alt: Realm Mobile Illustration
 
-To learn more about the concepts that underly Realm Database,
-such as :ref:`write transactions <node-write-transactions>`, the 
-:ref:`Query Engine <node-client-query-engine>`, and more,
-check out the Fundamentals.
+  .. tab:: Sync Data Across Devices
+      :tabid: device-sync
 
-For practical code samples of common tasks in Realm Database and
-Apps, take a look at the Examples.
-   
-.. list-table::
-   :header-rows: 1
-   :class: index-table
+      .. container::
 
-   * - Get Started
-     - Fundamentals
-     - Examples
-     - Realm Apps Examples
-     
-   * - :doc:`Install Realm for Android </sdk/node/install>`
-   
-       :doc:`Quick Start </sdk/node/quick-start-local>`
-       
-       :doc:`Quick Start with Sync </sdk/node/quick-start>`
-              
-       :doc:`Upgrade from Stitch to Realm </sdk/node/migrate>`
+         Use Device Sync to keep data in sync with your MongoDB Atlas cluster and other
+         clients.
 
-       :doc:`Quick Start with Electron </sdk/node/integrations/electron>`
-       
-     - :doc:`Realms </sdk/node/fundamentals/realms>`
-            
-       :doc:`Live Queries </sdk/node/fundamentals/live-queries>`
-              
-       :doc:`Write Transactions </sdk/node/fundamentals/write-transactions>`
-       
-       :doc:`Relationships & Embedded Objects </sdk/node/fundamentals/relationships-and-embedded-objects>`
+         .. procedure::
 
-       :doc:`Application Services </sdk/node/fundamentals/application-services>`
+            .. step:: Connect to an Atlas App Services App
 
-       :doc:`Atlas Device Sync </sdk/node/fundamentals/device-sync>`
-     
-     - :doc:`Define a Realm Object Schema </sdk/node/examples/define-a-realm-object-model>`
-     
-       :doc:`Open & Close a Realm </sdk/node/examples/open-and-close-a-realm>`
-       
-       :doc:`Read & Write Data </sdk/node/examples/read-and-write-data>`
-       
-       :doc:`React to Changes </sdk/node/examples/react-to-changes>`
-       
-       :doc:`Query Data </sdk/node/examples/query-data>`
-       
-       :doc:`Modify an Object Schema </sdk/node/examples/modify-an-object-schema>`
-       
-     - :doc:`Connect to an App Services backend </sdk/node/examples/connect-to-app-services-backend>`
-     
-       :doc:`Authenticate Users </sdk/node/examples/authenticate-users>`
+               Configure :ref:`Device Sync in an App Services App <realm-sync-get-started>`.
+               Define data access rules or use Development Mode to infer a schema
+               from your client's data model.
+               Then, :ref:`connect to the backend App from your Node.js client <node-connect-to-mongodb-realm-backend-app>`.
 
-       :doc:`Flexible Sync </sdk/node/examples/flexible-sync>`
-       
-       :doc:`Sync Changes Between Devices </sdk/node/examples/sync-changes-between-devices>`
-       
-       :doc:`Call a Function </sdk/node/examples/call-a-function>`
-       
-       :doc:`Manage Email/Password Users </sdk/node/examples/manage-email-password-users>`
-       
-       :doc:`Query MongoDB </sdk/node/examples/query-mongodb>`
-       
-       :doc:`Reset a Client Realm </sdk/node/examples/reset-a-client-realm>`
+            .. step:: Authenticate a User
 
-Advanced Guides
----------------
-For information about advanced concepts, such as :ref:`encryption
-<node-encrypt-a-realm>` and the :ref:`Query Engine <node-client-query-engine>`,
-see the :ref:`Advanced Guides <node-client-advanced-guides>` section.
+               App Services provides access to custom JWT authentication,
+               our built-in email/password provider, anonymous
+               authentication, and popular
+               authentication providers like Apple, Google, and Facebook.
+               Use these providers to :ref:`authenticate a user in your client <node-authenticate-users>`.
 
-Realm Database
-~~~~~~~~~~~~~~
+            .. step:: Open a Synced Realm
 
-- :doc:`Encryption </sdk/node/advanced/encrypt>`
+               To get started syncing data, :ref:`open a synced realm <node-open-a-synced-realm>`.
+               To determine what data a synced realm can read and write,
+               :ref:`subscribe to a query <node-sync-subscribe-to-queryable-fields>`.
 
-Realm Apps
-~~~~~~~~~~
+            .. step:: Read and Write Synced Data
 
-- :doc:`Link User Identities </sdk/node/advanced/link-identities>`
-- :doc:`Multi-User Applications </sdk/node/advanced/multi-user-applications>`
-- :doc:`Custom User Data </sdk/node/advanced/access-custom-user-data>`
-- :doc:`Client Reset Data Recovery </sdk/node/advanced/client-reset-data-recovery>`
+               The :ref:`APIs for reading and writing data <node-read-and-write-data>`
+               are the same for both synced and local realms.
+               Data that you read and write is automatically kept
+               in sync with your Atlas cluster and other clients.
+               Apps keep working offline and sync changes when a network connection
+               is available.
+
+      .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
+         :alt: Realm Sync Illustration
+
+  .. tab:: Build with Atlas App Services
+      :tabid: app-services
+
+      .. container::
+
+         Use Atlas App Services in your Node.js application with the Realm SDK.
+
+         Call Serverless Functions
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+         To invoke serverless backend logic from your Node.js client,
+         :ref:`call Atlas Functions <node-call-a-function>`.
+
+         Query MongoDB Atlas
+         ~~~~~~~~~~~~~~~~~~~
+
+         Query data stored in MongoDB directly from your client application code
+         with :ref:`MongoDB Data Access <node-mongodb-remote-access>`.
+
+         Authenticate Users
+         ~~~~~~~~~~~~~~~~~~
+
+         Authenticate users with built-in and third-party :ref:`authentication providers <node-authenticate-users>`.
+         Access App Services with authenticated users.
+
+      .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
+         :alt: App Services Illustration
+
+.. kicker:: Essential Documentation
+
+Recommended Reading
+-------------------
+
+.. card-group::
+   :columns: 2
+   :style: extra-compact
+
+   .. card::
+      :headline: JavaScript API Reference
+      :cta: Node.js Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/js/latest/
+      :icon: /images/icons/branding_2022/General_ACTION_BestPractices3x.png
+      :icon-alt: Realm Icon
+
+      Explore generated reference docs for the Node.js SDK.
+
+   .. card::
+      :headline: Electron Integration Guide
+      :cta: Use Realm with Electron apps
+      :url: https://www.mongodb.com/docs/realm/sdk/node/integrations/electron/
+      :icon: /images/icons/electron_logo.png
+      :icon-alt: Electron Icon
+
+      Use the Realm Node.js SDK in an Electron desktop application.
