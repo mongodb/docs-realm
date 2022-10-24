@@ -22,5 +22,14 @@ realm.write(() {
   joe.address = joesNewHome;
 });
 
-// Delete an embedded object. Deleting the parent object also deletes the embedded object.
+// Delete embedded object from parent object.
+realm.write(() => realm.delete(joe.address!));
+
+// Add address back for the following example.
+final anotherNewHome = Address("202 Coconut Court", "Miami", "FL", "USA");
+realm.write(() {
+  joe.address = anotherNewHome;
+});
+// Deleting the parent object also deletes the embedded object.
 realm.write(() => realm.delete(joe));
+
