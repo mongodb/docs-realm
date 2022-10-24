@@ -73,10 +73,11 @@ namespace Examples
         // private void SetupRealm()
         // :uncomment-end:
         {
+            //:remove-start:
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-
+                Credentials.EmailPassword("caleb@example.com", "foobar")).Result;
+            //:remove-end:
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
                 new ManualRecoveryHandler(HandleClientResetError);
@@ -110,7 +111,7 @@ namespace Examples
                 else
                 {
                     // Reset failed - notify user that they'll need to
-                    // restart the app
+                    // update the app
                 }
             }
         }

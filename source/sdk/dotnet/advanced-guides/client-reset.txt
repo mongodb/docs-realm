@@ -58,10 +58,16 @@ property can be set to one of the following:
 
 Client Reset Strategies
 -----------------------
+The following sections describe the different strategies for handling a client 
+reset and how you can use each of the ``ClientResetHandlers``.
 
-The following rules determine how client reset handles object changes:
+Recover Unsynced Local Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In a client reset that does not involve a breaking schema change, the SDK 
+integrates objects created locally that did not sync before the client reset. 
+The following rules determine how conflicts are resolved when both the backend 
+and the client make changes to the same object:
 
-- Objects created locally that were not synced before client reset are synced.
 - If an object is deleted on the server, but is modified on the recovering 
   client, the delete takes precedence and the client discards the update.
 - If an object is deleted on the recovering client, but not the server, 
@@ -69,23 +75,18 @@ The following rules determine how client reset handles object changes:
 - In the case of conflicting updates to the same field, the client update 
   is applied.
 
-However, the automatic recovery process can not handle a breaking schema change. 
-In this case, you will need to implement a 
-:dotnet-sdk:`ManualRecoveryHandler <reference/Realms.Sync.ErrorHandling.ManualRecoveryHandler.html>`.
+.. important:: Breaking Changes
 
-The following sections describe the different strategies for handling a client 
-reset and how you can use each of the ``ClientResetHandlers``.
+   The recovery process cannot handle a breaking schema change. For 
+   example, if you make a non-additive change to one or more of your Realm object 
+   classes, the recovery process will fail. In this case, users will be 
+   required to update their client app.
 
-Recover All Unsynced Local Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This strategy attempts to recover unsynced local changes automatically. 
-There are two client reset handlers that take this approach, 
-``RecoverOrDiscardUnsyncedChangesHandler`` and ``RecoverUnsyncedChangesHandler``. 
+There are two client reset handlers that try to automatically recover the unsycned 
+local data: ``RecoverOrDiscardUnsyncedChangesHandler`` and ``RecoverUnsyncedChangesHandler``. 
 
 RecoverOrDiscardUnsyncedChangesHandler
 ``````````````````````````````````````
-
 This is the default handler, as it provides the most robust recovery process. If 
 the automatic recovery process fails, it falls back to the ``DiscardLocalReset`` 
 strategy explained in the :ref:`Discard Unsynced Changes section <dotnet-client-reset-discard-unsynced-changes>`. 
@@ -161,7 +162,7 @@ This strategy **permanently deletes** all local unsynced changes
 made since the last successful sync. If you choose to use a 
 ``DiscardUnsyncedChangesHandler``, the SDK restores your local realm file 
 to a syncable state without closing the realm and while keeping notifications 
-fully working. If this process fails, it falls back again to a manual reset 
+fully working. If this process fails, it falls back to a manual reset 
 strategy explained in the 
 :ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`. 
 This handler provides the following callback methods:
