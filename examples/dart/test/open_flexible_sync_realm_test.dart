@@ -43,7 +43,7 @@ void main() {
           Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       Realm fullySyncedRealm = await Realm.open(config);
       // :snippet-end:
-      (expect(fullySyncedRealm.isClosed, false));
+      expect(fullySyncedRealm.isClosed, false);
       cleanUpRealm(fullySyncedRealm, app);
     });
     test('Track download progress', () async {
@@ -75,7 +75,7 @@ void main() {
       User currentUser = await app.logIn(credentials);
       late int transferred;
       late int transferable;
-      // :snippet-start: async-open-track-progress
+      // :snippet-start: async-open-cancel
       Configuration config =
           Configuration.flexibleSync(currentUser, [Tricycle.schema]);
 
