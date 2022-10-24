@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
@@ -80,14 +79,11 @@ void main() {
           Configuration.flexibleSync(currentUser, [Tricycle.schema]);
 
       CancellationToken token = CancellationToken();
+      // Cancel operation after 5 seconds.
+      Future<void>.delayed(const Duration(seconds: 5), () => token.cancel());
+
       Realm fullySyncedRealm =
           await Realm.open(config, cancellationToken: token);
-      // Cancel operation after 5 seconds.
-      Timer(
-          Duration(seconds: 5),
-          () => token.cancel(CancelledException(
-              cancellationReason:
-                  "Took too long to open realm. Aborting operation")));
       // :snippet-end:
       expect(token.isCancelled, false);
       expect(fullySyncedRealm.isClosed, false);

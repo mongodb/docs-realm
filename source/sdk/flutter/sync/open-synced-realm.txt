@@ -33,13 +33,41 @@ Realm object schemas, and additional optional named arguments to the
 :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>` constructor.
 This constructor returns a :flutter-sdk:`FlexibleSyncConfiguration <realm/FlexibleSyncConfiguration-class.html>`.
 Then, pass the ``FlexibleSyncConfiguration`` to :flutter-sdk:`Realm() <realm/Realm-class.html>`
-to open an instance of the realm.
+to open an instance of the realm. Data syncs with App Services in the background
+after you open the realm.
 
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.open-flexible-sync-realm.dart
    :language: dart
 
 Once you open a synced realm, :ref:`configure and manage the sync session
 <flutter-manage-sync-session>`.
+
+.. _flutter-open-realm-async:
+
+Sync Data on Open
+~~~~~~~~~~~~~~~~~
+
+To sync all data with App Services when you open a realm, use the asynchronous method
+:flutter-sdk:`Realm.open() <realm/Realm/open.html>`. The operation syncs all available
+data before returning the ``Realm``.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open.dart
+   :language: dart
+
+To track the state of the synchronization, pass a :flutter-sdk:`ProgressCallback <realm/ProgressCallback.html>`
+to the optional named argument ``onProgressCallback``.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-track-progress.dart
+   :language: dart
+
+To be able to cancel a synchronization in progress, pass a `CancellationToken
+<https://pub.dev/documentation/cancellation_token/latest/cancellation_token/CancellationToken-class.html>`__
+instance to the optional named argument ``cancellationToken``.
+Call `CancellationToken.cancel() <https://pub.dev/documentation/cancellation_token/latest/cancellation_token/CancellationToken/cancel.html>`__
+to cancel the synchronization.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-cancel.dart
+   :language: dart
 
 Configure a Realm
 -----------------
