@@ -87,20 +87,24 @@ and add the Realm React Native SDK to it.
 
                npm install realm
          
-         .. step:: Enable Hermes
+         .. step:: Enable Hermes (optional)
+
+            .. note::
+               
+               To use Hermes, your app must use Realm v11 or later and React Native 0.70.0 or later
 
             Realm supports React Native's mobile-optimized JavaScript
             engine, Hermes. By default, new apps created with the React
             Native CLI already have Hermes enabled.
             
             We recommend that you use Hermes with Realm. However, Realm
-            also supports the JSC JavaScript engine if your app requires
-            it.
+            also supports the :apple:`JavaScriptCore (JSC) engine
+            <documentation/javascriptcore>` if your app requires it.
             
-            Existing apps that use JSC can enable Hermes separately for
-            Android and iOS. To learn how, see the `Using Hermes
-            <https://reactnative.dev/docs/hermes>`_ guide in the React
-            Native docs.
+            Existing apps that currently use JSC can enable Hermes
+            separately for Android and iOS. To learn how, see the `Using
+            Hermes <https://reactnative.dev/docs/hermes>`_ guide in the
+            React Native docs.
          
          .. step:: Resolve CocoaPods Dependencies
 
