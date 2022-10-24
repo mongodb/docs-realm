@@ -6,7 +6,7 @@ part of 'sync_schemas.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Todo extends _Todo with RealmEntity, RealmObject {
+class Todo extends _Todo with RealmEntity, RealmObjectBase, RealmObject {
   static var _defaultsSet = false;
 
   Todo(
@@ -16,50 +16,50 @@ class Todo extends _Todo with RealmEntity, RealmObject {
     bool isComplete = false,
   }) {
     if (!_defaultsSet) {
-      _defaultsSet = RealmObject.setDefaults<Todo>({
+      _defaultsSet = RealmObjectBase.setDefaults<Todo>({
         'isComplete': false,
       });
     }
-    RealmObject.set(this, '_id', id);
-    RealmObject.set(this, 'isComplete', isComplete);
-    RealmObject.set(this, 'summary', summary);
-    RealmObject.set(this, 'owner_id', ownerId);
+    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'isComplete', isComplete);
+    RealmObjectBase.set(this, 'summary', summary);
+    RealmObjectBase.set(this, 'owner_id', ownerId);
   }
 
   Todo._();
 
   @override
-  ObjectId get id => RealmObject.get<ObjectId>(this, '_id') as ObjectId;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => RealmObject.set(this, '_id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
 
   @override
-  bool get isComplete => RealmObject.get<bool>(this, 'isComplete') as bool;
+  bool get isComplete => RealmObjectBase.get<bool>(this, 'isComplete') as bool;
   @override
-  set isComplete(bool value) => RealmObject.set(this, 'isComplete', value);
+  set isComplete(bool value) => RealmObjectBase.set(this, 'isComplete', value);
 
   @override
-  String get summary => RealmObject.get<String>(this, 'summary') as String;
+  String get summary => RealmObjectBase.get<String>(this, 'summary') as String;
   @override
-  set summary(String value) => RealmObject.set(this, 'summary', value);
+  set summary(String value) => RealmObjectBase.set(this, 'summary', value);
 
   @override
-  String get ownerId => RealmObject.get<String>(this, 'owner_id') as String;
+  String get ownerId => RealmObjectBase.get<String>(this, 'owner_id') as String;
   @override
-  set ownerId(String value) => RealmObject.set(this, 'owner_id', value);
+  set ownerId(String value) => RealmObjectBase.set(this, 'owner_id', value);
 
   @override
   Stream<RealmObjectChanges<Todo>> get changes =>
-      RealmObject.getChanges<Todo>(this);
+      RealmObjectBase.getChanges<Todo>(this);
 
   @override
-  Todo freeze() => RealmObject.freezeObject<Todo>(this);
+  Todo freeze() => RealmObjectBase.freezeObject<Todo>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Todo._);
-    return const SchemaObject(Todo, 'Todo', [
+    RealmObjectBase.registerFactory(Todo._);
+    return const SchemaObject(ObjectType.realmObject, Todo, 'Todo', [
       SchemaProperty('_id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('isComplete', RealmPropertyType.bool),
