@@ -107,7 +107,9 @@ such as ``Uuid.v4()``.
 Embedded Objects
 ----------------
 
-Embedded objects are Realm objects that belong to a single parent Realm object.
+Realm treats each embedded object as nested data inside of a parent object.
+An embedded object inherits the lifecycle of its parent object.
+It cannot exist as an independent Realm object.
 Embedded objects have the following properties:
 
 - Embedded objects are deleted when their parent object is deleted
@@ -123,13 +125,15 @@ Embedded objects must be nullable when defining them in the parent object's
 ``RealmModel``. You must also include the embedded object's schema in the realm's
 :flutter-sdk:`Configuration <realm/Configuration-class.html>`.
 
-In the following example, the ``_Address`` model is embedded within the ``_Person`` model.
+The following example shows how to model an embedded object in a Realm schema.
+The ``_Address`` model is embedded within the ``_Person`` model.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-model.dart
    :language: dart
 
-Then, use the ``Address`` embedded object generated from the ``_Address`` ``RealmModel``
-in the above schema.
+The following example shows the unique considerations when working with embedded objects.
+The example uses the ``Address`` embedded object generated from the ``_Address``
+``RealmModel`` in the above schema.
 
 .. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-examples.dart
    :language: dart
