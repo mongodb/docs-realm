@@ -83,4 +83,19 @@ void main() {
     expect(prius!.miles, 500);
     cleanUpRealm(realm);
   });
+
+  test('Write async', () async {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    // :snippet-start: write-async
+    // Add Subaru Outback to the realm using `writeAsync`
+    Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
+    await realm.writeAsync(() {
+      realm.add<Car>(newOutback);
+    });
+    // :snippet-end:
+    final outback = realm.find<Car>("Subaru");
+    expect(outback!.miles, 2);
+    cleanUpRealm(realm);
+  });
 }
