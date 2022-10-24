@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
@@ -34,6 +34,64 @@ void main() {
       await cleanUpRealm(realm, app);
       expect(realm.isClosed, true);
       expect(app.currentUser, null);
+    });
+    test('Async Open Flexible Sync Realm', () async {
+      Credentials credentials = Credentials.anonymous();
+      User currentUser = await app.logIn(credentials);
+      // :snippet-start: async-open
+      Configuration config =
+          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+      Realm fullySyncedRealm = await Realm.open(config);
+      // :snippet-end:
+      (expect(fullySyncedRealm.isClosed, false));
+      cleanUpRealm(fullySyncedRealm, app);
+    });
+    test('Track download progress', () async {
+      Credentials credentials = Credentials.anonymous();
+      User currentUser = await app.logIn(credentials);
+      late int transferred;
+      late int transferable;
+      // :snippet-start: async-open-track-progress
+      Configuration config =
+          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+      Realm fullySyncedRealm =
+          await Realm.open(config, onProgressCallback: (syncProgress) {
+        if (syncProgress.transferableBytes == syncProgress.transferredBytes) {
+          print('All bytes transferred!');
+          // :remove-start:
+          transferred = syncProgress.transferredBytes;
+          transferable = syncProgress.transferableBytes;
+          // :remove-end:
+        }
+      });
+      // :snippet-end:
+      expect(fullySyncedRealm.isClosed, false);
+      expect(transferred, transferable);
+      expect(transferred, greaterThanOrEqualTo(0));
+      cleanUpRealm(fullySyncedRealm, app);
+    });
+    test('Cancel download in progress', () async {
+      Credentials credentials = Credentials.anonymous();
+      User currentUser = await app.logIn(credentials);
+      late int transferred;
+      late int transferable;
+      // :snippet-start: async-open-track-progress
+      Configuration config =
+          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+
+      CancellationToken token = CancellationToken();
+      Realm fullySyncedRealm =
+          await Realm.open(config, cancellationToken: token);
+      // Cancel operation after 5 seconds.
+      Timer(
+          Duration(seconds: 5),
+          () => token.cancel(CancelledException(
+              cancellationReason:
+                  "Took too long to open realm. Aborting operation")));
+      // :snippet-end:
+      expect(token.isCancelled, false);
+      expect(fullySyncedRealm.isClosed, false);
+      cleanUpRealm(fullySyncedRealm, app);
     });
 
     test("Handle Sync Error", () async {
