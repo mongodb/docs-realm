@@ -11,8 +11,101 @@ Debugging with Flipper - React Native SDK
    :depth: 2
    :class: singlecol
 
-To do: add brief overview
+To debug Realm apps built with React Native, use the Flipper Debugger. Flipper provides a way to visualize, inspect, and control your apps from a simple desktop interface. In addition to Flipper's intuitive interface, the Realm Flipper Plugin provides additional to improve your app debugging experience:
 
+- Live Objects: See objects in real-time.
+- Schema Dependency Graph: View schemas and their relationships.
+- Make changes: Create, modify and delete objects
+- Query: Query the database using RQL
 
-Steps
+Setup 
 -----
+
+.. procedure::
+
+   .. step:: Install the Flipper Desktop App
+      
+      Follow the `Getting Started with Flipper <https://fbflipper.com/docs/getting-started/>`_ guide to install Flipper for your operating system. 
+
+   .. step:: Add Flipper to your React Native App
+      
+      If you did not use ``react-native init`` to initialize your app, follow the manual setup guide(s) to add Flipper to your app:
+
+      - `Manual Android Setup <https://fbflipper.com/docs/getting-started/react-native-android/>`_
+      - `Manual iOS Setup <https://fbflipper.com/docs/getting-started/react-native-ios/>`_
+      
+      If you did use ``react-native init`` to initialize your app and are on
+      React Native version ``0.62`` or greater, Flipper integration is supported
+      out of the box. Otherwise, if you are on an earlier version of React Native, follow the `Automatic Setup <https://fbflipper.com/docs/getting-started/react-native/>`_ guide. 
+
+   .. step:: Launch the Flipper Desktop App
+      
+      Simply launch your React Native app, and then open the Flipper Desktop application. Your React Native app should be available in the :guilabel:`App Inspect` tab of the Flipper UI.
+      
+      .. figure:: /images/flipper-getting-started.png
+         :alt: Flipper Getting Started
+
+   .. step:: Add the Realm Flipper Plugin to the Flipper Desktop App
+      
+      Within the Flipper Desktop App, click the :guilabel:`Plugin Manager` tab on the left-hand side. When the Plugin Manager modal opens, select the :guilabel:`Install Plugins` option and 
+      search for the "realm-flipper-plugin" and install it. 
+
+      .. figure:: /images/add-realm-flipper-plugin.png
+         :alt: Add Realm Flipper Plugin  
+      
+      Click the red alert to reload the Flipper Desktop app and apply changes.
+
+      .. figure:: /images/reload-flipper.png
+         :alt: Add Realm Flipper Plugin     
+      
+   .. step:: Install Realm Flipper Plugin Device with NPM
+      
+      :npm:`Realm Flipper Plugin Device <package/realm-flipper-plugin-device>` enables React Native applications to interact with Realm Flipper Plugin. Realm Flipper Plugin Device also requires the :npm:`React Native Flipper plugin <package/react-native-flipper>`. To install both, run the following command:
+
+      .. code-block:: shell
+
+         npm install realm-flipper-plugin-device react-native-flipper
+      
+      If you are developing on iOS run the following command to auto-link the ``react-native-flipper`` module with CocoaPods:
+
+      .. code-block:: shell
+
+         cd ios
+         pod install
+         cd ..
+
+   .. step:: Import Realm Flipper Plugin in your Code
+      
+      Todo: imporve text - Add the following code into your JS File 
+
+      .. code-block:: javascript
+
+         import {StyleSheet, Text, View} from 'react-native';
+         import Realm from 'realm';
+         import RealmPlugin from 'realm-flipper-plugin-device'; //import
+         import React from 'react';
+
+         export default function App() {
+         const Cat = {
+            name: 'Cat',
+            properties: {
+               _id: 'objectId',
+               name: 'string',
+               age: 'int',
+               type: 'string',
+            },
+            primaryKey: '_id',
+         };
+         // open a local realm with the 'Cat' schema
+         const realm = new Realm({
+            schema: [Cat],
+            schemaVersion: 2,
+         });
+
+         return (    
+            <View style={styles.container}>
+               <RealmPlugin realms={[realm]} /> {/* pass in the Realm to the plugin*/}
+               <Text>Open up App.js to start working on your app!</Text>
+            </View>
+         );
+         }
