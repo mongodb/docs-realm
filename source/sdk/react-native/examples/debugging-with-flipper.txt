@@ -64,7 +64,7 @@ Setup
 
       .. code-block:: shell
 
-         npm install realm-flipper-plugin-device react-native-flipper
+         npm install realm-flipper-plugin-device n
       
       If you are developing on iOS run the following command to auto-link the ``react-native-flipper`` module with CocoaPods:
 
@@ -76,36 +76,23 @@ Setup
 
    .. step:: Import Realm Flipper Plugin in your Code
       
-      Todo: imporve text - Add the following code into your JS File 
+      Import the ``RealmPlugin`` component ``realm-flipper-plugin-device`` package in the file in which you open a realm.
 
       .. code-block:: javascript
 
-         import {StyleSheet, Text, View} from 'react-native';
-         import Realm from 'realm';
-         import RealmPlugin from 'realm-flipper-plugin-device'; //import
-         import React from 'react';
+         import RealmPlugin from 'realm-flipper-plugin-device';
 
-         export default function App() {
-         const Cat = {
-            name: 'Cat',
-            properties: {
-               _id: 'objectId',
-               name: 'string',
-               age: 'int',
-               type: 'string',
-            },
-            primaryKey: '_id',
-         };
-         // open a local realm with the 'Cat' schema
-         const realm = new Realm({
-            schema: [Cat],
-            schemaVersion: 2,
-         });
+      Within the return statement of render your ``RealmPlugin`` and pass it the
+      opened realm as a parameter. 
+
+      .. code-block:: javascript
 
          return (    
-            <View style={styles.container}>
+            <View>
                <RealmPlugin realms={[realm]} /> {/* pass in the Realm to the plugin*/}
-               <Text>Open up App.js to start working on your app!</Text>
+               // ...
             </View>
          );
          }
+
+      Now, reopen the Realm Flipper Desktop app, and you can use the Realm Flipper Plugin.
