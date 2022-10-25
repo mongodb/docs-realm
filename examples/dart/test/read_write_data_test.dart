@@ -90,12 +90,17 @@ void main() {
     // :snippet-start: write-async
     // Add Subaru Outback to the realm using `writeAsync`
     Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
-    await realm.writeAsync(() {
+   realm.writeAsync(() {
       realm.add<Car>(newOutback);
     });
     // :snippet-end:
     final outback = realm.find<Car>("Subaru");
-    expect(outback!.miles, 2);
+    expect(outback, isNull);
+    expect(realm.isInTransaction, true);
+    // let transaction resolve
+    await Future.delayed(Duration(milliseconds: 500));
+    expect(realm.isInTransaction, false);
+    expect(realm.find<Car>("Subaru")!.miles, 2);
     cleanUpRealm(realm);
   });
 }
