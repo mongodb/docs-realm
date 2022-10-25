@@ -1,3 +1,7 @@
+:template: product-landing
+:hidefeedback: header
+:noprevnext:
+
 .. _java-intro:
 
 ==============
@@ -27,286 +31,164 @@ Realm Java SDK
    :depth: 2
    :class: singlecol
 
-The Realm Java SDK allows you to use Realm Database and
-backend Apps using Java or Kotlin.
+Use the Realm Java SDK to develop Android apps in Java or Kotlin. To develop 
+multiplatform apps using Kotlin Multiplatform Mobile, refer to the 
+:ref:`Realm Kotlin SDK <kotlin-intro>`.
 
-.. include:: /includes/java-sdk-supported-platforms.rst
+.. kicker:: What You Can Do
 
+Develop Apps with Realm Database
+--------------------------------
 
-Local Realm Database
---------------------
+Use free open-source Realm Database as a local object store on a device.
+Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
+other clients.
 
-With the Realm Java SDK, you can access objects stored in a local
-instance of Realm Database. With Realm Database, you can:
+.. tabs::
 
-Define an Object Schema
-~~~~~~~~~~~~~~~~~~~~~~~
+   .. tab:: Use Realm Database Locally
+      :tabid: local-realm
 
-:ref:`Define your object schema <java-define-a-realm-object-schema>`
-with annotated Kotlin or Java classes:
+      .. procedure::
 
-.. tabs-realm-languages::
+         .. step:: Install the Realm Java SDK
 
-   .. tab::
-      :tabid: kotlin
+            Use the Gradle build system to
+            :ref:`java-install` in your project.
 
-      .. literalinclude:: /examples/generated/java/local/Frog.snippet.frog-definition-local.kt
-         :language: kotlin
+         .. step:: Define an Object Schema
 
-   .. tab::
-      :tabid: java
+            Use Java or Kotlin to idiomatically :ref:`define an object schema 
+            <java-define-a-realm-object-schema>`. 
 
-      .. literalinclude:: /examples/generated/java/local/FrogJava.snippet.frog-definition-local.java
-         :language: java
+         .. step:: Open a Realm
 
-Query Realm Database
-~~~~~~~~~~~~~~~~~~~~
+            Realm Database stores objects in realm files on your device, 
+            or you can open an in-memory realm which does not create a file.
+            :ref:`Configure and open a realm <java-open-close-realm>` 
+            to get started reading and writing data.
 
-:ref:`Query <java-client-query-engine>` for stored objects using
-Android-native queries:
+         .. step:: Read and Write Data
 
-.. tabs-realm-languages::
-     
-   .. tab::
-      :tabid: kotlin
+            :ref:`Create <java-create-a-new-object>`, :ref:`read 
+            <java-read-from-realm>`, :ref:`update <java-update>`, and 
+            :ref:`delete <java-delete-an-object>` objects from the realm. 
+            Use Android-native queries to :ref:`filter data 
+            <java-client-query-engine>`. 
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.query.kt
-         :language: kotlin
+         .. step:: React to Changes
 
-   .. tab::
-      :tabid: java
+            Realm's live objects mean that your data is always up-to-date.
+            You can :ref:`register a notification handler 
+            <java-react-to-changes>` to watch for changes and perform some 
+            logic, such as updating your UI.
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.query.java
-         :language: java
+      .. image:: /images/illustrations/Mobile_hero_green.png
+         :alt: Realm Mobile Illustration
 
-Update Live Objects
-~~~~~~~~~~~~~~~~~~~
+   .. tab:: Sync Data Across Devices
+      :tabid: device-sync
 
-:ref:`Update <java-modify-an-object>` objects in Realm Database by
-updating field values on an instance of the object within a transaction:
+      .. procedure::
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
+         .. step:: Connect to an Atlas App Services App
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.update.kt
-         :language: kotlin
+            Configure :ref:`Device Sync in an App Services App 
+            <realm-sync-get-started>`. Define data access rules. Use 
+            Development Mode to infer your schema from your Java or 
+            Kotlin data model.
 
-   .. tab::
-      :tabid: java
+            Then, :ref:`connect to the backend <java-init-appclient>` from
+            your client.
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.update.java
-         :language: java
+         .. step:: Authenticate a User
 
-Watch for Object Updates
-~~~~~~~~~~~~~~~~~~~~~~~~
+            Use one of our authentication providers to :ref:`authenticate a 
+            user <java-authenticate-users>`. App Services provides access
+            to popular authentication providers, such as Apple, Google, or 
+            Facebook. Use our built-in email/password provider to manage 
+            users without a third-party, or use custom JWT authentication to 
+            integrate with other authentication providers. Anonymous authentication
+            provides access without requiring a login or persisting user data.
 
-:ref:`Receive object updates and notifications automatically
-<java-react-to-changes>` when objects stored in Realm Database
-change:
+         .. step:: Open a Synced Realm
 
-.. tabs-realm-languages::
-  
-   .. tab::
-      :tabid: kotlin
+            Instead of opening a local realm, :ref:`configure and open a 
+            synced Realm <java-synced-realms>`. 
+            :ref:`Subscribe to a query <java-sync-subscribe-to-queryable-fields>` 
+            to determine what data the synced realm can read and write.
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.notifications.kt
-         :language: kotlin
+         .. step:: Read and Write Synced Data
 
-   .. tab::
-      :tabid: java
+            The APIs to read and write data from a realm are the same 
+            whether you're using a synced or local realm. Data that you 
+            read and write is automatically kept in sync with your Atlas 
+            cluster and other clients. Apps keep working offline and 
+            deterministically sync changes whenever a network connection is 
+            available. 
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.notifications.java
-         :language: java
+      .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
+         :alt: Realm Sync Illustration
 
-Always Access the Latest Data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. tab:: Build with Atlas App Services
+      :tabid: app-services
 
-:ref:`Live objects <java-live-object>` keep all instances
-of an object up to date at all times:
+      .. container::
 
-.. tabs-realm-languages::
-  
-   .. tab::
-      :tabid: kotlin
+         Call Serverless Functions
+         ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.live-objects.kt
-         :language: kotlin
+         You can :ref:`call serverless Functions <java-call-a-function>` 
+         from your client application that run in an App Services backend.
 
-   .. tab::
-      :tabid: java
+         Query MongoDB Atlas
+         ~~~~~~~~~~~~~~~~~~~
 
-      .. literalinclude:: /examples/generated/java/local/LandingPageTest.snippet.live-objects.java
-         :language: java
+         You can :ref:`query data stored in MongoDB <java-mongodb-data-access>`
+         directly from your client application code.
 
-.. seealso::
+         Authenticate Users
+         ~~~~~~~~~~~~~~~~~~
 
-   To get started with Realm Database, try our
-   :ref:`Local-only Quick Start <java-client-quick-start-local>`.
+         Authenticate users with built-in and third-party :ref:`authentication 
+         providers <java-authenticate-users>`. Use the authenticated user to 
+         access App Services.
 
-Atlas App Services
-------------------
+      .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
+         :alt: App Services Illustration
 
-Atlas App Services is a backend for client applications hosted by
-MongoDB in the cloud. Individual backends, known as **Apps**, provide
-the ability to synchronize data stored in
-Realm Database as well as a layer of backend functionality
-including user accounts and backend logic.
-The Realm Java SDK optionally contains the ability to access
-these Apps running in the cloud. In addition to local
-Realm Database in the SDK, Apps provide the
-following functionality:
+.. kicker:: Essential Documentation
 
-Atlas Device Sync
-~~~~~~~~~~~~~~~~~
+Recommended Reading
+-------------------
 
-Automatically sync data between realms on client devices and your backend
-MongoDB Atlas data store with :ref:`Device Sync <java-sync-changes-between-devices>`:
+.. card-group::
+   :columns: 3
+   :style: extra-compact
 
-.. tabs-realm-languages::
-   
-   .. tab::
-      :tabid: kotlin
+   .. card::
+      :headline: Java Quick Start
+      :cta: Explore the Quick Start
+      :url: https://www.mongodb.com/docs/realm/sdk/java/quick-start-local/
+      :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
+      :icon-alt: Tutorial Icon
 
-      .. literalinclude:: /examples/generated/java/sync/LandingPageTest.snippet.update.kt
-         :language: kotlin
+      Get started with Realm Database for Java.
 
-   .. tab::
-      :tabid: java
+   .. card::
+      :headline: Java API Reference
+      :cta: Java API Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/java/latest/
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
 
-      .. literalinclude:: /examples/generated/java/sync/LandingPageTest.snippet.update.java
-         :language: java
+      Explore generated reference docs for the Realm Java APIs.
 
-App Services
-~~~~~~~~~~~~
+   .. card::
+      :headline: Kotlin Extensions API Reference
+      :cta: Kotlin Extensions Reference
+      :url: https://www.mongodb.com/docs/realm-sdks/java/latest/kotlin-extensions/
+      :icon: /images/icons/branding_2022/Technical_REALM_SDK3x.png
+      :icon-alt: Realm Icon
 
-- Use Realm's built-in user management to enable
-  :ref:`user account creation <java-register-a-new-user-account>`
-  and user :ref:`authentication <java-authenticate-users>` across
-  devices.
-
-- Store data persistently with :ref:`permissions <mongodb-crud-permissions>`
-  in your backend App using a
-  :ref:`MongoDB data source <data-sources>`.
-
-- Execute logic in your backend App from a client application using
-  :ref:`Functions <java-call-a-function>`.
-
-- React to events in your backend App using
-  :ref:`Triggers <triggers>`.
-
-.. seealso::
-
-   To get started with Realm, try the our
-   :ref:`Quick Start with Sync <java-client-quick-start-sync>`.
-
-.. button:: Create an Account
-   :uri: https://www.mongodb.com/realm/register?tck=docs_CTA_realm_java
-
-Get Started
------------
-
-To start using the Realm Java SDK
-in your Android application, see :ref:`the installation guide
-<java-install>` to add the SDK dependency. Then check
-out the :ref:`Quick Start <java-client-quick-start-local>`.
-
-To learn more about the concepts that underlie Realm Database,
-such as the :ref:`Asynchronous API <java-async-api>`, the 
-:ref:`Query Engine <java-client-query-engine>`, and more,
-check out the Fundamentals.
-
-For practical code samples of common tasks in Realm Database and
-Apps, take a look at the Examples.
-
-.. list-table::
-   :header-rows: 1
-   :class: index-table
-
-   * - Get Started
-     - Fundamentals
-     - Examples
-     - Realm Apps Examples
-
-   * - :doc:`Install Realm for Android </sdk/java/install>`
-
-       :doc:`Quick Start </sdk/java/quick-start-local>`
-
-       :doc:`Quick Start with Sync </sdk/java/quick-start-sync>`
-
-       :doc:`Quick Start with LiveData </sdk/java/livedata>`
-
-       :doc:`Upgrade from Stitch to Realm </sdk/java/migrate>`
-
-     - :doc:`Asynchronous API </sdk/java/fundamentals/async-api>`
-
-       :doc:`Realms </sdk/java/fundamentals/realms>`
-
-       :doc:`Live Queries </sdk/java/fundamentals/live-queries>`
-
-       :doc:`Query Engine </sdk/java/fundamentals/query-engine>`
-
-       :doc:`Write Transactions </sdk/java/fundamentals/write-transactions>`
-
-       :doc:`Relationships </sdk/java/fundamentals/relationships>`
-
-       :doc:`Object Models & Schemas </sdk/java/fundamentals/object-models-and-schemas>`
-
-       :doc:`Schema Versions & Migrations </sdk/java/fundamentals/schema-versions-and-migrations>`
-
-       :doc:`Application Services </sdk/java/fundamentals/application-services>`
-
-     - :doc:`Define a Realm Object Schema </sdk/java/examples/define-a-realm-object-model>`
-
-       :doc:`Open & Close a Local Realm </sdk/java/examples/open-and-close-a-realm>`
-
-       :doc:`Read & Write Data </sdk/java/examples/read-and-write-data>`
-
-       :doc:`Filter Data </sdk/java/examples/filter-data>`
-
-       :doc:`React to Changes </sdk/java/examples/react-to-changes>`
-
-       :doc:`Display Collections </sdk/java/examples/adapters>`
-
-       :doc:`Modify an Object Schema </sdk/java/examples/modify-an-object-schema>`
-
-       :doc:`Log Realm Events </sdk/java/examples/log-realm-events>`
-
-     - :doc:`Connect to an Atlas App Services backend </sdk/java/examples/connect-to-app-services-backend>`
-
-       :doc:`Authenticate Users </sdk/java/examples/authenticate-users>`
-
-       :doc:`Sync Changes Between Devices </sdk/java/examples/sync-changes-between-devices>`
-
-       :doc:`Reset a Client Realm </sdk/java/examples/reset-a-client-realm>`
-
-       :doc:`Call a Function </sdk/java/examples/call-a-function>`
-
-       :doc:`Manage Email/Password Users </sdk/java/examples/email-password-users>`
-
-       :doc:`Create & Manage User API Keys </sdk/java/examples/manage-user-api-keys>`
-
-       :doc:`Query MongoDB </sdk/java/examples/mongodb-remote-access>`
-
-Advanced Guides
----------------
-
-.. list-table::
-   :header-rows: 1
-   :class: index-table
-
-   * - Realm Database
-     - Realm Apps
-
-   * - :doc:`Encryption </sdk/java/advanced-guides/encryption>`
-
-       :doc:`Threading </sdk/java/advanced-guides/threading>`
-
-       :doc:`Testing </sdk/java/advanced-guides/testing>`
-
-     - :doc:`Link User Identities </sdk/java/advanced-guides/link-user-identities>`
-
-       :doc:`Multi-User Applications </sdk/java/advanced-guides/multi-user-applications>`
-
-       :doc:`Custom User Data </sdk/java/advanced-guides/custom-user-data>`
+      Explore generated reference docs for the Kotlin Extensions APIs.
