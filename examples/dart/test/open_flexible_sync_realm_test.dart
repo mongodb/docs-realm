@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
-
 part 'open_flexible_sync_realm_test.g.dart';
 
 @RealmModel()
@@ -17,16 +16,15 @@ class _Tricycle {
 void main() {
   group('Open Flexible Sync Realm', () {
     const APP_ID = "flex-config-tester-vwevn";
-    AppConfiguration appConfig = AppConfiguration(APP_ID);
-    App app = App(appConfig);
+    final appConfig = AppConfiguration(APP_ID);
+    final app = App(appConfig);
     test("Open Flexible Sync Realm", () async {
-      Credentials credentials = Credentials.anonymous();
+      final credentials = Credentials.anonymous();
       // :snippet-start: open-flexible-sync-realm
-      User currentUser = await app.logIn(credentials);
-      Configuration config = Configuration.flexibleSync(
-          currentUser, [Tricycle.schema],
+      final currentUser = await app.logIn(credentials);
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
           path: 'flex.realm');
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       // :snippet-end:
       expect(realm.isClosed, false);
       expect(app.currentUser?.id != null, true);
@@ -38,22 +36,32 @@ void main() {
       Credentials credentials = Credentials.anonymous();
       User currentUser = await app.logIn(credentials);
       // :snippet-start: async-open
-      Configuration config =
-          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
-      Realm fullySyncedRealm = await Realm.open(config);
+      // Helper function to check if device is connected to the internet.
+      Future<bool> isDeviceOnline() async {
+        // ...logic to check if device is online
+        return true; // :remove:
+      }
+
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+      // Only use asynchronous open if app is online.
+      late Realm realm;
+      if (await isDeviceOnline()) {
+        realm = await Realm.open(config);
+      } else {
+        realm = Realm(config);
+      }
       // :snippet-end:
-      expect(fullySyncedRealm.isClosed, false);
-      cleanUpRealm(fullySyncedRealm, app);
+      expect(realm.isClosed, false);
+      cleanUpRealm(realm, app);
     });
     test('Track download progress', () async {
       Credentials credentials = Credentials.anonymous();
       User currentUser = await app.logIn(credentials);
       late int transferred;
       late int transferable;
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       // :snippet-start: async-open-track-progress
-      Configuration config =
-          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
-      Realm fullySyncedRealm =
+      final realm =
           await Realm.open(config, onProgressCallback: (syncProgress) {
         if (syncProgress.transferableBytes == syncProgress.transferredBytes) {
           print('All bytes transferred!');
@@ -64,36 +72,35 @@ void main() {
         }
       });
       // :snippet-end:
-      expect(fullySyncedRealm.isClosed, false);
+      expect(realm.isClosed, false);
       expect(transferred, transferable);
       expect(transferred, greaterThanOrEqualTo(0));
-      cleanUpRealm(fullySyncedRealm, app);
+      cleanUpRealm(realm, app);
     });
     test('Cancel download in progress', () async {
-      Credentials credentials = Credentials.anonymous();
-      User currentUser = await app.logIn(credentials);
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
       late int transferred;
       late int transferable;
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
       // :snippet-start: async-open-cancel
-      Configuration config =
-          Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+      final token = CancellationToken();
 
-      CancellationToken token = CancellationToken();
-      // Cancel operation after 5 seconds.
-      Future<void>.delayed(const Duration(seconds: 5), () => token.cancel());
+      // Cancel the open operation after 30 seconds.
+      // Alternatively, you could display a loading dialog and bind the cancellation
+      // to a button the user can click to stop the wait.
+      Future<void>.delayed(const Duration(seconds: 30), () => token.cancel());
 
-      Realm fullySyncedRealm =
-          await Realm.open(config, cancellationToken: token);
+      final realm = await Realm.open(config, cancellationToken: token);
       // :snippet-end:
       expect(token.isCancelled, false);
-      expect(fullySyncedRealm.isClosed, false);
-      cleanUpRealm(fullySyncedRealm, app);
+      cleanUpRealm(realm, app);
     });
 
     test("Handle Sync Error", () async {
       var handlerCalled = false;
-      Credentials credentials = Credentials.anonymous();
-      User currentUser = await app.logIn(credentials);
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
       // :snippet-start: sync-error-handler
       Configuration config = Configuration.flexibleSync(
           currentUser, [Tricycle.schema], syncErrorHandler: (SyncError error) {

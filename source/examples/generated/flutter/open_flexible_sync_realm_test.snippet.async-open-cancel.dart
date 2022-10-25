@@ -1,9 +1,8 @@
-Configuration config =
-    Configuration.flexibleSync(currentUser, [Tricycle.schema]);
+final token = CancellationToken();
 
-CancellationToken token = CancellationToken();
-// Cancel operation after 5 seconds.
-Future<void>.delayed(const Duration(seconds: 5), () => token.cancel());
+// Cancel the open operation after 30 seconds.
+// Alternatively, you could display a loading dialog and bind the cancellation
+// to a button the user can click to stop the wait.
+Future<void>.delayed(const Duration(seconds: 30), () => token.cancel());
 
-Realm fullySyncedRealm =
-    await Realm.open(config, cancellationToken: token);
+final realm = await Realm.open(config, cancellationToken: token);
