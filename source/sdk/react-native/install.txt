@@ -77,10 +77,8 @@ and add the Realm React Native SDK to it.
             .. code-block:: bash
 
                cd MyRealmApp
-
-
-         .. step:: Install Realm with NPM
-
+         
+         .. step:: Install Realm with npm
 
             In your React Native project directory, add Realm to your
             project with the following command:
@@ -88,10 +86,27 @@ and add the Realm React Native SDK to it.
             .. code-block:: bash
 
                npm install realm
+         
+         .. step:: Enable Hermes (optional)
 
+            .. note::
+               
+               To use Hermes, your app must use Realm v11 or later and React Native 0.70.0 or later
 
+            Realm supports React Native's mobile-optimized JavaScript
+            engine, Hermes. By default, new apps created with the React
+            Native CLI already have Hermes enabled.
+            
+            We recommend that you use Hermes with Realm. However, Realm
+            also supports the :apple:`JavaScriptCore (JSC) engine
+            <documentation/javascriptcore>` if your app requires it.
+            
+            Existing apps that currently use JSC can enable Hermes
+            separately for Android and iOS. To learn how, see the `Using
+            Hermes <https://reactnative.dev/docs/hermes>`_ guide in the
+            React Native docs.
+         
          .. step:: Resolve CocoaPods Dependencies
-
 
             For the iOS app, fetch the CocoaPods dependencies with
             the following commands from your React Native project
@@ -236,18 +251,6 @@ Import Realm
 Add the following line to the top of your source files where
 you want to use Realm:
 
-.. tabs-realm-languages::
+.. code-block:: typescript
 
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         import Realm from "realm";
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         import Realm from "realm";
+   import Realm from "realm";
