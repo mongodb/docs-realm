@@ -40,15 +40,17 @@ Setup
 
    .. step:: Launch the Flipper Desktop App
       
-      Simply launch your React Native app, and then open the Flipper Desktop application. Your React Native app should be available in the :guilabel:`App Inspect` tab of the Flipper UI.
+      Launch your React Native mobile app and open the Flipper Desktop application.
+      Your React Native app should be available in Flipper's :guilabel:`App Inspect` tab.
       
       .. figure:: /images/flipper-getting-started.png
          :alt: Flipper Getting Started
 
    .. step:: Add the Realm Flipper Plugin to the Flipper Desktop App
       
-      Within the Flipper Desktop App, click the :guilabel:`Plugin Manager` tab on the left-hand side. When the Plugin Manager modal opens, select the :guilabel:`Install Plugins` option and 
-      search for the "realm-flipper-plugin" and install it. 
+      Within the Flipper Desktop App, click the :guilabel:`Plugin Manager` tab on the
+      left-hand side. When the Plugin Manager modal opens, select the :guilabel:`Install Plugins`
+      option. Then search for the "realm-flipper-plugin" and install it. 
 
       .. figure:: /images/add-realm-flipper-plugin.png
          :alt: Add Realm Flipper Plugin  
@@ -66,7 +68,7 @@ Setup
 
          npm install realm-flipper-plugin-device n
       
-      If you are developing on iOS run the following command to auto-link the ``react-native-flipper`` module with CocoaPods:
+      If you are developing on iOS, run the following command to auto-link the ``react-native-flipper`` module with CocoaPods:
 
       .. code-block:: shell
 
@@ -82,7 +84,7 @@ Setup
 
          import RealmPlugin from 'realm-flipper-plugin-device';
 
-      Within the return statement of render your ``RealmPlugin`` and pass it the
+      Within your component's return statement, render your ``RealmPlugin`` and pass it the
       opened realm as a parameter. 
 
       .. code-block:: javascript
@@ -94,10 +96,10 @@ Setup
             </View>
          );
 
-      Navigate back to the Realm Flipper Desktop app, under the
-      :guilabel:`Enabled` plugins, you should see the :guilabel:`Realm`. 
+      Navigate back to the Realm Flipper Desktop app. Under the
+      :guilabel:`Enabled` plugins, you should see the :guilabel:`Realm` plugin. 
       
-      If you don't see the :guilabel:`Realm` plugin enabled, clicked the
+      If you don't see the :guilabel:`Realm` plugin enabled, click the
       :guilabel:`Disabled` dropdown and enable the ``Realm Flipper Plugin`` by
       tapping the :guilabel:`+ Enable Plugin` button.
 
@@ -109,7 +111,7 @@ Setup
       .. figure:: /images/view-enabled-flipper-plugin.png
          :alt: View Enabled Realm Flipper Plugin     
 
-      Using the ``Realm Flipper Plugin`` you can now:
+      Using the ``Realm Flipper Plugin``, you can now:
       
       - create, modify and delete your realm objects
       - query the database using RQL
