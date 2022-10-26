@@ -17,82 +17,49 @@ namespace Examples
         App app;
         RealmUser user;
 
-        const string myRealmAppId = Config.appid;
+        const string myRealmAppId = Config.fsAppId;
         Realm realm;
         App fsApp;
         Realm fsRealm;
         RealmUser fsUser;
 
         [Test]
-        public async Task HandleAutoClientReset()
-        // :snippet-start: DiscardLocalResetHandler
-        // :uncomment-start:
-        // private void SetupRealm()
-        // :uncomment-end:
+        public async Task TestDiscardUnsyncedChangesHandler()
+        // :snippet-start: DiscardUnsyncedChangesHandler
         {
             // :remove-start:
             app = App.Create(myRealmAppId);
-            user = app.LogInAsync(Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
+            user = await app.LogInAsync(Credentials.Anonymous());
             // :remove-end:
-            var config = new PartitionSyncConfiguration("myPartition", user);
-            config.ClientResetHandler = new DiscardLocalResetHandler()
+            var config = new FlexibleSyncConfiguration(user);
+            config.ClientResetHandler = new DiscardUnsyncedChangesHandler()
             {
-                OnBeforeReset = HandleBeforeResetCallback,
-                OnAfterReset = HandleAfterResetCallback,
-                ManualResetFallback = HandleManualResetCallback
+                // The following callbacks are optional
+                OnBeforeReset = (beforeReset) =>
+                {
+                    // Executed before the client reset begins
+                    // Can be used to notify the user that a reset is going
+                    // to happen
+                },
+                OnAfterReset = (beforeReset, afterReset) =>
+                {
+                    // Executed after the client reset is complete
+                    // Can be used to notify the user that the reset is done
+                },
+                ManualResetFallback = (err) =>
+                {
+                    // Automatic reset failed; handle the reset manually here
+                }
             };
 
             //:remove-start:
             config.Schema = new[] { typeof(User) };
             //:remove-end:
             var realm = await Realm.GetInstanceAsync(config);
+            // :snippet-end:
         }
 
-        private void HandleBeforeResetCallback(Realm beforeFrozen)
-        {
-            // Notify the user that a reset is going to happen.
-            // This method may also be useful if you want to make a backup
-            // of the existing Realm before it is reset by the system.
-        }
-
-        private void HandleAfterResetCallback(Realm beforeFrozen, Realm after)
-        {
-            // Notify the user when the reset is complete.
-            // This method may also be useful if you want to merge in changes
-            // that were in the "before" Realm into the re-created Realm
-        }
-
-        private void HandleManualResetCallback(ClientResetException clientResetException)
-        {
-            // An error occurred. Use this method to perform a manual client reset.
-
-            // Prompt user to perform client reset immediately. If they don't do it,
-            // they won't receive any data from the server until they restart the app
-            // and all changes they make will be discarded when the app restarts.
-            var didUserConfirmReset = ShowUserAConfirmationDialog();
-            if (didUserConfirmReset)
-            {
-                // Close the Realm before doing the reset. It must be 
-                // deleted as part of the reset.
-                realm.Dispose();
-
-                // perform the client reset
-                var didReset = clientResetException.InitiateClientReset();
-                if (didReset)
-                {
-                    // Navigate the user back to the main page or reopen the
-                    // the Realm and reinitialize the current page.
-                }
-                else
-                {
-                    // Reset failed - notify user that they'll need to
-                    // restart the app.
-                }
-            }
-        }
-        // :snippet-end:
-
-        public async Task HandleManualClientReset()
+        public async Task TestManualClientReset()
         // :snippet-start: ManualClientReset
         // :replace-start: {
         //  "terms": {
@@ -106,25 +73,25 @@ namespace Examples
         // private void SetupRealm()
         // :uncomment-end:
         {
+            //:remove-start:
             fsApp = App.Create(myRealmAppId);
             fsUser = fsApp.LogInAsync(
-                Credentials.EmailPassword("foo@foo.com", "foobar")).Result;
-
+                Credentials.EmailPassword("caleb@example.com", "foobar")).Result;
+            //:remove-end:
             var fsConfig = new FlexibleSyncConfiguration(fsUser);
             fsConfig.ClientResetHandler =
-                new ManualRecoveryHandler(HandleSessionError);
+                new ManualRecoveryHandler(HandleClientResetError);
             //:remove-start:
             fsConfig.Schema = new[] { typeof(User) };
             //:remove-end:
-
             var fsrealm = await Realm.GetInstanceAsync(fsConfig);
         }
 
-        private void HandleSessionError(ClientResetException clientResetException)
+        private void HandleClientResetError(ClientResetException clientResetException)
         {
             Console.WriteLine($"Client Reset requested: {clientResetException.Message}");
 
-            // Prompt user to perform a client reset immediately. If they don't do it,
+            // Prompt user to perform a client reset immediately. If they don't,
             // they won't receive any data from the server until they restart the app
             // and all changes they make will be discarded when the app restarts.
             var didUserConfirmReset = ShowUserAConfirmationDialog();
@@ -139,12 +106,12 @@ namespace Examples
                 if (didReset)
                 {
                     // Navigate the user back to the main page or reopen the
-                    // the Realm and reinitialize the current page.
+                    // the Realm and reinitialize the current page
                 }
                 else
                 {
                     // Reset failed - notify user that they'll need to
-                    // restart the app.
+                    // update the app
                 }
             }
         }
@@ -154,6 +121,69 @@ namespace Examples
         private bool ShowUserAConfirmationDialog()
         {
             return true;
+        }
+
+        public void TestRecoverOrDiscardUnsyncedChangesHandler()
+        {
+            // :snippet-start: RecoverOrDiscardUnsyncedChangesHandler
+            var conf = new FlexibleSyncConfiguration(user)
+            {
+                ClientResetHandler = new RecoverOrDiscardUnsyncedChangesHandler
+                {
+                    // The following callbacks are optional
+
+                    OnBeforeReset = (beforeReset) =>
+                    {
+                        // Executed before the client reset begins
+                        // Can be used to notify the user that a reset is going
+                        // to happen
+                    },
+                    OnAfterRecovery = (beforeReset, afterReset) =>
+                    {
+                        // Executed after the client reset is complete
+                        // Can be used to notify the user that the reset is done
+                    },
+                    OnAfterDiscard = (beforeReset, afterReset) =>
+                    {
+                        // Executed if the automatic recovery has failed
+                        // but the DiscardUnsyncedChanges fallback has completed
+                        // successfully
+                    },
+                    ManualResetFallback = (err) =>
+                    {
+                        // Automatic reset failed; handle the reset manually here
+                    }
+                }
+            };
+            // :snippet-end:
+        }
+
+        public void RecoverUnsyncedChangesHandler()
+        {
+            // :snippet-start: RecoverUnsyncedChangesHandler
+            var conf = new FlexibleSyncConfiguration(user)
+            {
+                ClientResetHandler = new RecoverUnsyncedChangesHandler
+                {
+                    // The following callbacks are optional
+                    OnBeforeReset = (beforeReset) =>
+                    {
+                        // Executed before the client reset begins
+                        // Can be used to notify the user that a reset is going
+                        // to happen
+                    },
+                    OnAfterReset = (beforeReset, afterReset) =>
+                    {
+                        // Executed after the client reset is complete
+                        // Can be used to notify the user that the reset is done
+                    },
+                    ManualResetFallback = (err) =>
+                    {
+                        // Automatic reset failed; handle the reset manually here
+                    }
+                }
+            };
+            // :snippet-end:
         }
     }
 }
