@@ -16,6 +16,9 @@ run and save data locally but cannot send or receive sync changesets
 until they perform a client reset. The Realm SDKs provide methods to 
 automatically handle client resets under most scenarios.
 
+Client Reset Strategies
+-----------------------
+
 Client reset scenarios occur when the server's history is incompatible with the 
 client's history. The most common causes of client resets are described in 
 :ref:`client-resets`.
@@ -56,8 +59,7 @@ property can be set to one of the following:
      - Manual recovery
      - Provides a way for you to implement your own recovery strategy.
 
-Client Reset Strategies
------------------------
+
 The following sections describe the different strategies for handling a client 
 reset and how you can use each of the ``ClientResetHandlers``.
 
@@ -80,7 +82,8 @@ and the client make changes to the same object:
    The recovery process cannot handle a breaking schema change. For 
    example, if you make a non-additive change to one or more of your Realm object 
    classes, the recovery process will fail. In this case, users will be 
-   required to update their client app.
+   required to update their client app. For more information on breaking 
+   changes, see :ref:`<breaking-change-quick-reference>`.
 
 There are two client reset handlers that try to automatically recover the unsycned 
 local data: ``RecoverOrDiscardUnsyncedChangesHandler`` and ``RecoverUnsyncedChangesHandler``. 
