@@ -23,12 +23,19 @@ namespace Examples
             user = app.LogInAsync(
                 Credentials.Anonymous()).Result;
 
-            var config = new FlexibleSyncConfiguration(user);
+            var config = new FlexibleSyncConfiguration(user)
+            {
+                Schema = new[] { typeof(Measurement) }
+            };
+
 
             realm = Realm.GetInstance(config);
         }
 
         // :snippet-start: asymmetry
+        // :remove-start:
+        [Realms.Explicit]
+        // :remove-end:
         private class Measurement : AsymmetricObject
         {
             [PrimaryKey, MapTo("_id")]
