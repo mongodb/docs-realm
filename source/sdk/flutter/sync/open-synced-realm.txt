@@ -44,14 +44,19 @@ Once you open a synced realm, :ref:`configure and manage the sync session
 
 .. _flutter-open-realm-async:
 
-Sync Data on Open
-~~~~~~~~~~~~~~~~~
+Open a Realm After Downloading Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To sync all data with App Services when you open a realm, use the asynchronous method
 :flutter-sdk:`Realm.open() <realm/Realm/open.html>`. The operation syncs all available
 data before returning the realm.
 
-``Realm.open()`` only resolves if the app is online.
+On first open, ``Realm.open()`` downloads all data that matches your sync subscriptions.
+Subsequent opens only download the latest changes.
+Depending on initial realm size and updates to the data set while the device is not syncing,
+performance may be slower on first open and faster on subsequent opens.
+
+If the client application is offline, ``Realm.open()`` does not resolve.
 You should check if the device is connected to the internet before using ``Realm.open()``.
 If the device is not connected to the internet, you can still use ``Realm()``
 to open a realm and sync data in the background when an internet connection is available.
@@ -73,6 +78,25 @@ to cancel the synchronization.
 
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-cancel.dart
    :language: dart
+
+.. example:: Realm() vs. Realm.open()
+
+   This section compares examples of scenarios when you might want to use ``Realm()``
+   versus ``Realm.open()`` to open a realm in an application.
+
+   Say you have an app that allowed the user to record and save their
+   favorite recipes. You might want to give them the option to create a new
+   recipe without waiting to download updates, or even if they're offline.
+   In this case, ``Realm()`` is preferable. The user can operate offline,
+   but the app would sync their recipes when they next had a network connection.
+
+
+   Say a user plays a game on both a table and a phone. The user progresses
+   three levels on the tablet. Later, the user opens the game on a phone.
+   In this case, ``Realm.open()`` is a better way to open the realm.
+   Since ``Realm.open()`` synchronizes data before returning the realm,
+   it makes sure that the user's progress is synced on the phone before they
+   start using the app, even if the initial load time may be slower.
 
 Configure a Realm
 -----------------

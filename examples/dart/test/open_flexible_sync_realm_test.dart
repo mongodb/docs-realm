@@ -89,9 +89,20 @@ void main() {
       // Cancel the open operation after 30 seconds.
       // Alternatively, you could display a loading dialog and bind the cancellation
       // to a button the user can click to stop the wait.
-      Future<void>.delayed(const Duration(seconds: 30), () => token.cancel());
+      Future<void>.delayed(
+          const Duration(seconds: 30),
+          () => token.cancel(CancelledException(
+              cancellationReason: "Realm took too long to open")));
 
-      final realm = await Realm.open(config, cancellationToken: token);
+      // If realm does not open after 30 seconds with asynchronous Realm.open(),
+      // open realm synchronously with Realm().
+      late Realm realm;
+      try {
+        realm = await Realm.open(config, cancellationToken: token);
+      } on CancelledException catch (err) {
+        print(err.cancellationReason); // prints "Realm took too long to open"
+        realm = Realm(config);
+      }
       // :snippet-end:
       expect(token.isCancelled, false);
       cleanUpRealm(realm, app);
