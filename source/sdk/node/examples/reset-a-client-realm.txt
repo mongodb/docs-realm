@@ -113,7 +113,7 @@ to the ``clientReset`` field of your
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 Include these properties in the ``ClientResetConfiguration``:
 
-- ``mode``: Set to ``"TODO_RECOVER_USYNCED"``.
+- ``mode``: Set to ``"recoverUnsyncedChanges"``.
 - ``clientResetBefore()``: Optional. Callback function invoked before the SDK executes this mode,
   when the SDK receives a client reset error from the backend.
   Provides a copy of the realm.
@@ -147,7 +147,7 @@ to the ``clientReset`` field of your
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 Include these properties in the ``ClientResetConfiguration``:
 
-- ``mode``: Set to ``"TODO_RECOVER_OR_DISCARD_USYNCED"``.
+- ``mode``: Set to ``"recoverOrDiscardUnsyncedChanges"``.
 - ``clientResetBefore()``: Optional. Callback function invoked before the SDK executes this mode,
   when the SDK receives a client reset error from the backend.
   Provides a copy of the realm.
