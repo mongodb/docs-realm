@@ -169,8 +169,10 @@ Background Writes
 -----------------
 
 You can add, modify, or delete objects in the background using 
-:flutter-sdk:`Realm.writeAsync() <realm/Realm/writeAsync.html>`. With 
-``writeAsync``, you don't need to pass frozen objects across threads. 
+:flutter-sdk:`Realm.writeAsync() <realm/Realm/writeAsync.html>`. Use 
+``Realm.writeAsync()`` to perform write operations without blocking execution
+of the main process. For example, you might use this to perform a large write 
+operation while you keeping the UI responsive. 
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.write-async.dart
    :language: dart
