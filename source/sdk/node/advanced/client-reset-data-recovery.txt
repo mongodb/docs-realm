@@ -10,18 +10,21 @@ Manual Client Reset Data Recovery - Node SDK
    :depth: 3
    :class: singlecol
 
-This page explains how to manually recover unsynced realm data after a client reset.
+This page explains how to manually recover unsynced realm data after a client reset
+using the Manual Recovery client reset mode.
 
 Manual recovery requires significant amounts of code, schema concessions,
 and custom conflict resolution logic.
-You should only perform a manual recovery of unsynced realm data if 
-you cannot lose unsynced data. 
-Otherwise, use the :ref:`discard unsynced changes <node-discard-unsynced-changes>`
-client reset strategy instead.
+You should only perform a manual recovery of unsynced realm data if
+you cannot lose unsynced data and the other automatic client reset methods do not
+meet your use case.
+
+For more information about the other available client reset modes, refer to
+:ref:`Reset a Client Realm <node-client-resets>`.
 
 The specifics of manual recovery depend heavily upon your application
 and your schema. However, there are a few techniques that can help with
-most manual recoveries. The :ref:`Track Changes by Object Strategy section 
+most manual recoveries. The :ref:`Track Changes by Object Strategy section
 <node-client-reset-track-changes-by-object>` demonstrates
 one method of recovering unsynced changes during a client reset.
 
@@ -38,9 +41,9 @@ one method of recovering unsynced changes during a client reset.
 Track Changes by Object Strategy
 --------------------------------
 
-The **track changes by object** manual client reset data recovery strategy 
-lets you recover data already written to the client realm file 
-but not yet synced to the backend. 
+The **track changes by object** manual client reset data recovery strategy
+lets you recover data already written to the client realm file
+but not yet synced to the backend.
 
 In this strategy, you add a "Last Updated Time" to each object model to track
 when each object last changed. We'll watch the
