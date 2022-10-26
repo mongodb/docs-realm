@@ -53,19 +53,26 @@ code:
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
    :language: csharp
 
-Define Your Object Model
-------------------------
+Define Object Models
+--------------------
 
 Your application's :ref:`object model <dotnet-objects>` defines 
 the data that you can store within Realm Database and synchronize
 to and from App Services.
 
-If have not :ref:`enabled Device Sync <enable-sync>` or you enabled
-Sync with Development Mode in the App Services UI, you can
-define your object model directly in code.
+You can define your object models directly in code if you have not enabled 
+:ref:`Device Sync <enable-sync>` or if you enabled
+Sync with :ref:`Development Mode <enable-disable-development-mode>` in the App 
+Services UI.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
 
+.. important:: Inheritance
+
+   All Realm objects must derive from 
+   :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+   :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
+   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
 
 The following code shows how to define an object model for a ``Task`` object. In 
 this example, we have marked the ``Id`` field as the Primary Key, marked the 
