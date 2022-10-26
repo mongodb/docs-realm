@@ -46,8 +46,11 @@ void main() {
       // Only use asynchronous open if app is online.
       late Realm realm;
       if (await isDeviceOnline()) {
+        // If the device is online, download changes and then open the realm.
         realm = await Realm.open(config);
       } else {
+        // If the device is offline, open the realm immediately
+        // and sync changes in the background.
         realm = Realm(config);
       }
       // :snippet-end:
