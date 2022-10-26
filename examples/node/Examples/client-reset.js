@@ -38,9 +38,9 @@ describe.skip("Client Reset with Seamless Loss", () => {
         schema: [DogSchema],
         sync: {
           user: app.currentUser,
-          partitionValue: "MyPartitionValue",
+          flexible: true,
           clientReset: {
-            mode: "discardLocal",
+            mode: "discardUnsyncedChanges",
             clientResetBefore: (realm) => {
               console.log("Beginning client reset for ", realm.path);
               // :remove-start:
@@ -84,6 +84,59 @@ describe.skip("Client Reset with Seamless Loss", () => {
       });
     });
     expect(clientResetSuccess).toBe(true);
+  });
+
+  // TODO(DOCSP-23425): investigate real example once sdk changes merged
+  test.skip("Recover Unsynced Changes Mode", async () => {
+    const app = new Realm.App({ id: REALM_APP_ID });
+    await app.logIn(new Realm.Credentials.anonymous());
+    // :snippet-start: recover-unsynced-changes
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        clientReset: {
+          mode: "recoverUnsyncedChanges",
+          clientResetBefore: (realm) => {
+            console.log("Beginning client reset for ", realm.path);
+          },
+          clientResetAfter: (beforeRealm, afterRealm) => {
+            console.log("Finished client reset for", beforeRealm.path);
+            console.log("New realm path", afterRealm.path);
+          },
+        },
+      },
+    };
+
+    const realm = await Realm.open(config);
+    // :snippet-end:
+  });
+  // TODO(DOCSP-23425): investigate real example once sdk changes merged
+  test.skip("Recover or Discard Unsynced Changes Mode", async () => {
+    const app = new Realm.App({ id: REALM_APP_ID });
+    await app.logIn(new Realm.Credentials.anonymous());
+    // :snippet-start: recover-or-discard-unsynced-changes
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        clientReset: {
+          mode: "recoverOrDiscardUnsyncedChanges",
+          clientResetBefore: (realm) => {
+            console.log("Beginning client reset for ", realm.path);
+          },
+          clientResetAfter: (beforeRealm, afterRealm) => {
+            console.log("Finished client reset for", beforeRealm.path);
+            console.log("New realm path", afterRealm.path);
+          },
+        },
+      },
+    };
+
+    const realm = await Realm.open(config);
+    // :snippet-end:
   });
 
   // skipping because there's no way to manually trigger breaking schema changes
@@ -146,7 +199,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
           user: app.currentUser,
           partitionValue: "MyPartitionValue",
           clientReset: {
-            mode: "discardLocal",
+            mode: "discardUnsyncedChanges",
             clientResetBefore: (realm) => {
               // NOT used with destructive schema changes
               console.log("Beginning client reset for ", realm.path);

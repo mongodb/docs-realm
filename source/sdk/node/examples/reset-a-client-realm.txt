@@ -127,7 +127,9 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements Recover Unsynced Changes mode:
 
-TODO: literalinclude
+.. literalinclude:: /examples/generated/node/client-reset.snippet.recover-unsynced-changes.js
+   :language: js
+   :emphasize-lines: 7
 
 .. _node-recover-discard-unsynced-changes:
 
@@ -160,16 +162,16 @@ Include these properties in the ``ClientResetConfiguration``:
 
 The following example implements Recover Unsynced Changes mode:
 
-TODO: literalinclude
+.. literalinclude:: /examples/generated/node/client-reset.snippet.recover-or-discard-unsynced-changes.js
+   :language: js
+   :emphasize-lines: 7
 
 .. _node-manual-client-reset-fallback:
 
 Manual Client Reset Fallback
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: refine copy here
-
-If the client reset with recovery operation cannot complete automatically,
+If the client reset with recovery cannot complete automatically,
 like when there are breaking schema changes, the client reset process falls through
 to a manual error handler. This may occur in either of the client reset with recovery modes,
 Recover Unsynced Changes and Recover or Discard Unsynced Changes.
@@ -179,7 +181,7 @@ in the ``SyncConfiguration.onFallback()`` callback.
 The following example demonstrates how you can manually handle this error case by
 discarding all unsynced changes:
 
-TODO: literalinclude
+TODO: literalinclude. still waiting on an example in the JS PR. cannot make example until then.
 
 .. _node-discard-unsynced-changes:
 
@@ -205,7 +207,7 @@ to the ``clientReset`` field of your
 :js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>`.
 Include these properties in the ``ClientResetConfiguration``:
 
-- ``mode``: Set to ``"discardLocal"``.
+- ``mode``: Set to ``"discardUnsyncedChanges"``.
 - ``clientResetBefore()``: Optional. Callback function invoked before the SDK executes this mode,
   when the SDK receives a client reset error from the backend.
   Provides a copy of the realm.

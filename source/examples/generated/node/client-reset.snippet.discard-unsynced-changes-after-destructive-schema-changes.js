@@ -28,7 +28,7 @@ const config = {
     user: app.currentUser,
     partitionValue: "MyPartitionValue",
     clientReset: {
-      mode: "discardLocal",
+      mode: "discardUnsyncedChanges",
       clientResetBefore: (realm) => {
         // NOT used with destructive schema changes
         console.log("Beginning client reset for ", realm.path);

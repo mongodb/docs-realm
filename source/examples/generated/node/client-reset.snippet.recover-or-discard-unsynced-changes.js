@@ -4,7 +4,7 @@ const config = {
     user: app.currentUser,
     flexible: true,
     clientReset: {
-      mode: "discardUnsyncedChanges",
+      mode: "recoverOrDiscardUnsyncedChanges",
       clientResetBefore: (realm) => {
         console.log("Beginning client reset for ", realm.path);
       },
@@ -15,3 +15,5 @@ const config = {
     },
   },
 };
+
+const realm = await Realm.open(config);
