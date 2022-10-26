@@ -82,44 +82,35 @@ clients.
   .. tab:: Use Realm Database Locally
       :tabid: local-realm
 
-      .. procedure::
+      .. container::
 
-         .. step:: Install the Realm React Native SDK
+        Use open-source Realm Database to store data on a device.
 
-            Set up your project with React Native and Realm.
-            See :ref:`Install React Native <react-native-install>` to get started.
+        .. procedure::
 
-         .. step:: Define an Object Schema
+          .. step:: Install the Realm React Native SDK
 
-            Use JavaScript to :ref:`define an object schema
-            <react-native-define-a-realm-object-schema>`.
+              Set up your project with React Native and Realm.
+              To get started, :ref:`install the Realm React Native SDK <react-native-install>`.
 
-         .. step:: Open a Realm
+          .. step:: Define an Object Schema
 
-            Realm Database stores objects on your device. :ref:`Configure
-            and open a realm <react-native-open-close-realm>` to get
-            started reading and writing data.
+              Use JavaScript to idiomatically :ref:`define a Realm object schema <react-native-define-a-realm-object-schema>`.
 
-         .. step:: Read and Write Data
+          .. step:: Configure & Open a Realm
 
-            You can create, read, update, and delete objects from the
-            realm.
+             To get started reading and writing data, :ref:`open and configure a realm <react-native-open-close-realm>`.
 
-            For more information, see :ref:`Read & Write Data
-            <react-native-read-and-write-data>` and :ref:`Query Data
-            <react-native-query-data>`.
+          .. step:: Read and Write Data
 
+              You can :ref:`create, read, update, and delete objects <react-native-read-and-write-data>`
+              from a realm. Construct complex queries to :ref:`filter data in a realm <react-native-query-data>`.
 
-         .. step:: React to Changes
+          .. step:: React to Changes
 
-            Realm's live objects mean that your data is always up-to-date.
-            You can register a change listener, a notification handler
-            that watches for changes and performs logic like updating
-            your UI.
-
-            For more information, visit :ref:`React to Changes
-            <react-native-react-to-changes>`.
-
+              Realm's live objects mean that your data is always up-to-date.
+              Register a change listener to :ref:`react to changes and perform logic like updating
+              your UI <react-native-react-to-changes>`.
 
       .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
@@ -127,48 +118,42 @@ clients.
   .. tab:: Sync Data Across Devices
       :tabid: device-sync
 
-      .. procedure::
+      .. container::
 
-         .. step:: Connect to an Atlas App Services App
+         Use Device Sync to keep data in sync with your MongoDB Atlas cluster and other
+         clients.
 
-            Configure :ref:`Device Sync in an App Services App
-            <realm-sync-get-started>`. Define data access rules or use
-            Development Mode to infer a schema from your client's data model.
+         .. procedure::
 
-            Then, :ref:`connect to the backend
-            <react-native-connect-to-mongodb-realm-backend-app>`
-            from your client.
+            .. step:: Connect to an Atlas App Services App
 
-         .. step:: Authenticate a User
+               Configure :ref:`Device Sync in an App Services App <realm-sync-get-started>`.
+               Define data access rules or use Development Mode to infer a schema
+               from your client's data model.
+               Then, :ref:`connect to the backend App from your React Native App <react-native-connect-to-mongodb-realm-backend-app>`.
 
-            App Services provides access to custom JWT authentication,
-            our built-in email/password provider, anonymous
-            authentication, and popular
-            authentication providers like Apple, Google, and Facebook.
+            .. step:: Authenticate a User
 
-            For more information, see :ref:`Authenticate Users
-            <react-native-authenticate-users>`.
+               App Services provides access to custom JWT authentication,
+               our built-in email/password provider, anonymous
+               authentication, and popular
+               authentication providers like Apple, Google, and Facebook.
+               Use these providers to :ref:`authenticate a user in your client <react-native-authenticate-users>`.
 
-         .. step:: Open a Synced Realm
+            .. step:: Open a Synced Realm
 
-            A synced realm allows you to access data across devices.
-            To determine what data a synced realm can read and write,
-            subscribe to a query.
+               To get started syncing data, :ref:`open a synced realm <react-native-open-a-synced-realm>`.
+               To determine what data a synced realm can read and write,
+               :ref:`subscribe to a query <react-native-sync-subscribe-to-queryable-fields>`.
 
-            For more information, see :ref:`Open & Close a Realm
-            <react-native-open-close-realm>` and :ref:`Subscribe to
-            Queryable Fields <react-native-sync-subscribe-to-queryable-fields>`.
+            .. step:: Read and Write Synced Data
 
-         .. step:: Read and Write Synced Data
-
-            The APIs for reading and writing data are the same for both synced
-            and local realms. Data that you read and write is automatically kept
-            in sync with your Atlas cluster and other clients.
-            Apps keep working offline and sync changes when a network connection
-            is available.
-
-            For more information on reading and writing data, see
-            :ref:`Read & Write Data <react-native-read-and-write-data>`.
+               The :ref:`APIs for reading and writing data <react-native-read-and-write-data>`
+               are the same for both synced and local realms.
+               Data that you read and write is automatically kept
+               in sync with your Atlas cluster and other clients.
+               Apps keep working offline and sync changes when a network connection
+               is available.
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
          :alt: Realm Sync Illustration
@@ -178,48 +163,25 @@ clients.
 
       .. container::
 
+         Use Atlas App Services in your React Native application with the Realm SDK.
+
          Call Serverless Functions
          ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         You can :ref:`call serverless Functions <react-native-call-a-function>`
-         from your client application that run in an App Services backend.
-
-         .. code-block:: javascript
-            :copyable: false
-
-            const myFunctionResult =
-            await user.functions.myServerlessFunction(
-               arguments
-            );
+         To invoke serverless backend logic from your React Native client,
+         :ref:`call Atlas Functions <react-native-call-a-function>`.
 
          Query MongoDB Atlas
          ~~~~~~~~~~~~~~~~~~~
 
-         You can :ref:`query data stored in MongoDB <react-native-mongodb-remote-access>`
-         directly from your client application code.
-
-         .. code-block:: javascript
-            :copyable: false
-
-            const mongodb = app.currentUser.mongoClient("mongodb-atlas");
-            const animals = mongodb.db("example").collection("animals");
-
-            const cheetah = await animals.findOne({ name: "cheetah" });
+         Query data stored in MongoDB directly from your client application code
+         with :ref:`MongoDB Data Access <react-native-mongodb-remote-access>`.
 
          Authenticate Users
          ~~~~~~~~~~~~~~~~~~
 
-         Authenticate users with built-in and third-party :ref:`authentication
-         providers <react-native-authenticate-users>`. Use the authenticated user
-         to access App Services.
-
-         .. code-block:: javascript
-            :copyable: false
-
-            const jwt = await authenticateWithExternalSystem();
-            const credentials = Realm.Credentials.jwt(jwt);
-
-            const user = await app.logIn(credentials);
+         Authenticate users with built-in and third-party :ref:`authentication providers <react-native-authenticate-users>`.
+         Access App Services with authenticated users.
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration
