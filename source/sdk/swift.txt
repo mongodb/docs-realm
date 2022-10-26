@@ -120,7 +120,7 @@ other clients.
             to :ref:`update Views when data changes 
             <swiftui-update-ui-when-objects-change>`.
 
-      .. image:: /images/illustrations/Mobile_hero_green.png
+      .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Sync Data Across Devices
@@ -182,7 +182,7 @@ other clients.
             :caption: SwiftUI Property Wrappers Offer Realm/SwiftUI Integration
             :copyable: false
 
-      .. image:: /images/illustrations/Sports_hero_green.png
+      .. image:: /images/illustrations/Spot_MauvePurple_Logic_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Build with Atlas App Services
@@ -196,26 +196,11 @@ other clients.
          You can :ref:`call serverless Functions <ios-call-a-function>` 
          from your client application that run in an App Services backend.
 
-         .. code-block:: swift
-            :copyable: false
-
-            let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
-
          Query MongoDB Atlas
          ~~~~~~~~~~~~~~~~~~~
 
          You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
          directly from your client application code.
-
-         .. code-block:: swift
-            :copyable: false
-
-            let client = app.currentUser!.mongoClient("mongodb-atlas")
-            let database = client.database(named: "products")
-            let collection = database.collection(withName: "coffee_drinks")
-
-            let queryFilter: Document = ["name": "Maple Latte"]
-            let queryResult = try await collection.findOneDocument(filter: queryFilter)
 
          Authenticate Users
          ~~~~~~~~~~~~~~~~~~
@@ -223,12 +208,6 @@ other clients.
          Authenticate users with built-in and third-party :ref:`authentication 
          providers <ios-authenticate-users>`. Use the authenticated user to 
          access App Services.
-
-         .. code-block:: swift
-            :copyable: false
-
-            let app = App(id: YOUR_APP_SERVICES_APP_ID)
-            let user = try await app.login(credentials: .anonymous)
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration
