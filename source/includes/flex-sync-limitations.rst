@@ -14,9 +14,6 @@ Unsupported Query Operators in Flexible Sync
    * - Operator Type
      - Unsupported Operators
 
-   * - String Operators
-     - ``in``
-
    * - Aggregate Operators
      - ``@avg``, ``@count``, ``@max``, ``@min``, ``@sum``
 
