@@ -14,9 +14,6 @@ Unsupported Query Operators in Flexible Sync
    * - Operator Type
      - Unsupported Operators
 
-   * - Comparison Operators
-     - ``in``
-
    * - String Operators
      - ``in``
 
@@ -35,8 +32,23 @@ Flexible Sync only supports ``@count`` for array fields.
 List Queries
 ~~~~~~~~~~~~
 
-Flexible Sync does not support querying on lists of data using the
-``IN`` operator.
+Flexible Sync supports querying lists using the ``IN`` operator.
+
+You can query a list of constants to see if it contains the value of a
+queryable field:
+
+.. code-block:: javascript
+   
+   // Query a constant list for a queryable field value
+   "priority IN { 1, 2, 3 }"
+
+If a queryable field has an array value, you can query to see if it
+contains a constant value:
+
+.. code-block:: javascript
+   
+   // Query an array-valued queryable field for a constant value
+   "'comedy' IN genres"
 
 Embedded or Linked Objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
