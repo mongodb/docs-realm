@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 using Examples.Models;
 using NUnit.Framework;
@@ -30,6 +31,15 @@ namespace Examples
 
 
             realm = Realm.GetInstance(config);
+
+            // You cannot add a subscription for an AsymmetricObject
+            // This causes a compile-time error:
+            // :uncomment-start:
+            //realm.Subscriptions.Update(() =>
+            //{
+            //    realm.Subscriptions.Add(realm.All<Measurement>());
+            //});
+            // :uncomment-end:
         }
 
         // :snippet-start: asymmetry

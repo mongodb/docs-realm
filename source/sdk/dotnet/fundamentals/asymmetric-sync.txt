@@ -29,8 +29,13 @@ client-side *insert-only* workloads.
 
 .. important::
 
-   You cannot query, modify, or delete Asymmetric objects from a client app.
-   
+   You cannot query, modify, or delete Asymmetric objects from a client app. 
+   Because AsymmetricObject can not be modified by the client, the compiler 
+   will not let you add a subscription to an AsymmetricObject.
+
+
+The .NET SDK allows you to work with Asymmetric objects and standard Realm objects 
+within the same realm. 
 
 Sync Data Unidirectionally from a Client Application
 ----------------------------------------------------
@@ -46,6 +51,8 @@ Before you set up Asymmetric sync, you need to understand the following rules:
 
 - ``RealmObject`` and ``EmbeddedObject`` types cannot contain ``AsymmetricObject``
   types as properties. 
+
+- Unidirectional Sync requires :ref:`Flexible Sync <dotnet-flexible-sync>`.
 
 The process for syncing data asymmetrically is the same as 
 standard :ref:`bi-directional sync <dotnet-client-quick-start>`, as long as the 

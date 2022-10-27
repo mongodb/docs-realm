@@ -28,13 +28,13 @@ namespace Examples
             // :snippet-end:
 
 
-            // :snippet-start: botostrap-a-subscription
+            // :snippet-start: bootstrap-a-subscription
             // :uncomment-start:
             // var config = new FlexibleSyncConfiguration(app.CurrentUser)
             // {
             //     PopulateInitialSubscriptions = (realm) =>
             //     {
-            //         var myTasks = realm.All<Task>().Where(n => n.AssignedTo == myUserId);
+            //         var myTasks = realm.All<Task>().Where(n => n.OwnerId == myUserId);
             //         realm.Subscriptions.Add(myTasks);
             //     }
             // };
@@ -123,46 +123,47 @@ namespace Examples
             });
             // :snippet-end:
         }
-    }
-    class MyTask : RealmObject
-    {
-        [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [MapTo("name")]
-        [Required]
-        public string Name { get; set; }
 
-        [MapTo("status")]
-        public string Status { get; set; }
+        class MyTask : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [MapTo("owner")]
-        public string Owner { get; set; }
+            [MapTo("name")]
+            [Required]
+            public string Name { get; set; }
 
-        [MapTo("progressMinutes")]
-        public int ProgressMinutes { get; set; }
+            [MapTo("status")]
+            public string Status { get; set; }
 
-    }
-    public enum TaskStatus
-    {
-        Open,
-        InProgress,
-        Complete
-    }
-    class Team : RealmObject
-    {
-        [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+            [MapTo("owner")]
+            public string Owner { get; set; }
 
-        [MapTo("name")]
-        [Required]
-        public string Name { get; set; }
+            [MapTo("progressMinutes")]
+            public int ProgressMinutes { get; set; }
 
-        [MapTo("description")]
-        public string Description { get; set; }
+        }
+        public enum TaskStatus
+        {
+            Open,
+            InProgress,
+            Complete
+        }
+        class Team : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
+            [MapTo("name")]
+            [Required]
+            public string Name { get; set; }
+
+            [MapTo("description")]
+            public string Description { get; set; }
+
+        }
     }
 }
-// :replace-end:
