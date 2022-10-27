@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import '../bin/models/car.dart';
 import 'utils.dart';
+import 'dart:io';
 
 part 'read_write_data_test.g.dart';
 
@@ -90,7 +91,7 @@ void main() {
     // :snippet-start: write-async
     // Add Subaru Outback to the realm using `writeAsync`
     Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
-   realm.writeAsync(() {
+    realm.writeAsync(() {
       realm.add<Car>(newOutback);
     });
     // :snippet-end:

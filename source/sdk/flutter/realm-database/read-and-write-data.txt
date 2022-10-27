@@ -168,11 +168,31 @@ Delete multiple objects with the :flutter-sdk:`Realm.deleteMany()
 Background Writes
 -----------------
 
-You can add, modify, or delete objects in the background using 
-:flutter-sdk:`Realm.writeAsync() <realm/Realm/writeAsync.html>`. Use 
-``Realm.writeAsync()`` to perform write operations without blocking execution
-of the main process. For example, you might use this to perform a large write 
-operation while you keeping the UI responsive. 
+You can add, modify, or delete objects in the asynchronously using 
+:flutter-sdk:`Realm.writeAsync() <realm/Realm/writeAsync.html>`. 
+
+When you use ``Realm.writeAsync()`` to perform write operations, waiting 
+to obtain the write lock and committing a transaction occur in the background. 
+Only the write itself occurs on the main process. 
+
+This can reduce time spent blocking the execution of the main process. This 
+is particularly useful when using Device Sync, where you don't know when and
+for how long the Sync client will be writing.
 
 .. literalinclude:: /examples/generated/flutter/read_write_data_test.snippet.write-async.dart
    :language: dart
+
+You can pass an optional cancellation token to the ``writeAsync`` methods.
+Using ``token.cancel()`` to cancel a writeAsync operation has different 
+behaviors depending on the operation:
+
+- ``writeAsync``: depending on which stage of the write process the operation 
+  is in, the cancellation token may do one of:
+
+  - Cancel the entire transaction.
+  - Cancel waiting for fsync, but still commit the transaction.
+
+- ``beginWriteAsync``: cancels the wait to obtain the write lock. This cancels
+  the entire transaction.
+- ``commitAsync``: cancels waiting for fsync. The commit still goes through, 
+  but you aren't notified when the data has been written to the disk.
