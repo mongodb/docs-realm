@@ -74,90 +74,95 @@ Get Started with Realm .NET
 Develop Apps with Realm Database
 --------------------------------
 
-Use free open-source Realm Database as a local object store on a device.
-Use Device Sync to keep data in sync with your MongoDB Atlas cluster and 
-other clients.
-
 .. tabs::
 
    .. tab:: Use Realm Database Locally
       :tabid: local-realm
 
-      .. procedure::
+      .. container::
 
-         .. step:: Install the Realm .NET SDK
+         Use free open-source Realm Database as a local object store on a device.
 
-            Use NuGet to :ref:`dotnet-install` in your solution.
+         .. procedure::
 
-            Import Realm in your source files to get started.
+            .. step:: Install the Realm .NET SDK
 
-         .. step:: Define an Object Schema
+               Use NuGet to :ref:`dotnet-install` in your solution.
 
-            Use C# to idiomatically :ref:`define an object schema 
-            <dotnet-define-a-realm-object-schema>`. 
+               Import Realm in your source files to get started.
 
-         .. step:: Open a Realm
+            .. step:: Define an Object Schema
 
-            Realm Database stores objects in realm files on your device, 
-            or you can open an in-memory realm which does not create a file.
-            :ref:`Configure and open a realm <dotnet-open-a-realm>` 
-            to get started reading and writing data.
+               Use C# to idiomatically :ref:`define an object schema 
+               <dotnet-define-a-realm-object-schema>`. 
 
-         .. step:: Read and Write Data
+            .. step:: Open a Realm
 
-            :ref:`Read and write data <dotnet-read-and-write-data>`. 
-            You can :ref:`filter data <dotnet-client-query-engine>` using 
-            idiomatic LINQ Syntax, or Realm Query Language. 
+               Realm Database stores objects in realm files on your device, 
+               or you can open an in-memory realm which does not create a file.
+               :ref:`Configure and open a realm <dotnet-open-a-realm>` 
+               to get started reading and writing data.
 
-         .. step:: React to Changes
+            .. step:: Read and Write Data
 
-            Realm's live objects mean that your data is always up-to-date.
-            You can :ref:`register a notification handler <dotnet-react-to-changes>` 
-            to watch for changes and perform some logic, such as updating 
-            your UI.
+               :ref:`Read and write data <dotnet-read-and-write-data>`. 
+               You can :ref:`filter data <dotnet-client-query-engine>` using 
+               idiomatic LINQ Syntax, or Realm Query Language. 
 
-      .. image:: /images/illustrations/Mobile_hero_green.png
+            .. step:: React to Changes
+
+               Realm's live objects mean that your data is always up-to-date.
+               You can :ref:`register a notification handler <dotnet-react-to-changes>` 
+               to watch for changes and perform some logic, such as updating 
+               your UI.
+
+      .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Sync Data Across Devices
       :tabid: device-sync
 
-      .. procedure::
+      .. container::
 
-         .. step:: Connect to an Atlas App Services App
+         Use Device Sync to keep data in sync with your MongoDB Atlas cluster and
+         other clients.
 
-            Configure :ref:`Device Sync in an App Services App 
-            <realm-sync-get-started>`. Define data access rules. Use 
-            Development Mode to infer your schema from your C# data model.
+         .. procedure::
 
-            Then, :ref:`connect to the backend <dotnet-init-appclient>` from
-            your client.
+            .. step:: Connect to an Atlas App Services App
 
-         .. step:: Authenticate a User
+               Configure :ref:`Device Sync in an App Services App 
+               <realm-sync-get-started>`. Define data access rules. Use 
+               Development Mode to infer your schema from your C# data model.
 
-            Use one of our authentication providers to :ref:`authenticate a 
-            user <dotnet-authenticate>`. App Services provides access
-            to popular authentication providers, such as Apple, Google, or 
-            Facebook. Use our built-in email/password provider to manage 
-            users without a third-party, or use custom JWT authentication to 
-            integrate with other authentication providers. Anonymous authentication
-            provides access without requiring a login or persisting user data.
+               Then, :ref:`connect to the backend <dotnet-init-appclient>` from
+               your client.
 
-         .. step:: Open a Synced Realm
+            .. step:: Authenticate a User
 
-            Instead of opening a local realm, :ref:`configure and open a 
-            synced Realm <dotnet-flexible-sync-open-realm>`. 
-            :ref:`Subscribe to a query <dotnet-sync-add-subscription>` 
-            to determine what data the synced realm can read and write.
+               Use one of our authentication providers to :ref:`authenticate a 
+               user <dotnet-authenticate>`. App Services provides access
+               to popular authentication providers, such as Apple, Google, or 
+               Facebook. Use our built-in email/password provider to manage 
+               users without a third-party, or use custom JWT authentication to 
+               integrate with other authentication providers. Anonymous authentication
+               provides access without requiring a login or persisting user data.
 
-         .. step:: Read and Write Synced Data
+            .. step:: Open a Synced Realm
 
-            The APIs to read and write data from a realm are the same 
-            whether you're using a synced or local realm. Data that you 
-            read and write is automatically kept in sync with your Atlas 
-            cluster and other clients. Apps keep working offline and 
-            deterministically sync changes whenever a network connection is 
-            available. 
+               Instead of opening a local realm, :ref:`configure and open a 
+               synced Realm <dotnet-flexible-sync-open-realm>`. 
+               :ref:`Subscribe to a query <dotnet-sync-add-subscription>` 
+               to determine what data the synced realm can read and write.
+
+            .. step:: Read and Write Synced Data
+
+               The APIs to read and write data from a realm are the same 
+               whether you're using a synced or local realm. Data that you 
+               read and write is automatically kept in sync with your Atlas 
+               cluster and other clients. Apps keep working offline and 
+               deterministically sync changes whenever a network connection is 
+               available. 
 
       .. image:: /images/illustrations/Spot_AzureBlue_Mobile_Tech_RealmSync.png
          :alt: Realm Sync Illustration
@@ -167,16 +172,13 @@ other clients.
 
       .. container::
 
+         Use Atlas App Services in your application with the .NET SDK.
+
          Call Serverless Functions
          ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-         You can :ref:`call serverless Functions <dotnet-call-a-function>` 
+         You can :ref:`call serverless Functions <dotnet-call-a-function>`
          from your client application that run in an App Services backend.
-
-         .. code-block:: csharp
-            :copyable: false
-
-            sum = await user.Functions.CallAsync<int>("sum", 2, 40);
 
          Query MongoDB Atlas
          ~~~~~~~~~~~~~~~~~~~
@@ -184,28 +186,12 @@ other clients.
          You can :ref:`query data stored in MongoDB <dotnet-mongodb-data-access>`
          directly from your client application code.
 
-         .. code-block:: csharp
-            :copyable: false
-
-            mongoClient = user.GetMongoClient("mongodb-atlas");
-            dbPlantInventory = mongoClient.GetDatabase("inventory");
-            plantsCollection = dbPlantInventory.GetCollection<Plant>("plants");
-
-            var petunia = await plantsCollection.FindOneAsync(
-               new { name = "Petunia" },
-               null);
-
          Authenticate Users
          ~~~~~~~~~~~~~~~~~~
 
-         Authenticate users with built-in and third-party :ref:`authentication 
-         providers <dotnet-authenticate>`. Use the authenticated user to 
+         Authenticate users with built-in and third-party :ref:`authentication
+         providers <dotnet-authenticate>`. Use the authenticated user to
          access App Services.
-
-         .. code-block:: csharp
-            :copyable: false
-
-            var user = await app.LogInAsync(Credentials.Anonymous());
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration

@@ -100,44 +100,32 @@ Develop Apps with Realm Flutter
 
             .. step:: Install the Realm Flutter SDK
 
-               Install the Realm Flutter SDK into your project with the
-               `realm package on pub.dev <https://pub.dev/packages/realm>`__.
-
-               Import Realm in your project files to get started.
-
-               For more information, see :ref:`Install Realm for Flutter <flutter-install>`.
+               To get started, :ref:`install the Realm Flutter SDK <flutter-install>`.
+               Then, import the Realm SDK in your project files.
 
             .. step:: Define an Object Schema
 
-               Use Dart to define a data schema for your realm database.
+               Use Dart to idiomatically :ref:`define a Realm object schema <flutter-define-realm-object-schema>`.
 
-               For more information, see :ref:`Define a Realm Object Schema
-               <flutter-define-realm-object-schema>`.
+            .. step:: Configure & Open a Realm
 
-            .. step:: Open a Realm
-
-               Open a realm before you begin using it. You can configure it to do things
+               You can configure your realm to do things
                like populate initial data on load, be encrypted, and more.
-
-               For more information, see :ref:`Open a Realm <flutter-open-realm>`.
+               To begin working with your data,
+               :ref:`configure and open a realm <flutter-open-close-realm>`.
 
             .. step:: Read and Write Data
 
-               Create, read, update, and delete objects in the realm. You can also
-               filter data in your queries using Realm Query Language.
-
-               For more information, see :ref:`Read and Write Data <flutter-read-write-data>`.
+               You can :ref:`create, read, update, and delete objects <flutter-read-write-data>`
+               from a realm. Construct complex queries to :ref:`filter data in a realm <flutter-filter-results>`.
 
             .. step:: React to Changes
 
                Realm's live objects mean that your data is always up-to-date.
-               You can register a notification handler
-               to watch for changes and perform logic like updating
-               your UI.
+               Register a change listener to :ref:`react to changes and perform logic like updating
+               your UI <flutter-react-to-changes>`.
 
-               For more information, see :ref:`React to Changes <flutter-react-to-changes>`.
-
-      .. image:: /images/illustrations/Mobile_hero_green.png
+      .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Sync Data Across Devices
@@ -152,34 +140,28 @@ Develop Apps with Realm Flutter
 
             .. step:: Configure Atlas Device Sync
 
-               Configure Device Sync in an Atlas App Services App.
-               Define data access rules. Use Development Mode to infer your schema
-               from your Dart data model.
-
-               For more information, see :ref:`Device Sync Overview <sync-overview>`.
+               Configure :ref:`Device Sync in an App Services App <realm-sync-get-started>`.
+               Define data access rules or use Development Mode to infer a schema
+               from your client's data model.
 
             .. step:: Connect to an Atlas App Services App
 
-               Connect to the App with Device Sync from your
-               client before you can sync data
-
-               For more information, :ref:`Connect to App Services <flutter-connect-to-backend>`.
+               To use the App Services App with Device Sync in your Flutter app,
+               :ref:`connect to the backend App <flutter-connect-to-backend>`.
 
             .. step:: Authenticate a User
 
-               Use one of the App Services authentication providers to authenticate a
-               user. App Services includes custom JWT, Facebook, Google, Apple,
-               anonymous, and built-in email/password authentication providers.
-
-               For more information, see :ref:`Authenticate Users <flutter-authenticate>`.
+               App Services provides access to custom JWT authentication,
+               our built-in email/password provider, anonymous
+               authentication, and popular
+               authentication providers like Apple, Google, and Facebook.
+               Use these providers to :ref:`authenticate a user in your client <flutter-authenticate>`.
 
             .. step:: Open a Synced Realm
 
-               Configure and open a synced Realm.
-               Then, subscribe to a query to determine what data the synced realm
-               can read and write.
-
-               For more information, see :ref:`Open a Synced Realm <flutter-open-synced-realm>`.
+               To get started syncing data, :ref:`open a synced realm <flutter-open-synced-realm>`.
+               To determine what data a synced realm can read and write,
+               :ref:`subscribe to a query <flutter-flexible-sync-manage-subscriptions>`.
 
             .. step:: Read and Write Synced Data
 
