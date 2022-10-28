@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import '../bin/models/car.dart';
 import 'utils.dart';
+import 'dart:io';
 
 part 'read_write_data_test.g.dart';
 
@@ -81,6 +82,26 @@ void main() {
     // :snippet-end:
     final prius = realm.find<Car>("Toyota");
     expect(prius!.miles, 500);
+    cleanUpRealm(realm);
+  });
+
+  test('Write async', () async {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    // :snippet-start: write-async
+    // Add Subaru Outback to the realm using `writeAsync`
+    Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
+    realm.writeAsync(() {
+      realm.add<Car>(newOutback);
+    });
+    // :snippet-end:
+    final outback = realm.find<Car>("Subaru");
+    expect(outback, isNull);
+    expect(realm.isInTransaction, true);
+    // let transaction resolve
+    await Future.delayed(Duration(milliseconds: 500));
+    expect(realm.isInTransaction, false);
+    expect(realm.find<Car>("Subaru")!.miles, 2);
     cleanUpRealm(realm);
   });
 }
