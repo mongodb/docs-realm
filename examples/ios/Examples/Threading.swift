@@ -236,34 +236,39 @@ class Threading: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
-//    func testThreadSafeWrapperParameter() async {
-//        let expectation = XCTestExpectation(description: "it completes")
-//        func someLongCallToGetNewName() async -> String {
-//            return "Test"
-//        }
-//
-//        // :snippet-start: threadsafe-wrapper-function-parameter
-//        func loadNameInBackground(@ThreadSafe person: ThreadingExamples_Person?) async {
-//            let newName = await someLongCallToGetNewName()
-//            let realm = try! await Realm()
-//            try! realm.write {
-//                person?.name = newName
-//            }
-//            expectation.fulfill() // :remove:
-//        }
-//
-//        let realm = try! await Realm()
-//
-//        let person = ThreadingExamples_Person(name: "Jane")
-//        try! realm.write {
-//            realm.add(person)
-//        }
-//        await loadNameInBackground(person: person)
-//        // :snippet-end:
-//
-//        XCTAssertEqual(person.name, "Test")
-//        wait(for: [expectation], timeout: 10)
-//    }
+    func testThreadSafeWrapperParameter() async {
+        let expectation = XCTestExpectation(description: "it completes")
+        // :snippet-start: threadsafe-wrapper-function-parameter
+        func someLongCallToGetNewName() async -> String {
+            return "Janet"
+        }
+        
+        @MainActor
+        func loadNameInBackground(@ThreadSafe person: ThreadingExamples_Person?) async {
+            let newName = await someLongCallToGetNewName()
+            let realm = try! await Realm()
+            try! realm.write {
+                person?.name = newName
+            }
+            expectation.fulfill() // :remove:
+        }
+
+        @MainActor
+        func createAndUpdatePerson() async {
+            let realm = try! await Realm()
+            
+            let person = ThreadingExamples_Person(name: "Jane")
+            try! realm.write {
+                realm.add(person)
+            }
+            await loadNameInBackground(person: person)
+            XCTAssertEqual(person.name, "Janet") // :remove:
+        }
+        
+        await createAndUpdatePerson()
+        // :snippet-end:
+        wait(for: [expectation], timeout: 10)
+    }
 
     func testWriteAsyncExtension() {
         let expectation = XCTestExpectation(description: "it completes")
