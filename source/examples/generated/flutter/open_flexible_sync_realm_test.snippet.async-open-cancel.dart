@@ -9,7 +9,7 @@ Future<void>.delayed(
         cancellationReason: "Realm took too long to open")));
 
 // If realm does not open after 30 seconds with asynchronous Realm.open(),
-// open realm synchronously with Realm().
+// open realm immediately with Realm() and try to sync data in the background.
 late Realm realm;
 try {
   realm = await Realm.open(config, cancellationToken: token);

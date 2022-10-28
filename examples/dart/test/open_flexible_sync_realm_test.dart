@@ -50,7 +50,7 @@ void main() {
         realm = await Realm.open(config);
       } else {
         // If the device is offline, open the realm immediately
-        // and sync changes in the background.
+        // and automatically sync changes in the background when the device is online.
         realm = Realm(config);
       }
       // :snippet-end:
@@ -98,7 +98,7 @@ void main() {
               cancellationReason: "Realm took too long to open")));
 
       // If realm does not open after 30 seconds with asynchronous Realm.open(),
-      // open realm synchronously with Realm().
+      // open realm immediately with Realm() and try to sync data in the background.
       late Realm realm;
       try {
         realm = await Realm.open(config, cancellationToken: token);

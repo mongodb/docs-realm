@@ -11,6 +11,6 @@ if (await isDeviceOnline()) {
   realm = await Realm.open(config);
 } else {
   // If the device is offline, open the realm immediately
-  // and sync changes in the background.
+  // and automatically sync changes in the background when the device is online.
   realm = Realm(config);
 }
