@@ -44,14 +44,14 @@ class OpenCloseRealm: XCTestCase {
         // :snippet-end:
     }
 
-//    func testTvOs() {
-//        // :snippet-start: tvos-share-path
-//        let fileUrl = FileManager.default
-//            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
-//            .appendingPathComponent("Library/Caches/default.realm")
-//        // :snippet-end:
-//        print(fileUrl)
-//    }
+    func testTvOs() {
+        // :snippet-start: tvos-share-path
+        let fileUrl = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
+            .appendingPathComponent("Library/Caches/default.realm")
+        // :snippet-end:
+        print(fileUrl)
+    }
 
     func testHandleError() {
         // :snippet-start: handle-error
