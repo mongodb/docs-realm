@@ -1,3 +1,34 @@
+# October 28, 2022
+
+## Tutorials
+- Removed section. Moved tutorials to Atlas App Services at: https://www.mongodb.com/docs/atlas/app-services/get-started/
+
+## Flutter SDK
+- Realm Database
+  - Define a Realm Object Schema: Update Embedded Object support with details & link to Data Types page
+  - Read & Write Data: New "Background Writes" section with details & tested code example for `writeAsync`
+  - Data Types: New "Embedded Objects" section with details & tested code examples
+- Sync Device Data/Open Synced Realm: New "Open a Realm After Downloading Changes" with async open details & tested code examples
+- Various pages: Change styling of cross-links from "Tip" callout boxes to regular text links
+
+## Java SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## .NET SDK
+- Advanced Guides/Client Resets: Update client reset handler documentation for Client Recovery, with new tested code examples
+
+## React Native SDK
+- Install Realm for React Native: Add an optional step to React Native v.60+ install tab about enabling Hermes
+
+## Swift SDK
+- CRUD/Threading: Update the code example for using `@ThreadSafe` wrapper on a function parameter to show correct `@MainActor` usage
+- Test Suite: Fix a failing test related to upgrading to Xcode 14.x
+
+## Other
+- Introduction: Remove tutorials from "Get Started" section, add links to SDK landing pages
+- All SDK landing pages: Small tweaks to new styling & images to improve consistency
+- Various Snyk dependency version updates
+
 # October 21, 2022
 
 ## Flutter SDK
