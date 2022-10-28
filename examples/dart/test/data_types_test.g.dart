@@ -95,48 +95,6 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   }
 }
 
-class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
-  Person(
-    String name, {
-    Address? address,
-  }) {
-    RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'address', address);
-  }
-
-  Person._();
-
-  @override
-  String get name => RealmObjectBase.get<String>(this, 'name') as String;
-  @override
-  set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  Address? get address =>
-      RealmObjectBase.get<Address>(this, 'address') as Address?;
-  @override
-  set address(covariant Address? value) =>
-      RealmObjectBase.set(this, 'address', value);
-
-  @override
-  Stream<RealmObjectChanges<Person>> get changes =>
-      RealmObjectBase.getChanges<Person>(this);
-
-  @override
-  Person freeze() => RealmObjectBase.freezeObject<Person>(this);
-
-  static SchemaObject get schema => _schema ??= _initSchema();
-  static SchemaObject? _schema;
-  static SchemaObject _initSchema() {
-    RealmObjectBase.registerFactory(Person._);
-    return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
-      SchemaProperty('address', RealmPropertyType.object,
-          optional: true, linkTarget: 'Address'),
-    ]);
-  }
-}
-
 class Address extends _Address
     with RealmEntity, RealmObjectBase, EmbeddedObject {
   Address(
@@ -189,6 +147,48 @@ class Address extends _Address
       SchemaProperty('city', RealmPropertyType.string),
       SchemaProperty('state', RealmPropertyType.string),
       SchemaProperty('country', RealmPropertyType.string),
+    ]);
+  }
+}
+
+class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
+  Person(
+    String name, {
+    Address? address,
+  }) {
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'address', address);
+  }
+
+  Person._();
+
+  @override
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
+  @override
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
+
+  @override
+  Address? get address =>
+      RealmObjectBase.get<Address>(this, 'address') as Address?;
+  @override
+  set address(covariant Address? value) =>
+      RealmObjectBase.set(this, 'address', value);
+
+  @override
+  Stream<RealmObjectChanges<Person>> get changes =>
+      RealmObjectBase.getChanges<Person>(this);
+
+  @override
+  Person freeze() => RealmObjectBase.freezeObject<Person>(this);
+
+  static SchemaObject get schema => _schema ??= _initSchema();
+  static SchemaObject? _schema;
+  static SchemaObject _initSchema() {
+    RealmObjectBase.registerFactory(Person._);
+    return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
+      SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('address', RealmPropertyType.object,
+          optional: true, linkTarget: 'Address'),
     ]);
   }
 }

@@ -33,13 +33,71 @@ Realm object schemas, and additional optional named arguments to the
 :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>` constructor.
 This constructor returns a :flutter-sdk:`FlexibleSyncConfiguration <realm/FlexibleSyncConfiguration-class.html>`.
 Then, pass the ``FlexibleSyncConfiguration`` to :flutter-sdk:`Realm() <realm/Realm-class.html>`
-to open an instance of the realm.
+to open an instance of the realm. Data syncs with App Services in the background
+after you open the realm.
 
 .. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.open-flexible-sync-realm.dart
    :language: dart
 
 Once you open a synced realm, :ref:`configure and manage the sync session
 <flutter-manage-sync-session>`.
+
+.. _flutter-open-realm-async:
+
+Open a Realm After Downloading Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To sync all data with App Services when you open a realm, use the asynchronous method
+:flutter-sdk:`Realm.open() <realm/Realm/open.html>`. The operation syncs all available
+data before returning the realm.
+
+On first open, ``Realm.open()`` downloads all data that matches your sync subscriptions.
+Subsequent opens only download the latest changes.
+Depending on initial realm size and updates to the data set while the device is not syncing,
+performance may be slower on first open and faster on subsequent opens.
+
+If the client application is offline, ``Realm.open()`` does not resolve.
+You should check if the device is connected to the internet before using ``Realm.open()``.
+If the device is not connected to the internet, you can still use ``Realm()``
+to open a realm immediately and sync data in the background when an internet connection is available.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open.dart
+   :language: dart
+
+To track the state of the synchronization, pass a :flutter-sdk:`ProgressCallback <realm/ProgressCallback.html>`
+to the optional named argument ``onProgressCallback``.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-track-progress.dart
+   :language: dart
+
+To be able to cancel a synchronization in progress, pass a `CancellationToken
+<https://pub.dev/documentation/cancellation_token/latest/cancellation_token/CancellationToken-class.html>`__
+instance to the optional named argument ``cancellationToken``.
+Call `CancellationToken.cancel() <https://pub.dev/documentation/cancellation_token/latest/cancellation_token/CancellationToken/cancel.html>`__
+to cancel the synchronization.
+
+.. literalinclude:: /examples/generated/flutter/open_flexible_sync_realm_test.snippet.async-open-cancel.dart
+   :language: dart
+
+.. example:: Realm() vs. Realm.open()
+
+   This section compares examples of scenarios when you might want to use ``Realm()``
+   versus ``Realm.open()`` to open a realm in an application.
+
+   Consider an app that allows users to record and save their favorite recipes.
+   You might want to give the user the option to create a new
+   recipe without waiting to download updates, or even if they're offline.
+   In this case, ``Realm()`` is preferable. The user can operate offline,
+   but the app syncs their recipes when they next have a network connection.
+
+
+   Consider an game app with a tablet and phone version.
+   A user plays the game on both a table and a phone. The user progresses
+   three levels on the tablet. Later, the user opens the game on a phone.
+   In this case, ``Realm.open()`` is a better way to open the realm.
+   Since ``Realm.open()`` synchronizes data before returning the realm,
+   it makes sure that the user's progress is synced on the phone before they
+   start using the app, even if the initial load time may be slower.
 
 Configure a Realm
 -----------------
