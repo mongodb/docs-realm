@@ -1,1 +1,1 @@
-"assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
+"assignee == 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
