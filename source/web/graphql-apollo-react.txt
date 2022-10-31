@@ -80,7 +80,7 @@ Set Up Apollo Client
 
       The ``ApolloClient`` is configured to send requests to your app. However, all
       Realm GraphQL requests must include a valid user access token to authenticate
-      requests, so right now any operations sent from Apollo will fail. Tokens expire after 30 minutes 
+      requests, so right now any operations sent from Apollo will fail. Access tokens expire after 30 minutes 
       and need to be refreshed.
       
       To authenticate requests, you need to add an :ref:`Authorization header
@@ -191,8 +191,8 @@ The hook returns several objects in an array:
 Refresh Access Tokens
 -------------------------
 
-Access tokens expire 30 minutes after they're granted. You can refresh user access tokens with 
-the Realm Web SDK's ``refreshAccessToken()`` method.
+When using Realm GraphQL and an Apollo Client, access tokens expire 30 minutes after they're granted. 
+You can refresh user access tokens with the Realm Web SDK's ``refreshAccessToken()`` method.
 
 .. literalinclude:: /examples/generated/web/apollo-graphql-client.test.snippet.set-up-user-auth.jsx
    :language: javascript
