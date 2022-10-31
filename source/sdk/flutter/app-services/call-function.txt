@@ -1,0 +1,65 @@
+.. _flutter-call-function:
+
+===============
+Call a Function
+===============
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+
+You can call an **Atlas Function** from a client application
+using the Realm Flutter SDK.
+Functions are serverless JavaScript functions that let you define and execute server-side logic.
+These server-side functions can run in the context
+of the authenticated user, and thus honor the rules, roles, and permissions that
+you have assigned to your data in Atlas.
+
+For more information on configuring and writing Atlas Functions, refer to
+:ref:`Atlas Functions in the App Services documentation <functions>`.
+
+Before You Begin
+----------------
+
+TODO: ref-ify
+
+#. Create an App Services App.
+#. Define a Function. Make sure to NOT_SYSTEM_FXN_BLAH_BLAH
+#. Instantiate an App client in your Flutter app.
+#. Log a user into the App.
+
+Call a Function
+---------------
+
+To call a Function, call  :flutter-sdk:`User.functions.call() <TODO>`.
+Pass the Function name as the first argument and all arguments for the Function
+in a List as the second argument.
+
+TODO: literalinclude all examples here
+
+.. code-block:: dart
+
+   final response = await user.functions.call("addition", [1, 2]);
+   print(response); // prints 3
+
+To include objects as arguments to the Function,
+you must convert them to JSON first.
+
+.. code-block:: dart
+
+   final bobJones = {firstName: "Bob", lastName: "Jones" };
+   final steveJenkins = {firstName: "steve", lastName: "Jenkins" };
+   await user.functions.call("addToGuestList", [bobJones.toJson(), steveJenkins.toJson()]);
+
+When you return objects from the function, the response is dynamic.
+You can type cast it to the correct data shape.
+
+.. code-block:: dart
+
+   final bobJones = {firstName: "Bob", lastName: "Jones" };
+   final steveJenkins = {firstName: "steve", lastName: "Jenkins" };
+   final dynamic response = await user.functions.call("addToGuestList", [bobJones.toJson(), steveJenkins.toJson()]);
+   final guests = response as as List<Map<String, dynamic>>;
