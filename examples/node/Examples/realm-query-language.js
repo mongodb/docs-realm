@@ -274,7 +274,7 @@ describe("Realm Query Language Reference", () => {
 
     const sortedUniqueAliTasks = tasks.filtered(
       // :snippet-start: sort-distinct-limit
-      "assignee = 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
+      "assignee == 'Ali' SORT(priority DESC) DISTINCT(name) LIMIT(5)"
       // :snippet-end:
     );
     expect(sortedUniqueAliTasks.length).toBe(1);

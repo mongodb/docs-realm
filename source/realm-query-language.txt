@@ -334,9 +334,10 @@ values.
        For dates, this evaluates to ``true`` if the left-hand date is later than
        or the same as the right-hand date.
 
-   * - ``IN``
+   * - | ``IN``
      - Evaluates to ``true`` if the left-hand expression is in the
-       right-hand list or string.
+       right-hand list. This is equivalent to and used as a shorthand
+       for ``== ANY``.
 
    * - | ``<``
      - Evaluates to ``true`` if the left-hand numerical or date expression
@@ -436,10 +437,6 @@ Regex-like wildcards allow more flexibility in search.
        the right-hand string expression. This is similar to ``contains``,
        but only matches if the right-hand string expression is found
        at the beginning of the left-hand string expression.
-
-   * - | ``IN``
-     - Evaluates to ``true`` if the left-hand string expression is found
-       anywhere in the right-hand string expression.
 
    * - | ``CONTAINS``
      - Evaluates to ``true`` if the right-hand string expression
