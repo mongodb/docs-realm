@@ -140,7 +140,6 @@ void main() {
     });
     test('Remove all subscriptions by object type', () async {
       // :snippet-start: remove-subscriptions-by-object-type
-      Subscription sub = realm.subscriptions[0];
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
         mutableSubscriptions.removeByType<Train>();
       });
