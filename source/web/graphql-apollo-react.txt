@@ -194,7 +194,6 @@ Refresh Access Tokens
 Access tokens expire 30 minutes after they're granted. You can refresh user access tokens with 
 the Realm Web SDK's ``refreshAccessToken()`` method.
 
-.. code-block:: js
-   
-   // Assuming a logged-in user, this is how you can refresh their access token.
-   await app.currentUser.refreshAccessToken();
+.. literalinclude:: /examples/generated/web/apollo-graphql-client.test.snippet.set-up-user-auth.jsx
+   :language: javascript
+   :emphasize-lines: 12-14
