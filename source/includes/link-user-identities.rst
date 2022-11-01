@@ -2,10 +2,9 @@ Realm provides :ref:`many authentication providers <authentication-providers>`
 to log users into your app. Each provider creates a unique user identity. 
 Realm lets you merge multiple credentials into one user identity.
 
-However, you can only link credentials that are not already in use by another 
-user. Once credentials are used to login a user, they can no longer be merged 
-into another user identity. You cannot link multiple email/password credentials
-together.
+Credentials must be linked prior to logging a user in. Once credentials are used 
+to login a user, you cannot link that credential with another credential. 
+Also, you cannot link multiple email/password credentials together.
 
 Example
 -------
