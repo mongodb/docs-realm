@@ -70,14 +70,10 @@ namespace Examples
             });
 
             // The following line will cause a compile time error
-            // :uncomment-start:
             //_ = realm.All<Measurement>();
-            // :uncomment-end:
             // The following line will compile but throw a
             // Realms.Exceptions.RealmInvalidObjectException at runtime
-            // :uncomment-start:
             //_ = measurement.Value;
-            // :uncomment-end:
         }
         // :snippet-end:
     }
