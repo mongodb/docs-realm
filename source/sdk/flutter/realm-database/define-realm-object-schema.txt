@@ -177,8 +177,9 @@ Define Relationship Properties
 You can reference other Realm models from your Realm model.
 This lets you create the following types of relationships between Realm objects:
 
-- :ref:`Many-to-one <flutter-many-to-one-relationship>`
-- :ref:`Many-to-many <flutter-many-to-many-relationship>`
+- :ref:`To-One Relationship <flutter-many-to-one-relationship>`
+- :ref:`To-Many Relationship <flutter-many-to-many-relationship>`
+- :ref:`Inverse Relationship<flutter-inverse-relationship>`
 
 You can also embed one Realm object directly within another to create a nested data structure.
 Embedded objects are similar to relationships, but provide additional constraints.
@@ -187,12 +188,14 @@ refer to the :ref:`Embedded Objects data type documentation <flutter-embedded-ob
 
 .. _flutter-many-to-one-relationship:
 
-Many-to-One
-~~~~~~~~~~~
+To-One Relationship
+~~~~~~~~~~~~~~~~~~~
 
-To set up a many-to-one or one-to-one relationship,
-create a property in your model whose type is another model.
-Multiple objects can reference the same object.
+A **to-one** relationship means that an object is related in a specific
+way to no more than one other object.
+
+To set up a to-one relationship, create a property in your model whose type
+is another model. Multiple objects can reference the same object.
 
 .. include:: /includes/note-to-one-relationships-must-be-optional.rst
 
@@ -201,14 +204,81 @@ Multiple objects can reference the same object.
 
 .. _flutter-many-to-many-relationship:
 
-Many-to-Many
-~~~~~~~~~~~~
+To-Many Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+A **to-many** relationship means that an object is related in a specific
+way to multiple objects.
 
 You can create a relationship between one object and any number of objects
 using a property of type ``List<T>`` in your application, where T is a Realm model class.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-many-models.dart
    :language: dart
+
+.. _flutter-inverse-relationship:
+
+Inverse Relationship
+~~~~~~~~~~~~~~~~~~~~
+
+An **inverse relationship** links an object back to any other objects that refer
+to it in defined to-one or to-many relationship.
+
+Inverse relationships have the following properties:
+
+- You must explicitly define a property in the object's model as an inverse relationship.
+  The schema cannot infer the inverse relationship.
+- Inverse relationships automatically update themselves with corresponding backlinks.
+  You can find the same set of Realm objects with a manual query,
+  but the inverse relationship field reduces boilerplate query code and capacity for error.
+- You cannot manually set the value of an inverse relationship property.
+  Instead, Realm Database updates implicit relationships when you add or remove
+  an object in the relationship.
+
+For example, the to-many relationship "a User has many Tasks" does not
+automatically create the inverse relationship "a Task belongs to one User".
+If you don't specify the inverse relationship in the object model, you need to
+run a separate query to look up the user that is assigned to a given task.
+
+Use the `Backlink <TODO(DOCSP-24573)_linktorealmcommon>`__ property annotation to define a inverse relationship.
+Pass the field name of the to-one or to-many field that you are creating the backlink
+for prefixed with a ``#`` as an argument to ``Backlink()``.
+Include an ``Iterable`` of the object model you are backlinking to in the field
+below the annotation.
+
+TODO(DOCSP-24573): open questions abt implementation
+
+- why iterable? can be List instead?
+- always iterable even if know only 1 thing links to it?
+
+TODO(DOCSP-24573): literalinclude
+
+.. code-block:: dart
+
+   @RealmModel()
+   class _User {
+     @PrimaryKey()
+     late int id;
+
+     late String username;
+     // One-to-many relationship that the backlink is created for below
+     late List<_Task> tasks;
+   }
+
+   @RealmModel()
+   class _Task {
+     @PrimaryKey()
+     late int id;
+
+     late String description;
+     late bool isComplete;
+
+     // Backlink field. Links back to the `tasks` property in the `_User` model.
+     @Backlink(#tasks)
+     late Iterable<_User> linkedUser;
+
+   }
+
 
 .. _flutter-property-annotations:
 
