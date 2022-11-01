@@ -1,10 +1,4 @@
-﻿// :replace-start: {
-//    "terms": {
-//       "MyTask": "Task"
-//    }
-// }
-
-using System;
+﻿using System;
 using Realms;
 using Realms.Sync;
 using MongoDB.Bson;
