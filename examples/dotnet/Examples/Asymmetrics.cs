@@ -77,6 +77,4 @@ namespace Examples
         }
         // :snippet-end:
     }
-
-
 }
