@@ -74,3 +74,13 @@ You might have multiple subscriptions if you have many types of realm objects.
 To use Flexible Sync in your client application, open a synced realm 
 with a flexible sync configuration. Then, manage subscriptions
 to determine which documents to sync.
+
+Unidirectional Sync
+-------------------
+A special case of Flexible Sync is when you need your app to **send** data to Atlas, 
+but not receive any updates.
+
+In this scenario, you can maximize sync performance by using 
+:ref:`Asymmetric Sync <dotnet-asymmetric-sync>` to stream 
+data from the client application to a Flexible Sync-enabled Atlas App Services
+App.
