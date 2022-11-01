@@ -19,8 +19,8 @@ public void SendMeasurementToRealm()
     });
 
     // The following line will cause a compile time error
-    //_ = realm.All<Measurement>();
+    // _ = realm.All<Measurement>();
     // The following line will compile but throw a
     // Realms.Exceptions.RealmInvalidObjectException at runtime
-    //_ = measurement.Value;
+    // _ = measurement.Value;
 }
