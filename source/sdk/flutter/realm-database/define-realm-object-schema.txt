@@ -280,7 +280,16 @@ Indexed
 
 Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__ annotation
 to create an index on the field. Indexes slightly slow down insertion, but can greatly
-speed up queries.
+speed up queries. Indexes can be nullable.
+
+The following data types can be indexed:
+
+- ``bool``
+- ``int``
+- ``String``
+- ``ObjectId``
+- ``Uuid``
+- ``DateTime``
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
