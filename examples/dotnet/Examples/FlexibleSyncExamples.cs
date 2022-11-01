@@ -43,6 +43,11 @@ namespace Examples
             // :snippet-end:
 
             // :snippet-start: update-subscriptions
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
@@ -55,6 +60,7 @@ namespace Examples
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
                 realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false });
             });
+            // :replace-end:
             // :snippet-end:
 
 
@@ -73,29 +79,47 @@ namespace Examples
             // :snippet-end:
 
             // :snippet-start: update-a-subscription
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
                 realm.Subscriptions.Add(updatedLongRunningTasksQuery, new SubscriptionOptions() { Name = "longRunningTasks" });
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-subscription-by-query
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a subscription by it's query
                 var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
                 realm.Subscriptions.Remove(query);
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-subscription-by-name
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a named subscription
                 var subscriptionName = "longRunningTasksSubscription";
                 realm.Subscriptions.Remove(subscriptionName);
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-all-subscriptions-of-object-type
