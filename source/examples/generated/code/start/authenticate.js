@@ -14,7 +14,7 @@ beforeAll(async () => {
   // Add the API key to process.env so that we can reference it in other tests as if it was defined in a .env file
   process.env = {
     ...process.env,
-    realmServerApiKey: key,
+    realmApiKey: key,
   };
 
   jest.runAllTimers();
@@ -70,7 +70,7 @@ describe("user authentication", () => {
 
   test("server api key login", async () => {
     // Get the API key from the local environment
-    const apiKey = process.env.realmServerApiKey;
+    const apiKey = process.env.realmApiKey;
     if (!apiKey) {
       throw new Error("Could not find a Realm Server API Key.");
     }

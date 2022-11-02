@@ -1,5 +1,5 @@
 // Get the API key from the local environment
-const apiKey = process.env?.realmServerApiKey;
+const apiKey = process.env?.realmApiKey;
 if (!apiKey) {
   throw new Error("Could not find a Realm Server API Key.");
 }

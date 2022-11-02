@@ -58,10 +58,10 @@ describe("user authentication", () => {
   });
 
   test("server api key login", async () => {
-    process.env.realmServerApiKey = "lolthisisntreallyakey";
+    process.env.realmApiKey = "lolthisisntreallyakey";
     // :snippet-start: server-api-key-login
     // Get the API key from the local environment
-    const apiKey = process.env.realmServerApiKey;
+    const apiKey = process.env.realmApiKey;
     if (!apiKey) {
       throw new Error("Could not find a Realm Server API Key.");
     }
