@@ -61,7 +61,7 @@ describe("user authentication", () => {
   });
 
   test("server api key login", async () => {
-    process.env.realmApiKey = "lolthisisntreallyakey";
+    process.env.realmApiKey = "ceb9d97d12f398c284f8";
     // :snippet-start: server-api-key-login
     // Get the API key from the local environment
     const apiKey = process.env?.realmApiKey;
