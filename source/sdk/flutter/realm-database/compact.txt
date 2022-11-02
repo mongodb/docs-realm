@@ -19,16 +19,16 @@ situations, unused space may comprise a significant portion of a realm file.
 If file size grows large enough to negatively impact performance, you can 
 compact the realm to reduce its file size.
 
-.. tip:: Implement Compacting in Your Production Application
+.. tip:: Implement Compaction in Your Production Application
 
-   Every production application should implement compacting to periodically 
+   Every production application should implement compaction to periodically 
    reduce the realm file size.
 
 You can define a :flutter-sdk:`shouldCompactCallback() 
 <realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a 
-local realm configuration. This callback takes two ints representing the
-total number of bytes and the used bytes of the realm file on disk. The most 
-basic usage is to define a file size at which compaction should occur.
+local realm configuration. This callback takes two ``int`` values representing 
+the total number of bytes and the used bytes of the realm file on disk. The 
+most basic usage is to define a file size at which compaction should occur.
 
 .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback.dart
    :language: dart
