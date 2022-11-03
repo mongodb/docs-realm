@@ -41,13 +41,13 @@ describe.skip("Client Reset with Seamless Loss", () => {
           flexible: true,
           clientReset: {
             mode: "discardUnsyncedChanges",
-            clientResetBefore: (realm) => {
+            onBefore: (realm) => {
               console.log("Beginning client reset for ", realm.path);
               // :remove-start:
               beforeCalled = true;
               // :remove-end:
             },
-            clientResetAfter: (beforeRealm, afterRealm) => {
+            onAfter: (beforeRealm, afterRealm) => {
               console.log("Finished client reset for", beforeRealm.path);
               console.log("New realm path", afterRealm.path);
               // :remove-start:
@@ -98,20 +98,22 @@ describe.skip("Client Reset with Seamless Loss", () => {
         flexible: true,
         clientReset: {
           mode: "recoverUnsyncedChanges",
-          clientResetBefore: (realm) => {
+          onBefore: (realm) => {
             console.log("Beginning client reset for ", realm.path);
           },
-          clientResetAfter: (beforeRealm, afterRealm) => {
+          onAfter: (beforeRealm, afterRealm) => {
             console.log("Finished client reset for", beforeRealm.path);
             console.log("New realm path", afterRealm.path);
+          },
+          onFallback: (session, path) => {
+            // See below "Manual Client Reset Fallback" section for example
           },
         },
       },
     };
-
-    const realm = await Realm.open(config);
     // :snippet-end:
   });
+
   // TODO(DOCSP-23425): investigate real example once sdk changes merged
   test.skip("Recover or Discard Unsynced Changes Mode", async () => {
     const app = new Realm.App({ id: REALM_APP_ID });
@@ -124,19 +126,72 @@ describe.skip("Client Reset with Seamless Loss", () => {
         flexible: true,
         clientReset: {
           mode: "recoverOrDiscardUnsyncedChanges",
-          clientResetBefore: (realm) => {
+          onBefore: (realm) => {
             console.log("Beginning client reset for ", realm.path);
           },
-          clientResetAfter: (beforeRealm, afterRealm) => {
+          onAfter: (beforeRealm, afterRealm) => {
             console.log("Finished client reset for", beforeRealm.path);
             console.log("New realm path", afterRealm.path);
+          },
+          onFallback: (session, path) => {
+            // See below "Manual Client Reset Fallback" section for example
+          },
+        },
+      },
+    };
+    // :snippet-end:
+  });
+
+  test.skip("Client reset with recovery fallback", async () => {
+    function showUserAConfirmationDialog() {
+      return true;
+    }
+    const app = new Realm.App({ id: REALM_APP_ID });
+    await app.logIn(new Realm.Credentials.anonymous());
+    // :snippet-start: recovery-fallback
+    // Must define `realm` at higher scope than `config` so it's accessible
+    // from the `onFallback` callback
+    let realm;
+
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        clientReset: {
+          mode: "recoverOrDiscardUnsyncedChanges", // or "recoverUnsyncedChanges"
+          // can also include `onBefore` and `onAfter` callbacks
+          onFallback: (_session, path) => {
+            try {
+              // Prompt user to perform a client reset immediately. If they don't,
+              // they won't receive any data from the server until they restart the app
+              // and all changes they make will be discarded when the app restarts.
+              const didUserConfirmReset = showUserAConfirmationDialog();
+
+              if (didUserConfirmReset) {
+                // Close and delete old realm from device
+                realm.close();
+                Realm.deleteFile(path);
+
+                // Perform client reset
+                Realm.App.Sync.initiateClientReset(app, path);
+
+                // Navigate the user back to the main page or reopen the
+                // the Realm and reinitialize the current page
+              }
+            } catch (err) {
+              // Reset failed. Notify user that they'll need to
+              // update the app
+            }
           },
         },
       },
     };
 
-    const realm = await Realm.open(config);
+    realm = await Realm.open(config);
     // :snippet-end:
+    realm.close();
+    Realm.deleteFile({ path: config });
   });
 
   // skipping because there's no way to manually trigger breaking schema changes
@@ -200,7 +255,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
           partitionValue: "MyPartitionValue",
           clientReset: {
             mode: "discardUnsyncedChanges",
-            clientResetBefore: (realm) => {
+            onBefore: (realm) => {
               // NOT used with destructive schema changes
               console.log("Beginning client reset for ", realm.path);
               // :remove-start:
@@ -209,7 +264,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
               );
               // :remove-end:
             },
-            clientResetAfter: (beforeRealm, afterRealm) => {
+            onAfter: (beforeRealm, afterRealm) => {
               // NOT used with destructive schema changes
               console.log("Finished client reset for", beforeRealm.path);
               console.log("New realm path", afterRealm.path);

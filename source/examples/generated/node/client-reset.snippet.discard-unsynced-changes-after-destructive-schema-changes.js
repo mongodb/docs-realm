@@ -29,11 +29,11 @@ const config = {
     partitionValue: "MyPartitionValue",
     clientReset: {
       mode: "discardUnsyncedChanges",
-      clientResetBefore: (realm) => {
+      onBefore: (realm) => {
         // NOT used with destructive schema changes
         console.log("Beginning client reset for ", realm.path);
       },
-      clientResetAfter: (beforeRealm, afterRealm) => {
+      onAfter: (beforeRealm, afterRealm) => {
         // NOT used with destructive schema changes
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);

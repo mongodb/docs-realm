@@ -5,10 +5,10 @@ const config = {
     flexible: true,
     clientReset: {
       mode: "discardUnsyncedChanges",
-      clientResetBefore: (realm) => {
+      onBefore: (realm) => {
         console.log("Beginning client reset for ", realm.path);
       },
-      clientResetAfter: (beforeRealm, afterRealm) => {
+      onAfter: (beforeRealm, afterRealm) => {
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);
       },
