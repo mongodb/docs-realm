@@ -10,25 +10,35 @@ Compact a Realm - Flutter SDK
    :depth: 2
    :class: singlecol
 
+If you want to reduce the size of a realm file to improve performance, you 
+can compact the realm. Compacting a realm reduces the amount of unused 
+empty space within the realm. Every production application should implement 
+compaction to periodically reduce the realm file size.
+
 The size of a Realm Database file is always larger than the total size of 
 the objects stored within it. This architecture enables some of realm's 
-great performance, concurrency, and safety benefits.
+performance, concurrency, and safety benefits.
 
 Realm writes new data within unused space tracked inside the file. In some 
-situations, unused space may comprise a significant portion of a realm file. 
+situations, a realm file may contain a significant amount of unused space. 
 If file size grows large enough to negatively impact performance, you can 
 compact the realm to reduce its file size.
 
-.. tip:: Implement Compaction in Your Production Application
+Compact When Opening a Realm
+----------------------------
 
-   Every production application should implement compaction to periodically 
-   reduce the realm file size.
+.. note::
+
+   You cannot compact a :ref:`Flexible Sync realm <flutter-open-synced-realm>`.
 
 You can define a :flutter-sdk:`shouldCompactCallback() 
 <realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a 
-local realm configuration. This callback takes two ``int`` values representing 
+local realm's ``configuration``. This callback takes two ``int`` values representing 
 the total number of bytes and the used bytes of the realm file on disk. The 
-most basic usage is to define a file size at which compaction should occur.
+callback returns a ``bool``. Compaction only occurs if the ``bool`` returns 
+``true``, and another process is not currently accessing the realm file.
+
+The most basic usage is to define a file size at which compaction should occur.
 
 .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-with-callback.dart
    :language: dart

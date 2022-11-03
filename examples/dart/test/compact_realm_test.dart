@@ -15,7 +15,7 @@ void main() {
         // For convenience, this example defines a const
         // representing a byte to MB conversion for compaction
         // at an arbitrary 10MB file size.
-        const tenMB = 10 * 1024 * 1024;
+        const tenMB = 10 * 1048576;
         return totalSize > tenMB;
       }));
       var realm = Realm(config);
@@ -28,7 +28,7 @@ void main() {
       var config = Configuration.local([Car.schema],
           shouldCompactCallback: ((totalSize, usedSize) {
         // Compact if the file is over 10MB in size and less than 50% 'used'
-        const tenMB = 10 * 1024 * 1024;
+        const tenMB = 10 * 1048576;
         return (totalSize > tenMB) &&
             (usedSize.toDouble() / totalSize.toDouble()) < 0.5;
       }));
