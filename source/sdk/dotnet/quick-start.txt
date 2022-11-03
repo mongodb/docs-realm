@@ -1,0 +1,226 @@
+.. _dotnet-client-quick-start:
+
+======================
+Quick Start - .NET SDK
+======================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+This Quick Start demonstrates how to use Realm Database with the Realm Swift SDK. 
+Before you begin, ensure you have :ref:`Installed the .NET SDK <dotnet-install>`.
+
+Import Realm
+------------
+In the shared code project of your solution, go to :guilabel:`Manage NuGet
+Packages`. In the NuGet Package Manager, switch to the Browse tab and then
+search for **Realm**. Select the latest version of the Realm package, and then 
+click :guilabel:`Add Package`. 
+
+.. figure:: /images/add-realm-via-nuget.png
+   :alt: Adding Realm via Nuget
+
+At the top of each C# file that uses Realm, add the following ``using``
+statement:
+
+.. code-block:: csharp
+
+   using Realms;
+
+Define Your Object Model
+------------------------
+
+Your application's :ref:`object model <dotnet-objects>` defines 
+the data that you can store within Realm Database. You define an object 
+model by creating a C# class that inherits from one of the classes that deriver 
+from the 
+:dotnet-sdk:`RealmObjectBase <reference/Realms.RealmObjectBase.html>` class.
+
+Add the following ``using`` statements to the top of your C# file:
+
+.. code-block:: csharp
+
+   using Realms;
+   using MongoDB.Bson;
+   using Realms.Sync; // if you are implementing Realm Sync
+
+The following code shows how to define an object model for a ``Guitar`` object. In 
+this example, we have marked the ``Id`` field as the Primary Key, and marked the 
+``Make`` and ``Model`` properties as "Required". Note that the ``Id`` is of type 
+``ObjectId`` in this case, and a new Id is generated when an instance of the 
+class is created.
+
+.. literalinclude:: /examples/generated/dotnet/Guitar.snippet.guitar-object.cs
+   :language: csharp
+
+Open a Realm
+------------
+
+In a local-only Realm Database, you open a realm with either the 
+:dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
+:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+method. Which method you use depends entirely on if and how you are using `asynchronous 
+patterns <https://docs.microsoft.com/en-us/dotnet/csharp/async>`_ in your app. 
+The following code shows how to use ``GetInstance()``:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.get-instance.cs
+   :language: csharp
+
+For more information, see: :ref:`Open a Realm <dotnet-open-a-realm>`.
+
+Create, Read, Update, and Delete Objects
+----------------------------------------
+
+Once you have opened a realm, you can create :ref:`objects <dotnet-objects>` 
+in it. All writes must occur within a 
+:ref:`Write transaction <dotnet-realm-database-writes>` block.
+
+The following code shows how to create a new ``Guitar`` object. In it, we
+instantiate the ``Guitar`` class and then add the new guitar to the realm
+within a :dotnet-sdk:`Write() <reference/Realms.Realm.html#Realms_Realm_Write__1_System_Func___0__>` 
+block:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.write.cs
+   :language: csharp
+
+You can retrieve a live :ref:`collection <dotnet-client-collections>` of all 
+``Guitar`` objects in the realm:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.read-all.cs
+   :language: csharp
+
+You can filter the collection by using the 
+`Linq <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/>`_ 
+syntax:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.read-filter.cs
+   :language: csharp
+
+To modify a realm object, update its properties in a write transaction block:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.update.cs
+   :language: csharp
+
+Finally, you can delete a todo:
+
+.. literalinclude:: /examples/generated/dotnet/Program.snippet.delete.cs
+   :language: csharp
+
+Watch for Changes
+-----------------
+
+You can :ref:`watch a realm, collection, or object for changes
+<dotnet-react-to-changes>` with the 
+:dotnet-sdk:`SubscribeForNotifications() <reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__>` 
+method.
+
+.. include:: /includes/serverless-watch-note.rst
+
+Be sure to retain the notification token returned by ``SubscribeForNotifications`` 
+as long as you want to continue watching for changes. When you are done, 
+call the :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
+
+.. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.subscribe.cs
+   :language: csharp
+
+Add Device Sync (Optional)
+--------------------------
+
+If you want to sync Realm data across devices, you can set up an Atlas 
+App Services App and enable Device Sync. For more information on what 
+you can do with App Services, see: :ref:`<dotnet-application-services>`.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+Before you can sync Realm data, you must:
+
+- :ref:`Create an App Services App <create-a-realm-app>`
+- Enable and configure one or more :ref:`authentication providers <authentication-providers>`
+- :ref:`Enable Flexible Sync <enable-flexible-sync>` with  
+  :ref:`Development Mode <enable-development-mode>` toggled to ``On`` and an 
+  unique field in the :guilabel:`Queryable Fields` section.
+
+In the following code, we have enabled anonymous authentication and are using 
+the ``ownerId`` as the unique field in the Flexible Sync configuration.
+
+.. _dotnet-quick-start-init-app:
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+
+To use App Services features such as authentication and sync, 
+access your App Services App using your App ID. You can :ref:`find your 
+App ID <find-your-app-id>` in the App Services UI. You then initialize your app: 
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
+   :language: csharp
+
+
+Define Object Models
+--------------------
+
+Your application's :ref:`object model <dotnet-objects>` defines 
+the data that you can store within Realm Database and synchronize
+to and from App Services.
+
+You can define your object models directly in code if you enabled
+Sync with :ref:`Development Mode <enable-disable-development-mode>` in the App 
+Services UI.
+
+.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
+
+.. important:: Inheritance
+
+   All Realm objects must derive from 
+   :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+   :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
+   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
+
+The following code shows how to define an object model for a ``Task`` object. In 
+this example, we have marked the ``Id`` field as the Primary Key, marked the 
+``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
+attribute so we can use .NET-friendly casing on our property names.
+
+.. literalinclude:: /examples/generated/dotnet/Task.snippet.task-object-model.cs
+   :language: csharp
+
+.. _dotnet-quick-start-authenticate:
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+In this quick start, we are using :ref:`anonymous authentication <anonymous-authentication>`
+to log in users without requiring them to provide any identifying information.
+After authenticating the user, you can open a realm for that user.
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.anon-login.cs
+   :language: csharp
+
+You should also provide a way for the user to log out. The following code shows 
+how to do this by calling ``LogOutAsync()``:
+
+.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.logout.cs
+   :language: csharp
+
+The Realm Swift SDK provides many additional ways to authenticate, register, and 
+link users. For other authentication providers, see: :ref:`<dotnet-authenticate>`
+
+Open a Realm
+~~~~~~~~~~~~
+Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user, 
+you can open a synced :ref:`realm <dotnet-realms>`. Use a ``FlexibleSyncConfiguration`` 
+object to control the specifics of how your application synchronizes data with
+App Services. You then add a :ref:`Flexible Sync subscription <dotnet-flexible-sync>` 
+that determines what data the user can query.
+
+.. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.bootstrap-a-subscription.cs
+   :language: csharp
+
+The syntax to read, write, and watch for notifications on a
+synced realm is identical to the syntax for non-synced realms above. While 
+you work with local data, a background thread efficiently integrates, 
+uploads, and downloads changesets. 

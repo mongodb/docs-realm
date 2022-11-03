@@ -30,7 +30,7 @@ private void HandleClientResetError(ClientResetException clientResetException)
         else
         {
             // Reset failed - notify user that they'll need to
-            // restart the app
+            // update the app
         }
     }
 }

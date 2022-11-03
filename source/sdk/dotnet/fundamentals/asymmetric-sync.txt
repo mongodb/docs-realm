@@ -1,0 +1,68 @@
+.. _dotnet-asymmetric-sync:
+
+===================================
+Unidirectional Data Sync - .NET SDK
+===================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+.. versionadded:: 10.17.0
+
+You can use :ref:`Asymmetric Sync <optimize-asymmetric-sync>` to stream 
+data from a client application to a Flexible Sync-enabled Atlas App Services
+App.
+
+For example, you might want to sync data unidirectionally in IoT applications, 
+such as a weather sensor sending data to the cloud. Asymmetric sync is also useful 
+for writing other types of immutable data where you do not require conflict 
+resolution, such as creating invoices from a retail app or logging application 
+events.
+
+Asymmetric Sync is optimized to provide performance improvements for heavy
+client-side *insert-only* workloads.
+
+.. important::
+
+   You cannot query, modify, or delete Asymmetric objects from a client app. 
+   Because AsymmetricObject can not be modified by the client, the compiler 
+   will not let you add a subscription to an AsymmetricObject.
+
+
+The .NET SDK allows you to work with Asymmetric objects and standard Realm objects 
+within the same realm. 
+
+Sync Data Unidirectionally from a Client Application
+----------------------------------------------------
+
+Before you set up Asymmetric sync, you need to understand the following rules:
+
+- The C# objects that you will sync with Atlas must derive from the 
+  :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>` class.
+
+- An object that derives from ``AsymmetricObject`` can contain 
+  :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` types, 
+  but not ``RealmObject`` types or other ``AsymmetricObject`` types.
+
+- ``RealmObject`` and ``EmbeddedObject`` types cannot contain ``AsymmetricObject``
+  types as properties. 
+
+- Unidirectional Sync requires :ref:`Flexible Sync <dotnet-flexible-sync>`.
+
+The process for syncing data asymmetrically is the same as 
+standard :ref:`bi-directional sync <dotnet-client-quick-start>`, as long as the 
+rules above are followed. The following code shows creating an Asymmetric object 
+and syncing it with the backend. It also shows to queries that generate errors. 
+
+.. literalinclude:: /examples/generated/dotnet/Asymmetrics.snippet.asymmetry.cs
+   :language: csharp
+
+
+
+
+

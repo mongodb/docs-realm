@@ -15,31 +15,13 @@ namespace LocalOnly
             var realm = Realm.GetInstance();
             //:snippet-end:
 
-            realm.Write(() =>
-            {
-                // :remove-start:
-                var newGuitar =
-                // :remove-end:
-                realm.Add(new Guitar()
-                {
-                    Make = "Fender",
-                    Model = "Stratocaster",
-                    Price = 1234567.89,
-                    Owner = "D. Gilmour"
-                });
-                // :remove-start:
-                someGuitarId = newGuitar.Id;
-                Console.WriteLine(someGuitarId);
-                // :remove-end:
-            });
-
+            //:snippet-start:read-all
+            var allGuitars = realm.All<Guitar>();
+            //:snippet-end:
 
             //:snippet-start:write
             realm.Write(() =>
             {
-                // :remove-start:
-                var newGuitar =
-                // :remove-end:
                 realm.Add(new Guitar()
                 {
                     Make = "Gibson",
@@ -47,14 +29,9 @@ namespace LocalOnly
                     Price = 649.99,
                     Owner = "N. Young"
                 });
-                // :remove-start:
-                someGuitarId = newGuitar.Id;
-                // :remove-end:
             });
             //:snippet-end:
-            //:snippet-start:read-filter-sort
-            var allGuitars = realm.All<Guitar>();
-
+            //:snippet-start:read-filter
             var lessExpensiveGuitars = realm.All<Guitar>().Where(g => g.Price < 400);
 
             var guitarsSortedByMake = realm.All<Guitar>().OrderBy(g => g.Make);
@@ -63,14 +40,14 @@ namespace LocalOnly
             //:snippet-end:
 
             //:snippet-start:update
-            var harrysStrat = realm.All<Guitar>().FirstOrDefault(
+            var davidsStrat = realm.All<Guitar>().FirstOrDefault(
                 g => g.Owner == "D. Gilmour"
                 && g.Make == "Fender"
                 && g.Model == "Stratocaster");
 
             realm.Write(() =>
             {
-                harrysStrat.Price = 322.56;
+                davidsStrat.Price = 1700345.56;
             });
             //:snippet-end:
 
