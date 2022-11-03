@@ -24,19 +24,26 @@ situations, a realm file may contain a significant amount of unused space.
 If file size grows large enough to negatively impact performance, you can 
 compact the realm to reduce its file size.
 
-Compact When Opening a Realm
-----------------------------
+Compacting a realm can be an expensive operation that can block the UI thread. 
+Optimize compacting to balance frequency with performance gains. If your 
+application runs in a resource-constrained environment, you may want to 
+compact when you reach a certain file size or when the file size negatively 
+impacts performance.
 
 .. note::
 
    You cannot compact a :ref:`Flexible Sync realm <flutter-open-synced-realm>`.
 
+Compact When Opening a Realm
+----------------------------
+
 You can define a :flutter-sdk:`shouldCompactCallback() 
 <realm/LocalConfiguration/shouldCompactCallback.html>` as a property of a 
-local realm's ``configuration``. This callback takes two ``int`` values representing 
-the total number of bytes and the used bytes of the realm file on disk. The 
-callback returns a ``bool``. Compaction only occurs if the ``bool`` returns 
-``true``, and another process is not currently accessing the realm file.
+realm's :flutter-sdk:`LocalConfiguration <realm/LocalConfiguration-class.html>`. 
+This callback takes two ``int`` values representing the total number of 
+bytes and the used bytes of the realm file on disk. The callback returns 
+a ``bool``. Compaction only occurs if the ``bool`` returns ``true`` and 
+another process is not currently accessing the realm file.
 
 The most basic usage is to define a file size at which compaction should occur.
 
