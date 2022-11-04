@@ -3,6 +3,23 @@ import { ObjectId } from "bson";
 
 const REALM_APP_ID = "myapp-zufnj";
 
+let realm;
+let app;
+beforeEach(async () => {
+  app = new Realm.App({ id: REALM_APP_ID });
+  await app.logIn(new Realm.Credentials.anonymous());
+});
+afterEach(async () => {
+  if (realm && !realm.isClosed) {
+    realm.write(() => {
+      realm.deleteAll();
+    });
+    const path = realm.path;
+    realm.close();
+    Realm.deleteFile({ path });
+    await app?.currentUser?.logOut();
+  }
+});
 describe.skip("Client Reset with Seamless Loss", () => {
   // these tests can take longer than most, causing timeouts that make
   // the Github Actions CI fail
@@ -14,24 +31,12 @@ describe.skip("Client Reset with Seamless Loss", () => {
       _id: "objectId",
       name: "string",
       age: "int?",
-      _partition: "string",
     },
     primaryKey: "_id",
   };
-  let realm;
-  afterEach(() => {
-    if (realm && !realm.isClosed) {
-      realm.write(() => {
-        realm.deleteAll();
-      });
-      realm.close();
-    }
-  });
   test("Discard unsynced changes", async () => {
     let beforeCalled = false;
     let afterCalled = false;
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
     const clientResetSuccess = await new Promise((resolve, reject) => {
       // :snippet-start: discard-unsynced-changes
       const config = {
@@ -66,13 +71,11 @@ describe.skip("Client Reset with Seamless Loss", () => {
             _id: new ObjectId(),
             name: "Chippy",
             age: 12,
-            _partition: "MyPartitionValue",
           });
           realm.create("Doggo3", {
             _id: new ObjectId(),
             name: "Jasper",
             age: 11,
-            _partition: "MyPartitionValue",
           });
         });
         realm.syncSession._simulateError(
@@ -86,10 +89,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
     expect(clientResetSuccess).toBe(true);
   });
 
-  // TODO(DOCSP-23425): investigate real example once sdk changes merged
   test.skip("Recover Unsynced Changes Mode", async () => {
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
     // :snippet-start: recover-unsynced-changes
     const config = {
       schema: [DogSchema],
@@ -116,8 +116,6 @@ describe.skip("Client Reset with Seamless Loss", () => {
 
   // TODO(DOCSP-23425): investigate real example once sdk changes merged
   test.skip("Recover or Discard Unsynced Changes Mode", async () => {
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
     // :snippet-start: recover-or-discard-unsynced-changes
     const config = {
       schema: [DogSchema],
@@ -146,12 +144,12 @@ describe.skip("Client Reset with Seamless Loss", () => {
     function showUserAConfirmationDialog() {
       return true;
     }
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
     // :snippet-start: recovery-fallback
     // Must define `realm` at higher scope than `config` so it's accessible
     // from the `onFallback` callback
-    let realm;
+    // :uncomment-start:
+    // let realm;
+    // :uncomment-end:
 
     const config = {
       schema: [DogSchema],
@@ -190,8 +188,6 @@ describe.skip("Client Reset with Seamless Loss", () => {
 
     realm = await Realm.open(config);
     // :snippet-end:
-    realm.close();
-    Realm.deleteFile({ path: config });
   });
 
   // skipping because there's no way to manually trigger breaking schema changes
@@ -207,12 +203,9 @@ describe.skip("Client Reset with Seamless Loss", () => {
         _id: "objectId",
         name: "string",
         age: "int?",
-        _partition: "string",
       },
       primaryKey: "_id",
     };
-    const app = new Realm.App({ id: REALM_APP_ID });
-    await app.logIn(new Realm.Credentials.anonymous());
     const clientResetSuccess = await new Promise((resolve, reject) => {
       // :snippet-start: discard-unsynced-changes-after-destructive-schema-changes
       // Once you have opened your Realm, you will have to keep a reference to it.
@@ -252,7 +245,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
         schema: [DogSchema],
         sync: {
           user: app.currentUser,
-          partitionValue: "MyPartitionValue",
+          flexible: true,
           clientReset: {
             mode: "discardUnsyncedChanges",
             onBefore: (realm) => {
@@ -286,7 +279,6 @@ describe.skip("Client Reset with Seamless Loss", () => {
             _id: new ObjectId(),
             name: "Maggie",
             age: 13,
-            _partition: "MyPartitionValue",
           });
         });
         realm.syncSession._simulateError(
@@ -302,19 +294,35 @@ describe.skip("Client Reset with Seamless Loss", () => {
 });
 
 describe("Manual client reset", () => {
-  test.skip("Manually recover unsynced changes", async () => {
-    // :snippet-start: track-updates-to-objects
-    const DogSchema = {
-      name: "Dog",
-      properties: {
-        name: "string",
-        age: "int?",
-        lastUpdated: "int",
+  // :snippet-start: track-updates-to-objects
+  const DogSchema = {
+    name: "Dog",
+    properties: {
+      name: "string",
+      age: "int?",
+      lastUpdated: "int",
+    },
+  };
+
+  // :snippet-end:
+  test.skip("Manual client reset - onManual handler", async () => {
+    // :snippet-start: manual-client-reset-onmanual
+    const config = {
+      schema: [DogSchema],
+      sync: {
+        user: app.currentUser,
+        flexible: true,
+        clientReset: {
+          mode: "manual",
+          onManual: (session, path) => {
+            // handle manual client reset here
+          },
+        },
       },
     };
-
     // :snippet-end:
-
+  });
+  test.skip("Manually recover unsynced changes", async () => {
     // :snippet-start: config
     const config = {
       schema: [DogSchema],

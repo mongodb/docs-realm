@@ -13,10 +13,8 @@ const config = {
         console.log("New realm path", afterRealm.path);
       },
       onFallback: (session, path) => {
-        return true;
+        // See below "Manual Client Reset Fallback" section for example
       },
     },
   },
 };
-
-const realm = await Realm.open(config);

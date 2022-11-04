@@ -26,7 +26,7 @@ const config = {
   schema: [DogSchema],
   sync: {
     user: app.currentUser,
-    partitionValue: "MyPartitionValue",
+    flexible: true,
     clientReset: {
       mode: "discardUnsyncedChanges",
       onBefore: (realm) => {
