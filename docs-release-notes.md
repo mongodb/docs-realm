@@ -1,3 +1,31 @@
+# November 4, 2022
+
+## Flutter SDK
+- Realm Database
+  - Open & Close a Realm: New subsection mentioning compacting a realm and linking to the new Compact a Realm page
+  - Compact a Realm: New page with general info about compacting a realm & a code example showing the `shouldCompactCallback()` usage
+
+## Kotlin SDK
+- Install/Kotlin Multiplatform: Point to the correct Realm Kotlin dependency when used across Gradle Modules
+- Sync/Open a Synced Realm: Switch the order of the Partition-Based Sync and Flexible Sync tabs to show Flexible Sync first
+- Atlas App Services/Link User Identities: New page with tested code example showing how to link credentials
+
+## .NET SDK
+- Quick Start: Integrate Quick Start & Quick Start with Sync into one Quick Start, update for Flexible Sync
+- Fundamentals
+  - Write Transactions: Add info about `cancellationToken`
+  - Atlas Device Sync: Add new section about Unidirectional Sync with link to new Unidirectional Sync page
+  - Unidirectional Data Sync: New page with details and tested code example for how to use Asymmetric Sync
+
+## React Native SDK
+- Use Realm React: Add a note about version requirements for using Realm React with Realm JS Version 11
+
+## Web SDK
+- Apollo GraphQL Client (React): Update the method name and add details around refreshing the access token
+
+## Other
+- Realm Query Language: Remove `IN` operator from unsupported Flexible Sync operators; add details around using `IN` with Flexible Sync
+
 # October 28, 2022
 
 ## Tutorials
