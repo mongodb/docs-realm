@@ -222,7 +222,7 @@ Inverse Relationship
 ~~~~~~~~~~~~~~~~~~~~
 
 An **inverse relationship** links an object back to any other objects that refer
-to it in defined to-one or to-many relationship.
+to it in to-one or to-many relationships.
 
 Inverse relationships have the following properties:
 
@@ -240,45 +240,26 @@ automatically create the inverse relationship "a Task belongs to one User".
 If you don't specify the inverse relationship in the object model, you need to
 run a separate query to look up the user that is assigned to a given task.
 
-Use the `Backlink <TODO(DOCSP-24573)_linktorealmcommon>`__ property annotation to define a inverse relationship.
-Pass the field name of the to-one or to-many field that you are creating the backlink
-for prefixed with a ``#`` as an argument to ``Backlink()``.
-Include an ``Iterable`` of the object model you are backlinking to in the field
-below the annotation.
+Use the `Backlink <https://pub.dev/documentation/realm_common/latest/realm_common/Backlink-class.html>`__
+property annotation to define a inverse relationship.
+Pass a `Symbol <https://api.dart.dev/stable/2.18.4/dart-core/Symbol/Symbol.html>`__
+of the field name of the to-one or to-many field for which you are creating the backlink
+as an argument to ``Backlink()``. Include an ``Iterable`` of the object model
+you are backlinking to in the field below the annotation.
 
-TODO(DOCSP-24573): open questions abt implementation
+.. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.backlink-models.dart
+   :language: dart
 
-- why iterable? can be List instead?
-- always iterable even if know only 1 thing links to it?
+.. note:: Inverse Relationships Not Present in Device Sync Schema
 
-TODO(DOCSP-24573): literalinclude
+   If you are using Atlas Device Sync, inverse relationships are not present
+   in the server-side Device Sync schema in your App Services App.
+   Since you can't directly set the value of an inverse relationship,
+   the relationship does not exist in Device Sync schema.
 
-.. code-block:: dart
-
-   @RealmModel()
-   class _User {
-     @PrimaryKey()
-     late int id;
-
-     late String username;
-     // One-to-many relationship that the backlink is created for below
-     late List<_Task> tasks;
-   }
-
-   @RealmModel()
-   class _Task {
-     @PrimaryKey()
-     late int id;
-
-     late String description;
-     late bool isComplete;
-
-     // Backlink field. Links back to the `tasks` property in the `_User` model.
-     @Backlink(#tasks)
-     late Iterable<_User> linkedUser;
-
-   }
-
+   For more information on the server-side Device Sync schema,
+   refer to :ref:`Configure and Update Your Data Model <sync-schema-overview>`
+   in the Atlas App Services documentation.
 
 .. _flutter-property-annotations:
 
