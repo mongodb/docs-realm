@@ -33,12 +33,22 @@ impacts performance.
 Compact When Opening a Realm
 ----------------------------
 
+You can compact a realm file using either of two strategies:
+
+- ``Realm.compact()`` static method: Use this method when you want to compact
+  a Flexible Sync realm, or when you want to reduce realm file size.
+- Local realm configuration: use the ``shouldCompactCallback()`` when you 
+  want to define one or more conditions to check to determine whether to 
+  compact the realm. You might check for a certain realm file size, a percentage 
+  of unused space, or other conditions that are relevant to your performance 
+  needs or runtime environment.
+
 .. _flutter-realm-compact:
 
 Realm.compact() Method
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can compact a file by calling the :flutter-sdk:`Realm.compact() 
+You can compact a realm file by calling the :flutter-sdk:`Realm.compact() 
 <realm/Realm/compact.html>` method. When you use this method, the device
 must have enough free space to make a copy of the realm.
 
