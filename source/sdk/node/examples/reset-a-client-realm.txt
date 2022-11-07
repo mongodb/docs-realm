@@ -54,7 +54,7 @@ closing the realm or missing notifications.
 The following client reset modes support automatic client resets:
 
 - Recover unsynced changes mode
-- Recover or discard unsynced Changes mode
+- Recover or discard unsynced changes mode
 - Discard unsynced changes mode
 
 The differences between these modes are based on how they handle
@@ -89,10 +89,10 @@ recover or discard unsynced changes client reset modes.
 For more information about configuring Client Recovery, refer to
 :ref:`Client Recovery <enable-or-disable-recovery-mode>` in the App Services documentation.
 
-Client Recovery cannot occur when your app makes breaking schema changes.
+Client Recovery cannot succeed when your app makes breaking schema changes.
 A breaking change is a change that you can make in your server-side
 schema that requires additional action to handle.
-In this scenario, client reset with fall back to a
+In this scenario, client reset falls back to a
 :ref:`manual error client reset fallback <node-manual-client-reset-fallback>`.
 
 For information on breaking vs. non-breaking schema changes, refer to
