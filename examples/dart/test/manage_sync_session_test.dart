@@ -138,6 +138,14 @@ void main() {
       // :snippet-end:
       expect(realm.subscriptions.length, 1);
     });
+    test('Remove all subscriptions by object type', () async {
+      // :snippet-start: remove-subscriptions-by-object-type
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.removeByType<Train>();
+      });
+      // :snippet-end:
+      expect(realm.subscriptions.length, 1);
+    });
     test('Remove all subscriptions', () async {
       // :snippet-start: remove-all-subscriptions
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
