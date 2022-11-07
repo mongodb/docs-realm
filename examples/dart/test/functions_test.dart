@@ -27,7 +27,7 @@ main() {
     test("Basic Function usage", () async {
       final user = app.currentUser!;
       // :snippet-start: call-function
-      final response = await user.functions.call("sum", [1, 2]);
+      final response = await user.functions.call("addition", [1, 2]);
 
       // convert EJSON response to Dart number
       final responseAsNum = num.tryParse(response["\$numberLong"]);
@@ -35,20 +35,6 @@ main() {
       prints(responseAsNum); // prints 3
       // :snippet-end:
       expect(responseAsNum, 3);
-    });
-    test("Objects in Function arguments", () async {
-      final user = app.currentUser!;
-      // :snippet-start: objects-in-args
-      final harriet = {"firstName": "Harriet", "lastName": "Page", "age": 24};
-      final fiona = {"firstName": "Fiona", "lastName": "Baldwin"};
-
-      // Use jsonEncode() from the dart:convert package to encode
-      // the Dart objects as JSON.
-      final guests = await user.functions
-          .call("addToGuestList", [jsonEncode(harriet), jsonEncode(fiona)]);
-      // :snippet-end:
-
-      expect(guests.length, 2);
     });
   });
 }

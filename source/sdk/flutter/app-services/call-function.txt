@@ -26,38 +26,23 @@ Before You Begin
 
 #. In an App Services App, :ref:`define an Atlas Function <define-a-function>`.
 #. :ref:`Initialize the App client <flutter-connect-to-backend>`.
-#. :ref:`Authenticate a user <flutter-authenticate>` in your client project.
+#. In your client project, :ref:`Authenticate a user <flutter-authenticate>`.
 
 Call a Function
 ---------------
 
-To call a Function, call  :flutter-sdk:`User.functions.call() <TODO>`.
+To call a Function, call  :flutter-sdk:`User.functions.call() <realm/FunctionsClient/call.html>`.
 Pass the Function name as the first argument and all arguments for the Function
 in a List as the second argument.
 
-TODO: literalinclude all examples here. also make sure description of arguments
-makes sense here. 
-
-.. code-block:: dart
-
-   final response = await user.functions.call("addition", [1, 2]);
-   print(response); // prints 3
-
 To include objects as arguments to the Function,
-you must convert them to JSON first.
+convert them to JSON first. You can do this using the `jsonEncode()
+<https://api.flutter.dev/flutter/dart-convert/jsonEncode.html>`__
+function included in the built-in ``dart:convert`` library.
 
-.. code-block:: dart
+The Function returns a ``dynamic`` value containing :manual:`MongoDB Extended JSON (EJSON)
+</reference/mongodb-extended-json/>` deserialized to a native Dart object.
 
-   final bobJones = {firstName: "Bob", lastName: "Jones" };
-   final steveJenkins = {firstName: "steve", lastName: "Jenkins" };
-   await user.functions.call("addToGuestList", [bobJones.toJson(), steveJenkins.toJson()]);
+.. literalinclude:: /examples/generated/flutter/functions_test.snippet.call-function.dart
+   :language: dart
 
-When you return objects from the function, the response is dynamic.
-You can type cast it to the correct data shape.
-
-.. code-block:: dart
-
-   final bobJones = {firstName: "Bob", lastName: "Jones" };
-   final steveJenkins = {firstName: "steve", lastName: "Jenkins" };
-   final dynamic response = await user.functions.call("addToGuestList", [bobJones.toJson(), steveJenkins.toJson()]);
-   final guests = response as as List<Map<String, dynamic>>;
