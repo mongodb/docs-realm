@@ -213,7 +213,7 @@ describe.skip("Client Reset with Seamless Loss", () => {
           console.log(syncError);
           try {
             console.log("error type is ClientReset....");
-            const path = realm.path; // realm.path will no be accessible after realm.close()
+            const path = realm.path; // realm.path will not be accessible after realm.close()
             realm.close();
             Realm.App.Sync.initiateClientReset(app, path);
 
