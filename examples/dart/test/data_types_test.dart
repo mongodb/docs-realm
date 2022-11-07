@@ -153,6 +153,12 @@ main() {
     expect(realm.dynamic.all("Address").query("state == 'NY'").length, 0);
     // :remove-end:
 
+    // You can access the parent object from an embedded object.
+    final thePersonObject = joesNewHome.parent;
+    // :remove-start:
+    expect(thePersonObject, isNotNull);
+    // :remove-end:
+
     // Delete embedded object from parent object.
     realm.write(() => realm.delete(joe.address!));
     expect(joe.address, isNull); // :remove:

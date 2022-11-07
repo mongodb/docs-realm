@@ -22,6 +22,9 @@ realm.write(() {
   joe.address = joesNewHome;
 });
 
+// You can access the parent object from an embedded object.
+final thePersonObject = joesNewHome.parent;
+
 // Delete embedded object from parent object.
 realm.write(() => realm.delete(joe.address!));
 
