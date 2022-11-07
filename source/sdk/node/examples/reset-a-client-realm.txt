@@ -23,8 +23,8 @@ resets, check out Device Sync :ref:`Client Resets in the App Services documentat
 Client Reset Modes
 ------------------
 
-You can handle client resets in your application using one of the
-available **client reset modes**:
+You can specify which **client reset mode** your app should use
+to restore the realm to a syncable state:
 
 - :ref:`Recover unsynced changes mode <node-recover-unsynced-changes>`:
   When you choose this mode, the client attempts to recover unsynced changes.
@@ -78,11 +78,13 @@ Client Reset with Recovery
 
 Client Recovery is a feature that is enabled by default when you configure Device Sync.
 When Client Recovery is enabled, Realm Database automatically manages the
-client reset process in most cases. When you make schema changes the client
-can recover unsynced changes when there are no schema changes, or non-breaking schema changes.
+client reset process in most cases. The client can recover unsynced changes
+when there are no schema changes, or non-breaking schema changes.
 
-To use Client Recovery, configure your realm with recover unsynced changes or
-recover or discard unsynced changes client reset modes.
+To use Client Recovery, configure your realm with one of the following client reset modes:
+
+- Recover unsynced changes mode
+- Recover or discard unsynced changes
 
 .. include:: /includes/client-recovery-rules.rst
 
@@ -114,10 +116,10 @@ to the ``clientReset`` field of your
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverUnsyncedChanges"``.
-- ``clientResetBefore``: Optional. Callback function invoked before the SDK executes this mode,
+- ``onBefore``: Optional. Callback function invoked before the SDK executes this mode,
   when the SDK receives a client reset error from the backend.
   Provides a copy of the realm.
-- ``clientResetAfter``: Optional. Callback function invoked after the SDK successfully
+- ``onAfter``: Optional. Callback function invoked after the SDK successfully
   executes this mode. Provides instances of the realm before and after the client reset.
 - ``onFallback``: Optional. Callback function which the SDK invokes
   only if the automatic recovery fails. For more information, refer to the
@@ -140,6 +142,9 @@ discard unsynced changes but continues to automatically perform the client reset
 Choose this mode when you want to enable automatic client
 recovery to fall back to discard unsynced changes.
 
+Do not use recover or discard unsynced changes mode if your application
+cannot lose local data that has not yet synced to the backend.
+
 To handle client resets with the recover or discard unsynced changes mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
 to the ``clientReset`` field of your
@@ -147,10 +152,10 @@ to the ``clientReset`` field of your
 Include these properties in the ``ClientResetConfiguration``:
 
 - ``mode``: Set to ``"recoverOrDiscardUnsyncedChanges"``.
-- ``clientResetBefore()``: Optional. Callback function invoked before the SDK executes this mode,
+- ``onBefore``: Optional. Callback function invoked before the SDK executes this mode,
   when the SDK receives a client reset error from the backend.
   Provides a copy of the realm.
-- ``clientResetAfter()``: Optional. Callback function invoked after the SDK successfully
+- ``onAfter``: Optional. Callback function invoked after the SDK successfully
   executes this mode. Provides instances of the realm before and after the client reset.
 - ``onFallback()``: Optional. Callback function which the SDK invokes
   only if both the automatic recovery and and discarding changes fails.
@@ -252,6 +257,8 @@ Manual Mode
 .. versionchanged:: 10.23.0 onManual callback added
 
 In **manual** mode, you define your own client reset handler.
+You might want to use a manual client reset handler if the Automatic Recovery logic
+does not work for your app and you can't discard unsynced local data.
 
 To handle client resets with manual mode,
 pass a :js-sdk:`ClientResetConfiguration <Realm.App.Sync.html#~ClientResetConfiguration>`
@@ -273,6 +280,6 @@ Manual Data Recovery
 
 To recover data from a manual client reset requires significant amounts
 of code, schema concessions, and custom conflict resolution logic.
-To learn more about the **manually recover unsynced changes** client reset mode,
+If you need to implement your own custom client reset logic,
 see the :ref:`Advanced Guide to Manual Client Reset Data Recovery
 <node-advanced-manual-client-reset-data-recovery>`.

@@ -34,7 +34,8 @@ const config = {
         console.log("Beginning client reset for ", realm.path);
       },
       onAfter: (beforeRealm, afterRealm) => {
-        // NOT used with destructive schema changes
+        // Destructive schema changes do not hit this function.
+        // Instead, they go through the error handler.
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);
       },

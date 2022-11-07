@@ -6,11 +6,10 @@ const config = {
     clientReset: {
       mode: "recoverOrDiscardUnsyncedChanges",
       onBefore: (realm) => {
-        console.log("Beginning client reset for ", realm.path);
+        // This block could be used for custom recovery, reporting, debugging etc.
       },
       onAfter: (beforeRealm, afterRealm) => {
-        console.log("Finished client reset for", beforeRealm.path);
-        console.log("New realm path", afterRealm.path);
+        // This block could be used for custom recovery, reporting, debugging etc.
       },
       onFallback: (session, path) => {
         // See below "Manual Client Reset Fallback" section for example
