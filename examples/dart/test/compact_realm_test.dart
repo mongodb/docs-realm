@@ -37,5 +37,35 @@ void main() {
       realm.close();
       await cleanUpRealm(realm);
     });
+
+    test('Compact a realm using static method', () async {
+      // :snippet-start: compact-static-method
+      var config = Configuration.local([Car.schema]);
+
+      // :remove-start:
+      // Populate some data in the realm so we can compact it
+      final prepareRealm = Realm(config);
+      Car newPrius = Car("Toyota", model: "Prius", miles: 0);
+      Car usedOutback = Car("Subaru", model: "Outback Premium", miles: 61370);
+      prepareRealm.write(() {
+        prepareRealm.add<Car>(newPrius);
+        prepareRealm.add<Car>(usedOutback);
+      });
+      prepareRealm.write(() {
+        prepareRealm.delete(usedOutback);
+      });
+      prepareRealm.close();
+      // :remove-end:
+      final compacted = Realm.compact(config);
+      print(
+          "Successfully compacted the realm: $compacted"); // On success, this prints "true"
+
+      final realm = Realm(config);
+      // :snippet-end:
+      expect(compacted, true);
+      realm.close();
+      await cleanUpRealm(realm);
+      await cleanUpRealm(prepareRealm);
+    });
   });
 }
