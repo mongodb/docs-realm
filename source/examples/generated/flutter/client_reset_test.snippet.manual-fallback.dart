@@ -1,4 +1,7 @@
+// Lazily initialize `realm` so that it can be used in the callback
+// before the realm has been opened.
 late Realm realm;
+
 final config = Configuration.flexibleSync(currentUser, schema,
 
     // This example uses the `RecoverOrDiscardUnsyncedChangesHandler`,
@@ -11,11 +14,8 @@ final config = Configuration.flexibleSync(currentUser, schema,
     // and all changes they make will be discarded when the app restarts.
     var didUserConfirmReset = showUserAConfirmationDialog();
     if (didUserConfirmReset) {
-      // Close the Realm before doing the reset. It must be
-      // deleted as part of the reset.
-      final realmPath = realm.config.path;
+      // You must close the Realm before attempting the client reset.
       realm.close();
-      Realm.deleteRealm(realmPath);
 
       // Attempt the client reset.
       try {

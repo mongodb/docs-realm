@@ -7,7 +7,7 @@ Handle Sync Errors - Flutter SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 3
    :class: singlecol
 
 Handle Sync Errors
@@ -37,8 +37,8 @@ Client Reset
 ------------
 
 When using Device Sync, a **client reset** is an
-error recovery task that your client app must perform when a given
-synced realm on the server can no longer sync with the client realm.
+error recovery task that your client app must perform when the Device Sync server
+can no longer sync with the client realm.
 
 Clients in this state may continue to run and save data locally
 but cannot send or receive sync changesets until they perform a client reset.
@@ -50,7 +50,7 @@ The Realm SDK can attempt to recover or discard that data during the client rese
 The Realm SDK provides methods to automatically handle client resets in most scenarios.
 
 For more information about what can cause a client reset to occur, go to
-:ref:`Client Resets in the App Services documentation <client-resets>`.
+:ref:`Client Resets <client-resets>` in the App Services documentation.
 
 .. _flutter-client-reset-strategies:
 
@@ -59,10 +59,12 @@ Client Reset Modes
 
 To manage the client reset process, you can specify a client
 reset mode in your :flutter-sdk:`FlexibleSyncConfiguration.clientResetHandler
-<realm/FlexibleSyncConfiguration/clientResetHandler.html>` property.
+<realm/FlexibleSyncConfiguration/clientResetHandler.html>` property
+when configuring a realm.
 You can use the following client reset modes:
 
-- :ref:`Recover or discard unsynced changes mode <flutter-client-reset-recover-or-discard-unsynced-changes>` (Default):
+- :ref:`Recover or discard unsynced changes mode
+  <flutter-client-reset-recover-or-discard-unsynced-changes>` (default):
   In this client reset mode, the client reset handler first attempts
   to recover unsynced changes.
   If recovery fails, this handler falls back to the discard unsyced changes mode,
@@ -81,8 +83,7 @@ You can use the following client reset modes:
 - :ref:`Manual recovery mode <flutter-client-reset-manual-recovery-mode>`:
   This client reset mode provides a way for you to implement your own recovery strategy.
 
-The following sections describe the different strategies for handling a client
-reset and how you can use each client reset mode.
+The following sections describe how to use these client reset modes.
 
 .. _flutter-automatic-vs-manual-client-reset:
 
@@ -144,18 +145,17 @@ For information on breaking vs. non-breaking schema changes, refer to
 Recover or Discard Unsynced Changes Mode
 ````````````````````````````````````````
 
-**Recover or discard unsynced changes** mode attempts to recover
+**Recover or discard unsynced changes mode** attempts to recover
 all unsynced local changes automatically during a client reset.
 It provides the most robust recovery process and is the default mode.
 If the automatic recovery process fails, it falls back to discard unsynced changes
 mode explained in the :ref:`Discard Unsynced Changes section <flutter-discard-unsynced-changes>`.
-If that process fails, it falls back again to a manual reset model explained
-in the :ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
+If that process fails, it falls back again to a manual reset mode.
 
 As recover or discard unsynced changes is the default client reset mode,
-this mode is used if you do not specify an alternative client reset mode.
+it is used if you do not specify an alternative client reset mode.
 
-To customize usage of recover unsynced changes mode,
+To customize usage of recover or discard unsynced changes mode,
 pass a :flutter-sdk:`RecoverOrDiscardUnsyncedChangesHandler <realm/RecoverOrDiscardUnsyncedChangesHandler-class.html>`
 callback to the ``Configure.clientResetHandler``.
 Add the following optional callback methods to extend the handler's functionality:
@@ -175,8 +175,9 @@ Add the following optional callback methods to extend the handler's functionalit
 
 - :flutter-sdk:`onManualResetFallback <realm/ClientResetHandler/onManualReset.html>`,
   which the SDK invokes only if the automatic
-  recovery and the discard strategy have failed. You implement this callback to
-  handle the reset failure.
+  recovery and the discard strategy have failed. Implement this callback to
+  handle the reset failure, as explained
+  in the :ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
 
 The following example shows using ``RecoverOrDiscardUnsyncedChangesHandler`` and each of its callbacks:
 
@@ -191,21 +192,23 @@ Recover Unsynced Changes Mode
 **Recover unsyced changes mode** attempts to recover all unsynced local changes automatically
 during a client reset. However, unlike recover *or discard* unsyced changes mode,
 this mode does not fall back to a discard local changes if the automatic recovery fails.
-Instead, it  falls back to manually recovery changes, as explained in the
-:ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
+Instead, it  falls back to manually recovery changes.
 
 To use recover unsynced changes mode, pass a :flutter-sdk:`RecoverUnsyncedChangesHandler <realm/RecoverUnsyncedChangesHandler-class.html>`
 callback to the ``Configure.clientResetHandler``.
 This handler provides the following callback methods:
 
 - :flutter-sdk:`onBeforeReset <realm/RecoverUnsyncedChangesHandler/onBeforeReset.html>`,
-  which you can use to notify the user before the reset begins.
+  which the SDK invokes prior to the client reset.
+  You can use this callback to notify the user before the reset begins.
 - :flutter-sdk:`onAfterReset <realm/RecoverUnsyncedChangesHandler/onAfterReset.html>`,
-  which you can use to notify the user when the reset has completed successfully.
+  which the SDK invokes *if and only if* the automatic reset completes successfully.
+  You can use this callback to notify the user when the reset has completed successfully.
 - :flutter-sdk:`onManualResetFallback <realm/ClientResetHandler/onManualReset.html>`,
   which the SDK invokes only if the automatic
   recovery and the discard strategy have failed. You implement this callback to
-  handle the reset failure.
+  handle the reset failure, as explained in the
+  :ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
 
 The following example shows using ``RecoverUnsyncedChangesHandler`` and each of its callbacks:
 
@@ -217,13 +220,11 @@ The following example shows using ``RecoverUnsyncedChangesHandler`` and each of 
 Discard Unsynced Changes Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Discard unsyced changes** mode permanently deletes all local unsynced changes
-made since the last successful sync. If you choose to use a
-``DiscardUnsyncedChangesHandler``, the SDK restores your local realm file
-to a syncable state without closing the realm and while keeping notifications
-fully working. If this process fails, it falls back to a manual reset
-strategy explained in the
-:ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`.
+**Discard unsyced changes mode** permanently deletes all local unsynced changes
+made since the last successful sync. If you choose to use this client reset mode,
+the SDK restores your local realm file to a syncable state
+without closing the realm and while keeping notifications fully working.
+If this process fails, it falls back to manual recovery mode.
 
 To use discard unsynced changes mode, pass a :flutter-sdk:`DiscardUnsyncedChangesHandler <realm/DiscardUnsyncedChangesHandler-class.html>`
 callback to the ``Configure.clientResetHandler``.
@@ -240,7 +241,8 @@ This handler provides the following callback methods:
 - :flutter-sdk:`onManualResetFallback <realm/ClientResetHandler/onManualReset.html>`,
   which the SDK invokes only if the automatic
   recovery and the discard strategy have failed. You implement this callback to
-  handle the reset failure.
+  handle the reset failure, as explained in the
+  :ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`.
 
 The following example shows using ``DiscardUnsyncedChangesHandler`` and each of its callbacks:
 
@@ -254,7 +256,7 @@ Manual Recovery Fallback
 
 If the client reset with recovery cannot complete automatically,
 like when there are breaking schema changes, the client reset process falls through
-to a manual error handler. This may occur in any of the client reset with recovery modes:
+to a manual error handler. This may occur in any of the automatic client reset modes:
 
 - Recover unsynced changes mode
 - Recover or discard unsynced changes mode
@@ -266,7 +268,8 @@ in the ``onManualResetFallback`` callback of the client reset handler for these 
 In ``onManualResetFallback``, initiate a client reset using the
 :flutter-sdk:`ClientResetError.resetRealm() <realm/ClientResetError/resetRealm.html>` method
 of the ``ClientResetError`` parameter of the callback.
-``ClientResetError.resetRealm()`` initiates the client reset process.
+``ClientResetError.resetRealm()`` performs a client reset by deleting the realm on device
+and downloading relevant data from the server.
 Before you use this method, you must close all instances of the realm that you are resetting.
 
 The following example demonstrates how you can manually handle an error case by
@@ -292,8 +295,9 @@ callback, in which you can perform the client reset.
 In ``onManualReset``, initiate a client reset using the
 :flutter-sdk:`ClientResetError.resetRealm() <realm/ClientResetError/resetRealm.html>` method
 of the ``ClientResetError`` parameter of the callback.
-This method initiates the client reset process. Before you use this method, you
-must close all instances of the realm that you are resetting.
+``ClientResetError.resetRealm()`` performs a client reset by deleting the realm on device
+and downloading relevant data from the server.
+Before you use this method, you must close all instances of the realm that you are resetting.
 
 .. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.manual.dart
    :language: dart
