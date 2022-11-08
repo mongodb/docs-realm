@@ -146,36 +146,39 @@ For information on breaking vs. non-breaking schema changes, refer to
 Recover or Discard Unsynced Changes Mode
 ````````````````````````````````````````
 
-**Recover or discard unsynced changes** is the default client reset mode.
+**Recover or discard unsynced changes** ...TODO: explain more
+
+It is the default client reset mode.
 It provides the most robust recovery process.
 If the automatic recovery process fails, it falls back to discard unsynced changes
 mode explained in the :ref:`Discard Unsynced Changes section <flutter-discard-unsynced-changes>`.
 If that process fails, it falls back again to a manual reset model explained
 in the :ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
 
+TODO: explain how default works default
+
+TODO: quick technical implementation explanation
 This handler provides the following callback methods:
 
-- :flutter-sdk:`onBeforeReset <_FLUTTER_TODO>`,
+- :flutter-sdk:`onBeforeReset <TODO:>`,
   which the SDK invokes prior to the client reset. You can use this callback to notify
   the user before the client reset begins.
 
-- :flutter-sdk:`onAfterRecovery <_FLUTTER_TODO>`,
+- :flutter-sdk:`onAfterRecovery <TODO:>`,
   which the SDK invokes if *and only if* the automatic reset completes successfully.
   You can use it to notify the user that the client reset is complete.
 
-- :flutter-sdk:`onAfterDiscard <_FLUTTER_TODO>`,
+- :flutter-sdk:`onAfterDiscard <TODO:>`,
   which the SDK invokes only if the automatic client reset fails *and* the discard
   local strategy succeeds. If the discard strategy fails, this callback is not
   invoked.
 
-- :flutter-sdk:`onManualResetFallback <_FLUTTER_TODO>`,
+- :flutter-sdk:`onManualResetFallback <TODO:>`,
   which the SDK invokes only if the automatic
   recovery and the discard strategy have failed. You implement this callback to
   handle the reset failure.
 
-  TODO: refactor to use the Manual Client Reset Fallback
-
-The following example shows using each of these callbacks:
+The following example shows using ``RecoverOrDiscardUnsyncedChangesHandler`` and each of its callbacks:
 
 .. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.recover-or-discard.dart
    :language: dart
@@ -185,7 +188,26 @@ The following example shows using each of these callbacks:
 Recover Unsynced Changes Mode
 `````````````````````````````
 
-TODO
+**Recover unsyced changes mode** attempts to recover all unsynced local changes automatically
+during a client reset. However,  unlike recover *or discard* unsyced changes mode,
+this mode does not fall back to a discard local changes if the automatic recovery fails.
+Instead, it  falls back to manually recovery changes, as explained in the
+:ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
+
+
+TODO: quick technical implementation explanation
+The handler provides the following callback methods:
+
+- :flutter-sdk:`onBeforeReset <TODO:>`,
+  which you can use to notify the user before the reset begins.
+- :flutter-sdk:`onAfterReset <TODO:>`,
+  which you can use to notify the user when the reset has completed successfully.
+- :flutter-sdk:`onManualResetFallback <TODO:>`,
+  which the SDK invokes only if the automatic
+  recovery and the discard strategy have failed. You implement this callback to
+  handle the reset failure.
+
+The following example shows using ``RecoverUnsyncedChangesHandler`` and each of its callbacks:
 
 .. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.recover.dart
    :language: dart
@@ -195,7 +217,33 @@ TODO
 Discard Unsynced Changes Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO
+TODO: refactor intro
+This strategy **permanently deletes** all local unsynced changes
+made since the last successful sync. If you choose to use a
+``DiscardUnsyncedChangesHandler``, the SDK restores your local realm file
+to a syncable state without closing the realm and while keeping notifications
+fully working. If this process fails, it falls back to a manual reset
+strategy explained in the
+:ref:`Manual Recovery section <dotnet-client-reset-manual-recovery>`.
+
+TODO: quick technical implementation explanation
+This handler provides the following callback methods:
+
+- :flutter-sdk:`onBeforeReset <TODO:>`,
+  which the SDK invokes prior to the client reset. You can use this callback to
+  notify the user before the reset begins.
+
+- :flutter-sdk:`onAfterReset <TODO:>`,
+  which the SDK invokes if *and only if* the reset completes successfully.
+  You can use it to notify the user when the reset is complete.
+
+- :flutter-sdk:`onManualResetFallback <TODO:>`,
+  which the SDK invokes only if the automatic
+  recovery and the discard strategy have failed. You implement this callback to
+  handle the reset failure.
+
+The following example shows using ``DiscardUnsyncedChangesHandler`` and each of its callbacks:
+
 
 .. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.discard.dart
    :language: dart
@@ -215,7 +263,18 @@ TODO
 Manual Recovery Mode
 ~~~~~~~~~~~~~~~~~~~~
 
-TODO
+Use **manual recovery mode** for the infrequent cases where you need
+to customize your data recovery process.
+In most cases, you should use one of the other strategies for client resets.
+
+To use manual recovery mode, pass a :flutter-sdk:`ManualRecoveryHandler <TODO:>`
+callback to the ``Configure.clientResetHandler``.
+
+Inside of the callback, initiate a client reset using the
+:flutter:`ClientResetError.resetRealm() <realm/ClientResetError/resetRealm.html>` method
+of the ``ClientResetError`` parameter of the callback.
+This method initiates the client reset process. Before you use this method, you
+must close all instances of the realm that you are resetting.
 
 .. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.manual.dart
    :language: dart
