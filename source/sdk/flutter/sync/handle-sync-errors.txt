@@ -60,38 +60,28 @@ Client Reset Modes
 TODO(DOCSP-24570): add some more pretext here
 
 In the Flutter SDK, you can specify a client
-reset mode in your :flutter-sdk:`FlexibleSyncConfiguration_TODO_FLUTTER <TODO_FLUTTER>`.
-The :flutter-sdk:`ClientResetHandler_TODO_FLUTTER <TODO_FLUTTER>`
-property can be set to one of the following:
+reset mode in your :flutter-sdk:`FlexibleSyncConfiguration.clientResetHandler
+<realm/FlexibleSyncConfiguration/clientResetHandler.html>` property.
+You can use the following client reset modes:
 
-.. list-table::
-   :header-rows: 1
-   :widths: 30 30 50
-   
-   * - Mode
-     - Handler
-     - Notes
+- :ref:`Recover or discard unsynced changes mode <flutter-client-reset-recover-or-discard-unsynced-changes>` (Default):
+  In this client reset mode, the client reset handler first attempts
+  to recover unsynced changes.
+  If recovery fails, this handler falls back to the discard unsyced changes mode,
+  which deletes all unsynced local changes. If discard unsyced changes mode fails,
+  the handler falls back to manual recovery mode.
 
-   * - Recover or discard unsynced changes (Default)
-     - :flutter-sdk:`RecoverOrDiscardUnsyncedChangesHandler_TODO_FLUTTER <TODO_FLUTTER>`
-     - If recovery fails, this handler falls back to the ``DiscardUnsyncedChangesHandler_TODO_FLUTTER``,
-       which deletes all unsynced local changes. If the ``DiscardUnsyncedChangesHandler_TODO_FLUTTER``
-       recovery fails, the handler falls back to a ``ManualRecoveryHandler_TODO_FLUTTER``, which
-       requires you to implement a manual recovery strategy.
+- :ref:`Recover unsynced changes mode <flutter-client-reset-recover-unsynced-changes>`:
+  In this client reset mode, the client reset handler first attempts
+  to recover unsynced changes. If recovery fails, this handler falls back
+  to manual recovery mode.
 
-   * - Recover unsynced changes
-     - :flutter-sdk:`RecoverUnsyncedChangesHandler_TODO_FLUTTER <TODO_FLUTTER>`
-     - If recovery fails, this handler_TODO_FLUTTER falls back to a ``ManualRecoveryHandler_TODO_FLUTTER``,
-       which requires you to implement a manual recovery strategy.
+- :ref:`Discard unsynced changes mode <flutter-discard-unsynced-changes>`:
+  This client reset mode *permanently deletes* all local unsynced changes made since
+  the last successful sync. If recovery fails, this handler falls back to manual recovery mode.
 
-   * - Discard unsynced changes
-     - :flutter-sdk:`DiscardUnsyncedChangesHandler_TODO_FLUTTER <TODO_FLUTTER>`
-     - This strategy *permanently deletes* all local unsynced changes made since
-       the last successful sync.
-
-   * - Manual recovery
-     - :flutter-sdk:`ManualRecoveryHandler_TODO_FLUTTER <TODO_FLUTTER>`
-     - Provides a way for you to implement your own recovery strategy.
+- :ref:`Manual recovery mode <flutter-client-reset-manual-recovery-mode>`:
+  This client reset mode provides a way for you to implement your own recovery strategy.
 
 The following sections describe the different strategies for handling a client
 reset and how you can use each client reset mode.
@@ -158,65 +148,74 @@ Recover or Discard Unsynced Changes Mode
 
 **Recover or discard unsynced changes** is the default client reset mode.
 It provides the most robust recovery process.
-If the automatic recovery process fails, it falls back to the ``DiscardLocalReset_TODO_FLUTTER``
-mode explained in the :ref:`Discard Unsynced Changes section <flutter-recover-discard-unsynced-changes>`.
-If that process fails, it falls back again to a manual reset strategy explained
-in the :ref:`Manual Recovery section <flutter-client-reset-manual-recovery>`.
+If the automatic recovery process fails, it falls back to discard unsynced changes
+mode explained in the :ref:`Discard Unsynced Changes section <flutter-discard-unsynced-changes>`.
+If that process fails, it falls back again to a manual reset model explained
+in the :ref:`Manual Recovery Fallback section <flutter-client-reset-manual-recovery-fallback>`.
 
 This handler provides the following callback methods:
 
-- :flutter-sdk:`OnBeforeReset_FLUTTER_TODO <flutter-recover-discard-unsynced-changes>`,
+- :flutter-sdk:`onBeforeReset <_FLUTTER_TODO>`,
   which the SDK invokes prior to the client reset. You can use this callback to notify
   the user before the client reset begins.
 
-- :flutter-sdk:`OnAfterRecovery_FLUTTER_TODO <_FLUTTER_TODO>`,
+- :flutter-sdk:`onAfterRecovery <_FLUTTER_TODO>`,
   which the SDK invokes if *and only if* the automatic reset completes successfully.
   You can use it to notify the user that the client reset is complete.
 
-- :flutter-sdk:`OnAfterDiscard__FLUTTER_TODO <_FLUTTER_TODO>`,
+- :flutter-sdk:`onAfterDiscard <_FLUTTER_TODO>`,
   which the SDK invokes only if the automatic client reset fails *and* the discard
   local strategy succeeds. If the discard strategy fails, this callback is not
   invoked.
 
-- :flutter-sdk:`ManualResetFallback__FLUTTER_TODO
-  <_FLUTTER_TODO>`,
+- :flutter-sdk:`onManualResetFallback <_FLUTTER_TODO>`,
   which the SDK invokes only if the automatic
   recovery and the discard strategy have failed. You implement this callback to
-  handle the reset failure. Your logic here should
-  be similar to that described for a
-  :ref:`ManualRecoveryHandler <dotnet-client-reset-manual-recovery>`.
+  handle the reset failure.
 
   TODO: refactor to use the Manual Client Reset Fallback
 
 The following example shows using each of these callbacks:
 
-.. literalinclude:: /examples/generated/dotnet/ClientResetExamples.snippet.RecoverOrDiscardUnsyncedChangesHandler.cs
-   :language: csharp
+.. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.recover-or-discard.dart
+   :language: dart
 
 .. _flutter-client-reset-recover-unsynced-changes:
 
 Recover Unsynced Changes Mode
 `````````````````````````````
 
-TODO: add
+TODO
 
-.. _flutter-recover-discard-unsynced-changes:
+.. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.recover.dart
+   :language: dart
 
-Recover or Discard Unsynced Changes Mode
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _flutter-discard-unsynced-changes:
 
-TODO: add section
+Discard Unsynced Changes Mode
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO
+
+.. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.discard.dart
+   :language: dart
 
 .. _flutter-client-reset-manual-recovery-fallback:
 
-Manual Client Reset Fallback
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manual Recovery Fallback
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: add section
+TODO
+
+.. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.manual-fallback.dart
+   :language: dart
 
 .. _flutter-client-reset-manual-recovery-mode:
 
 Manual Recovery Mode
 ~~~~~~~~~~~~~~~~~~~~
 
-TODO: add section
+TODO
+
+.. literalinclude:: /examples/generated/flutter/client_reset_test.snippet.manual.dart
+   :language: dart
