@@ -98,7 +98,7 @@ closing the realm or missing notifications.
 The following client reset modes support automatic client resets:
 
 - Recover unsynced changes mode
-- Recover or discard unsynced Changes mode
+- Recover or discard unsynced changes mode
 - Discard unsynced changes mode
 
 The differences between these modes are based on how they handle
@@ -145,15 +145,14 @@ For information on breaking vs. non-breaking schema changes, refer to
 Recover or Discard Unsynced Changes Mode
 ````````````````````````````````````````
 
-**Recover or discard unsynced changes mode** attempts to recover
+Recover or discard unsynced changes mode attempts to recover
 all unsynced local changes automatically during a client reset.
 It provides the most robust recovery process and is the default mode.
 If the automatic recovery process fails, it falls back to discard unsynced changes
-mode explained in the :ref:`Discard Unsynced Changes section <flutter-discard-unsynced-changes>`.
-If that process fails, it falls back again to a manual reset mode.
+mode. If that process fails, it falls back again to a manual reset mode.
 
 As recover or discard unsynced changes is the default client reset mode,
-it is used if you do not specify an alternative client reset mode.
+it is used automatically if you do not specify an alternative client reset mode.
 Do not use recover or discard unsynced changes mode if your application cannot
 lose local data that has not yet synced to the backend.
 
@@ -191,10 +190,10 @@ The following example shows using ``RecoverOrDiscardUnsyncedChangesHandler`` and
 Recover Unsynced Changes Mode
 `````````````````````````````
 
-**Recover unsyced changes mode** attempts to recover all unsynced local changes automatically
+Recover unsyced changes mode attempts to recover all unsynced local changes automatically
 during a client reset. However, unlike recover *or discard* unsyced changes mode,
 this mode does not fall back to a discard local changes if the automatic recovery fails.
-Instead, it  falls back to manually recovery changes.
+Instead, it  falls back to manually recover changes.
 
 To use recover unsynced changes mode, pass a :flutter-sdk:`RecoverUnsyncedChangesHandler <realm/RecoverUnsyncedChangesHandler-class.html>`
 callback to the ``Configure.clientResetHandler``.
@@ -222,7 +221,7 @@ The following example shows using ``RecoverUnsyncedChangesHandler`` and each of 
 Discard Unsynced Changes Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Discard unsyced changes mode** permanently deletes all local unsynced changes
+Discard unsyced changes mode permanently deletes all local unsynced changes
 made since the last successful sync. If you choose to use this client reset mode,
 the SDK restores your local realm file to a syncable state
 without closing the realm and while keeping notifications fully working.
@@ -288,7 +287,7 @@ discarding all unsynced changes:
 Manual Recovery Mode
 ~~~~~~~~~~~~~~~~~~~~
 
-Use **manual recovery mode** for the infrequent cases where you need
+Use manual recovery mode for the infrequent cases where you need
 to customize your data recovery process.
 In most cases, you should use one of the other strategies for client resets.
 You might want to use a manual client reset handler if the Automatic Recovery
