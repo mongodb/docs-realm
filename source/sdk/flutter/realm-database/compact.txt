@@ -30,38 +30,40 @@ application runs in a resource-constrained environment, you may want to
 compact when you reach a certain file size or when the file size negatively 
 impacts performance.
 
-Compact When Opening a Realm
-----------------------------
+Compaction Strategies
+---------------------
 
 You can compact a realm file using either of two strategies:
 
 - ``Realm.compact()`` static method: Use this method when you want to compact
   a Flexible Sync realm, or when you want to reduce realm file size.
-- Local realm configuration: use the ``shouldCompactCallback()`` when you 
-  want to define one or more conditions to check to determine whether to 
-  compact the realm. You might check for a certain realm file size, a percentage 
-  of unused space, or other conditions that are relevant to your performance 
-  needs or runtime environment.
+- Conditionally compact on open: use the ``shouldCompactCallback()`` when you 
+  want to define one or more conditions to determine whether to compact the 
+  realm. You might check for a certain realm file size, a percentage of unused 
+  space, or other conditions that are relevant to your performance needs or 
+  runtime environment. This is a property on realm's 
+  :flutter-sdk:`LocalConfiguration <realm/LocalConfiguration-class.html>`, and 
+  only works with non-Synced realms.
 
 .. _flutter-realm-compact:
 
 Realm.compact() Method
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can compact a realm file by calling the :flutter-sdk:`Realm.compact() 
-<realm/Realm/compact.html>` method. When you use this method, the device
-must have enough free space to make a copy of the realm.
+You can compact a realm file by calling :flutter-sdk:`Realm.compact() 
+<realm/Realm/compact.html>`. This method takes a :flutter-sdk:`Configuration 
+<topics/Configuration-topic.html>` as an argument. When you use this method, 
+the device must have enough free space to make a copy of the realm.
 
 ``Realm.compact()`` obtains an instance of the realm, and opens it to 
 trigger any schema version upgrades, file format upgrades, migration and 
-initial data callbacks. If the realm is a :ref:`Flexible Sync realm 
-<flutter-open-synced-realm>`, this method waits for any unsynced data to 
-download or upload before performing the compaction operation.
-
-Upon successfully opening the realm and performing these 
-operations, this method then compacts the realm.
+initial data callbacks. Upon successfully opening the realm and performing 
+these operations, this method then compacts the realm.
 
 If successful, a call to ``Realm.compact()`` returns ``true``.
+
+Do not call this method from inside a transaction. You cannot compact an 
+open realm.
 
 .. literalinclude:: /examples/generated/flutter/compact_realm_test.snippet.compact-static-method.dart
    :language: dart
@@ -69,12 +71,12 @@ If successful, a call to ``Realm.compact()`` returns ``true``.
 .. _flutter-should-compact-callback:
 
 Realm Configuration File
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-   You cannot compact a :ref:`Flexible Sync realm <flutter-open-synced-realm>`
-   with the ``shouldCompactCallback()``. To compact a Flexible Sync realm, 
+   You cannot compact a :ref:`Synced realm <flutter-open-synced-realm>`
+   with the ``shouldCompactCallback()``. To compact a Synced realm, 
    use :ref:`Realm.compact() <flutter-realm-compact>`.
 
 You can define a :flutter-sdk:`shouldCompactCallback() 
