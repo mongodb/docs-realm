@@ -5,7 +5,7 @@ async function handleSyncError(session, syncError) {
     console.log(syncError);
     try {
       console.log("error type is ClientReset....");
-      const path = realm.path; // realm.path will no be accessible after realm.close()
+      const path = realm.path; // realm.path will not be accessible after realm.close()
       realm.close();
       Realm.App.Sync.initiateClientReset(app, path);
 
@@ -26,15 +26,16 @@ const config = {
   schema: [DogSchema],
   sync: {
     user: app.currentUser,
-    partitionValue: "MyPartitionValue",
+    flexible: true,
     clientReset: {
-      mode: "discardLocal",
-      clientResetBefore: (realm) => {
+      mode: "discardUnsyncedChanges",
+      onBefore: (realm) => {
         // NOT used with destructive schema changes
         console.log("Beginning client reset for ", realm.path);
       },
-      clientResetAfter: (beforeRealm, afterRealm) => {
-        // NOT used with destructive schema changes
+      onAfter: (beforeRealm, afterRealm) => {
+        // Destructive schema changes do not hit this function.
+        // Instead, they go through the error handler.
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);
       },
