@@ -1,6 +1,6 @@
 // :replace-start: {
 //   "terms": {
-//     "QsTask": "Task"
+//     "QsTask": "Todo"
 //   }
 // }
 
@@ -26,12 +26,12 @@ import Foundation
         let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
         print("Successfully opened realm: \(realm)")
 
-        // Verify there is a task object in the realm whose
+        // Verify there is a todo object in the realm whose
         // owner's name is "Daenerys". When we open the bundled
         // realm later, we should see the same result.
-        let tasks = realm.objects(QsTask.self)
-        let daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-        XCTAssertEqual(daenerysTasks.count, 1)
+        let todos = realm.objects(QsTask.self)
+        let daenerysTodos = todos.where { $0.owner == "Daenerys" }
+        XCTAssertEqual(daenerysTodos.count, 1)
 
         // Specify an output directory for the bundled realm
         // We're using FileManager here for tested code examples,
@@ -66,10 +66,10 @@ import Foundation
         let copiedRealm = try await Realm(configuration: config, downloadBeforeOpen: .never)
 
         // Verify that the copied realm contains the data we expect
-        let copiedTasks = copiedRealm.objects(QsTask.self)
-        let daenerysCopiedTasks = copiedTasks.where { $0.owner == "Daenerys" }
-        XCTAssertEqual(daenerysCopiedTasks.count, 1)
-        print("Copied realm opens and contains this many tasks: \(daenerysCopiedTasks.count)")
+        let copiedTodos = copiedRealm.objects(QsTask.self)
+        let daenerysCopiedTodos = copiedTodos.where { $0.owner == "Daenerys" }
+        XCTAssertEqual(daenerysCopiedTodos.count, 1)
+        print("Copied realm opens and contains this many tasks: \(daenerysCopiedTodos.count)")
         // :snippet-end:
     }
 
@@ -100,27 +100,27 @@ import Foundation
         print("Successfully opened the bundled realm")
 
         // Read and write to the bundled realm as normal
-        let tasks = realm.objects(QsTask.self)
+        let todos = realm.objects(QsTask.self)
 
-        // There should be one task whose owner is Daenerys because that's
+        // There should be one todo whose owner is Daenerys because that's
         // what was in the bundled realm.
-        var daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-        XCTAssertEqual(daenerysTasks.count, 1)
-        print("The bundled realm has \(daenerysTasks.count) tasks whose owner is Daenerys")
+        var daenerysTodos = todos.where { $0.owner == "Daenerys" }
+        XCTAssertEqual(daenerysTodos.count, 1)
+        print("The bundled realm has \(daenerysTodos.count) todos whose owner is Daenerys")
 
         // Write as usual to the realm, and see the object count increment
-        let task = QsTask(value: ["name": "Banish Ser Jorah", "owner": "Daenerys", "status": "In Progress"])
+        let todo = QsTask(value: ["name": "Banish Ser Jorah", "owner": "Daenerys", "status": "In Progress"])
         try realm.write {
-            realm.add(task)
+            realm.add(todo)
         }
-        print("Successfully added a task to the realm")
+        print("Successfully added a todo to the realm")
 
-        daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-        XCTAssertEqual(daenerysTasks.count, 2)
+        daenerysTodos = todos.where { $0.owner == "Daenerys" }
+        XCTAssertEqual(daenerysTodos.count, 2)
         // :snippet-end:
-        // Delete the task we just added to avoid messing with XCTAsserts
+        // Delete the todo we just added to avoid messing with XCTAsserts
         try realm.write {
-            realm.delete(task)
+            realm.delete(todo)
         }
     }
  }

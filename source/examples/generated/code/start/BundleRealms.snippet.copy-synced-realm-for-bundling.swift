@@ -5,18 +5,18 @@ let seedUser = try await app.login(credentials: Credentials.anonymous)
 
 // Create a configuration to open the seed user's realm
 var config = seedUser.configuration(partitionValue: "Partition You Want to Bundle")
-config.objectTypes = [Task.self]
+config.objectTypes = [Todo.self]
 
 // Open the realm with the seed user's config
 let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
 print("Successfully opened realm: \(realm)")
 
-// Verify there is a task object in the realm whose
+// Verify there is a todo object in the realm whose
 // owner's name is "Daenerys". When we open the bundled
 // realm later, we should see the same result.
-let tasks = realm.objects(Task.self)
-let daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-XCTAssertEqual(daenerysTasks.count, 1)
+let todos = realm.objects(Todo.self)
+let daenerysTodos = todos.where { $0.owner == "Daenerys" }
+XCTAssertEqual(daenerysTodos.count, 1)
 
 // Specify an output directory for the bundled realm
 // We're using FileManager here for tested code examples,
@@ -51,7 +51,7 @@ print("Successfully made a copy of the realm at path: \(bundleRealmFilePath)")
 let copiedRealm = try await Realm(configuration: config, downloadBeforeOpen: .never)
 
 // Verify that the copied realm contains the data we expect
-let copiedTasks = copiedRealm.objects(Task.self)
-let daenerysCopiedTasks = copiedTasks.where { $0.owner == "Daenerys" }
-XCTAssertEqual(daenerysCopiedTasks.count, 1)
-print("Copied realm opens and contains this many tasks: \(daenerysCopiedTasks.count)")
+let copiedTodos = copiedRealm.objects(Todo.self)
+let daenerysCopiedTodos = copiedTodos.where { $0.owner == "Daenerys" }
+XCTAssertEqual(daenerysCopiedTodos.count, 1)
+print("Copied realm opens and contains this many tasks: \(daenerysCopiedTodos.count)")
