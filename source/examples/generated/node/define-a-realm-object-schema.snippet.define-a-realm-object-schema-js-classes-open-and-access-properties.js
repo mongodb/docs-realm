@@ -5,11 +5,8 @@ const realm = await Realm.open({
 
 let car1;
 realm.write(() => {
-  car1 = realm.create("Car", {
-    make: "Nissan",
-    model: "Sentra",
-    miles: 1000,
-  });
+  // call to new Car() creates a new "Car" Realm.Object
+  car1 = new Car(realm, { make: "Nissan", model: "Sentra", miles: 20510 }) 
 });
 console.log(car1.carName);
 // use car1
