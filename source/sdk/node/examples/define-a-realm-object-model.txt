@@ -53,9 +53,22 @@ object type, define the object schema on the static property ``schema``.
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write data
 </sdk/node/examples/read-and-write-data>` normally.
+     
+.. tabs-realm-languages::
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+
+      .. code-block:: typescript
+
+         import Realm from "realm";
+
 
 .. _node-supported-property-types:
 
