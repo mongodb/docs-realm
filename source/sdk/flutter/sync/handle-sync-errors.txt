@@ -147,14 +147,14 @@ Recover or Discard Unsynced Changes Mode
 
 Recover or discard unsynced changes mode attempts to recover
 all unsynced local changes automatically during a client reset.
-It provides the most robust recovery process and is the default mode.
+If you do not specify a client reset mode,
+client reset behavior defaults to recover or discard unsynced changes.
 If the automatic recovery process fails, it falls back to discard unsynced changes
 mode. If that process fails, it falls back again to a manual reset mode.
 
-As recover or discard unsynced changes is the default client reset mode,
-it is used automatically if you do not specify an alternative client reset mode.
-Do not use recover or discard unsynced changes mode if your application cannot
-lose local data that has not yet synced to the backend.
+Recover or discard unsynced changes mode provides the most robust recovery process.
+However, do not use recover or discard unsynced changes mode if your application
+cannot lose local data that has not yet synced to the backend.
 
 To customize usage of recover or discard unsynced changes mode,
 pass a :flutter-sdk:`RecoverOrDiscardUnsyncedChangesHandler <realm/RecoverOrDiscardUnsyncedChangesHandler-class.html>`
