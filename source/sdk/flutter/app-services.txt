@@ -9,6 +9,7 @@ Application Services Overview - Flutter SDK
    :titlesonly:
 
    Connect to App Services </sdk/flutter/app-services/connect-to-app>
+   Call a Function </sdk/flutter/app-services/call-function>
 
 .. contents:: On this page
    :local:
@@ -72,3 +73,21 @@ devices through a backend App Services instance. That backend also stores
 realm data in a cloud-based Atlas cluster running MongoDB.
 
 To get started with Sync, refer to :ref:`Device Sync <flutter-sync>`.
+
+Call Atlas Functions
+--------------------
+
+:ref:`Atlas Functions <functions>` let you  define and execute server-side
+logic. You can call these Functions from your client applications
+via the Realm SDKs. These server-side functions can run in the context
+of the authenticated user, and thus honor the rules, roles, and permissions that
+you have assigned to your data in Atlas.
+
+Using Functions provides a secure way for multiple client
+applications to share complex functionality without having to reproduce that
+logic client-side.
+
+To learn how to call an Atlas Function from your client app, refer to
+:ref:`Call a Function <flutter-call-function>`.
+
+

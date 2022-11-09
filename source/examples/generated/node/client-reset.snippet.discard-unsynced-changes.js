@@ -2,13 +2,13 @@ const config = {
   schema: [DogSchema],
   sync: {
     user: app.currentUser,
-    partitionValue: "MyPartitionValue",
+    flexible: true,
     clientReset: {
-      mode: "discardLocal",
-      clientResetBefore: (realm) => {
+      mode: "discardUnsyncedChanges",
+      onBefore: (realm) => {
         console.log("Beginning client reset for ", realm.path);
       },
-      clientResetAfter: (beforeRealm, afterRealm) => {
+      onAfter: (beforeRealm, afterRealm) => {
         console.log("Finished client reset for", beforeRealm.path);
         console.log("New realm path", afterRealm.path);
       },
