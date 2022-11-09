@@ -39,24 +39,52 @@ Object Properties <react-native-define-a-property>`.
    .. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
      :language: javascript
 
-.. _react-native-define-objects-with-js-classes:
+.. _react-native-define-objects-using-a-class:
 
-Define Realm Object Types with JavaScript Classes
--------------------------------------------------
+Define Realm Object Types Using a Class
+---------------------------------------
 
-You can define Realm object types with JavaScript classes. To use a class as an
-object type, define the object schema on the static property ``schema``. 
+You can define Realm object types using a `JavaScript
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ or
+`TypeScript Class
+<https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by extending
+:js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define the object
+schema on the static property ``schema``.
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-     :language: javascript
+.. tabs-realm-languages::
+
+   .. tab::
+      :tabid: javascript
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
+         :language: typescript
+
    
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
-<Realm.html#~Configuration>` object when opening a realm. You can then :doc:`read and write
-</sdk/node/examples/read-and-write-data>` normally.
+<Realm.html#~Configuration>` object when opening a realm. You can then
+:doc:`read data </sdk/node/examples/read-and-write-data>` normally. Class based
+models call :js-sdk:`Realm.create() <Realm.html#create>` when you call their
+constructor, so you do not need to explicitly call ``Realm.create()``.
+     
+.. tabs-realm-languages::
 
-.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-     :language: javascript
+   .. tab::
+      :tabid: javascript
 
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+         :language: javascript
+
+   .. tab::
+      :tabid: typescript
+
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+         :language: typescript
 
 .. _react-native-supported-property-types:
 
