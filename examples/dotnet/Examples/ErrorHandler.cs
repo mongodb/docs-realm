@@ -6,6 +6,8 @@ using Realms.Sync;
 using Realms.Sync.Exceptions;
 using Realms.Sync.Testing;
 using Realms.Logging;
+using System.Threading;
+using ReadExamples;
 
 namespace Examples
 {
@@ -76,6 +78,27 @@ namespace Examples
 
             //failing on build server. comment out to test.
             //Assert.IsTrue(didTriggerErrorHandler);
+        }
+
+        [Test]
+        public async Task UseCancellationToken()
+        {
+            var appConfig = new AppConfiguration(Config.fsAppId);
+            app = App.Create(appConfig);
+            user = await app.LogInAsync(Credentials.Anonymous());
+            // :snippet-start:cancel-token
+            var syncConfig = new FlexibleSyncConfiguration(user);
+            try
+            {
+                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+                await Realm.GetInstanceAsync(syncConfig, cts.Token);
+            }
+
+            catch (OperationCanceledException)
+            {
+                Realm.GetInstance(syncConfig);
+            }
+            // :snippet-end:
         }
     }
 }
