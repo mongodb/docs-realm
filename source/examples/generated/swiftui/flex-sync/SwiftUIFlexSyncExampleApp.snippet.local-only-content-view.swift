@@ -1,5 +1,6 @@
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
+    @State var searchFilter: String = ""
     // Implicitly use the default realm's objects(ItemGroup.self)
     @ObservedResults(ItemGroup.self) var itemGroups
     

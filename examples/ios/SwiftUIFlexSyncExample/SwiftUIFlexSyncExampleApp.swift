@@ -1,14 +1,21 @@
 let YOUR_APP_SERVICES_APP_ID_HERE = "swiftui_quickstart_fs-vaxps"
 
 // :snippet-start: complete-swiftui-flex-sync-quickstart
+// :snippet-start: imports
 import RealmSwift
 import SwiftUI
+// :snippet-end:
+// :state-start: sync
+// :snippet-start: mongodb-realm
 
+// MARK: Atlas App Services (Optional)
 // The App Services App. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services App ID.
 // If you don't have a App Services App and don't wish to use Sync for now,
 // you can change this to:
 //   let app: RealmSwift.App? = nil
 let app: RealmSwift.App? = RealmSwift.App(id: YOUR_APP_SERVICES_APP_ID_HERE)
+// :snippet-end:
+// :state-end:
 
 // MARK: Models
 
@@ -46,9 +53,11 @@ final class Item: Object, ObjectKeyIdentifiable {
     /// The backlink to the `ItemGroup` this item is a part of.
     @Persisted(originProperty: "items") var group: LinkingObjects<ItemGroup>
     
+    // :state-start: sync
     /// Store the user.id as the ownerId so you can query for the user's objects with Flexible Sync
     /// Add this to both the `ItemGroup` and the `Item` objects so you can read and write the linked objects.
     @Persisted var ownerId = ""
+    // :state-end:
 }
 
 /// Represents a collection of items.
@@ -60,9 +69,11 @@ final class ItemGroup: Object, ObjectKeyIdentifiable {
     /// The collection of Items in this group.
     @Persisted var items = RealmSwift.List<Item>()
     
+    // :state-start: sync
     /// Store the user.id as the ownerId so you can query for the user's objects with Flexible Sync
     /// Add this to both the `ItemGroup` and the `Item` objects so you can read and write the linked objects.
     @Persisted var ownerId = ""
+    // :state-end:
 }
 // :snippet-end:
 
@@ -107,27 +118,39 @@ extension ItemGroup {
 // MARK: Views
 
 // MARK: Main Views
+// :snippet-start: content-view
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
+// :state-start: local
 /// For now, it always displays the LocalOnlyContentView.
-
+// :state-end:
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
+            // :state-start: sync
             // Using Sync?
             if let app = app {
                 SyncContentView(app: app)
             } else {
                 LocalOnlyContentView()
             }
+            // :state-end:
+            // :state-uncomment-start: local
+            // LocalOnlyContentView()
+            // :state-uncomment-end:
         }
     }
 }
+// :snippet-end:
 
+// :snippet-start: local-only-content-view
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
     @State var searchFilter: String = ""
+    // :snippet-start: implicitly-open-realm
+    // Implicitly use the default realm's objects(ItemGroup.self)
     @ObservedResults(ItemGroup.self) var itemGroups
+    // :snippet-end:
     
     var body: some View {
         if let itemGroup = itemGroups.first {
@@ -144,11 +167,13 @@ struct LocalOnlyContentView: View {
         }
     }
 }
+// :snippet-end:
 
+// :state-start: sync
+// :snippet-start: flex-sync-content-view
 /// This view observes the Realm app object.
 /// Either direct the user to login, or open a realm
 /// with a logged-in user.
-// :snippet-start: flex-sync-content-view
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
     @ObservedObject var app: RealmSwift.App
@@ -255,6 +280,7 @@ struct ErrorView: View {
 }
     
 // MARK: Authentication Views
+// :snippet-start: login-view
 /// Represents the login screen. We will have a button to log in anonymously.
 struct LoginView: View {
     // Hold an error if one occurs so we can display it.
@@ -274,22 +300,24 @@ struct LoginView: View {
             Button("Log in anonymously") {
                 // Button pressed, so log in
                 isLoggingIn = true
-                app!.login(credentials: .anonymous) { result in
-                    isLoggingIn = false
-                    if case let .failure(error) = result {
+                Task {
+                    do {
+                        let user = try await app!.login(credentials: .anonymous)
+                        // Other views are observing the app and will detect
+                        // that the currentUser has changed. Nothing more to do here.
+                        print("Logged in as user with id: \(user.id)")
+                    } catch {
                         print("Failed to log in: \(error.localizedDescription)")
                         // Set error to observed property so it can be displayed
                         self.error = error
                         return
                     }
-                    // Other views are observing the app and will detect
-                    // that the currentUser has changed. Nothing more to do here.
-                    print("Logged in")
                 }
             }.disabled(isLoggingIn)
         }
     }
 }
+// :snippet-end:
 
 // :snippet-start: preview-view-associated-with-sync
 struct LoginView_Previews: PreviewProvider {
@@ -299,6 +327,7 @@ struct LoginView_Previews: PreviewProvider {
 }
 // :snippet-end:
 
+// :snippet-start: logout-button
 /// A button that handles logout requests.
 struct LogoutButton: View {
     @State var isLoggingOut = false
@@ -309,17 +338,23 @@ struct LogoutButton: View {
                 return
             }
             isLoggingOut = true
-            user.logOut() { error in
-                isLoggingOut = false
-                // Other views are observing the app and will detect
-                // that the currentUser has changed. Nothing more to do here.
-                print("Logged out")
+            Task {
+                do {
+                    try await app!.currentUser!.logOut()
+                    // Other views are observing the app and will detect
+                    // that the currentUser has changed. Nothing more to do here.
+                } catch {
+                    print("Error logging out: \(error.localizedDescription)")
+                }
             }
         }.disabled(app!.currentUser == nil || isLoggingOut)
     }
 }
 
+// :snippet-end:
+// :state-end:
 // MARK: Item Views
+// :snippet-start: items-view
 /// The screen containing a list of items in an ItemGroup. Implements functionality for adding, rearranging,
 /// and deleting items in the ItemGroup.
 struct ItemsView: View {
@@ -329,7 +364,9 @@ struct ItemsView: View {
     var leadingBarButton: AnyView?
 
     var body: some View {
+        // :state-start: sync
         let user = app?.currentUser
+        // :state-end:
         NavigationView {
             VStack {
                 // The list shows the items in the realm.
@@ -354,9 +391,14 @@ struct ItemsView: View {
                         // The bound collection automatically
                         // handles write transactions, so we can
                         // append directly to it.
+                        // :state-start: sync
                         // Because we are using Flexible Sync, we must set
                         // the item's ownerId to the current user.id when we create it.
                         $itemGroup.items.append(Item(value: ["ownerId":user!.id]))
+                        // :state-end:
+                        // :state-uncomment-start: local
+                        // $itemGroup.items.append(Item())
+                        // :state-uncomment-end:
                     }) { Image(systemName: "plus") }
                 }.padding()
                 // :snippet-end:
@@ -364,6 +406,7 @@ struct ItemsView: View {
         }
     }
 }
+// :snippet-end:
 
 // :snippet-start: preview-with-realm
 struct ItemsView_Previews: PreviewProvider {
@@ -375,6 +418,7 @@ struct ItemsView_Previews: PreviewProvider {
 }
 // :snippet-end:
 
+// :snippet-start: item-row-and-details
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
@@ -393,6 +437,7 @@ struct ItemRow: View {
 
 // :snippet-start: item-details-view
 /// Represents a screen where you can edit the item's name.
+// :snippet-start: quick-write-observed-realm-object
 struct ItemDetailsView: View {
     @ObservedRealmObject var item: Item
 
@@ -410,6 +455,7 @@ struct ItemDetailsView: View {
 }
 // :snippet-end:
 // :snippet-end:
+// :snippet-end:
 
 // :snippet-start: preview-detail-view
 struct ItemDetailsView_Previews: PreviewProvider {
@@ -419,4 +465,5 @@ struct ItemDetailsView_Previews: PreviewProvider {
         }
     }
 }
+// :snippet-end:
 // :snippet-end:

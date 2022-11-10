@@ -1,8 +1,6 @@
-/// The screen containing a list of items in a itemGroup. Implements functionality for adding, rearranging,
-/// and deleting items in the itemGroup.
+/// The screen containing a list of items in an ItemGroup. Implements functionality for adding, rearranging,
+/// and deleting items in the ItemGroup.
 struct ItemsView: View {
-    /// The itemGroup is a container for a list of items. Using an itemGroup instead of all items
-    /// directly allows us to maintain a list order that can be updated in the UI.
     @ObservedRealmObject var itemGroup: ItemGroup
 
     /// The button to be displayed on the top left.
@@ -17,7 +15,8 @@ struct ItemsView: View {
                         ItemRow(item: item)
                     }.onDelete(perform: $itemGroup.items.remove)
                     .onMove(perform: $itemGroup.items.move)
-                }.listStyle(GroupedListStyle())
+                }
+                .listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(

@@ -1,14 +1,13 @@
-/// The screen containing a list of items in a itemGroup. Implements functionality for adding, rearranging,
-/// and deleting items in the itemGroup.
+/// The screen containing a list of items in an ItemGroup. Implements functionality for adding, rearranging,
+/// and deleting items in the ItemGroup.
 struct ItemsView: View {
-    /// The itemGroup is a container for a list of items. Using an itemGroup instead of all items
-    /// directly allows us to maintain a list order that can be updated in the UI.
     @ObservedRealmObject var itemGroup: ItemGroup
 
     /// The button to be displayed on the top left.
     var leadingBarButton: AnyView?
 
     var body: some View {
+        let user = app?.currentUser
         NavigationView {
             VStack {
                 // The list shows the items in the realm.
@@ -17,7 +16,8 @@ struct ItemsView: View {
                         ItemRow(item: item)
                     }.onDelete(perform: $itemGroup.items.remove)
                     .onMove(perform: $itemGroup.items.move)
-                }.listStyle(GroupedListStyle())
+                }
+                .listStyle(GroupedListStyle())
                     .navigationBarTitle("Items", displayMode: .large)
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
@@ -31,7 +31,9 @@ struct ItemsView: View {
                         // The bound collection automatically
                         // handles write transactions, so we can
                         // append directly to it.
-                        $itemGroup.items.append(Item())
+                        // Because we are using Flexible Sync, we must set
+                        // the item's ownerId to the current user.id when we create it.
+                        $itemGroup.items.append(Item(value: ["ownerId":user!.id]))
                     }) { Image(systemName: "plus") }
                 }.padding()
             }

@@ -17,17 +17,18 @@ struct LoginView: View {
             Button("Log in anonymously") {
                 // Button pressed, so log in
                 isLoggingIn = true
-                app!.login(credentials: .anonymous) { result in
-                    isLoggingIn = false
-                    if case let .failure(error) = result {
+                Task {
+                    do {
+                        let user = try await app!.login(credentials: .anonymous)
+                        // Other views are observing the app and will detect
+                        // that the currentUser has changed. Nothing more to do here.
+                        print("Logged in as user with id: \(user.id)")
+                    } catch {
                         print("Failed to log in: \(error.localizedDescription)")
                         // Set error to observed property so it can be displayed
                         self.error = error
                         return
                     }
-                    // Other views are observing the app and will detect
-                    // that the currentUser has changed. Nothing more to do here.
-                    print("Logged in")
                 }
             }.disabled(isLoggingIn)
         }
