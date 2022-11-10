@@ -83,6 +83,7 @@ namespace Examples
         [Test]
         public async Task UseCancellationToken()
         {
+
             var appConfig = new AppConfiguration(Config.fsAppId);
             app = App.Create(appConfig);
             user = await app.LogInAsync(Credentials.Anonymous());
@@ -99,6 +100,7 @@ namespace Examples
                 Realm.GetInstance(syncConfig);
             }
             // :snippet-end:
+            catch (Exception ex) { }
         }
     }
 }
