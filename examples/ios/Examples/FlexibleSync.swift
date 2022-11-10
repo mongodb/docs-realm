@@ -28,6 +28,17 @@ class FlexibleSync_Team: Object {
 }
 // :snippet-end:
 
+extension FlexibleSync_Task {
+    convenience init(taskName: String, assignee: String?, completed: Bool, progressMinutes: Int, dueDate: Date) {
+        self.init()
+        self.taskName = taskName
+        self.assignee = assignee
+        self.completed = completed
+        self.progressMinutes = progressMinutes
+        self.dueDate = dueDate
+    }
+}
+
 @MainActor
 class FlexibleSync: XCTestCase {
 

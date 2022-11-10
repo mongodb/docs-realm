@@ -6,7 +6,7 @@ let user = try await app.login(credentials: Credentials.anonymous)
 // Create a configuration for the app user's realm
 // This should use the same partition value as the bundled realm
 var newUserConfig = user.configuration(partitionValue: "Partition You Want to Bundle")
-newUserConfig.objectTypes = [Task.self]
+newUserConfig.objectTypes = [Todo.self]
 
 // Find the path of the seed.realm file in your project
 let realmURL = Bundle.main.url(forResource: "seed", withExtension: ".realm")
@@ -23,20 +23,20 @@ let realm = try await Realm(configuration: newUserConfig, downloadBeforeOpen: .a
 print("Successfully opened the bundled realm")
 
 // Read and write to the bundled realm as normal
-let tasks = realm.objects(Task.self)
+let todos = realm.objects(Todo.self)
 
-// There should be one task whose owner is Daenerys because that's
+// There should be one todo whose owner is Daenerys because that's
 // what was in the bundled realm.
-var daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-XCTAssertEqual(daenerysTasks.count, 1)
-print("The bundled realm has \(daenerysTasks.count) tasks whose owner is Daenerys")
+var daenerysTodos = todos.where { $0.owner == "Daenerys" }
+XCTAssertEqual(daenerysTodos.count, 1)
+print("The bundled realm has \(daenerysTodos.count) todos whose owner is Daenerys")
 
 // Write as usual to the realm, and see the object count increment
-let task = Task(value: ["name": "Banish Ser Jorah", "owner": "Daenerys", "status": "In Progress"])
+let todo = Todo(value: ["name": "Banish Ser Jorah", "owner": "Daenerys", "status": "In Progress"])
 try realm.write {
-    realm.add(task)
+    realm.add(todo)
 }
-print("Successfully added a task to the realm")
+print("Successfully added a todo to the realm")
 
-daenerysTasks = tasks.where { $0.owner == "Daenerys" }
-XCTAssertEqual(daenerysTasks.count, 2)
+daenerysTodos = todos.where { $0.owner == "Daenerys" }
+XCTAssertEqual(daenerysTodos.count, 2)

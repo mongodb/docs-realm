@@ -5,25 +5,25 @@ let frozenRealm = realm.freeze()
 
 assert(frozenRealm.isFrozen)
 
-let tasks = realm.objects(Task.self)
+let todos = realm.objects(Todo.self)
 
 // You can freeze collections
-let frozenTasks = tasks.freeze()
+let frozenTodos = todos.freeze()
 
-assert(frozenTasks.isFrozen)
+assert(frozenTodos.isFrozen)
 
 // You can still read from frozen realms
-let frozenTasks2 = frozenRealm.objects(Task.self)
+let frozenTodos2 = frozenRealm.objects(Todo.self)
 
-assert(frozenTasks2.isFrozen)
+assert(frozenTodos2.isFrozen)
 
-let task = tasks.first!
+let todo = todos.first!
 
-assert(!task.realm!.isFrozen)
+assert(!todo.realm!.isFrozen)
 
 // You can freeze objects
-let frozenTask = task.freeze()
+let frozenTodo = todo.freeze()
 
-assert(frozenTask.isFrozen)
+assert(frozenTodo.isFrozen)
 // Frozen objects have a reference to a frozen realm
-assert(frozenTask.realm!.isFrozen)
+assert(frozenTodo.realm!.isFrozen)
