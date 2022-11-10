@@ -1,3 +1,6 @@
+/// This view observes the Realm app object.
+/// Either direct the user to login, or open a realm
+/// with a logged-in user.
 struct SyncContentView: View {
     // Observe the Realm app object in order to react to login state changes.
     @ObservedObject var app: RealmSwift.App
