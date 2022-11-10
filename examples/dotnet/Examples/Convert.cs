@@ -25,7 +25,9 @@ namespace Examples
             existingRealm.WriteCopy(syncConfig);
 
             // You can now delete the nonsynced realm:
-            Realm.DeleteRealm(existingConfig);
+            // :uncomment-start:
+            //Realm.DeleteRealm(existingConfig);
+            // :uncomment-end:
 
             // You can now use the synced realm:
             var syncedRealm = Realm.GetInstance(syncConfig);
