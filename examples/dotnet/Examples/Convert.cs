@@ -14,7 +14,7 @@ namespace Examples
         public async Task TestNoSyncToSync()
         {
             // :snippet-start: nonsync-to-sync
-            var existingConfig = new RealmConfiguration("my.realm");
+            var existingConfig = new RealmConfiguration("example.realm");
             var existingRealm = Realm.GetInstance(existingConfig);
 
             var app = App.Create("my-app-id");
@@ -25,9 +25,7 @@ namespace Examples
             existingRealm.WriteCopy(syncConfig);
 
             // You can now delete the nonsynced realm:
-            // :uncomment-start:
-            //Realm.DeleteRealm(existingConfig);
-            // :uncomment-end:
+            Realm.DeleteRealm(existingConfig);
 
             // You can now use the synced realm:
             var syncedRealm = Realm.GetInstance(syncConfig);
