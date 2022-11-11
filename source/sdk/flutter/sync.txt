@@ -52,9 +52,9 @@ You can form Flexible Sync queries using a limited subset of :ref:`Realm Query L
 <realm-query-language>`. To learn more about which fields you can query, refer to
 the :ref:`Queryable Fields documentation <queryable-fields>`.
 
-Subscription sets are based on a specific type of :ref:`realm object
+Subscription sets are based on a specific type of :ref:`Realm object
 <flutter-define-realm-object-schema>`.
-To sync data for many types of realm objects, you must have multiple subscriptions.
+To sync data for many types of Realm objects, you must have multiple subscriptions.
 
 To use Flexible Sync in your client application, open a synced realm
 with a flexible sync configuration. Then, manage subscriptions
@@ -72,7 +72,7 @@ Group updates for improved performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Every write transaction for a subscription set has a cost. If you need to make 
-multiple updates to a realm object during a session, consider keeping edited 
+multiple updates to a Realm object during a session, consider keeping edited 
 objects in memory until all changes are complete. This will improve sync performance
 by only writing the complete and updated object to your realm instead of every 
 iteration.

@@ -68,8 +68,8 @@ You can form queries using :ref:`Realm Query Language <realm-query-language>`.
 
 .. include:: /includes/note-unsupported-flex-sync-rql-operators.rst
 
-Subscription sets are based on a specific type of :ref:`realm object <node-object-types>`. 
-You might have multiple subscriptions if you have many types of realm objects.
+Subscription sets are based on a specific type of :ref:`Realm object <node-object-types>`. 
+You might have multiple subscriptions if you have many types of Realm objects.
 
 To use Flexible Sync in your client application, open a synced realm 
 with a flexible sync configuration. Then, manage subscriptions
@@ -79,7 +79,7 @@ Group updates for improved performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Every write transaction for a subscription set has a cost. If you need to make 
-multiple updates to a realm object during a session, consider keeping edited 
+multiple updates to a Realm object during a session, consider keeping edited 
 objects in memory until all changes are complete. This will improve sync performance
 by only writing the complete and updated object to your realm instead of every 
 iteration.
