@@ -78,8 +78,4 @@ to determine which documents to sync.
 Group updates for improved performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Every write transaction for a subscription set has a cost. If you need to make 
-multiple updates to a Realm object during a session, consider keeping edited 
-objects in memory until all changes are complete. This will improve sync performance
-by only writing the complete and updated object to your realm instead of every 
-iteration.
+.. include:: /includes/sync-memory-performance.rst
