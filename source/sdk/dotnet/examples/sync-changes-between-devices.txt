@@ -219,7 +219,7 @@ Cancel a Sync Session
 If you need to cancel an async sync session, you can use a 
 `CancellationToken <https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=net-7.0>`__ 
 with the 
-:dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
 method. For example, you can create a cancellation token with a time limit on it. 
 If sync takes longer than the specified time, the session is cancelled. The following 
 code example shows calling ``GetInstanceAsync`` with a token that expires after 
