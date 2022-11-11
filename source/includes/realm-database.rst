@@ -270,7 +270,7 @@ Applications that use Device Sync define their schema on the backend using
 Client applications must match that backend schema to synchronize data.
 However, if you prefer to define your initial schema in your application's
 programming language, you can use :ref:`Development Mode
-<concept-development-mode>` to create a backend JSON Schema based on
+<development-mode>` to create a backend JSON Schema based on
 native SDK objects as you write your application. However, once your
 application is used for production purposes, you should alter your
 schema using JSON Schema on the backend.
