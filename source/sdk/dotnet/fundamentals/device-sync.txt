@@ -75,6 +75,15 @@ To use Flexible Sync in your client application, open a synced realm
 with a flexible sync configuration. Then, manage subscriptions
 to determine which documents to sync.
 
+Group updates for improved performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Every write transaction for a subscription set has a cost. If you need to make 
+multiple updates to a realm object during a session, consider keeping edited 
+objects in memory until all changes are complete. This will improve sync performance
+by only writing the complete and updated object to your realm instead of every 
+iteration.
+
 Unidirectional Sync
 -------------------
 A special case of Flexible Sync is when you need your app to **send** data to Atlas, 
