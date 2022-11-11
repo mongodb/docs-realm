@@ -10,7 +10,12 @@ Encrypt a Realm - Java SDK
    :depth: 2
    :class: singlecol
 
-You can encrypt the realm database file on disk with AES-256 +
+
+Overview
+--------
+
+You can encrypt your realms to ensure that the data stored to disk can't be
+read outside of your application. You encrypt the realm database file on disk with AES-256 +
 SHA-2 by supplying a 64-byte encryption key when :ref:`opening a
 realm <java-open-a-local-realm>`.
 
@@ -21,27 +26,54 @@ uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
-.. note:: Performance Impact
+.. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
-   Reads and writes on encrypted realms can be up to 10%
-   slower than equivalent reads and writes to unencrypted realms.
+Considerations
+--------------
 
-.. important:: Encryption and Atlas Device Sync
+The following are key impacts to consider when encrypting a realm.
 
-   You can encrypt a :ref:`synced realm <java-sync-data>`, but
-   Realm only encrypts the data on the device. Realm stores
-   the data unencrypted in your data source.
+Storing & Reusing Keys
+~~~~~~~~~~~~~~~~~~~~~~
 
-Store & Reuse Keys
-------------------
-
-To repeatedly access an encrypted realm, you must pass the same
-encryption key to :java-sdk:`RealmConfiguration.Builder.encryptionKey()
+You **must** pass the same encryption key every time to :java-sdk:`RealmConfiguration.Builder.encryptionKey()
 <io/realm/RealmConfiguration.Builder.html#encryptionKey-byte:A->` each
-time you open the realm. Apps should store the encryption key in the
+time you open the realm. 
+If you don't provide a key or specify the wrong key for an encrypted
+realm, the Realm SDK throws an error.
+
+Apps should store the encryption key in the
 :android:`Android KeyStore <training/articles/keystore.html>` so
-that other apps cannot read the key. The following steps describe the
-recommended way to use the KeyStore for encryption with
+that other apps cannot read the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Reads and writes on encrypted realms can be up to 10% slower than unencrypted realms.
+
+Encryption and Atlas Device Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can encrypt a :ref:`synced realm <java-sync-data>`.
+
+.. include:: /includes/encrypt-atlas-device-sync.rst
+
+If you need unique keys for each user of your application, you can: 
+- Use an OAuth provider. 
+- Use one of the :ref:`Realm authentication providers <users-and-authentication>`
+and an :ref:`authentication trigger<authentication-triggers>`
+to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
+
+Accessing an Encrypted Realm from Multiple Processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/encrypt-mult-processes.rst
+
+Example
+-------
+
+The following steps describe the recommended way to use the 
+:android:`Android KeyStore <training/articles/keystore.html>` for encryption with
 Realm:
 
 1. Generate an asymmetric RSA key that Android can securely store and
@@ -71,8 +103,6 @@ When you need to use your encrypted realm:
    For an end-to-end example of storing and reusing encryption keys, see
    the `store_password <https://github.com/realm/realm-java/tree/feature/example/store_password/examples/StoreEncryptionPassword>`__ example project, which demonstrates the
    fingerprint API.
-   
-.. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
 Generate and Store an Encryption Key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,9 +171,3 @@ method:
          :language: java
          :copyable: false
 
-Accessing an Encrypted Realm from Multiple Process
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Realm forbids opening the same encrypted realm from multiple processes.
-Attempting to do so will throw the error:
-"Encrypted interprocess sharing is currently unsupported."
