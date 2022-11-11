@@ -10,10 +10,10 @@ Index a Field - Kotlin SDK
    :depth: 2
    :class: singlecol
 
-Indexes speed up some queries, but slow down inserts and updates.
-Realm Database stores indexes on disk, which makes your
-realm files larger. To index a field, use the
-`@Index <{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
+Indexes speed up some queries, at the cost of slightly slower write times and
+additional storage and memory overhead. Realm Database stores indexes on disk,
+which makes your realm files larger. To index a field, use the `@Index
+<{+kotlin-local-prefix+}io.realm.kotlin.types.annotations/-index/index.html>`__
 annotation:
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.index.kt
@@ -27,11 +27,11 @@ match a query. If an appropriate index exists for a query, Realm
 Database can use the index to limit the number of documents that it
 must inspect.
 
-Indexes are special data structures that store a small portion of a
-realm's data in an easy to traverse form. The index stores the value
-of a specific field ordered by the value of the field. The ordering of
-the index entries supports efficient equality matches and range-based
-query operations.
+Indexes are special data structures that store a small portion of a realm's data
+in an easy to traverse form. The index stores the value of a specific field
+ordered by the value of the field. The ordering of the index entries supports
+efficient equality matches and range-based query operations. Each index entry is
+a minimum of 12 bytes.
 
 You can index fields with the following types:
 
