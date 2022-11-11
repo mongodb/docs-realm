@@ -159,9 +159,10 @@ properties. To define an index for a given property, set ``indexed`` to
 .. note::
 
    An **index** significantly increases the speed of certain read operations at
-   the cost of  slightly slower write times and additional storage overhead.
-   Indexes are particularly useful for equality comparison, such as querying for
-   an object based on the value of a property.
+   the cost of  slightly slower write times and additional storage and memory
+   overhead. Realm Database stores indexes on disk, which makes your realm files
+   larger. Each index entry is a minimum of 12 bytes. The ordering of the index
+   entries supports efficient equality matches and range-based query operations. 
    
    It's best to only add indexes when optimizing the read performance for
    specific situations.
