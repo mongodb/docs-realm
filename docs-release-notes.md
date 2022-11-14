@@ -1,3 +1,54 @@
+# November 11, 2022
+
+## Flutter SDK
+- Landing Page: Update "Beta" to "Release Candidate" or "RC" in landing page text and navigation
+- Realm Database
+  - Define a Realm Object Schema
+    - Add supported data types to the "Indexed" section
+    - New "Inverse Relationship" section with tested code example and details about backlinks
+  - Data Types: Add `parent` property to Embedded Objects docs & code example
+  - Compact a Realm: Update docs with details & tested code example for the `Realm.compact()` static method
+- Sync Device Data
+  - Manage a Sync Session: New section with tested code example showing how to remove all subscriptions to objects of a specific type
+  - Handle Sync Errors: New Client Reset section with documentation & code examples for client reset with recovery
+- Atlas App Services
+  - Update landing page with a new section about calling Atlas functions
+  - Call a Function: New page with tested code example for calling Atlas Functions from Flutter SDK
+
+## Kotlin SDK
+- Update Realm Kotlin version to 1.4.0
+- Realm Database/Schemas/Index a Field: Add `RealmUUID` to supported indexable data types
+
+## .NET SDK
+- Install Realm for .NET: Remove an outdated note related to old versions
+- Usage Examples/Sync Changes Between Devices: New "Cancel a Sync Session" section with details and code example showing how to use a CancellationToken
+
+## Node.js SDK
+- Usage Examples
+  - Reset a Client Realm: Update documentation & code examples for client reset with recovery
+  - Call a Function: Replace deprecated api key methods
+  - Authenticate Users: Replace deprecated api key methods
+
+## React Native SDK
+- Usage Examples
+  - Define a Realm Object Schema: Add `UUID` to supported indexable data types
+  - Reset a Client Realm: Update documentation & code examples for client reset with recovery
+  - Call a Function: Replace deprecated api key methods
+
+## Swift SDK
+- Install: Update the Carthage installation instructions to use xcframeworks
+- SwiftUI/Quick Start: Remove Partition-Based Sync from Quick Start, update login/logout to async/await syntax
+- Various pages: Update code examples to change "Task" object naming that conflicts with Swift `Task` keyword
+
+## Web SDK
+- User Management/Authenticate Users
+  - Replace deprecated api key methods
+  - Fix a typo
+
+## Other
+- Realm Docs Landing Page: Move Java SDK card to "below the fold", update language around Realm Database 
+- Remove unused files
+
 # November 4, 2022
 
 ## Flutter SDK
