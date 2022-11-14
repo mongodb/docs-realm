@@ -1,0 +1,226 @@
+.. _dotnet-configure-and-open-a-synced-realm:
+
+==========================================
+Configure & Open a Synced Realm - .NET SDK
+==========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 3
+   :class: singlecol
+
+Key Concept: Synced Realms
+--------------------------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services 
+backend to handle the synchronization process. 
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on Device Sync, including directions on how to
+   set up sync in an App Services app, see :ref:`dotnet-realm-sync`.
+
+Synced Realms vs. Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Synced realms differ from non-synced local Realm Database in a 
+few ways:
+
+- Synced realms attempt to sync changes with your backend App Services App,
+  whereas non-synced realms do not.
+- Synced realms can be accessed by authenticated users, while non-synced 
+  realms have no concept of users or authentication.
+- With synced realms, you can :ref:`specify the download behavior 
+  <ios-specify-download-behavior>` to download updates before opening a 
+  realm. However, requiring changes to download before opening the 
+  realm requires the user to be online. Non-synced realms can always 
+  be used offline.
+
+You can copy data from a non-synced Realm Database to a synced realm, 
+and vice versa, but you cannot sync a non-synced Realm Database.
+
+.. _convert-realm-sync:
+
+Convert Between Synced and Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Realm does not have a direct mechanism to add sync to a non-synced realm, 
+or to permanently stop Sync for a synced realm. However, the Swift SDK does 
+provide methods that enable you to copy a realm file for use with a different 
+configuration. With these methods, you can easily duplicate a realm's data, 
+which you can then open with a sync or non-sync configuration. This lets
+you indirectly add Sync to a non-synced realm, or permanently stop a realm
+from syncing. See:
+
+- :ref:`<ios-open-non-synced-as-synced-realm>`
+- :ref:`<ios-open-synced-realm-as-non-sync>`
+
+Synced Realms
+~~~~~~~~~~~~~
+
+To open a synced realm, you must have an authenticated 
+:dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.  To 
+obtain an initial ``User`` instance, you need to authenticate against the 
+Atlas App Services backend, which requires the device to be online  
+the first time a user logs in. Once initial authentication has occurred, you can 
+:ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
+
+.. note::
+
+   The first time a user logs on to your app, you should open the realm 
+   *asynchronously* to sync data from the server to the device in a background 
+   thread. After that initial sync, you can open a realm *synchronously* to 
+   ensure the app works in an offline state. 
+
+.. _dotnet-open-realm:
+
+Open a Synced Realm
+-------------------
+
+The typical flow for opening a synced realm involves:
+
+1. :ref:`Authenticating the user <dotnet-authenticate-users>`.
+#. Creating a sync configuration.
+#. Opening the user's synced realm with the configuration.
+
+At authentication, we cache user credentials in a ``sync_metadata.realm`` 
+file on device.
+
+When you open a synced realm after authenticating, you can bypass the 
+login flow and go directly to opening the synced realm, using the same 
+sync configuration you already created.
+
+With cached credentials, you can:
+
+- Open a synced realm immediately with the data that is on the device.
+  You can use this method offline or online.
+- Open a synced realm after downloading changes from your App. 
+  This requires the user to have an active internet connection.
+
+
+
+.. _dotnet-flexible-sync-open-realm:
+
+Open a Synced Realm with a Flexible Sync Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you use Flexible Sync, pass the current user to a 
+:dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
+object to open a synced realm. 
+
+.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-a-flexible-synced-realm.cs
+   :language: csharp
+
+.. important:: Flexible Sync Requires a Subscription
+
+   You can't use a Flexible Sync realm until you add at least one subscription.
+   To learn how to add subscriptions, see: :ref:`<dotnet-sync-add-subscription>`.
+
+.. _dotnet-open-a-synced-realm:
+.. _dotnet-partition-sync-open-realm:
+
+Open a Partition-Based Sync Realm While Online
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The steps for opening a synced realm while online are:
+
+1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
+
+#. Create a 
+   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
+   object that includes the :ref:`partition name <partition-value>` and 
+   the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
+
+#. Open a synced realm by calling the 
+   :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+   method, passing in the ``PartitionSyncConfiguration`` object.
+   
+The following code demonstrates these steps:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
+   :language: csharp
+
+In the above example, the code shows how to open the realm *asynchronously* 
+by calling ``GetInstanceAsync()``. You can also open a realm *synchronously* 
+by calling the 
+:dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
+method:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm-synchronously.cs
+   :language: csharp
+
+.. seealso::
+
+   :ref:`Partitions <sync-partitions>`
+
+   :ref:`Partition Strategies <partition-strategies>`
+
+
+Open a Partition-Based Sync Realm While Offline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once a user authenticates, the ``User`` object persists on the device until the 
+user logs off. This allows your app to 
+:ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
+synced realm in an offline state. Changes that occur while offline will be 
+synced by the SDK once the device reconnects to your App.
+
+The following code shows how to check if there is an existing ``User`` object. 
+If none is found, it uses the process outlined about to obtain a user. If the 
+device already has a ``user``, it opens the synced realm with that user:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
+   :language: csharp
+
+
+Scoping the Realm
+-----------------
+
+The realm instance implements ``IDisposable`` to ensure native resources are 
+freed up. You should dispose of a realm object immediately after use, especially 
+on background threads. The simplest way to do this is by declaring the realm 
+object with a ``using`` statement, or wrapping the code that interacts with a 
+realm in a ``using (...)`` statement:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.scope.cs
+   :language: csharp
+
+If you require a realm object to be shared outside of a single method, be sure 
+to manage its state by calling the
+:dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.dispose.cs
+   :language: csharp
+
+.. note::
+   
+   As a general rule, you should dispose of the realm only on background threads,  
+   because disposing of a realm invalidates all objects associated with that 
+   instance. If you are data binding the realm objects on the main thread, 
+   for example, you should not call ``Dispose()``. 
+
+.. _dotnet-provide-a-subset-of-classes-to-a-realm:
+
+Class Subsets
+-------------
+
+By default, all ``RealmObject`` classes are stored in a realm. In some 
+scenarios, you may want to limit the classes that get stored, which you can do 
+with the 
+:dotnet-sdk:`Schema <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_Schema>` 
+property of the ``RealmConfiguration`` object. The following code demonstrates 
+how you specify two classes you want stored in the realm:
+
+.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.subset.cs
+   :language: csharp
