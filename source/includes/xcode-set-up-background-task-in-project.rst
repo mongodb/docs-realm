@@ -22,8 +22,10 @@ To enable background tasks for your app:
 
    .. step:: Update the Info.plist
 
-      Go to your project's Info.plist, and add a new key for ``Permitted
-      background task scheduler identifiers``. This is an array. Add a new
-      item to it for your background task identifier. Set the new item's 
-      value to the string you intend to use as the identifier for your 
-      background task. For example: ``refreshTodoRealm``.
+      Go to your project's :file:`Info.plist`, and add a new row for 
+      ``Permitted background task scheduler identifiers``. If you are 
+      viewing raw keys and values, the key is 
+      ``BGTaskSchedulerPermittedIdentifiers``. This field is an array. 
+      Add a new item to it for your background task identifier. Set the 
+      new item's value to the string you intend to use as the identifier 
+      for your background task. For example: ``refreshTodoRealm``.
