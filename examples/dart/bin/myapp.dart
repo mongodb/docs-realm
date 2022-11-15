@@ -4,9 +4,8 @@ import 'package:realm_dart/realm.dart';
 void main(List<String> arguments) {
   // :snippet-start: create-bundle
   print("Bundling realm");
-  LocalConfiguration config =
-      Configuration.local([Car.schema], path: 'bundle.realm');
-  Realm realm = Realm(config);
+  final config = Configuration.local([Car.schema], path: 'bundle.realm');
+  final realm = Realm(config);
 
   realm.write(() => realm.deleteAll<Car>()); // :remove:
   realm.write(() {

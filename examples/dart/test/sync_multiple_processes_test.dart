@@ -15,9 +15,9 @@ const APP_ID = "flutter-flexible-luccm";
 void main() {
   group('Sync multiple processes', () {
     setUp(() async {
-      AppConfiguration appConfig = AppConfiguration(APP_ID);
+      final appConfig = AppConfiguration(APP_ID);
       app = App(appConfig);
-      Credentials credentials =
+      final credentials =
           Credentials.emailPassword("bart@example.com", "abc123");
       currentUser = await app.logIn(credentials);
     });
@@ -32,12 +32,12 @@ void main() {
       final schema = [Tricycle.schema];
       // :snippet-start: main-process
       // Same realm file location as secondary process
-      String realmPath =
+      final realmPath =
           path.join(Configuration.defaultStoragePath, 'synced.realm');
 
-      Configuration flexibleConfig =
+      final flexibleConfig =
           Configuration.flexibleSync(currentUser, schema, path: realmPath);
-      Realm realmWithSync = Realm(flexibleConfig);
+      final realmWithSync = Realm(flexibleConfig);
       // :snippet-end:
       realmWithSync.subscriptions.update((mutableSubscriptions) {
         mutableSubscriptions.add(realmWithSync.all<Tricycle>());
@@ -52,7 +52,7 @@ void main() {
 
       final disconnectedSyncConfig =
           Configuration.disconnectedSync(schema, path: sameRealmPath);
-      Realm realmWithDisconnectedSync = Realm(disconnectedSyncConfig);
+      final realmWithDisconnectedSync = Realm(disconnectedSyncConfig);
       // :snippet-end:
       final myTri = realmWithDisconnectedSync.find<Tricycle>(1);
       expect(myTri, isNotNull);

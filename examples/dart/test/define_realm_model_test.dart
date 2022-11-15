@@ -41,7 +41,7 @@ main() {
   test('Create a new schema version', () {
     // :snippet-start: schema-version
     final config = Configuration.local([Person.schema], schemaVersion: 2);
-    Realm realm = Realm(config);
+    final realm = Realm(config);
     // :snippet-end:
     expect(config.schemaVersion, 2);
     realm.close();

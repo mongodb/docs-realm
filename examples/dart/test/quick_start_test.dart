@@ -21,8 +21,8 @@ void main() {
       Realm.deleteRealm(realm.config.path);
     });
     test('Create Realm Object', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
       Car? addedCar;
       // :snippet-start: create-realm-object
       final car = Car(ObjectId(), 'Tesla', model: 'Model S', miles: 42);
@@ -41,15 +41,15 @@ void main() {
     });
 
     test('Query All Realm Objects', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
 
       realm.write(() {
         realm.add(Car(ObjectId(), 'Tesla', model: 'Model Y', miles: 42));
       });
       // :snippet-start: query-all-realm-objects
-      var cars = realm.all<Car>();
-      var myCar = cars[0];
+      final cars = realm.all<Car>();
+      final myCar = cars[0];
       print('My car is ${myCar.make} ${myCar.model}');
       // :snippet-end:
       expect(myCar.miles, 42);
@@ -61,14 +61,14 @@ void main() {
       realm.close();
     });
     test('Query Realm Objects with Filter', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
       realm.write(() {
         realm.add(Car(ObjectId(), 'Tesla', model: 'Model Y', miles: 42));
         realm.add(Car(ObjectId(), 'Toyota', model: 'Prius', miles: 99));
       });
       // :snippet-start: query-realm-objects-with-filter
-      var cars = realm.all<Car>().query('make == "Tesla"');
+      final cars = realm.all<Car>().query('make == "Tesla"');
       // :snippet-end:
       expect(cars.length, 1);
       expect(cars[0].make, 'Tesla');
@@ -79,8 +79,8 @@ void main() {
     });
 
     test('Query Realm Objects with Sort', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
       // :snippet-start: query-realm-objects-with-sort
       realm.write(() {
         realm.add(Car(ObjectId(), 'BMW', model: 'Z4', miles: 42));
@@ -104,8 +104,8 @@ void main() {
     });
 
     test('Update Realm Object', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
 
       final car = Car(ObjectId(), 'Tesla', model: 'Model Y', miles: 42);
       realm.write(() {
@@ -126,8 +126,8 @@ void main() {
     });
 
     test('Delete One Realm Object', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
 
       final car = Car(ObjectId(), 'Tesla', model: 'Model Y', miles: 42);
       realm.write(() {
@@ -143,8 +143,8 @@ void main() {
       realm.close();
     });
     test('Delete Many Realm Objects', () {
-      var config = Configuration.local([Car.schema]);
-      Realm realm = Realm(config);
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
 
       realm.write(() {
         realm.add(Car(ObjectId(), 'Tesla', model: 'Model Y', miles: 42));
