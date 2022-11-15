@@ -1,4 +1,4 @@
-User anonUser = await app.logIn(Credentials.anonymous());
+final anonUser = await app.logIn(Credentials.anonymous());
 
-User otherAnonUser =
+final otherAnonUser =
     await app.logIn(Credentials.anonymous(reuseCredentials: false));

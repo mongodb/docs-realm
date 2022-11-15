@@ -4,12 +4,11 @@ import 'package:realm_dart/realm.dart';
 void main() async {
   // Add your App Services App ID
   const APP_ID = YOUR_APP_ID_HERE;
-  App app = App(AppConfiguration(APP_ID));
-  User loggedInUser = await app.logIn(Credentials.anonymous());
+  final app = App(AppConfiguration(APP_ID));
+  final loggedInUser = await app.logIn(Credentials.anonymous());
   print('Logged in anonymously with user id: ${loggedInUser.id}');
-  Configuration config =
-      Configuration.flexibleSync(loggedInUser, [Todo.schema]);
-  Realm realm = Realm(
+  final config = Configuration.flexibleSync(loggedInUser, [Todo.schema]);
+  final realm = Realm(
     config,
   );
 // Check if the subscription already exists before adding

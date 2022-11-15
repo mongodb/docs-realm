@@ -1,4 +1,4 @@
-var config = Configuration.local([Car.schema],
+final config = Configuration.local([Car.schema],
     shouldCompactCallback: ((totalSize, usedSize) {
   // shouldCompactCallback sizes are in bytes.
   // For convenience, this example defines a const
@@ -7,4 +7,4 @@ var config = Configuration.local([Car.schema],
   const tenMB = 10 * 1048576;
   return totalSize > tenMB;
 }));
-var realm = Realm(config);
+final realm = Realm(config);

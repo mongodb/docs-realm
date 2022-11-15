@@ -4,7 +4,7 @@ final jocastaNu = Person(ObjectId(), "Jocasta", "Nul");
 realm.write(() => realm.addAll([maceWindu, jocastaNu]));
 
 // Get RealmResults and freeze data
-RealmResults<Person> people = realm.all<Person>();
+final people = realm.all<Person>();
 final frozenPeople = people.freeze();
 
 // Update data in the non-frozen realm

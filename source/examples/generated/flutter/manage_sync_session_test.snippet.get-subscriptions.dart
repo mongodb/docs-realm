@@ -1,1 +1,1 @@
-SubscriptionSet subscriptions = realm.subscriptions;
+final subscriptions = realm.subscriptions;

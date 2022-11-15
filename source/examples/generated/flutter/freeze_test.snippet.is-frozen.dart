@@ -1,15 +1,15 @@
 // You can check if all freezable types are frozen
 // with the `isFrozen` property.
 
-Realm realm = Realm(config);
+final realm = Realm(config);
 print(realm.isFrozen);
 
-RealmResults people = realm.all<Person>();
+final people = realm.all<Person>();
 print(people.isFrozen);
 
-Person firstPerson =
+final firstPerson =
     realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 print(firstPerson.isFrozen);
 
-RealmList<String> firstPersonAttributes = firstPerson.attributes;
+final firstPersonAttributes = firstPerson.attributes;
 print(firstPersonAttributes.isFrozen);

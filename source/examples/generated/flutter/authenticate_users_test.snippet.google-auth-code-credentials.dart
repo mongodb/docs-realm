@@ -1,3 +1,2 @@
-Credentials googleAuthCodeCredentials =
-    Credentials.googleAuthCode(authCode);
-User currentUser = await app.logIn(googleAuthCodeCredentials);
+final googleAuthCodeCredentials = Credentials.googleAuthCode(authCode);
+final currentUser = await app.logIn(googleAuthCodeCredentials);
