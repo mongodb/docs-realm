@@ -1,8 +1,9 @@
+.. _dotnet-configure-and-open-a-realm:
 .. _dotnet-realms:
 
-=================
-Realms - .NET SDK
-=================
+====================================
+Configure & Open a Realm - .NET SDK
+====================================
 
 .. contents:: On this page
    :local:
@@ -20,83 +21,10 @@ a realm across multiple devices <sync>` and set up :ref:`reactive event handlers
 <dotnet-client-notifications>` that call a function any time an object in a realm is
 created, modified, or deleted.
 
-Comparison with Other Databases
--------------------------------
-
-The Realm data model is similar to both relational and document
-databases but has distinct differences from both. To underscore these
-differences, it's helpful to highlight what a realm **is not**:
-
-A realm is not a single, application-wide database.
-    Unlike other applications, which store all of their data in a single database,
-    Apps often split data across multiple realms to organize data more efficiently
-    and to enforce access controls.
-
-A realm is not a table.
-    Tables typically only store one kind of information, such as street
-    addresses or items in a store inventory, whereas a realm can contain
-    any number of object types.
-
-A realm is not a collection of schemaless documents.
-    Application objects are similar to documents, but every object in a
-    realm conforms to a defined schema for its object type. An object
-    cannot contain a field that is not described by its schema.
-
-Key Concepts
-------------
-
-.. _dotnet-realm-path:
-
-Synced Realms
-~~~~~~~~~~~~~
-
-When using Device Sync, each realm corresponds to a subset of the data in your
-App's synced Atlas cluster. 
-
-When you use :ref:`Partition-Based Sync <partition-based-sync>`, synced 
-realms represent partitions of Atlas data. You can customize the 
-:ref:`partitioning <sync-partitions>` of data using your application's
-:ref:`partition key <partition-key>`. Unique values of the partition
-key, known as :ref:`partition values <partition-value>`, correspond to
-individual realms.
-
-When you use :ref:`Flexible Sync <flexible-sync>`, you can customize the 
-data your client application syncs by subscribing to queries. These queries 
-search for data in your App backend, and the Flexible Sync realm syncs 
-data that matches the queries. The client application can only sync data 
-where the user has the appropriate :ref:`read or read and write permissions 
-<flexible-sync-rules-and-permissions>` to access the data.
-
-You can customize permissions for the data that synced realms can read
-and write from your App when you configure 
-:ref:`Realm Rules <sync-rules>`.
-
-.. _dotnet-realm-schema:
-
-Realm Schema
-~~~~~~~~~~~~
-
-A **Realm Schema** is a list of valid :ref:`object schemas <dotnet-objects>` that
-each define an object type that an App may persist. All objects in a realm must
-conform to the Realm Schema.
-
-Client applications provide an Object Schema when they open a realm. If a
-realm already contains data, then it already has a schema, and when it is opened, 
-Realm Database validates the schema on the client against the existing schema.
-
-To define the schema, you can specify the 
-:dotnet-sdk:`Schema <reference/Realms.RealmConfigurationBase.html#Realms_RealmConfigurationBase_Schema>` 
-property on the 
-:dotnet-sdk:`RealmConfiguration <reference/Realms.RealmConfiguration.html>`. If 
-you omit this property, then all classes that inherit from 
-:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
-:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>` are added 
-to the schema automatically.
-
 .. _dotnet-realm-file:
 
-Realm Files 
-~~~~~~~~~~~~
+Key Concept: Realm Files
+------------------------
 
 Realm Database stores a binary encoded version of every object and type in a
 realm in a single ``.realm`` file. The file is located at the path that
@@ -123,8 +51,13 @@ stores app-specific data.
 
 
 .. _dotnet-open-a-realm:
-Open a Realm
-------------
+
+Open a Realm Without Sync
+-------------------------
+
+The following sections describe how to open a realm file for local (non-sync) 
+use. If you are interested in using Sync with your realm, see 
+:ref:`<dotnet-configure-and-open-a-synced-realm>`.
 
 .. _dotnet-open-a-local-realm:
 
@@ -161,93 +94,6 @@ realms, including both in-memory and persisted realms.
    When an in-memory realm is disposed or garbage-collected, the data is lost. 
    To keep an in-memory realm "alive" throughout your app's execution, be sure 
    to hold a reference to realm. 
-
-Synced Realms
-~~~~~~~~~~~~~
-
-To open a synced realm, you must have an authenticated 
-:dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.  To 
-obtain an initial ``User`` instance, you need to authenticate against the 
-Atlas App Services backend, which requires the device to be online  
-the first time a user logs in. Once initial authentication has occurred, you can 
-:ref:`retrieve an existing user <dotnet-retrieve-current-user>` while offline.
-
-.. note::
-
-   The first time a user logs on to your app, you should open the realm 
-   *asynchronously* to sync data from the server to the device in a background 
-   thread. After that initial sync, you can open a realm *synchronously* to 
-   ensure the app works in an offline state. 
-
-.. _dotnet-open-a-synced-realm:
-
-Open a Partition-Based Sync Realm While Online
-``````````````````````````````````````````````
-The steps for opening a synced realm while online are:
-
-1. Your app code walks the user through :ref:`authenticating <dotnet-authenticate>`. 
-
-#. Create a 
-   :dotnet-sdk:`PartitionSyncConfiguration <reference/Realms.Sync.PartitionSyncConfiguration.html>` 
-   object that includes the :ref:`partition name <partition-value>` and 
-   the :dotnet-sdk:`User <reference/Realms.Sync.User.html>` object.
-
-#. Open a synced realm by calling the 
-   :dotnet-sdk:`GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
-   method, passing in the ``PartitionSyncConfiguration`` object.
-   
-The following code demonstrates these steps:
-
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm.cs
-   :language: csharp
-
-In the above example, the code shows how to open the realm *asynchronously* 
-by calling ``GetInstanceAsync()``. You can also open a realm *synchronously* 
-by calling the 
-:dotnet-sdk:`GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` 
-method:
-
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.open-synced-realm-synchronously.cs
-   :language: csharp
-
-.. seealso::
-
-   :ref:`Partitions <sync-partitions>`
-
-   :ref:`Partition Strategies <partition-strategies>`
-
-
-Open a Partition-Based Sync Realm While Offline
-```````````````````````````````````````````````
-Once a user authenticates, the ``User`` object persists on the device until the 
-user logs off. This allows your app to 
-:ref:`retrieve an existing user <dotnet-retrieve-current-user>` and open a 
-synced realm in an offline state. Changes that occur while offline will be 
-synced by the SDK once the device reconnects to your App.
-
-The following code shows how to check if there is an existing ``User`` object. 
-If none is found, it uses the process outlined about to obtain a user. If the 
-device already has a ``user``, it opens the synced realm with that user:
-
-.. literalinclude:: /examples/generated/dotnet/OpenARealmExamples.snippet.check-if-offline.cs
-   :language: csharp
-
-.. _dotnet-flexible-sync-open-realm:
-
-Open a Synced Realm with a Flexible Sync Configuration
-``````````````````````````````````````````````````````
-
-When you use Flexible Sync, pass the current user to a 
-:dotnet-sdk:`FlexibleSyncConfiguration <reference/Realms.Sync.FlexibleSyncConfiguration.html>`
-object to open a synced realm. 
-
-.. literalinclude:: /examples/generated/dotnet-flexible-sync/FlexibleSyncExamples.snippet.open-a-flexible-synced-realm.cs
-   :language: csharp
-
-.. important:: Flexible Sync Requires a Subscription
-
-   You can't use a Flexible Sync realm until you add at least one subscription.
-   To learn how to add subscriptions, see: :ref:`<dotnet-sync-add-subscription>`.
 
 Scoping the Realm
 -----------------
