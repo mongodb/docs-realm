@@ -10,7 +10,7 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   static var _defaultsSet = false;
 
   Car(
-    int id, {
+    ObjectId id, {
     String? licensePlate,
     bool isElectric = false,
     double milesDriven = 0,
@@ -35,9 +35,9 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String? get licensePlate =>
@@ -83,7 +83,7 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Car._);
     return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('licensePlate', RealmPropertyType.string, optional: true),
       SchemaProperty('isElectric', RealmPropertyType.bool),
       SchemaProperty('milesDriven', RealmPropertyType.double),

@@ -14,7 +14,7 @@ part 'data_types_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   String? licensePlate;
   bool isElectric = false;

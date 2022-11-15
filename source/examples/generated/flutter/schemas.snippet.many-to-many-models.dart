@@ -1,7 +1,7 @@
 @RealmModel()
 class _Scooter {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late _Person? owner;
@@ -10,7 +10,7 @@ class _Scooter {
 @RealmModel()
 class _ScooterShop {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late List<_Scooter> owner;

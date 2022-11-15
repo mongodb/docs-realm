@@ -16,9 +16,9 @@ Configuration configWithChanges =
     newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
         " " +
         oldPerson.dynamic.get<String>("lastName");
-    // convert `id` from int to ObjectId
-    final oldId = oldPerson.dynamic.get<int>("id");
-    newPerson.id = ObjectId.fromValues(0, 0, oldId);
+    // convert `id` from ObjectId to String
+    final oldId = oldPerson.dynamic.get<ObjectId>("id");
+    newPerson.id = oldId.toString();
   }
 }));
 Realm realmWithChanges = Realm(configWithChanges);

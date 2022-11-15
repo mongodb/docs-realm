@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:realm_dart/realm.dart';
 import 'dart:math';
 
@@ -6,6 +8,7 @@ Future<void> cleanUpRealm(Realm realm, [App? app]) async {
   if (!realm.isClosed) {
     realm.close();
   }
+  sleep(Duration(milliseconds: 250));
   Realm.deleteRealm(realm.config.path);
 }
 

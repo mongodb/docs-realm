@@ -1,7 +1,7 @@
 @RealmModel()
 class _Bike {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late _Person? owner;
@@ -10,7 +10,7 @@ class _Bike {
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String firstName;
   late String lastName;

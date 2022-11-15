@@ -11,7 +11,7 @@ typedef Car = Schemas.Car;
 @MapTo("Person")
 class _PersonV2 {
   @PrimaryKey()
-  late ObjectId id;
+  late String id;
 
   late String fullName;
   late int? yearsSinceBirth;
@@ -27,9 +27,10 @@ void main() {
         Configuration.local([PersonV1.schema, Car.schema], path: realmPath);
     final realmV1 = Realm(configV1);
     realmV1.write(() {
-      realmV1.add<PersonV1>(PersonV1(1, "Lando", "Calrissian", age: 42));
-      realmV1.add<PersonV1>(PersonV1(2, "Boba", "Fett", age: 36));
-      realmV1.add<PersonV1>(PersonV1(3, "Mace", "Windu", age: 40));
+      realmV1
+          .add<PersonV1>(PersonV1(ObjectId(), "Lando", "Calrissian", age: 42));
+      realmV1.add<PersonV1>(PersonV1(ObjectId(), "Boba", "Fett", age: 36));
+      realmV1.add<PersonV1>(PersonV1(ObjectId(), "Mace", "Windu", age: 40));
     });
     realmV1.close();
   });
@@ -76,8 +77,8 @@ void main() {
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
             " " +
             oldPerson.dynamic.get<String>("lastName");
-        final oldIdBytes = oldPerson.dynamic.get<int>("id");
-        newPerson.id = ObjectId.fromValues(0, 0, oldIdBytes);
+        final oldId = oldPerson.dynamic.get<ObjectId>("id");
+        newPerson.id = oldId.toString();
       }
       // :remove-end:
       // Between v1 and v2 we renamed the Person 'age' property to 'yearsSinceBirth'
@@ -113,9 +114,9 @@ void main() {
         newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
             " " +
             oldPerson.dynamic.get<String>("lastName");
-        // convert `id` from int to ObjectId
-        final oldId = oldPerson.dynamic.get<int>("id");
-        newPerson.id = ObjectId.fromValues(0, 0, oldId);
+        // convert `id` from ObjectId to String
+        final oldId = oldPerson.dynamic.get<ObjectId>("id");
+        newPerson.id = oldId.toString();
       }
       // :remove-start:
       migration.renameProperty('Person', 'age', 'yearsSinceBirth');

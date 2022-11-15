@@ -1,7 +1,7 @@
 @RealmModel()
 class _User {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String username;
   // One-to-many relationship that the backlink is created for below.
@@ -11,7 +11,7 @@ class _User {
 @RealmModel()
 class _Task {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String description;
   late bool isComplete;

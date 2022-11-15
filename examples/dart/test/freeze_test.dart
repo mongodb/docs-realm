@@ -7,7 +7,7 @@ part 'freeze_test.g.dart';
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String firstName;
   late String lastName;
@@ -17,7 +17,7 @@ class _Person {
 @RealmModel()
 class _Scooter {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late _Person? owner;
@@ -34,8 +34,9 @@ void main() {
       final config = Configuration.local([Person.schema, Scooter.schema]);
       Realm realm = Realm(config);
       // Add scooter ownded by Mace Windu
-      final maceWindu = Person(1, "Mace", "Windu");
-      final purpleScooter = Scooter(1, "Purple scooter", owner: maceWindu);
+      final maceWindu = Person(ObjectId(), "Mace", "Windu");
+      final purpleScooter =
+          Scooter(ObjectId(), "Purple scooter", owner: maceWindu);
       realm.write(() {
         realm.add(purpleScooter);
       });
@@ -44,20 +45,26 @@ void main() {
       final frozenRealm = realm.freeze();
 
       // Update data in the realm
-      final quiGonJinn = Person(2, "Qui-Gon", "Jinn");
+      final quiGonJinn = Person(ObjectId(), "Qui-Gon", "Jinn");
       realm.write(() {
         purpleScooter.owner = quiGonJinn;
       });
 
       // Data changes not in the frozen snapshot
-      final purpleScooterFrozen = frozenRealm.find<Scooter>(1);
-      print(purpleScooterFrozen!.owner!.firstName); // prints 'Mace'
+      final purpleScooterFrozen =
+          frozenRealm.query<Scooter>("name == \$0", ["Purple scooter"]).first;
+      print(purpleScooterFrozen.owner!.firstName); // prints 'Mace'
       // :remove-start:
-      final purpleScooterLive = realm.find<Scooter>(1);
-      expect(purpleScooterLive!.owner!.firstName, 'Qui-Gon');
+      final purpleScooterLive =
+          realm.query<Scooter>("name == \$0", ["Purple scooter"]).first;
+      expect(purpleScooterLive.owner!.firstName, 'Qui-Gon');
       expect(purpleScooterFrozen.owner!.firstName, 'Mace');
       expect(frozenRealm.isFrozen, isTrue);
       // :remove-end:
+      realm.write(() {
+        realm.deleteAll<Person>();
+        realm.deleteAll<Scooter>();
+      });
       realm.close();
 
       // You must also close the frozen realm before exiting the process
@@ -72,8 +79,8 @@ void main() {
 
       // :snippet-start: freeze-realm-results
       // Add data to the realm
-      final maceWindu = Person(1, "Mace", "Windu");
-      final jocastaNu = Person(2, "Jocasta", "Nul");
+      final maceWindu = Person(ObjectId(), "Mace", "Windu");
+      final jocastaNu = Person(ObjectId(), "Jocasta", "Nul");
       realm.write(() => realm.addAll([maceWindu, jocastaNu]));
 
       // Get RealmResults and freeze data
@@ -108,9 +115,10 @@ void main() {
     test("Freeze a RealmObject", () {
       final config = Configuration.local([Person.schema]);
       Realm realm = Realm(config);
-      realm.write(() => realm.add(Person(3, "Count", "Dooku")));
+      realm.write(() => realm.add(Person(ObjectId(), "Count", "Dooku")));
       // :snippet-start: freeze-realm-object
-      Person person = realm.find(3)!;
+      final person = realm.query<Person>(
+          'firstName == \$0 AND lastName == \$1', ["Count", "Dooku"]).first;
 
       // Freeze RealmObject
       final frozenPerson = person.freeze();
@@ -142,10 +150,11 @@ void main() {
     test("Freeze a List in a RealmObject", () {
       final config = Configuration.local([Person.schema]);
       Realm realm = Realm(config);
-      realm.write(() => realm.add(Person(1, "Yoda", "unknown",
+      realm.write(() => realm.add(Person(ObjectId(), "Yoda", "unknown",
           attributes: ["wise", "short", "powerful"])));
       // :snippet-start: freeze-list-in-realm-object
-      Person firstPerson = realm.find<Person>(1)!;
+      Person firstPerson =
+          realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 
       // Freeze RealmList in a RealmObject
       RealmList<String> firstPersonAttributesFrozen =
@@ -183,14 +192,15 @@ void main() {
       Realm realm = Realm(config);
       print(realm.isFrozen);
       // :remove-start:
-      realm.write(() => realm.add(Person(1, "Yoda", "unknown",
+      realm.write(() => realm.add(Person(ObjectId(), "Yoda", "unknown",
           attributes: ["wise", "short", "powerful"])));
       // :remove-end:
 
       RealmResults people = realm.all<Person>();
       print(people.isFrozen);
 
-      Person firstPerson = realm.find<Person>(1)!;
+      Person firstPerson =
+          realm.query<Person>("firstName = \$0", ["Yoda"]).first;
       print(firstPerson.isFrozen);
 
       RealmList<String> firstPersonAttributes = firstPerson.attributes;
