@@ -1,6 +1,7 @@
 import RealmSwift
 import SwiftUI
 
+// MARK: Atlas App Services (Optional)
 // The App Services App. Change YOUR_APP_SERVICES_APP_ID_HERE to your App Services App ID.
 // If you don't have a App Services App and don't wish to use Sync for now,
 // you can change this to:
@@ -61,12 +62,44 @@ final class ItemGroup: Object, ObjectKeyIdentifiable {
     @Persisted var ownerId = ""
 }
 
+extension Item {
+    static let item1 = Item(value: ["name": "fluffy coasters", "isFavorite": false, "ownerId": "previewRealm"])
+    static let item2 = Item(value: ["name": "sudden cinder block", "isFavorite": true, "ownerId": "previewRealm"])
+    static let item3 = Item(value: ["name": "classy mouse pad", "isFavorite": false, "ownerId": "previewRealm"])
+}
+
+extension ItemGroup {
+    static let itemGroup = ItemGroup(value: ["ownerId": "previewRealm"])
+    
+    static var previewRealm: Realm {
+        var realm: Realm
+        let identifier = "previewRealm"
+        let config = Realm.Configuration(inMemoryIdentifier: identifier)
+        do {
+            realm = try Realm(configuration: config)
+            // Check to see whether the in-memory realm already contains an ItemGroup.
+            // If it does, we'll just return the existing realm.
+            // If it doesn't, we'll add an ItemGroup and append the Items.
+            let realmObjects = realm.objects(ItemGroup.self)
+            if realmObjects.count == 1 {
+                return realm
+            } else {
+                try realm.write {
+                    realm.add(itemGroup)
+                    itemGroup.items.append(objectsIn: [Item.item1, Item.item2, Item.item3])
+                }
+                return realm
+            }
+        } catch let error {
+            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+        }
+    }
+}
+
 // MARK: Views
 
 // MARK: Main Views
 /// The main screen that determines whether to present the SyncContentView or the LocalOnlyContentView.
-/// For now, it always displays the LocalOnlyContentView.
-
 @main
 struct ContentView: SwiftUI.App {
     var body: some Scene {
@@ -84,6 +117,7 @@ struct ContentView: SwiftUI.App {
 /// The main content view if not using Sync.
 struct LocalOnlyContentView: View {
     @State var searchFilter: String = ""
+    // Implicitly use the default realm's objects(ItemGroup.self)
     @ObservedResults(ItemGroup.self) var itemGroups
     
     var body: some View {
@@ -217,20 +251,27 @@ struct LoginView: View {
             Button("Log in anonymously") {
                 // Button pressed, so log in
                 isLoggingIn = true
-                app!.login(credentials: .anonymous) { result in
-                    isLoggingIn = false
-                    if case let .failure(error) = result {
+                Task {
+                    do {
+                        let user = try await app!.login(credentials: .anonymous)
+                        // Other views are observing the app and will detect
+                        // that the currentUser has changed. Nothing more to do here.
+                        print("Logged in as user with id: \(user.id)")
+                    } catch {
                         print("Failed to log in: \(error.localizedDescription)")
                         // Set error to observed property so it can be displayed
                         self.error = error
                         return
                     }
-                    // Other views are observing the app and will detect
-                    // that the currentUser has changed. Nothing more to do here.
-                    print("Logged in")
                 }
             }.disabled(isLoggingIn)
         }
+    }
+}
+
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView()
     }
 }
 
@@ -244,11 +285,14 @@ struct LogoutButton: View {
                 return
             }
             isLoggingOut = true
-            user.logOut() { error in
-                isLoggingOut = false
-                // Other views are observing the app and will detect
-                // that the currentUser has changed. Nothing more to do here.
-                print("Logged out")
+            Task {
+                do {
+                    try await app!.currentUser!.logOut()
+                    // Other views are observing the app and will detect
+                    // that the currentUser has changed. Nothing more to do here.
+                } catch {
+                    print("Error logging out: \(error.localizedDescription)")
+                }
             }
         }.disabled(app!.currentUser == nil || isLoggingOut)
     }
@@ -298,6 +342,14 @@ struct ItemsView: View {
     }
 }
 
+struct ItemsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let realm = ItemGroup.previewRealm
+        let itemGroup = realm.objects(ItemGroup.self)
+        ItemsView(itemGroup: itemGroup.first!)
+    }
+}
+
 /// Represents an Item in a list.
 struct ItemRow: View {
     @ObservedRealmObject var item: Item
@@ -328,5 +380,13 @@ struct ItemDetailsView: View {
                     Image(systemName: item.isFavorite ? "heart.fill" : "heart")
                 })
         }.padding()
+    }
+}
+
+struct ItemDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            ItemDetailsView(item: Item.item2)
+        }
     }
 }

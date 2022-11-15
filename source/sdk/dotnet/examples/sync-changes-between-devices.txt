@@ -211,11 +211,34 @@ strongly typed handling logic.
    `HelpLink <https://docs.microsoft.com/en-us/dotnet/api/system.exception.helplink?view=net-6.0#system-exception-helplink>`_ 
    property on the exception contains a link to the associated log entry.
 
-.. _dotnet-reset-a-client-realm-file:
 
-.. Reset a Client Realm File
-.. -------------------------
+.. _dotnet-cancel-sync:
 
+Cancel a Sync Session
+---------------------
+If you need to cancel an async sync session, you can use a 
+`CancellationToken <https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken?view=net-7.0>`__ 
+with the 
+:dotnet-sdk:`Realm.GetInstanceAsync() <reference/Realms.Realm.html#Realms_Realm_GetInstanceAsync_Realms_RealmConfigurationBase_System_Threading_CancellationToken_>` 
+method. For example, you can create a cancellation token with a time limit on it. 
+If sync takes longer than the specified time, the session is cancelled. The following 
+code example shows calling ``GetInstanceAsync`` with a token that expires after 
+2 minutes. If the token expires, an `OperationCanceledException <https://learn.microsoft.com/en-us/dotnet/api/system.operationcanceledexception?view=net-6.0>`__ 
+is thrown and we call 
+:dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>`
+instead. This prevents the UI from being blocked while the 
+sync occurs.
+
+.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.cancel-token.cs
+   :language: csharp
+
+.. note::
+
+   To wait for sync to complete, use the 
+   :dotnet-sdk:`session.WaitForUploadAsync() <reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` and 
+   :dotnet-sdk:`session.WaitForDownloadAsync()<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
+   methods. 
+   For more information, see :ref:`<dotnet-check-sync-progress-wait-for-upload-or-download>`.
 
 .. _dotnet-set-the-client-log-level:
 

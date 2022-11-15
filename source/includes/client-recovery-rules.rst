@@ -6,6 +6,6 @@ the backend and the client make changes to the same object:
 - If an object is deleted on the server, but is modified on the recovering 
   client, the delete takes precedence and the client discards the update.
 - If an object is deleted on the recovering client, but not the server, 
-  then the client applies the delete instruction.
+  then the client applies the server's delete instruction.
 - In the case of conflicting updates to the same field, the client update 
   is applied.

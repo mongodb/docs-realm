@@ -45,7 +45,7 @@ describe("Log in user", () => {
   test("Email/password user", async () => {
     // :snippet-start: email-password-auth
     async function loginEmailPassword(email, password) {
-      // Create an anonymous credential
+      // Create an email/password credential
       const credentials = Realm.Credentials.emailPassword(email, password);
       try {
         // Authenticate the user

@@ -60,16 +60,16 @@ describe("user authentication", () => {
     // :snippet-end:
   });
 
-  test.skip("server api key login", async () => {
-    process.env.realmServerApiKey = "lolthisisntreallyakey";
+  test("server api key login", async () => {
+    process.env.realmApiKey = "ceb9d97d12f398c284f8";
     // :snippet-start: server-api-key-login
     // Get the API key from the local environment
-    const apiKey = process.env?.realmServerApiKey;
+    const apiKey = process.env?.realmApiKey;
     if (!apiKey) {
       throw new Error("Could not find a Realm Server API Key.");
     }
     // Create an api key credential
-    const credentials = Realm.Credentials.serverApiKey(apiKey);
+    const credentials = Realm.Credentials.apiKey(apiKey);
     try {
       const user = await app.logIn(credentials);
       console.log("Successfully logged in!", user.id);

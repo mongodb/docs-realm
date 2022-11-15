@@ -149,7 +149,7 @@ Realm Database validates the schema on the client against the existing schema.
 You can define App Services Schemas in the following ways:
 
 - Automatically with the Object Schema if :ref:`development mode is enabled
-  <concept-development-mode>`.
+  <development-mode>`.
 - Explicitly define the App Services Schema with App Services.
 
 In your schema you must use the ``MapTo("_id")`` annotation with your primary key
@@ -329,9 +329,12 @@ annotation to a property in your ``RealmModel``, the :ref:`realm object generato
 Indexed
 ~~~~~~~
 
-Add the `Indexed <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__ annotation
-to create an index on the field. Indexes slightly slow down insertion, but can greatly
-speed up queries. Indexes can be nullable.
+Add the `Indexed
+<https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
+annotation to create an index on the field. Indexes can greatly speed up some
+queries at the cost of slightly slower write times and additional storage and
+memory overhead. Realm Database stores indexes on disk, which makes your realm
+files larger. Each index entry is a minimum of 12 bytes. Indexes can be nullable.
 
 The following data types can be indexed:
 

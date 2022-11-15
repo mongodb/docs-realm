@@ -1,5 +1,4 @@
 import 'package:realm_dart/realm.dart';
-import 'package:test/expect.dart';
 
 part 'backlinks_test.g.dart';
 
