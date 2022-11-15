@@ -1,6 +1,6 @@
 // Add data to the realm
-final maceWindu = Person(1, "Mace", "Windu");
-final jocastaNu = Person(2, "Jocasta", "Nul");
+final maceWindu = Person(ObjectId(), "Mace", "Windu");
+final jocastaNu = Person(ObjectId(), "Jocasta", "Nul");
 realm.write(() => realm.addAll([maceWindu, jocastaNu]));
 
 // Get RealmResults and freeze data

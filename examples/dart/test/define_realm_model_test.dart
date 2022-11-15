@@ -20,7 +20,7 @@ part 'define_realm_model_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String make;
   late String? model;

@@ -8,7 +8,7 @@ part of 'backlinks_test.dart';
 
 class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   User(
-    int id,
+    ObjectId id,
     String username, {
     Iterable<Task> tasks = const [],
   }) {
@@ -20,9 +20,9 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   User._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get username =>
@@ -49,7 +49,7 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(User._);
     return const SchemaObject(ObjectType.realmObject, User, 'User', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('username', RealmPropertyType.string),
       SchemaProperty('tasks', RealmPropertyType.object,
           linkTarget: 'Task', collectionType: RealmCollectionType.list),
@@ -59,7 +59,7 @@ class User extends _User with RealmEntity, RealmObjectBase, RealmObject {
 
 class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
   Task(
-    int id,
+    ObjectId id,
     String description,
     bool isComplete,
   ) {
@@ -71,9 +71,9 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
   Task._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get description =>
@@ -106,7 +106,7 @@ class Task extends _Task with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Task._);
     return const SchemaObject(ObjectType.realmObject, Task, 'Task', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('description', RealmPropertyType.string),
       SchemaProperty('isComplete', RealmPropertyType.bool),
       SchemaProperty('linkedUser', RealmPropertyType.linkingObjects,

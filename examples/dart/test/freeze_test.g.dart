@@ -8,7 +8,7 @@ part of 'freeze_test.dart';
 
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
-    int id,
+    ObjectId id,
     String firstName,
     String lastName, {
     Iterable<String> attributes = const [],
@@ -23,9 +23,9 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get firstName =>
@@ -58,7 +58,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Person._);
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
       SchemaProperty('attributes', RealmPropertyType.string,
@@ -69,7 +69,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
 
 class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   Scooter(
-    int id,
+    ObjectId id,
     String name, {
     Person? owner,
   }) {
@@ -81,9 +81,9 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   Scooter._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -108,7 +108,7 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Scooter._);
     return const SchemaObject(ObjectType.realmObject, Scooter, 'Scooter', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
           optional: true, linkTarget: 'Person'),

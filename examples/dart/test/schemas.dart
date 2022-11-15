@@ -8,7 +8,7 @@ part 'schemas.g.dart';
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String make;
   late String? model;
@@ -31,7 +31,7 @@ class _SyncSchema {
 @RealmModel()
 class _Bike {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late _Person? owner;
@@ -40,7 +40,7 @@ class _Bike {
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String firstName;
   late String lastName;
@@ -52,7 +52,7 @@ class _Person {
 @RealmModel()
 class _Scooter {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late _Person? owner;
@@ -61,7 +61,7 @@ class _Scooter {
 @RealmModel()
 class _ScooterShop {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String name;
   late List<_Scooter> owner;
@@ -71,7 +71,7 @@ class _ScooterShop {
 // :snippet-start: property-annotations
 class _Vehicle {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String? maybeDescription; // optional value
 

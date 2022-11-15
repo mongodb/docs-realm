@@ -1,5 +1,5 @@
 void dataCb(Realm realm) {
-  realm.add(Car(3, 'Honda'));
+  realm.add(Car(ObjectId(), 'Honda'));
 }
 
 Configuration config =

@@ -7,7 +7,8 @@ print(realm.isFrozen);
 RealmResults people = realm.all<Person>();
 print(people.isFrozen);
 
-Person firstPerson = realm.find<Person>(1)!;
+Person firstPerson =
+    realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 print(firstPerson.isFrozen);
 
 RealmList<String> firstPersonAttributes = firstPerson.attributes;

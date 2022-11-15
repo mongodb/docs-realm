@@ -1,4 +1,5 @@
-Person person = realm.find(3)!;
+final person = realm.query<Person>(
+    'firstName == \$0 AND lastName == \$1', ["Count", "Dooku"]).first;
 
 // Freeze RealmObject
 final frozenPerson = person.freeze();

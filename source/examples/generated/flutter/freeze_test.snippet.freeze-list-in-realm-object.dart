@@ -1,4 +1,5 @@
-Person firstPerson = realm.find<Person>(1)!;
+Person firstPerson =
+    realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 
 // Freeze RealmList in a RealmObject
 RealmList<String> firstPersonAttributesFrozen =

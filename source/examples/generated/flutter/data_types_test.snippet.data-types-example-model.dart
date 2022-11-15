@@ -4,7 +4,7 @@ part 'car.g.dart';
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   String? licensePlate;
   bool isElectric = false;

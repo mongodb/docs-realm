@@ -55,7 +55,7 @@ void main() {
 
     // :snippet-start: return-from-write
     Car fordFusion = realm.write<Car>(() {
-      return realm.add(Car(1, 'Ford', model: 'Fusion', miles: 101));
+      return realm.add(Car(ObjectId(), 'Ford', model: 'Fusion', miles: 101));
     });
     // :snippet-end:
     expect(fordFusion.make, 'Ford');
@@ -68,20 +68,21 @@ void main() {
     final config = Configuration.local([Car.schema]);
     final realm = Realm(config);
     // :snippet-start: upsert
-    // Add Toyota Prius to the realm with primary key `2`
-    Car newPrius = Car(2, "Toyota", model: "Prius", miles: 0);
+    final id = ObjectId();
+    // Add Toyota Prius to the realm with primary key `id`
+    Car newPrius = Car(id, "Toyota", model: "Prius", miles: 0);
     realm.write(() {
       realm.add<Car>(newPrius);
     });
 
-    // Update Toyota Prius's miles in the realm with primary key `2`
-    Car usedPrius = Car(2, "Toyota", model: "Prius", miles: 500);
+    // Update Toyota Prius's miles in the realm with primary key `id`
+    Car usedPrius = Car(id, "Toyota", model: "Prius", miles: 500);
     realm.write(() {
       realm.add<Car>(usedPrius, update: true);
     });
     // :snippet-end:
-    final prius = realm.find<Car>(2);
-    expect(prius!.miles, 500);
+    final prius = realm.query<Car>('model == \$0', ["Prius"]).first;
+    expect(prius.miles, 500);
     cleanUpRealm(realm);
   });
 
@@ -90,7 +91,8 @@ void main() {
     final realm = Realm(config);
     // :snippet-start: write-async
     // Add Subaru Outback to the realm using `writeAsync`
-    Car newOutback = Car(3, "Subaru", model: "Outback Touring XT", miles: 2);
+    Car newOutback =
+        Car(ObjectId(), "Subaru", model: "Outback Touring XT", miles: 2);
     realm.writeAsync(() {
       realm.add<Car>(newOutback);
     });
@@ -101,7 +103,8 @@ void main() {
     // let transaction resolve
     await Future.delayed(Duration(milliseconds: 500));
     expect(realm.isInTransaction, false);
-    expect(realm.find<Car>(3)!.miles, 2);
+    expect(realm.query<Car>("model == \$0", ["Outback Touring XT"]).first.miles,
+        2);
     cleanUpRealm(realm);
   });
 }
