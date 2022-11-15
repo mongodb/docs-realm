@@ -64,7 +64,7 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
 class SyncSchema extends _SyncSchema
     with RealmEntity, RealmObjectBase, RealmObject {
   SyncSchema(
-    int id,
+    ObjectId id,
   ) {
     RealmObjectBase.set(this, '_id', id);
   }
@@ -72,9 +72,9 @@ class SyncSchema extends _SyncSchema
   SyncSchema._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, '_id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, '_id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
 
   @override
   Stream<RealmObjectChanges<SyncSchema>> get changes =>
@@ -89,7 +89,7 @@ class SyncSchema extends _SyncSchema
     RealmObjectBase.registerFactory(SyncSchema._);
     return const SchemaObject(
         ObjectType.realmObject, SyncSchema, 'SyncSchema', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('_id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
     ]);
   }

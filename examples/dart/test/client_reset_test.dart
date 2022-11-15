@@ -10,7 +10,7 @@ part "client_reset_test.g.dart";
 class _Car {
   @PrimaryKey()
   @MapTo("_id")
-  late int id;
+  late ObjectId id;
 
   late String make;
   late String? model;

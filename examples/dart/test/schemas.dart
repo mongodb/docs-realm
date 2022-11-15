@@ -21,7 +21,7 @@ class _Car {
 class _SyncSchema {
   @PrimaryKey()
   @MapTo("_id")
-  late int id;
+  late ObjectId id;
 
   // ... other properties
 }
