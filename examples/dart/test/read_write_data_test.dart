@@ -55,7 +55,7 @@ void main() {
 
     // :snippet-start: return-from-write
     Car fordFusion = realm.write<Car>(() {
-      return realm.add(Car('Ford', model: 'Fusion', miles: 101));
+      return realm.add(Car(1, 'Ford', model: 'Fusion', miles: 101));
     });
     // :snippet-end:
     expect(fordFusion.make, 'Ford');
@@ -68,19 +68,19 @@ void main() {
     final config = Configuration.local([Car.schema]);
     final realm = Realm(config);
     // :snippet-start: upsert
-    // Add Toyota Prius to the realm with primary key `Toyota`
-    Car newPrius = Car("Toyota", model: "Prius", miles: 0);
+    // Add Toyota Prius to the realm with primary key `2`
+    Car newPrius = Car(2, "Toyota", model: "Prius", miles: 0);
     realm.write(() {
       realm.add<Car>(newPrius);
     });
 
-    // Update Toyota Prius's miles in the realm with primary key `Toyota`
-    Car usedPrius = Car("Toyota", model: "Prius", miles: 500);
+    // Update Toyota Prius's miles in the realm with primary key `2`
+    Car usedPrius = Car(2, "Toyota", model: "Prius", miles: 500);
     realm.write(() {
       realm.add<Car>(usedPrius, update: true);
     });
     // :snippet-end:
-    final prius = realm.find<Car>("Toyota");
+    final prius = realm.find<Car>(2);
     expect(prius!.miles, 500);
     cleanUpRealm(realm);
   });
@@ -90,18 +90,18 @@ void main() {
     final realm = Realm(config);
     // :snippet-start: write-async
     // Add Subaru Outback to the realm using `writeAsync`
-    Car newOutback = Car("Subaru", model: "Outback Touring XT", miles: 2);
+    Car newOutback = Car(3, "Subaru", model: "Outback Touring XT", miles: 2);
     realm.writeAsync(() {
       realm.add<Car>(newOutback);
     });
     // :snippet-end:
-    final outback = realm.find<Car>("Subaru");
+    final outback = realm.find<Car>(3);
     expect(outback, isNull);
     expect(realm.isInTransaction, true);
     // let transaction resolve
     await Future.delayed(Duration(milliseconds: 500));
     expect(realm.isInTransaction, false);
-    expect(realm.find<Car>("Subaru")!.miles, 2);
+    expect(realm.find<Car>(3)!.miles, 2);
     cleanUpRealm(realm);
   });
 }

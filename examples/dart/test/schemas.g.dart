@@ -8,16 +8,23 @@ part of 'schemas.dart';
 
 class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car(
+    int id,
     String make, {
     String? model,
     int? miles,
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'make', make);
     RealmObjectBase.set(this, 'model', model);
     RealmObjectBase.set(this, 'miles', miles);
   }
 
   Car._();
+
+  @override
+  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  @override
+  set id(int value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get make => RealmObjectBase.get<String>(this, 'make') as String;
@@ -46,7 +53,8 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Car._);
     return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
-      SchemaProperty('make', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);

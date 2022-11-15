@@ -26,3 +26,5 @@ class _Task {
   late Iterable<_User> linkedUser;
 }
 // :snippet-end:
+
+main() {}

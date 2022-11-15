@@ -1,18 +1,32 @@
+import 'dart:io';
+
 import 'package:realm_dart/realm.dart';
 import 'package:test/test.dart';
-import 'schemas.dart';
 import 'utils.dart';
+
+part "client_reset_test.g.dart";
+
+@RealmModel()
+class _Car {
+  @PrimaryKey()
+  @MapTo("_id")
+  late int id;
+
+  late String make;
+  late String? model;
+  late int? miles;
+}
 
 const APP_ID = "flex-config-tester-vwevn";
 main() {
   late App app;
   final schema = [Car.schema];
   late User currentUser;
-  setUpAll(() async {
+  setUp(() async {
     app = App(AppConfiguration(APP_ID));
     currentUser = await app.logIn(Credentials.anonymous());
   });
-  tearDownAll(() async {
+  tearDown(() async {
     await app.currentUser?.logOut();
   });
   group('Client Reset tests', () {
@@ -94,6 +108,7 @@ main() {
       late Realm realm;
 
       final config = Configuration.flexibleSync(currentUser, schema,
+          path: 'fallback.realm', // :remove:
 
           // This example uses the `RecoverOrDiscardUnsyncedChangesHandler`,
           // but the same logic could also be used with the `RecoverUnsyncedChangesHandler`
@@ -122,7 +137,7 @@ main() {
         },
       ));
       // :snippet-end:
-      realm = Realm(config);
+      realm = await Realm.open(config);
       cleanUpRealm(realm);
     });
     test("Manual recovery mode", () async {
@@ -132,6 +147,7 @@ main() {
       late Realm realm;
 
       final config = Configuration.flexibleSync(currentUser, schema,
+          path: 'manual.realm', // :remove:
           clientResetHandler: ManualRecoveryHandler((clientResetError) {
         // You must close the Realm before attempting the client reset.
         realm.close();
@@ -140,7 +156,7 @@ main() {
         clientResetError.resetRealm();
       }));
       // :snippet-end:
-      realm = Realm(config);
+      realm = await Realm.open(config);
       cleanUpRealm(realm);
     });
   });

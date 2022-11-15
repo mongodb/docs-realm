@@ -31,7 +31,7 @@ void main() {
       test('Configuration readOnly - reading is possible', () async {
         Configuration initConfig = Configuration.local([Car.schema]);
         var realm = Realm(initConfig);
-        realm.write(() => realm.add(Car("Mustang")));
+        realm.write(() => realm.add(Car(1, "Mustang")));
         realm.close();
 
         // :snippet-start: read-only-realm
@@ -57,7 +57,7 @@ void main() {
         var config = Configuration.inMemory([Car.schema]);
         var realm = Realm(config);
         // :snippet-end:
-        realm.write(() => realm.add(Car('Tesla')));
+        realm.write(() => realm.add(Car(2, 'Tesla')));
         expect(Realm.existsSync(config.path), true);
         await cleanUpRealm(realm);
       });
@@ -67,7 +67,7 @@ void main() {
       // :snippet-start: initial-data-callback
       void dataCb(Realm realm) {
         called = true; // :remove:
-        realm.add(Car('Honda'));
+        realm.add(Car(3, 'Honda'));
       }
 
       Configuration config =

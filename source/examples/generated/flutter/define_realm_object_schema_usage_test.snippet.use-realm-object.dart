@@ -1,3 +1,3 @@
 import './schemas.dart';
 
-final hondaCivic = Car('Honda', model: 'Civic', miles: 99);
+final hondaCivic = Car(1, 'Honda', model: 'Civic', miles: 99);

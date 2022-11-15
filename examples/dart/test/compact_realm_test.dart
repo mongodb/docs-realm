@@ -45,8 +45,9 @@ void main() {
       // :remove-start:
       // Populate some data in the realm so we can compact it
       final prepareRealm = Realm(config);
-      Car newPrius = Car("Toyota", model: "Prius", miles: 0);
-      Car usedOutback = Car("Subaru", model: "Outback Premium", miles: 61370);
+      Car newPrius = Car(1, "Toyota", model: "Prius", miles: 0);
+      Car usedOutback =
+          Car(2, "Subaru", model: "Outback Premium", miles: 61370);
       prepareRealm.write(() {
         prepareRealm.add<Car>(newPrius);
         prepareRealm.add<Car>(usedOutback);
