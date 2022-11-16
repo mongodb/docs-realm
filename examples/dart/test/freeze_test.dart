@@ -32,7 +32,7 @@ void main() {
     test("Freeze a realm", () {
       // :snippet-start: freeze-realm
       final config = Configuration.local([Person.schema, Scooter.schema]);
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       // Add scooter ownded by Mace Windu
       final maceWindu = Person(ObjectId(), "Mace", "Windu");
       final purpleScooter =
@@ -75,7 +75,7 @@ void main() {
     });
     test("Freeze RealmResults", () {
       final config = Configuration.local([Person.schema]);
-      Realm realm = Realm(config);
+      final realm = Realm(config);
 
       // :snippet-start: freeze-realm-results
       // Add data to the realm
@@ -84,7 +84,7 @@ void main() {
       realm.write(() => realm.addAll([maceWindu, jocastaNu]));
 
       // Get RealmResults and freeze data
-      RealmResults<Person> people = realm.all<Person>();
+      final people = realm.all<Person>();
       final frozenPeople = people.freeze();
 
       // Update data in the non-frozen realm
@@ -114,7 +114,7 @@ void main() {
     });
     test("Freeze a RealmObject", () {
       final config = Configuration.local([Person.schema]);
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       realm.write(() => realm.add(Person(ObjectId(), "Count", "Dooku")));
       // :snippet-start: freeze-realm-object
       final person = realm.query<Person>(
@@ -149,16 +149,15 @@ void main() {
     });
     test("Freeze a List in a RealmObject", () {
       final config = Configuration.local([Person.schema]);
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       realm.write(() => realm.add(Person(ObjectId(), "Yoda", "unknown",
           attributes: ["wise", "short", "powerful"])));
       // :snippet-start: freeze-list-in-realm-object
-      Person firstPerson =
+      final firstPerson =
           realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 
       // Freeze RealmList in a RealmObject
-      RealmList<String> firstPersonAttributesFrozen =
-          firstPerson.attributes.freeze();
+      final firstPersonAttributesFrozen = firstPerson.attributes.freeze();
 
       // Change data in the unfrozen realm
       final newAttribute = "quick";
@@ -189,21 +188,21 @@ void main() {
       // You can check if all freezable types are frozen
       // with the `isFrozen` property.
 
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       print(realm.isFrozen);
       // :remove-start:
       realm.write(() => realm.add(Person(ObjectId(), "Yoda", "unknown",
           attributes: ["wise", "short", "powerful"])));
       // :remove-end:
 
-      RealmResults people = realm.all<Person>();
+      final people = realm.all<Person>();
       print(people.isFrozen);
 
-      Person firstPerson =
+      final firstPerson =
           realm.query<Person>("firstName = \$0", ["Yoda"]).first;
       print(firstPerson.isFrozen);
 
-      RealmList<String> firstPersonAttributes = firstPerson.attributes;
+      final firstPersonAttributes = firstPerson.attributes;
       print(firstPersonAttributes.isFrozen);
       // :snippet-end:
       expect(realm.isFrozen, isFalse);

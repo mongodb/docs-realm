@@ -4,4 +4,4 @@ final sameRealmPath =
 
 final disconnectedSyncConfig =
     Configuration.disconnectedSync(schema, path: sameRealmPath);
-Realm realmWithDisconnectedSync = Realm(disconnectedSyncConfig);
+final realmWithDisconnectedSync = Realm(disconnectedSyncConfig);

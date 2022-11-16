@@ -1,5 +1,5 @@
 // Create a Realm object with date in UTC, or convert with .toUtc() before storing
-Vehicle subaruOutback = realm.write<Vehicle>(() {
+final subaruOutback = realm.write<Vehicle>(() {
   return realm.add(Vehicle('Subie', DateTime.utc(2022, 9, 18, 12, 30, 0)));
 });
 

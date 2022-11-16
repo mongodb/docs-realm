@@ -1,7 +1,6 @@
 print("Bundling realm");
-LocalConfiguration config =
-    Configuration.local([Car.schema], path: 'bundle.realm');
-Realm realm = Realm(config);
+final config = Configuration.local([Car.schema], path: 'bundle.realm');
+final realm = Realm(config);
 
 realm.write(() {
   realm.add(Car(ObjectId(), "Audi", model: 'A8'));
