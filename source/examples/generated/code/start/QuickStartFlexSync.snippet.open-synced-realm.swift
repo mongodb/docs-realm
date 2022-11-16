@@ -1,3 +1,6 @@
+// Opening a realm and accessing it must be done from the same thread.
+// Marking this function as `@MainActor` avoids threading-related issues.
+@MainActor
 func openSyncedRealm(user: User) async {
     do {
         var config = user.flexibleSyncConfiguration()

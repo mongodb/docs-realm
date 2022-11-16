@@ -39,9 +39,9 @@ extension FlexibleSync_Task {
     }
 }
 
-@MainActor
 class FlexibleSync: XCTestCase {
-
+    
+    @MainActor
     override func tearDown() async throws {
         let app = App(id: APPID)
 
@@ -65,17 +65,25 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: add-single-subscription
-                let subscriptions = realm.subscriptions
-                try await subscriptions.update {
-                   subscriptions.append(
-                      QuerySubscription<FlexibleSync_Team> {
-                         $0.teamName == "Developer Education"
-                      })
+                let realm = try await getRealmWithSingleSubscription()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmWithSingleSubscription() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    try await subscriptions.update {
+                       subscriptions.append(
+                          QuerySubscription<FlexibleSync_Team> {
+                             $0.teamName == "Developer Education"
+                          })
+                    }
+                    XCTAssertEqual(subscriptions.count, 1) // :remove:
+                    return realm
                 }
                 // :snippet-end:
-                XCTAssertEqual(subscriptions.count, 1)
                 print("Successfully opened realm: \(realm)")
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
@@ -94,22 +102,30 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: add-multiple-subscriptions
-                let subscriptions = realm.subscriptions
-                try await subscriptions.update {
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Task>(name: "completed-tasks") {
-                             $0.completed == true
-                    })
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Team> {
-                          $0.teamName == "Developer Education"
-                    })
+                let realm = try await getRealmWithMultipleSubscriptions()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmWithMultipleSubscriptions() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    try await subscriptions.update {
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Task>(name: "completed-tasks") {
+                                 $0.completed == true
+                        })
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team> {
+                              $0.teamName == "Developer Education"
+                        })
+                    }
+                    XCTAssertEqual(subscriptions.count, 2) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 2)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -119,6 +135,7 @@ class FlexibleSync: XCTestCase {
         }
     }
 
+    @MainActor
     func testAddQuerySubscriptionsWithAndWithoutName() async {
         let app = App(id: APPID)
 
@@ -199,6 +216,7 @@ class FlexibleSync: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
 
+    @MainActor
     func testAddInitialSubscriptions() async {
         let app = App(id: APPID)
 
@@ -227,6 +245,7 @@ class FlexibleSync: XCTestCase {
         }
     }
 
+    @MainActor
     func testAddInitialSubscriptionsWithRerunOnOpen() async {
         let app = App(id: APPID)
 
@@ -321,25 +340,33 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: check-before-adding-subscription
-                let subscriptions = realm.subscriptions
-                let foundSubscription = subscriptions.first(named: "user_team")
-                try await subscriptions.update {
-                    if foundSubscription != nil {
-                        foundSubscription!.updateQuery(toType: FlexibleSync_Team.self, where: {
-                             $0.teamName == "Developer Education"
-                        })
-                    } else {
-                        subscriptions.append(
-                            QuerySubscription<FlexibleSync_Team>(name: "user_team") {
-                              $0.teamName == "Developer Education"
-                           })
+                let realm = try await checkAndAddSubscription()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func checkAndAddSubscription() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    let foundSubscription = subscriptions.first(named: "user_team")
+                    try await subscriptions.update {
+                        if foundSubscription != nil {
+                            foundSubscription!.updateQuery(toType: FlexibleSync_Team.self, where: {
+                                 $0.teamName == "Developer Education"
+                            })
+                        } else {
+                            subscriptions.append(
+                                QuerySubscription<FlexibleSync_Team>(name: "user_team") {
+                                  $0.teamName == "Developer Education"
+                               })
+                        }
                     }
+                    XCTAssertEqual(subscriptions.count, 1) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 1)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -357,15 +384,23 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: subscribe-to-all-objects-of-a-type
-                let subscriptions = realm.subscriptions
-                try await subscriptions.update {
-                    subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "all_teams"))
+                let realm = try await subscribeToObjectsOfAType()
+
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func subscribeToObjectsOfAType() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    try await subscriptions.update {
+                        subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "all_teams"))
+                    }
+                    XCTAssertEqual(subscriptions.count, 1) // :remove
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 1)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -383,30 +418,38 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: update-subscription
-                let subscriptions = realm.subscriptions
-                // :remove-start:
-                // Add subscription to update
-                try await subscriptions.update {
-                    subscriptions.append(QuerySubscription<FlexibleSync_Team> {
-                        $0.teamName == "Developer Education"
-                     })
-                }
-                XCTAssertEqual(subscriptions.count, 1)
-                // :remove-end:
-                try await subscriptions.update {
-                    if let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
-                           $0.teamName == "Developer Education"
-                    }) {
-                        foundSubscription.updateQuery(toType: FlexibleSync_Team.self, where: {
-                             $0.teamName == "Documentation"
+                let realm = try await getRealmWithUpdatedSubscriptions()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmWithUpdatedSubscriptions() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    // :remove-start:
+                    // Add subscription to update
+                    try await subscriptions.update {
+                        subscriptions.append(QuerySubscription<FlexibleSync_Team> {
+                            $0.teamName == "Developer Education"
                         })
                     }
+                    XCTAssertEqual(subscriptions.count, 1)
+                    // :remove-end:
+                    try await subscriptions.update {
+                        if let foundSubscription = subscriptions.first(ofType: FlexibleSync_Team.self, where: {
+                            $0.teamName == "Developer Education"
+                        }) {
+                            foundSubscription.updateQuery(toType: FlexibleSync_Team.self, where: {
+                                $0.teamName == "Documentation"
+                            })
+                        }
+                    }
+                    XCTAssertEqual(subscriptions.count, 1) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 1)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -424,27 +467,35 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: update-subscription-by-name
-                let subscriptions = realm.subscriptions
-                // :remove-start:
-                // Add subscription to update
-                try await subscriptions.update {
-                    subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
-                        $0.teamName == "Docs"
-                     })
-                }
-                XCTAssertEqual(subscriptions.count, 1)
-                // :remove-end:
-                let foundSubscription = subscriptions.first(named: "user-team")
-                try await subscriptions.update {
-                    foundSubscription?.updateQuery(toType: FlexibleSync_Team.self, where: {
-                         $0.teamName == "Documentation"
-                    })
+                let realm = try await getRealmWithUpdatedSubscriptionName()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmWithUpdatedSubscriptionName() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    // :remove-start:
+                    // Add subscription to update
+                    try await subscriptions.update {
+                        subscriptions.append(QuerySubscription<FlexibleSync_Team>(name: "user-team") {
+                            $0.teamName == "Docs"
+                         })
+                    }
+                    XCTAssertEqual(subscriptions.count, 1)
+                    // :remove-end:
+                    let foundSubscription = subscriptions.first(named: "user-team")
+                    try await subscriptions.update {
+                        foundSubscription?.updateQuery(toType: FlexibleSync_Team.self, where: {
+                             $0.teamName == "Documentation"
+                        })
+                    }
+                    XCTAssertEqual(subscriptions.count, 1) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 1)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -462,38 +513,46 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: remove-single-subscription
-                let subscriptions = realm.subscriptions
-                // :remove-start:
-                // Add subscriptions to remove
-                try await subscriptions.update {
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Team>(name: "docs-team") {
-                            $0.teamName == "Documentation"
-                        })
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Team>(name: "existing-subscription") {
-                            $0.teamName == "Engineering"
-                        })
-                }
-                XCTAssertEqual(subscriptions.count, 2)
-                // :remove-end:
-                // Look for a specific subscription, and then remove it
-                let foundSubscription = subscriptions.first(named: "docs-team")
-                try await subscriptions.update {
-                    subscriptions.remove(foundSubscription!)
-                }
-                // :remove-start:
-                XCTAssertEqual(subscriptions.count, 1)
-                // :remove-end:
-                // Or remove a subscription that you know exists without querying for it
-                try await subscriptions.update {
-                    subscriptions.remove(named: "existing-subscription")
+                let realm = try await getRealmAfterRemovingSubscription()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmAfterRemovingSubscription() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    // :remove-start:
+                    // Add subscriptions to remove
+                    try await subscriptions.update {
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "docs-team") {
+                                $0.teamName == "Documentation"
+                            })
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "existing-subscription") {
+                                $0.teamName == "Engineering"
+                            })
+                    }
+                    XCTAssertEqual(subscriptions.count, 2)
+                    // :remove-end:
+                    // Look for a specific subscription, and then remove it
+                    let foundSubscription = subscriptions.first(named: "docs-team")
+                    try await subscriptions.update {
+                        subscriptions.remove(foundSubscription!)
+                    }
+                    // :remove-start:
+                    XCTAssertEqual(subscriptions.count, 1)
+                    // :remove-end:
+                    // Or remove a subscription that you know exists without querying for it
+                    try await subscriptions.update {
+                        subscriptions.remove(named: "existing-subscription")
+                    }
+                    XCTAssertEqual(subscriptions.count, 0) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 0)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -511,29 +570,37 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: remove-subscriptions-to-object-type
-                let subscriptions = realm.subscriptions
-                // :remove-start:
-                // Add subscriptions to remove
-                try await subscriptions.update {
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Team>(name: "documentation-team") {
-                            $0.teamName == "Documentation"
-                        })
-                    subscriptions.append(
-                        QuerySubscription<FlexibleSync_Team>(name: "another-subscription") {
-                            $0.teamName == "Engineering"
-                        })
-                }
-                XCTAssertEqual(subscriptions.count, 2)
-                // :remove-end:
-                try await subscriptions.update {
-                    subscriptions.removeAll(ofType: FlexibleSync_Team.self)
+                let realm = try await getRealmAfterRemovingAllSubscriptionsToAnObjectType()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmAfterRemovingAllSubscriptionsToAnObjectType() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    // :remove-start:
+                    // Add subscriptions to remove
+                    try await subscriptions.update {
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "documentation-team") {
+                                $0.teamName == "Documentation"
+                            })
+                        subscriptions.append(
+                            QuerySubscription<FlexibleSync_Team>(name: "another-subscription") {
+                                $0.teamName == "Engineering"
+                            })
+                    }
+                    XCTAssertEqual(subscriptions.count, 2)
+                    // :remove-end:
+                    try await subscriptions.update {
+                        subscriptions.removeAll(ofType: FlexibleSync_Team.self)
+                    }
+                    XCTAssertEqual(subscriptions.count, 0) // :remove:
+                    return realm
                 }
                 // :snippet-end:
                 print("Successfully opened realm: \(realm)")
-                XCTAssertEqual(subscriptions.count, 0)
             } catch {
                 print("Failed to open realm: \(error.localizedDescription)")
                 // handle error
@@ -551,11 +618,19 @@ class FlexibleSync: XCTestCase {
             var flexSyncConfig = user.flexibleSyncConfiguration()
             flexSyncConfig.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
             do {
-                let realm = try await Realm(configuration: flexSyncConfig)
                 // :snippet-start: remove-all-subscriptions
-                let subscriptions = realm.subscriptions
-                try await subscriptions.update {
-                    subscriptions.removeAll()
+                let realm = try await getRealmAfterRemovingAllSubscriptions()
+                
+                // Opening a realm and accessing it must be done from the same thread.
+                // Marking this function as `@MainActor` avoids threading-related issues.
+                @MainActor
+                func getRealmAfterRemovingAllSubscriptions() async throws -> Realm {
+                    let realm = try await Realm(configuration: flexSyncConfig)
+                    let subscriptions = realm.subscriptions
+                    try await subscriptions.update {
+                        subscriptions.removeAll()
+                    }
+                    return realm
                 }
                 // :snippet-end:
             } catch {
@@ -569,16 +644,24 @@ class FlexibleSync: XCTestCase {
 
     func testOpenFlexSyncRealm() async throws {
         // :snippet-start: flex-sync-open-realm
-        let app = App(id: APPID)
-        let user = try await app.login(credentials: Credentials.anonymous)
-        var config = user.flexibleSyncConfiguration()
-        // Pass object types to the Flexible Sync configuration
-        // as a temporary workaround for not being able to add complete schema
-        // for a Flexible Sync app
-        config.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
-        let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
+        let realm = try await openFlexibleSyncRealm()
+        
+        // Opening a realm and accessing it must be done from the same thread.
+        // Marking this function as `@MainActor` avoids threading-related issues.
+        @MainActor
+        func openFlexibleSyncRealm() async throws -> Realm {
+            let app = App(id: APPID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            var config = user.flexibleSyncConfiguration()
+            // Pass object types to the Flexible Sync configuration
+            // as a temporary workaround for not being able to add complete schema
+            // for a Flexible Sync app
+            config.objectTypes = [FlexibleSync_Task.self, FlexibleSync_Team.self]
+            let realm = try await Realm(configuration: config, downloadBeforeOpen: .always)
+            print("Successfully opened realm: \(realm)")
+            return realm
+        }
         // :snippet-end:
-        print("Successfully opened realm: \(realm)")
         XCTAssertNotNil(realm)
         try await app.currentUser?.logOut()
     }
