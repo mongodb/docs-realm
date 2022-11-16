@@ -1,0 +1,78 @@
+.. _react-native-define-a-realm-object-model-using-typescript:
+
+================================================================
+Define a Realm Object Model Using TypeScript - React Native SDK
+================================================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+You can declare a Realm Object Model using TypeScript property types
+declarations on classes. The Realm JS SDK will derive the schema at runtime from
+the types declared in your TS source files. This allows you to use TypeScript
+syntax without needing to explicitly define a schema.
+
+Usage
+-----
+
+Setup
+~~~~~
+
+.. procedure::
+
+   .. step:: Install the Realm Babel Plugin
+
+      To define your Realm Object Model using TypeScript, you need to install the npm:`Realm Babel Plugin <package/@realm/babel-plugin>`. Run the following command to add it to your `dev dependencies <https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file>`_:
+
+      .. code-block:: shell
+
+         npm install --save-dev @realm/babel-plugin
+
+   .. step:: Add Realm Babel Plugin to your Babel Config
+
+      Add the Realm Babel Plugin to your ``babel.config.js`` file to apply the `plugin <https://babeljs.io/docs/en/plugins>`_:
+
+      .. code-block:: javascript
+
+         const presets = [ ... ];
+         const plugins = [ ... ];
+
+         module.exports = { 
+         presets,
+         plugins: ["@realm/babel-plugin"],
+         };
+
+   .. step:: Restart the Package Cache
+
+      Finally, restart the package cache to work with the newly applied plugins in your app. For most React Native applications, you can run the command:
+
+      .. code-block:: shell
+
+         npm start -- --reset-cache
+
+      However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
+
+Code
+~~~~
+
+You can define Realm object types using a class `TypeScript
+<https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by extending
+:js-sdk:`Realm.Object <Realm.Object.html>`.
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
+   :language: typescript
+   
+Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object when opening a realm. You can then
+:doc:`read data </sdk/node/examples/read-and-write-data>` normally. Class based
+models call :js-sdk:`Realm.create() <Realm.html#create>` when you call their
+constructor, so you do not need to explicitly call ``Realm.create()``.
+     
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+   :language: typescript
+
+Decorators
+----------
