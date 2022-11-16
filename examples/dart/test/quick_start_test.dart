@@ -2,6 +2,8 @@ import 'package:test/test.dart';
 import '../bin/models/car.dart';
 import 'package:realm_dart/realm.dart';
 
+import 'utils.dart';
+
 void main() {
   group('CRUD Operations', () {
     setUpAll(() {
@@ -38,6 +40,21 @@ void main() {
         realm.delete(car); // clean up
       });
       realm.close();
+    });
+
+    test("Create Many Realm Objects", () {
+      final config = Configuration.local([Car.schema]);
+      final realm = Realm(config);
+
+      // :snippet-start: create-many-realm-objects
+      final car1 = Car(ObjectId(), 'Honda', model: 'Accord', miles: 42);
+      final car2 = Car(ObjectId(), 'Audi', model: 'A4', miles: 42);
+      realm.write(() {
+        realm.addAll<Car>([car1, car2]);
+      });
+      // :snippet-end:
+      expect(realm.all<Car>().length, 2);
+      cleanUpRealm(realm);
     });
 
     test('Query All Realm Objects', () {
