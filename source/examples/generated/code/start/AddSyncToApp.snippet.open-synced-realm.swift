@@ -1,3 +1,4 @@
+@MainActor
 func openSyncedRealm(user: User) async {
     do {
         var config = user.flexibleSyncConfiguration(initialSubscriptions: { subs in

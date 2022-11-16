@@ -23,8 +23,7 @@ class AsymmetricSync_WeatherSensor: AsymmetricObject {
 }
 // :snippet-end:
 
-class AsymmetricSync: XCTestCase {    
-    @MainActor
+class AsymmetricSync: XCTestCase {
     func testAsymmetricSync() async {
         // :snippet-start: connect-and-authenticate
         let app = App(id: FLEX_SYNC_APP_ID)
@@ -42,6 +41,7 @@ class AsymmetricSync: XCTestCase {
         // :snippet-end:
 
         // :snippet-start: open-asymmetric-sync-realm
+        @MainActor
         func openSyncedRealm(user: User) async {
             do {
                 var asymmetricConfig = user.flexibleSyncConfiguration()
@@ -53,9 +53,9 @@ class AsymmetricSync: XCTestCase {
             }
         }
         // :snippet-end:
-        
+        // :snippet-start: create-asymmetric-object
+        @MainActor
         func useRealm(_ asymmetricRealm: Realm, _ user: User) async {
-            // :snippet-start: create-asymmetric-object
             try! asymmetricRealm.write {
                 asymmetricRealm.create(AsymmetricSync_WeatherSensor.self,
                                        value: [ "_id": ObjectId.generate(),
@@ -65,7 +65,7 @@ class AsymmetricSync: XCTestCase {
                                                 "windSpeedInMph": 2
                                                 ])
             }
-            // :snippet-end:
+            // :remove-start:
             // Add a delay to give the document time to sync
             sleep(10)
             // Verify the document was added, and then delete it for cleanup.
@@ -82,7 +82,9 @@ class AsymmetricSync: XCTestCase {
             } catch {
                 print("Error finding or deleting documents: \(error.localizedDescription)")
             }
+            // :remove-end:
         }
+        // :snippet-end:
     }
 }
 // :replace-end:
