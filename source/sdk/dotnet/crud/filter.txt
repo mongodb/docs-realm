@@ -13,32 +13,268 @@ Filter and Sort Data - .NET SDK
 .. _dotnet-filter-queries-based-on-object-properties:
 .. _dotnet-filter-results:
 
-Filter Queries Based on Object Properties
------------------------------------------
+.. _dotnet-client-query-engine:
 
-A **filter** selects a subset of results based on the
-value(s) of one or more object properties. Realm Database provides a
-full-featured query engine you can use to define filters.
-For more reference information on querying a realm,
-refer to :ref:`Query Engine <dotnet-client-query-engine>`.
+=======================
+Query Engine - .NET SDK
+=======================
 
-The most common use case is to find objects where a certain property matches
-a certain value. Additionally, you can compare strings, aggregate over
-collections of numbers, and use logical operators to build
-up complex queries.
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+To filter data in your realm, use the Realm Database query engine. 
+
+There are two ways to use the query engine with the .NET SDK:
+
+- :ref:`LINQ Syntax <dotnet-linq-syntax>`
+- :ref:`Realm Query Language <dotnet-realm-query-language>`
+
+You should use LINQ syntax for querying when possible, as it aligns with 
+.NET conventions.  
+
+.. note:: About the examples on this page
+
+   The examples in this page use a simple data set for a
+   task list app. The two Realm object types are ``Project``
+   and ``Task``. A ``Task`` has a name, assignee's name, and
+   completed flag. There is also an arbitrary number for
+   priority -- higher is more important -- and a count of
+   minutes spent working on it. A ``Project`` has zero or more
+   ``Tasks``.
+
+   See the schema for these two classes, ``Project`` and
+   ``Task``, below:
+
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.classes.cs
+      :language: csharp
+
+.. _dotnet-linq-syntax:
+
+LINQ Syntax
+-----------
+
+Realm Database's query engine implements standard `LINQ
+<https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/introduction-to-linq-queries>`__
+syntax.
+See the scope of LINQ implemented on the `LINQ
+Support page <https://realm.io/docs/dotnet/latest/api/linqsupport.html>`__.
+
+There are several operators available to filter a
+:ref:`Realm collection <dotnet-client-collections>` with LINQ.
+Filters work by evaluating an operator expression for
+every object in the collection being
+filtered. If the expression resolves to ``true``, realm
+includes the object in the results collection.
+
+An expression consists of one of the following:
+
+- The name of a property of the object currently being evaluated
+- An operator
+- A value of any type used by realm (string, date, number, boolean, etc.)
+
+Comparison Operators
+~~~~~~~~~~~~~~~~~~~~
+Value comparisons
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - | ``==``
+     - Evaluates to ``true`` if the left-hand expression is equal to the 
+       right-hand expression.
+
+   * - | ``>``
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       greater than the right-hand numerical or date expression. For dates, this 
+       evaluates to ``true`` if the left-hand date is later than the right-hand 
+       date.
+
+   * - | ``>=``
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       greater than or equal to the right-hand numerical or date expression. For 
+       dates, this evaluates to ``true`` if the left-hand date is later than or 
+       the same as the right-hand date.
+
+   * - | ``<``
+     - Evaluates to ``true`` if the left-hand numerical or date expression is 
+       less than the right-hand numerical or date expression. For dates, this 
+       evaluates to ``true`` if the left-hand date is earlier than the 
+       right-hand date.
+
+   * - | ``<=``
+     - Evaluates to ``true`` if the left-hand numeric expression is less than 
+       or equal to the right-hand numeric expression. For dates, this evaluates 
+       to ``true`` if the left-hand date is earlier than or the same as the 
+       right-hand date.
+
+   * - | ``!=``
+     - Evaluates to ``true`` if the left-hand expression is not equal to the 
+       right-hand expression.
 
 .. example::
 
-   In the following example, we use the query
-   engine's comparison operators to:
+   The following example uses the query engine's
+   comparison operators to:
 
-   - Find high priority tasks by comparing the value of the ``priority`` property value with a threshold number, above which priority can be considered high.
-   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` property falls within a certain range.
-   - Find unassigned tasks by finding tasks where the ``assignee`` property is equal to null.
-   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the ``assignee`` property is in a list of names.
+   - Find high priority tasks by comparing the value of the ``priority`` property 
+     value with a threshold number, above which priority can be considered high.
+   - Find just-started or short-running tasks by seeing if the ``progressMinutes`` 
+     property falls within a certain range.
+   - Find unassigned tasks by finding tasks where the ``assignee`` property is 
+     equal to ``null``.
+   - Find tasks assigned to specific teammates Ali or Jamie by seeing if the 
+     ``assignee`` property is in a list of names.
 
-   .. literalinclude:: /examples/Query/Comparison.cs
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.comparisons.cs
       :language: csharp
+
+
+Logical Operators
+~~~~~~~~~~~~~~~~~
+
+You can use the logical operators listed in the following table to make compound 
+predicates:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Operator
+     - Description
+
+   * - | ``&&``
+     - Evaluates to ``true`` if both left-hand and right-hand expressions are 
+       ``true``.
+
+   * - | ``!``
+     - Negates the result of the given expression.
+
+   * - | ``||``
+     - Evaluates to ``true`` if either expression returns ``true``.
+
+.. example::
+
+   We can use the query language's logical operators to find
+   all of Ali's completed tasks. That is, we find all tasks
+   where the ``assignee`` property value is equal to 'Ali' AND
+   the ``isComplete`` property value is ``true``:
+
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.logical.cs
+      :language: csharp
+
+
+String Operators
+~~~~~~~~~~~~~~~~
+
+You can compare string values using the string operators listed in the following 
+table. Regex-like wildcards allow more flexibility in search.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Operator
+     - Description
+
+   * - ``StartsWith``
+     - Evaluates to ``true`` if the left-hand string expression begins with the 
+       right-hand string expression. This is similar to ``contains``, but only 
+       matches if the left-hand string expression is found at the beginning of 
+       the right-hand string expression.
+
+   * - | ``EndsWith``
+     - Evaluates to ``true`` if the left-hand string expression ends with the 
+       right-hand string expression. This is similar to ``contains``, but only 
+       matches if the left-hand string expression is found at the very end of 
+       the right-hand string expression.
+
+   * - | ``Like``
+     - Evaluates to ``true`` if the left-hand string expression
+       matches the right-hand string wildcard string
+       expression. A wildcard string expression is a string
+       that uses normal characters with two special wildcard
+       characters:
+
+       - The ``*`` wildcard matches zero or more of any character
+       - The ``?`` wildcard matches any character.
+
+       For example, the wildcard string "d?g" matches "dog",
+       "dig", and "dug", but not "ding", "dg", or "a dog".
+
+   * - | ``Equals``
+     - Evaluates to ``true`` if the left-hand string is 
+       `lexicographically <https://en.wikipedia.org/wiki/Lexicographic_order>`_ 
+       equal to the right-hand string.
+
+   * - | ``Contains``
+     - Evaluates to ``true`` if the left-hand string expression is found anywhere 
+       in the right-hand string expression.
+
+   * - | ``string.IsNullOrEmpty``
+     - Evaluates to ``true`` if the left-hand string expression is null or empty.
+       Note that ``IsNullOrEmpty()`` is a static method on ``string``. 
+
+.. example::
+
+   The following examples use the query engine's string operators to find
+   tasks:
+
+   .. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.strings.cs
+      :language: csharp
+
+.. important:: Case Comparisons
+
+   When evaluating strings, the second parameter in all functions *except* ``Like`` 
+   must be either ``StringComparison.OrdinalIgnoreCase`` or 
+   ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
+   parameter is a boolean value (where "true" means "case sensitive").
+
+.. _dotnet-realm-query-language:
+
+Realm Query Language
+--------------------
+
+You can also use :dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>`
+to query realms using :ref:`Realm Query Language <realm-query-language>`.
+Realm Query Language is a string-based query language to access the query engine.
+
+.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.rql.cs
+    :language: csharp
+
+You should use :ref:`.NET LINQ syntax <dotnet-linq-syntax>` for queries,
+unless your requirements extend beyond LINQ's current capabilities.
+Realm Query Language is able to perform operations that LINQ syntax is not,
+such as :ref:`aggregation <dotnet-realm-query-language-aggregation>`.
+
+.. include:: /includes/tip-realm-query-language-reference-examples.rst
+
+.. _dotnet-realm-query-language-aggregation:
+
+Aggregate Operators
+~~~~~~~~~~~~~~~~~~~
+
+Aggregate operators traverse a
+:ref:`collection <dotnet-client-collections>` and reduce it
+to a single value. Note that aggregations use the 
+:dotnet-sdk:`Filter() <reference/Realms.CollectionExtensions.html?q=Filter>` 
+method, which can be used to create more complex queries that are currently 
+unsupported by the LINQ provider. ``Filter()`` supports SORT and DISTINCT 
+clauses in addition to filtering.
+
+For more information on the available aggregate operators, refer to the 
+:ref:`Realm Query Language aggregate operator reference <rql-aggregate-operators>`.
+
+The following examples show different ways to aggregate data:
+
+.. literalinclude:: /examples/generated/dotnet/QueryEngineExamples.snippet.aggregate.cs
+  :language: csharp
 
 .. _dotnet-sort-query-results:
 .. _dotnet-sort-results:
