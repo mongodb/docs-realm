@@ -246,6 +246,7 @@ error if the update cannot complete successfully.
 
 .. code-block:: swift
 
+   @MainActor
    func changeSubscription() async throws {
       let subscriptions = realm.subscriptions
       try await subcriptions.update {
