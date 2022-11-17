@@ -30,31 +30,44 @@ uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
-.. note::
+.. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
-   There is a small performance hit (typically less than 10% slower) when using 
-   encrypted Realms.
+Considerations
+--------------
+
+The following are key impacts to consider when encrypting a realm.
 
 Storing & Reusing Keys
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
-You must pass the same encryption key when opening the encrypted realm
-again. Apps should securely store the encryption key, typically in the target
-platform's secure key/value pair storage. You can use :xamarin:`Xamarin Secure
-Storage <essentials/secure-storage>` to simplify the access to underlying
-storage. Ultimately, it is the developer's responsibility to ensure that
-attackers cannot easily extract the key.
+You **must** pass the same encryption key every time you open the encrypted realm. 
+If you don't provide a key or specify the wrong key for an encrypted
+realm, the Realm SDK throws an error.
+
+Apps should store the encryption key securely, typically in the target
+platform's secure key/value storage, so that other apps cannot read the key.
+You can use :xamarin:`Xamarin Secure Storage <essentials/secure-storage>` to 
+simplify the access to underlying storage. Ultimately, it is the developer's 
+responsibility to ensure that attackers cannot access the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Reads and writes on encrypted realms can be up to 10% slower than unencrypted realms.
 
 Encryption and Atlas Device Sync
---------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can encrypt a :ref:`synced realm <dotnet-sync-data>`, too. Realm only
-encrypts the data on the device, and stores the data unencrypted in your
-Atlas data source. The transfer between client server is fully
-encrypted.
+You can encrypt a :ref:`synced realm <dotnet-sync-data>`. 
 
-If you need unique keys for each user of your application, you can use an OAuth 
-provider (such as Xamarin.Auth), or use one of the 
-:ref:`Realm Authentication providers <users-and-authentication>` and an 
-:ref:`Authentication Trigger<authentication-triggers>` 
-to create a 64-bit key and store that key in :ref:`a user object <user-objects>`.
+.. include:: /includes/encrypt-atlas-device-sync.rst
+
+If you need unique keys for each user of your application, you can use an OAuth provider (such as Xamarin.Auth) 
+or use one of the :ref:`Realm authentication providers <users-and-authentication>` 
+and an :ref:`authentication trigger<authentication-triggers>` to create a 64-bit key 
+and store that key in a :ref:`user object <user-objects>`.
+
+Accessing an Encrypted Realm from Multiple Processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/encrypt-mult-processes.rst
