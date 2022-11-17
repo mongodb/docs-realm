@@ -75,92 +75,11 @@ methods:
 .. literalinclude:: /examples/generated/dotnet/DataSyncExamples.snippet.pause-synced-realm.cs
    :language: csharp
 
-.. _dotnet-check-sync-progress:
+.. note:: Sync Progress
 
-Monitor Sync Progress and Status
---------------------------------
-You may want to know the status of Sync operations in your app. For 
-example, you might want specific code to run only after all of the data is 
-synced with App Services. You might also want to provide users with the 
-status of Sync operations. 
+   To learn more about monitoring Sync upload and download progress, refer to
+   :ref:`<dotnet-check-sync-progress>`.
 
-You can set up your Sync session to wait for changes to be uploaded 
-or downloaded. You can also configure your Sync session to
-notify when the Sync connection status changes.
-
-.. _dotnet-check-sync-progress-wait-for-upload-or-download:
-
-Wait for Changes to be Uploaded or Downloaded
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To asynchronously wait for your changes to be completed, get the sync session 
-from the :dotnet-sdk:`Realms.Sync.SyncSession
-<reference/Realms.Realm.html#Realms_Realm_SyncSession>`
-property, and then call the :dotnet-sdk:`session.WaitForUploadAsync()
-<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForUploadAsync>` or 
-:dotnet-sdk:`session.WaitForDownloadAsync()
-<reference/Realms.Sync.Session.html#Realms_Sync_Session_WaitForDownloadAsync>` 
-methods. For example:
-
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.wait-for-changes-to-download-async-progress-notification.cs
-   :language: csharp
-
-.. _dotnet-sync-status-change:
-
-Monitor Sync Progress
-~~~~~~~~~~~~~~~~~~~~~
-
-To monitor Sync progress, get the 
-sync session from the :dotnet-sdk:`Realms.Sync.SyncSession 
-<reference/Realms.Realm.html#Realms_Realm_SyncSession>` property, then add a 
-progress notification by calling the 
-:dotnet-sdk:`session.GetProgressObservable() <reference/Realms.Sync.Session.html#Realms_Sync_Session_GetProgressObservable_Realms_Sync_ProgressDirection_Realms_Sync_ProgressMode_>` 
-method.
-
-The ``session.GetProgressObservable`` method takes in the following two parameters:
-
-- A :dotnet-sdk:`ProgressDirection <reference/Realms.Sync.ProgressDirection.html>` 
-  parameter that can be set to ``Upload`` or ``Download``.
-  
-- A :dotnet-sdk:`ProgressMode <reference/Realms.Sync.ProgressMode.html>` parameter 
-  that can be set to ``ReportIndefinitely``
-  for the notifications to continue until the callback is unregistered, or 
-  ``ForCurrentlyOutstandingWork`` for the notifications to continue until only 
-  the currently transferable bytes are synced.
-
-When you `Subscribe <https://docs.microsoft.com/en-us/dotnet/api/system.iobservable-1.subscribe?view=net-6.0#system-iobservable-1-subscribe(system-iobserver((-0)))>`_ 
-to the notifications, you receive a 
-:dotnet-sdk:`SyncProgress <reference/Realms.Sync.SyncProgress.html>` 
-object that provides the total number of transferrable bytes and the remaining 
-bytes to be transferred.
-
-.. note:: 
-   
-   The number of transferred and transferable bytes are only estimates. 
-   The Sync changesets are compressed with 
-   `gzip <https://www.gnu.org/software/gzip/>`_ before transmitting, so 
-   the actual size of transmitted bytes will be smaller than the reported number  
-   of both transferable and transferred bytes.
-
-.. example::
-
-   In the following example, we subscribe to a progress 
-   observable on the ``session`` to listen for upload events indefinitely. When 
-   this callback is triggered, it prints the number of transferred 
-   bytes and the number of transferable bytes to the console.
-
-   .. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.upload-download-progress-notification.cs
-      :language: csharp
-
-   Once you no longer wish to receive notifications, unregister the token by using 
-   ``token.Dispose()``
-
-.. note:: 
-   
-   The SDK optimizes download speeds by combining multiple changesets
-   into a single download message, up to 16 MB. Since the progress callback is
-   only invoked once before and after a download message is processed, this
-   means that you'll likely see ``transferredBytes`` change in increments of roughly
-   16 MB rather than continuously as the message is being downloaded.
 
 Get Connection State Changes
 ----------------------------
@@ -240,24 +159,3 @@ sync occurs.
    methods. 
    For more information, see :ref:`<dotnet-check-sync-progress-wait-for-upload-or-download>`.
 
-.. _dotnet-set-the-client-log-level:
-
-Set the Client Log Level
-------------------------
-To control which messages are logged by the client logger, use
-:dotnet-sdk:`LogLevel <reference/Realms.Logging.LogLevel.html>`:
-
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.set-log-level.cs
-   :language: csharp
-
-.. include:: /includes/tip-sync-log-levels.rst
-
-
-.. _dotnet-customize-logging-function:
-
-Customize the Logging Function
-------------------------------
-To set a custom logger function, set :dotnet-sdk:`Logger.Default <reference/Realms.Logging.Logger.html>` to a custom Logger function. 
-
-.. literalinclude:: /examples/generated/dotnet/ErrorHandler.snippet.customize-logging-function.cs
-   :language: csharp
