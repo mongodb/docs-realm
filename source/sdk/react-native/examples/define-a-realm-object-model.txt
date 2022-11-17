@@ -45,47 +45,22 @@ Object Properties <react-native-define-a-property>`.
 Define Realm Object Types Using a Class
 ---------------------------------------
 
-You can define Realm object types using a class in `JavaScript
-<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ or
-`TypeScript
-<https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by extending
-:js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define the object
-schema on the static property ``schema``.
+You can define Realm object types using a `class
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ by
+extending :js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define
+the object schema on the static property ``schema``.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
-         :language: typescript
-
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
+   :language: javascript  
    
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then
 :doc:`read data </sdk/node/examples/read-and-write-data>` normally. Class based
 models call :js-sdk:`Realm.create() <Realm.html#create>` when you call their
 constructor, so you do not need to explicitly call ``Realm.create()``.
-     
-.. tabs-realm-languages::
 
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-         :language: javascript
-
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
-         :language: typescript
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
+   :language: javascript
 
 .. _react-native-supported-property-types:
 
@@ -97,18 +72,11 @@ property's type can be a primitive data type or an object type defined in the
 same realm. The type also specifies whether the property contains a single
 value or a list of values.
 
-Realm Database supports the following primitive data types:
-
-- ``bool`` for boolean values
-- ``int`` and ``double``, which map to JavaScript ``number`` values
-- ``Decimal128`` for high precision numbers
-- ``string``
-- ``date``, which maps to :mdn:`Date <Web/JavaScript/Reference/Global_Objects/Date>`
-- ``data``, which maps to :mdn:`ArrayBuffer <Web/JavaScript/Reference/Global_Objects/ArrayBuffer>`
-- ``objectId``, which maps to :manual:`ObjectId </reference/method/ObjectId/>`
-
 To specify that a field contains a list of a primitive value type, append ``[]``
 to the type name.
+
+To see the complete list of supported types, read the :ref:`Field Types
+<react-native-data-types-field-types>` documentation.
 
 .. _react-native-define-a-property:
 
