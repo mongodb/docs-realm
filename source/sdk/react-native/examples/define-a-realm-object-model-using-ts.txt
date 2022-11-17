@@ -7,7 +7,7 @@ Define a Realm Object Model Using TypeScript - React Native SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 2
+   :depth: 1
    :class: singlecol
 
 You can declare a Realm Object Model using TypeScript property types
@@ -15,17 +15,14 @@ declarations on classes. The Realm JS SDK will derive the schema at runtime from
 the types declared in your TS source files. This allows you to use TypeScript
 syntax without needing to explicitly define a schema.
 
-Usage
------
-
 Setup
-~~~~~
+-----
 
 .. procedure::
 
    .. step:: Install the Realm Babel Plugin
 
-      To define your Realm Object Model using TypeScript, you need to install the npm:`Realm Babel Plugin <package/@realm/babel-plugin>`. Run the following command to add it to your `dev dependencies <https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file>`_:
+      To define your Realm Object Model using TypeScript, you need to install the :npm:`Realm Babel Plugin <package/@realm/babel-plugin>`. Run the following command to add it to your `dev dependencies <https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file>`_:
 
       .. code-block:: shell
 
@@ -38,16 +35,15 @@ Setup
       .. code-block:: javascript
 
          const presets = [ ... ];
-         const plugins = [ ... ];
 
          module.exports = { 
-         presets,
-         plugins: ["@realm/babel-plugin"],
+            presets,
+            plugins: ["@realm/babel-plugin"],
          };
 
    .. step:: Restart the Package Cache
 
-      Finally, restart the package cache to work with the newly applied plugins in your app. For most React Native applications, you can run the command:
+      Finally, restart the package cache to work with the newly applied plugin in your app. For most React Native applications, you can run the command:
 
       .. code-block:: shell
 
@@ -55,24 +51,143 @@ Setup
 
       However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
 
-Code
-~~~~
+Define a Realm Object Model
+---------------------------
 
 You can define Realm object types using a class `TypeScript
 <https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by extending
 :js-sdk:`Realm.Object <Realm.Object.html>`.
 
+.. note:: 
+
+   We recommend using `TypeScript types
+   <https://www.typescriptlang.org/docs/handbook/basic-types.html>`_ in all
+   cases where there is an existing TypeScript type that maps to the :ref:`Realm
+   field type <react-nativedata-types-field-types>`. However, if there is no
+   existing TypeScript type that maps to the Realm field type, you must use the
+   Realm type.
+
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
    :language: typescript
+
+Open a Realm and Read and Write Data
+------------------------------------
    
 Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
 <Realm.html#~Configuration>` object when opening a realm. You can then
-:doc:`read data </sdk/node/examples/read-and-write-data>` normally. Class based
-models call :js-sdk:`Realm.create() <Realm.html#create>` when you call their
-constructor, so you do not need to explicitly call ``Realm.create()``.
+:doc:`read data </sdk/node/examples/read-and-write-data>` normally. 
+
+Classes extending ``Realm.Object`` call :js-sdk:`Realm.create()
+<Realm.html#create>` when you call their constructor, so you do not need to
+explicitly call ``Realm.create()``. Realm objects using ``new`` can only be
+created within a write transaction.
      
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
    :language: typescript
 
+Additional Schema Properties
+----------------------------
+To specify additional schema properties, you can add them as ``static`` properties of your class. 
+The following additional schema properties can be defined:
+
+.. list-table::
+
+   * - Static Property
+     - Type
+     - Description
+
+   * - ``name``
+     - *string*
+     - The name of the Realm schema. Defaults to your class name.
+
+   * - ``primaryKey``
+     - *string*
+     - The name of a property to be used as the primary key.
+
+   * - ``embedded``
+     - *boolean*
+     - Defines the Realm Object Model as an embedded object (nested Realm object).
+
+   * - ``asymmetric``
+     - *boolean*
+     - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
+
 Decorators
 ----------
+ 
+Decorators allow you to specify that a property should be the :ref:`index
+<react-native-indexes>` or should be remapped to a different name. 
+
+.. list-table::
+
+   * - Decorator
+     - Parameters
+     - Description
+
+   * - ``index``
+     - none
+     - The property should be indexed.
+
+   * - ``mapTo``
+     - (realmPropertyName: string)
+     - The property should be stored as realmPropertyName in the Realm Database.
+
+Set Up
+~~~~~~
+
+.. procedure::
+
+   .. step:: Install the Babel Plugin Proposal Decorators Package
+
+      The :npm:`@babel/plugin-proposal-decorators
+      <package/@babel/plugin-proposal-decorators>` allows you to compile class
+      and object decorators to ES5, and is required to use decorators with
+      classes that extend ``Realm.Object``. Run the following command to add it
+      to your ``devDependencies``:
+
+      .. code-block:: shell
+
+         npm install --save-dev @babel/plugin-proposal-decorators
+
+   .. step:: Enable Decorators in your Babel Config
+
+      To apply the plugin, add ``@babel/plugin-proposal-decorators`` to your ``babel.config.js`` file:
+
+      .. code-block:: javascript
+
+         const presets = [ ... ];
+         module.exports = { 
+            presets,
+            plugins: [
+               '@realm/babel-plugin',
+               ['@babel/plugin-proposal-decorators', { legacy: true }],
+            ],
+         };
+
+   .. step:: Enable Decorators in your TS Config File
+
+      Additionally, enable experimental decorators in your `tsconfig.json <https://www.typescriptlang.org/docs/handbook/tsconfig-json.html>`_ within your ``compilerOptions``:
+
+      .. code-block:: json
+
+         {
+            "compilerOptions": {
+               "experimentalDecorators": true
+            },
+         }
+
+   .. step:: Restart the Package Cache
+
+      Finally, restart the package cache to work with the newly applied plugin in your app. For most React Native applications, you can run the command:
+
+      .. code-block:: shell
+
+         npm start -- --reset-cache
+
+      However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
+
+Example
+~~~~~~~
+
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
+   :language: typescript

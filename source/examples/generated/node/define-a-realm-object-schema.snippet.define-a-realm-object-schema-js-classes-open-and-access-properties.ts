@@ -3,11 +3,9 @@ const realm = await Realm.open({
   schema: [Car],
 });
 
-let car1: Car;
+let car1!: Car;
 realm.write(() => {
   // call to new Car() creates a new "Car" Realm.Object
-  car1 = new Car(realm, "Nissan", "Sentra", 20510);
-  // :hide-start:
-  expect(car1.model).toBe("Sentra");
-  // :hide-end:
+  car1 = new Car(realm, new Realm.BSON.ObjectId(), "Nissan", "Sentra", 20510);
 });
+console.log(car1.make)
