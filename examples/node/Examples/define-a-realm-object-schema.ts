@@ -4,18 +4,16 @@ describe("Define a Realm Object Schema", () => {
   test("should define realm object types with js classes", async () => {
     // :snippet-start: define-a-realm-object-schema-define-js-classes
     class Car extends Realm.Object<Car> {
+      _id: Realm.BSON.ObjectId = new Realm.BSON.ObjectId(); // Set the car with a default ObjectId
       make!: string;
       model!: string;
-      miles!: number;
+      miles: number = 0; // Set the car with a default of 0 miles
 
-      static schema = {
-        name: "Car",
-        properties: {
-          make: "string",
-          model: "string",
-          miles: "int",
-        },
-      };
+      static primaryKey = '_id'; // specify the primary key is the ``_id`` field
+
+      constructor(realm: Realm, make: string, model: string, miles: number, ) {
+        super(realm, { make, model, miles});
+      }
     }
     // :snippet-end:
 
@@ -28,12 +26,11 @@ describe("Define a Realm Object Schema", () => {
     let car1: Car;
     realm.write(() => {
       // call to new Car() creates a new "Car" Realm.Object
-      car1 = new Car(realm, { make: "Nissan", model: "Sentra", miles: 20510 }) 
+      car1 = new Car(realm, "Nissan", "Sentra", 20510);
       // :hide-start:
       expect(car1.model).toBe("Sentra");
       // :hide-end:
     });
-    // use car1
     // :snippet-end:
     
     // delete the car after its used
