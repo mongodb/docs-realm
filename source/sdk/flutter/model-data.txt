@@ -27,11 +27,11 @@ Realm Objects
 
 Realm objects are regular Dart classes that you can interact with like any other
 Dart class in your application. The Flutter SDK memory maps Realm objects directly
-to the Realm Database. You can work with Realm objects as you would any other Dart object instance.
+to Realm Database. You can work with Realm objects as you would any other Dart object instance.
 
-Every Realm object conforms to a specific **object type**, which is
-essentially a class that defines the properties and relationships for objects of that type.
-Realm guarantees that all objects in a realm conform to the schema for their object type
+Every Realm object conforms to a specific **object type**, which is a class
+that defines the properties and relationships for objects of that type.
+The SDK guarantees that all objects in a realm conform to the schema for their object type
 and validates objects whenever they are created, modified, or deleted.
 
 To learn more about defining Realm objects, refer to
@@ -49,7 +49,7 @@ to include in the schema. You can define properties with the following character
 - If it is indexed
 - If the property defines a relationship to another Realm object type.
 
-To learn more about the property options when defining Realm objects,
+To learn more about property options when defining Realm objects,
 refer to the following documentation:
 
 - :ref:`Data Types <flutter-data-types>`
