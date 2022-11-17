@@ -15,8 +15,8 @@ describe("Define a Realm Object Schema", () => {
       get carName() {
         return `${this.make} ${this.model}`;
       }
-  }
-  // :snippet-end:
+    }
+    // :snippet-end:
 
     // :snippet-start: define-a-realm-object-schema-js-classes-open-and-access-properties
     const realm = await Realm.open({
