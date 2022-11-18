@@ -100,17 +100,6 @@ extension SwiftUI_Dog {
 }
 // :snippet-end:
 
-//class Person: Object, ObjectKeyIdentifiable {
-//    @Persisted(primaryKey: true) var _id: ObjectId
-//    @Persisted var firstName = ""
-//    @Persisted var lastName = ""
-//    @Persisted var personId = ""
-//    @Persisted var company = "MongoDB"
-//    @Persisted var businessUnit = BusinessUnitEnum.engineering
-//    @Persisted var profileImageUrl: URL?
-//    @Persisted var dogs: List<Dog>
-//}
-
 extension SwiftUI_Person {
     static let person = SwiftUI_Person(value: ["firstName": "Dachary", "lastName": "Carey", "personId": "some-person-id", "profileImageUrl": "https://avatars.githubusercontent.com/u/1308377?v=4"])
     
@@ -139,6 +128,29 @@ extension SwiftUI_Person {
         }
     }
     // :snippet-end:
+    
+    static var previewRealmNoDogs: Realm {
+        var realm: Realm
+        let identifier = "previewRealm"
+        let config = Realm.Configuration(inMemoryIdentifier: identifier)
+        do {
+            realm = try Realm(configuration: config)
+            // Check to see whether the in-memory realm already contains a Person.
+            // If it does, we'll just return the existing realm.
+            // If it doesn't, we'll add a Person.
+            let realmObjects = realm.objects(SwiftUI_Person.self)
+            if realmObjects.count == 1 {
+                return realm
+            } else {
+                try realm.write {
+                    realm.add(person)
+                }
+                return realm
+            }
+        } catch let error {
+            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+        }
+    }
 }
 
 /// Random adjectives for more interesting demo item names
@@ -182,14 +194,11 @@ final class ItemGroup: Object, ObjectKeyIdentifiable {
     @Persisted var items = RealmSwift.List<Item>()
 }
 
-
 extension Item {
     static let item1 = Item(value: ["name": "fluffy coasters", "isFavorite": false, "ownerId": "previewRealm"])
     static let item2 = Item(value: ["name": "sudden cinder block", "isFavorite": true, "ownerId": "previewRealm"])
     static let item3 = Item(value: ["name": "classy mouse pad", "isFavorite": false, "ownerId": "previewRealm"])
 }
-
-
 
 extension ItemGroup {
     static let itemGroup = ItemGroup(value: ["ownerId": "previewRealm"])
@@ -218,5 +227,4 @@ extension ItemGroup {
         }
     }
 }
-
 // :replace-end:

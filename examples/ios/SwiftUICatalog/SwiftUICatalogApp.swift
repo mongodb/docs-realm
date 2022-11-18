@@ -24,10 +24,12 @@ let flexibleSyncApp: RealmSwift.App? = RealmSwift.App(id: "swift-flexible-vkljj"
 let realm = ItemGroup.previewRealm
 let itemGroup = realm.objects(ItemGroup.self)
 let personProfile = SwiftUI_Person.previewRealm.objects(Profile.self)
+let personWithoutDogs = SwiftUI_Person.previewRealmNoDogs.objects(SwiftUI_Person.self).first!
 
 @main
 struct SwiftUICatalogApp: SwiftUI.App {
     static let viewBuilders: [String: () -> AnyView] = [
+        "AppendObjectToList": { AnyView(PersonDogView(person: personWithoutDogs)) },
         "DefaultView": { AnyView(DefaultView()) },
         "DogDetails": { AnyView(DogDetailView(dog: SwiftUI_Dog.dog1)) },
         "EditDogDetails": { AnyView(DogDetailsView(dog: SwiftUI_Dog.dog1)) },

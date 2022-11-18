@@ -155,4 +155,30 @@ class SwiftUICatalogUITests: XCTestCase {
         XCTAssert(app.staticTexts["Maui"].exists)
         XCTAssert(!app.staticTexts["Lita"].exists)
     }
+    
+    func testAppendToList() throws {
+        let app = XCUIApplication()
+        app.launchEnvironment["MyUITestsCustomView"] = "true"
+        app.launchEnvironment["MyCustomViewName"] = "AppendObjectToList"
+        app.launch()
+        
+        XCTAssert(app.staticTexts["Person Dachary has 0 dogs"].waitForExistence(timeout: 2))
+        app.buttons["Add dog"].tap()
+        
+        XCTAssert(app.textFields["Dog's name"].waitForExistence(timeout: 2))
+        let name = app.textFields["Dog's name"]
+        name.tap()
+        name.typeText("Maui")
+        let breed = app.textFields["Dog's breed"]
+        breed.tap()
+        breed.typeText("Mutt")
+        let weight = app.textFields["Dog's weight"]
+        weight.tap()
+        weight.typeText("50")
+        let favoriteToy = app.textFields["Dog's favorite toy"]
+        favoriteToy.tap()
+        favoriteToy.typeText("Bone")
+        app.buttons["Save"].tap()
+        XCTAssert(app.staticTexts["Person Dachary has 1 dogs"].waitForExistence(timeout: 2))
+    }
 }
