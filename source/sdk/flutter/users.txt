@@ -13,8 +13,13 @@ Users - Flutter SDK
    Delete a User </sdk/flutter/users/delete-user>
 
 To access Atlas App Services and use Atlas Device Sync with the Realm Flutter SDK,
-TODO:(DOCSP-26078) - more must user blah blah
+you must first authenticate a user with App Services Authentication.
+You can use a variety of authentication providers included in App Services Authentication
+to use App Services.
 
+For more information on configuring App Services Authentication,
+refer to :ref:`App Services Authentication <users-and-authentication>` in the
+Atlas App Services documentation.
 
 .. _flutter-creating-and-deleting-users:
 
@@ -22,7 +27,7 @@ Create and Delete Users
 -----------------------
 
 For all authentication providers other than email/password authentication,
-App Services automatically :ref:`creates a user <flutter-create-user>`
+App Services automatically :ref:`registers a user <flutter-register>`
 the first time a user authenticates. If a user authenticates via more than
 one method, you can :ref:`link these user identities <flutter-link-user-identities>`
 to a single user object.
@@ -65,34 +70,25 @@ realm or call an Atlas Function upon subsequent app opens.
 User Object
 ~~~~~~~~~~~
 
-TODO:(DOCSP-26078): add brief overview and ...refactor the below content from swift
-
 App Services manages sessions with access tokens and refresh tokens.
 Client SDKs supply the logic to manage tokens, and provide them with requests.
 
 Some authentication providers enable developers to access user metadata, such
 as full name or email address. When you configure these metadata fields on
-the App Services application, you can read this medata from your client app. A
-user object has a ``profile`` property that you can use to :ref:`access
-user metadata <flutter-read-user-metadata>`.
+the App Services application, you can read this medata from your client app.
 
-.. seealso::
+To learn more about the user object that App Services provides the Flutter SDK:
 
-   :ref:`<user-sessions>`
+- Refer to :ref:`User Objects <user-objects>` in the App Services documentation.
+- Refer to the Flutter SDK reference documentation about the
+  :flutter-sdk:`User <realm/User-class.html>` object.
 
 .. _flutter-app-work-with-custom-user-data:
 
 Custom User Data
 ----------------
 
-You can :ref:`associate custom data <custom-user-data>` with a user object,
+You can associate custom data <custom-user-data with a user,
 such as a preferred language or local timezone, and read it from your client
-application. A user object has a ``customData`` property that you can use
-to :ref:`access custom user data <flutter-read-custom-user-data>`.
-
-TODO(DOCSP-26078): add brief section to custom user data page abt create/update custom user data
-
-To :ref:`create <flutter-create-a-users-custom-data-document>` and :ref:`update
-<flutter-update-a-users-custom-data>` custom user data, you must access
-your MongoDB data source directly. App Services does not offer a SDK
-method to create or update this custom user data; it's a read-only property.
+application. For more information on working with custom user data,
+refer to :ref:`Custom User Data <flutter-custom-user-data>`.
