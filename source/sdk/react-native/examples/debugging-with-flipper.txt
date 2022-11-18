@@ -13,12 +13,18 @@ Debugging with Flipper - React Native SDK
 Overview
 --------
 
-To debug Realm apps built with React Native, use the Flipper Debugger. Flipper provides a way to visualize, inspect, and control your apps from a simple desktop interface. In addition to Flipper's intuitive interface, the :github:`Realm Flipper Plugin <realm/realm-flipper-plugin>` provides additional ways to improve your app debugging experience:
+To debug Realm apps built with React Native, use the Flipper Debugger. Flipper provides a way to visualize, inspect, and control your apps from a simple desktop interface. In addition to Flipper's intuitive interface, the :github:`Realm Flipper Plugin <realm/realm-flipper-plugin>` provides additional ways to inspect your Realm Database through:
 
 - Live Objects: See objects in real-time.
 - Schema Dependency Graph: View schemas and their relationships.
 - Make changes: Create, modify and delete objects
 - Query: Query the database using RQL
+
+Requirements
+------------
+
+- Using the `Hermes JS Engine <https://reactnative.dev/docs/hermes>`_
+- :github:`Realm JS version 11.0 <realm/realm-js/releases/tag/v11.0.0>` or greater
 
 Setup 
 -----
@@ -87,7 +93,7 @@ Setup
          import RealmPlugin from 'realm-flipper-plugin-device';
 
       Within your component's return statement, render your ``RealmPlugin`` and pass it the
-      opened realm as a parameter. 
+      opened realm as a parameter. You can pass in multiple opened realms.
 
       .. code-block:: javascript
 
