@@ -38,8 +38,8 @@ Assign a default value in the property declaration.
 
 .. _flutter-primary-key:
 
-PrimaryKey
-----------
+Primary Keys
+------------
 
 The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__
 annotation indicates a primary key property.
@@ -59,19 +59,37 @@ Important aspects of primary keys:
    :language: dart
    :emphasize-lines: 2-3
 
-Ignored
--------
+.. _flutter-map-property:
+
+Map a Property to a Different Name
+----------------------------------
+
+The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
+indicates that a property should be persisted under a different name.
+It's useful when opening a Realm across different bindings where code style conventions can differ.
+
+.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
+   :language: dart
+   :emphasize-lines: 15-16
+
+.. _flutter-ignore-property:
+
+Ignore Properties from Realm Schema
+-----------------------------------
 
 If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
 annotation to a property in your ``RealmModel``, the :ref:`realm object generator
-<flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
+<flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema
+or persist it to Realm Database.
 
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 9-10
 
-Indexed
--------
+.. _flutter-index-property:
+
+Index Properties
+----------------
 
 Add the `Indexed
 <https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
@@ -92,14 +110,3 @@ The following data types can be indexed:
 .. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
    :language: dart
    :emphasize-lines: 12-13
-
-MapTo
------
-
-The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
-indicates that a property should be persisted under a different name.
-It's useful when opening a Realm across different bindings where code style conventions can differ.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 15-16
