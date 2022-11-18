@@ -1,6 +1,7 @@
 // :replace-start: {
 //   "terms": {
-//     "SwiftUI_": ""
+//     "SwiftUI_": "",
+//     "Doggo": "Dog"
 //   }
 // }
 import XCTest
