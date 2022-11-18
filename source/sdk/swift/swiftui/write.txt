@@ -62,13 +62,23 @@ a list property, you can add new objects to the list.
 
 In this example, the ``Person`` object has a list property that forms a 
 :ref:`to-many relationship <ios-to-many-relationship>` with one or more dogs.
+
+.. code-block:: swift
+
+   class SwiftUI_Person: Object, ObjectKeyIdentifiable {
+      @Persisted(primaryKey: true) var _id: ObjectId
+      @Persisted var firstName = ""
+      @Persisted var lastName = ""
+      // Other properties removed for brevity
+      @Persisted var dogs: List<SwiftUI_Dog>
+   }
+
 When the user presses the ``Save`` button, this:
 
 - Creates a ``Dog`` object with the details that the user has entered
 - Appends the ``Dog`` object to the ``Person`` object's ``dogs`` list
 
-.. literalinclude:: /examples/generated/swiftui/CreateObjects.snippet.add-dog-to-person-view.swift
-   :language: swift
+.. include:: /examples/generated/swiftui/CreateObjects.snippet.add-dog-to-person-view.swift.rst
 
 Use Create to Copy an Object Into the Realm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +103,7 @@ property to the existing object.
 
    .. code-block:: swift
 
-      class SwiftUI_Dog: Object, ObjectKeyIdentifiable {
+      class Dog: Object, ObjectKeyIdentifiable {
          @Persisted(primaryKey: true) var _id: UUID
          @Persisted var name = ""
          ...
@@ -112,10 +122,9 @@ property to the existing object.
 
       Object is already managed by another Realm. Use create instead to copy it into this Realm.
    
-   The ``Dog`` object is unmanaged when you create it, until you append it 
-   to the ``Person`` object's ``dogs`` property. When the Realm Swift SDK 
-   checks the ``Dog`` object to find the realm that is currently managing it, 
-   it finds nothing. 
+   The ``Dog`` object remains unmanaged until you append it to the ``Person`` 
+   object's ``dogs`` property. When the Realm Swift SDK checks the ``Dog`` 
+   object to find the realm that is currently managing it, it finds nothing. 
    
    When you use the ``$`` notation to perform a quick write that appends the 
    ``Dog`` object to the ``Person`` object, this write uses the realm it has 
@@ -124,7 +133,7 @@ property to the existing object.
    The existing ``DogToy`` object, however, may be managed by a different 
    realm instance.
 
-   To solve this error, you can use the :swift-sdk:`.create 
+   To solve this error, use the :swift-sdk:`.create 
    <Structs/Realm.html#/s:10RealmSwift0A0V6create_5value6updatexxm_ypAC12UpdatePolicyOtSo0aB6ObjectCRbzlF>` 
    method when you initialize the ``Dog`` object, and use 
    ``modified: .update`` to set its ``favoriteToy`` value to the existing 

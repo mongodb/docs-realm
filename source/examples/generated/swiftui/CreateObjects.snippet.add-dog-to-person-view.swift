@@ -20,7 +20,7 @@ struct AddDogToPersonView: View {
             Section {
                 Button(action: {
                     let dog = createDog(name: name, breed: breed, weight: weight, favoriteToy: favoriteToy, profileImageUrl: profileImageUrl)
-                    $person.dogs.append(dog)
+                    $person.dogs.append(dog) 
                     isInAddDogView.toggle()
                 }) {
                     Text("Save")
