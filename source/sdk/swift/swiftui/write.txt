@@ -65,7 +65,7 @@ In this example, the ``Person`` object has a list property that forms a
 
 .. code-block:: swift
 
-   class SwiftUI_Person: Object, ObjectKeyIdentifiable {
+   class Person: Object, ObjectKeyIdentifiable {
       @Persisted(primaryKey: true) var _id: ObjectId
       @Persisted var firstName = ""
       @Persisted var lastName = ""
