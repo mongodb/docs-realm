@@ -69,8 +69,8 @@ In this example, the ``Person`` object has a list property that forms a
       @Persisted(primaryKey: true) var _id: ObjectId
       @Persisted var firstName = ""
       @Persisted var lastName = ""
-      // Other properties removed for brevity
-      @Persisted var dogs: List<SwiftUI_Dog>
+      ...
+      @Persisted var dogs: List<Dog>
    }
 
 When the user presses the ``Save`` button, this:
