@@ -1,0 +1,53 @@
+.. _react-nativedata-types-mixed:
+
+========================
+Mixed - React Native SDK
+========================
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. versionadded:: 10.5.0
+
+Overview
+--------
+The mixed data type is a realm property type that can hold any valid Realm data type except a collection.
+You can create collections (lists, sets, and dictionaries) of type ``mixed``, but a ``mixed`` itself 
+cannot be a collection. Properties using the mixed data type can also hold null values.
+
+.. note::
+
+   The mixed data type is indexable, but you can't use it as a primary key.
+   Because null is a permitted value, you can't declare a Mixed property as
+   optional.
+
+Realm Object Models
+-------------------
+To :ref:`set a property of your object model
+<react-native-define-a-realm-object-schema>` as ``Mixed``, set the property's type to
+"``mixed``".
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.define-mixed-in-schema.js
+    :language: javascript
+
+Create an Object With a Mixed Value
+-----------------------------------
+Create an object with a mixed value by running the :js-sdk:`realm.create()
+<Realm.html#create>` method within a write transaction.
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.create-objects-with-mixed-values.js
+    :language: javascript
+
+Query for Objects with a Mixed Value
+------------------------------------
+Query for objects with a mixed value by running the
+:js-sdk:`Collection.filtered() <Realm.Collection.html#filtered>` method and
+passing in a :ref:`filter <react-native-filter-queries>` for a non-mixed field. You can
+then print the value of the mixed property or the entire object itself.
+
+.. literalinclude:: /examples/generated/node/data-types.snippet.query-objects-with-mixed-values.js
+    :language: javascript
+
+
