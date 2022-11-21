@@ -19,7 +19,7 @@ User Management - Flutter SDK
    :class: singlecol
 
 To access Atlas App Services and use Atlas Device Sync with the Realm Flutter SDK,
-you must first authenticate a user with App Services Authentication.
+you must first authenticate a user with an App Services authentication provider.
 
 For more information on configuring App Services Authentication,
 refer to :ref:`App Services Authentication <users-and-authentication>` in the
@@ -32,8 +32,11 @@ Create and Delete Users
 
 For all authentication providers other than email/password authentication,
 App Services automatically :ref:`registers a user <flutter-register>`
-the first time a user authenticates. If a user authenticates via more than
-one method, you can :ref:`link these user identities <flutter-link-user-identities>`
+the first time a user authenticates.
+When using the email/password authentication provider, you must manually
+:ref:`register a user <flutter-manage-email-password-users>`.
+If a user authenticates via more than one method,
+you can :ref:`link these user identities <flutter-link-user-identities>`
 to a single user object.
 
 You can also :ref:`delete users <flutter-delete-user>`. Deleting a user
@@ -66,6 +69,7 @@ When you have a logged-in user, you can:
 - :ref:`Change the active user <flutter-change-active-user>` in a multi-user
   application
 - :ref:`Remove a user <flutter-remove-user>` from the device
+- :ref:`Delete a user <flutter-delete-user>`
 
 On successful login, the Flutter SDK caches credentials on the device. You
 can bypass the login flow and access the cached user. Use this to open a
@@ -92,7 +96,7 @@ To learn more about the user object that App Services provides the Flutter SDK:
 Custom User Data
 ----------------
 
-You can associate custom data <custom-user-data with a user,
+You can associate custom data with a user,
 such as a preferred language or local timezone, and read it from your client
 application. For more information on working with custom user data,
 refer to :ref:`Custom User Data <flutter-custom-user-data>`.
