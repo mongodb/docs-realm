@@ -50,6 +50,13 @@ Define Realm Object Types Using a Class
    .. tab::
       :tabid: typescript
 
+      .. note:: Prerequisites
+
+         To define Realm Object Model using TypeScript, you must install the
+         Realm Babel Plugin and add it to your Babel config file. If you have
+         not already done so you can follow the installation procedure in
+         :ref:`TypeScript Support <react-native-typescript-support>`
+
       You can declare a Realm Object Model using TypeScript property types
       declarations on classes. The Realm JS SDK will derive the schema at runtime from
       the types declared in your TS source files. This allows you to use TypeScript
@@ -170,8 +177,6 @@ the ``@index`` annotation, and we remap the ``odometer`` field to be named
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
    :language: typescript
-
-
 
 .. _react-native-supported-property-types:
 
