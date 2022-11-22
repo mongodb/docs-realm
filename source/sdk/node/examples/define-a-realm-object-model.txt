@@ -118,6 +118,25 @@ Define Realm Object Types Using a Class
       .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes-with-constructor.js
          :language: javascript
 
+Supported TypeScript Types
+--------------------------
+
+This plugin supports standard TypeScript types wherever possible to make
+defining your model feel like a native TypeScript experience. Some Realm types
+do not have a direct TypeScript equivalent. For example, ``double``, ``int``,
+and ``float`` are all represented by ``number`` in TypeScript). In these cases,
+use the types provided by ``Realm.Types``.
+
+We recommend using TypeScript types wherever possible and using ``Realm.Types``
+where you cannot.
+
+The top-level Realm namespace and ``Realm.Types`` exports various types, such as
+``Realm.List``. You can import from either in your models.
+
+The table below details the supported types:
+
+.. include:: /includes/supported-typescript-types.rst
+
 Additional Schema Properties (TypeScript)
 -----------------------------------------
 If you are using TypeScript, you can specify additional schema properties. Add
