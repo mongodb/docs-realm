@@ -98,68 +98,64 @@ Define Realm Object Types Using a Class
          .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-js-classes-open-and-access-properties.js
             :language: javascript
 
-.. tabs-realm-languages::
+Additional Schema Properties (TypeScript)
+-----------------------------------------
+If you are using TypeScript, you can specify additional schema properties. Add
+them as ``static`` properties of your class. The following additional schema
+properties can be defined:
 
-   .. tab::
-      :tabid: typescript
+.. list-table::
 
-      .. code-block:: typescript
+   * - Static Property
+     - Type
+     - Description
 
-         Additional Schema Properties
-         ----------------------------
-         To specify additional schema properties, you can add them as ``static`` properties of your class. 
-         The following additional schema properties can be defined:
+   * - ``name``
+     - *string*
+     - The name of the Realm schema. Defaults to your class name.
 
-         .. list-table::
+   * - ``primaryKey``
+     - *string*
+     - The name of a property to be used as the primary key.
 
-            * - Static Property
-            - Type
-            - Description
+   * - ``embedded``
+     - *boolean*
+     - Defines the Realm Object Model as an embedded object (nested Realm object).
 
-            * - ``name``
-            - *string*
-            - The name of the Realm schema. Defaults to your class name.
+   * - ``asymmetric``
+     - *boolean*
+     - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
 
-            * - ``primaryKey``
-            - *string*
-            - The name of a property to be used as the primary key.
+.. _react-native-ts-decorators:
 
-            * - ``embedded``
-            - *boolean*
-            - Defines the Realm Object Model as an embedded object (nested Realm object).
+Decorators (TypeScript)
+-----------------------
+ 
+If you are using TypeScript, decorators allow you to specify that a property
+should be the :ref:`index <react-native-indexes>` or should be remapped to a
+different name. 
 
-            * - ``asymmetric``
-            - *boolean*
-            - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
+.. list-table::
 
-         .. _react-native-ts-decorators:
+   * - Decorator
+     - Parameters
+     - Description
 
-         Decorators
-         ----------
-         
-         Decorators allow you to specify that a property should be the :ref:`index
-         <react-native-indexes>` or should be remapped to a different name. 
+   * - ``index``
+     - none
+     - The property should be indexed.
 
-         .. list-table::
+   * - ``mapTo``
+     - (realmPropertyName: string)
+     - The property should be stored as realmPropertyName in the Realm Database.
 
-            * - Decorator
-            - Parameters
-            - Description
+In the following example, we specify that the ``make`` field is indexed using
+the ``@index`` annotation, and we remap the ``odometer`` field to be named
+``"miles"``.
 
-            * - ``index``
-            - none
-            - The property should be indexed.
+.. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
+   :language: typescript
 
-            * - ``mapTo``
-            - (realmPropertyName: string)
-            - The property should be stored as realmPropertyName in the Realm Database.
-
-         In the following example, we specify that the ``make`` field is indexed using
-         the ``@index`` annotation, and we remap the ``odometer`` field to be named
-         ``"miles"``.
-
-         .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
-            :language: typescript
 
 
 .. _react-native-supported-property-types:
