@@ -49,6 +49,11 @@ Define Realm Object Types Using a Class
    .. tab::
       :tabid: typescript
 
+      You can declare a Realm Object Model using TypeScript property types
+      declarations on classes. The Realm JS SDK will derive the schema at runtime from
+      the types declared in your TS source files. This allows you to use TypeScript
+      syntax without needing to explicitly define a schema.
+
       .. note:: Prerequisites
 
          To define Realm Object Model using TypeScript, you must install the
@@ -56,16 +61,9 @@ Define Realm Object Types Using a Class
          not already done so you can follow the installation procedure in
          :ref:`TypeScript Support <node-typescript-support>`
 
-      You can declare a Realm Object Model using TypeScript property types
-      declarations on classes. The Realm JS SDK will derive the schema at runtime from
-      the types declared in your TS source files. This allows you to use TypeScript
-      syntax without needing to explicitly define a schema.
-
       Define Realm object types using a class `TypeScript
       <https://www.typescriptlang.org/docs/handbook/2/classes.htmll>`_ by
       extending :js-sdk:`Realm.Object <Realm.Object.html>`.
-
-      .. include:: /includes/note-using-ts-types-with-rjs.rst
 
       .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.ts
          :language: typescript
@@ -190,7 +188,7 @@ different name.
 
 In the following example, we specify that the ``make`` field is indexed using
 the ``@index`` annotation, and we remap the ``odometer`` field to be named
-``"miles"``.
+``miles``.
 
 .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.map-field-using-ts-first-model.ts
    :language: typescript
