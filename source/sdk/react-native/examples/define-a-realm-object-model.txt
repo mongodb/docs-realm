@@ -79,15 +79,13 @@ Define Realm Object Types Using a Class
    .. tab::
       :tabid: javascript
 
-      .. code-block:: javascript
+      You can define Realm object types using a `class
+      <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ by
+      extending :js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define
+      the object schema on the static property ``schema``.
 
-         You can define Realm object types using a `class
-         <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes>`_ by
-         extending :js-sdk:`Realm.Object <Realm.Object.html>`. Within your class, define
-         the object schema on the static property ``schema``.
-
-         .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
-            :language: javascript  
+      .. literalinclude:: /examples/generated/node/define-a-realm-object-schema.snippet.define-a-realm-object-schema-define-js-classes.js
+         :language: javascript  
             
       Pass the class itself to the schema property of the :js-sdk:`Realm.Configuration
       <Realm.html#~Configuration>` object when opening a realm. You can then
