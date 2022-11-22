@@ -7,7 +7,11 @@ class Car extends Realm.Object {
       miles: "int",
     },
   };
-  get carName() {
-    return `${this.make} ${this.model}`;
+  constructor(make, model, miles) {
+    const milesRounded = Math.round(miles);
+
+    this.make = make;
+    this.model = model;
+    this.miles = milesRounded;
   }
 }
