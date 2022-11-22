@@ -15,42 +15,6 @@ declarations on classes. The Realm JS SDK will derive the schema at runtime from
 the types declared in your TS source files. This allows you to use TypeScript
 syntax without needing to explicitly define a schema.
 
-Setup
------
-
-.. procedure::
-
-   .. step:: Install the Realm Babel Plugin
-
-      To define your Realm Object Model using TypeScript, you need to install the :npm:`Realm Babel Plugin <package/@realm/babel-plugin>`. Run the following command to add it to your `dev dependencies <https://docs.npmjs.com/specifying-dependencies-and-devdependencies-in-a-package-json-file>`_:
-
-      .. code-block:: shell
-
-         npm install --save-dev @realm/babel-plugin
-
-   .. step:: Add Realm Babel Plugin to your Babel Config
-
-      Add the Realm Babel Plugin to your ``babel.config.js`` file to apply the `plugin <https://babeljs.io/docs/en/plugins>`_:
-
-      .. code-block:: javascript
-
-         const presets = [ ... ];
-
-         module.exports = { 
-            presets,
-            plugins: ["@realm/babel-plugin"],
-         };
-
-   .. step:: Restart the Package Cache
-
-      Finally, restart the package cache to work with the newly applied plugin in your app. For most React Native applications, you can run the command:
-
-      .. code-block:: shell
-
-         npm start -- --reset-cache
-
-      However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
-
 Define a Realm Object Model
 ---------------------------
 
@@ -112,6 +76,8 @@ The following additional schema properties can be defined:
      - *boolean*
      - Specifies this Realm Object Model should sync unidirectionally if using flexible sync.
 
+.. _react-native-ts-decorators:
+
 Decorators
 ----------
  
@@ -131,60 +97,6 @@ Decorators allow you to specify that a property should be the :ref:`index
    * - ``mapTo``
      - (realmPropertyName: string)
      - The property should be stored as realmPropertyName in the Realm Database.
-
-Set Up
-~~~~~~
-
-.. procedure::
-
-   .. step:: Install the Babel Plugin Proposal Decorators Package
-
-      The :npm:`@babel/plugin-proposal-decorators
-      <package/@babel/plugin-proposal-decorators>` allows you to compile class
-      and object decorators to ES5, and is required to use decorators with
-      classes that extend ``Realm.Object``. Run the following command to add it
-      to your ``devDependencies``:
-
-      .. code-block:: shell
-
-         npm install --save-dev @babel/plugin-proposal-decorators
-
-   .. step:: Enable Decorators in your Babel Config
-
-      To apply the plugin, add ``@babel/plugin-proposal-decorators`` to your ``babel.config.js`` file:
-
-      .. code-block:: javascript
-
-         const presets = [ ... ];
-         module.exports = { 
-            presets,
-            plugins: [
-               '@realm/babel-plugin',
-               ['@babel/plugin-proposal-decorators', { legacy: true }],
-            ],
-         };
-
-   .. step:: Enable Decorators in your TS Config File
-
-      Additionally, enable experimental decorators in your `tsconfig.json <https://www.typescriptlang.org/docs/handbook/tsconfig-json.html>`_ within your ``compilerOptions``:
-
-      .. code-block:: json
-
-         {
-            "compilerOptions": {
-               "experimentalDecorators": true
-            },
-         }
-
-   .. step:: Restart the Package Cache
-
-      Finally, restart the package cache to work with the newly applied plugin in your app. For most React Native applications, you can run the command:
-
-      .. code-block:: shell
-
-         npm start -- --reset-cache
-
-      However, if you are using Expo, read the docs on `clearing the cache with MacOS and Linux <https://docs.expo.dev/troubleshooting/clear-cache-macos-linux/>`_ or with `Windows <https://docs.expo.dev/troubleshooting/clear-cache-windows/>`_.
 
 Example
 ~~~~~~~
