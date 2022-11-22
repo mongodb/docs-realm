@@ -10,6 +10,47 @@ Open & Close a Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
+Overview
+--------
+Realms are the core data structure used to organize data in Realm Database. At
+its core, a realm is a collection of the objects that you use in your
+application, called Realm objects, as well as additional metadata that describe
+the objects.
+
+This page details how to configure and open a realm using the React Native SDK.
+
+.. _react-native-realm-file:
+
+Key Concept: Realm Files
+------------------------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at a specific path that
+you define when you open the realm.
+
+.. tip:: Implement Compacting in Your Production Application
+
+   Every production application should implement a ``shouldCompactOnLaunch`` 
+   callback to periodically reduce the realm file size.
+
+.. note:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Database Internals <react-native-realm-database>`.
+
+.. warning:: Use Caution When Deleting Realm Files
+   
+   In some circumstances, such as a client reset scenario, you might need to
+   delete a realm file and its auxiliary files.
+   
+   If you delete a realm file or any of its auxiliary files while one or
+   more instances of the realm are open, you might corrupt the realm or
+   disrupt :ref:`sync <sync>`.
+   
+   You may safely delete these files when all instances of a realm are
+   closed. Before you delete a realm file, make sure that you back up any
+   important objects as you will lose all unsynced data in the realm.
+
 .. _react-native-open-a-local-realm:
 
 Open a Local Realm
@@ -20,159 +61,7 @@ Open a Local Realm
 .. _react-native-open-an-in-memory-realm:
 
 .. include:: /includes/js-open-an-in-memory-realm.rst
-
-.. _react-native-open-a-synced-realm:
-
-Open a Synced Realm
--------------------
-
-You can open a Synced realm with a Flexible Sync or Partition-Based Sync. If
-you have not yet decided or are unsure which to use, read the :ref:`Choose Your
-Sync Mode <sync-modes>` page.
-
-By default, Realm syncs all data from the server before returning.
-If you want to sync data in the background, read the :ref:`Open a Synced Realm
-While Offline <react-native-open-synced-realm-offline>` section.
-
-.. _react-native-flexible-sync-open-realm:
-
-Open a Flexible Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To open a realm using Flexible Sync, call :js-sdk:`Realm.open() <Realm.html#.open>`. 
-Pass in a :js-sdk:`Configuration <Realm.html#~Configuration>`
-object, which must include the ``sync`` property defining a 
-:js-sdk:`SyncConfiguration <Realm.App.Sync.html#~SyncConfiguration>` object. 
-In the SyncConfiguration, you must include include a ``user`` and ``flexible:true``.
-
-.. literalinclude:: /examples/generated/node/flexible-sync.snippet.open-flexible-sync-realm.js
-   :language: javascript
-
-.. important:: Flexible Sync Requires a Subscription
-
-   You can't use a Flexible Sync realm until you add at least one subscription.
-   To learn how to add subscriptions, see: :ref:`<react-native-sync-add-subscription>`.
-
-.. _react-native-partition-sync-open-realm:
-
-Open a Partition-Based Synced Realm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/node-open-a-synced-realm.rst
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-online-with-car-schema.js
-   :language: javascript
-
-.. _react-native-open-synced-realm-offline:
-
-Open a Synced Realm While Offline
----------------------------------
-
-.. include:: /includes/offline-login.rst
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.use-cached-user-to-login.js
-   :language: javascript
-
-The following subsections show how to use background synchronization to access a
-realm while offline. To do this, use the cached user and an
-:js-sdk:`OpenRealmBehaviorConfiguration
-<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object. 
-
-Within your Sync Configuration, set the optional ``newRealmFileBehavior`` and
-``existingRealmFileBehavior`` fields to your ``OpenRealmBehaviorConfiguration`` object
-to enable background synchronization. 
-
-.. important:: Offline Login is Supported for Both Flexible and Partition-Based Sync Configurations
-
-   You can open a realm immediately with background sync or after a timeout
-   elapses using either Flexible and Partition-Based Sync.
-
-.. _react-native-open-immediately-with-background-sync:
-
-Open Immediately with Background Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If the user's device is not connected to the internet or you're uncertain of
-it's connection status, set the realm behavior's type to ``openImmediately``. This 
-syncs data from the server in the background. 
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-with-background-sync.js
-      :language: javascript
-
-.. _react-native-open-after-timeout-with-background-sync:
-
-Open After Timeout with Background Sync
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you want to sync data but you're in an environment where it's uncertain if
-the user has an Internet connection, specify a ``timeOut``. This
-automatically opens the realm when either: 
-
-- the timeout period elapses.
-- the realm has completely downloaded.
-
-If the realm doesn't finish downloading before the timeout, the initial
-Sync continues in the background.
-
-.. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-config.js
-  :language: javascript
-
-.. _react-native-open-existing-realm-different-configuration:
-.. _react-native-copy-data-and-open-new-realm:
-
-Copy Data and Open a New Realm
-------------------------------
-
-.. versionadded:: 10.14.0
-
-To copy data from an existing realm to a new realm with different
-configuration options, pass the new configuration the
-:js-sdk:`Realm.writeCopyTo() <Realm.html#writeCopyTo>` method.
-
-.. include:: /includes/note-writecopy-pbs-only.rst
-
-In the new realm's configuration, you *must* specify the ``path``. 
-
-If you write the copied realm to a realm file that already exists, the data is written object by object.
-The copy operation replaces objects if there already exists objects for given primary keys.
-The schemas of the realm you copy and the realm you are writing to must be 
-compatible for the copy operation to succeed.
-Only objects in the schemas of both configurations are copied over.
-
-The configuration change can include modifications to :js-sdk:`SyncConfiguration
-<Realm.App.Sync.html#~SyncConfiguration>`: 
-
-- Local realm to synced realm
-- Synced Realm to local realm
-
-The configuration change can also include changes to ``encryptionKey`` 
-property of the ``Configuration``: 
-
-- Encrypted realm to unencrypted realm
-- Unencrypted realm to encrypted realm
-
-.. example:: Convert Local Realm to Synced Realm
-
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-local-as-synced.js
-      :language: javascript
-      :emphasize-lines: 15-16
-
-You can also combine changes to configuration. For example, you can open a
-local encrypted realm as a synced unencrypted realm or a unencrypted synced realm
-as an encrypted synced realm.
-
-.. example:: Convert Synced Encrypted to Local Unencrypted Realm
-
-   .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.sync-encrypted-to-local-unencrypted.js
-      :language: javascript
-      :emphasize-lines: 19-20
-
-.. seealso:: 
-
-   - :ref:`Open a Flexible Synced Realm - React Native SDK <react-native-flexible-sync-open-realm>`
-   - :ref:`Open a Partition-Based Synced Realm - React Native SDK <react-native-encrypt-a-realm>`
-   - :ref:`Encrypt a Realm - React Native SDK <react-native-partition-sync-open-realm>`
-
+   
 .. _react-native-close-a-realm:
 
 Close a Realm

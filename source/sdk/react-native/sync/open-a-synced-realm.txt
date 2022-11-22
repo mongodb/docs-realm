@@ -10,8 +10,28 @@ Open a Synced Realm - React Native SDK
    :depth: 2
    :class: singlecol
 
+.. _react-native-synced-realm:
+
 Overview
 --------
+
+You can configure a realm to automatically synchronize data between many devices
+that each have their own local copy of the data. Synced realms use a different
+configuration than local-only realms and require an Atlas App Services backend to handle
+the synchronization process.
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+.. tip:: Learn How to Configure and Use Sync
+   
+   For more information on synced realms, including directions on how to set up
+   sync in an App Services App, see :ref:`Atlas Device Sync Overview <sync>`.
 
 .. _react-native-open-a-synced-realm:
 

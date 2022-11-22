@@ -11,3 +11,27 @@ Realm Database - React Native SDK
    :class: singlecol
 
 .. include:: /includes/realm-database.rst
+
+Realm vs Other Databases
+------------------------
+
+The Realm data model is similar to both relational and document
+databases but has distinct differences from both. To underscore these
+differences, it's helpful to highlight what a realm **is not**:
+
+A realm is not a single, application-wide database.
+    Applications based on other database systems generally store all of their
+    data in a single database. Apps often split data across multiple
+    realms to organize data more efficiently and to enforce access controls.
+
+A realm is not a relational table.
+    Normalized tables in relational databases only store one type of
+    information, such as street addresses or items in a store inventory. A
+    realm can contain any number of object types that are relevant to a
+    given domain.
+
+A realm is not a collection of schemaless documents.
+    Document databases don't necessarily enforce a strict schema for the data in
+    each collection. While similar to documents in form, every Realm object
+    conforms to a schema for a specific object type in the realm. An object
+    cannot contain a property that is not described by its schema.
