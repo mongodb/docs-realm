@@ -1,0 +1,125 @@
+.. _react-native-multi-user-applications:
+
+==========================================
+Multi-User Applications - React Native SDK
+==========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+.. _react-native-add-a-new-user-to-the-device:
+
+Add a New User to the Device
+----------------------------
+The Realm SDK automatically adds users to a device when they log in
+for the first time on that device. When a user logs in, they immediately become
+the application's :ref:`active user <active-user>`.
+
+.. example::
+
+   In the example below, a user with the email ``joe@example.com`` logs in and
+   becomes the active user. Later, a user with the email
+   ``emma@example.com`` logs in and becomes the active user.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/AddUser/AddUser.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/AddUser/AddUser.ts
+            :language: typescript
+
+
+.. _react-native-list-all-users-on-the-device:
+
+List All Users on the Device
+----------------------------
+You can access a list of all :ref:`user accounts <user-accounts>` on the device.
+This list includes all users that have logged in to the client app on a given
+device.
+
+.. example::
+
+   In the example below, a developer prints out all the logged-in users on the
+   device by looping through :js-sdk:`Realm.App.allUsers
+   <Realm.App.html#allUsers>`. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/ListUsers/ListUsers.ts
+            :language: typescript
+
+
+
+.. _react-native-remove-a-user-from-the-device:
+
+Remove a User from the Device
+-----------------------------
+You can remove all information about a user from the device and automatically
+log the user out.
+
+.. example::
+
+   In the example below, the current user is removed from the device using the
+   :js-sdk:`Realm.App.removeUser() <Realm.App.html#removeUser>` method. 
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.js
+            :language: javascript
+            :emphasize-lines: 3
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/LogoutUser/LogoutUser.ts
+            :language: typescript
+            :emphasize-lines: 3
+
+.. _react-native-change-the-active-user:
+
+Change the Active User
+----------------------
+You can quickly switch an app's active user to another logged-in user at any
+time.
+
+.. example::
+
+   In the example below, the active user is initially switched to ``user1``
+   using the :js-sdk:`Realm.App.switchUser() <Realm.App.html#switchUser>` method.
+   Later, the active user is switched to ``user2``.
+
+   .. tabs-realm-languages::
+      
+      .. tab::
+         :tabid: javascript
+         
+         .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.js
+            :language: javascript
+      
+      .. tab::
+         :tabid: typescript
+         
+         .. literalinclude:: /examples/MultiUser/SwitchUser/SwitchUser.ts
+            :language: typescript
