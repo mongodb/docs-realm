@@ -6,7 +6,7 @@ part 'backlinks_test.g.dart';
 @RealmModel()
 class _User {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String username;
   // One-to-many relationship that the backlink is created for below.
@@ -16,7 +16,7 @@ class _User {
 @RealmModel()
 class _Task {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String description;
   late bool isComplete;
@@ -26,3 +26,5 @@ class _Task {
   late Iterable<_User> linkedUser;
 }
 // :snippet-end:
+
+main() {}

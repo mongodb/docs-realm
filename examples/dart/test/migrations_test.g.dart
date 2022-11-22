@@ -9,7 +9,7 @@ part of 'migrations_test.dart';
 class PersonV2 extends _PersonV2
     with RealmEntity, RealmObjectBase, RealmObject {
   PersonV2(
-    ObjectId id,
+    String id,
     String fullName, {
     int? yearsSinceBirth,
   }) {
@@ -21,9 +21,9 @@ class PersonV2 extends _PersonV2
   PersonV2._();
 
   @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  String get id => RealmObjectBase.get<String>(this, 'id') as String;
   @override
-  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+  set id(String value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get fullName =>
@@ -50,7 +50,7 @@ class PersonV2 extends _PersonV2
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(PersonV2._);
     return const SchemaObject(ObjectType.realmObject, PersonV2, 'Person', [
-      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('fullName', RealmPropertyType.string),
       SchemaProperty('yearsSinceBirth', RealmPropertyType.int, optional: true),
     ]);

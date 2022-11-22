@@ -9,7 +9,7 @@ void main() {
   group('Compact a Realm', () {
     test('Compact a Realm with callback', () async {
       // :snippet-start: compact-with-callback
-      var config = Configuration.local([Car.schema],
+      final config = Configuration.local([Car.schema],
           shouldCompactCallback: ((totalSize, usedSize) {
         // shouldCompactCallback sizes are in bytes.
         // For convenience, this example defines a const
@@ -18,21 +18,21 @@ void main() {
         const tenMB = 10 * 1048576;
         return totalSize > tenMB;
       }));
-      var realm = Realm(config);
+      final realm = Realm(config);
       // :snippet-end:
       realm.close();
       await cleanUpRealm(realm);
     });
     test('Compact a Realm with callback plus logic', () async {
       // :snippet-start: compact-with-callback-and-logic
-      var config = Configuration.local([Car.schema],
+      final config = Configuration.local([Car.schema],
           shouldCompactCallback: ((totalSize, usedSize) {
         // Compact if the file is over 10MB in size and less than 50% 'used'
         const tenMB = 10 * 1048576;
         return (totalSize > tenMB) &&
             (usedSize.toDouble() / totalSize.toDouble()) < 0.5;
       }));
-      var realm = Realm(config);
+      final realm = Realm(config);
       // :snippet-end:
       realm.close();
       await cleanUpRealm(realm);
@@ -40,13 +40,14 @@ void main() {
 
     test('Compact a realm using static method', () async {
       // :snippet-start: compact-static-method
-      var config = Configuration.local([Car.schema]);
+      final config = Configuration.local([Car.schema]);
 
       // :remove-start:
       // Populate some data in the realm so we can compact it
       final prepareRealm = Realm(config);
-      Car newPrius = Car("Toyota", model: "Prius", miles: 0);
-      Car usedOutback = Car("Subaru", model: "Outback Premium", miles: 61370);
+      Car newPrius = Car(ObjectId(), "Toyota", model: "Prius", miles: 0);
+      Car usedOutback =
+          Car(ObjectId(), "Subaru", model: "Outback Premium", miles: 61370);
       prepareRealm.write(() {
         prepareRealm.add<Car>(newPrius);
         prepareRealm.add<Car>(usedOutback);

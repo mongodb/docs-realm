@@ -1,3 +1,38 @@
+# November 18, 2022
+
+## Flutter SDK
+- Quick Start: Remove some content to match structure of other SDK quick starts
+- Model Data: New section that organizes some pages from the top-level Flutter SDK navigation, adds a new top-level page with some concept information
+  - Define a Realm Object Schema: Page moved from top level of Flutter SDK navigation, split some info out into smaller pages
+  - Data Types: Page moved from top level of Flutter SDK navigation
+  - Relationships: New page with existing content moved from Define a Realm Object Schema
+  - Property Annotations: New page with existing content moved from Define a Realm Object Schema
+  - Update a Realm Object Schema: Page moved from top level of Flutter SDK navigation
+- Realm Database/Read & Write Data: New "Create Multiple Objects" section showing how to add multiple objects to a realm with the `Realm.addAll()` method
+- Atlas App Services
+  - Call a Function
+    - Add the code for the App Services Function that the page calls in the example
+    - Small updates to arguments when calling a function in `0.8.0+rc`
+- Various pages
+  - Update code examples to show using an `ObjectId` primary key
+  - Update code examples to use `final` in variable declarations per preferred community practice
+
+## React Native SDK
+- Usage Examples/Debugging with Flipper: New page showing how to use the Flipper Debugger to debug Realm apps built with React Native
+
+## Swift SDK
+- Swift Concurrency: New page providing guidance about how to use Realm with Swift concurrency features
+- SwiftUI
+  - Write Data: New sections with code examples showing more complex write cases
+  - Sync Data in the Background: New page showing how to use Apple's `.backgroundTask` to sync Realm data in the background
+- Various pages: Refactor async code examples to show `@MainActor` where applicable
+
+## Other
+- Add several notes across all SDKs about:
+  - Performance and storage implications of adding an Index
+  - Advising developers using Sync to keep objects in memory until edits are complete to prevent excessive writes
+  - Details about encrypting realms when using Sync or accessing encrypted realms from multiple processes
+
 # November 11, 2022
 
 ## Flutter SDK

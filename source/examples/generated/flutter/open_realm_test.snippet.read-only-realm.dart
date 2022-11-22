@@ -1,2 +1,2 @@
-var config = Configuration.local([Car.schema], isReadOnly: true);
-realm = Realm(config);
+final config = Configuration.local([Car.schema], isReadOnly: true);
+final realm = Realm(config);

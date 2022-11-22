@@ -1,6 +1,6 @@
 class _Vehicle {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   late String? maybeDescription; // optional value
 

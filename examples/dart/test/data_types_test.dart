@@ -14,7 +14,7 @@ part 'data_types_test.g.dart'; // :remove:
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   String? licensePlate;
   bool isElectric = false;
@@ -74,15 +74,15 @@ class _Vehicle {
 main() {
   test('Uuid', () {
     // :snippet-start: uuid-use
-    Uuid myId = Uuid.v4();
-    UuidPrimaryKey object = UuidPrimaryKey(myId);
+    final myId = Uuid.v4();
+    final object = UuidPrimaryKey(myId);
     // :snippet-end:
     expect(myId.toString(), isA<String>());
   });
   test('ObjectId', () {
     // :snippet-start: objectid-use
-    ObjectId id = ObjectId();
-    ObjectIdPrimaryKey object = ObjectIdPrimaryKey(id);
+    final id = ObjectId();
+    final object = ObjectIdPrimaryKey(id);
     // :snippet-end:
     expect(object.id.toString(), isA<String>());
   });
@@ -92,7 +92,7 @@ main() {
 
     // :snippet-start: datetime-use
     // Create a Realm object with date in UTC, or convert with .toUtc() before storing
-    Vehicle subaruOutback = realm.write<Vehicle>(() {
+    final subaruOutback = realm.write<Vehicle>(() {
       return realm.add(Vehicle('Subie', DateTime.utc(2022, 9, 18, 12, 30, 0)));
     });
 
@@ -125,8 +125,8 @@ main() {
     final realm = Realm(Configuration.local([Person.schema, Address.schema]));
 
     // Create an embedded object.
-    Address joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
-    Person joe = Person("Joe", address: joesHome);
+    final joesHome = Address("500 Dean Street", "Brooklyn", "NY", "USA");
+    final joe = Person("Joe", address: joesHome);
     realm.write(() => realm.add(joe));
     expect(realm.find<Person>("Joe"), isNotNull); // :remove:
 
@@ -145,7 +145,7 @@ main() {
 
     // Overwrite an embedded object.
     // Also deletes original embedded object from realm.
-    Address joesNewHome = Address("12 Maple Way", "Toronto", "ON", "Canada");
+    final joesNewHome = Address("12 Maple Way", "Toronto", "ON", "Canada");
     realm.write(() {
       joe.address = joesNewHome;
     });

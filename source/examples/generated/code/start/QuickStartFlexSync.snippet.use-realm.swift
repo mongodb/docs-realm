@@ -1,3 +1,4 @@
+@MainActor
 func useRealm(realm: Realm, user: User) async {
     // Get all todos in the realm
     let todos = realm.objects(Todo.self)

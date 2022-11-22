@@ -29,10 +29,9 @@
 // :snippet-end:
 
  class QuickStartFlexSync: XCTestCase {
-    @MainActor
     func testRunExample() async {
         await flexibleSyncQuickStart()
-        // Entrypoint. Call this to run the quick start.
+        
         func flexibleSyncQuickStart() async {
             // Instantiate the app
             // :snippet-start: connect-to-backend
@@ -48,6 +47,9 @@
             }
             // :snippet-end:
             // :snippet-start: open-synced-realm
+            // Opening a realm and accessing it must be done from the same thread.
+            // Marking this function as `@MainActor` avoids threading-related issues.
+            @MainActor
             func openSyncedRealm(user: User) async {
                 do {
                     var config = user.flexibleSyncConfiguration()
@@ -71,6 +73,7 @@
             }
             // :snippet-end:
             // :snippet-start: use-realm
+            @MainActor
             func useRealm(realm: Realm, user: User) async {
                 // :snippet-start: get-all-todos
                 // Get all todos in the realm

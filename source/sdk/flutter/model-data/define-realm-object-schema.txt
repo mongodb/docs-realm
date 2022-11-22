@@ -7,7 +7,7 @@ Define a Realm Object Schema - Flutter SDK
 .. contents:: On this page
    :local:
    :backlinks: none
-   :depth: 1
+   :depth: 2
    :class: singlecol
 
 An **object schema** is a configuration object that defines the properties and
@@ -169,196 +169,23 @@ Supported Data Types
 Realm schemas support many Dart-language data types, in addition to some Realm-specific types.
 For a comprehensive reference of all supported data types, refer to :ref:`Data Types <flutter-data-types>`.
 
-.. _flutter-client-relationships:
-
-Define Relationship Properties
-------------------------------
-
-You can reference other Realm models from your Realm model.
-This lets you create the following types of relationships between Realm objects:
-
-- :ref:`To-One Relationship <flutter-many-to-one-relationship>`
-- :ref:`To-Many Relationship <flutter-many-to-many-relationship>`
-- :ref:`Inverse Relationship<flutter-inverse-relationship>`
-
-You can also embed one Realm object directly within another to create a nested data structure.
-Embedded objects are similar to relationships, but provide additional constraints.
-For more information about these constraints and how to create embedded objects,
-refer to the :ref:`Embedded Objects data type documentation <flutter-embedded-objects>`.
-
-.. _flutter-many-to-one-relationship:
-
-To-One Relationship
-~~~~~~~~~~~~~~~~~~~
-
-A **to-one** relationship means that an object is related in a specific
-way to no more than one other object.
-
-To set up a to-one relationship, create a property in your model whose type
-is another model. Multiple objects can reference the same object.
-
-.. include:: /includes/note-to-one-relationships-must-be-optional.rst
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-one-models.dart
-   :language: dart
-
-.. _flutter-many-to-many-relationship:
-
-To-Many Relationship
-~~~~~~~~~~~~~~~~~~~~
-
-A **to-many** relationship means that an object is related in a specific
-way to multiple objects.
-
-You can create a relationship between one object and any number of objects
-using a property of type ``List<T>`` in your application, where T is a Realm model class.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.many-to-many-models.dart
-   :language: dart
-
-.. _flutter-inverse-relationship:
-
-Inverse Relationship
-~~~~~~~~~~~~~~~~~~~~
-
-An **inverse relationship** links an object back to any other objects that refer
-to it in to-one or to-many relationships.
-
-Inverse relationships have the following properties:
-
-- You must explicitly define a property in the object's model as an inverse relationship.
-  The schema cannot infer the inverse relationship.
-- Inverse relationships automatically update themselves with corresponding backlinks.
-  You can find the same set of Realm objects with a manual query,
-  but the inverse relationship field reduces boilerplate query code and capacity for error.
-- You cannot manually set the value of an inverse relationship property.
-  Instead, Realm Database updates implicit relationships when you add or remove
-  an object in the relationship.
-
-For example, the to-many relationship "a User has many Tasks" does not
-automatically create the inverse relationship "a Task belongs to one User".
-If you don't specify the inverse relationship in the Task object model, you need to
-run a separate query to look up the user that is assigned to a given task.
-
-Use the `Backlink <https://pub.dev/documentation/realm_common/latest/realm_common/Backlink-class.html>`__
-property annotation to define a inverse relationship.
-Pass a `Symbol <https://api.dart.dev/stable/2.18.4/dart-core/Symbol/Symbol.html>`__
-of the field name of the to-one or to-many field for which you are creating the backlink
-as an argument to ``Backlink()``. Include an ``Iterable`` of the object model
-you are backlinking to in the field below the annotation.
-
-.. literalinclude:: /examples/generated/flutter/backlinks_test.snippet.backlink-models.dart
-   :language: dart
-
-.. note:: Inverse Relationships Not Present in Device Sync Schema
-
-   If you are using Atlas Device Sync, inverse relationships are not present
-   in the server-side Device Sync schema in your App Services App.
-   Since you can't directly set the value of an inverse relationship,
-   the relationship does not exist in Device Sync schema.
-
-   For more information on the server-side Device Sync schema,
-   refer to :ref:`Configure and Update Your Data Model <sync-schema-overview>`
-   in the Atlas App Services documentation.
-
-.. _flutter-property-annotations:
-
 Property Annotations
 --------------------
 
 Use annotations to add functionality to properties in your Realm object models.
+You can use annotations for things like marking a property as nullable,
+setting a primary key, ignoring a property, and more.
+To learn more about the available property annotations,
+refer to :ref:`Property Annotations <flutter-property-annotations>`.
 
-.. _flutter-required-optional-properties:
+Define Relationship Properties
+------------------------------
 
-Required and Optional Properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In Dart, value types are implicitly non-nullable, but can be made optional (nullable) by appending
-`?  <https://dart.dev/null-safety>`__. Include ``?`` to make properties optional.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 5
-
-.. _flutter-default-field-values:
-
-Default Field Values
-~~~~~~~~~~~~~~~~~~~~
-
-You can use the built-in language features to assign a default value to a property.
-Assign a default value in the property declaration.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 7
-
-.. _flutter-primary-key:
-
-PrimaryKey
-~~~~~~~~~~
-
-The `PrimaryKey <https://pub.dev/documentation/realm_common/latest/realm_common/PrimaryKey-class.html>`__
-annotation indicates a primary key property.
-The primary key is a unique identifier for an object in a realm.
-No other objects of the same type may share an object's primary key.
-
-Important aspects of primary keys:
-
-- You cannot change a primary key after adding an object to a realm.
-- Only add a primary key to one property in a RealmModel.
-- Only ``String``, ``int``, ``ObjectId``, and ``Uuid`` types can be primary keys.
-- Realm automatically indexes primary keys.
-- Primary keys are nullable. ``null`` can only be the primary key of one object
-  in a collection.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 2-3
-
-Ignored
-~~~~~~~
-
-If you add the `Ignored <https://pub.dev/documentation/realm_common/latest/realm_common/Ignored-class.html>`__
-annotation to a property in your ``RealmModel``, the :ref:`realm object generator
-<flutter-generate-realm-object>` doesn't include the property in the ``RealmObject`` schema.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 9-10
-
-Indexed
-~~~~~~~
-
-Add the `Indexed
-<https://pub.dev/documentation/realm_common/latest/realm_common/Indexed-class.html>`__
-annotation to create an index on the field. Indexes can greatly speed up some
-queries at the cost of slightly slower write times and additional storage and
-memory overhead. Realm Database stores indexes on disk, which makes your realm
-files larger. Each index entry is a minimum of 12 bytes. Indexes can be nullable.
-
-The following data types can be indexed:
-
-- ``bool``
-- ``int``
-- ``String``
-- ``ObjectId``
-- ``Uuid``
-- ``DateTime``
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 12-13
-
-MapTo
-~~~~~
-
-The `MapTo <https://pub.dev/documentation/realm_common/latest/realm_common/MapTo-class.html>`__ annotation
-indicates that a property should be persisted under a different name.
-It's useful when opening a Realm across different bindings where code style conventions can differ.
-
-.. literalinclude:: /examples/generated/flutter/schemas.snippet.property-annotations.dart
-   :language: dart
-   :emphasize-lines: 15-16
+You can define relationships between Realm objects in your schema.
+The Realm Flutter SDK supports to-one relationships, to-many relationships,
+inverse relationships, and embedding objects within other objects.
+To learn more about how to define relationships in your Realm object schema,
+refer to :ref:`Relationships <flutter-client-relationships>`.
 
 .. _flutter-generate-realm-object:
 

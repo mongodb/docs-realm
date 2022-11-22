@@ -1,1 +1,1 @@
-User loggedInUser = await app.logIn(Credentials.anonymous());
+final loggedInUser = await app.logIn(Credentials.anonymous());

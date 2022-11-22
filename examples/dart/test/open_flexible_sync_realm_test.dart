@@ -33,8 +33,8 @@ void main() {
       expect(app.currentUser, null);
     });
     test('Async Open Flexible Sync Realm', () async {
-      Credentials credentials = Credentials.anonymous();
-      User currentUser = await app.logIn(credentials);
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
       // :snippet-start: async-open
       // Helper function to check if device is connected to the internet.
       Future<bool> isDeviceOnline() async {
@@ -58,8 +58,8 @@ void main() {
       cleanUpRealm(realm, app);
     });
     test('Track download progress', () async {
-      Credentials credentials = Credentials.anonymous();
-      User currentUser = await app.logIn(credentials);
+      final credentials = Credentials.anonymous();
+      final currentUser = await app.logIn(credentials);
       late int transferred;
       late int transferable;
       final config = Configuration.flexibleSync(currentUser, [Tricycle.schema]);
@@ -116,12 +116,12 @@ void main() {
       final credentials = Credentials.anonymous();
       final currentUser = await app.logIn(credentials);
       // :snippet-start: sync-error-handler
-      Configuration config = Configuration.flexibleSync(
-          currentUser, [Tricycle.schema], syncErrorHandler: (SyncError error) {
+      final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
+          syncErrorHandler: (SyncError error) {
         handlerCalled = true; // :remove:
         print("Error message" + error.message.toString());
       });
-      Realm realm = Realm(config);
+      final realm = Realm(config);
       // :snippet-end:
       // TODO: generate SyncError to trigger `syncErrorHandler`
       await Future.delayed(Duration(milliseconds: 500));

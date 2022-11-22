@@ -10,6 +10,9 @@ Encrypt a Realm - Flutter SDK
    :depth: 2
    :class: singlecol
 
+Overview
+--------
+
 You can encrypt your realms to ensure that the data stored to disk can't be
 read outside of your application. You encrypt the realm database file on
 disk with AES-256 + SHA-2 by supplying a 64-byte encryption key when
@@ -22,41 +25,55 @@ uses the other 256 bits of the 512-bit encryption key to validate
 integrity using a :wikipedia:`hash-based message authentication code
 (HMAC) <HMAC>`.
 
-You **must** use the same encryption key every time you open an encrypted realm.
-If you don't provide a key or specify the wrong key for an encrypted
-Realm, the Realm SDK throws an error.
-
 .. include:: /includes/encrypt-use-strong-cryptographic-hash.rst
 
-Usage
------
+Considerations
+--------------
 
-Include the encryption key in the realm's :flutter-sdk:`Configuration.encryptionKey
-<realm/Configuration/encryptionKey.html>` property. The key must be a 64-byte ``List<int>``.
+The following are key impacts to consider when encrypting a realm.
+
+Storing & Reusing Keys
+~~~~~~~~~~~~~~~~~~~~~~
+
+You **must** pass the same encryption key in the realm's 
+:flutter-sdk:`Configuration.encryptionKey <realm/Configuration/encryptionKey.html>` 
+property every time you open the realm. The key must be a 64-byte ``List<int>``.
 To create a key that meets this specification, the List must contain exactly 64 integers
 and all integers must be between 0 and 255.
+
+If you don't provide a key or specify the wrong key for an encrypted
+realm, the Realm SDK throws an error.
+
+Apps should store the encryption key securely, typically in the target
+platform's secure key/value storage, so that other apps cannot read the key.
+
+Performance Impact
+~~~~~~~~~~~~~~~~~~
+
+Reads and writes on encrypted realms can be up to 10% slower than unencrypted realms.
+
+Encryption and Atlas Device Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can encrypt a :ref:`synced realm <flutter-sync>`.
+
+.. include:: /includes/encrypt-atlas-device-sync.rst
+
+If you need unique keys for each user of your application, you can use an OAuth provider or
+use one of the :ref:`Realm authentication providers <users-and-authentication>` 
+and an :ref:`authentication trigger<authentication-triggers>`
+to create a 64-bit key and store that key in a :ref:`user object <user-objects>`.
+
+Accessing an Encrypted Realm from Multiple Processes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/encrypt-mult-processes.rst
+
+Example
+-------
 
 The following code demonstrates how to generate an encryption key and
 open an encrypted realm:
 
 .. literalinclude:: /examples/generated/flutter/encrypt_test.snippet.encrypt-realm.dart
    :language: dart
-
-Accessing an Encrypted Realm from Multiple Process
---------------------------------------------------
-
-You cannot open the same encrypted realm from multiple processes.
-Attempting to do so will throw an error.
-
-Encryption and Atlas Device Sync
---------------------------------
-
-You can encrypt a :ref:`synced realm <flutter-sync>`, too. Realm only
-encrypts the data on the device, and stores the data unencrypted in your
-Atlas data source. The transfer between client server is fully
-encrypted.
-
-If you need unique keys for each user of your application, you can use an OAuth
-provider, or use one of the :ref:`Realm Authentication providers <users-and-authentication>`
-and an :ref:`Authentication Trigger<authentication-triggers>`
-to create a 64-bit key and store that key in :ref:`a user object <user-objects>`.

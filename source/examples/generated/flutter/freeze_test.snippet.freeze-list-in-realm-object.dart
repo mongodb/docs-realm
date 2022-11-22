@@ -1,8 +1,8 @@
-Person firstPerson = realm.find<Person>(1)!;
+final firstPerson =
+    realm.query<Person>("firstName = \$0", ["Yoda"]).first;
 
 // Freeze RealmList in a RealmObject
-RealmList<String> firstPersonAttributesFrozen =
-    firstPerson.attributes.freeze();
+final firstPersonAttributesFrozen = firstPerson.attributes.freeze();
 
 // Change data in the unfrozen realm
 final newAttribute = "quick";

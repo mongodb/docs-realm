@@ -1,7 +1,6 @@
-Configuration configWithChanges =
-    Configuration.local([Person.schema, Car.schema],
-        schemaVersion: 2,
-        migrationCallback: ((migration, oldSchemaVersion) {
+final configWithChanges = Configuration.local([Person.schema, Car.schema],
+    schemaVersion: 2,
+    migrationCallback: ((migration, oldSchemaVersion) {
   // Dynamic query for all Persons in previous schema
   final oldPeople = migration.oldRealm.all('Person');
   for (final oldPerson in oldPeople) {
@@ -16,9 +15,9 @@ Configuration configWithChanges =
     newPerson.fullName = oldPerson.dynamic.get<String>("firstName") +
         " " +
         oldPerson.dynamic.get<String>("lastName");
-    // convert `id` from int to ObjectId
-    final oldId = oldPerson.dynamic.get<int>("id");
-    newPerson.id = ObjectId.fromValues(0, 0, oldId);
+    // convert `id` from ObjectId to String
+    final oldId = oldPerson.dynamic.get<ObjectId>("id");
+    newPerson.id = oldId.toString();
   }
 }));
-Realm realmWithChanges = Realm(configWithChanges);
+final realmWithChanges = Realm(configWithChanges);

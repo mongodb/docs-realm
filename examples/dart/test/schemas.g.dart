@@ -8,16 +8,23 @@ part of 'schemas.dart';
 
 class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   Car(
+    ObjectId id,
     String make, {
     String? model,
     int? miles,
   }) {
+    RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'make', make);
     RealmObjectBase.set(this, 'model', model);
     RealmObjectBase.set(this, 'miles', miles);
   }
 
   Car._();
+
+  @override
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  @override
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get make => RealmObjectBase.get<String>(this, 'make') as String;
@@ -46,7 +53,8 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Car._);
     return const SchemaObject(ObjectType.realmObject, Car, 'Car', [
-      SchemaProperty('make', RealmPropertyType.string, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('make', RealmPropertyType.string),
       SchemaProperty('model', RealmPropertyType.string, optional: true),
       SchemaProperty('miles', RealmPropertyType.int, optional: true),
     ]);
@@ -56,7 +64,7 @@ class Car extends _Car with RealmEntity, RealmObjectBase, RealmObject {
 class SyncSchema extends _SyncSchema
     with RealmEntity, RealmObjectBase, RealmObject {
   SyncSchema(
-    int id,
+    ObjectId id,
   ) {
     RealmObjectBase.set(this, '_id', id);
   }
@@ -64,9 +72,9 @@ class SyncSchema extends _SyncSchema
   SyncSchema._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, '_id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, '_id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
 
   @override
   Stream<RealmObjectChanges<SyncSchema>> get changes =>
@@ -81,7 +89,7 @@ class SyncSchema extends _SyncSchema
     RealmObjectBase.registerFactory(SyncSchema._);
     return const SchemaObject(
         ObjectType.realmObject, SyncSchema, 'SyncSchema', [
-      SchemaProperty('_id', RealmPropertyType.int,
+      SchemaProperty('_id', RealmPropertyType.objectid,
           mapTo: '_id', primaryKey: true),
     ]);
   }
@@ -89,7 +97,7 @@ class SyncSchema extends _SyncSchema
 
 class Bike extends _Bike with RealmEntity, RealmObjectBase, RealmObject {
   Bike(
-    int id,
+    ObjectId id,
     String name, {
     Person? owner,
   }) {
@@ -101,9 +109,9 @@ class Bike extends _Bike with RealmEntity, RealmObjectBase, RealmObject {
   Bike._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -128,7 +136,7 @@ class Bike extends _Bike with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Bike._);
     return const SchemaObject(ObjectType.realmObject, Bike, 'Bike', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
           optional: true, linkTarget: 'Person'),
@@ -138,7 +146,7 @@ class Bike extends _Bike with RealmEntity, RealmObjectBase, RealmObject {
 
 class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person(
-    int id,
+    ObjectId id,
     String firstName,
     String lastName, {
     int? age,
@@ -152,9 +160,9 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   Person._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get firstName =>
@@ -185,7 +193,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Person._);
     return const SchemaObject(ObjectType.realmObject, Person, 'Person', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('firstName', RealmPropertyType.string),
       SchemaProperty('lastName', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int, optional: true),
@@ -195,7 +203,7 @@ class Person extends _Person with RealmEntity, RealmObjectBase, RealmObject {
 
 class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   Scooter(
-    int id,
+    ObjectId id,
     String name, {
     Person? owner,
   }) {
@@ -207,9 +215,9 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   Scooter._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -234,7 +242,7 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Scooter._);
     return const SchemaObject(ObjectType.realmObject, Scooter, 'Scooter', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
           optional: true, linkTarget: 'Person'),
@@ -245,7 +253,7 @@ class Scooter extends _Scooter with RealmEntity, RealmObjectBase, RealmObject {
 class ScooterShop extends _ScooterShop
     with RealmEntity, RealmObjectBase, RealmObject {
   ScooterShop(
-    int id,
+    ObjectId id,
     String name, {
     Iterable<Scooter> owner = const [],
   }) {
@@ -258,9 +266,9 @@ class ScooterShop extends _ScooterShop
   ScooterShop._();
 
   @override
-  int get id => RealmObjectBase.get<int>(this, 'id') as int;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
   @override
-  set id(int value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
@@ -287,7 +295,7 @@ class ScooterShop extends _ScooterShop
     RealmObjectBase.registerFactory(ScooterShop._);
     return const SchemaObject(
         ObjectType.realmObject, ScooterShop, 'ScooterShop', [
-      SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('owner', RealmPropertyType.object,
           linkTarget: 'Scooter', collectionType: RealmCollectionType.list),

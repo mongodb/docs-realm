@@ -1,1 +1,1 @@
-Iterable<User> users = app.users;
+final users = app.users;

@@ -1,4 +1,4 @@
-var config = Configuration.local([Car.schema]);
+final config = Configuration.local([Car.schema]);
 
 final compacted = Realm.compact(config);
 print(

@@ -173,14 +173,7 @@ of objects with the :flutter-sdk:`Realm.query() <realm/Realm/query.html>` method
 In the ``query()`` method's argument,
 use :ref:`Realm Query Language operators<rql-operators>` to perform filtering.
 
-
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-filter.dart
-   :language: dart
-
-Sort the results using the :ref:`Realm Query Language SORT() operator
-<rql-sort-distinct-limit>` in the ``query()`` method's argument.
-
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.query-realm-objects-with-sort.dart
    :language: dart
 
 Delete Objects
@@ -190,12 +183,6 @@ Delete a car by calling the :flutter-sdk:`Realm.delete() <realm/Realm/delete.htm
 method in a write transaction block:
 
 .. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-one-realm-object.dart
-   :language: dart
-
-Delete multiple cars with the :flutter-sdk:`Realm.deleteMany()
-<realm/Realm/deleteMany.html>` method in a write transaction block.
-
-.. literalinclude:: /examples/generated/flutter/quick_start_test.snippet.delete-many-realm-objects.dart
    :language: dart
 
 React to Changes
@@ -209,18 +196,6 @@ To listen to a query, use  :flutter-sdk:`RealmResults.changes.listen()
 <realm/RealmResultsChanges-class.html>`.
 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.query-change-listener.dart
-   :language: dart
-
-To listen to a single Realm object, use :flutter-sdk:`RealmObject.changes.listen()
-<realm/RealmObjectChanges-class.html>`.
-
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-object-change-listener.dart
-   :language: dart
-
-To listen to a list of Realm objects within another Realm object, use :flutter-sdk:`RealmList.changes.listen()
-<realm/RealmListChanges-class.html>`.
-
-.. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.realm-list-change-listener.dart
    :language: dart
 
 You can pause and resume subscriptions as well.
