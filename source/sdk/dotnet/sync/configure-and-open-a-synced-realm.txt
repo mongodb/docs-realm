@@ -35,17 +35,12 @@ Synced Realms vs. Non-Synced Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Synced realms differ from non-synced local Realm Database in a 
-few ways:
+couple of ways:
 
 - Synced realms attempt to sync changes with your backend App Services App,
   whereas non-synced realms do not.
 - Synced realms can be accessed by authenticated users, while non-synced 
   realms have no concept of users or authentication.
-- With synced realms, you can :ref:`specify the download behavior 
-  <ios-specify-download-behavior>` to download updates before opening a 
-  realm. However, requiring changes to download before opening the 
-  realm requires the user to be online. Non-synced realms can always 
-  be used offline.
 
 You can copy data from a non-synced Realm Database to a synced realm, 
 and vice versa, but you cannot sync a non-synced Realm Database.
@@ -56,15 +51,13 @@ Convert Between Synced and Non-Synced Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Realm does not have a direct mechanism to add sync to a non-synced realm, 
-or to permanently stop Sync for a synced realm. However, the Swift SDK does 
+or to permanently stop Sync for a synced realm. However, the .NET SDK does 
 provide methods that enable you to copy a realm file for use with a different 
 configuration. With these methods, you can easily duplicate a realm's data, 
 which you can then open with a sync or non-sync configuration. This lets
 you indirectly add Sync to a non-synced realm, or permanently stop a realm
-from syncing. See:
+from syncing. For more information, refer to :ref:`<dotnet-convert-to-sync>`.
 
-- :ref:`<ios-open-non-synced-as-synced-realm>`
-- :ref:`<ios-open-synced-realm-as-non-sync>`
 
 Synced Realms
 ~~~~~~~~~~~~~
