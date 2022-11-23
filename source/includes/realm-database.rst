@@ -82,7 +82,7 @@ storage. The database uses several kinds of file:
   keep track of which versions of data in a realm are
   actively in use. This prevents realm from reclaiming storage space
   that is still used by a client application. 
-- **note files**, suffixed with "note", e.g. :file`default.realm.note`:
+- **note files**, suffixed with "note", e.g. :file:`default.realm.note`:
   enable inter-thread and inter-process notifications.
 - **management files**, suffixed with "management", e.g. :file:`default.realm.management`:
   internal state management.
