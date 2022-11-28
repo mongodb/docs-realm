@@ -274,7 +274,9 @@ class SchemaTest: RealmTest() {
             // :snippet-end:
 
             // :snippet-start: cancel-job
+            // :uncomment-start:
             // job.cancel()
+            // :uncomment-end:
             // :snippet-end:
         }
 
