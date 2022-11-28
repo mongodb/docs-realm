@@ -1,5 +1,4 @@
-Configuration config =
-    Configuration.flexibleSync(loggedInUser, [Todo.schema]);
-Realm realm = Realm(
+final config = Configuration.flexibleSync(loggedInUser, [Todo.schema]);
+final realm = Realm(
   config,
 );

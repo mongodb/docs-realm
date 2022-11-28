@@ -10,7 +10,7 @@ Future<Realm> initBundledRealm(String assetKey) async {
   final config = Configuration.local([Car.schema]);
   final file = File(config.path);
   if (!await file.exists()) {
-    ByteData realmBytes = await rootBundle.load(assetKey);
+    final realmBytes = await rootBundle.load(assetKey);
     await file.writeAsBytes(
         realmBytes.buffer
             .asUint8List(realmBytes.offsetInBytes, realmBytes.lengthInBytes),
@@ -21,7 +21,7 @@ Future<Realm> initBundledRealm(String assetKey) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Realm realm = await initBundledRealm("assets/bundle.realm");
+  final realm = await initBundledRealm("assets/bundle.realm");
   runApp(const MyApp());
 }
 // :snippet-end:

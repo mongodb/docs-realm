@@ -13,6 +13,11 @@ const TaskModel = {
       type: "int",
       default: 0,
     },
+    projects: {
+      type: "linkingObjects",
+      objectType: "Project",
+      property: "tasks",
+    },
   },
   primaryKey: "id",
 };

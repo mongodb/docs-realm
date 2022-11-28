@@ -16,6 +16,12 @@ class Dog: Object {
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
+    
+    // Computed variable that is not persisted, but only
+    // used to section query results.
+    var firstLetter: String {
+        return name.first.map(String.init(_:)) ?? ""
+    }
 }
 class Person: Object {
     @Persisted(primaryKey: true) var id = 0

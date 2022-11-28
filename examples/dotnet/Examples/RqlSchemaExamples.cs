@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using Realms;
 
@@ -32,6 +33,10 @@ namespace Examples.RqlSchemaExamples
 
         [MapTo("progressMinutes")]
         public int ProgressMinutes { get; set; } = 0;
+
+        [MapTo("projects")]
+        [Backlink(nameof(RqlProject.RqlTasks))]
+        public IQueryable<RqlProject> Projects { get; }
     }
 
     public class RqlProject : RealmObject

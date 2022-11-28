@@ -4,8 +4,6 @@
 Model Data with Device Sync - Swift SDK
 =======================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -313,13 +311,12 @@ generate matching schema and object models:
 - Create schemas in App Services, and generate Realm object models from them.
 
 If you are developing a new client application, you likely want to iterate on
-the data model in the client application. Enable :ref:`Development Mode 
-<enable-disable-development-mode>` in App Services to have the backend infer 
-and update the schema based on your client object models. Development Mode
-does not work with :ref:`breaking schema changes 
-<destructive-changes-synced-schema>`, so you must :ref:`remove the existing 
-schema <remove-a-schema>` from the server when you make breaking changes
-to the SDK data model.
+the data model in the client application. Enable :ref:`Development Mode
+<development-mode>` in App Services to have the backend infer and update the
+schema based on your client object models. Development Mode does not work with
+:ref:`breaking schema changes <destructive-changes-synced-schema>`, so you must
+:ref:`remove the existing schema <remove-a-schema>` from the server when you
+make breaking changes to the SDK data model.
 
 If you are developing a client application that works with data that already
 exists in Atlas, you can :ref:`generate a schema <enforce-a-schema>` from that

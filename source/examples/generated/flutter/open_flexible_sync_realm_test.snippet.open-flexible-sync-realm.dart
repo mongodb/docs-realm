@@ -1,5 +1,4 @@
-User currentUser = await app.logIn(credentials);
-Configuration config = Configuration.flexibleSync(
-    currentUser, [Tricycle.schema],
+final currentUser = await app.logIn(credentials);
+final config = Configuration.flexibleSync(currentUser, [Tricycle.schema],
     path: 'flex.realm');
-Realm realm = Realm(config);
+final realm = Realm(config);

@@ -2,8 +2,6 @@
 React to Changes - SwiftUI
 ==========================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -43,6 +41,35 @@ you can remove a dog from an observed list of dogs using ``onDelete``.
    For more information about the query syntax and types of queries that Realm
    supports, see: :ref:`Read - Swift SDK <swift-crud-read>` and :ref:`Filter 
    Data - Swift SDK <ios-filter-data>`.
+
+.. _swiftui-observe-sectioned-results:
+
+Observe Sectioned Results
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 10.29.0
+
+You can observe a results set that is divided into sections by a key 
+generated from a property on the object. We've added a computed variable
+to the model that we don't persist; we just use this to section the results
+set.
+
+.. literalinclude:: /examples/generated/swiftui/Model.snippet.computed-var-sectioned-results.swift
+   :language: swift
+
+Then, we can use the :swift-sdk:`@ObservedSectionedResults 
+<Structs/ObservedSectionedResults.html>` property wrapper to 
+observe the results set divided into sections based on the computed variable 
+key.
+
+.. literalinclude:: /examples/generated/swiftui/SectionedResults.snippet.observed-sectioned-results.swift
+   :language: swift
+
+You might use these observed sectioned results to populate a List view 
+divided by sections:
+
+.. literalinclude:: /examples/generated/swiftui/SectionedResults.snippet.sectioned-dogs-list-view.swift
+   :language: swift
 
 .. _swiftui-react-to-login-state-changes:
 

@@ -6,43 +6,47 @@ part of 'react_to_changes_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Character extends _Character with RealmEntity, RealmObject {
+class Character extends _Character
+    with RealmEntity, RealmObjectBase, RealmObject {
   Character(
     String name,
     String species,
     int age,
   ) {
-    RealmObject.set(this, 'name', name);
-    RealmObject.set(this, 'species', species);
-    RealmObject.set(this, 'age', age);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'species', species);
+    RealmObjectBase.set(this, 'age', age);
   }
 
   Character._();
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  String get species => RealmObject.get<String>(this, 'species') as String;
+  String get species => RealmObjectBase.get<String>(this, 'species') as String;
   @override
-  set species(String value) => RealmObject.set(this, 'species', value);
+  set species(String value) => RealmObjectBase.set(this, 'species', value);
 
   @override
-  int get age => RealmObject.get<int>(this, 'age') as int;
+  int get age => RealmObjectBase.get<int>(this, 'age') as int;
   @override
-  set age(int value) => RealmObject.set(this, 'age', value);
+  set age(int value) => RealmObjectBase.set(this, 'age', value);
 
   @override
   Stream<RealmObjectChanges<Character>> get changes =>
-      RealmObject.getChanges<Character>(this);
+      RealmObjectBase.getChanges<Character>(this);
+
+  @override
+  Character freeze() => RealmObjectBase.freezeObject<Character>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Character._);
-    return const SchemaObject(Character, 'Character', [
+    RealmObjectBase.registerFactory(Character._);
+    return const SchemaObject(ObjectType.realmObject, Character, 'Character', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('species', RealmPropertyType.string),
       SchemaProperty('age', RealmPropertyType.int),
@@ -50,39 +54,44 @@ class Character extends _Character with RealmEntity, RealmObject {
   }
 }
 
-class Fellowship extends _Fellowship with RealmEntity, RealmObject {
+class Fellowship extends _Fellowship
+    with RealmEntity, RealmObjectBase, RealmObject {
   Fellowship(
     String name, {
     Iterable<Character> members = const [],
   }) {
-    RealmObject.set(this, 'name', name);
-    RealmObject.set<RealmList<Character>>(
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set<RealmList<Character>>(
         this, 'members', RealmList<Character>(members));
   }
 
   Fellowship._();
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => throw RealmUnsupportedSetError();
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
   RealmList<Character> get members =>
-      RealmObject.get<Character>(this, 'members') as RealmList<Character>;
+      RealmObjectBase.get<Character>(this, 'members') as RealmList<Character>;
   @override
   set members(covariant RealmList<Character> value) =>
       throw RealmUnsupportedSetError();
 
   @override
   Stream<RealmObjectChanges<Fellowship>> get changes =>
-      RealmObject.getChanges<Fellowship>(this);
+      RealmObjectBase.getChanges<Fellowship>(this);
+
+  @override
+  Fellowship freeze() => RealmObjectBase.freezeObject<Fellowship>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Fellowship._);
-    return const SchemaObject(Fellowship, 'Fellowship', [
+    RealmObjectBase.registerFactory(Fellowship._);
+    return const SchemaObject(
+        ObjectType.realmObject, Fellowship, 'Fellowship', [
       SchemaProperty('name', RealmPropertyType.string, primaryKey: true),
       SchemaProperty('members', RealmPropertyType.object,
           linkTarget: 'Character', collectionType: RealmCollectionType.list),

@@ -4,8 +4,6 @@
 Supported Types - Swift SDK
 ===========================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -30,19 +28,6 @@ of the realm instance on the current thread. You can also
 listen for changes in the collection by subscribing to :ref:`collection
 notifications <ios-register-a-collection-change-listener>`.
 
-.. _ios-results-collections:
-
-The Swift SDK :swift-sdk:`Results <Structs/Results.html>` collection is 
-a class representing objects retrieved from queries. A 
-:swift-sdk:`Results <Structs/Results.html>` collection represents the
-lazily-evaluated results of a query operation. Results are immutable:
-you cannot add or remove elements to or from the results collection.
-Results have an associated query that determines their contents.
-
-.. seealso::
-
-   :ref:`Reads <ios-realm-database-reads>`
-
 All collection types conform to the :swift-sdk:`RealmCollection
 <Protocols/RealmCollection.html>` protocol. This protocol inherits from
 :apple:`CollectionType <documentation/swift/collection>`, so you can use
@@ -54,6 +39,36 @@ operate on any Realm collection:
 
 .. literalinclude:: /examples/generated/code/start/ObjectModels.snippet.generic-collection.swift
    :language: swift
+
+.. _ios-results-collections:
+
+Results and Sectioned Results
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Swift SDK :swift-sdk:`Results <Structs/Results.html>` collection is 
+a class representing objects retrieved from queries. A 
+:swift-sdk:`Results <Structs/Results.html>` collection represents the
+lazily-evaluated results of a query operation. Results are immutable:
+you cannot add or remove elements to or from the results collection.
+Results have an associated query that determines their contents.
+
+The Swift SDK also provides :swift-sdk:`SectionedResults <Structs/SectionedResults.html>`,
+a type-safe collection which holds ``ResultsSection`` as its elements.
+Each :swift-sdk:`ResultSection <Structs/ResultsSection.html>` is a results 
+collection that contains only objects that belong to a given section key.
+
+For example, an app that includes a contact list might use SectionedResults
+to display a list of contacts divided into sections, where each section 
+contains all the contacts whose first name starts with the given letter.
+The ``ResultsSection`` whose key is "L" would contain "Larry", "Liam",
+and "Lisa". 
+
+.. seealso::
+
+   :ref:`Reads <ios-realm-database-reads>`
+
+Collections as Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Swift SDK also offers several collection types you can use as properties 
 in your data model:

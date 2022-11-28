@@ -1,3 +1,235 @@
+# November 18, 2022
+
+## Flutter SDK
+- Quick Start: Remove some content to match structure of other SDK quick starts
+- Model Data: New section that organizes some pages from the top-level Flutter SDK navigation, adds a new top-level page with some concept information
+  - Define a Realm Object Schema: Page moved from top level of Flutter SDK navigation, split some info out into smaller pages
+  - Data Types: Page moved from top level of Flutter SDK navigation
+  - Relationships: New page with existing content moved from Define a Realm Object Schema
+  - Property Annotations: New page with existing content moved from Define a Realm Object Schema
+  - Update a Realm Object Schema: Page moved from top level of Flutter SDK navigation
+- Realm Database/Read & Write Data: New "Create Multiple Objects" section showing how to add multiple objects to a realm with the `Realm.addAll()` method
+- Atlas App Services
+  - Call a Function
+    - Add the code for the App Services Function that the page calls in the example
+    - Small updates to arguments when calling a function in `0.8.0+rc`
+- Various pages
+  - Update code examples to show using an `ObjectId` primary key
+  - Update code examples to use `final` in variable declarations per preferred community practice
+
+## React Native SDK
+- Usage Examples/Debugging with Flipper: New page showing how to use the Flipper Debugger to debug Realm apps built with React Native
+
+## Swift SDK
+- Swift Concurrency: New page providing guidance about how to use Realm with Swift concurrency features
+- SwiftUI
+  - Write Data: New sections with code examples showing more complex write cases
+  - Sync Data in the Background: New page showing how to use Apple's `.backgroundTask` to sync Realm data in the background
+- Various pages: Refactor async code examples to show `@MainActor` where applicable
+
+## Other
+- Add several notes across all SDKs about:
+  - Performance and storage implications of adding an Index
+  - Advising developers using Sync to keep objects in memory until edits are complete to prevent excessive writes
+  - Details about encrypting realms when using Sync or accessing encrypted realms from multiple processes
+
+# November 11, 2022
+
+## Flutter SDK
+- Landing Page: Update "Beta" to "Release Candidate" or "RC" in landing page text and navigation
+- Realm Database
+  - Define a Realm Object Schema
+    - Add supported data types to the "Indexed" section
+    - New "Inverse Relationship" section with tested code example and details about backlinks
+  - Data Types: Add `parent` property to Embedded Objects docs & code example
+  - Compact a Realm: Update docs with details & tested code example for the `Realm.compact()` static method
+- Sync Device Data
+  - Manage a Sync Session: New section with tested code example showing how to remove all subscriptions to objects of a specific type
+  - Handle Sync Errors: New Client Reset section with documentation & code examples for client reset with recovery
+- Atlas App Services
+  - Update landing page with a new section about calling Atlas functions
+  - Call a Function: New page with tested code example for calling Atlas Functions from Flutter SDK
+
+## Kotlin SDK
+- Update Realm Kotlin version to 1.4.0
+- Realm Database/Schemas/Index a Field: Add `RealmUUID` to supported indexable data types
+
+## .NET SDK
+- Install Realm for .NET: Remove an outdated note related to old versions
+- Usage Examples/Sync Changes Between Devices: New "Cancel a Sync Session" section with details and code example showing how to use a CancellationToken
+
+## Node.js SDK
+- Usage Examples
+  - Reset a Client Realm: Update documentation & code examples for client reset with recovery
+  - Call a Function: Replace deprecated api key methods
+  - Authenticate Users: Replace deprecated api key methods
+
+## React Native SDK
+- Usage Examples
+  - Define a Realm Object Schema: Add `UUID` to supported indexable data types
+  - Reset a Client Realm: Update documentation & code examples for client reset with recovery
+  - Call a Function: Replace deprecated api key methods
+
+## Swift SDK
+- Install: Update the Carthage installation instructions to use xcframeworks
+- SwiftUI/Quick Start: Remove Partition-Based Sync from Quick Start, update login/logout to async/await syntax
+- Various pages: Update code examples to change "Task" object naming that conflicts with Swift `Task` keyword
+
+## Web SDK
+- User Management/Authenticate Users
+  - Replace deprecated api key methods
+  - Fix a typo
+
+## Other
+- Realm Docs Landing Page: Move Java SDK card to "below the fold", update language around Realm Database 
+- Remove unused files
+
+# November 4, 2022
+
+## Flutter SDK
+- Realm Database
+  - Open & Close a Realm: New subsection mentioning compacting a realm and linking to the new Compact a Realm page
+  - Compact a Realm: New page with general info about compacting a realm & a code example showing the `shouldCompactCallback()` usage
+
+## Kotlin SDK
+- Install/Kotlin Multiplatform: Point to the correct Realm Kotlin dependency when used across Gradle Modules
+- Sync/Open a Synced Realm: Switch the order of the Partition-Based Sync and Flexible Sync tabs to show Flexible Sync first
+- Atlas App Services/Link User Identities: New page with tested code example showing how to link credentials
+
+## .NET SDK
+- Quick Start: Integrate Quick Start & Quick Start with Sync into one Quick Start, update for Flexible Sync
+- Fundamentals
+  - Write Transactions: Add info about `cancellationToken`
+  - Atlas Device Sync: Add new section about Unidirectional Sync with link to new Unidirectional Sync page
+  - Unidirectional Data Sync: New page with details and tested code example for how to use Asymmetric Sync
+
+## React Native SDK
+- Use Realm React: Add a note about version requirements for using Realm React with Realm JS Version 11
+
+## Web SDK
+- Apollo GraphQL Client (React): Update the method name and add details around refreshing the access token
+
+## Other
+- Realm Query Language: Remove `IN` operator from unsupported Flexible Sync operators; add details around using `IN` with Flexible Sync
+
+# October 28, 2022
+
+## Tutorials
+- Removed section. Moved tutorials to Atlas App Services at: https://www.mongodb.com/docs/atlas/app-services/get-started/
+
+## Flutter SDK
+- Realm Database
+  - Define a Realm Object Schema: Update Embedded Object support with details & link to Data Types page
+  - Read & Write Data: New "Background Writes" section with details & tested code example for `writeAsync`
+  - Data Types: New "Embedded Objects" section with details & tested code examples
+- Sync Device Data/Open Synced Realm: New "Open a Realm After Downloading Changes" with async open details & tested code examples
+- Various pages: Change styling of cross-links from "Tip" callout boxes to regular text links
+
+## Java SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## .NET SDK
+- Advanced Guides/Client Resets: Update client reset handler documentation for Client Recovery, with new tested code examples
+
+## React Native SDK
+- Install Realm for React Native: Add an optional step to React Native v.60+ install tab about enabling Hermes
+
+## Swift SDK
+- CRUD/Threading: Update the code example for using `@ThreadSafe` wrapper on a function parameter to show correct `@MainActor` usage
+- Test Suite: Fix a failing test related to upgrading to Xcode 14.x
+
+## Other
+- Introduction: Remove tutorials from "Get Started" section, add links to SDK landing pages
+- All SDK landing pages: Small tweaks to new styling & images to improve consistency
+- Various Snyk dependency version updates
+
+# October 21, 2022
+
+## Flutter SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+- Realm Database/Freeze Data: New page documenting the ability to freeze objects in the Flutter SDK, with tested code examples
+- Various pages: Minor tweaks incorporating review feedback across several pages
+
+## Node.js SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## React Native SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Swift SDK
+- Why Realm Database?: Add mention of sectioned results to "Live Queries"
+- Model Data/Define an Object Model/Supported Types: Add details around SectionedResults/ResultsSection
+- CRUD/Read: New "Section Query Results" section with details and tested code examples
+- SwiftUI
+  - React to Changes: New "Observe Sectioned Results" subsection with details and tested code examples for `@ObservedSectionedResults`
+  - Filter Data: New "Section Filtered Results" section with details and tested code example for `@ObservedSectionedResults`
+- Sync Data/Handle Sync Errors: Add documentation & code examples for client reset with recovery
+
+# October 14, 2022
+
+## Flutter SDK
+- Realm Database
+  - Data Types: Added that nullable types in lists are supported.
+  - Define a Realm Object Schema: Added that primary keys are nullable
+  - Read & Write Data: Added section on how to upsert an object using Realm.add()
+  - Encrypt a Realm: Added documentation on encrypting a realm
+  - Update a Realm Object Schema: Created this new page to add details on manual migration using the migrationCallback configuration
+  - Open & Close a Realm: Added note about new 'Update a Realm Object Schema' page.
+
+- User Management
+  - Authenticate Users: Note about breaking change to email/password authentication when an app uses a version greater than 0.5.0. User will need to reset password or create a new account.
+  - Authenticate Users: Documented API key user authentication
+
+## C++ SDK 
+- Maintenance to landing page wording
+- Added note about update for C++17 support
+
+## Kotlin SDK
+- Updated the landing page to create better getting started flow
+
+## React Native SDK
+- Define a Realm Object to Schema: Documented Asymetric Sync support in new section, 'Define an Asymmetric Object'.
+
+## Web SDK 
+- Quick Start with React: Clarified name of the quick start from 'Realm - React Quick Start' to 'Quick Start with React'
+
+## Other
+- Added contribution guide to the documentation repository
+- Realm Query Language: Added section on backlink query syntax
+- Removed .. default-domain:: mongodb directive from the docs
+- Updated Jest to version ^29.0.0 and realm to ^10.21.0
+
+# October 7, 2022
+
+## Flutter SDK
+- Realm Database
+  - Define a Realm Object Schema: Add details for how to declare Realm models across multiple files (public vs. private)
+  - Bundle a Realm: New page with procedure and tested code examples showing how to bundle a Realm in a Flutter app
+- Sync Device Data
+  - Open Synced Realm: Add link to new Handle Sync Errors page, clarify details about opening a Flexible Sync realm
+  - Handle Sync Errors: New page with info and code example showing how to handle sync errors
+
+## Kotlin SDK
+- Quick Start
+  - Grammar and typo fixes
+  - Change `user.identity` to `user.id`
+- Realm Database/Schemas/UUID: New page with info & tested code example showing how to generate a `RealmUUID`
+- Atlas App Services
+  - Register Users: Change `user.identity` to `user.id`
+  - Authenticate Users: Add details & code example to Anonymous documentation showing how to reuse an anonymous user
+  - Delete Users: New page with info and tested code example showing how to delete users
+- Bump Kotlin SDK version used in docs
+
+## .NET SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Swift SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+
+## Web SDK
+- Landing Page: Redesign the landing page with new styling, tabbed use cases and better getting started info
+- Move the Next.js Integration Guide to a more prominent position in the table of contents
+
 # September 30, 2022
 
 ## Web SDK

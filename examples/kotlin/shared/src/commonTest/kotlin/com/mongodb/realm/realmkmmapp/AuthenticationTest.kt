@@ -8,6 +8,22 @@ import kotlin.test.Test
 class AuthenticationTest: RealmTest() {
 
     @Test
+    fun linkCredentialsTest() {
+        val email = getRandom()
+        val password = getRandom()
+        // :snippet-start: link-credentials
+        val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID
+        runBlocking { // use runBlocking sparingly -- it can delay UI interactions
+            val user = app.login(Credentials.anonymous()) // logs in with an anonymous user
+            // registers an email and password user
+            app.emailPasswordAuth.registerUser(email, password)
+            // link anonymous user with email password credentials
+            user.linkCredentials(Credentials.emailPassword(email, password));
+        }
+        // :snippet-end:
+    }
+
+    @Test
     fun anonymousAuthTest() {
         // :snippet-start: anonymous-authentication
         val app: App = App.create(YOUR_APP_ID) // Replace this with your App ID

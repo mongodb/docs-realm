@@ -19,6 +19,7 @@ Realm Swift SDK
    CRUD </sdk/swift/crud>
    React to Changes </sdk/swift/react-to-changes>
    SwiftUI </sdk/swift/swiftui>
+   Swift Concurrency </sdk/swift/swift-concurrency>
    Test and Debug </sdk/swift/test-and-debug>
    API Reference </sdk/swift/api-reference>
    Release Notes <https://github.com/realm/realm-swift/releases>
@@ -27,11 +28,9 @@ Realm Swift SDK
    Sync Data </sdk/swift/sync>
    Realm in Xcode Playgrounds </sdk/swift/xcode-playgrounds>
 
-.. introduction::
+Use the Realm Swift SDK to develop iOS, macOS, watchOS and tvOS apps in
+Swift and Objective-C.
 
-   Use the Realm Swift SDK to develop iOS, macOS, watchOS and tvOS apps in 
-   Swift and Objective-C. 
-   
 .. kicker:: Learning Paths
 
 Get Started with Realm Swift
@@ -63,7 +62,7 @@ Get Started with Realm Swift
    .. card::
       :headline: Guided Tutorial
       :cta: Follow the Tutorial
-      :url: https://www.mongodb.com/docs/realm/tutorial/swiftui/
+      :url: https://mongodb.com/docs/atlas/app-services/tutorial/swiftui/
       :icon: /images/icons/branding_2022/General_CONTENT_Tutorial3x.png
       :icon-alt: Tutorial Icon
 
@@ -122,7 +121,7 @@ other clients.
             to :ref:`update Views when data changes 
             <swiftui-update-ui-when-objects-change>`.
 
-      .. image:: /images/illustrations/Mobile_hero_green.png
+      .. image:: /images/illustrations/Spot_MauvePurple_Infrastructure_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Sync Data Across Devices
@@ -175,16 +174,16 @@ other clients.
       .. container::
 
          The Realm Swift SDK offers property wrappers and convenience features 
-         designed to make it easier to work with Realm in SwiftUI. Check out the 
-         :ref:`SwiftUI documentation <ios-swiftui-examples>` for example View code 
-         that demonstrates common Realm SwiftUI patterns.
+         designed to make it easier to work with Realm in SwiftUI.
+         For example View code that demonstrates common Realm SwiftUI patterns,
+         check out the :ref:`SwiftUI documentation <ios-swiftui-examples>`.
 
          .. literalinclude:: /examples/generated/swiftui/FilterData.snippet.searchable.swift
             :language: swift
             :caption: SwiftUI Property Wrappers Offer Realm/SwiftUI Integration
             :copyable: false
 
-      .. image:: /images/illustrations/Sports_hero_green.png
+      .. image:: /images/illustrations/Spot_MauvePurple_Logic_Tech_RealmApp2x.png
          :alt: Realm Mobile Illustration
 
    .. tab:: Build with Atlas App Services
@@ -198,26 +197,11 @@ other clients.
          You can :ref:`call serverless Functions <ios-call-a-function>` 
          from your client application that run in an App Services backend.
 
-         .. code-block:: swift
-            :copyable: false
-
-            let myFunctionResult = try await user.functions.myServerlessFunction(arguments)
-
          Query MongoDB Atlas
          ~~~~~~~~~~~~~~~~~~~
 
          You can :ref:`query data stored in MongoDB <ios-mongodb-remote-access>`
          directly from your client application code.
-
-         .. code-block:: swift
-            :copyable: false
-
-            let client = app.currentUser!.mongoClient("mongodb-atlas")
-            let database = client.database(named: "products")
-            let collection = database.collection(withName: "coffee_drinks")
-
-            let queryFilter: Document = ["name": "Maple Latte"]
-            let queryResult = try await collection.findOneDocument(filter: queryFilter)
 
          Authenticate Users
          ~~~~~~~~~~~~~~~~~~
@@ -225,12 +209,6 @@ other clients.
          Authenticate users with built-in and third-party :ref:`authentication 
          providers <ios-authenticate-users>`. Use the authenticated user to 
          access App Services.
-
-         .. code-block:: swift
-            :copyable: false
-
-            let app = App(id: YOUR_APP_SERVICES_APP_ID)
-            let user = try await app.login(credentials: .anonymous)
 
       .. image:: /images/illustrations/Spot_MauvePurple_APIs_Tech_RealmApp.png
          :alt: App Services Illustration

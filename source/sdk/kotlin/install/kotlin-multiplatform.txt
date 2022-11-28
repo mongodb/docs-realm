@@ -4,8 +4,6 @@
 Install (Kotlin Multiplatform) - Kotlin SDK
 ===========================================
 
-.. default-domain:: mongodb
-
 .. include:: /includes/kotlin-install-prerequisites.rst
 
 Additionally, Kotlin Multiplatform projects require the following:
@@ -272,8 +270,14 @@ Installation
    .. code-block:: kotlin
       :copyable: false
 
+      // If only using the local database
       dependencies {
-         compileOnly("io.realm.kotlin:library:{+kotlin-sdk-version+}")
+         compileOnly("io.realm.kotlin:library-base:{+kotlin-sdk-version+}")
+      }
+
+      // If using Device Sync
+      dependencies {
+         compileOnly("io.realm.kotlin:library-sync:{+kotlin-sdk-version+}")
       }
 
 After updating the Gradle configuration,

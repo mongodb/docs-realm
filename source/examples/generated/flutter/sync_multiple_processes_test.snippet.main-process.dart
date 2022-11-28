@@ -1,7 +1,7 @@
 // Same realm file location as secondary process
-String realmPath =
+final realmPath =
     path.join(Configuration.defaultStoragePath, 'synced.realm');
 
-Configuration flexibleConfig =
+final flexibleConfig =
     Configuration.flexibleSync(currentUser, schema, path: realmPath);
-Realm realmWithSync = Realm(flexibleConfig);
+final realmWithSync = Realm(flexibleConfig);

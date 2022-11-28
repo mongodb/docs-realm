@@ -33,7 +33,7 @@ void main() {
   group('Log in user - ', () {
     test("Anonymous user", () async {
       // :snippet-start: anonymous-credentials
-      Credentials anonCredentials = Credentials.anonymous();
+      final anonCredentials = Credentials.anonymous();
       await app.logIn(anonCredentials);
       // :snippet-end:
       expect(app.currentUser != null, true);
@@ -41,9 +41,9 @@ void main() {
     });
     test("Multiple anonymous users", () async {
       // :snippet-start: multiple-anonymous-credentials
-      User anonUser = await app.logIn(Credentials.anonymous());
+      final anonUser = await app.logIn(Credentials.anonymous());
 
-      User otherAnonUser =
+      final otherAnonUser =
           await app.logIn(Credentials.anonymous(reuseCredentials: false));
       // :snippet-end:
       expect(anonUser.id == otherAnonUser.id, false);
@@ -53,7 +53,7 @@ void main() {
     });
     test("Email/password user", () async {
       // :snippet-start: email-password-credentials
-      Credentials emailPwCredentials =
+      final emailPwCredentials =
           Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd");
       await app.logIn(emailPwCredentials);
       // :snippet-end:
@@ -81,9 +81,9 @@ void main() {
       }
 
       // :snippet-start: custom-jwt-credentials
-      String token = await authenticateWithExternalSystem();
-      Credentials jwtCredentials = Credentials.jwt(token);
-      User currentUser = await app.logIn(jwtCredentials);
+      final token = await authenticateWithExternalSystem();
+      final jwtCredentials = Credentials.jwt(token);
+      final currentUser = await app.logIn(jwtCredentials);
       // :snippet-end:
       expect(currentUser.provider, AuthProviderType.jwt);
       // clean up
@@ -91,14 +91,14 @@ void main() {
     });
     test("Custom Function user", () async {
       // :snippet-start: custom-function-credentials
-      Map<String, String> credentials = {
+      final credentials = {
         "username": "someUsername",
       };
       // payload must be a JSON-encoded string
-      String payload = jsonEncode(credentials);
+      final payload = jsonEncode(credentials);
 
-      Credentials customCredentials = Credentials.function(payload);
-      User currentUser = await app.logIn(customCredentials);
+      final customCredentials = Credentials.function(payload);
+      final currentUser = await app.logIn(customCredentials);
       // :snippet-end:
       expect(currentUser.provider, AuthProviderType.function);
       // clean up
@@ -107,46 +107,45 @@ void main() {
     test("Facebook user", () async {
       final accessToken = 'abc';
       // :snippet-start: facebook-credentials
-      Credentials facebookCredentials = Credentials.facebook(accessToken);
-      User currentUser = await app.logIn(facebookCredentials);
+      final facebookCredentials = Credentials.facebook(accessToken);
+      final currentUser = await app.logIn(facebookCredentials);
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
     test("Google user (auth code)", () async {
       final authCode = 'abc';
       // :snippet-start: google-auth-code-credentials
-      Credentials googleAuthCodeCredentials =
-          Credentials.googleAuthCode(authCode);
-      User currentUser = await app.logIn(googleAuthCodeCredentials);
+      final googleAuthCodeCredentials = Credentials.googleAuthCode(authCode);
+      final currentUser = await app.logIn(googleAuthCodeCredentials);
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
     test("Google user (ID token)", () async {
       final idToken = 'abc';
       // :snippet-start: google-id-token-credentials
-      Credentials googleIdTokenCredentials = Credentials.googleIdToken(idToken);
-      User currentUser = await app.logIn(googleIdTokenCredentials);
+      final googleIdTokenCredentials = Credentials.googleIdToken(idToken);
+      final currentUser = await app.logIn(googleIdTokenCredentials);
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
     test("Apple user", () async {
       final idToken = 'abc';
       // :snippet-start: apple-credentials
-      Credentials appleCredentials = Credentials.apple(idToken);
-      User currentUser = await app.logIn(appleCredentials);
+      final appleCredentials = Credentials.apple(idToken);
+      final currentUser = await app.logIn(appleCredentials);
       // :snippet-end:
     }, skip: 'not testing 3rd party auth');
   });
   test("Log out user", () async {
-    Credentials anonCredentials = Credentials.anonymous();
-    User user = await app.logIn(anonCredentials);
+    final anonCredentials = Credentials.anonymous();
+    final user = await app.logIn(anonCredentials);
     // :snippet-start: log-out
     await user.logOut();
     // :snippet-end:
     expect(app.currentUser, null);
   });
   test("Retrieve current user", () async {
-    Credentials anonCredentials = Credentials.anonymous();
+    final anonCredentials = Credentials.anonymous();
     await app.logIn(anonCredentials);
     // :snippet-start: retrieve-current-user
-    User? user = app.currentUser;
+    final user = app.currentUser;
     // :snippet-end:
     expect(app.currentUser?.id.isNotEmpty, true);
   });
@@ -217,6 +216,71 @@ void main() {
       });
     });
   }, skip: 'Skipping because requires user interaction/email');
+  group("API Key Users - ", () {
+    setUp(() async {
+      final currentUser = await app.logIn(
+          Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+      final apiKeys = await currentUser.apiKeys.fetchAll();
+      for (ApiKey key in apiKeys) {
+        await currentUser.apiKeys.delete(key.id);
+      }
+      final apiKeysAfter = await currentUser.apiKeys.fetchAll();
+    });
+    tearDown(() async {
+      final currentUser = await app.logIn(
+          Credentials.emailPassword("lisa@example.com", "myStr0ngPassw0rd"));
+      final apiKeys = await currentUser.apiKeys.fetchAll();
+      for (ApiKey key in apiKeys) {
+        await currentUser.apiKeys.delete(key.id);
+      }
+      await currentUser.logOut();
+    });
+    test("Login with API key", () async {
+      final user = app.currentUser!;
+      final userId = user.id;
+      final apiKey = await user.apiKeys.create('myApiKey');
+      final myApiKey = apiKey.value!;
+      // :snippet-start: api-key-auth
+      final apiKeyCredentials = Credentials.apiKey(myApiKey);
+      final apiKeyUser = await app.logIn(apiKeyCredentials);
+      // :snippet-end:
+      expect(userId, apiKeyUser.id);
+    });
+    test("Work with user API keys", () async {
+      final user = app.currentUser!;
+      // :snippet-start: work-with-api-keys
+      // Create user API key
+      final apiKey = await user.apiKeys.create("api-key-name");
+      expect(apiKey.id.runtimeType, ObjectId); // :remove:
+
+      // Get existing user API key by ID
+      // Returns `null` if no existing API key for the ID
+      final refetchedApiKey = await user.apiKeys.fetch(apiKey.id);
+      expect(refetchedApiKey.runtimeType, ApiKey); // :remove:
+
+      // Get all API keys for a user
+      final apiKeys = await user.apiKeys.fetchAll();
+      expect(apiKeys.length, 1); // :remove:
+
+      // Disable API key
+      await user.apiKeys.disable(apiKey.id);
+      expect(apiKey.isEnabled, false); // :remove:
+
+      // Check if API key is enabled
+      print(apiKey.isEnabled); // prints `false`
+
+      // Enable API key
+      await user.apiKeys.enable(apiKey.id);
+      expect(apiKey.isEnabled, true); // :remove:
+
+      // Delete a user API key
+      final apiKeyId = apiKey.id; // :remove:
+      await user.apiKeys.delete(apiKey.id);
+      // :snippet-end:
+      final noApiKey = await user.apiKeys.fetch(apiKeyId);
+      expect(noApiKey, null);
+    }, skip: "debuggin");
+  });
   group('Work with multiple users', () {
     late User lisa;
     late User bart;
@@ -235,12 +299,12 @@ void main() {
 
     test('List all users on the device', () async {
       // :snippet-start: list-all-users
-      Iterable<User> users = app.users;
+      final users = app.users;
       // :snippet-end:
-      expect(users.length, 3);
+      expect(users.length, 4);
     });
     test('Change the active user', () async {
-      User otherUser = lisa;
+      final otherUser = lisa;
       // :snippet-start: change-active-user
       app.switchUser(otherUser);
       // :snippet-end:
@@ -257,15 +321,15 @@ void main() {
   });
   group('Link user credentials', () {
     test('Basic link user credentials', () async {
-      User user = await app.logIn(Credentials.anonymous());
+      final user = await app.logIn(Credentials.anonymous());
       final USERNAME = "${generateRandomString(20)}@example.com";
       final PASSWORD = generateRandomString(8);
-      EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+      final authProvider = EmailPasswordAuthProvider(app);
       await authProvider.registerUser(USERNAME, PASSWORD);
-      Credentials additionalCredentials =
+      final additionalCredentials =
           Credentials.emailPassword(USERNAME, PASSWORD);
       // :snippet-start: link-user-credentials
-      User linkedCredentialUser =
+      final linkedCredentialUser =
           await user.linkCredentials(additionalCredentials);
       // :snippet-end:
       expect(linkedCredentialUser.identities.length, 2);
@@ -275,16 +339,16 @@ void main() {
       final PASSWORD = generateRandomString(8);
       // :snippet-start: link-user-credentials-example
       // on app start without registration
-      User anonymousUser = await app.logIn(Credentials.anonymous());
+      final anonymousUser = await app.logIn(Credentials.anonymous());
 
       // ... user interacts with app
 
       //... user decides to sign up for app with email/password auth
-      EmailPasswordAuthProvider authProvider = EmailPasswordAuthProvider(app);
+      final authProvider = EmailPasswordAuthProvider(app);
       await authProvider.registerUser(USERNAME, PASSWORD);
 
       // link email/password credentials to anonymous user's credentials
-      User linkedCredentialUser = await anonymousUser
+      final linkedCredentialUser = await anonymousUser
           .linkCredentials(Credentials.emailPassword(USERNAME, PASSWORD));
       // :snippet-end:
       expect(linkedCredentialUser.identities.length, 2);
@@ -323,7 +387,7 @@ void main() {
         Credentials.emailPassword("moe@example.com", "myStr0ngPassw0rd");
     await app.logIn(credentials);
     // :snippet-start: delete-user
-    User currentUser = app.currentUser!;
+    final currentUser = app.currentUser!;
     await app.deleteUser(currentUser);
     // :snippet-end:
     expect(app.currentUser, null);

@@ -25,6 +25,14 @@ class ReadExamples_Dog: Object {
 
     // Map of city name -> favorite park in that city
     @Persisted var favoriteParksByCity: Map<String, String>
+    
+    // :snippet-start: sectioned-result-variable
+    // Computed variable that is not persisted, but only
+    // used to section query results.
+    var firstLetter: String {
+        return name.first.map(String.init(_:)) ?? ""
+    }
+    // :snippet-end:
 }
 // :snippet-start: embedded-object-models
 class ReadExamples_Person: Object {
@@ -492,6 +500,89 @@ class ReadRealmObjects: XCTestCase {
             }
         }
         // :snippet-end:
+    }
+    
+    func testSectionQueryResults() {
+        // :snippet-start: section-query-results
+        let realm = try! Realm()
+        // :remove-start:
+        // Populate some example data
+        let myDog = ReadExamples_Dog()
+        myDog.name = "Rex"
+        myDog.companion = .none
+
+        let theirDog = ReadExamples_Dog()
+        theirDog.name = "Wolfie"
+        theirDog.companion = .string("Fluffy the Cat")
+
+        let anotherDog = ReadExamples_Dog()
+        anotherDog.name = "Fido"
+        anotherDog.companion = .object(ReadExamples_Dog(value: ["name": "Spot"]))
+
+        try! realm.write {
+            realm.add([myDog, theirDog, anotherDog])
+        }
+        // :remove-end:
+        
+        // :snippet-start: get-sectioned-results
+        var dogsByFirstLetter: SectionedResults<String, ReadExamples_Dog>
+        
+        dogsByFirstLetter = realm.objects(ReadExamples_Dog.self).sectioned(by: \.firstLetter, ascending: true)
+        // :snippet-end:
+        
+        // You can get a count of the sections in the SectionedResults
+        let sectionCount = dogsByFirstLetter.count
+
+        // Get an array containing all section keys for objects that match the query.
+        let sectionKeys = dogsByFirstLetter.allKeys
+        // This example realm contains 4 dogs, "Rex", "Wolfie", "Fido", "Spot".
+        // Prints ["F", "R", "S", "W"]
+        print(sectionKeys)
+        
+        // Get a specific key by index position
+        let sectionKey = dogsByFirstLetter[0].key
+        // Prints "Key for index 0: F"
+        print("Key for index 0: \(sectionKey)")
+        
+        // You can access Results Sections by the index of the key you want in SectionedResults.
+        // "F" is the key at index position 0. When we access this Results Section, we get dogs whose name begins with "F".
+        let dogsByF = dogsByFirstLetter[0]
+        // Prints "Fido"
+        print(dogsByF.first?.name)
+        // :snippet-end:
+        XCTAssertEqual(sectionKey, "F")
+        XCTAssertEqual(sectionCount, 4)
+        XCTAssertEqual(sectionKeys, ["F", "R", "S", "W"])
+        XCTAssertEqual(dogsByF.first?.name, "Fido")
+    }
+    
+    func testSectionQueryResultsByCallback() {
+        // :snippet-start: section-query-results-callback
+        let realm = try! Realm()
+        // :remove-start:
+        // Populate some example data
+        let myDog = ReadExamples_Dog()
+        myDog.name = "Rex"
+        myDog.companion = .none
+
+        let theirDog = ReadExamples_Dog()
+        theirDog.name = "Wolfie"
+        theirDog.companion = .string("Fluffy the Cat")
+
+        let anotherDog = ReadExamples_Dog()
+        anotherDog.name = "Fido"
+        anotherDog.companion = .object(ReadExamples_Dog(value: ["name": "Spot"]))
+
+        try! realm.write {
+            realm.add([myDog, theirDog, anotherDog])
+        }
+        // :remove-end:
+        let results = realm.objects(ReadExamples_Dog.self)
+        let sectionedResults = results.sectioned(by: { String($0.name.first!) },
+                                                 sortDescriptors: [SortDescriptor.init(keyPath: "name", ascending: true)])
+        let sectionKeys = sectionedResults.allKeys
+        // :snippet-end:
+        XCTAssertEqual(sectionKeys, ["F", "R", "S", "W"])
     }
 }
 // :replace-end:

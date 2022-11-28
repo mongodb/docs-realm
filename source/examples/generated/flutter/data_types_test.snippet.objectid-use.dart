@@ -1,2 +1,2 @@
-ObjectId id = ObjectId();
-ObjectIdPrimaryKey object = ObjectIdPrimaryKey(id);
+final id = ObjectId();
+final object = ObjectIdPrimaryKey(id);

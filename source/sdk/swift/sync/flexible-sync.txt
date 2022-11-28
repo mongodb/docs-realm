@@ -5,8 +5,6 @@
 Manage Flexible Sync Subscriptions - Swift SDK
 ==============================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -248,6 +246,7 @@ error if the update cannot complete successfully.
 
 .. code-block:: swift
 
+   @MainActor
    func changeSubscription() async throws {
       let subscriptions = realm.subscriptions
       try await subcriptions.update {
@@ -349,6 +348,11 @@ method in a subscription update block.
 
 .. literalinclude:: /examples/generated/code/start/FlexibleSync.snippet.remove-all-subscriptions.swift
    :language: swift
+
+Group Updates for Improved Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: /includes/sync-memory-performance.rst
 
 .. _swift-flexible-sync-rql-limitations:
 

@@ -6,6 +6,11 @@ import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.ext.realmSetOf
 import io.realm.kotlin.log.RealmLogger
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.internal.platform.runBlocking
+import io.realm.kotlin.mongodb.App
+import io.realm.kotlin.mongodb.Credentials
+import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
@@ -89,6 +94,13 @@ class Frog2 : RealmObject {
 
 class Snack : RealmObject {
     var name: String? = null
+}
+// :snippet-end:
+
+// :snippet-start: uuid
+class Cat: RealmObject {
+    @PrimaryKey
+    var _id: RealmUUID = RealmUUID.random()
 }
 // :snippet-end:
 
@@ -242,5 +254,29 @@ class SchemaTest : RealmTest() {
 
     }
 
+    @Test
+    fun createUUIDTypes() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Cat::class))
+
+            // :snippet-start: create-uuid-random
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.random()
+                })
+            }
+            // :snippet-end:
+
+            // :snippet-start: create-uuid-from-string
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
+                })
+            }
+            // :snippet-end:
+
+            realm.close()
+        }
+    }
 }
 // :replace-end:

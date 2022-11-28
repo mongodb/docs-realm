@@ -9,9 +9,9 @@ async function getValidAccessToken() {
     // access token.
     await app.logIn(Realm.Credentials.anonymous());
   } else {
-    // An already logged in user's access token might be stale. To guarantee that the token is
-    // valid, we refresh the user's custom data which also refreshes their access token.
-    await app.currentUser.refreshCustomData();
+    // An already logged in user's access token might be stale. Tokens must be refreshed after 
+    // 30 minutes. To guarantee that the token is valid, we refresh the user's access token.
+    await app.currentUser.refreshAccessToken();
   }
 
   return app.currentUser.accessToken;

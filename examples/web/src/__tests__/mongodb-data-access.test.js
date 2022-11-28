@@ -7,7 +7,7 @@ const {
 } = Realm;
 // :snippet-end:
 const app = new Realm.App({ id: APP_ID });
-const CLUSTER_NAME = "mongodb-atlas";
+const DATA_SOURCE_NAME = "mongodb-atlas";
 const DATABASE_NAME = "demo_db";
 const COLLECTION_NAME = "plants";
 // prettier-ignore
@@ -59,7 +59,7 @@ let plants;
 beforeAll(async () => {
   await app.logIn(Realm.Credentials.anonymous());
   // :snippet-start: instantiate-mongo-client
-  const mongo = app.currentUser.mongoClient(CLUSTER_NAME);
+  const mongo = app.currentUser.mongoClient(DATA_SOURCE_NAME);
   const collection = mongo.db(DATABASE_NAME).collection(COLLECTION_NAME);
   // :snippet-end:
   plants = collection;

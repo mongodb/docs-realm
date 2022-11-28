@@ -41,9 +41,9 @@ const APP_ID = "flutter-flexible-luccm";
 void main() {
   group('Manage sync session', () {
     setUpAll(() async {
-      AppConfiguration appConfig = AppConfiguration(APP_ID);
+      final appConfig = AppConfiguration(APP_ID);
       app = App(appConfig);
-      Credentials credentials =
+      final credentials =
           Credentials.emailPassword("lisa@example.com", "abc123");
       currentUser = await app.logIn(credentials);
     });
@@ -51,7 +51,7 @@ void main() {
       await app.currentUser?.logOut();
     });
     setUp(() async {
-      Configuration config = Configuration.flexibleSync(
+      final config = Configuration.flexibleSync(
         currentUser,
         [Plane.schema, Train.schema, Boat.schema],
         path: 'flex-${generateRandomString(10)}.realm',
@@ -90,7 +90,7 @@ void main() {
     });
     test('Get subscriptions', () async {
       // :snippet-start: get-subscriptions
-      SubscriptionSet subscriptions = realm.subscriptions;
+      final subscriptions = realm.subscriptions;
       // :snippet-end:
       expect(subscriptions.length, 2);
     });
@@ -131,9 +131,17 @@ void main() {
     });
     test('Remove all subscriptions by reference', () async {
       // :snippet-start: remove-subscriptions-by-reference
-      Subscription sub = realm.subscriptions[0];
+      final sub = realm.subscriptions[0];
       realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
         mutableSubscriptions.remove(sub);
+      });
+      // :snippet-end:
+      expect(realm.subscriptions.length, 1);
+    });
+    test('Remove all subscriptions by object type', () async {
+      // :snippet-start: remove-subscriptions-by-object-type
+      realm.subscriptions.update((MutableSubscriptionSet mutableSubscriptions) {
+        mutableSubscriptions.removeByType<Train>();
       });
       // :snippet-end:
       expect(realm.subscriptions.length, 1);

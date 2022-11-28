@@ -83,11 +83,9 @@ Then pass the credential to ``app.logIn``.
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.email-password-credentials.dart
    :language: dart
 
-.. seealso::
-
-   To learn more about the complete flow of using App Services Email/Password
-   authentication, refer to the :ref:`Email/Password Users documentation
-   <flutter-manage-email-password-users>`.
+To learn more about the complete flow of using App Services Email/Password
+authentication, refer to :ref:`Email/Password Users
+<flutter-manage-email-password-users>`.
 
 .. _flutter-login-custom-jwt:
 
@@ -103,6 +101,32 @@ To log in with Custom JWT authentication, create a JWT credential by calling
 on a JWT string. Then pass the credential to ``app.logIn``.
 
 .. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.custom-jwt-credentials.dart
+   :language: dart
+
+.. _flutter-login-api-key:
+
+API Key User
+~~~~~~~~~~~~
+
+If you have enabled :ref:`API Key authentication <api-key-authentication>`,
+you can log in using either a client or server API key.
+
+To log in with API key authentication, create an :flutter-sdk:`ApiKey <realm/ApiKey-class.html>`
+credential by calling :flutter-sdk:`Credentials.apiKey() <realm/Credentials/Credentials.apiKey.html>`
+on an API key string. Then pass the credential to ``app.logIn()``.
+
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.api-key-auth.dart
+   :language: dart
+
+To generate a server API key to use in your credentials,
+refer to the :ref:`Create a Server API Key documentation <api-key-authentication-server-api-key>`.
+
+To work with user API keys with the same permissions
+as the currently logged in user, use the :flutter-sdk:`User.apiKeys
+<realm/User/apiKeys.html>` client.
+You can create, fetch, delete, disable, and enable user API keys.
+
+.. literalinclude:: /examples/generated/flutter/authenticate_users_test.snippet.work-with-api-keys.dart
    :language: dart
 
 .. _flutter-login-custom-function:

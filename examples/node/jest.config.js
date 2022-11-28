@@ -12,6 +12,7 @@ module.exports = {
       modulePathIgnorePatterns: [
         "<rootDir>/Examples/rn",
         "<rootDir>/Examples/server_google_auth",
+        "<rootDir>/Examples/schemas",
       ],
     },
     {

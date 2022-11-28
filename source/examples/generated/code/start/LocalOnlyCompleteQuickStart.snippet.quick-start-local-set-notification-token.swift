@@ -1,5 +1,5 @@
 // Retain notificationToken as long as you want to observe
-let notificationToken = tasks.observe { (changes) in
+let notificationToken = todos.observe { (changes) in
     switch changes {
     case .initial: break
         // Results are now populated and can be accessed without blocking the UI

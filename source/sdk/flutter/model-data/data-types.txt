@@ -1,0 +1,150 @@
+.. _flutter-data-types:
+
+========================
+Data Types - Flutter SDK
+========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+The Flutter SDK supports Dart-language data types, a limited subset of
+`BSON <https://bsonspec.org/>`__ types, and :wikipedia:`UUID <Universally_unique_identifier>`.
+
+
+.. _flutter-dart-types:
+
+Dart Types
+----------
+
+Realm supports the following Dart types:
+
+- ``int``
+- ``double``
+- ``bool``
+- ``String``
+- ``DateTime``
+- ``List<T>``, where T is any of the supported data types or a
+  `RealmModel <https://pub.dev/documentation/realm_common/latest/realm_common/RealmModel-class.html>`__.
+  T can also be nullable (``List<T?>``).
+
+DateTime
+~~~~~~~~
+
+When you use ``DateTime`` with the Realm Flutter SDK, you can declare 
+it in the model as you would any other Dart type:
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-model.dart
+   :language: dart
+
+However, it is important to note that Realm stores ``DateTime`` in UTC.
+When you use ``DateTime``, you must create it in UTC or convert it 
+with ``.toUtc()`` before you store it. If your application requires it, 
+you can convert it back to local or the desired time zone when reading 
+from Realm.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.datetime-use.dart
+   :language: dart
+
+.. _flutter-reference-realm-object:
+
+Reference Realm Objects
+-----------------------
+
+You can also reference one or more Realm objects from another. Learn more in the
+:ref:`relationship properties documentation <flutter-client-relationships>`.
+
+.. _flutter-additional-types:
+
+Additional Supported Data Types
+-------------------------------
+
+ObjectId
+~~~~~~~~
+
+ObjectId is a MongoDB-specific 12-byte unique value which you can use as an
+identifier for objects. ObjectId is indexable and can be used as a primary key.
+
+To define a property as an ObjectId, set its type as ``ObjectId`` in
+your :ref:`object model <flutter-create-model>`.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.objectid-model.dart
+   :language: dart
+
+Call ``ObjectId()`` to set any unique identifier properties of
+your object. Alternatively, pass a string
+to ``ObjectId()`` to set the unique identifier property to a specific value.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.objectid-use.dart
+   :language: dart
+
+UUID
+~~~~
+
+UUID (Universal Unique Identifier) is a 16-byte :wikipedia:`unique value
+<Universally_unique_identifier>`. You can use a UUID as an identifier for
+objects. UUIDs are indexable and you can use them as primary keys.
+
+.. include:: /includes/note-using-uuid-instead-of-objectid.rst
+
+To define a property as a UUID, set its type as ``Uuid`` in
+your :ref:`object model <flutter-create-model>`.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.uuid-model.dart
+   :language: dart
+
+To set any unique identifier properties of
+your object to a random value, call one of the ``Uuid`` methods to create a UUID,
+such as ``Uuid.v4()``.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.uuid-use.dart
+   :language: dart
+
+.. _flutter-embedded-objects:
+
+Embedded Objects
+----------------
+
+Realm treats each embedded object as nested data inside of a parent object.
+An embedded object inherits the lifecycle of its parent object.
+It cannot exist as an independent Realm object.
+Embedded objects have the following properties:
+
+- Embedded objects are deleted when their parent object is deleted
+  or their parent no longer references them.
+- You cannot reassign an embedded object to a different parent object.
+- you cannot link to an embedded object from multiple parent objects.
+- You can only query an embedded object by accessing it through its parent object.
+
+Declare an embedded objects by passing `ObjectType.embeddedObject
+<https://pub.dev/documentation/realm_common/latest/realm_common/ObjectType.html>`__
+to the ``@RealmModel()`` annotation.
+Embedded objects must be nullable when defining them in the parent object's
+``RealmModel``. You must also include the embedded object's schema in the realm's
+:flutter-sdk:`Configuration <realm/Configuration-class.html>`.
+
+The following example shows how to model an embedded object in a Realm schema.
+The ``_Address`` model is embedded within the ``_Person`` model.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-model.dart
+   :language: dart
+
+You can use the :flutter-sdk:`parent <realm/EmbeddedObjectExtension/parent.html>`
+property to access the parent of the embedded object. 
+
+The following example shows the unique considerations when working with embedded objects.
+The example uses the ``Address`` embedded object generated from the ``_Address``
+``RealmModel`` in the above schema.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.embedded-object-examples.dart
+   :language: dart
+
+Example
+-------
+
+The following model includes some supported data types.
+
+.. literalinclude:: /examples/generated/flutter/data_types_test.snippet.data-types-example-model.dart
+   :language: dart

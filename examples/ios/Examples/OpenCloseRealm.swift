@@ -35,23 +35,23 @@ class OpenCloseRealm: XCTestCase {
         config.inMemoryIdentifier = "test"
         // :remove-end:
 
-        // Given: `class Task: Object`
-        // Limit the realm to only the Task object. All other
+        // Given: `class Todo: Object`
+        // Limit the realm to only the Todo object. All other
         // Object- and EmbeddedObject-derived classes are not added.
-        config.objectTypes = [Task.self]
+        config.objectTypes = [Todo.self]
 
         let realm = try! Realm(configuration: config)
         // :snippet-end:
     }
 
-//    func testTvOs() {
-//        // :snippet-start: tvos-share-path
-//        let fileUrl = FileManager.default
-//            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
-//            .appendingPathComponent("Library/Caches/default.realm")
-//        // :snippet-end:
-//        print(fileUrl)
-//    }
+    func testTvOs() {
+        // :snippet-start: tvos-share-path
+        let fileUrl = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.mongodb.realm.examples.extension")!
+            .appendingPathComponent("Library/Caches/default.realm")
+        // :snippet-end:
+        print(fileUrl)
+    }
 
     func testHandleError() {
         // :snippet-start: handle-error

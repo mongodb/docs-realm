@@ -4,7 +4,7 @@ import BSON from "bson";
 const app = new Realm.App({ id: "playground-kmcdm" });
 
 describe("Relationships and Embedded Objects Tests", () => {
-  test("should obtain an inverse relationship dynamically", async () => {
+  test.skip("should obtain an inverse relationship dynamically", async () => {
     // :snippet-start: obtain-inverse-relationship-dynamically
     const User = {
       name: "User",

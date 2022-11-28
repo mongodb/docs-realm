@@ -4,7 +4,7 @@ part 'car.g.dart';
 @RealmModel()
 class _Car {
   @PrimaryKey()
-  late int id;
+  late ObjectId id;
 
   String? licensePlate;
   bool isElectric = false;
@@ -13,11 +13,21 @@ class _Car {
   late _Person? owner;
 }
 
+// The generated `Address` class is an embedded object.
+@RealmModel(ObjectType.embeddedObject)
+class _Address {
+  late String street;
+  late String city;
+  late String state;
+  late String country;
+}
+
 @RealmModel()
 class _Person {
   @PrimaryKey()
-  late int id;
-
   late String name;
-  late int age;
+
+  // Embedded object in parent object schema
+  late _Address? address; // Must be nullable
 }
+

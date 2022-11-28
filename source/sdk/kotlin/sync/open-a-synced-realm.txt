@@ -4,8 +4,6 @@
 Open a Synced Realm - Kotlin SDK
 ================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -30,26 +28,11 @@ Open a Synced Realm
 -------------------
 
 .. tabs::
-   
-   .. tab:: Partition Based Sync
-      :tabid: pbs
-
-      To open a :ref:`synced realm <sync-modes-partition-based-sync>`,
-      pass a user, a partition, and a set of Realm object schemas to
-      `SyncConfiguration.Builder()
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
-      Then, pass the configuration to `Realm.open()
-      <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
-      an instance of the realm:
-
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-synced-realm.kt
-         :language: kotlin
-         :copyable: false
 
    .. tab:: Flexible Sync
-      :tabid: flex
+      :tabid: flex-sync
 
-      To open a :ref:`flexible sync realm <sync-modes-flexible-sync>`,
+      To open a :ref:`flexible sync <flexible-sync>` realm,
       pass a user and a set of Realm object schemas to
       `SyncConfiguration.Builder()
       <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__. Next, create a set of initial subscriptions with the ``initialSubscriptions()``
@@ -61,11 +44,37 @@ Open a Synced Realm
          :language: kotlin
          :copyable: false
 
+   .. tab:: Partition Based Sync
+      :tabid: pbs
+
+      To open a :ref:`partition-based sync <partition-based-sync>` realm,
+      pass a user, a partition, and a set of Realm object schemas to
+      `SyncConfiguration.Builder()
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/-builder.html>`__.
+      Then, pass the configuration to `Realm.open()
+      <{+kotlin-local-prefix+}io.realm.kotlin/-realm/-companion/open.html>`__ to open
+      an instance of the realm:
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.open-a-synced-realm.kt
+         :language: kotlin
+         :copyable: false
+
 Configure a Synced Realm
 ------------------------
 
 .. tabs::
-   
+
+   .. tab:: Flexible Sync
+      :tabid: flex-sync
+
+      To adjust specific configuration settings, use the options provided by
+      `SyncConfiguration.Builder
+      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
+
+      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
+         :language: kotlin
+         :copyable: false
+
    .. tab:: Partition Based Sync
       :tabid: pbs
 
@@ -74,16 +83,5 @@ Configure a Synced Realm
       <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
 
       .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-synced-realm.kt
-         :language: kotlin
-         :copyable: false
-   
-   .. tab:: Flexible Sync
-      :tabid: flex
-
-      To adjust specific configuration settings, use the options provided by
-      `SyncConfiguration.Builder
-      <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-configuration/-builder/index.html>`__:
-
-      .. literalinclude:: /examples/generated/kotlin/SyncTest.snippet.configure-a-flexible-sync-realm.kt
          :language: kotlin
          :copyable: false

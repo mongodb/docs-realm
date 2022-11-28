@@ -3,6 +3,8 @@
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import '../bin/models/car.dart';
+import 'utils.dart';
+import 'dart:io';
 
 part 'read_write_data_test.g.dart';
 
@@ -52,13 +54,57 @@ void main() {
     final realm = Realm(config);
 
     // :snippet-start: return-from-write
-    Car fordFusion = realm.write<Car>(() {
-      return realm.add(Car('Ford', model: 'Fusion', miles: 101));
+    final fordFusion = realm.write<Car>(() {
+      return realm.add(Car(ObjectId(), 'Ford', model: 'Fusion', miles: 101));
     });
     // :snippet-end:
     expect(fordFusion.make, 'Ford');
     expect(fordFusion.model, 'Fusion');
     realm.close();
     Realm.deleteRealm(realm.config.path);
+  });
+
+  test('Upsert data', () {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    // :snippet-start: upsert
+    final id = ObjectId();
+    // Add Toyota Prius to the realm with primary key `id`
+    final newPrius = Car(id, "Toyota", model: "Prius", miles: 0);
+    realm.write(() {
+      realm.add<Car>(newPrius);
+    });
+
+    // Update Toyota Prius's miles in the realm with primary key `id`
+    final usedPrius = Car(id, "Toyota", model: "Prius", miles: 500);
+    realm.write(() {
+      realm.add<Car>(usedPrius, update: true);
+    });
+    // :snippet-end:
+    final prius = realm.query<Car>('model == \$0', ["Prius"]).first;
+    expect(prius.miles, 500);
+    cleanUpRealm(realm);
+  });
+
+  test('Write async', () async {
+    final config = Configuration.local([Car.schema]);
+    final realm = Realm(config);
+    // :snippet-start: write-async
+    // Add Subaru Outback to the realm using `writeAsync`
+    Car newOutback =
+        Car(ObjectId(), "Subaru", model: "Outback Touring XT", miles: 2);
+    realm.writeAsync(() {
+      realm.add<Car>(newOutback);
+    });
+    // :snippet-end:
+    final outback = realm.find<Car>(3);
+    expect(outback, isNull);
+    expect(realm.isInTransaction, true);
+    // let transaction resolve
+    await Future.delayed(Duration(milliseconds: 500));
+    expect(realm.isInTransaction, false);
+    expect(realm.query<Car>("model == \$0", ["Outback Touring XT"]).first.miles,
+        2);
+    cleanUpRealm(realm);
   });
 }

@@ -1,7 +1,7 @@
 import Realm from "realm";
 
 describe("Define a Realm Object Schema", () => {
-  test("should define realm object types with js classes", async () => {
+  test.skip("should define realm object types with js classes", async () => {
     // :snippet-start: define-a-realm-object-schema-define-js-classes
     class Car {
       static schema = {

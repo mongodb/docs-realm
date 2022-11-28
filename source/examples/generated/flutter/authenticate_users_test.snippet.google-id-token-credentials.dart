@@ -1,2 +1,2 @@
-Credentials googleIdTokenCredentials = Credentials.googleIdToken(idToken);
-User currentUser = await app.logIn(googleIdTokenCredentials);
+final googleIdTokenCredentials = Credentials.googleIdToken(idToken);
+final currentUser = await app.logIn(googleIdTokenCredentials);

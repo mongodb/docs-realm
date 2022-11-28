@@ -1,10 +1,4 @@
-﻿// :replace-start: {
-//    "terms": {
-//       "MyTask": "Task"
-//    }
-// }
-
-using System;
+﻿using System;
 using Realms;
 using Realms.Sync;
 using MongoDB.Bson;
@@ -19,7 +13,7 @@ namespace Examples
     {
         public async Task TestUseFlexibleSync()
         {
-            var app = App.Create("dotnet-flexible-wtzwc");
+            var app = App.Create(Config.fsAppId);
             var user = await app.LogInAsync(Credentials.Anonymous());
 
             // :snippet-start: open-a-flexible-synced-realm
@@ -28,13 +22,13 @@ namespace Examples
             // :snippet-end:
 
 
-            // :snippet-start: botostrap-a-subscription
+            // :snippet-start: bootstrap-a-subscription
             // :uncomment-start:
             // var config = new FlexibleSyncConfiguration(app.CurrentUser)
             // {
             //     PopulateInitialSubscriptions = (realm) =>
             //     {
-            //         var myTasks = realm.All<Task>().Where(n => n.AssignedTo == myUserId);
+            //         var myTasks = realm.All<Task>().Where(n => n.OwnerId == myUserId);
             //         realm.Subscriptions.Add(myTasks);
             //     }
             // };
@@ -49,18 +43,24 @@ namespace Examples
             // :snippet-end:
 
             // :snippet-start: update-subscriptions
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // subscribe to all long running tasks, and give the subscription the name 'longRunningTasksSubscription'
-                var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120 );
+                var longRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 120);
                 realm.Subscriptions.Add(longRunningTasksQuery, new SubscriptionOptions() { Name = "longRunningTasks" });
 
                 // subscribe to all of Ben's Task objects
                 realm.Subscriptions.Add(realm.All<MyTask>().Where(t => t.Owner == "Ben"));
 
                 // subscribe to all Teams, and give the subscription the name 'teamsSubscription' and throw an error if a new query is added to the team subscription
-                realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false }); 
+                realm.Subscriptions.Add(realm.All<Team>(), new SubscriptionOptions() { Name = "teams", UpdateExisting = false });
             });
+            // :replace-end:
             // :snippet-end:
 
 
@@ -79,29 +79,47 @@ namespace Examples
             // :snippet-end:
 
             // :snippet-start: update-a-subscription
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 var updatedLongRunningTasksQuery = realm.All<MyTask>().Where(t => t.Status == "completed" && t.ProgressMinutes > 130);
                 realm.Subscriptions.Add(updatedLongRunningTasksQuery, new SubscriptionOptions() { Name = "longRunningTasks" });
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-subscription-by-query
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a subscription by it's query
                 var query = realm.All<MyTask>().Where(t => t.Owner == "Ben");
                 realm.Subscriptions.Remove(query);
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-subscription-by-name
+            // :replace-start: {
+            //  "terms": {
+            //   "MyTask": "Task"
+            //  }
+            // }
             realm.Subscriptions.Update(() =>
             {
                 // remove a named subscription
                 var subscriptionName = "longRunningTasksSubscription";
                 realm.Subscriptions.Remove(subscriptionName);
             });
+            // :replace-end:
             // :snippet-end:
 
             // :snippet-start: remove-all-subscriptions-of-object-type
@@ -123,46 +141,47 @@ namespace Examples
             });
             // :snippet-end:
         }
-    }
-    class MyTask : RealmObject
-    {
-        [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [MapTo("name")]
-        [Required]
-        public string Name { get; set; }
 
-        [MapTo("status")]
-        public string Status { get; set; }
+        class MyTask : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
-        [MapTo("owner")]
-        public string Owner { get; set; }
+            [MapTo("name")]
+            [Required]
+            public string Name { get; set; }
 
-        [MapTo("progressMinutes")]
-        public int ProgressMinutes { get; set; }
+            [MapTo("status")]
+            public string Status { get; set; }
 
-    }
-    public enum TaskStatus
-    {
-        Open,
-        InProgress,
-        Complete
-    }
-    class Team : RealmObject
-    {
-        [PrimaryKey]
-        [MapTo("_id")]
-        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+            [MapTo("owner")]
+            public string Owner { get; set; }
 
-        [MapTo("name")]
-        [Required]
-        public string Name { get; set; }
+            [MapTo("progressMinutes")]
+            public int ProgressMinutes { get; set; }
 
-        [MapTo("description")]
-        public string Description { get; set; }
+        }
+        public enum TaskStatus
+        {
+            Open,
+            InProgress,
+            Complete
+        }
+        class Team : RealmObject
+        {
+            [PrimaryKey]
+            [MapTo("_id")]
+            public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
+            [MapTo("name")]
+            [Required]
+            public string Name { get; set; }
+
+            [MapTo("description")]
+            public string Description { get; set; }
+
+        }
     }
 }
-// :replace-end:

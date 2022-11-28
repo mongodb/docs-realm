@@ -7,16 +7,15 @@ void main() async {
   // Add your App Services App ID
   const APP_ID = YOUR_APP_ID_HERE;
   // :snippet-start: init-app
-  App app = App(AppConfiguration(APP_ID));
+  final app = App(AppConfiguration(APP_ID));
   // :snippet-end:
   // :snippet-start: log-in
-  User loggedInUser = await app.logIn(Credentials.anonymous());
+  final loggedInUser = await app.logIn(Credentials.anonymous());
   // :snippet-end:
   print('Logged in anonymously with user id: ${loggedInUser.id}');
   // :snippet-start: open-sync-realm
-  Configuration config =
-      Configuration.flexibleSync(loggedInUser, [Todo.schema]);
-  Realm realm = Realm(
+  final config = Configuration.flexibleSync(loggedInUser, [Todo.schema]);
+  final realm = Realm(
     config,
   );
   // :snippet-end:

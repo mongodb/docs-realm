@@ -7,7 +7,7 @@ val config = SyncConfiguration.Builder(
         add(
             realm.query<Item>(
                 "owner_id == $0", // owner_id == the logged in user
-                user.identity
+                user.id
             ),
             "User's Items"
         )

@@ -17,6 +17,8 @@ To contribute to the documentation,
 
 - Fork this repository on GitHub and issue a pull request.
 
+For more information, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 Report Issues
 -------------
 

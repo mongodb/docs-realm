@@ -6,43 +6,46 @@ part of 'manage_sync_session_test.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
-class Plane extends _Plane with RealmEntity, RealmObject {
+class Plane extends _Plane with RealmEntity, RealmObjectBase, RealmObject {
   Plane(
     int id,
     String name,
     int numSeats,
   ) {
-    RealmObject.set(this, '_id', id);
-    RealmObject.set(this, 'name', name);
-    RealmObject.set(this, 'numSeats', numSeats);
+    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'numSeats', numSeats);
   }
 
   Plane._();
 
   @override
-  int get id => RealmObject.get<int>(this, '_id') as int;
+  int get id => RealmObjectBase.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObjectBase.set(this, '_id', value);
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  int get numSeats => RealmObject.get<int>(this, 'numSeats') as int;
+  int get numSeats => RealmObjectBase.get<int>(this, 'numSeats') as int;
   @override
-  set numSeats(int value) => RealmObject.set(this, 'numSeats', value);
+  set numSeats(int value) => RealmObjectBase.set(this, 'numSeats', value);
 
   @override
   Stream<RealmObjectChanges<Plane>> get changes =>
-      RealmObject.getChanges<Plane>(this);
+      RealmObjectBase.getChanges<Plane>(this);
+
+  @override
+  Plane freeze() => RealmObjectBase.freezeObject<Plane>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Plane._);
-    return const SchemaObject(Plane, 'Plane', [
+    RealmObjectBase.registerFactory(Plane._);
+    return const SchemaObject(ObjectType.realmObject, Plane, 'Plane', [
       SchemaProperty('_id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
@@ -51,43 +54,46 @@ class Plane extends _Plane with RealmEntity, RealmObject {
   }
 }
 
-class Train extends _Train with RealmEntity, RealmObject {
+class Train extends _Train with RealmEntity, RealmObjectBase, RealmObject {
   Train(
     int id,
     String name,
     int numCars,
   ) {
-    RealmObject.set(this, '_id', id);
-    RealmObject.set(this, 'name', name);
-    RealmObject.set(this, 'numCars', numCars);
+    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'numCars', numCars);
   }
 
   Train._();
 
   @override
-  int get id => RealmObject.get<int>(this, '_id') as int;
+  int get id => RealmObjectBase.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObjectBase.set(this, '_id', value);
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  int get numCars => RealmObject.get<int>(this, 'numCars') as int;
+  int get numCars => RealmObjectBase.get<int>(this, 'numCars') as int;
   @override
-  set numCars(int value) => RealmObject.set(this, 'numCars', value);
+  set numCars(int value) => RealmObjectBase.set(this, 'numCars', value);
 
   @override
   Stream<RealmObjectChanges<Train>> get changes =>
-      RealmObject.getChanges<Train>(this);
+      RealmObjectBase.getChanges<Train>(this);
+
+  @override
+  Train freeze() => RealmObjectBase.freezeObject<Train>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Train._);
-    return const SchemaObject(Train, 'Train', [
+    RealmObjectBase.registerFactory(Train._);
+    return const SchemaObject(ObjectType.realmObject, Train, 'Train', [
       SchemaProperty('_id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
@@ -96,43 +102,46 @@ class Train extends _Train with RealmEntity, RealmObject {
   }
 }
 
-class Boat extends _Boat with RealmEntity, RealmObject {
+class Boat extends _Boat with RealmEntity, RealmObjectBase, RealmObject {
   Boat(
     int id,
     String name,
     int tonnage,
   ) {
-    RealmObject.set(this, '_id', id);
-    RealmObject.set(this, 'name', name);
-    RealmObject.set(this, 'tonnage', tonnage);
+    RealmObjectBase.set(this, '_id', id);
+    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, 'tonnage', tonnage);
   }
 
   Boat._();
 
   @override
-  int get id => RealmObject.get<int>(this, '_id') as int;
+  int get id => RealmObjectBase.get<int>(this, '_id') as int;
   @override
-  set id(int value) => throw RealmUnsupportedSetError();
+  set id(int value) => RealmObjectBase.set(this, '_id', value);
 
   @override
-  String get name => RealmObject.get<String>(this, 'name') as String;
+  String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
-  set name(String value) => RealmObject.set(this, 'name', value);
+  set name(String value) => RealmObjectBase.set(this, 'name', value);
 
   @override
-  int get tonnage => RealmObject.get<int>(this, 'tonnage') as int;
+  int get tonnage => RealmObjectBase.get<int>(this, 'tonnage') as int;
   @override
-  set tonnage(int value) => RealmObject.set(this, 'tonnage', value);
+  set tonnage(int value) => RealmObjectBase.set(this, 'tonnage', value);
 
   @override
   Stream<RealmObjectChanges<Boat>> get changes =>
-      RealmObject.getChanges<Boat>(this);
+      RealmObjectBase.getChanges<Boat>(this);
+
+  @override
+  Boat freeze() => RealmObjectBase.freezeObject<Boat>(this);
 
   static SchemaObject get schema => _schema ??= _initSchema();
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
-    RealmObject.registerFactory(Boat._);
-    return const SchemaObject(Boat, 'Boat', [
+    RealmObjectBase.registerFactory(Boat._);
+    return const SchemaObject(ObjectType.realmObject, Boat, 'Boat', [
       SchemaProperty('_id', RealmPropertyType.int,
           mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),

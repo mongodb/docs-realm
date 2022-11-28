@@ -26,7 +26,6 @@ class AddSyncExample_Todo: Object {
 // :snippet-end:
 
 // Entrypoint. Call this to run the example.
-@MainActor
 func runAddSyncExample() async {
     // Instantiate the app
     // :snippet-start: connect-to-backend
@@ -49,6 +48,7 @@ func runAddSyncExample() async {
     }
     // :snippet-end:
     // :snippet-start: open-synced-realm
+    @MainActor
     func openSyncedRealm(user: User) async {
         do {
             var config = user.flexibleSyncConfiguration(initialSubscriptions: { subs in
@@ -70,22 +70,26 @@ func runAddSyncExample() async {
     // :snippet-end:
 }
 
+// :snippet-start: create-todo
+@MainActor
 func useRealm(_ realm: Realm, _ user: User) {
+    // :remove-start:
     // Delete all from the realm
     try! realm.write {
         realm.deleteAll()
     }
-
+    // :remove-end:
     // Add some tasks
-    // :snippet-start: create-todo
     let todo = AddSyncExample_Todo(name: "Do laundry", ownerId: user.id)
     try! realm.write {
         realm.add(todo)
     }
-    // :snippet-end:
+    // :remove-start:
     XCTAssertEqual(realm.objects(AddSyncExample_Todo.self).count, 1)
     print("Successfully added an item to the realm: \(todo)")
+    // :remove-end:
 }
+// :snippet-end:
 
 class AddSyncExample: XCTestCase {
     func testRunExample() async {
