@@ -191,7 +191,7 @@ class SchemaTest : RealmTest() {
 
                 assertEquals(4, set.size)
             }
-
+            
             val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
             val cricketsSnack = realm.query<Snack>("name = 'crickets'").first().find()
             val earthWormsSnack = realm.query<Snack>("name = 'earth worms'").first().find()
@@ -211,11 +211,15 @@ class SchemaTest : RealmTest() {
                 // :snippet-end:
 
                 // :snippet-start: remove-item-from-set
-                set.remove(fliesSnack)
+                realm.write {
+                    set.remove(fliesSnack)
+                }
                 // :snippet-end:
 
                 // :snippet-start: remove-multiple-items-from-set
-                set.removeAll(setOfFrogSnacks)
+                realm.write {
+                    set.removeAll(setOfFrogSnacks)
+                }
                 // :snippet-end:
             }
 
@@ -232,14 +236,11 @@ class SchemaTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: cancel-job
-
+//            job.cancel()
             // :snippet-end:
         }
 
-
     }
-
-}
 
 }
 // :replace-end:
