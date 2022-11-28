@@ -1,1 +1,3 @@
-set.remove(fliesSnack)
+realm.write {
+    set.remove(fliesSnack)
+}

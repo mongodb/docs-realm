@@ -2,10 +2,6 @@ package com.mongodb.realm.realmkmmapp
 
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
-import io.realm.kotlin.ext.query
-import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.ext.realmSetOf
-import io.realm.kotlin.log.RealmLogger
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.internal.platform.runBlocking
 import io.realm.kotlin.mongodb.App
@@ -15,13 +11,17 @@ import io.realm.kotlin.types.*
 import io.realm.kotlin.types.annotations.Ignore
 import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import io.realm.kotlin.ext.query
+import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.ext.realmSetOf
+import io.realm.kotlin.log.RealmLogger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+//import kotlinx.coroutines.runBlocking
 
 // :replace-start: {
 //    "terms": {
@@ -148,9 +148,35 @@ fun Instant.toRealmInstant(): RealmInstant {
     }
 }
 // :snippet-end:
+class SchemaTest: RealmTest() {
+    @Test
+    fun createUUIDTypes() {
+        runBlocking {
+            val config = RealmConfiguration.Builder(setOf(Cat::class))
+                .directory("/tmp/") // default location for jvm is... in the project root
+                .build()
+            val realm = Realm.open(config)
+            Log.v("Successfully opened realm: ${realm.configuration.name}")
 
-class SchemaTest : RealmTest() {
+            // :snippet-start: create-uuid-random
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.random()
+                })
+            }
+            // :snippet-end:
 
+            // :snippet-start: create-uuid-from-string
+            realm.write {
+                this.copyToRealm(Cat().apply {
+                    _id = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
+                })
+            }
+            // :snippet-end:
+
+            realm.close()
+        }
+    }
     @Test
     fun createRealmSetTypes() {
         runBlocking {
@@ -203,7 +229,7 @@ class SchemaTest : RealmTest() {
 
                 assertEquals(4, set.size)
             }
-            
+
             val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
             val cricketsSnack = realm.query<Snack>("name = 'crickets'").first().find()
             val earthWormsSnack = realm.query<Snack>("name = 'earth worms'").first().find()
@@ -248,35 +274,10 @@ class SchemaTest : RealmTest() {
             // :snippet-end:
 
             // :snippet-start: cancel-job
-//            job.cancel()
+            // job.cancel()
             // :snippet-end:
         }
 
-    }
-
-    @Test
-    fun createUUIDTypes() {
-        runBlocking {
-            val config = RealmConfiguration.Builder(setOf(Cat::class))
-
-            // :snippet-start: create-uuid-random
-            realm.write {
-                this.copyToRealm(Cat().apply {
-                    _id = RealmUUID.random()
-                })
-            }
-            // :snippet-end:
-
-            // :snippet-start: create-uuid-from-string
-            realm.write {
-                this.copyToRealm(Cat().apply {
-                    _id = RealmUUID.from("46423f1b-ce3e-4a7e-812f-004cf9c42d76")
-                })
-            }
-            // :snippet-end:
-
-            realm.close()
-        }
     }
 }
 // :replace-end:
