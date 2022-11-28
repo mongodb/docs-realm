@@ -230,6 +230,10 @@ class SchemaTest : RealmTest() {
                     }
             }
             // :snippet-end:
+
+            // :snippet-start: cancel-job
+
+            // :snippet-end:
         }
 
 

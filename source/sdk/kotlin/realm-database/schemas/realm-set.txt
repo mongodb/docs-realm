@@ -135,10 +135,18 @@ emits an `initialSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
 once subscribed and an `updatedSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
-on change. The ``Flow`` runs indefinitely until canceled or until you delete the parent object. 
+on change.
 
 In the following example, we react to changes on the ``favoriteFoods`` set of our ``Frog`` object.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.react-to-changes-from-the-set.kt
+   :language: kotlin
+   :copyable: false
+
+The ``Flow`` runs indefinitely until you `cancel the enclosing coroutine
+<https://kotlinlang.org/docs/cancellation-and-timeouts.html>`__ or until you
+delete the parent object.
+
+.. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.cancel-job.kt
    :language: kotlin
    :copyable: false
