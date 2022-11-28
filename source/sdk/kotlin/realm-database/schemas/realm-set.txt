@@ -30,7 +30,7 @@ Define a Realm Set
 ------------------
 
 To define a property as a ``RealmSet``, specify its type within the schema.
-Instantiate an unmanaged ``RealmSet`` by setting the default value of the field
+Instantiate an unmanaged ``RealmSet`` by setting the field's default value
 using the `realmSetOf()
 <{+kotlin-local-prefix+}io.realm.kotlin.ext/realm-set-of.html>`__ method.
 
@@ -118,7 +118,7 @@ Remove Multiple Items from a Realm Set
 To remove multiple items from a ``RealmSet``, pass the elements you wish to delete to
 `set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#430447804%2FFunctions%2F-1651551339>`__
 
-In the following example, we delete the set of favorite snacks that we created earlier.
+In the following example, we delete the set of favorite snacks we created earlier.
 
 .. literalinclude:: /examples/generated/kotlin/SchemaTest.snippet.remove-multiple-items-from-set.kt
    :language: kotlin
@@ -134,7 +134,7 @@ object, generate a ``Flow`` from the ``RealmSet`` with `asFlow()
 Next, use the ``collect()`` method to handle events on that ``Flow``. The ``Flow``
 emits an `initialSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
-once subscribed and an `updatedSet()
+once subscribed and a `updatedSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
 on change.
 
