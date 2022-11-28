@@ -104,9 +104,22 @@ to enable background synchronization.
 Open Immediately with Background Sync
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the user's device is not connected to the internet or you're uncertain of
-it's connection status, set the realm behavior's type to ``openImmediately``. This 
-syncs data from the server in the background. 
+You may want to sync changes in the background to display partial data to the
+user while the synced realm downloads data from the server, preventing the
+user experience from being blocked. We recommend syncing changes in the
+background for applications in which the user's device may go offline. To sync
+changes in the background, open a synced realm synchronously.
+
+Create a :js-sdk:`OpenRealmBehaviorConfiguration
+<Realm.App.Sync.html#~OpenRealmBehaviorConfiguration>` object and set its
+``type`` to ``"openImmediately"``. 
+
+Next, create a :js-sdk:`Configuration <Realm.html#~Configuration>` object, which must
+include the ``sync`` property defining a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>` object. Set this
+``OpenRealmBehaviorConfiguration`` object as the value for
+the ``newRealmFileBehavior`` and ``existingRealmFileBehavior`` fields of the
+``SyncConfiguration``. 
 
 .. literalinclude:: /examples/generated/node/open-and-close-a-realm.snippet.open-synced-realm-with-background-sync.js
       :language: javascript
