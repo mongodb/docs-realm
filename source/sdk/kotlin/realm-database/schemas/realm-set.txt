@@ -19,9 +19,10 @@ You can use the `RealmSet()
 to manage a collection of unique keys. ``RealmSet`` implements Java's
 ``Set`` interface, so it works just like the built-in ``HashSet`` class,
 except managed ``RealmSet`` instances persist their contents to a
-realm. ``RealmSet`` instances that contain Realm objects
-actually only store references to those objects, so deleting a
-Realm object from a realm also deletes that object from
+realm. 
+
+``RealmSet`` instances that contain Realm objects only store references to those
+objects, so deleting a Realm object from a realm also deletes that object from
 any ``RealmSet`` instances that contain the object.
 
 Define a Realm Set
@@ -63,7 +64,7 @@ method.
 
 In the following example, we create several ``Snack`` objects and use the
 `setOf
-<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`_
+<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/set-of.html>`__
 method to create a read-only set of the given elements. We then pass these
 elements to the ``set.addAll()`` method to add them to our ``Frog`` object's favorite snacks.
 
@@ -126,11 +127,11 @@ Notifications
 -------------
 
 You can register a notification handler on a ``RealmSet``. Realm notifies your
-handler when the property changes. To register a change listener on a single
+handler when the set changes. To register a change listener on a single
 object, generate a ``Flow`` from the ``RealmSet`` with `asFlow()
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-list/as-flow.html>`__.
-Next, use the ``collect()`` method to handle events on that ``Flow``. The ``Flow`` will
-emit an `initialSet()
+Next, use the ``collect()`` method to handle events on that ``Flow``. The ``Flow``
+emits an `initialSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-initial-set/index.html>`__
 once subscribed and an `updatedSet()
 <{+kotlin-local-prefix+}io.realm.kotlin.notifications/-updated-set/index.html>`__
