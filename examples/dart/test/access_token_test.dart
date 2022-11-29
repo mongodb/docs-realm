@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'dart:convert';
@@ -44,6 +45,14 @@ void main() {
       final newToken = await getValidAccessToken(app.currentUser!);
       expect(oldToken == newToken, isTrue);
       expect(isJwt(newToken), isTrue);
+    });
+    test("Periodically refresh access token", () async {
+      // :snippet-start: periodic-refresh
+      // Refresh the token every 29 minutes
+      Timer.periodic(Duration(minutes: 29), (_) {
+        app.currentUser?.refreshCustomData();
+      });
+      // :snippet-end:
     });
   });
 }

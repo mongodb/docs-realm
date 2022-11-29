@@ -1,0 +1,39 @@
+.. _flutter-access-token:
+
+=======================================
+Get the User Access Token - Flutter SDK
+=======================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+TODO: high level overview
+
+Retrieve the Access Token
+-------------------------
+
+TODO: simple accessor example
+
+Refresh the Access Token
+------------------------
+
+The access token expires 30 minutes after a user logs in. It does not refresh automatically.
+You can refresh it with :flutter-sdk:`User.refreshCustomData() <realm/User/refreshCustomData.html>`.
+
+TODO: simple example using .refreshCustomData()
+
+You can also periodically refresh the access token to make sure it's always up to date
+with `Timer.periodic() <https://api.dart.dev/be/180360/dart-async/Timer-class.html>`__
+from the ``dart:async`` library. Wrap the call to ``User.refreshCustomData()``
+with the timer's callback function.
+
+TODO: 'slightly' more complex example refreshing token in the background
+
+
+
+
+
+
