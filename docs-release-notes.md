@@ -1,3 +1,23 @@
+# November 25, 2022
+
+## Flutter SDK
+- User Management: New landing page with high-level details about user management
+
+## .NET SDK
+- Major Information Architecture refactor, including:
+  - Move "Fundamentals" content onto relevant topic-based pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define an Object Model, Read & Write Data, Sync Changes Between Devices) into sections with smaller pages
+  - Add new pages: Delete a Realm, Add Sync to an App
+
+## Web SDK
+- Install the Realm Web SDK: Update the CDN installation instructions to a base URL using a more recent version.
+- Query MongoDB: Change `CLUSTER_NAME` to `DATA_SOURCE_NAME` in example
+
+## Other
+- Various Snyk and Dependabot upgrades and version bumps in example apps
+- Typo fix in an include displayed across many pages
+
 # November 18, 2022
 
 ## Flutter SDK

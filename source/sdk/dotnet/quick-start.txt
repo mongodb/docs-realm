@@ -34,30 +34,28 @@ Define Your Object Model
 ------------------------
 
 Your application's :ref:`object model <dotnet-objects>` defines 
-the data that you can store within Realm Database. You define an object 
-model by creating a C# class that inherits from one of the classes that deriver 
-from the 
-:dotnet-sdk:`RealmObjectBase <reference/Realms.RealmObjectBase.html>` class.
+the data that you can store within Realm Database and synchronize
+to and from App Services.
 
-Add the following ``using`` statements to the top of your C# file:
+.. important:: Inheritance
 
-.. code-block:: csharp
+   All Realm objects must derive from 
+   :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+   :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
+   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
 
-   using Realms;
-   using MongoDB.Bson;
-   using Realms.Sync; // if you are implementing Realm Sync
+The following code shows how to define an object model for a ``Task`` object. In 
+this example, we have marked the ``Id`` field as the Primary Key, marked the 
+``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
+attribute so we can use .NET-friendly casing on our property names.
 
-The following code shows how to define an object model for a ``Guitar`` object. In 
-this example, we have marked the ``Id`` field as the Primary Key, and marked the 
-``Make`` and ``Model`` properties as "Required". Note that the ``Id`` is of type 
-``ObjectId`` in this case, and a new Id is generated when an instance of the 
-class is created.
-
-.. literalinclude:: /examples/generated/dotnet/Guitar.snippet.guitar-object.cs
+.. literalinclude:: /examples/generated/dotnet/Task.snippet.task-object-model.cs
    :language: csharp
 
-Open a Realm
-------------
+.. _dotnet-quick-start-authenticate:
+
+Open a Local Realm
+------------------
 
 In a local-only Realm Database, you open a realm with either the 
 :dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
@@ -126,6 +124,8 @@ call the :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispos
 .. literalinclude:: /examples/generated/dotnet/WorkWithRealm.snippet.subscribe.cs
    :language: csharp
 
+.. _quick-start-sync:
+
 Add Device Sync (Optional)
 --------------------------
 
@@ -159,36 +159,14 @@ App ID <find-your-app-id>` in the App Services UI. You then initialize your app:
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
    :language: csharp
 
-
-Define Object Models
---------------------
-
-Your application's :ref:`object model <dotnet-objects>` defines 
-the data that you can store within Realm Database and synchronize
-to and from App Services.
-
-You can define your object models directly in code if you enabled
-Sync with :ref:`Development Mode <development-mode>` in the App 
-Services UI.
+Use Object Models with Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When using :ref:`Sync <quick-start-sync>`, you can define your object models 
+directly in code only if you enabled Sync with 
+:ref:`Development Mode <development-mode>` in the App Services UI.
 
 .. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
 
-.. important:: Inheritance
-
-   All Realm objects must derive from 
-   :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
-   :dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`, or 
-   :dotnet-sdk:`AsymmetricObject <reference/Realms.AsymmetricObject.html>`.
-
-The following code shows how to define an object model for a ``Task`` object. In 
-this example, we have marked the ``Id`` field as the Primary Key, marked the 
-``Name`` and ``Status`` properties as "required", and are using the ``MapTo`` 
-attribute so we can use .NET-friendly casing on our property names.
-
-.. literalinclude:: /examples/generated/dotnet/Task.snippet.task-object-model.cs
-   :language: csharp
-
-.. _dotnet-quick-start-authenticate:
 
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
@@ -209,8 +187,9 @@ how to do this by calling ``LogOutAsync()``:
 The Realm Swift SDK provides many additional ways to authenticate, register, and 
 link users. For other authentication providers, see: :ref:`<dotnet-authenticate>`
 
-Open a Realm
-~~~~~~~~~~~~
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
 Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user, 
 you can open a synced :ref:`realm <dotnet-realms>`. Use a ``FlexibleSyncConfiguration`` 
 object to control the specifics of how your application synchronizes data with
