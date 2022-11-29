@@ -47,7 +47,7 @@ void main() {
       expect(isJwt(newToken), isTrue);
     });
     test("Periodically refresh access token", () async {
-      // :snippet-start: periodic-refresh
+      // :snippet-start: periodic-refresh-access-token
       // Refresh the token every 29 minutes
       Timer.periodic(Duration(minutes: 29), (_) {
         app.currentUser?.refreshCustomData();
