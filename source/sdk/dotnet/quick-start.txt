@@ -52,16 +52,10 @@ attribute so we can use .NET-friendly casing on our property names.
 .. literalinclude:: /examples/generated/dotnet/Task.snippet.task-object-model.cs
    :language: csharp
 
-When using :ref:`Sync <quick-start-sync>`, you can define your object models 
-directly in code only if you enabled Sync with 
-:ref:`Development Mode <development-mode>` in the App Services UI.
-
-.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
-
 .. _dotnet-quick-start-authenticate:
 
-Open a Realm
-------------
+Open a Local Realm
+------------------
 
 In a local-only Realm Database, you open a realm with either the 
 :dotnet-sdk:`Realm.GetInstance() <reference/Realms.Realm.html#Realms_Realm_GetInstance_System_String_>` or
@@ -165,6 +159,14 @@ App ID <find-your-app-id>` in the App Services UI. You then initialize your app:
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
    :language: csharp
 
+Use Object Models with Sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When using :ref:`Sync <quick-start-sync>`, you can define your object models 
+directly in code only if you enabled Sync with 
+:ref:`Development Mode <development-mode>` in the App Services UI.
+
+.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
+
 
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
@@ -185,8 +187,9 @@ how to do this by calling ``LogOutAsync()``:
 The Realm Swift SDK provides many additional ways to authenticate, register, and 
 link users. For other authentication providers, see: :ref:`<dotnet-authenticate>`
 
-Open a Realm
-~~~~~~~~~~~~
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
 Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user, 
 you can open a synced :ref:`realm <dotnet-realms>`. Use a ``FlexibleSyncConfiguration`` 
 object to control the specifics of how your application synchronizes data with
