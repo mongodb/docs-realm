@@ -30,38 +30,4 @@ mobile database:
 Realm Database is an alternative to `SQLite <https://www.sqlite.org/index.html>`__
 and :apple:`Core Data <documentation/coredata>`.
 
-Features
---------
-
-Realm Database supports many popular database features.
-
-Queries
-~~~~~~~
-
-You can query Realm Database using platform-native queries or a
-raw query language that works across platforms.
-
-Indexes
-~~~~~~~
-
-Indexes are implemented as trees containing values of a given property
-instead of a unique internal object key. This means that indexes only
-support one column, and thus only one property, at a time.
-
-Schemas
-~~~~~~~
-
-Every realm object has a schema. That schema is defined via a native
-object in your SDK's language. Object schemas can include embedded lists
-and relations between object instances.
-
-Each realm uses a versioned schema. When that schema changes, you
-must define a migration to move object data between schema versions.
-Non-breaking schema changes, also referred to as additive schema changes,
-happen automatically. However, your SDK may require you to increase the
-local schema version to begin using the updated schema in your app.
-Breaking schema changes, also called destructive schema changes, require
-a migration function.
-
 .. include:: /includes/realm-database.rst
-
