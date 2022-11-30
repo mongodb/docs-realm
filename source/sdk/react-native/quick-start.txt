@@ -18,14 +18,14 @@ integrated into your app. Before you begin, ensure you have:
 
 - :ref:`Created an App <create-a-realm-app>`
 - :ref:`Enabled Device Sync <enable-sync>`
-- :ref:`Installed the Node SDK <react-native-install>` to use with your Realm Native app.
+- :ref:`Installed the React Native SDK <react-native-install>` to use with your Realm Native app.
 
 .. note:: Check Out the Tutorial
-   
+
    This page contains only the essential information that you need to set up an
    Atlas App Services backend. If you prefer to follow a guided tutorial that
    shows you step-by-step how to set up a working app, check out the :ref:`React
-   Native Tutorial <react-native-tutorial>` where you'll build a mobile task 
+   Native Tutorial <react-native-tutorial>` where you'll build a mobile task
    tracker app.
 
 .. _react-native-quick-start-import:
@@ -44,7 +44,7 @@ the following line to import the SDK.
       .. code-block:: javascript
 
          import Realm from 'realm';
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -75,7 +75,7 @@ Initialize the App
            return new Realm.App(appConfig);
          }
 
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -99,7 +99,7 @@ define your :ref:`object model <react-native-object-schemas>` directly in code.
       .. code-block:: javascript
 
          import {ObjectId} from 'bson';
-         
+
          class Task {
            constructor({
              name,
@@ -112,11 +112,11 @@ define your :ref:`object model <react-native-object-schemas>` directly in code.
              this.name = name;
              this.status = status;
            }
-         
+
            static STATUS_OPEN = 'Open';
            static STATUS_IN_PROGRESS = 'InProgress';
            static STATUS_COMPLETE = 'Complete';
-         
+
            static schema = {
              name: 'Task',
              properties: {
@@ -130,8 +130,8 @@ define your :ref:`object model <react-native-object-schemas>` directly in code.
          }
 
          export {Task};
- 
-.. 
+
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -153,22 +153,22 @@ into your app without providing any identifying information:
       .. code-block:: javascript
          :emphasize-lines: 8,9
 
-         import Realm from 'realm';         
+         import Realm from 'realm';
 
          async function anonymousLogin() {
            let user;
            try {
              const app = new Realm.App(appConfig); // pass in the appConfig variable that you created earlier
- 
+
              const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
              user = await app.logIn(credentials);
              return user;
-             
+
            } catch (error) {
                throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
            }
          }
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -206,18 +206,18 @@ user, you can open a synced :ref:`realm <react-native-realms>`:
              const config = {
                schema: [Task.schema],
                sync: {
-                 user: user, 
+                 user: user,
                  partitionValue: "myPartition",
                },
              };
- 
+
              realm = await Realm.open(config);
            } catch (error) {
                throw `Error opening realm: ${JSON.stringify(error,null,2)}`;
            }
          }
-    
-.. 
+
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -238,7 +238,7 @@ Once you have opened a realm, you can modify it and its
 
 To create a new Task run the method "realm.create()" inside the
 "realm.write()" callback. Pass the string "Task" as the first parameter to
-"realm.create()". Pass a task object as the second parameter. 
+"realm.create()". Pass a task object as the second parameter.
 
 .. tabs-realm-languages::
 
@@ -254,7 +254,7 @@ To create a new Task run the method "realm.create()" inside the
              status: "Open",
            });
          });
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -274,7 +274,7 @@ all tasks in the realm:
          // Query realm for all instances of the "Task" type.
          const tasks = realm.objects("Task");
 
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -292,7 +292,7 @@ You can also filter that collection using a :ref:`filter <react-native-client-qu
 
          let filteredTasks = tasks.filtered("status = 'Open');
          console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -311,7 +311,7 @@ To modify a task, update its properties in a write transaction block:
          realm.write(() => {
            task.status = 'InProgress';
          });
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -329,12 +329,12 @@ Finally, you can delete a task:
          realm.write(() => {
            // Delete the task from the realm.
            realm.delete(task);
- 
+
            // Discard the reference.
            task = null;
          });
 
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -363,7 +363,7 @@ methods.
          export function watch(realm) {
            // Query realm for all instances of the "Task" type.
            const tasks = realm.objects('Task');
- 
+
            // Define the collection notification listener
            function listener(tasks, changes) {
              // Update UI in response to deleted objects
@@ -371,25 +371,25 @@ methods.
                // Deleted objects cannot be accessed directly,
                // but we can update a UI list, etc. knowing the index.
              });
- 
+
              // Update UI in response to inserted objects
              changes.insertions.forEach(index => {
                let insertedTasks = tasks[index];
                // ...
              });
- 
+
              // Update UI in response to modified objects
              changes.modifications.forEach(index => {
                let modifiedTask = tasks[index];
                // ...
              });
            }
- 
+
            // Observe collection notifications.
            return tasks.addListener(listener);
          }
 
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
@@ -409,7 +409,7 @@ listener function:
 
          // Unregister all listeners
          realm.removeAllListeners();
- 
+
          // Unregister a specific listener:
          tasks.removeListener(listener);
 
@@ -434,7 +434,7 @@ Once logged in, you can log out:
 
          user.logOut();
 
-.. 
+..
    .. tab::
       :tabid: typescript
       code-block:: typescript
