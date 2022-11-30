@@ -15,13 +15,32 @@ Prerequisites
 -------------
 
 - `Install Flutter in your development environment <https://docs.flutter.dev/get-started/install>`__.
-  You must use Flutter version 3.0 or later and Dart version 2.17.0 or later.
+- You must use Flutter version 3.0 or later and Dart version 2.17.0 or later.
+  If you are using the Realm Flutter SDK with the macOS emulator,
+  network requests do not work by default due to built-in macOS security settings.
+  Network access is required to use Atlas App Services and Device Sync.
+
+  To enable network requests, add the following code to **both** the files
+  :file:`macos/Runner/DebugProfile.entitlements` and :file:`macos/Runner/Release.entitlements`:
+
+  .. code-block:: xml
+     :emphasize-lines: 2-3
+
+     <!--  Other entitlements -->
+     <key>com.apple.security.network.client</key>
+     <true/>
+     <!--  Other entitlements -->
+
+  You can still use the Realm local database without adding this network access permission.
 
 .. warning:: Incompatible with Dart 2.17.3
 
    The Realm Flutter SDK and Realm Dart Standalone SDK are not compatible with
    Dart 2.17.3 due to an issue with the Dart virtual machine in this version.
    You may use any other Dart 2.17.x version with Realm.
+
+.. note:: Use Realm with the macOS emulator
+
 
 .. _flutter-install-steps:
 
