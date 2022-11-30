@@ -245,38 +245,38 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
      - Unsupported Operators
 
    * - | Grouping
-     - | - ``Group``
+     -   - ``Group``
 
    * - | Sets
-     - | - ``Distinct``
+     -   - ``Distinct``
          - ``Union``
          - ``Intersect``
          - ``Except``
 
    * - | Partitioning
-     - |  - ``Take``
+     -    - ``Take``
           - ``Skip``
           - ``TakeWhile``
           - ``SkipWhile``
   
    * - | Projection
-     - | - ``SelectMany``
+     -   - ``SelectMany``
          - ``Select``, with one exception: when used with the query syntax, ``Select`` 
            is supported as long as you select the Realm object itself and not a 
            derivative:
-          ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select d;``
+           
+           ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select d;``
 
    * - | Concatenation
-     - | - ``Take``
-         - ``Skip``
-         - ``TakeWhile``
-         - ``SkipWhile``
+     -   - ``Concat``
+         - ``Join`` (see below)
+         - ``GroupJoin``
 
 .. note:: 
 
   While ``Join`` is not supported, it is not needed with Realm. Instead of using 
-  keys, as you would in a traditional relational database, simply reference the 
-  other type as a property type.  For more information, refer to 
+  keys in a Join statement, as you would in a traditional relational database, 
+  instead reference another type as a property.  For more information, refer to 
   :ref:`<dotnet-embedded-objects>`.
 
 
