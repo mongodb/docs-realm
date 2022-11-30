@@ -65,7 +65,7 @@ An expression consists of one of the following:
 
 .. note:: 
 
-   The Realm .NET SDK doesn't currently support all of the LINQ operators. Refer 
+   Currently, the Realm .NET SDK doesn't support all of the LINQ operators. Refer 
    to the :ref:`<dotnet-unsupported-linq>` section for a list of those unsupported 
    operators.
 
@@ -237,25 +237,48 @@ Unsupported LINQ Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following LINQ operators are not currently supported by the Realm .NET SDK:
 
-**Grouping**
-- ``Group``
-**Sets**
-- ``Distinct``
-- ``Union``
-- ``Intersect``
-- ``Except``
-**Partitioning**
-- ``Take``
-- ``Skip``
-- ``TakeWhile``
-- ``SkipWhile``
-**Projection**
-- ``Select``
-- ``SelectMany``
-**Concatenation**
-- ``Concat``
-- ``Join``
-- ``GroupJoin``
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Category
+     - Unsupported Operators
+
+   * - | Grouping
+     - | - ``Group``
+
+   * - | Sets
+     - | - ``Distinct``
+         - ``Union``
+         - ``Intersect``
+         - ``Except``
+
+   * - | Partitioning
+     - |  - ``Take``
+          - ``Skip``
+          - ``TakeWhile``
+          - ``SkipWhile``
+  
+   * - | Projection
+     - | - ``SelectMany``
+         - ``Select``, with one exception: when used with the query syntax, ``Select`` 
+           is supported as long as you select the Realm object itself and not a 
+           derivative:
+          ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select d;``
+
+   * - | Concatenation
+     - | - ``Take``
+         - ``Skip``
+         - ``TakeWhile``
+         - ``SkipWhile``
+
+.. note:: 
+
+  While ``Join`` is not supported, it is not needed with Realm. Instead of using 
+  keys, as you would in a traditional relational database, simply reference the 
+  other type as a property type.  For more information, refer to 
+  :ref:`<dotnet-embedded-objects>`.
+
 
 .. _dotnet-realm-query-language:
 
