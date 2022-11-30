@@ -21,7 +21,7 @@ directory:
 git submodule update --init --recursive
 ```
 
-The project uses [CMake](https://cmake.org/) to create a Makefile for the 
+The project uses [CMake](https://cmake.org/) to create build files (Makefile, .xcodeproj...) for the 
 project. To check if you have CMake installed:
 
 ```shell
@@ -91,7 +91,7 @@ Alternately, if you don't want to get a specific version of the `realm-cpp`
 repo, but just want to update it to the latest commit, you can:
 
 ```shell
-git submodule update --remote --merge
+git submodule update --remote
 ```
 
 Then, when you `cd` back out of the `realm-cpp` directory and check the 
@@ -166,7 +166,7 @@ Run `cmake` and `make` to build the project again, and then run the tests.
 If you want to use Xcode for breakpoints and debugging, you can build 
 the project to run it in Xcode. 
 
-From the `/build` directory, run CMake with a `-G xcode` flag:
+From the `/build` directory, run CMake with a `-G Xcode` flag:
 
 ```shell
 cmake ../ -G Xcode
