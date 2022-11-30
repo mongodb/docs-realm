@@ -1,0 +1,590 @@
+.. _tutorial-task-tracker-web:
+
+==================
+Task Tracker (Web)
+==================
+
+.. default-domain:: mongodb
+
+.. contents:: Tutorial Sections
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+.. note:: Check Out the Quick Start
+   
+   If you prefer to explore on your own rather than follow a guided tutorial,
+   check out the :ref:`Web Quick Start <web-quick-start>`. It includes copyable
+   code examples and the essential information that you need to set up a MongoDB
+   Realm application.
+
+In this tutorial, you'll build a functional web application backed by the
+Realm GraphQL API. The app uses :reactjs:`React <>` to define UI
+components and :apollo:`Apollo Client <docs/react>` to run queries and mutations
+through the GraphQL API. We've already created most of the frontend application
+for you, so you don't need to know React to follow along.
+
+The app is a task tracker that allows users to:
+
+- Register and log in with an email/password account.
+- View a list of their projects. 
+- Add, view, and delete tasks for projects they are a member of.
+- Switch tasks between Open, In Progress, and Complete statuses
+- Add, view, and remove team members from projects.
+
+This tutorial should take around 30 minutes.
+
+
+.. note:: Reacting to database updates 
+
+   The Realm Web SDK does not support :ref:`sync <sync>`, so the app you'll
+   build in this tutorial uses other means to get live updates on data changes 
+   from the backend. However, data that you create from the web app will automatically sync to any of the
+   other :ref:`task tracker tutorial apps <tutorial>` that use Realm Database.
+
+   This tutorial covers two ways to synchronize data from the server to the Web SDK:
+
+   - The ``watch()`` method as used in the :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section.
+   - :apollo:`Apollo GraphQL client polling <docs/react/data/queries/#polling>` as used 
+     in the :ref:`Define the GraphQL Schema & Operations<define-the-graphql-schema-and-operations>` section. 
+
+Prerequisites
+-------------
+
+Before you get started, you'll need the following:
+
+- A complete task tracker app in Atlas App Services. If you haven't yet completed
+  :doc:`Set up the Task Tracker Tutorial Backend </tutorial/backend-app>`, do
+  that before you continue.
+
+- :nodejs:`Node.js <>` installed on your machine.
+
+- `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`__
+  installed on your machine.
+
+Once you're set up with these prerequisites, you're ready to start the tutorial.
+
+A. Clone the Client App Repository
+----------------------------------
+
+We've already put together a task tracker browser application that has most of
+the frontend code you'll need. You can clone the client application repository
+directly from GitHub:
+
+.. code-block:: shell
+   
+   git clone --branch start https://github.com/mongodb-university/realm-tutorial-web.git
+
+In your terminal, run the following commands to navigate to the task tracker
+client application and install its dependencies:
+
+.. code-block:: shell
+   
+   cd realm-tutorial-web
+   npm install
+
+.. tip::
+ 
+   The ``start`` branch is an incomplete version of the app that we will
+   complete in this tutorial. To view the finished app, check out the
+   ``final`` branch and update ``src/App.js`` with your :ref:`Realm app
+   ID <find-your-app-id>`.
+
+B. Explore the App Structure & Components
+-----------------------------------------
+
+The web client is a standard React web application written in JavaScript and
+scaffolded with `Create React App
+<https://facebook.github.io/create-react-app/>`__. We encourage you to explore
+the files in the app for a few minutes before you continue the tutorial. This
+will help you to familiarize yourself with what the app contains and where
+you'll be working.
+
+The project uses the following file structure:
+
+.. include:: /includes/task-tracker-web-client-base-file-structure.rst
+
+Apollo Client & GraphQL Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``/src/graphql`` directory contains all of the modules that you'll use to
+configure the Apollo GraphQL client and connect to your Realm app's GraphQL API.
+These files are only incomplete scaffolds - some are blank and others require
+you to make some modifications. This tutorial walks through adding the missing
+code in these files to connect the task tracker app to Realm.
+
+React Components & Hooks
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``/src/components`` directory contains pre-built React components and hooks
+that handle local state management and UI rendering. The components import code
+from the files in ``/src/graphql`` and use them to interact with Realm. We've
+already completely implemented the UI portions, so you won't need to add any
+React-specific code to these files. We'll make sure to show you along the way
+how to modify the components and hooks to use the Realm GraphQL API.
+
+.. note:: React Components
+
+   React is a `popular
+   <https://insights.stackoverflow.com/survey/2020#technology-most-loved-dreaded-and-wanted-web-frameworks>`__
+   modern web application framework that uses a component model to maintain
+   application state and intelligently render pieces of the UI. If you're not
+   familiar with React or want to brush up on your knowledge, check out the
+   `official React website <https://reactjs.org>`_, which has excellent
+   documentation and tutorials.
+
+C. Connect to Your Atlas App Services Backend
+---------------------------------------------
+
+The client app needs to connect to your App Services backend so that users can
+register and log in. In ``src/RealmApp.js``, we import the Realm Web SDK to
+connect to Atlas and handle these actions. The file exports a React context
+provider that encapsulates this behavior and makes it available to other
+components in the app.
+
+Some of the functionality in ``RealmApp.js`` is not fully defined. You need to
+update the code to use the SDK to connect to your App Services backend and
+handle user authentication.
+
+.. procedure::
+
+   .. step:: Create a Realm App Client
+
+      The app client is the primary interface to your Realm app from the SDK. In
+      ``src/App.js``, replace ``"TODO"`` with your Realm App ID:
+
+      .. literalinclude:: /tutorial/generated/code/final/App.snippet.appID.js
+         :caption: src/App.js
+         :language: javascript
+
+      .. note:: Use Your App ID
+
+         Make sure to replace ``"TODO"`` with your app's unique
+         :guilabel:`App ID`. You can find your :guilabel:`App ID` by clicking the
+         copy button next to the name of your app in the lefthand navigation of the
+         Realm UI.
+
+         .. figure:: /images/task-tracker-web-copy-appid.png
+            :alt: The copy app id button in the UI
+
+
+   .. step:: Complete the Registration & Authentication Functions
+
+      The app client provides methods that allow you to authenticate and register
+      users through the email/password authentication provider. In
+      ``src/RealmApp.js``, the ``RealmAppProvider`` component wraps these functions
+      and keeps the app client in sync with local React state.
+
+      These wrapping functions already have the state update calls but don't
+      currently use the app client you created. You need to update the functions to
+      actually call the SDK authentication and registration methods.
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApp.snippet.realmAppProvider.js
+         :caption: src/RealmApp.js
+         :language: javascript
+
+.. example:: How We Use It
+   
+   In ``src/App.js``, we use the ``useRealmApp()`` hook to determine
+   when the main application is ready to render. We also check for an
+   authenticated user and always render exclusively the login screen unless a
+   user is logged in. This guarantees that only authenticated users can access
+   the rest of the app.
+   
+   .. literalinclude:: /tutorial/generated/code/final/App.snippet.requireLoggedInUser.js
+      :caption: src/App.js
+      :language: javascript
+
+In ``/components/LoginScreen.js``, we use the wrapped authentication methods
+that you defined to log user in and register new users.
+
+Find the the ``handleLogin`` function and add the following code to process a 
+``emailPassword`` credential by calling the ``logIn()`` method. 
+
+.. literalinclude:: /tutorial/generated/code/final/LoginScreen.snippet.handleLogin.js
+   :caption: src/components/LoginScreen.js
+   :language: javascript
+
+Next, find the ``handleRegistrationAndLogin`` function and add the following code 
+to create a ``emailPassword`` credential.
+
+.. literalinclude:: /tutorial/generated/code/final/LoginScreen.snippet.handleRegistrationAndLogin.js
+   :caption: src/components/LoginScreen.js
+   :language: javascript
+
+.. _define-the-graphql-schema-and-operations: 
+
+D. Define the GraphQL Schema & Operations
+-----------------------------------------
+
+A GraphQL schema defines all of the types, enums, and scalars that a GraphQL API
+supports. Realm automatically generates a GraphQL schema for you that includes
+definitions for your :ref:`schema types <schema-types>` as well as a set of CRUD
+query and mutation resolvers for each type.
+
+.. tip:: Generated TypeScript Types
+   
+   You can use `graphql-codegen <https://graphql-code-generator.com/>`__ to
+   generate TypeScript types based on your app's GraphQL schema.
+
+Open ``src/graphql/useTaskQueries.js``, and find the ``TODO`` for ``const GetAllTasksQuery``. 
+Here you define the query to get all tasks from the database.
+
+Fill in the code with the following query: 
+
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.snippet.GetAllTasksQuery.js
+     :caption: src/graphql/useTaskQueries.js
+     :language: javascript
+
+Now that you've defined the query, you need to create the hook to call it in the application. 
+We're going to define a lightweight wrapper around Apollo's :apollo:`useQuery() <docs/react/data/queries/#usequery-api>`.
+In our hook, we'll pass the project as a dynamic variable to the query. We'll also
+set the query to refresh every 1000 milliseconds with the Apollo :apollo:`startPolling() <docs/react/data/queries/#startpolling>` function
+so that the data doesn't get stale if another team member adds tasks to the project.
+We also must call the :apollo:`stopPolling() <docs/react/data/queries/#stoppolling>` function
+when the component unmounts, so there isn't a memory leak.
+
+Fill in the code: 
+
+.. literalinclude:: /tutorial/generated/code/final/useTaskQueries.snippet.useAllTasksInProject.js
+     :caption: src/graphql/useTaskQueries.js
+     :language: javascript
+
+.. note:: Polling and Billing
+
+   Every poll request counts as a Realm Request for billing purposes. Refer to the
+   :ref:`Billing documentation <billing-requests>` for more information.
+
+   Using the :ref:`collection.watch() <web-mongodb-watch>` method as is done in the
+   :ref:`Implement the Project List<web-tutorial-implement-the-project-list>` section
+   can be more cost effective for queries that receive a high volume of requests.
+
+Now that we've defined the query to fetch tasks by project, we have to define our mutations.
+
+Open ``src/graphql/useTaskMutations.js`` and find the ``TODO`` mutation
+definitions. These are all of the mutations that the app uses to create and
+modify ``User`` and ``Task`` documents.
+
+Fill in the code with the following mutation definitions:
+
+* ``AddTaskMutation``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.addTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+* ``UpdateTaskMutation``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.updateTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+* ``DeleteTaskMutation``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.deleteTaskMutation.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+Now that you've defined the mutations, you need to call them in their respective
+hooks. The mutation hooks are lightweight wrappers around Apollo's
+:apollo:`useMutation() <docs/react/data/mutations/#usemutation-api>` hook that
+allow you to pass dynamic variables to the queries.
+
+In ``src/graphql/useTaskMutations.js`` file, find the following functions below
+your mutation definitions and update them to execute their respective mutations: 
+
+* ``useAddTask``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useAddTask.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+* ``useUpdateTask``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useUpdateTask.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+* ``useDeleteTask``
+
+  .. literalinclude:: /tutorial/generated/code/final/useTaskMutations.snippet.useDeleteTask.js
+     :caption: src/graphql/useTaskMutations.js
+     :language: javascript
+
+E. Connect Apollo to the GraphQL API
+------------------------------------
+
+You've defined GraphQL CRUD operations and created custom query mutation hooks
+for tasks. However, these hooks must be wrapped in an Apollo context provider
+that makes an ``ApolloClient`` object available.
+
+In ``src/graphql/RealmApolloProvider.js``, we export a React component that
+provides the ``ApolloClient`` object but the function that instantiates the
+client is incomplete. You need to update the file to create a client that can
+connect to your app's GraphQL API.
+
+.. procedure::
+
+   .. step:: Instantiate an ApolloClient
+
+      The ``RealmApolloProvider`` component should call
+      ``createRealmApolloClient()`` to instantiate the client. Update the
+      component with the following code to create an ``ApolloClient`` object that
+      connects to your app:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.realmApolloProvider.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
+
+   .. step:: Authenticate GraphQL Requests
+
+      The ``createRealmApolloClient()`` function now instantiates a client object, but
+      you won't be able to run any GraphQL queries or mutations just yet. Every
+      GraphQL request must include an Authorization header that specifies a valid
+      user access token. The current client does not include any Authorization
+      headers, so all requests it makes will fail.
+
+      To fix this, update the ``createRealmApolloClient()`` function to include the
+      current user's access token in an Authorization header with every request:
+
+      .. literalinclude:: /tutorial/generated/code/final/RealmApolloProvider.snippet.createRealmApolloClient.js
+         :caption: src/graphql/RealmApolloProvider.js
+         :language: javascript
+
+
+.. _web-tutorial-implement-the-project-list:
+
+F. Implement the Projects List
+------------------------------
+
+As defined by our data model, a ``Project`` is an embedded object inside
+of a ``User`` document. This means that we can use :ref:`custom user data
+<custom-user-data>` to access a given user's list of projects
+directly from their ``Realm.User`` object.
+
+To  update the app if other users add the current user to their project, we use the 
+:ref:`collection.watch() <web-mongodb-watch>` method. 
+
+In the file ``/graphql/useProjects.js``, add the following code to retrieve the
+current user's projects:
+
+.. literalinclude:: /tutorial/generated/code/final/useProjects.snippet.useProjects.js
+   :caption: src/graphql/useProjects.js
+   :language: javascript
+
+G. Use Realm functions
+----------------------
+
+The file ``src/components/EditPermissionsModal.js`` defines a hook named
+``useTeamMembers()`` that returns a list of the current user's team members. It
+should also return functions that add and remove team members, but you'll need
+to define them. The :ref:`task tracker backend application
+<tutorial-task-tracker-create-realm-app>` already defines server-side
+:ref:`Atlas Functions <functions>` that handle the logic, so you
+just need to call them.
+
+.. tip::
+   
+   You can call your app's Functions by name as asynchronous
+   methods on the ``User.functions`` object. All function calls return a
+   ``Promise``. For example, to call a function named ``myFunction`` as the
+   current user, you would write ``await app.currentUser.functions.myFunction()``.
+
+Update the ``useTeamMembers()`` hook's return object to include
+``addTeamMember()`` and ``removeTeamMember()`` helper functions that accept an
+email address and pass it their respective server-side functions:
+
+.. literalinclude:: /tutorial/generated/code/final/EditPermissionsModal.snippet.useTeamMembers.js
+   :caption: src/components/EditPermissionsModal.js
+   :language: javascript
+
+H. Try It Out Locally
+---------------------
+
+The task tracker app is now fully configured so you can start it up to start
+tracking tasks.
+
+Start the App
+~~~~~~~~~~~~~
+
+To start the app, navigate to the project root in your shell and then enter the
+following command:
+
+.. code-block:: shell
+   
+   npm run start
+
+If the app starts successfully, you should see output that resembles the
+following:
+
+.. code-block:: shell
+   
+   Compiled successfully!
+   
+   You can now view task-tracker in the browser.
+   
+     Local:            http://localhost:3000
+     On Your Network:  http://191.175.1.124:3000
+
+Open your browser to http://localhost:3000 to access the app.
+
+If the app builds successfully, here are some things you can try in the app:
+
+- Create a user with email *first@example.com*
+- Explore the app, then log out or launch a second instance of the app in an incognito browser window
+- Create another user with email *second@example.com*	  
+- Navigate to *second@example.com*'s project
+- Add, update, and remove some tasks	  
+- Click "Manage Team"
+- Add *first@example.com* to your team
+- Log out and log in as *first@example.com*
+- See two projects in the projects list
+- Navigate to *second@example.com*'s project
+- Collaborate by adding, updating, and removing some new tasks
+
+I. Deploy the App
+-----------------
+
+Now that you've validated that the app is working, it's time to deploy the app. 
+In this section, you're going to create a production build with `Create React App's build script <https://create-react-app.dev/docs/production-build/>`__ 
+and deploy the app to be hosted with :ref:`Realm Static Hosting <static-hosting>`.
+
+Create the Production Bundle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To create your production bundle, run the command: 
+
+.. code-block:: shell
+   
+   npm run build
+
+Once the build finishes, validate it's working by running:
+
+.. code-block:: shell
+   
+   npx serve -s build
+
+You will see a new browser window pop up running the app on ``localhost:5000``. The app should 
+look and behave the same as the development version you made in the previous step. 
+
+You can find the production bundle's code with your repository in a newly generated folder ``build``.
+
+.. _deploy-web-app-realm-ui:
+
+Deploy Using the Realm UI
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First, navigate to the **Hosting** section of the Realm UI. You can find it on the side menu under **Manage**. 
+Once you're on the Hosting page, click the **Enable Hosting** button. 
+
+Now that you have hosting enabled, replace the default ``index.html`` with the production 
+bundle you built in the last step. Delete the ``index.html`` file by clicking the check 
+box next to the file and then **Actions > Delete**. 
+
+To add your app, open a file browser on your computer, and navigate to the ``build`` 
+folder in your app's root folder. Select all the ``build`` folder's contents, and 
+drag and drop it over to the Realm Hosting UI's Files page. 
+
+Once the files finish uploading, click the **Review & Deploy** button at the top of the page. 
+A dialog will open with your changes. Review the changes and click the **Deploy** button
+at the bottom of the dialogue to start the deployment of your app.
+
+Realm deploys your site to ``<Your-App-Id>.mongodbstitch.com``. 
+Deployment can take up to a few minutes. You can track the status on the Hosting page. 
+
+Once deployment finishes, navigate to your app's new URL, ``<Your-App-Id>.mongodbstitch.com``. 
+Here you'll find the app with the same backend and data that you were working with 
+before, now live on the Internet!
+
+For more detailed information about hosting your web app with Realm, refer to our documentation 
+on :ref:`hosting a single page application <host-a-single-page-application>`.
+
+.. _deploy-web-app-realm-cli:
+
+.. note:: Deploy Using the Realm CLI
+
+   You can also deploy the app frontend with the Realm CLI. 
+   Before you're able to deploy the frontend from the Realm CLI, you must first 
+   enable hosting in the Realm UI, as discussed at the beginning of the 
+   :ref:`Deploy Using the Realm UI <deploy-web-app-realm-ui>` section. 
+
+   Once you've enabled hosting in the UI, you need to have the `realm-tutorial-backend <https://github.com/mongodb-university/realm-tutorial-backend>`_ 
+   repository handy, which you used in :ref:`the backend setup <tutorial-task-tracker-create-realm-app>`.
+   
+   In the **backend** directory, create the folder ``hosting/files``. This is where 
+   you will place your assets for Realm Hosting. 
+
+   Also create a config file for the app. This should be located at ``hosting/config.json``, 
+   and have the following contents: 
+
+   .. code-block:: json
+      
+      {
+         "enabled": true,
+         "default_response_code": 200,
+         "default_error_path": "/index.html",
+      }
+
+   Copy the contents of the ``build`` folder from the realm-tutorial-web directory  
+   to the ``hosting/files`` folder in the backend. You can do this with the command:
+
+   .. code:: shell
+      
+      cp -a path/to/realm-tutorial-web/build/. path/to/realm-tutorial-backend/hosting/files
+
+   Now you're ready to deploy the app using the Realm CLI. To deploy, run the 
+   command: 
+
+   .. code:: shell
+      
+      realm-cli push --remote=<Your-App-Id> --include-hosting
+
+   Realm then deploys your site to ``<Your-App-Id>.mongodbstitch.com``.  
+
+What's Next?
+------------
+
+You just built and deployed a functional task tracker web application built with MongoDB
+Realm. Great job!
+
+Now that you have some hands-on experience with App Services, consider these
+options to keep practicing and learn more:
+
+- Extend the task tracker app with additional features. For example, you could:
+  
+  - allow users to log in using another :ref:`authentication provider <authentication-providers>`
+
+- Follow another tutorial to build a mobile app for the task tracker. We have
+  task tracker tutorials for the following platforms:
+  
+  - :doc:`iOS (Swift) </tutorial/ios-swift>`
+  - :doc:`Android (Kotlin) </tutorial/java-sdk>`
+  - :doc:`React Native (JavaScript) </tutorial/react-native>`
+  - :doc:`Node.js (JavaScript) CLI </tutorial/nodejs-cli>`
+
+- Use the Realm CLI to automate deploying your frontend application.
+
+- Dive deeper into the docs to learn more about App Services. You'll find
+  information and guides on features like:
+  
+  - Serverless :ref:`functions <functions>` that handle backend logic and
+    connect your app to external services. You can call functions from a
+    client app, either directly or as a :ref:`custom GraphQL resolver
+    <graphql-custom-resolvers>`.
+  
+  - :ref:`Triggers <triggers>` and :ref:`HTTPS endpoints <https-endpoints>`,
+    which automatically call functions in response to events as they occur. You
+    can define :ref:`database triggers <database-trigger>` which
+    respond to changes in your data, :ref:`authentication triggers
+    <authentication-triggers>` which respond to user management and
+    authentication events, and :ref:`scheduled triggers
+    <scheduled-trigger>` which run on a fixed schedule.
+
+  - Built-in :ref:`authentication providers <authentication-providers>` and
+    and user management tools. You can allow users to log in through multiple
+    methods, like API keys and Google OAuth, and associate :ref:`custom data
+    <custom-user-data>` with every user.
+
+.. include:: /includes/tutorial-request-for-feedback-note.rst

@@ -1,0 +1,33 @@
+{
+    "state": "enabled",
+    "database_name": "tracker",
+    "partition": {
+        "key": "_partition",
+        "type": "string",
+        "required": true,
+        "permissions": {
+            "read": {
+                "%%true": {
+                    "%function": {
+                        "arguments": [
+                            "%%partition"
+                        ],
+                        "name": "canReadPartition"
+                    }
+                }
+            },
+            "write": {
+                "%%true": {
+                    "%function": {
+                        "arguments": [
+                            "%%partition"
+                        ],
+                        "name": "canWritePartition"
+                    }
+                }
+            }
+        }
+    },
+    "development_mode_enabled": false,
+    "service_name": "mongodb-atlas"
+}
