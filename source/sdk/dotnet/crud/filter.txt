@@ -63,6 +63,13 @@ An expression consists of one of the following:
 - An operator
 - A value of any type used by realm (string, date, number, boolean, etc.)
 
+.. note:: 
+
+   The Realm .NET SDK doesn't currently support all of the LINQ operators. Refer 
+   to the :ref:`<dotnet-unsupported-linq>` section for a list of those unsupported 
+   operators.
+
+
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
 Value comparisons
@@ -223,6 +230,32 @@ table. Regex-like wildcards allow more flexibility in search.
    must be either ``StringComparison.OrdinalIgnoreCase`` or 
    ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
    parameter is a boolean value (where "true" means "case sensitive").
+
+.. _dotnet-unsupported-linq:
+
+Unsupported LINQ Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+The following LINQ operators are not currently supported by the Realm .NET SDK:
+
+**Grouping**
+- ``Group``
+**Sets**
+- ``Distinct``
+- ``Union``
+- ``Intersect``
+- ``Except``
+**Partitioning**
+- ``Take``
+- ``Skip``
+- ``TakeWhile``
+- ``SkipWhile``
+**Projection**
+- ``Select``
+- ``SelectMany``
+**Concatenation**
+- ``Concat``
+- ``Join``
+- ``GroupJoin``
 
 .. _dotnet-realm-query-language:
 
