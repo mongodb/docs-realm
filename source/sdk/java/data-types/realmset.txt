@@ -12,16 +12,32 @@ RealmSet - Java SDK
 
 .. versionadded:: 10.6.0
 
-You can use the `RealmSet <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html>`__ 
-data type to manage a collection of unique keys. ``RealmSet`` implements
-Kotlin's `Set
-<https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/>`_
-interface, so it works just like the built-in class,
+You can use the :java-sdk:`RealmSet <io/realm/RealmSet.html>` data type
+to manage a collection of unique keys. ``RealmSet`` implements Java's
+``Set`` interface, so it works just like the built-in ``HashSet`` class,
 except managed ``RealmSet`` instances persist their contents to a
 realm. ``RealmSet`` instances that contain Realm objects
 actually only store references to those objects, so deleting a
 Realm object from a realm also deletes that object from
 any ``RealmSet`` instances that contain the object.
+
+Because ``RealmSet`` implements ``RealmCollection``, it has some useful
+mathematical methods, such as ``sum``, ``min``, and ``max``. For a complete
+list of available ``RealmSet`` methods, see: :java-sdk:`the RealmSet API 
+reference <io/realm/RealmSet.html>`.
+
+Method Limitations
+------------------
+
+You cannot use the following ``Realm`` methods on objects that contain
+a field of type ``RealmSet``:
+
+- ``Realm.insert()``
+- ``Realm.insertOrUpdate()``
+- ``Realm.createAllFromJson()``
+- ``Realm.createObjectFromJson()``
+- ``Realm.createOrUpdateAllFromJson()``
+- ``Realm.createOrUpdateObjectFromJson()``
 
 Usage
 -----
