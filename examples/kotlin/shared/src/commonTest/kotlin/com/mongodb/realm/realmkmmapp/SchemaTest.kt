@@ -217,10 +217,10 @@ class SchemaTest: RealmTest() {
                         name = "crickets"
                     })
                     val earthWormsSnack = this.copyToRealm(Snack().apply {
-                        name = "earth worms"
+                        name = "earthworms"
                     })
                     val waxWormsSnack = this.copyToRealm(Snack().apply {
-                        name = "wax worms"
+                        name = "waxworms"
                     })
 
                     set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
@@ -232,8 +232,8 @@ class SchemaTest: RealmTest() {
 
             val fliesSnack = realm.query<Snack>("name = 'flies'").first().find()
             val cricketsSnack = realm.query<Snack>("name = 'crickets'").first().find()
-            val earthWormsSnack = realm.query<Snack>("name = 'earth worms'").first().find()
-            val waxWormsSnack = realm.query<Snack>("name = 'wax worms'").first().find()
+            val earthWormsSnack = realm.query<Snack>("name = 'earthworms'").first().find()
+            val waxWormsSnack = realm.query<Snack>("name = 'waxworms'").first().find()
 
 
             if (set != null) {

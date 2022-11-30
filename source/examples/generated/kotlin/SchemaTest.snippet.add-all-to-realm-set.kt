@@ -3,10 +3,10 @@ realm.write {
         name = "crickets"
     })
     val earthWormsSnack = this.copyToRealm(Snack().apply {
-        name = "earth worms"
+        name = "earthworms"
     })
     val waxWormsSnack = this.copyToRealm(Snack().apply {
-        name = "wax worms"
+        name = "waxworms"
     })
 
     set.addAll(setOf(cricketsSnack, earthWormsSnack, waxWormsSnack))
