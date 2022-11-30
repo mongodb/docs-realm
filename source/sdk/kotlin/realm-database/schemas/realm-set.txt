@@ -26,8 +26,8 @@ realm.
 objects, so deleting a Realm object from a realm also deletes that object from
 any ``RealmSet`` instances that contain the object.
 
-Define a Realm Set
-------------------
+Define a RealmSet
+-----------------
 
 To define a property as a ``RealmSet``, specify its type within the schema.
 Instantiate an unmanaged ``RealmSet`` by setting the field's default value
@@ -41,8 +41,8 @@ field that is a ``RealmSet`` of ``Snack`` objects.
    :language: kotlin
    :copyable: false
 
-Add an Item to a Realm Set
---------------------------
+Add an Item to a RealmSet
+-------------------------
 
 To add an item to a ``RealmSet``, pass the object you wish to add to the `set.add()
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-153241610%2FFunctions%2F-1651551339>`__ 
@@ -55,8 +55,8 @@ In the following example, we get the ``favoriteSnacks`` set, then add a new
    :language: kotlin
    :copyable: false
 
-Add Many Items to a Realm Set
------------------------------
+Add Many Items to a RealmSet
+----------------------------
 
 To add multiple items to a ``RealmSet``, pass the elements you wish to add to
 the `set.addAll()
@@ -73,8 +73,8 @@ elements to the ``set.addAll()`` method to add them to our ``Frog`` object's fav
    :language: kotlin
    :copyable: false
 
-Check if the Realm Set Contains an Item
----------------------------------------
+Check if the RealmSet Contains an Item
+--------------------------------------
 
 To check if the ``RealmSet`` contains a particular item, pass the element to
 `set.contains()
@@ -85,8 +85,8 @@ The method returns true if the set contains the element.
    :language: kotlin
    :copyable: false
 
-Check if the Realm Set Contains Multiple Items
-----------------------------------------------
+Check if the RealmSet Contains Multiple Items
+---------------------------------------------
 
 To check if the ``RealmSet`` contains multiple items, pass the elements to
 `set.containsAll()
@@ -102,8 +102,8 @@ the read-only set to ``set.containsAll()``.
    :language: kotlin
    :copyable: false
 
-Remove an Item from a Realm Set
--------------------------------
+Remove an Item from a RealmSet
+------------------------------
 
 To remove an item from a ``RealmSet``, pass the element you wish to delete to `set.remove()
 <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#-1503494415%2FFunctions%2F-1651551339>`__
@@ -112,8 +112,8 @@ To remove an item from a ``RealmSet``, pass the element you wish to delete to `s
    :language: kotlin
    :copyable: false
 
-Remove Multiple Items from a Realm Set
---------------------------------------
+Remove Multiple Items from a RealmSet
+-------------------------------------
 
 To remove multiple items from a ``RealmSet``, pass the elements you wish to delete to
 `set.removeAll() <{+kotlin-local-prefix+}io.realm.kotlin.types/-realm-set/index.html#430447804%2FFunctions%2F-1651551339>`__
