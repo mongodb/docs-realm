@@ -269,16 +269,11 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
 
    * - | Concatenation
      -   - ``Concat``
-         - ``Join`` (see below)
+         - ``Join``. While ``Join`` is not supported, it is not needed with Realm. 
+           Instead of using keys in a Join statement, as you would in a traditional 
+           relational database, instead reference another type as a property.  
+           For more information, refer to :ref:`<dotnet-embedded-objects>`.
          - ``GroupJoin``
-
-.. note:: 
-
-  While ``Join`` is not supported, it is not needed with Realm. Instead of using 
-  keys in a Join statement, as you would in a traditional relational database, 
-  instead reference another type as a property.  For more information, refer to 
-  :ref:`<dotnet-embedded-objects>`.
-
 
 .. _dotnet-realm-query-language:
 
