@@ -265,7 +265,7 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
            is supported as long as you select the Realm object itself and not a 
            derivative:
            
-           ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select d;``
+           ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select t;``
 
    * - | Concatenation
      -   - ``Concat``
