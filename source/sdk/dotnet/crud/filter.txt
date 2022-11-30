@@ -65,7 +65,7 @@ An expression consists of one of the following:
 
 .. note:: 
 
-   Currently, the Realm .NET SDK doesn't support all of the LINQ operators. Refer 
+   Currently, the Realm .NET SDK does not support all of the LINQ operators. Refer 
    to the :ref:`<dotnet-unsupported-linq>` section for a list of those unsupported 
    operators.
 
@@ -244,14 +244,16 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
    * - Category
      - Unsupported Operators
 
+   * - | Concatenation
+     -   - ``Concat``
+         - ``Join``. While ``Join`` is not supported, it is not needed with Realm. 
+           Instead of using keys in a Join statement, as you would in a traditional 
+           relational database, you can reference another type as a property.  
+           For more information, refer to :ref:`<dotnet-embedded-objects>`.
+         - ``GroupJoin``
+   
    * - | Grouping
-     -   - ``Group``
-
-   * - | Sets
-     -   - ``Distinct``
-         - ``Union``
-         - ``Intersect``
-         - ``Except``
+     -   - ``GroupBy``
 
    * - | Partitioning
      -    - ``Take``
@@ -267,13 +269,12 @@ The following LINQ operators are not currently supported by the Realm .NET SDK:
            
            ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select t;``
 
-   * - | Concatenation
-     -   - ``Concat``
-         - ``Join``. While ``Join`` is not supported, it is not needed with Realm. 
-           Instead of using keys in a Join statement, as you would in a traditional 
-           relational database, instead reference another type as a property.  
-           For more information, refer to :ref:`<dotnet-embedded-objects>`.
-         - ``GroupJoin``
+   * - | Sets
+     -   - ``Distinct``
+         - ``Union``
+         - ``Intersect``
+         - ``Except``
+
 
 .. _dotnet-realm-query-language:
 
