@@ -8,7 +8,18 @@
 #include <cpprealm/sdk.hpp>
 // :snippet-end:
 
-static std::string APP_ID = "cpp-tester-foylc";
+static std::string APP_ID = "cpp-tester-uliix";
+
+struct SyncDog : realm::object {
+    realm::persisted<realm::uuid> _id;
+    realm::persisted<std::string> name;
+    realm::persisted<int> age;
+
+    static constexpr auto schema = realm::schema("SyncDog",
+        realm::property<&SyncDog::_id, true>("_id"),
+        realm::property<&SyncDog::name>("name"),
+        realm::property<&SyncDog::age>("age"));
+};
 
 // :snippet-start: define-models
 // Define your models like regular structs.
@@ -71,13 +82,11 @@ TEST_CASE("open a realm at a path", "[realm]") {
 
 TEST_CASE("open a synced realm", "[realm, sync]") {
     // :snippet-start: open-a-synced-realm
-    // :uncomment-start:
-    //auto app = realm::App(APP_ID);
-    //auto user = app.login(realm::App::Credentials::anonymous());
-    //auto sync_config = user.flexible_sync_configuration();
-    //auto synced_realm_ref = realm::async_open<Dog>(sync_config);
-    //auto realm = synced_realm_ref.resolve();
-    // :uncomment-end:
+    auto app = realm::App(APP_ID);
+    auto user = app.login(realm::App::Credentials::anonymous()).get_future().get();
+    auto sync_config = user.flexible_sync_configuration();
+    auto synced_realm_ref = realm::async_open<SyncDog>(sync_config).get_future().get();
+    auto realm = synced_realm_ref.resolve();
     // :snippet-end:
 }
 
