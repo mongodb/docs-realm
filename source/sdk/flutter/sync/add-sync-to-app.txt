@@ -13,8 +13,20 @@ Add Device Sync to an App - Flutter SDK
 
 .. procedure::
 
-   .. step:: Connect to the App Services backend
+   .. step:: Set up Atlas Device Sync in App Services
 
+      Before you can use Device Sync with the Realm Flutter SDK, you must create
+      an Atlas App Services App with Device Sync and authentication enabled.
+
+      To learn how to set up Device Sync in your App, refer to :ref:`TODO:`
+      in the App Services documentation.
+
+      To set up authentication, refer to :ref:`TODO:` in the App Services documentation.
+   
+   .. step:: Connect to the App Services Backend
+
+      Initialize the an :flutter-sdk`App <TODO:>` instance to connect
+      to your App Services App.
       Pass the App ID for your App, which you can :ref:`find in the App Services UI
       <find-your-app-id>`.
 
@@ -23,21 +35,20 @@ Add Device Sync to an App - Flutter SDK
 
    .. step:: Authenticate a user
 
-      :ref:`Authenticate a user <flutter-authenticate>` in your client 
-      project. Here, we'll use :ref:`anonymous authentication 
-      <flutter-login-anonymous>`. 
+      :ref:`Authenticate a user <flutter-authenticate>` in your client project.
+      This example uses :ref:`anonymous authentication <flutter-login-anonymous>`.
 
       .. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_anon.cs
         :language: csharp
 
    .. step:: Open a Synced Realm
 
-      To open the realm as a synced realm, 
-      you can specify whether a synced realm should download data before 
-      it opens. Here, we use a :ref:`Flexible Sync configuration 
+      To open the realm as a synced realm,
+      you can specify whether a synced realm should download data before it opens.
+      Here, we use a :ref:`Flexible Sync configuration
       <flutter-flexible-sync-open-realm>` and specify that the SDK
       should always download the most recent updates before opening the realm.
-      We also :ref:`bootstrap the realm with an initial subscription 
+      We also :ref:`bootstrap the realm with an initial subscription
       <flutter-sync-add-subscription>`.
 
       .. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.bootstrap-a-subscription.cs
@@ -46,11 +57,11 @@ Add Device Sync to an App - Flutter SDK
 Use the Realm
 -------------
 
-The syntax to :ref:`read <flutter-realm-database-reads>`, :ref:`write
+The syntax to :ref:`read <flutter-read-data>`, :ref:`write
 <flutter-write-operations>`, and
 :ref:`watch for changes <flutter-react-to-changes>` on a
-synced realm is identical to the syntax for non-synced realms. While 
-you work with local data, a background thread efficiently integrates, 
+synced realm is identical to the syntax for non-synced realms.
+While you work with local data, a background thread efficiently integrates,
 uploads, and downloads changesets.
 
 The following code creates a new ``Task`` object and writes it to the realm:
@@ -58,10 +69,7 @@ The following code creates a new ``Task`` object and writes it to the realm:
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
    :language: csharp
 
-.. important:: When Using Sync, Avoid Writes on the Main Thread
+Further Reading
+---------------
 
-   The fact that Realm performs sync integrations on a background thread means
-   that if you write to your realm on the main thread, there's a small chance your UI
-   could appear to hang as it waits for the background sync thread to finish a write
-   transaction. Therefore, it's a best practice :ref:`not to write on the main thread
-   when using Device Sync <flutter-threading-three-rules>`.
+TODO: add links to relevant pages
