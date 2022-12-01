@@ -11,6 +11,69 @@ Define a Realm Object Model - React Native SDK
    :depth: 2
    :class: singlecol
 
+
+.. _react-native-object-types:
+.. _react-native-object-schemas:
+.. _react-native-object-models:
+
+Key Concept: Object Types & Schemas
+-----------------------------------
+
+Every Realm object conforms to a specific **object type**, which is essentially
+a class that defines the properties and :ref:`relationships <react-native-client-relationships>`
+for objects of that type using a pre-defined schema. Realm guarantees that all
+objects in a realm conform to the schema for their object type and validates
+objects whenever they're created, modified, or deleted.
+
+Realm objects are fundamentally similar to a common JavaScript object but they
+also bring along a few additional features like schema validation and :ref:`live
+queries <react-native-live-queries>`. The React Native SDK memory maps Realm objects directly
+to native JavaScript objects, which means there's no need to use a special data
+access library, such as an :wikipedia:`ORM <Object-relational_mapping>`.
+Instead, you can work with Realm objects as you would any other object.
+
+.. _react-native-realm-schema:
+
+Realm Schema
+~~~~~~~~~~~~
+
+A **realm schema** is a list of valid :ref:`object schemas
+<react-native-object-schemas>` that a realm may contain. Every Realm object must conform
+to an object type that's included in its realm's schema.
+
+If a realm already contains data when you open it, Realm Database
+validates each object to ensure that an object schema was provided for its type
+and that it meets all of the constraints specified in the schema.
+
+.. example::
+   
+   A realm that contains basic data about books in libraries might use a
+   schema like the following:
+   
+   .. code-block:: json
+      
+      [
+        {
+          "type": "Library",
+          "properties": {
+            "address": "string",
+            "books": "Book[]"
+          }
+        },
+        {
+          "type": "Book",
+          "primaryKey": "isbn",
+          "properties": {
+            "isbn": "string",
+            "title": "string",
+            "author": "string",
+            "numberOwned": { "type": "int?", "default": 0 },
+            "numberLoaned": { "type": "int?", "default": 0 }
+          }
+        }
+      ]
+
+
 .. _react-native-define-a-new-object-type:
 
 Define a New Object Type
@@ -31,13 +94,17 @@ a realm.
      }
    }
 
+You can then :ref:`open a realm <node-open-a-local-realm>` using the Realm
+Object you have defined.
+   
+.. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
+  :language: javascript
+
 .. note::
    
-   You can :ref:`open a realm <node-open-a-local-realm>` using the Realm
-   Object you have defined.
-   
-   .. literalinclude:: /examples/generated/node/open-and-close-a-local-realm.snippet.open-local-realm-with-car-schema.js
-     :language: javascript
+   To learn the various types that a Realm Object Model accepts, how to specify optional fields, define relationships, embedded objects, primary keys, and more, check out the :ref:`Schemas <>` section.
+
+
 
 .. _react-native-define-objects-with-js-classes:
 
