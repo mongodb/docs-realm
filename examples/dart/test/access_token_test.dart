@@ -3,8 +3,6 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import 'dart:convert';
 
-import 'sync_multiple_processes_test.dart';
-
 void main() {
   const APP_ID = "example-testers-kvjdy";
   group('Access tokens - ', () {

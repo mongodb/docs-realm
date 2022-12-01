@@ -33,20 +33,16 @@ Set up Device Sync
       Pass the App ID for your App, which you can :ref:`find in the App Services UI
       <find-your-app-id>`.
 
-      TODO: flutterify
-
-      .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
-        :language: csharp
+      .. literalinclude:: /examples/generated/flutter/add_sync_to_app.snippet.connect-to-app.dart
+        :language: dart
 
    .. step:: Authenticate a user
 
       :ref:`Authenticate a user <flutter-authenticate>` in your client project.
       This example uses :ref:`anonymous authentication <flutter-login-anonymous>`.
 
-      TODO: flutterify
-
-      .. literalinclude:: /examples/generated/dotnet/AuthenticationExamples.snippet.logon_anon.cs
-        :language: csharp
+      .. literalinclude:: /examples/generated/flutter/add_sync_to_app.snippet.log-in.dart
+        :language: dart
 
    .. step:: Open a Synced Realm
 
@@ -54,10 +50,8 @@ Set up Device Sync
       Also :ref:`add a subscription <flutter-flexible-sync-manage-subscriptions>`
       to synchronize data matching the subscription query.
 
-      TODO: flutterify
-
-      .. literalinclude:: /examples/generated/dotnet/FlexibleSyncExamples.snippet.bootstrap-a-subscription.cs
-        :language: csharp
+      .. literalinclude:: /examples/generated/flutter/add_sync_to_app.snippet.opened-synced-realm.dart
+        :language: dart
 
 Use the Realm
 -------------
@@ -69,9 +63,7 @@ synced realm is identical to the syntax for non-synced realms.
 While you work with local data, a background thread integrates,
 uploads, and downloads changesets.
 
-The following code creates a new ``Task`` object and writes it to the realm:
+The following code creates a new ``Car`` object and writes it to the realm:
 
-TODO: flutterify
-
-.. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.create.cs
-   :language: csharp
+.. literalinclude:: /examples/generated/flutter/add_sync_to_app.snippet.write.dart
+   :language: dart
