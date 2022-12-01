@@ -317,6 +317,25 @@ class Authenticate: XCTestCase {
         print("Successfully opened realm: \(realm)")
         // :snippet-end:
     }
+    
+    func testGetUserAccessToken() async throws {
+        // :snippet-start: refresh-user-access-token-function
+        func getValidAccessToken(user: User) async throws -> String {
+            // An already logged in user's access token might be stale. To
+            // guarantee that the token is valid, refresh it if necessary.
+            try await user.refreshCustomData()
+            return user.accessToken!
+        }
+        // :snippet-end:
+        
+        do {
+            let app = App(id: YOUR_APP_SERVICES_APP_ID)
+            let user = try await app.login(credentials: Credentials.anonymous)
+            let refreshedAccessToken = try await getValidAccessToken(user: user)
+        } catch {
+            print("Failed to log in user: \(error.localizedDescription)")
+        }
+    }
 
     override func tearDown() {
         guard app.currentUser != nil else {

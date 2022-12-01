@@ -174,6 +174,21 @@ Offline Login
 .. literalinclude:: /examples/generated/code/start/Authenticate.snippet.offline-login.swift
    :language: swift
 
+.. _ios-get-a-user-access-token:
+
+Get a User Access Token
+-----------------------
+
+.. include:: /includes/user-access-token.rst
+
+You can call :swift-sdk:`.refreshCustomData() 
+<Extensions/User.html#/s:So7RLMUserC10RealmSwiftE17refreshCustomData7Combine6FutureCySDys11AnyHashableVypGs5Error_pGyF>`
+on a logged-in user to refresh the user's auth session. Then, return the 
+``.accessToken`` as a string you can use in your code.
+
+.. literalinclude:: /examples/generated/code/start/Authenticate.snippet.refresh-user-access-token-function.swift
+   :language: swift
+
 .. _ios-logout:
 
 Log Out
