@@ -2,10 +2,13 @@
 #include <chrono>
 #include <string>
 #include <thread>
+#include <future>
 
 // :snippet-start: includes
 #include <cpprealm/sdk.hpp>
 // :snippet-end:
+
+static std::string APP_ID = "cpp-tester-foylc";
 
 // :snippet-start: define-models
 // Define your models like regular structs.
@@ -48,6 +51,33 @@ TEST_CASE("first test case", "[test]") {
     realm.write([&realm, &dog] {
         realm.add(dog);
     });
+    // :snippet-end:
+}
+
+TEST_CASE("open a default realm", "[realm]") {
+    // :snippet-start: open-default-realm
+    // Get the default Realm with compile-time schema checking.
+    auto realm = realm::open<Person, Dog>();
+    // :snippet-end:
+}
+
+TEST_CASE("open a realm at a path", "[realm]") {
+    // :snippet-start: open-realm-at-path
+    std::string path = std::filesystem::current_path();
+    realm::db_config config = { path = path };
+    auto realm = realm::open<Person, Dog>(config);
+    // :snippet-end:
+}
+
+TEST_CASE("open a synced realm", "[realm, sync]") {
+    // :snippet-start: open-a-synced-realm
+    // :uncomment-start:
+    //auto app = realm::App(APP_ID);
+    //auto user = app.login(realm::App::Credentials::anonymous());
+    //auto sync_config = user.flexible_sync_configuration();
+    //auto synced_realm_ref = realm::async_open<Dog>(sync_config);
+    //auto realm = synced_realm_ref.resolve();
+    // :uncomment-end:
     // :snippet-end:
 }
 

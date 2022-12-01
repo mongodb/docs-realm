@@ -1,0 +1,137 @@
+.. _cpp-configure-and-open-a-realm:
+.. _cpp-realms:
+
+=========================================
+Configure & Open a Realm - CPP SDK (Alpha)
+=========================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+A **realm** is the core data structure used to organize data in
+Realm Database. A realm is a collection of the objects that you use 
+in your application, called Realm objects, as well as additional metadata 
+that describe the objects.
+
+When you open a realm, the ``open`` or ``async_open`` templates 
+construct a :cpp-sdk:`db_config <structrealm_1_1db__config.html>` that 
+specifies details about how to configure the realm file. This can include:
+
+- The models that the realm file should manage
+- An optional path where the realm is stored on device
+- A ``SyncConfig`` if you want to use the realm with Device Sync
+
+.. _ios-realm-file:
+
+Key Concept: Realm Files
+------------------------
+
+Realm Database stores a binary encoded version of every object and type in a
+realm in a single ``.realm`` file. The file is located at :ref:`a specific 
+path <find-the-default-realm-path>` that you can define when you open the realm.
+You can open, view, and edit the contents of these files with 
+:ref:`realm-studio`.
+
+.. see:: Auxiliary Realm Files
+   
+   Realm Database creates additional files for each realm.
+   To learn more about these files, see :ref:`Realm Database Internals
+   <ios-realm-database>`. Deleting these files has important implications.
+   For more information about deleting ``.realm`` or auxiliary files, see: 
+   :ref:`Delete a Realm <swift-delete-a-realm>`
+
+.. _ios-synced-realm:
+
+Key Concept: Synced Realms
+--------------------------
+
+You can configure a realm to automatically synchronize data between many 
+devices that each have their own local copy of the data. Synced realms 
+need a ``SyncConfig`` and require an Atlas App Services backend to handle 
+the synchronization process. 
+
+Applications can always create, modify, and delete synced realm objects locally,
+even when offline. Whenever a network connection is available, the Realm SDK
+opens a connection to an application server and syncs changes to and from other
+clients. The :ref:`Atlas Device Sync protocol <sync-protocol>` and server-side
+operational transforms guarantee that all fully synced instances of a realm see
+exactly the same data, even if some changes occurred offline and/or were
+received out of order.
+
+Synced Realms vs. Non-Synced Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Synced realms differ from non-synced local Realm Database in a 
+few ways:
+
+- Synced realms attempt to sync changes with your backend App Services App,
+  whereas non-synced realms do not.
+- Synced realms can only be accessed by authenticated users, while non-synced 
+  realms have no concept of users or authentication.
+- With synced realms, you can download updates before opening a 
+  realm. However, requiring changes to download before opening the 
+  realm requires the user to be online. Non-synced realms can always 
+  be used offline.
+
+You can manually copy data from a non-synced Realm Database to a synced realm, 
+and vice versa, but you cannot sync a non-synced Realm Database.
+
+.. _cpp-open-non-sync-realm:
+
+Open a Non-Sync Realm
+---------------------
+
+You can open a realm in the current directory using the default constructor.
+Or you can construct a ``db_config`` with a specific file path to open the realm
+in a specific location.
+
+.. _cpp-default-realm:
+
+Open the Default Realm
+~~~~~~~~~~~~~~~~~~~~~~
+
+When opening a realm, you must specify which models are available by passing 
+the models into the template parameter list of the ``realm::open()`` function.
+Doing so without specifying an optional path opens the default realm in the 
+current directory.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.open-default-realm.cpp
+   :language: cpp
+
+.. _cpp-realm-at-path:
+
+Open a Realm at a File Path
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you need to open a realm at a specific file path, you can construct a 
+:cpp-sdk:`db_config <structrealm_1_1db__config.html>` with a specific string 
+path for your realm file.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.open-realm-at-path.cpp
+   :language: cpp
+
+.. _cpp-open-synced-realm:
+
+Open a Synced Realm
+-------------------
+
+You must have an :ref:`Atlas App Services App <create-app-ui>` that you 
+have :ref:`configured for Flexible Sync <enable-realm-sync>` in order to 
+sync data between devices.
+
+To open a synced realm:
+
+1. Connect to an Atlas App Services App.
+#. Authenticate the user.
+#. Create a sync configuration.
+#. Open the user's synced realm with the configuration.
+
+To open a synced, pass the models you want the realm to manage into the 
+template parameter list of the :cpp-sdk:`async_open <structrealm_1_1async__open__realm.html>`
+function, and pass the configuration as an argument to the function.
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.open-a-synced-realm.cpp
+   :language: cpp
