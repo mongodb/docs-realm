@@ -72,12 +72,12 @@ your Flutter project.
 
         import 'package:realm/realm.dart';
 
-.. _flutter-use-macos-emulator:
+.. _flutter-macos-development:
 
-Use Realm with the macOS Emulator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Use Realm with the macOS
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you are using the Realm Flutter SDK with the macOS emulator,
+If you are developing with the Realm Flutter SDK in the macOS App Sandbox,
 network requests do not work by default due to built-in macOS security settings.
 Network access is required to use Atlas App Services and Device Sync.
 
@@ -94,6 +94,9 @@ To enable network requests, add the following code to **both** the files
 
 You can still use Realm Database locally without adding this network access permission.
 
+For more information about Flutter development for macOS, refer to `Building macOS apps with Flutter
+<https://docs.flutter.dev/development/platform-integration/macos/building#setting-up-entitlements>`__
+in the Flutter documentation.
 
 .. _dart-install-steps:
 
