@@ -12,15 +12,6 @@ If you just want to run the tests, go to **Run the Tests**.
 
 ## First-time Setup
 
-This project uses the Realm CPP SDK as a git submodule. You must ensure 
-your machine has access to the version of the submodule used in the project. 
-To pull in the submodule and its dependencies, from this `/examples/cpp`
-directory:
-
-```shell
-git submodule update --init --recursive
-```
-
 The project uses [CMake](https://cmake.org/) to create build files (Makefile, .xcodeproj...) for the 
 project. To check if you have CMake installed:
 
@@ -78,40 +69,38 @@ To run the tests, from the `build` directory:
 
 ## Update the Realm SDK Version
 
-Enter the submodule directory:
+CMakeLists.txt has a FetchContent block that pulls in the realm-cpp repository
+code as a dependency, and compiles it:
 
 ```shell
-cd realm-cpp
+FetchContent_Declare(
+  cpprealm
+  GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+  GIT_TAG        f4f89d1c75d4c762a679f57d2e9f26e87ec1215b
+)
 ```
 
-You're now in a remote of `realm-cpp`. Use regular `git` commands to fetch
-the version of the repository that you want to use. 
+To change the version of the SDK we use in the build, change the value
+of the `GIT_TAG`. While in early Alpha, this is a commit hash, but it could 
+be a version tag once the SDK starts doing tagged releases. For more 
+information, refer to the 
+[FetchContent Module docs](https://cmake.org/cmake/help/latest/module/FetchContent.html).
 
-Alternately, if you don't want to get a specific version of the `realm-cpp` 
-repo, but just want to update it to the latest commit, you can:
+For best results, delete everything in the `build` folder. Then, create
+a new Makefile and build the project again before running the tests.
+
+From `/examples/cpp/build`, run `cmake` to create a Makefile by reading the 
+`CMakeLists.txt` in the parent directory.
 
 ```shell
-git submodule update --remote
+cmake ../
 ```
 
-Then, when you `cd` back out of the `realm-cpp` directory and check the 
-git status, you should see:
+You can `ls` to see that a Makefile has been generated. Then, build the app:
 
 ```shell
-modified: realm-cpp (new commits, modified content)
+make
 ```
-
-Add and commit these changes like you would any other changes. This preserves
-the HEAD of the submodule.
-
-To use the updated repository in the CPP examples project:
-
-```shell
-git submodule update --init --recursive
-```
-
-For best results, delete everything in the `build` folder and then build
-the project again before running the tests.
 
 ## Add a New Test File
 
