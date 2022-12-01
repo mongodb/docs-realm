@@ -86,7 +86,7 @@ be a version tag once the SDK starts doing tagged releases. For more
 information, refer to the 
 [FetchContent Module docs](https://cmake.org/cmake/help/latest/module/FetchContent.html).
 
-For best results, delete everything in the `build` folder. Then, create
+For best results, delete everything in the `build` folder. Then create
 a new Makefile and build the project again before running the tests.
 
 From `/examples/cpp/build`, run `cmake` to create a Makefile by reading the 
