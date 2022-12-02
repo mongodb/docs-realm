@@ -1,24 +1,20 @@
-# Realm SDK Reference Manuals
+# Realm SDK Reference Manual Landing Pages
 
-This repo contains the Realm SDK Reference Manuals and the scripts to upload them.
-SDK manuals are provided by leads of the various SDK projects, or you can build them
-yourself.
+This directory contains the landing pages for the reference docs hosted at
+https://docs.mongodb.com/realm-sdks.
 
-## Adding a new version
+A GitHub Action workflow uploads to the S3 bucket upon update. See
+[publish-sdk-landing-pages.yml](../.github/workflows/publish-sdk-landing-pages.yml).
 
-- Unzip the docs to `<sdk>/<version>/`
-- Update the `latest` symlink to point to the new version: `cd <sdk>/<version> && rm latest && ln -s <version> latest` (where sdk is the sdk name and version is the new version name)
+This directory also contains some static files we serve up on the docs from that
+S3 bucket, such as the various public IP lists on the [Application
+Security](https://www.mongodb.com/docs/atlas/app-services/manage-apps/secure/)
+page.
 
-Android, Kotlin, and Cocoa team docs are automatically uploaded by the Java team's CI. We are working on having the other SDK teams upload automatically.
+The main index.html file serves as a landing page but should not be linked to
+directly. Still, in case someone ends up there, it should expose links to all
+available SDK reference manuals.
 
-## Publish
-
-- Configure AWS access (see https://wiki.corp.mongodb.com/display/SYSENG/Command-line+Access) by typing `aws configure sso` and entering the following options:
-  - SSO start URL: https://mongodbcorp.awsapps.com/start
-  - SSO Region: us-east-1
-  - `aws sso login` (if needed)
-  - (A browser window should open and do various log in things through SSO, follow the prompts there)
-  - select aws.docs User
- 
-- If you don't have AWS access to that bucket, talk to a member of @developer-education-team
-- Use the upload.sh script to upload to the bucket. The upload.sh script is in the root directory of this repo. The bucket is hosted at https://docs.mongodb.com/realm-sdks
+Each SDK has a corresponding directory with an index.html file. That index.html
+file's sole purpose is to redirect into the corresponding SDK's `latest/`
+subdirectory.
