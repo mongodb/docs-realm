@@ -10,6 +10,8 @@ When you're already set up but you have edited source code, start with
 
 If you just want to run the tests, go to **Run the Tests**.
 
+The Flexible Sync backend that this app hits is the [cpp-tester App Services app in the Realm Example Testers Atlas project of the Bushicorp Atlas Organization](https://realm.mongodb.com/groups/5f60207f14dfb25d23101102/apps/6388f860cb722c5a5e002425/dashboard)
+
 ## First-time Setup
 
 The project uses [CMake](https://cmake.org/) to create build files (Makefile, .xcodeproj...) for the 
