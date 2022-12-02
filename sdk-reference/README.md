@@ -15,6 +15,11 @@ The main index.html file serves as a landing page but should not be linked to
 directly. Still, in case someone ends up there, it should expose links to all
 available SDK reference manuals.
 
+## Adding SDKs
+
 Each SDK has a corresponding directory with an index.html file. That index.html
 file's sole purpose is to redirect into the corresponding SDK's `latest/`
 subdirectory.
+
+You don't need to do this manually. Run the [addSdk.sh](./addSdk.sh) script with
+the name of the new SDK subdirectory.
