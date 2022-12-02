@@ -220,19 +220,27 @@ Save the Data
 Because realm objects are live objects, you can make changes to a 
 realm file and see them reflected in a client app in realtime. Realm 
 Studio gives you a few save options if you want to do other things with
-the data.
+the data. To save the file, follow these steps:
 
-To save data from Realm Studio:
+1. Go to :guilabel:`File` > :guilabel:`Save data` and select :guilabel:`JSON`
+   or :guilabel:`Local Realm`.
+#. Select the filename and destination where you want to save the file.
+#. Press the :guilabel:`Save` button.
 
-- Go to :guilabel:`File` > :guilabel:`Save data` and select :guilabel:`JSON`
-  or :guilabel:`Local Realm`.
-- Select the filename and destination where you want to save the file.
-- Press the :guilabel:`Save` button.
+Use the JSON File
+~~~~~~~~~~~~~~~~~
 
-Once you have saved the data, you can import it back into your app. 
+If you have saved the data as JSON, you can import it back into your app. 
+Use your preferred method to import the JSON into your app. 
 
-If you save it as JSON, you can use your preferred method to import the
-JSON into your app. 
+.. important:: "Flatted" files
+
+   When exporting to a JSON file, Realm Studio uses the 
+   `Flatted <https://www.npmjs.com/package/flatted>`_ package. If you want to 
+   open the file in another application, you will need to use ``Flatted.parse()``.
+
+Use the Realm File
+~~~~~~~~~~~~~~~~~~
 
 If you save the data as a realm file, and you haven't :ref:`modified 
 the schema <realm-studio-modify-schema>`, you can use that realm 

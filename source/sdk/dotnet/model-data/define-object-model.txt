@@ -1,0 +1,300 @@
+.. _dotnet-define-a-realm-object-schema:
+
+========================
+Object Models - .NET SDK
+========================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Create an Object Model
+----------------------
+Realm objects are regular C# classes that inherit from 
+:dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>` or 
+:dotnet-sdk:`EmbeddedObject <reference/Realms.EmbeddedObject.html>`. The 
+class itself defines the Realm schema.
+
+.. _dotnet-object-schema:
+
+Object Schema
+~~~~~~~~~~~~~
+
+An **object schema** is a configuration object that defines the properties and 
+relationships of a Realm object. Realm client 
+applications define object schemas with the native class implementation in their 
+respective language using the Object Schema.
+
+Object schemas specify constraints on object properties such as the data
+type of each property and whether or not a property is required. Schemas can 
+also define :ref:`relationships <dotnet-client-relationships>` between object 
+types in a realm.
+
+Every App has a :ref:`App Services Schema <dotnet-realm-schema>`
+composed of a list of object schemas for each type of object that the
+realms in that application may contain. Realm guarantees that all 
+objects in a realm conform to the
+schema for their object type and validates objects whenever they're
+created, modified, or deleted.
+
+.. _dotnet-property-annotations:
+.. _dotnet-attributes:
+
+Property Annotations
+--------------------
+Schema properties are standard C# properties on a ``RealmObject``. There are 
+several property annotations that you can use to more finely define how a Realm 
+handles a specific property.
+
+.. _dotnet-primary-key-example:
+.. _dotnet-primary-key:
+
+Primary Key
+~~~~~~~~~~~
+
+A **primary key** is a property that uniquely identifies an object. You can
+create a primary key with any of the following types (or their nullable counterparts):
+
+- ``ObjectId``
+- ``UUID``
+- ``string``
+- ``char``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+
+You may define a primary key on a **single property** for an 
+object type as part of the :ref:`object schema <dotnet-object-schema>`.
+Realm Database automatically indexes primary key properties, which
+allows you to efficiently read and modify objects based on their primary
+key. 
+
+If an object type has a primary key, then all objects of that type must
+include the primary key property with a value that is unique among
+objects of the same type in a realm.
+
+.. note::
+   
+   Once you assign a property as a primary key, you cannot change it.
+   
+The following example demonstrates how to designate a primary key in an object schema:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.primary-key.cs
+   :language: csharp
+
+.. seealso::
+
+   - :ref:`Usage Examples: Find a Specific Object by Primary Key <dotnet-find-a-specific-object-by-primary-key>`
+
+.. _dotnet-index-property:
+.. _dotnet-index-property-example:
+.. _dotnet-index-field:
+
+Indexes
+~~~~~~~
+
+**Indexes** support the efficient execution of queries in
+Realm Database. Without indexes, Realm Database must perform a
+*collection scan*, i.e. scan every document in a collection, to select
+those documents that match a query. If an appropriate index exists for a
+query, Realm Database can use the index to limit the number of
+documents that it must inspect.
+
+Indexes are special data structures that store a small portion of a
+realm's data in an easy to traverse form. The index stores the value
+of a specific property ordered by the value of the property. The ordering of
+the index entries supports efficient equality matches and range-based
+query operations.
+
+Adding an index can speed up some queries at the cost of slightly slower write
+times and additional storage and memory overhead. Indexes require space in your
+realm file, so adding an index to a property will increase disk space consumed
+by your realm file. Each index entry is a minimum of 12 bytes.
+
+You can index properties with the following types:
+
+- ``bool``
+- ``byte``
+- ``short``
+- ``int``
+- ``long``
+- ``DateTimeOffset``
+- ``char``
+- ``string``
+- ``ObjectId``
+- ``UUID``
+
+
+To index a property, use the :dotnet-sdk:`[Indexed] <reference/Realms.IndexedAttribute.html>`
+attribute:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.index.cs
+   :language: csharp
+
+
+.. _dotnet-required-field:
+.. _dotnet-optional-field:
+.. _dotnet-required-optional-property:
+
+Required and Optional Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In C#, value types are implicitly non-nullable, but can be made optional by appending 
+`?  <https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-value-types>`__.
+Reference types, such as ``string`` and ``byte[]``, are implicitly nullable and can be
+made required by annotating them with the ``[Required]`` attribute. Properties of types
+that inherit from ``RealmObject`` or ``EmbeddedObject`` are special and can always be
+null. Applying ``[Required]`` on such a property will result in a compilation error.
+
+You can use the ``[Required]`` attribute as seen in the following example:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.required.cs
+   :language: csharp
+
+.. _dotnet-default-field-values:
+
+Default Field Values
+~~~~~~~~~~~~~~~~~~~~
+
+You can use the built-in language features to assign a default value to a property. 
+In C#, you can assign a default value in the property declaration. 
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.default.cs
+   :language: csharp
+
+.. note:: Default Values and Nullability
+
+   While default values ensure that a newly created object cannot contain
+   a value of ``null`` (unless you specify a default value of ``null``),
+   they do not impact the nullability of a property. To make a property
+   non-nullable, see :ref:`Required Properties <dotnet-required-optional-property>`.
+
+.. _dotnet-ignore-a-property:
+.. _dotnet-ignore-property:
+
+Ignore a Property
+~~~~~~~~~~~~~~~~~
+
+If you don't want to save a property in your model to a realm, you can
+ignore that property. A property is ignored by default if it is not autoimplemented or 
+does not have a setter.
+
+Ignore a property from a Realm object model with the
+:dotnet-sdk:`[Ignored] <reference/Realms.IgnoredAttribute.html>` attribute:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.ignore.cs
+   :language: csharp
+.. _dotnet-rename-property:
+
+Rename a Property
+~~~~~~~~~~~~~~~~~
+
+By default, Realm Database uses the name defined in the model class
+to represent properties internally. In some cases you might want to change
+this behavior:
+
+- To make it easier to work across platforms, since naming conventions differ.
+- To change a property name in .NET without forcing a migration.
+
+Choosing an internal name that differs from the name used in model classes
+has the following implications:
+
+- Migrations must use the internal name when creating classes and properties.
+- Schema errors reported will use the internal name.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+attribute to rename a property:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.rename.cs
+   :language: csharp
+
+.. _dotnet-rename-object:
+
+Rename a Class
+~~~~~~~~~~~~~~
+
+By default, Realm Database uses the name defined in the model class
+to represent classes internally. In some cases you might want to change
+this behavior:
+
+- To support multiple model classes with the same simple name in different namespaces.
+- To make it easier to work across platforms, since naming conventions differ.
+- To use a class name that is longer than the 57 character limit enforced by Realm Database.
+- To change a class name in .NET without forcing a migration.
+
+Use the :dotnet-sdk:`[MapTo] <reference/Realms.MapToAttribute.html>`
+attribute to rename a class:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.rename-class.cs
+   :language: csharp
+
+
+.. _dotnet-customer-setter:
+
+Custom Setters
+~~~~~~~~~~~~~~
+
+Realm will not store a property with a custom setter. To use a custom setter, 
+store the property value in a private property and then 
+map that value to a public property with the custom setter. Realm will store the 
+private property, while you modify its value via the public property.
+In the following code, the private ``email`` property is stored in the realm, 
+but the public ``Email`` property, which provides validation, is not persisted:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.custom-setter.cs
+   :language: csharp
+
+.. _dotnet-omit-classes-from-schema:
+.. _dotnet-provide-subset-classes-schema:
+
+Omit Classes from your Realm Schema
+-----------------------------------
+
+By default, your application's Realm Schema includes all
+classes that inherit from ``RealmObject`` or ``EmbeddedObject``. If you only want to include a
+a subset of these classes in your Realm
+Schema, you can update your configuration to include the specific classes you want:
+
+.. literalinclude:: /examples/generated/dotnet/Objects.snippet.subset.cs
+   :language: csharp
+
+Data Binding and MVVM
+---------------------
+When building a Xamarin app using the 
+`MVVM <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>`_ 
+pattern, you often want proper data binding *in both directions* between the 
+View and ViewModel: if a property value changes in the UI, the ViewModel should 
+be notified, and vice-versa. ViewModels typically implement 
+the `INotifyPropertyChange <https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-5.0>`_ 
+interface to ensure this. 
+
+However, when you bind UI elements to a :dotnet-sdk:`RealmObject <reference/Realms.RealmObject.html>`, 
+this notification happens automatically, thus greatly simplifying your ViewModel code. 
+
+You can also bind a UI element to a realm :ref:`Live Query <dotnet-live-queries>`. 
+For example, if you bind a 
+`ListView <https://docs.microsoft.com/en-us/dotnet/api/xamarin.forms.listview?view=xamarin-forms>`_ 
+to a live query, then the list will update automatically when the results of the 
+query change; you do not need to implement the ``INotifyPropertyChange`` 
+interface.
+
+For example, if you bind a ListView to a query that returns all Product 
+objects, the list of available products updates automatically 
+when a product is added, changed, or removed from the realm:
+
+.. code-block:: csharp
+   :copyable: false
+
+   // Somewhere in your ViewModel
+   AllProducts = realm.All<Products>();
+
+.. code-block:: xaml
+   :copyable: false
+   
+   <!-- Somewhere in your View -->
+   <ListView ItemsSource="{Binding AllProducts}">
+

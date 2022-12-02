@@ -25,8 +25,8 @@ raw: ${prefix}/sdk/react-native/fundamentals/mongodb-realm-cloud -> ${base}/sdk/
 raw: ${prefix}/get-started/find-your-app-id -> ${base}/get-started/find-your-project-or-app-id/
 raw: ${prefix}/sdk/node/examples/open-and-close-a-local-realm -> ${base}/sdk/node/examples/open-and-close-a-realm/
 raw: ${prefix}/sdk/android/advanced-guides/migrations -> ${base}/sdk/android/examples/modify-an-object-schema/
-raw: ${prefix}/functions/upload-external-dependencies -> ${base}/functions/add-external-dependencies
-raw: ${prefix}/manage-apps/configure/import-realm-app -> ${base}/manage-apps/configure/update-realm-app
+raw: ${prefix}/functions/upload-external-dependencies -> ${base}/functions/add-external-dependencies/
+raw: ${prefix}/manage-apps/configure/import-realm-app -> ${base}/manage-apps/configure/update-realm-app/
 
 # App Structure V2 (https://jira.mongodb.org/browse/DOCSP-14491)
 
@@ -209,7 +209,6 @@ raw: ${prefix}/sdk/ios/troubleshooting -> ${base}/sdk/swift/test-and-debug/
 
 raw: ${prefix}/values-and-secrets/define-a-secret -> ${base}/values-and-secrets/define-and-manage-secrets/
 raw: ${prefix}/reference/terminating-and-reenabling-realm-sync/ -> ${base}/sync/pause-or-terminate-sync/
-raw: ${prefix}/values-and-secrets/define-a-secret -> ${base}/values-and-secrets/define-and-manage-secrets/
 
 # Sync Updates (https://jira.mongodb.org/browse/DOCSP-16313)
 
@@ -294,7 +293,7 @@ raw: ${prefix}/sync/optimize-sync-atlas-usage -> ${base}/sync/configure/optimize
 raw: ${prefix}/sync/partition-strategies -> ${base}/sync/data-access-patterns/partitions/
 raw: ${prefix}/sync/partitions -> ${base}/sync/data-access-patterns/partitions/
 raw: ${prefix}/sync/pause-or-terminate-sync -> ${base}/sync/configure/pause-or-terminate-sync/
-raw: ${prefix}/sync/permissions -> ${base}/sync/data-access-patterns/permissions
+raw: ${prefix}/sync/permissions -> ${base}/sync/data-access-patterns/permissions/
 raw: ${prefix}/sync/protocol -> ${base}/sync/learn/protocol/
 raw: ${prefix}/sync/rules -> ${base}/sync/data-access-patterns/permissions/
 raw: ${prefix}/sync/synced-schema-overview -> ${base}/sync/data-model/sync-schema-overview/
@@ -317,7 +316,6 @@ raw: ${prefix}/sdk/ios/fundamentals/write-transactions -> ${base}/sdk/swift/crud
 raw: ${prefix}/sdk/ios/fundamentals/realms -> ${base}/sdk/swift/realm-database/
 raw: ${prefix}/sdk/ios/fundamentals/live-queries -> ${base}/sdk/swift/crud/read/
 raw: ${prefix}/sdk/ios/fundamentals/realm-database -> ${base}/sdk/swift/realm-database/
-raw: ${prefix}/sdk/ios/examples -> ${base}/sdk/swift/examples/
 raw: ${prefix}/sdk/ios/data-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
 raw: ${prefix}/sdk/ios/data-types/map -> ${base}/sdk/swift/model-data/define-model/supported-types/
 raw: ${prefix}/sdk/ios/data-types/anyrealmvalue -> ${base}/sdk/swift/model-data/define-model/supported-types/
@@ -325,7 +323,6 @@ raw: ${prefix}/sdk/ios/data-types/collections -> ${base}/sdk/swift/model-data/de
 raw: ${prefix}/sdk/ios/data-types/mutablesets -> ${base}/sdk/swift/model-data/define-model/supported-types/
 raw: ${prefix}/sdk/ios/data-types/supported-property-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
 raw: ${prefix}/sdk/ios/data-types/embedded-objects -> ${base}/sdk/swift/model-data/define-model/relationships/
-raw: ${prefix}/sdk/ios/data-types -> ${base}/sdk/swift/model-data/define-model/supported-types/
 raw: ${prefix}/sdk/ios/advanced-guides/bundle -> ${base}/sdk/swift/realm-files/bundle-a-realm/
 raw: ${prefix}/sdk/ios/advanced-guides/encrypt-a-realm -> ${base}/sdk/swift/realm-files/encrypt-a-realm/
 raw: ${prefix}/sdk/ios/advanced-guides/threading -> ${base}/sdk/swift/crud/threading/
@@ -850,7 +847,7 @@ raw: ${prefix}/sdk/swift/integrations/tvos -> ${base}/sdk/swift/realm-files/tvos
 raw: ${prefix}/sdk/swift/upgrade-from-stitch-to-realm -> ${base}/sdk/swift/install/
 raw: ${prefix}/sdk/swift/event-library -> ${base}/sdk/swift/sync/event-library/
 raw: ${prefix}/sdk/swift/additional-examples -> ${base}/sdk/swift/realm-database/
-
+ 
 # Move RQL Reference to top level & make single source of truth
 
 raw: ${prefix}/reference/realm-query-language -> ${base}/realm-query-language/
@@ -931,3 +928,70 @@ raw: ${prefix}/sdk/react-native/advanced/encrypt -> ${base}/sdk/react-native/rea
 raw: ${prefix}/sdk/react-native/advanced/client-reset-data-recovery -> ${base}/sdk/react-native/sync/client-reset-data-recovery
 raw: ${prefix}/sdk/react-native/advanced/bundle -> ${base}/sdk/react-native/realm-database/bundle
 raw: ${prefix}/sdk/react-native/test-and-debug -> ${base}/sdk/react-native/test-and-debug/testing
+=======
+raw: ${prefix}/sdk/flutter/realm-database/data-types -> ${base}/sdk/flutter/model-data/data-types/
+raw: ${prefix}/sdk/flutter/realm-database/define-realm-object-schema -> ${base}/sdk/flutter/model-data/define-realm-object-schema/
+raw: ${prefix}/sdk/flutter/realm-database/update-realm-object-schema -> ${base}/sdk/flutter/model-data/update-realm-object-schema/
+raw: ${prefix}/sdk/flutter/realm-database/freeze -> ${base}/sdk/flutter/freeze/
+raw: ${prefix}/sdk/flutter/realm-database/react-to-changes -> ${base}/sdk/flutter/react-to-changes/
+raw: ${prefix}/sdk/flutter/realm-database/read-and-write-data -> ${base}/sdk/flutter/read-and-write-data/
+raw: ${prefix}/sdk/flutter/realm-database/bundle -> ${base}/sdk/flutter/realm-files/bundle/
+raw: ${prefix}/sdk/flutter/realm-database/compact -> ${base}/sdk/flutter/realm-files/compact/
+raw: ${prefix}/sdk/flutter/realm-database/open-and-close-a-realm -> ${base}/sdk/flutter/realm-files/configure-and-open/
+raw: ${prefix}/sdk/flutter/realm-database/encrypt -> ${base}/sdk/flutter/realm-files/encrypt/
+raw: ${prefix}/sdk/flutter/realm-database/database-internals -> ${base}/sdk/flutter/realm-database/
+
+# .NET SDK IA Refresh Nov. 2022
+raw: ${prefix}/sdk/dotnet/fundamentals -> ${base}/sdk/dotnet/realm-database/
+raw: ${prefix}/sdk/dotnet/fundamentals/live-queries -> ${base}/sdk/dotnet/realm-database/
+raw: ${prefix}/sdk/dotnet/fundamentals/object-models-and-schemas -> ${base}/sdk/dotnet/model-data/object-models-and-schemas/
+raw: ${prefix}/sdk/dotnet/fundamentals/realm-database -> ${base}/sdk/dotnet/realm-database/
+raw: ${prefix}/sdk/dotnet/fundamentals/realms -> ${base}/sdk/dotnet/realm-files/
+raw: ${prefix}/sdk/dotnet/fundamentals/schema-versions-and-migrations -> ${base}/sdk/dotnet/model-data/change-an-object-model/
+raw: ${prefix}/sdk/dotnet/examples -> ${base}/sdk/dotnet/
+raw: ${prefix}/sdk/dotnet/examples/encrypt-a-realm -> ${base}/sdk/dotnet/realm-files/encrypt-a-realm/
+raw: ${prefix}/sdk/dotnet/examples/read-and-write-data -> ${base}/sdk/dotnet/crud/read/
+raw: ${prefix}/sdk/dotnet/examples/sync-changes-between-devices -> ${base}/sdk/dotnet/sync/
+raw: ${prefix}/sdk/dotnet/data-types -> ${base}/sdk/dotnet/model-data/data-types/
+raw: ${prefix}/sdk/dotnet/advanced-guides/error-handling -> ${base}/sdk/dotnet/sync/handle-sync-errors/
+raw: ${prefix}/sdk/dotnet/examples/call-a-function -> ${base}/sdk/dotnet/app-services/call-a-function/
+raw: ${prefix}/sdk/dotnet/examples/connect-to-app-services-backend -> ${base}/sdk/dotnet/app-services/connect-to-app-services-backend/
+raw: ${prefix}/sdk/dotnet/examples/users/manage-user-api-keys -> ${base}/sdk/dotnet/app-services/manage-user-api-keys/
+raw: ${prefix}/sdk/dotnet/examples/mongodb-remote-access -> ${base}/sdk/dotnet/app-services/mongodb-remote-access/
+raw: ${prefix}/sdk/dotnet/fundamentals/application-services -> ${base}/sdk/dotnet/application-services/
+raw: ${prefix}/sdk/dotnet/fundamentals/query-engine -> ${base}/sdk/dotnet/crud/filter/
+raw: ${prefix}/sdk/dotnet/advanced-guides/threading -> ${base}/sdk/dotnet/crud/threading/
+raw: ${prefix}/sdk/dotnet/fundamentals/write-transactions -> ${base}/sdk/dotnet/crud/write-transactions/
+raw: ${prefix}/sdk/dotnet/examples/users/authenticate -> ${base}/sdk/dotnet/manage-users/authenticate/
+raw: ${prefix}/sdk/dotnet/examples/users/create-and-delete-users -> ${base}/sdk/dotnet/manage-users/create-and-delete-users/
+raw: ${prefix}/sdk/dotnet/examples/users/custom-user-data -> ${base}/sdk/dotnet/manage-users/custom-user-data/
+raw: ${prefix}/sdk/dotnet/examples/users/link-user-identities -> ${base}/sdk/dotnet/manage-users/link-user-identities/
+raw: ${prefix}/sdk/dotnet/examples/users/manage-email-password-users -> ${base}/sdk/dotnet/manage-users/manage-email-password-users/
+raw: ${prefix}/sdk/dotnet/examples/users/multi-user-applications -> ${base}/sdk/dotnet/manage-users/multi-user-applications/
+raw: ${prefix}/sdk/dotnet/examples/users/user-metadata -> ${base}/sdk/dotnet/manage-users/user-metadata/
+raw: ${prefix}/sdk/dotnet/examples/modify-an-object-schema -> ${base}/sdk/dotnet/model-data/change-an-object-model/
+raw: ${prefix}/sdk/dotnet/fundamentals/data-binding -> ${base}/sdk/dotnet/model-data/data-binding/
+raw: ${prefix}/sdk/dotnet/data-types/collections -> ${base}/sdk/dotnet/model-data/data-types/collections/
+raw: ${prefix}/sdk/dotnet/data-types/dictionaries -> ${base}/sdk/dotnet/model-data/data-types/dictionaries/
+raw: ${prefix}/sdk/dotnet/data-types/embedded-objects -> ${base}/sdk/dotnet/model-data/data-types/embedded-objects/
+raw: ${prefix}/sdk/dotnet/data-types/field-types -> ${base}/sdk/dotnet/model-data/data-types/field-types/
+raw: ${prefix}/sdk/dotnet/data-types/realm-integer -> ${base}/sdk/dotnet/model-data/data-types/realm-integer/
+raw: ${prefix}/sdk/dotnet/data-types/realm-value -> ${base}/sdk/dotnet/model-data/data-types/realm-value/
+raw: ${prefix}/sdk/dotnet/data-types/sets -> ${base}/sdk/dotnet/model-data/data-types/sets/
+raw: ${prefix}/sdk/dotnet/examples/define-a-realm-object-model -> ${base}/sdk/dotnet/model-data/define-object-model/
+raw: ${prefix}/sdk/dotnet/advanced-guides/manual-schema -> ${base}/sdk/dotnet/model-data/manual-schema/
+raw: ${prefix}/sdk/dotnet/fundamentals/relationships -> ${base}/sdk/dotnet/model-data/relationships/
+raw: ${prefix}/sdk/dotnet/examples/react-to-changes -> ${base}/sdk/dotnet/react-to-changes/
+raw: ${prefix}/sdk/dotnet/advanced-guides/bundle-a-realm -> ${base}/sdk/dotnet/realm-files/bundle-a-realm/
+raw: ${prefix}/sdk/dotnet/advanced-guides/compact-realm -> ${base}/sdk/dotnet/realm-files/compact-realm/
+raw: ${prefix}/sdk/dotnet/fundamentals/realm-encryption -> ${base}/sdk/dotnet/realm-files/encrypt-a-realm/
+raw: ${prefix}/sdk/dotnet/fundamentals/device-sync -> ${base}/sdk/dotnet/sync/
+raw: ${prefix}/sdk/dotnet/fundamentals/asymmetric-sync -> ${base}/sdk/dotnet/sync/asymmetric-sync/
+raw: ${prefix}/sdk/dotnet/advanced-guides/client-reset -> ${base}/sdk/dotnet/sync/client-reset/
+raw: ${prefix}/sdk/dotnet/examples/open-a-realm -> ${base}/sdk/dotnet/sync/configure-and-open-a-synced-realm/
+raw: ${prefix}/sdk/dotnet/advanced-guides/convert-realm -> ${base}/sdk/dotnet/sync/convert-realm/
+raw: ${prefix}/sdk/dotnet/examples/flexible-sync -> ${base}/sdk/dotnet/sync/flexible-sync/
+raw: ${prefix}/sdk/dotnet/examples/work-with-users -> ${base}/sdk/dotnet/work-with-users/
+raw: ${prefix}/sdk/dotnet/advanced-guides  -> ${base}/sdk/dotnet/
+raw: ${prefix}/sdk/dotnet/advanced-guides/debugging -> ${base}/sdk/dotnet/
+raw: ${prefix}/sdk/dotnet/advanced-guides/testing -> ${base}/sdk/dotnet/
