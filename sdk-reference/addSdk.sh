@@ -7,10 +7,10 @@ fi
 
 SDK=$1
 mkdir -p $SDK
-echo "<!doctype html>\
-<head>\
-  <meta http-equiv=\"refresh\" content=\"0; url=https://mongodb.com/docs/realm-sdks/$SDK/latest\" />\
-</head>\
-<body>\
-  <p><a href=\"https://mongodb.com/docs/realm-sdks/$SDK/latest\">Redirect</a></p>\
+echo "<!doctype html>\n\
+<head>\n\
+  <meta http-equiv=\"refresh\" content=\"0; url=https://mongodb.com/docs/realm-sdks/$SDK/latest\" />\n\
+</head>\n\
+<body>\n\
+  <p><a href=\"https://mongodb.com/docs/realm-sdks/$SDK/latest\">Redirect</a></p>\n\
 </body>" > $SDK/index.html
