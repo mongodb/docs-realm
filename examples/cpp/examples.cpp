@@ -73,11 +73,24 @@ TEST_CASE("open a default realm", "[realm]") {
 }
 
 TEST_CASE("open a realm at a path", "[realm]") {
+    // Construct an arbitrary path to use in the example
+    auto relative_realm_path = "custom_path_directory/";
+    std::filesystem::create_directories(relative_realm_path);
     // :snippet-start: open-realm-at-path
-    auto path = std::filesystem::current_path();
+    // Construct a path, and then convert it to a string so you can append a name for the realm file
+    auto path = std::filesystem::current_path().append(relative_realm_path).string();
+    /* Add a name for the file. When you provide a path, the `db_config` 
+     * constructor removes the last path element and makes that 
+     * the realm file name. */
+    path = path + "dog_objects";
     auto config = realm::db_config{ path = path };
-    auto realm = realm::open<Person, Dog>(config);
+    auto realm = realm::open<Dog>(config);
     // :snippet-end:
+    // Write something to the realm to confirm this worked as expected.
+    auto dog = Dog { .name = "Maui", .age = 2 };
+    realm.write([&realm, &dog] {
+        realm.add(dog);
+    });
 }
 
 TEST_CASE("open a synced realm", "[realm, sync]") {

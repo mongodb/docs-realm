@@ -108,7 +108,8 @@ Open a Realm at a File Path
 
 If you need to open a realm at a specific file path, you can construct a 
 :cpp-sdk:`db_config <structrealm_1_1db__config.html>` with a specific string 
-path for your realm file.
+path for your realm file. The ``db_config`` constructor removes the last 
+path element and uses it as the name for your realm file.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.open-realm-at-path.cpp
    :language: cpp
