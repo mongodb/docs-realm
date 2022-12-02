@@ -329,11 +329,13 @@ class Authenticate: XCTestCase {
         // :snippet-end:
         
         do {
+            // :snippet-start: get-user-access-token
             let app = App(id: YOUR_APP_SERVICES_APP_ID)
             let user = try await app.login(credentials: Credentials.anonymous)
-            let refreshedAccessToken = try await getValidAccessToken(user: user)
+            let accessToken = try await getValidAccessToken(user: user)
+            // :snippet-end:
         } catch {
-            print("Failed to log in user: \(error.localizedDescription)")
+            print("Failed to authenticate user: \(error.localizedDescription)")
         }
     }
 
