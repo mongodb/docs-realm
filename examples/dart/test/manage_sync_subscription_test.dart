@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:realm_dart/realm.dart';
 import './utils.dart';
 
-part 'manage_sync_session_test.g.dart';
+part 'manage_sync_subscription_test.g.dart';
 
 @RealmModel()
 class _Plane {
@@ -39,7 +39,7 @@ late Realm realm;
 late User currentUser;
 const APP_ID = "flutter-flexible-luccm";
 void main() {
-  group('Manage sync session', () {
+  group('Manage sync subscriptions', () {
     setUpAll(() async {
       final appConfig = AppConfiguration(APP_ID);
       app = App(appConfig);
