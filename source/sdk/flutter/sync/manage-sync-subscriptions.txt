@@ -1,14 +1,23 @@
-.. _flutter-manage-sync-session:
 
-===================================
-Manage a Sync Session - Flutter SDK
-===================================
+.. _flutter-flexible-sync-manage-subscriptions:
+
+=======================================
+Manage Sync Subscriptions - Flutter SDK
+=======================================
 
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
+
+Device Sync with Flexible Sync uses subscriptions and permissions to determine which
+data to sync between Atlas and your app.
+
+You can add, update, and remove query subscriptions to determine which data
+syncs to the client device.
+
+.. include:: /includes/note-flexible-sync-prerequisite.rst
 
 Before You Begin
 ----------------
@@ -19,9 +28,7 @@ To use Flexible Sync in a Flutter application:
 #. :ref:`Initialize the app client <flutter-connect-to-backend>`
 #. :ref:`Authenticate a user <flutter-authenticate>` in the client
 #. :ref:`Open the synced realm <flutter-open-synced-realm>` in the client
-#. :ref:`Add sync subscriptions <flutter-flexible-sync-manage-subscriptions>` in the client
 
-.. _flutter-flexible-sync-manage-subscriptions:
 
 Manage Your Subscriptions
 -------------------------
@@ -90,7 +97,6 @@ The ``MutableSubscriptionSet.add()`` method takes three arguments:
 - ``String name``: Optional. Name for the subscription that you can refer to.
 - ``bool update``:  Optional. When true, adding a subscription with an existing name 
   replaces the existing query with the new query. Only use with named subscriptions. 
-
 
 .. note:: Duplicate Subscriptions
 
