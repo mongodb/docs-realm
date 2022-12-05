@@ -11,4 +11,3 @@ streamListener = stream.listen((syncProgressEvent) {
     streamListener.cancel();
   }
 });
-await Future.delayed(Duration(seconds: 1));

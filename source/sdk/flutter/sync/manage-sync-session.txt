@@ -30,7 +30,7 @@ Prerequisites
 Before you can manage your sync session state, you must perform the following:
 
 #. :ref:`Configure Flexible Sync on the Atlas App Services backend <enable-flexible-sync>`
-#. :ref:`Add sync to your app <flutter-add-sync-to-app>`
+#. :ref:`Add Device Sync to your app <flutter-add-sync-to-app>`
 
 .. _flutter-sync-wait-for-changes:
 
@@ -40,7 +40,7 @@ Wait for Changes to Upload and Download
 To asynchronously wait for your local changes to upload to Atlas,
 call the :flutter-sdk:`Session.waitForUpload()
 <realm/Session/waitForUpload.html>`. To asynchronously wait for all changes on Atlas
-to sync to your synced realm, call :flutter-sdk:`Session.waitForDownload()
+to download to your synced realm, call :flutter-sdk:`Session.waitForDownload()
 <realm/Session/waitForDownload.html>`.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-upload-download.dart
@@ -117,12 +117,11 @@ with whether the network connection is ``connected``, ``disconnected``, ``connec
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.get-network-connection.dart
    :language: dart
 
-You can also monitor the state of the network connection with
+Monitor the state of the network connection with
 :flutter-sdk:`Session.connectionStateChanges <realm/Session/connectionStateChanges.html>`.
 This property returns a Stream of :flutter-sdk:`ConnectionStateChange <realm/ConnectionStateChange-class.html>`
 objects that updates when the network connection changes.
 You can access the current and previous ``ConnectionState`` from ``ConnectionStateChange``.
-You can listen to the Stream.
 
 .. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-network-connection.dart
    :language: dart

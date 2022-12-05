@@ -115,8 +115,8 @@ main() {
           streamListener.cancel();
         }
       });
-      await Future.delayed(Duration(seconds: 1));
       // :snippet-end:
+      await Future.delayed(Duration(seconds: 1));
       expect(isCalled, isTrue);
     });
     test("Monitor network connection", () async {
