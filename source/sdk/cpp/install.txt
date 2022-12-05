@@ -59,8 +59,11 @@ Install
       You can use CMake with the FetchContent module to manage Realm and its
       dependencies in your C++ project.
 
-      1. Create or modify your ``CMakeLists.txt`` in the root directory of your 
-         project. 
+      Create or modify your ``CMakeLists.txt`` in the root directory of your 
+      project:
+
+      1. Add ``Include(FetchContent)`` to include the FetchContent module 
+         in your project build.
       #. Use ``FetchContent_Declare`` to locate the Realm dependency 
          and specify the commit hash you want to use. 
       #. Use the ``FetchContent_MakeAvailable()`` command to check whether 
