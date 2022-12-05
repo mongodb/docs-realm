@@ -199,31 +199,29 @@ Running the above code should output something like the following:
 Add Device Sync (Optional)
 --------------------------
 
-This section illustrates how to authenticate with an Anonymous User, and open a
-Flexible Sync realm to begin syncing data between devices.
+This section illustrates how to authenticate with an Anonymous User and open a
+Flexible Sync realm to sync data between devices.
 
 Prerequisites
 ~~~~~~~~~~~~~
 
-The code snippets in this section require the following:
-
 - :ref:`An App Services App <create-a-realm-app>`
 - :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App Services UI
-- :ref:`Flexible Sync <enable-flexible-sync>` enabled with  :ref:`Development Mode <development-mode>` 
-   toggled on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
+- :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
+  on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
 
 Initialize the App
 ~~~~~~~~~~~~~~~~~~
 
-To use App Services features such as authentication and sync, you must first access
-your Atlas App Services App using your App ID. You can :ref:`find your App ID in
+To use App Services features, such as authentication and sync, you must first access
+your App Services App using your App ID. You can :ref:`find your App ID in
 the App Services UI <find-your-app-id>`.
 
 .. code-block:: javascript
 
   import Realm from 'realm';
 
-  // Returns the shared instance of the Realm app.
+   // Returns the shared instance of the Realm app.
    export function getRealmApp() {
       const appId = '<enter your App ID here>'; // Set App ID here.
       const appConfig = {
@@ -263,7 +261,7 @@ without providing any identifying information:
 Open a Synced Realm
 ~~~~~~~~~~~~~~~~~~~
 
-Once you have initialized your Atlas App Services App, authenticated a user, and
+After you have initialized your App, authenticated a user, and
 defined your object model, you can create a :js-sdk:`SyncConfiguration
 <Realm.App.Sync.html#~SyncConfiguration>`:
 
