@@ -82,8 +82,6 @@ bytes to be transferred.
 
 ``SyncSession.getProgressStream()`` takes two arguments:
 
-TODO: flutterify
-
 - A :flutter-sdk:`ProgressDirection <realm/ProgressDirection.html>`
   enum that can be set to ``upload`` or ``download``.
   This specifies the transfer direction (upload or download) tracked by the progress stream.
@@ -125,9 +123,11 @@ with whether the network connection is ``connected``, ``disconnected``, ``connec
 TODO: add example
 
 You can also monitor the state of the network connection with
-:flutter-sdk:`Session.connectionStateChanges() <realm/Session/connectionStateChanges.html>`.
-This method returns a Stream of ``ConnectionState`` objects that updates
-when the network connection changes.
+:flutter-sdk:`Session.connectionStateChanges <realm/Session/connectionStateChanges.html>`.
+This property returns a Stream of :flutter-sdk:`ConnectionStateChange <realm/ConnectionStateChange-class.html>`
+objects that updates when the network connection changes.
+You can access the current and previous ``ConnectionState`` from ``ConnectionStateChange``.
+You can listen to the Stream.
 
 TODO: add example
 

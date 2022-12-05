@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'manage_sync_session_test.dart';
+part of 'manage_sync_subscription_test.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
