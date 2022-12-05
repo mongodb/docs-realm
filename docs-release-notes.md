@@ -1,3 +1,56 @@
+# December 2, 2022
+
+## C++ SDK
+- Configure & Open a Realm: New page with tested code examples showing how to configure and open a realm
+
+## Flutter SDK
+- Install Realm for Flutter: Add a "Use Realm with the macOS App Sandbox" section with details about how to enable network requests while an app is in development
+- Manage Realm Database Files
+  - New section with landing page to organize content related to realm files
+  - Move relevant pages into section: Configure & Open a Realm, Bundle a Realm, Compact a Realm, Encrypt a Realm
+  - Delete a Realm: New page with a tested code example showing how to safely delete a realm
+- User Management/Get an Access Token: New page with tested code examples showing how to get and refresh a user access token
+- Sync Device Data/Add Sync to an App: New page showing the procedure & tested code examples for how to add Device Sync to an app
+- Add the Dart/Flutter example projects repository to the navigation table of contents
+
+## Kotlin SDK
+- Quick Start: Fix a broken API reference doc link
+
+## .NET SDK
+- Quick Start
+  - Update code examples to use `Task` model throughout, minor reorganization and removing outdated/unnecessary content
+  - Minor copy/paste fixes
+- CRUD/Filter and Sort Data: Add a new "Unsupported LINQ Operators" section listing LINQ operators that are not currently supported by the Realm .NET SDK
+- Manage Users/Authenticate Users: Add a new "Get a User Access Token" section with an example function showing how to get a refreshed user access token
+- Sync Data/Add Sync to an App: Fix a copy/paste artifact
+
+## React Native SDK
+- Install: Update "Prerequisites" to point to reactnative.dev docs, list a minimum required version, and link to the Compatability Chart in the realm-js repository
+- Quick Start: Update "Prerequisites" to refer to the React Native SDK instead of the Node SDK
+- Major Information Architecture refactor, including:
+  - Move "Fundamentals" content onto relevant topic-based pages
+  - Rearrange table of contents to present topic-based navigation instead of content-typed navigation
+  - Split long pages (Define a Realm Object Model, Read & Write Data, Sync Changes Between Devices) into sections with smaller pages
+
+## Swift SDK
+- Realm Files/Configure & Open a Realm: Change a link to point to a more relevant section of the docs
+- Model Data/Define an Object Model/Object Models: New "Remap a Property Name" section with a tested code example showing how to map a property name in your project to a different name - i.e. a snake-case Device Sync schema property name
+- Manage Users/Authenticate Users: New "Get a User Access Token" section with tested code examples showing how to get and refresh a user access token
+
+## Realm Studio
+- Modify a Realm File: Add information about Realm Studio using the "Flatted" package, and how to parse it
+
+## Other
+- Add an `include` to be shared across docs about how to find an App ID, linking to the relevant page in App Services, and add this to all of the SDK Quick Starts
+- Internal
+  - Add a new checklist to the PR template
+  - Add and update redirects from the .NET information architecture updates
+  - Update dependencies in the readability GitHub workflow
+  - Add a README.md to the C++ code example project explaining how to get set up, run the tests, and add examples
+  - Change the C++ example project to use the Realm C++ SDK as a CMake/FetchContent dependency instead of a git submodule
+  - Fix some broken external links causing Snooty build errors
+  - Various Snyk upgrades and version bumps in example apps
+
 # November 25, 2022
 
 ## Flutter SDK
