@@ -1,6 +1,6 @@
 name: Readability
 
-on: 
+on:
   pull_request:
     paths:
       - "source/sdk/**"
@@ -38,11 +38,10 @@ jobs:
             node ./docdoctor getReadabilityText "$file"
           done
       - name: Setup Python
-        uses: actions/setup-python@v4.1.0
+        uses: actions/setup-python@v4.3.0
         with:
           # We need Python version 3.5 or greater for rglob.
-          python-version: "3.6"
-          architecture: "x64"
+          python-version: "3.9"
       - name: Install textstat
         run: pip install textstat
       - name: Create scores directory and save PR number.

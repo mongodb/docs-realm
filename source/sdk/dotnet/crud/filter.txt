@@ -63,6 +63,13 @@ An expression consists of one of the following:
 - An operator
 - A value of any type used by realm (string, date, number, boolean, etc.)
 
+.. note:: 
+
+   Currently, the Realm .NET SDK does not support all of the LINQ operators. Refer 
+   to the :ref:`<dotnet-unsupported-linq>` section for a list of those unsupported 
+   operators.
+
+
 Comparison Operators
 ~~~~~~~~~~~~~~~~~~~~
 Value comparisons
@@ -223,6 +230,51 @@ table. Regex-like wildcards allow more flexibility in search.
    must be either ``StringComparison.OrdinalIgnoreCase`` or 
    ``StringComparison.Ordinal``. For the ``Like()`` method, the second 
    parameter is a boolean value (where "true" means "case sensitive").
+
+.. _dotnet-unsupported-linq:
+
+Unsupported LINQ Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+The following LINQ operators are not currently supported by the Realm .NET SDK:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Category
+     - Unsupported Operators
+
+   * - | Concatenation
+     -   - ``Concat``
+         - ``Join``. While ``Join`` is not supported, it is not needed with Realm. 
+           Instead of using keys in a Join statement, as you would in a traditional 
+           relational database, you can reference another type as a property.  
+           For more information, refer to :ref:`<dotnet-embedded-objects>`.
+         - ``GroupJoin``
+   
+   * - | Grouping
+     -   - ``GroupBy``
+
+   * - | Partitioning
+     -    - ``Take``
+          - ``Skip``
+          - ``TakeWhile``
+          - ``SkipWhile``
+  
+   * - | Projection
+     -   - ``SelectMany``
+         - ``Select``, with one exception: when used with the query syntax, ``Select`` 
+           is supported as long as you select the Realm object itself and not a 
+           derivative:
+           
+           ``var tasks = from t in realm.All<Task>() where t.Assignee == "Caleb" select t;``
+
+   * - | Sets
+     -   - ``Distinct``
+         - ``Union``
+         - ``Intersect``
+         - ``Except``
+
 
 .. _dotnet-realm-query-language:
 

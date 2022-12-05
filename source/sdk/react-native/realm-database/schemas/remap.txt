@@ -1,0 +1,30 @@
+.. _react-native-remap-a-property:
+
+===================================
+Remap a Property - React Native SDK
+===================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+
+Overview
+--------
+
+To use a different property name in your code than is stored in
+Realm Database, set ``mapTo`` to the name of the property as it appears in
+your code.
+
+.. example::
+   
+   A developer opens a realm using the following ``Dog`` object schema.
+   Realm Database stores each dog's first name with the snake case
+   ``first_name`` property. The schema maps the property to ``firstName`` for
+   objects used in JavaScript code.
+   
+   .. literalinclude:: /examples/Schemas/Mapped.js
+      :language: javascript
+      :emphasize-lines: 5

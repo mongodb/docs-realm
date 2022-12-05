@@ -10,7 +10,7 @@ Quick Start - .NET SDK
    :depth: 2
    :class: singlecol
 
-This Quick Start demonstrates how to use Realm Database with the Realm Swift SDK. 
+This Quick Start demonstrates how to use Realm Database with the Realm .NET SDK. 
 Before you begin, ensure you have :ref:`Installed the .NET SDK <dotnet-install>`.
 
 Import Realm
@@ -115,8 +115,6 @@ You can :ref:`watch a realm, collection, or object for changes
 :dotnet-sdk:`SubscribeForNotifications() <reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__>` 
 method.
 
-.. include:: /includes/serverless-watch-note.rst
-
 Be sure to retain the notification token returned by ``SubscribeForNotifications`` 
 as long as you want to continue watching for changes. When you are done, 
 call the :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
@@ -150,11 +148,11 @@ the ``ownerId`` as the unique field in the Flexible Sync configuration.
 .. _dotnet-quick-start-init-app:
 
 Initialize the App
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~ 
 
-To use App Services features such as authentication and sync, 
-access your App Services App using your App ID. You can :ref:`find your 
-App ID <find-your-app-id>` in the App Services UI. You then initialize your app: 
+.. include:: /includes/access-app-id.rst
+
+You then initialize your app: 
 
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.initialize-realm.cs
    :language: csharp
@@ -184,7 +182,7 @@ how to do this by calling ``LogOutAsync()``:
 .. literalinclude:: /examples/generated/dotnet/QuickStartExamples.snippet.logout.cs
    :language: csharp
 
-The Realm Swift SDK provides many additional ways to authenticate, register, and 
+The Realm .NET SDK provides many additional ways to authenticate, register, and 
 link users. For other authentication providers, see: :ref:`<dotnet-authenticate>`
 
 Open a Synced Realm
