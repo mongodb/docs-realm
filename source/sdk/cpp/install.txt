@@ -1,0 +1,126 @@
+.. _cpp-install:
+
+=======================
+Install Realm - C++ SDK
+=======================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
+The Realm C++ SDK enables client applications written in C++ to access data
+stored in realms and sync data with Atlas. This page details how to 
+install Realm in your project and get started.
+
+Requirements
+------------
+
+- Minimum C++ standard: C++17.
+- For development on macOS: Xcode 11.x or later.
+- Otherwise, we recommend git and `CMake <https://cmake.org>`_.
+
+Install
+-------
+
+.. tabs::
+
+   .. tab:: SwiftPM
+      :tabid: swiftpm
+
+      When developing with Xcode, you can use Swift Package Manager (SPM) to
+      install realm-cpp.
+
+      .. procedure::
+
+         .. step:: Add Package Dependency
+
+            In Xcode, select ``File`` > ``Add Packages...``.
+
+         .. step:: Specify the Repository
+
+            Copy and paste the following into the search/input box.
+
+            .. code-block:: sh
+
+               https://github.com/realm/realm-cpp
+
+         .. step:: Select the Package Products
+
+            Under :guilabel:`Package Product`, select ``realm-cpp-sdk``. Under
+            :guilabel:`Add to Target`, select the target you would like to add
+            Realm to. For example, the target might be the main executable of
+            your app. Click :guilabel:`Add Package`.
+
+   .. tab:: CMake
+      :tabid: cmake
+
+      You can use CMake with the FetchContent module to manage Realm and its
+      dependencies in your C++ project.
+
+      Create or modify your ``CMakeLists.txt`` in the root directory of your 
+      project. Use ``FetchContent_Declare`` to locate the Realm dependency 
+      and specify the commit hash you want to use. Then use the 
+      ``FetchContent_MakeAvailable()`` command to check whether the named 
+      dependencies have been populated, and if not, populate them. Finally, 
+      ``target_link_libraries()`` links the Realm dependency to your target
+      executable. 
+      
+      Set the minimum C++ standard to 17 with ``set(CMAKE_CXX_STANDARD 17)``.
+
+      .. code-block:: cmake
+         :emphasize-lines: 6, 12, 13
+
+         cmake_minimum_required(VERSION 3.15)
+
+         project(MyRealmCppProject)
+
+         # Minimum C++ standard
+         set(CMAKE_CXX_STANDARD 17)
+
+         # Include the FetchContent module so you can download the Realm C++ SDK
+         Include(FetchContent)
+
+         # Declare the version of the Realm C++ SDk you want to download
+         # While it's in alpha, use a git commit hash instead of a tagged release
+         FetchContent_Declare(
+           cpprealm
+           GIT_REPOSITORY https://github.com/realm/realm-cpp.git
+           GIT_TAG        f4f89d1c75d4c762a679f57d2e9f26e87ec1215b
+         )
+
+         # The MakeAvailable command ensures the named dependencies have been populated
+         FetchContent_MakeAvailable(cpprealm)
+
+         # Create an executable target called myApp with the source file main.cpp
+         add_executable(myApp main.cpp)
+
+         target_link_libraries(myApp PRIVATE cpprealm)
+
+      Run CMake in a gitignored directory, such as ``build``, to generate the build
+      configurations that you can then use to compile your app:
+
+      .. code-block:: bash
+
+         # build/ is in .gitignore
+         mkdir build
+         cd build
+         cmake .. # Create Makefile by reading the CMakeLists.txt in the parent directory (../)
+         make # Actually build the app
+
+      You can use CMake to generate more than simple Makefiles by using the ``-G``
+      flag. See the `CMake documentation <https://cmake.org/documentation/>`_ for more
+      information.
+
+Usage
+-----
+
+Include the Header
+~~~~~~~~~~~~~~~~~~
+
+Make the Realm C++ SDK available in your code by including the
+``cpprealm/sdk.hpp`` header in the translation unit where you want to use it:
+
+.. literalinclude:: /examples/generated/cpp/examples.snippet.includes.cpp
+   :language: cpp
