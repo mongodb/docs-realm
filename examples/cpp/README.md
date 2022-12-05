@@ -79,7 +79,7 @@ FetchContent_Declare(
 )
 ```
 
-To change the version of the SDK your build, change the value
+To change the version of the SDK we use in the build, change the value
 of the `GIT_TAG`. While in early Alpha, this is a commit hash, but it could 
 be a version tag once the SDK starts doing tagged releases. For more 
 information, refer to the 
@@ -124,7 +124,9 @@ Open `CMakeLists.txt` and add the new file name to the `add_executable` function
 add_executable(examples examples.cpp my_new_test_file.cpp)
 ```
 
-To verify your new test file works, [build the project](https://github.com/mongodb/docs-realm/tree/master/examples/cpp#build-the-project) again and then [run the tests](https://github.com/mongodb/docs-realm/tree/master/examples/cpp#run-the-tests) again.
+To verify your new test file works, [build the project](https://github.com/mongodb/
+docs-realm/tree/master/examples/cpp#build-the-project) again and then [run the tests]
+(https://github.com/mongodb/docs-realm/tree/master/examples/cpp#run-the-tests) again.
 
 ## Add a New Example
 
@@ -171,10 +173,12 @@ Does not match the generator used previously: Unix Makefiles
 Either remove the CMakeCache.txt file and CMakeFiles directory or choose a different binary directory.
 ```
 
-You can either run `cmake ../ -G Xcode` from a clean build directory, or remove the 
-files specified in the error. 
+To address this error, you can run `cmake ../ -G Xcode` from a clean build directory,
+create a new subdirectory for xcode (`/build/xcode`), or remove the files specified
+in the error. 
 
-On a successful build, you should see `examples.xcodeproj` in the `/build` directory.
+On a successful build, you should see `examples.xcodeproj` in the directory 
+Xcode builds to.
 
 Open the project in Xcode.
 
