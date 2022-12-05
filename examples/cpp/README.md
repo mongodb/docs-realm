@@ -124,9 +124,8 @@ Open `CMakeLists.txt` and add the new file name to the `add_executable` function
 add_executable(examples examples.cpp my_new_test_file.cpp)
 ```
 
-To verify your new test file works, [build the project](https://github.com/mongodb/
-docs-realm/tree/master/examples/cpp#build-the-project) again and then [run the tests]
-(https://github.com/mongodb/docs-realm/tree/master/examples/cpp#run-the-tests) again.
+To verify your new test file works, [build the project](https://github.com/mongodb/docs-realm/tree/master/examples/cpp#build-the-project) 
+again and then [run the tests](https://github.com/mongodb/docs-realm/tree/master/examples/cpp#run-the-tests) again.
 
 ## Add a New Example
 
