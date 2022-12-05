@@ -43,10 +43,8 @@ call the :flutter-sdk:`Session.waitForUpload()
 to sync to your synced realm, call :flutter-sdk:`Session.waitForDownload()
 <realm/Session/waitForDownload.html>`.
 
-TODO: flutterify
-
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.wait-for-changes-to-download-async-progress-notification.cs
-   :language: csharp
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.wait-upload-download.dart
+   :language: dart
 
 .. _flutter-pause-resume-sync:
 
@@ -64,10 +62,8 @@ The sync state of one session has no impact on other open sessions.
 
 The following code block demonstrates calling these methods:
 
-TODO: flutterify
-
-.. literalinclude:: /examples/generated/dotnet/DataSyncExamples.snippet.pause-synced-realm.cs
-   :language: csharp
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.pause-resume-sync.dart
+   :language: dart
 
 .. _flutter-monitor-sync-progress:
 
@@ -92,10 +88,8 @@ bytes to be transferred.
   ``forCurrentlyOutstandingWork`` for the notifications to continue until only
   the currently transferable bytes are synced.
 
-TODO: flutterify
-
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.upload-download-progress-notification.cs
-   :language: csharp
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-progress.dart
+   :language: dart
 
 Considerations when monitoring sync progress with ``SyncSession.getProgressStream()``:
 
@@ -120,7 +114,8 @@ You can get the state of the current network connection with
 This returns a :flutter-sdk:`ConnectionState <realm/ConnectionState.html>` enum
 with whether the network connection is ``connected``, ``disconnected``, ``connecting``.
 
-TODO: add example
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.get-network-connection.dart
+   :language: dart
 
 You can also monitor the state of the network connection with
 :flutter-sdk:`Session.connectionStateChanges <realm/Session/connectionStateChanges.html>`.
@@ -129,8 +124,5 @@ objects that updates when the network connection changes.
 You can access the current and previous ``ConnectionState`` from ``ConnectionStateChange``.
 You can listen to the Stream.
 
-TODO: add example
-
-.. literalinclude:: /examples/generated/dotnet/ProgressNotifications.snippet.connection-state.cs
-   :language: csharp
-
+.. literalinclude:: /examples/generated/flutter/manage_sync_session_test.snippet.monitor-network-connection.dart
+   :language: dart
