@@ -115,8 +115,6 @@ You can :ref:`watch a realm, collection, or object for changes
 :dotnet-sdk:`SubscribeForNotifications() <reference/Realms.IRealmCollection-1.html#Realms_IRealmCollection_1_SubscribeForNotifications_Realms_NotificationCallbackDelegate__0__>` 
 method.
 
-.. include:: /includes/serverless-watch-note.rst
-
 Be sure to retain the notification token returned by ``SubscribeForNotifications`` 
 as long as you want to continue watching for changes. When you are done, 
 call the :dotnet-sdk:`Dispose() <reference/Realms.Realm.html#Realms_Realm_Dispose>` method:
