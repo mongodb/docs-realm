@@ -31,7 +31,7 @@ a Realm object schema.
 You then have to generate the :flutter-sdk:`RealmObject <realm/RealmObject-mixin.html>`
 class that's used within your application.
 
-For more information, refer to :ref:`Define a Realm Object Schema - Flutter SDK <flutter-define-realm-object-schema>`.
+For more information, refer to :ref:`Define a Realm Object Schema <flutter-define-realm-object-schema>`.
 
 Create Data Model
 ~~~~~~~~~~~~~~~~~
@@ -132,7 +132,7 @@ to generate an instance of that realm:
 
 You can now use that realm instance to work with objects in the database.
 
-For more information, refer to :ref:`Open and Close a Realm - Flutter SDK <flutter-open-close-realm>`.
+For more information, refer to :ref:`Configure and Open a Realm <flutter-open-close-realm>`.
 
 Work with Realm Objects
 -----------------------
@@ -140,7 +140,7 @@ Work with Realm Objects
 Once you've opened a realm, you can create objects within it using a
 :flutter-sdk:`write transaction block <realm/Realm/write.html>`.
 
-For more information, refer to :ref:`Read and Write Data - Flutter SDK <flutter-read-write-data>`.
+For more information, refer to :ref:`Read and Write Data <flutter-read-write-data>`.
 
 Create Objects
 ~~~~~~~~~~~~~~
@@ -208,7 +208,7 @@ Once you've finished listening to changes, close the change listener to prevent 
 .. literalinclude:: /examples/generated/flutter/react_to_changes_test.snippet.cancel-subscription.dart
    :language: dart
 
-For more information, refer to :ref:`React to Changes - Flutter SDK <flutter-react-to-changes>`.
+For more information, refer to :ref:`React to Changes <flutter-react-to-changes>`.
 
 Close a Realm
 -------------
@@ -286,7 +286,7 @@ Open a Synced Realm
 Once you have enabled Device Sync and authenticated a user,
 open a synced realm with :flutter-sdk:`Configuration.flexibleSync() <realm/Configuration/flexibleSync.html>`.
 Then, pass the configuration to :flutter-sdk:`Realm() <realm/Realm-class.html>`
-to open an instance of the realm. The synced realm **must** hav a different
+to open an instance of the realm. The synced realm **must** have a different
 :flutter-sdk:`Configuration.path <realm/Configuration/path.html>`
 from other opened local-only realms.
 
