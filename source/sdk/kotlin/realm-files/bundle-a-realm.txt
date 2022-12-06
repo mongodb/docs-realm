@@ -60,10 +60,10 @@ To create and bundle a realm file with your application:
 
 #. In your production application,
    :ref:`open the realm from the bundled asset file
-   <java-open-a-realm-from-a-bundled-realm-file>`. For synced
+   <kotlin-open-a-realm-from-a-bundled-realm-file>`. For synced
    realms, you must supply the partition key.
 
-.. _java-create-a-realm-for-bundling:
+.. _kotlin-create-a-realm-for-bundling:
 
 Create a Realm File for Bundling
 --------------------------------
@@ -74,29 +74,27 @@ Create a Realm File for Bundling
 #. Open a realm and add the data you wish to bundle. If using a
    synchronized realm, allow time for the realm to fully sync.
 
-#. Use the :java-sdk:`writeCopyTo() <io/realm/Realm.html#writeCopyTo-java.io.File->` 
+#. Use the `writeCopyTo <{+kotlin-local-prefix+}io.realm.kotlin/-realm/write-copy-to.html>`__ 
    method to copy the realm to a new file:
 
-   .. tabs-realm-languages::
-
-      .. tab::
-         :tabid: kotlin
-
-         .. include:: /examples/generated/java/sync/BundleTest.snippet.copy-a-realm-file.kt.rst
-
-      .. tab::
-         :tabid: java
-
-         .. include:: /examples/generated/java/sync/BundleTest.snippet.copy-a-realm-file.java.rst
-
-   ``writeCopyTo()`` automatically compacts your realm to the smallest
+   The ``writeCopyTo()`` method automatically compacts your realm to the smallest
    possible size before copying.
 
-   .. tip:: Differences Between Synced Realms and Local-only Realms
+   .. tabs::
 
-      The above example uses a ``SyncConfiguration`` to configure a synchronized
-      realm. To create a copy of a local realm, configure your realm
-      with ``RealmConfiguration`` instead.
+      .. tab:: Local Realm
+         :tabid: copy_local
+
+         .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-local-realm.kt
+            :language: kotlin
+
+      .. tab:: Synced Realm
+         :tabid: copy_sync
+
+         When copying a Synced realm, you must ensure that there are no pending sync processes. You do this by calling `uploadAllLocalChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/upload-all-local-changes.html>`__ and `downloadAllServerChanges() <{+kotlin-sync-prefix+}io.realm.kotlin.mongodb.sync/-sync-session/download-all-server-changes.html>`__.
+
+         .. literalinclude:: /examples/generated/kotlin/BundleTest.snippet.bundle-synced-realm.kt
+            :language: kotlin
 
 .. _java-bundle-realm-file:
 
