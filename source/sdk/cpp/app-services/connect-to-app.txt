@@ -13,10 +13,9 @@ Connect to App Services - C++ SDK
 Overview
 --------
 
-The App client is the interface to the App Services backend. 
-.. It provides access to :ref:`authentication functionality
-.. <ios-authenticate-users>`, :ref:`functions <ios-call-a-function>`, and
-.. :ref:`sync management <ios-sync-changes-between-devices>`.
+The App client is the interface to the App Services backend.
+.. TODO: currently, only user things are in C++ SDK: register, login, void login
+.. Add user management info after user management page is up.
 
 Before You Begin
 ----------------
@@ -28,18 +27,14 @@ Before You Begin
 Access the App Client
 ---------------------
 
-Pass the App ID for your App, which you can :ref:`find in the Realm UI
-<find-your-app-id>`.
+#. :ref:`Find the App ID in the Realm UI <find-your-app-id>`.
+#. Create an ``App`` object with your App's App ID as the argument.
+   You use this ``App`` instance to access App Services features throughout 
+   your client application.
+
+.. TODO: Bluehawk a new sample?
+.. App class: https://www.mongodb.com/docs/realm-sdks/cpp/latest/classrealm_1_1App.html
 
 .. literalinclude:: /examples/generated/code/start/RealmApp.snippet.init-realm-app-client.swift
    :language: swift
 
-.. _cpp-app-client-configuration:
-
-Configuration
--------------
-
-You can pass a configuration object to ``RealmApp``:
-
-.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.realm-app-config.swift
-   :language: swift
