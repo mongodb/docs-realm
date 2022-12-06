@@ -38,16 +38,14 @@ To define a Realm object type, create a schema object that specifies the type's
 ``name`` and ``properties``. The type name must be unique among object types in
 a realm.
 
-.. example::
+The following code shows how to define an object model for a ``Task`` object. In this example:
+  
+- The ``primaryKey`` is the ``_id`` of type ``int`` (Another common type used for primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`).
+- The ``name`` field is required. The
+- The ``status`` is optional, denoted by the question mark immediately after the data type.
 
-   The following code shows how to define an object model for a ``Task`` object. In this example:
-     
-   - The ``primaryKey`` is the ``_id`` of type ``int`` (Another common type used for primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`).
-   - The ``name`` field is required. The
-   - The ``status`` is optional, denoted by the question mark immediately after the data type.
-    
-   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
+  :language: javascript
 
 .. _react-native-quickstart-local-open-a-realm:
 
@@ -68,12 +66,9 @@ Create Realm Objects
 Once you have opened a realm, you can create :ref:`objects
 <react-native-object-types>` in it. All writes must occur within a :ref:`Write
 transaction <react-native-write-transactions>`.
-
-.. example::
-
     
-   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
+  :language: javascript
 
 .. _react-native-quickstart-local-find-sort-and-filter-objects:
 
@@ -97,15 +92,13 @@ As with writes, any changes to a Realm object must occur within a
 :ref:`Write transaction <react-native-write-transactions>` block. 
 To modify an object, you update the object properties:
 
-.. example::
+In the following example, an application developer updates ``task1`` from the
+:ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
+example above. The developer begins progress on the "go grocery shopping
+task" and sets ``task1`` to "InProgress".
 
-   In the following example, an application developer updates ``task1`` from the
-   :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
-   example above. The developer begins progress on the "go grocery shopping
-   task" and sets ``task1`` to "InProgress".
-    
-   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
+  :language: javascript
 
 .. _react-native-quickstart-local-delete-an-object:
 
@@ -114,14 +107,12 @@ Delete an Object
 You can delete an object by calling the :js-sdk:`realm.delete()
 <Realm.html#delete>` method within a write transaction block:
 
-.. example::
+In the following example, an application developer deletes ``task1`` from the
+:ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
+example above. 
 
-   In the following example, an application developer deletes ``task1`` from the
-   :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
-   example above. 
-    
-   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
+  :language: javascript
 
 .. _react-native-quickstart-local-watch-a-collection:
 
@@ -134,13 +125,11 @@ You can :ref:`watch a realm, collection, or object for changes
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
 methods.
 
-.. example::
+In the following example, an application developer watches for changes to the
+``Task`` collection.
 
-   In the following example, an application developer watches for changes to the
-   ``Task`` collection.
-    
-   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
-     :language: javascript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
+  :language: javascript
 
 .. _react-native-quickstart-local-close-a-realm:
 
@@ -150,44 +139,6 @@ Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a real
 
 .. literalinclude:: /examples/generated/node/quickstart-local.snippet.close-a-realm.js
   :language: javascript
-
-
-.. _react-native-quickstart-local-complete:
-
-Complete Example
-----------------
-
-Code
-~~~~
-
-The following code is a fully runnable example that includes all of the concepts
-on this page.
-
-.. literalinclude:: /examples/generated/node/quickstart-local.snippet.complete.js
-  :language: javascript
-
-Output
-~~~~~~
-
-Running the above code should output something like the following:
-
-.. code-block:: shell
-
-   created two tasks: go grocery shopping & go exercise
-   
-   The lists of tasks are: go grocery shopping,go exercise
-   
-   The lists of open tasks are: go grocery shopping,go exercise
-   
-   The lists of tasks in alphabetical order are: go exercise,go grocery shopping
-   
-   modifiedTask: {
-     "_id": 1,
-     "name": "go grocery shopping",
-     "status": "InProgress"
-   }
-   
-   A task was deleted at the 0 index
 
 Add Device Sync (Optional)
 --------------------------
@@ -212,17 +163,14 @@ the App Services UI <find-your-app-id>`.
 
 .. code-block:: javascript
 
-  import Realm from 'realm';
+   import Realm from "realm";
 
-   // Returns the shared instance of the Realm app.
-   export function getRealmApp() {
-      const appId = '<enter your App ID here>'; // Set App ID here.
-      const appConfig = {
-        id: appId,
-        timeout: 10000,
-      };
-     return new Realm.App(appConfig);
-   }
+   const appId = "<yourAppId>"; // Set App ID here.
+   const appConfig = {
+     id: appId,
+     timeout: 10000
+   };
+   const app = new Realm.App(appConfig);
 
 Authenticate a User
 ~~~~~~~~~~~~~~~~~~~
@@ -235,7 +183,13 @@ without providing any identifying information:
 .. code-block:: javascript
    :emphasize-lines: 8,9
 
-   import Realm from 'realm';    
+   import Realm from "realm";
+
+   const appId = "<yourAppId>"; // Set App ID here.
+   const appConfig = {
+     id: appId,
+     timeout: 10000
+   }; 
 
    async function anonymousLogin() {
      let user;
@@ -273,9 +227,6 @@ name for the subscription to the :js-sdk:`add()
 <Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
 ``MutableSubscriptionSet``.
 
-The example below specifies a subscription named "User's Items" with
-all ``Item`` objects.
-
 .. code-block:: javascript
    :emphasize-lines: 8,9
 
@@ -286,13 +237,19 @@ all ``Item`` objects.
        initialSubscriptions: {
          update: (subs, realm) => {
            subs.add(
-             realm.objects("Item").filtered("name == 'User's Items'")
+             realm.objects("Item").filtered("ownerId == $0", app.currentUser.id)
            );
          },
        },
      },
    };
    const realm = await Realm.open(config);
+
+The syntax to :ref:`read <react-native-read-objects>`, :ref:`update <react-native-update-objects>`, 
+and :ref:`watch for changes <react-native-react-to-changes>` on a
+synced realm is identical to the syntax for non-synced realms above. While 
+you work with local data, a background thread efficiently integrates, 
+uploads, and downloads changesets.
 
 Next: Check out the Template Apps and Tutorial
 ----------------------------------------------
@@ -303,5 +260,5 @@ labeled ``react-native.todo.flex``, is a premade application that integrates
 Realm Database and Atlas Device Sync into a customizable android app.
 
 Alternatively, if you are interested in a guided experience, you can read our
-:ref:`Android with Kotlin SDK tutorial <react-native-tutorial>` that expands on
+:ref:`Realm React Native SDK tutorial <react-native-tutorial>` that expands on
 the template app.
