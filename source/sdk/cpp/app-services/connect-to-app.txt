@@ -1,0 +1,45 @@
+.. _cpp-connect-to-backend:
+
+====================================================
+Connect to App Services - C++ SDK
+====================================================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The App client is the interface to the App Services backend. 
+.. It provides access to :ref:`authentication functionality
+.. <ios-authenticate-users>`, :ref:`functions <ios-call-a-function>`, and
+.. :ref:`sync management <ios-sync-changes-between-devices>`.
+
+Before You Begin
+----------------
+
+#. :ref:`Create an App Services app <create-a-realm-app>`
+
+.. _cpp-access-the-app-client:
+
+Access the App Client
+---------------------
+
+Pass the App ID for your App, which you can :ref:`find in the Realm UI
+<find-your-app-id>`.
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.init-realm-app-client.swift
+   :language: swift
+
+.. _cpp-app-client-configuration:
+
+Configuration
+-------------
+
+You can pass a configuration object to ``RealmApp``:
+
+.. literalinclude:: /examples/generated/code/start/RealmApp.snippet.realm-app-config.swift
+   :language: swift
