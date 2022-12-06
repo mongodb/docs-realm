@@ -1,8 +1,9 @@
+.. _react-native-client-quick-start-local:
 .. _react-native-client-quick-start:
 
-========================================
-Quick Start with Sync - React Native SDK
-========================================
+==============================
+Quick Start - React Native SDK
+==============================
 
 .. contents:: On this page
    :local:
@@ -10,338 +11,129 @@ Quick Start with Sync - React Native SDK
    :depth: 2
    :class: singlecol
 
-.. TODO: Get rid of this page + combine local + sync quickstart
-
 Overview
 --------
 
 This page contains information to quickly get Realm Database
-integrated into your app. Before you begin, ensure you have:
+integrated into your app.
 
-- :ref:`Created an App <create-a-realm-app>`
-- :ref:`Enabled Device Sync <enable-sync>`
-- :ref:`Installed the React Native SDK <react-native-install>` to use with your Realm Native app.
+.. important::
 
-.. note:: Check Out the Tutorial
+   If you will be using :ref:`Sync <sync>` and other backend features of 
+   Realm in your app, see :ref:`<react-native-client-quick-start>`.
 
-   This page contains only the essential information that you need to set up an
-   Atlas App Services backend. If you prefer to follow a guided tutorial that
-   shows you step-by-step how to set up a working app, check out the :ref:`React
-   Native Tutorial <react-native-tutorial>` where you'll build a mobile task
-   tracker app.
-
-.. _react-native-quick-start-import:
+.. _react-native-quickstart-local-import-realm:
 
 Import Realm
 ------------
-
 At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
-.. tabs-realm-languages::
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.import-realm.js
+  :language: javascript
 
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         import Realm from 'realm';
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-.. _react-native-quick-start-init-app:
-
-Initialize the App
-------------------
-
-.. include:: /includes/access-app-id.rst
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         import Realm from 'realm';
-
-         // Returns the shared instance of the Realm app.
-         export function getRealmApp() {
-            const appId = '<enter your App ID here>'; // Set App ID here.
-            const appConfig = {
-              id: appId,
-              timeout: 10000,
-            };
-           return new Realm.App(appConfig);
-         }
-
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-.. _react-native-quick-start-define-model:
+.. _react-native-quickstart-local-define-an-object-model:
 
 Define Your Object Model
 ------------------------
+Your application's :ref:`object model <react-native-object-schemas>` defines the data
+that you can store within Realm Database. 
 
-If have not :ref:`enabled Device Sync <enable-sync>` or you enabled
-Sync with Development Mode in the App Services UI, you can
-define your :ref:`object model <react-native-object-schemas>` directly in code.
+To define a Realm object type, create a schema object that specifies the type's
+``name`` and ``properties``. The type name must be unique among object types in
+a realm.
 
-.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
+.. example::
 
-.. tabs-realm-languages::
+   The following code shows how to define an object model for a ``Task`` object. In this example:
+     
+   - The ``primaryKey`` is the ``_id`` of type ``int`` (Another common type used for primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`).
+   - The ``name`` field is required. The
+   - The ``status`` is optional, denoted by the question mark immediately after the data type.
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
+     :language: javascript
 
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         import {ObjectId} from 'bson';
-
-         class Task {
-           constructor({
-             name,
-             partition,
-             status = Task.STATUS_OPEN,
-             id = new ObjectId(),
-           }) {
-             this._partition = partition;
-             this._id = id;
-             this.name = name;
-             this.status = status;
-           }
-
-           static STATUS_OPEN = 'Open';
-           static STATUS_IN_PROGRESS = 'InProgress';
-           static STATUS_COMPLETE = 'Complete';
-
-           static schema = {
-             name: 'Task',
-             properties: {
-               _id: 'objectId',
-               _partition: 'string',
-               name: 'string',
-               status: 'string',
-             },
-             primaryKey: '_id',
-           };
-         }
-
-         export {Task};
-
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-.. _react-native-quick-start-authenticate:
-
-Authenticate a User
--------------------
-
-When you have enabled :ref:`anonymous authentication
-<anonymous-authentication>` in the App Services UI, users can immediately log
-into your app without providing any identifying information:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         :emphasize-lines: 8,9
-
-         import Realm from 'realm';
-
-         async function anonymousLogin() {
-           let user;
-           try {
-             const app = new Realm.App(appConfig); // pass in the appConfig variable that you created earlier
-
-             const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
-             user = await app.logIn(credentials);
-             return user;
-
-           } catch (error) {
-               throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
-           }
-         }
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-
-Realm provides many additional ways to authenticate, register, and link users.
-
-.. seealso::
-
-   :ref:`Authenticate a User <react-native-authenticate-users>`
-
-.. _react-native-quick-start-open-realm:
+.. _react-native-quickstart-local-open-a-realm:
 
 Open a Realm
 ------------
+To open a realm, pass a :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
 
-Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a
-user, you can open a synced :ref:`realm <react-native-realms>`:
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
+  :language: javascript
 
-.. tabs-realm-languages::
+.. _react-native-quickstart-local-create-realm-objects:
 
-   .. tab::
-      :tabid: javascript
+Create Realm Objects
+--------------------
 
-      .. code-block:: javascript
-         :emphasize-lines: 16
+Once you have opened a realm, you can create :ref:`objects
+<react-native-object-types>` in it. All writes must occur within a :ref:`Write
+transaction <react-native-write-transactions>`.
 
-         import Realm from 'realm';
-         async function openRealm() {
-           let user;
-           let realm;
-           try {
-             // ...
-             console.log(`Logged in with the user: ${user.identity}`);
-             const config = {
-               schema: [Task.schema],
-               sync: {
-                 user: user,
-                 partitionValue: "myPartition",
-               },
-             };
+.. example::
 
-             realm = await Realm.open(config);
-           } catch (error) {
-               throw `Error opening realm: ${JSON.stringify(error,null,2)}`;
-           }
-         }
+   In the following example, an application developer creates two tasks. One task
+   with a name of "go grocery shopping" and another with the name of "go
+   exercise". Both tasks have a status of "Open".
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
+     :language: javascript
 
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
+.. _react-native-quickstart-local-find-sort-and-filter-objects:
 
-.. _react-native-quick-start-crud:
+Find, Sort, and Filter Objects
+------------------------------
+The following code demonstrates how to:
 
-Create, Read, Update, and Delete Objects
-----------------------------------------
+- Query for all instances of the "Task" object type.
+- Filter the query to retrieve only the tasks that are "Open".
+- Sort the tasks by the name in an ascending order.
 
-Once you have opened a realm, you can modify it and its
-:ref:`objects <react-native-object-schemas>` in a :ref:`write transaction
-<react-native-realm-database-writes>` block.
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.find-sort-and-filter-objects.js
+  :language: javascript
 
+.. _react-native-quickstart-local-modify-an-object:
 
-To create a new Task run the method "realm.create()" inside the
-"realm.write()" callback. Pass the string "Task" as the first parameter to
-"realm.create()". Pass a task object as the second parameter.
+Modify an Object
+----------------
+As with writes, any changes to a Realm object must occur within a 
+:ref:`Write transaction <react-native-write-transactions>` block. 
+To modify an object, you update the object properties:
 
-.. tabs-realm-languages::
+.. example::
 
-   .. tab::
-      :tabid: javascript
+   In the following example, an application developer updates ``task1`` from the
+   :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
+   example above. The developer begins progress on the "go grocery shopping
+   task" and sets ``task1`` to "InProgress".
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
+     :language: javascript
 
-      .. code-block:: javascript
+.. _react-native-quickstart-local-delete-an-object:
 
-         realm.write(() => {
-           realm.create("Task", {
-             _id: new ObjectId(),
-             name: "go grocery shopping",
-             status: "Open",
-           });
-         });
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
+Delete an Object
+----------------
+You can delete an object by calling the :js-sdk:`realm.delete()
+<Realm.html#delete>` method within a write transaction block:
 
+.. example::
 
+   In the following example, an application developer deletes ``task1`` from the
+   :ref:`Create Realm Objects <react-native-quickstart-local-create-realm-objects>`
+   example above. 
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
+     :language: javascript
 
-You can retrieve a live :ref:`collection <react-native-results-collections>` of
-all tasks in the realm:
+.. _react-native-quickstart-local-watch-a-collection:
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         // Query realm for all instances of the "Task" type.
-         const tasks = realm.objects("Task");
-
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-
-
-You can also filter that collection using a :ref:`filter <react-native-client-query-engine>`:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         let filteredTasks = tasks.filtered("status = 'Open');
-         console.log(`filtered tasks: ${JSON.stringify(filteredTasks, null, 2)}\n`);
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-
-
-To modify a task, update its properties in a write transaction block:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         realm.write(() => {
-           task.status = 'InProgress';
-         });
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-
-Finally, you can delete a task:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         realm.write(() => {
-           // Delete the task from the realm.
-           realm.delete(task);
-
-           // Discard the reference.
-           task = null;
-         });
-
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
-
-.. _react-native-quick-start-watch:
-
-Watch for Changes
------------------
-
+Watch a Collection
+------------------
 You can :ref:`watch a realm, collection, or object for changes
 <react-native-change-notifications>` by registering event handlers with the
 :js-sdk:`Realm.addListener() <Realm.html#addListener>`
@@ -349,89 +141,174 @@ You can :ref:`watch a realm, collection, or object for changes
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
 methods.
 
+.. example::
 
-.. tabs-realm-languages::
+   In the following example, an application developer watches for changes to the
+   ``Task`` collection.
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
+     :language: javascript
 
-   .. tab::
-      :tabid: javascript
+.. _react-native-quickstart-local-close-a-realm:
 
-      .. code-block:: javascript
+Close a Realm
+-------------
+Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
-         export function watch(realm) {
-           // Query realm for all instances of the "Task" type.
-           const tasks = realm.objects('Task');
-
-           // Define the collection notification listener
-           function listener(tasks, changes) {
-             // Update UI in response to deleted objects
-             changes.deletions.forEach(index => {
-               // Deleted objects cannot be accessed directly,
-               // but we can update a UI list, etc. knowing the index.
-             });
-
-             // Update UI in response to inserted objects
-             changes.insertions.forEach(index => {
-               let insertedTasks = tasks[index];
-               // ...
-             });
-
-             // Update UI in response to modified objects
-             changes.modifications.forEach(index => {
-               let modifiedTask = tasks[index];
-               // ...
-             });
-           }
-
-           // Observe collection notifications.
-           return tasks.addListener(listener);
-         }
-
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.close-a-realm.js
+  :language: javascript
 
 
-To stop watching for changes, run the "realm.removeAllListeners()"
-method. Alternatively, to remove a specific listener, call
-"removeListener()" on the object that is being watched and pass in the
-listener function:
+.. _react-native-quickstart-local-complete:
 
-.. tabs-realm-languages::
+Complete Example
+----------------
 
-   .. tab::
-      :tabid: javascript
+Code
+~~~~
 
-      .. code-block:: javascript
+The following code is a fully runnable example that includes all of the concepts
+on this page.
 
-         // Unregister all listeners
-         realm.removeAllListeners();
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.complete.js
+  :language: javascript
 
-         // Unregister a specific listener:
-         tasks.removeListener(listener);
+Output
+~~~~~~
 
-.. .. tab::
-..    :tabid: typescript
+Running the above code should output something like the following:
 
-..    .. code-block:: typescript
+.. code-block:: shell
 
-.. _react-native-quick-start-logout:
+   created two tasks: go grocery shopping & go exercise
+   
+   The lists of tasks are: go grocery shopping,go exercise
+   
+   The lists of open tasks are: go grocery shopping,go exercise
+   
+   The lists of tasks in alphabetical order are: go exercise,go grocery shopping
+   
+   modifiedTask: {
+     "_id": 1,
+     "name": "go grocery shopping",
+     "status": "InProgress"
+   }
+   
+   A task was deleted at the 0 index
 
-Log Out
--------
+Add Device Sync (Optional)
+--------------------------
 
-Once logged in, you can log out:
+This section illustrates how to authenticate with an Anonymous User and open a
+Flexible Sync realm to sync data between devices.
 
-.. tabs-realm-languages::
+Prerequisites
+~~~~~~~~~~~~~
 
-   .. tab::
-      :tabid: javascript
+- :ref:`An App Services App <create-a-realm-app>`
+- :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App Services UI
+- :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
+  on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
 
-      .. code-block:: javascript
+Initialize the App
+~~~~~~~~~~~~~~~~~~
 
-         user.logOut();
+To use App Services features, such as authentication and sync, you must first access
+your App Services App using your App ID. You can :ref:`find your App ID in
+the App Services UI <find-your-app-id>`.
 
-..
-   .. tab::
-      :tabid: typescript
-      code-block:: typescript
+.. code-block:: javascript
+
+  import Realm from 'realm';
+
+   // Returns the shared instance of the Realm app.
+   export function getRealmApp() {
+      const appId = '<enter your App ID here>'; // Set App ID here.
+      const appConfig = {
+        id: appId,
+        timeout: 10000,
+      };
+     return new Realm.App(appConfig);
+   }
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+To authenticate and log in a user, call :js-sdk:`App.logIn()
+<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+<anonymous-authentication>` is enabled, users can immediately log into your app
+without providing any identifying information:
+
+.. code-block:: javascript
+   :emphasize-lines: 8,9
+
+   import Realm from 'realm';    
+
+   async function anonymousLogin() {
+     let user;
+     try {
+       const app = new Realm.App(appConfig); // pass in the appConfig variable that you created earlier
+
+       const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+       user = await app.logIn(credentials);
+       return user;
+
+     } catch (error) {
+         throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
+     }
+   }
+
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
+After you have initialized your App, authenticated a user, and
+defined your object model, you can create a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>`:
+
+If you have opened a local realm following the :ref:`Open a Realm
+<react-native-quickstart-local-open-a-realm>` section above, replace the
+``RealmConfiguration `` with the ``SyncConfiguration`` described below.
+
+Pass the authenticated user and the ``Item`` class to the ``SyncConfiguration``
+function to create a :ref:`Flexible Sync Configuration
+<react-native-flexible-sync>`.
+
+You need at least one subscription before you can read from or write to the
+realm. Use ``initialSubscriptions`` to define the initial subscription set when
+the Realm file is first opened. Pass the query you wish to subscribe to and a
+name for the subscription to the :js-sdk:`add()
+<Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
+``MutableSubscriptionSet``.
+
+The example below specifies a subscription named "User's Items" with
+all ``Item`` objects.
+
+.. code-block:: javascript
+   :emphasize-lines: 8,9
+
+   const config = {
+     sync: {
+       user: app.currentUser,
+       flexible: true,
+       initialSubscriptions: {
+         update: (subs, realm) => {
+           subs.add(
+             realm.objects("Item").filtered("name == 'User's Items'")
+           );
+         },
+       },
+     },
+   };
+   const realm = await Realm.open(config);
+
+Next: Check out the Template Apps and Tutorial
+----------------------------------------------
+
+Check out the :ref:`template app <template-apps>` to experiment with another
+quick way to start coding with the Realm React Native SDK. The React Native SDK template,
+labeled ``react-native.todo.flex``, is a premade application that integrates
+Realm Database and Atlas Device Sync into a customizable android app.
+
+Alternatively, if you are interested in a guided experience, you can read our
+:ref:`Android with Kotlin SDK tutorial <react-native-tutorial>` that expands on
+the template app.
