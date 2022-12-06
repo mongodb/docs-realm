@@ -7,6 +7,7 @@ C++ SDK (Alpha)
 .. toctree::
    :titlesonly:
 
+   Install Realm </sdk/cpp/install.txt>
    Configure & Open a Realm </sdk/cpp/realm-files/configure-and-open-a-realm>
    GitHub <https://github.com/realm/realm-cpp>
    API Reference (Doxygen) <https://www.mongodb.com/docs/realm-sdks/cpp/latest/>
@@ -28,107 +29,14 @@ Limitations
 The C++ SDK does not yet support all Realm database features or Atlas App
 Services integrations.
 
-Requirements
-------------
-
-- Minimum C++ standard: C++17.
-- For development on macOS: Xcode 11.x or later.
-- Otherwise, we recommend git and `CMake <https://cmake.org>`_.
-
 Install
 -------
 
-.. tabs::
-
-   .. tab:: SwiftPM
-      :tabid: swiftpm
-
-      When developing with Xcode, you can use Swift Package Manager (SPM) to
-      install realm-cpp.
-
-      .. procedure::
-
-         .. step:: Add Package Dependency
-
-            In Xcode, select ``File`` > ``Add Packages...``.
-
-         .. step:: Specify the Repository
-
-            Copy and paste the following into the search/input box.
-
-            .. code-block:: sh
-
-               https://github.com/realm/realm-cpp
-
-         .. step:: Select the Package Products
-
-            Under :guilabel:`Package Product`, select ``realm-cpp-sdk``. Under
-            :guilabel:`Add to Target`, select the target you would like to add
-            Realm to. For example, the target might be the main executable of
-            your app. Click :guilabel:`Add Package`.
-
-   .. tab:: CMake
-      :tabid: cmake
-
-      Add the ``realm/realm-cpp`` repo as a git submodule and pull it and its dependencies:
-
-      .. code-block:: bash
-
-         # cd /path/to/projectrepo/
-         git submodule add https://github.com/realm/realm-cpp.git
-         git submodule update --init --recursive
-
-      This adds a ``realm-cpp`` subdirectory.
-
-      Create or modify your ``CMakeLists.txt`` in the root directory of your project.
-      Use ``add_subdirectory()`` to locate the Realm dependency and
-      ``target_link_libraries()`` to link the Realm dependency to your target
-      executable. Set the minimum C++ standard to 20 with
-      ``set(CMAKE_CXX_STANDARD 20)``. You can also set it to 17 for C++17.
-
-      .. code-block:: cmake
-         :emphasize-lines: 6, 12, 13
-
-         cmake_minimum_required(VERSION 3.15)
-
-         project(MyRealmCppProject)
-
-         # Minimum C++ standard
-         set(CMAKE_CXX_STANDARD 20)
-
-         # Create an executable target called myApp with the source file main.cpp
-         # Specify the path to the realm subdirectory
-         add_executable(myApp main.cpp)
-
-         add_subdirectory(realm-cpp)
-         target_link_libraries(myApp PRIVATE cpprealm)
-
-      Run CMake in a gitignored directory, such as ``build``, to generate the build
-      configurations that you can then use to compile your app:
-
-      .. code-block:: bash
-
-         # build/ is in .gitignore
-         mkdir build
-         cd build
-         cmake .. # Create Makefile by reading the CMakeLists.txt in the parent directory (../)
-         make # Actually build the app
-
-      You can use CMake to generate more than simple Makefiles by using the ``-G``
-      flag. See the `CMake documentation <https://cmake.org/documentation/>`_ for more
-      information.
+For installation instructions and minimum requirements, refer to 
+:ref:`cpp-install`.
 
 Usage
 -----
-
-Include the Header
-~~~~~~~~~~~~~~~~~~
-
-Make the Realm C++ SDK available in your code by including the
-``cpprealm/sdk.hpp`` header:
-
-.. literalinclude:: /examples/generated/cpp/examples.snippet.includes.cpp
-   :language: cpp
 
 Define Your Data Model
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -146,7 +54,6 @@ declared in the schema.
 
 .. literalinclude:: /examples/generated/cpp/examples.snippet.define-models.cpp
    :language: cpp
-
 
 Use Realm
 ~~~~~~~~~
