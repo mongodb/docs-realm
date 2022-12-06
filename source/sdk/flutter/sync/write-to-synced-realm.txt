@@ -1,0 +1,110 @@
+.. _flutter-write-synced-realm:
+
+==========================================
+Write Data to a Synced Realm - Flutter SDK
+==========================================
+
+When writing data to a synced realm using Flexible Sync, you can use the same APIs
+as writing to a local realm database. However, there are some differences
+in behavior to keep in mind as you develop your application.
+For more information on reading and writing data to a realm,
+refer to the page https://www.mongodb.com/docs/realm/sdk/flutter/read-and-write-data/.
+
+Examples on This Page
+---------------------
+
+The examples on this page use the following schema, realm, and subscription query.
+
+.. code-block:: dart
+
+   // The rest of the example uses RealmObjects generated from these RealmModels
+   @RealmModel()
+   class _Car {
+      @PrimaryKey()
+      late ObjectId id;
+
+      late String make;
+      late String? model;
+      late int? miles;
+   }
+
+   // ... instantiate App and log in user
+
+   final app = App(AppConfiguration(APP_ID));
+   final user = await app.logIn(Credentials.anonymous());
+   final config = Configuration.flexibleSync([Car.schema], user);
+   final realm = Realm(config);
+
+   // Add subscriptions
+   realm.subscriptions.update((mutableSubscriptions) {
+      // Get Cars from Atlas that match the Realm Query Language query.
+      // Uses the queryable field `miles`.
+      final newCarQuery = realm.query<Car>("miles < 100 OR miles == \$0", [null]);
+      mutableSubscriptions.add(newCarQuery, "new-car-subscription");
+   });
+   await realm.subscriptions.waitForSynchronization();
+
+Write to a Synced Realm
+-----------------------
+
+When you write to a synced realm, your write operations must match the query
+in the sync subscription. If your write operation doesn't match the subscription,
+the write fails with a compensating write error.
+To learn more about compensating write errors and how to avoid them,
+refer to the :ref:`Compensating Writes <flutter-compensating-writes>` section.
+
+.. code-block:: dart
+
+   realm.write((){
+    // `oldCar` is initially written to the realm, then later removed
+    // in a compensating write when the server processes the write.
+    // This is because the `miles` property of `oldCar` doesn't match
+    // the subscription query, which is only for cars with less than 100 miles.
+    final oldCar = Car(ObjectId(), 'Honda', miles: 90000);
+    // `newCar` is written to the realm and synced to Atlas because it's data
+    // matches the subscription query.
+    final newCar = Car(ObjectId(), 'Toyota', miles: 2);
+    realm.add(newCar);
+   });
+
+.. _flutter-compensating-writes:
+
+Compensating Writes
+-------------------
+
+Compensating write errors occur when you write data to a realm locally
+that doesn't align with the realm's sync subscriptions.
+
+Because the local realm has no concept of "illegal" writes,
+the write always initially succeeds locally.
+Upon sync, the server will notice the illegal write. The server then undoes the change.
+The undo operation, called a "compensating write", syncs back to the client
+so the client's realm no longer has the illegal write.
+Any local writes to a given object between an illegal write to that object
+and the corresponding compensating write will be lost.
+
+TODO: find out if compensating writes also relates to query filters
+
+To learn more about compensating write errors and other Device Sync error types,
+refer to :ref:`sync-errors` in the App Services documentation.
+
+.. code-block:: dart
+
+   final carId = ObjectId();
+   realm.write(() {
+    // `oldCar` is initially written to the realm, then later removed
+    // in a compensating write when the server processes the write.
+    // This is because the `miles` property of `oldCar` doesn't match
+    // the subscription query, which is only for cars with less than 100 miles.
+    final oldCar = Car(carId, 'Honda', miles: 90000);
+    realm.add(oldCar);
+   });
+
+   // Let changes sync to and from server
+   await realm.syncSession.waitForUpload();
+   await realm.syncSession.waitForDownload();
+
+   final noCar = realm.find(carId);
+   // The Car is no longer in the realm because of the compensating write
+   // from the server.
+   expect(noCar, isNull);
