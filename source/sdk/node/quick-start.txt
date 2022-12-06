@@ -1,8 +1,9 @@
+.. _node-client-quick-start-local:
 .. _node-client-quick-start:
 
-===================================
-Quick Start with Sync - Node.js SDK
-===================================
+=========================
+Quick Start - Node.js SDK
+=========================
 
 .. contents:: On this page
    :local:
@@ -14,408 +15,126 @@ Overview
 --------
 
 This page contains information to quickly get Realm Database
-integrated into your app. Before you begin, ensure you have:
+integrated into your app.
 
-- :ref:`Created an App <create-a-realm-app>`
-- :ref:`Enabled Device Sync <enable-sync>`
-- :ref:`Installed the Node SDK <node-install>`
+.. important::
 
-.. _node-quick-start-import:
+   If you will be using :ref:`Sync <sync>` and other backend features of 
+   Realm in your app, see :ref:`<node-client-quick-start>`.
+
+.. _node-quickstart-local-import-realm:
 
 Import Realm
 ------------
-
 At the top of your source files where you want to use Realm, add
 the following line to import the SDK.
 
-.. tabs-realm-languages::
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.import-realm.js
+  :language: javascript
 
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         const Realm = require("realm");
-   
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         import * as Realm from "realm";
-
-.. _node-quick-start-init-app:
-
-Initialize the App
-------------------
-
-.. include:: /includes/access-app-id.rst
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         const app = new Realm.App({ id: "<Your App ID>" });
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         const app = new Realm.App({ id: "<Your App ID>" });
-
-.. _node-quick-start-define-model:
+.. _node-quickstart-local-define-an-object-model:
 
 Define Your Object Model
 ------------------------
+Your application's :ref:`object model <node-object-schemas>` defines the data
+that you can store within Realm Database. 
 
-If you have not :ref:`enabled Device Sync <enable-sync>` or you enabled
-Sync with Development Mode, you can define your :ref:`object
-model <node-object-schemas>` directly in code.
+To define a Realm object type, create a schema object that specifies the type's
+``name`` and ``properties``. The type name must be unique among object types in
+a realm. For details on how to define specific properties, see :ref:`Define
+Object Properties <node-define-a-property>`.
 
-.. include:: /includes/note-get-schema-ui-dev-mode-disabled.rst
+.. example::
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         const TaskSchema = {
-           name: 'Task',
-           properties: {
-             _id: 'objectId',
-             _partition: 'string?',
-             name: 'string',
-             status: 'string',
-           },
-           primaryKey: '_id',
-         };
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         import BSON from 'bson';
-         
-         type Task = {
-           _id: BSON.ObjectId;
-           _partition?: string;
-           name: string;
-           status: string;
-         };
-         
-         const TaskSchema = {
-           name: 'Task',
-           properties: {
-             _id: 'objectId',
-             _partition: 'string?',
-             name: 'string',
-             status: 'string',
-           },
-           primaryKey: '_id',
-         };
-
-.. _node-quick-start-authenticate:
-
-Authenticate a User
--------------------
-
-To authenticate and log in a user, call :js-sdk:`App.logIn()
-<Realm.App.html#logIn>`. When :ref:`anonymous authentication
-<anonymous-authentication>` is enabled, users can immediately log into your app
-without providing any identifying information:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         :emphasize-lines: 7, 9
-         
-         const app = new Realm.App({ id: "<Your App ID>" });
-         async function handleLogin() {
-           // Create a Credentials object to identify the user.
-           // Anonymous credentials don't have any identifying information, but other
-           // authentication providers accept additional data, like a user's email and
-           // password.
-           const credentials = Realm.Credentials.anonymous();
-           // You can log in with any set of credentials using `app.logIn()`
-           const user = await app.logIn(credentials);
-           console.log(`Logged in with the user id: ${user.id}`);
-         };
-         handleLogin().catch(err => {
-           console.error("Failed to log in:", err)
-         });
+   The following code shows how to define an object model for a ``Task`` object. In this example:
+     
+   - The ``primaryKey`` is the ``_id`` of type ``int`` (Another common type used for primary keys is :js-sdk:`ObjectId <Realm.Object.html#objectId>`).
+   - The ``name`` field is required. The
+   - The ``status`` is optional, denoted by the question mark immediately after the data type.
     
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         :emphasize-lines: 7, 9
-         
-         const app = new Realm.App({ id: "<Your App ID>" });
-         async function handleLogin() {
-           // Create a Credentials object to identify the user.
-           // Anonymous credentials don't have any identifying information, but other
-           // authentication providers accept additional data, like a user's email and
-           // password.
-           const credentials = Realm.Credentials.anonymous();
-           // You can log in with any set of credentials using `app.logIn()`
-           const user = await app.logIn(credentials);
-           console.log(`Logged in with the user id: ${user.id}`);
-         };
-         handleLogin().catch(err => {
-           console.error("Failed to log in:", err)
-         });
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.define-an-object-model.js
+     :language: javascript
 
-.. seealso::
-
-   :doc:`Authenticate a User </sdk/node/examples/authenticate-users/>`
-.. _node-quick-start-open-realm:
+.. _node-quickstart-local-open-a-realm:
 
 Open a Realm
 ------------
+To open a realm, pass a :js-sdk:`Realm.Configuration
+<Realm.html#~Configuration>` object to either :js-sdk:`Realm.open()
+<Realm.html#.open>` or :js-sdk:`new Realm() <Realm.html>`.
 
-Once you have :ref:`enabled Device Sync <enable-sync>` and authenticated a user,
-you can open a synced :ref:`realm <node-realms>` by calling
-:js-sdk:`Realm.open() <Realm.html#.open>`:
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.open-a-realm.js
+  :language: javascript
 
-.. tabs-realm-languages::
+.. _node-quickstart-local-create-realm-objects:
 
-   .. tab::
-      :tabid: javascript
+Create Realm Objects
+--------------------
 
-      .. code-block:: javascript
-         :emphasize-lines: 8-14
+Once you have opened a realm, you can create :ref:`objects
+<node-object-types>` in it. All writes must occur within a :ref:`Write
+transaction <node-write-transactions>`.
 
-         const app = new Realm.App({ id: "<Your App ID>" });
-         async function run() {
-           await app.logIn(new Realm.Credentials.anonymous());
-           // When you open a synced realm, the SDK automatically
-           // creates the realm on the device (if it didn't exist already) and
-           // syncs pending remote changes as well as any unsynced changes made
-           // to the realm on the device.
-           const realm = await Realm.open({
-             schema: [TaskSchema],
-             sync: {
-               user: app.currentUser,
-               partitionValue: "myPartition",
-             },
-           });
-           
-           // The myPartition realm is now synced to the device. You can
-           // access it through the `realm` object returned by `Realm.open()`
-         }
-         run().catch(err => {
-           console.error("Failed to open realm:", err)
-         });
-   
-   
-   .. tab::
-      :tabid: typescript
+.. example::
 
-      .. code-block:: typescript
-         :emphasize-lines: 8-14
+   In the following example, an application developer creates two tasks. One task
+   with a name of "go grocery shopping" and another with the name of "go
+   exercise". Both tasks have a status of "Open".
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
+     :language: javascript
 
-         const app = new Realm.App({ id: "<Your App ID>" });
-         async function run() {
-           await app.logIn(new Realm.Credentials.anonymous());
-           // When you open a synced realm, the SDK automatically
-           // creates the realm on the device (if it didn't exist already) and
-           // syncs pending remote changes as well as any unsynced changes made
-           // to the realm on the device.
-           const realm = await Realm.open({
-             schema: [TaskSchema],
-             sync: {
-               user: app.currentUser?,
-               partitionValue: "myPartition",
-             },
-           });
-           
-           // The myPartition realm is now synced to the device. You can
-           // access it through the `realm` object returned by `Realm.open()`
-         }
-         run().catch(err => {
-           console.error("Failed to open realm:", err)
-         });
+.. _node-quickstart-local-find-sort-and-filter-objects:
 
-.. seealso::
+Find, Sort, and Filter Objects
+------------------------------
+The following code demonstrates how to:
 
-   :ref:`Sync Changes Between Devices <node-sync-changes-between-devices>`
-   
-.. _node-quick-start-crud:
+- Query for all instances of the "Task" object type.
+- Filter the query to retrieve only the tasks that are "Open".
+- Sort the tasks by the name in an ascending order.
 
-Create, Read, Update, and Delete Objects
-----------------------------------------
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.find-sort-and-filter-objects.js
+  :language: javascript
 
-Once you have opened a realm, you can modify it and its :ref:`objects
-<node-object-schemas>` in a :ref:`write transaction <node-realm-database-writes>`
-block.
-
-Create New Objects
-~~~~~~~~~~~~~~~~~~
-
-To create a new object, start a new transaction by calling
-:js-sdk:`Realm.write() <Realm.html#write>` and then call :js-sdk:`Realm.create()
-<Realm.html#create>` in the transaction callback function:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         realm.write(() => {
-           const newTask = realm.create("Task", {
-             _id: new BSON.ObjectID(),
-             name: "go grocery shopping",
-             status: "Open",
-           });
-         });
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         realm.write(() => {
-           const newTask = realm.create<Task>("Task", {
-             _id: new BSON.ObjectID(),
-             name: "go grocery shopping",
-             status: "Open",
-           });
-         });
-
-Get a Collection of Objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can retrieve a live :ref:`collection <node-results-collections>` that
-contains all objects of a given type in the realm:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         // Query realm for all instances of the "Task" type.
-         const tasks = realm.objects("Task");
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         // Query realm for all instances of the "Task" type.
-         const tasks = realm.objects<Task>("Task");
-
-Filter & Query Collections
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can filter the objects in a collection by providing a :ref:`query
-<node-client-query-engine>`:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         const tasks = realm.objects("Task");
-         const openTasks = tasks.filtered("status = 'Open'");
-         console.log(`${openTasks.length} tasks are Open (Total tasks: ${tasks.length})`);
-
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         const tasks = realm.objects<Task>("Task");
-         const openTasks = tasks.filtered("status = 'Open'");
-         console.log(`${openTasks.length} tasks are Open (Total tasks: ${tasks.length})`);
+.. _node-quickstart-local-modify-an-object:
 
 Modify an Object
-~~~~~~~~~~~~~~~~
+----------------
+As with writes, any changes to a Realm object must occur within a 
+:ref:`Write transaction <node-write-transactions>` block. 
+To modify an object, you update the object properties:
 
-To modify an object, update its properties in a :js-sdk:`Realm.write()
-<Realm.html#write>` transaction block:
+.. example::
 
-.. tabs-realm-languages::
+   In the following example, an application developer updates ``task1`` from the
+   :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+   example above. The developer begins progress on the "go grocery shopping
+   task" and sets ``task1`` to "InProgress".
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.modify-an-object.js
+     :language: javascript
 
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-
-         const tasks = realm.objects("Task");
-         const someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
-         realm.write(() => {
-           someTask.status = 'InProgress';
-         });
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         const tasks = realm.objects<Task>("Task");
-         const someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
-         realm.write(() => {
-           someTask.status = 'InProgress';
-         });
+.. _node-quickstart-local-delete-an-object:
 
 Delete an Object
-~~~~~~~~~~~~~~~~
+----------------
+You can delete an object by calling the :js-sdk:`realm.delete()
+<Realm.html#delete>` method within a write transaction block:
 
-To delete an object, pass it to :js-sdk:`Realm.delete() <Realm.html#delete>` in
-a :js-sdk:`Realm.write() <Realm.html#write>` transaction block:
+.. example::
 
-.. tabs-realm-languages::
+   In the following example, an application developer deletes ``task1`` from the
+   :ref:`Create Realm Objects <node-quickstart-local-create-realm-objects>`
+   example above. 
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.delete-an-object.js
+     :language: javascript
 
-   .. tab::
-      :tabid: javascript
+.. _node-quickstart-local-watch-a-collection:
 
-      .. code-block:: javascript
-
-         const tasks = realm.objects("Task");
-         let someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
-         realm.write(() => {
-           // Delete the task from the realm.
-           realm.delete(someTask);
-           // Discard the reference.
-           task = null;
-         });
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         const tasks = realm.objects<Task>("Task");
-         let someTask = tasks.filtered("status = 'Open' LIMIT(1)")[0];
-         realm.write(() => {
-           // Delete the task from the realm.
-           realm.delete(someTask);
-           // Discard the reference.
-           someTask = null;
-         });
-
-.. _node-quick-start-watch:
-
-Watch for Changes
------------------
-
+Watch a Collection
+------------------
 You can :ref:`watch a realm, collection, or object for changes
 <node-change-notifications>` by registering event handlers with the
 :js-sdk:`Realm.addListener() <Realm.html#addListener>`
@@ -423,148 +142,25 @@ You can :ref:`watch a realm, collection, or object for changes
 :js-sdk:`Collection.addListener() <Realm.Collection.html#addListener>`
 methods.
 
+.. example::
 
-.. tabs-realm-languages::
+   In the following example, an application developer watches for changes to the
+   ``Task`` collection.
+    
+   .. literalinclude:: /examples/generated/node/quickstart-local.snippet.watch-a-collection.js
+     :language: javascript
 
-   .. tab::
-      :tabid: javascript
+.. _node-quickstart-local-close-a-realm:
 
-      .. code-block:: javascript
+Close a Realm
+-------------
+Call the :js-sdk:`realm.close() <Realm.html#close>` method when done with a realm instance to avoid memory leaks.
 
-         // Query realm for all instances of the "Task" type.
-         const tasks = realm.objects("Task");
- 
-         // Define the collection notification listener
-         function listener(tasks, changes) {
-           // Update UI in response to deleted objects
-           changes.deletions.forEach((index) => {
-             // Deleted objects cannot be accessed directly,
-             // but we can update a UI list, etc. knowing the index.
-           });
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.close-a-realm.js
+  :language: javascript
 
-           // Update UI in response to inserted objects
-           changes.insertions.forEach((index) => {
-             let insertedTasks = tasks[index];
-             // ...
-           });
 
-           // Update UI in response to modified objects
-           // `oldModifications` contains object indexes from before they were modified
-           changes.oldModifications.forEach((index) => {
-             let modifiedTask = tasks[index];
-             // ...
-           });
-           
-           // Update UI in response to modified objects
-           // `newModifications` contains object indexes from after they were modified
-           changes.newModifications.forEach((index) => {
-             let modifiedTask = tasks[index];
-             // ...
-           });
-         }
- 
-         // Observe collection notifications.
-         tasks.addListener(listener);
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-
-         // Query realm for all instances of the "Task" type.
-         const tasks = realm.objects("Task");
-         
-         // Define the collection notification listener
-         const listener = (
-           tasks: Realm.Collection<Task>,
-           changes: Realm.ObjectChanges
-         ) => {
-           // Update in response to deleted objects
-           (changes.deletions as number[]).forEach((index: number) => {
-             // Deleted objects cannot be accessed directly,
-             // but we can update a UI list, etc. knowing the index.
-           });
-           
-           // Update in response to inserted objects
-           (changes.insertions as number[]).forEach((index: number) => {
-             const insertedTask = tasks[index];
-             // ...
-           });
-
-           // Update UI in response to modified objects
-           // `oldModifications` contains object indexes from before they were modified
-           (changes.oldModifications as number[]).forEach((index: number) => {
-             let modifiedTask = tasks[index];
-             // ...
-           });
-
-           // Update UI in response to modified objects
-           // `newModifications` contains object indexes from before they were modified
-           (changes.newModifications as number[]).forEach((index: number) => {
-             let modifiedTask = tasks[index];
-             // ...
-           });
-         }
-
-         // Observe collection notifications.
-         tasks.addListener(listener);
-
-To remove all registered realm, object, and collection listeners associated with
-a realm, call :js-sdk:`Realm.removeAllListeners()
-<Realm.html#removeAllListeners>`. 
-
-To remove a specific listener, call :js-sdk:`Object.removeListener()
-<Realm.Object.html#removeListener>` on the object that is being watched with the
-listener function as the argument.
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         // Unregister all listeners
-         realm.removeAllListeners();
-         
-         // Unregister a specific listener:
-         tasks.removeListener(listener);
-
-   .. tab::
-      :tabid: typescript
-      
-      .. code-block:: typescript
-         
-         // Unregister all listeners
-         realm.removeAllListeners();
-         
-         // Unregister a specific listener:
-         tasks.removeListener(listener);
-
-.. _node-quick-start-logout:
-
-Log Out
--------
-
-You can log out an authenticated user by calling :js-sdk:`User.logOut()
-<Realm.User.html#logOut>`:
-
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. code-block:: javascript
-         
-         app.currentUser.logOut();
-
-   .. tab::
-      :tabid: typescript
-
-      .. code-block:: typescript
-         
-         app.currentUser?.logOut();
-
+.. _node-quickstart-local-complete:
 
 Complete Example
 ----------------
@@ -573,21 +169,10 @@ Code
 ~~~~
 
 The following code is a fully runnable example that includes all of the concepts
-on this page. Make sure to replace ``<Your App ID>`` with your App ID.
+on this page.
 
-.. tabs-realm-languages::
-
-   .. tab::
-      :tabid: javascript
-
-      .. literalinclude:: /examples/QuickStarts/node/node-quickstart.js
-         :language: javascript
-   
-   .. tab::
-      :tabid: typescript
-
-      .. literalinclude:: /examples/QuickStarts/node/node-quickstart.ts
-         :language: typescript
+.. literalinclude:: /examples/generated/node/quickstart-local.snippet.complete.js
+  :language: javascript
 
 Output
 ~~~~~~
@@ -596,25 +181,123 @@ Running the above code should output something like the following:
 
 .. code-block:: shell
 
-   Logged in anonymously with user id: 5f1f9fb75512f2cb670ad033
-   Connection[1]: Session[1]: client_reset_config = false, Realm exists = false, async open = false, client reset = false
-   Connection[1]: Connected to endpoint '75.2.1.110:443' (from '192.168.1.154:60136')
    created two tasks: go grocery shopping & go exercise
-   task {
-     "_id": "5f1f9fb70a74d46af33c7a02",
-     "_partition": null,
-     "name": "go grocery shopping",
-     "status": "Open"
-   }
    
-   inserted task: "go grocery shopping"
+   The lists of tasks are: go grocery shopping,go exercise
    
-   inserted task: "go exercise"
+   The lists of open tasks are: go grocery shopping,go exercise
    
-   modified task: {
-     "_id": "5f1f9fb70a74d46af33c7a02",
-     "_partition": null,
+   The lists of tasks in alphabetical order are: go exercise,go grocery shopping
+   
+   modifiedTask: {
+     "_id": 1,
      "name": "go grocery shopping",
      "status": "InProgress"
    }
-   Connection[1]: Disconnected
+   
+   A task was deleted at the 0 index
+
+Add Device Sync (Optional)
+--------------------------
+
+This section illustrates how to authenticate with an Anonymous User and open a
+Flexible Sync realm to sync data between devices.
+
+Prerequisites
+~~~~~~~~~~~~~
+
+- :ref:`An App Services App <create-a-realm-app>`
+- :ref:`Anonymous authentication <anonymous-authentication>` enabled in the App Services UI
+- :ref:`Flexible Sync <enable-flexible-sync>` enabled with :ref:`Development Mode <development-mode>`
+  on and an ``owner_id`` field in the :guilabel:`Queryable Fields` section
+
+Initialize the App
+~~~~~~~~~~~~~~~~~~
+
+To use App Services features, such as authentication and sync, you must first access
+your App Services App using your App ID. You can :ref:`find your App ID in
+the App Services UI <find-your-app-id>`.
+
+.. code-block:: javascript
+
+  import Realm from 'realm';
+
+   // Returns the shared instance of the Realm app.
+   export function getRealmApp() {
+      const appId = '<enter your App ID here>'; // Set App ID here.
+      const appConfig = {
+        id: appId,
+        timeout: 10000,
+      };
+     return new Realm.App(appConfig);
+   }
+
+Authenticate a User
+~~~~~~~~~~~~~~~~~~~
+
+To authenticate and log in a user, call :js-sdk:`App.logIn()
+<Realm.App.html#logIn>`. When :ref:`anonymous authentication
+<anonymous-authentication>` is enabled, users can immediately log into your app
+without providing any identifying information:
+
+.. code-block:: javascript
+   :emphasize-lines: 8,9
+
+   import Realm from 'realm';    
+
+   async function anonymousLogin() {
+     let user;
+     try {
+       const app = new Realm.App(appConfig); // pass in the appConfig variable that you created earlier
+
+       const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+       user = await app.logIn(credentials);
+       return user;
+
+     } catch (error) {
+         throw `Error logging in anonymously: ${JSON.stringify(error,null,2)}`;
+     }
+   }
+
+Open a Synced Realm
+~~~~~~~~~~~~~~~~~~~
+
+After you have initialized your App, authenticated a user, and
+defined your object model, you can create a :js-sdk:`SyncConfiguration
+<Realm.App.Sync.html#~SyncConfiguration>`:
+
+If you have opened a local realm following the :ref:`Open a Realm
+<node-quickstart-local-open-a-realm>` section above, replace the
+``RealmConfiguration `` with the ``SyncConfiguration`` described below.
+
+Pass the authenticated user and the ``Item`` class to the ``SyncConfiguration``
+function to create a :ref:`Flexible Sync Configuration
+<node-flexible-sync>`.
+
+You need at least one subscription before you can read from or write to the
+realm. Use ``initialSubscriptions`` to define the initial subscription set when
+the Realm file is first opened. Pass the query you wish to subscribe to and a
+name for the subscription to the :js-sdk:`add()
+<Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
+``MutableSubscriptionSet``.
+
+The example below specifies a subscription named "User's Items" with
+all ``Item`` objects.
+
+.. code-block:: javascript
+   :emphasize-lines: 8,9
+
+   const config = {
+     sync: {
+       user: app.currentUser,
+       flexible: true,
+       initialSubscriptions: {
+         update: (subs, realm) => {
+           subs.add(
+             realm.objects("Item").filtered("name == 'User's Items'")
+           );
+         },
+       },
+     },
+   };
+   const realm = await Realm.open(config);
