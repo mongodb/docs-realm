@@ -235,6 +235,78 @@ An exception may occur if:
 .. literalinclude:: /examples/generated/flutter/manage_sync_subscription_test.snippet.wait-for-subscription-change.dart
    :language: dart
 
+.. _flutter-align-subscription-with-app:
+
+Align Subscriptions with App Backend
+------------------------------------
+
+Your client-side subscription queries must align with the Device Sync configuration
+in your backend App Services App.
+
+You subscription queries must have one of the following structures:
+
+- Query all objects of a type.
+  Create the query using :flutter-sdk:`Realm.all() <realm/Realm/all.html>`.
+- Query objects that match backend App's queryable fields.
+  Create the query using :flutter-sdk:`Realm.query() <realm/Realm/query.html>`
+  and a Realm Query Language query that includes one or more queryable fields.
+  The Realm SDK throws an error if you try to create a subscription using fields
+  that are not queryable.
+
+  - To learn more about configuring queryable fields,
+    refer to :ref:`Queryable Fields <queryable-fields>` in the App Services documentation.
+  - To learn more about the limitations of using Realm Query Language with Flexible Sync,
+    refer to the :ref:`Flexible Sync RQL Limitations
+    <flutter-flexible-sync-rql-limitations>` section.
+
+The following example includes Realm SDK client code that works with a backend App
+configuration that has ``miles`` as a queryable field.
+
+TODO: bluehawkify
+
+.. code-block:: dart
+
+   // The rest of the example uses RealmObjects generated from these RealmModels
+   @RealmModel()
+   class _Car {
+      @PrimaryKey()
+      late ObjectId id;
+
+      late String make;
+      late String? model;
+      late int? miles;
+   }
+
+   @RealmModel()
+   class _Driver {
+      @PrimaryKey()
+      late ObjectId id;
+
+      late String firstName;
+      late String lastName;
+   }
+
+   // ... instantiate App and log in user
+
+   final app = App(AppConfiguration(APP_ID));
+   final user = await app.logIn(Credentials.anonymous());
+   final config = Configuration.flexibleSync([Car.schema, Driver.schema], user);
+   final realm = Realm(config);
+
+   // Add subscriptions
+   realm.subscriptions.update((mutableSubscriptions) {
+      // Get all Driver objects from Atlas.
+      // Does not use queryable fields.
+      final allDrivers = realm.all<Driver>()
+      mutableSubscriptions.add(allDrivers, "all-drivers");
+
+      // Get Cars from Atlas that match the Realm Query Language query.
+      // Uses the queryable field `miles`.
+      final newCarQuery = realm.query<Car>("miles < 100 OR miles == \$0", [null]);
+      mutableSubscriptions.add(newCarQuery, "new-car-subscription");
+   });
+   await realm.subscriptions.waitForSynchronization();
+
 .. _flutter-flexible-sync-rql-limitations:
 
 Flexible Sync RQL Limitations
