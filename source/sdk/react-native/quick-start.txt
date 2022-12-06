@@ -71,9 +71,6 @@ transaction <react-native-write-transactions>`.
 
 .. example::
 
-   In the following example, an application developer creates two tasks. One task
-   with a name of "go grocery shopping" and another with the name of "go
-   exercise". Both tasks have a status of "Open".
     
    .. literalinclude:: /examples/generated/node/quickstart-local.snippet.create-realm-objects.js
      :language: javascript
@@ -82,6 +79,7 @@ transaction <react-native-write-transactions>`.
 
 Find, Sort, and Filter Objects
 ------------------------------
+
 The following code demonstrates how to:
 
 - Query for all instances of the "Task" object type.
@@ -262,14 +260,14 @@ defined your object model, you can create a :js-sdk:`SyncConfiguration
 
 If you have opened a local realm following the :ref:`Open a Realm
 <react-native-quickstart-local-open-a-realm>` section above, replace the
-``RealmConfiguration `` with the ``SyncConfiguration`` described below.
+``RealmConfiguration`` with the ``SyncConfiguration`` described below.
 
 Pass the authenticated user and the ``Item`` class to the ``SyncConfiguration``
 function to create a :ref:`Flexible Sync Configuration
 <react-native-flexible-sync>`.
 
 You need at least one subscription before you can read from or write to the
-realm. Use ``initialSubscriptions`` to define the initial subscription set when
+realm. Use ``Configuration.sync.initialSubscriptions`` to define the initial subscription set when
 the Realm file is first opened. Pass the query you wish to subscribe to and a
 name for the subscription to the :js-sdk:`add()
 <Realm.App.Sync.MutableSubscriptionSet.html#add>` method on the
