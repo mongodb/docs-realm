@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.seconds
 class BundleTest: RealmTest() {
     @Test
     fun bundleSyncedRealm(){
-        val app = App.create("application-14-pbs-sfpjd")
+        val app = App.create(YOUR_APP_ID)
 
         // :snippet-start: bundle-synced-realm
         runBlocking {
