@@ -4,12 +4,9 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import kotlin.test.Test
 import io.realm.kotlin.internal.platform.runBlocking
-import io.realm.kotlin.mongodb.App
-import io.realm.kotlin.mongodb.Credentials
-import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
 import io.realm.kotlin.ext.query
-import io.realm.kotlin.mongodb.syncSession
+import io.realm.kotlin.mongodb.*
 import io.realm.kotlin.query.RealmResults
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
@@ -118,33 +115,27 @@ class BundleTest: RealmTest() {
         // :remove-end:
 
         // :snippet-end:
+    }
+    @Test
+    fun openARealmFromABundledFile(){
+        /*
+           Note: This tests assumes you have bundled your Realm into your src/main/assets/ folder.
+           If that file is deleted manually, this test will fail & you will have to re-bundle your realm
+           into that folder using the "Device File Manager" on the bottom-right of Android Studio.
+        */
 
+        // :snippet-start: open-a-realm-from-a-bundled-file
+        val bundledConfig = RealmConfiguration.Builder(schema = setOf(Item::class))
+            .directory("src/main/assets")
+            .name("copy-path")
+            .build()
+        val bundledRealm = Realm.open(bundledConfig)
+
+        val bundledItems: RealmResults<Item> = bundledRealm.query<Item>().find()
+        for(item in bundledItems) {
+            Log.v("My copied Item: ${item.summary}") // you should see the seed data you bundled earlier
+        }
+        // :snippet-end:
+        assertEquals(1, bundledRealm.query<Item>().find().size)
     }
 }
-
-/*
-// open an existing realm
-var existingConfig = new PartitionSyncConfiguration("myPartition", user);
-var realm = await Realm.GetInstanceAsync(existingConfig);
-
-// Create a RealmConfiguration for the *copy*
-// Be sure the partition name matches the original
-var bundledConfig = new PartitionSyncConfiguration("myPartition", user, "bundled.realm");
-
-// Make sure the file doesn't already exist
-Realm.DeleteRealm(bundledConfig);
-
-// IMPORTANT: When copying a Synced realm, you must ensure
-// that there are no pending Sync operations. You do this
-// by calling WaitForUploadAsync() and WaitForDownloadAsync():
-var session = realm.SyncSession;
-await session.WaitForUploadAsync();
-await session.WaitForDownloadAsync();
-
-// Copy the realm
-realm.WriteCopy(bundledConfig);
-
-// Want to know where the copy is?
-var locationOfCopy = existingConfig.DatabasePath;
-
- */
