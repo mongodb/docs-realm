@@ -10,8 +10,8 @@
 
 4. Navigate to ``/examples/dotnet/`` and open ``dotnet.sln`` in Visual Studio.
 
-   **NOTE:** You might need to update XCode -- the Xamarin code requires a specific version of the
-   SDks. Visual Studio will tell you if this is the case.
+   **NOTE:** You might need to update XCode -- the MAUI/Xamarin code requires a 
+   specific version of the SDks. Visual Studio will tell you if this is the case.
 
 5. In Visual Studio, expand ``dotnet``, expand ``Examples``, and then right-click
    on Dependencies.
